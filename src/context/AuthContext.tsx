@@ -1,20 +1,9 @@
-// ** React Imports
 import { createContext, useEffect, useState, ReactNode } from 'react'
-
-// ** Next Import
 import { useRouter } from 'next/router'
-
-// ** Axios
-import axios from 'axios'
-
-// ** Config
 import authConfig from 'src/configs/auth'
-
-// ** Types
 import { AuthValuesType, LoginParams, ErrCallbackType, UserDataType } from './types'
 import { HttpClient } from 'src/services'
 
-// ** Defaults
 const defaultProvider: AuthValuesType = {
     user: null,
     loading: true,
@@ -57,7 +46,7 @@ const AuthProvider = ({ children }: Props) => {
                         setUser(null)
                         setLoading(false)
 
-                        if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
+                        if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {                           
                             router.replace('/login');
                         }
                     })
@@ -82,7 +71,9 @@ const AuthProvider = ({ children }: Props) => {
                 window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken);
                 window.localStorage.setItem('userData', JSON.stringify(response.data.user));
 
-                const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+                const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
+                console.log(`redirectURL: ${redirectURL}`);
+                
                 await router.replace(redirectURL as string);
             })
 
@@ -92,11 +83,11 @@ const AuthProvider = ({ children }: Props) => {
             })
     }
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         setUser(null)
         window.localStorage.removeItem('userData')
         window.localStorage.removeItem(authConfig.storageTokenKeyName)
-        router.push('/login');
+        await router.push('/login');
     }
 
     const values = {

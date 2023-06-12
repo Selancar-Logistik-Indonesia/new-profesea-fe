@@ -31,6 +31,10 @@ export type BlankLayoutWithAppBarProps = {
   children: ReactNode
 }
 
+export type LandingPageLayoutProps = {
+  children: ReactNode
+}
+
 export type NavSectionTitle = {
   auth?: boolean
   action?: string
