@@ -5,7 +5,8 @@ axios.interceptors.request.use(
     config => {
         config.baseURL = "http://localhost:8080/api"
         config.headers['Authorization'] = `Bearer ${localStorage.getItem(authConfig.storageTokenKeyName)}`;
-        return config;
+        
+return config;
     },
     error => {
         return Promise.reject(error);

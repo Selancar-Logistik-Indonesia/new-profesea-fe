@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode, useEffect } from 'react'
+import { ReactNode } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -22,7 +22,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Util Import
-import getHomeRoute from 'src/layouts/components/acl/getHomeRoute'
+// import getHomeRoute from 'src/layouts/components/acl/getHomeRoute'
 
 interface AclGuardProps {
   children: ReactNode

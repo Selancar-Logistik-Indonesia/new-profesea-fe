@@ -28,7 +28,7 @@ const AuthGuard = (props: AuthGuardProps) => {
         });
       }
     }
-  }, [router.route]);
+  }, [router, auth]);
 
   if (auth.loading || auth.user === null) {
     return fallback
