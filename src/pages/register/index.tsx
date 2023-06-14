@@ -18,8 +18,7 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import { styled, useTheme } from '@mui/material/styles'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography, { TypographyProps } from '@mui/material/Typography'
-import MuiFormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel'
-
+import MuiFormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel' 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
@@ -34,6 +33,7 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+import UserIcon from 'src/layouts/components/UserIcon'
 
 // ** Styled Components
 const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -57,10 +57,10 @@ const RegisterIllustration = styled('img')(({ theme }) => ({
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.up('md')]: {
-    maxWidth: 400
+    maxWidth: 500
   },
   [theme.breakpoints.up('lg')]: {
-    maxWidth: 450
+    maxWidth: 550
   }
 }))
 
@@ -107,20 +107,38 @@ const Register = () => {
 
   return (
     <Box className='content-right'>
-      {!hidden ? (
+     {!hidden ? (
         <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-          <RegisterIllustrationWrapper>
+           <RegisterIllustrationWrapper>
             <RegisterIllustration
               alt='register-illustration'
-              src={`/images/pages/${imageSource}-${theme.palette.mode}.png`}
+              src={`/images/shipper.png`}
             />
           </RegisterIllustrationWrapper>
-          <FooterIllustrationsV2 image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`} />
+          <FooterIllustrationsV2   image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`}/>
         </Box>
       ) : null}
+       
       <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
         <Box
-          sx={{
+          sx={!hidden?{
+            boxSizing: 'border-box',
+            // position: 'absolute',
+            // width: '424px', 
+            // left: '956px',
+             maxWidth: '100%',
+            marginTop: '10%',  
+            marginRight: '10%',  
+            background: '#FFFFFF', 
+            border: '1px solid rgba(76, 78, 100, 0.12)',
+            borderRadius: '20px',
+            p: 7,
+            height: '80%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'background.paper'
+          }:{
             p: 7,
             height: '100%',
             display: 'flex',
@@ -130,96 +148,29 @@ const Register = () => {
           }}
         >
           <BoxWrapper>
-            <Box
-              sx={{
-                top: 30,
-                left: 40,
-                display: 'flex',
-                position: 'absolute',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <svg width={47} fill='none' height={26} viewBox='0 0 268 150' xmlns='http://www.w3.org/2000/svg'>
-                <rect
-                  rx='25.1443'
-                  width='50.2886'
-                  height='143.953'
-                  fill={theme.palette.primary.main}
-                  transform='matrix(-0.865206 0.501417 0.498585 0.866841 195.571 0)'
-                />
-                <rect
-                  rx='25.1443'
-                  width='50.2886'
-                  height='143.953'
-                  fillOpacity='0.4'
-                  fill='url(#paint0_linear_7821_79167)'
-                  transform='matrix(-0.865206 0.501417 0.498585 0.866841 196.084 0)'
-                />
-                <rect
-                  rx='25.1443'
-                  width='50.2886'
-                  height='143.953'
-                  fill={theme.palette.primary.main}
-                  transform='matrix(0.865206 0.501417 -0.498585 0.866841 173.147 0)'
-                />
-                <rect
-                  rx='25.1443'
-                  width='50.2886'
-                  height='143.953'
-                  fill={theme.palette.primary.main}
-                  transform='matrix(-0.865206 0.501417 0.498585 0.866841 94.1973 0)'
-                />
-                <rect
-                  rx='25.1443'
-                  width='50.2886'
-                  height='143.953'
-                  fillOpacity='0.4'
-                  fill='url(#paint1_linear_7821_79167)'
-                  transform='matrix(-0.865206 0.501417 0.498585 0.866841 94.1973 0)'
-                />
-                <rect
-                  rx='25.1443'
-                  width='50.2886'
-                  height='143.953'
-                  fill={theme.palette.primary.main}
-                  transform='matrix(0.865206 0.501417 -0.498585 0.866841 71.7728 0)'
-                />
-                <defs>
-                  <linearGradient
-                    y1='0'
-                    x1='25.1443'
-                    x2='25.1443'
-                    y2='143.953'
-                    id='paint0_linear_7821_79167'
-                    gradientUnits='userSpaceOnUse'
-                  >
-                    <stop />
-                    <stop offset='1' stopOpacity='0' />
-                  </linearGradient>
-                  <linearGradient
-                    y1='0'
-                    x1='25.1443'
-                    x2='25.1443'
-                    y2='143.953'
-                    id='paint1_linear_7821_79167'
-                    gradientUnits='userSpaceOnUse'
-                  >
-                    <stop />
-                    <stop offset='1' stopOpacity='0' />
-                  </linearGradient>
-                </defs>
-              </svg>
-              <Typography variant='h6' sx={{ ml: 2, lineHeight: 1, fontWeight: 700, fontSize: '1.5rem !important' }}>
-                {themeConfig.templateName}
-              </Typography>
-            </Box>
-            <Box sx={{ mb: 6 }}>
-              <TypographyStyled variant='h5'>Adventure starts here 🚀</TypographyStyled>
-              <Typography variant='body2'>Make your app management easy and fun!</Typography>
+           
+            <Box sx={{ mb: 3,  maxWidth: '100%', }}>
+              <img src='/images/logosamudera.png'style={{ maxWidth: '100%',
+                  height: 'auto',
+                  padding: 0,
+                  margin: 0 }} />
+                                
+              {/* <TypographyStyled variant='h5' sx={{ textAlign: 'center' }}>SAMUDERA</TypographyStyled> */}
+              <Typography variant='h5' sx={{ textAlign: 'center' }}>REGISTER</Typography>
+              <Typography variant='body2' sx={{ textAlign: 'center' }}> Adventures start from here, let’s join with our!</Typography>
+             
             </Box>
             <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-              <TextField autoFocus fullWidth sx={{ mb: 4 }} label='Username' placeholder='johndoe' />
+              <Button variant="outlined" fullWidth sx={{ mb: 6 , height:'70px',color:'black'}}  startIcon={<Icon icon={'mdi:account-outline'} />} > I AM Seafarer</Button>
+              <Button variant="outlined" fullWidth sx={{ mb: 6, height:'70px' ,color:'black'}}  startIcon={<Icon icon={'mdi:domain'} />} > I AM Company</Button>
+              <Button variant="outlined"    fullWidth sx={{ mb: 6 , height:'70px',color:'black'}}  startIcon={<Icon icon={'mdi:domain'} />} > I AM Trainer</Button>
+      
+              {/* <Button variant="outlined" fullWidth sx={{ mb: 2 }}  startIcon={<AccessibilityNewOutlinedIcon />} > I AM Seafarer</Button>
+
+              
+              <Button variant="outlined" fullWidth sx={{ mb: 2 }}  startIcon={<AccessibilityNewOutlinedIcon />} > I AM Seafarer</Button> */}
+
+              {/* <TextField autoFocus fullWidth sx={{ mb: 4 }} label='Username' placeholder='johndoe' />
               <TextField fullWidth label='Email' sx={{ mb: 4 }} placeholder='user@email.com' />
               <FormControl fullWidth>
                 <InputLabel htmlFor='auth-login-v2-password'>Password</InputLabel>
@@ -234,13 +185,13 @@ const Register = () => {
                         onMouseDown={e => e.preventDefault()}
                         onClick={() => setShowPassword(!showPassword)}
                       >
-                        <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} />
+                        <Icon icon={showPassword ? 'mdi:ab-testing' : 'mdi:eye-off-outline'} />
                       </IconButton>
                     </InputAdornment>
                   }
                 />
-              </FormControl>
-
+              </FormControl> */}
+{/* 
               <FormControlLabel
                 control={<Checkbox />}
                 sx={{ mb: 4, mt: 1.5, '& .MuiFormControlLabel-label': { fontSize: '0.875rem' } }}
@@ -257,14 +208,14 @@ const Register = () => {
               />
               <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
                 Sign up
-              </Button>
+              </Button> */}
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <Typography sx={{ mr: 2, color: 'text.secondary' }}>Already have an account?</Typography>
-                <Typography href='/login' component={Link} sx={{ color: 'primary.main', textDecoration: 'none' }}>
+                <Typography href='/login' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold' ,}}>
                   Sign in instead
                 </Typography>
               </Box>
-              <Divider
+              {/* <Divider
                 sx={{
                   '& .MuiDivider-wrapper': { px: 4 },
                   mt: theme => `${theme.spacing(5)} !important`,
@@ -291,7 +242,7 @@ const Register = () => {
                 <IconButton href='/' component={Link} sx={{ color: '#db4437' }} onClick={e => e.preventDefault()}>
                   <Icon icon='mdi:google' />
                 </IconButton>
-              </Box>
+              </Box> */}
             </form>
           </BoxWrapper>
         </Box>

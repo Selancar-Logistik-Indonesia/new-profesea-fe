@@ -45,5 +45,8 @@ ACLPage.acl = {
   action: 'read',
   subject: 'acl-page'
 }
+ 
 
+ACLPage.guestGuard = true
+ 
 export default ACLPage
