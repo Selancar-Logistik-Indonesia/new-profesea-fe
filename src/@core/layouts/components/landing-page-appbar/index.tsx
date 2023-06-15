@@ -7,6 +7,8 @@ import themeConfig from 'src/configs/themeConfig'
 import { useSettings } from 'src/@core/hooks/useSettings'
 import { Box, Button, ButtonPropsVariantOverrides, Container } from '@mui/material'
 import { OverridableStringUnion } from '@mui/types';
+import i18n from "i18next";
+import { useRouter } from "next/router";
 
 const LinkStyled = styled(Link)(({ theme }) => ({
     display: 'flex',
@@ -19,13 +21,17 @@ const LandingPageAppBar = () => {
     // ** Hooks & Vars
     const theme = useTheme()
     const { settings } = useSettings()
+    const { defaultLocale, locale, locales } = useRouter();
     const { skin } = settings
+    // console.log(locale,defaultLocale) 
+    const navLang = [{id:{ title: 'English', variant: 'outline', onClick: "/en" },en:{ title: 'Indonesian', variant: 'outline', onClick: "/id" }}];
+    // console.log(navLang[0][locale]) 
     const navItems = [
-        { title: 'English', variant: 'outline', onClick: "/" },
-        { title: 'Login', variant: 'outlined', onClick: "/login" },
-        { title: 'Register', variant: 'contained', onClick: "/register" },
+        navLang[0][locale],
+        { title: 'Login', variant: 'outlined', onClick: locale+"/login" },
+        { title: 'Register', variant: 'contained', onClick: locale+"/register" },
     ] as { title: string, variant: OverridableStringUnion<'text' | 'outlined' | 'contained', ButtonPropsVariantOverrides>, onClick: any }[];
-
+    i18n.changeLanguage(locale);
     return (
         <AppBar
             color='default'
