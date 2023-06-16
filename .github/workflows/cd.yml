@@ -25,6 +25,7 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         port: 22
         script: |
+          source ~/.bashrc
           cd ~/www/fe-selancar/
           git pull origin main
           /home/elogi-platform-user/.nvm/versions/node/v18.16.0/bin/npm i
