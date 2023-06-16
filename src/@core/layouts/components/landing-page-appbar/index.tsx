@@ -23,8 +23,10 @@ const LandingPageAppBar = () => {
     const { settings } = useSettings()
     const { defaultLocale, locale, locales } = useRouter();
     const { skin } = settings
+
     // console.log(locale,defaultLocale) 
     const navLang = [{id:{ title: 'English', variant: 'outline', onClick: "/en" },en:{ title: 'Indonesian', variant: 'outline', onClick: "/id" }}];
+
     // console.log(navLang[0][locale]) 
     const navItems = [
         navLang[0][locale],
@@ -32,7 +34,8 @@ const LandingPageAppBar = () => {
         { title: 'Register', variant: 'contained', onClick: locale+"/register" },
     ] as { title: string, variant: OverridableStringUnion<'text' | 'outlined' | 'contained', ButtonPropsVariantOverrides>, onClick: any }[];
     i18n.changeLanguage(locale);
-    return (
+    
+return (
         <AppBar
             color='default'
             position='sticky'

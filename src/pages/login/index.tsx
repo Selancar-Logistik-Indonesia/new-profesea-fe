@@ -152,6 +152,7 @@ const LoginPage = () => {
         <Box
             sx={!hidden?{
             boxSizing: 'border-box',
+
             // position: 'absolute',
             // width: '424px', 
             // left: '956px',

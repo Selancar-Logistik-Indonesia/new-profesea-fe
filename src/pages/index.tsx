@@ -27,6 +27,7 @@ i18n
         id: ns1,
         en: ns2
     },
+
      // if you're using a language detector, do not define the lng optio
     fallbackLng: "id",
 

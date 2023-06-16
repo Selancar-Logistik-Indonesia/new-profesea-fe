@@ -19,6 +19,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography, { TypographyProps } from '@mui/material/Typography'
 import MuiFormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel' 
+
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
@@ -42,6 +43,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import * as yup from 'yup'
 import Registration from 'src/layouts/components/registrastion'
+
 // ** Styled Components
 const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   padding: theme.spacing(20),

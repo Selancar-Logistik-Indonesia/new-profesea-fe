@@ -19,6 +19,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography, { TypographyProps } from '@mui/material/Typography'
 import MuiFormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel' 
+
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
@@ -123,6 +124,7 @@ const Register = () => {
         <Box
           sx={!hidden?{
             boxSizing: 'border-box',
+
             // position: 'absolute',
             // width: '424px', 
             // left: '956px',
