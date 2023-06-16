@@ -43,7 +43,7 @@ const LandingPageAppBar = () => {
 
     // console.log(navLang[0][locale]) 
     const navItems = [
-        navLang.find(e => e.locale == locale),
+        navLang.find(e => e.locale == locale)?.localeItem,
         { title: 'Login', variant: 'outlined', onClick: locale + "/login" },
         { title: 'Register', variant: 'contained', onClick: locale + "/register" },
     ] as { title: string, variant: OverridableStringUnion<'text' | 'outlined' | 'contained', ButtonPropsVariantOverrides>, onClick: any }[];
