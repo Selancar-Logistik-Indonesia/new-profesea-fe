@@ -27,5 +27,6 @@ jobs:
         script: |
           cd ~/www/fe-selancar/
           git pull origin main
+          source ~/.bashrc
           npm i
           pm2 restart fe_selancar_stg
