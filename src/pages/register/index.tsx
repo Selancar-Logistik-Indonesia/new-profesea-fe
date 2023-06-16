@@ -130,10 +130,16 @@ const Register = () => {
 
             </Box>
             <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-              <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} startIcon={<Icon icon={'mdi:account-outline'} />} > I AM Seafarer</Button>
-              <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} startIcon={<Icon icon={'mdi:domain'} />} > I AM Company</Button>
-              <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} startIcon={<Icon icon={'mdi:domain'} />} > I AM Trainer</Button>
-
+              <Link href="/registrasionseafer" passHref legacyBehavior>
+                 <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} startIcon={<Icon icon={'mdi:account-outline'} />} > I AM Seafarer</Button>                    
+              </Link>
+                <Link href="/registrasioncompany" passHref legacyBehavior>
+                  <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} startIcon={<Icon icon={'mdi:domain'} />} > I AM Company</Button>              
+                </Link>
+                <Link href="/registrasiontrainer" passHref legacyBehavior>
+                  <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} startIcon={<Icon icon={'mdi:domain'} />} > I AM Trainer</Button>
+                </Link>
+           
               {/* <Button variant="outlined" fullWidth sx={{ mb: 2 }}  startIcon={<AccessibilityNewOutlinedIcon />} > I AM Seafarer</Button>
 
               

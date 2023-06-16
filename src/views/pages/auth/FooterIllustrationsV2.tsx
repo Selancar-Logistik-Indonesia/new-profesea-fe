@@ -28,7 +28,7 @@ const FooterIllustrationsV2 = (props: FooterIllustrationsProp) => {
   const theme = useTheme()
 
   // ** Vars
-  const hidden = useMediaQuery(theme.breakpoints.down('md'))
+  const hidden = useMediaQuery(theme.breakpoints.down('sm'))
 
   const src = (image as string) || `/images/pages/auth-v2-login-mask-${theme.palette.mode}.png`
 
