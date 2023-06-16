@@ -171,7 +171,7 @@ const LoginPage = () => {
               </Typography>
             </Alert> */}
               <Box sx={{ mb: 3,  maxWidth: '100%', }}>
-              <img src='/images/logosamudera.png'style={{ maxWidth: '100%',
+              <img alt='logo' src='/images/logosamudera.png'style={{ maxWidth: '100%',
                   height: 'auto',
                   padding: 0,
                   margin: 0 }} />

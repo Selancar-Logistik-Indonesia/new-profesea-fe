@@ -51,7 +51,7 @@ const Registration = () => {
 
   return (
     <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{ mb:2 }}>
         <Grid item md={12} xs={12}>
           <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} />
         </Grid>

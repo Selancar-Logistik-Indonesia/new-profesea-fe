@@ -14,7 +14,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
-import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+// import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { Container, Grid } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
@@ -25,23 +25,23 @@ import * as yup from 'yup'
 import Registration from 'src/layouts/components/registrastion'
 
 // ** Styled Components
-const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-  padding: theme.spacing(20),
-  paddingRight: '0 !important',
-  [theme.breakpoints.down('lg')]: {
-    padding: theme.spacing(10)
-  }
-}))
+// const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
+//   padding: theme.spacing(20),
+//   paddingRight: '0 !important',
+//   [theme.breakpoints.down('lg')]: {
+//     padding: theme.spacing(10)
+//   }
+// }))
 
-const RegisterIllustration = styled('img')(({ theme }) => ({
-  maxWidth: '100%',
-  [theme.breakpoints.down('xl')]: {
-    maxWidth: '10%'
-  },
-  [theme.breakpoints.down('lg')]: {
-    maxWidth: '10%'
-  }
-}))
+// const RegisterIllustration = styled('img')(({ theme }) => ({
+//   maxWidth: '100%',
+//   [theme.breakpoints.down('xl')]: {
+//     maxWidth: '10%'
+//   },
+//   [theme.breakpoints.down('lg')]: {
+//     maxWidth: '10%'
+//   }
+// }))
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -91,45 +91,37 @@ const Register = () => {
             justifyContent="center"
             alignItems="center"
             minHeight="100vh"
-            marginTop='50px'
-          > 
-          
+            marginTop='70px'
+          >  
             <Grid   >
               <Grid item md={12} xs={12} >
-                <img src='/images/logosamudera.png' style={{
+                <img alt="logo" src='/images/logosamudera.png' style={{
                   maxWidth: '100%',
-                  height: '100%',
-                  marginBottom: '50px',
-                  padding: 0,
-                  margin: 0,
-                  alignItems:'center'
+                  height: '100%',   
+                  alignItems:'center',
+                  justifyContent:'center'
                 }} />
               </Grid>
+              
                <Grid item md={12} xs={12} >
-                 <img src='/images/sailor.png' style={{
-                  maxWidth: '100%',
-                  height: '700px',
-                  marginTop: '10px',
-                  marginLeft: '70px',
-                  padding: 0,
-                  margin: 0,
-                  alignItems:'center'
-                }} />
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    minHeight="100vh" 
+                  > 
+                    <img alt="sailor" src='/images/sailor.png' style={{
+                      maxWidth: '100%',
+                      height: '650px',  
+                      alignItems:'center',
+                      justifyContent:'center',
+                      marginBottom:'30%'
+                    }} />
+                  </Box> 
                </Grid>
             </Grid>
-            </Box>
-            {/* <RegisterIllustrationWrapper>
-
-              <RegisterIllustration
-                alt='register-illustration'
-                src={`/images/sailor.png`}
-                height={'800px'}
-              />
-            </RegisterIllustrationWrapper> */}
-
-          </Container>
-
-          {/* <FooterIllustrationsV2 image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`} /> */}
+            </Box> 
+          </Container> 
         </Box>
       ) : null};
 
@@ -152,16 +144,17 @@ const Register = () => {
           }}
         >
           <Container sx={{
-            marginTop: '100px'
+            marginTop: '50px', mr: 6,ml: 6,
           }}>
             <BoxWrapper>
 
-              <Box sx={{ mb: 6, maxWidth: '100%', }}>
-                <Typography variant='h5' sx={{ mb: 6, textAlign: 'left' }}>CREATE AN ACCOUNT SEAFER</Typography>
+              <Box sx={!hidden ?{ mb: 6, marginLeft:'5%',   width: '70%', alignItems:'center',justifyContent:'center' }:
+                  { mb: 6,     alignItems:'center',justifyContent:'center' }}>
+                <Typography variant='h3' sx={{ mb: 6, textAlign: 'left',fontWeight: 'bold' }}>Create an Account Seafarer</Typography>
                 <Typography variant='body2' sx={{ mb: 6, textAlign: 'left' }}> Enter Your Account As Seafarer In Here!</Typography>
-
+                <Registration></Registration>
               </Box>
-              <Registration></Registration>
+             
             </BoxWrapper>
           </Container>
         </Box>

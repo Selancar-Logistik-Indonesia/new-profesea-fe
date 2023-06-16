@@ -117,7 +117,7 @@ const Register = () => {
           <BoxWrapper>
 
             <Box sx={{ mb: 3, maxWidth: '100%', }}>
-              <img src='/images/logosamudera.png' style={{
+              <img  alt='logo' src='/images/logosamudera.png' style={{
                 maxWidth: '100%',
                 height: 'auto',
                 padding: 0,

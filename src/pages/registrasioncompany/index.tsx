@@ -86,7 +86,7 @@ const RegisterTrainer = () => {
           <Container fixed>
             <Grid container spacing={2}>
               <Grid item md={12} xs={12}>
-                <img src='/images/logosamudera.png' style={{
+                <img  alt='logo' src='/images/logosamudera.png' style={{
                   maxWidth: '100%',
                   height: '100px',
                   marginTop: '10px',
