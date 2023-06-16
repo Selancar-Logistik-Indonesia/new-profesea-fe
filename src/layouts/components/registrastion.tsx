@@ -103,7 +103,7 @@ const Registration = () => {
             />
             {errors.password && (
               <FormHelperText sx={{ color: 'error.main' }} id=''>
-                {errors.password.message}
+                {(errors as any).password?.message}
               </FormHelperText>
             )}
           </FormControl>
@@ -146,7 +146,7 @@ const Registration = () => {
             />
             {errors.password && (
               <FormHelperText sx={{ color: 'error.main' }} id=''>
-                {errors.password.message}
+                {(errors as any).password?.message}
               </FormHelperText>
             )}
           </FormControl>

@@ -17,6 +17,11 @@ const LinkStyled = styled(Link)(({ theme }) => ({
     marginRight: theme.spacing(8)
 }))
 
+type navLocale = {
+    locale: string;
+    localeItem: {title: string, variant: string, onClick: string}
+};
+
 const LandingPageAppBar = () => {
     // ** Hooks & Vars
     const theme = useTheme()
@@ -25,17 +30,27 @@ const LandingPageAppBar = () => {
     const { skin } = settings
 
     // console.log(locale,defaultLocale) 
-    const navLang = [{id:{ title: 'English', variant: 'outline', onClick: "/en" },en:{ title: 'Indonesian', variant: 'outline', onClick: "/id" }}];
+    const navLang = [
+        {
+            locale: "id",
+            localeItem: { title: 'English', variant: 'outline', onClick: "/en" },
+        },
+        {
+            locale: "en",
+            localeItem: { title: 'Indonesian', variant: 'outline', onClick: "/id" },
+        },
+    ] as navLocale[];
 
     // console.log(navLang[0][locale]) 
     const navItems = [
-        navLang[0][locale],
-        { title: 'Login', variant: 'outlined', onClick: locale+"/login" },
-        { title: 'Register', variant: 'contained', onClick: locale+"/register" },
+        navLang.find(e => e.locale == locale),
+        { title: 'Login', variant: 'outlined', onClick: locale + "/login" },
+        { title: 'Register', variant: 'contained', onClick: locale + "/register" },
     ] as { title: string, variant: OverridableStringUnion<'text' | 'outlined' | 'contained', ButtonPropsVariantOverrides>, onClick: any }[];
+
     i18n.changeLanguage(locale);
-    
-return (
+
+    return (
         <AppBar
             color='default'
             position='sticky'
