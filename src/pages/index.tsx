@@ -1,5 +1,4 @@
-import { Button, Container, Grid, Paper, Typography } from "@mui/material";
-import Box, { BoxProps } from '@mui/material/Box'
+import { Button, Container, Grid, Typography } from "@mui/material";
 import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,57 +8,48 @@ import i18n from "i18next";
 import { useTranslation, initReactI18next } from "react-i18next";
 import ns1 from 'src/lang/id.json';
 import ns2 from 'src/lang/en.json';
-import { useRouter } from "next/router";
 
 import Card from '@mui/material/Card'
-import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
 
-import { styled, useTheme } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 
 i18n
     .use(initReactI18next) // passes i18n down to react-i18next
     .init({
-    // the translations
-    // (tip move them in a JSON file and import them,
-    // or even better, manage them via a UI: https://react.i18next.com/guides/multiple-translation-files#manage-your-translations-with-a-management-gui)
-    resources: {
-        id: ns1,
-        en: ns2
-    },
+        // the translations
+        // (tip move them in a JSON file and import them,
+        // or even better, manage them via a UI: https://react.i18next.com/guides/multiple-translation-files#manage-your-translations-with-a-management-gui)
+        resources: {
+            id: ns1,
+            en: ns2
+        },
 
-     // if you're using a language detector, do not define the lng optio
-    fallbackLng: "id",
+        // if you're using a language detector, do not define the lng optio
+        fallbackLng: "id",
 
-    interpolation: {
-      escapeValue: false // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
-    }
-  });
-  const BannerIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-    padding: theme.spacing(20),
-    paddingRight: '0 !important',
-    [theme.breakpoints.down('lg')]: {
-      padding: theme.spacing(2)
-    }
-  }))
-  
-  const BannerIllustration = styled('img')(({ theme }) => ({
+        interpolation: {
+            escapeValue: false // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
+        }
+    });
+
+const BannerIllustration = styled('img')(({ theme }) => ({
     maxWidth: '40rem',
     [theme.breakpoints.down('lg')]: {
-      maxWidth: '30rem'
+        maxWidth: '30rem'
     },
     [theme.breakpoints.down('md')]: {
-      maxWidth: '48rem'
+        maxWidth: '48rem'
     }
-  }))
-  
+}))
+
 const Main = () => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     return <>
         <Grid container>
             <Grid item xs={12} md={6} mt={20}>
-                <Typography variant="h3" style={{color: "Black"}}>Job & Career Platform for Seafarers</Typography>
+                <Typography variant="h3" style={{ color: "Black" }}>Job & Career Platform for Seafarers</Typography>
                 <Typography variant="body1" mt={8}>We assist Maritime (Personnel & HR & Crew Managers) and Crew Management Companies in facilitating the easy connection of maritime professionals with each other</Typography>
 
                 <Container style={{ marginTop: 30 }}>
@@ -70,8 +60,8 @@ const Main = () => {
             <Grid item xs={12} md={6} mt={3}>
                 <center>
                     <BannerIllustration
-                    alt='login-illustration'
-                    src={`/images/ship.png`}
+                        alt='login-illustration'
+                        src={`/images/ship.png`}
                     />
                 </center>
             </Grid>
@@ -85,8 +75,8 @@ const Main = () => {
                             Pinpoint Matching with Profesea
                         </Typography>
                         <Typography variant='body1'>
-                        Cancun is back, better than ever! Over a hundred Mexico resorts have reopened and the state tourism minister
-                        predicts Cancun will draw as many visitors in 2006 as it did two years ago.
+                            Cancun is back, better than ever! Over a hundred Mexico resorts have reopened and the state tourism minister
+                            predicts Cancun will draw as many visitors in 2006 as it did two years ago.
                         </Typography>
                     </CardContent>
                 </Card>
@@ -119,7 +109,7 @@ const Main = () => {
             </Grid>
         </Grid>
         <Grid container spacing={6} mt={20}>
-            <Grid item  md={12}>
+            <Grid item md={12}>
                 <center>
                     <Typography variant='h3' sx={{ mb: 2 }} color={"black"}>
                         Global CV

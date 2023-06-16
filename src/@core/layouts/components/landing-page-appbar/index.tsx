@@ -21,7 +21,7 @@ const LandingPageAppBar = () => {
     // ** Hooks & Vars
     const theme = useTheme()
     const { settings } = useSettings()
-    const { defaultLocale, locale, locales } = useRouter();
+    const { locale } = useRouter();
     const { skin } = settings
 
     // console.log(locale,defaultLocale) 

@@ -1,30 +1,20 @@
 // ** React Imports
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
 
 // ** MUI Components
 import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import Checkbox from '@mui/material/Checkbox'
-import TextField from '@mui/material/TextField'
-import InputLabel from '@mui/material/InputLabel'
-import IconButton from '@mui/material/IconButton'
 import Box, { BoxProps } from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import OutlinedInput from '@mui/material/OutlinedInput'
 import { styled, useTheme } from '@mui/material/styles'
-import InputAdornment from '@mui/material/InputAdornment'
-import Typography, { TypographyProps } from '@mui/material/Typography'
-import MuiFormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel' 
+import Typography from '@mui/material/Typography'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
 // ** Configs
-import themeConfig from 'src/configs/themeConfig'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
@@ -34,7 +24,6 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import UserIcon from 'src/layouts/components/UserIcon'
 
 // ** Styled Components
 const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -72,30 +61,7 @@ const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   }
 }))
 
-const TypographyStyled = styled(Typography)<TypographyProps>(({ theme }) => ({
-  fontWeight: 600,
-  letterSpacing: '0.18px',
-  marginBottom: theme.spacing(1.5),
-  [theme.breakpoints.down('md')]: { marginTop: theme.spacing(8) }
-}))
-
-const FormControlLabel = styled(MuiFormControlLabel)<FormControlLabelProps>(({ theme }) => ({
-  marginBottom: theme.spacing(4),
-  '& .MuiFormControlLabel-label': {
-    fontSize: '0.875rem',
-    color: theme.palette.text.secondary
-  }
-}))
-
-const LinkStyled = styled(Link)(({ theme }) => ({
-  textDecoration: 'none',
-  color: theme.palette.primary.main
-}))
-
 const Register = () => {
-  // ** States
-  const [showPassword, setShowPassword] = useState<boolean>(false)
-
   // ** Hooks
   const theme = useTheme()
   const { settings } = useSettings()
@@ -104,34 +70,33 @@ const Register = () => {
   // ** Vars
   const { skin } = settings
 
-  const imageSource = skin === 'bordered' ? 'auth-v2-register-illustration-bordered' : 'auth-v2-register-illustration'
 
   return (
     <Box className='content-right'>
-     {!hidden ? (
+      {!hidden ? (
         <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-           <RegisterIllustrationWrapper>
+          <RegisterIllustrationWrapper>
             <RegisterIllustration
               alt='register-illustration'
               src={`/images/shipper.png`}
             />
           </RegisterIllustrationWrapper>
-          <FooterIllustrationsV2   image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`}/>
+          <FooterIllustrationsV2 image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`} />
         </Box>
       ) : null}
-       
+
       <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
         <Box
-          sx={!hidden?{
+          sx={!hidden ? {
             boxSizing: 'border-box',
 
             // position: 'absolute',
             // width: '424px', 
             // left: '956px',
-             maxWidth: '100%',
-            marginTop: '10%',  
-            marginRight: '10%',  
-            background: '#FFFFFF', 
+            maxWidth: '100%',
+            marginTop: '10%',
+            marginRight: '10%',
+            background: '#FFFFFF',
             border: '1px solid rgba(76, 78, 100, 0.12)',
             borderRadius: '20px',
             p: 7,
@@ -140,7 +105,7 @@ const Register = () => {
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: 'background.paper'
-          }:{
+          } : {
             p: 7,
             height: '100%',
             display: 'flex',
@@ -150,23 +115,25 @@ const Register = () => {
           }}
         >
           <BoxWrapper>
-           
-            <Box sx={{ mb: 3,  maxWidth: '100%', }}>
-              <img src='/images/logosamudera.png'style={{ maxWidth: '100%',
-                  height: 'auto',
-                  padding: 0,
-                  margin: 0 }} />
-                                
+
+            <Box sx={{ mb: 3, maxWidth: '100%', }}>
+              <img src='/images/logosamudera.png' style={{
+                maxWidth: '100%',
+                height: 'auto',
+                padding: 0,
+                margin: 0
+              }} />
+
               {/* <TypographyStyled variant='h5' sx={{ textAlign: 'center' }}>SAMUDERA</TypographyStyled> */}
               <Typography variant='h5' sx={{ textAlign: 'center' }}>REGISTER</Typography>
               <Typography variant='body2' sx={{ textAlign: 'center' }}> Adventures start from here, let’s join with our!</Typography>
-             
+
             </Box>
             <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-              <Button variant="outlined" fullWidth sx={{ mb: 6 , height:'70px',color:'black'}}  startIcon={<Icon icon={'mdi:account-outline'} />} > I AM Seafarer</Button>
-              <Button variant="outlined" fullWidth sx={{ mb: 6, height:'70px' ,color:'black'}}  startIcon={<Icon icon={'mdi:domain'} />} > I AM Company</Button>
-              <Button variant="outlined"    fullWidth sx={{ mb: 6 , height:'70px',color:'black'}}  startIcon={<Icon icon={'mdi:domain'} />} > I AM Trainer</Button>
-      
+              <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} startIcon={<Icon icon={'mdi:account-outline'} />} > I AM Seafarer</Button>
+              <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} startIcon={<Icon icon={'mdi:domain'} />} > I AM Company</Button>
+              <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} startIcon={<Icon icon={'mdi:domain'} />} > I AM Trainer</Button>
+
               {/* <Button variant="outlined" fullWidth sx={{ mb: 2 }}  startIcon={<AccessibilityNewOutlinedIcon />} > I AM Seafarer</Button>
 
               
@@ -193,7 +160,7 @@ const Register = () => {
                   }
                 />
               </FormControl> */}
-{/* 
+              {/* 
               <FormControlLabel
                 control={<Checkbox />}
                 sx={{ mb: 4, mt: 1.5, '& .MuiFormControlLabel-label': { fontSize: '0.875rem' } }}
@@ -213,7 +180,7 @@ const Register = () => {
               </Button> */}
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <Typography sx={{ mr: 2, color: 'text.secondary' }}>Already have an account?</Typography>
-                <Typography href='/login' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold' ,}}>
+                <Typography href='/login' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold', }}>
                   Sign in instead
                 </Typography>
               </Box>
