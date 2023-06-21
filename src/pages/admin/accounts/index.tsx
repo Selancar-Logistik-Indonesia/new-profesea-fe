@@ -1,6 +1,7 @@
 // ** React Imports
-import { ChangeEvent, MouseEvent, useContext, useState } from 'react'
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
 
+import { AppConfig } from "src/configs/api";
 // ** MUI Imports
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
@@ -28,18 +29,17 @@ import TablePagination from '@mui/material/TablePagination'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-import { AccountContext } from 'src/context/AccountContext'
-
+import { HttpClient } from 'src/services/index'
 
 type Order = 'asc' | 'desc'
 
 interface Data {
+  id : number
   address : string
   country_id : number
   created_at: string
   email : string
   email_verified_at : string
-  id : number
   joblevel_id : number
   name : string
   phone : string
@@ -48,6 +48,8 @@ interface Data {
   team_id : number
   updated_at : string  
   username : string
+  plan_type: string
+  about: string
 }
 
 interface HeadCell {
@@ -112,12 +114,6 @@ const headCells: readonly HeadCell[] = [
     label: 'Name'
   },
   {
-    id: 'username',
-    numeric: false,
-    disablePadding: false,
-    label: 'username'
-  },
-  {
     id: 'email',
     numeric: false,
     disablePadding: false,
@@ -128,6 +124,12 @@ const headCells: readonly HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'phone'
+  },
+  {
+    id: 'role',
+    numeric: false,
+    disablePadding: false,
+    label: 'Role'
   },
   {
     id: 'team_id',
@@ -226,20 +228,27 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   )
 }
 
-export const useAccount = () => useContext(AccountContext)
-
 const Accounts = () => {
   
-  const account = useAccount()
-  console.log(account)
-  const rows = [];
-  // console.log(rows)
+  const [users, getUsers] = useState('');
+  useEffect(()=>{
+    showAll();
+  }, [])
+  const showAll = () =>{
+    HttpClient.get(AppConfig.baseUrl+"/user/all")
+    .then((response)=>{
+      const allData = response.data.users;
+      getUsers(allData);
+    }).catch(error => console.error(`Error : ${error}`));
+  }
+  const rows = Object.values(users);
+  console.log(rows)
   // console.log(users)
   
   const [page, setPage] = useState<number>(0)
   const [order, setOrder] = useState<Order>('asc')
   const [rowsPerPage, setRowsPerPage] = useState<number>(5)
-  const [orderBy, setOrderBy] = useState<keyof Data>('username')
+  const [orderBy, setOrderBy] = useState<keyof Data>('name')
   const [selected, setSelected] = useState<readonly string[]>([])
 
   const handleRequestSort = (event: MouseEvent<unknown>, property: keyof Data) => {
@@ -328,11 +337,11 @@ const Accounts = () => {
                           <TableCell component='th' id={labelId} scope='row' padding='none'>
                             {row.name}
                           </TableCell>
-                          <TableCell align='left'>{row.username}</TableCell>
                           <TableCell align='left'>{row.email}</TableCell>
                           <TableCell align='left'>{row.phone}</TableCell>
-                          <TableCell align='left'>{row.plan}</TableCell>
-                          <TableCell align='left'>{row.status}</TableCell>
+                          <TableCell align='left'>{row.role}</TableCell>
+                          <TableCell align='left'>{row.plan_type}</TableCell>
+                          <TableCell align='left'>{row.about}</TableCell>
                           <TableCell>
                             <IconButton aria-label='edit' color='warning' size='small'>
                               <Icon icon='mdi:pencil' />
