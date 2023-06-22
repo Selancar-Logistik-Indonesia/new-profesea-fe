@@ -25,6 +25,10 @@ import Typography from '@mui/material/Typography'
 import TableContainer from '@mui/material/TableContainer'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import TablePagination from '@mui/material/TablePagination'
+import MenuItem from '@mui/material/MenuItem'
+import InputLabel from '@mui/material/InputLabel'
+import FormControl from '@mui/material/FormControl'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -138,7 +142,7 @@ const headCells: readonly HeadCell[] = [
     label: 'Plan'
   },
   {
-    id: 'role',
+    id: 'status',
     numeric: false,
     disablePadding: true,
     label: 'Status'
@@ -304,6 +308,63 @@ const Accounts = () => {
       <Grid item xs={12} sm={6} md={12}>
         <Card>
           <CardContent>
+              <Grid container spacing={6}>
+                <Grid item sm={4} xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id='role-select'>Select Role</InputLabel>
+                    <Select
+                      fullWidth
+                      id='select-role'
+                      label='Select Role'
+                      labelId='role-select'
+                      inputProps={{ placeholder: 'Select Role' }}
+                    >
+                      <MenuItem value=''>Select Role</MenuItem>
+                      <MenuItem value='admin'>Admin</MenuItem>
+                      <MenuItem value='author'>Author</MenuItem>
+                      <MenuItem value='editor'>Editor</MenuItem>
+                      <MenuItem value='maintainer'>Maintainer</MenuItem>
+                      <MenuItem value='subscriber'>Subscriber</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item sm={4} xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id='plan-select'>Select Plan</InputLabel>
+                    <Select
+                      fullWidth
+                      id='select-plan'
+                      label='Select Plan'
+                      labelId='plan-select'
+                      inputProps={{ placeholder: 'Select Plan' }}
+                    >
+                      <MenuItem value=''>Select Plan</MenuItem>
+                      <MenuItem value='basic'>Basic</MenuItem>
+                      <MenuItem value='company'>Company</MenuItem>
+                      <MenuItem value='enterprise'>Enterprise</MenuItem>
+                      <MenuItem value='team'>Team</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item sm={4} xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id='status-select'>Select Status</InputLabel>
+                    <Select
+                      fullWidth
+                      value={status}
+                      id='select-status'
+                      label='Select Status'
+                      labelId='status-select'
+                      inputProps={{ placeholder: 'Select Role' }}
+                    >
+                      <MenuItem value=''>Select Role</MenuItem>
+                      <MenuItem value='pending'>Pending</MenuItem>
+                      <MenuItem value='active'>Active</MenuItem>
+                      <MenuItem value='inactive'>Inactive</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
             <EnhancedTableToolbar numSelected={selected.length} />
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle'>
