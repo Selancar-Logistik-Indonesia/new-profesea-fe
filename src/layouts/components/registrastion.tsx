@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode, useState } from 'react'
+import { ReactNode, useState } from 'react' 
 
 // ** MUI Components
 import Button from '@mui/material/Button'
@@ -13,7 +13,7 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
 
-// ** Icon Imports
+ // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
 // ** Configs
@@ -24,69 +24,123 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Hooks
 
 // ** Demo Imports
-import { FormHelperText, Grid } from '@mui/material'
+import { Alert, FormHelperText, Grid } from '@mui/material'
 
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import * as yup from 'yup'
+import { HttpClient } from 'src/services'
+import { AppConfig } from 'src/configs/api' 
 
-const Registration = () => {
+  interface FormData {
+    password2: string
+    password: string
+    name: string
+    position: string
+    code: string
+    phone: string
+    username: string
+    email: string
+  }
+const Registration = (tipereg:any) => {
   // ** States
-  const [showPassword, setShowPassword] = useState<boolean>(false)
-
-  const schema = yup.object().shape({
+  const [showPassword, setShowPassword] = useState<boolean>(false) 
+  
+   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(5).required()
   })
+     
 
-  const {
-    control,
-    formState: { errors }
-  } = useForm({
+  // const {register,handleSubmit,
+  //   control,
+  //   formState: { errors }} = useForm{
+  //   mode: 'onBlur',
+  //   resolver: yupResolver(schema)
+  // };
+
+  const { 
+    register,
+    formState: { errors }, 
+    handleSubmit,
+  } = useForm<FormData>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
-  })
+  }) 
+  const save = (json:any) => {
+    HttpClient.post(AppConfig.baseUrl+ '/auth/register', json).then(({ data }) => {
+        console.log("here 1", data);
+        <Alert severity="success" color="info">
+            Registrastion Success
+        </Alert>
+         }, error => { 
+        console.log("here 1", error);
+         <Alert severity="error" color="info">
+            Registrastion Failed
+        </Alert>
+      });
+  };
+  const onSubmit = (data: FormData) => {
+    const {  password,password2,username,name,phone,email } = data
+
+  let teamid:number;
+  if (tipereg['tipereg'] == 'seafer') {
+    teamid = 1
+  }else{
+    teamid = 2
+  } 
+  
+  const json ={
+    'name': name,
+    "email": email,
+    "username": username,
+    "password": password,
+    "password_confirmation": password2,
+    "employee_type": "onship",
+    "team_id": 1, 
+    "country_id": teamid,
+    "phone": phone
+  };
+  try{  
+       save(json); 
+    } catch (e) {
+      alert(e)
+       console.log(e); 
+    }   
+  };
 
   return (
-    <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
+    <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
       <Grid container spacing={2} sx={{ mb:2 }}>
         <Grid item md={12} xs={12}>
-          <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} />
+          <TextField id="Name" label="Name" variant="outlined"  fullWidth sx={{ mb: 6 }} {...register("name")}/>
         </Grid>
         <Grid item md={6} xs={12}>
-          <TextField id="Position" label="Position" variant="outlined" fullWidth sx={{ mb: 6 }} />
+          <TextField id="Position" label="Position"  variant="outlined" fullWidth sx={{ mb: 6 }} {...register("position")} />
         </Grid>
         <Grid item md={2} xs={12} >
-          <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} />
+          <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} />
         </Grid>
         <Grid item md={4} xs={12} >
-          <TextField id="Code" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} />
+          <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")}/>
         </Grid>
         <Grid item md={6} xs={12} >
-          <TextField id="Username" label="Username" variant="outlined" fullWidth sx={{ mb: 6 }} />
+          <TextField id="Username" label="Username" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("username")}/>                  
         </Grid>
         <Grid item md={6} xs={12} >
           <FormControl fullWidth>
             <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
               Password
             </InputLabel>
-            <Controller
-              name='password'
-              control={control}
-              rules={{ required: true }}
-
-              render={({ field: { value, onChange, onBlur } }) => (
-                <OutlinedInput
-                  value={value}
-                  onBlur={onBlur}
-                  sx={{ mb: 6 }}
-                  label='Password'
-                  onChange={onChange}
-                  id='password1'
+            <OutlinedInput
+                   sx={{ mb: 6 }}
+                  label='Password'  
+                  id='password1' 
                   error={Boolean(errors.password)}
                   type={showPassword ? 'text' : 'password'}
+                   {...register("password")}
                   endAdornment={
                     <InputAdornment position='end'>
                       <IconButton
@@ -99,8 +153,6 @@ const Registration = () => {
                     </InputAdornment>
                   }
                 />
-              )}
-            />
             {errors.password && (
               <FormHelperText sx={{ color: 'error.main' }} id=''>
                 {(errors as any).password?.message}
@@ -109,27 +161,20 @@ const Registration = () => {
           </FormControl>
         </Grid>
         <Grid item md={6} xs={12} >
-          <TextField id="Email" label="Email" variant="outlined" fullWidth />
+          <TextField id="Email" label="Email" variant="outlined" fullWidth  {...register("email")}/>
         </Grid>
         <Grid item md={6} xs={12} >
           <FormControl fullWidth>
             <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
               Password
             </InputLabel>
-            <Controller
-              name='password2'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange, onBlur } }) => (
-                <OutlinedInput
-                  value={value}
-                  onBlur={onBlur}
-                  label='Password'
-                  onChange={onChange}
-                  sx={{ mb: 6 }}
-                  id='password2'
+            <OutlinedInput
+                   sx={{ mb: 6 }}
+                  label='Password'  
+                  id='password1' 
                   error={Boolean(errors.password)}
                   type={showPassword ? 'text' : 'password'}
+                   {...register("password2")}
                   endAdornment={
                     <InputAdornment position='end'>
                       <IconButton
@@ -142,8 +187,6 @@ const Registration = () => {
                     </InputAdornment>
                   }
                 />
-              )}
-            />
             {errors.password && (
               <FormHelperText sx={{ color: 'error.main' }} id=''>
                 {(errors as any).password?.message}
@@ -159,8 +202,8 @@ const Registration = () => {
 
         <Grid item md={8} xs={0} ></Grid>
         <Grid item md={2} xs={12} >
-          <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-right'} />} >
-            NEXT
+          <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-right'} />}   >
+            REGISTER
           </Button>
         </Grid>
       </Grid>
