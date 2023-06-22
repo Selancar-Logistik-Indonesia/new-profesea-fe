@@ -254,7 +254,7 @@ const LoginPage = () => {
                   Forgot Password?
                 </Typography>
               </Box> */}
-              <Box sx={{marginTop='25px'}}>
+              <Box sx={{marginTop: '10%'}}>
 
               
               <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 } }>
