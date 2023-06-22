@@ -46,10 +46,10 @@ import Registration from 'src/layouts/components/registrastion'
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.up('md')]: {
-    maxWidth: 1200
+    maxWidth: 950
   },
   [theme.breakpoints.up('lg')]: {
-    maxWidth: 1200
+    maxWidth: 950
   }
 }))
 
@@ -91,18 +91,23 @@ const Register = () => {
             justifyContent="center"
             alignItems="center"
             minHeight="100vh"
-            marginTop='70px'
           >  
-            <Grid   >
-              <Grid item md={12} xs={12} >
-                <img alt="logo" src='/images/logosamudera.png' style={{
-                  maxWidth: '100%',
-                  height: '100%',   
-                  alignItems:'center',
-                  justifyContent:'center'
-                }} />
-              </Grid>
-              
+            <Grid  container justifyContent={'center'}  alignContent={'center'}>
+                <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center" 
+                    marginTop={'50px'}
+                  > 
+                    <Grid item md={12} xs={12}  >
+                      <img alt="logo" src='/images/logosamudera.png' style={{
+                        maxWidth: '100%',
+                        height: '40px',   
+                        alignItems:'center',
+                        justifyContent:'center'
+                      }} />
+                    </Grid>
+                  </Box> 
                <Grid item md={12} xs={12} >
                   <Box
                     display="flex"
@@ -112,10 +117,10 @@ const Register = () => {
                   > 
                     <img alt="sailor" src='/images/sailor.png' style={{
                       maxWidth: '100%',
-                      height: '650px',  
+                      height: '450px',  
                       alignItems:'center',
                       justifyContent:'center',
-                      marginBottom:'30%'
+                      marginBottom:'40%'
                     }} />
                   </Box> 
                </Grid>
@@ -123,7 +128,7 @@ const Register = () => {
             </Box> 
           </Container> 
         </Box>
-      ) : null};
+      ) : null}
 
       <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
         <Box
@@ -144,13 +149,12 @@ const Register = () => {
           }}
         >
           <Container sx={{
-            marginTop: '50px', mr: 6,ml: 6,
+            marginTop: '40px', mr: 6,ml: 6,
           }}>
-            <BoxWrapper>
-
-              <Box sx={!hidden ?{ mb: 6, marginLeft:'5%',   width: '70%', alignItems:'center',justifyContent:'center' }:
+            <BoxWrapper> 
+              <Box sx={!hidden ?{ mb: 6, marginLeft:'5%',   width: '80%', alignItems:'center',justifyContent:'center' }:
                   { mb: 6,     alignItems:'center',justifyContent:'center' }}>
-                <Typography variant='h3' sx={{ mb: 6, textAlign: 'left',fontWeight: 'bold' }}>Create an Account Seafarer</Typography>
+                <Typography variant='h4' sx={{ mb: 1, textAlign: 'left',fontWeight: 'bold' }}>Create an Account Seafarer</Typography>
                 <Typography variant='body2' sx={{ mb: 6, textAlign: 'left' }}> Enter Your Account As Seafarer In Here!</Typography>
                 <Registration tipereg="seafer"></Registration>
               </Box>

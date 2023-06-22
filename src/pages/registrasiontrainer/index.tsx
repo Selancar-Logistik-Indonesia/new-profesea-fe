@@ -14,8 +14,8 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
-import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import { Container, Grid } from '@mui/material' 
+// import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+import { Container, Grid } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
 
@@ -25,31 +25,31 @@ import * as yup from 'yup'
 import Registration from 'src/layouts/components/registrastion'
 
 // ** Styled Components
-const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-  padding: theme.spacing(20),
-  paddingRight: '0 !important',
-  [theme.breakpoints.down('lg')]: {
-    padding: theme.spacing(10)
-  }
-}))
+// const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
+//   padding: theme.spacing(20),
+//   paddingRight: '0 !important',
+//   [theme.breakpoints.down('lg')]: {
+//     padding: theme.spacing(10)
+//   }
+// }))
 
-const RegisterIllustration = styled('img')(({ theme }) => ({
-  maxWidth: '48rem',
-  [theme.breakpoints.down('xl')]: {
-    maxWidth: '38rem'
-  },
-  [theme.breakpoints.down('lg')]: {
-    maxWidth: '30rem'
-  }
-}))
+// const RegisterIllustration = styled('img')(({ theme }) => ({
+//   maxWidth: '100%',
+//   [theme.breakpoints.down('xl')]: {
+//     maxWidth: '10%'
+//   },
+//   [theme.breakpoints.down('lg')]: {
+//     maxWidth: '10%'
+//   }
+// }))
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.up('md')]: {
-    maxWidth: 1200
+    maxWidth: 950
   },
   [theme.breakpoints.up('lg')]: {
-    maxWidth: 1200
+    maxWidth: 950
   }
 }))
 
@@ -60,11 +60,7 @@ const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   }
 }))
 
-
-
-
-const RegisterTrainer = () => {
-  // ** Hooks
+const Register = () => {
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -72,90 +68,108 @@ const RegisterTrainer = () => {
   // ** Vars
   const { skin } = settings
 
+  const schema = yup.object().shape({
+    email: yup.string().email().required(),
+    password: yup.string().min(5).required()
+  })
 
-const schema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().min(5).required()
-})
-
-  const {} = useForm({ 
+  const {
+  } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
 
   return (
-    <Box className='content-right'>  
-     
-      {!hidden ? ( 
-         
-        <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-             <Container fixed>
-                  <Grid container spacing={2}>
-                    <Grid item   md={12} xs={12}> 
-                      <img alt='logo' src='/images/logosamudera.png'style={{ maxWidth: '100%',
-                        height: '100px',  
-                        marginTop:'10px',
-                        padding: 0,
-                        margin: 0 }} />
-                    </Grid>
-                  </Grid>
-              <RegisterIllustrationWrapper>
-             
-              <RegisterIllustration
-                alt='register-illustration'
-                src={`/images/traine.png`}
-                height={'800px'}
-              />
-            </RegisterIllustrationWrapper>
+    <Box className='content-right'>
 
-             </Container>
-           
-            <FooterIllustrationsV2   image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`}/>
-          </Box> 
-        ) : null};  
-         
-          <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}> 
+      {!hidden ? (
+
+        <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
+          <Container fixed>
+            <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            minHeight="100vh"
+          >  
+            <Grid  container justifyContent={'center'}  alignContent={'center'}>
+                <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center" 
+                    marginTop={'50px'}
+                  > 
+                    <Grid item md={12} xs={12}  >
+                      <img alt="logo" src='/images/logosamudera.png' style={{
+                        maxWidth: '100%',
+                        height: '40px',   
+                        alignItems:'center',
+                        justifyContent:'center'
+                      }} />
+                    </Grid>
+                  </Box> 
+               <Grid item md={12} xs={12} >
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    minHeight="100vh" 
+                  > 
+                    <img alt="sailor" src='/images/traine.png' style={{
+                      maxWidth: '100%',
+                      height: '450px',  
+                      alignItems:'center',
+                      justifyContent:'center',
+                      marginBottom:'40%'
+                    }} />
+                  </Box> 
+               </Grid>
+            </Grid>
+            </Box> 
+          </Container> 
+        </Box>
+      ) : null}
+
+      <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
         <Box
-          sx={!hidden?{
-           p: 7,
-            height: '100%',
-              weight: '100%',
-            display: 'flex', 
-            justifyContent: 'flex-start',
-            backgroundColor: 'background.paper'
-          }:{
+          sx={!hidden ? {
             p: 7,
             height: '100%',
             weight: '100%',
-            display: 'flex', 
+            display: 'flex',
+            justifyContent: 'flex-start',
+            backgroundColor: 'background.paper'
+          } : {
+            p: 7,
+            height: '100%',
+            weight: '100%',
+            display: 'flex',
             justifyContent: 'flex-start',
             backgroundColor: 'background.paper'
           }}
         >
           <Container sx={{
-            marginTop:'100px'
-          } 
-          
-          } fixed>
-            <BoxWrapper>
-            
-              <Box sx={{ mb: 6,  maxWidth: '100%', }}> 
-                <Typography variant='h5' sx={{  mb: 6,textAlign: 'left' }}>CREATE AN ACCOUNT TRAINER</Typography>
-                <Typography variant='body2' sx={{  mb: 6,textAlign: 'left' }}> Enter Your Account As Trainer In Here!</Typography>
-              
+            marginTop: '40px', mr: 6,ml: 6,
+          }}>
+            <BoxWrapper> 
+              <Box sx={!hidden ?{ mb: 6, marginLeft:'5%',   width: '80%', alignItems:'center',justifyContent:'center' }:
+                  { mb: 6,     alignItems:'center',justifyContent:'center' }}>
+                <Typography variant='h4' sx={{ mb: 1, textAlign: 'left',fontWeight: 'bold' }}>Create an Account Trainer</Typography>
+                <Typography variant='body2' sx={{ mb: 6, textAlign: 'left' }}> Enter Your Account As Trainer In Here!</Typography>
+                <Registration tipereg="seafer"></Registration>
               </Box>
-              <Registration></Registration>
+             
             </BoxWrapper>
-            </Container>
-          </Box>
-        </RightWrapper> 
-      
+          </Container>
+        </Box>
+      </RightWrapper>
+
     </Box>
   )
 }
 
-RegisterTrainer.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+Register.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
 
-RegisterTrainer.guestGuard = true
+Register.guestGuard = true
 
-export default RegisterTrainer
+export default Register

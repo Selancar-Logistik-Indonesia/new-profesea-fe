@@ -113,7 +113,7 @@ const Registration = (tipereg:any) => {
 
   return (
     <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
-      <Grid container spacing={2} sx={{ mb:2 }}>
+      <Grid container columnSpacing={'1'} rowSpacing={'0,5'}   sx={{ mb:2 }}>
         <Grid item md={12} xs={12}>
           <TextField id="Name" label="Name" variant="outlined"  fullWidth sx={{ mb: 6 }} {...register("name")}/>
         </Grid>
@@ -194,36 +194,41 @@ const Registration = (tipereg:any) => {
             )}
           </FormControl>
         </Grid>
-        <Grid item md={2} xs={12} >
-          <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-left'} />} >
-            PREVIOUS
+        <Grid item md={12} xs={12} >
+             <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
+            <Checkbox></Checkbox>
+            <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px' }}>
+              Term Of Service,
+            </Typography>
+            <Typography sx={{ marginTop: '10px', color: 'text.secondary' }}> i read and accept</Typography>
+
+          </Box>
+        </Grid>
+        <Grid item md={12} xs={12} > 
+          <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
+            <Checkbox></Checkbox>
+            <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px' }}>
+              Privacy Police,
+            </Typography>
+            <Typography sx={{ marginTop: '10px', color: 'text.secondary' }}> i read and accept</Typography>
+
+          </Box>
+        </Grid>
+        <Grid item md={3} xs={12} >
+          <Button fullWidth size='large' type='submit' href='/register' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-left'} />} >
+             PREVIOUS 
           </Button>
         </Grid>
 
-        <Grid item md={8} xs={0} ></Grid>
-        <Grid item md={2} xs={12} >
-          <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-right'} />}   >
+        <Grid item md={6} xs={0} ></Grid>
+        <Grid item md={3} xs={12} >
+          <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }} endIcon={<Icon icon={'mdi:arrow-right'} />}>
             REGISTER
           </Button>
         </Grid>
       </Grid>
 
-      <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
-        <Checkbox></Checkbox>
-        <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px' }}>
-          Term Of Service,
-        </Typography>
-        <Typography sx={{ marginTop: '10px', color: 'text.secondary' }}> i read and accept</Typography>
-
-      </Box>
-      <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
-        <Checkbox></Checkbox>
-        <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px' }}>
-          Privacy Police,
-        </Typography>
-        <Typography sx={{ marginTop: '10px', color: 'text.secondary' }}> i read and accept</Typography>
-
-      </Box>
+    
     </form>
   )
 }

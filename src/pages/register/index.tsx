@@ -45,19 +45,19 @@ const RegisterIllustration = styled('img')(({ theme }) => ({
 }))
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-  width: '100%',
+  width: '80%',
   [theme.breakpoints.up('md')]: {
-    maxWidth: 500
+    maxWidth: 450
   },
   [theme.breakpoints.up('lg')]: {
-    maxWidth: 550
+    maxWidth: 500
   }
 }))
 
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-  width: '100%',
+  width: '70%',
   [theme.breakpoints.down('md')]: {
-    maxWidth: 400
+    maxWidth: 100
   }
 }))
 
@@ -95,7 +95,7 @@ const Register = () => {
             // left: '956px',
             maxWidth: '100%',
             marginTop: '10%',
-            marginRight: '10%',
+            // marginRight: '1%',
             background: '#FFFFFF',
             border: '1px solid rgba(76, 78, 100, 0.12)',
             borderRadius: '20px',
@@ -116,28 +116,34 @@ const Register = () => {
         >
           <BoxWrapper>
 
-            <Box sx={{ mb: 3, maxWidth: '100%', }}>
+            <Box sx={{ mb: 3, maxWidth: '100%', justifyContent:'center' , alignContent:'center'}}>
+              <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"  
+                  > 
               <img  alt='logo' src='/images/logosamudera.png' style={{
                 maxWidth: '100%',
-                height: 'auto',
+                     height: '40px',   
                 padding: 0,
-                margin: 0
+                margin: 0,
+                alignContent:'center'
               }} />
-
+              </Box>
               {/* <TypographyStyled variant='h5' sx={{ textAlign: 'center' }}>SAMUDERA</TypographyStyled> */}
-              <Typography variant='h5' sx={{ textAlign: 'center' }}>REGISTER</Typography>
+              <Typography variant='h5' sx={{ textAlign: 'center' , marginTop:'20px',fontWeight: 'bold' }}>Register</Typography>
               <Typography variant='body2' sx={{ textAlign: 'center' }}> Adventures start from here, let’s join with our!</Typography>
 
             </Box>
             <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
               <Link href="/registrasionseafer" passHref legacyBehavior>
-                 <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} startIcon={<Icon icon={'mdi:account-outline'} />} > I AM Seafarer</Button>                    
+                 <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} style={{textTransform: 'none'}} startIcon={<Icon icon={'mdi:account-outline'} />} > I Am Candidate</Button>                    
               </Link>
                 <Link href="/registrasioncompany" passHref legacyBehavior>
-                  <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} startIcon={<Icon icon={'mdi:domain'} />} > I AM Company</Button>              
+                  <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} style={{textTransform: 'none'}}  startIcon={<Icon icon={'mdi:domain'} />} > I Am Company</Button>              
                 </Link>
                 <Link href="/registrasiontrainer" passHref legacyBehavior>
-                  <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} startIcon={<Icon icon={'mdi:domain'} />} > I AM Trainer</Button>
+                  <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} style={{textTransform: 'none'}} startIcon={<Icon icon={'mdi:domain'} />} > I Am Trainer</Button>
                 </Link>
            
               {/* <Button variant="outlined" fullWidth sx={{ mb: 2 }}  startIcon={<AccessibilityNewOutlinedIcon />} > I AM Seafarer</Button>
