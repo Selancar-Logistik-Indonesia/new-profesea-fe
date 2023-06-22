@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { AppConfig } from "src/configs/api";
 import authConfig from 'src/configs/auth'
 
@@ -7,7 +7,8 @@ axios.interceptors.request.use(
         config.baseURL = AppConfig.baseUrl
         config.headers['Authorization'] = `Bearer ${localStorage.getItem(authConfig.storageTokenKeyName)}`;
         config.headers['package'] = AppConfig.package;
-
+        config.headers['Accept-Language'] = 'en';
+        
         return config;
     },
     error => {
@@ -19,8 +20,8 @@ const get = (path: string) => {
     return axios.get(path);
 }
 
-const post = (path: string, data?: any) => {
-    return axios.post(path, data);
+const post = (path: string, data?: any): Promise<AxiosResponse> => { 
+  return axios.post(path, data)
 }
 
 export {
