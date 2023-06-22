@@ -95,7 +95,6 @@ const Register = () => {
             // left: '956px',
             maxWidth: '100%',
             marginTop: '10%',
-            // marginRight: '1%',
             background: '#FFFFFF',
             border: '1px solid rgba(76, 78, 100, 0.12)',
             borderRadius: '20px',
