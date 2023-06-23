@@ -1,7 +1,11 @@
 {
     "translation": {
-      "l_password": "Password",
-      "b_apply_job": "Apply for job",
-      "b_post_job": "Post a job"
+        "landing_hero_title": "Welcome to profesea.id",
+        "landing_hero_subtitle": "Connect with millions of people and jobs in our community platform to help you boost your career in the maritime industry!",
+        "landing_about_title": "About Us",
+        "landing_about_subtitle": "Profesea is Seafarer and Vessel match platform that provides featured and rapid candidate sourcing for Maritime Industry. Companies and employees have a chance to choose specific-technical options and detailed criterias via Profesea. Main goal is to help personnel & HR managers find suitable seafarers for their companies quickly and easily.",
+        "l_password": "Password",
+        "b_apply_job": "Apply for job",
+        "b_post_job": "Post a job"
     }
 }
