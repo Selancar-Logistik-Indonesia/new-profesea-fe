@@ -10,13 +10,10 @@ import Router, { useRouter } from "next/router";
 import localStorageKeys from 'src/configs/localstorage_keys'
 
 const handleChangeLocale = (locale?: string) => {
-    console.log("locale: ", locale);
     locale = (locale == "id") ? "en" : "id";
     localStorage.setItem(localStorageKeys.userLocale, locale);
 
-    console.log("current locale: ", locale);
     i18n.changeLanguage(locale);
-
     Router.push(Router.pathname, Router.pathname, { locale: locale });
 };
 
@@ -60,7 +57,7 @@ const LandingPageAppBar = () => {
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
 
                         <Button onClick={() => handleChangeLocale(locale)} size='small' type='button' variant='text' sx={{ mr: 2, ml: 2 }}>
-                            {locale == "ID" ? "INDONESIAN" : "ENGLISH"}
+                            {locale == "id" ? "INDONESIAN" : "ENGLISH"}
                         </Button>
 
                         {navItems.map((item) => (
