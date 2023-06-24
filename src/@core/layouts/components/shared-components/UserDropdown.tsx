@@ -24,6 +24,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import { Settings } from 'src/@core/context/settingsContext'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
+import secureLocalStorage from 'react-secure-storage'
 
 interface Props {
   settings: Settings
@@ -65,7 +66,7 @@ const UserDropdown = (props: Props) => {
 
   const [userData, setUserData] = useState<IUser | null>(null);
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem(localStorageKeys.userData) ?? "{}") as IUser;
+    const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser;
     setUserData(user);
   }, []);
 

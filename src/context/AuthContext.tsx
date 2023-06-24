@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 import authConfig from 'src/configs/auth'
 import { AuthValuesType, LoginParams, ErrCallbackType, UserDataType } from './types'
 import { HttpClient } from 'src/services'
+import secureLocalStorage from "react-secure-storage";
+import localStorageKeys from 'src/configs/localstorage_keys'
 
 const defaultProvider: AuthValuesType = {
     user: null,
@@ -36,7 +38,7 @@ const AuthProvider = ({ children }: Props) => {
                     .get(authConfig.meEndpoint)
                     .then(async response => {
                         console.log("response.data.user", response.data.user);
-                        
+
                         setLoading(false)
                         setUser({ ...response.data.user })
                     }).catch(() => {
@@ -46,7 +48,7 @@ const AuthProvider = ({ children }: Props) => {
                         setUser(null)
                         setLoading(false)
 
-                        if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {                           
+                        if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
                             router.replace('/login');
                         }
                     })
@@ -68,12 +70,12 @@ const AuthProvider = ({ children }: Props) => {
                 const returnUrl = router.query.returnUrl
 
                 setUser({ ...response.data.user })
-                window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken);
-                window.localStorage.setItem('userData', JSON.stringify(response.data.user));
+                localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken);
+                secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);
 
                 const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
                 console.log(`redirectURL: ${redirectURL}`);
-                
+
                 await router.replace(redirectURL as string);
             })
 
@@ -85,7 +87,7 @@ const AuthProvider = ({ children }: Props) => {
 
     const handleLogout = async () => {
         setUser(null)
-        window.localStorage.removeItem('userData')
+        secureLocalStorage.clear();
         window.localStorage.removeItem(authConfig.storageTokenKeyName)
         await router.push('/login');
     }
