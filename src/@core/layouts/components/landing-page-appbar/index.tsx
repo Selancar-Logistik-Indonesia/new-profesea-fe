@@ -8,6 +8,8 @@ import { OverridableStringUnion } from '@mui/types';
 import i18n from "i18next";
 import Router, { useRouter } from "next/router";
 import localStorageKeys from 'src/configs/localstorage_keys'
+import { useEffect, useState } from 'react'
+import UserDropdown from '../shared-components/UserDropdown'
 
 const handleChangeLocale = (locale?: string) => {
     locale = (locale == "id") ? "en" : "id";
@@ -17,15 +19,31 @@ const handleChangeLocale = (locale?: string) => {
     Router.push(Router.pathname, Router.pathname, { locale: locale });
 };
 
+type NavItemType = {
+    title: string,
+    variant: OverridableStringUnion<'text' | 'outlined' | 'contained', ButtonPropsVariantOverrides>,
+    onClick: any
+};
+
 const LandingPageAppBar = () => {
     const theme = useTheme();
     const { settings } = useSettings();
     const { locale } = useRouter();
     const { skin } = settings;
-    const navItems = [
+    const navItems: NavItemType[] = [
         { title: 'Login', variant: 'outlined', onClick: "/login" },
         { title: 'Register', variant: 'contained', onClick: "/register" },
-    ] as { title: string, variant: OverridableStringUnion<'text' | 'outlined' | 'contained', ButtonPropsVariantOverrides>, onClick: any }[];
+    ];
+
+    const [isLogin, setIsLogin] = useState(false);
+    useEffect(() => {
+        const strUser = localStorage.getItem(localStorageKeys.userData);
+        if (!strUser) {
+            return;
+        }
+
+        setIsLogin(true);
+    }, []);
 
     return (
         <AppBar
@@ -60,13 +78,23 @@ const LandingPageAppBar = () => {
                             {locale == "id" ? "INDONESIAN" : "ENGLISH"}
                         </Button>
 
-                        {navItems.map((item) => (
+                        {!isLogin ? navItems.map((item) => (
                             <Link href={item.onClick} key={item.title} locale={locale}>
                                 <Button size='small' type='button' variant={item.variant} sx={{ mr: 2, ml: 2 }}>
                                     {item.title}
                                 </Button>
                             </Link>
-                        ))}
+                        )) : (
+                            <>
+                                <Link href="/home" locale={locale}>
+                                    <Button size='small' type='button' variant='outlined' sx={{ mr: 2, ml: 2 }}>
+                                        Home
+                                    </Button>
+                                </Link>
+                                <UserDropdown settings={settings} />
+                            </>
+                        )}
+
                     </Box>
                 </Toolbar>
             </Container>
