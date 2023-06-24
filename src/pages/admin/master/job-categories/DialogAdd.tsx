@@ -58,9 +58,8 @@ const DialogAdd = () => {
       HttpClient.post(AppConfig.baseUrl+ '/job-category', json).then(({ data }) => {
         setShow(false);
         console.log(data)
-        toast.success(data.category.name+' Successfully submited!');
-        location.reload();
-        
+        toast.success(data.name+' Successfully submited!');
+        location.reload()
          }, error => {
           setShow(false); 
           toast.error("Opps "+error.response.data.message);

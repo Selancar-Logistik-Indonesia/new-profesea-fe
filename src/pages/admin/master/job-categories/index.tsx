@@ -1,5 +1,5 @@
 // ** React Imports
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
+import { ChangeEvent, MouseEvent, useEffect, Ref, useState, forwardRef, ReactElement, useCallback  } from 'react'
 
 import { AppConfig } from "src/configs/api";
 // ** MUI Imports
@@ -10,38 +10,36 @@ import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
 import Paper from '@mui/material/Paper'
-import Toolbar from '@mui/material/Toolbar'
-import Tooltip from '@mui/material/Tooltip'
 import { visuallyHidden } from '@mui/utils'
-import { alpha } from '@mui/material/styles'
-import Checkbox from '@mui/material/Checkbox'
-import Button from '@mui/material/Button'
 import TableRow from '@mui/material/TableRow'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
 import TableContainer from '@mui/material/TableContainer'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import TablePagination from '@mui/material/TablePagination'
 import DialogAdd from 'src/pages/admin/master/job-categories/DialogAdd'
-import MenuItem from '@mui/material/MenuItem'
-import InputLabel from '@mui/material/InputLabel'
-import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
-
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
+import Fade, { FadeProps } from '@mui/material/Fade'
 
 import { HttpClient } from 'src/services/index'
+import DialogEdit from './DialogEdit';
+import DialogDelete from './DialogDelete';
+import TextField from '@mui/material/TextField';
 
 type Order = 'asc' | 'desc'
+type props = {};
 
 interface Data {
   id : number
   name : string
 }
+
+const Transition = forwardRef(function Transition(
+  props: FadeProps & { children?: ReactElement<any, any> },
+  ref: Ref<unknown>
+) {
+  return <Fade ref={ref} {...props} />
+})
 
 interface HeadCell {
   disablePadding: boolean
@@ -94,6 +92,7 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
     return a[1] - b[1]
   })
 
+  console.log(stabilizedThis)
   return stabilizedThis.map(el => el[0])
 }
 
@@ -116,13 +115,16 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding='checkbox'>
+        {/* <TableCell padding='checkbox'>
           <Checkbox
             onChange={onSelectAllClick}
             checked={rowCount > 0 && numSelected === rowCount}
             inputProps={{ 'aria-label': 'select all desserts' }}
             indeterminate={numSelected > 0 && numSelected < rowCount}
           />
+        </TableCell> */}
+        <TableCell padding='normal'align='center'>
+          No
         </TableCell>
         {headCells.map(headCell => (
           <TableCell
@@ -153,61 +155,79 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   )
 }
 
-const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  // ** Prop
-  const { numSelected } = props
+// const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
+//   // ** Prop
+//   const { numSelected } = props
 
-  return (
-    <Toolbar
-      sx={{
-        px: theme => `${theme.spacing(5)} !important`,
-        ...(numSelected > 0 && {
-          bgcolor: theme => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity)
-        })
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography sx={{ flex: '1 1 100%' }} color='inherit' variant='subtitle1' component='div'>
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <><Typography sx={{ flex: '1 1 100%' }} variant='h6' id='tableTitle' component='div'>
-            List Job Categories
-          </Typography><DialogAdd /></>
-      )}
-      {numSelected > 0 ? (
-        <Tooltip title='Delete'>
-          <IconButton sx={{ color: 'text.secondary' }}>
-            <Icon icon='mdi:delete-outline' />
-          </IconButton>
-        </Tooltip>
-      ) : null}
-    </Toolbar>
-  )
-}
+//   return (
+//     <Toolbar
+//       sx={{
+//         px: theme => `${theme.spacing(5)} !important`,
+//         ...(numSelected > 0 && {
+//           bgcolor: theme => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity)
+//         })
+//       }}
+//     >
+//       {numSelected > 0 ? (
+//         <Typography sx={{ flex: '1 1 100%' }} color='inherit' variant='subtitle1' component='div'>
+//           {numSelected} selected
+//         </Typography>
+//       ) : (
+//         <><Typography sx={{ flex: '1 1 100%' }} variant='h6' id='tableTitle' component='div'>
+//           </Typography>
+            
+//           </>
+//       )}
+//       {numSelected > 0 ? (
+//         <Tooltip title='Delete'>
+//           <IconButton sx={{ color: 'text.secondary' }}>
+//             <Icon icon='mdi:delete-outline' />
+//           </IconButton>
+//         </Tooltip>
+//       ) : null}
+//     </Toolbar>
+//   )
+// }
 
 const JobCategory = () => {
-  
-  const [users, getUsers] = useState('');
-  useEffect(()=>{
-    showAll();
-  }, [])
-  const showAll = () =>{
-    HttpClient.get(AppConfig.baseUrl+"/job-category?search&page=1&take=25")
-    .then((response)=>{
-      const allData = response.data.categories;
-      getUsers(allData);
-    }).catch(error => console.error(`Error : ${error}`));
-  }
-  const rows = Object.values(users);
-  console.log(rows)
-  // console.log(users)
-  
   const [page, setPage] = useState<number>(0)
   const [order, setOrder] = useState<Order>('asc')
   const [rowsPerPage, setRowsPerPage] = useState<number>(10)
   const [orderBy, setOrderBy] = useState<keyof Data>('name')
   const [selected, setSelected] = useState<readonly string[]>([])
+  const [searched, setSearched] = useState<string>('')
+
+  const [category, getCategory] = useState<any>([]);
+  const [rows, getRows] = useState<Data[]>([]);
+  // const [rows, setRows] = useState('');
+  const apiPage = page + 1;
+  const showAll = () =>{
+    // console.log(rowsPerPage)
+    HttpClient.get(AppConfig.baseUrl+"/job-category?search="+searched+"&page="+apiPage+"&take="+rowsPerPage)
+    .then((response)=>{
+      const allData = response.data.categories;
+      getCategory(allData);
+      getRows(allData.data);
+    }).catch(error => console.error(`Error : ${error}`));
+  }
+
+  useEffect(()=>{
+    showAll();
+  }, [apiPage, rowsPerPage, searched])
+
+
+  const handleSearch = (val: string) => {
+    setSearched(val);
+    setRowsPerPage(10)
+    console.log(val)
+    // HttpClient.get(AppConfig.baseUrl+"/job-category?search="+val+"&page="+apiPage+"&take="+rowsPerPage)
+    // .then((response)=>{
+    //   const allData = response.data.categories;
+    //   getCategory(allData);
+    //   getRows(allData.data);
+    // }).catch(error => console.error(`Error : ${error}`));
+  }
+ 
 
   const handleRequestSort = (event: MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -254,29 +274,44 @@ const JobCategory = () => {
   const isSelected = (name: string) => selected.indexOf(name) !== -1
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - category.total) : 0
+  // console.log(emptyRows)
 
   return (
     <>
     <Grid container spacing={6} className='match-height'>
       <Grid item xs={12} sm={6} md={12}>
         <Card>
+        <CardHeader title='List Job Categories' sx={{ pb: 3, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />
           <CardContent>
-            <EnhancedTableToolbar numSelected={selected.length} />
+            <Grid  container justifyContent="flex-end">
+              <Grid item>
+                <TextField
+                size='small'
+                sx={{ mr: 6, mb: 2 }}
+                placeholder='Search'
+                onChange={e => handleSearch(e.target.value)}
+                />
+              </Grid>
+              <Grid item sx={{ mr: 6, mb: 2 }}>
+                <DialogAdd />
+              </Grid>
+            </Grid>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle'>
                 <EnhancedTableHead
                   order={order}
                   orderBy={orderBy}
-                  rowCount={rows.length}
+                  rowCount={category.total}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {/* if you don't need to support IE11, you can replace the `stableSort` call with: rows.slice().sort(getComparator(order, orderBy)) */}
-                  {stableSort(rows, getComparator(order, orderBy))
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  {rows
+                    .slice()
+                    .sort(getComparator(order, orderBy))
                     .map((row, index) => {
                       const isItemSelected = isSelected(row.name)
                       const labelId = `enhanced-table-checkbox-${index}`
@@ -289,19 +324,20 @@ const JobCategory = () => {
                           role='checkbox'
                           selected={isItemSelected}
                           aria-checked={isItemSelected}>
-                          <TableCell padding='checkbox' onClick={event => handleClick(event, row.name)}>
+                          {/* <TableCell padding='checkbox' onClick={event => handleClick(event, row.name)}>
                             <Checkbox checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
+                          </TableCell> */}
+                          <TableCell id={labelId} padding='normal' align='center'>
+                            {Math.max((page * rowsPerPage) + index + 1)}
                           </TableCell>
                           <TableCell component='th' id={labelId} scope='row' padding='none'>
                             {row.name}
                           </TableCell>
                           <TableCell padding='none'align='center'>
-                            <IconButton aria-label='edit' color='warning' size='small'>
-                              <Icon icon='mdi:pencil' />
-                            </IconButton>
-                            <IconButton aria-label='delete' color='error' size='small'>
-                              <Icon icon='mdi:trash' />
-                            </IconButton>
+                            <Grid container justifyContent="center">
+                              <DialogEdit {...row} />
+                              <DialogDelete {...row} />
+                            </Grid>
                           </TableCell>
                         </TableRow>
                       )
@@ -321,10 +357,10 @@ const JobCategory = () => {
             <TablePagination
               page={page}
               component='div'
-              count={rows.length}
+              count={category.total || 0}
               rowsPerPage={rowsPerPage}
               onPageChange={handleChangePage}
-              rowsPerPageOptions={[10, 25, 50]}
+              rowsPerPageOptions={[10, 25, 50, 100, 150, 250]}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </CardContent>
