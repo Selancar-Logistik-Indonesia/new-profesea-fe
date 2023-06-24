@@ -8,7 +8,7 @@ axios.interceptors.request.use(
         config.headers['Authorization'] = `Bearer ${localStorage.getItem(authConfig.storageTokenKeyName)}`;
         config.headers['package'] = AppConfig.package;
         config.headers['Accept-Language'] = 'en';
-        
+
         return config;
     },
     error => {

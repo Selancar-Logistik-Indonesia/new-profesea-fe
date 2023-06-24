@@ -1,5 +1,7 @@
 // ** React Imports
 import { ReactNode } from 'react'
+
+// ** MUI Components
 import Box, { BoxProps } from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { styled, useTheme } from '@mui/material/styles'
@@ -11,7 +13,8 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Hooks
 import { useSettings } from 'src/@core/hooks/useSettings'
 
-// ** Demo Imports 
+// ** Demo Imports
+// import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { Container, Grid } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
@@ -20,15 +23,33 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import * as yup from 'yup'
 import Registration from 'src/layouts/components/registrastion'
-  
+
+// ** Styled Components
+// const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
+//   padding: theme.spacing(20),
+//   paddingRight: '0 !important',
+//   [theme.breakpoints.down('lg')]: {
+//     padding: theme.spacing(10)
+//   }
+// }))
+
+// const RegisterIllustration = styled('img')(({ theme }) => ({
+//   maxWidth: '100%',
+//   [theme.breakpoints.down('xl')]: {
+//     maxWidth: '10%'
+//   },
+//   [theme.breakpoints.down('lg')]: {
+//     maxWidth: '10%'
+//   }
+// }))
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.up('md')]: {
-    maxWidth: 1200
+    maxWidth: 950
   },
   [theme.breakpoints.up('lg')]: {
-    maxWidth: 1200
+    maxWidth: 950
   }
 }))
 
@@ -39,7 +60,7 @@ const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   }
 }))
 
-const RegisterTrainer = () => {
+const Register = () => {
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -58,9 +79,8 @@ const RegisterTrainer = () => {
     resolver: yupResolver(schema)
   })
 
-      
   return (
- <Box className='content-right'>
+    <Box className='content-right'>
 
       {!hidden ? (
 
@@ -71,18 +91,23 @@ const RegisterTrainer = () => {
             justifyContent="center"
             alignItems="center"
             minHeight="100vh"
-            marginTop='70px'
           >  
-            <Grid   >
-              <Grid item md={12} xs={12} >
-                <img alt="logo" src='/images/logosamudera.png' style={{
-                  maxWidth: '100%',
-                  height: '100%',   
-                  alignItems:'center',
-                  justifyContent:'center'
-                }} />
-              </Grid>
-              
+            <Grid  container justifyContent={'center'}  alignContent={'center'}>
+                <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center" 
+                    marginTop={'50px'}
+                  > 
+                    <Grid item md={12} xs={12}  >
+                      <img alt="logo" src='/images/logosamudera.png' style={{
+                        maxWidth: '100%',
+                        height: '40px',   
+                        alignItems:'center',
+                        justifyContent:'center'
+                      }} />
+                    </Grid>
+                  </Box> 
                <Grid item md={12} xs={12} >
                   <Box
                     display="flex"
@@ -92,10 +117,10 @@ const RegisterTrainer = () => {
                   > 
                     <img alt="sailor" src='/images/company.png' style={{
                       maxWidth: '100%',
-                      height: '650px',  
+                      height: '450px',  
                       alignItems:'center',
                       justifyContent:'center',
-                      marginBottom:'30%'
+                      marginBottom:'40%'
                     }} />
                   </Box> 
                </Grid>
@@ -103,7 +128,7 @@ const RegisterTrainer = () => {
             </Box> 
           </Container> 
         </Box>
-      ) : null};
+      ) : null}
 
       <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
         <Box
@@ -124,15 +149,14 @@ const RegisterTrainer = () => {
           }}
         >
           <Container sx={{
-            marginTop: '50px', mr: 6,ml: 6,
+            marginTop: '40px', mr: 6,ml: 6,
           }}>
-            <BoxWrapper>
-
-              <Box sx={!hidden ?{ mb: 6, marginLeft:'5%',   width: '70%', alignItems:'center',justifyContent:'center' }:
+            <BoxWrapper> 
+              <Box sx={!hidden ?{ mb: 6, marginLeft:'5%',   width: '80%', alignItems:'center',justifyContent:'center' }:
                   { mb: 6,     alignItems:'center',justifyContent:'center' }}>
-                <Typography variant='h3' sx={{ mb: 6, textAlign: 'left',fontWeight: 'bold' }}>Create an Account Seafarer</Typography>
-                <Typography variant='body2' sx={{ mb: 6, textAlign: 'left' }}> Enter Your Account As Seafarer In Here!</Typography>
-                <Registration></Registration>
+                <Typography variant='h4' sx={{ mb: 1, textAlign: 'left',fontWeight: 'bold' }}>Create an Account Company</Typography>
+                <Typography variant='body2' sx={{ mb: 6, textAlign: 'left' }}> Enter Your Company As Company In Here!</Typography>
+                <Registration tipereg="seafer"></Registration>
               </Box>
              
             </BoxWrapper>
@@ -144,8 +168,8 @@ const RegisterTrainer = () => {
   )
 }
 
-RegisterTrainer.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+Register.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
 
-RegisterTrainer.guestGuard = true
+Register.guestGuard = true
 
-export default RegisterTrainer
+export default Register

@@ -254,9 +254,13 @@ const LoginPage = () => {
                   Forgot Password?
                 </Typography>
               </Box> */}
+              <Box sx={{marginTop: '10%'}}>
+
+              
               <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 } }>
                 Login
               </Button>
+              </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <Typography sx={{ mr: 2, color: 'text.secondary' }}>Don't Have yet an account??</Typography>
                 <Typography href='/register' component={Link} sx={{ color: 'primary.main', textDecoration: 'none' }}>
