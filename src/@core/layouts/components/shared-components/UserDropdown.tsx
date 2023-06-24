@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, SyntheticEvent, Fragment } from 'react'
+import { useState, SyntheticEvent, Fragment, useEffect } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -63,7 +63,11 @@ const UserDropdown = (props: Props) => {
     setAnchorEl(null)
   }
 
-  const userData = JSON.parse(localStorage.getItem(localStorageKeys.userData) ?? "{}") as IUser;
+  const [userData, setUserData] = useState<IUser | null>(null);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem(localStorageKeys.userData) ?? "{}") as IUser;
+    setUserData(user);
+  }, []);
 
   const styles = {
     py: 2,
@@ -125,9 +129,9 @@ const UserDropdown = (props: Props) => {
               <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>{userData.name}</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{userData?.name}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                {userData.role}
+                {userData?.role}
               </Typography>
             </Box>
           </Box>
