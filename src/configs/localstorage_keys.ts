@@ -1,5 +1,6 @@
 const localStorageKeys = {
     userLocale: "user_locale",
+    userData: "userData",
 };
 
 
