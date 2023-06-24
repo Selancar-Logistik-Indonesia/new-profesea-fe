@@ -10,6 +10,7 @@ import Router, { useRouter } from "next/router";
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { useEffect, useState } from 'react'
 import UserDropdown from '../shared-components/UserDropdown'
+import secureLocalStorage from 'react-secure-storage'
 
 const handleChangeLocale = (locale?: string) => {
     locale = (locale == "id") ? "en" : "id";
@@ -37,7 +38,7 @@ const LandingPageAppBar = () => {
 
     const [isLogin, setIsLogin] = useState(false);
     useEffect(() => {
-        const strUser = localStorage.getItem(localStorageKeys.userData);
+        const strUser = secureLocalStorage.getItem(localStorageKeys.userData);
         if (!strUser) {
             return;
         }
