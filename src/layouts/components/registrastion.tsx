@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode, useState } from 'react' 
+import { ReactNode,  useState } from 'react' 
 
 // ** MUI Components
 import Button from '@mui/material/Button'
@@ -24,7 +24,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Hooks
 
 // ** Demo Imports
-import { Alert, FormHelperText, Grid } from '@mui/material'
+import { Alert,  FormHelperText, Grid } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
 
@@ -43,11 +43,14 @@ import { AppConfig } from 'src/configs/api'
     phone: string
     username: string
     email: string
-  }
-const Registration = (tipereg:any) => {
+  } 
+const Registration = (props:any) => {
+  const tipereg = props['tipereg'];
+
   // ** States
   const [showPassword, setShowPassword] = useState<boolean>(false) 
-  
+
+  // const [combocode, getCombocode] = useState<any>([])
    const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(5).required()
@@ -84,9 +87,9 @@ const Registration = (tipereg:any) => {
   };
   const onSubmit = (data: FormData) => {
     const {  password,password2,username,name,phone,email } = data
-
+ 
   let teamid:number;
-  if (tipereg['tipereg'] == 'seafer') {
+  if (tipereg  == 'seafer') {
     teamid = 1
   }else{
     teamid = 2
@@ -109,23 +112,76 @@ const Registration = (tipereg:any) => {
       alert(e)
        console.log(e); 
     }   
-  };
+  }; 
+ 
+  // const combobox = () =>{
+  //     HttpClient.get(AppConfig.baseUrl+"/public/data/country?search=")
+  //     .then((response) =>{
+  //       const code   = response.data.countries;
+  //       for (let x = 0; x < code.length; x++) {
+  //         const element = code[x];
+  //         element.label = element.name
+          
+  //       }
+
+  //           //  const code   = response.data.countries;
+  //           //  getCombocode(code);
+  //            debugger;
+
+  //     })  
+  // }
+  // useEffect(() => {  
+  //   combobox()
+  // },[]) 
 
   return (
     <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
       <Grid container columnSpacing={'1'} rowSpacing={'0,5'}   sx={{ mb:2 }}>
-        <Grid item md={12} xs={12}>
-          <TextField id="Name" label="Name" variant="outlined"  fullWidth sx={{ mb: 6 }} {...register("name")}/>
-        </Grid>
-        <Grid item md={6} xs={12}>
-          <TextField id="Position" label="Position"  variant="outlined" fullWidth sx={{ mb: 6 }} {...register("position")} />
-        </Grid>
-        <Grid item md={2} xs={12} >
-          <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} />
-        </Grid>
-        <Grid item md={4} xs={12} >
-          <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")}/>
-        </Grid>
+         {tipereg == 'seafer' ? ( 
+           <Grid container columnSpacing={'1'} rowSpacing={'0,5'}   sx={{ mb:2 }}>
+              <Grid item md={12} xs={12}>
+                <TextField id="Name" label="Name" variant="outlined"  fullWidth sx={{ mb: 6 }} {...register("name")}/>
+              </Grid>
+              
+                <Grid item md={6} xs={12} >
+                  <TextField id="Position" label="Position"  variant="outlined" fullWidth sx={{ mb: 6 }} {...register("position")} />
+                </Grid>
+                  <Grid item md={2} xs={12} >
+                <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} />
+                {/* <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={combocode}  
+                  renderInput={(params) => <TextField {...params} label="phonecode" />}
+                  onChange={(event: any, newValue: string |null)=> setCombocode(newValue)}
+                /> */}
+              </Grid>
+              <Grid item md={4} xs={12} >
+                <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6  }} {...register("phone")}/>
+              </Grid>
+          </Grid>
+          ) :   <Grid container columnSpacing={'1'} rowSpacing={'0,5'}   sx={{ mb:2 }}>
+              <Grid item md={6} xs={12}>
+                <TextField id="Name" label="Name" variant="outlined"  fullWidth sx={{ mb: 6 }} {...register("name")}/>
+              </Grid>
+              
+               
+                  <Grid item md={2} xs={12} >
+                <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} />
+                {/* <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={combocode}  
+                  renderInput={(params) => <TextField {...params} label="phonecode" />}
+                  onChange={(event: any, newValue: string |null)=> setCombocode(newValue)}
+                /> */}
+              </Grid>
+              <Grid item md={4} xs={12} >
+                <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")}/>
+              </Grid>
+          </Grid>}
+        
+         
         <Grid item md={6} xs={12} >
           <TextField id="Username" label="Username" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("username")}/>                  
         </Grid>

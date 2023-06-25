@@ -156,7 +156,7 @@ const Register = () => {
                   { mb: 6,     alignItems:'center',justifyContent:'center' }}>
                 <Typography variant='h4' sx={{ mb: 1, textAlign: 'left',fontWeight: 'bold' }}>Create an Account Trainer</Typography>
                 <Typography variant='body2' sx={{ mb: 6, textAlign: 'left' }}> Enter Your Account As Trainer In Here!</Typography>
-                <Registration tipereg="seafer"></Registration>
+                <Registration tipereg="trainer"></Registration>
               </Box>
              
             </BoxWrapper>
