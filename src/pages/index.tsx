@@ -49,8 +49,8 @@ const Main = () => {
     return <>
         <Grid container>
             <Grid item xs={12} md={6} mt={20}>
-                <Typography variant="h3" style={{ color: "Black" }}>Job & Career Platform for Seafarers</Typography>
-                <Typography variant="body1" mt={8}>We assist Maritime (Personnel & HR & Crew Managers) and Crew Management Companies in facilitating the easy connection of maritime professionals with each other</Typography>
+                <Typography variant="h3" style={{ color: "Black" }}>{t("landing_hero_title")}</Typography>
+                <Typography variant="body1" mt={8}>{t("landing_hero_subtitle")}</Typography>
 
                 <Container style={{ marginTop: 30 }}>
                     <Button style={{ marginRight: 20 }} variant="contained">{t('b_apply_job')}</Button>
@@ -111,12 +111,8 @@ const Main = () => {
         <Grid container spacing={6} mt={20}>
             <Grid item md={12}>
                 <center>
-                    <Typography variant='h3' sx={{ mb: 2 }} color={"black"}>
-                        Global CV
-                    </Typography>
-                    <Typography variant='body1'>
-                        You'll have chance to find a job and employee from all over the World via Profesea.
-                    </Typography>
+                    <Typography variant='h3' sx={{ mb: 2 }} color={"black"}>{t("landing_about_title")}</Typography>
+                    <Typography variant='body1'>{t("landing_about_subtitle")}</Typography>
                 </center>
             </Grid>
         </Grid>

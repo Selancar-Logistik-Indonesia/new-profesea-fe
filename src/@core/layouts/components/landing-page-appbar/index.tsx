@@ -1,54 +1,50 @@
 import Link from 'next/link'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import { styled, useTheme } from '@mui/material/styles'
-import themeConfig from 'src/configs/themeConfig'
+import { useTheme } from '@mui/material/styles'
 import { useSettings } from 'src/@core/hooks/useSettings'
 import { Box, Button, ButtonPropsVariantOverrides, Container } from '@mui/material'
 import { OverridableStringUnion } from '@mui/types';
 import i18n from "i18next";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
+import localStorageKeys from 'src/configs/localstorage_keys'
+import { useEffect, useState } from 'react'
+import UserDropdown from '../shared-components/UserDropdown'
+import secureLocalStorage from 'react-secure-storage'
 
-const LinkStyled = styled(Link)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    textDecoration: 'none',
-    marginRight: theme.spacing(8)
-}))
+const handleChangeLocale = (locale?: string) => {
+    locale = (locale == "id") ? "en" : "id";
+    localStorage.setItem(localStorageKeys.userLocale, locale);
 
-type navLocale = {
-    locale: string;
-    localeItem: {title: string, variant: string, onClick: string}
+    i18n.changeLanguage(locale);
+    Router.push(Router.pathname, Router.pathname, { locale: locale });
+};
+
+type NavItemType = {
+    title: string,
+    variant: OverridableStringUnion<'text' | 'outlined' | 'contained', ButtonPropsVariantOverrides>,
+    onClick: any
 };
 
 const LandingPageAppBar = () => {
-    // ** Hooks & Vars
-    const theme = useTheme()
-    const { settings } = useSettings()
+    const theme = useTheme();
+    const { settings } = useSettings();
     const { locale } = useRouter();
-    const { skin } = settings
+    const { skin } = settings;
+    const navItems: NavItemType[] = [
+        { title: 'Login', variant: 'outlined', onClick: "/login" },
+        { title: 'Register', variant: 'contained', onClick: "/register" },
+    ];
 
-    // console.log(locale,defaultLocale) 
-    const navLang = [
-        {
-            locale: "id",
-            localeItem: { title: 'English', variant: 'outline', onClick: "/en" },
-        },
-        {
-            locale: "en",
-            localeItem: { title: 'Indonesian', variant: 'outline', onClick: "/id" },
-        },
-    ] as navLocale[];
+    const [isLogin, setIsLogin] = useState(false);
+    useEffect(() => {
+        const strUser = secureLocalStorage.getItem(localStorageKeys.userData);
+        if (!strUser) {
+            return;
+        }
 
-    // console.log(navLang[0][locale]) 
-    const navItems = [
-        navLang.find(e => e.locale == locale)?.localeItem,
-        { title: 'Login', variant: 'outlined', onClick: locale + "/login" },
-        { title: 'Register', variant: 'contained', onClick: locale + "/register" },
-    ] as { title: string, variant: OverridableStringUnion<'text' | 'outlined' | 'contained', ButtonPropsVariantOverrides>, onClick: any }[];
-
-    i18n.changeLanguage(locale);
+        setIsLogin(true);
+    }, []);
 
     return (
         <AppBar
@@ -68,20 +64,38 @@ const LandingPageAppBar = () => {
                         minHeight: `${(theme.mixins.toolbar.minHeight as number) - (skin === 'bordered' ? 1 : 0)}px !important`
                     }}
                 >
-                    <LinkStyled href='/'>
-                        <b>Fake Icon</b>
-                        <Typography variant='h6' sx={{ ml: 2, fontWeight: 700, lineHeight: 1.2 }}>
-                            {themeConfig.templateName}
-                        </Typography>
-                    </LinkStyled>
+                    <Link href='/'>
+                        <Box
+                            component="img"
+                            sx={{ width: 150 }}
+                            alt="The Profesea logo"
+                            title="Profesea"
+                            src="/images/logosamudera.png"
+                        />
+                    </Link>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                        {navItems.map((item) => (
-                            <Link href={item.onClick} key={item.title}>
+
+                        <Button onClick={() => handleChangeLocale(locale)} size='small' type='button' variant='text' sx={{ mr: 2, ml: 2 }}>
+                            {locale == "id" ? "INDONESIAN" : "ENGLISH"}
+                        </Button>
+
+                        {!isLogin ? navItems.map((item) => (
+                            <Link href={item.onClick} key={item.title} locale={locale}>
                                 <Button size='small' type='button' variant={item.variant} sx={{ mr: 2, ml: 2 }}>
                                     {item.title}
                                 </Button>
                             </Link>
-                        ))}
+                        )) : (
+                            <>
+                                <Link href="/home" locale={locale}>
+                                    <Button size='small' type='button' variant='outlined' sx={{ mr: 2, ml: 2 }}>
+                                        Home
+                                    </Button>
+                                </Link>
+                                <UserDropdown settings={settings} />
+                            </>
+                        )}
+
                     </Box>
                 </Toolbar>
             </Container>

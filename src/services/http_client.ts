@@ -8,7 +8,7 @@ axios.interceptors.request.use(
         config.headers['Authorization'] = `Bearer ${localStorage.getItem(authConfig.storageTokenKeyName)}`;
         config.headers['package'] = AppConfig.package;
         config.headers['Accept-Language'] = 'en';
-        
+
         return config;
     },
     error => {
@@ -21,10 +21,20 @@ const get = (path: string) => {
 }
 
 const post = (path: string, data?: any): Promise<AxiosResponse> => { 
-  return axios.post(path, data)
+    return axios.post(path, data)
+}
+
+const patch = (path: string, data?: any): Promise<AxiosResponse> => { 
+    return axios.patch(path, data)
+}
+
+const del = (path: string, data?: any): Promise<AxiosResponse> => { 
+    return axios.delete(path, data)
 }
 
 export {
     get,
     post,
+    patch,
+    del,
 }
