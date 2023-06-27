@@ -14,7 +14,6 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import toast from 'react-hot-toast'
 
-
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
@@ -23,10 +22,7 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import { HttpClient } from 'src/services'
-import { AppConfig } from 'src/configs/api' 
-
-// ** Hooks
-import useBgColor from 'src/@core/hooks/useBgColor'
+import { AppConfig } from 'src/configs/api'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -42,30 +38,28 @@ interface FormData {
 const validationSchema = Yup.object().shape({
   id: Yup.string().required('Name is required'),
 })
-const DialogDelete = ( props : FormData ) => {
+const DialogDelete = (props: FormData) => {
   // ** States
   const [show, setShow] = useState<boolean>(false)
-  // ** Hooks
-  const bgColors = useBgColor()
 
-  const { handleSubmit, register, formState: { errors } }  = useForm<FormData>({
+  const { handleSubmit, register } = useForm<FormData>({
     mode: 'onBlur',
     resolver: yupResolver(validationSchema)
   })
 
   /* HandleOnSubmit */
-  const onSubmit = async (formData:FormData) => {
+  const onSubmit = async (formData: FormData) => {
     const json = {
     }
     try {
-      HttpClient.del(AppConfig.baseUrl+ '/job-category/'+ formData.id, json).then(({ data }) => {
+      HttpClient.del(AppConfig.baseUrl + '/job-category/' + formData.id, json).then(({ data }) => {
         setShow(false);
         toast.success(data.message);
         location.reload();
-        
-         }, error => {
-          setShow(false); 
-          toast.error("Opps "+error.response.data.message);
+
+      }, error => {
+        setShow(false);
+        toast.error("Opps " + error.response.data.message);
       });
     } catch (error) {
       console.error(error)
@@ -74,17 +68,17 @@ const DialogDelete = ( props : FormData ) => {
 
   return (
     <Grid item >
-        <IconButton aria-label='edit' color='error' size='small' onClick={() => setShow(true)}>
-          <Icon icon='mdi:trash' />
-        </IconButton>
-        <Dialog
-          fullWidth
-          open={show}
-          maxWidth='sm'
-          onClose={() => setShow(false)}
-          TransitionComponent={Transition}
-          onBackdropClick={() => setShow(false)}
-        >
+      <IconButton aria-label='edit' color='error' size='small' onClick={() => setShow(true)}>
+        <Icon icon='mdi:trash' />
+      </IconButton>
+      <Dialog
+        fullWidth
+        open={show}
+        maxWidth='sm'
+        onClose={() => setShow(false)}
+        TransitionComponent={Transition}
+        onBackdropClick={() => setShow(false)}
+      >
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
           <DialogContent
             sx={{
@@ -109,7 +103,7 @@ const DialogDelete = ( props : FormData ) => {
             </Box>
             <Grid container>
               <Grid item display={'none'}>
-                <TextField defaultValue={props.id} {...register("id")} fullWidth/>
+                <TextField defaultValue={props.id} {...register("id")} fullWidth />
               </Grid>
             </Grid>
           </DialogContent>
@@ -127,8 +121,8 @@ const DialogDelete = ( props : FormData ) => {
               No
             </Button>
           </DialogActions>
-          </form>
-        </Dialog>
+        </form>
+      </Dialog>
     </Grid>
   )
 }

@@ -1,7 +1,8 @@
 // ** React Imports
-import { ChangeEvent, MouseEvent, useEffect, Ref, useState, forwardRef, ReactElement, useCallback } from 'react'
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
 
 import { AppConfig } from "src/configs/api";
+
 // ** MUI Imports
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
@@ -19,7 +20,6 @@ import TableContainer from '@mui/material/TableContainer'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import TablePagination from '@mui/material/TablePagination'
 import DialogAdd from 'src/pages/admin/master/job-categories/DialogAdd'
-import Fade, { FadeProps } from '@mui/material/Fade'
 
 import { HttpClient } from 'src/services/index'
 import DialogEdit from './DialogEdit';
@@ -27,19 +27,12 @@ import DialogDelete from './DialogDelete';
 import TextField from '@mui/material/TextField';
 
 type Order = 'asc' | 'desc'
-type props = {};
 
 interface Data {
   id: number
   name: string
 }
 
-const Transition = forwardRef(function Transition(
-  props: FadeProps & { children?: ReactElement<any, any> },
-  ref: Ref<unknown>
-) {
-  return <Fade ref={ref} {...props} />
-})
 
 interface HeadCell {
   disablePadding: boolean
@@ -57,9 +50,6 @@ interface EnhancedTableProps {
   rowCount: number
 }
 
-interface EnhancedTableToolbarProps {
-  numSelected: number
-}
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -83,18 +73,6 @@ function getComparator<Key extends keyof any>(
 
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number])
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0])
-    if (order !== 0) return order
-
-    return a[1] - b[1]
-  })
-
-  console.log(stabilizedThis)
-  return stabilizedThis.map(el => el[0])
-}
 
 const headCells: readonly HeadCell[] = [
   {
@@ -107,7 +85,7 @@ const headCells: readonly HeadCell[] = [
 
 function EnhancedTableHead(props: EnhancedTableProps) {
   // ** Props
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
+  const { order, orderBy, onRequestSort } = props
   const createSortHandler = (property: keyof Data) => (event: MouseEvent<unknown>) => {
     onRequestSort(event, property)
   }
@@ -199,6 +177,7 @@ const JobCategory = () => {
 
   const [category, getCategory] = useState<any>([]);
   const [rows, getRows] = useState<Data[]>([]);
+
   // const [rows, setRows] = useState('');
   const apiPage = page + 1;
   const showAll = () => {
@@ -215,11 +194,11 @@ const JobCategory = () => {
     showAll();
   }, [apiPage, rowsPerPage, searched])
 
-
   const handleSearch = (val: string) => {
     setSearched(val);
     setRowsPerPage(10)
     console.log(val)
+
     // HttpClient.get(AppConfig.baseUrl+"/job-category?search="+val+"&page="+apiPage+"&take="+rowsPerPage)
     // .then((response)=>{
     //   const allData = response.data.categories;
@@ -245,22 +224,6 @@ const JobCategory = () => {
     setSelected([])
   }
 
-  const handleClick = (event: MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name)
-    let newSelected: readonly string[] = []
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name)
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1))
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1))
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1))
-    }
-
-    setSelected(newSelected)
-  }
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage)
@@ -275,7 +238,6 @@ const JobCategory = () => {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - category.total) : 0
-  // console.log(emptyRows)
 
   return (
     <>

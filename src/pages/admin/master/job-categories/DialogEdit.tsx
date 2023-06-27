@@ -23,10 +23,7 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import { HttpClient } from 'src/services'
-import { AppConfig } from 'src/configs/api' 
-
-// ** Hooks
-import useBgColor from 'src/@core/hooks/useBgColor'
+import { AppConfig } from 'src/configs/api'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -42,31 +39,31 @@ interface FormData {
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
 })
-const DialogEdit = ( props : FormData ) => {
+const DialogEdit = (props: FormData) => {
   // ** States
   const [show, setShow] = useState<boolean>(false)
-  // ** Hooks
-  const bgColors = useBgColor()
 
-  const { handleSubmit, register, formState: { errors } }  = useForm<FormData>({
+  // ** Hooks
+
+  const { handleSubmit, register } = useForm<FormData>({
     mode: 'onBlur',
     resolver: yupResolver(validationSchema)
   })
 
   /* HandleOnSubmit */
-  const onSubmit = async (formData:FormData) => {
+  const onSubmit = async (formData: FormData) => {
     const json = {
-      name : formData.name
+      name: formData.name
     }
     try {
-      HttpClient.patch(AppConfig.baseUrl+ '/job-category/'+ formData.id, json).then(({ data }) => {
+      HttpClient.patch(AppConfig.baseUrl + '/job-category/' + formData.id, json).then(({ data }) => {
         setShow(false);
-        toast.success(data.category.name+' Successfully updated!');
+        toast.success(data.category.name + ' Successfully updated!');
         location.reload();
-        
-         }, error => {
-          setShow(false); 
-          toast.error("Opps "+error.response.data.message);
+
+      }, error => {
+        setShow(false);
+        toast.error("Opps " + error.response.data.message);
       });
     } catch (error) {
       console.error(error)
@@ -75,18 +72,18 @@ const DialogEdit = ( props : FormData ) => {
 
   return (
     <Grid item>
-        <IconButton aria-label='edit' color='warning' size='small' onClick={() => setShow(true)}>
-          <Icon icon='mdi:pencil' />
-        </IconButton>
-        <Dialog
-          fullWidth
-          open={show}
-          maxWidth='sm'
-          scroll='body'
-          onClose={() => setShow(false)}
-          TransitionComponent={Transition}
-          onBackdropClick={() => setShow(false)}
-        >
+      <IconButton aria-label='edit' color='warning' size='small' onClick={() => setShow(true)}>
+        <Icon icon='mdi:pencil' />
+      </IconButton>
+      <Dialog
+        fullWidth
+        open={show}
+        maxWidth='sm'
+        scroll='body'
+        onClose={() => setShow(false)}
+        TransitionComponent={Transition}
+        onBackdropClick={() => setShow(false)}
+      >
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
           <DialogContent
             sx={{
@@ -111,7 +108,7 @@ const DialogEdit = ( props : FormData ) => {
             </Box>
             <Grid container spacing={6}>
               <Grid item display={'none'}>
-                <TextField type='hidden' defaultValue={props.id} {...register("id")} fullWidth/>
+                <TextField type='hidden' defaultValue={props.id} {...register("id")} fullWidth />
               </Grid>
               <Grid item sm={12} xs={12}>
                 <TextField defaultValue={props.name} label='Category Name' placeholder='Category Name' fullWidth sx={{ mb: 6 }} {...register("name")} />
@@ -132,8 +129,8 @@ const DialogEdit = ( props : FormData ) => {
               Cancel
             </Button>
           </DialogActions>
-          </form>
-        </Dialog>
+        </form>
+      </Dialog>
     </Grid>
   )
 }
