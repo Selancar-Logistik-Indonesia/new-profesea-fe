@@ -2,9 +2,9 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
 
 import { AppConfig } from "src/configs/api";
+
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
@@ -15,7 +15,6 @@ import Tooltip from '@mui/material/Tooltip'
 import { visuallyHidden } from '@mui/utils'
 import { alpha } from '@mui/material/styles'
 import Checkbox from '@mui/material/Checkbox'
-import Button from '@mui/material/Button'
 import TableRow from '@mui/material/TableRow'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -28,7 +27,7 @@ import TablePagination from '@mui/material/TablePagination'
 import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
+import Select from '@mui/material/Select'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -38,22 +37,24 @@ import { HttpClient } from 'src/services/index'
 type Order = 'asc' | 'desc'
 
 interface Data {
-  id : number
-  address : string
-  country_id : number
+  id: number
+  address: string
+  country_id: number
   created_at: string
-  email : string
-  email_verified_at : string
-  joblevel_id : number
-  name : string
-  phone : string
-  role : string
-  team : string
-  team_id : number
-  updated_at : string  
-  username : string
+  email: string
+  email_verified_at: string
+  joblevel_id: number
+  name: string
+  phone: string
+  role: string
+  team: string
+  team_id: number
+  updated_at: string
+  username: string
   plan_type: string
   about: string
+  status: string
+  action: string
 }
 
 interface HeadCell {
@@ -233,22 +234,23 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 }
 
 const Accounts = () => {
-  
+
   const [users, getUsers] = useState('');
-  useEffect(()=>{
+  useEffect(() => {
     showAll();
   }, [])
-  const showAll = () =>{
-    HttpClient.get(AppConfig.baseUrl+"/user/all")
-    .then((response)=>{
-      const allData = response.data.users;
-      getUsers(allData);
-    }).catch(error => console.error(`Error : ${error}`));
+  const showAll = () => {
+    HttpClient.get(AppConfig.baseUrl + "/user/all")
+      .then((response) => {
+        const allData = response.data.users;
+        getUsers(allData);
+      }).catch(error => console.error(`Error : ${error}`));
   }
   const rows = Object.values(users);
   console.log(rows)
+
   // console.log(users)
-  
+
   const [page, setPage] = useState<number>(0)
   const [order, setOrder] = useState<Order>('asc')
   const [rowsPerPage, setRowsPerPage] = useState<number>(5)
@@ -263,8 +265,9 @@ const Accounts = () => {
 
   const handleSelectAllClick = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map(n => n.name)
-      setSelected(newSelecteds)
+      // gagal build, komen dlu :v
+      // const newSelecteds = rows.map(n => n.name)
+      // setSelected(newSelecteds)
 
       return
     }
@@ -304,10 +307,10 @@ const Accounts = () => {
 
   return (
     <>
-    <Grid container spacing={6} className='match-height'>
-      <Grid item xs={12} sm={6} md={12}>
-        <Card>
-          <CardContent>
+      <Grid container spacing={6} className='match-height'>
+        <Grid item xs={12} sm={6} md={12}>
+          <Card>
+            <CardContent>
               <Grid container spacing={6}>
                 <Grid item sm={4} xs={12}>
                   <FormControl fullWidth>
@@ -365,80 +368,80 @@ const Accounts = () => {
                   </FormControl>
                 </Grid>
               </Grid>
-            <EnhancedTableToolbar numSelected={selected.length} />
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle'>
-                <EnhancedTableHead
-                  order={order}
-                  orderBy={orderBy}
-                  rowCount={rows.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {/* if you don't need to support IE11, you can replace the `stableSort` call with: rows.slice().sort(getComparator(order, orderBy)) */}
-                  {stableSort(rows, getComparator(order, orderBy))
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => {
-                      const isItemSelected = isSelected(row.name)
-                      const labelId = `enhanced-table-checkbox-${index}`
+              <EnhancedTableToolbar numSelected={selected.length} />
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle'>
+                  <EnhancedTableHead
+                    order={order}
+                    orderBy={orderBy}
+                    rowCount={rows.length}
+                    numSelected={selected.length}
+                    onRequestSort={handleRequestSort}
+                    onSelectAllClick={handleSelectAllClick}
+                  />
+                  <TableBody>
+                    {/* if you don't need to support IE11, you can replace the `stableSort` call with: rows.slice().sort(getComparator(order, orderBy)) */}
+                    {stableSort(rows as any, getComparator(order, orderBy))
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((row, index) => {
+                        const isItemSelected = isSelected(row.name.toString())
+                        const labelId = `enhanced-table-checkbox-${index}`
 
-                      return (
-                        <TableRow
-                          hover
-                          tabIndex={-1}
-                          key={row.name}
-                          role='checkbox'
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}>
-                          <TableCell padding='checkbox' onClick={event => handleClick(event, row.name)}>
-                            <Checkbox checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
-                          </TableCell>
-                          <TableCell component='th' id={labelId} scope='row' padding='none'>
-                            {row.name}
-                          </TableCell>
-                          <TableCell align='left'>{row.email}</TableCell>
-                          <TableCell align='left'>{row.phone}</TableCell>
-                          <TableCell align='left'>{row.role}</TableCell>
-                          <TableCell align='left'>{row.plan_type}</TableCell>
-                          <TableCell align='left'>{row.about}</TableCell>
-                          <TableCell>
-                            <IconButton aria-label='edit' color='warning' size='small'>
-                              <Icon icon='mdi:pencil' />
-                            </IconButton>
-                            <IconButton aria-label='delete' color='error' size='small'>
-                              <Icon icon='mdi:trash' />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      )
-                    })}
-                  {emptyRows > 0 && (
-                    <TableRow
-                      sx={{
-                        height: 53 * emptyRows
-                      }}
-                    >
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              page={page}
-              component='div'
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              onPageChange={handleChangePage}
-              rowsPerPageOptions={[5, 10, 25]}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </CardContent>
-        </Card>
+                        return (
+                          <TableRow
+                            hover
+                            tabIndex={-1}
+                            key={row.name}
+                            role='checkbox'
+                            selected={isItemSelected}
+                            aria-checked={isItemSelected}>
+                            <TableCell padding='checkbox' onClick={event => handleClick(event, row.name.toString())}>
+                              <Checkbox checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
+                            </TableCell>
+                            <TableCell component='th' id={labelId} scope='row' padding='none'>
+                              {row.name}
+                            </TableCell>
+                            <TableCell align='left'>{row.email}</TableCell>
+                            <TableCell align='left'>{row.phone}</TableCell>
+                            <TableCell align='left'>{row.role}</TableCell>
+                            <TableCell align='left'>{row.plan_type}</TableCell>
+                            <TableCell align='left'>{row.about}</TableCell>
+                            <TableCell>
+                              <IconButton aria-label='edit' color='warning' size='small'>
+                                <Icon icon='mdi:pencil' />
+                              </IconButton>
+                              <IconButton aria-label='delete' color='error' size='small'>
+                                <Icon icon='mdi:trash' />
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                        )
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow
+                        sx={{
+                          height: 53 * emptyRows
+                        }}
+                      >
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                page={page}
+                component='div'
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handleChangePage}
+                rowsPerPageOptions={[5, 10, 25]}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
-    </Grid>
     </>
   )
 }
