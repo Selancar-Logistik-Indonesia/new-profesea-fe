@@ -20,15 +20,15 @@ const get = (path: string) => {
     return axios.get(path);
 }
 
-const post = (path: string, data?: any): Promise<AxiosResponse> => { 
+const post = (path: string, data?: any): Promise<AxiosResponse> => {
     return axios.post(path, data)
 }
 
-const patch = (path: string, data?: any): Promise<AxiosResponse> => { 
+const patch = (path: string, data?: any): Promise<AxiosResponse> => {
     return axios.patch(path, data)
 }
 
-const del = (path: string, data?: any): Promise<AxiosResponse> => { 
+const del = (path: string, data?: any): Promise<AxiosResponse> => {
     return axios.delete(path, data)
 }
 
