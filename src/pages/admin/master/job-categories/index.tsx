@@ -1,5 +1,5 @@
 // ** React Imports
-import { ChangeEvent, MouseEvent, useEffect, Ref, useState, forwardRef, ReactElement, useCallback  } from 'react'
+import { ChangeEvent, MouseEvent, useEffect, Ref, useState, forwardRef, ReactElement, useCallback } from 'react'
 
 import { AppConfig } from "src/configs/api";
 // ** MUI Imports
@@ -30,8 +30,8 @@ type Order = 'asc' | 'desc'
 type props = {};
 
 interface Data {
-  id : number
-  name : string
+  id: number
+  name: string
 }
 
 const Transition = forwardRef(function Transition(
@@ -123,7 +123,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
           />
         </TableCell> */}
-        <TableCell padding='normal'align='center'>
+        <TableCell padding='normal' align='center'>
           No
         </TableCell>
         {headCells.map(headCell => (
@@ -147,7 +147,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             </TableSortLabel>
           </TableCell>
         ))}
-        <TableCell padding='none'align='center'>
+        <TableCell padding='none' align='center'>
           Action
         </TableCell>
       </TableRow>
@@ -175,7 +175,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 //       ) : (
 //         <><Typography sx={{ flex: '1 1 100%' }} variant='h6' id='tableTitle' component='div'>
 //           </Typography>
-            
+
 //           </>
 //       )}
 //       {numSelected > 0 ? (
@@ -201,17 +201,17 @@ const JobCategory = () => {
   const [rows, getRows] = useState<Data[]>([]);
   // const [rows, setRows] = useState('');
   const apiPage = page + 1;
-  const showAll = () =>{
+  const showAll = () => {
     // console.log(rowsPerPage)
-    HttpClient.get(AppConfig.baseUrl+"/job-category?search="+searched+"&page="+apiPage+"&take="+rowsPerPage)
-    .then((response)=>{
-      const allData = response.data.categories;
-      getCategory(allData);
-      getRows(allData.data);
-    }).catch(error => console.error(`Error : ${error}`));
+    HttpClient.get(AppConfig.baseUrl + "/job-category?search=" + searched + "&page=" + apiPage + "&take=" + rowsPerPage)
+      .then((response) => {
+        const allData = response.data.categories;
+        getCategory(allData);
+        getRows(allData.data);
+      }).catch(error => console.error(`Error : ${error}`));
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     showAll();
   }, [apiPage, rowsPerPage, searched])
 
@@ -227,7 +227,7 @@ const JobCategory = () => {
     //   getRows(allData.data);
     // }).catch(error => console.error(`Error : ${error}`));
   }
- 
+
 
   const handleRequestSort = (event: MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -279,94 +279,94 @@ const JobCategory = () => {
 
   return (
     <>
-    <Grid container spacing={6} className='match-height'>
-      <Grid item xs={12} sm={6} md={12}>
-        <Card>
-        <CardHeader title='List Job Categories' sx={{ pb: 3, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />
-          <CardContent>
-            <Grid  container justifyContent="flex-end">
-              <Grid item>
-                <TextField
-                size='small'
-                sx={{ mr: 6, mb: 2 }}
-                placeholder='Search'
-                onChange={e => handleSearch(e.target.value)}
-                />
+      <Grid container spacing={6} className='match-height'>
+        <Grid item xs={12} sm={6} md={12}>
+          <Card>
+            <CardHeader title='List Job Categories' sx={{ pb: 3, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />
+            <CardContent>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <TextField
+                    size='small'
+                    sx={{ mr: 6, mb: 2 }}
+                    placeholder='Search'
+                    onChange={e => handleSearch(e.target.value)}
+                  />
+                </Grid>
+                <Grid item sx={{ mr: 6, mb: 2 }}>
+                  <DialogAdd />
+                </Grid>
               </Grid>
-              <Grid item sx={{ mr: 6, mb: 2 }}>
-                <DialogAdd />
-              </Grid>
-            </Grid>
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle'>
-                <EnhancedTableHead
-                  order={order}
-                  orderBy={orderBy}
-                  rowCount={category.total}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {/* if you don't need to support IE11, you can replace the `stableSort` call with: rows.slice().sort(getComparator(order, orderBy)) */}
-                  {rows
-                    .slice()
-                    .sort(getComparator(order, orderBy))
-                    .map((row, index) => {
-                      const isItemSelected = isSelected(row.name)
-                      const labelId = `enhanced-table-checkbox-${index}`
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle'>
+                  <EnhancedTableHead
+                    order={order}
+                    orderBy={orderBy}
+                    rowCount={category.total}
+                    numSelected={selected.length}
+                    onRequestSort={handleRequestSort}
+                    onSelectAllClick={handleSelectAllClick}
+                  />
+                  <TableBody>
+                    {/* if you don't need to support IE11, you can replace the `stableSort` call with: rows.slice().sort(getComparator(order, orderBy)) */}
+                    {rows
+                      .slice()
+                      .sort(getComparator(order, orderBy))
+                      .map((row, index) => {
+                        const isItemSelected = isSelected(row.name)
+                        const labelId = `enhanced-table-checkbox-${index}`
 
-                      return (
-                        <TableRow
-                          hover
-                          tabIndex={-1}
-                          key={row.name}
-                          role='checkbox'
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}>
-                          {/* <TableCell padding='checkbox' onClick={event => handleClick(event, row.name)}>
+                        return (
+                          <TableRow
+                            hover
+                            tabIndex={-1}
+                            key={row.name}
+                            role='checkbox'
+                            selected={isItemSelected}
+                            aria-checked={isItemSelected}>
+                            {/* <TableCell padding='checkbox' onClick={event => handleClick(event, row.name)}>
                             <Checkbox checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
                           </TableCell> */}
-                          <TableCell id={labelId} padding='normal' align='center'>
-                            {Math.max((page * rowsPerPage) + index + 1)}
-                          </TableCell>
-                          <TableCell component='th' id={labelId} scope='row' padding='none'>
-                            {row.name}
-                          </TableCell>
-                          <TableCell padding='none'align='center'>
-                            <Grid container justifyContent="center">
-                              <DialogEdit {...row} />
-                              <DialogDelete {...row} />
-                            </Grid>
-                          </TableCell>
-                        </TableRow>
-                      )
-                    })}
-                  {emptyRows > 0 && (
-                    <TableRow
-                      sx={{
-                        height: 53 * emptyRows
-                      }}
-                    >
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              page={page}
-              component='div'
-              count={category.total || 0}
-              rowsPerPage={rowsPerPage}
-              onPageChange={handleChangePage}
-              rowsPerPageOptions={[10, 25, 50, 100, 150, 250]}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </CardContent>
-        </Card>
+                            <TableCell id={labelId} padding='normal' align='center'>
+                              {Math.max((page * rowsPerPage) + index + 1)}
+                            </TableCell>
+                            <TableCell component='th' id={labelId} scope='row' padding='none'>
+                              {row.name}
+                            </TableCell>
+                            <TableCell padding='none' align='center'>
+                              <Grid container justifyContent="center">
+                                <DialogEdit {...row} />
+                                <DialogDelete {...row} />
+                              </Grid>
+                            </TableCell>
+                          </TableRow>
+                        )
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow
+                        sx={{
+                          height: 53 * emptyRows
+                        }}
+                      >
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                page={page}
+                component='div'
+                count={category.total || 0}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handleChangePage}
+                rowsPerPageOptions={[10, 25, 50, 100, 150, 250]}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
-    </Grid>
     </>
   )
 }

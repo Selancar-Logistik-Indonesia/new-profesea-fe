@@ -3,6 +3,8 @@ import { ReactNode, ReactElement, useEffect } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
 
 // ** Hooks Import
 // import { useAuth } from 'src/hooks/useAuth'
@@ -25,7 +27,7 @@ const GuestGuard = (props: GuestGuardProps) => {
       return;
     }
 
-    if (window.localStorage.getItem('userData')) {
+    if (secureLocalStorage.getItem(localStorageKeys.userData)) {
       // router.replace('/');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
