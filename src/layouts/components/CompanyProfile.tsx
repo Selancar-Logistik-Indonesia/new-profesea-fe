@@ -1,15 +1,15 @@
 // ** React Imports
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, {  ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { Button, TextField, FormControl, Autocomplete, Divider, ImageList, ImageListItem, IconButton } from '@mui/material'
+import { Button, TextField, FormControl, Autocomplete, Divider, IconButton } from '@mui/material'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
-// ** Hooks 
+// ** Hooks
 
 // ** Demo Imports
 // import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
@@ -18,20 +18,19 @@ import { Grid } from '@mui/material'
 import { useForm } from 'react-hook-form'
 
 // import { yupResolver } from '@hookform/resolvers/yup'
-
+import ImageSlider from './ImageSlider'
 import { HttpClient } from 'src/services'
-import { AppConfig } from 'src/configs/api' 
-import {IUser} from 'src/contract/models/user'
+import { AppConfig } from 'src/configs/api'
+import { IUser } from 'src/contract/models/user'
 import { toast } from 'react-hot-toast'
 import Countries from 'src/contract/models/country'
 import Industry from 'src/contract/models/industry'
 import City from 'src/contract/models/city'
 import Address from 'src/contract/models/address'
 import { Icon } from '@iconify/react'
-import ImageSlider from './ImageSlider'
 
 type FormData = {
-  companyName: string 
+  companyName: string
   country: string
   district: string
   city: string
@@ -48,43 +47,63 @@ type FormData = {
   linkedin: string
 }
 
-// interface SocialAccountsType {
-//   title: string
-//   logo: string
-//   username?: string
-//   isConnected: boolean
-// }
-
-
-
 type compProps = {
-    visible: boolean;  
-    datauser: IUser;
-    address : Address
+  visible: boolean
+  datauser: IUser
+  address: Address
 }
-const CompanyProfile = (props:compProps) => {
+const CompanyProfile = (props: compProps) => {
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboindustry, getComboIndustry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
   const [combocode, getCombocode] = useState<any[]>([]) 
   const [idcombocode, setCombocode] = useState<any>(props.datauser.country_id)
-  const [idcity, setCombocity] = useState<any>(props.datauser.address.city_id)
+  const [idcity, setCombocity] = useState<any>(props.datauser.address?.city_id)
   const [idindustry, setIndustry] = useState<any>(props.datauser.industry_id)
   const [idcountry, setCountry] = useState<any>(props.datauser.country_id)
   const [facebook, setFacebook] = useState<any>('')
   const [instagram, setInstagram] = useState<any>('')
   const [linkedin, setLinkedin] = useState<any>('')
   const combobox = () => {
-    HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
-      .then((response) => {
-        const code = response.data.countries;
-        getComboCountry(code);
-      })    
-    HttpClient.get(AppConfig.baseUrl + "/public/data/industry?search=")
-      .then((response) => {
-        const code = response.data.industries;
-        getComboIndustry(code);
+    HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
+      const code = response.data.countries
+      getComboCountry(code)
+    })
+    HttpClient.get(AppConfig.baseUrl + '/public/data/industry?search=').then(response => {
+      const code = response.data.industries
+      getComboIndustry(code)
+    })
+    HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
+      const code = response.data.countries
+      for (let x = 0; x < code.length; x++) {
+        const element = code[x]
+        element.label = element.name + '(' + element.phonecode + ')'
+      }
+      getCombocode(code)
+    })
+     HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
+       const code = response.data.sosmeds.data
+       for (let x = 0; x < code.length; x++) {
+         const element = code[x]
+         if (element.sosmed_type == 'facebook') {
+           setFacebook(element.sosmed_id)
+         }
+         if (element.sosmed_type == 'instagram') {
+           setInstagram(element.sosmed_id)
+         }
+         if (element.sosmed_type == 'linkedin') {
+           setLinkedin(element.sosmed_id)
+         }
+          
+       }
+       getCombocode(code)
+     })
+      HttpClient.get(AppConfig.baseUrl + '/user/'+ props.datauser.id).then(response => {
+        const code = response.data.user
+        setPreview(code.photo)
+        setPreviewBanner(code.banner)
       })
+      
     HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
       .then((response) => {
         const code = response.data.countries;
@@ -94,53 +113,49 @@ const CompanyProfile = (props:compProps) => {
         }
         getCombocode(code);
       })
-
   }
-  const searchcity = async(q:any) =>{
-    setCountry(q);
-     const resp = await HttpClient.get("/public/data/city?search=&country_id=" +q);
-     if (resp.status != 200) {
-        throw resp.data.message ?? "Something went wrong!";
-     }
-      const code = resp.data.cities;
-      getComboCity(code);
-      
+  const searchcity = async (q: any) => {
+    setCountry(q)
+    const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
+    }
+    const code = resp.data.cities
+    getComboCity(code)
   }
   useEffect(() => {
     combobox()
-    if(props.datauser.address != undefined){
+    if (props.datauser.address != undefined) {
       searchcity(props.datauser.country_id)
     }
   }, [])
 
-  const {
-    register,
-    handleSubmit,
-  } = useForm<FormData>({
-    mode: 'onBlur',
+  const { register, handleSubmit } = useForm<FormData>({
+    mode: 'onBlur'
   })
   const onSubmit = (data: FormData) => {
-
-    const { companyName,  website, phone, address, about } = data
-      ;
+    const { companyName, website, phone, address, about } = data
     const json = {
-      'country_id': idcountry,
-      'industry_id': idindustry,
-      "name": companyName,
-      "phone": phone,
-      "website": website,
-      "about": about,
-      "address_country_id": idcombocode, 
-      "address_city_id": idcity,
-      "address_address": address, 
-    };
-    HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(({ data }) => { 
-      console.log("here 1", data);
-      toast.success( ' Successfully submited!'); 
-    }, error => {
-      console.log("here 1", error);
-      toast.error('Registrastion Failed ' + error.response.data.message)
-    });
+      country_id: idcountry,
+      industry_id: idindustry,
+      name: companyName,
+      phone: phone,
+      website: website,
+      about: about,
+      address_country_id: idcombocode,
+      address_city_id: idcity,
+      address_address: address
+    }
+    HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
+      ({ data }) => {
+        console.log('here 1', data)
+        toast.success(' Successfully submited!')
+      },
+      error => {
+        console.log('here 1', error)
+        toast.error('Registrastion Failed ' + error.response.data.message)
+      }
+    )
   }
   
   const addbuttonfacebook=( data: FormData) =>{
@@ -203,7 +218,6 @@ const CompanyProfile = (props:compProps) => {
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined)
-
       return
 
     }
@@ -293,105 +307,114 @@ const CompanyProfile = (props:compProps) => {
     { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'city' },
     { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'italy' }
   ]
-  
-  return (
-    <Grid container >
-      <Grid xs={12} md={6} container >
-        <Grid xs={4} container justifyContent={'center'}>
-          <img alt='logo' src='/images/avatar.png' style={{
-            maxWidth: '100%',
-            height: '120px',
-            padding: 0,
-            margin: 0
-          }} />
-        </Grid>
-        <Grid xs={8} direction={'row'} justifyContent={'center'} alignContent={'center'} marginTop={'20px'}>
-          <input
-            accept="image/*"
-            style={{ display: 'none' }}
-            id="raised-button-file"
-            multiple
-            type="file"
-          >
 
-          </input>
+  return (
+    <Grid container>
+      <Grid item xs={12} md={6} container>
+        <Grid item xs={4} container justifyContent={'center'}>
+          <img
+            alt='logo'
+            src={preview ? preview : '/images/avatar.png'}
+            style={{
+              maxWidth: '100%',
+              height: '120px',
+              padding: 0,
+              margin: 0
+            }}
+          />
+        </Grid>
+        <Grid item xs={8} justifyContent={'center'} alignContent={'center'} marginTop={'20px'}>
+          <input
+            accept='image/*'
+            style={{ display: 'none' }}
+            id='raised-button-file'
+            onChange={onSelectFile}
+            multiple
+            type='file'
+          ></input>
           <Box sx={{ marginTop: '2px' }}>
-            <label htmlFor="raised-button-file">
-              <Button size='small' variant="contained" component="span" >
+            <label htmlFor='raised-button-file'>
+              <Button size='small' variant='contained' component='span'>
                 Upload Profil Image
               </Button>
-            </label> &nbsp;
-
-            {/* <label htmlFor="raised-button-file">
-              <Button size='small' variant="contained" component="span" color='error' >
-                Reset
-              </Button>
-            </label> */}
+            </label>{' '}
+            &nbsp;
           </Box>
 
           <Box sx={{ marginTop: '20px' }}>
-            <Typography variant='body2' sx={{ textAlign: 'left', color: "#424242", fontSize: '10px' }}>Allowed JPG, GIF or PNG.</Typography>
-            <Typography variant='body2' sx={{ textAlign: 'left', color: "#424242", fontSize: '10px' }}>Max size of 800K. Aspect Ratio 1:1</Typography>
+            <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
+              Allowed JPG, GIF or PNG.
+            </Typography>
+            <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
+              Max size of 800K. Aspect Ratio 1:1
+            </Typography>
           </Box>
-
         </Grid>
       </Grid>
-      <Grid xs={12} md={6} container >
-        <Grid xs={4} container justifyContent={'center'}>
-          <img alt='logo' src='/images/avatar.png' style={{
-            maxWidth: '100%',
-            height: '120px',
-            padding: 0,
-            margin: 0
-          }} />
+      <Grid item xs={12} md={6} container>
+        <Grid item xs={4} container justifyContent={'center'}>
+          <img
+            alt='logo'
+            src={previewBanner ? previewBanner : '/images/avatar.png'}
+            style={{
+              maxWidth: '90%',
+              height: '100px',
+              padding: 0,
+              margin: 0
+            }}
+          />
         </Grid>
-        <Grid xs={8} direction={'row'} justifyContent={'center'} alignContent={'center'} marginTop={'20px'}>
+        <Grid item xs={8} justifyContent={'center'} alignContent={'center'} marginTop={'20px'}>
           <input
-            accept="image/*"
+            accept='image/*'
+            onChange={onSelectFileBanner}
             style={{ display: 'none' }}
-            id="raised-button-file"
+            id='fotobanner'
             multiple
-            type="file"
-          >
-
-          </input>
+            type='file'
+          ></input>
           <Box sx={{ marginTop: '2px' }}>
-            <label htmlFor="raised-button-file">
-              <Button size='small' variant="contained" component="span" >
+            <label htmlFor='fotobanner'>
+              <Button size='small' variant='contained' component='span'>
                 Upload Cover Image
               </Button>
-            </label> &nbsp;
-
-            {/* <label htmlFor="raised-button-file">
-              <Button size='small' variant="contained" component="span" color='error' >
-                Reset
-              </Button>
-            </label> */}
+            </label>{' '}
+            &nbsp;
           </Box>
 
           <Box sx={{ marginTop: '20px' }}>
-            <Typography variant='body2' sx={{ textAlign: 'left', color: "#424242", fontSize: '10px' }}>Allowed JPG, GIF or PNG.</Typography>
-            <Typography variant='body2' sx={{ textAlign: 'left', color: "#424242", fontSize: '10px' }}>Max size of 800K. Aspect Ratio 1:1</Typography>
+            <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
+              Allowed JPG, GIF or PNG.
+            </Typography>
+            <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
+              Max size of 800K. Aspect Ratio 1:1
+            </Typography>
           </Box>
-
         </Grid>
       </Grid>
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
-          <Grid xs={12} container marginTop={'25px'}>
-            <Grid container spacing={2} sx={{ mb: 2 }}>
+          <Grid item xs={12} container marginTop={'25px'}>
+            <Grid item container spacing={2} sx={{ mb: 2 }}>
               <Grid item md={6} xs={11}>
-                <TextField id="companyName" defaultValue={props.datauser.name} label="Company Name" variant="outlined" fullWidth sx={{ mb: 1 }}
-                  {...register("companyName")} />
-                  {}
+                <TextField
+                  id='companyName'
+                  defaultValue={props.datauser.name}
+                  label='Company Name'
+                  variant='outlined'
+                  fullWidth
+                  sx={{ mb: 1 }}
+                  {...register('companyName')}
+                />
+                {}
               </Grid>
               {props.datauser.role == 'Company' &&
               <Grid item md={6} xs={12} >
                 <Autocomplete
                   disablePortal
-                  id="combo-box-demo"
-                  options={comboindustry} 
-                   defaultValue={props.datauser.industry}
+                  id='combo-box-demo'
+                  options={comboindustry}
+                  defaultValue={props.datauser?.industry}
                   getOptionLabel={(option: any) => option.name}
                   renderInput={(params) => <TextField {...params} label="Industry" />} 
                   onChange={(event: any, newValue: Industry | null) => (newValue?.id) ? setIndustry(newValue.id) : setIndustry(props.datauser.industry_id)}
@@ -429,138 +452,147 @@ const CompanyProfile = (props:compProps) => {
                 <TextField id="website" label="Website" defaultValue={props.datauser.website} variant="outlined" fullWidth sx={{ mb: 1 }}    {...register("website")} />
               </Grid>
               </>}  
-              <Grid item md={3} xs={12} >
+              <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
-                  id="code"
+                  id='code'
                   options={combocode}
                   getOptionLabel={(option: Countries) => option.iso}
                   defaultValue={props.address?.country}
-                  renderInput={(params) => <TextField {...params} label="Code" sx={{ mb: 2 }}/>}
-                  onChange={(event: any, newValue: Countries | null) => (newValue?.id) ? setCombocode(newValue.id) : setCombocode(props.address.country_id)}
+                  renderInput={params => <TextField {...params} label='Code' sx={{ mb: 2 }} />}
+                  onChange={(event: any, newValue: Countries | null) =>
+                    newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
+                  }
                 />
               </Grid>
 
-              <Grid item md={3} xs={12} >
-                <TextField id="phone" label="Phone" defaultValue={props.datauser.phone} variant="outlined" fullWidth sx={{ mb: 1 }}   {...register("phone")} />
+              <Grid item md={3} xs={12}>
+                <TextField
+                  id='phone'
+                  label='Phone'
+                  defaultValue={props.datauser.phone}
+                  variant='outlined'
+                  fullWidth
+                  sx={{ mb: 1 }}
+                  {...register('phone')}
+                />
               </Grid>
               <Grid item md={6} xs={12} >
                 <TextField id="address" label="Address" defaultValue={props.datauser.address?.address} variant="outlined" fullWidth sx={{ mb: 1 }}    {...register("address")} />
               </Grid>       
-              <Grid item md={12} xs={12} >
+       
+              <Grid item md={12} xs={12}>
                 <TextField
-                  fullWidth sx={{ mb: 1 }}
-                  id="outlined-multiline-static"
-                  label="About"
+                  fullWidth
+                  sx={{ mb: 1 }}
+                  id='outlined-multiline-static'
+                  label='About'
                   multiline
                   rows={4}
                   defaultValue={props.datauser.about}
-                  {...register("about")} />
+                  {...register('about')}
+                />
               </Grid>
-              <Grid item md={2} xs={12} >
+              <Grid item md={2} xs={12}>
                 <Button fullWidth size='small' type='submit' variant='contained' sx={{ mb: 7 }}>
                   Save
                 </Button>
               </Grid>
-            
-                <Divider style={{ width: '100%' }} />
-                <Grid item md={5} xs={12}>
-                  <Typography variant='h6'>Social Media</Typography>
-                  <Typography variant='body1'>This is link social medias the company. Please fill it.</Typography>
-                </Grid>
+              <Divider style={{ width: '100%' }} />
+              <Grid item md={5} xs={12}>
+                <Typography variant='h6'>Social Media</Typography>
+                <Typography variant='body1'>This is link social medias the company. Please fill it.</Typography>
+              </Grid>
 
-                <Grid container item md={12} xs={12} marginTop={'20px'}>
-                  <Grid container item xs={12} md={4}>
-                    <Grid container item xs={6} md={12}>
-                      <Grid xs={12} item>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                            <img src='/images/logos/facebook.png' alt='Facebook' height='30' />
-                          </Box>
-                          <TextField
-                            id='facebook'
-                            defaultValue=''
-                            label='Facebook'
-                            variant='outlined'
-                            value={facebook}
-                            fullWidth
-                            sx={{ mb: 1 }}
-                            {...register('facebook')}
-                          />
-                          <IconButton onClick={handleSubmit(addbuttonfacebook)}>
-                            <Icon icon={'charm:pencil'} />
-                          </IconButton>
+              <Grid container item md={12} xs={12} marginTop={'20px'}>
+                <Grid container item xs={12} md={4}>
+                  <Grid container item xs={6} md={12}>
+                    <Grid xs={12} item>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                          <img src='/images/logos/facebook.png' alt='Facebook' height='30' />
                         </Box>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-
-                  <Grid container item xs={12} md={4}>
-                    <Grid container item xs={6} md={12}>
-                      <Grid xs={12} item>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                            <img src='/images/logos/instagram.png' alt='instagram' height='30' />
-                          </Box>
-                          <TextField
-                            id='instagram'
-                            defaultValue=''
-                            label='Instagram'
-                            variant='outlined'
-                            fullWidth
-                            value={instagram}
-                            sx={{ mb: 1 }}
-                            {...register('instagram')}
-                          />
-                          <IconButton onClick={handleSubmit(addbuttoninstagram)}>
-                            <Icon icon={'charm:pencil'} />
-                          </IconButton>
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-
-                  <Grid container item xs={12} md={4}>
-                    <Grid container item xs={6} md={12}>
-                      <Grid xs={12} item>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                            <img src='/images/logos/linkedin.png' alt='linkedin' height='30' />
-                          </Box>
-                          <TextField
-                            id='linkedin'
-                            defaultValue=''
-                            label='Linkedin'
-                            variant='outlined'
-                            fullWidth
-                            value={linkedin}
-                            sx={{ mb: 1 }}
-                            {...register('linkedin')}
-                          />
-                          <IconButton onClick={handleSubmit(addbuttonlinkedin)}>
-                            <Icon icon={'charm:pencil'} />
-                          </IconButton>
-                        </Box>
-                      </Grid>
+                        <TextField
+                          id='facebook'
+                          defaultValue={facebook}
+                          label='Facebook'
+                          variant='outlined'
+                          fullWidth
+                          sx={{ mb: 1 }}
+                          {...register('facebook')}
+                        />
+                        <IconButton onClick={handleSubmit(addbuttonfacebook)}>
+                          <Icon icon={'charm:pencil'} />
+                        </IconButton>
+                      </Box>
                     </Grid>
                   </Grid>
                 </Grid>
 
-                <Divider style={{ width: '100%' }} />
-                <Box sx={{ marginTop: '20px' }}></Box>
+                <Grid container item xs={12} md={4}>
+                  <Grid container item xs={6} md={12}>
+                    <Grid xs={12} item>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                          <img src='/images/logos/instagram.png' alt='instagram' height='30' />
+                        </Box>
+                        <TextField
+                          id='instagram'
+                          label='Instagram'
+                          variant='outlined'
+                          fullWidth
+                          defaultValue={instagram}
+                          sx={{ mb: 1 }}
+                          {...register('instagram')}
+                        />
+                        <IconButton onClick={handleSubmit(addbuttoninstagram)}>
+                          <Icon icon={'charm:pencil'} />
+                        </IconButton>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Grid>
 
-                <Grid item md={5} xs={12}>
-                  <Typography variant='h6'>Gallery</Typography>
-                  <Typography variant='body1'>This is Gallery for the company. Please fill it.</Typography>
+                <Grid container item xs={12} md={4}>
+                  <Grid container item xs={6} md={12}>
+                    <Grid xs={12} item>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                          <img src='/images/logos/linkedin.png' alt='linkedin' height='30' />
+                        </Box>
+                        <TextField
+                          id='linkedin'
+                          defaultValue={linkedin}
+                          label='Linkedin'
+                          variant='outlined'
+                          fullWidth
+                          sx={{ mb: 1 }}
+                          {...register('linkedin')}
+                        />
+                        <IconButton onClick={handleSubmit(addbuttonlinkedin)}>
+                          <Icon icon={'charm:pencil'} />
+                        </IconButton>
+                      </Box>
+                    </Grid>
+                  </Grid>
                 </Grid>
-                <Grid item md={5} display={{ xs: 'none', lg: 'block' }}>
-                  {' '}
-                </Grid>
-                <Grid item md={2} xs={12} marginTop={'20px'}>
-                  <Button size='small' variant='contained'>
-                    Upload Image
-                  </Button>
-                </Grid>
+              </Grid>
+
+              <Divider style={{ width: '100%' }} />
+              <Box sx={{ marginTop: '20px' }}></Box>
+
+              <Grid item md={5} xs={12}>
+                <Typography variant='h6'>Gallery</Typography>
+                <Typography variant='body1'>This is Gallery for the company. Please fill it.</Typography>
+              </Grid>
+              <Grid item md={5} display={{ xs: 'none', lg: 'block' }}>
+                {' '}
+              </Grid>
+              <Grid item md={2} xs={12} marginTop={'20px'}>
+                <Button size='small' variant='contained'>
+                  Upload Image
+                </Button>
+              </Grid>
               <Grid item md={12} xs={12}>
                 <ImageSlider slide={slides} />
               </Grid>
@@ -569,7 +601,6 @@ const CompanyProfile = (props:compProps) => {
         </FormControl>
       </form>
     </Grid>
-
   )
 }
 

@@ -115,7 +115,6 @@ const Company = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} md={10}
           sx={!hidden ? {
-            p: 4,
             direction: "row",
             justifyContent: "flex-start",
             alignItems: "stretch",
@@ -126,7 +125,7 @@ const Company = () => {
           } : {
           }}
         >
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <Box sx={{
               borderBottom: 1, borderColor: 'divider', boxSizing: 'border-box',
               background: '#FFFFFF',
@@ -179,10 +178,6 @@ const Company = () => {
                 <AdsList /> 
           </Grid>   
       </Grid>
-
-
-
-
     </Box>
 
 

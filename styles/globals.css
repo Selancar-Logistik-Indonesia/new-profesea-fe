@@ -1,7 +1,8 @@
 html,
 body {
   min-height: 100%;
-  font-family: 'Poppins';
+  font-family: 'Poppins' ,
+    sans-serif;;
 }
 
 #__next {
@@ -9,7 +10,8 @@ body {
 }
 
 code {
-  font-family: 'Poppins';
+  font-family: 'Poppins',
+    sans-serif;;
   padding: 0.1rem 0.4rem;
   font-size: 90%;
   color: #d400ff;

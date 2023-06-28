@@ -11,7 +11,6 @@ import Icon from 'src/@core/components/icon'
 
 
 import {IUser} from 'src/contract/models/user'
-import City from 'src/contract/models/city'
 import Address from 'src/contract/models/address'
 
 const ProfilePicture = styled('img')(({ theme }) => ({
