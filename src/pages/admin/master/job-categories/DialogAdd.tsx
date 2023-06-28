@@ -1,5 +1,5 @@
 // ** React Imports
-import { Ref, useState, forwardRef, ReactElement } from 'react'
+import { Ref, useState, forwardRef, ReactElement, useContext } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -28,6 +28,8 @@ import { AppConfig } from 'src/configs/api'
 // ** Hooks
 import useBgColor from 'src/@core/hooks/useBgColor'
 
+import useJobCategoryContext from './JobCategoryContext';
+
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
@@ -46,6 +48,7 @@ const DialogAdd = () => {
   const [show, setShow] = useState<boolean>(false)
   // ** Hooks
   const bgColors = useBgColor()
+  const jcc = useJobCategoryContext();
 
   const { handleSubmit, register, formState: { errors } }  = useForm<FormData>({
     mode: 'onBlur',
@@ -58,8 +61,8 @@ const DialogAdd = () => {
       HttpClient.post(AppConfig.baseUrl+ '/job-category', json).then(({ data }) => {
         setShow(false);
         console.log(data)
-        toast.success(data.name+' Successfully submited!');
-        location.reload()
+        toast.success(data.category.name+' Successfully submited!');
+        jcc.triggerRefresh();
          }, error => {
           setShow(false); 
           toast.error("Opps "+error.response.data.message);

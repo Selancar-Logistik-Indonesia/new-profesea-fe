@@ -1,5 +1,5 @@
 // ** React Imports
-import { ChangeEvent, MouseEvent, useEffect, Ref, useState, forwardRef, ReactElement, useContext  } from 'react'
+import { ChangeEvent, MouseEvent, useEffect, Ref, useState, forwardRef, ReactElement, useCallback  } from 'react'
 
 import { AppConfig } from "src/configs/api";
 // ** MUI Imports
@@ -116,7 +116,7 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
     return a[1] - b[1]
   })
 
-  // console.log(stabilizedThis)
+  console.log(stabilizedThis)
   return stabilizedThis.map(el => el[0])
 }
 
@@ -139,14 +139,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   return (
     <TableHead>
       <TableRow>
-        {/* <TableCell padding='checkbox'>
-          <Checkbox
-            onChange={onSelectAllClick}
-            checked={rowCount > 0 && numSelected === rowCount}
-            inputProps={{ 'aria-label': 'select all desserts' }}
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-          />
-        </TableCell> */}
         <TableCell padding='normal'align='center'>
           No
         </TableCell>
@@ -179,12 +171,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   )
 }
 
-import useJobCategoryContext, { JobCategoryContext, JobCategoryProvider } from './JobCategoryContext'
-
-const JobCategory = () => {
+const TraingCategory = () => {
   const { t } = useTranslation();
-  const context = useJobCategoryContext();
-
   const [page, setPage] = useState<number>(0)
   const [order, setOrder] = useState<Order>('asc')
   const [rowsPerPage, setRowsPerPage] = useState<number>(10)
@@ -194,11 +182,10 @@ const JobCategory = () => {
 
   const [category, getCategory] = useState<any>([]);
   const [rows, getRows] = useState<Data[]>([]);
-  
-  console.log(context.pagingMeta);
-
-  const apiPage = page + context.pagingMeta;
+  // const [rows, setRows] = useState('');
+  const apiPage = page + 1;
   const showAll = () =>{
+    // console.log(rowsPerPage)
     HttpClient.get(AppConfig.baseUrl+"/job-category?search="+searched+"&page="+apiPage+"&take="+rowsPerPage)
     .then((response)=>{
       const allData = response.data.categories;
@@ -209,13 +196,19 @@ const JobCategory = () => {
 
   useEffect(()=>{
     showAll();
-  }, [rowsPerPage, searched, apiPage])
+  }, [apiPage, rowsPerPage, searched])
 
-  
 
   const handleSearch = (val: string) => {
     setSearched(val);
     setRowsPerPage(10)
+    console.log(val)
+    // HttpClient.get(AppConfig.baseUrl+"/job-category?search="+val+"&page="+apiPage+"&take="+rowsPerPage)
+    // .then((response)=>{
+    //   const allData = response.data.categories;
+    //   getCategory(allData);
+    //   getRows(allData.data);
+    // }).catch(error => console.error(`Error : ${error}`));
   }
  
 
@@ -254,7 +247,6 @@ const JobCategory = () => {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage)
-    context.changePaging(newPage)
   }
 
   const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
@@ -269,97 +261,97 @@ const JobCategory = () => {
   // console.log(emptyRows)
 
   return (
-    <JobCategoryProvider>
-      <Grid container spacing={6} className='match-height'>
-        <Grid item xs={12} sm={6} md={12}>
-          <Card>
-          <CardHeader title='List Job Categories' sx={{ pb: 3, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />
-            <CardContent>
-              <Grid  container justifyContent="flex-end">
-                <Grid item>
-                  <TextField
-                  size='small'
-                  sx={{ mr: 6, mb: 2 }}
-                  placeholder='Search'
-                  onChange={e => handleSearch(e.target.value)}
-                  />
-                </Grid>
-                <Grid item sx={{ mr: 6, mb: 2 }}>
-                  <DialogAdd />
-                </Grid>
+    <>
+    <Grid container spacing={6} className='match-height'>
+      <Grid item xs={12} sm={6} md={12}>
+        <Card>
+        <CardHeader title='List Job Categories' sx={{ pb: 3, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />
+          <CardContent>
+            <Grid  container justifyContent="flex-end">
+              <Grid item>
+                <TextField
+                size='small'
+                sx={{ mr: 6, mb: 2 }}
+                placeholder='Search'
+                onChange={e => handleSearch(e.target.value)}
+                />
               </Grid>
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle'>
-                  <EnhancedTableHead
-                    order={order}
-                    orderBy={orderBy}
-                    rowCount={category.total}
-                    numSelected={selected.length}
-                    onRequestSort={handleRequestSort}
-                    onSelectAllClick={handleSelectAllClick}
-                  />
-                  <TableBody>
-                    {/* if you don't need to support IE11, you can replace the `stableSort` call with: rows.slice().sort(getComparator(order, orderBy)) */}
-                    {rows
-                      .slice()
-                      .sort(getComparator(order, orderBy))
-                      .map((row, index) => {
-                        const isItemSelected = isSelected(row.name)
-                        const labelId = `enhanced-table-checkbox-${index}`
+              <Grid item sx={{ mr: 6, mb: 2 }}>
+                <DialogAdd />
+              </Grid>
+            </Grid>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle'>
+                <EnhancedTableHead
+                  order={order}
+                  orderBy={orderBy}
+                  rowCount={category.total}
+                  numSelected={selected.length}
+                  onRequestSort={handleRequestSort}
+                  onSelectAllClick={handleSelectAllClick}
+                />
+                <TableBody>
+                  {/* if you don't need to support IE11, you can replace the `stableSort` call with: rows.slice().sort(getComparator(order, orderBy)) */}
+                  {rows
+                    .slice()
+                    .sort(getComparator(order, orderBy))
+                    .map((row, index) => {
+                      const isItemSelected = isSelected(row.name)
+                      const labelId = `enhanced-table-checkbox-${index}`
 
-                        return (
-                          <TableRow
-                            hover
-                            tabIndex={-1}
-                            key={row.name}
-                            role='checkbox'
-                            selected={isItemSelected}
-                            aria-checked={isItemSelected}>
-                            {/* <TableCell padding='checkbox' onClick={event => handleClick(event, row.name)}>
-                              <Checkbox checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
-                            </TableCell> */}
-                            <TableCell id={labelId} padding='normal' align='center'>
-                              {Math.max((page * rowsPerPage) + index + 1)}
-                            </TableCell>
-                            <TableCell component='th' id={labelId} scope='row' padding='none'>
-                              {row.name}
-                            </TableCell>
-                            <TableCell padding='none'align='center'>
-                              <Grid container justifyContent="center">
-                                <DialogEdit {...row} />
-                                <DialogDelete {...row} />
-                              </Grid>
-                            </TableCell>
-                          </TableRow>
-                        )
-                      })}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        sx={{
-                          height: 53 * emptyRows
-                        }}
-                      >
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                page={page}
-                component='div'
-                count={category.total || 0}
-                rowsPerPage={rowsPerPage}
-                onPageChange={handleChangePage}
-                rowsPerPageOptions={[10, 25, 50, 100, 150, 250]}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </CardContent>
-          </Card>
-        </Grid>
+                      return (
+                        <TableRow
+                          hover
+                          tabIndex={-1}
+                          key={row.name}
+                          role='checkbox'
+                          selected={isItemSelected}
+                          aria-checked={isItemSelected}>
+                          {/* <TableCell padding='checkbox' onClick={event => handleClick(event, row.name)}>
+                            <Checkbox checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
+                          </TableCell> */}
+                          <TableCell id={labelId} padding='normal' align='center'>
+                            {Math.max((page * rowsPerPage) + index + 1)}
+                          </TableCell>
+                          <TableCell component='th' id={labelId} scope='row' padding='none'>
+                            {row.name}
+                          </TableCell>
+                          <TableCell padding='none'align='center'>
+                            <Grid container justifyContent="center">
+                              <DialogEdit {...row} />
+                              <DialogDelete {...row} />
+                            </Grid>
+                          </TableCell>
+                        </TableRow>
+                      )
+                    })}
+                  {emptyRows > 0 && (
+                    <TableRow
+                      sx={{
+                        height: 53 * emptyRows
+                      }}
+                    >
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              page={page}
+              component='div'
+              count={category.total || 0}
+              rowsPerPage={rowsPerPage}
+              onPageChange={handleChangePage}
+              rowsPerPageOptions={[10, 25, 50, 100, 150, 250]}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </CardContent>
+        </Card>
       </Grid>
-    </JobCategoryProvider>
+    </Grid>
+    </>
   )
 }
 
-export default JobCategory
+export default TraingCategory
