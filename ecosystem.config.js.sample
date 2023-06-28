@@ -1,7 +1,7 @@
 module.exports = {
 apps: [{
-	name: 'BE SELANCAR STAGING',
-	namespace: "be_selancar_stg",
+	name: 'FE SELANCAR STAGING',
+	namespace: "fe_selancar_stg",
 	script: 'npm run build && npm run start',
 	max_memory_restart: "1G",
 	node_args: ""
