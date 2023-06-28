@@ -23,6 +23,9 @@ import HorizontalAppBarContent from './components/horizontal/AppBarContent'
 
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import { IUser } from 'src/contract/models/user'
 
 interface Props {
     children: ReactNode
@@ -47,8 +50,13 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
      */
     const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
 
-    if (hidden && settings.layout === 'horizontal') {
-        settings.layout = 'vertical'
+    // if (hidden && settings.layout === 'horizontal') {
+    //     settings.layout = 'vertical'
+    // }
+
+    const session = secureLocalStorage.getItem(localStorageKeys.userData) as IUser;
+    if (session && session.role != 'admin') {
+        settings.layout = 'horizontal';
     }
 
     return (

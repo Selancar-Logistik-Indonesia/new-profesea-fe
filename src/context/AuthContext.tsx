@@ -45,6 +45,8 @@ const AuthProvider = ({ children }: Props) => {
                         localStorage.removeItem('userData')
                         localStorage.removeItem('refreshToken')
                         localStorage.removeItem('accessToken')
+                        secureLocalStorage.clear();
+
                         setUser(null)
                         setLoading(false)
 

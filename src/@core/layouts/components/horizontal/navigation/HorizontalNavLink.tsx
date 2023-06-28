@@ -1,11 +1,5 @@
-// ** React Imports
 import { ElementType, Fragment } from 'react'
-
-// ** Next Imports
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-
-// ** MUI Imports
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import List from '@mui/material/List'
@@ -13,25 +7,13 @@ import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import MuiListItem, { ListItemProps } from '@mui/material/ListItem'
-
-// ** Third Party Imports
-import clsx from 'clsx'
-
-// ** Theme Config Import
 import themeConfig from 'src/configs/themeConfig'
-
-// ** Types
 import { NavLink } from 'src/@core/layouts/types'
 import { Settings } from 'src/@core/context/settingsContext'
-
-// ** Custom Components Imports
 import UserIcon from 'src/layouts/components/UserIcon'
 import Translations from 'src/layouts/components/Translations'
 import CanViewNavLink from 'src/layouts/components/acl/CanViewNavLink'
-
-// ** Util Imports
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-import { handleURLQueries } from 'src/@core/layouts/utils'
 
 interface Props {
   item: NavLink
@@ -62,24 +44,11 @@ const ListItem = styled(MuiListItem)<
 }))
 
 const HorizontalNavLink = (props: Props) => {
-  // ** Props
   const { item, settings, hasParent } = props
-
-  // ** Hook & Vars
-  const router = useRouter()
   const { navSubItemIcon, menuTextTruncate } = themeConfig
 
   const icon = item.icon ? item.icon : navSubItemIcon
-
   const Wrapper = !hasParent ? List : Fragment
-
-  const isNavLinkActive = () => {
-    if (router.pathname === item.path || handleURLQueries(router, item.path)) {
-      return true
-    } else {
-      return false
-    }
-  }
 
   return (
     <CanViewNavLink navLink={item}>
@@ -88,7 +57,7 @@ const HorizontalNavLink = (props: Props) => {
           component={Link}
           disabled={item.disabled}
           {...(item.disabled && { tabIndex: -1 })}
-          className={clsx({ active: isNavLinkActive() })}
+          // className={clsx({ active: isNavLinkActive() })}
           target={item.openInNewTab ? '_blank' : undefined}
           href={item.path === undefined ? '/' : `${item.path}`}
           onClick={e => {
@@ -101,22 +70,22 @@ const HorizontalNavLink = (props: Props) => {
             ...(item.disabled ? { pointerEvents: 'none' } : { cursor: 'pointer' }),
             ...(!hasParent
               ? {
-                  borderRadius: '8px',
-                  '&.active, &.active:hover': {
-                    backgroundColor: 'primary.main',
-                    '&:focus-visible': { backgroundColor: 'primary.dark' },
-                    '& .MuiTypography-root, & .MuiListItemIcon-root': {
-                      color: 'common.white'
-                    }
+                borderRadius: '8px',
+                '&.active, &.active:hover': {
+                  backgroundColor: 'primary.main',
+                  '&:focus-visible': { backgroundColor: 'primary.dark' },
+                  '& .MuiTypography-root, & .MuiListItemIcon-root': {
+                    color: 'common.white'
                   }
                 }
+              }
               : {
-                  '&.active, &.active:hover': {
-                    '&:focus-visible': {
-                      backgroundColor: theme => hexToRGBA(theme.palette.primary.main, 0.24)
-                    }
+                '&.active, &.active:hover': {
+                  '&:focus-visible': {
+                    backgroundColor: theme => hexToRGBA(theme.palette.primary.main, 0.24)
                   }
-                })
+                }
+              })
           }}
         >
           <Box sx={{ gap: 2, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -145,7 +114,7 @@ const HorizontalNavLink = (props: Props) => {
           </Box>
         </ListItem>
       </Wrapper>
-    </CanViewNavLink>
+    </CanViewNavLink >
   )
 }
 

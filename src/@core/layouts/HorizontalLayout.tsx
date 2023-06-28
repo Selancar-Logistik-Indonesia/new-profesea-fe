@@ -1,23 +1,13 @@
-// ** MUI Imports
 import Fab from '@mui/material/Fab'
 import AppBar from '@mui/material/AppBar'
 import { styled } from '@mui/material/styles'
 import Box, { BoxProps } from '@mui/material/Box'
 import MuiToolbar, { ToolbarProps } from '@mui/material/Toolbar'
-
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
-
-// ** Theme Config Import
 import themeConfig from 'src/configs/themeConfig'
-
-// ** Type Import
 import { LayoutProps } from 'src/@core/layouts/types'
-
-// ** Components
 import Customizer from 'src/@core/components/customizer'
 import Footer from './components/shared-components/footer'
-import Navigation from './components/horizontal/navigation'
 import ScrollToTop from 'src/@core/components/scroll-to-top'
 import AppBarContent from './components/horizontal/app-bar-content'
 
@@ -78,7 +68,6 @@ const HorizontalLayout = (props: LayoutProps) => {
   // ** Vars
   const { skin, appBar, navHidden, appBarBlur, contentWidth } = settings
   const appBarProps = horizontalLayoutProps?.appBar?.componentProps
-  const userNavMenuContent = horizontalLayoutProps?.navMenu?.content
 
   let userAppBarStyle = {}
   if (appBarProps && appBarProps.sx) {
@@ -106,9 +95,9 @@ const HorizontalLayout = (props: LayoutProps) => {
             transition: 'border-bottom 0.2s ease-in-out, backdrop-filter .25s ease-in-out, box-shadow .25s ease-in-out',
             ...(appBar === 'fixed'
               ? appBarBlur && {
-                  backdropFilter: 'blur(8px)',
-                  backgroundColor: theme => hexToRGBA(theme.palette.background.paper, 0.9)
-                }
+                backdropFilter: 'blur(8px)',
+                backgroundColor: theme => hexToRGBA(theme.palette.background.paper, 0.9)
+              }
               : {}),
             ...userAppBarStyle
           }}
@@ -140,30 +129,6 @@ const HorizontalLayout = (props: LayoutProps) => {
               />
             </Toolbar>
           </Box>
-
-          {/* Navigation Menu */}
-          {navHidden ? null : (
-            <Box className='layout-horizontal-nav' sx={{ width: '100%', ...horizontalLayoutProps?.navMenu?.sx }}>
-              <Toolbar
-                className='horizontal-nav-content-container'
-                sx={{
-                  mx: 'auto',
-                  ...(contentWidth === 'boxed' && { '@media (min-width:1440px)': { maxWidth: 1440 } }),
-                  minHeight: theme =>
-                    `${(theme.mixins.toolbar.minHeight as number) - (skin === 'bordered' ? 1 : 0)}px !important`
-                }}
-              >
-                {(userNavMenuContent && userNavMenuContent(props)) || (
-                  <Navigation
-                    {...props}
-                    horizontalNavItems={
-                      (horizontalLayoutProps as NonNullable<LayoutProps['horizontalLayoutProps']>).navMenu?.navItems
-                    }
-                  />
-                )}
-              </Toolbar>
-            </Box>
-          )}
         </AppBar>
 
         {/* Content */}
