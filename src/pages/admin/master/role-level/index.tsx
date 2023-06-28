@@ -16,7 +16,6 @@ import { GridPaginationModel } from '@mui/x-data-grid';
 import DialogDelete from './DialogDelete';
 import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
-import React from 'react';
 
 const RoleLevelScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -32,7 +31,6 @@ const RoleLevelScreen = () => {
     const [search, setSearch] = useState("");
 
     const [perPage, setPerPage] = useState(5);
-
     const getListRoleLevel = async () => {
         try {
             const resp = await HttpClient.get(`/role-level?search=${search}&page=${page}&take=${perPage}`);
@@ -52,8 +50,6 @@ const RoleLevelScreen = () => {
                     }
                 } as RowItem;
             });
-
-            console.log(rows);
 
             setRowCount(resp?.data?.roleLevels?.total ?? 0);
             setDataSheet(items);
@@ -99,7 +95,6 @@ const RoleLevelScreen = () => {
         getListRoleLevel().then(() => {
             setOnLoading(false);
         });
-
     }, [page, search, hookSignature, perPage]);
 
     return (
