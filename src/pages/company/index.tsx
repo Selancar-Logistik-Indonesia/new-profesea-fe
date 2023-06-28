@@ -207,9 +207,7 @@ const [color, getColor] =useState<any>('#FFFFFF')
                             <Button size='small' type='button' variant='contained' sx={{backgroundColor:'#FF9600'}}  startIcon={<Icon icon={'mdi:square-edit-outline'} />}>
                                 Edit Profil
                             </Button> 
-                           </Grid>
-                            
-                            
+                           </Grid> 
                           </Grid>
                        </Grid> 
                       <CompanyProfilePreview></CompanyProfilePreview>
