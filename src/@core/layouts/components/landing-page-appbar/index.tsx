@@ -5,20 +5,12 @@ import { useTheme } from '@mui/material/styles'
 import { useSettings } from 'src/@core/hooks/useSettings'
 import { Box, Button, ButtonPropsVariantOverrides, Container } from '@mui/material'
 import { OverridableStringUnion } from '@mui/types';
-import i18n from "i18next";
-import Router, { useRouter } from "next/router";
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { useEffect, useState } from 'react'
 import UserDropdown from '../shared-components/UserDropdown'
 import secureLocalStorage from 'react-secure-storage'
-
-const handleChangeLocale = (locale?: string) => {
-    locale = (locale == "id") ? "en" : "id";
-    localStorage.setItem(localStorageKeys.userLocale, locale);
-
-    i18n.changeLanguage(locale);
-    Router.push(Router.pathname, Router.pathname, { locale: locale });
-};
+import LanguageDropdown from '../shared-components/LanguageDropdown'
+import { useRouter } from 'next/router'
 
 type NavItemType = {
     title: string,
@@ -28,7 +20,7 @@ type NavItemType = {
 
 const LandingPageAppBar = () => {
     const theme = useTheme();
-    const { settings } = useSettings();
+    const { settings, saveSettings } = useSettings();
     const { locale } = useRouter();
     const { skin } = settings;
     const navItems: NavItemType[] = [
@@ -74,10 +66,7 @@ const LandingPageAppBar = () => {
                         />
                     </Link>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-
-                        <Button onClick={() => handleChangeLocale(locale)} size='small' type='button' variant='text' sx={{ mr: 2, ml: 2 }}>
-                            {locale == "id" ? "INDONESIAN" : "ENGLISH"}
-                        </Button>
+                        <LanguageDropdown settings={settings} saveSettings={saveSettings} />
 
                         {!isLogin ? navItems.map((item) => (
                             <Link href={item.onClick} key={item.title} locale={locale}>
