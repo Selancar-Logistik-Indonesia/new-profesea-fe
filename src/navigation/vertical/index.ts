@@ -11,11 +11,25 @@ const navigation = (): VerticalNavItemsType => {
             subject: 'home',
         },
         {
-            path: '/second-page',
-            title: 'Second Page',
+            path: '#',
+            title: 'Master Data',
             icon: 'mdi:email-outline',
             action: 'read',
             subject: 'second-page',
+            children: [
+                {
+                    title: "Job Category",
+                    path: "/admin/master/job-categories",
+                    subject: "/master/job-categoriesy",
+                    action: "read",
+                },
+                {
+                    title: "Role Level",
+                    path: "/admin/master/role-level",
+                    subject: "/master/role-level",
+                    action: "read",
+                },
+            ]
         },
         {
             path: '/acl',
