@@ -1,9 +1,9 @@
 // ** React Imports
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 
 // ** MUI Components
 import Box  from '@mui/material/Box'  
-import {Button, Tabs, Tab   } from '@mui/material'
+import {Button, Tabs, Tab, useMediaQuery   } from '@mui/material'
 
 // ** Layout Import
 // import BlankLayout from 'src/@core/layouts/BlankLayout'
@@ -24,6 +24,10 @@ import Icon from 'src/@core/components/icon'
 import CompanyProfile from 'src/layouts/components/CompanyProfile'
 import BlankLayoutWithAppBar from 'src/@core/layouts/BlankLayoutWithAppBar'
  
+import {  useTheme } from '@mui/material/styles'
+import CompanyProfilePreview from 'src/layouts/components/CompanyProfilePreview'
+import ManageAccount from 'src/layouts/components/ManageAccount'
+import Subscription from 'src/layouts/components/Subscription'
  
 type  FormData = {
   companyName: string
@@ -45,6 +49,8 @@ const Company = () => {
 // ** Vars
   // const { skin } = settings
   
+const theme = useTheme() 
+const hidden = useMediaQuery(theme.breakpoints.down('md'))
    
   const { 
     // register,  
@@ -90,6 +96,7 @@ interface TabPanelProps {
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
+
   return (
     <div
       role="tabpanel"
@@ -116,23 +123,35 @@ function a11yProps(index: number) {
 }
  
   const [value, setValue] = React.useState(0);
-
+const [color, getColor] =useState<any>('#FFFFFF')
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    if(newValue == 2){
+      getColor('#ffeae9');
+    }else{
+
+      getColor('#FFFFFF');
+    }
   }; 
 
   return (           
       <Box  >
        <Grid container spacing={2}>
-          <Grid container xs={9}  sx={ {
-                    
-                      p: 4, 
-                      display: 'flex',
-                      alignItems: 'left',
-                      justifyContent: 'left', 
+          <Grid container xs={12}  md={9}  
+          sx={!hidden ?{ 
+                         p: 4, 
+                      direction:"row",
+                      justifyContent:"flex-start",
+                      alignItems:"stretch",
+                      alignContent:'top',
                       marginBottom:'10px',
-                      marginLeft:'50px'
-                    } }>  
+                      marginLeft:'50px', 
+
+          
+           }:{ 
+          
+            }}
+                    >  
             <Grid xs={12}> 
                <Box sx={{ borderBottom: 1, borderColor: 'divider' ,  boxSizing: 'border-box',  
                       background: '#FFFFFF', 
@@ -145,19 +164,22 @@ function a11yProps(index: number) {
                     <Tab label="MANAGE" {...a11yProps(3)} />
                   </Tabs>
                 </Box> 
-            </Grid> 
-            <Grid container xs={12} sx={{ borderBottom: 1, borderColor: 'divider' ,  boxSizing: 'border-box',  
-                      background: '#FFFFFF', 
+                <Grid container xs={12} sx={{ borderBottom: 1, borderColor: 'divider' ,  boxSizing: 'border-box',  
+                      background: color, 
                       border: '1px solid rgba(76, 78, 100, 0.12)',
                       borderRadius: '20px',
-                      marginTop:'10px'}}>
+                      marginTop:'10px',
+                       direction:"row",
+                      justifyContent:"flex-start",
+                      alignItems:"top",
+                      alignContent:'top',}}>
                
               
                 <Grid xs={12} > 
-                    <TabPanel value={value} index={0}>
-                       <Grid container xs={12}>
+                    <TabPanel value={value} index={1}>
+                         <Grid container xs={12}>
                           <Grid container xs={9}>  </Grid>
-                          <Grid xs={3} container justifyContent={'right'} marginTop={'10px'}>  
+                          <Grid md={12} xs={3} container justifyContent={'right'} marginTop={'10px'}>  
                                 <Button size='small' type='button' variant='contained' sx={{backgroundColor:'#26C6F9'}}  startIcon={<Icon icon={'mdi:visibility-outline'} />}>
                                     Resume Preview
                                 </Button> 
@@ -165,53 +187,67 @@ function a11yProps(index: number) {
                        </Grid> 
                       <CompanyProfile></CompanyProfile>
                     </TabPanel>
-                    <TabPanel value={value} index={1}>
-                      Item Two
+                    <TabPanel value={value} index={0}>
+                    
+                       <Grid container xs={12}>
+                          <Grid container xs={12} md={2}>  
+                                 <Button size='small' type='button' variant='text'    startIcon={<Icon icon={'mdi:arrow-left'} />}>
+                                    Back
+                                </Button>  </Grid>
+                          
+                          <Grid container display={{ xs: "none", lg: "block" }} md={6}>  </Grid>
+                        
+                          <Grid container md={3} xs={12}    marginTop={'10px'} display={{ xs: "2", lg: "flex" }}   >  
+                           <Grid   md={5} xs={2} sx={{ mb:1 }} >
+                             <Button  size='small' type='button' variant='contained' sx={{backgroundColor:'#6D788D'}}  startIcon={<Icon icon={'mdi:share-variant'} />}>
+                                Share
+                            </Button>  
+                           </Grid>
+                            < Grid   md={7} xs={6} sx={{ mb:1 }} >
+                            <Button size='small' type='button' variant='contained' sx={{backgroundColor:'#FF9600'}}  startIcon={<Icon icon={'mdi:square-edit-outline'} />}>
+                                Edit Profil
+                            </Button> 
+                           </Grid>
+                            
+                            
+                          </Grid>
+                       </Grid> 
+                      <CompanyProfilePreview></CompanyProfilePreview>
                     </TabPanel>
-                    <TabPanel value={value} index={2}>
-                      Item Three
+                    
+                    <TabPanel value={value} index={3}> 
+                     <ManageAccount></ManageAccount> 
                     </TabPanel>
-                    <TabPanel value={value} index={3}>
-                      Item Three
+                     <TabPanel value={value} index={2}>
+                     <Subscription></Subscription>
                     </TabPanel>
-                </Grid> 
-
-
-            </Grid>
-          
-          
+                </Grid>  
+            </Grid>  
+            </Grid> 
+            
           </Grid>
 
-          <Grid xs={2} container>
-            <Grid xs={12}  sx={ {
+          <Grid xs={2} container display={'flex'} marginTop={'15px'} sx={{direction:"row",
+              justifyContent:"flex-start",
+              alignContent:'top',
+              alignItems:"stretch"}}>
+                  <Grid xs={12}>
+ <Grid xs={12}  sx={ {
                       boxSizing: 'border-box',  
                       background: '#FFFFFF', 
                       border: '1px solid rgba(76, 78, 100, 0.12)',
                       borderRadius: '20px',
                       p: 4, 
                       display: 'flex',
-                      alignItems: 'left',
+                      alignItems: 'stretch',
                       justifyContent: 'left', 
                       marginBottom:'10px',
-                      marginLeft:'20px'
+                      marginLeft:'20px',
+                      height:'197px', 
+                      wrap :'nowrap'
                     } }> 
              
             </Grid>  
-            <Grid xs={12}  sx={ {
-                      boxSizing: 'border-box',  
-                      background: '#FFFFFF', 
-                      border: '1px solid rgba(76, 78, 100, 0.12)',
-                      borderRadius: '20px',
-                      p: 4, 
-                      display: 'flex',
-                      alignItems: 'left',
-                      justifyContent: 'left', 
-                      marginBottom:'10px',
-                      marginLeft:'20px'
-                    } }> 
-             
-            </Grid>  
-
              <Grid xs={12}  sx={ {
                       boxSizing: 'border-box',  
                       background: '#FFFFFF', 
@@ -219,13 +255,37 @@ function a11yProps(index: number) {
                       borderRadius: '20px',
                       p: 4, 
                       display: 'flex',
-                      alignItems: 'left',
+                      alignItems: 'stretch',
                       justifyContent: 'left', 
                       marginBottom:'10px',
-                      marginLeft:'20px'
+                      marginLeft:'20px',
+                      height:'197px', 
+                      wrap :'nowrap'
                     } }> 
-            
+             
             </Grid>  
+               <Grid xs={12}  sx={ {
+                      boxSizing: 'border-box',  
+                      background: '#FFFFFF', 
+                      border: '1px solid rgba(76, 78, 100, 0.12)',
+                      borderRadius: '20px',
+                      p: 4, 
+                      display: 'flex',
+                      alignItems: 'stretch',
+                      justifyContent: 'left', 
+                      marginBottom:'10px',
+                      marginLeft:'20px',
+                      height:'197px', 
+                      wrap :'nowrap'
+                    } }> 
+             
+            </Grid>  
+                  </Grid>
+           
+          
+            
+ 
+             
             
                        
           </Grid>
@@ -236,6 +296,7 @@ function a11yProps(index: number) {
 
 
       </Box>
+      
       
         
   )

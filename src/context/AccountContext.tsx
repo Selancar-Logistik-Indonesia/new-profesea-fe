@@ -1,37 +1,35 @@
 import { createContext, useEffect, useState, ReactNode } from 'react'
-import { useRouter } from 'next/router'
-import { AppConfig } from "src/configs/api";
 import { HttpClient } from 'src/services'
-import { ErrCallbackType } from './types'
 
 export type AccountParams = {
-    address : string
-    country_id : number
+    address: string
+    country_id: number
     created_at: string
-    email : string
-    email_verified_at : string
-    id : number
-    joblevel_id : number
-    name : string
-    phone : string
-    role : string
-    team : string
-    team_id : number
-    updated_at : string  
-    username : string
-  }
+    email: string
+    email_verified_at: string
+    id: number
+    joblevel_id: number
+    name: string
+    phone: string
+    role: string
+    team: string
+    team_id: number
+    updated_at: string
+    username: string
+}
 
 export type AccountType = {
     loading: boolean
     users: AccountParams | null
     setLoading: (value: boolean) => void
     setUser: (value: AccountParams | null) => void
+
     // addAccount: (params: AccountParams, errorCallback?: ErrCallbackType) => void
     // updateAccount: (params: AccountParams, errorCallback?: ErrCallbackType) => void
     // deleteAccount: (params: AccountParams, errorCallback?: ErrCallbackType) => void
-  }
+}
 
-  const defaultProvider: AccountType = {
+const defaultProvider: AccountType = {
     users: null,
     loading: true,
     setUser: () => null,
@@ -51,35 +49,32 @@ const AccountProvider = ({ children }: Props) => {
     const [users, setUser] = useState<AccountParams | null>(defaultProvider.users)
     const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
 
-    // ** Hooks
-    const router = useRouter()
-    
     useEffect(() => {
         const initAccount = async (): Promise<void> => {
-                // setLoading(true)
-                await HttpClient.get("https://api.staging.selancar.elogi.id/api/user/all")
-                    .then(async response =>{
-                        console.log(response);
-                        setUser({ ...response.data.users })
-                    }).catch(error => console.error(`Error : ${error}`));
-            }
+            // setLoading(true)
+            await HttpClient.get("https://api.staging.selancar.elogi.id/api/user/all")
+                .then(async response => {
+                    console.log(response);
+                    setUser({ ...response.data.users })
+                }).catch(error => console.error(`Error : ${error}`));
+        }
 
-            initAccount()
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [])
+        initAccount()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
-        // const showAll = (errorCallback?: ErrCallbackType) => {
-        //     HttpClient.get(AppConfig.baseUrl+"/user/all")
-        //             .then((response)=>{
-        //                 const allData = response.data.users;
-        //                 setUser(allData);
-        //             })
-    
-        //         .catch(err => {
-        //             console.log(err);
-        //             if (errorCallback) errorCallback(err)
-        //         })
-        // }
+    // const showAll = (errorCallback?: ErrCallbackType) => {
+    //     HttpClient.get(AppConfig.baseUrl+"/user/all")
+    //             .then((response)=>{
+    //                 const allData = response.data.users;
+    //                 setUser(allData);
+    //             })
+
+    //         .catch(err => {
+    //             console.log(err);
+    //             if (errorCallback) errorCallback(err)
+    //         })
+    // }
 
     // const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
     //     HttpClient
@@ -95,7 +90,7 @@ const AccountProvider = ({ children }: Props) => {
 
     //             const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
     //             console.log(`redirectURL: ${redirectURL}`);
-                
+
     //             await router.replace(redirectURL as string);
     //         })
 
