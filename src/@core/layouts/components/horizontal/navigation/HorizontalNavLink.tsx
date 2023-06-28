@@ -14,9 +14,6 @@ import Typography from '@mui/material/Typography'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import MuiListItem, { ListItemProps } from '@mui/material/ListItem'
 
-// ** Third Party Imports
-import clsx from 'clsx'
-
 // ** Theme Config Import
 import themeConfig from 'src/configs/themeConfig'
 
@@ -88,7 +85,7 @@ const HorizontalNavLink = (props: Props) => {
           component={Link}
           disabled={item.disabled}
           {...(item.disabled && { tabIndex: -1 })}
-          className={clsx({ active: isNavLinkActive() })}
+          // className={clsx({ active: isNavLinkActive() })}
           target={item.openInNewTab ? '_blank' : undefined}
           href={item.path === undefined ? '/' : `${item.path}`}
           onClick={e => {
@@ -101,22 +98,22 @@ const HorizontalNavLink = (props: Props) => {
             ...(item.disabled ? { pointerEvents: 'none' } : { cursor: 'pointer' }),
             ...(!hasParent
               ? {
-                  borderRadius: '8px',
-                  '&.active, &.active:hover': {
-                    backgroundColor: 'primary.main',
-                    '&:focus-visible': { backgroundColor: 'primary.dark' },
-                    '& .MuiTypography-root, & .MuiListItemIcon-root': {
-                      color: 'common.white'
-                    }
+                borderRadius: '8px',
+                '&.active, &.active:hover': {
+                  backgroundColor: 'primary.main',
+                  '&:focus-visible': { backgroundColor: 'primary.dark' },
+                  '& .MuiTypography-root, & .MuiListItemIcon-root': {
+                    color: 'common.white'
                   }
                 }
+              }
               : {
-                  '&.active, &.active:hover': {
-                    '&:focus-visible': {
-                      backgroundColor: theme => hexToRGBA(theme.palette.primary.main, 0.24)
-                    }
+                '&.active, &.active:hover': {
+                  '&:focus-visible': {
+                    backgroundColor: theme => hexToRGBA(theme.palette.primary.main, 0.24)
                   }
-                })
+                }
+              })
           }}
         >
           <Box sx={{ gap: 2, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -145,7 +142,7 @@ const HorizontalNavLink = (props: Props) => {
           </Box>
         </ListItem>
       </Wrapper>
-    </CanViewNavLink>
+    </CanViewNavLink >
   )
 }
 
