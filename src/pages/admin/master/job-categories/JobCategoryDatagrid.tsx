@@ -7,10 +7,10 @@ import Icon from 'src/@core/components/icon'
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true },
     { field: 'id', headerName: 'ID', sortable: false },
-    { field: 'levelName', headerName: 'Role Level Name', sortable: false, minWidth: 200 },
+    { field: 'name', headerName: 'Category Name', sortable: false, minWidth: 400 },
     {
         field: 'action',
-        headerName: '#',
+        headerName: 'Action',
         sortable: false,
         renderCell: (cell) => {
             const { row } = cell;
@@ -40,7 +40,7 @@ type RoleGridProps = {
 
 interface RowItem {
     id: number,
-    levelName: string,
+    name: string,
     actions: {
         onDelete: VoidFunction,
         onUpdate: VoidFunction,

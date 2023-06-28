@@ -15,7 +15,7 @@ import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { HttpClient } from 'src/services'
-import RoleLevel from 'src/contract/models/role_level'
+import JobCategory from 'src/contract/models/job_category'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { CircularProgress } from '@mui/material'
 
@@ -27,15 +27,15 @@ const Transition = forwardRef(function Transition(
 })
 
 interface FormPayload {
-    levelName: string
+    name: string
 }
 
 const validationSchema = Yup.object().shape({
-    levelName: Yup.string().required('Name is required'),
+    name: Yup.string().required('Name is required'),
 });
 
 type EditProps = {
-    selectedItem: RoleLevel;
+    selectedItem: JobCategory;
     visible: boolean;
     onCloseClick: VoidFunction;
     onStateChange: VoidFunction;
@@ -52,7 +52,7 @@ const DialogEdit = (props: EditProps) => {
     const onSubmit = async (formPayload: FormPayload) => {
         setOnLoading(true);
         try {
-            const resp = await HttpClient.patch(`/role-level/${props.selectedItem.id}`, formPayload);
+            const resp = await HttpClient.patch(`/job-category/${props.selectedItem.id}`, formPayload);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
@@ -90,16 +90,16 @@ const DialogEdit = (props: EditProps) => {
                     </IconButton>
                     <Box sx={{ mb: 6, textAlign: 'center' }}>
                         <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                            Edit Role Level
+                            Edit Job Category
                         </Typography>
-                        <Typography variant='body2'>Edit Role Level</Typography>
+                        <Typography variant='body2'>Edit Job Category</Typography>
                     </Box>
                     <Grid container spacing={6}>
                         <Grid item sm={12} xs={12}>
                             <TextField label='Category Name'
                                 placeholder='Category Name'
-                                defaultValue={props.selectedItem.levelName}
-                                fullWidth sx={{ mb: 6 }} {...register("levelName")} />
+                                defaultValue={props.selectedItem.name}
+                                fullWidth sx={{ mb: 6 }} {...register("name")} />
                         </Grid>
                     </Grid>
                 </DialogContent>

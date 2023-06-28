@@ -9,7 +9,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import Icon from 'src/@core/components/icon'
 import { HttpClient } from 'src/services'
-import RoleLevel from 'src/contract/models/role_level'
+import JobCategory from 'src/contract/models/job_category'
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -19,7 +19,7 @@ const Transition = forwardRef(function Transition(
 })
 
 type DeleteDialogProps = {
-    selectedItem: RoleLevel;
+    selectedItem: JobCategory;
     visible: boolean;
     onCloseClick: VoidFunction;
     onStateChange: VoidFunction;
@@ -29,7 +29,7 @@ const DialogDelete = (props: DeleteDialogProps) => {
 
     const handleDelete = async () => {
         try {
-            await HttpClient.del(`/role-level/${props.selectedItem.id}`);
+            await HttpClient.del(`/job-category/${props.selectedItem.id}`);
             props.onCloseClick();
         } catch (error) {
             console.error(error)
@@ -64,7 +64,7 @@ const DialogDelete = (props: DeleteDialogProps) => {
                     <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
                         Confirm Delete
                     </Typography>
-                    <Typography variant='body2'>Are you sure delete {props.selectedItem.levelName}?</Typography>
+                    <Typography variant='body2'>Are you sure delete {props.selectedItem.name}?</Typography>
                 </Box>
             </DialogContent>
             <DialogActions

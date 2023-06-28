@@ -26,10 +26,10 @@ const Transition = forwardRef(function Transition(
 })
 
 interface FormPayload {
-    levelName: string
+    name: string
 }
 const validationSchema = Yup.object().shape({
-    levelName: Yup.string().required('Name is required'),
+    name: Yup.string().required('Name is required'),
 })
 
 type DialogProps = {
@@ -49,13 +49,13 @@ const DialogAdd = (props: DialogProps) => {
     const onSubmit = async (json: FormPayload) => {
         setOnLoading(true);
         try {
-            const resp = await HttpClient.post('/role-level', json);
+            const resp = await HttpClient.post('/job-category', json);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
 
             props.onCloseClick();
-            toast.success(`${json.levelName} submited successfully!`);
+            toast.success(`${json.name} submited successfully!`);
         } catch (error) {
             toast.error(`Opps ${getCleanErrorMessage(error)}`);
         }
@@ -98,7 +98,7 @@ const DialogAdd = (props: DialogProps) => {
                         <Grid item sm={12} xs={12}>
                             <TextField label='Role Level Name'
                                 placeholder='Role Level Name'
-                                fullWidth sx={{ mb: 6 }} {...register("levelName")} />
+                                fullWidth sx={{ mb: 6 }} {...register("name")} />
                         </Grid>
                     </Grid>
                 </DialogContent>
