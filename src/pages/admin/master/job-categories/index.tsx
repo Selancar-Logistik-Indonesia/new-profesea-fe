@@ -6,44 +6,45 @@ import TextField from '@mui/material/TextField';
 import { Box, Button } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import DialogAdd from './DialogAdd';
-import RoleLevelDatagrid, { RowItem } from './RoleLevelDatagrid';
+import JobCategoryDatagrid, { RowItem } from './JobCategoryDatagrid';
 import { HttpClient } from 'src/services';
 import { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
-import RoleLevel from 'src/contract/models/role_level';
+import JobCategory from 'src/contract/models/job_category';
 import debounce from 'src/utils/debounce';
 import { GridPaginationModel } from '@mui/x-data-grid';
 import DialogDelete from './DialogDelete';
 import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
 
-const RoleLevelScreen = () => {
+const JobCategoryScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
     const [onLoading, setOnLoading] = useState(false);
     const [openAddModal, setOpenAddModal] = useState(false);
     const [openDelModal, setOpenDelModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
-    const [selectedItem, setSelectedItem] = useState<RoleLevel | null>(null);
+    const [selectedItem, setSelectedItem] = useState<JobCategory | null>(null);
 
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
     const [search, setSearch] = useState("");
 
-    const [perPage, setPerPage] = useState(5);
-    const getListRoleLevel = async () => {
+    const [perPage, setPerPage] = useState(10);
+
+    const getListJobCategory = async () => {
         try {
-            const resp = await HttpClient.get(`/role-level?search=${search}&page=${page}&take=${perPage}`);
+            const resp = await HttpClient.get(`/job-category?search=${search}&page=${page}&take=${perPage}`);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
 
-            const rows = resp.data.roleLevels.data as RoleLevel[];
+            const rows = resp.data.categories.data as JobCategory[];
             const items = rows.map((row, index) => {
                 return {
                     no: index+1,
                     id: row.id,
-                    levelName: row.levelName,
+                    name: row.name,
                     actions: {
                         onDelete: () => deleteHandler(row),
                         onUpdate: () => updateHandler(row),
@@ -51,7 +52,9 @@ const RoleLevelScreen = () => {
                 } as RowItem;
             });
 
-            setRowCount(resp?.data?.roleLevels?.total ?? 0);
+            console.log(rows);
+
+            setRowCount(resp?.data?.categories?.total ?? 0);
             setDataSheet(items);
         } catch (error) {
             let errorMessage = "Something went wrong!";
@@ -80,21 +83,22 @@ const RoleLevelScreen = () => {
         setPerPage(model.pageSize);
     }
 
-    const deleteHandler = (row: RoleLevel) => {
+    const deleteHandler = (row: JobCategory) => {
         setSelectedItem(row);
         setOpenDelModal(true);
     }
 
-    const updateHandler = (row: RoleLevel) => {
+    const updateHandler = (row: JobCategory) => {
         setSelectedItem(row);
         setOpenEditModal(true);
     }
 
     useEffect(() => {
         setOnLoading(true);
-        getListRoleLevel().then(() => {
+        getListJobCategory().then(() => {
             setOnLoading(false);
         });
+
     }, [page, search, hookSignature, perPage]);
 
     return (
@@ -102,7 +106,7 @@ const RoleLevelScreen = () => {
             <Grid container spacing={6} className='match-height'>
                 <Grid item xs={12} sm={6} md={12}>
                     <Card>
-                        <CardHeader title='List Role Level' />
+                        <CardHeader title='List Job Category' />
                         <CardContent>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
@@ -122,7 +126,7 @@ const RoleLevelScreen = () => {
                                 </Grid>
                             </Grid>
 
-                            <RoleLevelDatagrid
+                            <JobCategoryDatagrid
                                 page={page - 1} // di MUI page pertama = 0
                                 rowCount={rowCount}
                                 pageSize={perPage}
@@ -153,4 +157,4 @@ const RoleLevelScreen = () => {
     )
 }
 
-export default RoleLevelScreen
+export default JobCategoryScreen
