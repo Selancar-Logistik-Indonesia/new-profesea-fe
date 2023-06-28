@@ -1,11 +1,5 @@
-// ** React Imports
 import { ElementType, Fragment } from 'react'
-
-// ** Next Imports
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-
-// ** MUI Imports
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import List from '@mui/material/List'
@@ -13,22 +7,13 @@ import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import MuiListItem, { ListItemProps } from '@mui/material/ListItem'
-
-// ** Theme Config Import
 import themeConfig from 'src/configs/themeConfig'
-
-// ** Types
 import { NavLink } from 'src/@core/layouts/types'
 import { Settings } from 'src/@core/context/settingsContext'
-
-// ** Custom Components Imports
 import UserIcon from 'src/layouts/components/UserIcon'
 import Translations from 'src/layouts/components/Translations'
 import CanViewNavLink from 'src/layouts/components/acl/CanViewNavLink'
-
-// ** Util Imports
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-import { handleURLQueries } from 'src/@core/layouts/utils'
 
 interface Props {
   item: NavLink
@@ -59,24 +44,11 @@ const ListItem = styled(MuiListItem)<
 }))
 
 const HorizontalNavLink = (props: Props) => {
-  // ** Props
   const { item, settings, hasParent } = props
-
-  // ** Hook & Vars
-  const router = useRouter()
   const { navSubItemIcon, menuTextTruncate } = themeConfig
 
   const icon = item.icon ? item.icon : navSubItemIcon
-
   const Wrapper = !hasParent ? List : Fragment
-
-  const isNavLinkActive = () => {
-    if (router.pathname === item.path || handleURLQueries(router, item.path)) {
-      return true
-    } else {
-      return false
-    }
-  }
 
   return (
     <CanViewNavLink navLink={item}>

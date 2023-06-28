@@ -37,7 +37,8 @@ const Subscription = () => {
        
   } = useForm<FormData>({
     mode: 'onBlur',  
-  })   
+  })
+
   // test
 const theme = useTheme() 
 const hidden = useMediaQuery(theme.breakpoints.down('md'))
