@@ -12,6 +12,8 @@ import OptionsMenu from 'src/@core/components/option-menu'
 
 // ** Type Import
 import { Settings } from 'src/@core/context/settingsContext'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import Router from 'next/router'
 
 interface Props {
   settings: Settings
@@ -25,8 +27,10 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
   // ** Vars
   const { layout } = settings
 
-  const handleLangItemClick = (lang: 'en' | 'fr' | 'ar') => {
+  const handleLangItemClick = (lang: 'en' | 'id') => {
+    localStorage.setItem(localStorageKeys.userLocale, lang);
     i18n.changeLanguage(lang)
+    Router.push(Router.pathname, Router.pathname, { locale: lang });
   }
 
   // ** Change html `lang` attribute when changing locale
@@ -52,24 +56,13 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
           }
         },
         {
-          text: 'French',
+          text: 'Indonesia',
           menuItemProps: {
             sx: { py: 2 },
-            selected: i18n.language === 'fr',
+            selected: i18n.language === 'id',
             onClick: () => {
-              handleLangItemClick('fr')
+              handleLangItemClick('id')
               saveSettings({ ...settings, direction: 'ltr' })
-            }
-          }
-        },
-        {
-          text: 'Arabic',
-          menuItemProps: {
-            sx: { py: 2 },
-            selected: i18n.language === 'ar',
-            onClick: () => {
-              handleLangItemClick('ar')
-              saveSettings({ ...settings, direction: 'rtl' })
             }
           }
         }
