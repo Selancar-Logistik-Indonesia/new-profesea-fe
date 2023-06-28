@@ -18,7 +18,7 @@ import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
 import React from 'react';
 
-const trainingCategoriescreen = () => {
+const TrainingCategoryScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
     const [onLoading, setOnLoading] = useState(false);
     const [openAddModal, setOpenAddModal] = useState(false);
@@ -158,4 +158,4 @@ const trainingCategoriescreen = () => {
     )
 }
 
-export default trainingCategoriescreen
+export default TrainingCategoryScreen

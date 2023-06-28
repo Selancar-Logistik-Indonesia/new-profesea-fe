@@ -16,9 +16,8 @@ import { GridPaginationModel } from '@mui/x-data-grid';
 import DialogDelete from './DialogDelete';
 import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
-import React from 'react';
 
-const categoriescreen = () => {
+const JobCategoryScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
     const [onLoading, setOnLoading] = useState(false);
     const [openAddModal, setOpenAddModal] = useState(false);
@@ -158,4 +157,4 @@ const categoriescreen = () => {
     )
 }
 
-export default categoriescreen
+export default JobCategoryScreen
