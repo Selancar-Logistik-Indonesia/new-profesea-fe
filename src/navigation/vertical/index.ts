@@ -20,7 +20,13 @@ const navigation = (): VerticalNavItemsType => {
                 {
                     title: "Job Category",
                     path: "/admin/master/job-categories",
-                    subject: "/master/job-categoriesy",
+                    subject: "/master/job-categories",
+                    action: "read",
+                },
+                {
+                    title: "Training Category",
+                    path: "/admin/master/training-categories",
+                    subject: "/master/training-categories",
                     action: "read",
                 },
                 {
