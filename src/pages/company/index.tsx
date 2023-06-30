@@ -1,5 +1,5 @@
 // ** React Imports
-import React, {   useState } from 'react'
+import React, {   useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box  from '@mui/material/Box'  
@@ -48,6 +48,7 @@ const Company = () => {
 // ** Vars
   // const { skin } = settings
   
+  
 const theme = useTheme() 
 const hidden = useMediaQuery(theme.breakpoints.down('md'))
    
@@ -56,7 +57,7 @@ const hidden = useMediaQuery(theme.breakpoints.down('md'))
     // handleSubmit,
   } = useForm<FormData>({
     mode: 'onBlur', 
-  })  
+  },)  
 
   // const onSubmit = (data: FormData) => {
      
@@ -121,7 +122,7 @@ function a11yProps(index: number) {
   };
 }
  
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
 const [color, getColor] =useState<any>('#FFFFFF')
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -132,7 +133,6 @@ const [color, getColor] =useState<any>('#FFFFFF')
       getColor('#FFFFFF');
     }
   }; 
-
   return (           
       <Box  >
        <Grid container spacing={2}>
@@ -157,7 +157,7 @@ const [color, getColor] =useState<any>('#FFFFFF')
                       border: '1px solid rgba(76, 78, 100, 0.12)',
                       borderRadius: '20px'}}>
                   <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  sx={{"& button.Mui-selected":{backgroundColor:'#32487A',color:'white',borderRadius:'10px'}}} >
-                    <Tab label="PROFILE" {...a11yProps(0)} />
+                    <Tab label="PROFILE" href='/company/profile' />
                     <Tab label="EDIT PROFILE" {...a11yProps(1)} />
                     <Tab label="ACCOUNT" {...a11yProps(2)} />
                     <Tab label="MANAGE" {...a11yProps(3)} />
