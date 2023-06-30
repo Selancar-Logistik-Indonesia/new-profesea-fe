@@ -1,6 +1,4 @@
-// ** React Imports
-import { useState, useEffect } from 'react'
-
+// ** React Imports 
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -11,8 +9,7 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
  
 import Icon from 'src/@core/components/icon' 
-import { Grid } from '@mui/material'
-import { margin } from '@mui/system'
+import { Grid } from '@mui/material' 
 
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
@@ -24,7 +21,7 @@ const ProfilePicture = styled('img')(({ theme }) => ({
   }
 }))
 
-const UserProfileHeader = (props:any) => { 
+const UserProfileHeader = () => { 
   return  (
     <Card  >
       <CardMedia

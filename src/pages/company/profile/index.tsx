@@ -1,9 +1,9 @@
 // ** React Imports
-import React, { ReactNode, useState } from 'react'
+import React  from 'react'
 
 // ** MUI Components
 import Box  from '@mui/material/Box'  
-import { Typography, useMediaQuery   } from '@mui/material'
+import {  useMediaQuery   } from '@mui/material'
 
 import {  useTheme } from '@mui/material/styles'
 // ** Layout Import
@@ -13,14 +13,10 @@ import {  useTheme } from '@mui/material/styles'
 
 // ** Demo Imports
 // import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import {   Grid } from '@mui/material'
-
-import {   useForm } from 'react-hook-form'
+import {   Grid } from '@mui/material' 
 import UserProfileHeader from 'src/layouts/components/UserProfileHeader'
-import AboutOverivew from './JobVacancy'
-import Gallery from './Galery'
-import NestedComment from './NestedComment' 
-import CommentForm from './CommentForm'
+import AboutOverivew from './JobVacancy' 
+import NestedComment from './NestedComment'  
 
 // import { yupResolver } from '@hookform/resolvers/yup'
     
@@ -43,9 +39,7 @@ const vacancy = [
     lokasi: 'Jakarta,Indonesia', 
     waktu: '2 minute ago', 
   }]
- const galery = [
-  {images: '/images/logosamudera.png'}
- ] 
+ 
  const paramcomment = [
   {
     logo: '/images/avatars/1.png',
@@ -59,6 +53,7 @@ const vacancy = [
     postcomment: 'ini Testing Comment 2', 
   },
   ]
+
   return (    
       
       <Box  >
@@ -72,7 +67,7 @@ const vacancy = [
             }}
                     >  
             <Grid xs={12} container >  
-                  <UserProfileHeader> </UserProfileHeader>   
+              <UserProfileHeader/>
             </Grid>
             <Grid container spacing={6} sx={{marginTop:'1px'}}>
               <Grid item lg={4} md={5} xs={12}> 

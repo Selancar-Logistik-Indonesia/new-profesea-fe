@@ -1,14 +1,10 @@
 // ** MUI Components
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
-import { Button } from '@mui/material'
-import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
+import Grid from '@mui/material/Grid' 
+import { Button } from '@mui/material' 
  
 import { styled } from '@mui/material/styles'
-import { Paper, TextareaAutosize } from '@mui/material'
-import Link from 'next/link'
+import {   TextareaAutosize } from '@mui/material' 
 
 export type ParamMain = {
   logo: string 
@@ -16,15 +12,15 @@ export type ParamMain = {
   waktu: string 
   postcomment: string 
 }
-const ProfilePicture = styled('img')(({ theme }) => ({
-  width: 45,
-  height: 45,
-  borderRadius: theme.shape.borderRadius,
-  border: `5px solid ${theme.palette.common.white}`,
-  [theme.breakpoints.down('md')]: {
-    marginBottom: theme.spacing(4)
-  }
-}))
+// const ProfilePicture = styled('img')(({ theme }) => ({
+//   width: 45,
+//   height: 45,
+//   borderRadius: theme.shape.borderRadius,
+//   border: `5px solid ${theme.palette.common.white}`,
+//   [theme.breakpoints.down('md')]: {
+//     marginBottom: theme.spacing(4)
+//   }
+// }))
   const blue = {
     100: '#DAECFF',
     200: '#b6daff',
@@ -80,6 +76,7 @@ const ProfilePicture = styled('img')(({ theme }) => ({
  const CommentForm = (props:any) => {
   
   const parentId = props['parentid'];
+
       return (
         <Box >
           <Grid container justifyContent="flex-end">
@@ -88,7 +85,7 @@ const ProfilePicture = styled('img')(({ theme }) => ({
           </Grid>  
           <Grid container display={{ xs: "none", lg: "block" }} md={10}>  </Grid>
           <Grid justifyContent="flex-end" sx={{display:  { xs: 12, md: 2  ,justifyContent:'right'}}}>
-          <Button size='small' color='primary' variant='contained' > Post</Button>
+          <Button size='small' color='primary' variant='contained' > {parentId ? 'Post Comment': 'Post Reply'}</Button>
           </Grid>
           </Grid> 
         </Box>

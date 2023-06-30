@@ -1,5 +1,4 @@
-import { fontSize, fontWeight } from "@mui/system"
-
+ 
 const typography = {
   fontFamily: [
     'Inter',
