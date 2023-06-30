@@ -1,5 +1,5 @@
 // ** React Imports
-import React, { ReactNode, useState } from 'react'
+import React, {   useState } from 'react'
 
 // ** MUI Components
 import Box  from '@mui/material/Box'  
@@ -21,13 +21,12 @@ import {   useForm } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'  
 
 // import { HttpClient } from 'src/services'
-import CompanyProfile from 'src/layouts/components/CompanyProfile'
-import BlankLayoutWithAppBar from 'src/@core/layouts/BlankLayoutWithAppBar'
+import CompanyProfile from 'src/layouts/components/CompanyProfile' 
  
-import {  useTheme } from '@mui/material/styles'
-import CompanyProfilePreview from 'src/layouts/components/CompanyProfilePreview'
+import {  useTheme } from '@mui/material/styles' 
 import ManageAccount from 'src/layouts/components/ManageAccount'
 import Subscription from 'src/layouts/components/Subscription'
+import UserProfileHeader from 'src/layouts/components/UserProfileHeader'
  
 type  FormData = {
   companyName: string
@@ -212,7 +211,8 @@ const [color, getColor] =useState<any>('#FFFFFF')
                             
                           </Grid>
                        </Grid> 
-                      <CompanyProfilePreview></CompanyProfilePreview>
+                      {/* <CompanyProfilePreview></CompanyProfilePreview> */}
+                      <UserProfileHeader></UserProfileHeader>
                     </TabPanel>
                     
                     <TabPanel value={value} index={3}> 
@@ -302,8 +302,12 @@ const [color, getColor] =useState<any>('#FFFFFF')
   )
 }
 
-Company.getLayout = (page: ReactNode) => <BlankLayoutWithAppBar>{page}</BlankLayoutWithAppBar>
+// Company.getLayout = (page: ReactNode) => <BlankLayoutWithAppBar>{page}</BlankLayoutWithAppBar>
 
-Company.guestGuard = true
+// Company.guestGuard = true
 
+Company.acl = {
+  action: 'read',
+  subject: 'home'
+};
 export default Company
