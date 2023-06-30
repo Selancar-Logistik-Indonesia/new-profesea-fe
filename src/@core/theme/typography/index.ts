@@ -1,3 +1,5 @@
+import { fontSize, fontWeight } from "@mui/system"
+
 const typography = {
   fontFamily: [
     'Inter',
@@ -43,7 +45,8 @@ const typography = {
     letterSpacing: '0.1px'
   },
   body1: {
-    letterSpacing: '0.15px'
+    letterSpacing: '0.15px',
+    fontSize: '0.8rem'
   },
   body2: {
     lineHeight: 1.429,
