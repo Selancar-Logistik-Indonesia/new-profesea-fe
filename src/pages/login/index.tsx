@@ -170,19 +170,28 @@ const LoginPage = () => {
                 Client: <strong>client@materialize.com</strong> / Pass: <strong>client</strong>
               </Typography>
             </Alert> */}
-              <Box sx={{ mb: 3,  maxWidth: '100%', }}>
-              <img alt='logo' src='/images/logosamudera.png'style={{ maxWidth: '100%',
-                  height: 'auto',
-                  padding: 0,
-                  margin: 0 }} />
+              <Box sx={{ mb: 3, maxWidth: '100%', justifyContent:'center' , alignContent:'center'}}>
+              <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"  
+                  > 
+              <img  alt='logo' src='/images/logosamudera.png' style={{
+                maxWidth: '100%',
+                     height: '40px',   
+                padding: 0,
+                margin: 0,
+                alignContent:'center'
+              }} />
+              </Box>
                                 
               {/* <TypographyStyled variant='h5' sx={{ textAlign: 'center' }}>SAMUDERA</TypographyStyled> */}
-              <Typography variant='h5' sx={{ textAlign: 'center' }}>REGISTER</Typography>
-              <Typography variant='body2' sx={{ textAlign: 'center' }}> Adventures start from here, let’s join with our!</Typography>
+              <Typography variant='h5' sx={{ textAlign: 'center' , marginTop:'20px', fontWeight: 'bold', color: "#424242"}}>Login</Typography>
+              <Typography variant='body2' sx={{ textAlign: 'center', color: "#424242"}}> Please Sign to your account and start your adventures!</Typography>
              
             </Box>
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-              <FormControl fullWidth sx={{ mb: 4 }}>
+              <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
                 <Controller
                   name='email'
                   control={control}
@@ -284,22 +293,6 @@ const LoginPage = () => {
                   onClick={(e: MouseEvent<HTMLElement>) => e.preventDefault()}
                 >
                   <Icon icon='mdi:facebook' />
-                </IconButton>
-                <IconButton
-                  href='/'
-                  component={Link}
-                  sx={{ color: '#1da1f2' }}
-                  onClick={(e: MouseEvent<HTMLElement>) => e.preventDefault()}
-                >
-                  <Icon icon='mdi:twitter' />
-                </IconButton>
-                <IconButton
-                  href='/'
-                  component={Link}
-                  onClick={(e: MouseEvent<HTMLElement>) => e.preventDefault()}
-                  sx={{ color: theme => (theme.palette.mode === 'light' ? '#272727' : 'grey.300') }}
-                >
-                  <Icon icon='mdi:github' />
                 </IconButton>
                 <IconButton
                   href='/'

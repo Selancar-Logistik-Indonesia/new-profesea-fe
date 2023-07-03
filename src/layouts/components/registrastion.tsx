@@ -140,7 +140,7 @@ const Registration = (props:any) => {
          {tipereg == 'seafer' ? ( 
            <Grid container columnSpacing={'1'} rowSpacing={'0,5'}   sx={{ mb:2 }}>
               <Grid item md={12} xs={12}>
-                <TextField id="Name" label="Name" variant="outlined"  fullWidth sx={{ mb: 6 }} {...register("name")}/>
+                <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("name")}/>
               </Grid>
               
                 <Grid item md={6} xs={12} >
@@ -162,7 +162,7 @@ const Registration = (props:any) => {
           </Grid>
           ) :   <Grid container columnSpacing={'1'} rowSpacing={'0,5'}   sx={{ mb:2 }}>
               <Grid item md={6} xs={12}>
-                <TextField id="Name" label="Name" variant="outlined"  fullWidth sx={{ mb: 6 }} {...register("name")}/>
+                <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("name")}/>
               </Grid>
               
                
@@ -222,7 +222,7 @@ const Registration = (props:any) => {
         <Grid item md={6} xs={12} >
           <FormControl fullWidth>
             <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-              Password
+              Confirm Password
             </InputLabel>
             <OutlinedInput
                    sx={{ mb: 6 }}
@@ -253,32 +253,32 @@ const Registration = (props:any) => {
         <Grid item md={12} xs={12} >
              <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
             <Checkbox></Checkbox>
-            <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px' }}>
-              Term Of Service,
+            <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px', fontSize: "12px" }}>
+              Terms Of Service,
             </Typography>
-            <Typography sx={{ marginTop: '10px', color: 'text.secondary' }}> i read and accept</Typography>
+            <Typography sx={{ marginTop: '10px', color: "#424242", fontSize: "12px"}}> &nbsp; I read and accept</Typography>
 
           </Box>
         </Grid>
         <Grid item md={12} xs={12} > 
           <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
             <Checkbox></Checkbox>
-            <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px' }}>
+            <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px', fontSize: "12px" }}>
               Privacy Police,
             </Typography>
-            <Typography sx={{ marginTop: '10px', color: 'text.secondary' }}> i read and accept</Typography>
+            <Typography sx={{ marginTop: '10px', color: "#424242", fontSize: "12px" }}> &nbsp; I read and accept</Typography>
 
           </Box>
         </Grid>
         <Grid item md={3} xs={12} >
-          <Button fullWidth size='large' type='submit' href='/register' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-left'} />} >
+          <Button fullWidth size='small' type='submit' href='/register' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-left'} />} >
              PREVIOUS 
           </Button>
         </Grid>
 
         <Grid item md={6} xs={0} ></Grid>
         <Grid item md={3} xs={12} >
-          <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }} endIcon={<Icon icon={'mdi:arrow-right'} />}>
+          <Button fullWidth size='small' type='submit' variant='contained' sx={{ mb: 7 }} endIcon={<Icon icon={'mdi:arrow-right'} />}>
             REGISTER
           </Button>
         </Grid>

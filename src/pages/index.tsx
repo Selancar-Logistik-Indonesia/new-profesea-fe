@@ -2,7 +2,7 @@ import { Button, Container, Grid, Typography } from "@mui/material";
 import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAdd, faMapMarked } from '@fortawesome/free-solid-svg-icons'
+import { faAdd, faArrowTrendUp, faBriefcase, faMapMarked, faUsersViewfinder } from '@fortawesome/free-solid-svg-icons'
 import i18n from "i18next";
 
 import { useTranslation, initReactI18next } from "react-i18next";
@@ -49,12 +49,12 @@ const Main = () => {
     return <>
         <Grid container>
             <Grid item xs={12} md={6} mt={20}>
-                <Typography variant="h3" style={{ color: "Black" }}>{t("landing_hero_title")}</Typography>
+                <Typography variant="h2" style={{ color: "Black", fontWeight: "Bold" }}>{t("landing_hero_title")}</Typography>
                 <Typography variant="body1" mt={8}>{t("landing_hero_subtitle")}</Typography>
 
                 <Container style={{ marginTop: 30 }}>
-                    <Button style={{ marginRight: 20 }} variant="contained">{t('b_apply_job')}</Button>
-                    <Button style={{ backgroundColor: "white", color: "#666CFF" }} variant="contained" startIcon={<FontAwesomeIcon icon={faAdd} />}>{t('b_post_job')}</Button>
+                    <Button style={{ marginRight: 20, backgroundColor: "32487A", color: "#FFFFFF" }} variant="contained">{t('b_apply_job')}</Button>
+                    <Button style={{ backgroundColor: "FF9600", color: "#FFFFFF" }} variant="contained">{t('b_post_job')}</Button>
                 </Container>
             </Grid>
             <Grid item xs={12} md={6} mt={3}>
@@ -70,13 +70,12 @@ const Main = () => {
             <Grid item xs={12} sm={6} md={4}>
                 <Card>
                     <CardContent sx={{ pt: 4 }}>
-                        <Typography variant='h6' sx={{ mb: 2 }}>
-                            <FontAwesomeIcon width={40} height={200} icon={faMapMarked} />
-                            Pinpoint Matching with Profesea
+                        <Typography variant='h6' sx={{ mb: 2 }} style={{ color: "#424242" }}>
+                            <FontAwesomeIcon width={40} height={200} icon={faBriefcase} />
+                            Find Jobs
                         </Typography>
                         <Typography variant='body1'>
-                            Cancun is back, better than ever! Over a hundred Mexico resorts have reopened and the state tourism minister
-                            predicts Cancun will draw as many visitors in 2006 as it did two years ago.
+                            Find any jobs in the maritime industry that match your skills and interests.
                         </Typography>
                     </CardContent>
                 </Card>
@@ -84,12 +83,12 @@ const Main = () => {
             <Grid item xs={12} sm={6} md={4}>
                 <Card>
                     <CardContent sx={{ pt: 4 }}>
-                        <Typography variant='h6' sx={{ mb: 2 }}>
-                            <FontAwesomeIcon width={40} height={200} icon={faMapMarked} />
-                            Global CV
+                        <Typography variant='h6' sx={{ mb: 2 }} style={{ color: "#424242" }}>
+                            <FontAwesomeIcon width={40} height={200} icon={faUsersViewfinder} />
+                            Find Candidate
                         </Typography>
                         <Typography variant='body1'>
-                            You'll have chance to find a job and employee from all over the World via Profesea.
+                            Find the right candidate using our specific filters made for maritime industry jobs.
                         </Typography>
                     </CardContent>
                 </Card>
@@ -97,12 +96,12 @@ const Main = () => {
             <Grid item xs={12} sm={6} md={4}>
                 <Card>
                     <CardContent sx={{ pt: 4 }}>
-                        <Typography variant='h6' sx={{ mb: 2 }}>
-                            <FontAwesomeIcon width={40} height={200} icon={faMapMarked} />
-                            Optimised Candidate Pool via Industry Specific Filters
+                        <Typography variant='h6' sx={{ mb: 2 }} style={{ color: "#424242" }}>
+                            <FontAwesomeIcon width={40} height={200} icon={faArrowTrendUp} />
+                            Improve your Career
                         </Typography>
                         <Typography variant='body1'>
-                            Companies have a chance to find the most suitable employee at shortest time via our Technically Oriented Maritime Specialized Database.
+                            Improve your chance to become the star candidate and get picked by the employers using training and certification.
                         </Typography>
                     </CardContent>
                 </Card>

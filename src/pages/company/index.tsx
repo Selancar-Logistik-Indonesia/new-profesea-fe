@@ -157,9 +157,9 @@ return (
               borderBottom: 1, borderColor: 'divider', boxSizing: 'border-box',
               background: '#FFFFFF',
               border: '1px solid rgba(76, 78, 100, 0.12)',
-              borderRadius: '20px'
+              borderRadius: '40px'
             }}>
-              <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '10px' } }} >
+              <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
                 <Tab label="PROFILE" href='/company/profile' />
                 <Tab label="EDIT PROFILE" {...a11yProps(1)} />
                 <Tab label="ACCOUNT" {...a11yProps(2)} />
@@ -185,7 +185,7 @@ return (
                     <Grid container xs={9}>  </Grid>
                     <Grid md={12} xs={3} container justifyContent={'right'} marginTop={'10px'}>
                       <Button size='small' type='button' variant='contained' sx={{ backgroundColor: '#26C6F9' }} startIcon={<Icon icon={'mdi:visibility-outline'} />}>
-                        Resume Preview
+                        Preview Resume
                       </Button>
                     </Grid>
                   </Grid>
