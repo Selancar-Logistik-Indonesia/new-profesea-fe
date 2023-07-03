@@ -11,6 +11,13 @@ const navigation = (): VerticalNavItemsType => {
             subject: 'home',
         },
         {
+            path: '/admin/accounts/',
+            title: 'Accounts',
+            icon: 'mdi:user',
+            action: 'read',
+            subject: 'accounts',
+        },
+        {
             path: '#',
             title: 'Master Data',
             icon: 'mdi:email-outline',
