@@ -439,18 +439,18 @@ const CompanyProfile = () => {
                   <Box
                     key={account.title}
                     sx={{
-                      gap: 2,
+                      gap: 1,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      '&:not(:last-of-type)': { mb: 4 }
+                      '&:not(:last-of-type)': { mb: 2 }
                     }}
                   >
                     <Grid container xs={12} marginTop={'10px'}>
                       <Grid xs={11}  >
 
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Box sx={{ mr: 4, minWidth: 45, display: 'flex', justifyContent: 'center' }}>
+                          <Box sx={{ mr: 12, minWidth: 45, display: 'flex', justifyContent: 'center' }}>
                             <img src={account.logo} alt={account.title} height='30' />
                           </Box>
                           <div>
@@ -482,7 +482,7 @@ const CompanyProfile = () => {
               </Box>
 
               <Grid item md={5} xs={12} >
-                <Typography variant="h6"  >Galery</Typography>
+                <Typography variant="h6"  >Gallery</Typography>
                 <Typography variant="body1" >This is Gallery for the company. Please fill it.</Typography>
 
               </Grid>

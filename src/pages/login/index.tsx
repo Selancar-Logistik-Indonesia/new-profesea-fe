@@ -127,7 +127,7 @@ const LoginPage = () => {
 
   return (
     <Box className='content-right'>
-       <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
+       <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: '1px solid ${theme.palette.divider}' } : {}}>
         <Box
             sx={!hidden?{
             boxSizing: 'border-box',
@@ -283,7 +283,7 @@ const LoginPage = () => {
                   mb: theme => `${theme.spacing(7.5)} !important`
                 }}
               >
-                or
+               
               </Divider>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <IconButton

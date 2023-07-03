@@ -2,7 +2,7 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-import { Button } from '@mui/material'
+import { Button, Divider } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
  
@@ -54,6 +54,7 @@ const renderList = (arr: ParamMain[]) => {
   if (arr && arr.length) {
     return arr.map((item, index) => {
       return (
+        
         <Paper sx={{marginTop:'10px'}} key={index}>
           <Box
             
@@ -61,24 +62,27 @@ const renderList = (arr: ParamMain[]) => {
               display: 'flex', 
               '& svg': { color: 'text.secondary' } 
             }}
-          > 
+          >
+             
            <Box  >
-              <ProfilePicture src='/images/avatars/1.png' alt='profile-picture' sx={{borderRadius:'130px'}} />
+              <ProfilePicture src='/images/avatars/1.png' alt='profile-picture'/>
             </Box>
             <Box sx={{ mb: [6, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
-              <Typography variant='body2' sx={{   color: 'text.primary', textTransform: 'uppercase' }}>
+              <Typography variant='body2' sx={{ color: "#424242", fontWeight: 600, textTransform: 'uppercase' }}>
                 {`${item.name.charAt(0).toUpperCase() + item.name.slice(1)}`}
               </Typography>
-              <Typography sx={{ fontWeight: 600, color: 'text.secondary' }}>
+              <Typography sx={{ color: "#424242", fontWeight: 500 }}>
                 {`${item.waktu.charAt(0).toUpperCase() + item.waktu.slice(1)}`} 
               </Typography> 
             </Box>  
           </Box>
+          <Divider style={{ width: '100%' }} />
           <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft:'10px'  }}>
-                <Typography variant="body1" >
+                <Typography variant="body1" sx={{ color: "#424242", fontWeight: 400, margin: "5px"}}>
                  {`${item.postcomment.charAt(0).toUpperCase() + item.postcomment.slice(1)}`} 
               </Typography>
            </Box>
+           <Divider style={{ width: '100%' }} />
            <Box >
              <Button size='small' color='primary'  startIcon={<Icon icon='mdi:like-outline'  fontSize={10}/>} > Like</Button>
              {/* <Button size='small' color='primary'  startIcon={<Icon icon='mdi:comment-outline'  fontSize={10}/>}> Comment</Button> */}

@@ -33,6 +33,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api' 
+import { toast } from 'react-hot-toast'
+import { useRouter } from 'next/router'
 
   interface FormData {
     password2: string
@@ -46,7 +48,7 @@ import { AppConfig } from 'src/configs/api'
   } 
 const Registration = (props:any) => {
   const tipereg = props['tipereg'];
-
+  const router = useRouter()
   // ** States
   const [showPassword, setShowPassword] = useState<boolean>(false) 
 
@@ -75,14 +77,11 @@ const Registration = (props:any) => {
   const save = (json:any) => {
     HttpClient.post(AppConfig.baseUrl+ '/auth/register', json).then(({ data }) => {
         console.log("here 1", data);
-        <Alert severity="success" color="info">
-            Registrastion Success
-        </Alert>
+         toast.success(data.name + ' Successfully submited!');
+          router.push('/registersuccess')
          }, error => { 
         console.log("here 1", error);
-         <Alert severity="error" color="info">
-            Registrastion Failed
-        </Alert>
+         toast.error('Registrastion Failed ' + error.response.data.message) 
       });
   };
   const onSubmit = (data: FormData) => {

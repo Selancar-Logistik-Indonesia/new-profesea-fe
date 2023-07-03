@@ -45,19 +45,19 @@ const RegisterIllustration = styled('img')(({ theme }) => ({
 }))
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-  width: '80%',
+  width: '100%',
   [theme.breakpoints.up('md')]: {
-    maxWidth: 450
+    maxWidth: 400
   },
   [theme.breakpoints.up('lg')]: {
-    maxWidth: 500
+    maxWidth: 450
   }
 }))
 
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '70%',
   [theme.breakpoints.down('md')]: {
-    maxWidth: 100
+    maxWidth: 500
   }
 }))
 
@@ -113,7 +113,7 @@ const Register = () => {
             backgroundColor: 'background.paper'
           }}
         >
-          <BoxWrapper>
+          <BoxWrapper  >
 
             <Box sx={{ mb: 3, maxWidth: '100%', justifyContent:'center' , alignContent:'center'}}>
               <Box
