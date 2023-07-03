@@ -18,11 +18,12 @@ export type ACLObj = {
  */
 const defineRulesFor = (role: string, subject: string) => {
   const { can, rules } = new AbilityBuilder(AppAbility)
+  console.log(`subject: ${subject}`);
 
   if (role === 'admin') {
     can('manage', 'all');
   } else if (role === 'Seafarer') {
-    can(['read'], ['home', 'comunity']);
+    can(['read'], ['home', 'community']);
   } else {
     can(['read'], ['home', 'job-management', 'find-candidate']);
   }
