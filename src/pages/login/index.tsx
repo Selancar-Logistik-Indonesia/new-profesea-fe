@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, ReactNode, MouseEvent } from 'react'
+import { useState, ReactNode } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -127,18 +127,18 @@ const LoginPage = () => {
 
   return (
     <Box className='content-right'>
-       <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
+      <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
         <Box
-            sx={!hidden?{
+          sx={!hidden ? {
             boxSizing: 'border-box',
 
             // position: 'absolute',
             // width: '424px', 
             // left: '956px',
-             maxWidth: '100%',
-            marginTop: '10%',  
-            marginLeft: '10%',  
-            background: '#FFFFFF', 
+            maxWidth: '100%',
+            marginTop: '10%',
+            marginLeft: '10%',
+            background: '#FFFFFF',
             border: '1px solid rgba(76, 78, 100, 0.12)',
             borderRadius: '20px',
             p: 7,
@@ -147,7 +147,7 @@ const LoginPage = () => {
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: 'background.paper'
-          }:{
+          } : {
             p: 7,
             height: '100%',
             display: 'flex',
@@ -157,7 +157,7 @@ const LoginPage = () => {
           }}
         >
           <BoxWrapper>
-          
+
             {/* <Box sx={{ mb: 6 }}>
               <TypographyStyled variant='h5'>{`Welcome to ${themeConfig.templateName}! 👋🏻`}</TypographyStyled>
               <Typography variant='body2'>Please sign-in to your account and start the adventure</Typography>
@@ -170,16 +170,18 @@ const LoginPage = () => {
                 Client: <strong>client@materialize.com</strong> / Pass: <strong>client</strong>
               </Typography>
             </Alert> */}
-              <Box sx={{ mb: 3,  maxWidth: '100%', }}>
-              <img alt='logo' src='/images/logosamudera.png'style={{ maxWidth: '100%',
-                  height: 'auto',
-                  padding: 0,
-                  margin: 0 }} />
-                                
+            <Box sx={{ mb: 3, maxWidth: '100%', }}>
+              <img alt='logo' src='/images/logosamudera.png' style={{
+                maxWidth: '100%',
+                height: 'auto',
+                padding: 0,
+                margin: 0
+              }} />
+
               {/* <TypographyStyled variant='h5' sx={{ textAlign: 'center' }}>SAMUDERA</TypographyStyled> */}
               <Typography variant='h5' sx={{ textAlign: 'center' }}>REGISTER</Typography>
               <Typography variant='body2' sx={{ textAlign: 'center' }}> Adventures start from here, let’s join with our!</Typography>
-             
+
             </Box>
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
               <FormControl fullWidth sx={{ mb: 4 }}>
@@ -254,12 +256,12 @@ const LoginPage = () => {
                   Forgot Password?
                 </Typography>
               </Box> */}
-              <Box sx={{marginTop: '10%'}}>
+              <Box sx={{ marginTop: '10%' }}>
 
-              
-              <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 } }>
-                Login
-              </Button>
+
+                <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
+                  Login
+                </Button>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <Typography sx={{ mr: 2, color: 'text.secondary' }}>Don't Have yet an account??</Typography>
@@ -274,9 +276,9 @@ const LoginPage = () => {
                   mb: theme => `${theme.spacing(7.5)} !important`
                 }}
               >
-               
+
               </Divider>
-              
+
             </form>
           </BoxWrapper>
         </Box>
@@ -292,8 +294,8 @@ const LoginPage = () => {
           <FooterIllustrationsV2 />
         </Box>
       ) : null}
-     
-      
+
+
     </Box>
   )
 }
