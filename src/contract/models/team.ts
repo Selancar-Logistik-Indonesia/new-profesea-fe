@@ -1,5 +1,5 @@
 
-export interface ITeam {
+export default interface ITeam {
     id: number
     teamName: string
     public: number

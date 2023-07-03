@@ -1,6 +1,6 @@
 import ITeam from "./team"
 
-export interface IUser {
+ interface Account {
     id: number
     team_id: number
     country_id: number
@@ -11,6 +11,8 @@ export interface IUser {
     email: string
     phone: string
     email_verified_at: string
+    password?: string
+    password_confirmation?: string
     website?: string
     plan_type?: string
     created_at: string
@@ -21,3 +23,5 @@ export interface IUser {
     role: string
     team: ITeam
 }
+
+export default Account;
