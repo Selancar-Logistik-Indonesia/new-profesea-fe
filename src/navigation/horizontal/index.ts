@@ -14,21 +14,21 @@ const navigation = (): HorizontalNavItemsType => [
         title: 'Community',
         icon: 'mdi:public',
         action: 'read',
-        subject: 'second-page',
+        subject: 'community',
     },
     {
         path: '/job-management',
         title: 'Manage Job',
         icon: 'mdi:work',
         action: 'read',
-        subject: 'second-page',
+        subject: 'job-management',
     },
     {
         path: '/find-candidate',
         title: 'Find Candidate',
         icon: 'mdi:people',
         action: 'read',
-        subject: 'acl-page',
+        subject: 'find-candidate',
     }
 ]
 
