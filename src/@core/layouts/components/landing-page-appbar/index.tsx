@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import { useTheme } from '@mui/material/styles'
 import { useSettings } from 'src/@core/hooks/useSettings'
-import { Box, Button, ButtonPropsVariantOverrides, Container } from '@mui/material'
+import { Box, Button, ButtonPropsVariantOverrides, Container, Divider } from '@mui/material'
 import { OverridableStringUnion } from '@mui/types';
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { useEffect, useState } from 'react'
@@ -42,7 +42,7 @@ const LandingPageAppBar = () => {
         <AppBar
             color='default'
             position='sticky'
-            elevation={skin === 'bordered' ? 0 : 3}
+            elevation={0}
             sx={{
                 backgroundColor: 'background.paper',
                 ...(skin === 'bordered' && { borderBottom: `1px solid ${theme.palette.divider}` })
@@ -65,7 +65,37 @@ const LandingPageAppBar = () => {
                             src="/images/logosamudera.png"
                         />
                     </Link>
-                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                    <Box sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        width: 'fit-content',
+                        border: (theme) => `1px solid ${theme.palette.divider}`,
+                        borderRadius: 1,
+                        bgcolor: 'background.paper',
+                        color: 'text.secondary',
+                        '& svg': {
+                            m: 1.5,
+                        },
+                        '& hr': {
+                            mx: 0.5,
+                        },
+                    }}>
+                        <Link href={"/"}>
+                            <Button sx={{ fontWeight: 'bold' }} variant="text" color='secondary'>Home</Button>
+                        </Link>
+                        <Link href={"/"}>
+                            <Button variant="text" color='secondary'>Job</Button>
+                        </Link>
+                        <Link href={"/"}>
+                            <Button variant="text" color='secondary'>Seafarer</Button>
+                        </Link>
+                        <Link href={"/"}>
+                            <Button variant="text" color='secondary'>Pricing</Button>
+                        </Link>
+                        <Link href={"/"}>
+                            <Button variant="text" color='secondary'>Contact</Button>
+                        </Link>
+                        <Divider orientation="vertical" variant="middle" flexItem color='#ddd' />
                         <LanguageDropdown settings={settings} saveSettings={saveSettings} />
 
                         {!isLogin ? navItems.map((item) => (
