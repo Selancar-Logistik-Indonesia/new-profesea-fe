@@ -127,11 +127,8 @@ const LoginPage = () => {
 
   return (
     <Box className='content-right'>
-<<<<<<< HEAD
        <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: '1px solid ${theme.palette.divider}' } : {}}>
-=======
-      <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
->>>>>>> e67f95835f8b7065edec12ec19deb41dfe201d36
+
         <Box
           sx={!hidden ? {
             boxSizing: 'border-box',
@@ -174,7 +171,7 @@ const LoginPage = () => {
                 Client: <strong>client@materialize.com</strong> / Pass: <strong>client</strong>
               </Typography>
             </Alert> */}
-<<<<<<< HEAD
+
               <Box sx={{ mb: 3, maxWidth: '100%', justifyContent:'center' , alignContent:'center'}}>
               <Box
                     display="flex"
@@ -194,20 +191,6 @@ const LoginPage = () => {
               <Typography variant='h5' sx={{ textAlign: 'center' , marginTop:'20px', fontWeight: 'bold', color: "#424242"}}>Login</Typography>
               <Typography variant='body2' sx={{ textAlign: 'center', color: "#424242"}}> Please Sign to your account and start your adventures!</Typography>
              
-=======
-            <Box sx={{ mb: 3, maxWidth: '100%', }}>
-              <img alt='logo' src='/images/logosamudera.png' style={{
-                maxWidth: '100%',
-                height: 'auto',
-                padding: 0,
-                margin: 0
-              }} />
-
-              {/* <TypographyStyled variant='h5' sx={{ textAlign: 'center' }}>SAMUDERA</TypographyStyled> */}
-              <Typography variant='h5' sx={{ textAlign: 'center' }}>REGISTER</Typography>
-              <Typography variant='body2' sx={{ textAlign: 'center' }}> Adventures start from here, let’s join with our!</Typography>
-
->>>>>>> e67f95835f8b7065edec12ec19deb41dfe201d36
             </Box>
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
               <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
@@ -304,29 +287,8 @@ const LoginPage = () => {
               >
 
               </Divider>
-<<<<<<< HEAD
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <IconButton
-                  href='/'
-                  component={Link}
-                  sx={{ color: '#497ce2' }}
-                  onClick={(e: MouseEvent<HTMLElement>) => e.preventDefault()}
-                >
-                  <Icon icon='mdi:facebook' />
-                </IconButton>
-                <IconButton
-                  href='/'
-                  component={Link}
-                  sx={{ color: '#db4437' }}
-                  onClick={(e: MouseEvent<HTMLElement>) => e.preventDefault()}
-                >
-                  <Icon icon='mdi:google' />
-                </IconButton>
-              </Box>
-=======
-
->>>>>>> e67f95835f8b7065edec12ec19deb41dfe201d36
-            </form>
+ 
+           </form>
           </BoxWrapper>
         </Box>
       </RightWrapper>

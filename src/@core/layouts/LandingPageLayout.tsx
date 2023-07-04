@@ -27,8 +27,7 @@ const LandingPageLayout = (props: LandingPageLayoutProps) => {
     return (
         <LandingPageLayoutWrapper>
             <LandingPageAppBar />
-            <Container maxWidth={false}>
-                <Box className='app-content'
+            <Container maxWidth={false}>                <Box className='app-content'
                     sx={{
                         overflowX: 'hidden',
                         position: 'relative',
