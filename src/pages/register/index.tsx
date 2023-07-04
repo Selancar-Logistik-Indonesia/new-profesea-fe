@@ -81,7 +81,6 @@ const Register = () => {
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        backgroundColor: 'red'
       }}> 
     <Box className='content-right' >
       {!hidden ? (
