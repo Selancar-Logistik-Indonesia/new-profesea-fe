@@ -1,18 +1,14 @@
-import { Button, Container, Grid, Paper, Typography } from "@mui/material";
+import { Button, Container, Grid, IconButton, List, ListItem, ListItemText, Typography } from "@mui/material";
 import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarked } from '@fortawesome/free-solid-svg-icons'
-import i18n from "i18next";
-import { useTranslation, initReactI18next } from "react-i18next";
-import ns1 from 'src/lang/id.json';
-import ns2 from 'src/lang/en.json';
+import { faMapMarked, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import { useTranslation } from "react-i18next";
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import landingPageStyle from "src/@core/styles/landing-page/landing-page";
 
-i18n
-    .use(initReactI18next) // passes i18n down to react-i18next
+i18n.use(initReactI18next) // passes i18n down to react-i18next
     .init({
         // the translations
         // (tip move them in a JSON file and import them,
@@ -48,12 +44,24 @@ const featureItems = [
     },
 ];
 
+const planItems = [
+    "Ticketing System",
+    "Email, chat, voice, social messaging",
+    "Help center",
+    "Standard bots",
+    "Prebuilt analytics dashboard",
+    "1.000+ apps intergrations",
+    "Pre-defined responses (macros)",
+    "Custom business rules",
+    "Online support from the Zendesk team",
+];
+
 const Main = () => {
     const { t } = useTranslation();
 
     return <>
         <Grid container style={landingPageStyle.bannerHero}>
-            <Grid item xs={12} md={6} pt={5} pl={10}>
+            <Grid item xs={12} lg={6} md={12} pt={5} pl={10}>
                 <Typography variant="h1" style={{ color: "white" }}>{t("landing_hero_title")}</Typography>
                 <Typography fontSize={18} style={{ color: "white" }} mt={8}>{t("landing_hero_subtitle")}</Typography>
 
@@ -63,6 +71,7 @@ const Main = () => {
                 </Container>
             </Grid>
         </Grid>
+
         <Grid container justifyContent="center" sx={{ backgroundColor: 'none' }} spacing={9} mt={10}>
             {
                 featureItems.map(item => (
@@ -82,18 +91,65 @@ const Main = () => {
                 ))
             }
         </Grid>
+
         <Grid marginY={20} container direction="column" alignItems="center" justifyContent="center">
             <Grid sx={{ width: "80%" }} item textAlign="center">
                 <Typography variant='h3' sx={{ mb: 5 }} color={"black"}>{t("landing_about_title")}</Typography>
                 <Typography fontSize={18} variant='body1'>{t("landing_about_subtitle")}</Typography>
             </Grid>
         </Grid>
+
         <Grid marginY={20} container direction="column" alignItems="center" justifyContent="center">
             <Grid sx={{ width: "80%" }} item textAlign="center">
                 <Typography variant='h3' sx={{ mb: 5 }} color={"black"}>{t("landing_pricing_title")}</Typography>
                 <Typography fontSize={18} variant='body1'>{t("landing_pricing_subtitle")}</Typography>
             </Grid>
+
+            <Grid container
+                direction="row"
+                alignItems="center"
+                justifyContent="center">
+                {
+                    [1, 2, 3].map(i => (
+                        <Grid mx={10} mt={5} key={i} padding={5} item component={Card} textAlign="center">
+                            <Typography mb={2} variant="h5">Business</Typography>
+                            <Typography mb={2} fontWeight="body1" sx={{ textDecoration: "line-through", color: "grey" }} variant="h6">Rp50.000</Typography>
+                            <Typography mb={2} variant="h5">Rp30.000</Typography>
+
+                            <Grid
+                                container
+                                spacing={0}
+                                direction="column"
+                                alignItems="center"
+                                justifyContent="center">
+                                <Grid item width={200}>
+                                    <Typography mb={2} variant="body1">per user/month paid annualy minimum of 3 users</Typography>
+                                </Grid>
+                            </Grid>
+
+
+                            <Button fullWidth={true} type="button" variant="contained">Buy It</Button>
+                            <Typography my={3} variant="body1">Team Collaboration for any business</Typography>
+
+                            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                                {planItems.map((value) => (
+                                    <ListItem
+                                        key={value}
+                                        disableGutters>
+                                        <IconButton size="small" aria-label="comment">
+                                            <FontAwesomeIcon color="#66bb6a" icon={faCheckCircle} />
+                                        </IconButton>
+
+                                        <ListItemText primary={value} />
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </Grid>
+                    ))
+                }
+            </Grid>
         </Grid>
+
         <Grid container spacing={6} mt={20}>
             <Grid item md={1} >
                 <Typography variant='h5' sx={{ mb: 2 }} color={"black"}>Company</Typography>
