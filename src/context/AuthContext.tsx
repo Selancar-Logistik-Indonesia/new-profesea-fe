@@ -67,16 +67,16 @@ const AuthProvider = ({ children }: Props) => {
         HttpClient
             .post(authConfig.loginEndpoint, params)
             .then(async response => {
-                console.log("here 1", response);
+                // console.log("here 1", response);
 
                 const returnUrl = router.query.returnUrl
 
                 setUser({ ...response.data.user })
                 localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken);
                 secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);
-
-                const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
-                console.log(`redirectURL: ${redirectURL}`);
+                
+                const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : (response.data.user.role = 'admin') ? '/admin' : '/home' 
+                // console.log(`redirectURL: ${redirectURL}`);
 
                 await router.replace(redirectURL as string);
             })

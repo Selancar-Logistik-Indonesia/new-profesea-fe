@@ -29,6 +29,6 @@ jobs:
           cd ~/www/fe-selancar/
           git add . && git stash
           git pull origin main
-          /home/elogi-platform-user/.nvm/versions/node/v18.16.0/bin/npm i
-          /home/elogi-platform-user/.nvm/versions/node/v18.16.0/bin/npm run build
-          /home/elogi-platform-user/.nvm/versions/node/v18.16.0/bin/pm2 restart fe_selancar_stg
+          /root/n/bin/npm i
+          /root/n/bin/npm run build
+          /root/n/bin/pm2 restart fe_selancar_stg

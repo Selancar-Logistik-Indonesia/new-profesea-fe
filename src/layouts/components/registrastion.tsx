@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode,  useState } from 'react' 
+import { ReactNode, useState } from 'react'
 
 // ** MUI Components
 import Button from '@mui/material/Button'
@@ -13,7 +13,7 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
 
- // ** Icon Imports
+// ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
 // ** Configs
@@ -24,7 +24,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Hooks
 
 // ** Demo Imports
-import { Alert,  FormHelperText, Grid } from '@mui/material'
+import { FormHelperText, Grid } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
 
@@ -32,32 +32,32 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import * as yup from 'yup'
 import { HttpClient } from 'src/services'
-import { AppConfig } from 'src/configs/api' 
+import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/router'
 
-  interface FormData {
-    password2: string
-    password: string
-    name: string
-    position: string
-    code: string
-    phone: string
-    username: string
-    email: string
-  } 
-const Registration = (props:any) => {
+interface FormData {
+  password2: string
+  password: string
+  name: string
+  position: string
+  code: string
+  phone: string
+  username: string
+  email: string
+}
+const Registration = (props: any) => {
   const tipereg = props['tipereg'];
   const router = useRouter()
   // ** States
-  const [showPassword, setShowPassword] = useState<boolean>(false) 
+  const [showPassword, setShowPassword] = useState<boolean>(false)
 
   // const [combocode, getCombocode] = useState<any>([])
-   const schema = yup.object().shape({
+  const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(5).required()
   })
-     
+
 
   // const {register,handleSubmit,
   //   control,
@@ -66,53 +66,53 @@ const Registration = (props:any) => {
   //   resolver: yupResolver(schema)
   // };
 
-  const { 
+  const {
     register,
-    formState: { errors }, 
+    formState: { errors },
     handleSubmit,
   } = useForm<FormData>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
-  }) 
-  const save = (json:any) => {
-    HttpClient.post(AppConfig.baseUrl+ '/auth/register', json).then(({ data }) => {
-        console.log("here 1", data);
-         toast.success(data.name + ' Successfully submited!');
-          router.push('/registersuccess')
-         }, error => { 
-        console.log("here 1", error);
-         toast.error('Registrastion Failed ' + error.response.data.message) 
-      });
+  })
+  const save = (json: any) => {
+    HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(({ data }) => {
+      console.log("here 1", data);
+      toast.success(data.name + ' Successfully submited!');
+      router.push('/registersuccess')
+    }, error => {
+      console.log("here 1", error);
+      toast.error('Registrastion Failed ' + error.response.data.message)
+    });
   };
   const onSubmit = (data: FormData) => {
-    const {  password,password2,username,name,phone,email } = data
- 
-  let teamid:number;
-  if (tipereg  == 'seafer') {
-    teamid = 1
-  }else{
-    teamid = 2
-  } 
-  
-  const json ={
-    'name': name,
-    "email": email,
-    "username": username,
-    "password": password,
-    "password_confirmation": password2,
-    "employee_type": "onship",
-    "team_id": 1, 
-    "country_id": teamid,
-    "phone": phone
-  };
-  try{  
-       save(json); 
+    const { password, password2, username, name, phone, email } = data
+
+    let teamid: number;
+    if (tipereg == 'seafer') {
+      teamid = 1
+    } else {
+      teamid = 2
+    }
+
+    const json = {
+      'name': name,
+      "email": email,
+      "username": username,
+      "password": password,
+      "password_confirmation": password2,
+      "employee_type": "onship",
+      "team_id": 1,
+      "country_id": teamid,
+      "phone": phone
+    };
+    try {
+      save(json);
     } catch (e) {
       alert(e)
-       console.log(e); 
-    }   
-  }; 
- 
+      console.log(e);
+    }
+  };
+
   // const combobox = () =>{
   //     HttpClient.get(AppConfig.baseUrl+"/public/data/country?search=")
   //     .then((response) =>{
@@ -120,7 +120,7 @@ const Registration = (props:any) => {
   //       for (let x = 0; x < code.length; x++) {
   //         const element = code[x];
   //         element.label = element.name
-          
+
   //       }
 
   //           //  const code   = response.data.countries;
@@ -135,6 +135,7 @@ const Registration = (props:any) => {
 
   return (
     <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
+<<<<<<< HEAD
       <Grid container columnSpacing={'1'} rowSpacing={'0,5'}   sx={{ mb:2 }}>
          {tipereg == 'seafer' ? ( 
            <Grid container columnSpacing={'1'} rowSpacing={'0,5'}   sx={{ mb:2 }}>
@@ -148,17 +149,33 @@ const Registration = (props:any) => {
                   <Grid item md={2} xs={12} >
                 <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} />
                 {/* <Autocomplete
+=======
+      <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
+        {tipereg == 'seafer' ? (
+          <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
+            <Grid item md={12} xs={12}>
+              <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("name")} />
+            </Grid>
+
+            <Grid item md={6} xs={12} >
+              <TextField id="Position" label="Position" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("position")} />
+            </Grid>
+            <Grid item md={2} xs={12} >
+              <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} />
+              {/* <Autocomplete
+>>>>>>> e67f95835f8b7065edec12ec19deb41dfe201d36
                   disablePortal
                   id="combo-box-demo"
                   options={combocode}  
                   renderInput={(params) => <TextField {...params} label="phonecode" />}
                   onChange={(event: any, newValue: string |null)=> setCombocode(newValue)}
                 /> */}
-              </Grid>
-              <Grid item md={4} xs={12} >
-                <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6  }} {...register("phone")}/>
-              </Grid>
+            </Grid>
+            <Grid item md={4} xs={12} >
+              <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")} />
+            </Grid>
           </Grid>
+<<<<<<< HEAD
           ) :   <Grid container columnSpacing={'1'} rowSpacing={'0,5'}   sx={{ mb:2 }}>
               <Grid item md={6} xs={12}>
                 <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("name")}/>
@@ -168,21 +185,32 @@ const Registration = (props:any) => {
                   <Grid item md={2} xs={12} >
                 <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} />
                 {/* <Autocomplete
+=======
+        ) : <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
+          <Grid item md={6} xs={12}>
+            <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("name")} />
+          </Grid>
+
+
+          <Grid item md={2} xs={12} >
+            <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} />
+            {/* <Autocomplete
+>>>>>>> e67f95835f8b7065edec12ec19deb41dfe201d36
                   disablePortal
                   id="combo-box-demo"
                   options={combocode}  
                   renderInput={(params) => <TextField {...params} label="phonecode" />}
                   onChange={(event: any, newValue: string |null)=> setCombocode(newValue)}
                 /> */}
-              </Grid>
-              <Grid item md={4} xs={12} >
-                <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")}/>
-              </Grid>
-          </Grid>}
-        
-         
+          </Grid>
+          <Grid item md={4} xs={12} >
+            <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")} />
+          </Grid>
+        </Grid>}
+
+
         <Grid item md={6} xs={12} >
-          <TextField id="Username" label="Username" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("username")}/>                  
+          <TextField id="Username" label="Username" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("username")} />
         </Grid>
         <Grid item md={6} xs={12} >
           <FormControl fullWidth>
@@ -190,24 +218,24 @@ const Registration = (props:any) => {
               Password
             </InputLabel>
             <OutlinedInput
-                   sx={{ mb: 6 }}
-                  label='Password'  
-                  id='password1' 
-                  error={Boolean(errors.password)}
-                  type={showPassword ? 'text' : 'password'}
-                   {...register("password")}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      <IconButton
-                        edge='end'
-                        onMouseDown={e => e.preventDefault()}
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
+              sx={{ mb: 6 }}
+              label='Password'
+              id='password1'
+              error={Boolean(errors.password)}
+              type={showPassword ? 'text' : 'password'}
+              {...register("password")}
+              endAdornment={
+                <InputAdornment position='end'>
+                  <IconButton
+                    edge='end'
+                    onMouseDown={e => e.preventDefault()}
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
             {errors.password && (
               <FormHelperText sx={{ color: 'error.main' }} id=''>
                 {(errors as any).password?.message}
@@ -216,7 +244,7 @@ const Registration = (props:any) => {
           </FormControl>
         </Grid>
         <Grid item md={6} xs={12} >
-          <TextField id="Email" label="Email" variant="outlined" fullWidth  {...register("email")}/>
+          <TextField id="Email" label="Email" variant="outlined" fullWidth  {...register("email")} />
         </Grid>
         <Grid item md={6} xs={12} >
           <FormControl fullWidth>
@@ -224,24 +252,24 @@ const Registration = (props:any) => {
               Confirm Password
             </InputLabel>
             <OutlinedInput
-                   sx={{ mb: 6 }}
-                  label='Password'  
-                  id='password1' 
-                  error={Boolean(errors.password)}
-                  type={showPassword ? 'text' : 'password'}
-                   {...register("password2")}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      <IconButton
-                        edge='end'
-                        onMouseDown={e => e.preventDefault()}
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
+              sx={{ mb: 6 }}
+              label='Password'
+              id='password1'
+              error={Boolean(errors.password)}
+              type={showPassword ? 'text' : 'password'}
+              {...register("password2")}
+              endAdornment={
+                <InputAdornment position='end'>
+                  <IconButton
+                    edge='end'
+                    onMouseDown={e => e.preventDefault()}
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
             {errors.password && (
               <FormHelperText sx={{ color: 'error.main' }} id=''>
                 {(errors as any).password?.message}
@@ -250,7 +278,7 @@ const Registration = (props:any) => {
           </FormControl>
         </Grid>
         <Grid item md={12} xs={12} >
-             <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
+          <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
             <Checkbox></Checkbox>
             <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px', fontSize: "12px" }}>
               Terms Of Service,
@@ -259,7 +287,7 @@ const Registration = (props:any) => {
 
           </Box>
         </Grid>
-        <Grid item md={12} xs={12} > 
+        <Grid item md={12} xs={12} >
           <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
             <Checkbox></Checkbox>
             <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px', fontSize: "12px" }}>
@@ -270,8 +298,13 @@ const Registration = (props:any) => {
           </Box>
         </Grid>
         <Grid item md={3} xs={12} >
+<<<<<<< HEAD
           <Button fullWidth size='small' type='submit' href='/register' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-left'} />} >
              PREVIOUS 
+=======
+          <Button fullWidth size='large' type='submit' href='/register' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-left'} />} >
+            PREVIOUS
+>>>>>>> e67f95835f8b7065edec12ec19deb41dfe201d36
           </Button>
         </Grid>
 
@@ -283,7 +316,7 @@ const Registration = (props:any) => {
         </Grid>
       </Grid>
 
-    
+
     </form>
   )
 }

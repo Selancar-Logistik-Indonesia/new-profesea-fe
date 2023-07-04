@@ -11,6 +11,13 @@ const navigation = (): VerticalNavItemsType => {
             subject: 'home',
         },
         {
+            path: '/admin/accounts/',
+            title: 'Accounts',
+            icon: 'mdi:user',
+            action: 'read',
+            subject: 'accounts',
+        },
+        {
             path: '#',
             title: 'Master Data',
             icon: 'mdi:email-outline',
@@ -20,7 +27,13 @@ const navigation = (): VerticalNavItemsType => {
                 {
                     title: "Job Category",
                     path: "/admin/master/job-categories",
-                    subject: "/master/job-categoriesy",
+                    subject: "/master/job-categories",
+                    action: "read",
+                },
+                {
+                    title: "Training Category",
+                    path: "/admin/master/training-categories",
+                    subject: "/master/training-categories",
                     action: "read",
                 },
                 {
