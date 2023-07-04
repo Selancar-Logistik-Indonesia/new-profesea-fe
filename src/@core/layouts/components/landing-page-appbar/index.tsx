@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import { useTheme } from '@mui/material/styles'
 import { useSettings } from 'src/@core/hooks/useSettings'
-import { Box, Button, ButtonPropsVariantOverrides, Container, Divider } from '@mui/material'
+import { Box, Button, ButtonPropsVariantOverrides, Container, Divider, SxProps } from '@mui/material'
 import { OverridableStringUnion } from '@mui/types';
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { useEffect, useState } from 'react'
@@ -15,6 +15,7 @@ import { useRouter } from 'next/router'
 type NavItemType = {
     title: string,
     variant: OverridableStringUnion<'text' | 'outlined' | 'contained', ButtonPropsVariantOverrides>,
+    sx?: SxProps,
     onClick: any
 };
 
@@ -24,8 +25,8 @@ const LandingPageAppBar = () => {
     const { locale } = useRouter();
     const { skin } = settings;
     const navItems: NavItemType[] = [
-        { title: 'Login', variant: 'outlined', onClick: "/login" },
-        { title: 'Register', variant: 'contained', onClick: "/register" },
+        { title: 'Login', variant: 'contained', onClick: "/login" },
+        { title: 'Register', variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
     ];
 
     const [isLogin, setIsLogin] = useState(false);
@@ -48,7 +49,7 @@ const LandingPageAppBar = () => {
                 ...(skin === 'bordered' && { borderBottom: `1px solid ${theme.palette.divider}` })
             }}
         >
-            <Container>
+            <Container maxWidth={false}>
                 <Toolbar
                     sx={{
                         justifyContent: 'space-between',
@@ -69,7 +70,6 @@ const LandingPageAppBar = () => {
                         display: 'flex',
                         alignItems: 'center',
                         width: 'fit-content',
-                        border: (theme) => `1px solid ${theme.palette.divider}`,
                         borderRadius: 1,
                         bgcolor: 'background.paper',
                         color: 'text.secondary',
@@ -100,7 +100,7 @@ const LandingPageAppBar = () => {
 
                         {!isLogin ? navItems.map((item) => (
                             <Link href={item.onClick} key={item.title} locale={locale}>
-                                <Button size='small' type='button' variant={item.variant} sx={{ mr: 2, ml: 2 }}>
+                                <Button size='small' type='button' variant={item.variant} sx={{ ...item.sx, mr: 2, ml: 2 }} >
                                     {item.title}
                                 </Button>
                             </Link>
@@ -118,7 +118,7 @@ const LandingPageAppBar = () => {
                     </Box>
                 </Toolbar>
             </Container>
-        </AppBar>
+        </AppBar >
     )
 }
 

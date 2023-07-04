@@ -9,7 +9,6 @@ import ns1 from 'src/lang/id.json';
 import ns2 from 'src/lang/en.json';
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import { styled } from '@mui/material/styles'
 import landingPageStyle from "src/@core/styles/landing-page/landing-page";
 
 i18n
@@ -31,24 +30,32 @@ i18n
         }
     });
 
-const BannerIllustration = styled('img')(({ theme }) => ({
-    maxWidth: '40rem',
-    [theme.breakpoints.down('lg')]: {
-        maxWidth: '30rem'
+const featureItems = [
+    {
+        icon: faMapMarked,
+        title: "Pinpoint Matching with Profesea",
+        description: "Cancun is back, better than ever! Over a hundred Mexico resorts have reopened and the state tourism minister predicts Cancun will draw as many visitors in 2006 as it did two years ago.",
     },
-    [theme.breakpoints.down('md')]: {
-        maxWidth: '48rem'
-    }
-}))
+    {
+        icon: faMapMarked,
+        title: "Global CV",
+        description: "You'll have chance to find a job and employee from all over the World via Profesea.",
+    },
+    {
+        icon: faMapMarked,
+        title: "Optimised Candidate Pool via Industry Specific Filters",
+        description: "Companies have a chance to find the most suitable employee at shortest time via our Technically Oriented Maritime Specialized Database.",
+    },
+];
 
 const Main = () => {
     const { t } = useTranslation();
 
     return <>
         <Grid container style={landingPageStyle.bannerHero}>
-            <Grid item xs={12} md={6} mt={20} paddingX={5} >
-                <Typography variant="h3" style={{ color: "white" }}>{t("landing_hero_title")}</Typography>
-                <Typography variant="body1" style={{ color: "white" }} mt={8}>{t("landing_hero_subtitle")}</Typography>
+            <Grid item xs={12} md={6} pt={5} pl={10}>
+                <Typography variant="h1" style={{ color: "white" }}>{t("landing_hero_title")}</Typography>
+                <Typography fontSize={18} style={{ color: "white" }} mt={8}>{t("landing_hero_subtitle")}</Typography>
 
                 <Container style={{ marginTop: 30 }}>
                     <Button style={{ backgroundColor: "white", color: "#666CFF", marginRight: 10 }} variant="contained">{t('b_apply_job')}</Button>
@@ -56,54 +63,35 @@ const Main = () => {
                 </Container>
             </Grid>
         </Grid>
-        <Grid container spacing={6} mt={20}>
-            <Grid item xs={12} sm={6} md={4}>
-                <Card elevation={0}>
-                    <CardContent sx={{ pt: 4 }}>
-                        <Typography variant='h6' sx={{ mb: 2 }}>
-                            <FontAwesomeIcon width={40} height={200} icon={faMapMarked} />
-                            Pinpoint Matching with Profesea
-                        </Typography>
-                        <Typography variant='body1'>
-                            Cancun is back, better than ever! Over a hundred Mexico resorts have reopened and the state tourism minister
-                            predicts Cancun will draw as many visitors in 2006 as it did two years ago.
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-                <Card elevation={0}>
-                    <CardContent sx={{ pt: 4 }}>
-                        <Typography variant='h6' sx={{ mb: 2 }}>
-                            <FontAwesomeIcon width={40} height={200} icon={faMapMarked} />
-                            Global CV
-                        </Typography>
-                        <Typography variant='body1'>
-                            You'll have chance to find a job and employee from all over the World via Profesea.
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-                <Card elevation={0}>
-                    <CardContent sx={{ pt: 4 }}>
-                        <Typography variant='h6' sx={{ mb: 2 }}>
-                            <FontAwesomeIcon width={40} height={200} icon={faMapMarked} />
-                            Optimised Candidate Pool via Industry Specific Filters
-                        </Typography>
-                        <Typography variant='body1'>
-                            Companies have a chance to find the most suitable employee at shortest time via our Technically Oriented Maritime Specialized Database.
-                        </Typography>
-                    </CardContent>
-                </Card>
+        <Grid container justifyContent="center" sx={{ backgroundColor: 'none' }} spacing={9} mt={10}>
+            {
+                featureItems.map(item => (
+                    <Grid item key={item.title}>
+                        <Card sx={{ width: 420, height: 180 }} elevation={0}>
+                            <CardContent>
+                                <Typography variant='h6' sx={{ mb: 2 }}>
+                                    <FontAwesomeIcon width={40} height={200} icon={item.icon} />
+                                    {item.title}
+                                </Typography>
+                                <Typography variant='body1'>
+                                    {item.description}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))
+            }
+        </Grid>
+        <Grid marginY={20} container direction="column" alignItems="center" justifyContent="center">
+            <Grid sx={{ width: "80%" }} item textAlign="center">
+                <Typography variant='h3' sx={{ mb: 5 }} color={"black"}>{t("landing_about_title")}</Typography>
+                <Typography fontSize={18} variant='body1'>{t("landing_about_subtitle")}</Typography>
             </Grid>
         </Grid>
-        <Grid container spacing={6} mt={20}>
-            <Grid item md={12}>
-                <center>
-                    <Typography variant='h3' sx={{ mb: 2 }} color={"black"}>{t("landing_about_title")}</Typography>
-                    <Typography variant='body1'>{t("landing_about_subtitle")}</Typography>
-                </center>
+        <Grid marginY={20} container direction="column" alignItems="center" justifyContent="center">
+            <Grid sx={{ width: "80%" }} item textAlign="center">
+                <Typography variant='h3' sx={{ mb: 5 }} color={"black"}>{t("landing_pricing_title")}</Typography>
+                <Typography fontSize={18} variant='body1'>{t("landing_pricing_subtitle")}</Typography>
             </Grid>
         </Grid>
         <Grid container spacing={6} mt={20}>
@@ -129,7 +117,6 @@ const Main = () => {
                 <Typography variant='body1'>Samudera Indonesia Building. 2th FlJl. Letjen S. Parman Kav 35, Kel. Kemanggisan
                     Kec. Palmerah, Jakarta 11480 - Indonesia. (0265) 311766</Typography>
                 <Typography variant='body1'>Trainer</Typography>
-
             </Grid>
         </Grid>
 
