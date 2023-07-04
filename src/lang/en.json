@@ -12,6 +12,20 @@
         "landing_jobs_title": "Find Jobs",
         "landing_jobs_subtitle": "Description of find jobs (waiting)",
         "landing_candidate_title": "Find Candidates",
-        "landing_candidate_subtitle": "Description of find candidates (waiting)"
+        "landing_candidate_subtitle": "Description of find candidates (waiting)",
+        "features": {
+            "findJobs": {
+                "title": "Find Jobs",
+                "subtitle": "Find any jobs in the maritime industry that match your skills and interest"
+            },
+            "findCandidates": {
+                "title": "Find Candidates",
+                "subtitle": "Find the right candidate using our specific filters made for maritime industry jobs"
+            },
+            "improveCareer": {
+                "title": "Improve your career",
+                "subtitle": "Improve your chance to become the star candidate and get picked by the employers using training and certification"
+            }
+        }
     }
 }

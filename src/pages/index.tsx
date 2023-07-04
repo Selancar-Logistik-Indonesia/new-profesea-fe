@@ -2,10 +2,7 @@ import { Box, Button, Container, Divider, Grid, IconButton, Typography } from "@
 import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import landingPageStyle from "src/@core/styles/landing-page/landing-page";
-import i18n from "i18next";
-import { useTranslation, initReactI18next } from "react-i18next";
-import ns1 from 'src/lang/id.json';
-import ns2 from 'src/lang/en.json';
+import { useTranslation } from "react-i18next";
 import FeatureView from "src/views/landing-page/featureView";
 import PricingView from "src/views/landing-page/pricingView";
 import FindJobsView from "src/views/landing-page/findJobsView";
@@ -15,18 +12,6 @@ import { faFacebook, faInstagram, faLinkedin, faTwitter } from "@fortawesome/fre
 import Link from "next/link";
 import { useRouter } from "next/router";
 import NavItemType from "src/contract/types/navItemType";
-
-i18n.use(initReactI18next)
-    .init({
-        resources: {
-            id: ns1,
-            en: ns2
-        },
-        fallbackLng: "id",
-        interpolation: {
-            escapeValue: false
-        }
-    });
 
 const navItems: NavItemType[] = [
     { title: 'Login', variant: 'contained', onClick: "/login" },
