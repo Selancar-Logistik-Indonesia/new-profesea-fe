@@ -1,12 +1,16 @@
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card' 
+import Card from '@mui/material/Card'
+import { Button } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-  
+ 
+import Icon from 'src/@core/components/icon' 
 import { styled } from '@mui/material/styles'
-import { Paper } from '@mui/material'   
+import { Paper } from '@mui/material' 
+import CommentForm from './CommentForm'
+import { useState } from 'react'
 
 export type ParamMain = {
   logo: string 
@@ -31,7 +35,21 @@ interface Props {
   // teams: ProfileTeamsType[]
   paramcomment: ParamMain[] 
 }
- 
+function CommentActions({
+  commentId, replycount
+}:{
+  commentId : string;
+  replycount: string;
+}){
+  const [replying,setreplying] = useState(false);
+  
+  return(
+    <> 
+    <Button size='small' color='primary'  startIcon={<Icon icon='mdi:comment-outline'  fontSize={10}/>}  onClick={()=> setreplying(!replying)}>{replycount} Comment</Button> 
+    {replying && <CommentForm parentId={commentId}/> }
+    </>
+  )
+}
 const renderList = (arr: ParamMain[]) => {
   if (arr && arr.length) {
     return arr.map((item, index) => {
@@ -61,7 +79,17 @@ const renderList = (arr: ParamMain[]) => {
                  {`${item.postcomment.charAt(0).toUpperCase() + item.postcomment.slice(1)}`} 
               </Typography>
            </Box>
-           
+           <Box >
+             <Button size='small' color='primary'  startIcon={<Icon icon='mdi:like-outline'  fontSize={10}/>} > Like</Button>
+             {/* <Button size='small' color='primary'  startIcon={<Icon icon='mdi:comment-outline'  fontSize={10}/>}> Comment</Button> */}
+             <CommentActions commentId='1' replycount='1'/>
+             <Button size='small' color='primary'  startIcon={<Icon icon='ic:round-repeat'  fontSize={10}/>}> Repost</Button>
+             <Button size='small' color='primary' startIcon={<Icon icon='solar:share-linear'  fontSize={10}/>} > Share</Button>
+            {/* <Typography href='/tes' component={Link}>
+              tes
+            </Typography> */} 
+            {/* <CommentForm></CommentForm> */}
+           </Box>
         </Paper>
         
       )
@@ -72,7 +100,7 @@ const renderList = (arr: ParamMain[]) => {
 }
  
 
-const Recomended = (props: Props) => {
+const NestedComment = (props: Props) => {
   const {   paramcomment  } = props
 
   return (
@@ -94,4 +122,4 @@ const Recomended = (props: Props) => {
   )
 }
 
-export default Recomended
+export default NestedComment

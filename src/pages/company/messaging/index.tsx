@@ -3,7 +3,7 @@ import React  from 'react'
 
 // ** MUI Components
 import Box  from '@mui/material/Box'  
-import {  Card, CardContent, Typography, useMediaQuery   } from '@mui/material'
+import {  useMediaQuery   } from '@mui/material'
 
 import {  useTheme } from '@mui/material/styles'
 // ** Layout Import
@@ -13,17 +13,16 @@ import {  useTheme } from '@mui/material/styles'
 
 // ** Demo Imports
 // import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import {   Grid } from '@mui/material'  
-import Profile from './Profile'
-import Feed from './Feed'
-import Recomended from './Recomended'
-// import AboutOverivew from './JobVacancy' 
-// import NestedComment from './NestedComment'  
+import {   Grid } from '@mui/material' 
+
+import NestedComment from './NestedComment'
+import Newmessage from './Newmessage'
+ 
 
 // import { yupResolver } from '@hookform/resolvers/yup'
     
  
-const FindCandidate = () => { 
+const Messaging = () => { 
   
 const theme = useTheme() 
 const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -68,36 +67,15 @@ const vacancy = [
           
             }}
                     >  
-            
+             
             <Grid container spacing={6} sx={{marginTop:'1px'}}>
               <Grid item lg={4} md={5} xs={12}> 
-                <Profile vacancy={vacancy}  /> 
-                <br></br> 
-                <Grid container  >
-                  <Grid item xs={12}>
-                    <Card>
-                      <CardContent>
-                         <Box sx={{ columnGap: 2,   flexWrap: 'wrap', alignItems: 'center' }}>
-                        <Typography sx={{ fontWeight: 600, color: 'text.secondary' }}>
-                         Total Conected :250
-                        </Typography>
-                        
-                      </Box> 
-                      
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                  
-                </Grid> 
-                     
-                <br></br>
-                 <Feed  vacancy={vacancy}></Feed>
+               <Newmessage  vacancy={vacancy}></Newmessage>
               </Grid>
-               <Grid item lg={8} md={7} xs={12}>
+              <Grid item lg={8} md={7} xs={12}>
                 <Grid container spacing={6}>
                   <Grid item xs={12}> 
-                  <Typography> Recommend for you</Typography>
-                      <Recomended paramcomment={paramcomment}></Recomended>
+                     <NestedComment paramcomment={paramcomment}></NestedComment>
                   </Grid> 
                 </Grid>
               </Grid>
@@ -166,8 +144,8 @@ const vacancy = [
 }
  
 
-FindCandidate.acl = {
+Messaging.acl = {
   action: 'read',
   subject: 'home'
 };
-export default FindCandidate
+export default Messaging
