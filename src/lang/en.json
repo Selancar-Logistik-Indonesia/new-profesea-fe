@@ -10,6 +10,8 @@
         "landing_pricing_title": "Pricing",
         "landing_pricing_subtitle": "Description of pricing (waiting)",
         "landing_jobs_title": "Find Jobs",
-        "landing_jobs_subtitle": "Description of find jobs (waiting)"
+        "landing_jobs_subtitle": "Description of find jobs (waiting)",
+        "landing_candidate_title": "Find Candidates",
+        "landing_candidate_subtitle": "Description of find candidates (waiting)"
     }
 }
