@@ -2,16 +2,13 @@ import { Button, Container, Grid, Paper, Typography } from "@mui/material";
 import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAdd, faMapMarked } from '@fortawesome/free-solid-svg-icons'
+import { faMapMarked } from '@fortawesome/free-solid-svg-icons'
 import i18n from "i18next";
-
 import { useTranslation, initReactI18next } from "react-i18next";
 import ns1 from 'src/lang/id.json';
 import ns2 from 'src/lang/en.json';
-
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-
 import { styled } from '@mui/material/styles'
 import landingPageStyle from "src/@core/styles/landing-page/landing-page";
 
