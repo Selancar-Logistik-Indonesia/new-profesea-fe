@@ -3,21 +3,14 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import { useTheme } from '@mui/material/styles'
 import { useSettings } from 'src/@core/hooks/useSettings'
-import { Box, Button, ButtonPropsVariantOverrides, Container, Divider, SxProps } from '@mui/material'
-import { OverridableStringUnion } from '@mui/types';
+import { Box, Button, Container, Divider } from '@mui/material'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { useEffect, useState } from 'react'
 import UserDropdown from '../shared-components/UserDropdown'
 import secureLocalStorage from 'react-secure-storage'
 import LanguageDropdown from '../shared-components/LanguageDropdown'
 import { useRouter } from 'next/router'
-
-type NavItemType = {
-    title: string,
-    variant: OverridableStringUnion<'text' | 'outlined' | 'contained', ButtonPropsVariantOverrides>,
-    sx?: SxProps,
-    onClick: any
-};
+import NavItemType from 'src/contract/types/navItemType'
 
 const LandingPageAppBar = () => {
     const theme = useTheme();
