@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram, faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import NavItemType from "src/contract/types/navItemType";
 
 i18n.use(initReactI18next)
     .init({
@@ -26,7 +27,8 @@ i18n.use(initReactI18next)
             escapeValue: false
         }
     });
-const navItems = [
+
+const navItems: NavItemType[] = [
     { title: 'Login', variant: 'contained', onClick: "/login" },
     { title: 'Register', variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
 ];
