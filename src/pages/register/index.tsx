@@ -24,7 +24,8 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-
+import { margin } from '@mui/system'
+ 
 // ** Styled Components
 const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   padding: theme.spacing(20),
@@ -35,7 +36,7 @@ const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 const RegisterIllustration = styled('img')(({ theme }) => ({
-  maxWidth: '48rem',
+  maxWidth: '100%',
   [theme.breakpoints.down('xl')]: {
     maxWidth: '38rem'
   },
@@ -72,20 +73,25 @@ const Register = () => {
 
 
   return (
-    <Box className='content-right'>
+    <Box  sx={{
+        position: 'fit',
+        width: '100%',
+        height: '100%',
+        backgroundImage: "url(/images/bgregister.png)",
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: 'red'
+      }}> 
+    <Box className='content-right' >
       {!hidden ? (
         <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-          <RegisterIllustrationWrapper>
-            <RegisterIllustration
-              alt='register-illustration'
-              src={`/images/shipper.png`}
-            />
-          </RegisterIllustrationWrapper>
+          
           <FooterIllustrationsV2 image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`} />
         </Box>
       ) : null}
 
-      <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
+      <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}`  } : {}}>
         <Box
           sx={!hidden ? {
             boxSizing: 'border-box',
@@ -95,6 +101,7 @@ const Register = () => {
             // left: '956px',
             maxWidth: '100%',
             marginTop: '10%',
+            margin: '10%',
             background: '#FFFFFF',
             border: '1px solid rgba(76, 78, 100, 0.12)',
             borderRadius: '20px',
@@ -103,7 +110,7 @@ const Register = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'background.paper'
+            // backgroundColor: 'background.paper'
           } : {
             p: 7,
             height: '100%',
@@ -227,6 +234,7 @@ const Register = () => {
           </BoxWrapper>
         </Box>
       </RightWrapper>
+    </Box>
     </Box>
   )
 }
