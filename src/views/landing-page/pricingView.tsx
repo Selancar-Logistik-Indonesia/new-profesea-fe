@@ -1,10 +1,12 @@
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Grid, IconButton, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const PricingView = () => {
     const { t } = useTranslation();
+    const [pricingType, setPricingType] = useState<'company' | 'candidate'>('company');
 
     const planItems = [
         "Ticketing System",
@@ -26,8 +28,8 @@ const PricingView = () => {
             </Grid>
 
             <Grid container direction="row" alignItems="center" justifyContent="center">
-                <Button variant="contained">Company</Button>
-                <Button sx={{ marginLeft: 4 }}>Candidate</Button>
+                <Button onClick={() => setPricingType('company')} variant={pricingType == 'company' ? "contained" : undefined}>Company</Button>
+                <Button onClick={() => setPricingType('candidate')} variant={pricingType == 'candidate' ? "contained" : undefined} sx={{ marginLeft: 4 }}>Candidate</Button>
             </Grid>
 
             <Grid container

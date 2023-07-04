@@ -1,7 +1,7 @@
 {
     "translation": {
         "landing_hero_title": "Selamat datang di profesea.id",
-        "landing_hero_subtitle": "Terhubunglah dengan jutaan orang dan pekerjaan di platform komunitas kami untuk membantu meningkatkan karier Anda di industri maritim!",
+        "landing_hero_subtitle": "Terhubung dengan jutaan orang dan pekerjaan di platform komunitas kami untuk membantu meningkatkan karier Anda di industri maritim!",
         "landing_about_title": "Tentang Kami",
         "landing_about_subtitle": "Profesea adalah platform pencocokan Pelaut dan Kapal yang menyediakan fitur unggulan dan sumber kandidat yang cepat untuk Industri Maritim. Perusahaan dan karyawan memiliki kesempatan untuk memilih opsi teknis yang spesifik dan kriteria terperinci melalui Profesea. Tujuan utama kami adalah membantu manajer personil dan HR menemukan pelaut yang cocok untuk perusahaan mereka dengan cepat dan mudah.",
         "l_password": "Kata Sandi",
@@ -12,6 +12,20 @@
         "landing_jobs_title": "Temukan Pekerjaan",
         "landing_jobs_subtitle": "Deskripsi temukan pekerjaan (menunggu)",
         "landing_candidate_title": "Temukan Kandidat",
-        "landing_candidate_subtitle": "Deskripsi temukan kandidat (menunggu)"
+        "landing_candidate_subtitle": "Deskripsi temukan kandidat (menunggu)",
+        "features": {
+            "findJobs": {
+                "title": "Temukan Pekerjaan",
+                "subtitle": "Temukan pekerjaan di industri maritim yang sesuai dengan keahlian dan minat Anda"
+            },
+            "findCandidates": {
+                "title": "Temukan Kandidat",
+                "subtitle": "Temukan kandidat yang tepat menggunakan filter khusus yang dibuat untuk pekerjaan di industri maritim"
+            },
+            "improveCareer": {
+                "title": "Tingkatkan karier Anda",
+                "subtitle": "Tingkatkan peluang Anda menjadi kandidat unggulan dan dipilih oleh pemberi kerja dengan pelatihan dan sertifikasi"
+            }
+        }
     }
 }

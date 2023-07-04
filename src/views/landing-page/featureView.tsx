@@ -1,23 +1,29 @@
 import { faBriefcase, faChartLine, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card, CardContent, Grid, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const FeatureView = () => {
+    const { t } = useTranslation();
+
     const featureItems = [
         {
+            key: "feat1",
             icon: faBriefcase,
-            title: "Find Jobs",
-            description: "Find any jobs in the maritime industry that match your skills and interest",
+            title: t('features.findJobs.title'),
+            description: t('features.findJobs.subtitle'),
         },
         {
+            key: "feat2",
             icon: faUsers,
-            title: "Find Candidates",
-            description: "Find the right candidate using our specific filters made for maritime industry jobs",
+            title: t('features.findJobs.title'),
+            description: t('features.findJobs.subtitle'),
         },
         {
+            key: "feat3",
             icon: faChartLine,
-            title: "Improve your career",
-            description: "Improve your chance to become the star candidate and get picked by the employers using training and certification",
+            title: t('features.findJobs.title'),
+            description: t('features.findJobs.subtitle'),
         },
     ];
 
@@ -25,7 +31,7 @@ const FeatureView = () => {
         <Grid container justifyContent="center" sx={{ backgroundColor: 'none' }} spacing={9} mt={10}>
             {
                 featureItems.map(item => (
-                    <Grid item key={item.title}>
+                    <Grid item key={item.key}>
                         <Card sx={{ width: 420, height: 180 }} elevation={3}>
                             <CardContent>
                                 <Typography variant='h6' sx={{ mb: 2 }}>
