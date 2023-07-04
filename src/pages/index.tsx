@@ -10,21 +10,15 @@ import FeatureView from "src/views/landing-page/featureView";
 import PricingView from "src/views/landing-page/pricingView";
 import FindJobsView from "src/views/landing-page/findJobsView";
 
-i18n.use(initReactI18next) // passes i18n down to react-i18next
+i18n.use(initReactI18next)
     .init({
-        // the translations
-        // (tip move them in a JSON file and import them,
-        // or even better, manage them via a UI: https://react.i18next.com/guides/multiple-translation-files#manage-your-translations-with-a-management-gui)
         resources: {
             id: ns1,
             en: ns2
         },
-
-        // if you're using a language detector, do not define the lng optio
         fallbackLng: "id",
-
         interpolation: {
-            escapeValue: false // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
+            escapeValue: false
         }
     });
 

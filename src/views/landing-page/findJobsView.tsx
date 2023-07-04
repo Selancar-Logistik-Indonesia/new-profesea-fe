@@ -1,4 +1,4 @@
-import { faArrowDown, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Chip, Grid, Typography } from "@mui/material";
 import Link from "next/link";
@@ -37,7 +37,7 @@ const FindJobsView = () => {
                             planItems.map((item, i) => (
                                 i == 9
                                     ? <Link key={item} href="/">
-                                        <Chip clickable label={item} onDelete={() => { }} deleteIcon={(<FontAwesomeIcon color="#fff" icon={faChevronDown} />)} sx={{ marginRight: 2, marginBottom: 3 }} variant="filled" color="primary" />
+                                        <Chip clickable label={item} onDelete={() => null} deleteIcon={(<FontAwesomeIcon color="#fff" icon={faChevronDown} />)} sx={{ marginRight: 2, marginBottom: 3 }} variant="filled" color="primary" />
                                     </Link>
                                     : <Chip sx={{ marginRight: 2, marginBottom: 3 }} key={item} label={item} variant="outlined" />
                             ))
@@ -56,7 +56,7 @@ const FindJobsView = () => {
                             planItems.map((item, i) => (
                                 i == 9
                                     ? <Link key={item} href="/">
-                                        <Chip clickable label={item} onDelete={() => { }} deleteIcon={(<FontAwesomeIcon color="#fff" icon={faChevronDown} />)} sx={{ marginRight: 2, marginBottom: 3 }} variant="filled" color="primary" />
+                                        <Chip clickable label={item} onDelete={() => null} deleteIcon={(<FontAwesomeIcon color="#fff" icon={faChevronDown} />)} sx={{ marginRight: 2, marginBottom: 3 }} variant="filled" color="primary" />
                                     </Link>
                                     : <Chip sx={{ marginRight: 2, marginBottom: 3 }} key={item} label={item} variant="outlined" />
                             ))
