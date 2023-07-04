@@ -8,6 +8,8 @@
         "b_apply_job": "Apply for job",
         "b_post_job": "Post a job",
         "landing_pricing_title": "Pricing",
-        "landing_pricing_subtitle": "Description of pricing (waiting)"
+        "landing_pricing_subtitle": "Description of pricing (waiting)",
+        "landing_jobs_title": "Find Jobs",
+        "landing_jobs_subtitle": "Description of find jobs (waiting)"
     }
 }

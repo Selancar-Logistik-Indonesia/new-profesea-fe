@@ -3,11 +3,13 @@
         "landing_hero_title": "Selamat datang di profesea.id",
         "landing_hero_subtitle": "Terhubunglah dengan jutaan orang dan pekerjaan di platform komunitas kami untuk membantu meningkatkan karier Anda di industri maritim!",
         "landing_about_title": "Tentang Kami",
-        "landing_about_subtitle": "Profesea adalah platform pencocokan Pelaut dan Kapal yang menyediakan pencarian kandidat unggulan dan cepat untuk Industri Maritim. Perusahaan dan karyawan memiliki kesempatan untuk memilih opsi teknis tertentu dan kriteria terperinci melalui Profesea. Tujuan utama adalah membantu manajer personel dan SDM menemukan pelaut yang cocok untuk perusahaan mereka dengan cepat dan mudah.",
+        "landing_about_subtitle": "Profesea adalah platform pencocokan Pelaut dan Kapal yang menyediakan fitur unggulan dan sumber kandidat yang cepat untuk Industri Maritim. Perusahaan dan karyawan memiliki kesempatan untuk memilih opsi teknis yang spesifik dan kriteria terperinci melalui Profesea. Tujuan utama kami adalah membantu manajer personil dan HR menemukan pelaut yang cocok untuk perusahaan mereka dengan cepat dan mudah.",
         "l_password": "Kata Sandi",
         "b_apply_job": "Lamar Pekerjaan",
-        "b_post_job": "Posting Pekerjaan",
-        "landing_pricing_title": "Pricing",
-        "landing_pricing_subtitle": "Description of pricing (waiting)"
+        "b_post_job": "Pasang Pekerjaan",
+        "landing_pricing_title": "Harga",
+        "landing_pricing_subtitle": "Deskripsi harga (menunggu)",
+        "landing_jobs_title": "Temukan Pekerjaan",
+        "landing_jobs_subtitle": "Deskripsi temukan pekerjaan (menunggu)"
     }
 }
