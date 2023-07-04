@@ -141,7 +141,7 @@ return (
                 </TabPanel>
                 <TabPanel value={value} index={0}>
 
-                  <Grid container xs={12}>
+                  {/* <Grid container xs={12}>
                     <Grid container xs={12} md={2}>
                       <Button size='small' type='button' variant='text' startIcon={<Icon icon={'mdi:arrow-left'} />}>
                         Back
@@ -163,9 +163,9 @@ return (
 
 
                     </Grid>
-                  </Grid>
+                  </Grid> */}
                   {/* <CompanyProfilePreview></CompanyProfilePreview> */}
-                  <UserProfileHeader></UserProfileHeader>
+                  {/* <UserProfileHeader></UserProfileHeader> */}
                 </TabPanel>
 
                 <TabPanel value={value} index={3}>
