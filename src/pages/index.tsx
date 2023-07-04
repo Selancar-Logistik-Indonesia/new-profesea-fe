@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, Paper, Typography } from "@mui/material";
 import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -46,8 +46,24 @@ const BannerIllustration = styled('img')(({ theme }) => ({
 const Main = () => {
     const { t } = useTranslation();
 
-    return <>
-        <Grid container>
+const styles = {
+   heroContainer: {
+    //  height: 00,
+     backgroundImage: `url(${"/images/ship.png"})`,
+     backgroundSize: 'cover',
+     backgroundPosition: 'fit',
+     width: `calc(100vw + 48px)`,
+     margin: -34,
+     padding: 34,
+   }
+  };
+    return <> 
+    <Grid
+    container    
+    justifyItems="flex"
+    style={styles.heroContainer} 
+    
+    >    
             <Grid item xs={12} md={6} mt={20}>
                 <Typography variant="h2" style={{ color: "Black", fontWeight: "Bold" }}>{t("landing_hero_title")}</Typography>
                 <Typography variant="body1" mt={8}>{t("landing_hero_subtitle")}</Typography>
@@ -57,14 +73,15 @@ const Main = () => {
                     <Button style={{ backgroundColor: "FF9600", color: "#FFFFFF" }} variant="contained">{t('b_post_job')}</Button>
                 </Container>
             </Grid>
-            <Grid item xs={12} md={6} mt={3}>
+            {/* <Grid item xs={12} md={12} mt={3}>
                 <center>
                     <BannerIllustration
                         alt='login-illustration'
                         src={`/images/ship.png`}
+                        
                     />
                 </center>
-            </Grid>
+            </Grid> */}
         </Grid>
         <Grid container spacing={6} mt={20}>
             <Grid item xs={12} sm={6} md={4}>
@@ -113,6 +130,32 @@ const Main = () => {
                     <Typography variant='h3' sx={{ mb: 2 }} color={"black"}>{t("landing_about_title")}</Typography>
                     <Typography variant='body1'>{t("landing_about_subtitle")}</Typography>
                 </center>
+            </Grid>
+        </Grid>
+        <Grid container spacing={6} mt={20}>
+            <Grid item md={1} >
+                     <Typography variant='h5' sx={{ mb: 2 }} color={"black"}>Company</Typography>
+                    <Typography variant='body1'>Terms Of Service</Typography>
+                     <Typography variant='body1'>Privacy Policy</Typography>
+                      <Typography variant='body1'>FAQ</Typography>
+                        
+             </Grid>
+             <Grid item md={1}></Grid> 
+             <Grid item md={1} alignContent={'left'}>
+                     <Typography variant='h5' sx={{ mb: 2 }} color={"black"}>Platform</Typography>
+                    <Typography variant='body1'>Seafarer</Typography>
+                     <Typography variant='body1'>Company</Typography>
+                      <Typography variant='body1'>Trainer</Typography>
+                         
+            </Grid>
+            
+             <Grid item md={4}></Grid> 
+             <Grid item md={5} alignContent={'right'}     justifyItems="flex-end">
+                    <Typography variant='body1'>We assist Maritime (Personnel & HR & Crew Managers) and Crew Management Companies in facilitating the easy connection of maritime professionals with each other.</Typography>
+                     <Typography variant='body1'>Samudera Indonesia Building. 2th FlJl. Letjen S. Parman Kav 35, Kel. Kemanggisan
+Kec. Palmerah, Jakarta 11480 - Indonesia. (0265) 311766</Typography>
+                      <Typography variant='body1'>Trainer</Typography>
+                         
             </Grid>
         </Grid>
 

@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Components
 import Button from '@mui/material/Button'
@@ -24,7 +24,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Hooks
 
 // ** Demo Imports
-import { FormHelperText, Grid } from '@mui/material'
+import { Autocomplete, FormHelperText, Grid } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
 
@@ -44,7 +44,7 @@ interface FormData {
   code: string
   phone: string
   username: string
-  email: string
+  email: string 
 }
 const Registration = (props: any) => {
   const tipereg = props['tipereg'];
@@ -52,7 +52,9 @@ const Registration = (props: any) => {
   // ** States
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
-  // const [combocode, getCombocode] = useState<any>([])
+  const [combocode, getCombocode] = useState<any>([])
+  const [idcombocode, setCombocode] = useState<any>(0)
+  const [idposition, setPosition] = useState<any>(0)
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(5).required()
@@ -85,24 +87,26 @@ const Registration = (props: any) => {
     });
   };
   const onSubmit = (data: FormData) => {
-    const { password, password2, username, name, phone, email } = data
+    const { password, password2, username, name, phone, email  } = data
 
     let teamid: number;
     if (tipereg == 'seafer') {
-      teamid = 1
-    } else {
       teamid = 2
+    } else if (tipereg == 'company'){
+      teamid = 3
+    }else{
+       teamid = 4
     }
-
+    debugger;
     const json = {
       'name': name,
       "email": email,
       "username": username,
       "password": password,
       "password_confirmation": password2,
-      "employee_type": "onship",
-      "team_id": 1,
-      "country_id": teamid,
+      "employee_type": idposition.label,
+      "team_id": teamid,
+      "country_id": idcombocode.id,
       "phone": phone
     };
     try {
@@ -113,43 +117,27 @@ const Registration = (props: any) => {
     }
   };
 
-  // const combobox = () =>{
-  //     HttpClient.get(AppConfig.baseUrl+"/public/data/country?search=")
-  //     .then((response) =>{
-  //       const code   = response.data.countries;
-  //       for (let x = 0; x < code.length; x++) {
-  //         const element = code[x];
-  //         element.label = element.name
-
-  //       }
-
-  //           //  const code   = response.data.countries;
-  //           //  getCombocode(code);
-  //            debugger;
-
-  //     })  
-  // }
-  // useEffect(() => {  
-  //   combobox()
-  // },[]) 
-
+  const combobox = () =>{
+      HttpClient.get(AppConfig.baseUrl+"/public/data/country?search=")
+      .then((response) =>{
+        const code   = response.data.countries;
+        for (let x = 0; x < code.length; x++) {
+          const element = code[x];
+          element.label = element.name + '('+ element.phonecode + ')'
+        }
+        getCombocode(code);
+        debugger; 
+      })  
+  }
+  useEffect(() => {  
+    combobox()
+  },[]) 
+const position = [
+  { label: 'Onship',id:0  },
+  { label: 'Offship',id:1  },
+]
   return (
     <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
-<<<<<<< HEAD
-      <Grid container columnSpacing={'1'} rowSpacing={'0,5'}   sx={{ mb:2 }}>
-         {tipereg == 'seafer' ? ( 
-           <Grid container columnSpacing={'1'} rowSpacing={'0,5'}   sx={{ mb:2 }}>
-              <Grid item md={12} xs={12}>
-                <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("name")}/>
-              </Grid>
-              
-                <Grid item md={6} xs={12} >
-                  <TextField id="Position" label="Position"  variant="outlined" fullWidth sx={{ mb: 6 }} {...register("position")} />
-                </Grid>
-                  <Grid item md={2} xs={12} >
-                <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} />
-                {/* <Autocomplete
-=======
       <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
         {tipereg == 'seafer' ? (
           <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
@@ -157,51 +145,48 @@ const Registration = (props: any) => {
               <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("name")} />
             </Grid>
 
-            <Grid item md={6} xs={12} >
-              <TextField id="Position" label="Position" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("position")} />
-            </Grid>
-            <Grid item md={2} xs={12} >
-              <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} />
-              {/* <Autocomplete
->>>>>>> e67f95835f8b7065edec12ec19deb41dfe201d36
+            <Grid item md={4} xs={12} >
+              {/* <TextField id="Position" label="Position" variant="outlined" fullWidth sx={{ mb: 6 }} /> */}
+             <Autocomplete
                   disablePortal
-                  id="combo-box-demo"
-                  options={combocode}  
+                  id="position"
+                    options={!position ? [{label:"Loading...", id:0}] : position}  
+                  renderInput={(params) => <TextField {...params} label="position" />}
+                   {...register("position")}
+                  onChange={(event: any, newValue: any |null)=> setPosition(newValue)}
+                />
+            </Grid>
+            <Grid item md={4} xs={12} >
+              {/* <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} /> */}
+                <Autocomplete
+                  disablePortal
+                  id="code"
+                  options={!combocode ? [{label:"Loading...", id:0}] : combocode}  
                   renderInput={(params) => <TextField {...params} label="phonecode" />}
+                   {...register("code")}
                   onChange={(event: any, newValue: string |null)=> setCombocode(newValue)}
-                /> */}
+                />
             </Grid>
             <Grid item md={4} xs={12} >
               <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")} />
             </Grid>
           </Grid>
-<<<<<<< HEAD
-          ) :   <Grid container columnSpacing={'1'} rowSpacing={'0,5'}   sx={{ mb:2 }}>
-              <Grid item md={6} xs={12}>
-                <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("name")}/>
-              </Grid>
-              
-               
-                  <Grid item md={2} xs={12} >
-                <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} />
-                {/* <Autocomplete
-=======
         ) : <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
-          <Grid item md={6} xs={12}>
+          <Grid item md={4} xs={12}>
             <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("name")} />
           </Grid>
 
 
-          <Grid item md={2} xs={12} >
-            <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} />
-            {/* <Autocomplete
->>>>>>> e67f95835f8b7065edec12ec19deb41dfe201d36
+          <Grid item md={4} xs={12} >
+            {/* <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} /> */}
+            <Autocomplete
                   disablePortal
                   id="combo-box-demo"
-                  options={combocode}  
+                  options={!combocode ? [{label:"Loading...", id:0}] : combocode}  
                   renderInput={(params) => <TextField {...params} label="phonecode" />}
+                   {...register("code")}
                   onChange={(event: any, newValue: string |null)=> setCombocode(newValue)}
-                /> */}
+                />
           </Grid>
           <Grid item md={4} xs={12} >
             <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")} />
@@ -249,7 +234,7 @@ const Registration = (props: any) => {
         <Grid item md={6} xs={12} >
           <FormControl fullWidth>
             <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-              Confirm Password
+              Password
             </InputLabel>
             <OutlinedInput
               sx={{ mb: 6 }}
@@ -280,37 +265,32 @@ const Registration = (props: any) => {
         <Grid item md={12} xs={12} >
           <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
             <Checkbox></Checkbox>
-            <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px', fontSize: "12px" }}>
-              Terms Of Service,
+            <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px' }}>
+              Term Of Service,
             </Typography>
-            <Typography sx={{ marginTop: '10px', color: "#424242", fontSize: "12px"}}> &nbsp; I read and accept</Typography>
+            <Typography sx={{ marginTop: '10px', color: 'text.secondary' }}> i read and accept</Typography>
 
           </Box>
         </Grid>
         <Grid item md={12} xs={12} >
           <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
             <Checkbox></Checkbox>
-            <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px', fontSize: "12px" }}>
+            <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px' }}>
               Privacy Police,
             </Typography>
-            <Typography sx={{ marginTop: '10px', color: "#424242", fontSize: "12px" }}> &nbsp; I read and accept</Typography>
+            <Typography sx={{ marginTop: '10px', color: 'text.secondary' }}> i read and accept</Typography>
 
           </Box>
         </Grid>
         <Grid item md={3} xs={12} >
-<<<<<<< HEAD
-          <Button fullWidth size='small' type='submit' href='/register' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-left'} />} >
-             PREVIOUS 
-=======
           <Button fullWidth size='large' type='submit' href='/register' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-left'} />} >
             PREVIOUS
->>>>>>> e67f95835f8b7065edec12ec19deb41dfe201d36
           </Button>
         </Grid>
 
         <Grid item md={6} xs={0} ></Grid>
         <Grid item md={3} xs={12} >
-          <Button fullWidth size='small' type='submit' variant='contained' sx={{ mb: 7 }} endIcon={<Icon icon={'mdi:arrow-right'} />}>
+          <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }} endIcon={<Icon icon={'mdi:arrow-right'} />}>
             REGISTER
           </Button>
         </Grid>

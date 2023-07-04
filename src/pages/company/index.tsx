@@ -3,26 +3,12 @@ import React, { useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import { Button, Tabs, Tab, useMediaQuery } from '@mui/material'
-
-// ** Layout Import
-// import BlankLayout from 'src/@core/layouts/BlankLayout'
-
-// ** Hooks 
-
-// ** Demo Imports
-// import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+import { Button, Tabs, Tab, useMediaQuery } from '@mui/material' 
 import { Grid } from '@mui/material'
 
-import { useForm } from 'react-hook-form'
-
-// import { yupResolver } from '@hookform/resolvers/yup'
-
-import Icon from 'src/@core/components/icon'
-
-// import { HttpClient } from 'src/services'
-import CompanyProfile from 'src/layouts/components/CompanyProfile'
-
+import { useForm } from 'react-hook-form'  
+import Icon from 'src/@core/components/icon' 
+import CompanyProfile from 'src/layouts/components/CompanyProfile' 
 import { useTheme } from '@mui/material/styles'
 import ManageAccount from 'src/layouts/components/ManageAccount'
 import Subscription from 'src/layouts/components/Subscription'
@@ -42,51 +28,14 @@ type FormData = {
   address: string
   about: string
 }
-const Company = () => {
-  // const theme = useTheme()
-  // const { settings } = useSettings()
-  // ** Vars
-  // const { skin } = settings
-
-
+const Company = () => { 
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
-  const {
-    // register,  
-    // handleSubmit,
+  const { 
   } = useForm<FormData>({
     mode: 'onBlur',
-  },)
-
-  // const onSubmit = (data: FormData) => {
-
-  //   const { companyName,industryType,country,district,city,postalCode,email,code,website,phone,address,about } = data
-  //   const json ={
-  //     'companynema': companyName,
-  //     "email": industryType,
-  //     "username": country,
-  //     "password": district,
-  //     "password_confirmation": city,
-  //     "employee_type": postalCode,
-  //     "team_id": email, 
-  //     "country_id": code,
-  //     "website": website,
-  //     "address": address,
-  //     "phone": phone,
-  //     "about": about,
-  //   };
-  //   HttpClient.post('https://api.staging.selancar.elogi.id/api/auth/register', json).then(({ data }) => {
-  //       console.log("here 1", data);
-  //        }, error => { 
-  //       console.log("here 1", error);
-  //     });
-  // }
-
-
-
-
-
+  },) 
   interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -137,15 +86,14 @@ const Company = () => {
 return (
     <Box  >
       <Grid container spacing={2}>
-        <Grid container xs={12} md={9}
+        <Grid container xs={12} md={10}
           sx={!hidden ? {
             p: 4,
             direction: "row",
             justifyContent: "flex-start",
             alignItems: "stretch",
             alignContent: 'top',
-            marginBottom: '10px',
-            marginLeft: '50px',
+            marginBottom: '10px', 
 
 
           } : {
@@ -248,8 +196,7 @@ return (
               display: 'flex',
               alignItems: 'stretch',
               justifyContent: 'left',
-              marginBottom: '10px',
-              marginLeft: '20px',
+              marginBottom: '10px', 
               height: '197px',
               wrap: 'nowrap'
             }}>
@@ -264,8 +211,7 @@ return (
               display: 'flex',
               alignItems: 'stretch',
               justifyContent: 'left',
-              marginBottom: '10px',
-              marginLeft: '20px',
+              marginBottom: '10px', 
               height: '197px',
               wrap: 'nowrap'
             }}>
@@ -280,8 +226,7 @@ return (
               display: 'flex',
               alignItems: 'stretch',
               justifyContent: 'left',
-              marginBottom: '10px',
-              marginLeft: '20px',
+              marginBottom: '10px', 
               height: '197px',
               wrap: 'nowrap'
             }}>
