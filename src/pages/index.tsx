@@ -2,7 +2,7 @@ import { Box, Button, Container, Divider, Grid, IconButton, Typography } from "@
 import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import landingPageStyle from "src/@core/styles/landing-page/landing-page";
-import { useTranslation,initReactI18next } from "react-i18next";
+import { useTranslation, initReactI18next } from "react-i18next";
 import FeatureView from "src/views/landing-page/featureView";
 import PricingView from "src/views/landing-page/pricingView";
 import FindJobsView from "src/views/landing-page/findJobsView";
@@ -46,7 +46,7 @@ const Main = () => {
     return (
         <>
             <Grid container style={landingPageStyle.bannerHero}>
-                <Grid item xs={12} lg={6} md={12} pt={5} pl={10}>
+                <Grid item xs={12} xl={6} lg={8} md={12} pt={5} pl={10}>
                     <Typography variant="h1" style={{ color: "white" }}>{t("landing_hero_title")}</Typography>
                     <Typography fontSize={18} style={{ color: "white" }} mt={8}>{t("landing_hero_subtitle")}</Typography>
 

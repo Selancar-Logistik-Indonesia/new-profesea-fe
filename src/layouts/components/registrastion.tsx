@@ -97,7 +97,7 @@ const Registration = (props: any) => {
     } else {
       teamid = 4
     }
-    debugger;
+
     const json = {
       'name': name,
       "email": email,
@@ -126,7 +126,6 @@ const Registration = (props: any) => {
           element.label = element.name + '(' + element.phonecode + ')'
         }
         getCombocode(code);
-        debugger;
       })
   }
   useEffect(() => {

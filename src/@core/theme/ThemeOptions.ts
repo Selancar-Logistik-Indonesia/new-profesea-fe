@@ -45,6 +45,11 @@ const themeOptions = (settings: Settings, overrideMode: PaletteMode): ThemeOptio
   )
 
   return deepmerge(mergedThemeConfig, {
+    typography: {
+      h1: {
+        fontSize: 85,
+      }
+    },
     palette: {
       primary: {
         ...(mergedThemeConfig.palette

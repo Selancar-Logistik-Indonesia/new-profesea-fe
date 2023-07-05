@@ -2,7 +2,6 @@ import Box from '@mui/material/Box'
 import { Settings } from 'src/@core/context/settingsContext'
 import Navigation from 'src/@core/layouts/components/horizontal/navigation'
 import HorizontalNavItems from 'src/navigation/horizontal'
-import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
 
 interface Props {
@@ -11,7 +10,7 @@ interface Props {
 }
 
 const AppBarContent = (props: Props) => {
-  const { settings, saveSettings } = props;
+  const { settings } = props;
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -20,7 +19,7 @@ const AppBarContent = (props: Props) => {
         horizontalNavItems={HorizontalNavItems()}
       />
 
-      <ModeToggler settings={settings} saveSettings={saveSettings} />
+      {/* <ModeToggler settings={settings} saveSettings={saveSettings} /> */}
       <UserDropdown settings={settings} />
     </Box>
   )
