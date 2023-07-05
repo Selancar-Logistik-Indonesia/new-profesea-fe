@@ -7,8 +7,7 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { Button, Divider } from '@mui/material'
-import Icon from 'src/@core/components/icon'
-import { Grid } from '@mui/material'
+import Icon from 'src/@core/components/icon' 
 
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
