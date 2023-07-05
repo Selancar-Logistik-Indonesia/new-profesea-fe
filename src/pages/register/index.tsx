@@ -236,7 +236,7 @@ const Register = () => {
     </Box>
     </Box>
   )
-}
+} 
 
 Register.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
 
