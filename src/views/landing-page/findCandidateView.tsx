@@ -4,7 +4,7 @@ import { Box, Button, Chip, Container, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
-const FindCandidateView = () => {
+const FindCandidateView = (props: { id: string }) => {
     const { t } = useTranslation();
 
     const planItems = [
@@ -21,7 +21,7 @@ const FindCandidateView = () => {
     ];
 
     return (
-        <Grid marginY={20} container direction="column" alignItems="center" justifyContent="center">
+        <Grid id={props.id} marginY={20} container direction="column" alignItems="center" justifyContent="center">
             <Grid mb={5} sx={{ width: "80%" }} item textAlign="center">
                 <Typography variant='h3' sx={{ mb: 5 }} color={"black"}>{t("landing_candidate_title")}</Typography>
                 <Typography fontSize={18} variant='body1'>{t("landing_candidate_subtitle")}</Typography>
