@@ -12,7 +12,7 @@ import LanguageDropdown from '../shared-components/LanguageDropdown'
 import { useRouter } from 'next/router'
 import NavItemType from 'src/contract/types/navItemType'
 
-const LandingPageAppBar = () => {
+const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const theme = useTheme();
     const { settings, saveSettings } = useSettings();
     const { locale } = useRouter();
@@ -20,6 +20,15 @@ const LandingPageAppBar = () => {
     const navItems: NavItemType[] = [
         { title: 'Login', variant: 'contained', onClick: "/login" },
         { title: 'Register', variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
+    ];
+    const router = useRouter();
+
+    const homeNavItems = [
+        { title: "Home", path: "/" },
+        { title: "Job", path: "/#findJobSection" },
+        { title: "Seafarer", path: "/#findCandidate" },
+        { title: "Pricing", path: "/pricing/" },
+        { title: "Contact", path: "/#footer" },
     ];
 
     const [isLogin, setIsLogin] = useState(false);
@@ -36,7 +45,7 @@ const LandingPageAppBar = () => {
         <AppBar
             color='default'
             position='sticky'
-            elevation={0}
+            elevation={props.appBarElevation ?? 0}
             sx={{
                 backgroundColor: 'background.paper',
                 ...(skin === 'bordered' && { borderBottom: `1px solid ${theme.palette.divider}` })
@@ -73,21 +82,14 @@ const LandingPageAppBar = () => {
                             mx: 0.5,
                         },
                     }}>
-                        <Link href={"/"}>
-                            <Button sx={{ fontWeight: 'bold' }} variant="text" color='secondary'>Home</Button>
-                        </Link>
-                        <Link href={"/"}>
-                            <Button variant="text" color='secondary'>Job</Button>
-                        </Link>
-                        <Link href={"/"}>
-                            <Button variant="text" color='secondary'>Seafarer</Button>
-                        </Link>
-                        <Link href={"/"}>
-                            <Button variant="text" color='secondary'>Pricing</Button>
-                        </Link>
-                        <Link href={"/"}>
-                            <Button variant="text" color='secondary'>Contact</Button>
-                        </Link>
+                        {
+                            homeNavItems.map(el => (
+                                <Link key={el.path} href={el.path}>
+                                    <Button sx={{ fontWeight: router.asPath == el.path ? 'bold' : undefined }} variant="text" color='secondary'>{el.title}</Button>
+                                </Link>
+                            ))
+                        }
+
                         <Divider orientation="vertical" variant="middle" flexItem color='#ddd' />
                         <LanguageDropdown settings={settings} saveSettings={saveSettings} />
 
@@ -101,7 +103,7 @@ const LandingPageAppBar = () => {
                             <>
                                 <Link href="/home" locale={locale}>
                                     <Button size='small' type='button' variant='outlined' sx={{ mr: 2, ml: 2 }}>
-                                        Home
+                                        Dashboard
                                     </Button>
                                 </Link>
                                 <UserDropdown settings={settings} />

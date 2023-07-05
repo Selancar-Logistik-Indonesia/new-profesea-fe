@@ -6,20 +6,17 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
  
 
-export type ParamJobVacncy = {
-  judul: string
-  namapt: string
-  lokasi: string
-  waktu: string
+export type ParamGallery = {
+  images: string 
 }
 
 // export type ProfileTeamsType = ProfileTabCommonType & { color: ThemeColor }
 interface Props {
   // teams: ProfileTeamsType[]
-  vacancy: ParamJobVacncy[] 
+  image: ParamGallery[] 
 }
 
-const renderList = (arr: ParamJobVacncy[]) => {
+const renderList = (arr: ParamGallery[]) => {
   if (arr && arr.length) {
     return arr.map((item, index) => {
       return (
@@ -28,25 +25,16 @@ const renderList = (arr: ParamJobVacncy[]) => {
           sx={{
             display: 'flex',
             '&:not(:last-of-type)': { mb: 4 },
-            '& svg': { color: 'text.secondary' }
-            ,border:'1px solid var(--light-action-disabled-background, rgba(76, 78, 100, 0.12))',borderRadius:'10px',padding:'5px'
+            '& svg': { color: 'text.secondary' } 
           }}
         >
          
 
           <Box sx={{ columnGap: 2,   flexWrap: 'wrap', alignItems: 'center' }}>
-            <Typography sx={{ fontWeight: 600, color: 'text.secondary' }}>
-              {`${item.judul.charAt(0).toUpperCase() + item.judul.slice(1)}`}
-            </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
-              {item.namapt.charAt(0).toUpperCase() + item.namapt.slice(1)}
-            </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
-              {item.lokasi.charAt(0).toUpperCase() + item.lokasi.slice(1)}
-            </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
-              {item.waktu.charAt(0).toUpperCase() + item.waktu.slice(1)}
-            </Typography>
+             <img alt='logo' src= {`${item.images.charAt(0).toUpperCase() + item.images.slice(1)}`} style={{ maxWidth: '100%',
+                  height: 'auto',
+                  padding: 0,
+                  margin: 0 }} />
           </Box>
         </Box>
       )
@@ -57,19 +45,19 @@ const renderList = (arr: ParamJobVacncy[]) => {
 }
  
 
-const Feed = (props: Props) => {
-  const {   vacancy  } = props
+const Gallery = (props: Props) => {
+  const {   image  } = props
 
   return (
-    <Grid container  >
+    <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
           <CardContent>
             <Box sx={{ mb: 7 }}>
               <Typography variant='body2' sx={{ mb: 4, color: 'text.primary', textTransform: 'uppercase' }}>
-                Job Vacancy
+                Gallery
               </Typography>
-              {renderList(vacancy)}
+              {renderList(image)}
             </Box>
             {/* <Box sx={{ mb: 7 }}>
               <Typography variant='body2' sx={{ mb: 4, color: 'text.disabled', textTransform: 'uppercase' }}>
@@ -86,4 +74,4 @@ const Feed = (props: Props) => {
   )
 }
 
-export default Feed
+export default Gallery

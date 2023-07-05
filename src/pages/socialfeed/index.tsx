@@ -13,19 +13,19 @@ import {  useTheme } from '@mui/material/styles'
 
 // ** Demo Imports
 // import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import {   Grid } from '@mui/material'  
-  
-import Recomended from './Recomended'
+import {   Grid } from '@mui/material'   
 import { Icon } from '@iconify/react'
 import Profile from 'src/layouts/components/Profile'
 import Feed from 'src/layouts/components/Feed'
+import NestedComment from './NestedComment'
+import Postfeed from './Postfeed'
 // import AboutOverivew from './JobVacancy' 
 // import NestedComment from './NestedComment'  
 
 // import { yupResolver } from '@hookform/resolvers/yup'
     
  
-const FindCandidate = () => { 
+const Community = () => { 
   
 const theme = useTheme() 
 const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -52,16 +52,19 @@ const vacancy = [
     name: 'Anis Dewinta Zahra',
     talent: 'Talent acquisition at telcom.com', 
   }, ]
- 
+  
+
  const paramcomment = [
-  { 
-    name: 'Lerian Febriana, A.Md.Kom  ',
-    skill: 'Electrical Cadet', 
-    location: 'Jakarta', 
+  {
+    logo: '/images/avatars/1.png',
+    name: 'PT Samudera  ',
+    waktu: '1 minute ago', 
+    postcomment: 'Halo semuanya! Saya ingin berbagi kabar gembira bahwa saya, Lerian Febriana, baru saja bergabung dengan Profesea.id! Saya sangat antusias karena sekarang menjadi bagian dari tim sebagai Electrical Cadet.', 
   }, {
-    name: 'Fadil Shahab',
-    skill: 'IT Enginering', 
-    location: 'Jakarta',
+    logo: '/images/avatars/1.png',
+    name: 'PT Samudera  ',
+    waktu: '5 minute ago', 
+    postcomment: 'ini Testing Comment 2', 
   },
   ]
 
@@ -78,7 +81,7 @@ const vacancy = [
             }}
                     >  
             
-            <Grid container spacing={6} sx={{marginTop:'1px'}}>
+            <Grid container spacing={6}  >
               <Grid item lg={4} md={5} xs={12}> 
                 <Profile vacancy={vacancy}  /> 
                 <br></br> 
@@ -102,10 +105,11 @@ const vacancy = [
               </Grid>
                <Grid item lg={8} md={7} xs={12}>
                 <Grid container spacing={6}>
-                  <Grid item xs={12}> 
-                  <Typography  variant='h5'> Recommend for you</Typography>
-                  <Typography  variant='body2' marginTop={2}  marginBottom={5}> Based on your profile and search history</Typography>
-                      <Recomended paramcomment={paramcomment}></Recomended>
+                  <Grid item xs={12} >  
+                      <Postfeed></Postfeed>
+                      
+                <br></br>
+                      <NestedComment paramcomment={paramcomment}></NestedComment>
                   </Grid> 
                 </Grid>
               </Grid>
@@ -174,8 +178,8 @@ const vacancy = [
 }
  
 
-FindCandidate.acl = {
+Community.acl = {
   action: 'read',
   subject: 'home'
 };
-export default FindCandidate
+export default Community
