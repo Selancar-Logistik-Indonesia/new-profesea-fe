@@ -27,7 +27,7 @@ const FindJobsView = (props: { id: string }) => {
                 <Typography fontSize={18} variant='body1'>{t("landing_jobs_subtitle")}</Typography>
             </Grid>
             <Grid container>
-                <Grid item lg={6} textAlign={'center'}>
+                <Grid item lg={6} md={6} textAlign={'center'}>
                     <Box
                         component="img"
                         sx={{ width: "54%" }}
@@ -36,7 +36,7 @@ const FindJobsView = (props: { id: string }) => {
                         src="/images/cards/seafarer-findjob.png"
                     />
                 </Grid>
-                <Grid item lg={6}>
+                <Grid item lg={6} md={6}>
                     <Grid container>
                         <Grid item lg={12}>
                             <Typography variant="h6">On-Ship</Typography>

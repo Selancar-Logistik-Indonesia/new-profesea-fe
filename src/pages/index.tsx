@@ -2,33 +2,12 @@ import { Button, Container, Grid, Typography } from "@mui/material";
 import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import landingPageStyle from "src/@core/styles/landing-page/landing-page";
-import { useTranslation, initReactI18next } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import FeatureView from "src/views/landing-page/featureView";
 import FindJobsView from "src/views/landing-page/findJobsView";
 import FindCandidateView from "src/views/landing-page/findCandidateView";
-import i18n from "i18next";
-import ns1 from 'src/lang/id.json';
-import ns2 from 'src/lang/en.json';
 import FooterView from "src/views/landing-page/footerView";
 
-i18n
-    .use(initReactI18next) // passes i18n down to react-i18next
-    .init({
-        // the translations
-        // (tip move them in a JSON file and import them,
-        // or even better, manage them via a UI: https://react.i18next.com/guides/multiple-translation-files#manage-your-translations-with-a-management-gui)
-        resources: {
-            id: ns1,
-            en: ns2
-        },
-
-        // if you're using a language detector, do not define the lng optio
-        fallbackLng: "id",
-
-        interpolation: {
-            escapeValue: false // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
-        }
-    });
 const Main = () => {
     const { t } = useTranslation();
 
