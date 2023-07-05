@@ -101,7 +101,7 @@ const LandingPageAppBar = () => {
                             <>
                                 <Link href="/home" locale={locale}>
                                     <Button size='small' type='button' variant='outlined' sx={{ mr: 2, ml: 2 }}>
-                                        Home
+                                        Dashboard
                                     </Button>
                                 </Link>
                                 <UserDropdown settings={settings} />

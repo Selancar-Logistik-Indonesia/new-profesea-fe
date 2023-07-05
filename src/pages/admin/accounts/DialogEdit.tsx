@@ -19,10 +19,8 @@ import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import Account from 'src/contract/models/account'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, FormHelperText, Autocomplete } from '@mui/material'
 import ITeam from 'src/contract/models/team'
-
-import { FormHelperText, Autocomplete } from '@mui/material'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 
@@ -50,8 +48,8 @@ const DialogEdit = (props: EditProps) => {
     const [showPassword, setShowPassword] = useState<boolean>(false)
 
     const [teamId, setTeamId] = useState(0);
-    const [teams, getTeams] =useState<ITeam[]>([]);
-    const combobox = async () =>{
+    const [teams, getTeams] = useState<ITeam[]>([]);
+    const combobox = async () => {
         const resp = await HttpClient.get(`/public/data/team?nonpublic=1`);
         if (resp.status != 200) {
             throw resp.data.message ?? "Something went wrong!";
@@ -59,39 +57,39 @@ const DialogEdit = (props: EditProps) => {
         getTeams(resp.data.teams);
     }
 
-    useEffect(() => {   
-    combobox()
-    },[]) 
-    
+    useEffect(() => {
+        combobox()
+    }, [])
+
     const schema = yup.object().shape({
         email: yup.string().email().required()
     })
 
-    const { 
+    const {
         register,
-        formState: { errors }, 
+        formState: { errors },
         handleSubmit,
     } = useForm<Account>({
         mode: 'onBlur',
         resolver: yupResolver(schema)
-    }) 
+    })
 
-    
+
 
     const onSubmit = async (formData: Account) => {
-        const {  name, email, username, password, password_confirmation, country_id, phone } = formData
-        
+        const { name, email, username, password, password_confirmation, country_id, phone } = formData
+
         const json = {
             "name": name,
             "email": email,
             "username": username,
             "password": password,
             "password_confirmation": password_confirmation,
-            "team_id": teamId, 
+            "team_id": teamId,
             "country_id": country_id,
             "phone": phone
         }
-        
+
         setOnLoading(true);
         try {
             const resp = await HttpClient.post(`/user-management/${props.selectedItem.id}`, json);
@@ -140,94 +138,94 @@ const DialogEdit = (props: EditProps) => {
                     </Box>
                     <Grid container columnSpacing={'1'} rowSpacing={'2'} >
                         <Grid item md={12} xs={12}>
-                            <TextField defaultValue={props.selectedItem.name} id="Name" label="Name" variant="outlined"  fullWidth sx={{ mb: 6 }} {...register("name")}/>
+                            <TextField defaultValue={props.selectedItem.name} id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("name")} />
                         </Grid>
                         <Grid item md={6} xs={12} >
-                            <TextField defaultValue={props.selectedItem.email} id="Email" label="Email" variant="outlined" fullWidth  {...register("email")}/>
+                            <TextField defaultValue={props.selectedItem.email} id="Email" label="Email" variant="outlined" fullWidth  {...register("email")} />
                         </Grid>
                         <Grid item md={6} xs={12} >
-                            <TextField defaultValue={props.selectedItem.username} id="Username" label="Username" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("username")}/>                  
+                            <TextField defaultValue={props.selectedItem.username} id="Username" label="Username" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("username")} />
                         </Grid>
                         <Grid item md={6} xs={12} >
                             <FormControl fullWidth>
                                 <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                                New Password
+                                    New Password
                                 </InputLabel>
                                 <OutlinedInput
                                     sx={{ mb: 6 }}
-                                    label='Password'  
-                                    id='password1' 
+                                    label='Password'
+                                    id='password1'
                                     error={Boolean(errors.password)}
                                     type={showPassword ? 'text' : 'password'}
                                     {...register("password")}
                                     endAdornment={
                                         <InputAdornment position='end'>
-                                        <IconButton
-                                            edge='end'
-                                            onMouseDown={e => e.preventDefault()}
-                                            onClick={() => setShowPassword(!showPassword)}
-                                        >
-                                            <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                                        </IconButton>
+                                            <IconButton
+                                                edge='end'
+                                                onMouseDown={e => e.preventDefault()}
+                                                onClick={() => setShowPassword(!showPassword)}
+                                            >
+                                                <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                                            </IconButton>
                                         </InputAdornment>
                                     }
-                                    />
+                                />
                                 {errors.password && (
-                                <FormHelperText sx={{ color: 'error.main' }} id=''>
-                                    {(errors as any).password?.message}
-                                </FormHelperText>
+                                    <FormHelperText sx={{ color: 'error.main' }} id=''>
+                                        {(errors as any).password?.message}
+                                    </FormHelperText>
                                 )}
                             </FormControl>
-                            </Grid>
+                        </Grid>
                         <Grid item md={6} xs={12} >
                             <FormControl fullWidth>
                                 <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                                Confirm Password
+                                    Confirm Password
                                 </InputLabel>
                                 <OutlinedInput
                                     sx={{ mb: 6 }}
-                                    label='Password'  
-                                    id='password' 
+                                    label='Password'
+                                    id='password'
                                     error={Boolean(errors.password)}
                                     type={showPassword ? 'text' : 'password'}
                                     {...register("password_confirmation")}
                                     endAdornment={
                                         <InputAdornment position='end'>
-                                        <IconButton
-                                            edge='end'
-                                            onMouseDown={e => e.preventDefault()}
-                                            onClick={() => setShowPassword(!showPassword)}
-                                        >
-                                            <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                                        </IconButton>
+                                            <IconButton
+                                                edge='end'
+                                                onMouseDown={e => e.preventDefault()}
+                                                onClick={() => setShowPassword(!showPassword)}
+                                            >
+                                                <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                                            </IconButton>
                                         </InputAdornment>
                                     }
-                                    />
+                                />
                                 {errors.password && (
-                                <FormHelperText sx={{ color: 'error.main' }} id=''>
-                                    {(errors as any).password?.message}
-                                </FormHelperText>
+                                    <FormHelperText sx={{ color: 'error.main' }} id=''>
+                                        {(errors as any).password?.message}
+                                    </FormHelperText>
                                 )}
                             </FormControl>
-                            </Grid>
-                        <Grid item md={6} xs={12} > 
+                        </Grid>
+                        <Grid item md={6} xs={12} >
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
                                 value={props.selectedItem.team}
-                                options={teams}  
+                                options={teams}
                                 {...register("team")}
-                                getOptionLabel={(option:ITeam) => option.teamName}
+                                getOptionLabel={(option: ITeam) => option.teamName}
                                 renderInput={(params) => <TextField {...params} label="Role" />}
-                                onChange={(event: any, newValue: ITeam | null)=> (newValue?.id) ? setTeamId(newValue.id) : setTeamId(props.selectedItem.team_id)}
+                                onChange={(event: any, newValue: ITeam | null) => (newValue?.id) ? setTeamId(newValue.id) : setTeamId(props.selectedItem.team_id)}
                             />
                         </Grid>
                         <Grid item md={2} xs={12} >
                             <TextField defaultValue={props.selectedItem.country_id} id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("country_id")} />
                         </Grid>
                         <Grid item md={4} xs={12} >
-                            <TextField defaultValue={props.selectedItem.phone} id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")}/>
-                        </Grid>                        
+                            <TextField defaultValue={props.selectedItem.phone} id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")} />
+                        </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions

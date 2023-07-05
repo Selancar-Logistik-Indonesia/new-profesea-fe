@@ -16,14 +16,14 @@ const FeatureView = () => {
         {
             key: "feat2",
             icon: faUsers,
-            title: t('features.findJobs.title'),
-            description: t('features.findJobs.subtitle'),
+            title: t('features.findCandidates.title'),
+            description: t('features.findCandidates.subtitle'),
         },
         {
             key: "feat3",
             icon: faChartLine,
-            title: t('features.findJobs.title'),
-            description: t('features.findJobs.subtitle'),
+            title: t('features.improveCareer.title'),
+            description: t('features.improveCareer.subtitle'),
         },
     ];
 
