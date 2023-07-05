@@ -44,7 +44,7 @@ interface FormData {
   code: string
   phone: string
   username: string
-  email: string
+  email: string 
 }
 const Registration = (props: any) => {
   const tipereg = props['tipereg'];
@@ -87,15 +87,15 @@ const Registration = (props: any) => {
     });
   };
   const onSubmit = (data: FormData) => {
-    const { password, password2, username, name, phone, email } = data
+    const { password, password2, username, name, phone, email  } = data
 
     let teamid: number;
     if (tipereg == 'seafer') {
       teamid = 2
-    } else if (tipereg == 'company') {
+    } else if (tipereg == 'company'){
       teamid = 3
-    } else {
-      teamid = 4
+    }else{
+       teamid = 4
     }
     debugger;
     const json = {
@@ -117,26 +117,25 @@ const Registration = (props: any) => {
     }
   };
 
-  const combobox = () => {
-    HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
-      .then((response) => {
-        const code = response.data.countries;
+  const combobox = () =>{
+      HttpClient.get(AppConfig.baseUrl+"/public/data/country?search=")
+      .then((response) =>{
+        const code   = response.data.countries;
         for (let x = 0; x < code.length; x++) {
           const element = code[x];
-          element.label = element.name + '(' + element.phonecode + ')'
+          element.label = element.name + '('+ element.phonecode + ')'
         }
         getCombocode(code);
-        debugger;
-      })
+        debugger; 
+      })  
   }
-  useEffect(() => {
+  useEffect(() => {  
     combobox()
-  }, [])
-  const position = [
-    { label: 'Onship', id: 0 },
-    { label: 'Offship', id: 1 },
-  ]
-
+  },[]) 
+const position = [
+  { label: 'Onship',id:0  },
+  { label: 'Offship',id:1  },
+]
   return (
     <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
       <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
@@ -148,25 +147,25 @@ const Registration = (props: any) => {
 
             <Grid item md={4} xs={12} >
               {/* <TextField id="Position" label="Position" variant="outlined" fullWidth sx={{ mb: 6 }} /> */}
-              <Autocomplete
-                disablePortal
-                id="position"
-                options={!position ? [{ label: "Loading...", id: 0 }] : position}
-                renderInput={(params) => <TextField {...params} label="position" />}
-                {...register("position")}
-                onChange={(event: any, newValue: any | null) => setPosition(newValue)}
-              />
+             <Autocomplete
+                  disablePortal
+                  id="position"
+                    options={!position ? [{label:"Loading...", id:0}] : position}  
+                  renderInput={(params) => <TextField {...params} label="position" />}
+                   {...register("position")}
+                  onChange={(event: any, newValue: any |null)=> setPosition(newValue)}
+                />
             </Grid>
             <Grid item md={4} xs={12} >
               {/* <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} /> */}
-              <Autocomplete
-                disablePortal
-                id="code"
-                options={!combocode ? [{ label: "Loading...", id: 0 }] : combocode}
-                renderInput={(params) => <TextField {...params} label="phonecode" />}
-                {...register("code")}
-                onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
-              />
+                <Autocomplete
+                  disablePortal
+                  id="code"
+                  options={!combocode ? [{label:"Loading...", id:0}] : combocode}  
+                  renderInput={(params) => <TextField {...params} label="phonecode" />}
+                   {...register("code")}
+                  onChange={(event: any, newValue: string |null)=> setCombocode(newValue)}
+                />
             </Grid>
             <Grid item md={4} xs={12} >
               <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")} />
@@ -181,13 +180,13 @@ const Registration = (props: any) => {
           <Grid item md={4} xs={12} >
             {/* <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("code")} /> */}
             <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={!combocode ? [{ label: "Loading...", id: 0 }] : combocode}
-              renderInput={(params) => <TextField {...params} label="phonecode" />}
-              {...register("code")}
-              onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
-            />
+                  disablePortal
+                  id="combo-box-demo"
+                  options={!combocode ? [{label:"Loading...", id:0}] : combocode}  
+                  renderInput={(params) => <TextField {...params} label="phonecode" />}
+                   {...register("code")}
+                  onChange={(event: any, newValue: string |null)=> setCombocode(newValue)}
+                />
           </Grid>
           <Grid item md={4} xs={12} >
             <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")} />
