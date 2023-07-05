@@ -4,7 +4,7 @@ import { Box, Button, Chip, Container, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
-const FindCandidateView = () => {
+const FindCandidateView = (props: { id: string }) => {
     const { t } = useTranslation();
 
     const planItems = [
@@ -21,18 +21,18 @@ const FindCandidateView = () => {
     ];
 
     return (
-        <Grid marginY={20} container direction="column" alignItems="center" justifyContent="center">
+        <Grid id={props.id} marginY={20} container direction="column" alignItems="center" justifyContent="center">
             <Grid mb={5} sx={{ width: "80%" }} item textAlign="center">
                 <Typography variant='h3' sx={{ mb: 5 }} color={"black"}>{t("landing_candidate_title")}</Typography>
                 <Typography fontSize={18} variant='body1'>{t("landing_candidate_subtitle")}</Typography>
             </Grid>
-            <Grid container>
-                <Grid item lg={8} paddingX={25}>
+            <Grid container sx={{ backgroundImage: 'url(/images/backgrounds/bg-company-form.jpg)', backgroundSize: 'cover' }}>
+                <Grid item lg={6} md={6} paddingX={25}>
                     <Container sx={{ marginY: 5 }} disableGutters>
                         <Button startIcon={<FontAwesomeIcon color="#fff" icon={faAdd} />} variant="contained">{t('b_post_job')}</Button>
                     </Container>
                     <Typography variant="h6">Sugested Searches</Typography>
-                    <Grid item lg={9} sx={{ marginY: 5 }}>
+                    <Grid item lg={12} sx={{ marginY: 5 }}>
                         {
                             planItems.map((item, i) => (
                                 i == 9
@@ -44,8 +44,14 @@ const FindCandidateView = () => {
                         }
                     </Grid>
                 </Grid>
-                <Grid item lg={6}>
-                    <Box></Box>
+                <Grid item lg={6} md={6} textAlign={'center'}>
+                    <Box
+                        component="img"
+                        sx={{ width: "66%" }}
+                        alt="The Profesea logo"
+                        title="Profesea"
+                        src="/images/cards/seafarer-find-candidate.png"
+                    />
                 </Grid>
             </Grid>
         </Grid>
