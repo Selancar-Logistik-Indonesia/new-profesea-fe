@@ -108,8 +108,6 @@ const Registration = (props: any) => {
     } else {
       teamid = 4
     }
-
-    let ship =''
     if(idposition.id == 0 ){
       ship='onship'
     }else{
