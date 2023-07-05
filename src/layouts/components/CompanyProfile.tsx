@@ -249,11 +249,10 @@ const CompanyProfile = () => {
           >
 
           </input>
-
           <Box sx={{ marginTop: '2px' }}>
             <label htmlFor="raised-button-file">
               <Button size='small' variant="contained" component="span" >
-                Upload Cover Image
+               Upload Cover Image
               </Button>
             </label> &nbsp;
 
@@ -264,10 +263,11 @@ const CompanyProfile = () => {
             </label>
           </Box>
 
-          <Box sx={{ marginTop: '40px' }}>
+          <Box sx={{ marginTop: '20px' }}>
             <Typography variant='body2' sx={{ textAlign: 'left', color: "#424242", fontSize: '10px' }}>Allowed JPG, GIF or PNG.</Typography>
-            <Typography variant='body2' sx={{ textAlign: 'left', color: "#424242", fontSize: '10px' }}>Max size of 800K. Aspect Ratio 16:9</Typography>
+            <Typography variant='body2' sx={{ textAlign: 'left', color: "#424242", fontSize: '10px' }}>Max size of 800K. Aspect Ratio 1:1</Typography>
           </Box>
+
         </Grid>
       </Grid>
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
