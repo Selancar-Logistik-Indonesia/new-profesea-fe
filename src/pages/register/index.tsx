@@ -237,7 +237,6 @@ const Register = () => {
     </Box>
   )
 }
-
 Register.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
 
 Register.guestGuard = true
