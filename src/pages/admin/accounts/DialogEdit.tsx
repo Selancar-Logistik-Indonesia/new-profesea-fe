@@ -48,8 +48,13 @@ type EditProps = {
 const DialogEdit = (props: EditProps) => {
     const [onLoading, setOnLoading] = useState(false);
     const [showPassword, setShowPassword] = useState<boolean>(false)
+    const [showPassword2, setShowPassword2] = useState<boolean>(false)
 
     const [teamId, setTeamId] = useState(0);
+    const [idcombocode, setCombocode] = useState<any>(0)
+    const [selectedCombo, getSelectedCombo] = useState<any[]>([])
+
+    const [combocode, getCombocode] = useState<any[]>([])
     const [teams, getTeams] =useState<ITeam[]>([]);
     const combobox = async () =>{
         const resp = await HttpClient.get(`/public/data/team?nonpublic=1`);
@@ -57,6 +62,20 @@ const DialogEdit = (props: EditProps) => {
             throw resp.data.message ?? "Something went wrong!";
         }
         getTeams(resp.data.teams);
+
+        HttpClient.get(`/public/data/country?search=`)
+        .then((response) => {
+          const code = response.data.countries;
+          for (let x = 0; x < code.length; x++) {
+            const element = code[x];
+            element.label = element.iso + ' (+' + element.phonecode + ')'
+            if(props.selectedItem.country_id == element.id){
+                console.log(element);
+                getSelectedCombo(element);
+              }
+          }
+          getCombocode(code);
+        })
     }
 
     useEffect(() => {   
@@ -209,7 +228,7 @@ const DialogEdit = (props: EditProps) => {
                                 </FormHelperText>
                                 )}
                             </FormControl>
-                            </Grid>
+                        </Grid>
                         <Grid item md={6} xs={12} > 
                             <Autocomplete
                                 disablePortal
@@ -223,7 +242,15 @@ const DialogEdit = (props: EditProps) => {
                             />
                         </Grid>
                         <Grid item md={2} xs={12} >
-                            <TextField defaultValue={props.selectedItem.country_id} id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("country_id")} />
+                            <Autocomplete
+                                disablePortal
+                                id="code"
+                                value={selectedCombo}
+                                options={!combocode ? [{ label: "Loading...", id: 0 }] : combocode}
+                                renderInput={(params) => <TextField {...params} label="Code" />}
+                                {...register("country_id")}
+                                onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
+                            />
                         </Grid>
                         <Grid item md={4} xs={12} >
                             <TextField defaultValue={props.selectedItem.phone} id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")}/>
