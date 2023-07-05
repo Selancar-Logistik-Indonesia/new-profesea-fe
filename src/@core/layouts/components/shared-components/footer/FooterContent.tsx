@@ -1,35 +1,28 @@
-// ** Next Import
-import Link from 'next/link'
+// ** Next Import 
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import { Theme } from '@mui/material/styles'
-import { styled } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
-import useMediaQuery from '@mui/material/useMediaQuery'
+// import { Theme } from '@mui/material/styles'
+// import { styled } from '@mui/material/styles'
+//  import useMediaQuery from '@mui/material/useMediaQuery'
 
-const LinkStyled = styled(Link)(({ theme }) => ({
-  textDecoration: 'none',
-  color: theme.palette.primary.main
-}))
-
+ 
 const FooterContent = () => {
   // ** Var
-  const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
-
+ 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Typography sx={{ mr: 2 }}>
+      {/* <Typography sx={{ mr: 2 }}>
         {`© ${new Date().getFullYear()}, Made with `}
         <Box component='span' sx={{ color: 'error.main' }}>
-          ❤️
+           
         </Box>
         {` by `}
         <LinkStyled target='_blank' href='https://pixinvent.com/'>
           Pixinvent
         </LinkStyled>
-      </Typography>
-      {hidden ? null : (
+      </Typography> */}
+      {/* {hidden ? null : (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', '& :not(:last-child)': { mr: 4 } }}>
           <LinkStyled target='_blank' href='https://themeforest.net/licenses/standard'>
             License
@@ -47,7 +40,7 @@ const FooterContent = () => {
             Support
           </LinkStyled>
         </Box>
-      )}
+      )} */}
     </Box>
   )
 }

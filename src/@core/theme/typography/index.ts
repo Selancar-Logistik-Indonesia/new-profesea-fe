@@ -45,7 +45,8 @@ const typography = {
   },
   body1: {
     letterSpacing: '0.15px',
-    fontSize: '0.8rem'
+    fontSize: '0.8rem',
+    fontWeight: 500
   },
   body2: {
     lineHeight: 1.429,

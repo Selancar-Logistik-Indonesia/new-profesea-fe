@@ -136,7 +136,7 @@ const Register = () => {
               </Box>
               {/* <TypographyStyled variant='h5' sx={{ textAlign: 'center' }}>SAMUDERA</TypographyStyled> */}
               <Typography variant='h5' sx={{ textAlign: 'center' , marginTop:'20px',fontWeight: 'bold' }}>Register</Typography>
-              <Typography variant='body2' sx={{ textAlign: 'center' }}> Adventures start from here, let’s join with our!</Typography>
+              <Typography variant='body1' sx={{ textAlign: 'center' }}> Adventures start from here, let’s join with our!</Typography>
 
             </Box>
             <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
@@ -147,7 +147,7 @@ const Register = () => {
                   <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} style={{textTransform: 'none'}}  startIcon={<Icon icon={'mdi:domain'} />} > I Am Company</Button>              
                 </Link>
                 <Link href="/registrasiontrainer" passHref legacyBehavior>
-                  <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} style={{textTransform: 'none'}} startIcon={<Icon icon={'mdi:domain'} />} > I Am Trainer</Button>
+                  <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} style={{textTransform: 'none'}} startIcon={<Icon icon={'healthicons:i-training-class'} />} > I Am Trainer</Button>
                 </Link>
            
               {/* <Button variant="outlined" fullWidth sx={{ mb: 2 }}  startIcon={<AccessibilityNewOutlinedIcon />} > I AM Seafarer</Button>
@@ -195,7 +195,7 @@ const Register = () => {
                 Sign up
               </Button> */}
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                <Typography sx={{ mr: 2, color: 'text.secondary' }}>Already have an account?</Typography>
+                <Typography sx={{ mr: 2  }}>Already have an account?</Typography>
                 <Typography href='/login' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold', }}>
                   Sign in instead
                 </Typography>
