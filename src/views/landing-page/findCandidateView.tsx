@@ -27,7 +27,7 @@ const FindCandidateView = (props: { id: string }) => {
                 <Typography fontSize={18} variant='body1'>{t("landing_candidate_subtitle")}</Typography>
             </Grid>
             <Grid container sx={{ backgroundImage: 'url(/images/backgrounds/bg-company-form.jpg)', backgroundSize: 'cover' }}>
-                <Grid item lg={6} paddingX={25}>
+                <Grid item lg={6} md={6} paddingX={25}>
                     <Container sx={{ marginY: 5 }} disableGutters>
                         <Button startIcon={<FontAwesomeIcon color="#fff" icon={faAdd} />} variant="contained">{t('b_post_job')}</Button>
                     </Container>
@@ -44,7 +44,7 @@ const FindCandidateView = (props: { id: string }) => {
                         }
                     </Grid>
                 </Grid>
-                <Grid item lg={6} textAlign={'center'}>
+                <Grid item lg={6} md={6} textAlign={'center'}>
                     <Box
                         component="img"
                         sx={{ width: "66%" }}

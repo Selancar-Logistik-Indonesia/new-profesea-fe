@@ -89,7 +89,7 @@ const LoginPage = () => {
                             </Link>
 
                             <Typography mb={5} variant='h5' sx={{ textAlign: 'center' }}>Verify your email</Typography>
-                            <Typography mb={5} variant='body2' sx={{ textAlign: 'center' }}> Account activation link sent to your email address: john.doe@email.com Please follow the link inside to continue.</Typography>
+                            <Typography mb={5} variant='body1' sx={{ textAlign: 'center' }}> Account activation link sent to your email address: john.doe@email.com Please follow the link inside to continue.</Typography>
                         </Box>
 
                         <Link href={"/login"}>

@@ -32,7 +32,7 @@ const FeatureView = () => {
             {
                 featureItems.map(item => (
                     <Grid item key={item.key}>
-                        <Card sx={{ width: 420, height: 180 }} elevation={3}>
+                        <Card sx={{ width: 420, height: 180, border: 'solid 1px #eeeeee', }} elevation={0}>
                             <CardContent>
                                 <Typography variant='h6' sx={{ mb: 2 }}>
                                     <FontAwesomeIcon width={40} height={200} icon={item.icon} />
