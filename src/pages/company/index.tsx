@@ -12,7 +12,7 @@ import CompanyProfile from 'src/layouts/components/CompanyProfile'
 import { useTheme } from '@mui/material/styles'
 import ManageAccount from 'src/layouts/components/ManageAccount'
 import Subscription from 'src/layouts/components/Subscription'
-import UserProfileHeader from 'src/layouts/components/UserProfileHeader'
+
 
 type FormData = {
   companyName: string
