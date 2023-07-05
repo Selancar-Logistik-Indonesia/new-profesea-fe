@@ -4,7 +4,7 @@ import React, { ReactNode, useEffect, useState } from 'react'
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { Button, TextField, FormControl, Autocomplete,   Divider, ImageList, ImageListItem } from '@mui/material'
+import { Button, TextField, FormControl, Autocomplete, Divider, ImageList, ImageListItem } from '@mui/material'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
@@ -20,7 +20,7 @@ import { useForm } from 'react-hook-form'
 // import { yupResolver } from '@hookform/resolvers/yup'
 
 import { HttpClient } from 'src/services'
-import { AppConfig } from 'src/configs/api' 
+import { AppConfig } from 'src/configs/api'
 
 
 type FormData = {
@@ -46,8 +46,8 @@ interface SocialAccountsType {
   isConnected: boolean
 }
 const CompanyProfile = () => {
-  
- 
+
+
 
   const [combocountry, getComboCountry] = useState<any>([])
   const [combodistrict, getComboDistrict] = useState<any>([])
@@ -67,7 +67,6 @@ const CompanyProfile = () => {
     HttpClient.get(AppConfig.baseUrl + "/public/data/district?search=")
       .then((response) => {
         const code = response.data.districts;
-        debugger;
         getComboDistrict(code);
       })
   }
@@ -252,7 +251,7 @@ const CompanyProfile = () => {
           <Box sx={{ marginTop: '2px' }}>
             <label htmlFor="raised-button-file">
               <Button size='small' variant="contained" component="span" >
-               Upload Cover Image
+                Upload Cover Image
               </Button>
             </label> &nbsp;
 
@@ -341,12 +340,12 @@ const CompanyProfile = () => {
               <Grid item md={12} xs={12} >
                 {/* <Typography variant="body2" >About</Typography>   */}
                 <TextField
-                fullWidth sx={{ mb: 1 }}
+                  fullWidth sx={{ mb: 1 }}
                   id="outlined-multiline-static"
                   label="About"
                   multiline
                   rows={4}
-                  
+
                   {...register("about")} />
               </Grid>
               <Grid item md={2} xs={12} >

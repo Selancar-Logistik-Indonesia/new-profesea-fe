@@ -108,13 +108,13 @@ const Registration = (props: any) => {
     } else {
       teamid = 4
     }
+
     let ship =''
     if(idposition.id == 0 ){
       ship='onship'
     }else{
       ship='offship'
-    }
-    const json = {
+    }    const json = {
       'name': name,
       "email": email,
       "username": username,
@@ -142,7 +142,6 @@ const Registration = (props: any) => {
           element.label = element.name + '(' + element.phonecode + ')'
         }
         getCombocode(code);
-        debugger;
       })
   }
   useEffect(() => {

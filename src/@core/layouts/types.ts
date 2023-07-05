@@ -32,7 +32,8 @@ export type BlankLayoutWithAppBarProps = {
 }
 
 export type LandingPageLayoutProps = {
-  children: ReactNode
+  children: ReactNode,
+  appBarElevation?: number,
 }
 
 export type NavSectionTitle = {
