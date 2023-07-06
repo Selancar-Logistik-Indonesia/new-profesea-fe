@@ -58,7 +58,7 @@ const FooterView = () => {
                 </Grid>
             </Grid>
             <Divider sx={{ marginTop: 10 }} variant="middle" />
-            <Grid id="footer" px={15} pb={20} container direction="row" alignItems="center" justifyContent="space-between">
+            <Grid id="footer" px={15} pb={5} container direction="row" alignItems="center" justifyContent="space-between" sx={{backgroundImage: 'url(/images/backgrounds/bg-company-form.jpg)', }}>
                 <Grid item>
                     <Typography>&copy; 2023 All rights reserved. Profesea.</Typography>
                 </Grid>

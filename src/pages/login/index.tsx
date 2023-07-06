@@ -40,23 +40,23 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 
 // ** Styled Components
-const LoginIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-  padding: theme.spacing(20),
-  paddingRight: '0 !important',
-  [theme.breakpoints.down('lg')]: {
-    padding: theme.spacing(10)
-  }
-}))
+// const LoginIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
+//   padding: theme.spacing(20),
+//   paddingRight: '0 !important',
+//   [theme.breakpoints.down('lg')]: {
+//     padding: theme.spacing(10)
+//   }
+// }))
 
-const LoginIllustration = styled('img')(({ theme }) => ({
-  maxWidth: '48rem',
-  [theme.breakpoints.down('xl')]: {
-    maxWidth: '38rem'
-  },
-  [theme.breakpoints.down('lg')]: {
-    maxWidth: '30rem'
-  }
-}))
+// const LoginIllustration = styled('img')(({ theme }) => ({
+//   maxWidth: '48rem',
+//   [theme.breakpoints.down('xl')]: {
+//     maxWidth: '38rem'
+//   },
+//   [theme.breakpoints.down('lg')]: {
+//     maxWidth: '30rem'
+//   }
+// }))
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -126,6 +126,15 @@ const LoginPage = () => {
 
 
   return (
+    <Box  sx={{
+        position: 'fit',
+        width: '100%',
+        height: '100%',
+        backgroundImage: "url(/images/background-login.jpeg)",
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+      }}> 
     <Box className='content-right'>
        <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: '1px solid ${theme.palette.divider}' } : {}}>
 
@@ -294,18 +303,19 @@ const LoginPage = () => {
       </RightWrapper>
       {!hidden ? (
         <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-          <LoginIllustrationWrapper>
+          {/* <LoginIllustrationWrapper>
             <LoginIllustration
               alt='login-illustration'
               src={`/images/shiplogin.png`}
             />
-          </LoginIllustrationWrapper>
+          </LoginIllustrationWrapper> */}
           <FooterIllustrationsV2 />
         </Box>
       ) : null}
 
 
     </Box>
+  </Box>
   )
 }
 

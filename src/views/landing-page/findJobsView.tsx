@@ -21,7 +21,7 @@ const FindJobsView = (props: { id: string }) => {
     ];
 
     return (
-        <Grid id={props.id} sx={{ backgroundImage: 'url(/images/backgrounds/bg-company-form.jpg)', backgroundSize: 'cover' }} marginY={20} container direction="column" alignItems="center" justifyContent="center">
+        <Grid id={props.id} sx={{ backgroundSize: 'cover' }} marginY={20} container direction="column" alignItems="center" justifyContent="center">
             <Grid mb={5} sx={{ width: "80%" }} item textAlign="center">
                 <Typography variant='h3' sx={{ mb: 5 }} color={"black"}>{t("landing_jobs_title")}</Typography>
                 <Typography fontSize={18} variant='body1'>{t("landing_jobs_subtitle")}</Typography>

@@ -226,7 +226,7 @@ const DialogEdit = (props: EditProps) => {
                                 )}
                             </FormControl>
                         </Grid>
-                        <Grid item md={6} xs={12} > 
+                        <Grid item md={4} xs={12} > 
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
@@ -238,7 +238,7 @@ const DialogEdit = (props: EditProps) => {
                                 onChange={(event: any, newValue: ITeam | null) => (newValue?.id) ? setTeamId(newValue.id) : setTeamId(props.selectedItem.team_id)}
                             />
                         </Grid>
-                        <Grid item md={2} xs={12} >
+                        <Grid item md={4} xs={12} >
                             <Autocomplete
                                 disablePortal
                                 id="code"
