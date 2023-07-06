@@ -108,6 +108,7 @@ const Registration = (props: any) => {
     } else {
       teamid = 4
     }
+    let ship=''
     if(idposition.id == 0 ){
       ship='onship'
     }else{
@@ -176,7 +177,7 @@ const Registration = (props: any) => {
                 disablePortal
                 id="code"
                 options={!combocode ? [{ label: "Loading...", id: 0 }] : combocode}
-                renderInput={(params) => <TextField {...params} label="phonecode" />}
+                renderInput={(params) => <TextField {...params} label="Code" />}
                 {...register("code")}
                 onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
               />
