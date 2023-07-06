@@ -45,8 +45,11 @@ type DialogProps = {
 const DialogAdd = (props: DialogProps) => {
     const [onLoading, setOnLoading] = useState(false);
     const [showPassword, setShowPassword] = useState<boolean>(false)
+    const [showPassword2, setShowPassword2] = useState<boolean>(false)
     const [teamId, setTeamId] = useState(0);
-
+    const [idcombocode, setCombocode] = useState<any>(0)
+    
+    const [combocode, getCombocode] = useState<any>([])
     const [teams, getTeams] =useState<any[]>([]);
     const combobox = async () =>{
         const resp = await HttpClient.get(`/public/data/team?nonpublic=1`);
@@ -54,6 +57,16 @@ const DialogAdd = (props: DialogProps) => {
             throw resp.data.message ?? "Something went wrong!";
         }
         getTeams(resp.data.teams);
+
+        HttpClient.get(`/public/data/country?search=`)
+        .then((response) => {
+          const code = response.data.countries;
+          for (let x = 0; x < code.length; x++) {
+            const element = code[x];
+            element.label = element.iso + ' (+' + element.phonecode + ')'
+          }
+          getCombocode(code);
+        })
     }
 
     useEffect(() => {   
@@ -76,7 +89,7 @@ const DialogAdd = (props: DialogProps) => {
     }) 
 
     const onSubmit = async (formData: Account) => {
-        const {  name, email, username, password, password_confirmation, country_id, phone} = formData
+        const {  name, email, username, password, password_confirmation, phone} = formData
         
         const json = {
             "name": name,
@@ -85,7 +98,7 @@ const DialogAdd = (props: DialogProps) => {
             "password": password,
             "password_confirmation": password_confirmation,
             "team_id": teamId, 
-            "country_id": country_id,
+            "country_id": idcombocode.id,
             "phone": phone
         }
         
@@ -188,16 +201,16 @@ const DialogAdd = (props: DialogProps) => {
                                     label='Password'  
                                     id='password2' 
                                     error={Boolean(errors.password)}
-                                    type={showPassword ? 'text' : 'password'}
+                                    type={showPassword2 ? 'text' : 'password'}
                                     {...register("password_confirmation")}
                                     endAdornment={
                                         <InputAdornment position='end'>
                                         <IconButton
                                             edge='end'
                                             onMouseDown={e => e.preventDefault()}
-                                            onClick={() => setShowPassword(!showPassword)}
+                                            onClick={() => setShowPassword2(!showPassword2)}
                                         >
-                                            <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                                            <Icon icon={showPassword2 ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
                                         </IconButton>
                                         </InputAdornment>
                                     }
@@ -221,7 +234,14 @@ const DialogAdd = (props: DialogProps) => {
                             />
                         </Grid>
                         <Grid item md={2} xs={12} >
-                            <TextField id="Code" label="Code" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("country_id")} />
+                            <Autocomplete
+                                disablePortal
+                                id="code"
+                                options={!combocode ? [{ label: "Loading...", id: 0 }] : combocode}
+                                renderInput={(params) => <TextField {...params} label="Code" />}
+                                {...register("country_id")}
+                                onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
+                            />
                         </Grid>
                         <Grid item md={4} xs={12} >
                             <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")}/>
