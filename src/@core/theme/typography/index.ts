@@ -1,18 +1,7 @@
 
 const typography = {
   fontFamily: [
-    'Inter',
-    'sans-serif',
-    '-apple-system',
-    'BlinkMacSystemFont',
-    '"Segoe UI"',
-    'Roboto',
-    '"Helvetica Neue"',
-    'Arial',
-    'sans-serif',
-    '"Apple Color Emoji"',
-    '"Segoe UI Emoji"',
-    '"Segoe UI Symbol"'
+    'Poppins',
   ].join(','),
   h1: {
     fontWeight: 500,
