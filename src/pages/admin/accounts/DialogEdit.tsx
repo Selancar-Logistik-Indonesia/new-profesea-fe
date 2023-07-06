@@ -94,8 +94,6 @@ const DialogEdit = (props: EditProps) => {
         resolver: yupResolver(schema)
     })
 
-
-
     const onSubmit = async (formData: Account) => {
         const { name, email, username, password, password_confirmation,   phone } = formData
         
