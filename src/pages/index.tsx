@@ -15,7 +15,7 @@ const Main = () => {
         <>
             <Grid container style={landingPageStyle.bannerHero}>
                 <Grid item xs={12} xl={6} lg={8} md={12} pt={5} pl={10}>
-                    <Typography variant="h1" style={{ color: "white" }}>{t("landing_hero_title")}</Typography>
+                    <Typography variant="h3" style={{ color: "white" }}>{t("landing_hero_title")}</Typography>
                     <Typography fontSize={18} style={{ color: "white" }} mt={8}>{t("landing_hero_subtitle")}</Typography>
 
                     <Container style={{ marginTop: 30 }}>
