@@ -249,8 +249,8 @@ const Registration = (props: any) => {
         <Grid item md={6} xs={12} >
           <FormControl fullWidth>
             <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-              Confirm Password
-            </InputLabel>
+              
+Confirm Password            </InputLabel>
             <OutlinedInput
               sx={{ mb: 6 }}
               label='Confirm Password'
