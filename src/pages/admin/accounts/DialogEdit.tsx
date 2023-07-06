@@ -94,11 +94,9 @@ const DialogEdit = (props: EditProps) => {
         resolver: yupResolver(schema)
     })
 
-
-
     const onSubmit = async (formData: Account) => {
-        const { name, email, username, password, password_confirmation, country_id, phone } = formData
-
+        const { name, email, username, password, password_confirmation,   phone } = formData
+        
         const json = {
             "name": name,
             "email": email,
@@ -106,7 +104,7 @@ const DialogEdit = (props: EditProps) => {
             "password": password,
             "password_confirmation": password_confirmation,
             "team_id": teamId,
-            "country_id": country_id,
+            "country_id": idcombocode.id,
             "phone": phone
         }
 
