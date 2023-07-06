@@ -198,7 +198,7 @@ const Registration = (props: any) => {
               disablePortal
               id="combo-box-demo"
               options={!combocode ? [{ label: "Loading...", id: 0 }] : combocode}
-              renderInput={(params) => <TextField {...params} label="phonecode" />}
+              renderInput={(params) => <TextField {...params} label="Phonecode" />}
               {...register("code")}
               onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
             />
