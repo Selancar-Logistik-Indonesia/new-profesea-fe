@@ -253,7 +253,7 @@ const Registration = (props: any) => {
             </InputLabel>
             <OutlinedInput
               sx={{ mb: 6 }}
-              label='Password'
+              label='Confirm Password'
               id='password1'
               error={Boolean(errors.password)}
               type={showPassword ? 'text' : 'password'}
