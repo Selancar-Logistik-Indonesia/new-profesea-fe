@@ -1,9 +1,9 @@
 
 const bannerHero: React.CSSProperties = {
-    backgroundImage: "url(/images/pp3.jpg)",
+    backgroundImage: "url(/images/header-homepage.jpg)",
     backgroundSize: "cover",
     backgroundPosition: "20% 40%",
-    height: 450
+    height: 750
 };
 
 const landingPageStyle = {

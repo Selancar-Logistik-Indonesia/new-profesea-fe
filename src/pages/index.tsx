@@ -14,25 +14,25 @@ const Main = () => {
     return (
         <>
             <Grid container style={landingPageStyle.bannerHero}>
-                <Grid item xs={12} xl={6} lg={8} md={12} pt={5} pl={10}>
-                    <Typography variant="h3" style={{ color: "white" }}>{t("landing_hero_title")}</Typography>
-                    <Typography fontSize={18} style={{ color: "white" }} mt={8}>{t("landing_hero_subtitle")}</Typography>
+                <Grid item xs={12} xl={6} lg={8} md={12} pt={5} pl={10} mt={40}>
+                    <Typography variant="h3" style={{ color: "#32487A" }}>{t("landing_hero_title")}</Typography>
+                    <Typography fontSize={18} style={{ color: "#424242" }} mt={8}>{t("landing_hero_subtitle")}</Typography>
 
                     <Container style={{ marginTop: 30 }}>
-                        <Button style={{ backgroundColor: "white", color: "#666CFF", marginRight: 10 }} variant="contained">{t('b_apply_job')}</Button>
-                        <Button style={{ backgroundColor: "white", color: "#666CFF" }} variant="contained">{t('b_post_job')}</Button>
+                        <Button style={{ backgroundColor: "#32487A", color: "white", marginRight: 10 }} variant="contained">{t('b_apply_job')}</Button>
+                        <Button style={{ backgroundColor: "#32487A", color: "white" }} variant="contained">{t('b_post_job')}</Button>
                     </Container>
                 </Grid>
             </Grid>
 
-            <FeatureView />
+            {/* <FeatureView /> */}
 
-            <Grid marginY={20} container direction="column" alignItems="center" justifyContent="center">
+            {/* <Grid marginY={20} container direction="column" alignItems="center" justifyContent="center">
                 <Grid sx={{ width: "80%" }} item textAlign="center">
                     <Typography variant='h3' sx={{ mb: 5 }} color={"black"}>{t("landing_about_title")}</Typography>
                     <Typography fontSize={18} variant='body1'>{t("landing_about_subtitle")}</Typography>
                 </Grid>
-            </Grid>
+            </Grid> */}
 
             <FindJobsView id="findJobSection" />
             <FindCandidateView id="findCandidate" />

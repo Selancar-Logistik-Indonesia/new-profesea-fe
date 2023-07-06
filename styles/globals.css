@@ -1,7 +1,7 @@
 html,
 body {
   min-height: 100%;
-  font-family: 'Roboto';
+  font-family: 'Poppins';
 }
 
 #__next {
@@ -9,8 +9,7 @@ body {
 }
 
 code {
-  font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
+  font-family: 'Poppins';
   padding: 0.1rem 0.4rem;
   font-size: 90%;
   color: #d400ff;
