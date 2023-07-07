@@ -3,7 +3,6 @@ import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import landingPageStyle from "src/@core/styles/landing-page/landing-page";
 import { useTranslation } from "react-i18next";
-import FeatureView from "src/views/landing-page/featureView";
 import FindJobsView from "src/views/landing-page/findJobsView";
 import FindCandidateView from "src/views/landing-page/findCandidateView";
 import FooterView from "src/views/landing-page/footerView";
@@ -24,15 +23,6 @@ const Main = () => {
                     </Container>
                 </Grid>
             </Grid>
-
-            {/* <FeatureView /> */}
-
-            {/* <Grid marginY={20} container direction="column" alignItems="center" justifyContent="center">
-                <Grid sx={{ width: "80%" }} item textAlign="center">
-                    <Typography variant='h3' sx={{ mb: 5 }} color={"black"}>{t("landing_about_title")}</Typography>
-                    <Typography fontSize={18} variant='body1'>{t("landing_about_subtitle")}</Typography>
-                </Grid>
-            </Grid> */}
 
             <FindJobsView id="findJobSection" />
             <FindCandidateView id="findCandidate" />

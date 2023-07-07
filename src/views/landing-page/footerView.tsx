@@ -1,4 +1,4 @@
-import { Box, Button, Container, Divider, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, IconButton, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram, faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import NavItemType from "src/contract/types/navItemType";
@@ -17,16 +17,16 @@ const FooterView = () => {
             <Grid container spacing={7} mt={2} px={10} sx={{ backgroundColor: '#98a9d1', backgroundSize: 'cover' }}>
                 <Grid item md={2} >
                     <Typography variant='h5' sx={{ mb: 2 }} color={"#32487A"}>Company</Typography>
-                    <Typography variant='body1'>Terms Of Service</Typography>
-                    <Typography variant='body1'>Privacy Policy</Typography>
-                    <Typography variant='body1'>FAQ</Typography>
+                    <Typography variant='body1' color={"#424242"}>Terms Of Service</Typography>
+                    <Typography variant='body1' color={"#424242"}>Privacy Policy</Typography>
+                    <Typography variant='body1' color={"#424242"}>FAQ</Typography>
 
                 </Grid>
                 <Grid item md={1} alignContent={'left'}>
                     <Typography variant='h5' sx={{ mb: 2 }} color={"#32487A"}>Platform</Typography>
-                    <Typography variant='body1'>Seafarer</Typography>
-                    <Typography variant='body1'>Company</Typography>
-                    <Typography variant='body1'>Trainer</Typography>
+                    <Typography variant='body1' color={"#424242"}>Seafarer</Typography>
+                    <Typography variant='body1' color={"#424242"}>Company</Typography>
+                    <Typography variant='body1' color={"#424242"}>Trainer</Typography>
 
                 </Grid>
                 <Grid item md={4}></Grid>
@@ -38,8 +38,8 @@ const FooterView = () => {
                         title="Profesea"
                         src="/images/logosamudera.png"
                     />
-                    <Typography variant='body1'>We assist Maritime (Personnel & HR & Crew Managers) and Crew Management Companies in facilitating the easy connection of maritime professionals with each other.</Typography>
-                    <Typography mt={4} variant='body1'>Samudera Indonesia Building. 2th FlJl. Letjen S. Parman Kav 35, Kel. Kemanggisan Kec. Palmerah, Jakarta 11480 - Indonesia. (0265) 311766</Typography>
+                    <Typography variant='body1' color={"#424242"}>We assist Maritime (Personnel & HR & Crew Managers) and Crew Management Companies in facilitating the easy connection of maritime professionals with each other.</Typography>
+                    <Typography mt={4} variant='body1' color={"#424242"}>Samudera Indonesia Building. 2th FlJl. Letjen S. Parman Kav 35, Kel. Kemanggisan Kec. Palmerah, Jakarta 11480 - Indonesia. (0265) 311766</Typography>
 
                     <Container disableGutters sx={{ marginTop: 5, marginBottom: 5 }}>
                         {

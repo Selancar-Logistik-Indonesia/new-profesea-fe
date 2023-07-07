@@ -1,3 +1,4 @@
+import { red } from "@mui/material/colors"
 
 const typography = {
   fontFamily: [

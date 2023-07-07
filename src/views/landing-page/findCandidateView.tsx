@@ -1,6 +1,6 @@
 import { faAdd, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Chip, Container, Grid, Typography } from "@mui/material";
+import { Button, Chip, Container, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
@@ -21,7 +21,7 @@ const FindCandidateView = (props: { id: string }) => {
     ];
 
     return (
-        <Grid id={props.id} marginY={1} container direction="column" alignItems="center" justifyContent="center" sx={{ backgroundColor: '#f3f2f0', backgroundSize: 'cover' }}>
+        <Grid id={props.id} sx={{ backgroundColor: '#f3f2f0', backgroundSize: 'cover', height: 400 }} marginY={1} container direction="column" alignItems="center" justifyContent="center">
             <Grid container mt={10} ml={10}>
                 <Grid item lg={4} md={6} textAlign={'left'}>
                     <Typography variant='h4' sx={{ mb: 5 }} color={"#32487A"}>{t("landing_candidate_title")}</Typography>
