@@ -44,10 +44,10 @@ const PricingView = () => {
     ];
 
     return (
-        <Grid marginY={20} container direction="column" alignItems="center" justifyContent="center">
+        <Grid marginY={5} container direction="column" alignItems="center" justifyContent="center">
             <Grid mb={5} sx={{ width: "80%" }} item textAlign="center">
-                <Typography variant='h3' sx={{ mb: 5 }} color={"black"}>{t("landing_pricing_title")}</Typography>
-                <Typography fontSize={18} variant='body1'>{t("landing_pricing_subtitle")}</Typography>
+                <Typography variant='h4' sx={{ mb: 5 }} color={"#32487A"}>{t("landing_pricing_title")}</Typography>
+                <Typography fontSize={14} variant='body1'>{t("landing_pricing_subtitle")}</Typography>
             </Grid>
 
             <Grid container direction="row" alignItems="center" justifyContent="center">
@@ -65,7 +65,7 @@ const PricingView = () => {
                         planItems = planItems.filter(e => e.avail.includes(item.toLowerCase()));
 
                         return (
-                            <Grid width={320} height={850} mx={10} mt={5} key={item} padding={5} item component={Card} textAlign="center">
+                            <Grid width={320} height={850} mx={5} mt={5} key={item} padding={5} item component={Card} textAlign="center">
                                 <Typography mb={2} variant="h5">{item}</Typography>
                                 <Typography mb={2} fontWeight="body1" sx={{ textDecoration: "line-through", color: "grey" }} variant="h6">Rp50.000</Typography>
                                 <Typography mb={2} variant="h5">Rp30.000</Typography>
