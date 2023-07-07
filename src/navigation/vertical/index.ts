@@ -4,7 +4,7 @@ import { VerticalNavItemsType } from 'src/@core/layouts/types'
 const navigation = (): VerticalNavItemsType => {
     return [
         {
-            path: '/home',
+            path: '/admin',
             title: 'Home',
             icon: 'mdi:home-outline',
             action: 'read',
@@ -16,6 +16,21 @@ const navigation = (): VerticalNavItemsType => {
             icon: 'mdi:user',
             action: 'read',
             subject: 'accounts',
+        },
+        {
+            path: '/admin/job-management/',
+            title: 'Job Management',
+            icon: 'mdi:clipboard-account',
+            action: 'read',
+            subject: 'job-management',
+        },
+        
+        {
+            path: '/admin/training-management/',
+            title: 'Training Management',
+            icon: 'mdi:play',
+            action: 'read',
+            subject: 'training-management',
         },
         {
             path: '#',
