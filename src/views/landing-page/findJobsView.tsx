@@ -21,7 +21,7 @@ const FindJobsView = (props: { id: string }) => {
     ];
 
     return (
-        <Grid id={props.id} sx={{ backgroundColor: '#eae6df', backgroundSize: 'cover' }} marginY={1} container direction="column" alignItems="center" justifyContent="center">
+        <Grid id={props.id} sx={{ backgroundColor: '#eae6df', backgroundSize: 'cover', height: 400 }} marginY={1} container direction="column" alignItems="center" justifyContent="center">
             <Grid container mt={10} ml={10}>
                 <Grid item lg={4} md={6} textAlign={'left'}>
                     <Typography variant='h4' sx={{ mb: 5 }} color={"#32487A"}>{t("landing_jobs_title")}</Typography>
