@@ -1,5 +1,4 @@
 import { faBriefcase, faChartLine, faUsers } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card, CardContent, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Box } from "@mui/material";

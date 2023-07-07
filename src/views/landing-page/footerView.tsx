@@ -1,4 +1,4 @@
-import { Box, Button, Container, Divider, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, IconButton, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram, faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import NavItemType from "src/contract/types/navItemType";

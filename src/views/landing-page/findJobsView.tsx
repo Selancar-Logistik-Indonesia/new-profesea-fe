@@ -1,6 +1,6 @@
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Chip, Grid, Typography } from "@mui/material";
+import { Chip, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
