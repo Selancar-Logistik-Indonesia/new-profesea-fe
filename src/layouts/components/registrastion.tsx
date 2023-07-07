@@ -45,6 +45,8 @@ interface FormData {
   phone: string
   username: string
   email: string
+  term: string
+  privacy: string
 }
 const Registration = (props: any) => {
   const tipereg = props['tipereg'];
@@ -87,8 +89,17 @@ const Registration = (props: any) => {
     });
   };
   const onSubmit = (data: FormData) => {
-    const { password, password2, username, name, phone, email } = data
+    const { password, password2, username, name, phone, email,term,privacy } = data
+    if(term==''){
+       toast.error(data.name + ' Please checklist term!');
 
+       return;
+    }
+    if(privacy==''){
+       toast.error(data.name + ' Please checklist privacy');
+       
+       return;
+    }
     let teamid: number;
     if (tipereg == 'seafer') {
       teamid = 2
@@ -97,14 +108,17 @@ const Registration = (props: any) => {
     } else {
       teamid = 4
     }
-    debugger;
-    const json = {
+    if(idposition.id == 0 ){
+      ship='onship'
+    }else{
+      ship='offship'
+    }    const json = {
       'name': name,
       "email": email,
       "username": username,
       "password": password,
       "password_confirmation": password2,
-      "employee_type": idposition.label,
+      "employee_type": ship,
       "team_id": teamid,
       "country_id": idcombocode.id,
       "phone": phone
@@ -126,15 +140,14 @@ const Registration = (props: any) => {
           element.label = element.name + '(' + element.phonecode + ')'
         }
         getCombocode(code);
-        debugger;
       })
   }
   useEffect(() => {
     combobox()
   }, [])
   const position = [
-    { label: 'Onship', id: 0 },
-    { label: 'Offship', id: 1 },
+    { label: 'Onship',  id: 0 },
+    { label: 'Offship',  id: 1 },
   ]
 
   return (
@@ -152,7 +165,7 @@ const Registration = (props: any) => {
                 disablePortal
                 id="position"
                 options={!position ? [{ label: "Loading...", id: 0 }] : position}
-                renderInput={(params) => <TextField {...params} label="position" />}
+                renderInput={(params) => <TextField {...params} label="Position" />}
                 {...register("position")}
                 onChange={(event: any, newValue: any | null) => setPosition(newValue)}
               />
@@ -265,9 +278,9 @@ const Registration = (props: any) => {
         </Grid>
         <Grid item md={12} xs={12} >
           <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
-            <Checkbox></Checkbox>
+            <Checkbox id='term'  {...register("term")}></Checkbox>
             <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px' }}>
-              Term Of Service,
+              Term Of Services,
             </Typography>
             <Typography sx={{ marginTop: '10px', color: 'text.secondary' }}> i read and accept</Typography>
 
@@ -275,7 +288,7 @@ const Registration = (props: any) => {
         </Grid>
         <Grid item md={12} xs={12} >
           <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
-            <Checkbox></Checkbox>
+            <Checkbox id='privacy' {...register("privacy")}></Checkbox>
             <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px' }}>
               Privacy Police,
             </Typography>

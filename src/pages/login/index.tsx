@@ -127,7 +127,8 @@ const LoginPage = () => {
 
   return (
     <Box className='content-right'>
-      <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
+       <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: '1px solid ${theme.palette.divider}' } : {}}>
+
         <Box
           sx={!hidden ? {
             boxSizing: 'border-box',
@@ -170,21 +171,29 @@ const LoginPage = () => {
                 Client: <strong>client@materialize.com</strong> / Pass: <strong>client</strong>
               </Typography>
             </Alert> */}
-            <Box sx={{ mb: 3, maxWidth: '100%', }}>
-              <img alt='logo' src='/images/logosamudera.png' style={{
+
+              <Box sx={{ mb: 3, maxWidth: '100%', justifyContent:'center' , alignContent:'center'}}>
+              <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"  
+                  > 
+              <img  alt='logo' src='/images/logosamudera.png' style={{
                 maxWidth: '100%',
-                height: 'auto',
+                     height: '40px',   
                 padding: 0,
-                margin: 0
+                margin: 0,
+                alignContent:'center'
               }} />
-
+              </Box>
+                                
               {/* <TypographyStyled variant='h5' sx={{ textAlign: 'center' }}>SAMUDERA</TypographyStyled> */}
-              <Typography variant='h5' sx={{ textAlign: 'center' }}>REGISTER</Typography>
-              <Typography variant='body2' sx={{ textAlign: 'center' }}> Adventures start from here, let’s join with our!</Typography>
-
+              <Typography variant='h5' sx={{ textAlign: 'center' , marginTop:'20px', fontWeight: 'bold', color: "#424242"}}>Login</Typography>
+              <Typography variant='body2' sx={{ textAlign: 'center', color: "#424242"}}> Please Sign to your account and start your adventures!</Typography>
+             
             </Box>
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-              <FormControl fullWidth sx={{ mb: 4 }}>
+              <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
                 <Controller
                   name='email'
                   control={control}
@@ -278,8 +287,8 @@ const LoginPage = () => {
               >
 
               </Divider>
-
-            </form>
+ 
+           </form>
           </BoxWrapper>
         </Box>
       </RightWrapper>

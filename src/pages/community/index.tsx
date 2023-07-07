@@ -14,7 +14,7 @@ import {  useTheme } from '@mui/material/styles'
 // ** Demo Imports
 // import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import {   Grid } from '@mui/material'  
-  
+ 
 import Recomended from './Recomended'
 import { Icon } from '@iconify/react'
 import Profile from 'src/layouts/components/Profile'
@@ -25,7 +25,7 @@ import Feed from 'src/layouts/components/Feed'
 // import { yupResolver } from '@hookform/resolvers/yup'
     
  
-const FindCandidate = () => { 
+const Community = () => { 
   
 const theme = useTheme() 
 const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -55,14 +55,19 @@ const vacancy = [
  
  const paramcomment = [
   { 
-    name: 'Lerian Febriana, A.Md.Kom  ',
-    skill: 'Electrical Cadet', 
-    location: 'Jakarta', 
-  }, {
-    name: 'Fadil Shahab',
-    skill: 'IT Enginering', 
-    location: 'Jakarta',
-  },
+    company: 'PT Samudera Indonesia Maritim',
+    title: 'Cara Belajar Kemudi Kapal', 
+    forum: 'Forum Seafarer', 
+    date: '24 Maret 2023 17.54', 
+    replies: '2', 
+  },   
+  { 
+    company: 'PT Samudera Indonesia Maritim',
+    title: 'P3K Di Kapal', 
+    forum: 'Forum Seafarer', 
+    date: '1 Maret 2023 01.54', 
+    replies: '3', 
+  }, 
   ]
 
   return (    
@@ -102,9 +107,7 @@ const vacancy = [
               </Grid>
                <Grid item lg={8} md={7} xs={12}>
                 <Grid container spacing={6}>
-                  <Grid item xs={12}> 
-                  <Typography  variant='h5'> Recommend for you</Typography>
-                  <Typography  variant='body2' marginTop={2}  marginBottom={5}> Based on your profile and search history</Typography>
+                  <Grid item xs={12}>  
                       <Recomended paramcomment={paramcomment}></Recomended>
                   </Grid> 
                 </Grid>
@@ -174,8 +177,8 @@ const vacancy = [
 }
  
 
-FindCandidate.acl = {
+Community.acl = {
   action: 'read',
   subject: 'home'
 };
-export default FindCandidate
+export default Community

@@ -1,22 +1,19 @@
 // ** MUI Components
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card' 
-import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
+import Grid from '@mui/material/Grid' 
+import Typography from '@mui/material/Typography' 
   
 import { styled } from '@mui/material/styles'
 import { Paper } from '@mui/material'   
 
 export type ParamMain = {
-  logo: string 
   name: string 
-  waktu: string 
-  postcomment: string 
+  skill: string 
+  location: string  
 }
 const ProfilePicture = styled('img')(({ theme }) => ({
-  width: 45,
-  height: 45,
+  width: 75,
+  height: 75,
   borderRadius: theme.shape.borderRadius,
   border: `5px solid ${theme.palette.common.white}`,
   [theme.breakpoints.down('md')]: {
@@ -37,30 +34,42 @@ const renderList = (arr: ParamMain[]) => {
     return arr.map((item, index) => {
       return (
         <Paper sx={{marginTop:'10px'}} key={index}>
-          <Box
-            
+          <Box 
+          height={95}
             sx={{
               display: 'flex', 
+              alignContent:'center', 
               '& svg': { color: 'text.secondary' } 
             }}
           > 
-           <Box  >
+          
+           <Box sx={{ display: 'flex',justifyContent:'center'}} marginTop={3} marginLeft={2}>
               <ProfilePicture src='/images/avatars/1.png' alt='profile-picture' sx={{borderRadius:'130px'}} />
             </Box>
-            <Box sx={{ mb: [6, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
-              <Typography variant='body2' sx={{   color: 'text.primary', textTransform: 'uppercase' }}>
-                {`${item.name.charAt(0).toUpperCase() + item.name.slice(1)}`}
-              </Typography>
-              <Typography sx={{ fontWeight: 600, color: 'text.secondary' }}>
-                {`${item.waktu.charAt(0).toUpperCase() + item.waktu.slice(1)}`} 
+            <Box sx={{ padding:'5',  display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
+              <Box margin={1}>
+                <Typography variant='body1' sx={{   color: 'text.primary', textTransform: 'uppercase'  }}  fontWeight={600}>
+                  {`${item.skill.charAt(0).toUpperCase() + item.skill.slice(1)}`}
+                </Typography>
+              </Box>
+               <Box margin={1}>
+                 <Typography sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                {`${item.name.charAt(0).toUpperCase() + item.name.slice(1)}`} 
               </Typography> 
+              </Box>
+                <Box margin={1} display={'flex'}>
+                 <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
+                  Location : 
+                </Typography> 
+                 <Typography sx={{ fontWeight: 600, color: 'text.secondary' }} ml="0.5rem" >
+                {`${item.location.charAt(0).toUpperCase() + item.location.slice(1)}`} 
+                </Typography> 
+              </Box>
+             
+               
             </Box>  
           </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft:'10px'  }}>
-                <Typography variant="body1" >
-                 {`${item.postcomment.charAt(0).toUpperCase() + item.postcomment.slice(1)}`} 
-              </Typography>
-           </Box>
+       
            
         </Paper>
         
@@ -78,16 +87,11 @@ const Recomended = (props: Props) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <Card>
-          <CardContent>
+         
             <Box  > 
-              {renderList(paramcomment)}
-              
-             
+              {renderList(paramcomment)} 
             </Box> 
-           
-          </CardContent>
-        </Card>
+            
       </Grid>
       
     </Grid>

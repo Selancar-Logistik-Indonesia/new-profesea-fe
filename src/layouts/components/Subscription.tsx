@@ -61,7 +61,7 @@ const hidden = useMediaQuery(theme.breakpoints.down('md'))
               <Typography variant="h5">SUBSCRIPTION</Typography>
             </Grid>
             <Grid item md={12} xs={12}    > 
-                <Typography variant="h6">Freemium</Typography> 
+                <Typography variant="h6">Premium</Typography> 
             </Grid>
             <Grid item md={12} xs={12}  >
               <Button size='small' type='button' variant='contained' >

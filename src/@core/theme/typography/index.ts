@@ -1,4 +1,4 @@
- 
+
 const typography = {
   fontFamily: [
     'Inter',
@@ -16,7 +16,8 @@ const typography = {
   ].join(','),
   h1: {
     fontWeight: 500,
-    letterSpacing: '-1.5px'
+    letterSpacing: '-1.5px',
+    fontSize: 85
   },
   h2: {
     fontWeight: 500,
@@ -45,7 +46,8 @@ const typography = {
   },
   body1: {
     letterSpacing: '0.15px',
-    fontSize: '0.8rem'
+    fontSize: '0.8rem',
+    fontWeight: 500
   },
   body2: {
     lineHeight: 1.429,

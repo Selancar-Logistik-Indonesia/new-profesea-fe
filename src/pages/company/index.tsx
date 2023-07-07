@@ -12,7 +12,7 @@ import CompanyProfile from 'src/layouts/components/CompanyProfile'
 import { useTheme } from '@mui/material/styles'
 import ManageAccount from 'src/layouts/components/ManageAccount'
 import Subscription from 'src/layouts/components/Subscription'
-import UserProfileHeader from 'src/layouts/components/UserProfileHeader'
+
 
 type FormData = {
   companyName: string
@@ -105,9 +105,9 @@ return (
               borderBottom: 1, borderColor: 'divider', boxSizing: 'border-box',
               background: '#FFFFFF',
               border: '1px solid rgba(76, 78, 100, 0.12)',
-              borderRadius: '20px'
+              borderRadius: '40px'
             }}>
-              <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '10px' } }} >
+              <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
                 <Tab label="PROFILE" href='/company/profile' />
                 <Tab label="EDIT PROFILE" {...a11yProps(1)} />
                 <Tab label="ACCOUNT" {...a11yProps(2)} />
@@ -133,7 +133,7 @@ return (
                     <Grid container xs={9}>  </Grid>
                     <Grid md={12} xs={3} container justifyContent={'right'} marginTop={'10px'}>
                       <Button size='small' type='button' variant='contained' sx={{ backgroundColor: '#26C6F9' }} startIcon={<Icon icon={'mdi:visibility-outline'} />}>
-                        Resume Preview
+                        Preview Resume
                       </Button>
                     </Grid>
                   </Grid>
@@ -141,7 +141,7 @@ return (
                 </TabPanel>
                 <TabPanel value={value} index={0}>
 
-                  <Grid container xs={12}>
+                  {/* <Grid container xs={12}>
                     <Grid container xs={12} md={2}>
                       <Button size='small' type='button' variant='text' startIcon={<Icon icon={'mdi:arrow-left'} />}>
                         Back
@@ -163,9 +163,9 @@ return (
 
 
                     </Grid>
-                  </Grid>
+                  </Grid> */}
                   {/* <CompanyProfilePreview></CompanyProfilePreview> */}
-                  <UserProfileHeader></UserProfileHeader>
+                  {/* <UserProfileHeader></UserProfileHeader> */}
                 </TabPanel>
 
                 <TabPanel value={value} index={3}>

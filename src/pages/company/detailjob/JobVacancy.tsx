@@ -35,16 +35,16 @@ const renderList = (arr: ParamJobVacncy[]) => {
          
 
           <Box sx={{ columnGap: 2,   flexWrap: 'wrap', alignItems: 'center' }}>
-            <Typography sx={{ fontWeight: 600, color: 'text.secondary' }}>
+            <Typography sx={{ color: "#424242", fontWeight: 600 }}>
               {`${item.judul.charAt(0).toUpperCase() + item.judul.slice(1)}`}
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
+            <Typography sx={{ color: "#424242", fontWeight: 400 }}>
               {item.namapt.charAt(0).toUpperCase() + item.namapt.slice(1)}
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
+            <Typography sx={{ color: "#424242", fontWeight: 400 }}>
               {item.lokasi.charAt(0).toUpperCase() + item.lokasi.slice(1)}
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
+            <Typography sx={{ color: "#424242", fontWeight: 400 }}>
               {item.waktu.charAt(0).toUpperCase() + item.waktu.slice(1)}
             </Typography>
           </Box>
@@ -57,7 +57,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
 }
  
 
-const Profile = (props: Props) => {
+const AboutOverivew = (props: Props) => {
   const {   vacancy  } = props
 
   return (
@@ -66,7 +66,7 @@ const Profile = (props: Props) => {
         <Card>
           <CardContent>
             <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: 'text.primary', textTransform: 'uppercase' }}>
+              <Typography variant='body2' sx={{ mb: 4, color: "#424242", textTransform: 'uppercase' , fontWeight: 600}}>
                 Job Vacancy
               </Typography>
               {renderList(vacancy)}
@@ -86,4 +86,4 @@ const Profile = (props: Props) => {
   )
 }
 
-export default Profile
+export default AboutOverivew

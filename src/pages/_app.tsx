@@ -59,6 +59,8 @@ import 'src/iconify-bundle/icons-bundle-react'
 
 // ** Global css styles
 import '../../styles/globals.css'
+import { I18nextProvider } from 'react-i18next'
+import i18n from 'src/i18next'
 
 // ** Extend App Props with Emotion
 type ExtendedAppProps = AppProps & {
@@ -129,24 +131,26 @@ const App = (props: ExtendedAppProps) => {
             </Head>
 
             <AuthProvider>
-                <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
-                    <SettingsConsumer>
-                        {({ settings }) => {
-                            return (
-                                <ThemeComponent settings={settings}>
-                                    <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                                        <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
-                                            {getLayout(<Component {...pageProps} />)}
-                                        </AclGuard>
-                                    </Guard>
-                                    <ReactHotToast>
-                                        <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
-                                    </ReactHotToast>
-                                </ThemeComponent>
-                            )
-                        }}
-                    </SettingsConsumer>
-                </SettingsProvider>
+                <I18nextProvider i18n={i18n}>
+                    <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
+                        <SettingsConsumer>
+                            {({ settings }) => {
+                                return (
+                                    <ThemeComponent settings={settings}>
+                                        <Guard authGuard={authGuard} guestGuard={guestGuard}>
+                                            <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
+                                                {getLayout(<Component {...pageProps} />)}
+                                            </AclGuard>
+                                        </Guard>
+                                        <ReactHotToast>
+                                            <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
+                                        </ReactHotToast>
+                                    </ThemeComponent>
+                                )
+                            }}
+                        </SettingsConsumer>
+                    </SettingsProvider>
+                </I18nextProvider>
             </AuthProvider>
         </CacheProvider>
     )

@@ -1,10 +1,8 @@
 // ** MUI Components
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
-import { Button, Divider } from '@mui/material'
-import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
+import Grid from '@mui/material/Grid' 
+import { Button  } from '@mui/material'
+import Typography from '@mui/material/Typography' 
  
 import Icon from 'src/@core/components/icon' 
 import { styled } from '@mui/material/styles'
@@ -55,13 +53,13 @@ const renderList = (arr: ParamMain[]) => {
     return arr.map((item, index) => {
       return (
         
-        <Paper sx={{marginTop:'10px'}} key={index}>
+        <Paper sx={{marginTop:'10px' , padding:'10px'}}  key={index}>
           <Box
-            
+           
             sx={{
               display: 'flex', 
               '& svg': { color: 'text.secondary' } 
-            }}
+            }} 
           >
              
            <Box  >
@@ -75,25 +73,18 @@ const renderList = (arr: ParamMain[]) => {
                 {`${item.waktu.charAt(0).toUpperCase() + item.waktu.slice(1)}`} 
               </Typography> 
             </Box>  
-          </Box>
-          <Divider style={{ width: '100%' }} />
+          </Box> 
           <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft:'10px'  }}>
                 <Typography variant="body1" sx={{ color: "#424242", fontWeight: 400, margin: "5px"}}>
                  {`${item.postcomment.charAt(0).toUpperCase() + item.postcomment.slice(1)}`} 
               </Typography>
-           </Box>
-           <Divider style={{ width: '100%' }} />
+           </Box> 
            <Box >
-             <Button size='small' color='primary'  startIcon={<Icon icon='mdi:like-outline'  fontSize={10}/>} > Like</Button>
-             {/* <Button size='small' color='primary'  startIcon={<Icon icon='mdi:comment-outline'  fontSize={10}/>}> Comment</Button> */}
-            
              <Button size='small' color='primary'  startIcon={<Icon icon='ic:round-repeat'  fontSize={10}/>}> Repost</Button>
              <Button size='small' color='primary' startIcon={<Icon icon='solar:share-linear'  fontSize={10}/>} > Share</Button>
-              <CommentActions commentId='1' replycount='1'/>
-            {/* <Typography href='/tes' component={Link}>
-              tes
-            </Typography> */} 
-            {/* <CommentForm></CommentForm> */}
+             
+             <Button size='small' color='primary'  startIcon={<Icon icon='mdi:like-outline'  fontSize={10}/>} > Like</Button> 
+              <CommentActions commentId='1' replycount='1'/> 
            </Box>
         </Paper>
         
@@ -110,14 +101,10 @@ const NestedComment = (props: Props) => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <Card>
-          <CardContent>
+      <Grid item xs={12}> 
             <Box  > 
               {renderList(paramcomment)} 
-            </Box>  
-          </CardContent>
-        </Card>
+            </Box>   
       </Grid>
       
     </Grid>
