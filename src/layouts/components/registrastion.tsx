@@ -2,16 +2,7 @@
 import { ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Components
-import Button from '@mui/material/Button'
-import Checkbox from '@mui/material/Checkbox'
-import TextField from '@mui/material/TextField'
-import InputLabel from '@mui/material/InputLabel'
-import IconButton from '@mui/material/IconButton'
-import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import InputAdornment from '@mui/material/InputAdornment'
-import Typography from '@mui/material/Typography'
+import { Button, Divider, Checkbox, TextField, InputLabel, IconButton, Box, FormControl, OutlinedInput, InputAdornment, Typography} from '@mui/material'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -89,16 +80,16 @@ const Registration = (props: any) => {
     });
   };
   const onSubmit = (data: FormData) => {
-    const { password, password2, username, name, phone, email,term,privacy } = data
-    if(term==''){
-       toast.error(data.name + ' Please checklist term!');
+    const { password, password2, username, name, phone, email, term, privacy } = data
+    if (term == '') {
+      toast.error(data.name + ' Please checklist term!');
 
-       return;
+      return;
     }
-    if(privacy==''){
-       toast.error(data.name + ' Please checklist privacy');
-       
-       return;
+    if (privacy == '') {
+      toast.error(data.name + ' Please checklist privacy');
+
+      return;
     }
     let teamid: number;
     if (tipereg == 'seafer') {
@@ -108,12 +99,12 @@ const Registration = (props: any) => {
     } else {
       teamid = 4
     }
-    let ship=''
-    if(idposition.id == 0 ){
-      ship='onship'
-    }else{
-      ship='offship'
-    }    const json = {
+    let ship = ''
+    if (idposition.id == 0) {
+      ship = 'onship'
+    } else {
+      ship = 'offship'
+    } const json = {
       'name': name,
       "email": email,
       "username": username,
@@ -147,8 +138,8 @@ const Registration = (props: any) => {
     combobox()
   }, [])
   const position = [
-    { label: 'Onship',  id: 0 },
-    { label: 'Offship',  id: 1 },
+    { label: 'Onship', id: 0 },
+    { label: 'Offship', id: 1 },
   ]
 
   return (
@@ -157,7 +148,7 @@ const Registration = (props: any) => {
         {tipereg == 'seafer' ? (
           <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
             <Grid item md={12} xs={12}>
-              <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("name")} />
+              <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 2 }} {...register("name")} />
             </Grid>
 
             <Grid item md={4} xs={12} >
@@ -166,7 +157,7 @@ const Registration = (props: any) => {
                 disablePortal
                 id="position"
                 options={!position ? [{ label: "Loading...", id: 0 }] : position}
-                renderInput={(params) => <TextField {...params} label="Position" />}
+                renderInput={(params) => <TextField {...params} label="Position" sx={{ mb: 2 }} />}
                 {...register("position")}
                 onChange={(event: any, newValue: any | null) => setPosition(newValue)}
               />
@@ -177,18 +168,18 @@ const Registration = (props: any) => {
                 disablePortal
                 id="code"
                 options={!combocode ? [{ label: "Loading...", id: 0 }] : combocode}
-                renderInput={(params) => <TextField {...params} label="Code" />}
+                renderInput={(params) => <TextField {...params} label="Code" sx={{ mb: 2 }}/>}
                 {...register("code")}
                 onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
               />
             </Grid>
             <Grid item md={4} xs={12} >
-              <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")} />
+              <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 2 }} {...register("phone")} />
             </Grid>
           </Grid>
         ) : <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
           <Grid item md={4} xs={12}>
-            <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("name")} />
+            <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 2 }} {...register("name")} />
           </Grid>
 
 
@@ -198,19 +189,21 @@ const Registration = (props: any) => {
               disablePortal
               id="combo-box-demo"
               options={!combocode ? [{ label: "Loading...", id: 0 }] : combocode}
-              renderInput={(params) => <TextField {...params} label="Phone Code" />}
+              renderInput={(params) => <TextField {...params} label="Phone Code" sx={{ mb: 2 }} />}
               {...register("code")}
               onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
             />
           </Grid>
           <Grid item md={4} xs={12} >
-            <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")} />
+            <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 2 }} {...register("phone")} />
           </Grid>
         </Grid>}
-
-
+        <Divider style={{ width: '100%' , marginBottom: '10px'}} />
         <Grid item md={6} xs={12} >
-          <TextField id="Username" label="Username" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("username")} />
+          <TextField id="Username" label="Username" variant="outlined" fullWidth sx={{ mb: 2 }} {...register("username")} />
+        </Grid>
+        <Grid item md={6} xs={12} >
+          <TextField id="Email" label="Email" variant="outlined" fullWidth sx={{ mb: 2 }} {...register("email")} />
         </Grid>
         <Grid item md={6} xs={12} >
           <FormControl fullWidth>
@@ -218,7 +211,7 @@ const Registration = (props: any) => {
               Password
             </InputLabel>
             <OutlinedInput
-              sx={{ mb: 6 }}
+              sx={{ mb: 1 }}
               label='Password'
               id='password1'
               error={Boolean(errors.password)}
@@ -243,16 +236,14 @@ const Registration = (props: any) => {
             )}
           </FormControl>
         </Grid>
-        <Grid item md={6} xs={12} >
-          <TextField id="Email" label="Email" variant="outlined" fullWidth  {...register("email")} />
-        </Grid>
+       
         <Grid item md={6} xs={12} >
           <FormControl fullWidth>
             <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-              
-Confirm Password            </InputLabel>
+              Confirm Password
+            </InputLabel>
             <OutlinedInput
-              sx={{ mb: 6 }}
+              sx={{ mb: 1 }}
               label='Confirm Password'
               id='password1'
               error={Boolean(errors.password)}
@@ -280,21 +271,20 @@ Confirm Password            </InputLabel>
         <Grid item md={12} xs={12} >
           <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
             <Checkbox id='term'  {...register("term")}></Checkbox>
-            <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px' }}>
-              Term Of Services,
+            <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>
+              Terms Of Services,
             </Typography>
-            <Typography sx={{ marginTop: '10px', color: 'text.secondary' }}> i read and accept</Typography>
+            <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; I read and accept</Typography>
 
           </Box>
         </Grid>
         <Grid item md={12} xs={12} >
           <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
             <Checkbox id='privacy' {...register("privacy")}></Checkbox>
-            <Typography sx={{ color: 'primary.main', fontWeight: 'bold', marginTop: '10px' }}>
+            <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>
               Privacy Police,
             </Typography>
-            <Typography sx={{ marginTop: '10px', color: 'text.secondary' }}> i read and accept</Typography>
-
+            <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; I read and accept</Typography>
           </Box>
         </Grid>
         <Grid item md={3} xs={12} >

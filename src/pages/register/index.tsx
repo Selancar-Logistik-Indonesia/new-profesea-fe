@@ -140,13 +140,13 @@ const Register = () => {
             </Box>
             <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
               <Link href="/registrasionseafer" passHref legacyBehavior>
-                 <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} style={{textTransform: 'none'}} startIcon={<Icon icon={'mdi:account-outline'} />} > I Am Candidate</Button>                    
+                 <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{textTransform: 'none'}} startIcon={<Icon icon={'mdi:account-outline'} />} > I Am Candidate</Button>                    
               </Link>
                 <Link href="/registrasioncompany" passHref legacyBehavior>
-                  <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} style={{textTransform: 'none'}}  startIcon={<Icon icon={'mdi:domain'} />} > I Am Company</Button>              
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{textTransform: 'none'}}  startIcon={<Icon icon={'mdi:domain'} />} > I Am Recruiter</Button>              
                 </Link>
                 <Link href="/registrasiontrainer" passHref legacyBehavior>
-                  <Button variant="outlined" fullWidth sx={{ mb: 6, height: '70px', color: 'black' }} style={{textTransform: 'none'}} startIcon={<Icon icon={'healthicons:i-training-class'} />} > I Am Trainer</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{textTransform: 'none'}} startIcon={<Icon icon={'healthicons:i-training-class'} />} > I Am Trainer</Button>
                 </Link>
            
               {/* <Button variant="outlined" fullWidth sx={{ mb: 2 }}  startIcon={<AccessibilityNewOutlinedIcon />} > I AM Seafarer</Button>

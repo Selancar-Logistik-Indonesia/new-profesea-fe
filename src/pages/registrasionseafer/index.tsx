@@ -84,7 +84,7 @@ const Register = () => {
 
       {!hidden ? (
 
-        <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
+        <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center', backgroundImage: "url(/images/bg-register-form.jpg)", backgroundSize: 'cover' }}>
           <Container fixed>
             <Box
             display="flex"
