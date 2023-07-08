@@ -130,7 +130,7 @@ const LoginPage = () => {
         position: 'fit',
         width: '100%',
         height: '100%',
-        backgroundImage: "url(/images/background-login.jpeg)",
+        backgroundImage: "url(/images/bglogin.png)",
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
@@ -282,8 +282,8 @@ const LoginPage = () => {
                 </Button>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                <Typography sx={{ mr: 2, color: 'text.secondary' }}>Don't Have yet an account??</Typography>
-                <Typography href='/register' component={Link} sx={{ color: 'primary.main', textDecoration: 'none' }}>
+                <Typography sx={{ mr: 2, color: "#424242" }}>Don't Have yet an account??</Typography>
+                <Typography href='/register' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold', textDecoration: 'none' }}>
                   Register Here!
                 </Typography>
               </Box>
