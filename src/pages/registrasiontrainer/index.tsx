@@ -84,7 +84,7 @@ const Register = () => {
 
       {!hidden ? (
 
-        <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
+        <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center', backgroundImage: "url(/images/bg-register-form.jpg)", backgroundSize: 'cover' }}>
           <Container fixed>
             <Box
             display="flex"
@@ -154,8 +154,8 @@ const Register = () => {
             <BoxWrapper> 
               <Box sx={!hidden ?{ mb: 6, marginLeft:'5%',   width: '80%', alignItems:'center',justifyContent:'center' }:
                   { mb: 6,     alignItems:'center',justifyContent:'center' }}>
-                <Typography variant='h4' sx={{ mb: 1, textAlign: 'left',fontWeight: 'bold' }}>Create an Account Trainer</Typography>
-                <Typography variant='body2' sx={{ mb: 6, textAlign: 'left' }}> Enter Your Account As Trainer In Here!</Typography>
+                <Typography variant='h4' sx={{ mb: 1, textAlign: 'left',fontWeight: 'bold', color: "#424242"}}>Create an Account Trainer</Typography>
+                <Typography variant='body2' sx={{ mb: 6, textAlign: 'left' , color: "#424242"}}> Enter Your Account As Trainer In Here!</Typography>
                 <Registration tipereg="trainer"></Registration>
               </Box>
              
