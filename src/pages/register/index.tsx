@@ -76,7 +76,7 @@ const Register = () => {
         position: 'fit',
         width: '100%',
         height: '100%',
-        backgroundImage: "url(/images/bgregister.png)",
+        backgroundImage: "url(/images/bgregister2.jpeg)",
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
@@ -119,7 +119,6 @@ const Register = () => {
           }}
         >
           <BoxWrapper  >
-
             <Box sx={{ mb: 3, maxWidth: '100%', justifyContent:'center' , alignContent:'center'}}>
               <Box
                     display="flex"
@@ -135,8 +134,8 @@ const Register = () => {
               }} />
               </Box>
               {/* <TypographyStyled variant='h5' sx={{ textAlign: 'center' }}>SAMUDERA</TypographyStyled> */}
-              <Typography variant='h5' sx={{ textAlign: 'center' , marginTop:'20px',fontWeight: 'bold' }}>Register</Typography>
-              <Typography variant='body1' sx={{ textAlign: 'center' }}> Adventures start from here, let’s join with our!</Typography>
+              <Typography variant='h5' sx={{ textAlign: 'center' , marginTop:'20px', fontWeight: 'bold', color: "#424242"}}>Register</Typography>
+              <Typography variant='body2' sx={{ textAlign: 'center', color: "#424242" }}> Adventures start from here, let’s join with our!</Typography>
 
             </Box>
             <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
@@ -195,7 +194,7 @@ const Register = () => {
                 Sign up
               </Button> */}
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                <Typography sx={{ mr: 2  }}>Already have an account?</Typography>
+                <Typography sx={{ mr: 2 , color: "#424242" }}>Already have an account?</Typography>
                 <Typography href='/login' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold', }}>
                   Sign in instead
                 </Typography>
