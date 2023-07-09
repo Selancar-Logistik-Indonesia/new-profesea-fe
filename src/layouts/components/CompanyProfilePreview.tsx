@@ -21,7 +21,8 @@ import { useForm } from 'react-hook-form'
 
 
 import Icon from 'src/@core/components/icon'
-import { useTheme } from '@mui/material/styles'
+import { useTheme } from '@mui/material/styles' 
+import {IUser} from 'src/contract/models/user'
 
 
 type FormData = {
@@ -40,7 +41,11 @@ type FormData = {
   usernamesosmed: string
 }
 
-const CompanyProfilePreview = () => {
+type DialogProps = {
+    visible: boolean; 
+    datauser: IUser;
+}
+const CompanyProfilePreview = (props: DialogProps) => {
 
   const {
   } = useForm<FormData>({
@@ -142,7 +147,7 @@ const CompanyProfilePreview = () => {
         </Grid>
         <Grid container md={10} xs={12} direction={'row'} justifyContent={'left'} alignContent={'left'} marginTop={'20px'}>
           <Box sx={{ marginTop: '20px' }}>
-            <Typography variant="h5"  >PT Samudera Indonesia Maritim</Typography>
+            <Typography variant="h5"  >{props.datauser.name} </Typography>
             <Box sx={{ marginTop: '20px' }} display='flex'>
               <Icon icon={'mdi:factory'} /> <Typography variant="body2" >Industries of Shipping Line</Typography>
               <Icon icon={'mdi:location'} /> <Typography variant="body2" >Jakarta, Indonesia 41361</Typography>

@@ -20,12 +20,16 @@ import { useForm } from 'react-hook-form'
 // import { yupResolver } from '@hookform/resolvers/yup'
 
 import { HttpClient } from 'src/services'
-import { AppConfig } from 'src/configs/api'
-
+import { AppConfig } from 'src/configs/api' 
+import {IUser} from 'src/contract/models/user'
+import { toast } from 'react-hot-toast'
+import Countries from 'src/contract/models/country'
+import Industry from 'src/contract/models/industry'
+import City from 'src/contract/models/city'
+import Address from 'src/contract/models/address'
 
 type FormData = {
-  companyName: string
-  industryType: string
+  companyName: string 
   country: string
   district: string
   city: string
@@ -45,33 +49,67 @@ interface SocialAccountsType {
   username?: string
   isConnected: boolean
 }
-const CompanyProfile = () => {
 
+type compProps = {
+    visible: boolean;  
+    datauser: IUser;
+    address : Address
+}
+const CompanyProfile = (props:compProps) => {
+   const [combocountry, getComboCountry] = useState<any>([])
+  const [comboindustry, getComboIndustry] = useState<any>([])
+  const [combocity, getComboCity] = useState<any>([]) 
+  const [combocode, getCombocode] = useState<any>([])
+  const [sosmed, getSosmed] = useState<any>([])
 
-
-  const [combocountry, getComboCountry] = useState<any>([])
-  const [combodistrict, getComboDistrict] = useState<any>([])
-  const [combocity, getComboCity] = useState<any>([])
+  const [idcombocode, setCombocode] = useState<any>(0) 
+  const [idcity, setCombocity] = useState<any>(0) 
+  const [idindustry, setIndustry] = useState<any>(0)
+   const [idcountry, setCountry] = useState<any>(0)
   const combobox = () => {
     HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
       .then((response) => {
         const code = response.data.countries;
         getComboCountry(code);
+      })    
+    HttpClient.get(AppConfig.baseUrl + "/public/data/industry?search=")
+      .then((response) => {
+        const code = response.data.industries;
+        getComboIndustry(code);
       })
+    HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
+      .then((response) => {
+        const code = response.data.countries;
+        for (let x = 0; x < code.length; x++) {
+          const element = code[x];
+          element.label = element.name + '(' + element.phonecode + ')'
+        }
+        getCombocode(code);
+      })
+    const listsosmed = [{
+        id:'1',sosmed:'facebook'}
+      , {id:'2',sosmed:'instagaram'}
+      , {id:'3',sosmed:'lingkedin'}
+      ]
+    getSosmed(listsosmed);
 
-    HttpClient.get(AppConfig.baseUrl + "/public/data/city?search=")
-      .then((response) => {
-        const code = response.data.cities;
-        getComboCity(code);
-      })
-    HttpClient.get(AppConfig.baseUrl + "/public/data/district?search=")
-      .then((response) => {
-        const code = response.data.districts;
-        getComboDistrict(code);
-      })
+  }
+  const searchcity = async(q:any) =>{
+    setCountry(q);
+     getComboCity('');
+     const resp = await HttpClient.get("/public/data/city?search=&country_id=" +q);
+     if (resp.status != 200) {
+        throw resp.data.message ?? "Something went wrong!";
+     }
+      const code = resp.data.cities;
+      getComboCity(code);
+      
   }
   useEffect(() => {
     combobox()
+    if(props.datauser.address != undefined){
+      searchcity(props.datauser.country_id)
+    }
   }, [])
 
   const {
@@ -82,25 +120,39 @@ const CompanyProfile = () => {
   })
   const onSubmit = (data: FormData) => {
 
-    const { companyName, industryType, country, district, city, postalCode, email, code, website, phone, address, about } = data
+    const { companyName,  website, phone, address, about } = data
+      ;
     const json = {
-      'companynema': companyName,
-      "email": industryType,
-      "username": country,
-      "password": district,
-      "password_confirmation": city,
-      "employee_type": postalCode,
-      "team_id": email,
-      "country_id": code,
-      "website": website,
-      "address": address,
+      'country_id': idcountry,
+      'industry_id': idindustry,
+      "name": companyName,
       "phone": phone,
+      "website": website,
       "about": about,
+      "address_country_id": idcombocode, 
+      "address_city_id": idcity,
+      "address_address": address, 
     };
-    HttpClient.post('https://api.staging.selancar.elogi.id/api/auth/register', json).then(({ data }) => {
+    HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(({ data }) => { 
       console.log("here 1", data);
+      toast.success( ' Successfully submited!'); 
     }, error => {
       console.log("here 1", error);
+      toast.error('Registrastion Failed ' + error.response.data.message)
+    });
+  }
+  function addbutton(data:FormData) {
+    const {usernamesosmed} = data;  
+    const json = {
+      'sosmed_type': sosmed.sosmed,
+      'sosmed_id': usernamesosmed,
+    };
+    HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(({ data }) => { 
+      console.log("here 1", data);
+      toast.success( ' Successfully submited!'); 
+    }, error => {
+      console.log("here 1", error);
+      toast.error('Registrastion Failed ' + error.response.data.message)
     });
   }
   const socialAccountsArr: SocialAccountsType[] = [
@@ -274,68 +326,82 @@ const CompanyProfile = () => {
           <Grid xs={12} container marginTop={'25px'}>
             <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item md={6} xs={11}>
-                <TextField id="companyName" label="Company Name" variant="outlined" fullWidth sx={{ mb: 1 }}
+                <TextField id="companyName" defaultValue={props.datauser.name} label="Company Name" variant="outlined" fullWidth sx={{ mb: 1 }}
                   {...register("companyName")} />
-              </Grid>
-              <Grid item md={6} xs={12}>
-                <TextField id="industryType" label="Industry Type" variant="outlined" fullWidth sx={{ mb: 1 }}
-                  {...register("industryType")} />
+                  {}
               </Grid>
               <Grid item md={6} xs={12} >
                 <Autocomplete
                   disablePortal
                   id="combo-box-demo"
-                  options={combocountry}
-                  {...register("country")}
-                  getOptionLabel={(option: any) => option.nicename}
+                  options={comboindustry} 
+                   defaultValue={props.datauser.industry}
+                  getOptionLabel={(option: any) => option.name}
+                  renderInput={(params) => <TextField {...params} label="Industry" />} 
+                  onChange={(event: any, newValue: Industry | null) => (newValue?.id) ? setIndustry(newValue.id) : setIndustry(props.datauser.industry_id)}
+
+                />
+              </Grid>
+              <Grid item md={6} xs={12} >
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={combocountry} 
+                  getOptionLabel={(option: any) => option.nicename} 
+                  defaultValue={props.address.country}
                   renderInput={(params) => <TextField {...params} label="Country" />}
-                  onChange={(event: any, newValue: string | null) => getComboCountry(newValue)}
+                  onChange={(event: any, newValue: Countries | null) => (newValue?.id) ?   searchcity(newValue.id) : searchcity(props.datauser.country_id)}
+                  // onChange={({target})=> searchcity(target)}
                 />
               </Grid>
-              <Grid item md={6} xs={12} >
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={combodistrict}
-                  {...register("district")}
-                  getOptionLabel={(option: any) => option.district_name}
-                  renderInput={(params) => <TextField {...params} label="District" />}
-                  onChange={(event: any, newValue: string | null) => getComboDistrict(newValue)}
-                />
-              </Grid>
+            
               <Grid item md={6} xs={12} >
                 {/* <TextField id="city" label="city" variant="outlined" fullWidth sx={{ mb: 1 }}     {...register("city")}/> */}
-                <Autocomplete
+                {/* <Autocomplete
                   disablePortal
                   id="combo-box-demo"
-                  options={combocity}
-                  {...register("city")}
-                  getOptionLabel={(option: any) => option.city_name}
+                  options={combocity} 
+                  // getOptionLabel={(option: any) => option.city_name}
+                  defaultValue={props.address.city.city_name}
                   renderInput={(params) => <TextField {...params} label="City" />}
-                  onChange={(event: any, newValue: string | null) => getComboDistrict(newValue)}
+                  onChange={(event: any, newValue: City | null) => (newValue?.id) ? setCity(newValue.id) : setCity(props.address.city)}
+                /> */}
+                <Autocomplete
+                  disablePortal
+                  id="city"
+                  defaultValue={props.address.city}
+                  options={!combocity ? [{ label: "Loading...", id: 0 }] : combocity}
+                  renderInput={(params) => <TextField {...params} label="Code" sx={{ mb: 2 }}/>}
+                  onChange={(event: any, newValue: City | null) => (newValue?.id) ? setCombocity(newValue.id) : setCombocity(props.address.city_id)}
                 />
               </Grid>
 
+              
               <Grid item md={6} xs={12} >
-                <TextField id="postalcode" label="Postal Code" variant="outlined" fullWidth sx={{ mb: 1 }}     {...register("postalCode")} />
-              </Grid>
-              <Grid item md={6} xs={12} >
-                <TextField id="Email" label="Email" variant="outlined" fullWidth sx={{ mb: 1 }}  {...register("email")} />
+                <TextField id="Email" label="Email" defaultValue={props.datauser.email} variant="outlined" fullWidth sx={{ mb: 1 }}  {...register("email")} />
               </Grid>
               <Grid item md={6} xs={12} >
-                <TextField id="website" label="Website" variant="outlined" fullWidth sx={{ mb: 1 }}    {...register("website")} />
+                <TextField id="website" label="Website" defaultValue={props.datauser.website} variant="outlined" fullWidth sx={{ mb: 1 }}    {...register("website")} />
               </Grid>
 
-              <Grid item md={1} xs={12} >
-                <TextField id="code" label="Code" variant="outlined" fullWidth sx={{ mb: 1 }}   {...register("code")} />
+              <Grid item md={3} xs={12} >
+                <Autocomplete
+                  disablePortal
+                  id="code"
+                  defaultValue={props.address.country}
+                  options={!combocode ? [{ label: "Loading...", id: 0 }] : combocode}
+                  renderInput={(params) => <TextField {...params} label="Code" sx={{ mb: 2 }}/>}
+                  {...register("code")}
+                  onChange={(event: any, newValue: Countries | null) => (newValue?.id) ? setCombocode(newValue.id) : setCombocode(props.address.country_id)}
+                />
               </Grid>
 
-              <Grid item md={2} xs={12} >
-                <TextField id="phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 1 }}   {...register("phone")} />
+              <Grid item md={3} xs={12} >
+                <TextField id="phone" label="Phone" defaultValue={props.datauser.phone} variant="outlined" fullWidth sx={{ mb: 1 }}   {...register("phone")} />
               </Grid>
 
-              <Grid item md={9} xs={12} >
-                <TextField id="address" label="Address" variant="outlined" fullWidth sx={{ mb: 1 }}    {...register("address")} />
+              <Grid item md={6} xs={12} >
+                <TextField id="address" label="Address" defaultValue={props.datauser.address?.address} variant="outlined" fullWidth sx={{ mb: 1 }}    {...register("address")} />
               </Grid>
               <Grid item md={12} xs={12} >
                 {/* <Typography variant="body2" >About</Typography>   */}
@@ -345,7 +411,7 @@ const CompanyProfile = () => {
                   label="About"
                   multiline
                   rows={4}
-
+                  defaultValue={props.datauser.about}
                   {...register("about")} />
               </Grid>
               <Grid item md={2} xs={12} >
@@ -353,7 +419,7 @@ const CompanyProfile = () => {
                   Save
                 </Button>
               </Grid>
-
+            
               <Divider style={{ width: '100%' }} />
               <Grid item md={5} xs={12} >
                 <Typography variant="h6"  >Social Media</Typography>
@@ -364,11 +430,10 @@ const CompanyProfile = () => {
                 <Autocomplete
                   disablePortal
                   id="combo-box-demo"
-                  options={combodistrict}
-                  {...register("district")}
-                  getOptionLabel={(option: any) => option.district_name}
+                  options={sosmed} 
+                  getOptionLabel={(option: any) => option.sosmed}
                   renderInput={(params) => <TextField {...params} label="Social Media" />}
-                  onChange={(event: any, newValue: string | null) => getComboDistrict(newValue)}
+                  onChange={(event: any, newValue: string | null) => getSosmed(newValue)}
                 />
 
               </Grid>
@@ -376,12 +441,14 @@ const CompanyProfile = () => {
                 <TextField id="usernamesosmed" label="Username" variant="outlined" fullWidth sx={{ mb: 1 }}   {...register("usernamesosmed")} />
               </Grid>
               <Grid item md={2} xs={12} marginTop={'20px'} >
-                <Button size='small' variant='contained'  >
+                <Button size='small' variant='contained'  onClick={ handleSubmit(addbutton)}>
                   Add Account
                 </Button>
               </Grid>
 
-
+              <Grid item md={12} xs={12} marginTop={'20px'} >
+                
+              
               {socialAccountsArr.map(account => {
                 return (
                   <Box
@@ -395,8 +462,7 @@ const CompanyProfile = () => {
                     }}
                   >
                     <Grid container xs={12} marginTop={'10px'}>
-                      <Grid xs={11}  >
-
+                      <Grid xs={10}  >
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                           <Box sx={{ mr: 12, minWidth: 45, display: 'flex', justifyContent: 'center' }}>
                             <img src={account.logo} alt={account.title} height='30' />
@@ -404,7 +470,7 @@ const CompanyProfile = () => {
                           <div>
                             <Typography sx={{ fontWeight: 500 }}>{account.title}</Typography>
 
-                            {/* {account.username} */}
+                            {account.username}
 
                           </div>
                         </Box>
@@ -424,6 +490,8 @@ const CompanyProfile = () => {
 
                 )
               })}
+              </Grid>
+
               <Divider style={{ width: '100%' }} />
               <Box sx={{ marginTop: '20px' }}>
 
@@ -457,8 +525,6 @@ const CompanyProfile = () => {
             </Grid>
           </Grid>
         </FormControl>
-
-
       </form>
     </Grid>
 
