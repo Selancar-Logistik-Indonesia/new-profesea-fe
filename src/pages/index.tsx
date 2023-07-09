@@ -6,12 +6,21 @@ import { useTranslation } from "react-i18next";
 import FindJobsView from "src/views/landing-page/findJobsView";
 import FindCandidateView from "src/views/landing-page/findCandidateView";
 import FooterView from "src/views/landing-page/footerView";
+import Head from "next/head";
+import themeConfig from "src/configs/themeConfig";
 
 const Main = () => {
     const { t } = useTranslation();
 
     return (
         <>
+            <Head>
+                <title>{`${themeConfig.templateName} - ${t('landing_hero_title')}`}</title>
+                <meta name='description' content={`${themeConfig.templateName} - ${t('landing_about_subtitle')}`} />
+                <meta name='keywords' content={`${t('app_keyword')}`} />
+                <meta name='viewport' content='initial-scale=1, width=device-width' />
+            </Head>
+
             <Grid container style={landingPageStyle.bannerHero}>
                 <Grid item xs={12} xl={6} lg={8} md={12} pt={5} pl={10} mt={40}>
                     <Typography variant="h3" style={{ color: "#32487A" }}>{t("landing_hero_title")}</Typography>

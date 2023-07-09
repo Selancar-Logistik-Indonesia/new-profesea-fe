@@ -23,6 +23,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import * as yup from 'yup'
 import Registration from 'src/layouts/components/registrastion'
+import Head from 'next/head'
+import themeConfig from 'src/configs/themeConfig'
 
 // ** Styled Components
 // const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -80,91 +82,96 @@ const Register = () => {
   })
 
   return (
-    <Box className='content-right'>
+    <>
+      <Head>
+        <title>{`${themeConfig.templateName} - Trainer Registration`}</title>
+      </Head>
+      <Box className='content-right'>
 
-      {!hidden ? (
+        {!hidden ? (
 
-        <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center', backgroundImage: "url(/images/bg-register-form.jpg)", backgroundSize: 'cover' }}>
-          <Container fixed>
-            <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            minHeight="100vh"
-          >  
-            <Grid  container justifyContent={'center'}  alignContent={'center'}>
-                <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center" 
-                    marginTop={'50px'}
-                  > 
-                    <Grid item md={12} xs={12}  >
-                      <img alt="logo" src='/images/logosamudera.png' style={{
-                        maxWidth: '100%',
-                        height: '40px',   
-                        alignItems:'center',
-                        justifyContent:'center'
-                      }} />
-                    </Grid>
-                  </Box> 
-               <Grid item md={12} xs={12} >
+          <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center', backgroundImage: "url(/images/bg-register-form.jpg)", backgroundSize: 'cover' }}>
+            <Container fixed>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                minHeight="100vh"
+              >
+                <Grid container justifyContent={'center'} alignContent={'center'}>
                   <Box
                     display="flex"
                     justifyContent="center"
                     alignItems="center"
-                    minHeight="100vh" 
-                  > 
-                    <img alt="sailor" src='/images/traine.png' style={{
-                      maxWidth: '100%',
-                      height: '450px',  
-                      alignItems:'center',
-                      justifyContent:'center',
-                      marginBottom:'40%'
-                    }} />
-                  </Box> 
-               </Grid>
-            </Grid>
-            </Box> 
-          </Container> 
-        </Box>
-      ) : null}
-
-      <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
-        <Box
-          sx={!hidden ? {
-            p: 7,
-            height: '100%',
-            weight: '100%',
-            display: 'flex',
-            justifyContent: 'flex-start',
-            backgroundColor: 'background.paper'
-          } : {
-            p: 7,
-            height: '100%',
-            weight: '100%',
-            display: 'flex',
-            justifyContent: 'flex-start',
-            backgroundColor: 'background.paper'
-          }}
-        >
-          <Container sx={{
-            marginTop: '40px', mr: 6,ml: 6,
-          }}>
-            <BoxWrapper> 
-              <Box sx={!hidden ?{ mb: 6, marginLeft:'5%',   width: '80%', alignItems:'center',justifyContent:'center' }:
-                  { mb: 6,     alignItems:'center',justifyContent:'center' }}>
-                <Typography variant='h4' sx={{ mb: 1, textAlign: 'left',fontWeight: 'bold', color: "#424242"}}>Create an Account Trainer</Typography>
-                <Typography variant='body2' sx={{ mb: 6, textAlign: 'left' , color: "#424242"}}> Enter Your Account As Trainer In Here!</Typography>
-                <Registration tipereg="trainer"></Registration>
+                    marginTop={'50px'}
+                  >
+                    <Grid item md={12} xs={12}  >
+                      <img alt="logo" src='/images/logosamudera.png' style={{
+                        maxWidth: '100%',
+                        height: '40px',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }} />
+                    </Grid>
+                  </Box>
+                  <Grid item md={12} xs={12} >
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      minHeight="100vh"
+                    >
+                      <img alt="sailor" src='/images/traine.png' style={{
+                        maxWidth: '100%',
+                        height: '450px',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: '40%'
+                      }} />
+                    </Box>
+                  </Grid>
+                </Grid>
               </Box>
-             
-            </BoxWrapper>
-          </Container>
-        </Box>
-      </RightWrapper>
+            </Container>
+          </Box>
+        ) : null}
 
-    </Box>
+        <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
+          <Box
+            sx={!hidden ? {
+              p: 7,
+              height: '100%',
+              weight: '100%',
+              display: 'flex',
+              justifyContent: 'flex-start',
+              backgroundColor: 'background.paper'
+            } : {
+              p: 7,
+              height: '100%',
+              weight: '100%',
+              display: 'flex',
+              justifyContent: 'flex-start',
+              backgroundColor: 'background.paper'
+            }}
+          >
+            <Container sx={{
+              marginTop: '40px', mr: 6, ml: 6,
+            }}>
+              <BoxWrapper>
+                <Box sx={!hidden ? { mb: 6, marginLeft: '5%', width: '80%', alignItems: 'center', justifyContent: 'center' } :
+                  { mb: 6, alignItems: 'center', justifyContent: 'center' }}>
+                  <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: "#424242" }}>Create an Account Trainer</Typography>
+                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: "#424242" }}> Enter Your Account As Trainer In Here!</Typography>
+                  <Registration tipereg="trainer"></Registration>
+                </Box>
+
+              </BoxWrapper>
+            </Container>
+          </Box>
+        </RightWrapper>
+
+      </Box>
+    </>
   )
 }
 
