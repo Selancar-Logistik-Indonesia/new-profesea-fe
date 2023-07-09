@@ -40,19 +40,10 @@ const postFile = (path: string, data?: any): Promise<AxiosResponse> => {
       })
 }
 
-const patchFile = (path: string, data?: any): Promise<AxiosResponse> => {
-    return axios.patch(path, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-}
-
 export {
     get,
     post,
     patch,
     del,
-    postFile,
-    patchFile,
+    postFile
 }

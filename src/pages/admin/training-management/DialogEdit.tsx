@@ -141,7 +141,7 @@ const DialogEdit = (props: EditProps) => {
         try {
 
             // console.log(json);
-            const resp = await HttpClient.patchFile(`/training/${props.selectedItem.id}`, json);
+            const resp = await HttpClient.postFile(`/training/${props.selectedItem.id}`, json);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
