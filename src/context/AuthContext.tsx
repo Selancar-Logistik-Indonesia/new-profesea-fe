@@ -64,24 +64,20 @@ const AuthProvider = ({ children }: Props) => {
     }, [])
 
     const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
+        setLoading(true);
         HttpClient
             .post(authConfig.loginEndpoint, params)
             .then(async response => {
-                // console.log("here 1", response);
+                setLoading(false);
 
                 const returnUrl = router.query.returnUrl
-
                 setUser({ ...response.data.user })
                 localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken);
                 secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);
-                
-                const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : (response.data.user.role == 'admin') ? '/admin' : (response.data.user.role == 'Company') ?'/company':'/home'  // console.log(`redirectURL: ${redirectURL}`);
-
+                const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : (response.data.user.role == 'admin') ? '/admin' : (response.data.user.role == 'Company') ? '/company' : '/home'  // console.log(`redirectURL: ${redirectURL}`);
                 await router.replace(redirectURL as string);
-            })
-
-            .catch(err => {
-                console.log(err);
+            }).catch(err => {
+                setLoading(false);
                 if (errorCallback) errorCallback(err)
             })
     }

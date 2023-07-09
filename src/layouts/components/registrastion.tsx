@@ -2,7 +2,7 @@
 import { ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Components
-import { Button, Divider, Checkbox, TextField, InputLabel, IconButton, Box, FormControl, OutlinedInput, InputAdornment, Typography} from '@mui/material'
+import { Button, Divider, Checkbox, TextField, InputLabel, IconButton, Box, FormControl, OutlinedInput, InputAdornment, Typography } from '@mui/material'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -26,6 +26,7 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 interface FormData {
   password2: string
@@ -168,7 +169,7 @@ const Registration = (props: any) => {
                 disablePortal
                 id="code"
                 options={!combocode ? [{ label: "Loading...", id: 0 }] : combocode}
-                renderInput={(params) => <TextField {...params} label="Code" sx={{ mb: 2 }}/>}
+                renderInput={(params) => <TextField {...params} label="Code" sx={{ mb: 2 }} />}
                 {...register("code")}
                 onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
               />
@@ -198,7 +199,7 @@ const Registration = (props: any) => {
             <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 2 }} {...register("phone")} />
           </Grid>
         </Grid>}
-        <Divider style={{ width: '100%' , marginBottom: '10px'}} />
+        <Divider style={{ width: '100%', marginBottom: '10px' }} />
         <Grid item md={6} xs={12} >
           <TextField id="Username" label="Username" variant="outlined" fullWidth sx={{ mb: 2 }} {...register("username")} />
         </Grid>
@@ -236,7 +237,7 @@ const Registration = (props: any) => {
             )}
           </FormControl>
         </Grid>
-       
+
         <Grid item md={6} xs={12} >
           <FormControl fullWidth>
             <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
@@ -288,9 +289,11 @@ const Registration = (props: any) => {
           </Box>
         </Grid>
         <Grid item md={3} xs={12} >
-          <Button fullWidth size='large' type='submit' href='/register' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-left'} />} >
-            PREVIOUS
-          </Button>
+          <Link href='/register'>
+            <Button fullWidth size='large' type='button' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-left'} />} >
+              PREVIOUS
+            </Button>
+          </Link>
         </Grid>
 
         <Grid item md={6} xs={0} ></Grid>
