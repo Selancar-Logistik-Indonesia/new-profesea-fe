@@ -1,13 +1,8 @@
-import { Box, Button, Container, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram, faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import NavItemType from "src/contract/types/navItemType";
-import { useRouter } from "next/router";
-import Link from "next/link";
 
 const FooterView = () => {
-    const { locale } = useRouter();
-
     return (
         <>
             <Grid container spacing={7} mt={2} px={10} sx={{ backgroundColor: '#98a9d1', backgroundSize: 'cover' }}>

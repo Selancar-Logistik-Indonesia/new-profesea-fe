@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import IconButton from '@mui/material/IconButton'
 import Box, { BoxProps } from '@mui/material/Box'
-import { styled, useTheme } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import { LayoutProps } from 'src/@core/layouts/types'
 import Icon from 'src/@core/components/icon'
 
@@ -40,33 +40,15 @@ const VerticalNavHeader = (props: Props) => {
         hidden,
         navHover,
         settings,
-        saveSettings,
         collapsedNavWidth,
         toggleNavVisibility,
         navigationBorderWidth,
-        menuLockedIcon: userMenuLockedIcon,
         navMenuBranding: userNavMenuBranding,
-        menuUnlockedIcon: userMenuUnlockedIcon
     } = props
 
     // ** Hooks & Vars
-    const theme = useTheme()
-    const { mode, direction, navCollapsed } = settings
+    const { navCollapsed } = settings
 
-    const svgFillSecondary = () => {
-        if (mode === 'semi-dark') {
-            return `rgba(${theme.palette.customColors.dark}, 0.6)`
-        } else {
-            return theme.palette.text.secondary
-        }
-    }
-    const svgFillDisabled = () => {
-        if (mode === 'semi-dark') {
-            return `rgba(${theme.palette.customColors.dark}, 0.38)`
-        } else {
-            return theme.palette.text.disabled
-        }
-    }
 
     const menuHeaderPaddingLeft = () => {
         if (navCollapsed && !navHover) {
@@ -80,29 +62,6 @@ const VerticalNavHeader = (props: Props) => {
         }
     }
 
-    const svgRotationDeg = () => {
-        if (navCollapsed) {
-            if (direction === 'rtl') {
-                if (navHover) {
-                    return 0
-                } else {
-                    return 180
-                }
-            } else {
-                if (navHover) {
-                    return 180
-                } else {
-                    return 0
-                }
-            }
-        } else {
-            if (direction === 'rtl') {
-                return 180
-            } else {
-                return 0
-            }
-        }
-    }
 
     return (
         <MenuHeaderWrapper className='nav-header' sx={{ pl: menuHeaderPaddingLeft() }}>
