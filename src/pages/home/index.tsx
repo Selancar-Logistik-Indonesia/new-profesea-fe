@@ -1,6 +1,6 @@
  
 import { useAuth } from 'src/hooks/useAuth'
-  
+import Trainer from '../trainer'
 import SocialFeed from '../socialfeed';
 
 const Home = () => {  
@@ -10,6 +10,12 @@ const Home = () => {
       return(
               <SocialFeed/>
             )
+  }
+
+  if(user?.role == 'Trainer'){
+    return(
+            <Trainer/>
+          )
   }
     
    

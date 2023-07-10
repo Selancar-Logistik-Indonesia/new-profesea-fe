@@ -56,10 +56,10 @@ type compProps = {
     address : Address
 }
 const CompanyProfile = (props:compProps) => {
-   const [combocountry, getComboCountry] = useState<any>([])
+  const [combocountry, getComboCountry] = useState<any>([])
   const [comboindustry, getComboIndustry] = useState<any>([])
-  const [combocity, getComboCity] = useState<any>([]) 
-  const [combocode, getCombocode] = useState<any>([])
+  const [combocity, getComboCity] = useState<any[]>([]) 
+  const [combocode, getCombocode] = useState<any[]>([])
   const [sosmed, getSosmed] = useState<any>([])
 
   const [idcombocode, setCombocode] = useState<any>(0) 
@@ -96,7 +96,6 @@ const CompanyProfile = (props:compProps) => {
   }
   const searchcity = async(q:any) =>{
     setCountry(q);
-     getComboCity('');
      const resp = await HttpClient.get("/public/data/city?search=&country_id=" +q);
      if (resp.status != 200) {
         throw resp.data.message ?? "Something went wrong!";
@@ -239,6 +238,8 @@ const CompanyProfile = (props:compProps) => {
     },
   ];
 
+  
+  console.log(props.address.city);
   return (
     <Grid container >
       <Grid xs={12} md={6} container >
@@ -343,15 +344,15 @@ const CompanyProfile = (props:compProps) => {
                 />
               </Grid>
               <Grid item md={6} xs={12} >
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={combocountry} 
-                  getOptionLabel={(option: any) => option.nicename} 
-                  defaultValue={props.address.country}
-                  renderInput={(params) => <TextField {...params} label="Country" />}
-                  onChange={(event: any, newValue: Countries | null) => (newValue?.id) ?   searchcity(newValue.id) : searchcity(props.datauser.country_id)}
-                  // onChange={({target})=> searchcity(target)}
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={combocountry}
+                getOptionLabel={(option: any) => option.nicename}
+                defaultValue={props.address.country}
+                renderInput={(params) => <TextField {...params} label="Country" />}
+                onChange={(event: any, newValue: Countries | null) => (newValue?.id) ? searchcity(newValue.id) : searchcity(props.datauser.country_id)}
+                // onChange={({target})=> searchcity(target)}
                 />
               </Grid>
             
@@ -369,9 +370,10 @@ const CompanyProfile = (props:compProps) => {
                 <Autocomplete
                   disablePortal
                   id="city"
-                  defaultValue={props.address.city}
-                  options={!combocity ? [{ label: "Loading...", id: 0 }] : combocity}
-                  renderInput={(params) => <TextField {...params} label="Code" sx={{ mb: 2 }}/>}
+                  value={props.datauser.address.city}
+                  options={combocity}
+                  getOptionLabel={(option: City) => option.city_name}
+                  renderInput={(params) => <TextField {...params} label="City" sx={{ mb: 2 }}/>}
                   onChange={(event: any, newValue: City | null) => (newValue?.id) ? setCombocity(newValue.id) : setCombocity(props.address.city_id)}
                 />
               </Grid>
@@ -388,10 +390,10 @@ const CompanyProfile = (props:compProps) => {
                 <Autocomplete
                   disablePortal
                   id="code"
+                  options={combocode}
+                  getOptionLabel={(option: Countries) => option.iso}
                   defaultValue={props.address.country}
-                  options={!combocode ? [{ label: "Loading...", id: 0 }] : combocode}
                   renderInput={(params) => <TextField {...params} label="Code" sx={{ mb: 2 }}/>}
-                  {...register("code")}
                   onChange={(event: any, newValue: Countries | null) => (newValue?.id) ? setCombocode(newValue.id) : setCombocode(props.address.country_id)}
                 />
               </Grid>
