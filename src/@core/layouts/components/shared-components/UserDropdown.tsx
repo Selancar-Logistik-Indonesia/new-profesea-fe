@@ -25,6 +25,7 @@ import { Settings } from 'src/@core/context/settingsContext'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import secureLocalStorage from 'react-secure-storage'
+import Link from 'next/link'
 
 interface Props {
   settings: Settings
@@ -38,7 +39,12 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
   backgroundColor: theme.palette.success.main,
   boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
 }))
-
+const LinkStyled = styled(Link)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  textDecoration: 'none',
+  marginRight: theme.spacing(8)
+}))
 const UserDropdown = (props: Props) => {
   // ** Props
   const { settings } = props
@@ -141,7 +147,9 @@ const UserDropdown = (props: Props) => {
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:account-outline' />
-            Profile
+             <LinkStyled   href='/company/profile'>
+          Profile
+        </LinkStyled>
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>

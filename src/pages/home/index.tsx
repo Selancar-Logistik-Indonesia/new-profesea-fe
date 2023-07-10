@@ -1,14 +1,14 @@
  
 import { useAuth } from 'src/hooks/useAuth'
- 
-import Company from '../company'
+  
+import SocialFeed from '../socialfeed';
 
 const Home = () => {  
   
   const { user } = useAuth(); 
   if(user?.role == 'Company'){
       return(
-              <Company/>
+              <SocialFeed/>
             )
   }
     

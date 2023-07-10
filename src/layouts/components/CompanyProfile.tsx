@@ -263,15 +263,15 @@ const CompanyProfile = (props:compProps) => {
           <Box sx={{ marginTop: '2px' }}>
             <label htmlFor="raised-button-file">
               <Button size='small' variant="contained" component="span" >
-                Upload New Logo
+                Upload Profil Image
               </Button>
             </label> &nbsp;
 
-            <label htmlFor="raised-button-file">
+            {/* <label htmlFor="raised-button-file">
               <Button size='small' variant="contained" component="span" color='error' >
                 Reset
               </Button>
-            </label>
+            </label> */}
           </Box>
 
           <Box sx={{ marginTop: '20px' }}>
@@ -307,11 +307,11 @@ const CompanyProfile = (props:compProps) => {
               </Button>
             </label> &nbsp;
 
-            <label htmlFor="raised-button-file">
+            {/* <label htmlFor="raised-button-file">
               <Button size='small' variant="contained" component="span" color='error' >
                 Reset
               </Button>
-            </label>
+            </label> */}
           </Box>
 
           <Box sx={{ marginTop: '20px' }}>
