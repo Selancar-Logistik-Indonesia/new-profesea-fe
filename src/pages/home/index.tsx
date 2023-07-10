@@ -2,6 +2,7 @@
 import { useAuth } from 'src/hooks/useAuth'
  
 import Company from '../company'
+import Trainer from '../trainer'
 
 const Home = () => {  
   
@@ -10,6 +11,12 @@ const Home = () => {
       return(
               <Company/>
             )
+  }
+
+  if(user?.role == 'Trainer'){
+    return(
+            <Trainer/>
+          )
   }
     
    
