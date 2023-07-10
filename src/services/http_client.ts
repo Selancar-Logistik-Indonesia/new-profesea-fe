@@ -32,9 +32,18 @@ const del = (path: string, data?: any): Promise<AxiosResponse> => {
     return axios.delete(path, data)
 }
 
+const postFile = (path: string, data?: any): Promise<AxiosResponse> => {
+    return axios.post(path, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+}
+
 export {
     get,
     post,
     patch,
     del,
+    postFile
 }

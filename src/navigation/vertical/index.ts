@@ -24,13 +24,33 @@ const navigation = (): VerticalNavItemsType => {
             action: 'read',
             subject: 'job-management',
         },
-        
         {
             path: '/admin/training-management/',
             title: 'Training Management',
             icon: 'mdi:play',
             action: 'read',
             subject: 'training-management',
+        },
+        {
+            path: '/admin/ads-management/',
+            title: 'Subcription Management',
+            icon: 'mdi:cash',
+            action: 'read',
+            subject: 'subcription-management',
+        },
+        {
+            path: '/admin/ads-management/',
+            title: 'Ads Management',
+            icon: 'mdi:currency-usd',
+            action: 'read',
+            subject: 'ads-management',
+        },
+        {
+            path: '/admin/community-management/',
+            title: 'Community Management',
+            icon: 'mdi:account-group',
+            action: 'read',
+            subject: 'community-management',
         },
         {
             path: '#',
@@ -58,13 +78,6 @@ const navigation = (): VerticalNavItemsType => {
                     action: "read",
                 },
             ]
-        },
-        {
-            path: '/acl',
-            title: 'Access Control',
-            icon: 'mdi:shield-outline',
-            action: 'read',
-            subject: 'acl-page',
         }
     ]
 }

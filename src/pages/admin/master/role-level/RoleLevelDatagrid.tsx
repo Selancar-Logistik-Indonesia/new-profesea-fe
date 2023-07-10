@@ -6,8 +6,7 @@ import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true },
-    { field: 'id', headerName: 'ID', sortable: false },
-    { field: 'levelName', headerName: 'Role Level Name', sortable: false, minWidth: 200 },
+    { field: 'levelName', headerName: 'Role Level Name', sortable: false, minWidth: 500 },
     {
         field: 'action',
         headerName: '#',

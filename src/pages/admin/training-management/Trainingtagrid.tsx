@@ -5,17 +5,24 @@ import { IconButton } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
-    { field: 'no', headerName: '#', sortable: true },
-    { field: 'name', headerName: 'Category Name', sortable: false, minWidth: 500 },
+    { field: 'no', headerName: '#', sortable: true , width: 50},
+    { field: 'title', headerName: 'Title', sortable: true , minWidth: 250},
+    { field: 'schedule', headerName: 'Schedule', sortable: false, minWidth: 150 },
+    { field: 'category', headerName: 'Category', sortable: false, minWidth: 100 },
+    { field: 'short_description', headerName: 'Description', sortable: false, minWidth: 300 },
     {
         field: 'action',
         headerName: 'Action',
         sortable: false,
+        minWidth: 150,
         renderCell: (cell) => {
             const { row } = cell;
 
             return (
                 <>
+                    <IconButton onClick={() => row.actions.onView()} aria-label='view' color='secondary' size='small'>
+                        <Icon icon='mdi:eye' />
+                    </IconButton>
                     <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
                         <Icon icon='mdi:pencil' />
                     </IconButton>
@@ -38,11 +45,15 @@ type RoleGridProps = {
 }
 
 interface RowItem {
-    id: number,
-    name: string,
+    id:number,
+    title: string,
+    schedule: string,
+    category: string,
+    short_description: string,
     actions: {
         onDelete: VoidFunction,
         onUpdate: VoidFunction,
+        onView: VoidFunction,
     };
 }
 
@@ -50,7 +61,7 @@ export {
     type RowItem,
 }
 
-export default function RoleLevelDatagrid(props: RoleGridProps) {
+export default function AccountDatagrid(props: RoleGridProps) {
     return (
         <Box sx={{ height: 500, width: '100%' }}>
             <DataGrid
@@ -60,7 +71,7 @@ export default function RoleLevelDatagrid(props: RoleGridProps) {
                 columns={columns}
                 paginationMode="server"
                 rowCount={props.rowCount}
-                pageSizeOptions={[5, 10, 25]}
+                pageSizeOptions={[10, 25, 50, 100, 250]}
                 onPaginationModelChange={props.onPageChange}
                 initialState={{
                     pagination: {
@@ -71,6 +82,7 @@ export default function RoleLevelDatagrid(props: RoleGridProps) {
                     },
                 }}
                 disableRowSelectionOnClick
+                getRowId={(row) => row.id}
             />
         </Box>
     );

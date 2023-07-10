@@ -24,7 +24,9 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-  
+import Head from 'next/head'
+import themeConfig from 'src/configs/themeConfig'
+
 // ** Styled Components
 // const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 //   padding: theme.spacing(20),
@@ -70,9 +72,12 @@ const Register = () => {
   // ** Vars
   const { skin } = settings
 
-
   return (
-    <Box  sx={{
+    <>
+      <Head>
+        <title>{`${themeConfig.templateName} - Choose who you are`}</title>
+      </Head>
+      <Box sx={{
         position: 'fit',
         width: '100%',
         height: '100%',
@@ -80,81 +85,74 @@ const Register = () => {
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-      }}> 
-    <Box className='content-right' >
-      {!hidden ? (
-        <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-          
-          <FooterIllustrationsV2 image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`} />
-        </Box>
-      ) : null}
+      }}>
+        <Box className='content-right' >
+          {!hidden ? (
+            <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
 
-      <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}`  } : {}}>
-        <Box
-          sx={!hidden ? {
-            boxSizing: 'border-box',
-
-            // position: 'absolute',
-            // width: '424px', 
-            // left: '956px',
-            maxWidth: '100%',
-            marginTop: '10%',
-            margin: '10%',
-            background: '#FFFFFF',
-            border: '1px solid rgba(76, 78, 100, 0.12)',
-            borderRadius: '20px',
-            p: 7,
-            height: '80%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            // backgroundColor: 'background.paper'
-          } : {
-            p: 7,
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'background.paper'
-          }}
-        >
-          <BoxWrapper  >
-            <Box sx={{ mb: 3, maxWidth: '100%', justifyContent:'center' , alignContent:'center'}}>
-              <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"  
-                  > 
-              <img  alt='logo' src='/images/logosamudera.png' style={{
-                maxWidth: '100%',
-                     height: '40px',   
-                padding: 0,
-                margin: 0,
-                alignContent:'center'
-              }} />
-              </Box>
-              {/* <TypographyStyled variant='h5' sx={{ textAlign: 'center' }}>SAMUDERA</TypographyStyled> */}
-              <Typography variant='h5' sx={{ textAlign: 'center' , marginTop:'20px', fontWeight: 'bold', color: "#424242"}}>Register</Typography>
-              <Typography variant='body2' sx={{ textAlign: 'center', color: "#424242" }}> Adventures start from here, let’s join with our!</Typography>
-
+              <FooterIllustrationsV2 image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`} />
             </Box>
-            <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-              <Link href="/registrasionseafer" passHref legacyBehavior>
-                 <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{textTransform: 'none'}} startIcon={<Icon icon={'mdi:account-outline'} />} > I Am Candidate</Button>                    
-              </Link>
+          ) : null}
+
+          <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
+            <Box
+              sx={!hidden ? {
+                boxSizing: 'border-box',
+
+                // position: 'absolute',
+                // width: '424px', 
+                // left: '956px',
+                maxWidth: '100%',
+                marginTop: '10%',
+                margin: '10%',
+                background: '#FFFFFF',
+                border: '1px solid rgba(76, 78, 100, 0.12)',
+                borderRadius: '20px',
+                p: 7,
+                height: '80%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                // backgroundColor: 'background.paper'
+              } : {
+                p: 7,
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'background.paper'
+              }}
+            >
+              <BoxWrapper  >
+                <Box sx={{ mb: 3, maxWidth: '100%', justifyContent: 'center', alignContent: 'center', textAlign: 'center' }}>
+                  <Link href='/'>
+                    <Box
+                      component="img"
+                      src='/images/logosamudera.png'
+                      sx={{ height: 40 }}
+                    >
+                    </Box>
+                  </Link>
+                  <Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#424242" }}>Register</Typography>
+                  <Typography variant='body2' sx={{ textAlign: 'center', color: "#424242" }}> Adventures start from here, let’s join with our!</Typography>
+                </Box>
+
+                <Link href="/registrasionseafer" passHref legacyBehavior>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:account-outline'} />} > I Am Candidate</Button>
+                </Link>
                 <Link href="/registrasioncompany" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{textTransform: 'none'}}  startIcon={<Icon icon={'mdi:domain'} />} > I Am Recruiter</Button>              
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:domain'} />} > I Am Recruiter</Button>
                 </Link>
                 <Link href="/registrasiontrainer" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{textTransform: 'none'}} startIcon={<Icon icon={'healthicons:i-training-class'} />} > I Am Trainer</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'healthicons:i-training-class'} />} > I Am Trainer</Button>
                 </Link>
-           
-              {/* <Button variant="outlined" fullWidth sx={{ mb: 2 }}  startIcon={<AccessibilityNewOutlinedIcon />} > I AM Seafarer</Button>
+
+                {/* <Button variant="outlined" fullWidth sx={{ mb: 2 }}  startIcon={<AccessibilityNewOutlinedIcon />} > I AM Seafarer</Button>
 
               
               <Button variant="outlined" fullWidth sx={{ mb: 2 }}  startIcon={<AccessibilityNewOutlinedIcon />} > I AM Seafarer</Button> */}
 
-              {/* <TextField autoFocus fullWidth sx={{ mb: 4 }} label='Username' placeholder='johndoe' />
+                {/* <TextField autoFocus fullWidth sx={{ mb: 4 }} label='Username' placeholder='johndoe' />
               <TextField fullWidth label='Email' sx={{ mb: 4 }} placeholder='user@email.com' />
               <FormControl fullWidth>
                 <InputLabel htmlFor='auth-login-v2-password'>Password</InputLabel>
@@ -175,7 +173,7 @@ const Register = () => {
                   }
                 />
               </FormControl> */}
-              {/* 
+                {/* 
               <FormControlLabel
                 control={<Checkbox />}
                 sx={{ mb: 4, mt: 1.5, '& .MuiFormControlLabel-label': { fontSize: '0.875rem' } }}
@@ -193,13 +191,13 @@ const Register = () => {
               <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
                 Sign up
               </Button> */}
-              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                <Typography sx={{ mr: 2 , color: "#424242" }}>Already have an account?</Typography>
-                <Typography href='/login' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold', }}>
-                  Sign in instead
-                </Typography>
-              </Box>
-              {/* <Divider
+                <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+                  <Typography sx={{ mr: 2, color: "#424242" }}>Already have an account?</Typography>
+                  <Typography href='/login' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold', }}>
+                    Sign in instead
+                  </Typography>
+                </Box>
+                {/* <Divider
                 sx={{
                   '& .MuiDivider-wrapper': { px: 4 },
                   mt: theme => `${theme.spacing(5)} !important`,
@@ -227,14 +225,14 @@ const Register = () => {
                   <Icon icon='mdi:google' />
                 </IconButton>
               </Box> */}
-            </form>
-          </BoxWrapper>
+              </BoxWrapper>
+            </Box>
+          </RightWrapper>
         </Box>
-      </RightWrapper>
-    </Box>
-    </Box>
+      </Box>
+    </>
   )
-} 
+}
 
 Register.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
 
