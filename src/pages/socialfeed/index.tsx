@@ -25,7 +25,7 @@ import Postfeed from './Postfeed'
 // import { yupResolver } from '@hookform/resolvers/yup'
     
  
-const Community = () => { 
+const SocialFeed = () => { 
   
 const theme = useTheme() 
 const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -178,8 +178,8 @@ const vacancy = [
 }
  
 
-Community.acl = {
+SocialFeed.acl = {
   action: 'read',
   subject: 'home'
 };
-export default Community
+export default SocialFeed
