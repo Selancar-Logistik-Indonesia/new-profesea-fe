@@ -3,15 +3,15 @@ import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import { Button, Tabs, Tab, useMediaQuery } from '@mui/material' 
+import {  Tabs, Tab, useMediaQuery } from '@mui/material' 
 import { Grid } from '@mui/material' 
 import { useForm } from 'react-hook-form'  
-import Icon from 'src/@core/components/icon' 
+// import Icon from 'src/@core/components/icon' 
 import CompanyProfile from 'src/layouts/components/CompanyProfile' 
 import { useTheme } from '@mui/material/styles'
 import ManageAccount from 'src/layouts/components/ManageAccount'
 import Subscription from 'src/layouts/components/Subscription'
-import CompanyProfilePreview from 'src/layouts/components/CompanyProfilePreview'
+// import CompanyProfilePreview from 'src/layouts/components/CompanyProfilePreview'
 import {IUser} from 'src/contract/models/user'
 
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -37,7 +37,7 @@ const Company = () => {
    
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
-  const [openPreview, setOpenPreview] = useState(false);
+  // const [openPreview, setOpenPreview] = useState(false);
   
   // const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser; 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser; 
@@ -91,11 +91,11 @@ const Company = () => {
       getColor('#FFFFFF');
     }
   };
-  const label = openPreview ? 'Edit Profil' :'Preview Profile'; 
-  function klikbutton() {  
-    setSelectedItem(user)
-    setOpenPreview(!openPreview);
-  }
+  // const label = openPreview ? 'Edit Profil' :'Preview Profile'; 
+  // function klikbutton() {  
+  //   setSelectedItem(user)
+  //   setOpenPreview(!openPreview);
+  // }
   function firstload(){
     HttpClient.get(AppConfig.baseUrl + "/user/"+user.id)
       .then((response) => {
@@ -105,6 +105,7 @@ const Company = () => {
   }
 
   useEffect(() => {
+    // setOpenPreview(false)
     firstload()
   }, [])
   
@@ -133,8 +134,8 @@ const Company = () => {
               borderRadius: '40px'
             }}>
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
-                <Tab label="PROFILE" href='/company/profile' />
-                <Tab label="EDIT PROFILE" {...a11yProps(1)} />
+                {/* <Tab label="PROFILE" href='/company/profile' /> */}
+                <Tab label="COMPANY BUILDER" {...a11yProps(1)} />
                 <Tab label="ACCOUNT" {...a11yProps(2)} />
                 <Tab label="MANAGE" {...a11yProps(3)} />
               </Tabs>
@@ -157,14 +158,14 @@ const Company = () => {
                   <Grid container xs={12}>
                     <Grid container xs={9}>  </Grid>
                     <Grid md={12} xs={3} container justifyContent={'right'} marginTop={'10px'}>
-                      <Button size='small' type='button' variant='contained' sx={{ backgroundColor: '#26C6F9' }} startIcon={<Icon icon={'mdi:visibility-outline'} />}
+                      {/* <Button size='small' type='button' variant='contained' sx={{ backgroundColor: '#26C6F9' }} startIcon={<Icon icon={'mdi:visibility-outline'} />}
                        onClick={klikbutton}>
                         {label}
-                      </Button>
+                      </Button> */}
                     </Grid>
                   </Grid> 
-                  {openPreview && selectedItem!= null && <CompanyProfilePreview  visible={openPreview} datauser={selectedItem}/>}
-                  {!openPreview && selectedItem!= null &&  <CompanyProfile  visible={!openPreview}  datauser={selectedItem} address={selectedItem.address}/>}
+                  {/* {openPreview && selectedItem!= null && <CompanyProfilePreview  visible={openPreview} datauser={selectedItem}/>} */}
+                  { selectedItem!= null &&  <CompanyProfile  visible={true}  datauser={selectedItem} address={selectedItem.address}/>}
                       
                      
                

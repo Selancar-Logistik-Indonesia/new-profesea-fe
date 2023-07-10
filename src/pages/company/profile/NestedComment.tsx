@@ -84,11 +84,11 @@ const renderList = (arr: ParamMain[]) => {
            </Box>
            <Divider style={{ width: '100%' }} />
            <Box >
-             <Button size='small' color='primary'  startIcon={<Icon icon='mdi:like-outline'  fontSize={10}/>} > Like</Button>
              {/* <Button size='small' color='primary'  startIcon={<Icon icon='mdi:comment-outline'  fontSize={10}/>}> Comment</Button> */}
             
              <Button size='small' color='primary'  startIcon={<Icon icon='ic:round-repeat'  fontSize={10}/>}> Repost</Button>
              <Button size='small' color='primary' startIcon={<Icon icon='solar:share-linear'  fontSize={10}/>} > Share</Button>
+              <Button size='small' color='primary'  startIcon={<Icon icon='mdi:like-outline'  fontSize={10}/>} > Like</Button>
               <CommentActions commentId='1' replycount='1'/>
             {/* <Typography href='/tes' component={Link}>
               tes
