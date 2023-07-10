@@ -17,7 +17,7 @@ import toast from 'react-hot-toast'
 import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
-import { getCleanErrorMessage } from 'src/utils/helpers'
+import { getCleanErrorMessage, removeFirstZeroChar } from 'src/utils/helpers'
 import { CircularProgress } from '@mui/material'
 import Account from 'src/contract/models/account'
 import ITeam from 'src/contract/models/team'
@@ -48,10 +48,11 @@ const DialogAdd = (props: DialogProps) => {
     const [showPassword2, setShowPassword2] = useState<boolean>(false)
     const [teamId, setTeamId] = useState(0);
     const [idcombocode, setCombocode] = useState<any>(0)
-    
+    const [phoneNum, setPhoneNum] = useState('');
+
     const [combocode, getCombocode] = useState<any>([])
-    const [teams, getTeams] =useState<any[]>([]);
-    const combobox = async () =>{
+    const [teams, getTeams] = useState<any[]>([]);
+    const combobox = async () => {
         const resp = await HttpClient.get(`/public/data/team?nonpublic=1`);
         if (resp.status != 200) {
             throw resp.data.message ?? "Something went wrong!";
@@ -59,49 +60,52 @@ const DialogAdd = (props: DialogProps) => {
         getTeams(resp.data.teams);
 
         HttpClient.get(`/public/data/country?search=`)
-        .then((response) => {
-          const code = response.data.countries;
-          for (let x = 0; x < code.length; x++) {
-            const element = code[x];
-            element.label = element.iso + ' (+' + element.phonecode + ')'
-          }
-          getCombocode(code);
-        })
+            .then((response) => {
+                const code = response.data.countries;
+                for (let x = 0; x < code.length; x++) {
+                    const element = code[x];
+                    element.label = element.iso + ' (+' + element.phonecode + ')'
+                }
+                getCombocode(code);
+            })
     }
 
-    useEffect(() => {   
-    combobox()
-    },[]) 
-    
-    
+    useEffect(() => {
+        combobox()
+    }, [])
+
+    const onChangePhoneNum = (input: string) => {
+        setPhoneNum(removeFirstZeroChar(input));
+    }
+
     const schema = yup.object().shape({
         email: yup.string().email().required(),
         password: yup.string().min(5).required()
     })
 
-    const { 
+    const {
         register,
-        formState: { errors }, 
+        formState: { errors },
         handleSubmit,
     } = useForm<Account>({
         mode: 'onBlur',
         resolver: yupResolver(schema)
-    }) 
+    })
 
     const onSubmit = async (formData: Account) => {
-        const {  name, email, username, password, password_confirmation, phone} = formData
-        
+        const { name, email, username, password, password_confirmation } = formData
+
         const json = {
             "name": name,
             "email": email,
             "username": username,
             "password": password,
             "password_confirmation": password_confirmation,
-            "team_id": teamId, 
+            "team_id": teamId,
             "country_id": idcombocode.id,
-            "phone": phone
+            "phone": phoneNum
         }
-        
+
         setOnLoading(true);
         try {
             const resp = await HttpClient.post('/user-management', json);
@@ -149,88 +153,88 @@ const DialogAdd = (props: DialogProps) => {
                         </Typography>
                         <Typography variant='body2'>Add Account</Typography>
                     </Box>
-                    
+
                     <Grid container columnSpacing={'1'} rowSpacing={'2'} >
                         <Grid item md={12} xs={12}>
-                            <TextField id="Name" label="Name" variant="outlined"  fullWidth sx={{ mb: 6 }} {...register("name")}/>
+                            <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("name")} />
                         </Grid>
                         <Grid item md={6} xs={12} >
-                            <TextField id="Email" label="Email" variant="outlined" fullWidth  {...register("email")}/>
+                            <TextField id="Email" label="Email" variant="outlined" fullWidth  {...register("email")} />
                         </Grid>
                         <Grid item md={6} xs={12} >
-                            <TextField id="Username" label="Username" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("username")}/>                  
+                            <TextField id="Username" label="Username" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("username")} />
                         </Grid>
                         <Grid item md={6} xs={12} >
                             <FormControl fullWidth>
                                 <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                                Password
+                                    Password
                                 </InputLabel>
                                 <OutlinedInput
                                     sx={{ mb: 6 }}
-                                    label='Password'  
-                                    id='password1' 
+                                    label='Password'
+                                    id='password1'
                                     error={Boolean(errors.password)}
                                     type={showPassword ? 'text' : 'password'}
                                     {...register("password")}
                                     endAdornment={
                                         <InputAdornment position='end'>
-                                        <IconButton
-                                            edge='end'
-                                            onMouseDown={e => e.preventDefault()}
-                                            onClick={() => setShowPassword(!showPassword)}
-                                        >
-                                            <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                                        </IconButton>
+                                            <IconButton
+                                                edge='end'
+                                                onMouseDown={e => e.preventDefault()}
+                                                onClick={() => setShowPassword(!showPassword)}
+                                            >
+                                                <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                                            </IconButton>
                                         </InputAdornment>
                                     }
-                                    />
+                                />
                                 {errors.password && (
-                                <FormHelperText sx={{ color: 'error.main' }} id=''>
-                                    {(errors as any).password?.message}
-                                </FormHelperText>
+                                    <FormHelperText sx={{ color: 'error.main' }} id=''>
+                                        {(errors as any).password?.message}
+                                    </FormHelperText>
                                 )}
                             </FormControl>
-                            </Grid>
+                        </Grid>
                         <Grid item md={6} xs={12} >
                             <FormControl fullWidth>
                                 <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                                Confirm Password
+                                    Confirm Password
                                 </InputLabel>
                                 <OutlinedInput
                                     sx={{ mb: 6 }}
-                                    label='Password'  
-                                    id='password2' 
+                                    label='Password'
+                                    id='password2'
                                     error={Boolean(errors.password)}
                                     type={showPassword2 ? 'text' : 'password'}
                                     {...register("password_confirmation")}
                                     endAdornment={
                                         <InputAdornment position='end'>
-                                        <IconButton
-                                            edge='end'
-                                            onMouseDown={e => e.preventDefault()}
-                                            onClick={() => setShowPassword2(!showPassword2)}
-                                        >
-                                            <Icon icon={showPassword2 ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                                        </IconButton>
+                                            <IconButton
+                                                edge='end'
+                                                onMouseDown={e => e.preventDefault()}
+                                                onClick={() => setShowPassword2(!showPassword2)}
+                                            >
+                                                <Icon icon={showPassword2 ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                                            </IconButton>
                                         </InputAdornment>
                                     }
-                                    />
+                                />
                                 {errors.password && (
-                                <FormHelperText sx={{ color: 'error.main' }} id=''>
-                                    {(errors as any).password?.message}
-                                </FormHelperText>
+                                    <FormHelperText sx={{ color: 'error.main' }} id=''>
+                                        {(errors as any).password?.message}
+                                    </FormHelperText>
                                 )}
                             </FormControl>
                         </Grid>
-                        <Grid item md={4} xs={12} > 
+                        <Grid item md={4} xs={12} >
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
-                                options={teams}  
+                                options={teams}
                                 {...register("team")}
-                                getOptionLabel={(option:ITeam) => option.teamName}
+                                getOptionLabel={(option: ITeam) => option.teamName}
                                 renderInput={(params) => <TextField {...params} label="Role" />}
-                                onChange={(event: any, newValue: ITeam | null)=> (newValue?.id) ? setTeamId(newValue.id) : setTeamId(0)}
+                                onChange={(event: any, newValue: ITeam | null) => (newValue?.id) ? setTeamId(newValue.id) : setTeamId(0)}
                             />
                         </Grid>
                         <Grid item md={4} xs={12} >
@@ -244,8 +248,8 @@ const DialogAdd = (props: DialogProps) => {
                             />
                         </Grid>
                         <Grid item md={4} xs={12} >
-                            <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")}/>
-                        </Grid>                        
+                            <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} value={phoneNum} onChange={(e) => onChangePhoneNum(e.target.value)} />
+                        </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions
