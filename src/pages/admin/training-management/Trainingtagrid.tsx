@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
-    { field: 'no', headerName: '#', sortable: true },
+    { field: 'no', headerName: '#', sortable: true , width: 50},
     { field: 'title', headerName: 'Title', sortable: true , minWidth: 250},
     { field: 'schedule', headerName: 'Schedule', sortable: false, minWidth: 150 },
     { field: 'category', headerName: 'Category', sortable: false, minWidth: 100 },
@@ -14,6 +14,7 @@ const columns: GridColDef[] = [
         field: 'action',
         headerName: 'Action',
         sortable: false,
+        minWidth: 150,
         renderCell: (cell) => {
             const { row } = cell;
 
