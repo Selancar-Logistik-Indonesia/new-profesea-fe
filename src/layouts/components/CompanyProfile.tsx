@@ -4,7 +4,7 @@ import React, { ReactNode, useEffect, useState } from 'react'
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { Button, TextField, FormControl, Autocomplete, Divider, ImageList, ImageListItem } from '@mui/material'
+import { Button, TextField, FormControl, Autocomplete, Divider, ImageList, ImageListItem, IconButton } from '@mui/material'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
@@ -27,6 +27,7 @@ import Countries from 'src/contract/models/country'
 import Industry from 'src/contract/models/industry'
 import City from 'src/contract/models/city'
 import Address from 'src/contract/models/address'
+import { Icon } from '@iconify/react'
 
 type FormData = {
   companyName: string 
@@ -41,14 +42,17 @@ type FormData = {
   address: string
   about: string
   usernamesosmed: string
+  facebook: string
+  instagram: string
+  linkedin: string
 }
 
-interface SocialAccountsType {
-  title: string
-  logo: string
-  username?: string
-  isConnected: boolean
-}
+// interface SocialAccountsType {
+//   title: string
+//   logo: string
+//   username?: string
+//   isConnected: boolean
+// }
 
 type compProps = {
     visible: boolean;  
@@ -154,25 +158,25 @@ const CompanyProfile = (props:compProps) => {
       toast.error('Registrastion Failed ' + error.response.data.message)
     });
   }
-  const socialAccountsArr: SocialAccountsType[] = [
-    {
-      title: 'Facebook',
-      isConnected: false,
-      logo: '/images/logos/facebook.png'
-    },
-    {
-      title: 'Instagram',
-      isConnected: true,
-      username: '@prfoesea',
-      logo: '/images/logos/instagram.png'
-    },
+  // const socialAccountsArr: SocialAccountsType[] = [
+  //   {
+  //     title: 'Facebook',
+  //     isConnected: false,
+  //     logo: '/images/logos/facebook.png'
+  //   },
+  //   {
+  //     title: 'Instagram',
+  //     isConnected: true,
+  //     username: '@prfoesea',
+  //     logo: '/images/logos/instagram.png'
+  //   },
 
-    {
-      title: 'LinkedIn',
-      isConnected: false,
-      logo: '/images/logos/linkedin.png'
-    }
-  ]
+  //   {
+  //     title: 'LinkedIn',
+  //     isConnected: false,
+  //     logo: '/images/logos/linkedin.png'
+  //   }
+  // ]
   const itemData = [
     {
       img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
@@ -236,10 +240,7 @@ const CompanyProfile = (props:compProps) => {
       title: 'Bike',
       author: '@southside_customs',
     },
-  ];
-
-  
-  console.log(props.address.city);
+  ]; 
   return (
     <Grid container >
       <Grid xs={12} md={6} container >
@@ -428,70 +429,85 @@ const CompanyProfile = (props:compProps) => {
                 <Typography variant="body1" >This is link social medias the company. Please fill it.</Typography>
 
               </Grid>
-              <Grid item md={2} xs={12} marginTop={'20px'} >
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={sosmed} 
-                  getOptionLabel={(option: any) => option.sosmed}
-                  renderInput={(params) => <TextField {...params} label="Social Media" />}
-                  onChange={(event: any, newValue: string | null) => getSosmed(newValue)}
-                />
+               
+              <Grid container item md={12} xs={12} marginTop={'20px'} >
+                  <Grid container xs={12} md={4}  >
+                        <Grid container xs={6} md={12} >
+                          <Grid xs={12}  >
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                              <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                                <img src= '/images/logos/facebook.png' alt='Facebook' height='30' />
+                              </Box> 
+                                 <TextField id="facebook" defaultValue='' label="Facebook" variant="outlined" fullWidth sx={{ mb: 1 }}
+                                 {...register("facebook")} /> 
+                              <IconButton onClick={ handleSubmit(addbutton)}>
+                                    <Icon icon={'charm:pencil'} /> 
+                              </IconButton>  
+                            </Box> 
+                          </Grid> 
+                        </Grid> 
+                      </Grid> 
+                      <Grid container xs={12} md={4}  >
+                        <Grid container xs={6} md={12} >
+                          <Grid xs={12}  >
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                              <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                                <img src= '/images/logos/instagram.png' alt='Instagram' height='30' />
+                              </Box> 
+                                 <TextField id="instagram" defaultValue='' label="Instagram" variant="outlined" fullWidth sx={{ mb: 1 }}
+                                 {...register("instagram")} /> 
+                              <IconButton onClick={ handleSubmit(addbutton)}>
+                                    <Icon icon={'charm:pencil'} /> 
+                              </IconButton>  
+                            </Box> 
+                          </Grid> 
+                        </Grid> 
+                      </Grid> 
+                      <Grid container xs={12} md={4}  >
+                        <Grid container xs={6} md={12} >
+                          <Grid xs={12}  >
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                              <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                                <img src= '/images/logos/linkedin.png' alt='Linkedin' height='30' />
+                              </Box> 
+                                 <TextField id="linkedin" defaultValue='' label="Linkedin" variant="outlined" fullWidth sx={{ mb: 1 }}
+                                 {...register("linkedin")} /> 
+                              <IconButton onClick={ handleSubmit(addbutton)}>
+                                    <Icon icon={'charm:pencil'} /> 
+                              </IconButton>  
+                            </Box> 
+                          </Grid> 
+                        </Grid> 
+                      </Grid> 
+                        
+              {/* tanda untuk loopngan map */}
+                {/* {socialAccountsArr.map(account => {
+                  return (
+                    //  <Grid item md={12} xs={12}  > 
+                      <Grid container xs={12} md={4} key={account.title}>
+                        <Grid container xs={6} md={12} >
+                          <Grid xs={12}  >
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                              <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                                <img src={account.logo} alt={account.title} height='30' />
+                              </Box>
+                              <div>
+                                  <Typography sx={{ fontWeight: 500 }}>{account.title}</Typography>  
 
-              </Grid>
-              <Grid item md={3} xs={12} marginTop={'20px'} >
-                <TextField id="usernamesosmed" label="Username" variant="outlined" fullWidth sx={{ mb: 1 }}   {...register("usernamesosmed")} />
-              </Grid>
-              <Grid item md={2} xs={12} marginTop={'20px'} >
-                <Button size='small' variant='contained'  onClick={ handleSubmit(addbutton)}>
-                  Add Account
-                </Button>
-              </Grid>
+                                  {account.username}  
+                                 <TextField id="companyName" defaultValue={account.username}  label="Company Name" variant="outlined" fullWidth sx={{ mb: 1 }}
+                                 {...register("companyName")} />
 
-              <Grid item md={12} xs={12} marginTop={'20px'} >
-                
-              
-              {socialAccountsArr.map(account => {
-                return (
-                  <Box
-                    key={account.title}
-                    sx={{
-                      gap: 1,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      '&:not(:last-of-type)': { mb: 2 }
-                    }}
-                  >
-                    <Grid container xs={12} marginTop={'10px'}>
-                      <Grid xs={10}  >
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Box sx={{ mr: 12, minWidth: 45, display: 'flex', justifyContent: 'center' }}>
-                            <img src={account.logo} alt={account.title} height='30' />
-                          </Box>
-                          <div>
-                            <Typography sx={{ fontWeight: 500 }}>{account.title}</Typography>
-
-                            {account.username}
-
-                          </div>
-                        </Box>
-
-
-                      </Grid>
-                      <Grid xs={1}   >
-                        <label htmlFor="raised-button-file">
-                          <Button size='small' variant="contained" component="span" color='error' >
-                            Reset
-                          </Button>
-                        </label>
-                      </Grid>
-                    </Grid>
-                  </Box>
-
-
-                )
-              })}
+                              </div>
+                              <IconButton onClick={ handleSubmit(addbutton)}>
+                                    <Icon icon={'charm:pencil'} /> 
+                              </IconButton>  
+                            </Box> 
+                          </Grid> 
+                        </Grid> 
+                      </Grid> 
+                  )
+                })} */}
               </Grid>
 
               <Divider style={{ width: '100%' }} />

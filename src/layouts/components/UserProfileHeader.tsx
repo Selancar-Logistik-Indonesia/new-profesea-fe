@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Button, Divider } from '@mui/material'
+import { Button, Divider, Grid, IconButton } from '@mui/material'
 import Icon from 'src/@core/components/icon' 
 
 const ProfilePicture = styled('img')(({ theme }) => ({
@@ -105,27 +105,48 @@ const UserProfileHeader = () => {
 
         </Box>
         
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: ['center', 'flex-start']
-          }}
-        >
-          <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
-            <Icon icon='mdi:facebook' />
-            <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>PT.Samudera Indonesia Maritim</Typography>
-          </Box>
-          <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
-            <Icon icon='mdi:instagram' />
-            <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>@Samudera Indonesia</Typography>
-          </Box>
+        
+        
+          <Grid container  justifyContent="flex-end" >
+            <Grid xs={12} md={11}>
+              <Box
+                        sx={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          justifyContent: ['center', 'flex-start']
+                        }}
+                      >
+                        <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
+                          <Icon icon='mdi:facebook' />
+                          <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>PT.Samudera Indonesia Maritim</Typography>
+                        </Box>
+                        <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
+                          <Icon icon='mdi:instagram' />
+                          <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>@Samudera Indonesia</Typography>
+                        </Box>
 
-          <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
-            <Icon icon='mdi:linkedin' />
-            <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>Samudera Indonesia</Typography>
-          </Box>
-        </Box>
+                        <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
+                          <Icon icon='mdi:linkedin' />
+                          <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>Samudera Indonesia</Typography>
+                        </Box>
+                         <Box sx={{ mr: 4, display: 'flex', alignItems: 'flex-end', '& svg': { mr: 1, color: 'text.secondary' } }}>
+                          <Icon icon='mdi:linkedin' />
+                          <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>Samudera Indonesia</Typography>
+                        </Box>
+                 </Box>
+            </Grid>
+            <Grid container xs={12} md={1} justifyContent="flex-end" marginTop={'-10px'}>
+                 <IconButton  href='/company' sx={{ color: "#424242", fontWeight: 400 }}>
+                              <Icon icon={'charm:pencil'} /> 
+                        </IconButton> 
+
+                     
+            
+            </Grid>
+          </Grid>
+
+           
+     
       </CardContent>
       
     </Card >

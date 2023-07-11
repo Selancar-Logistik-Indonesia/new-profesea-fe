@@ -80,11 +80,11 @@ const Company = () => {
     };
   }
 
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = React.useState(0);
   const [color, getColor] = useState<any>('#FFFFFF')
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    if (newValue == 2) {
+    if (newValue == 1) {
       getColor('#ffeae9');
     } else {
 
@@ -135,9 +135,9 @@ const Company = () => {
             }}>
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
                 {/* <Tab label="PROFILE" href='/company/profile' /> */}
-                <Tab label="COMPANY BUILDER" {...a11yProps(1)} />
-                <Tab label="ACCOUNT" {...a11yProps(2)} />
-                <Tab label="MANAGE" {...a11yProps(3)} />
+                <Tab label="COMPANY BUILDER" {...a11yProps(0)} />
+                <Tab label="ACCOUNT" {...a11yProps(1)} />
+                <Tab label="MANAGE" {...a11yProps(2)} />
               </Tabs>
             </Box>
             <Grid container xs={12} sx={{
@@ -154,7 +154,7 @@ const Company = () => {
 
 
               <Grid xs={12} >
-                <TabPanel value={value} index={1}>
+                <TabPanel value={value} index={0}>
                   <Grid container xs={12}>
                     <Grid container xs={9}>  </Grid>
                     <Grid md={12} xs={3} container justifyContent={'right'} marginTop={'10px'}>
@@ -200,10 +200,10 @@ const Company = () => {
                   {/* <UserProfileHeader></UserProfileHeader> */}
                 </TabPanel>
 
-                <TabPanel value={value} index={3}>
+                <TabPanel value={value} index={2}>
                   <ManageAccount></ManageAccount>
                 </TabPanel>
-                <TabPanel value={value} index={2}>
+                <TabPanel value={value} index={1}>
                   <Subscription></Subscription>
                 </TabPanel>
               </Grid>
