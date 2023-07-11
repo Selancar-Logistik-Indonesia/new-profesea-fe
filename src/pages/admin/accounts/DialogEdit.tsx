@@ -18,7 +18,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import Account from 'src/contract/models/account'
-import { getCleanErrorMessage } from 'src/utils/helpers'
+import { getCleanErrorMessage, removeFirstZeroChar } from 'src/utils/helpers'
 import { CircularProgress, FormHelperText, Autocomplete } from '@mui/material'
 import ITeam from 'src/contract/models/team'
 
@@ -47,14 +47,15 @@ const DialogEdit = (props: EditProps) => {
     const [onLoading, setOnLoading] = useState(false);
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [showPassword2, setShowPassword2] = useState<boolean>(false)
+    const [phoneNum, setPhoneNum] = useState('');
 
     const [teamId, setTeamId] = useState(0);
     const [idcombocode, setCombocode] = useState<any>(0)
     const [selectedCombo, getSelectedCombo] = useState<any[]>([])
 
     const [combocode, getCombocode] = useState<any[]>([])
-    const [teams, getTeams] =useState<ITeam[]>([]);
-  
+    const [teams, getTeams] = useState<ITeam[]>([]);
+
     const combobox = async () => {
         const resp = await HttpClient.get(`/public/data/team?nonpublic=1`);
         if (resp.status != 200) {
@@ -63,18 +64,18 @@ const DialogEdit = (props: EditProps) => {
         getTeams(resp.data.teams);
 
         HttpClient.get(`/public/data/country?search=`)
-        .then((response) => {
-          const code = response.data.countries;
-          for (let x = 0; x < code.length; x++) {
-            const element = code[x];
-            element.label = element.iso + ' (+' + element.phonecode + ')'
-            if(props.selectedItem.country_id == element.id){
-                console.log(element);
-                getSelectedCombo(element);
-              }
-          }
-          getCombocode(code);
-        })
+            .then((response) => {
+                const code = response.data.countries;
+                for (let x = 0; x < code.length; x++) {
+                    const element = code[x];
+                    element.label = element.iso + ' (+' + element.phonecode + ')'
+                    if (props.selectedItem.country_id == element.id) {
+                        console.log(element);
+                        getSelectedCombo(element);
+                    }
+                }
+                getCombocode(code);
+            })
     }
 
     useEffect(() => {
@@ -95,8 +96,8 @@ const DialogEdit = (props: EditProps) => {
     })
 
     const onSubmit = async (formData: Account) => {
-        const { name, email, username, password, password_confirmation,   phone } = formData
-        
+        const { name, email, username, password, password_confirmation, phone } = formData
+
         const json = {
             "name": name,
             "email": email,
@@ -226,7 +227,7 @@ const DialogEdit = (props: EditProps) => {
                                 )}
                             </FormControl>
                         </Grid>
-                        <Grid item md={4} xs={12} > 
+                        <Grid item md={4} xs={12} >
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
@@ -250,7 +251,11 @@ const DialogEdit = (props: EditProps) => {
                             />
                         </Grid>
                         <Grid item md={4} xs={12} >
-                            <TextField defaultValue={props.selectedItem.phone} id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} {...register("phone")} />
+                            <TextField id="Phone"
+                                label="Phone"
+                                variant="outlined"
+                                defaultValue={props.selectedItem.phone}
+                                fullWidth sx={{ mb: 6 }} value={phoneNum} onChange={(e) => setPhoneNum(removeFirstZeroChar(e.target.value))} />
                         </Grid>
                     </Grid>
                 </DialogContent>

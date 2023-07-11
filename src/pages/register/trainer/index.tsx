@@ -1,49 +1,17 @@
-// ** React Imports
 import { ReactNode } from 'react'
-
-// ** MUI Components
 import Box, { BoxProps } from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { styled, useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
-
-// ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
-
-// ** Hooks
 import { useSettings } from 'src/@core/hooks/useSettings'
-
-// ** Demo Imports
-// import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { Container, Grid } from '@mui/material'
-
 import { useForm } from 'react-hook-form'
-
 import { yupResolver } from '@hookform/resolvers/yup'
-
 import * as yup from 'yup'
 import Registration from 'src/layouts/components/registrastion'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
-
-// ** Styled Components
-// const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-//   padding: theme.spacing(20),
-//   paddingRight: '0 !important',
-//   [theme.breakpoints.down('lg')]: {
-//     padding: theme.spacing(10)
-//   }
-// }))
-
-// const RegisterIllustration = styled('img')(({ theme }) => ({
-//   maxWidth: '100%',
-//   [theme.breakpoints.down('xl')]: {
-//     maxWidth: '10%'
-//   },
-//   [theme.breakpoints.down('lg')]: {
-//     maxWidth: '10%'
-//   }
-// }))
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -66,8 +34,6 @@ const Register = () => {
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
-
-  // ** Vars
   const { skin } = settings
 
   const schema = yup.object().shape({
@@ -75,8 +41,7 @@ const Register = () => {
     password: yup.string().min(5).required()
   })
 
-  const {
-  } = useForm({
+  const { } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })

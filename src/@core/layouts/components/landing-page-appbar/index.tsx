@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import { useTheme } from '@mui/material/styles'
 import { useSettings } from 'src/@core/hooks/useSettings'
-import { Box, Button, Container, Divider } from '@mui/material'
+import { Box, Button, Container, Divider, IconButton } from '@mui/material'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { useEffect, useState } from 'react'
 import UserDropdown from '../shared-components/UserDropdown'
@@ -11,6 +11,7 @@ import secureLocalStorage from 'react-secure-storage'
 import LanguageDropdown from '../shared-components/LanguageDropdown'
 import { useRouter } from 'next/router'
 import NavItemType from 'src/contract/types/navItemType'
+import IconifyIcon from 'src/@core/components/icon'
 
 const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const theme = useTheme();
@@ -68,8 +69,14 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                             src="/images/logosamudera.png"
                         />
                     </Link>
-                    <Box sx={{
-                        display: 'flex',
+
+                    <Box display={{ xs: 'flex', md: 'none' }}>
+                        <IconButton>
+                            <IconifyIcon icon='mdi:menu' fontSize={32} />
+                        </IconButton>
+                    </Box>
+
+                    <Box display={{ xs: 'none', md: 'flex' }} sx={{
                         alignItems: 'center',
                         width: 'fit-content',
                         borderRadius: 1,

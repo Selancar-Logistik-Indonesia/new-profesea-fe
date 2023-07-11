@@ -17,6 +17,15 @@ const getCleanErrorMessage = (error: any) => {
     return errorMessage;
 }
 
+const removeFirstZeroChar = (input: string) => {
+    if (input.startsWith('0')) {
+        return input.substring(1);
+    }
+
+    return input;
+}
+
 export {
     getCleanErrorMessage,
+    removeFirstZeroChar,
 }

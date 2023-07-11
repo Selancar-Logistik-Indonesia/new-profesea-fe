@@ -1,10 +1,5 @@
-// ** React Imports
 import { useState, SyntheticEvent, Fragment, useEffect } from 'react'
-
-// ** Next Import
 import { useRouter } from 'next/router'
-
-// ** MUI Imports
 import Box from '@mui/material/Box'
 import Menu from '@mui/material/Menu'
 import Badge from '@mui/material/Badge'
@@ -13,14 +8,8 @@ import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
-
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
-
-// ** Context
 import { useAuth } from 'src/hooks/useAuth'
-
-// ** Type Imports
 import { Settings } from 'src/@core/context/settingsContext'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
@@ -154,12 +143,6 @@ const UserDropdown = (props: Props) => {
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
-            <Icon icon='mdi:email-outline' />
-            Inbox
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
             <Icon icon='mdi:message-outline' />
             Chat
           </Box>
@@ -175,12 +158,6 @@ const UserDropdown = (props: Props) => {
           <Box sx={styles}>
             <Icon icon='mdi:currency-usd' />
             Pricing
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='mdi:help-circle-outline' />
-            FAQ
           </Box>
         </MenuItem>
         <Divider />
