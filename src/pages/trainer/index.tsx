@@ -3,15 +3,15 @@ import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import { Button, Tabs, Tab, useMediaQuery } from '@mui/material' 
+import {  Tabs, Tab, useMediaQuery } from '@mui/material' 
 import { Grid } from '@mui/material' 
 import { useForm } from 'react-hook-form'  
-import Icon from 'src/@core/components/icon' 
+// import Icon from 'src/@core/components/icon' 
 import CompanyProfile from 'src/layouts/components/CompanyProfile' 
 import { useTheme } from '@mui/material/styles'
 import ManageAccount from 'src/layouts/components/ManageAccount'
 import Subscription from 'src/layouts/components/Subscription'
-import CompanyProfilePreview from 'src/layouts/components/CompanyProfilePreview'
+// import CompanyProfilePreview from 'src/layouts/components/CompanyProfilePreview'
 import {IUser} from 'src/contract/models/user'
 
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -37,7 +37,7 @@ const Company = () => {
    
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
-  const [openPreview, setOpenPreview] = useState(false);
+  // const [openPreview, setOpenPreview] = useState(false);
   
   // const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser; 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser; 
@@ -80,22 +80,22 @@ const Company = () => {
     };
   }
 
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = React.useState(0);
   const [color, getColor] = useState<any>('#FFFFFF')
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    if (newValue == 2) {
+    if (newValue == 1) {
       getColor('#ffeae9');
     } else {
 
       getColor('#FFFFFF');
     }
   };
-  const label = openPreview ? 'Edit Profil' :'Preview Profile'; 
-  function klikbutton() {  
-    setSelectedItem(user)
-    setOpenPreview(!openPreview);
-  }
+  // const label = openPreview ? 'Edit Profil' :'Preview Profile'; 
+  // function klikbutton() {  
+  //   setSelectedItem(user)
+  //   setOpenPreview(!openPreview);
+  // }
   function firstload(){
     HttpClient.get(AppConfig.baseUrl + "/user/"+user.id)
       .then((response) => {
@@ -105,13 +105,14 @@ const Company = () => {
   }
 
   useEffect(() => {
+    // setOpenPreview(false)
     firstload()
   }, [])
   
   return (
     <Box  >
       <Grid container spacing={2}>
-        <Grid container xs={12} md={10}
+        <Grid item xs={12} md={10}
           sx={!hidden ? {
             p: 4,
             direction: "row",
@@ -122,7 +123,6 @@ const Company = () => {
 
 
           } : {
-
           }}
         >
           <Grid xs={12}>
@@ -133,13 +133,13 @@ const Company = () => {
               borderRadius: '40px'
             }}>
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
-                <Tab label="PROFILE" href='/company/profile' />
-                <Tab label="EDIT PROFILE" {...a11yProps(1)} />
-                <Tab label="ACCOUNT" {...a11yProps(2)} />
-                <Tab label="MANAGE" {...a11yProps(3)} />
+                {/* <Tab label="PROFILE" href='/company/profile' /> */}
+                <Tab label="COMPANY BUILDER" {...a11yProps(0)} />
+                <Tab label="ACCOUNT" {...a11yProps(1)} />
+                <Tab label="MANAGE" {...a11yProps(2)} />
               </Tabs>
             </Box>
-            <Grid container xs={12} sx={{
+            <Grid container sx={{
               borderBottom: 1, borderColor: 'divider', boxSizing: 'border-box',
               background: color,
               border: '1px solid rgba(76, 78, 100, 0.12)',
@@ -150,21 +150,19 @@ const Company = () => {
               alignItems: "top",
               alignContent: 'top',
             }}>
-
-
-              <Grid xs={12} >
-                <TabPanel value={value} index={1}>
+              <Grid item xs={12} >
+                <TabPanel value={value} index={0}>
                   <Grid container xs={12}>
                     <Grid container xs={9}>  </Grid>
                     <Grid md={12} xs={3} container justifyContent={'right'} marginTop={'10px'}>
-                      <Button size='small' type='button' variant='contained' sx={{ backgroundColor: '#26C6F9' }} startIcon={<Icon icon={'mdi:visibility-outline'} />}
+                      {/* <Button size='small' type='button' variant='contained' sx={{ backgroundColor: '#26C6F9' }} startIcon={<Icon icon={'mdi:visibility-outline'} />}
                        onClick={klikbutton}>
                         {label}
-                      </Button>
+                      </Button> */}
                     </Grid>
                   </Grid> 
-                  {openPreview && selectedItem!= null && <CompanyProfilePreview  visible={openPreview} datauser={selectedItem}/>}
-                  {!openPreview && selectedItem!= null &&  <CompanyProfile  visible={!openPreview}  datauser={selectedItem} address={selectedItem.address}/>}
+                  {/* {openPreview && selectedItem!= null && <CompanyProfilePreview  visible={openPreview} datauser={selectedItem}/>} */}
+                  { selectedItem!= null &&  <CompanyProfile  visible={true}  datauser={selectedItem} address={selectedItem.address}/>}
                       
                      
                
@@ -199,10 +197,10 @@ const Company = () => {
                   {/* <UserProfileHeader></UserProfileHeader> */}
                 </TabPanel>
 
-                <TabPanel value={value} index={3}>
+                <TabPanel value={value} index={2}>
                   <ManageAccount></ManageAccount>
                 </TabPanel>
-                <TabPanel value={value} index={2}>
+                <TabPanel value={value} index={1}>
                   <Subscription></Subscription>
                 </TabPanel>
               </Grid>
@@ -210,15 +208,14 @@ const Company = () => {
           </Grid>
 
         </Grid>
-
-        <Grid xs={2} container display={'flex'} marginTop={'15px'} sx={{
+        <Grid xs={2} item display={'flex'} marginTop={'15px'} sx={{
           direction: "row",
           justifyContent: "flex-start",
           alignContent: 'top',
           alignItems: "stretch"
         }}>
-          <Grid xs={12}>
-            <Grid xs={12} sx={{
+          <Grid>
+            <Grid item xs={12} sx={{
               boxSizing: 'border-box',
               background: '#FFFFFF',
               border: '1px solid rgba(76, 78, 100, 0.12)',
@@ -233,7 +230,7 @@ const Company = () => {
             }}>
 
             </Grid>
-            <Grid xs={12} sx={{
+            <Grid item xs={12} sx={{
               boxSizing: 'border-box',
               background: '#FFFFFF',
               border: '1px solid rgba(76, 78, 100, 0.12)',
@@ -248,7 +245,7 @@ const Company = () => {
             }}>
 
             </Grid>
-            <Grid xs={12} sx={{
+            <Grid item xs={12} sx={{
               boxSizing: 'border-box',
               background: '#FFFFFF',
               border: '1px solid rgba(76, 78, 100, 0.12)',

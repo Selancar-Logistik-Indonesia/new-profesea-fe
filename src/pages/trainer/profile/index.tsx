@@ -26,7 +26,7 @@ import NestedComment from './NestedComment'
     
 import {IUser} from 'src/contract/models/user'
  
-const ProfileCompany = () => { 
+const ProfileTrainer = () => { 
   
 const theme = useTheme() 
 const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -162,8 +162,8 @@ const vacancy = [
 }
  
 
-ProfileCompany.acl = {
+ProfileTrainer.acl = {
   action: 'read',
   subject: 'home'
 };
-export default ProfileCompany
+export default ProfileTrainer
