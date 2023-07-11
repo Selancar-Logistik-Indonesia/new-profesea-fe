@@ -6,16 +6,17 @@ import SocialFeed from '../socialfeed';
 const Home = () => {  
   
   const { user } = useAuth(); 
+  console.log(user?.role);
   if(user?.role == 'Company'){
       return(
               <SocialFeed/>
             )
   }
 
-  if(user?.role == 'Trainer'){
+  if(user?.role == 'Trainer'){ 
     return(
-            <Trainer/>
-          )
+          <Trainer />
+        )
   }
     
    
