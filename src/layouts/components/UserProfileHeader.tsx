@@ -9,6 +9,11 @@ import CardContent from '@mui/material/CardContent'
 import { Button, Divider, Grid, IconButton } from '@mui/material'
 import Icon from 'src/@core/components/icon' 
 
+
+import {IUser} from 'src/contract/models/user'
+import City from 'src/contract/models/city'
+import Address from 'src/contract/models/address'
+
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
   height: 120,
@@ -19,7 +24,12 @@ const ProfilePicture = styled('img')(({ theme }) => ({
   }
 }))
 
-const UserProfileHeader = () => {
+type userProps = {
+  datauser: IUser;
+  address : Address
+}
+
+const UserProfileHeader = (props:userProps) => {
   return (
     <Card  >
       <CardMedia
@@ -57,7 +67,7 @@ const UserProfileHeader = () => {
 
           <Box sx={{ mb: [4, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
             <Typography variant='h6' sx={{ mb: 0, color: "#424242", fontWeight: 900 }}>
-              PT.SAMUDERA INDONESIA MARITIM
+              {props.datauser.name}
             </Typography>
             <Box
               sx={{
@@ -68,7 +78,7 @@ const UserProfileHeader = () => {
             >
 
               <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
-                <Typography sx={{ color: "#424242", fontWeight: 600 }}>SHIPPING LINES</Typography>
+                <Typography sx={{ color: "#424242", fontWeight: 600 }}>{props.datauser.industry != null ? props.datauser.industry.name : props.datauser.role }</Typography>
               </Box>
             </Box>
           </Box>
@@ -89,7 +99,7 @@ const UserProfileHeader = () => {
       </CardContent>
       <Divider style={{ width: '100%' }} />
       <CardContent>
-        <Typography variant="body1" sx={{ color: "#424242", fontWeight: 500 }}>PT Samudera Indonesia Tbk adalah sebuah perusahaan logistik dan pelayaran yang berkantor pusat di Jakarta, Indonesia. Untuk mendukung kegiatan bisnisnya, hingga tahun 2022, perusahaan ini memiliki 150+ anak perusahaan, cabang, dan kantor yang tersebar di seantero Asia.</Typography>
+        <Typography variant="body1" sx={{ color: "#424242", fontWeight: 500 }}>{props.datauser.about != null ? props.datauser.about : '-' }</Typography>
         <Box
           sx={{
             display: 'flex',
@@ -100,48 +110,48 @@ const UserProfileHeader = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 1, mt: 2, mb:3, color: 'text.secondary' } }}>
             {/* <Icon icon={designationIcon} /> */}
             {/* <Typography sx={{ color: 'text.secondary', fontWeight: 600 }}>teest 2</Typography> */}
-            <Icon icon={'mdi:location'}/> <Typography variant="body1" sx={{ color: "#424242", fontWeight: 400 }} >Jakarta, Indonesia 41361</Typography>
+            <Icon icon={'mdi:location'}/> <Typography variant="body1" sx={{ color: "#424242", fontWeight: 400 }} >{props.address != null ? props.address.city.city_name+', '+props.address.country.name : '-' }</Typography>
           </Box>
-
         </Box>
-        
-        
-        
           <Grid container  justifyContent="flex-end" >
-            <Grid xs={12} md={11}>
+            <Grid item xs={12} md={11}>
               <Box
-                        sx={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          justifyContent: ['center', 'flex-start']
-                        }}
-                      >
-                        <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
-                          <Icon icon='mdi:facebook' />
-                          <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>PT.Samudera Indonesia Maritim</Typography>
-                        </Box>
-                        <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
-                          <Icon icon='mdi:instagram' />
-                          <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>@Samudera Indonesia</Typography>
-                        </Box>
+                sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: ['center', 'flex-start']
+                }}
+              >
+                <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
+                  <Icon icon='mdi:facebook' />
+                  <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>PT.Samudera Indonesia Maritim</Typography>
+                </Box>
+                <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
+                  <Icon icon='mdi:instagram' />
+                  <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>@Samudera Indonesia</Typography>
+                </Box>
 
-                        <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
-                          <Icon icon='mdi:linkedin' />
-                          <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>Samudera Indonesia</Typography>
-                        </Box>
-                         <Box sx={{ mr: 4, display: 'flex', alignItems: 'flex-end', '& svg': { mr: 1, color: 'text.secondary' } }}>
-                          <Icon icon='mdi:linkedin' />
-                          <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>Samudera Indonesia</Typography>
-                        </Box>
-                 </Box>
+                <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
+                  <Icon icon='mdi:linkedin' />
+                  <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>Samudera Indonesia</Typography>
+                </Box>
+                  <Box sx={{ mr: 4, display: 'flex', alignItems: 'flex-end', '& svg': { mr: 1, color: 'text.secondary' } }}>
+                  <Icon icon='mdi:linkedin' />
+                  <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>Samudera Indonesia</Typography>
+                </Box>
+              </Box>
             </Grid>
-            <Grid container xs={12} md={1} justifyContent="flex-end" marginTop={'-10px'}>
-                 <IconButton  href='/company' sx={{ color: "#424242", fontWeight: 400 }}>
-                              <Icon icon={'charm:pencil'} /> 
-                        </IconButton> 
-
-                     
-            
+            <Grid item xs={12} md={1} marginTop={'-5px'}>
+              <Grid
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="flex-end"
+              >
+                <IconButton  href='/company' sx={{ color: "#424242", fontWeight: 400 }}>
+                  <Icon fontSize="medium" icon={'charm:pencil'} /> 
+                </IconButton> 
+              </Grid> 
             </Grid>
           </Grid>
 

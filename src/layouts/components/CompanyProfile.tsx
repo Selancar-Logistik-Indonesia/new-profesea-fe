@@ -241,6 +241,7 @@ const CompanyProfile = (props:compProps) => {
       author: '@southside_customs',
     },
   ]; 
+  
   return (
     <Grid container >
       <Grid xs={12} md={6} container >
