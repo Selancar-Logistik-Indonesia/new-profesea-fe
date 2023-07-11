@@ -1,50 +1,16 @@
-// ** React Imports
 import { ReactNode } from 'react'
-
-// ** Next Import
 import Link from 'next/link'
-
-// ** MUI Components
 import Button from '@mui/material/Button'
 import Box, { BoxProps } from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { styled, useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
-
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
-
-// ** Configs
-
-// ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
-
-// ** Hooks
 import { useSettings } from 'src/@core/hooks/useSettings'
-
-// ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
-
-// ** Styled Components
-// const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-//   padding: theme.spacing(20),
-//   paddingRight: '0 !important',
-//   [theme.breakpoints.down('lg')]: {
-//     padding: theme.spacing(10)
-//   }
-// }))
-
-// const RegisterIllustration = styled('img')(({ theme }) => ({
-//   maxWidth: '100%',
-//   [theme.breakpoints.down('xl')]: {
-//     maxWidth: '38rem'
-//   },
-//   [theme.breakpoints.down('lg')]: {
-//     maxWidth: '30rem'
-//   }
-// }))
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -63,13 +29,34 @@ const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   }
 }))
 
+const onHiddenBox = {
+  p: 7,
+  height: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: 'background.paper'
+};
+
+const regularBox = {
+  boxSizing: 'border-box',
+  maxWidth: '100%',
+  marginTop: '10%',
+  margin: '10%',
+  background: '#FFFFFF',
+  border: '1px solid rgba(76, 78, 100, 0.12)',
+  borderRadius: '20px',
+  p: 7,
+  height: '80%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
 const Register = () => {
-  // ** Hooks
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
-
-  // ** Vars
   const { skin } = settings
 
   return (
@@ -89,142 +76,41 @@ const Register = () => {
         <Box className='content-right' >
           {!hidden ? (
             <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-
               <FooterIllustrationsV2 image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`} />
             </Box>
           ) : null}
 
           <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
-            <Box
-              sx={!hidden ? {
-                boxSizing: 'border-box',
-
-                // position: 'absolute',
-                // width: '424px', 
-                // left: '956px',
-                maxWidth: '100%',
-                marginTop: '10%',
-                margin: '10%',
-                background: '#FFFFFF',
-                border: '1px solid rgba(76, 78, 100, 0.12)',
-                borderRadius: '20px',
-                p: 7,
-                height: '80%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                // backgroundColor: 'background.paper'
-              } : {
-                p: 7,
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'background.paper'
-              }}
-            >
+            <Box sx={!hidden ? regularBox : onHiddenBox}>
               <BoxWrapper  >
                 <Box sx={{ mb: 3, maxWidth: '100%', justifyContent: 'center', alignContent: 'center', textAlign: 'center' }}>
                   <Link href='/'>
                     <Box
                       component="img"
                       src='/images/logosamudera.png'
-                      sx={{ height: 40 }}
-                    >
-                    </Box>
+                      sx={{ height: 40 }}></Box>
                   </Link>
                   <Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#424242" }}>Register</Typography>
                   <Typography variant='body2' sx={{ textAlign: 'center', color: "#424242" }}> Adventures start from here, let’s join with our!</Typography>
                 </Box>
 
-                <Link href="/registrasionseafer" passHref legacyBehavior>
+                <Link href="/register/seafer" passHref legacyBehavior>
                   <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:account-outline'} />} > I Am Candidate</Button>
                 </Link>
-                <Link href="/registrasioncompany" passHref legacyBehavior>
+                <Link href="/register/recruiter" passHref legacyBehavior>
                   <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:domain'} />} > I Am Recruiter</Button>
                 </Link>
-                <Link href="/registrasiontrainer" passHref legacyBehavior>
+                <Link href="/register/trainer" passHref legacyBehavior>
                   <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'healthicons:i-training-class'} />} > I Am Trainer</Button>
                 </Link>
 
-                {/* <Button variant="outlined" fullWidth sx={{ mb: 2 }}  startIcon={<AccessibilityNewOutlinedIcon />} > I AM Seafarer</Button>
-
-              
-              <Button variant="outlined" fullWidth sx={{ mb: 2 }}  startIcon={<AccessibilityNewOutlinedIcon />} > I AM Seafarer</Button> */}
-
-                {/* <TextField autoFocus fullWidth sx={{ mb: 4 }} label='Username' placeholder='johndoe' />
-              <TextField fullWidth label='Email' sx={{ mb: 4 }} placeholder='user@email.com' />
-              <FormControl fullWidth>
-                <InputLabel htmlFor='auth-login-v2-password'>Password</InputLabel>
-                <OutlinedInput
-                  label='Password'
-                  id='auth-login-v2-password'
-                  type={showPassword ? 'text' : 'password'}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      <IconButton
-                        edge='end'
-                        onMouseDown={e => e.preventDefault()}
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        <Icon icon={showPassword ? 'mdi:ab-testing' : 'mdi:eye-off-outline'} />
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl> */}
-                {/* 
-              <FormControlLabel
-                control={<Checkbox />}
-                sx={{ mb: 4, mt: 1.5, '& .MuiFormControlLabel-label': { fontSize: '0.875rem' } }}
-                label={
-                  <>
-                    <Typography variant='body2' component='span'>
-                      I agree to{' '}
-                    </Typography>
-                    <LinkStyled href='/' onClick={e => e.preventDefault()}>
-                      privacy policy & terms
-                    </LinkStyled>
-                  </>
-                }
-              />
-              <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
-                Sign up
-              </Button> */}
                 <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
                   <Typography sx={{ mr: 2, color: "#424242" }}>Already have an account?</Typography>
                   <Typography href='/login' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold', }}>
                     Sign in instead
                   </Typography>
                 </Box>
-                {/* <Divider
-                sx={{
-                  '& .MuiDivider-wrapper': { px: 4 },
-                  mt: theme => `${theme.spacing(5)} !important`,
-                  mb: theme => `${theme.spacing(7.5)} !important`
-                }}
-              >
-                or
-              </Divider>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <IconButton href='/' component={Link} sx={{ color: '#497ce2' }} onClick={e => e.preventDefault()}>
-                  <Icon icon='mdi:facebook' />
-                </IconButton>
-                <IconButton href='/' component={Link} sx={{ color: '#1da1f2' }} onClick={e => e.preventDefault()}>
-                  <Icon icon='mdi:twitter' />
-                </IconButton>
-                <IconButton
-                  href='/'
-                  component={Link}
-                  onClick={e => e.preventDefault()}
-                  sx={{ color: theme => (theme.palette.mode === 'light' ? '#272727' : 'grey.300') }}
-                >
-                  <Icon icon='mdi:github' />
-                </IconButton>
-                <IconButton href='/' component={Link} sx={{ color: '#db4437' }} onClick={e => e.preventDefault()}>
-                  <Icon icon='mdi:google' />
-                </IconButton>
-              </Box> */}
+
               </BoxWrapper>
             </Box>
           </RightWrapper>
@@ -235,7 +121,5 @@ const Register = () => {
 }
 
 Register.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
-
 Register.guestGuard = true
-
 export default Register
