@@ -18,7 +18,6 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import AdsList from 'src/layouts/components/Ads'
 
 type FormData = {
   companyName: string
@@ -134,9 +133,9 @@ const Company = () => {
               borderRadius: '10px'
             }}>
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
-                <Tab label="Edit Profile" {...a11yProps(0)} />
-                <Tab label="Subcription" {...a11yProps(1)} />
-                <Tab label="Change Password" {...a11yProps(2)} />
+                <Tab label="Open Training" {...a11yProps(0)} />
+                <Tab label="All Training" {...a11yProps(1)} />
+                <Tab label="All Training" {...a11yProps(2)} />
               </Tabs>
             </Box>
             <Grid container sx={{
@@ -160,7 +159,6 @@ const Company = () => {
                   </Grid>                    
                 </TabPanel>
                 <TabPanel value={value} index={0}>
-                { selectedItem!= null &&  <CompanyProfile  visible={true}  datauser={selectedItem} address={selectedItem.address}/>}
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                   <ManageAccount></ManageAccount>
@@ -172,12 +170,67 @@ const Company = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={2} display={'flex'} sx={{direction:"row",
-              justifyContent:"flex-start",
-              alignContent:'top',
-              alignItems:"stretch"}}>
-                <AdsList /> 
-          </Grid>   
+        <Grid xs={2} item display={'flex'} marginTop={'15px'} sx={{
+          direction: "row",
+          justifyContent: "flex-start",
+          alignContent: 'top',
+          alignItems: "stretch"
+        }}>
+          <Grid>
+            <Grid item xs={12} sx={{
+              boxSizing: 'border-box',
+              background: '#FFFFFF',
+              border: '1px solid rgba(76, 78, 100, 0.12)',
+              borderRadius: '20px',
+              p: 4,
+              display: 'flex',
+              alignItems: 'stretch',
+              justifyContent: 'left',
+              marginBottom: '10px', 
+              height: '197px',
+              wrap: 'nowrap'
+            }}>
+
+            </Grid>
+            <Grid item xs={12} sx={{
+              boxSizing: 'border-box',
+              background: '#FFFFFF',
+              border: '1px solid rgba(76, 78, 100, 0.12)',
+              borderRadius: '20px',
+              p: 4,
+              display: 'flex',
+              alignItems: 'stretch',
+              justifyContent: 'left',
+              marginBottom: '10px', 
+              height: '197px',
+              wrap: 'nowrap'
+            }}>
+
+            </Grid>
+            <Grid item xs={12} sx={{
+              boxSizing: 'border-box',
+              background: '#FFFFFF',
+              border: '1px solid rgba(76, 78, 100, 0.12)',
+              borderRadius: '20px',
+              p: 4,
+              display: 'flex',
+              alignItems: 'stretch',
+              justifyContent: 'left',
+              marginBottom: '10px', 
+              height: '197px',
+              wrap: 'nowrap'
+            }}>
+
+            </Grid>
+          </Grid>
+
+
+
+
+
+
+
+        </Grid>
       </Grid>
 
 

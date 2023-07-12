@@ -28,6 +28,7 @@ import Industry from 'src/contract/models/industry'
 import City from 'src/contract/models/city'
 import Address from 'src/contract/models/address'
 import { Icon } from '@iconify/react'
+import ImageSlider from './ImageSlider'
 
 type FormData = {
   companyName: string 
@@ -54,6 +55,8 @@ type FormData = {
 //   isConnected: boolean
 // }
 
+
+
 type compProps = {
     visible: boolean;  
     datauser: IUser;
@@ -62,14 +65,15 @@ type compProps = {
 const CompanyProfile = (props:compProps) => {
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboindustry, getComboIndustry] = useState<any>([])
-  const [combocity, getComboCity] = useState<any[]>([]) 
-  const [combocode, getCombocode] = useState<any[]>([])
-  const [sosmed, getSosmed] = useState<any>([])
-
-  const [idcombocode, setCombocode] = useState<any>(0) 
-  const [idcity, setCombocity] = useState<any>(0) 
-  const [idindustry, setIndustry] = useState<any>(0)
-   const [idcountry, setCountry] = useState<any>(0)
+  const [combocity, getComboCity] = useState<any[]>([])
+  const [combocode, getCombocode] = useState<any[]>([]) 
+  const [idcombocode, setCombocode] = useState<any>(props.datauser.country_id)
+  const [idcity, setCombocity] = useState<any>(props.datauser.address.city_id)
+  const [idindustry, setIndustry] = useState<any>(props.datauser.industry_id)
+  const [idcountry, setCountry] = useState<any>(props.datauser.country_id)
+  const [facebook, setFacebook] = useState<any>('')
+  const [instagram, setInstagram] = useState<any>('')
+  const [linkedin, setLinkedin] = useState<any>('')
   const combobox = () => {
     HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
       .then((response) => {
@@ -90,12 +94,6 @@ const CompanyProfile = (props:compProps) => {
         }
         getCombocode(code);
       })
-    const listsosmed = [{
-        id:'1',sosmed:'facebook'}
-      , {id:'2',sosmed:'instagaram'}
-      , {id:'3',sosmed:'lingkedin'}
-      ]
-    getSosmed(listsosmed);
 
   }
   const searchcity = async(q:any) =>{
@@ -144,103 +142,157 @@ const CompanyProfile = (props:compProps) => {
       toast.error('Registrastion Failed ' + error.response.data.message)
     });
   }
-  function addbutton(data:FormData) {
-    const {usernamesosmed} = data;  
+  
+  const addbuttonfacebook=( data: FormData) =>{
+    const { facebook } = data
     const json = {
-      'sosmed_type': sosmed.sosmed,
-      'sosmed_id': usernamesosmed,
-    };
-    HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(({ data }) => { 
-      console.log("here 1", data);
-      toast.success( ' Successfully submited!'); 
-    }, error => {
-      console.log("here 1", error);
-      toast.error('Registrastion Failed ' + error.response.data.message)
-    });
+      sosmed_type: 'facebook',
+      sosmed_id: facebook
+    }
+    HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
+      ({ data }) => {
+        console.log('here 1', data)
+        toast.success(' Successfully submited!')
+      },
+      error => {
+        console.log('here 1', error)
+        toast.error('Registrastion Failed ' + error.response.data.message)
+      }
+    )
   }
-  // const socialAccountsArr: SocialAccountsType[] = [
-  //   {
-  //     title: 'Facebook',
-  //     isConnected: false,
-  //     logo: '/images/logos/facebook.png'
-  //   },
-  //   {
-  //     title: 'Instagram',
-  //     isConnected: true,
-  //     username: '@prfoesea',
-  //     logo: '/images/logos/instagram.png'
-  //   },
+  const addbuttoninstagram = (data: FormData) => {
+    const { instagram } = data
+    const json = {
+      sosmed_type: 'instagram',
+      sosmed_id: instagram
+    }
+    HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
+      ({ data }) => {
+        console.log('here 1', data)
+        toast.success(' Successfully submited!')
+      },
+      error => {
+        console.log('here 1', error)
+        toast.error('Registrastion Failed ' + error.response.data.message)
+      }
+    )
+  }
+  const addbuttonlinkedin = (data: FormData) => {
+    const { linkedin } = data
+    const json = {
+      sosmed_type: 'linkedin',
+      sosmed_id: linkedin
+    }
+    HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
+      ({ data }) => {
+        console.log('here 1', data)
+        toast.success(' Successfully submited!')
+      },
+      error => {
+        console.log('here 1', error)
+        toast.error('Registrastion Failed ' + error.response.data.message)
+      }
+    )
+  }
+  const [selectedFile, setSelectedFile] = useState()
+  const [selectedFileBanner, setSelectedFileBanner] = useState()
+  const [preview, setPreview] = useState()
+  const [previewBanner, setPreviewBanner] = useState()
+  // const [currentImage, setCurrentImage] = useState<File>()
+  // create a preview as a side effect, whenever selected file is changed
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined)
 
-  //   {
-  //     title: 'LinkedIn',
-  //     isConnected: false,
-  //     logo: '/images/logos/linkedin.png'
-  //   }
-  // ]
-  const itemData = [
-    {
-      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      title: 'Breakfast',
-      author: '@bkristastucchio',
-      featured: true,
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-      title: 'Burger',
-      author: '@rollelflex_graphy726',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-      title: 'Camera',
-      author: '@helloimnik',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-      title: 'Coffee',
-      author: '@nolanissac',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-      title: 'Hats',
-      author: '@hjrc33',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-      title: 'Honey',
-      author: '@arwinneil',
-      featured: true,
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-      title: 'Basketball',
-      author: '@tjdragotta',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-      title: 'Fern',
-      author: '@katie_wasserman',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-      title: 'Mushrooms',
-      author: '@silverdalex',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-      title: 'Tomato basil',
-      author: '@shelleypauls',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-      title: 'Sea star',
-      author: '@peterlaster',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-      title: 'Bike',
-      author: '@southside_customs',
-    },
-  ]; 
+      return
+
+    }
+
+    const objectUrl: any = URL.createObjectURL(selectedFile)
+    setPreview(objectUrl)
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [selectedFile])
+  useEffect(() => {
+    if (!selectedFileBanner) {
+      setPreviewBanner(undefined)
+
+      return
+
+    }
+
+    const objectUrl: any = URL.createObjectURL(selectedFileBanner)
+    setPreviewBanner(objectUrl)
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [selectedFileBanner])
+
+  const onSelectFile = (e: any) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined)
+
+      return
+
+    }
+
+    // I've kept this example simple by using the first image instead of multiple
+    setSelectedFile(e.target.files[0])
+    const selectedFiles = e.target.files as FileList
+    // setCurrentImage(selectedFiles?.[0])
+    uploadPhoto(selectedFiles?.[0])
+  }
+  const uploadPhoto = (data: any) => {
+    const json: any = new FormData()
+    json.append('photo', data)
+    HttpClient.post(AppConfig.baseUrl + '/user/update-photo', json).then(
+      ({ data }) => {
+        console.log('here 1', data)
+        toast.success(' Successfully submited!')
+      },
+      error => {
+        console.log('here 1', error)
+        toast.error(' Failed ' + error.response.data.message)
+      }
+    )
+  }
+
+    const onSelectFileBanner = (e: any) => {
+      if (!e.target.files || e.target.files.length === 0) {
+        setSelectedFile(undefined)
+
+        return
+      }
+
+      // I've kept this example simple by using the first image instead of multiple
+      setSelectedFileBanner(e.target.files[0])
+      const selectedFiles = e.target.files as FileList
+      // setCurrentImage(selectedFiles?.[0])
+      uploadPhotoBanner(selectedFiles?.[0])
+    }
+    const uploadPhotoBanner = (data: any) => {
+      const json: any = new FormData()
+      json.append('banner', data)
+      HttpClient.post(AppConfig.baseUrl + '/user/update-banner', json).then(
+        ({ data }) => {
+          console.log('here 1', data)
+          toast.success(' Successfully submited!')
+        },
+        error => {
+          console.log('here 1', error)
+          toast.error(' Failed ' + error.response.data.message)
+        }
+      )
+    }
+
+  const slides = [
+    { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'beach' },
+    { url: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d', title: 'boat' },
+    { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'forest' },
+    { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'city' },
+    { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'italy' }
+  ]
   
   return (
     <Grid container >
@@ -333,6 +385,7 @@ const CompanyProfile = (props:compProps) => {
                   {...register("companyName")} />
                   {}
               </Grid>
+              {props.datauser.role == 'Company' &&
               <Grid item md={6} xs={12} >
                 <Autocomplete
                   disablePortal
@@ -342,59 +395,47 @@ const CompanyProfile = (props:compProps) => {
                   getOptionLabel={(option: any) => option.name}
                   renderInput={(params) => <TextField {...params} label="Industry" />} 
                   onChange={(event: any, newValue: Industry | null) => (newValue?.id) ? setIndustry(newValue.id) : setIndustry(props.datauser.industry_id)}
-
                 />
               </Grid>
+              }
               <Grid item md={6} xs={12} >
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
                 options={combocountry}
                 getOptionLabel={(option: any) => option.nicename}
-                defaultValue={props.address.country}
+                defaultValue={props.address?.country}
                 renderInput={(params) => <TextField {...params} label="Country" />}
                 onChange={(event: any, newValue: Countries | null) => (newValue?.id) ? searchcity(newValue.id) : searchcity(props.datauser.country_id)}
-                // onChange={({target})=> searchcity(target)}
                 />
               </Grid>
             
               <Grid item md={6} xs={12} >
-                {/* <TextField id="city" label="city" variant="outlined" fullWidth sx={{ mb: 1 }}     {...register("city")}/> */}
-                {/* <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={combocity} 
-                  // getOptionLabel={(option: any) => option.city_name}
-                  defaultValue={props.address.city.city_name}
-                  renderInput={(params) => <TextField {...params} label="City" />}
-                  onChange={(event: any, newValue: City | null) => (newValue?.id) ? setCity(newValue.id) : setCity(props.address.city)}
-                /> */}
                 <Autocomplete
                   disablePortal
                   id="city"
-                  value={props.datauser.address.city}
+                  value={props.datauser.address?.city}
                   options={combocity}
                   getOptionLabel={(option: City) => option.city_name}
                   renderInput={(params) => <TextField {...params} label="City" sx={{ mb: 2 }}/>}
-                  onChange={(event: any, newValue: City | null) => (newValue?.id) ? setCombocity(newValue.id) : setCombocity(props.address.city_id)}
+                  onChange={(event: any, newValue: City | null) => (newValue?.id) ? setCombocity(newValue.id) : setCombocity(props.address?.city_id)}
                 />
               </Grid>
-
-              
               <Grid item md={6} xs={12} >
                 <TextField id="Email" label="Email" defaultValue={props.datauser.email} variant="outlined" fullWidth sx={{ mb: 1 }}  {...register("email")} />
               </Grid>
+              {props.datauser.role == 'Company' && <>
               <Grid item md={6} xs={12} >
                 <TextField id="website" label="Website" defaultValue={props.datauser.website} variant="outlined" fullWidth sx={{ mb: 1 }}    {...register("website")} />
               </Grid>
-
+              </>}  
               <Grid item md={3} xs={12} >
                 <Autocomplete
                   disablePortal
                   id="code"
                   options={combocode}
                   getOptionLabel={(option: Countries) => option.iso}
-                  defaultValue={props.address.country}
+                  defaultValue={props.address?.country}
                   renderInput={(params) => <TextField {...params} label="Code" sx={{ mb: 2 }}/>}
                   onChange={(event: any, newValue: Countries | null) => (newValue?.id) ? setCombocode(newValue.id) : setCombocode(props.address.country_id)}
                 />
@@ -403,12 +444,10 @@ const CompanyProfile = (props:compProps) => {
               <Grid item md={3} xs={12} >
                 <TextField id="phone" label="Phone" defaultValue={props.datauser.phone} variant="outlined" fullWidth sx={{ mb: 1 }}   {...register("phone")} />
               </Grid>
-
               <Grid item md={6} xs={12} >
                 <TextField id="address" label="Address" defaultValue={props.datauser.address?.address} variant="outlined" fullWidth sx={{ mb: 1 }}    {...register("address")} />
-              </Grid>
+              </Grid>       
               <Grid item md={12} xs={12} >
-                {/* <Typography variant="body2" >About</Typography>   */}
                 <TextField
                   fullWidth sx={{ mb: 1 }}
                   id="outlined-multiline-static"
@@ -424,122 +463,106 @@ const CompanyProfile = (props:compProps) => {
                 </Button>
               </Grid>
             
-              <Divider style={{ width: '100%' }} />
-              <Grid item md={5} xs={12} >
-                <Typography variant="h6"  >Social Media</Typography>
-                <Typography variant="body1" >This is link social medias the company. Please fill it.</Typography>
+                <Divider style={{ width: '100%' }} />
+                <Grid item md={5} xs={12}>
+                  <Typography variant='h6'>Social Media</Typography>
+                  <Typography variant='body1'>This is link social medias the company. Please fill it.</Typography>
+                </Grid>
 
-              </Grid>
-               
-              <Grid container item md={12} xs={12} marginTop={'20px'} >
-                  <Grid container xs={12} md={4}  >
-                        <Grid container xs={6} md={12} >
-                          <Grid xs={12}  >
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                              <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                                <img src= '/images/logos/facebook.png' alt='Facebook' height='30' />
-                              </Box> 
-                                 <TextField id="facebook" defaultValue='' label="Facebook" variant="outlined" fullWidth sx={{ mb: 1 }}
-                                 {...register("facebook")} /> 
-                              <IconButton onClick={ handleSubmit(addbutton)}>
-                                    <Icon icon={'charm:pencil'} /> 
-                              </IconButton>  
-                            </Box> 
-                          </Grid> 
-                        </Grid> 
-                      </Grid> 
-                      <Grid container xs={12} md={4}  >
-                        <Grid container xs={6} md={12} >
-                          <Grid xs={12}  >
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                              <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                                <img src= '/images/logos/instagram.png' alt='Instagram' height='30' />
-                              </Box> 
-                                 <TextField id="instagram" defaultValue='' label="Instagram" variant="outlined" fullWidth sx={{ mb: 1 }}
-                                 {...register("instagram")} /> 
-                              <IconButton onClick={ handleSubmit(addbutton)}>
-                                    <Icon icon={'charm:pencil'} /> 
-                              </IconButton>  
-                            </Box> 
-                          </Grid> 
-                        </Grid> 
-                      </Grid> 
-                      <Grid container xs={12} md={4}  >
-                        <Grid container xs={6} md={12} >
-                          <Grid xs={12}  >
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                              <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                                <img src= '/images/logos/linkedin.png' alt='Linkedin' height='30' />
-                              </Box> 
-                                 <TextField id="linkedin" defaultValue='' label="Linkedin" variant="outlined" fullWidth sx={{ mb: 1 }}
-                                 {...register("linkedin")} /> 
-                              <IconButton onClick={ handleSubmit(addbutton)}>
-                                    <Icon icon={'charm:pencil'} /> 
-                              </IconButton>  
-                            </Box> 
-                          </Grid> 
-                        </Grid> 
-                      </Grid> 
-                        
-              {/* tanda untuk loopngan map */}
-                {/* {socialAccountsArr.map(account => {
-                  return (
-                    //  <Grid item md={12} xs={12}  > 
-                      <Grid container xs={12} md={4} key={account.title}>
-                        <Grid container xs={6} md={12} >
-                          <Grid xs={12}  >
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                              <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                                <img src={account.logo} alt={account.title} height='30' />
-                              </Box>
-                              <div>
-                                  <Typography sx={{ fontWeight: 500 }}>{account.title}</Typography>  
+                <Grid container item md={12} xs={12} marginTop={'20px'}>
+                  <Grid container item xs={12} md={4}>
+                    <Grid container item xs={6} md={12}>
+                      <Grid xs={12} item>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                            <img src='/images/logos/facebook.png' alt='Facebook' height='30' />
+                          </Box>
+                          <TextField
+                            id='facebook'
+                            defaultValue=''
+                            label='Facebook'
+                            variant='outlined'
+                            value={facebook}
+                            fullWidth
+                            sx={{ mb: 1 }}
+                            {...register('facebook')}
+                          />
+                          <IconButton onClick={handleSubmit(addbuttonfacebook)}>
+                            <Icon icon={'charm:pencil'} />
+                          </IconButton>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </Grid>
 
-                                  {account.username}  
-                                 <TextField id="companyName" defaultValue={account.username}  label="Company Name" variant="outlined" fullWidth sx={{ mb: 1 }}
-                                 {...register("companyName")} />
+                  <Grid container item xs={12} md={4}>
+                    <Grid container item xs={6} md={12}>
+                      <Grid xs={12} item>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                            <img src='/images/logos/instagram.png' alt='instagram' height='30' />
+                          </Box>
+                          <TextField
+                            id='instagram'
+                            defaultValue=''
+                            label='Instagram'
+                            variant='outlined'
+                            fullWidth
+                            value={instagram}
+                            sx={{ mb: 1 }}
+                            {...register('instagram')}
+                          />
+                          <IconButton onClick={handleSubmit(addbuttoninstagram)}>
+                            <Icon icon={'charm:pencil'} />
+                          </IconButton>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </Grid>
 
-                              </div>
-                              <IconButton onClick={ handleSubmit(addbutton)}>
-                                    <Icon icon={'charm:pencil'} /> 
-                              </IconButton>  
-                            </Box> 
-                          </Grid> 
-                        </Grid> 
-                      </Grid> 
-                  )
-                })} */}
-              </Grid>
+                  <Grid container item xs={12} md={4}>
+                    <Grid container item xs={6} md={12}>
+                      <Grid xs={12} item>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                            <img src='/images/logos/linkedin.png' alt='linkedin' height='30' />
+                          </Box>
+                          <TextField
+                            id='linkedin'
+                            defaultValue=''
+                            label='Linkedin'
+                            variant='outlined'
+                            fullWidth
+                            value={linkedin}
+                            sx={{ mb: 1 }}
+                            {...register('linkedin')}
+                          />
+                          <IconButton onClick={handleSubmit(addbuttonlinkedin)}>
+                            <Icon icon={'charm:pencil'} />
+                          </IconButton>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
 
-              <Divider style={{ width: '100%' }} />
-              <Box sx={{ marginTop: '20px' }}>
+                <Divider style={{ width: '100%' }} />
+                <Box sx={{ marginTop: '20px' }}></Box>
 
-              </Box>
-
-              <Grid item md={5} xs={12} >
-                <Typography variant="h6"  >Gallery</Typography>
-                <Typography variant="body1" >This is Gallery for the company. Please fill it.</Typography>
-
-              </Grid>
-              <Grid item md={5} display={{ xs: "none", lg: "block" }} > </Grid>
-              <Grid item md={2} xs={12} marginTop={'20px'} >
-                <Button size='small' variant='contained'  >
-                  Upload Image
-                </Button>
-              </Grid>
-              <Grid item md={12}>
-                <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
-                  {itemData.map((item) => (
-                    <ImageListItem key={item.img}>
-                      <img
-                        src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                        srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                        alt={item.title}
-                        loading="lazy"
-                      />
-                    </ImageListItem>
-                  ))}
-                </ImageList>
+                <Grid item md={5} xs={12}>
+                  <Typography variant='h6'>Gallery</Typography>
+                  <Typography variant='body1'>This is Gallery for the company. Please fill it.</Typography>
+                </Grid>
+                <Grid item md={5} display={{ xs: 'none', lg: 'block' }}>
+                  {' '}
+                </Grid>
+                <Grid item md={2} xs={12} marginTop={'20px'}>
+                  <Button size='small' variant='contained'>
+                    Upload Image
+                  </Button>
+                </Grid>
+              <Grid item md={12} xs={12}>
+                <ImageSlider slide={slides} />
               </Grid>
             </Grid>
           </Grid>
