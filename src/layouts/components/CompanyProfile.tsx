@@ -58,10 +58,10 @@ const CompanyProfile = (props: compProps) => {
   const [combocity, getComboCity] = useState<any[]>([])
   const [combocode, getCombocode] = useState<any[]>([]) 
 
-  const [idcombocode, setCombocode] = useState<any>(0)
-  const [idcity, setCombocity] = useState<any>(0)
-  const [idindustry, setIndustry] = useState<any>(0)
-  const [idcountry, setCountry] = useState<any>(0)
+  const [idcombocode, setCombocode] = useState<any>(props.datauser.country_id)
+  const [idcity, setCombocity] = useState<any>(props.datauser.address.city_id)
+  const [idindustry, setIndustry] = useState<any>(props.datauser.industry_id)
+  const [idcountry, setCountry] = useState<any>(props.datauser.country_id)
   
   const [facebook, setFacebook] = useState<any>('')
   const [instagram, setInstagram] = useState<any>('')
