@@ -12,6 +12,9 @@ import Icon from 'src/@core/components/icon'
 
 import {IUser} from 'src/contract/models/user'
 import Address from 'src/contract/models/address'
+import { HttpClient } from 'src/services'
+import { AppConfig } from 'src/configs/api'
+import { useEffect, useState } from 'react'
 
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
@@ -29,6 +32,30 @@ type userProps = {
 }
 
 const UserProfileHeader = (props:userProps) => {
+  const [facebook, setFacebook] = useState<any>('-')
+  const [instagram, setInstagram] = useState<any>('-')
+  const [linkedin, setLinkedin] = useState<any>('-')
+  
+useEffect(() => {
+   HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
+     const code = response.data.sosmeds.data
+     for (let x = 0; x < code.length; x++) {
+       const element = code[x]
+       if (element.sosmed_type == 'Facebook') {
+         setFacebook(element.sosmed_address)
+       }
+       if (element.sosmed_type == 'Instagram') {
+         setInstagram(element.sosmed_address)
+       }
+       if (element.sosmed_type == 'Linkedin') {
+         setLinkedin(element.sosmed_address)
+       }
+     }
+   })
+}, [])
+ 
+  
+
   return (
     <Card  >
       <CardMedia
@@ -123,21 +150,18 @@ const UserProfileHeader = (props:userProps) => {
               >
                 <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
                   <Icon icon='mdi:facebook' />
-                  <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>PT.Samudera Indonesia Maritim</Typography>
+                  <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}><a href={facebook}  target="_blank">{facebook}</a></Typography>
                 </Box>
                 <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
                   <Icon icon='mdi:instagram' />
-                  <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>@Samudera Indonesia</Typography>
+                  <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}><a href={instagram}  target="_blank">{instagram}</a></Typography>
                 </Box>
 
                 <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
                   <Icon icon='mdi:linkedin' />
-                  <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>Samudera Indonesia</Typography>
+                  <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}><a href={linkedin} target="_blank">{linkedin}</a></Typography>
                 </Box>
-                  <Box sx={{ mr: 4, display: 'flex', alignItems: 'flex-end', '& svg': { mr: 1, color: 'text.secondary' } }}>
-                  <Icon icon='mdi:linkedin' />
-                  <Typography variant='body1' sx={{ color: "#424242", fontWeight: 400 }}>Samudera Indonesia</Typography>
-                </Box>
+                 
               </Box>
             </Grid>
             <Grid item xs={12} md={1} marginTop={'-5px'}>

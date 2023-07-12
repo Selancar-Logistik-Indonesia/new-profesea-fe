@@ -2,15 +2,20 @@
 import { useAuth } from 'src/hooks/useAuth'
 import Trainer from '../trainer'
 import SocialFeed from '../socialfeed';
+import Company from '../company';
 
 const Home = () => {  
   
   const { user } = useAuth(); 
   console.log(user?.role);
+   debugger;
   if(user?.role == 'Company'){
-      return(
-              <SocialFeed/>
-            )
+    if(user?.build_profile_at == null){
+      return <Company />
+    }else{
+      return <SocialFeed />
+    }
+     
   }
 
   if(user?.role == 'Trainer'){ 
