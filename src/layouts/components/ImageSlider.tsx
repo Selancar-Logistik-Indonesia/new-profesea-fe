@@ -14,7 +14,7 @@ const rightArrowStyles = {
   top: '50%',
   transform: 'translate(0, -50%)',
   right: '32px',
-  fontSize: '95px',
+  fontSize: '90px',
   color: '#fff',
   zIndex: 1,
   cursor: 'pointer'
@@ -25,7 +25,7 @@ const leftArrowStyles = {
   top: '50%',
   transform: 'translate(0, -50%)',
   left: '32px',
-  fontSize: '95px',
+  fontSize: '90px',
   color: '#fff',
   zIndex: 1,
   cursor: 'pointer'
@@ -91,6 +91,6 @@ const ImageSlider = (props: any) => {
       </div>
     </Box>
   )
-}
+} 
 
 export default ImageSlider
