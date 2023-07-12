@@ -32,14 +32,21 @@ const theme = useTheme()
 const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
 const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser; 
-const [selectedItem, setSelectedItem] = useState<IUser|null>(null);
-
+const [selectedItem, setSelectedItem] = useState<IUser|null>(null); 
+const [arrVacany, setArrVacancy] = useState<any>([])
 function firstload(){
   HttpClient.get(AppConfig.baseUrl + "/user/"+user.id)
     .then((response) => {
         const user = response.data.user as IUser; 
         setSelectedItem(user);
     })
+  HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=25').then(response => {
+    const code = response.data.jobs.data
+    setArrVacancy(code)
+    // const renderList = () => {
+    //   return code.map((item, index) => {})
+    // }
+  })
 }
 
 useEffect(() => {
@@ -47,20 +54,7 @@ useEffect(() => {
   firstload()
 }, [])
 
-   
-const vacancy = [
-  {
-    judul: 'Junior Electrical',
-    namapt: 'PT Samudera Indonesia ',
-    lokasi: 'Jakarta,Indonesia', 
-    waktu: '1 minute ago', 
-  },
-  {
-    judul: 'Junior Electrical 2',
-    namapt: 'PT Samudera Indonesia',
-    lokasi: 'Jakarta,Indonesia', 
-    waktu: '2 minute ago', 
-  }]
+    
  
  const paramcomment = [
   {
@@ -92,7 +86,7 @@ const vacancy = [
             </Grid>
             <Grid container spacing={6} sx={{marginTop:'1px'}}>
               <Grid item lg={4} md={5} xs={12}> 
-                <AboutOverivew vacancy={vacancy}  /> 
+                <AboutOverivew vacancy={arrVacany}  /> 
               </Grid>
               <Grid item lg={8} md={7} xs={12}>
                 <NestedComment paramcomment={paramcomment}></NestedComment>

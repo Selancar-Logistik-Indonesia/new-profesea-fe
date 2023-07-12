@@ -78,21 +78,8 @@ const renderList = (arr: ParamJobVacncy[]) => {
                 justifyContent="center"
                 alignItems="center" >
                 <Button variant='contained'  sx={{ width: '100%', padding: 1, margin: 2 }}>Edit My Profile</Button>
-             </Box>
-             
-              
-               
-              
-             
-             
-              {renderList(vacancy)}
-            
-            {/* <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: 'text.disabled', textTransform: 'uppercase' }}>
-                Contacts
-              </Typography>
-              {renderList(contacts)}
-            </Box> */}
+             </Box> 
+              {renderList(vacancy)} 
            
           </CardContent>
         </Card>

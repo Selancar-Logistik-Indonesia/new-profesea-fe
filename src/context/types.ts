@@ -14,6 +14,7 @@ export type UserDataType = {
   username: string
   password: string
   avatar?: string | null
+  build_profile_at?: string | null
 }
 
 export type AuthValuesType = {
