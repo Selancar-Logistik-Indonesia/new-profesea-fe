@@ -1,5 +1,5 @@
 // ** React Imports
-import React, { ChangeEvent, ReactNode, useEffect, useState } from 'react'
+import React, {  ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
@@ -56,13 +56,16 @@ const CompanyProfile = (props: compProps) => {
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboindustry, getComboIndustry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
-  const [combocode, getCombocode] = useState<any[]>([])
-  const [sosmed, getSosmed] = useState<any>([])
+  const [combocode, getCombocode] = useState<any[]>([]) 
 
   const [idcombocode, setCombocode] = useState<any>(0)
   const [idcity, setCombocity] = useState<any>(0)
   const [idindustry, setIndustry] = useState<any>(0)
   const [idcountry, setCountry] = useState<any>(0)
+  
+  const [facebook, setFacebook] = useState<any>('')
+  const [instagram, setInstagram] = useState<any>('')
+  const [linkedin, setLinkedin] = useState<any>('')
   const combobox = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
@@ -80,15 +83,30 @@ const CompanyProfile = (props: compProps) => {
       }
       getCombocode(code)
     })
-    const listsosmed = [
-      {
-        id: '1',
-        sosmed: 'facebook'
-      },
-      { id: '2', sosmed: 'instagaram' },
-      { id: '3', sosmed: 'lingkedin' }
-    ]
-    getSosmed(listsosmed)
+     HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
+       const code = response.data.sosmeds.data
+       for (let x = 0; x < code.length; x++) {
+         const element = code[x]
+         if (element.sosmed_type == 'facebook') {
+           setFacebook(element.sosmed_id)
+         }
+         if (element.sosmed_type == 'instagram') {
+           setInstagram(element.sosmed_id)
+         }
+         if (element.sosmed_type == 'linkedin') {
+           setLinkedin(element.sosmed_id)
+         }
+          
+       }
+       getCombocode(code)
+     })
+      HttpClient.get(AppConfig.baseUrl + '/user/'+ props.datauser.id).then(response => {
+        const code = response.data.user
+        setPreview(code.photo)
+        setPreviewBanner(code.banner)
+      })
+
+    
   }
   const searchcity = async (q: any) => {
     setCountry(q)
@@ -133,11 +151,45 @@ const CompanyProfile = (props: compProps) => {
       }
     )
   }
-  function addbutton(data: FormData) {
-    const { usernamesosmed } = data
+  const addbuttonfacebook=( data: FormData) =>{
+    const { facebook } = data
     const json = {
-      sosmed_type: sosmed.sosmed,
-      sosmed_id: usernamesosmed
+      sosmed_type: 'facebook',
+      sosmed_id: facebook
+    }
+    HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
+      ({ data }) => {
+        console.log('here 1', data)
+        toast.success(' Successfully submited!')
+      },
+      error => {
+        console.log('here 1', error)
+        toast.error('Registrastion Failed ' + error.response.data.message)
+      }
+    )
+  }
+  const addbuttoninstagram = (data: FormData) => {
+    const { instagram } = data
+    const json = {
+      sosmed_type: 'instagram',
+      sosmed_id: instagram
+    }
+    HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
+      ({ data }) => {
+        console.log('here 1', data)
+        toast.success(' Successfully submited!')
+      },
+      error => {
+        console.log('here 1', error)
+        toast.error('Registrastion Failed ' + error.response.data.message)
+      }
+    )
+  }
+  const addbuttonlinkedin = (data: FormData) => {
+    const { linkedin } = data
+    const json = {
+      sosmed_type: 'linkedin',
+      sosmed_id: linkedin
     }
     HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
       ({ data }) => {
@@ -151,13 +203,17 @@ const CompanyProfile = (props: compProps) => {
     )
   }
   const [selectedFile, setSelectedFile] = useState()
+  const [selectedFileBanner, setSelectedFileBanner] = useState()
   const [preview, setPreview] = useState()
-  const [currentImage, setCurrentImage] = useState<File>()
+  const [previewBanner, setPreviewBanner] = useState()
+  // const [currentImage, setCurrentImage] = useState<File>()
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined)
+
       return
+
     }
 
     const objectUrl: any = URL.createObjectURL(selectedFile)
@@ -166,21 +222,37 @@ const CompanyProfile = (props: compProps) => {
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
+  useEffect(() => {
+    if (!selectedFileBanner) {
+      setPreviewBanner(undefined)
+
+      return
+
+    }
+
+    const objectUrl: any = URL.createObjectURL(selectedFileBanner)
+    setPreviewBanner(objectUrl)
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [selectedFileBanner])
 
   const onSelectFile = (e: any) => {
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined)
+
       return
+
     }
 
     // I've kept this example simple by using the first image instead of multiple
     setSelectedFile(e.target.files[0])
     const selectedFiles = e.target.files as FileList
-    setCurrentImage(selectedFiles?.[0])
+    // setCurrentImage(selectedFiles?.[0])
     uploadPhoto(selectedFiles?.[0])
   }
   const uploadPhoto = (data: any) => {
-    let json: any = new FormData()
+    const json: any = new FormData()
     json.append('photo', data)
     HttpClient.post(AppConfig.baseUrl + '/user/update-photo', json).then(
       ({ data }) => {
@@ -193,6 +265,34 @@ const CompanyProfile = (props: compProps) => {
       }
     )
   }
+
+    const onSelectFileBanner = (e: any) => {
+      if (!e.target.files || e.target.files.length === 0) {
+        setSelectedFile(undefined)
+
+        return
+      }
+
+      // I've kept this example simple by using the first image instead of multiple
+      setSelectedFileBanner(e.target.files[0])
+      const selectedFiles = e.target.files as FileList
+      // setCurrentImage(selectedFiles?.[0])
+      uploadPhotoBanner(selectedFiles?.[0])
+    }
+    const uploadPhotoBanner = (data: any) => {
+      const json: any = new FormData()
+      json.append('banner', data)
+      HttpClient.post(AppConfig.baseUrl + '/user/update-banner', json).then(
+        ({ data }) => {
+          console.log('here 1', data)
+          toast.success(' Successfully submited!')
+        },
+        error => {
+          console.log('here 1', error)
+          toast.error(' Failed ' + error.response.data.message)
+        }
+      )
+    }
 
   const slides = [
     { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'beach' },
@@ -249,7 +349,7 @@ const CompanyProfile = (props: compProps) => {
         <Grid item xs={4} container justifyContent={'center'}>
           <img
             alt='logo'
-            src='/images/avatar.png'
+            src={previewBanner ? previewBanner : '/images/avatar.png'}
             style={{
               maxWidth: '100%',
               height: '120px',
@@ -259,9 +359,16 @@ const CompanyProfile = (props: compProps) => {
           />
         </Grid>
         <Grid item xs={8} justifyContent={'center'} alignContent={'center'} marginTop={'20px'}>
-          <input accept='image/*' style={{ display: 'none' }} id='raised-button-file' multiple type='file'></input>
+          <input
+            accept='image/*'
+            onChange={onSelectFileBanner}
+            style={{ display: 'none' }}
+            id='fotobanner'
+            multiple
+            type='file'
+          ></input>
           <Box sx={{ marginTop: '2px' }}>
-            <label htmlFor='raised-button-file'>
+            <label htmlFor='fotobanner'>
               <Button size='small' variant='contained' component='span'>
                 Upload Cover Image
               </Button>
@@ -434,11 +541,12 @@ const CompanyProfile = (props: compProps) => {
                           defaultValue=''
                           label='Facebook'
                           variant='outlined'
+                          value={facebook}
                           fullWidth
                           sx={{ mb: 1 }}
                           {...register('facebook')}
                         />
-                        <IconButton onClick={handleSubmit(addbutton)}>
+                        <IconButton onClick={handleSubmit(addbuttonfacebook)}>
                           <Icon icon={'charm:pencil'} />
                         </IconButton>
                       </Box>
@@ -459,10 +567,11 @@ const CompanyProfile = (props: compProps) => {
                           label='Instagram'
                           variant='outlined'
                           fullWidth
+                          value={instagram}
                           sx={{ mb: 1 }}
                           {...register('instagram')}
                         />
-                        <IconButton onClick={handleSubmit(addbutton)}>
+                        <IconButton onClick={handleSubmit(addbuttoninstagram)}>
                           <Icon icon={'charm:pencil'} />
                         </IconButton>
                       </Box>
@@ -483,10 +592,11 @@ const CompanyProfile = (props: compProps) => {
                           label='Linkedin'
                           variant='outlined'
                           fullWidth
+                          value={linkedin}
                           sx={{ mb: 1 }}
                           {...register('linkedin')}
                         />
-                        <IconButton onClick={handleSubmit(addbutton)}>
+                        <IconButton onClick={handleSubmit(addbuttonlinkedin)}>
                           <Icon icon={'charm:pencil'} />
                         </IconButton>
                       </Box>
