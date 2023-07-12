@@ -218,8 +218,9 @@ const CompanyProfile = (props: compProps) => {
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined)
-      return
 
+      return 
+      
     }
 
     const objectUrl: any = URL.createObjectURL(selectedFile)
