@@ -57,10 +57,10 @@ const CompanyProfile = (props: compProps) => {
   const [comboindustry, getComboIndustry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
   const [combocode, getCombocode] = useState<any[]>([]) 
-  const [idcombocode, setCombocode] = useState<any>(props.datauser.country_id)
-  const [idcity, setCombocity] = useState<any>(props.datauser.address.city_id)
-  const [idindustry, setIndustry] = useState<any>(props.datauser.industry_id)
-  const [idcountry, setCountry] = useState<any>(props.datauser.country_id)
+  const [idcombocode, setCombocode] = useState<any>(props.datauser.country_id? props.datauser.country_id: '') 
+  const [idcity, setCombocity] = useState<any>(props.datauser.address? props.datauser.address.city_id:'')
+  const [idindustry, setIndustry] = useState<any>(props.datauser.industry_id? props.datauser.industry_id:'')
+  const [idcountry, setCountry] = useState<any>(props.datauser.country_id? props.datauser.country_id:'')
   const [facebook, setFacebook] = useState<any>('')
   const [instagram, setInstagram] = useState<any>('')
   const [linkedin, setLinkedin] = useState<any>('')
@@ -405,7 +405,7 @@ const CompanyProfile = (props: compProps) => {
                   disablePortal
                   id='combo-box-demo'
                   options={comboindustry}
-                  defaultValue={props.datauser.industry}
+                  defaultValue={props.datauser?.industry}
                   getOptionLabel={(option: any) => option.name}
                   renderInput={params => <TextField {...params} label='Industry' />}
                   onChange={(event: any, newValue: Industry | null) =>
@@ -419,7 +419,7 @@ const CompanyProfile = (props: compProps) => {
                   id='combo-box-demo'
                   options={combocountry}
                   getOptionLabel={(option: any) => option.nicename}
-                  defaultValue={props.address.country}
+                  defaultValue={props.address?.country}
                   renderInput={params => <TextField {...params} label='Country' />}
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
@@ -432,7 +432,7 @@ const CompanyProfile = (props: compProps) => {
                 <Autocomplete
                   disablePortal
                   id='city'
-                  value={props.datauser.address.city}
+                  value={props.datauser.address?.city}
                   options={combocity}
                   getOptionLabel={(option: City) => option.city_name}
                   renderInput={params => <TextField {...params} label='City' sx={{ mb: 2 }} />}
@@ -471,7 +471,7 @@ const CompanyProfile = (props: compProps) => {
                   id='code'
                   options={combocode}
                   getOptionLabel={(option: Countries) => option.iso}
-                  defaultValue={props.address.country}
+                  defaultValue={props.address?.country}
                   renderInput={params => <TextField {...params} label='Code' sx={{ mb: 2 }} />}
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
