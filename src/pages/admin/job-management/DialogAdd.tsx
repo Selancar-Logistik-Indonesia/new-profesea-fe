@@ -232,7 +232,7 @@ const DialogAdd = (props: DialogProps) => {
                                 options={Company}  
                                 {...register("company")}
                                 getOptionLabel={(option:Company) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Company" error={Boolean(errors.user_id)}/>}
+                                renderInput={(params) => <TextField {...params} label="Company" error={Boolean(errors.user_id)} {...register("user_id")}/>}
                                 onChange={(event: any, newValue: Company | null)=> (newValue?.id) ? setUserId(newValue.id) : setUserId(0)}
                             />
                         </Grid>
