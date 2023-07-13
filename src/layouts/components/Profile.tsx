@@ -7,6 +7,7 @@ import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
 import { Button, Divider,  IconButton } from '@mui/material' 
 import Icon from 'src/@core/components/icon'
+import Link from 'next/link'
 
 export type ParamJobVacncy = {
   judul: string
@@ -77,7 +78,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
               <Box display="flex"
                 justifyContent="center"
                 alignItems="center" >
-                <Button variant='contained'  sx={{ width: '100%', padding: 1, margin: 2 }}><a href='/company'>Edit My Profile</a></Button>
+                <Button variant='contained'  sx={{ width: '100%', padding: 1, margin: 2 }}>  <Link href={"/company"}>Edit My Profile</Link></Button>
              </Box> 
               {renderList(vacancy)} 
            
