@@ -535,7 +535,7 @@ const CompanyProfile = (props: compProps) => {
                   id='code'
                   options={combocode}
                   getOptionLabel={(option: Countries) => option.iso}
-                  defaultValue={props.address?.country}
+                  defaultValue={props.datauser?.country}
                   renderInput={params => <TextField {...params} label='Code' sx={{ mb: 2 }} />}
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
