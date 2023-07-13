@@ -77,7 +77,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
               <Box display="flex"
                 justifyContent="center"
                 alignItems="center" >
-                <Button variant='contained'  sx={{ width: '100%', padding: 1, margin: 2 }}>Edit My Profile</Button>
+                <Button variant='contained'  sx={{ width: '100%', padding: 1, margin: 2 }}><a href='/company'>Edit My Profile</a></Button>
              </Box> 
               {renderList(vacancy)} 
            
