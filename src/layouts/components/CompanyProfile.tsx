@@ -52,9 +52,9 @@ type compProps = {
   datauser: IUser
   address: Address
 }
- var statusfb: string = ''
- var statusig: string = ''
- var statuslinkedin: string = ''
+ let statusfb: string = ''
+ let statusig: string = ''
+ let statuslinkedin: string = ''
 const CompanyProfile = (props: compProps) => {
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboindustry, getComboIndustry] = useState<any>([])
