@@ -214,7 +214,7 @@ const LoginPage = () => {
                           onBlur={onBlur}
                           onChange={onChange}
                           error={Boolean(errors.email)}
-                          placeholder='admin@materialize.com'
+                          placeholder='Email'
                         />
                       )}
                     />
