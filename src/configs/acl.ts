@@ -24,8 +24,10 @@ const defineRulesFor = (role: string, subject: string) => {
     can('manage', 'all');
   } else if (role === 'Seafarer') {
     can(['read'], ['home', 'community']);
-  } else {
+  } else if (role === 'Company') {
     can(['read'], ['home', 'community', 'job-management', 'find-candidate']);
+  } else {
+    can(['read'], ['home', 'community', 'training-management', 'my-participant']);
   }
 
   return rules
