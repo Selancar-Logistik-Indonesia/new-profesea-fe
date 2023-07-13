@@ -97,7 +97,7 @@ const CompanyProfile = (props: compProps) => {
            setInstagram(element.sosmed_address)
            statusig = element.id
          }
-         if (element.sosmed_type == 'Linkedin') {
+         if (element.sosmed_type == 'LinkedIn') {
            setLinkedin(element.sosmed_address)
            statuslinkedin = element.id
          }
