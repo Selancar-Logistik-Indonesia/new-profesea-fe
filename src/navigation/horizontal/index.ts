@@ -31,11 +31,25 @@ const navigation = (): HorizontalNavItemsType => [
     subject: 'job-management'
   },
   {
+    path: '/training-management',
+    title: 'Manage Training',
+    icon: 'mdi:work',
+    action: 'read',
+    subject: 'training-management'
+  },
+  {
     path: '/company/find-candidate',
     title: 'Find Candidate',
     icon: 'mdi:people',
     action: 'read',
     subject: 'find-candidate'
+  },
+  {
+    path: '/trainer/my-participant',
+    title: 'List of Participant',
+    icon: 'mdi:people',
+    action: 'read',
+    subject: 'my-participant'
   }
 ]
 

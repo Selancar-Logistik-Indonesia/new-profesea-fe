@@ -14,7 +14,7 @@ const rightArrowStyles = {
   top: '50%',
   transform: 'translate(0, -50%)',
   right: '32px',
-  fontSize: '90px',
+  fontSize: '20px',
   color: '#fff',
   zIndex: 1,
   cursor: 'pointer'
@@ -25,7 +25,7 @@ const leftArrowStyles = {
   top: '50%',
   transform: 'translate(0, -50%)',
   left: '32px',
-  fontSize: '90px',
+  fontSize: '20px',
   color: '#fff',
   zIndex: 1,
   cursor: 'pointer'
@@ -42,8 +42,9 @@ const dotsContainerStyles = {
 
 const dotStyle = {
   margin: '0 3px',
+  marginBottom:'5px',
   cursor: 'pointer',
-  fontSize: '20px'
+  fontSize: '14px'
 }
 const ImageSlider = (props: any) => {
   const slides = props.slide

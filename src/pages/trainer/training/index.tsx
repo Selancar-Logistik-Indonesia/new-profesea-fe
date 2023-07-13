@@ -1,5 +1,5 @@
 // ** React Imports
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
@@ -7,18 +7,16 @@ import {  Tabs, Tab, useMediaQuery } from '@mui/material'
 import { Grid } from '@mui/material' 
 import { useForm } from 'react-hook-form'  
 // import Icon from 'src/@core/components/icon' 
-import CompanyProfile from 'src/layouts/components/CompanyProfile' 
 import { useTheme } from '@mui/material/styles'
-import ManageAccount from 'src/layouts/components/ManageAccount'
-import Subscription from 'src/layouts/components/Subscription'
-// import CompanyProfilePreview from 'src/layouts/components/CompanyProfilePreview'
-import {IUser} from 'src/contract/models/user'
+// import Subscription from 'src/layouts/components/Subscription'
+// import {IUser} from 'src/contract/models/user'
 
-import localStorageKeys from 'src/configs/localstorage_keys'
-import secureLocalStorage from 'react-secure-storage'
-import { HttpClient } from 'src/services'
-import { AppConfig } from 'src/configs/api'
+// import localStorageKeys from 'src/configs/localstorage_keys'
+// import secureLocalStorage from 'react-secure-storage'
+// import { HttpClient } from 'src/services'
+// import { AppConfig } from 'src/configs/api'
 import AdsList from 'src/layouts/components/Ads'
+import AllTrainingScreen from './all'
 
 type FormData = {
   companyName: string
@@ -34,15 +32,15 @@ type FormData = {
   address: string
   about: string
 }
-const Company = () => { 
+const OngoingTraining = () => { 
    
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   // const [openPreview, setOpenPreview] = useState(false);
   
   // const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser; 
-  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser; 
-   const [selectedItem, setSelectedItem] = useState<IUser|null>(null);
+//   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser; 
+//    const [selectedItem, setSelectedItem] = useState<IUser|null>(null);
   const { 
   } = useForm<FormData>({
     mode: 'onBlur',
@@ -65,7 +63,7 @@ const Company = () => {
         {...other}
       >
         {value === index && (
-          <Box sx={{ p: 3 }}>
+          <Box sx={{ p: 0 }}>
             {children}
             {/* <Typography>{children}</Typography> */}
           </Box>
@@ -85,30 +83,25 @@ const Company = () => {
   const [color, getColor] = useState<any>('#FFFFFF')
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    if (newValue == 1) {
-      getColor('#ffeae9');
-    } else {
-
-      getColor('#FFFFFF');
-    }
+    getColor('#FFFFFF');
   };
   // const label = openPreview ? 'Edit Profil' :'Preview Profile'; 
   // function klikbutton() {  
   //   setSelectedItem(user)
   //   setOpenPreview(!openPreview);
   // }
-  function firstload(){
-    HttpClient.get(AppConfig.baseUrl + "/user/"+user.id)
-      .then((response) => {
-          const user = response.data.user as IUser; 
-          setSelectedItem(user);
-      })
-  }
+//   function firstload(){
+//     HttpClient.get(AppConfig.baseUrl + "/user/"+user.id)
+//       .then((response) => {
+//           const user = response.data.user as IUser; 
+//           setSelectedItem(user);
+//       })
+//   }
 
-  useEffect(() => {
-    // setOpenPreview(false)
-    firstload()
-  }, [])
+//   useEffect(() => {
+//     // setOpenPreview(false)
+//     firstload()
+//   }, [])
   
   return (
     <Box  >
@@ -120,12 +113,10 @@ const Company = () => {
             alignItems: "stretch",
             alignContent: 'top',
             marginBottom: '10px', 
-
-
           } : {
           }}
         >
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Box sx={{
               borderBottom: 1, borderColor: 'divider', boxSizing: 'border-box',
               background: '#FFFFFF',
@@ -133,9 +124,8 @@ const Company = () => {
               borderRadius: '10px'
             }}>
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
-                <Tab label="Edit Profile" {...a11yProps(0)} />
-                <Tab label="Subcription" {...a11yProps(1)} />
-                <Tab label="Change Password" {...a11yProps(2)} />
+                <Tab label="Ongoing Training" {...a11yProps(0)} />
+                <Tab label="All Training" {...a11yProps(1)} />
               </Tabs>
             </Box>
             <Grid container sx={{
@@ -159,25 +149,27 @@ const Company = () => {
                   </Grid>                    
                 </TabPanel>
                 <TabPanel value={value} index={0}>
-                { selectedItem!= null &&  <CompanyProfile  visible={true}  datauser={selectedItem} address={selectedItem.address}/>}
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                  <ManageAccount></ManageAccount>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                  <Subscription></Subscription>
+                  <AllTrainingScreen></AllTrainingScreen>
                 </TabPanel>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={2} display={'flex'} sx={{direction:"row",
-              justifyContent:"flex-start",
-              alignContent:'top',
-              alignItems:"stretch"}}>
-                <AdsList /> 
-          </Grid>   
+        <Grid xs={2} item display={'flex'} sx={{
+          direction: "row",
+          justifyContent: "flex-start",
+          alignContent: 'top',
+          alignItems: "stretch"
+        }}>
+          <AdsList></AdsList>
+        </Grid>
       </Grid>
+
+
+
+
     </Box>
 
 
@@ -185,12 +177,12 @@ const Company = () => {
   )
 }
 
-// Company.getLayout = (page: ReactNode) => <BlankLayoutWithAppBar>{page}</BlankLayoutWithAppBar>
+// OngoingTraining.getLayout = (page: ReactNode) => <BlankLayoutWithAppBar>{page}</BlankLayoutWithAppBar>
 
-// Company.guestGuard = true
+// OngoingTraining.guestGuard = true
 
-Company.acl = {
+OngoingTraining.acl = {
   action: 'read',
   subject: 'home'
 };
-export default Company
+export default OngoingTraining
