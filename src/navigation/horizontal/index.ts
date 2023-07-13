@@ -31,7 +31,7 @@ const navigation = (): HorizontalNavItemsType => [
     subject: 'job-management'
   },
   {
-    path: '/training-management',
+    path: '/trainer/training',
     title: 'Manage Training',
     icon: 'mdi:work',
     action: 'read',
