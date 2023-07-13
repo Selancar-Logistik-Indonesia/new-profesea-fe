@@ -52,18 +52,22 @@ type compProps = {
   datauser: IUser
   address: Address
 }
+ var statusfb: string = ''
+ var statusig: string = ''
+ var statuslinkedin: string = ''
 const CompanyProfile = (props: compProps) => {
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboindustry, getComboIndustry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
   const [combocode, getCombocode] = useState<any[]>([]) 
-  const [idcombocode, setCombocode] = useState<any>(props.datauser.country_id? props.datauser.country_id: '') 
-  const [idcity, setCombocity] = useState<any>(props.datauser.address? props.datauser.address.city_id:'')
-  const [idindustry, setIndustry] = useState<any>(props.datauser.industry_id? props.datauser.industry_id:'')
-  const [idcountry, setCountry] = useState<any>(props.datauser.country_id? props.datauser.country_id:'')
+  const [idcombocode, setCombocode] = useState<any>(props.datauser.country_id)
+  const [idcity, setCombocity] = useState<any>(props.datauser.address?.city_id)
+  const [idindustry, setIndustry] = useState<any>(props.datauser.industry_id)
+  const [idcountry, setCountry] = useState<any>(props.datauser.country_id)
   const [facebook, setFacebook] = useState<any>('')
   const [instagram, setInstagram] = useState<any>('')
   const [linkedin, setLinkedin] = useState<any>('')
+ 
   const combobox = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
@@ -85,27 +89,38 @@ const CompanyProfile = (props: compProps) => {
        const code = response.data.sosmeds.data
        for (let x = 0; x < code.length; x++) {
          const element = code[x]
-         if (element.sosmed_type == 'facebook') {
-           setFacebook(element.sosmed_id)
+         if (element.sosmed_type == 'Facebook') {
+           setFacebook(element.sosmed_address)
+           statusfb = element.id;
          }
-         if (element.sosmed_type == 'instagram') {
-           setInstagram(element.sosmed_id)
+         if (element.sosmed_type == 'Instagram') {
+           setInstagram(element.sosmed_address)
+           statusig = element.id
          }
-         if (element.sosmed_type == 'linkedin') {
-           setLinkedin(element.sosmed_id)
+         if (element.sosmed_type == 'Linkedin') {
+           setLinkedin(element.sosmed_address)
+           statuslinkedin = element.id
          }
           
        }
-       getCombocode(code)
+     
      })
       HttpClient.get(AppConfig.baseUrl + '/user/'+ props.datauser.id).then(response => {
         const code = response.data.user
         setPreview(code.photo)
         setPreviewBanner(code.banner)
       })
-
-    
-  }
+      
+    HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
+      .then((response) => {
+        const code = response.data.countries;
+        for (let x = 0; x < code.length; x++) {
+          const element = code[x];
+          element.label = element.name + '(' + element.phonecode + ')'
+        }
+        getCombocode(code);
+      })
+  } 
   const searchcity = async (q: any) => {
     setCountry(q)
     const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
@@ -121,7 +136,12 @@ const CompanyProfile = (props: compProps) => {
       searchcity(props.datauser.country_id)
     }
   }, [])
-
+  useEffect(() => {
+    combobox()
+    if (props.datauser.address != undefined) {
+      searchcity(props.datauser.country_id)
+    }
+  }, [])
   const { register, handleSubmit } = useForm<FormData>({
     mode: 'onBlur'
   })
@@ -149,56 +169,97 @@ const CompanyProfile = (props: compProps) => {
       }
     )
   }
+  
   const addbuttonfacebook=( data: FormData) =>{
     const { facebook } = data
     const json = {
       sosmed_type: 'facebook',
-      sosmed_id: facebook
+      sosmed_address: facebook
+    } 
+    if(statusfb==''){
+        HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
+          ({ data }) => {
+            toast.success(' Successfully submited!')
+          },
+          error => {
+            toast.error('Registrastion Failed ' + error.response.data.message)
+          }
+        )
+    }else{
+       HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/'+statusfb, json).then(
+         ({ data }) => {
+           toast.success(' Successfully submited!')
+         },
+         error => {
+           toast.error('Registrastion Failed ' + error.response.data.message)
+         }
+       )
+     
     }
-    HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
-      ({ data }) => {
-        console.log('here 1', data)
-        toast.success(' Successfully submited!')
-      },
-      error => {
-        console.log('here 1', error)
-        toast.error('Registrastion Failed ' + error.response.data.message)
-      }
-    )
+   
   }
   const addbuttoninstagram = (data: FormData) => {
     const { instagram } = data
-    const json = {
-      sosmed_type: 'instagram',
-      sosmed_id: instagram
+    const json = { 
+      sosmed_address: instagram
     }
-    HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
-      ({ data }) => {
-        console.log('here 1', data)
-        toast.success(' Successfully submited!')
-      },
-      error => {
-        console.log('here 1', error)
-        toast.error('Registrastion Failed ' + error.response.data.message)
-      }
-    )
+     if(statusig==''){
+        HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
+          ({ data }) => {
+            console.log('here 1', data)
+            toast.success(' Successfully submited!')
+          },
+          error => {
+            console.log('here 1', error)
+            toast.error('Registrastion Failed ' + error.response.data.message)
+          }
+        )
+     }else{
+       HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statusig, json).then(
+         ({ data }) => {
+           console.log('here 1', data)
+           toast.success(' Successfully submited!')
+         },
+         error => {
+           console.log('here 1', error)
+           toast.error('Registrastion Failed ' + error.response.data.message)
+         }
+       )
+      
+     }
+   
   }
   const addbuttonlinkedin = (data: FormData) => {
     const { linkedin } = data
     const json = {
       sosmed_type: 'linkedin',
-      sosmed_id: linkedin
+      sosmed_address: linkedin
     }
-    HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
-      ({ data }) => {
-        console.log('here 1', data)
-        toast.success(' Successfully submited!')
-      },
-      error => {
-        console.log('here 1', error)
-        toast.error('Registrastion Failed ' + error.response.data.message)
-      }
-    )
+    if(statuslinkedin==''){
+      HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
+        ({ data }) => {
+          console.log('here 1', data)
+          toast.success(' Successfully submited!')
+        },
+        error => {
+          console.log('here 1', error)
+          toast.error('Registrastion Failed ' + error.response.data.message)
+        }
+      )
+    }else{
+        HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/'+ statuslinkedin, json).then(
+          ({ data }) => {
+            console.log('here 1', data)
+            toast.success(' Successfully submited!')
+          },
+          error => {
+            console.log('here 1', error)
+            toast.error('Registrastion Failed ' + error.response.data.message)
+          }
+        )
+   
+    }
+   
   }
   const [selectedFile, setSelectedFile] = useState()
   const [selectedFileBanner, setSelectedFileBanner] = useState()
@@ -210,8 +271,8 @@ const CompanyProfile = (props: compProps) => {
     if (!selectedFile) {
       setPreview(undefined)
 
-      return
-
+      return 
+      
     }
 
     const objectUrl: any = URL.createObjectURL(selectedFile)
@@ -349,8 +410,8 @@ const CompanyProfile = (props: compProps) => {
             alt='logo'
             src={previewBanner ? previewBanner : '/images/avatar.png'}
             style={{
-              maxWidth: '100%',
-              height: '120px',
+              maxWidth: '90%',
+              height: '100px',
               padding: 0,
               margin: 0
             }}
@@ -400,19 +461,21 @@ const CompanyProfile = (props: compProps) => {
                 />
                 {}
               </Grid>
-              <Grid item md={6} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  options={comboindustry}
-                  defaultValue={props.datauser?.industry}
-                  getOptionLabel={(option: any) => option.name}
-                  renderInput={params => <TextField {...params} label='Industry' />}
-                  onChange={(event: any, newValue: Industry | null) =>
-                    newValue?.id ? setIndustry(newValue.id) : setIndustry(props.datauser.industry_id)
-                  }
-                />
-              </Grid>
+              {props.datauser.role == 'Company' && (
+                <Grid item md={6} xs={12}>
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-demo'
+                    options={comboindustry}
+                    defaultValue={props.datauser?.industry}
+                    getOptionLabel={(option: any) => option.name}
+                    renderInput={params => <TextField {...params} label='Industry' />}
+                    onChange={(event: any, newValue: Industry | null) =>
+                      newValue?.id ? setIndustry(newValue.id) : setIndustry(props.datauser.industry_id)
+                    }
+                  />
+                </Grid>
+              )}
               <Grid item md={6} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -424,7 +487,6 @@ const CompanyProfile = (props: compProps) => {
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
                   }
-                  // onChange={({target})=> searchcity(target)}
                 />
               </Grid>
 
@@ -437,11 +499,10 @@ const CompanyProfile = (props: compProps) => {
                   getOptionLabel={(option: City) => option.city_name}
                   renderInput={params => <TextField {...params} label='City' sx={{ mb: 2 }} />}
                   onChange={(event: any, newValue: City | null) =>
-                    newValue?.id ? setCombocity(newValue.id) : setCombocity(props.address.city_id)
+                    newValue?.id ? setCombocity(newValue.id) : setCombocity(props.address?.city_id)
                   }
                 />
               </Grid>
-
               <Grid item md={6} xs={12}>
                 <TextField
                   id='Email'
@@ -453,18 +514,21 @@ const CompanyProfile = (props: compProps) => {
                   {...register('email')}
                 />
               </Grid>
-              <Grid item md={6} xs={12}>
-                <TextField
-                  id='website'
-                  label='Website'
-                  defaultValue={props.datauser.website}
-                  variant='outlined'
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  {...register('website')}
-                />
-              </Grid>
-
+              {props.datauser.role == 'Company' && (
+                <>
+                  <Grid item md={6} xs={12}>
+                    <TextField
+                      id='website'
+                      label='Website'
+                      defaultValue={props.datauser.website}
+                      variant='outlined'
+                      fullWidth
+                      sx={{ mb: 1 }}
+                      {...register('website')}
+                    />
+                  </Grid>
+                </>
+              )}
               <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -490,7 +554,6 @@ const CompanyProfile = (props: compProps) => {
                   {...register('phone')}
                 />
               </Grid>
-
               <Grid item md={6} xs={12}>
                 <TextField
                   id='address'
@@ -502,6 +565,7 @@ const CompanyProfile = (props: compProps) => {
                   {...register('address')}
                 />
               </Grid>
+
               <Grid item md={12} xs={12}>
                 <TextField
                   fullWidth
@@ -519,7 +583,6 @@ const CompanyProfile = (props: compProps) => {
                   Save
                 </Button>
               </Grid>
-
               <Divider style={{ width: '100%' }} />
               <Grid item md={5} xs={12}>
                 <Typography variant='h6'>Social Media</Typography>
@@ -536,13 +599,14 @@ const CompanyProfile = (props: compProps) => {
                         </Box>
                         <TextField
                           id='facebook'
-                          defaultValue=''
+                          defaultValue={facebook}
                           label='Facebook'
                           variant='outlined'
-                          value={facebook}
                           fullWidth
                           sx={{ mb: 1 }}
+                          value={facebook}
                           {...register('facebook')}
+                          onChange={e => setFacebook(e.target.value)}
                         />
                         <IconButton onClick={handleSubmit(addbuttonfacebook)}>
                           <Icon icon={'charm:pencil'} />
@@ -561,13 +625,13 @@ const CompanyProfile = (props: compProps) => {
                         </Box>
                         <TextField
                           id='instagram'
-                          defaultValue=''
                           label='Instagram'
                           variant='outlined'
                           fullWidth
                           value={instagram}
                           sx={{ mb: 1 }}
                           {...register('instagram')}
+                          onChange={e => setInstagram(e.target.value)}
                         />
                         <IconButton onClick={handleSubmit(addbuttoninstagram)}>
                           <Icon icon={'charm:pencil'} />
@@ -586,13 +650,14 @@ const CompanyProfile = (props: compProps) => {
                         </Box>
                         <TextField
                           id='linkedin'
-                          defaultValue=''
+                          defaultValue={linkedin}
                           label='Linkedin'
                           variant='outlined'
                           fullWidth
-                          value={linkedin}
                           sx={{ mb: 1 }}
                           {...register('linkedin')}
+                          value={linkedin}
+                          onChange={e => setLinkedin(e.target.value)}
                         />
                         <IconButton onClick={handleSubmit(addbuttonlinkedin)}>
                           <Icon icon={'charm:pencil'} />
@@ -618,7 +683,6 @@ const CompanyProfile = (props: compProps) => {
                   Upload Image
                 </Button>
               </Grid>
-
               <Grid item md={12} xs={12}>
                 <ImageSlider slide={slides} />
               </Grid>
