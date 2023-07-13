@@ -61,8 +61,7 @@ useEffect(() => {
     })
 }, [])
  
-  
-
+   
   return (
     <Card sx={{ width: '100%' }}>
       <CardMedia
