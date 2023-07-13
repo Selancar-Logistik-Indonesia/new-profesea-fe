@@ -52,9 +52,9 @@ type compProps = {
   datauser: IUser
   address: Address
 }
- let statusfb: string = ''
- let statusig: string = ''
- let statuslinkedin: string = ''
+ let statusfb: any = ''
+ let statusig: any = ''
+ let statuslinkedin: any = ''
 const CompanyProfile = (props: compProps) => {
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboindustry, getComboIndustry] = useState<any>([])
@@ -178,7 +178,7 @@ const CompanyProfile = (props: compProps) => {
     } 
     if(statusfb==''){
         HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
-          ({ data }) => {
+          ( ) => {
             toast.success(' Successfully submited!')
           },
           error => {
@@ -187,7 +187,7 @@ const CompanyProfile = (props: compProps) => {
         )
     }else{
        HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/'+statusfb, json).then(
-         ({ data }) => {
+         ( ) => {
            toast.success(' Successfully submited!')
          },
          error => {
