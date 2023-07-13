@@ -15,7 +15,6 @@ import Address from 'src/contract/models/address'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { useEffect, useState } from 'react'
-import { width } from '@mui/system'
 
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
