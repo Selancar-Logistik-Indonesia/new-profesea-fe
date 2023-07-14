@@ -17,6 +17,7 @@ import { useTheme } from '@mui/material/styles'
 // import { AppConfig } from 'src/configs/api'
 import AdsList from 'src/layouts/components/Ads'
 import AllTrainingScreen from './all'
+import OngoingTrainingScreen from './ongoing'
 
 type FormData = {
   companyName: string
@@ -32,7 +33,7 @@ type FormData = {
   address: string
   about: string
 }
-const OngoingTraining = () => { 
+const Training = () => { 
    
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -149,6 +150,7 @@ const OngoingTraining = () => {
                   </Grid>                    
                 </TabPanel>
                 <TabPanel value={value} index={0}>
+                    <OngoingTrainingScreen></OngoingTrainingScreen>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                   <AllTrainingScreen></AllTrainingScreen>
@@ -181,8 +183,8 @@ const OngoingTraining = () => {
 
 // OngoingTraining.guestGuard = true
 
-OngoingTraining.acl = {
+Training.acl = {
   action: 'read',
   subject: 'home'
 };
-export default OngoingTraining
+export default Training
