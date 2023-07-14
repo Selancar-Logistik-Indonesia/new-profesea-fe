@@ -1,6 +1,6 @@
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Card, Grid, IconButton, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { Button, Card, Grid, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { v4 } from "uuid";
@@ -100,6 +100,60 @@ const PricingView = () => {
                                                 </IconButton>
 
                                                 <ListItemText primary={value.itemName + appendText} />
+                                            </ListItem>
+                                        )
+                                    })}
+                                </List>
+                            </Grid>
+                        )
+                    })
+                }
+            </Grid>
+
+            <Grid container
+                direction="row"
+                alignItems="center"
+                justifyContent="center">
+                {
+                    ['Star'].map((item) => {
+                        let planItems = pricingType == 'company' ? companyPlan : candidatePlan;
+                        planItems = planItems.filter(e => e.avail.includes(item.toLowerCase()));
+
+                        return (
+                            <Grid width={320} height={850} mx={5} mt={5} key={item} padding={5} item component={Card} textAlign="center">
+                                <Typography mb={2} variant="h5">Ketengan</Typography>
+
+                                <Grid
+                                    container
+                                    spacing={0}
+                                    direction="column"
+                                    alignItems="center"
+                                    justifyContent="center">
+                                    <Grid item width={200}>
+                                        <Typography mb={2} variant="body1">per user/month paid by your needs</Typography>
+                                    </Grid>
+                                </Grid>
+
+                                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                                    {planItems.map((value) => {
+                                        let appendText = "";
+                                        if (value.quota) {
+                                            appendText = ` (${value.quota[2]})`;
+                                        }
+
+                                        return (
+                                            <ListItem
+                                                key={value.key}
+                                                disableGutters>
+                                                <IconButton size="small" aria-label="comment">
+                                                    <FontAwesomeIcon color="#66bb6a" icon={faCheckCircle} />
+                                                </IconButton>
+
+                                                <ListItemText sx={{ maxWidth: 180 }} primary={value.itemName + appendText} />
+
+                                                <ListItemSecondaryAction>
+                                                    <Button size="small" type="button" variant="contained">Buy It</Button>
+                                                </ListItemSecondaryAction>
                                             </ListItem>
                                         )
                                     })}
