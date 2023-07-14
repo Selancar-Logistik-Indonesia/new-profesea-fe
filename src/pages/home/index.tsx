@@ -8,7 +8,6 @@ const Home = () => {
   
   const { user } = useAuth(); 
   console.log(user?.role);
-   debugger;
   if(user?.role == 'Company'){
     if(user?.build_profile_at == null){
       return <Company />
