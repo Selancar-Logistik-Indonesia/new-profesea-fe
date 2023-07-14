@@ -31,7 +31,7 @@ type ViewProps = {
 };
 
 const DialogView = (props: ViewProps) => {
-    const [date, setDate] = useState<DateType>(new Date(props.selectedItem.schedule));
+    const [date, setDate] = useState<DateType>(new Date(props.selectedItem?.schedule));
     
     return (
         <Dialog
@@ -56,18 +56,18 @@ const DialogView = (props: ViewProps) => {
                     </IconButton>
                     <Box sx={{ mb: 6, textAlign: 'center' }}>
                         <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                           Detail {props.selectedItem.title}
+                           Detail {props.selectedItem?.title}
                         </Typography>
                     </Box>
                     <Grid container columnSpacing={'1'} rowSpacing={'2'} >
                         <Grid item md={6} xs={12} > 
-                            <TextField defaultValue={props.selectedItem.trainer.name} fullWidth disabled/>
+                            <TextField defaultValue={props.selectedItem?.trainer?.name} fullWidth disabled/>
                         </Grid>
                         <Grid item md={6} xs={12} > 
-                            <TextField defaultValue={props.selectedItem.category.category} fullWidth disabled/>
+                            <TextField defaultValue={props.selectedItem?.category?.category} fullWidth disabled/>
                         </Grid>
                         <Grid item md={12} xs={12} >
-                            <TextField defaultValue={props.selectedItem.title} fullWidth disabled/>
+                            <TextField defaultValue={props.selectedItem?.title} fullWidth disabled/>
                         </Grid>
                         <Grid item md={12} xs={12} >
                             <DatePickerWrapper>
@@ -83,11 +83,11 @@ const DialogView = (props: ViewProps) => {
                             </DatePickerWrapper>
                         </Grid>
                         <Grid item md={12} xs={12} >
-                            <TextField defaultValue={props.selectedItem.short_description} variant="outlined" multiline  maxRows={4} fullWidth disabled/>                  
+                            <TextField defaultValue={props.selectedItem?.short_description} variant="outlined" multiline  maxRows={4} fullWidth disabled/>                  
                         </Grid>  
                         <Grid item md={12} xs={12} >
                             <Box sx={{ p: 2, border: '1px dashed ', borderRadius: '10px', borderColor: 'grey.400' , '&:hover': { borderColor: 'grey.500' }}} >
-                                <img className='single-file-image' src={props.selectedItem.thumbnail} width={450} />
+                                <img className='single-file-image' src={props.selectedItem?.thumbnail} width={450} />
                             </Box>
                         </Grid>                      
                     </Grid>

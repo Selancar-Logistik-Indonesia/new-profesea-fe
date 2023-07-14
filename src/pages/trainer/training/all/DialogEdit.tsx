@@ -66,8 +66,8 @@ const Img = styled('img')(({ theme }) => ({
 
 const DialogEdit = (props: EditProps) => {
     const [onLoading, setOnLoading] = useState(false);
-    const [CatId, setCatId] = useState(props.selectedItem.category_id);
-    const [date, setDate] = useState<DateType>(new Date(props.selectedItem.schedule))
+    const [CatId, setCatId] = useState(props.selectedItem?.category_id);
+    const [date, setDate] = useState<DateType>(new Date(props.selectedItem?.schedule))
     const [files, setFiles] = useState<File[]>([])
 
     const { getRootProps, getInputProps } = useDropzone({
@@ -137,7 +137,7 @@ const DialogEdit = (props: EditProps) => {
             }
 
             props.onCloseClick();
-            toast.success(`${props.selectedItem.title} updated successfully!`);
+            toast.success(`${props.selectedItem?.title} updated successfully!`);
         } catch (error) {
             toast.error(`Opps ${getCleanErrorMessage(error)}`);
         }
@@ -180,7 +180,7 @@ const DialogEdit = (props: EditProps) => {
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
-                                value={props.selectedItem.category}
+                                value={props.selectedItem?.category}
                                 options={TrainingCategory}  
                                 {...register("category")}
                                 getOptionLabel={(option:TrainingCategory) => option.category}
@@ -189,7 +189,7 @@ const DialogEdit = (props: EditProps) => {
                             />
                         </Grid>
                         <Grid item md={12} xs={12} >
-                            <TextField defaultValue={props.selectedItem.title} id="title" label="Title" variant="outlined" fullWidth  {...register("title")}/>
+                            <TextField defaultValue={props.selectedItem?.title} id="title" label="Title" variant="outlined" fullWidth  {...register("title")}/>
                         </Grid>
                         <Grid item md={12} xs={12} >
                             <DatePickerWrapper>
@@ -204,15 +204,15 @@ const DialogEdit = (props: EditProps) => {
                             </DatePickerWrapper>
                         </Grid>
                         <Grid item md={12} xs={12} >
-                            <TextField defaultValue={props.selectedItem.short_description} id="short_description" label="Description" variant="outlined" multiline  maxRows={4} fullWidth {...register("short_description")} error={Boolean(errors.short_description)}/>                  
+                            <TextField defaultValue={props.selectedItem?.short_description} id="short_description" label="Description" variant="outlined" multiline  maxRows={4} fullWidth {...register("short_description")} error={Boolean(errors.short_description)}/>                  
                         </Grid>  
                         <Grid item md={12} xs={12} >
                         <Box  {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed ', borderRadius: '10px', borderColor: 'grey.400' , '&:hover': { borderColor: 'grey.500' }}} >
                             <input {...getInputProps()} />
-                            {files.length || props.selectedItem.thumbnail? (
+                            {files.length || props.selectedItem?.thumbnail? (
                                 (props.selectedItem.thumbnail && files.length == 0)?
                                 <Link href='/' onClick={e => e.preventDefault()}>
-                                    <img className='single-file-image' src={props.selectedItem.thumbnail} width={450} />
+                                    <img className='single-file-image' src={props.selectedItem?.thumbnail} width={450} />
                                 </Link>
                                 : <Link href='/' onClick={e => e.preventDefault()}>{img}</Link>
                             ) : (
