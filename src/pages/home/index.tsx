@@ -18,9 +18,11 @@ const Home = () => {
   }
 
   if(user?.role == 'Trainer'){ 
-    return(
-          <Trainer />
-        )
+    if(user?.build_profile_at == null){
+      return <Trainer />
+    }else{
+      return <SocialFeed />
+    }
   }
     
    
