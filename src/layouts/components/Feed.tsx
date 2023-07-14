@@ -1,87 +1,75 @@
-// ** MUI Components
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-   
-import { styled } from '@mui/material/styles'
-import { Button } from '@mui/material'
-import { Icon } from '@iconify/react'
+import { Avatar, CircularProgress } from '@mui/material'
+import { HttpClient } from 'src/services'
+import { useEffect, useState } from 'react'
+import { IUser } from 'src/contract/models/user'
+import { toTitleCase } from 'src/utils/helpers'
+import ConnectButton from './ConnectButton'
 
-const ProfilePicture = styled('img')(({ theme }) => ({
-  width: 45,
-  height: 45,
-  borderRadius: theme.shape.borderRadius,
-  border: `5px solid ${theme.palette.common.white}`,
-  [theme.breakpoints.down('md')]: {
-    marginBottom: theme.spacing(4)
+const renderList = (arr: IUser[]) => {
+  if (!arr || arr.length == 0) {
+    return <Box textAlign={'center'}>
+      <Typography color='text.secondary'>No suggestion for now</Typography>
+    </Box>;
   }
-})) 
-export type ParamFeed = {
-  name: string
-  talent: string 
-}
 
-// export type ProfileTeamsType = ProfileTabCommonType & { color: ThemeColor }
-interface Props {
-  // teams: ProfileTeamsType[]
-  feed: ParamFeed[] 
-}
-
-const renderList = (arr: ParamFeed[]) => {
-  if (arr && arr.length) {
-    return arr.map((item, index) => {
-      return (
-        <Box
-          key={index}
-          sx={{
-            display: 'flex',
-            '&:not(:last-of-type)': { mb: 4 },
-            '& svg': { color: 'text.secondary' }
-            ,border:'1px solid var(--light-action-disabled-background, rgba(76, 78, 100, 0.12))',borderRadius:'10px',padding:'5px'
-          }}
-        >
-         
- 
-            <Grid container>
-             <Grid  xs={2}>
-                <ProfilePicture src='/images/avatars/1.png' alt='profile-picture' sx={{borderRadius:'130px'}} />
-            </Grid>
-            <Grid xs={10}>
-                  <Box sx={{display: 'flex'}}> 
-                    <Typography sx={{ color: 'text.primary' }}>
-                      {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
-                    </Typography>
-                  </Box>
-                  <Box sx={{display: 'flex'}}> 
-                    <Typography sx={{ color: 'text.secondary' }}>
-                      {item.talent.charAt(0).toUpperCase() + item.talent.slice(1)}
-                    </Typography>
-                  </Box>
-                  <Box display="flex"
-                        justifyContent="left"
-                        alignItems="left" >
-                  <Button  variant='contained' size='small'startIcon={<Icon icon={'material-symbols:add'} color='white' />} >  Connect</Button>
-             </Box>
-           
-            </Grid>
-            </Grid>
-           
-        
-          
-             
+  return arr.map((item) => {
+    const userPhoto = (item.photo) ? item.photo : "/images/avatars/default-user.png";
+    return (
+      <Box key={item.id}
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          '&:not(:last-of-type)': { mb: 4 },
+        }}
+      >
+        <Box>
+          <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 60, height: 60 }} />
         </Box>
-      )
-    })
-  } else {
-    return null
-  }
+        <Box sx={{ flexGrow: 1, ml: 3, display: 'flex', flexDirection: 'column' }}>
+          <Typography sx={{ color: 'text.primary', fontWeight: 'bold', mt: 1, fontSize: 14 }}>
+            {toTitleCase(item.name)}
+          </Typography>
+          <Typography sx={{ color: 'text.primary', mt: 1, mb: 1, fontSize: 14 }}>
+            {item.email}
+          </Typography>
+          <Box>
+            <ConnectButton user={item} />
+          </Box>
+        </Box>
+      </Box>
+    )
+  });
 }
- 
 
-const Feed = (props: Props) => {
-  const {   feed  } = props
+const Feed = () => {
+  const [results, setResults] = useState<IUser[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getListFriends = async () => {
+    setIsLoading(true);
+    try {
+      const resp = await HttpClient.get("/friendship/suggestion", {
+        page: 1,
+        take: 7,
+      });
+
+      const { data } = resp.data as { data: IUser[] };
+      setIsLoading(false);
+      setResults(data);
+    } catch (error) {
+      setIsLoading(false);
+      alert(error);
+    }
+  }
+
+  useEffect(() => {
+    getListFriends();
+  }, []);
 
   return (
     <Grid container  >
@@ -89,22 +77,18 @@ const Feed = (props: Props) => {
         <Card>
           <CardContent>
             <Box sx={{ mb: 7 }}>
-              <Typography variant='h6' sx={{ mb: 4, color: 'text.primary', textTransform: 'uppercase' }}>
-                Add To Your Feed
+              <Typography variant='h6' sx={{ mb: 4, color: 'text.primary' }}>
+                Add to your feed
               </Typography>
-              {renderList(feed)}
+              {
+                isLoading
+                  ? (<Box textAlign={'center'} mt={10}><CircularProgress /></Box>)
+                  : renderList(results)
+              }
             </Box>
-            {/* <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: 'text.disabled', textTransform: 'uppercase' }}>
-                Contacts
-              </Typography>
-              {renderList(contacts)}
-            </Box> */}
-           
           </CardContent>
         </Card>
       </Grid>
-      
     </Grid>
   )
 }

@@ -16,8 +16,10 @@ axios.interceptors.request.use(
     }
 );
 
-const get = (path: string) => {
-    return axios.get(path);
+const get = (path: string, params?: any) => {
+    return axios.get(path, {
+        params: params
+    });
 }
 
 const post = (path: string, data?: any): Promise<AxiosResponse> => {
@@ -35,9 +37,9 @@ const del = (path: string, data?: any): Promise<AxiosResponse> => {
 const postFile = (path: string, data?: any): Promise<AxiosResponse> => {
     return axios.post(path, data, {
         headers: {
-          "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data",
         },
-      })
+    })
 }
 
 export {
