@@ -19,6 +19,7 @@ const renderList = (arr: IUser[]) => {
 
   return arr.map((item) => {
     const userPhoto = (item.photo) ? item.photo : "/images/avatars/default-user.png";
+
     return (
       <Box key={item.id}
         sx={{

@@ -43,17 +43,7 @@ const vacancy = [
     lokasi: 'Jakarta,Indonesia', 
     waktu: '2 minute ago', 
   }]
- const feed = [
-  {
-    name: 'Nova Gita Taregan',
-    talent: 'Talent acquisition at barbar.com', 
-  },
-  {
-    name: 'Anis Dewinta Zahra',
-    talent: 'Talent acquisition at telcom.com', 
-  }, ]
- 
- const paramcomment = [
+const paramcomment = [
   { 
     name: 'Lerian Febriana, A.Md.Kom  ',
     skill: 'Electrical Cadet', 
@@ -98,7 +88,7 @@ const vacancy = [
                 </Grid> 
                      
                 <br></br>
-                 <Feed  feed={feed}></Feed>
+                 <Feed />
               </Grid>
                <Grid item lg={8} md={7} xs={12}>
                 <Grid container spacing={6}>
