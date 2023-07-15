@@ -10,9 +10,6 @@ import VerticalNavItems from './VerticalNavItems'
 import VerticalNavHeader from './VerticalNavHeader'
 import themeOptions from 'src/@core/theme/ThemeOptions'
 import NavItemType from 'src/contract/types/navItemType'
-import { Button, Divider, ListItem } from '@mui/material'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 interface Props {
   navWidth: number
@@ -42,7 +39,6 @@ const Navigation = (props: Props) => {
   const shadowRef = useRef(null)
   const { beforeVerticalNavMenuContentPosition } = themeConfig
   let darkTheme = createTheme(themeOptions(settings, 'dark'))
-  const { locale } = useRouter();
 
   if (themeConfig.responsiveFontSizes) {
     darkTheme = responsiveFontSizes(darkTheme)

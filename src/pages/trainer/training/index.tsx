@@ -3,9 +3,9 @@ import React, { useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import {  Tabs, Tab, useMediaQuery } from '@mui/material' 
-import { Grid } from '@mui/material' 
-import { useForm } from 'react-hook-form'  
+import { Tabs, Tab, useMediaQuery } from '@mui/material'
+import { Grid } from '@mui/material'
+import { useForm } from 'react-hook-form'
 // import Icon from 'src/@core/components/icon' 
 import { useTheme } from '@mui/material/styles'
 // import Subscription from 'src/layouts/components/Subscription'
@@ -33,19 +33,19 @@ type FormData = {
   address: string
   about: string
 }
-const Training = () => { 
-   
+const Training = () => {
+
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   // const [openPreview, setOpenPreview] = useState(false);
-  
+
   // const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser; 
-//   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser; 
-//    const [selectedItem, setSelectedItem] = useState<IUser|null>(null);
-  const { 
+  //   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser; 
+  //    const [selectedItem, setSelectedItem] = useState<IUser|null>(null);
+  const {
   } = useForm<FormData>({
     mode: 'onBlur',
-  },) 
+  },)
   interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -54,7 +54,7 @@ const Training = () => {
 
   function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
- 
+
     return (
       <div
         role="tabpanel"
@@ -91,19 +91,19 @@ const Training = () => {
   //   setSelectedItem(user)
   //   setOpenPreview(!openPreview);
   // }
-//   function firstload(){
-//     HttpClient.get(AppConfig.baseUrl + "/user/"+user.id)
-//       .then((response) => {
-//           const user = response.data.user as IUser; 
-//           setSelectedItem(user);
-//       })
-//   }
+  //   function firstload(){
+  //     HttpClient.get(AppConfig.baseUrl + "/user/"+user.id)
+  //       .then((response) => {
+  //           const user = response.data.user as IUser; 
+  //           setSelectedItem(user);
+  //       })
+  //   }
 
-//   useEffect(() => {
-//     // setOpenPreview(false)
-//     firstload()
-//   }, [])
-  
+  //   useEffect(() => {
+  //     // setOpenPreview(false)
+  //     firstload()
+  //   }, [])
+
   return (
     <Box  >
       <Grid container spacing={2}>
@@ -113,7 +113,7 @@ const Training = () => {
             justifyContent: "flex-start",
             alignItems: "stretch",
             alignContent: 'top',
-            marginBottom: '10px', 
+            marginBottom: '10px',
           } : {
           }}
         >
@@ -143,14 +143,14 @@ const Training = () => {
               <Grid item xs={12} >
                 <TabPanel value={value} index={0}>
                   <Grid container xs={12}>
-                    <Grid container xs={9}>  
+                    <Grid container xs={9}>
                     </Grid>
                     <Grid md={12} xs={3} container justifyContent={'right'} marginTop={'10px'}>
                     </Grid>
-                  </Grid>                    
+                  </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={0}>
-                    <OngoingTrainingScreen></OngoingTrainingScreen>
+                  <OngoingTrainingScreen></OngoingTrainingScreen>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                   <AllTrainingScreen></AllTrainingScreen>
@@ -185,6 +185,6 @@ const Training = () => {
 
 Training.acl = {
   action: 'read',
-  subject: 'home'
+  subject: 'user-training-management'
 };
 export default Training

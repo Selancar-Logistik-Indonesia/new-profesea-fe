@@ -168,4 +168,9 @@ const AllTrainingScreen = () => {
     )
 }
 
+AllTrainingScreen.acl = {
+    action: 'read',
+    subject: 'user-training-management'
+}
+
 export default AllTrainingScreen

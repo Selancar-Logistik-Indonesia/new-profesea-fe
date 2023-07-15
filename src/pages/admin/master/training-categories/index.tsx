@@ -43,7 +43,7 @@ const TrainingCategoryScreen = () => {
             const rows = resp.data.trainingCategories.data as TrainingCategory[];
             const items = rows.map((row, index) => {
                 return {
-                    no: index+1,
+                    no: index + 1,
                     id: row.id,
                     category: row.category,
                     actions: {
@@ -157,5 +157,10 @@ const TrainingCategoryScreen = () => {
         </>
     )
 }
+
+TrainingCategoryScreen.acl = {
+    action: 'read',
+    subject: 'master/training-categories'
+};
 
 export default TrainingCategoryScreen
