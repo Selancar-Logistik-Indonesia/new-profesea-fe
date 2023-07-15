@@ -66,6 +66,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                 navMenuBranding={undefined}
                 menuLockedIcon={undefined}
                 homeNavItems={homeNavItems}
+                navItems={navItems}
                 navMenuProps={undefined}
                 menuUnlockedIcon={undefined}
                 afterNavMenuContent={undefined}
@@ -77,18 +78,17 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                 position='sticky'
                 elevation={props.appBarElevation ?? 0}
                 sx={{
+                    display: {
+                        md: 'flex',
+                        xs: 'none',
+                    },
                     backgroundColor: 'background.paper',
                     ...(skin === 'bordered' && { borderBottom: `1px solid ${theme.palette.divider}` })
                 }}
             >
                 <Container maxWidth={false}>
-                    {/* Web Toolbar */}
                     <Toolbar
                         sx={{
-                            display: {
-                                md: 'flex',
-                                xs: 'none',
-                            },
                             justifyContent: 'space-between',
                             p: theme => `${theme.spacing(0, 6)} !important`,
                             minHeight: `${(theme.mixins.toolbar.minHeight as number) - (skin === 'bordered' ? 1 : 0)}px !important`
@@ -141,16 +141,26 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                                     <UserDropdown settings={settings} />
                                 </>
                             )}
-
                         </Box>
                     </Toolbar>
+                </Container>
+            </AppBar >
 
-                    {/* Mobile Toolbar */}
+            <AppBar
+                color='default'
+                position='sticky'
+                elevation={3}
+                sx={{
+                    display: {
+                        xs: 'flex',
+                        md: 'none',
+                    },
+                    backgroundColor: 'background.paper',
+                    ...(skin === 'bordered' && { borderBottom: `1px solid ${theme.palette.divider}` })
+                }}
+            >
+                <Container maxWidth={false}>
                     <Toolbar sx={{
-                        display: {
-                            xs: 'flex',
-                            md: 'none',
-                        },
                         flexDirection: 'row',
                         p: theme => `${theme.spacing(0, 6)} !important`,
                         minHeight: `${(theme.mixins.toolbar.minHeight as number) - (skin === 'bordered' ? 1 : 0)}px !important`

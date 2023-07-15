@@ -9,6 +9,10 @@ import Drawer from './Drawer'
 import VerticalNavItems from './VerticalNavItems'
 import VerticalNavHeader from './VerticalNavHeader'
 import themeOptions from 'src/@core/theme/ThemeOptions'
+import NavItemType from 'src/contract/types/navItemType'
+import { Button, Divider, ListItem } from '@mui/material'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 interface Props {
   navWidth: number
@@ -21,6 +25,7 @@ interface Props {
   setNavVisible: (value: boolean) => void
   saveSettings: LayoutProps['saveSettings']
   homeNavItems: { title: string, path: string }[],
+  navItems: NavItemType[],
   navMenuBranding: LayoutProps['verticalLayoutProps']['navMenu']['branding']
   menuLockedIcon: LayoutProps['verticalLayoutProps']['navMenu']['lockedIcon']
   navMenuProps: LayoutProps['verticalLayoutProps']['navMenu']['componentProps']
@@ -36,11 +41,9 @@ const Navigation = (props: Props) => {
   const [currentActiveGroup, setCurrentActiveGroup] = useState<string[]>([])
   const shadowRef = useRef(null)
   const { beforeVerticalNavMenuContentPosition } = themeConfig
-
-  // ** Create new theme for the navigation menu when mode is `semi-dark`
   let darkTheme = createTheme(themeOptions(settings, 'dark'))
+  const { locale } = useRouter();
 
-  // ** Set responsive font sizes to true
   if (themeConfig.responsiveFontSizes) {
     darkTheme = responsiveFontSizes(darkTheme)
   }
@@ -97,7 +100,6 @@ const Navigation = (props: Props) => {
                 containerRef: (ref: any) => handleInfiniteScroll(ref)
               })}
           >
-
             <List className='nav-items' sx={{ pt: 0, '& > :first-of-type': { mt: '0' } }}>
               <VerticalNavItems
                 navHover={navHover}
@@ -108,7 +110,6 @@ const Navigation = (props: Props) => {
                 {...props}
               />
             </List>
-
           </ScrollWrapper>
         </Box>
       </Drawer>
