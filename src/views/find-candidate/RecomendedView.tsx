@@ -20,7 +20,7 @@ const renderList = (listCandidate: IUser[]) => {
     return <></>
   }
 
-  return listCandidate.map((item, index) => {
+  return listCandidate.map((item) => {
     const userPhoto = (item.photo) ? item.photo : "/images/avatars/default-user.png";
 
     return (
