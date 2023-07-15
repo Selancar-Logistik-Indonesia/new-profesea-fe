@@ -74,7 +74,7 @@ const AuthProvider = ({ children }: Props) => {
                 setUser({ ...response.data.user })
                 localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken);
                 secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);
-                const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : (response.data.user.role == 'admin') ? '/admin' : '/home'  // console.log(`redirectURL: ${redirectURL}`);
+                const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'  // console.log(`redirectURL: ${redirectURL}`);
                 await router.replace(redirectURL as string);
             }).catch(err => {
                 setLoading(false);
