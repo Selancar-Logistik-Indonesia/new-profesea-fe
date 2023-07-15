@@ -21,8 +21,6 @@ const GuestGuard = (props: GuestGuardProps) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("Guest Guard");
-
     if (!router.isReady) {
       return;
     }
