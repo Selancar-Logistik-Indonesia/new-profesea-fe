@@ -1,5 +1,6 @@
-import Address from "./address" 
+import Address from "./address"
 import Countries from "./country"
+import FieldPreference from "./field_preference"
 import Industry from "./industry"
 import ITeam from "./team"
 
@@ -25,5 +26,6 @@ export interface IUser {
   team: ITeam
   country: Countries
   industry: Industry
-  address: Address 
+  address: Address
+  field_preference?: FieldPreference
 }
