@@ -41,7 +41,7 @@ const RoleLevelScreen = () => {
             const rows = resp.data.roleLevels.data as RoleLevel[];
             const items = rows.map((row, index) => {
                 return {
-                    no: index+1,
+                    no: index + 1,
                     id: row.id,
                     levelName: row.levelName,
                     actions: {
@@ -152,5 +152,10 @@ const RoleLevelScreen = () => {
         </>
     )
 }
+
+RoleLevelScreen.acl = {
+    action: 'read',
+    subject: 'master/role-level'
+};
 
 export default RoleLevelScreen

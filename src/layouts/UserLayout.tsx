@@ -48,15 +48,14 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
      *  to know more about what values can be passed to this hook.
      *  ! Do not change this value unless you know what you are doing. It can break the template.
      */
-    const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
-
-    // if (hidden && settings.layout === 'horizontal') {
-    //     settings.layout = 'vertical'
-    // }
-
+    settings.layout = 'vertical';
+    const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
     const session = secureLocalStorage.getItem(localStorageKeys.userData) as IUser;
     if (session && session.role != 'admin') {
         settings.layout = 'horizontal';
+        if (hidden) {
+            settings.layout = 'vertical'
+        }
     }
 
     return (

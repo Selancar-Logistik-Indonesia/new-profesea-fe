@@ -42,7 +42,7 @@ const JobCategoryScreen = () => {
             const rows = resp.data.categories.data as JobCategory[];
             const items = rows.map((row, index) => {
                 return {
-                    no: index+1,
+                    no: index + 1,
                     id: row.id,
                     name: row.name,
                     actions: {
@@ -156,5 +156,10 @@ const JobCategoryScreen = () => {
         </>
     )
 }
+
+JobCategoryScreen.acl = {
+    action: 'read',
+    subject: 'master/job-categories'
+};
 
 export default JobCategoryScreen

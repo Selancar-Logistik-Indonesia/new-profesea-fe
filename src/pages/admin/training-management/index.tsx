@@ -43,7 +43,7 @@ const TrainingScreen = () => {
             const rows = resp.data.trainings.data as Training[];
             const items = rows.map((row, index) => {
                 return {
-                    no: index+1,
+                    no: index + 1,
                     id: row.id,
                     title: row.title,
                     schedule: row.schedule,
@@ -133,7 +133,7 @@ const TrainingScreen = () => {
                                 </Grid>
                             </Grid>
 
-                            <TrainingDatagrid  
+                            <TrainingDatagrid
                                 page={page - 1} // di MUI page pertama = 0
                                 rowCount={rowCount}
                                 pageSize={perPage}
@@ -167,5 +167,10 @@ const TrainingScreen = () => {
         </>
     )
 }
+
+TrainingScreen.acl = {
+    action: 'read',
+    subject: 'admin-training-management'
+};
 
 export default TrainingScreen

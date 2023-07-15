@@ -41,7 +41,7 @@ const JobScreen = () => {
             const rows = resp.data.jobs.data as Job[];
             const items = rows.map((row, index) => {
                 return {
-                    no: index+1,
+                    no: index + 1,
                     id: row.id,
                     company_name: row.company.name,
                     category_name: row.category.name,
@@ -126,7 +126,7 @@ const JobScreen = () => {
                                 </Grid>
                             </Grid>
 
-                            <JobDatagrid  
+                            <JobDatagrid
                                 page={page - 1} // di MUI page pertama = 0
                                 rowCount={rowCount}
                                 pageSize={perPage}
@@ -156,5 +156,10 @@ const JobScreen = () => {
         </>
     )
 }
+
+JobScreen.acl = {
+    action: 'read',
+    subject: 'admin-job-management'
+};
 
 export default JobScreen
