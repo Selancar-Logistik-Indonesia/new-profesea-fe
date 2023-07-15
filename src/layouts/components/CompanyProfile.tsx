@@ -1,5 +1,5 @@
 // ** React Imports
-import React, {  ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
@@ -52,14 +52,14 @@ type compProps = {
   datauser: IUser
   address: Address
 }
- let statusfb: any = ''
- let statusig: any = ''
- let statuslinkedin: any = ''
+let statusfb: any = ''
+let statusig: any = ''
+let statuslinkedin: any = ''
 const CompanyProfile = (props: compProps) => {
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboindustry, getComboIndustry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
-  const [combocode, getCombocode] = useState<any[]>([]) 
+  const [combocode, getCombocode] = useState<any[]>([])
   const [idcombocode, setCombocode] = useState<any>(props.datauser.country_id)
   const [idcity, setCombocity] = useState<any>(props.datauser.address?.city_id)
   const [idindustry, setIndustry] = useState<any>(props.datauser.industry_id)
@@ -67,7 +67,7 @@ const CompanyProfile = (props: compProps) => {
   const [facebook, setFacebook] = useState<any>('')
   const [instagram, setInstagram] = useState<any>('')
   const [linkedin, setLinkedin] = useState<any>('')
- 
+
   const combobox = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
@@ -85,32 +85,32 @@ const CompanyProfile = (props: compProps) => {
       }
       getCombocode(code)
     })
-     HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
-       const code = response.data.sosmeds.data
-       for (let x = 0; x < code.length; x++) {
-         const element = code[x]
-         if (element.sosmed_type == 'Facebook') {
-           setFacebook(element.sosmed_address)
-           statusfb = element.id;
-         }
-         if (element.sosmed_type == 'Instagram') {
-           setInstagram(element.sosmed_address)
-           statusig = element.id
-         }
-         if (element.sosmed_type == 'LinkedIn') {
-           setLinkedin(element.sosmed_address)
-           statuslinkedin = element.id
-         }
-          
-       }
-     
-     })
-      HttpClient.get(AppConfig.baseUrl + '/user/'+ props.datauser.id).then(response => {
-        const code = response.data.user
-        setPreview(code.photo)
-        setPreviewBanner(code.banner)
-      })
-      
+    HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
+      const code = response.data.sosmeds.data
+      for (let x = 0; x < code.length; x++) {
+        const element = code[x]
+        if (element.sosmed_type == 'Facebook') {
+          setFacebook(element.sosmed_address)
+          statusfb = element.id;
+        }
+        if (element.sosmed_type == 'Instagram') {
+          setInstagram(element.sosmed_address)
+          statusig = element.id
+        }
+        if (element.sosmed_type == 'LinkedIn') {
+          setLinkedin(element.sosmed_address)
+          statuslinkedin = element.id
+        }
+
+      }
+
+    })
+    HttpClient.get(AppConfig.baseUrl + '/user/' + props.datauser.id).then(response => {
+      const code = response.data.user
+      setPreview(code.photo)
+      setPreviewBanner(code.banner)
+    })
+
     HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
       .then((response) => {
         const code = response.data.countries;
@@ -120,7 +120,7 @@ const CompanyProfile = (props: compProps) => {
         }
         getCombocode(code);
       })
-  } 
+  }
   const searchcity = async (q: any) => {
     setCountry(q)
     const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
@@ -169,73 +169,41 @@ const CompanyProfile = (props: compProps) => {
       }
     )
   }
-  
-  const addbuttonfacebook=( data: FormData) =>{
+
+  const addbuttonfacebook = (data: FormData) => {
     const { facebook } = data
     const json = {
       sosmed_type: 'facebook',
       sosmed_address: facebook
-    } 
-    if(statusfb==''){
-        HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
-          ( ) => {
-            toast.success(' Successfully submited!')
-          },
-          error => {
-            toast.error('Registrastion Failed ' + error.response.data.message)
-          }
-        )
-    }else{
-       HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/'+statusfb, json).then(
-         ( ) => {
-           toast.success(' Successfully submited!')
-         },
-         error => {
-           toast.error('Registrastion Failed ' + error.response.data.message)
-         }
-       )
-     
     }
-   
+    if (statusfb == '') {
+      HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
+        () => {
+          toast.success(' Successfully submited!')
+        },
+        error => {
+          toast.error('Registrastion Failed ' + error.response.data.message)
+        }
+      )
+    } else {
+      HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statusfb, json).then(
+        () => {
+          toast.success(' Successfully submited!')
+        },
+        error => {
+          toast.error('Registrastion Failed ' + error.response.data.message)
+        }
+      )
+
+    }
+
   }
   const addbuttoninstagram = (data: FormData) => {
     const { instagram } = data
-    const json = { 
+    const json = {
       sosmed_address: instagram
     }
-     if(statusig==''){
-        HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
-          ({ data }) => {
-            console.log('here 1', data)
-            toast.success(' Successfully submited!')
-          },
-          error => {
-            console.log('here 1', error)
-            toast.error('Registrastion Failed ' + error.response.data.message)
-          }
-        )
-     }else{
-       HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statusig, json).then(
-         ({ data }) => {
-           console.log('here 1', data)
-           toast.success(' Successfully submited!')
-         },
-         error => {
-           console.log('here 1', error)
-           toast.error('Registrastion Failed ' + error.response.data.message)
-         }
-       )
-      
-     }
-   
-  }
-  const addbuttonlinkedin = (data: FormData) => {
-    const { linkedin } = data
-    const json = {
-      sosmed_type: 'linkedin',
-      sosmed_address: linkedin
-    }
-    if(statuslinkedin==''){
+    if (statusig == '') {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
         ({ data }) => {
           console.log('here 1', data)
@@ -246,20 +214,52 @@ const CompanyProfile = (props: compProps) => {
           toast.error('Registrastion Failed ' + error.response.data.message)
         }
       )
-    }else{
-        HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/'+ statuslinkedin, json).then(
-          ({ data }) => {
-            console.log('here 1', data)
-            toast.success(' Successfully submited!')
-          },
-          error => {
-            console.log('here 1', error)
-            toast.error('Registrastion Failed ' + error.response.data.message)
-          }
-        )
-   
+    } else {
+      HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statusig, json).then(
+        ({ data }) => {
+          console.log('here 1', data)
+          toast.success(' Successfully submited!')
+        },
+        error => {
+          console.log('here 1', error)
+          toast.error('Registrastion Failed ' + error.response.data.message)
+        }
+      )
+
     }
-   
+
+  }
+  const addbuttonlinkedin = (data: FormData) => {
+    const { linkedin } = data
+    const json = {
+      sosmed_type: 'linkedin',
+      sosmed_address: linkedin
+    }
+    if (statuslinkedin == '') {
+      HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
+        ({ data }) => {
+          console.log('here 1', data)
+          toast.success(' Successfully submited!')
+        },
+        error => {
+          console.log('here 1', error)
+          toast.error('Registrastion Failed ' + error.response.data.message)
+        }
+      )
+    } else {
+      HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statuslinkedin, json).then(
+        ({ data }) => {
+          console.log('here 1', data)
+          toast.success(' Successfully submited!')
+        },
+        error => {
+          console.log('here 1', error)
+          toast.error('Registrastion Failed ' + error.response.data.message)
+        }
+      )
+
+    }
+
   }
   const [selectedFile, setSelectedFile] = useState()
   const [selectedFileBanner, setSelectedFileBanner] = useState()
@@ -271,8 +271,8 @@ const CompanyProfile = (props: compProps) => {
     if (!selectedFile) {
       setPreview(undefined)
 
-      return 
-      
+      return
+
     }
 
     const objectUrl: any = URL.createObjectURL(selectedFile)
@@ -325,33 +325,33 @@ const CompanyProfile = (props: compProps) => {
     )
   }
 
-    const onSelectFileBanner = (e: any) => {
-      if (!e.target.files || e.target.files.length === 0) {
-        setSelectedFile(undefined)
+  const onSelectFileBanner = (e: any) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined)
 
-        return
+      return
+    }
+
+    // I've kept this example simple by using the first image instead of multiple
+    setSelectedFileBanner(e.target.files[0])
+    const selectedFiles = e.target.files as FileList
+    // setCurrentImage(selectedFiles?.[0])
+    uploadPhotoBanner(selectedFiles?.[0])
+  }
+  const uploadPhotoBanner = (data: any) => {
+    const json: any = new FormData()
+    json.append('banner', data)
+    HttpClient.post(AppConfig.baseUrl + '/user/update-banner', json).then(
+      ({ data }) => {
+        console.log('here 1', data)
+        toast.success(' Successfully submited!')
+      },
+      error => {
+        console.log('here 1', error)
+        toast.error(' Failed ' + error.response.data.message)
       }
-
-      // I've kept this example simple by using the first image instead of multiple
-      setSelectedFileBanner(e.target.files[0])
-      const selectedFiles = e.target.files as FileList
-      // setCurrentImage(selectedFiles?.[0])
-      uploadPhotoBanner(selectedFiles?.[0])
-    }
-    const uploadPhotoBanner = (data: any) => {
-      const json: any = new FormData()
-      json.append('banner', data)
-      HttpClient.post(AppConfig.baseUrl + '/user/update-banner', json).then(
-        ({ data }) => {
-          console.log('here 1', data)
-          toast.success(' Successfully submited!')
-        },
-        error => {
-          console.log('here 1', error)
-          toast.error(' Failed ' + error.response.data.message)
-        }
-      )
-    }
+    )
+  }
 
   const slides = [
     { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'beach' },
@@ -364,7 +364,7 @@ const CompanyProfile = (props: compProps) => {
   return (
     <Grid container>
       <Grid item xs={12} md={6} container>
-        <Grid item xs={4} container justifyContent={'center'}>
+        <Grid item xs={6} md={4} container justifyContent={'center'}>
           <img
             alt='logo'
             src={preview ? preview : '/images/avatar.png'}
@@ -376,7 +376,7 @@ const CompanyProfile = (props: compProps) => {
             }}
           />
         </Grid>
-        <Grid item xs={8} justifyContent={'center'} alignContent={'center'} marginTop={'20px'}>
+        <Grid item xs={6} md={8} justifyContent={'center'} alignContent={'center'} marginTop={'20px'}>
           <input
             accept='image/*'
             style={{ display: 'none' }}
@@ -404,8 +404,8 @@ const CompanyProfile = (props: compProps) => {
           </Box>
         </Grid>
       </Grid>
-      <Grid item xs={12} md={6} container>
-        <Grid item xs={4} container justifyContent={'center'}>
+      <Grid sx={{ mt: { xs: 5 } }} item xs={12} md={6} container>
+        <Grid item xs={6} md={4} container justifyContent={'center'}>
           <img
             alt='logo'
             src={previewBanner ? previewBanner : '/images/avatar.png'}
@@ -417,7 +417,7 @@ const CompanyProfile = (props: compProps) => {
             }}
           />
         </Grid>
-        <Grid item xs={8} justifyContent={'center'} alignContent={'center'} marginTop={'20px'}>
+        <Grid item xs={6} md={8} justifyContent={'center'} alignContent={'center'} marginTop={'20px'}>
           <input
             accept='image/*'
             onChange={onSelectFileBanner}
@@ -449,7 +449,7 @@ const CompanyProfile = (props: compProps) => {
         <FormControl>
           <Grid item xs={12} container marginTop={'25px'}>
             <Grid item container spacing={2} sx={{ mb: 2 }}>
-              <Grid item md={6} xs={11}>
+              <Grid item md={6} xs={12}>
                 <TextField
                   id='companyName'
                   defaultValue={props.datauser.name}
@@ -459,7 +459,6 @@ const CompanyProfile = (props: compProps) => {
                   sx={{ mb: 1 }}
                   {...register('companyName')}
                 />
-                {}
               </Grid>
               {props.datauser.role == 'Company' && (
                 <Grid item md={6} xs={12}>
