@@ -87,7 +87,7 @@ const DialogView = (props: ViewProps) => {
                         </Grid>  
                         <Grid item md={12} xs={12} >
                             <Box sx={{ p: 2, border: '1px dashed ', borderRadius: '10px', borderColor: 'grey.400' , '&:hover': { borderColor: 'grey.500' }}} >
-                                <img className='single-file-image' src={props.selectedItem.thumbnail} width={450} />
+                                <img alt='thumbnail' className='single-file-image' src={props.selectedItem.thumbnail} width={450} />
                             </Box>
                         </Grid>                      
                     </Grid>
