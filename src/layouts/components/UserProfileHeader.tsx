@@ -15,6 +15,7 @@ import Address from 'src/contract/models/address'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
@@ -205,7 +206,7 @@ useEffect(() => {
           </Grid>
           <Grid item xs={12} md={1} marginTop={'-5px'}>
             <Grid container direction='row' justifyContent='flex-end' alignItems='flex-end'>
-              <IconButton href='/company' sx={{ color: '#424242', fontWeight: 400 }}>
+              <IconButton LinkComponent={Link} href='/company' sx={{ color: '#424242', fontWeight: 400 }}>
                 <Icon fontSize='medium' icon={'charm:pencil'} />
               </IconButton>
             </Grid>
