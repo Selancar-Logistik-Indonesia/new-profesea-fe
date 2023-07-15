@@ -233,7 +233,7 @@ const DialogEdit = (props: EditProps) => {
                             {files.length || props.selectedItem.thumbnail? (
                                 (props.selectedItem.thumbnail && files.length == 0)?
                                 <Link href='/' onClick={e => e.preventDefault()}>
-                                    <img className='single-file-image' src={props.selectedItem.thumbnail} width={450} />
+                                    <img alt='item thumbnail' className='single-file-image' src={props.selectedItem.thumbnail} width={450} />
                                 </Link>
                                 : <Link href='/' onClick={e => e.preventDefault()}>{img}</Link>
                             ) : (

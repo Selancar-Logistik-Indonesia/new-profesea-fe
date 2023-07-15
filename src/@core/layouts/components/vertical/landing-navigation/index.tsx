@@ -18,7 +18,6 @@ interface Props {
   navigationBorderWidth: number
   toggleNavVisibility: () => void
   settings: LayoutProps['settings']
-  children: LayoutProps['children']
   setNavVisible: (value: boolean) => void
   saveSettings: LayoutProps['saveSettings']
   homeNavItems: { title: string, path: string }[],

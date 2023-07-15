@@ -90,7 +90,7 @@ const FallbackSpinner = ({ sx }: { sx?: BoxProps['sx'] }) => {
           </linearGradient>
         </defs>
       </svg> */}
-      <img src='/images/logosamudera.png' style={{height:'50px'}}></img>
+      <img alt='profesea logo' src='/images/logosamudera.png' style={{ height: '50px' }}></img>
       <CircularProgress disableShrink sx={{ mt: 6 }} />
     </Box>
   )

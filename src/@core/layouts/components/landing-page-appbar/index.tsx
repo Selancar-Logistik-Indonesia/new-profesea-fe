@@ -62,8 +62,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                 navigationBorderWidth={navigationBorderWidth}
                 hidden={true}
                 settings={settings}
-                children={undefined}
-                saveSettings={() => { }}
+                saveSettings={() => { return; }}
                 navMenuBranding={undefined}
                 menuLockedIcon={undefined}
                 homeNavItems={homeNavItems}

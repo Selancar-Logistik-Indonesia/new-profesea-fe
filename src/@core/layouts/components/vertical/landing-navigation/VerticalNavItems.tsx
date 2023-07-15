@@ -1,10 +1,5 @@
-// ** Type Imports
-import { NavLink, NavGroup, LayoutProps, NavSectionTitle } from 'src/@core/layouts/types'
-
-// ** Custom Menu Components
+import { NavLink, NavGroup, LayoutProps } from 'src/@core/layouts/types'
 import VerticalNavLink from './VerticalNavLink'
-import VerticalNavGroup from './VerticalNavGroup'
-import VerticalNavSectionTitle from './VerticalNavSectionTitle'
 
 interface Props {
   parent?: NavGroup
@@ -30,7 +25,7 @@ const VerticalNavItems = (props: Props) => {
       path: item.path,
     };
 
-    return <VerticalNavLink settings={props.settings} navigationBorderWidth={1} key={index} item={menuItem} collapsedNavWidth={1} toggleNavVisibility={() => { }} />
+    return <VerticalNavLink settings={props.settings} navigationBorderWidth={1} key={index} item={menuItem} collapsedNavWidth={1} toggleNavVisibility={() => { return; }} />
   })
 
   return <>{RenderMenuItems}</>

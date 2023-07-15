@@ -43,7 +43,7 @@ const AllTrainingScreen = () => {
             const rows = resp.data.trainings.data as Training[];
             const items = rows.map((row, index) => {
                 return {
-                    no: index+1,
+                    no: index + 1,
                     id: row.id,
                     title: row.title,
                     schedule: row.schedule,
@@ -133,7 +133,7 @@ const AllTrainingScreen = () => {
                                 </Grid>
                             </Grid>
 
-                            <TrainingDatagrid  
+                            <TrainingDatagrid
                                 page={page - 1} // di MUI page pertama = 0
                                 rowCount={rowCount}
                                 pageSize={perPage}

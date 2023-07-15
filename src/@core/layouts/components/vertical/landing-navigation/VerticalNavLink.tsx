@@ -1,11 +1,6 @@
-// ** React Imports
 import { ElementType } from 'react'
-
-// ** Next Imports
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-
-// ** MUI Imports
 import Chip from '@mui/material/Chip'
 import ListItem from '@mui/material/ListItem'
 import { styled } from '@mui/material/styles'
@@ -13,20 +8,11 @@ import Typography from '@mui/material/Typography'
 import Box, { BoxProps } from '@mui/material/Box'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemButton, { ListItemButtonProps } from '@mui/material/ListItemButton'
-
-// ** Configs Import
 import themeConfig from 'src/configs/themeConfig'
-
-// ** Types
 import { NavLink, NavGroup } from 'src/@core/layouts/types'
 import { Settings } from 'src/@core/context/settingsContext'
-
-// ** Custom Components Imports
 import UserIcon from 'src/layouts/components/UserIcon'
 import Translations from 'src/layouts/components/Translations'
-import CanViewNavLink from 'src/layouts/components/acl/CanViewNavLink'
-
-// ** Util Import
 import { handleURLQueries } from 'src/@core/layouts/utils'
 
 interface Props {
