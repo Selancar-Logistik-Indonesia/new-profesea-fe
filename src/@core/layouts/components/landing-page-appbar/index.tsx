@@ -48,7 +48,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const navWidth = navigationSize
     const navigationBorderWidth = skin === 'bordered' ? 1 : 0
     const collapsedNavWidth = collapsedNavigationSize
-    const [navVisible, setNavVisible] = useState<boolean>(true)
+    const [navVisible, setNavVisible] = useState<boolean>(false)
     const toggleNavVisibility = () => setNavVisible(!navVisible)
 
     return (
