@@ -13,8 +13,6 @@ import { IUser } from 'src/contract/models/user'
 const FindCandidate = () => {
     const theme = useTheme()
     const hidden = useMediaQuery(theme.breakpoints.down('md'))
-    const [page, setPage] = useState(1);
-    const [take, setTake] = useState(25);
     const [listCandidate, setListCandidate] = useState<IUser[]>([]);
 
     const vacancy = [
@@ -31,22 +29,10 @@ const FindCandidate = () => {
             waktu: '2 minute ago',
         }];
 
-    const paramcomment = [
-        {
-            name: 'Lerian Febriana, A.Md.Kom  ',
-            skill: 'Electrical Cadet',
-            location: 'Jakarta',
-        }, {
-            name: 'Fadil Shahab',
-            skill: 'IT Enginering',
-            location: 'Jakarta',
-        },
-    ]
-
     const getListCandidates = async () => {
         const response = await HttpClient.get('/candidate?page=1&take=25&search', {
-            page: page,
-            take: take,
+            page: 1,
+            take: 25,
             search: '',
         });
 
@@ -56,7 +42,7 @@ const FindCandidate = () => {
 
     useEffect(() => {
         getListCandidates();
-    }, [page, take]);
+    }, []);
 
     return (
         <Box>

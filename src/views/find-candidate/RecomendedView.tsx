@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
 import { Avatar, Paper } from '@mui/material'
 import { IUser } from 'src/contract/models/user'
 import { toTitleCase } from 'src/utils/helpers'
@@ -21,7 +20,7 @@ const renderList = (listCandidate: IUser[]) => {
     return <></>
   }
 
-  return listCandidate.map((item, index) => {
+  return listCandidate.map((item) => {
     const userPhoto = (item.photo) ? item.photo : "/images/avatars/default-user.png";
 
     return (
