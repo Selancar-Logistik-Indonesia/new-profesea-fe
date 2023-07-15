@@ -123,4 +123,9 @@ const OngoingTrainingScreen = () => {
     );
 }
 
+OngoingTrainingScreen.acl = {
+    action: 'read',
+    subject: 'user-training-management'
+}
+
 export default OngoingTrainingScreen
