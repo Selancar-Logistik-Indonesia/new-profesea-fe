@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Card, CardContent, Grid, Typography, useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { Card, CardContent, Grid, Typography } from '@mui/material'
 import { Icon } from '@iconify/react'
 import Feed from 'src/layouts/components/Feed'
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
@@ -9,10 +8,9 @@ import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'
 import Profile from 'src/layouts/components/Profile'
 import { useAuth } from 'src/hooks/useAuth'
+import SideAd from 'src/views/banner-ad/sidead'
 
 const FindCandidate = () => {
-    const theme = useTheme()
-    const hidden = useMediaQuery(theme.breakpoints.down('md'))
     const [listCandidate, setListCandidate] = useState<IUser[]>([]);
     const { user } = useAuth();
 
@@ -32,97 +30,35 @@ const FindCandidate = () => {
     }, []);
 
     return (
-        <Box>
-            <Grid container spacing={2}>
-                <Grid container xs={12} md={10} sx={!hidden ? { alignItems: "stretch" } : {}}>
-                    <Grid container spacing={6} sx={{ marginTop: '1px' }}>
-                        <Grid item lg={4} md={5} xs={12}>
-                            <Profile datauser={user} />
-                            <Grid container mt={3} mb={3}>
-                                <Grid item xs={12}>
-                                    <Card>
-                                        <CardContent>
-                                            <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }} display={'flex'}>
-                                                <Icon icon={'arcticons:connect-you'} fontSize={30} />  <Typography variant='body1' sx={{ color: "#424242", fontWeight: 600 }}> Total Conected :250</Typography>
-                                            </Box>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            </Grid>
-                            <Feed />
-                        </Grid>
-                        <Grid item lg={8} md={7} xs={12}>
-                            <Grid container spacing={6}>
-                                <Grid item xs={12}>
-                                    <Typography variant='h5'> Recommend for you</Typography>
-                                    <Typography variant='body2' marginTop={2} marginBottom={5}> Based on your profile and search history</Typography>
-                                    <RecomendedView listCandidate={listCandidate} />
-                                </Grid>
-                            </Grid>
-                        </Grid>
+        <Grid container sx={{ marginTop: '1px' }}>
+            <Grid item lg={3} md={5} xs={12}>
+                <Profile datauser={user} />
+                <Grid container mt={3} mb={3}>
+                    <Grid item xs={12}>
+                        <Card>
+                            <CardContent>
+                                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }} display={'flex'}>
+                                    <Icon icon={'arcticons:connect-you'} fontSize={30} />  <Typography variant='body1' sx={{ color: "#424242", fontWeight: 600 }}> Total Conected :250</Typography>
+                                </Box>
+                            </CardContent>
+                        </Card>
                     </Grid>
                 </Grid>
-                <Grid xs={2} container display={'flex'} sx={{
-                    direction: "row",
-                    justifyContent: "flex-start",
-                    alignContent: 'top',
-                    alignItems: "stretch"
-                }}>
-                    <Grid xs={12}>
-                        <Grid xs={12} sx={{
-                            boxSizing: 'border-box',
-                            background: '#FFFFFF',
-                            border: '1px solid rgba(76, 78, 100, 0.12)',
-                            borderRadius: '20px',
-                            p: 4,
-                            display: 'flex',
-                            alignItems: 'stretch',
-                            justifyContent: 'left',
-                            marginBottom: '10px',
-                            marginLeft: '20px',
-                            height: '197px',
-                            wrap: 'nowrap'
-                        }}>
-
-                        </Grid>
-                        <Grid xs={12} sx={{
-                            boxSizing: 'border-box',
-                            background: '#FFFFFF',
-                            border: '1px solid rgba(76, 78, 100, 0.12)',
-                            borderRadius: '20px',
-                            p: 4,
-                            display: 'flex',
-                            alignItems: 'stretch',
-                            justifyContent: 'left',
-                            marginBottom: '10px',
-                            marginLeft: '20px',
-                            height: '197px',
-                            wrap: 'nowrap'
-                        }}>
-
-                        </Grid>
-                        <Grid xs={12} sx={{
-                            boxSizing: 'border-box',
-                            background: '#FFFFFF',
-                            border: '1px solid rgba(76, 78, 100, 0.12)',
-                            borderRadius: '20px',
-                            p: 4,
-                            display: 'flex',
-                            alignItems: 'stretch',
-                            justifyContent: 'left',
-                            marginBottom: '10px',
-                            marginLeft: '20px',
-                            height: '197px',
-                            wrap: 'nowrap'
-                        }}>
-
-                        </Grid>
+                <Feed />
+            </Grid>
+            <Grid item lg={7} md={7} xs={12}>
+                <Grid sx={{ ml: { md: 12 }, mt: { xs: 12 } }} container>
+                    <Grid item xs={11}>
+                        <Typography variant='h5'> Recommend for you</Typography>
+                        <Typography variant='body2' marginTop={2} marginBottom={5}> Based on your profile and search history</Typography>
+                        <RecomendedView listCandidate={listCandidate} />
                     </Grid>
                 </Grid>
             </Grid>
-        </Box>
-
-
+            <Grid lg={2} xs={12} sx={{ mt: { xs: 5 } }} item>
+                <SideAd />
+            </Grid>
+        </Grid>
     )
 }
 
