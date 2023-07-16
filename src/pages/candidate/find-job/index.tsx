@@ -9,25 +9,13 @@ import SideAd from 'src/views/banner-ad/sidead'
 import RecomendedView from 'src/views/find-job/RecomendedView'
 import { HttpClient } from 'src/services'
 import Job from 'src/contract/models/job'
+import { useAuth } from 'src/hooks/useAuth'
 
 const FindJob = () => {
     const theme = useTheme()
     const hidden = useMediaQuery(theme.breakpoints.down('md'))
     const [listJob, setListJob] = useState<Job[]>([]);
-
-    const vacancy = [
-        {
-            judul: 'Junior Electrical',
-            namapt: 'PT Samudera Indonesia ',
-            lokasi: 'Jakarta,Indonesia',
-            waktu: '1 minute ago',
-        },
-        {
-            judul: 'Junior Electrical 2',
-            namapt: 'PT Samudera Indonesia',
-            lokasi: 'Jakarta,Indonesia',
-            waktu: '2 minute ago',
-        }];
+    const { user } = useAuth();
 
     const getListJobs = async () => {
         const response = await HttpClient.get('/job?page=1&take=25&search', {
@@ -50,7 +38,7 @@ const FindJob = () => {
                 <Grid item xs={12} md={10} sx={!hidden ? { alignItems: "stretch" } : {}}>
                     <Grid container spacing={6} sx={{ marginTop: '1px' }}>
                         <Grid item lg={4} md={5} xs={12}>
-                            <Profile vacancy={vacancy} />
+                            <Profile datauser={user} />
                             <Grid container mt={3} mb={3}>
                                 <Grid item xs={12}>
                                     <Card>
