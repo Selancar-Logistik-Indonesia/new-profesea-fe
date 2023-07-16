@@ -17,7 +17,7 @@ import {   Grid } from '@mui/material'
   
 import Recomended from './Recomended'
 import { Icon } from '@iconify/react'
-import Profile from 'src/layouts/components/Profile'
+// import Profile from 'src/layouts/components/Profile'
 import Feed from 'src/layouts/components/Feed'
 // import AboutOverivew from './JobVacancy' 
 // import NestedComment from './NestedComment'  
@@ -30,19 +30,7 @@ const FindCandidate = () => {
 const theme = useTheme() 
 const hidden = useMediaQuery(theme.breakpoints.down('md'))
    
-const vacancy = [
-  {
-    judul: 'Junior Electrical',
-    namapt: 'PT Samudera Indonesia ',
-    lokasi: 'Jakarta,Indonesia', 
-    waktu: '1 minute ago', 
-  },
-  {
-    judul: 'Junior Electrical 2',
-    namapt: 'PT Samudera Indonesia',
-    lokasi: 'Jakarta,Indonesia', 
-    waktu: '2 minute ago', 
-  }]
+ 
  const feed = [
   {
     name: 'Nova Gita Taregan',

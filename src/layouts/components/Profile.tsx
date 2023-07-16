@@ -5,7 +5,7 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'    
 import { styled } from '@mui/material/styles'
-import { Button, Divider,  IconButton } from '@mui/material' 
+import { Button, Divider  } from '@mui/material' 
  
 export type ParamJobVacncy = {
   judul: string
