@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Box from '@mui/material/Box'
 import { Card, CardContent, Grid, Typography, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
@@ -7,25 +7,12 @@ import Profile from 'src/layouts/components/Profile'
 import Feed from 'src/layouts/components/Feed'
 import NestedComment from './NestedComment'
 import Postfeed from './Postfeed'
-import { HttpClient } from 'src/services'
-import { AppConfig } from 'src/configs/api'
 import { useAuth } from 'src/hooks/useAuth'
 
 const SocialFeed = () => {
   const { user } = useAuth();
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
-  const [arrVacany, setArrVacancy] = useState<any>([])
-  function firstload() {
-    HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=25').then(response => {
-      const code = response.data.jobs.data
-      setArrVacancy(code)
-    })
-  }
-
-  useEffect(() => {
-    firstload()
-  }, [])
 
   const paramcomment = [
     {
