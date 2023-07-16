@@ -42,6 +42,8 @@ const UserDropdown = (props: Props) => {
   const router = useRouter()
   const { logout } = useAuth()
   const { direction } = settings
+  const [userData, setUserData] = useState<IUser | null>(null);
+  const userPhoto = (userData?.photo) ? userData.photo : "/images/avatars/default-user.png";
 
   const handleDropdownOpen = (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget)
@@ -54,7 +56,6 @@ const UserDropdown = (props: Props) => {
     setAnchorEl(null)
   }
 
-  const [userData, setUserData] = useState<IUser | null>(null);
   useEffect(() => {
     const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser;
     setUserData(user);
@@ -80,7 +81,6 @@ const UserDropdown = (props: Props) => {
     handleDropdownClose()
   }
 
-  const userPhoto = (userData?.photo) ? userData.photo : "/images/avatars/default-user.png";
   return (
     <Fragment>
       <Badge

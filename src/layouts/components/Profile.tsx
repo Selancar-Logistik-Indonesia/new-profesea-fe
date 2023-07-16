@@ -28,8 +28,8 @@ const ProfilePicture = styled('img')(({ theme }) => ({
 }))
 
 const Profile = (props: userProps) => {
-
   const userPhoto = (props.datauser?.photo) ? props.datauser.photo : "/images/avatars/default-user.png";
+
   return (
     <Grid container>
       <Grid item xs={12}>
