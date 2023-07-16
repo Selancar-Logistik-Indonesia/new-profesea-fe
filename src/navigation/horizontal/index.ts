@@ -14,42 +14,42 @@ const navigation = (): HorizontalNavItemsType => [
     title: 'Home',
     icon: 'mdi:home-outline',
     action: 'read',
-    subject: 'company'
+    subject: 'user-company'
   },
   {
     path: '/community',
     title: 'Community',
     icon: 'mdi:public',
     action: 'read',
-    subject: 'community'
+    subject: 'user-community'
   },
   {
     path: '/job-management',
     title: 'Manage Job',
     icon: 'mdi:work',
     action: 'read',
-    subject: 'job-management'
+    subject: 'user-job-management'
   },
   {
-    path: '/training-management',
+    path: '/trainer/training',
     title: 'Manage Training',
     icon: 'mdi:work',
     action: 'read',
-    subject: 'training-management'
+    subject: 'user-training-management'
   },
   {
     path: '/company/find-candidate',
     title: 'Find Candidate',
     icon: 'mdi:people',
     action: 'read',
-    subject: 'find-candidate'
+    subject: 'user-find-candidate'
   },
   {
     path: '/trainer/my-participant',
     title: 'List of Participant',
     icon: 'mdi:people',
     action: 'read',
-    subject: 'my-participant'
+    subject: 'user-my-participant'
   }
 ]
 

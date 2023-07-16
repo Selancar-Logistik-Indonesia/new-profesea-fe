@@ -154,10 +154,10 @@ useEffect(() => {
         
   )
 }
- 
 
 ProfileCompany.acl = {
   action: 'read',
-  subject: 'home'
+  subject: 'company/profile'
 };
+
 export default ProfileCompany

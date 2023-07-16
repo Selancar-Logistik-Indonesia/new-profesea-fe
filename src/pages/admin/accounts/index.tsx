@@ -41,7 +41,7 @@ const UserScreen = () => {
             const rows = resp.data.users.data as Account[];
             const items = rows.map((row, index) => {
                 return {
-                    no: index+1,
+                    no: index + 1,
                     id: row.id,
                     name: row.name,
                     email: row.email,
@@ -126,7 +126,7 @@ const UserScreen = () => {
                                 </Grid>
                             </Grid>
 
-                            <AccountDatagrid  
+                            <AccountDatagrid
                                 page={page - 1} // di MUI page pertama = 0
                                 rowCount={rowCount}
                                 pageSize={perPage}
@@ -156,5 +156,10 @@ const UserScreen = () => {
         </>
     )
 }
+
+UserScreen.acl = {
+    action: 'read',
+    subject: 'admin-accounts'
+};
 
 export default UserScreen

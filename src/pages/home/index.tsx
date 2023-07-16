@@ -1,30 +1,35 @@
- 
+
 import { useAuth } from 'src/hooks/useAuth'
 import Trainer from '../trainer'
 import SocialFeed from '../socialfeed';
 import Company from '../company';
+import AdminHomePage from '../admin/';
 
-const Home = () => {  
-  
-  const { user } = useAuth(); 
+const Home = () => {
+
+  const { user } = useAuth();
   console.log(user?.role);
-   debugger;
-  if(user?.role == 'Company'){
-    if(user?.build_profile_at == null){
+  if (user?.role == 'Company') {
+    if (user?.build_profile_at == null) {
       return <Company />
-    }else{
+    } else {
       return <SocialFeed />
     }
-     
   }
 
-  if(user?.role == 'Trainer'){ 
-    return(
-          <Trainer />
-        )
+  if (user?.role == 'Trainer') {
+    if (user?.build_profile_at == null) {
+      return <Trainer />
+    } else {
+      return <SocialFeed />
+    }
   }
-    
-   
+
+  if (user?.role == 'admin') {
+    return <AdminHomePage />;
+  }
+
+  return <></>;
   // return (
   //   <Grid container spacing={6}>
   //     <Grid item xs={12}>

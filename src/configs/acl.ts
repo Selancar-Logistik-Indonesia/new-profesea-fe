@@ -7,8 +7,8 @@ export type AppAbility = Ability<[Actions, Subjects]> | undefined
 
 export const AppAbility = Ability as any
 export type ACLObj = {
-  action: Actions
-  subject: string
+    action: Actions
+    subject: string
 }
 
 /**
@@ -17,33 +17,44 @@ export type ACLObj = {
  * admin can manage everything and client can just visit ACL page
  */
 const defineRulesFor = (role: string, subject: string) => {
-  const { can, rules } = new AbilityBuilder(AppAbility)
-  console.log(`subject: ${subject}`);
+    console.log(subject);
+    const { can, rules } = new AbilityBuilder(AppAbility)
+    if (role === 'admin') {
+        can('manage', [
+            'home',
+            'admin-accounts',
+            'admin-job-management',
+            'admin-training-management',
+            'admin-subcription-management',
+            'admin-ads-management',
+            'admin-community-management',
+            'admin-master-data',
+            'master/job-categories',
+            'master/training-categories',
+            'master/role-level'
+        ]);
+    } else if (role === 'Seafarer') {
+        can(['read'], ['home', 'community']);
+    } else if (role === 'Company') {
+        can(['read'], ['home', 'user-community', 'user-job-management', 'user-find-candidate', 'company/profile']);
+    } else if (role === 'Trainer') {
+        can(['read'], ['home', 'user-community', 'user-training-management', 'user-my-participant']);
+    }
 
-  if (role === 'admin') {
-    can('manage', 'all');
-  } else if (role === 'Seafarer') {
-    can(['read'], ['home', 'community']);
-  } else if (role === 'Company') {
-    can(['read'], ['home', 'community', 'job-management', 'find-candidate']);
-  } else {
-    can(['read'], ['home', 'community', 'training-management', 'my-participant']);
-  }
-
-  return rules
+    return rules
 }
 
 export const buildAbilityFor = (role: string, subject: string): AppAbility => {
-  return new AppAbility(defineRulesFor(role, subject), {
-    // https://casl.js.org/v5/en/guide/subject-type-detection
-    // @ts-ignore
-    detectSubjectType: object => object!.type
-  })
+    return new AppAbility(defineRulesFor(role, subject), {
+        // https://casl.js.org/v5/en/guide/subject-type-detection
+        // @ts-ignore
+        detectSubjectType: object => object!.type
+    });
 }
 
 export const defaultACLObj: ACLObj = {
-  action: 'manage',
-  subject: 'all'
+    action: 'manage',
+    subject: 'all'
 }
 
 export default defineRulesFor

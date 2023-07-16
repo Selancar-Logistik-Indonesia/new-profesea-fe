@@ -26,7 +26,7 @@ const Main = () => {
                     <Typography variant="h3" style={{ color: "#32487A" }}>{t("landing_hero_title")}</Typography>
                     <Typography fontSize={18} style={{ color: "#424242" }} mt={8}>{t("landing_hero_subtitle")}</Typography>
 
-                    <Container style={{ marginTop: 30 }}>
+                    <Container style={{ marginTop: 30, lineHeight: 3.5 }}>
                         <Button style={{ backgroundColor: "#32487A", color: "white", marginRight: 10 }} variant="contained">{t('b_apply_job')}</Button>
                         <Button style={{ backgroundColor: "#32487A", color: "white" }} variant="contained">{t('b_post_job')}</Button>
                     </Container>

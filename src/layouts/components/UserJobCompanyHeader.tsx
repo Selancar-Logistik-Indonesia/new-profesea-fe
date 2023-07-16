@@ -1,5 +1,3 @@
-// ** React Imports 
-// ** MUI Components
 import Box from '@mui/material/Box'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
@@ -43,7 +41,7 @@ const UserJobCompanyHeader = () => {
       </Grid>
       <Grid xs={7}>
         <Box>
-          < img src='/images/avatars/headerprofile.png' style={{ maxWidth:'100%', borderRadius:'10px'}}/>
+          <img alt='headerprofile.png' src='/images/avatars/headerprofile.png' style={{ maxWidth:'100%', borderRadius:'10px'}}/>
         </Box>
           
       </Grid> 

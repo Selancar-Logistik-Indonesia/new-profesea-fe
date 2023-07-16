@@ -25,7 +25,26 @@ const removeFirstZeroChar = (input: string) => {
     return input;
 }
 
+function toTitleCase(text: string) {
+    // Split the text into an array of words
+    const words = text.split(' ');
+
+    // Capitalize the first letter of each word
+    const capitalizedWords = words.map(word => {
+        const firstLetter = word.charAt(0).toUpperCase();
+        const restOfWord = word.slice(1).toLowerCase();
+
+        return firstLetter + restOfWord;
+    });
+
+    // Join the capitalized words back into a sentence
+    const result = capitalizedWords.join(' ');
+
+    return result;
+}
+
 export {
     getCleanErrorMessage,
     removeFirstZeroChar,
+    toTitleCase,
 }
