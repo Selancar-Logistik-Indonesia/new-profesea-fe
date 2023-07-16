@@ -231,6 +231,6 @@ const Company = () => {
 
 Company.acl = {
   action: 'read',
-  subject: 'community'
+  subject: 'company'
 };
 export default Company
