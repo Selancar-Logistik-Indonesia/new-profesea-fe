@@ -45,6 +45,20 @@ const navigation = (): HorizontalNavItemsType => [
     subject: 'user-find-candidate'
   },
   {
+    path: '/candidate/find-job',
+    title: 'Find Jpb',
+    icon: 'mdi:work',
+    action: 'read',
+    subject: 'find-job'
+  },
+  {
+    path: '/candidate/training',
+    title: 'My Training',
+    icon: 'mdi:play',
+    action: 'read',
+    subject: 'seaferer-training'
+  },
+  {
     path: '/trainer/my-participant',
     title: 'List of Participant',
     icon: 'mdi:people',
