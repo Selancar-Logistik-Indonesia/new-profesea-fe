@@ -1,19 +1,7 @@
-// ** React Imports
-import React, { useEffect, useState }  from 'react'
-
-// ** MUI Components
-import Box  from '@mui/material/Box'  
-import {  Card, CardContent, Typography, useMediaQuery   } from '@mui/material'
-
-import {  useTheme } from '@mui/material/styles'
-// ** Layout Import
-// import BlankLayout from 'src/@core/layouts/BlankLayout'
-
-// ** Hooks 
-
-// ** Demo Imports
-// import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import {   Grid } from '@mui/material'   
+import React, { useEffect, useState } from 'react'
+import Box from '@mui/material/Box'
+import { Card, CardContent, Grid, Typography, useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { Icon } from '@iconify/react'
 import Profile from 'src/layouts/components/Profile'
 import Feed from 'src/layouts/components/Feed'
@@ -21,66 +9,36 @@ import NestedComment from './NestedComment'
 import Postfeed from './Postfeed'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-// import secureLocalStorage from 'react-secure-storage'
-// import localStorageKeys from 'src/configs/localstorage_keys'
-// import { IUser } from 'src/contract/models/user'
-// import AboutOverivew from './JobVacancy' 
-// import NestedComment from './NestedComment'  
+import { useAuth } from 'src/hooks/useAuth'
 
-// import { yupResolver } from '@hookform/resolvers/yup'
-    
- 
-const SocialFeed = () => { 
-  
-const theme = useTheme() 
-const hidden = useMediaQuery(theme.breakpoints.down('md'))
-// const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser 
-// const [selectedItem, setSelectedItem] = useState<IUser | null>(null)
-const [arrVacany, setArrVacancy] = useState<any>([])
-function firstload() {
-  // HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
-  //   const user = response.data.user as IUser
-  //   setSelectedItem(user)
-  // })
-  HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=25').then(response => {
-    const code = response.data.jobs.data
-    setArrVacancy(code)
-    // const renderList = () => {
-    //   return code.map((item, index) => {})
-    // }
-  })
-}
+const SocialFeed = () => {
+  const { user } = useAuth();
+  const theme = useTheme()
+  const hidden = useMediaQuery(theme.breakpoints.down('md'))
+  const [arrVacany, setArrVacancy] = useState<any>([])
+  function firstload() {
+    HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=25').then(response => {
+      const code = response.data.jobs.data
+      setArrVacancy(code)
+    })
+  }
 
-useEffect(() => {
-  // setOpenPreview(false)
-  firstload()
-}, [])
-// const vacancy = [
-//   {
-//     judul: 'Junior Electrical',
-//     namapt: 'PT Samudera Indonesia ',
-//     lokasi: 'Jakarta,Indonesia', 
-//     waktu: '1 minute ago', 
-//   },
-//   {
-//     judul: 'Junior Electrical 2',
-//     namapt: 'PT Samudera Indonesia',
-//     lokasi: 'Jakarta,Indonesia', 
-//     waktu: '2 minute ago', 
-//   }]
+  useEffect(() => {
+    firstload()
+  }, [])
 
- const paramcomment = [
-  {
-    logo: '/images/avatars/1.png',
-    name: 'PT Samudera  ',
-    waktu: '1 minute ago', 
-    postcomment: 'Halo semuanya! Saya ingin berbagi kabar gembira bahwa saya, Lerian Febriana, baru saja bergabung dengan Profesea.id! Saya sangat antusias karena sekarang menjadi bagian dari tim sebagai Electrical Cadet.', 
-  }, {
-    logo: '/images/avatars/1.png',
-    name: 'PT Samudera  ',
-    waktu: '5 minute ago', 
-    postcomment: 'ini Testing Comment 2', 
-  },
+  const paramcomment = [
+    {
+      logo: '/images/avatars/1.png',
+      name: 'PT Samudera  ',
+      waktu: '1 minute ago',
+      postcomment: 'Halo semuanya! Saya ingin berbagi kabar gembira bahwa saya, Lerian Febriana, baru saja bergabung dengan Profesea.id! Saya sangat antusias karena sekarang menjadi bagian dari tim sebagai Electrical Cadet.',
+    }, {
+      logo: '/images/avatars/1.png',
+      name: 'PT Samudera  ',
+      waktu: '5 minute ago',
+      postcomment: 'ini Testing Comment 2',
+    },
   ]
 
   return (
@@ -93,14 +51,14 @@ useEffect(() => {
           sx={
             !hidden
               ? {
-                  alignItems: 'stretch'
-                }
+                alignItems: 'stretch'
+              }
               : {}
           }
         >
           <Grid container spacing={6}>
             <Grid item lg={4} md={5} xs={12}>
-              <Profile datauser={arrVacany} />
+              <Profile datauser={user} />
               <br></br>
               <Grid container>
                 <Grid item xs={12}>
@@ -197,7 +155,7 @@ useEffect(() => {
     </Box>
   )
 }
- 
+
 
 SocialFeed.acl = {
   action: 'read',
