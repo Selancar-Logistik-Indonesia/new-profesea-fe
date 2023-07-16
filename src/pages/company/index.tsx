@@ -3,15 +3,15 @@ import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import {  Tabs, Tab, useMediaQuery } from '@mui/material' 
-import { Grid } from '@mui/material' 
-import { useForm } from 'react-hook-form'  
- import CompanyProfile from 'src/layouts/components/CompanyProfile' 
+import { Tabs, Tab, useMediaQuery } from '@mui/material'
+import { Grid } from '@mui/material'
+import { useForm } from 'react-hook-form'
+import CompanyProfile from 'src/layouts/components/CompanyProfile'
 import { useTheme } from '@mui/material/styles'
 import ManageAccount from 'src/layouts/components/ManageAccount'
 import Subscription from 'src/layouts/components/Subscription'
- import {IUser} from 'src/contract/models/user'
- import localStorageKeys from 'src/configs/localstorage_keys'
+import { IUser } from 'src/contract/models/user'
+import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
@@ -30,16 +30,16 @@ type FormData = {
   address: string
   about: string
 }
-const Company = () => { 
-   
+const Company = () => {
+
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
-   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser; 
-   const [selectedItem, setSelectedItem] = useState<IUser|null>(null);
-  const { 
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser;
+  const [selectedItem, setSelectedItem] = useState<IUser | null>(null);
+  const {
   } = useForm<FormData>({
     mode: 'onBlur',
-  },) 
+  },)
   interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -48,7 +48,7 @@ const Company = () => {
 
   function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
- 
+
     return (
       <div
         role="tabpanel"
@@ -59,7 +59,7 @@ const Company = () => {
       >
         {value === index && (
           <Box sx={{ p: 3 }}>
-            {children} 
+            {children}
           </Box>
         )}
       </div>
@@ -83,12 +83,12 @@ const Company = () => {
 
       getColor('#FFFFFF');
     }
-  }; 
-  function firstload(){
-    HttpClient.get(AppConfig.baseUrl + "/user/"+user.id)
+  };
+  function firstload() {
+    HttpClient.get(AppConfig.baseUrl + "/user/" + user.id)
       .then((response) => {
-          const user = response.data.user as IUser; 
-          setSelectedItem(user);
+        const user = response.data.user as IUser;
+        setSelectedItem(user);
       })
   }
 
@@ -96,17 +96,17 @@ const Company = () => {
     // setOpenPreview(false)
     firstload()
   }, [])
-  
+
   return (
     <Box  >
       <Grid container spacing={2}>
         <Grid container item xs={12} md={10}
           sx={!hidden ? {
-            p: 4, 
+            p: 4,
             justifyContent: "flex-start",
             alignItems: "stretch",
             alignContent: 'top',
-            marginBottom: '10px', 
+            marginBottom: '10px',
 
 
           } : {
@@ -121,7 +121,7 @@ const Company = () => {
               borderRadius: '40px'
             }}>
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
-             
+
                 <Tab label="COMPANY BUILDER" {...a11yProps(0)} />
                 <Tab label="ACCOUNT" {...a11yProps(1)} />
                 <Tab label="MANAGE" {...a11yProps(2)} />
@@ -144,15 +144,15 @@ const Company = () => {
                 <TabPanel value={value} index={0}>
                   <Grid container item xs={12}>
                     <Grid container item xs={9}>  </Grid>
-                    <Grid item md={12} xs={3} container justifyContent={'right'} marginTop={'10px'}>                      
+                    <Grid item md={12} xs={3} container justifyContent={'right'} marginTop={'10px'}>
                     </Grid>
-                  </Grid> 
-                  { selectedItem!= null &&  <CompanyProfile  visible={true}  datauser={selectedItem} address={selectedItem.address}/>}
-                      
-                     
-               
-                   
-                </TabPanel> 
+                  </Grid>
+                  {selectedItem != null && <CompanyProfile visible={true} datauser={selectedItem} address={selectedItem.address} />}
+
+
+
+
+                </TabPanel>
                 <TabPanel value={value} index={2}>
                   <ManageAccount></ManageAccount>
                 </TabPanel>
@@ -181,13 +181,13 @@ const Company = () => {
               display: 'flex',
               alignItems: 'stretch',
               justifyContent: 'left',
-              marginBottom: '10px', 
+              marginBottom: '10px',
               height: '197px',
               wrap: 'nowrap'
             }}>
 
             </Grid>
-             <Grid item xs={12} sx={{
+            <Grid item xs={12} sx={{
               boxSizing: 'border-box',
               background: '#FFFFFF',
               border: '1px solid rgba(76, 78, 100, 0.12)',
@@ -196,13 +196,13 @@ const Company = () => {
               display: 'flex',
               alignItems: 'stretch',
               justifyContent: 'left',
-              marginBottom: '10px', 
+              marginBottom: '10px',
               height: '197px',
               wrap: 'nowrap'
             }}>
 
             </Grid>
-             <Grid item xs={12} sx={{
+            <Grid item xs={12} sx={{
               boxSizing: 'border-box',
               background: '#FFFFFF',
               border: '1px solid rgba(76, 78, 100, 0.12)',
@@ -211,17 +211,17 @@ const Company = () => {
               display: 'flex',
               alignItems: 'stretch',
               justifyContent: 'left',
-              marginBottom: '10px', 
+              marginBottom: '10px',
               height: '197px',
               wrap: 'nowrap'
             }}>
 
-            </Grid> 
-            
-          </Grid> 
-        </Grid> 
-      </Grid> 
-    </Box> 
+            </Grid>
+
+          </Grid>
+        </Grid>
+      </Grid>
+    </Box>
   )
 }
 
@@ -231,6 +231,6 @@ const Company = () => {
 
 Company.acl = {
   action: 'read',
-  subject: 'home'
+  subject: 'community'
 };
 export default Company
