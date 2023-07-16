@@ -121,7 +121,7 @@ const PricingView = () => {
 
                         return (
                             <Grid width={320} height={850} mx={5} mt={5} key={item} padding={5} item component={Card} textAlign="center">
-                                <Typography mb={2} variant="h5">Ketengan</Typography>
+                                <Typography mb={2} variant="h5">Pay per Items</Typography>
 
                                 <Grid
                                     container

@@ -27,26 +27,23 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
   borderRadius: '50%',
   backgroundColor: theme.palette.success.main,
   boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
-}))
+}));
+
 const LinkStyled = styled(Link)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   textDecoration: 'none',
   marginRight: theme.spacing(8)
-}))
+}));
+
 const UserDropdown = (props: Props) => {
-  // ** Props
   const { settings } = props
-
-  // ** States
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
-
-  // ** Hooks
   const router = useRouter()
   const { logout } = useAuth()
-
-  // ** Vars
   const { direction } = settings
+  const [userData, setUserData] = useState<IUser | null>(null);
+  const userPhoto = (userData?.photo) ? userData.photo : "/images/avatars/default-user.png";
 
   const handleDropdownOpen = (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget)
@@ -59,7 +56,6 @@ const UserDropdown = (props: Props) => {
     setAnchorEl(null)
   }
 
-  const [userData, setUserData] = useState<IUser | null>(null);
   useEffect(() => {
     const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser;
     setUserData(user);
@@ -101,7 +97,7 @@ const UserDropdown = (props: Props) => {
           alt='John Doe'
           onClick={handleDropdownOpen}
           sx={{ width: 40, height: 40 }}
-          src='/images/avatars/1.png'
+          src={userPhoto}
         />
       </Badge>
       <Menu
@@ -122,7 +118,7 @@ const UserDropdown = (props: Props) => {
                 horizontal: 'right'
               }}
             >
-              <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar alt='John Doe' src={userPhoto} sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography sx={{ fontWeight: 600 }}>{userData?.name}</Typography>
@@ -136,9 +132,9 @@ const UserDropdown = (props: Props) => {
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:account-outline' />
-             <LinkStyled   href='/company/profile'>
-          Profile
-        </LinkStyled>
+            <LinkStyled href='/company/profile'>
+              Profile
+            </LinkStyled>
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
