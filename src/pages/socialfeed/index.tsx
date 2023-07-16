@@ -111,7 +111,7 @@ useEffect(() => {
         >
           <Grid container spacing={6}>
             <Grid item lg={4} md={5} xs={12}>
-              <Profile vacancy={arrVacany} />
+              <Profile datauser={arrVacany} />
               <br></br>
               <Grid container>
                 <Grid item xs={12}>

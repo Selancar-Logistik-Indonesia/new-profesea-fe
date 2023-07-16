@@ -80,7 +80,7 @@ const vacancy = [
             
             <Grid container spacing={6} sx={{marginTop:'1px'}}>
               <Grid item lg={4} md={5} xs={12}> 
-                <Profile vacancy={vacancy}  /> 
+                {/* <Profile vacancy={vacancy}  />  */}
                 <br></br> 
                 <Grid container  >
                   <Grid item xs={12}>
