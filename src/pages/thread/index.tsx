@@ -3,7 +3,7 @@ import React , { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box  from '@mui/material/Box'  
-import {  Card, CardContent, Typography, useMediaQuery   } from '@mui/material'
+import {   Card, CardContent, Typography, useMediaQuery   } from '@mui/material'
 
 import {  useTheme } from '@mui/material/styles'
 // ** Layout Import
@@ -13,7 +13,9 @@ import {  useTheme } from '@mui/material/styles'
 
 // ** Demo Imports
 // import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import {   Grid } from '@mui/material'   
+import {   Grid } from '@mui/material'  
+ 
+import Recomended from './Recomended'
 import { Icon } from '@iconify/react'
 import Profile from 'src/layouts/components/Profile'
 import Feed from 'src/layouts/components/Feed'
@@ -21,11 +23,12 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
-import { IUser } from 'src/contract/models/user' 
-import ListThread from './ListThread'
- 
-const Community = () => { 
-  
+import { IUser } from 'src/contract/models/user'  
+import CommentForm from './CommentForm'
+
+const Thread = () => { 
+   const windowUrl = window.location.search
+   const params = new URLSearchParams(windowUrl)
 const theme = useTheme() 
 const hidden = useMediaQuery(theme.breakpoints.down('md')) 
 const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -33,20 +36,19 @@ const [userDetail, setUserDetail] = useState<IUser | null>(null)
 const [listThread, setlistThread] = useState<any>([])
  
 const firstload = () => {
-  HttpClient.get(AppConfig.baseUrl + '/thread?page=1&take=10&search=').then(response => {
-    const code = response.data.threads.data 
-    
-    setlistThread(code)
-  })
-  HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
-    const user = response.data.user as IUser
-    setUserDetail(user)
+   debugger;
+    HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
+      const user = response.data.user  
+      setUserDetail(user)
+    })
+  HttpClient.get(AppConfig.baseUrl + '/thread/' + params.get('id')).then(response => {
+    const user = response.data.thread  
+    setlistThread(user)
   })
 }
  useEffect(() => { 
    firstload()
- }, [])
- 
+ }, []) 
  const feed = [
   {
     name: 'Nova Gita Taregan',
@@ -57,23 +59,7 @@ const firstload = () => {
     talent: 'Talent acquisition at telcom.com', 
   }, ]
  
-//  const paramcomment = [
-//   { 
-//     company: 'PT Samudera Indonesia Maritim',
-//     title: 'Cara Belajar Kemudi Kapal', 
-//     forum: 'Forum Seafarer', 
-//     date: '24 Maret 2023 17.54', 
-//     replies: '2', 
-//   },   
-//   { 
-//     company: 'PT Samudera Indonesia Maritim',
-//     title: 'P3K Di Kapal', 
-//     forum: 'Forum Seafarer', 
-//     date: '1 Maret 2023 01.54', 
-//     replies: '3', 
-//   }, 
-//   ]
-
+   
   return (
     <Box>
       <Grid container spacing={2}>
@@ -89,7 +75,7 @@ const firstload = () => {
               : {}
           }
         >
-          <Grid container spacing={6} >
+          <Grid item container spacing={6}>
             <Grid item lg={4} md={5} xs={12}>
               <Profile datauser={userDetail} />
               <br></br>
@@ -115,7 +101,41 @@ const firstload = () => {
             <Grid item lg={8} md={7} xs={12}>
               <Grid container spacing={6}>
                 <Grid item xs={12}>
-                  <ListThread paramcomment={listThread} ></ListThread>
+                  <Card>
+                    <CardContent
+                      sx={{
+                        background: 'rgba(253, 181, 40, 0.05)',
+                        border: '1px solid',
+                        borderColor: 'rgba(253, 181, 40, 0.50)'
+                      }}
+                    >
+                      <Box sx={{ mb: 7 }}>
+                        <Grid item container xs={12} justifyContent={'center'}>
+                          <Typography
+                            variant='body2'
+                            sx={{ mb: 4, color: '#424242', textTransform: 'uppercase', fontWeight: 600 }}
+                          >
+                            {listThread?.title}
+                          </Typography>
+                        </Grid>
+                        <Grid item container xs={12} justifyContent={'flex'}>
+                          <Typography
+                            variant='body1'
+                            sx={{ mb: 4, color: '#424242', textTransform: 'uppercase', fontWeight: 300 }}
+                          >
+                            {listThread?.content}
+                          </Typography>
+                        </Grid>
+                        <Grid item container xs={12} justifyContent={'flex'}>
+                          <CommentForm  />
+                           
+                        </Grid>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={12}>
+                  <Recomended paramcomment={listThread}></Recomended>
                 </Grid>
               </Grid>
             </Grid>
@@ -187,8 +207,8 @@ const firstload = () => {
 }
  
 
-Community.acl = {
+Thread.acl = {
   action: 'read',
   subject: 'home'
 };
-export default Community
+export default Thread
