@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
 import { Button, Divider } from '@mui/material'
-import { useAuth } from 'src/hooks/useAuth'
 
 export type ParamJobVacncy = {
   judul: string
@@ -29,9 +28,8 @@ const ProfilePicture = styled('img')(({ theme }) => ({
 }))
 
 const Profile = (props: userProps) => {
-  const { user } = useAuth();
 
-  const userPhoto = (user?.photo) ? user.photo : "/images/avatars/default-user.png";
+  const userPhoto = (props.datauser?.photo) ? props.datauser.photo : "/images/avatars/default-user.png";
   return (
     <Grid container>
       <Grid item xs={12}>
