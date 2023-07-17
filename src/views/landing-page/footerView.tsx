@@ -5,26 +5,23 @@ import { faFacebook, faInstagram, faLinkedin, faTwitter } from "@fortawesome/fre
 const FooterView = () => {
     return (
         <Grid sx={{ backgroundColor: '#98a9d1', backgroundSize: 'cover' }} px={10} pt={5} pb={5} container id="footer">
-            <Grid item xs={12} md={6} mt={2} px={10}>
-                <Grid container>
-                    <Grid item md={2}>
+            <Grid item xs={12} md={6} sx={{ px: { md: 10 } }}>
+                <Grid container mt={6}>
+                    <Grid item md={3} xs={6}>
                         <Typography variant='h5' sx={{ mb: 2 }} color={"#32487A"}>Company</Typography>
                         <Typography mt={1.7} variant='body1' color={"#424242"}>Terms Of Service</Typography>
                         <Typography mt={1.7} variant='body1' color={"#424242"}>Privacy Policy</Typography>
                         <Typography mt={1.7} variant='body1' color={"#424242"}>FAQ</Typography>
                     </Grid>
-                    <Grid item md={2} alignContent={'left'}>
+                    <Grid item md={2} xs={6} alignContent={'left'}>
                         <Typography variant='h5' sx={{ mb: 2 }} color={"#32487A"}>Platform</Typography>
                         <Typography mt={1.7} variant='body1' color={"#424242"}>Seafarer</Typography>
                         <Typography mt={1.7} variant='body1' color={"#424242"}>Company</Typography>
                         <Typography mt={1.7} variant='body1' color={"#424242"}>Trainer</Typography>
                     </Grid>
-                    <Grid mt={10} item md={12} alignContent={'left'}>
-                        <Typography color="#32487A">&copy; 2023 All rights reserved. Profesea.</Typography>
-                    </Grid>
                 </Grid>
             </Grid>
-            <Grid xs={12} md={6} item direction="row" alignItems="center" justifyContent="space-between" sx={{ backgroundColor: '#98a9d1', backgroundSize: 'cover' }}>
+            <Grid xs={12} md={6} item sx={{ mt: { xs: 7 } }}>
                 <Grid container>
                     <Grid item xs={12} textAlign={'left'} justifyItems="flex-end">
                         <Box
@@ -52,6 +49,9 @@ const FooterView = () => {
                         </IconButton>
                     </Grid>
                 </Grid>
+            </Grid>
+            <Grid item sx={{ mt: { xs: 4 } }} xs={12}>
+                <Typography color="#32487A">&copy; 2023 All rights reserved. Profesea.</Typography>
             </Grid>
         </Grid>
     );

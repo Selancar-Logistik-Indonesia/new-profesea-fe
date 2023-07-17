@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import { Button, Card, CardMedia, TextField } from '@mui/material'
-import { styled } from '@mui/material/styles'
+import { Avatar, Button, Card, CardMedia, TextField } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
 
 export type ParamMain = {
@@ -10,16 +9,6 @@ export type ParamMain = {
     waktu: string
     postcomment: string
 };
-
-const ProfilePicture = styled('img')(({ theme }) => ({
-    width: 75,
-    height: 75,
-    borderRadius: theme.shape.borderRadius,
-    border: `5px solid ${theme.palette.common.white}`,
-    [theme.breakpoints.down('md')]: {
-        marginBottom: theme.spacing(4)
-    }
-}));
 
 const Postfeed = (props: any) => {
     const parentId = props['parentid'];
@@ -30,14 +19,14 @@ const Postfeed = (props: any) => {
         <Card>
             <CardMedia>
                 <Grid container paddingRight={5} paddingTop={5} paddingBottom={5}>
-                    <Grid xs={2}>
+                    <Grid xs={4} md={2}>
                         <Box display="flex"
                             justifyContent="center"
                             alignItems="center" >
-                            <ProfilePicture src={userPhoto} alt='profile-picture' sx={{ borderRadius: '130px' }} />
+                            <Avatar src={userPhoto} alt='profile-picture' sx={{ height: 60, width: 60 }} />
                         </Box>
                     </Grid>
-                    <Grid xs={10} >
+                    <Grid xs={8} md={10}>
                         <Grid container justifyContent="flex-end">
                             <Grid xs={12} md={12} mb={3}>
                                 <TextField
