@@ -10,6 +10,7 @@ import VerticalNavItems from './VerticalNavItems'
 import VerticalNavHeader from './VerticalNavHeader'
 import themeOptions from 'src/@core/theme/ThemeOptions'
 import NavItemType from 'src/contract/types/navItemType'
+import { IUser } from 'src/contract/models/user'
 
 interface Props {
   navWidth: number
@@ -29,6 +30,7 @@ interface Props {
   menuUnlockedIcon: LayoutProps['verticalLayoutProps']['navMenu']['unlockedIcon']
   afterNavMenuContent: LayoutProps['verticalLayoutProps']['navMenu']['afterContent']
   beforeNavMenuContent: LayoutProps['verticalLayoutProps']['navMenu']['beforeContent']
+  user: IUser | null
 }
 
 const Navigation = (props: Props) => {
