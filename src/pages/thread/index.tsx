@@ -49,17 +49,7 @@ const firstload = () => {
  useEffect(() => { 
    firstload()
  }, []) 
- const feed = [
-  {
-    name: 'Nova Gita Taregan',
-    talent: 'Talent acquisition at barbar.com', 
-  },
-  {
-    name: 'Anis Dewinta Zahra',
-    talent: 'Talent acquisition at telcom.com', 
-  }, ]
- 
-   
+    
   return (
     <Box>
       <Grid container spacing={2}>
@@ -87,7 +77,7 @@ const firstload = () => {
                         <Icon icon={'arcticons:connect-you'} fontSize={30} />{' '}
                         <Typography variant='body1' sx={{ color: '#424242', fontWeight: 600 }}>
                           {' '}
-                          Total Conected :250
+                          total connected :250
                         </Typography>
                       </Box>
                     </CardContent>
@@ -96,7 +86,7 @@ const firstload = () => {
               </Grid>
 
               <br></br>
-              <Feed feed={feed}></Feed>
+              <Feed  ></Feed>
             </Grid>
             <Grid item lg={8} md={7} xs={12}>
               <Grid container spacing={6}>

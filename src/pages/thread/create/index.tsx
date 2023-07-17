@@ -68,7 +68,7 @@ const save = ( ) => {
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid xs={10} container >
+        <Grid xs={10} container>
           <Grid
             item
             container
@@ -85,15 +85,15 @@ const save = ( ) => {
               wrap: 'nowrap'
             }}
           >
-            <Grid item container xs={12} spacing={2} >
-              <Grid xs={12} md={6} > 
+            <Grid item container xs={12} columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
+              <Grid xs={12} md={6}>
                 <TextField
                   id='companyName'
                   // defaultValue={props.datauser.name}
                   label='Company Name'
                   variant='outlined'
                   fullWidth
-                  sx={{ mb: 1 }} 
+                  sx={{ mb: 1 }}
                 />
               </Grid>
               <Grid xs={12} md={6}>

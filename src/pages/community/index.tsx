@@ -23,7 +23,7 @@ import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user' 
 import ListThread from './ListThread'
- 
+  
 const Community = () => { 
   
 const theme = useTheme() 
@@ -47,40 +47,14 @@ const firstload = () => {
    firstload()
  }, [])
  
- const feed = [
-  {
-    name: 'Nova Gita Taregan',
-    talent: 'Talent acquisition at barbar.com', 
-  },
-  {
-    name: 'Anis Dewinta Zahra',
-    talent: 'Talent acquisition at telcom.com', 
-  }, ]
  
-//  const paramcomment = [
-//   { 
-//     company: 'PT Samudera Indonesia Maritim',
-//     title: 'Cara Belajar Kemudi Kapal', 
-//     forum: 'Forum Seafarer', 
-//     date: '24 Maret 2023 17.54', 
-//     replies: '2', 
-//   },   
-//   { 
-//     company: 'PT Samudera Indonesia Maritim',
-//     title: 'P3K Di Kapal', 
-//     forum: 'Forum Seafarer', 
-//     date: '1 Maret 2023 01.54', 
-//     replies: '3', 
-//   }, 
-//   ]
-
   return (
     <Box>
       <Grid container spacing={2}>
         <Grid
           container
           xs={12}
-          md={10}
+          md={12}
           sx={
             !hidden
               ? {
@@ -90,7 +64,7 @@ const firstload = () => {
           }
         >
           <Grid container spacing={6} >
-            <Grid item lg={4} md={5} xs={12}>
+            <Grid item lg={3} md={3} xs={12}>
               <Profile datauser={userDetail} />
               <br></br>
               <Grid container>
@@ -101,7 +75,7 @@ const firstload = () => {
                         <Icon icon={'arcticons:connect-you'} fontSize={30} />{' '}
                         <Typography variant='body1' sx={{ color: '#424242', fontWeight: 600 }}>
                           {' '}
-                          Total Conected :250
+                          total connected :250
                         </Typography>
                       </Box>
                     </CardContent>
@@ -110,9 +84,9 @@ const firstload = () => {
               </Grid>
 
               <br></br>
-              <Feed feed={feed}></Feed>
+              <Feed  ></Feed>
             </Grid>
-            <Grid item lg={8} md={7} xs={12}>
+            <Grid item lg={9} md={9} xs={12}>
               <Grid container spacing={6}>
                 <Grid item xs={12}>
                   <ListThread paramcomment={listThread} ></ListThread>
@@ -121,66 +95,9 @@ const firstload = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid
-          xs={2}
-          container
-          display={'flex'}
-          sx={{ direction: 'row', justifyContent: 'flex-start', alignContent: 'top', alignItems: 'stretch' }}
-        >
-          <Grid xs={12}>
-            <Grid
-              xs={12}
-              sx={{
-                boxSizing: 'border-box',
-                background: '#FFFFFF',
-                border: '1px solid rgba(76, 78, 100, 0.12)',
-                borderRadius: '20px',
-                p: 4,
-                display: 'flex',
-                alignItems: 'stretch',
-                justifyContent: 'left',
-                marginBottom: '10px',
-                marginLeft: '20px',
-                height: '197px',
-                wrap: 'nowrap'
-              }}
-            ></Grid>
-            <Grid
-              xs={12}
-              sx={{
-                boxSizing: 'border-box',
-                background: '#FFFFFF',
-                border: '1px solid rgba(76, 78, 100, 0.12)',
-                borderRadius: '20px',
-                p: 4,
-                display: 'flex',
-                alignItems: 'stretch',
-                justifyContent: 'left',
-                marginBottom: '10px',
-                marginLeft: '20px',
-                height: '197px',
-                wrap: 'nowrap'
-              }}
-            ></Grid>
-            <Grid
-              xs={12}
-              sx={{
-                boxSizing: 'border-box',
-                background: '#FFFFFF',
-                border: '1px solid rgba(76, 78, 100, 0.12)',
-                borderRadius: '20px',
-                p: 4,
-                display: 'flex',
-                alignItems: 'stretch',
-                justifyContent: 'left',
-                marginBottom: '10px',
-                marginLeft: '20px',
-                height: '197px',
-                wrap: 'nowrap'
-              }}
-            ></Grid>
-          </Grid>
-        </Grid>
+        
+
+          {/* <SideAd/>  */}
       </Grid>
     </Box>
   )
