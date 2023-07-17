@@ -26,6 +26,8 @@ jobs:
           git add . && git stash
           git pull origin main
   instal_dependency:
+    needs:
+      - pull_update
     runs-on: ubuntu-latest
     steps:
     - name: Install dependency
@@ -40,6 +42,8 @@ jobs:
           cd ~/www/fe-selancar/
           /root/n/bin/npm i
   build:
+    needs:
+      - instal_dependency
     runs-on: ubuntu-latest
     steps:
     - name: Build and deploy
