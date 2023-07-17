@@ -4,6 +4,7 @@ import Box, { BoxProps } from '@mui/material/Box'
 import { styled } from '@mui/material/styles'
 import { LayoutProps } from 'src/@core/layouts/types'
 import Icon from 'src/@core/components/icon'
+import { IUser } from 'src/contract/models/user'
 
 interface Props {
     navHover: boolean
@@ -16,6 +17,7 @@ interface Props {
     navMenuBranding?: LayoutProps['verticalLayoutProps']['navMenu']['branding']
     menuLockedIcon?: LayoutProps['verticalLayoutProps']['navMenu']['lockedIcon']
     menuUnlockedIcon?: LayoutProps['verticalLayoutProps']['navMenu']['unlockedIcon']
+    user: IUser | null
 }
 
 // ** Styled Components
@@ -35,7 +37,6 @@ const LinkStyled = styled(Link)({
 })
 
 const VerticalNavHeader = (props: Props) => {
-    // ** Props
     const {
         hidden,
         navHover,
@@ -45,11 +46,7 @@ const VerticalNavHeader = (props: Props) => {
         navigationBorderWidth,
         navMenuBranding: userNavMenuBranding,
     } = props
-
-    // ** Hooks & Vars
     const { navCollapsed } = settings
-
-
     const menuHeaderPaddingLeft = () => {
         if (navCollapsed && !navHover) {
             if (userNavMenuBranding) {
@@ -62,37 +59,52 @@ const VerticalNavHeader = (props: Props) => {
         }
     }
 
-
     return (
         <MenuHeaderWrapper className='nav-header' sx={{ pl: menuHeaderPaddingLeft() }}>
-            {userNavMenuBranding ? (
-                userNavMenuBranding(props)
-            ) : (
-                <LinkStyled href='/'>
-                    <Box
-                        component="img"
-                        sx={{ width: 150 }}
-                        alt="The Profesea logo"
-                        title="Profesea"
-                        src="/images/logosamudera.png"
-                    />
-                </LinkStyled>
-            )}
-
-            {
-                hidden ? (
-                    <IconButton
-                        disableRipple
-                        disableFocusRipple
-                        onClick={toggleNavVisibility}
-                        sx={{ p: 0, backgroundColor: 'transparent !important' }}
-                    >
-                        <Icon icon='mdi:close' fontSize={20} />
-                    </IconButton>
-                ) : <></>
-            }
+            {/* {!user ? <RegularNavHeader hidden={hidden} toggleNavVisibility={toggleNavVisibility} /> : <SessionedNvHeader user={props.user!} />} */}
+            <RegularNavHeader hidden={hidden} toggleNavVisibility={toggleNavVisibility} />
         </MenuHeaderWrapper>
     )
 }
+
+const RegularNavHeader = (props: { hidden: boolean, toggleNavVisibility: () => void }) => {
+    const { hidden, toggleNavVisibility } = props;
+
+    return <>
+        <LinkStyled href='/'>
+            <Box
+                component="img"
+                sx={{ width: 150 }}
+                alt="The Profesea logo"
+                title="Profesea"
+                src="/images/logosamudera.png"
+            />
+        </LinkStyled>
+
+        {hidden && (
+            <IconButton disableRipple disableFocusRipple onClick={toggleNavVisibility} sx={{ p: 0, backgroundColor: 'transparent !important' }} >
+                <Icon icon='mdi:close' fontSize={20} />
+            </IconButton>
+        )}
+    </>;
+}
+
+// const SessionedNvHeader = (props: { user: IUser }) => {
+//     const userPhoto = (props.user?.photo) ? props.user.photo : "/images/avatars/default-user.png";
+
+//     return <Box display={'flex'} flexDirection={'column'} mt={6} alignItems={'start'}>
+//         <Box display='flex' justifyContent='center' alignItems='center' mb={3}>
+//             <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50 }} />
+//         </Box>
+//         <Box display='flex' justifyContent='center' alignItems='center'>
+//             <Typography variant='body1' sx={{ color: 'text.primary', textTransform: 'uppercase' }}>
+//                 {props.user?.name}
+//             </Typography>
+//         </Box>
+//         <Box display='flex' justifyContent='center' alignItems='center'>
+//             <Typography sx={{ color: 'text.secondary' }}> {props.user?.industry?.name}</Typography>
+//         </Box>
+//     </Box>;
+// }
 
 export default VerticalNavHeader

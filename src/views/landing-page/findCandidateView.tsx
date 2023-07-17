@@ -22,17 +22,17 @@ const FindCandidateView = (props: { id: string }) => {
 
     return (
         <Grid id={props.id} sx={{ backgroundColor: '#f3f2f0', backgroundSize: 'cover', height: 400 }} marginY={1} container direction="column" alignItems="center" justifyContent="center">
-            <Grid container mt={10} ml={10}>
+            <Grid container mt={10} sx={{ mx: { xs: 5, md: 10 } }}>
                 <Grid item lg={4} md={6} textAlign={'left'}>
                     <Typography variant='h4' sx={{ mb: 5 }} color={"#32487A"}>{t("landing_candidate_title")}</Typography>
                     <Typography fontSize={14} variant='body1'>{t("landing_candidate_subtitle")}</Typography>
                 </Grid>
                 <Grid item lg={8} md={6}>
-                    <Container sx={{ marginY: 5 }} disableGutters>
+                    <Container sx={{ my: 5 }} disableGutters>
                         <Button startIcon={<FontAwesomeIcon color="#fff" icon={faAdd} />} variant="contained">{t('b_post_job')}</Button>
                     </Container>
                     <Typography variant="h6" color={"#32487A"}>Suggested Searches</Typography>
-                    <Grid item lg={9} sx={{ marginY: 5 }}>
+                    <Grid item lg={9} xs={12} sx={{ my: 5, maxWidth: { xs: '90%' } }}>
                         {
                             planItems.map((item, i) => (
                                 i == 9

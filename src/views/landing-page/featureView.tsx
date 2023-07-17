@@ -35,7 +35,7 @@ const FeatureView = () => {
             {
                 featureItems.map(item => (
                     <Grid item key={item.key}>
-                        <Card sx={{ width: 420, height: 600, backgroundColor: '#f7f7f9' }} elevation={0}>
+                        <Card sx={{ width: 420, height: 600, backgroundColor: '#4c98cf12' }} elevation={0}>
                             <CardContent>
                                 <Box
                                     component="img"
