@@ -1,11 +1,11 @@
 // ** React Imports
-import React, { useEffect, useState } from 'react'
+import React , { useEffect, useState } from 'react'
 
 // ** MUI Components
-import Box from '@mui/material/Box'
-import { Card, CardContent, Typography, useMediaQuery } from '@mui/material'
+import Box  from '@mui/material/Box'  
+import {   Card, CardContent, Typography, useMediaQuery   } from '@mui/material'
 
-import { useTheme } from '@mui/material/styles'
+import {  useTheme } from '@mui/material/styles'
 // ** Layout Import
 // import BlankLayout from 'src/@core/layouts/BlankLayout'
 
@@ -13,8 +13,8 @@ import { useTheme } from '@mui/material/styles'
 
 // ** Demo Imports
 // import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import { Grid } from '@mui/material'
-
+import {   Grid } from '@mui/material'  
+ 
 import Recomended from './Recomended'
 import { Icon } from '@iconify/react'
 import Profile from 'src/layouts/components/Profile'
@@ -23,33 +23,33 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
-import { IUser } from 'src/contract/models/user'
+import { IUser } from 'src/contract/models/user'  
 import CommentForm from './CommentForm'
 
-const Thread = () => {
-  const windowUrl = window.location.search
-  const params = new URLSearchParams(windowUrl)
-  const theme = useTheme()
-  const hidden = useMediaQuery(theme.breakpoints.down('md'))
-  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  const [userDetail, setUserDetail] = useState<IUser | null>(null)
-  const [listThread, setlistThread] = useState<any>([])
-
-  const firstload = () => {
-    debugger;
+const Thread = () => { 
+   const windowUrl = window.location.search
+   const params = new URLSearchParams(windowUrl)
+const theme = useTheme() 
+const hidden = useMediaQuery(theme.breakpoints.down('md')) 
+const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+const [userDetail, setUserDetail] = useState<IUser | null>(null)
+const [listThread, setlistThread] = useState<any>([])
+ 
+const firstload = () => {
+   debugger;
     HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
-      const user = response.data.user
+      const user = response.data.user  
       setUserDetail(user)
     })
-    HttpClient.get(AppConfig.baseUrl + '/thread/' + params.get('id')).then(response => {
-      const user = response.data.thread
-      setlistThread(user)
-    })
-  }
-  useEffect(() => {
-    firstload()
-  }, [])
-
+  HttpClient.get(AppConfig.baseUrl + '/thread/' + params.get('id')).then(response => {
+    const user = response.data.thread  
+    setlistThread(user)
+  })
+}
+ useEffect(() => { 
+   firstload()
+ }, []) 
+    
   return (
     <Box>
       <Grid container spacing={2}>
@@ -60,8 +60,8 @@ const Thread = () => {
           sx={
             !hidden
               ? {
-                alignItems: 'stretch'
-              }
+                  alignItems: 'stretch'
+                }
               : {}
           }
         >
@@ -77,7 +77,7 @@ const Thread = () => {
                         <Icon icon={'arcticons:connect-you'} fontSize={30} />{' '}
                         <Typography variant='body1' sx={{ color: '#424242', fontWeight: 600 }}>
                           {' '}
-                          Total Conected :250
+                          total connected :250
                         </Typography>
                       </Box>
                     </CardContent>
@@ -86,7 +86,7 @@ const Thread = () => {
               </Grid>
 
               <br></br>
-              <Feed />
+              <Feed  ></Feed>
             </Grid>
             <Grid item lg={8} md={7} xs={12}>
               <Grid container spacing={6}>
@@ -117,8 +117,8 @@ const Thread = () => {
                           </Typography>
                         </Grid>
                         <Grid item container xs={12} justifyContent={'flex'}>
-                          <CommentForm />
-
+                          <CommentForm  />
+                           
                         </Grid>
                       </Box>
                     </CardContent>
@@ -195,7 +195,7 @@ const Thread = () => {
     </Box>
   )
 }
-
+ 
 
 Thread.acl = {
   action: 'read',

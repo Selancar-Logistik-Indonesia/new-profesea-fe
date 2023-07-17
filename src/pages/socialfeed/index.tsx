@@ -55,7 +55,7 @@ const SocialFeed = () => {
                         <Icon icon={'arcticons:connect-you'} fontSize={30} />{' '}
                         <Typography variant='body1' sx={{ color: '#424242', fontWeight: 600 }}>
                           {' '}
-                          Total Conected :250
+                          total connected :250
                         </Typography>
                       </Box>
                     </CardContent>
