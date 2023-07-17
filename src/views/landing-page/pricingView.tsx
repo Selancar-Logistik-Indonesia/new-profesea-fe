@@ -43,6 +43,13 @@ const PricingView = () => {
         { key: v4(), itemName: "Automatic job booster (7 days/month)", avail: ['star'] },
     ];
 
+    const payPerUsePlan: PlanType[] = [
+        { key: v4(), itemName: "Direct Message to non-connection", avail: [] },
+        { key: v4(), itemName: "Direct Message to recruiter inbox", avail: [] },
+        { key: v4(), itemName: "Job Applied (amount/month)", avail: [] },
+        { key: v4(), itemName: "Automatic profile booster (7 days/month)", avail: [] },
+    ];
+
     return (
         <Grid marginY={5} container direction="column" alignItems="center" justifyContent="center">
             <Grid mb={5} sx={{ width: "80%" }} item textAlign="center">
@@ -114,54 +121,45 @@ const PricingView = () => {
                 direction="row"
                 alignItems="center"
                 justifyContent="center">
-                {
-                    ['Star'].map((item) => {
-                        let planItems = pricingType == 'company' ? companyPlan : candidatePlan;
-                        planItems = planItems.filter(e => e.avail.includes(item.toLowerCase()));
+                <Grid width={320} height={850} mx={5} mt={5} padding={5} item component={Card} textAlign="center">
+                    <Typography mb={2} variant="h5">Pay per Items</Typography>
 
-                        return (
-                            <Grid width={320} height={850} mx={5} mt={5} key={item} padding={5} item component={Card} textAlign="center">
-                                <Typography mb={2} variant="h5">Pay per Items</Typography>
+                    <Grid
+                        container
+                        spacing={0}
+                        direction="column"
+                        alignItems="center"
+                        justifyContent="center">
+                        <Grid item width={200}>
+                            <Typography mb={2} variant="body1">per user/month paid by your needs</Typography>
+                        </Grid>
+                    </Grid>
 
-                                <Grid
-                                    container
-                                    spacing={0}
-                                    direction="column"
-                                    alignItems="center"
-                                    justifyContent="center">
-                                    <Grid item width={200}>
-                                        <Typography mb={2} variant="body1">per user/month paid by your needs</Typography>
-                                    </Grid>
-                                </Grid>
+                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                        {payPerUsePlan.map((value) => {
+                            let appendText = "";
+                            if (value.quota) {
+                                appendText = ` (${value.quota[2]})`;
+                            }
 
-                                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                                    {planItems.map((value) => {
-                                        let appendText = "";
-                                        if (value.quota) {
-                                            appendText = ` (${value.quota[2]})`;
-                                        }
+                            return (
+                                <ListItem
+                                    key={value.key}
+                                    disableGutters>
+                                    <IconButton size="small" aria-label="comment">
+                                        <FontAwesomeIcon color="#66bb6a" icon={faCheckCircle} />
+                                    </IconButton>
 
-                                        return (
-                                            <ListItem
-                                                key={value.key}
-                                                disableGutters>
-                                                <IconButton size="small" aria-label="comment">
-                                                    <FontAwesomeIcon color="#66bb6a" icon={faCheckCircle} />
-                                                </IconButton>
+                                    <ListItemText sx={{ maxWidth: 180 }} primary={value.itemName + appendText} />
 
-                                                <ListItemText sx={{ maxWidth: 180 }} primary={value.itemName + appendText} />
-
-                                                <ListItemSecondaryAction>
-                                                    <Button size="small" type="button" variant="contained">Buy It</Button>
-                                                </ListItemSecondaryAction>
-                                            </ListItem>
-                                        )
-                                    })}
-                                </List>
-                            </Grid>
-                        )
-                    })
-                }
+                                    <ListItemSecondaryAction>
+                                        <Button size="small" type="button" variant="contained">Buy It</Button>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            )
+                        })}
+                    </List>
+                </Grid>
             </Grid>
         </Grid>
 
