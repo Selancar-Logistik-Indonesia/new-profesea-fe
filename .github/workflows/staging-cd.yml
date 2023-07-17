@@ -10,14 +10,10 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  pull_update:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Deploy using ssh
+    - name: Pull changes to server
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
@@ -29,6 +25,32 @@ jobs:
           cd ~/www/fe-selancar/
           git add . && git stash
           git pull origin main
+  instal_dependency:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install dependency
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        port: 22
+        script: |
+          source ~/.bashrc
+          cd ~/www/fe-selancar/
           /root/n/bin/npm i
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Build and deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        port: 22
+        script: |
+          source ~/.bashrc
+          cd ~/www/fe-selancar/
           /root/n/bin/npm run build
           /root/n/bin/pm2 restart fe_selancar_stg
