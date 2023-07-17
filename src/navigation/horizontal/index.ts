@@ -24,7 +24,7 @@ const navigation = (): HorizontalNavItemsType => [
     subject: 'user-community'
   },
   {
-    path: '/job-management',
+    path: '/company/job-management',
     title: 'Manage Job',
     icon: 'mdi:work',
     action: 'read',
