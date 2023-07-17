@@ -4,7 +4,7 @@ import { faFacebook, faInstagram, faLinkedin, faTwitter } from "@fortawesome/fre
 
 const FooterView = () => {
     return (
-        <Grid sx={{ backgroundColor: '#98a9d1', backgroundSize: 'cover' }} px={10} pt={5} pb={5} container id="footer">
+        <Grid sx={{ backgroundColor: '#98a9d1', backgroundSize: 'cover', px: { xs: 5, md: 10 } }} pt={5} pb={5} container id="footer">
             <Grid item xs={12} md={6} sx={{ px: { md: 10 } }}>
                 <Grid container mt={6}>
                     <Grid item md={3} xs={6}>
