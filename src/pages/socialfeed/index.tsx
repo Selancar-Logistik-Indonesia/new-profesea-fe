@@ -23,8 +23,6 @@ const SocialFeedApp = () => {
   const { fetchFeeds } = useSocialFeed();
 
   useEffect(() => {
-    console.log("here..");
-
     fetchFeeds({
       page: 1,
       take: 25,
