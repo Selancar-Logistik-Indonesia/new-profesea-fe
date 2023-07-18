@@ -46,10 +46,12 @@ function CommentActions({
 }
 
 const renderList = (arr: ParamMain[]) => {
-    let itemCount = 1;
+    let itemCount = 0;
     let appendComponent: any;
+
     if (arr && arr.length) {
         return arr.map((item, index) => {
+            itemCount++;
             appendComponent = <></>;
             if (itemCount > 3) {
                 itemCount = 1;
@@ -61,7 +63,6 @@ const renderList = (arr: ParamMain[]) => {
                 );
             }
 
-            itemCount++;
             return (
                 <>
                     {appendComponent}
