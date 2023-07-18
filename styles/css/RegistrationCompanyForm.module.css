@@ -1,0 +1,40 @@
+.registrationCompanyFormChild {
+  position: absolute;
+  top: 0;
+  left: 372px;
+  background-color: var(--light-primary-contrast);
+  width: 1068px;
+  height: 740px;
+}
+.businessPose21Icon {
+  position: relative;
+  width: 144.23px;
+  height: 477.97px;
+  object-fit: cover;
+}
+.illustration {
+  position: absolute;
+  top: calc(50% - 249px);
+  left: 106px;
+  display: flex;
+  flex-direction: row;
+  padding: var(--padding-3xs);
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.logoIcon {
+  position: absolute;
+  top: 62px;
+  left: 92px;
+  width: 192.56px;
+  height: 30px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.registrationCompanyForm {
+  position: relative;
+  background-color: var(--light-background-body-background);
+  width: 100%;
+  height: 740px;
+  overflow: hidden;
+}
