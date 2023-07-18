@@ -8,7 +8,7 @@ import { styled } from '@mui/material/styles'
 import { Button, Divider } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 export type ParamJobVacncy = {
@@ -36,21 +36,24 @@ const Profile = (props: userProps) => {
   const [facebook, setFacebook] = useState<any>('-')
   const [instagram, setInstagram] = useState<any>('-')
   const [linkedin, setLinkedin] = useState<any>('-')
-  HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
-    const code = response.data.sosmeds.data
-    for (let x = 0; x < code.length; x++) {
-      const element = code[x]
-      if (element.sosmed_type == 'Facebook') {
-        setFacebook(element.sosmed_address)
+
+  useEffect(() => {
+    HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
+      const code = response.data.sosmeds.data
+      for (let x = 0; x < code.length; x++) {
+        const element = code[x]
+        if (element.sosmed_type == 'Facebook') {
+          setFacebook(element.sosmed_address)
+        }
+        if (element.sosmed_type == 'Instagram') {
+          setInstagram(element.sosmed_address)
+        }
+        if (element.sosmed_type == 'Linkedin') {
+          setLinkedin(element.sosmed_address)
+        }
       }
-      if (element.sosmed_type == 'Instagram') {
-        setInstagram(element.sosmed_address)
-      }
-      if (element.sosmed_type == 'Linkedin') {
-        setLinkedin(element.sosmed_address)
-      }
-    }
-  })
+    });
+  }, [])
 
   return (
     <Grid container>

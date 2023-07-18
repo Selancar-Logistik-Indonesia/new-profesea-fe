@@ -35,8 +35,6 @@ const AuthProvider = ({ children }: Props) => {
                 await HttpClient
                     .get(authConfig.meEndpoint)
                     .then(async response => {
-                        console.log("response.data.user", response.data.user);
-
                         setLoading(false)
                         setUser({ ...response.data.user })
                     }).catch((error) => {

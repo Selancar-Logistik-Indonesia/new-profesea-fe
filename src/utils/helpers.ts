@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+import { IUser } from "src/contract/models/user";
 
 /**
  * we need to sanitize error messages, so that no sensitive data is leaked
@@ -43,8 +44,13 @@ function toTitleCase(text: string) {
     return result;
 }
 
+function getUserAvatar(userData: IUser) {
+    return (userData?.photo) ? userData.photo : "/images/avatars/default-user.png";
+}
+
 export {
     getCleanErrorMessage,
     removeFirstZeroChar,
     toTitleCase,
+    getUserAvatar,
 }
