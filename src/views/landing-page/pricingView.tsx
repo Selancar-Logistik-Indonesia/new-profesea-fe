@@ -1,6 +1,6 @@
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Card, Grid, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Typography } from "@mui/material";
+import { Box, Button, Card, Grid, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { v4 } from "uuid";
@@ -62,17 +62,14 @@ const PricingView = () => {
                 <Button onClick={() => setPricingType('candidate')} variant={pricingType == 'candidate' ? "contained" : undefined} sx={{ marginLeft: 4 }}>Candidate</Button>
             </Grid>
 
-            <Grid container
-                direction="row"
-                alignItems="center"
-                justifyContent="center">
+            <Box display={'flex'} flexDirection={'row'} sx={{ overflowX: 'scroll', width: '100%', pb: 10, alignItems: { md: 'center' }, justifyContent: { md: 'center' } }}>
                 {
                     ['Basic', 'Pro', 'Star'].map((item, n) => {
                         let planItems = pricingType == 'company' ? companyPlan : candidatePlan;
                         planItems = planItems.filter(e => e.avail.includes(item.toLowerCase()));
 
                         return (
-                            <Grid width={320} height={850} mx={5} mt={5} key={item} padding={5} item component={Card} textAlign="center">
+                            <Box sx={{ minWidth: 320 }} height={850} mx={5} mt={5} key={item} padding={5} component={Card} textAlign="center">
                                 <Typography mb={2} variant="h5">{item}</Typography>
                                 <Typography mb={2} fontWeight="body1" sx={{ textDecoration: "line-through", color: "grey" }} variant="h6">Rp50.000</Typography>
                                 <Typography mb={2} variant="h5">Rp30.000</Typography>
@@ -111,17 +108,17 @@ const PricingView = () => {
                                         )
                                     })}
                                 </List>
-                            </Grid>
+                            </Box>
                         )
                     })
                 }
-            </Grid>
+            </Box>
 
             <Grid container
                 direction="row"
                 alignItems="center"
                 justifyContent="center">
-                <Grid width={320} height={850} mx={5} mt={5} padding={5} item component={Card} textAlign="center">
+                <Grid width={320} height={420} mx={5} mt={5} padding={5} item component={Card} textAlign="center">
                     <Typography mb={2} variant="h5">Pay per Items</Typography>
 
                     <Grid
