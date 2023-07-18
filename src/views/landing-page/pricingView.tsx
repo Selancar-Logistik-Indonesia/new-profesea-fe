@@ -62,14 +62,14 @@ const PricingView = () => {
                 <Button onClick={() => setPricingType('candidate')} variant={pricingType == 'candidate' ? "contained" : undefined} sx={{ marginLeft: 4 }}>Candidate</Button>
             </Grid>
 
-            <Box display={'flex'} flexDirection={'row'} sx={{ overflowX: 'scroll', width: '100%', pb: 10, alignItems: { md: 'center' }, justifyContent: { md: 'center' } }}>
+            <Box display={'flex'} flexDirection={'row'} sx={{ overflowX: 'scroll', msScrollbarTrackColor: 'transparent', width: '100%', pb: 10, alignItems: { md: 'center' }, justifyContent: { md: 'center' } }}>
                 {
                     ['Basic', 'Pro', 'Star'].map((item, n) => {
                         let planItems = pricingType == 'company' ? companyPlan : candidatePlan;
                         planItems = planItems.filter(e => e.avail.includes(item.toLowerCase()));
 
                         return (
-                            <Box sx={{ minWidth: 320 }} height={850} mx={5} mt={5} key={item} padding={5} component={Card} textAlign="center">
+                            <Box sx={{ minWidth: 320, maxWidth: 320 }} height={850} mx={5} mt={5} key={item} padding={5} component={Card} textAlign="center">
                                 <Typography mb={2} variant="h5">{item}</Typography>
                                 <Typography mb={2} fontWeight="body1" sx={{ textDecoration: "line-through", color: "grey" }} variant="h6">Rp50.000</Typography>
                                 <Typography mb={2} variant="h5">Rp30.000</Typography>
