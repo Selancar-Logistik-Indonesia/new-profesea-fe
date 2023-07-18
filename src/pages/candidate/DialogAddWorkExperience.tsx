@@ -214,6 +214,7 @@ const onSelectFile = (e: any) => {
                   </Grid>
                 </Grid>
               </Grid>
+                <Grid item md={6} xs={12}></Grid>
               <Grid item md={6} xs={12}>
                 <DatePickerWrapper>
                   <DatePicker

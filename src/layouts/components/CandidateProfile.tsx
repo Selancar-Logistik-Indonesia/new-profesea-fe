@@ -273,8 +273,8 @@ const CandidateProfile = (props: compProps) => {
     )
   }
   const displayship = (type:any)=>{
-    setShip(type.employee_type)
-    tampilkanship = type.label
+    setShip(type?.employee_type)
+    tampilkanship = type?.label
   }
  
   return (
@@ -654,7 +654,7 @@ const CandidateProfile = (props: compProps) => {
                 </Grid>
                 <Grid item container xs={12}>
                   {itemData.map(item => (
-                    <Grid item container xs={12} marginTop={2} key={item.id}>
+                    <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
                       <Grid xs={6} md={10} container direction='row' alignItems='center'>
                         <img
                           alt='logo'
@@ -669,12 +669,12 @@ const CandidateProfile = (props: compProps) => {
                         <Typography variant='h6'>{item.document_name}</Typography>
                       </Grid>
                       <Grid xs={3} md={1}>
-                        <Button variant='contained' color='info'>
+                        <Button variant='contained' color='info' size='small'>
                           Preview
                         </Button>
                       </Grid>
                       <Grid xs={3} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
-                        <Button variant='contained' color='error'>
+                        <Button variant='contained' color='error' size='small'>
                           {' '}
                           Delete
                         </Button>
