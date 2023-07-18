@@ -112,7 +112,7 @@ const DialogAddDocument = (props: DialogProps) => {
      ]
 
     return (
-      <Dialog fullWidth open={props.visible} maxWidth='md' scroll='body' TransitionComponent={Transition}>
+      <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
           <DialogContent
             sx={{
@@ -131,14 +131,13 @@ const DialogAddDocument = (props: DialogProps) => {
             </IconButton>
             <Box sx={{ mb: 6, textAlign: 'center' }}>
               <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                Add New Educational
+                Add New Upload Document
               </Typography>
-              <Typography variant='body2'>Add New Candidate Educational info details</Typography>
+              <Typography variant='body2'>Add New Upload Document info details</Typography>
             </Box>
 
             <Grid container columnSpacing={'1'} rowSpacing={'2'}>
-              
-              <Grid item md={6} xs={12}>
+              <Grid item md={12} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='dokumen'
@@ -148,8 +147,8 @@ const DialogAddDocument = (props: DialogProps) => {
                   onChange={(event: any, newValue: any | null) => setDocument(newValue)}
                 />
               </Grid>
-         
-              <Grid item md={6} xs={12}>
+
+              <Grid item md={12} xs={12}>
                 <Grid item xs={12} md={12} container justifyContent={'center'}>
                   <Grid xs={6}>
                     <label htmlFor='x'>
@@ -187,7 +186,6 @@ const DialogAddDocument = (props: DialogProps) => {
                   </Grid>
                 </Grid>
               </Grid>
-               
             </Grid>
           </DialogContent>
           <DialogActions
