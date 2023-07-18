@@ -29,7 +29,7 @@ function CommentActions({
 
 const renderList = (feeds: ISocialFeed[]) => {
     let itemCount = 0;
-    let components: JSX.Element[] = [];
+    const components: JSX.Element[] = [];
 
     if (feeds.length == 0) {
         return (
@@ -56,6 +56,7 @@ const renderList = (feeds: ISocialFeed[]) => {
 
 const FeedCard = (props: { item: ISocialFeed }) => {
     const { item } = props;
+
     return (
         <Paper sx={{ marginTop: '10px', padding: '10px' }}>
             <Box sx={{ display: 'flex', '& svg': { color: 'text.secondary' } }}>

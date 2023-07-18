@@ -45,8 +45,8 @@ const SocialFeedProvider = (props: Props) => {
         } catch (error) {
             console.error(error);
         }
-
         setOnLoading(false);
+
     }
 
     const values = useMemo(() => ({
@@ -55,6 +55,7 @@ const SocialFeedProvider = (props: Props) => {
         updateStatus,
         fetchFeeds,
     }), [feeds, updateStatus, fetchFeeds, onLoading]);
+
     return <SocialFeedContext.Provider value={values}>{props.children}</SocialFeedContext.Provider>
 }
 
