@@ -2,7 +2,7 @@ import { Grid } from "@mui/material"
 
 const SideAd = () => {
 
-    return <Grid xs={2} container display={'flex'} sx={{
+    return <Grid xs={12} container display={'flex'} sx={{
         direction: "row",
         justifyContent: "flex-start",
         alignContent: 'top',
@@ -19,12 +19,9 @@ const SideAd = () => {
                 alignItems: 'stretch',
                 justifyContent: 'left',
                 marginBottom: '10px',
-                marginLeft: '20px',
                 height: '197px',
                 wrap: 'nowrap'
-            }}>
-
-            </Grid>
+            }}></Grid>
             <Grid xs={12} sx={{
                 boxSizing: 'border-box',
                 background: '#FFFFFF',
@@ -35,12 +32,9 @@ const SideAd = () => {
                 alignItems: 'stretch',
                 justifyContent: 'left',
                 marginBottom: '10px',
-                marginLeft: '20px',
                 height: '197px',
                 wrap: 'nowrap'
-            }}>
-
-            </Grid>
+            }}></Grid>
             <Grid xs={12} sx={{
                 boxSizing: 'border-box',
                 background: '#FFFFFF',
@@ -51,12 +45,9 @@ const SideAd = () => {
                 alignItems: 'stretch',
                 justifyContent: 'left',
                 marginBottom: '10px',
-                marginLeft: '20px',
                 height: '197px',
                 wrap: 'nowrap'
-            }}>
-
-            </Grid>
+            }}></Grid>
         </Grid>
     </Grid>
 }

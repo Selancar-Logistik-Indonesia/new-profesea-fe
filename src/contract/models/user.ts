@@ -15,6 +15,7 @@ export interface IUser {
   email: string
   phone: string
   email_verified_at: string
+  build_profile_at: string
   website?: string
   plan_type?: string
   created_at: string

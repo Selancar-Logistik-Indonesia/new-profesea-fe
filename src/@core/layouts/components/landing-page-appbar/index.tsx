@@ -4,27 +4,27 @@ import Toolbar from '@mui/material/Toolbar'
 import { useTheme } from '@mui/material/styles'
 import { useSettings } from 'src/@core/hooks/useSettings'
 import { Box, Button, Container, Divider, IconButton } from '@mui/material'
-import localStorageKeys from 'src/configs/localstorage_keys'
 import { useEffect, useState } from 'react'
 import UserDropdown from '../shared-components/UserDropdown'
-import secureLocalStorage from 'react-secure-storage'
 import LanguageDropdown from '../shared-components/LanguageDropdown'
 import { useRouter } from 'next/router'
 import NavItemType from 'src/contract/types/navItemType'
 import IconifyIcon from 'src/@core/components/icon'
 import themeConfig from 'src/configs/themeConfig'
 import Navigation from '../vertical/landing-navigation'
+import { useAuth } from 'src/hooks/useAuth'
 
 const LandingPageAppBar = (props: { appBarElevation?: number }) => {
+    const { user } = useAuth();
     const theme = useTheme();
     const { settings, saveSettings } = useSettings();
     const { locale } = useRouter();
     const { skin } = settings;
-    const navItems: NavItemType[] = [
+    const router = useRouter();
+    const [navItems, setNavItems] = useState<NavItemType[]>([
         { title: 'Login', variant: 'contained', onClick: "/login" },
         { title: 'Register', variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
-    ];
-    const router = useRouter();
+    ])
 
     const homeNavItems = [
         { title: "Home", path: "/" },
@@ -34,22 +34,21 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
         { title: "Contact", path: "/#footer" },
     ];
 
-    const [isLogin, setIsLogin] = useState(false);
-    useEffect(() => {
-        const strUser = secureLocalStorage.getItem(localStorageKeys.userData);
-        if (!strUser) {
-            return;
-        }
-
-        setIsLogin(true);
-    }, []);
-
     const { navigationSize, collapsedNavigationSize } = themeConfig
     const navWidth = navigationSize
     const navigationBorderWidth = skin === 'bordered' ? 1 : 0
     const collapsedNavWidth = collapsedNavigationSize
     const [navVisible, setNavVisible] = useState<boolean>(false)
     const toggleNavVisibility = () => setNavVisible(!navVisible)
+
+    useEffect(() => {
+        if (user) {
+            setNavItems([
+                { title: 'Dashboard', variant: 'contained', onClick: "/home" },
+                { title: 'Logout', variant: 'contained', onClick: "/login", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
+            ]);
+        }
+    }, [user]);
 
     return (
         <>
@@ -71,6 +70,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                 menuUnlockedIcon={undefined}
                 afterNavMenuContent={undefined}
                 beforeNavMenuContent={undefined}
+                user={user}
             />
 
             <AppBar
@@ -125,7 +125,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                             <Divider orientation="vertical" variant="middle" flexItem color='#ddd' />
                             <LanguageDropdown settings={settings} saveSettings={saveSettings} />
 
-                            {!isLogin ? navItems.map((item) => (
+                            {!user ? navItems.map((item) => (
                                 <Link href={item.onClick} key={item.title} locale={locale}>
                                     <Button size='small' type='button' variant={item.variant} sx={{ ...item.sx, mr: 2, ml: 2 }} >
                                         {item.title}

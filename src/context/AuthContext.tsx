@@ -1,10 +1,11 @@
 import { createContext, useEffect, useState, ReactNode } from 'react'
 import { useRouter } from 'next/router'
 import authConfig from 'src/configs/auth'
-import { AuthValuesType, LoginParams, ErrCallbackType, UserDataType } from './types'
+import { AuthValuesType, LoginParams, ErrCallbackType } from './types'
 import { HttpClient } from 'src/services'
 import secureLocalStorage from "react-secure-storage";
 import localStorageKeys from 'src/configs/localstorage_keys'
+import { IUser } from 'src/contract/models/user'
 
 const defaultProvider: AuthValuesType = {
     user: null,
@@ -22,11 +23,8 @@ type Props = {
 }
 
 const AuthProvider = ({ children }: Props) => {
-    // ** States
-    const [user, setUser] = useState<UserDataType | null>(defaultProvider.user)
+    const [user, setUser] = useState<IUser | null>(defaultProvider.user)
     const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
-
-    // ** Hooks
     const router = useRouter()
 
     useEffect(() => {

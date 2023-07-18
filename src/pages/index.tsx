@@ -21,8 +21,8 @@ const Main = () => {
                 <meta name='viewport' content='initial-scale=1, width=device-width' />
             </Head>
 
-            <Grid container style={landingPageStyle.bannerHero}>
-                <Grid item xs={12} xl={6} lg={8} md={12} pt={5} pl={10} mt={40}>
+            <Grid container sx={landingPageStyle.bannerHero}>
+                <Grid item xs={12} xl={6} lg={8} md={12} pt={5} mt={40} sx={{ maxWidth: { xs: '90%' }, px: { xs: 5, md: 10 } }}>
                     <Typography variant="h3" style={{ color: "#32487A" }}>{t("landing_hero_title")}</Typography>
                     <Typography fontSize={18} style={{ color: "#424242" }} mt={8}>{t("landing_hero_subtitle")}</Typography>
 

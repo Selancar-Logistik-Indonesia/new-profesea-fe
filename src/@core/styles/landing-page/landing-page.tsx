@@ -1,8 +1,13 @@
+import { Theme } from "@mui/material";
+import { SxProps } from "@mui/system";
 
-const bannerHero: React.CSSProperties = {
+const bannerHero: SxProps<Theme> = {
     backgroundImage: "url(/images/header-homepage.jpg)",
     backgroundSize: "cover",
-    backgroundPosition: "20% 40%",
+    backgroundPosition: {
+        xs: "67% 40%",
+        md: "20% 40%"
+    },
     height: 750
 };
 
