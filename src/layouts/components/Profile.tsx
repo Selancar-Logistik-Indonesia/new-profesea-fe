@@ -3,13 +3,14 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'    
+import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
-import { Button, Divider  } from '@mui/material' 
+import { Button, Divider } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import { useState } from 'react'
-  
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+
 export type ParamJobVacncy = {
   judul: string
   namapt: string
@@ -17,10 +18,10 @@ export type ParamJobVacncy = {
   waktu: string
 }
 type userProps = {
-  datauser: any 
+  datauser: any
 }
 // export type ProfileTeamsType = ProfileTabCommonType & { color: ThemeColor }
- 
+
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 85,
   height: 85,
@@ -29,27 +30,30 @@ const ProfilePicture = styled('img')(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     marginBottom: theme.spacing(4)
   }
-})) 
+}))
 
 const Profile = (props: userProps) => {
-   const [facebook, setFacebook] = useState<any>('-')
-   const [instagram, setInstagram] = useState<any>('-')
-   const [linkedin, setLinkedin] = useState<any>('-')
- HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
-   const code = response.data.sosmeds.data
-   for (let x = 0; x < code.length; x++) {
-     const element = code[x]
-     if (element.sosmed_type == 'Facebook') {
-       setFacebook(element.sosmed_address)
-     }
-     if (element.sosmed_type == 'Instagram') {
-       setInstagram(element.sosmed_address)
-     }
-     if (element.sosmed_type == 'Linkedin') {
-       setLinkedin(element.sosmed_address)
-     }
-   }
- })
+  const [facebook, setFacebook] = useState<any>('-')
+  const [instagram, setInstagram] = useState<any>('-')
+  const [linkedin, setLinkedin] = useState<any>('-')
+
+  useEffect(() => {
+    HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
+      const code = response.data.sosmeds.data
+      for (let x = 0; x < code.length; x++) {
+        const element = code[x]
+        if (element.sosmed_type == 'Facebook') {
+          setFacebook(element.sosmed_address)
+        }
+        if (element.sosmed_type == 'Instagram') {
+          setInstagram(element.sosmed_address)
+        }
+        if (element.sosmed_type == 'Linkedin') {
+          setLinkedin(element.sosmed_address)
+        }
+      }
+    });
+  }, [])
 
   return (
     <Grid container>
@@ -131,13 +135,13 @@ const Profile = (props: userProps) => {
             </Box>
 
             <Box display='flex' justifyContent='center' alignItems='center'>
-              <Button
-                variant='contained'
-                sx={{ width: '100%', padding: 1, margin: 2, minWidth: '100%' }}
-                href={'/company'}
-              >
-                Edit My Profile
-              </Button>
+              <Link style={{ width: '100%', minWidth: '100%' }} href={'/company'}>
+                <Button
+                  variant='contained'
+                  sx={{ width: '100%', mt: 3, minWidth: '100%' }}>
+                  Edit My Profile
+                </Button>
+              </Link>
             </Box>
           </CardContent>
         </Card>
