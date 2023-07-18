@@ -62,7 +62,7 @@ const PricingView = () => {
                 <Button onClick={() => setPricingType('candidate')} variant={pricingType == 'candidate' ? "contained" : undefined} sx={{ marginLeft: 4 }}>Candidate</Button>
             </Grid>
 
-            <Box display={'flex'} flexDirection={'row'} sx={{ overflowX: 'scroll', msScrollbarTrackColor: 'transparent', width: '100%', pb: 10, alignItems: { md: 'center' }, justifyContent: { md: 'center' } }}>
+            <Box display={'flex'} flexDirection={'row'} sx={{ overflowX: { xs: 'scroll', md: 'hidden' }, msScrollbarTrackColor: 'transparent', width: '100%', pb: 10, alignItems: { md: 'center' }, justifyContent: { md: 'center' } }}>
                 {
                     ['Basic', 'Pro', 'Star'].map((item, n) => {
                         let planItems = pricingType == 'company' ? companyPlan : candidatePlan;
