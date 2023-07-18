@@ -7,8 +7,11 @@ import { HttpClient } from "src/services";
 
 type Props = { children: ReactNode };
 const defaultValue: SocialFeedContextType = {
+    page: 1,
+    setPage: () => { },
     feeds: [],
     onLoading: false,
+    hasNextPage: false,
     fetchFeeds: () => Promise.resolve(),
     updateStatus: () => Promise.resolve(),
 }
@@ -18,6 +21,8 @@ const SocialFeedContext = createContext(defaultValue);
 const SocialFeedProvider = (props: Props) => {
     const [feeds, setFeeds] = useState<ISocialFeed[]>([]);
     const [onLoading, setOnLoading] = useState(false);
+    const [hasNextPage, setHasNextPage] = useState(true);
+    const [page, setPage] = useState(1);
 
     const updateStatus = async (payload: UpdateStatusPayload) => {
         const response = await HttpClient.post('/social-feed/feed', payload);
@@ -33,20 +38,35 @@ const SocialFeedProvider = (props: Props) => {
     }
 
     const fetchFeeds = async (payload: FetchFeedPayload) => {
-        setOnLoading(true);
+
+        // only trigger in page 1
+        if (page == 1) setOnLoading(true);
+
         try {
-            const response = await HttpClient.get('/social-feed/feed', payload);
+            const response = await HttpClient.get('/social-feed/feed', {
+                page: page,
+                ...payload
+            });
+
             if (response.status == 200) {
-                const { feeds } = response.data as { feeds: { data: ISocialFeed[] } };
+                const { feeds } = response.data as { feeds: { data: ISocialFeed[], next_page_url?: string } };
                 if (feeds.data.length && feeds.data.length > 0) {
-                    setFeeds(feeds.data);
+                    setFeeds(old => {
+                        const newItems = old;
+                        feeds.data.forEach(e => newItems.push(e));
+
+                        return newItems;
+                    });
+                    setPage(page => page + 1);
                 }
+
+                setHasNextPage(feeds.next_page_url != null);
             }
         } catch (error) {
             console.error(error);
         }
-        setOnLoading(false);
 
+        setOnLoading(false);
     }
 
     const values = useMemo(() => ({
@@ -54,7 +74,10 @@ const SocialFeedProvider = (props: Props) => {
         onLoading,
         updateStatus,
         fetchFeeds,
-    }), [feeds, updateStatus, fetchFeeds, onLoading]);
+        hasNextPage,
+        page,
+        setPage
+    }), [feeds, updateStatus, fetchFeeds, onLoading, hasNextPage, page, setPage]);
 
     return <SocialFeedContext.Provider value={values}>{props.children}</SocialFeedContext.Provider>
 }

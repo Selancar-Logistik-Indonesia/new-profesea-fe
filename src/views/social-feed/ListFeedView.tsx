@@ -1,4 +1,3 @@
-// ** MUI Components
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { Avatar, Button, CircularProgress, Paper } from '@mui/material'
@@ -10,6 +9,8 @@ import ISocialFeed from 'src/contract/models/social_feed'
 import { getUserAvatar, toTitleCase } from 'src/utils/helpers'
 import SocialFeedContext from 'src/context/SocialFeedContext'
 import { v4 } from 'uuid'
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useSocialFeed } from 'src/hooks/useSocialFeed'
 
 function CommentActions({
     commentId, replycount
@@ -88,6 +89,8 @@ const FeedCard = (props: { item: ISocialFeed }) => {
 }
 
 const ListFeedView = () => {
+    const { fetchFeeds, hasNextPage } = useSocialFeed();
+
     return (
         <SocialFeedContext.Consumer>
             {({ feeds, onLoading }) => {
@@ -101,11 +104,17 @@ const ListFeedView = () => {
                 }
 
                 return (
-                    <Grid container spacing={6}>
-                        <Grid item xs={12}>
-                            {renderList(feeds)}
+                    <InfiniteScroll
+                        dataLength={10}
+                        next={() => fetchFeeds({ take: 7 })}
+                        hasMore={hasNextPage}
+                        loader={(<Typography mt={5} color={'text.secondary'}>Loading..</Typography>)}>
+                        <Grid container spacing={6}>
+                            <Grid item xs={12}>
+                                {renderList(feeds)}
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </InfiniteScroll>
                 )
             }}
         </SocialFeedContext.Consumer>

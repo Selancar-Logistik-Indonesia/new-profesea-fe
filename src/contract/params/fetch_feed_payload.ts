@@ -1,5 +1,4 @@
 interface FetchFeedPayload {
-    page: number,
     take: number,
     search?: string
 }
