@@ -1,33 +1,15 @@
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import { Button, Paper } from '@mui/material'
+import { Avatar, Button, Paper } from '@mui/material'
 import Typography from '@mui/material/Typography'
-
 import Icon from 'src/@core/components/icon'
-import { styled } from '@mui/material/styles'
 import CommentForm from './CommentForm'
 import { useState } from 'react'
-
-export type ParamMain = {
-    logo: string
-    name: string
-    waktu: string
-    postcomment: string
-}
-const ProfilePicture = styled('img')(({ theme }) => ({
-    width: 45,
-    height: 45,
-    borderRadius: theme.shape.borderRadius,
-    border: `5px solid ${theme.palette.common.white}`,
-    [theme.breakpoints.down('md')]: {
-        marginBottom: theme.spacing(4)
-    }
-}))
-
-interface Props {
-    paramcomment: ParamMain[]
-}
+import ISocialFeed from 'src/contract/models/social_feed'
+import { toTitleCase } from 'src/utils/helpers'
+import SocialFeedContext from 'src/context/SocialFeedContext'
+import { v4 } from 'uuid'
 
 function CommentActions({
     commentId, replycount
@@ -45,19 +27,21 @@ function CommentActions({
     )
 }
 
-const renderList = (arr: ParamMain[]) => {
+const renderList = (feeds: ISocialFeed[]) => {
     let itemCount = 0;
     let appendComponent: any;
 
-    if (arr && arr.length) {
-        return arr.map((item, index) => {
+    if (feeds.length && feeds.length > 0) {
+        console.log("masuk 1");
+
+        return feeds.map((item) => {
             itemCount++;
             appendComponent = <></>;
             if (itemCount > 3) {
                 itemCount = 1;
 
                 appendComponent = (
-                    <Paper sx={{ marginTop: '10px', padding: '10px', textAlign: 'center' }} key={index}>
+                    <Paper sx={{ marginTop: '10px', padding: '10px', textAlign: 'center' }} key={v4()}>
                         <Box component='img' src={'/images/backgrounds/samplead.jpg'} sx={{ opacity: 0.2 }} />
                     </Paper>
                 );
@@ -66,29 +50,29 @@ const renderList = (arr: ParamMain[]) => {
             return (
                 <>
                     {appendComponent}
-                    <Paper sx={{ marginTop: '10px', padding: '10px' }} key={index}>
+                    <Paper sx={{ marginTop: '10px', padding: '10px' }} key={`feedItem${item.id}`}>
                         <Box sx={{ display: 'flex', '& svg': { color: 'text.secondary' } }}>
                             <Box>
-                                <ProfilePicture src='/images/avatars/1.png' alt='profile-picture' />
+                                <Avatar sx={{ width: 45, height: 45, mr: 3, mb: 3 }} src='/images/avatars/1.png' alt='profile-picture' />
                             </Box>
                             <Box sx={{ mb: [6, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
                                 <Typography variant='body2' sx={{ color: "#424242", fontWeight: 600, textTransform: 'uppercase' }}>
-                                    {`${item.name.charAt(0).toUpperCase() + item.name.slice(1)}`}
+                                    {toTitleCase(item.user.name)}
                                 </Typography>
                                 <Typography sx={{ color: "#424242", fontWeight: 500 }}>
-                                    {`${item.waktu.charAt(0).toUpperCase() + item.waktu.slice(1)}`}
+                                    {item.h_created_at}
                                 </Typography>
                             </Box>
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
                             <Typography variant="body1" sx={{ color: "#424242", fontWeight: 400, margin: "5px" }}>
-                                {`${item.postcomment.charAt(0).toUpperCase() + item.postcomment.slice(1)}`}
+                                {item.content}
                             </Typography>
                         </Box>
-                        <Box >
+                        <Box>
                             <Button size='small' color='primary' startIcon={<Icon icon='ic:round-repeat' fontSize={10} />}> Repost</Button>
-                            <Button size='small' color='primary' startIcon={<Icon icon='solar:share-linear' fontSize={10} />} > Share</Button>
-                            <Button size='small' color='primary' startIcon={<Icon icon='mdi:like-outline' fontSize={10} />} > Like</Button>
+                            <Button size='small' color='primary' startIcon={<Icon icon='solar:share-linear' fontSize={10} />}> Share</Button>
+                            <Button size='small' color='primary' startIcon={<Icon icon='mdi:like-outline' fontSize={10} />}> Like</Button>
                             <CommentActions commentId='1' replycount='1' />
                         </Box>
                     </Paper>
@@ -96,22 +80,31 @@ const renderList = (arr: ParamMain[]) => {
             )
         })
     } else {
-        return null
+        console.log("masuk 2");
+        return <></>
     }
 }
 
-const NestedComment = (props: Props) => {
-    const { paramcomment } = props
-
+const NestedComment = () => {
     return (
-        <Grid container spacing={6}>
-            <Grid item xs={12}>
-                <Box>
-                    {renderList(paramcomment)}
-                </Box>
-            </Grid>
+        <SocialFeedContext.Consumer>
+            {({ feeds }) => {
+                console.log("need some render..");
+                console.log("feeds: ", feeds);
 
-        </Grid>
+                if (feeds.length > 0) {
+                    console.log("value nya ada");
+                    return (
+                        <Grid container spacing={6}>
+                            <Grid item xs={12}>
+                                {renderList(feeds)}
+                            </Grid>
+                        </Grid>
+                    )
+
+                }
+            }}
+        </SocialFeedContext.Consumer>
     )
 }
 

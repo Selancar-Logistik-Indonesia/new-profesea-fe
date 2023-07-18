@@ -1,42 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Box from '@mui/material/Box'
 import { Card, CardContent, Grid, Typography } from '@mui/material'
 import { Icon } from '@iconify/react'
 import Profile from 'src/layouts/components/Profile'
 import Feed from 'src/layouts/components/Feed'
-import NestedComment from './NestedComment'
-import Postfeed from './Postfeed'
 import { useAuth } from 'src/hooks/useAuth'
+import Postfeed from 'src/views/social-feed/Postfeed'
+import NestedComment from 'src/views/social-feed/NestedComment'
+import { SocialFeedProvider } from 'src/context/SocialFeedContext'
+import { useSocialFeed } from 'src/hooks/useSocialFeed'
 
 const SocialFeed = () => {
-  const { user } = useAuth();
+  return (
+    <SocialFeedProvider>
+      <SocialFeedApp />
+    </SocialFeedProvider>
+  )
+}
 
-  const paramcomment = [
-    {
-      logo: '/images/avatars/1.png',
-      name: 'PT Samudera  ',
-      waktu: '1 minute ago',
-      postcomment: 'Halo semuanya! Saya ingin berbagi kabar gembira bahwa saya, Lerian Febriana, baru saja bergabung dengan Profesea.id! Saya sangat antusias karena sekarang menjadi bagian dari tim sebagai Electrical Cadet.',
-    },
-    {
-      logo: '/images/avatars/1.png',
-      name: 'PT Samudera  ',
-      waktu: '5 minute ago',
-      postcomment: 'ini Testing Comment 2',
-    },
-    {
-      logo: '/images/avatars/1.png',
-      name: 'PT Samudera  ',
-      waktu: '1 minute ago',
-      postcomment: 'Halo semuanya! Saya ingin berbagi kabar gembira bahwa saya, Lerian Febriana, baru saja bergabung dengan Profesea.id! Saya sangat antusias karena sekarang menjadi bagian dari tim sebagai Electrical Cadet.',
-    },
-    {
-      logo: '/images/avatars/1.png',
-      name: 'PT Samudera  ',
-      waktu: '5 minute ago',
-      postcomment: 'ini Testing Comment 2',
-    },
-  ]
+const SocialFeedApp = () => {
+  const { user } = useAuth();
+  const { fetchFeeds } = useSocialFeed();
+
+  useEffect(() => {
+    console.log("here..");
+
+    fetchFeeds({
+      page: 1,
+      take: 25,
+    });
+  }, []);
 
   return (
     <Box>
@@ -64,7 +57,7 @@ const SocialFeed = () => {
             <Grid container spacing={6}>
               <Grid item xs={12}>
                 <Postfeed />
-                <NestedComment paramcomment={paramcomment} />
+                <NestedComment />
               </Grid>
             </Grid>
           </Grid>
@@ -73,7 +66,6 @@ const SocialFeed = () => {
     </Box>
   )
 }
-
 
 SocialFeed.acl = {
   action: 'read',
