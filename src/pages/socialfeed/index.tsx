@@ -6,7 +6,7 @@ import Profile from 'src/layouts/components/Profile'
 import Feed from 'src/layouts/components/Feed'
 import { useAuth } from 'src/hooks/useAuth'
 import Postfeed from 'src/views/social-feed/Postfeed'
-import NestedComment from 'src/views/social-feed/NestedComment'
+import ListFeedView from 'src/views/social-feed/ListFeedView'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 
@@ -55,7 +55,7 @@ const SocialFeedApp = () => {
             <Grid container spacing={6}>
               <Grid item xs={12}>
                 <Postfeed />
-                <NestedComment />
+                <ListFeedView />
               </Grid>
             </Grid>
           </Grid>

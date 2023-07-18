@@ -1,7 +1,7 @@
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import { Avatar, Button, Paper } from '@mui/material'
+import { Avatar, Button, CircularProgress, Paper } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
 import CommentForm from './CommentForm'
@@ -29,7 +29,7 @@ function CommentActions({
 
 const renderList = (feeds: ISocialFeed[]) => {
     let itemCount = 0;
-    let appendComponent: any;
+    let components: JSX.Element[] = [];
 
     if (feeds.length == 0) {
         return (
@@ -37,32 +37,27 @@ const renderList = (feeds: ISocialFeed[]) => {
         )
     }
 
-    return feeds.map((item) => {
+    feeds.forEach((item) => {
         itemCount++;
-        appendComponent = <></>;
         if (itemCount > 3) {
             itemCount = 1;
-
-            appendComponent = (
+            components.push(
                 <Paper sx={{ marginTop: '10px', padding: '10px', textAlign: 'center' }} key={v4()}>
                     <Box component='img' src={'/images/backgrounds/samplead.jpg'} sx={{ opacity: 0.2 }} />
                 </Paper>
             );
         }
 
-        return (
-            <>
-                {appendComponent}
-                <FeedCard item={item} />
-            </>
-        )
+        components.push(<FeedCard item={item} key={`feedItem${item.id}`} />)
     })
+
+    return components;
 }
 
 const FeedCard = (props: { item: ISocialFeed }) => {
     const { item } = props;
     return (
-        <Paper sx={{ marginTop: '10px', padding: '10px' }} key={`feedItem${item.id}`}>
+        <Paper sx={{ marginTop: '10px', padding: '10px' }}>
             <Box sx={{ display: 'flex', '& svg': { color: 'text.secondary' } }}>
                 <Box>
                     <Avatar sx={{ width: 45, height: 45, mr: 3, mb: 3 }} src={getUserAvatar(item.user)} alt='profile-picture' />
@@ -91,15 +86,23 @@ const FeedCard = (props: { item: ISocialFeed }) => {
     );
 }
 
-const NestedComment = () => {
+const ListFeedView = () => {
     return (
         <SocialFeedContext.Consumer>
-            {({ feeds }) => {
+            {({ feeds, onLoading }) => {
+
+                if (onLoading) {
+                    return (
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <CircularProgress sx={{ mt: 20 }} />
+                        </Box>
+                    );
+                }
 
                 return (
                     <Grid container spacing={6}>
                         <Grid item xs={12}>
-                            {feeds.map(e => <FeedCard key={e.id} item={e} />)}
+                            {renderList(feeds)}
                         </Grid>
                     </Grid>
                 )
@@ -108,4 +111,4 @@ const NestedComment = () => {
     )
 }
 
-export default NestedComment
+export default ListFeedView

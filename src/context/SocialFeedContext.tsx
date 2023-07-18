@@ -8,6 +8,7 @@ import { HttpClient } from "src/services";
 type Props = { children: ReactNode };
 const defaultValue: SocialFeedContextType = {
     feeds: [],
+    onLoading: false,
     fetchFeeds: () => Promise.resolve(),
     updateStatus: () => Promise.resolve(),
 }
@@ -16,23 +17,23 @@ const SocialFeedContext = createContext(defaultValue);
 
 const SocialFeedProvider = (props: Props) => {
     const [feeds, setFeeds] = useState<ISocialFeed[]>([]);
+    const [onLoading, setOnLoading] = useState(false);
 
     const updateStatus = async (payload: UpdateStatusPayload) => {
-        try {
-            const response = await HttpClient.post('/social-feed/feed', payload);
-            if (response.status == 200) {
-                const { feed } = response.data as { feed: ISocialFeed };
-                setFeeds(items => [
-                    feed,
-                    ...items
-                ]);
-            }
-        } catch (error) {
-            console.error(error);
+        const response = await HttpClient.post('/social-feed/feed', payload);
+        if (response.status != 200) {
+            throw response.data?.message ?? "Something went wrong";
         }
+
+        const { feed } = response.data as { feed: ISocialFeed };
+        setFeeds(items => [
+            feed,
+            ...items
+        ]);
     }
 
     const fetchFeeds = async (payload: FetchFeedPayload) => {
+        setOnLoading(true);
         try {
             const response = await HttpClient.get('/social-feed/feed', payload);
             if (response.status == 200) {
@@ -44,13 +45,16 @@ const SocialFeedProvider = (props: Props) => {
         } catch (error) {
             console.error(error);
         }
+
+        setOnLoading(false);
     }
 
     const values = useMemo(() => ({
         feeds,
+        onLoading,
         updateStatus,
         fetchFeeds,
-    }), [feeds, updateStatus, fetchFeeds]);
+    }), [feeds, updateStatus, fetchFeeds, onLoading]);
     return <SocialFeedContext.Provider value={values}>{props.children}</SocialFeedContext.Provider>
 }
 
