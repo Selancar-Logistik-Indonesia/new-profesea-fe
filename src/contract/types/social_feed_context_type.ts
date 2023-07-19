@@ -10,8 +10,8 @@ type SocialFeedContextType = {
     hasNextPage: boolean,
     fetchFeeds: (payload: FetchFeedPayload) => Promise<void>,
     updateStatus: (payload: UpdateStatusPayload) => Promise<void>,
+    likeUnlikeFeed: (feedId: number) => Promise<void>,
     // createComment: () => Promise<void>,
-    // likeFeed: () => Promise<void>,
     // unlikeFeed: () => Promise<void>,
 }
 

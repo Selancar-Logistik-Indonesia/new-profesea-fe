@@ -1,3 +1,4 @@
+import { now } from "moment";
 import { ReactNode, createContext, useMemo, useState } from "react";
 import ISocialFeed from "src/contract/models/social_feed";
 import FetchFeedPayload from "src/contract/params/fetch_feed_payload";
@@ -14,6 +15,7 @@ const defaultValue: SocialFeedContextType = {
     hasNextPage: false,
     fetchFeeds: () => Promise.resolve(),
     updateStatus: () => Promise.resolve(),
+    likeUnlikeFeed: () => Promise.resolve(),
 }
 
 const SocialFeedContext = createContext(defaultValue);
@@ -38,7 +40,6 @@ const SocialFeedProvider = (props: Props) => {
     }
 
     const fetchFeeds = async (payload: FetchFeedPayload) => {
-
         // only trigger in page 1
         if (page == 1) setOnLoading(true);
 
@@ -69,6 +70,30 @@ const SocialFeedProvider = (props: Props) => {
         setOnLoading(false);
     }
 
+    const likeUnlikeFeed = async (feedId: number) => {
+        const response = await HttpClient.get(`/social-feed/like/${feedId}`);
+        if (response.status != 200) {
+            return;
+        }
+
+        const { action } = response.data;
+        const newFeedList = feeds.map((item) => {
+            if (item.id == feedId) {
+                const updatedItem: ISocialFeed = {
+                    ...item,
+                    count_likes: (action == "like") ? (item.count_likes + 1) : (item.count_likes - 1),
+                    liked_at: (action == "like") ? now().toString() : undefined,
+                };
+
+                return updatedItem;
+            }
+
+            return item;
+        })
+
+        setFeeds(newFeedList);
+    }
+
     const values = useMemo(() => ({
         feeds,
         onLoading,
@@ -76,8 +101,9 @@ const SocialFeedProvider = (props: Props) => {
         fetchFeeds,
         hasNextPage,
         page,
-        setPage
-    }), [feeds, updateStatus, fetchFeeds, onLoading, hasNextPage, page, setPage]);
+        setPage,
+        likeUnlikeFeed,
+    }), [feeds, updateStatus, fetchFeeds, onLoading, hasNextPage, page, setPage, likeUnlikeFeed]);
 
     return <SocialFeedContext.Provider value={values}>{props.children}</SocialFeedContext.Provider>
 }
