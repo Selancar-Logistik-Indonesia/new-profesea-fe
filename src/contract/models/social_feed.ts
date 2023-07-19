@@ -4,6 +4,7 @@ interface ISocialFeed {
     id: number
     user_id: number
     count_likes: number
+    count_comments: number
     content: string
     attachments: any
     content_type: string
