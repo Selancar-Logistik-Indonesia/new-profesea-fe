@@ -11,18 +11,24 @@ import SocialFeedContext from 'src/context/SocialFeedContext'
 import { v4 } from 'uuid'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
+import ButtonLike from './ButtonLike'
 
 function CommentActions({
     commentId, replycount
 }: {
     commentId: string;
-    replycount: string;
+    replycount: number;
 }) {
     const [replying, setreplying] = useState(false);
 
     return (
         <>
-            <Button size='small' color='primary' startIcon={<Icon icon='mdi:comment-outline' fontSize={10} />} onClick={() => setreplying(!replying)}>{replycount} Comment</Button>
+            <Button size='small' color='primary' startIcon={<Icon icon='mdi:comment-outline' fontSize={10} />} onClick={() => setreplying(!replying)}>
+                {replycount > 0 && (
+                    <Typography ml={-1.4} mr={1.4} fontSize={12}>{replycount}</Typography>
+                )}
+                Comment
+            </Button>
             {replying && <CommentForm parentId={commentId} />}
         </>
     )
@@ -79,10 +85,10 @@ const FeedCard = (props: { item: ISocialFeed }) => {
                 </Typography>
             </Box>
             <Box>
-                <Button size='small' color='primary' startIcon={<Icon icon='ic:round-repeat' fontSize={10} />}> Repost</Button>
-                <Button size='small' color='primary' startIcon={<Icon icon='solar:share-linear' fontSize={10} />}> Share</Button>
-                <Button size='small' color='primary' startIcon={<Icon icon='mdi:like-outline' fontSize={10} />}> Like</Button>
-                <CommentActions commentId='1' replycount='1' />
+                <Button size='small' color='primary' startIcon={<Icon icon='ic:round-repeat' fontSize={10} />}>Repost</Button>
+                <Button size='small' color='primary' startIcon={<Icon icon='solar:share-linear' fontSize={10} />}>Share</Button>
+                <ButtonLike item={item} />
+                <CommentActions commentId='1' replycount={1} />
             </Box>
         </Paper>
     );
