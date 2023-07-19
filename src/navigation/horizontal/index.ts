@@ -46,10 +46,10 @@ const navigation = (): HorizontalNavItemsType => [
   },
   {
     path: '/candidate/find-job',
-    title: 'Find Jpb',
+    title: 'Find Job',
     icon: 'mdi:work',
     action: 'read',
-    subject: 'find-job'
+    subject: 'seaferer-jobs'
   },
   {
     path: '/candidate/training',

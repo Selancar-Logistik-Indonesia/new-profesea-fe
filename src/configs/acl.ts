@@ -34,7 +34,7 @@ const defineRulesFor = (role: string, subject: string) => {
             'master/role-level'
         ]);
     } else if (role === 'Seafarer') {
-        can(['read'], ['home', 'community', 'seaferer-training', 'seaferer', 'find-job', 'candidate/profile'])
+        can(['read'], ['home', 'community', 'seaferer-training', 'seaferer', 'seaferer-jobs', 'candidate/profile'])
     } else if (role === 'Company') {
         can(['read'], ['home', 'company', 'user-community', 'user-job-management', 'user-find-candidate', 'company/profile']);
     } else if (role === 'Trainer') {
