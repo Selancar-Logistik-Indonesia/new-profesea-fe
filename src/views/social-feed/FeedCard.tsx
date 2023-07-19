@@ -10,7 +10,7 @@ const FeedCard = (props: { item: ISocialFeed }) => {
     const { item } = props;
 
     return (
-        <Paper sx={{ marginTop: '10px', padding: 5 }}>
+        <Paper sx={{ marginTop: '10px', padding: { xs: 3, md: 5 } }}>
             <Box sx={{ display: 'flex', '& svg': { color: 'text.secondary' } }}>
                 <Box>
                     <Avatar sx={{ width: 50, height: 50, mr: 3, mb: 3 }} src={getUserAvatar(item.user)} alt='profile-picture' />
