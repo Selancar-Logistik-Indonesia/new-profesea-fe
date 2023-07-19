@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import Icon from 'src/@core/components/icon'
 import { Avatar, Paper } from '@mui/material'
 import Job from 'src/contract/models/job'
 
@@ -25,36 +26,45 @@ const renderList = (listJob: Job[]) => {
     const userPhoto = (item?.company?.photo) ? item?.company?.photo : "/images/avatars/default-user.png";
     
     return (
-      <Paper sx={{ marginTop: '10px' }} key={item?.id}>
-        <Box
-          height={95}
-          sx={{
-            display: 'flex',
-            alignContent: 'center',
-            '& svg': { color: 'text.secondary' }
-          }}
-        >
-          <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-            <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 60, height: 60 }} />
-          </Box>
-          <Box sx={{ padding: '5', display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
-            <Typography sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }} fontSize={16}>
-              {item?.rolelevel?.levelName}
-            </Typography>
-            <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
-              {item?.company?.name ?? "-"}
-            </Typography>
-            <Box display={'flex'}>
-              <Typography sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                Location :
+      <Grid item xs={12} md={4} key={item?.id} >
+        <Paper sx={{ marginTop: '10px' }} >
+          <Box
+            height={65}
+            sx={{
+              display: 'flex',
+              alignContent: 'center',
+              '& svg': { color: 'text.secondary' }
+            }}
+          >
+            <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
+              <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50 }} />
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
+              <Typography sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }} fontSize={16}>
+                {item?.rolelevel?.levelName}
               </Typography>
-              <Typography sx={{ color: 'text.primary' }} ml="0.5rem">
-                {item?.degree?.name} - {item?.degree?.name}
+              <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
+                {item?.company?.name ?? "-"}
               </Typography>
             </Box>
           </Box>
-        </Box>
-      </Paper>
+          
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} >
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} >
+              <Icon icon='mdi:currency-usd' />
+              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem">
+                Up to Rp. {item?.salary_end}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} >
+              <Icon icon='mdi:school'/>
+              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem">
+                {item?.degree?.name}
+              </Typography>
+            </Box>
+          </Box>
+        </Paper>
+      </Grid>
     )
   })
 }
@@ -63,12 +73,8 @@ const RecomendedView = (props: Props) => {
   const { listJob } = props
 
   return (
-    <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <Box>
-          {renderList(listJob)}
-        </Box>
-      </Grid>
+    <Grid container spacing={2}>
+      {renderList(listJob)}
     </Grid>
   )
 }
