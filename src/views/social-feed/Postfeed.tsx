@@ -43,7 +43,6 @@ const Postfeed = () => {
                         <Grid container justifyContent="flex-end">
                             <Grid item xs={12} md={12} mb={3}>
                                 <TextField
-                                    id="standard-multiline-static"
                                     multiline
                                     fullWidth
                                     rows={3.7}
