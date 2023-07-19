@@ -33,7 +33,7 @@ const FeedCard = (props: { item: ISocialFeed }) => {
                 <Button sx={{ textTransform: 'none' }} size='small' color='primary' startIcon={<Icon icon='ic:round-repeat' fontSize={10} />}>Repost</Button>
                 <Button sx={{ textTransform: 'none' }} size='small' color='primary' startIcon={<Icon icon='solar:share-linear' fontSize={10} />}>Share</Button>
                 <ButtonLike item={item} />
-                <ButtonComment commentId='1' replycount={1} />
+                <ButtonComment replycount={item.count_comments} />
             </Box>
         </Paper>
     );

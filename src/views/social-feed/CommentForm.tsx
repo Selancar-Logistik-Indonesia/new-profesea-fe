@@ -1,12 +1,12 @@
 import Box from '@mui/material/Box'
-import { Avatar, Divider, IconButton, TextField } from '@mui/material'
+import { Avatar, IconButton, TextField } from '@mui/material'
 import { KeyboardEvent, useState } from 'react';
 import { useAuth } from 'src/hooks/useAuth';
 import { getUserAvatar } from 'src/utils/helpers';
 import { Icon } from '@iconify/react';
 import UseBgColor from 'src/@core/hooks/useBgColor';
 
-const CommentForm = (props: any) => {
+const CommentForm = () => {
     const maxLineHeight = 3;
     const [textFieldHeight, setTextFieldHeight] = useState(1);
     const { user } = useAuth();

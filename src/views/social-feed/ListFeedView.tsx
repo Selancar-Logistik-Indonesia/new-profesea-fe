@@ -1,17 +1,12 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import { Avatar, Button, CircularProgress, Paper } from '@mui/material'
+import { CircularProgress, Paper } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import Icon from 'src/@core/components/icon'
-import CommentForm from './CommentForm'
-import { useState } from 'react'
 import ISocialFeed from 'src/contract/models/social_feed'
-import { getUserAvatar, toTitleCase } from 'src/utils/helpers'
 import SocialFeedContext from 'src/context/SocialFeedContext'
 import { v4 } from 'uuid'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
-import ButtonLike from './ButtonLike'
 import FeedCard from './FeedCard'
 
 const ListFeedView = () => {

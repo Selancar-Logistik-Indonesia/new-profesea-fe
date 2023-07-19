@@ -3,7 +3,7 @@ import { useState } from "react";
 import CommentForm from "./CommentForm";
 import { Icon } from "@iconify/react";
 
-function ButtonComment({ commentId, replycount }: { commentId: string, replycount: number }) {
+function ButtonComment({ replycount }: { replycount: number }) {
     const [replying, setreplying] = useState(false);
 
     return (
@@ -14,7 +14,7 @@ function ButtonComment({ commentId, replycount }: { commentId: string, replycoun
                 )}
                 Comment
             </Button>
-            {replying && <CommentForm parentId={commentId} />}
+            {replying && <CommentForm />}
         </>
     )
 }
