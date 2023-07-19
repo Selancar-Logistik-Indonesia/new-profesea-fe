@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import { Avatar, Button, Card, CardMedia, CircularProgress, TextField } from '@mui/material'
+import { Avatar, Button, Card, CircularProgress, TextField } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
 import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers';
 import { useSocialFeed } from 'src/hooks/useSocialFeed';
