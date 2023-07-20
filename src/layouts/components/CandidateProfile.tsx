@@ -684,8 +684,8 @@ const CandidateProfile = (props: compProps) => {
                       </Grid>
                       <Grid xs={8} md={10} item container>
                         <Grid xs={10} marginTop={2}>
-                          <Typography variant='h5'>{item.title}</Typography>
-                          <Typography variant='h4'>{item.major}</Typography>
+                          <Typography variant='h6'>{item.title}</Typography>
+                          <Typography variant='h5'>{item.major}</Typography>
                         </Grid>
                         <Grid xs={12} md={2} marginTop={2} display='flex'>
                           <Box>
@@ -736,8 +736,8 @@ const CandidateProfile = (props: compProps) => {
                       </Grid>
                       <Grid xs={8} md={10} item container>
                         <Grid xs={10} marginTop={2}>
-                          <Typography variant='h5'>{item.position}</Typography>
-                          <Typography variant='h4'>{item.institution}</Typography>
+                          <Typography variant='h6'>{item.position}</Typography>
+                          <Typography variant='h5'>{item.institution}</Typography>
                         </Grid>
                         <Grid xs={12} md={2} marginTop={2} display='flex'>
                           <Box>
