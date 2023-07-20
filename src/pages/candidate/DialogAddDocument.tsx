@@ -76,8 +76,7 @@ const DialogAddDocument = (props: DialogProps) => {
         document_number: 123, 
         
       }
-      
-      debugger; 
+       
       setOnLoading(true)
 
       try {

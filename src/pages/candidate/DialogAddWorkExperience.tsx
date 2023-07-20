@@ -106,8 +106,7 @@ const DialogAddWorkExperience = (props: DialogProps) => {
           .reverse()
           .join('-'),
         short_description: short_description
-      }
-      debugger; 
+      } 
       setOnLoading(true)
 
       try {

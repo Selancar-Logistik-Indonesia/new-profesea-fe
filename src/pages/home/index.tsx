@@ -4,6 +4,7 @@ import Trainer from '../trainer'
 import SocialFeed from '../socialfeed';
 import Company from '../company';
 import AdminHomePage from '../admin/';
+import Candidate from '../candidate';
 
 const Home = () => {
 
@@ -24,7 +25,13 @@ const Home = () => {
       return <SocialFeed />
     }
   }
-
+if (user?.role == 'Seafarer') {
+  if (user?.build_profile_at == null) {
+    return <Candidate />
+  } else {
+    return <SocialFeed />
+  }
+}
   if (user?.role == 'admin') {
     return <AdminHomePage />;
   }

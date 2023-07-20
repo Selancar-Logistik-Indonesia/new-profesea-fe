@@ -93,12 +93,7 @@ const UserDropdown = (props: Props) => {
           horizontal: 'right'
         }}
       >
-        <Avatar
-          alt='John Doe'
-          onClick={handleDropdownOpen}
-          sx={{ width: 40, height: 40 }}
-          src={userPhoto}
-        />
+        <Avatar alt='John Doe' onClick={handleDropdownOpen} sx={{ width: 40, height: 40 }} src={userPhoto} />
       </Badge>
       <Menu
         anchorEl={anchorEl}
@@ -132,9 +127,8 @@ const UserDropdown = (props: Props) => {
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:account-outline' />
-            <LinkStyled href='/company/profile'>
-              Profile
-            </LinkStyled>
+            {userData?.role == "Seafarer" && <LinkStyled href='/candidate/profile'>Profile</LinkStyled>}
+            {userData?.role == 'Company' && <LinkStyled href='/company/profile'>Profile</LinkStyled>}
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>

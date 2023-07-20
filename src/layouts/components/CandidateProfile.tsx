@@ -32,6 +32,10 @@ import { v4 } from 'uuid'
 import DialogAddEducation from 'src/pages/candidate/DialogAddEducation'
 import DialogAddWorkExperience from 'src/pages/candidate/DialogAddWorkExperience'
 import DialogAddDocument from 'src/pages/candidate/DialogAddDocument'
+import RoleLevel from 'src/contract/models/role_level'
+import RoleType from 'src/contract/models/role_type'
+import VesselType from 'src/contract/models/vessel_type'
+import RegionTravel from 'src/contract/models/regional_travel'
 
 type FormData = {
   fullName: string
@@ -59,6 +63,7 @@ type compProps = {
 } 
  let ship: any = []
 let tampilkanship: any = ''
+let availabledate: any = ''
 const CandidateProfile = (props: compProps) => {
   ;
  
@@ -71,14 +76,24 @@ const CandidateProfile = (props: compProps) => {
    } 
     const [hookSignature, setHookSignature] = useState(v4())
   const [combocountry, getComboCountry] = useState<any>([])
+  const [comboroleLevel, getComborolLevel] = useState<any>([])
+  const [comboroleType, getComborolType] = useState<any>([])
+  const [comboVessel, getComborVessel] = useState<any>([])
+  const [comboRegion, getComboroRegion] = useState<any>([])
   const [comboShip, getShip] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
   const [combocode, getCombocode] = useState<any[]>([])
-  const [idcombocode, setCombocode] = useState<any>(props.datauser.country_id)
+  const [idcombocode, setCombocode] = useState<any>(props.datauser?.country_id)
   const [idcity, setCombocity] = useState<any>(props.datauser.address?.city_id)
   const [idship, setShip] = useState<any>(props.datauser?.employee_type)
-  const [idcountry, setCountry] = useState<any>(props.datauser.country_id)
-     const [date, setDate] = useState<DateType>(new Date())
+  const [idcountry, setCountry] = useState<any>(props.datauser?.country_id)
+  const [date, setDate] = useState<DateType>(new Date())
+
+  const [idcomborolLevel, setComboRolLevel] = useState<any>('')
+  const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
+  const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id)
+  const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id)
+
   
     const [openAddModal, setOpenAddModal] = useState(false)
     const [openAddModalWE, setOpenAddModalWE] = useState(false)
@@ -86,16 +101,38 @@ const CandidateProfile = (props: compProps) => {
  
   const [itemData, getItemdata] = useState<any[]>([]) 
   const [itemDataWE, getItemdataWE] = useState<any[]>([])
+  const [itemDataED, getItemdataED] = useState<any[]>([])
   const combobox = () => {
+
+    
+    HttpClient.get(AppConfig.baseUrl + '/public/data/role-level?search=&page=1&take=100').then(response => {
+      const code = response.data.roleLevels.data
+      getComborolLevel(code)
+    })
+     HttpClient.get(AppConfig.baseUrl + '/public/data/role-type?page=1&take=25&search').then(response => {
+       const code = response.data.roleTypes.data
+       getComborolType(code)
+     })
+     
+     HttpClient.get(AppConfig.baseUrl + '/public/data/vessel-type?page=1&take=25&search').then(response => {
+       const code = response.data.vesselTypes.data
+       getComborVessel(code)
+     })
+     
+     HttpClient.get(AppConfig.baseUrl + '/public/data/region-travel?page=1&take=25&search').then(response => {
+       const code = response.data.regionTravels.data
+       getComboroRegion(code)
+     })
+
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
       getComboCountry(code)
     })
-       const code = [
-         { employee_type: 'onship', label: 'On-Ship' },
-         { employee_type: 'offship', label: 'Off-Ship' }
-       ]
-      getShip(code)
+      const code = [
+        { employee_type: 'onship', label: 'On-Ship' },
+        { employee_type: 'offship', label: 'Off-Ship' }
+      ]
+    getShip(code)
      
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
@@ -119,8 +156,14 @@ const CandidateProfile = (props: compProps) => {
     })
     HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100').then(response => {
       const itemData = response.data.experiences
-       
+
       getItemdataWE(itemData)
+    })
+    
+    HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100').then(response => {
+      const itemData = response.data.educations
+
+      getItemdataED(itemData)
     })
 
 
@@ -158,8 +201,21 @@ const CandidateProfile = (props: compProps) => {
   const { register, handleSubmit } = useForm<FormData>({
     mode: 'onBlur'
   })
+  const deletework  = async (id:any) => {
+    
+     const resp = await HttpClient.del(`/user/document/` + id)
+     if (resp.status != 200) {
+       throw resp.data.message ?? 'Something went wrong!'
+     }
+     combobox();
+      toast.success(
+       `  deleted successfully!`
+     )
+  }
   const onSubmit = (data: FormData) => {
     const { fullName, website, phone, address, about } = data
+
+    availabledate = date
     const json = {
       country_id: idcountry,
       employe_type: idship,
@@ -173,8 +229,22 @@ const CandidateProfile = (props: compProps) => {
     }
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
       ({ data }) => {
-        console.log('here 1', data)
-        toast.success(' Successfully submited!')
+        if (tampilkanship == 'On-Ship') {
+          const json = {
+            rolelevel_id: idcomborolLevel,
+            roletype_id: idcomborolType,
+            vesseltype_id: idcomboVessel,
+            regiontravel_id: idcomboRegion,
+            available_date: availabledate
+          }
+          HttpClient.post(AppConfig.baseUrl + '/user/field-preference', json).then(({ data }) => {
+            console.log('here 1', data)
+            toast.success(' Successfully submited!')
+          })
+        } else {
+          console.log('here 1', data)
+          toast.success(' Successfully submited!')
+        } 
       },
       error => {
         console.log('here 1', error)
@@ -505,12 +575,14 @@ const CandidateProfile = (props: compProps) => {
                     <Autocomplete
                       disablePortal
                       id='combo-box-demo'
-                      options={combocountry}
-                      getOptionLabel={(option: any) => option.nicename}
-                      defaultValue={props.address?.country}
+                      options={comboroleLevel}
+                      getOptionLabel={(option: any) => option.levelName}
+                      defaultValue={props.datauser?.field_preference?.role_level}
                       renderInput={params => <TextField {...params} label='Role Level' />}
-                      onChange={(event: any, newValue: Countries | null) =>
-                        newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
+                      onChange={(event: any, newValue: RoleLevel | null) =>
+                        newValue?.id
+                          ? setComboRolLevel(newValue.id)
+                          : setComboRolLevel(props.datauser?.field_preference?.role_level?.id)
                       }
                     />
                   </Grid>
@@ -518,12 +590,14 @@ const CandidateProfile = (props: compProps) => {
                     <Autocomplete
                       disablePortal
                       id='combo-box-demo'
-                      options={combocountry}
-                      getOptionLabel={(option: any) => option.nicename}
-                      defaultValue={props.address?.country}
+                      options={comboroleType}
+                      getOptionLabel={(option: any) => option.name}
+                      defaultValue={props.datauser?.field_preference?.role_type}
                       renderInput={params => <TextField {...params} label='Role Type' />}
-                      onChange={(event: any, newValue: Countries | null) =>
-                        newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
+                      onChange={(event: any, newValue: RoleType | null) =>
+                        newValue?.id
+                          ? setComboRolType(newValue.id)
+                          : setComboRolType(props.datauser?.field_preference?.role_type?.id)
                       }
                     />
                   </Grid>
@@ -531,12 +605,14 @@ const CandidateProfile = (props: compProps) => {
                     <Autocomplete
                       disablePortal
                       id='combo-box-demo'
-                      options={combocountry}
-                      getOptionLabel={(option: any) => option.nicename}
-                      defaultValue={props.address?.country}
+                      options={comboVessel}
+                      getOptionLabel={(option: any) => option.name}
+                      defaultValue={props.datauser?.field_preference?.vessel_type}
                       renderInput={params => <TextField {...params} label='Type of Vessel' />}
-                      onChange={(event: any, newValue: Countries | null) =>
-                        newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
+                      onChange={(event: any, newValue: VesselType | null) =>
+                        newValue?.id
+                          ? setComboVessel(newValue.id)
+                          : setComboVessel(props.datauser?.field_preference?.vessel_type?.id)
                       }
                     />
                   </Grid>
@@ -544,12 +620,14 @@ const CandidateProfile = (props: compProps) => {
                     <Autocomplete
                       disablePortal
                       id='combo-box-demo'
-                      options={combocountry}
-                      getOptionLabel={(option: any) => option.nicename}
-                      defaultValue={props.address?.country}
+                      options={comboRegion}
+                      getOptionLabel={(option: any) => option.name}
+                      defaultValue={props.datauser?.field_preference?.region_travel}
                       renderInput={params => <TextField {...params} label='Region of travel' />}
-                      onChange={(event: any, newValue: Countries | null) =>
-                        newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
+                      onChange={(event: any, newValue: RegionTravel | null) =>
+                        newValue?.id
+                          ? setComboRegion(newValue.id)
+                          : setComboRegion(props.datauser?.field_preference?.region_travel?.id)
                       }
                     />
                   </Grid>
@@ -589,7 +667,47 @@ const CandidateProfile = (props: compProps) => {
                     +
                   </Button>
                 </Grid>
+                <Grid item container xs={12}>
+                  {itemDataED.map(item => (
+                    <Grid item container xs={12} marginTop={2} key={item.id}>
+                      <Grid xs={4} md={1}>
+                        <img
+                          alt='logo'
+                          src={item.logo ? item.logo : '/images/avatar.png'}
+                          style={{
+                            maxWidth: '100%',
+                            height: '100px',
+                            padding: 10,
+                            margin: 0
+                          }}
+                        />
+                      </Grid>
+                      <Grid xs={8} md={10} item container>
+                        <Grid xs={10} marginTop={2}>
+                          <Typography variant='h5'>{item.title}</Typography>
+                          <Typography variant='h4'>{item.major}</Typography>
+                        </Grid>
+                        <Grid xs={12} md={2} marginTop={2} display='flex'>
+                          <Box>
+                            <Typography variant='body1'>{item.start_date}</Typography>
+                          </Box>
+                          <Box>
+                            <Typography variant='body1'> / </Typography>
+                          </Box>
+                          <Box>
+                            <Typography variant='body1'>{item.end_date}</Typography>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                      {/* <Grid xs={12}>
+                        <Typography variant='body1'>{item.description}</Typography>
+                      </Grid> */}
+                      <Divider style={{ width: '100%' }} />
+                    </Grid>
+                  ))}
+                </Grid>
               </Grid>
+
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
                   <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
@@ -611,17 +729,17 @@ const CandidateProfile = (props: compProps) => {
                           style={{
                             maxWidth: '100%',
                             height: '100px',
-                            padding: 0,
+                            padding: 10,
                             margin: 0
                           }}
                         />
                       </Grid>
-                      <Grid xs={8} item container>
+                      <Grid xs={8} md={10} item container>
                         <Grid xs={10} marginTop={2}>
                           <Typography variant='h5'>{item.position}</Typography>
                           <Typography variant='h4'>{item.institution}</Typography>
                         </Grid>
-                        <Grid xs={12} marginTop={2} display='flex'>
+                        <Grid xs={12} md={2} marginTop={2} display='flex'>
                           <Box>
                             <Typography variant='body1'>{item.start_date}</Typography>
                           </Box>
@@ -669,13 +787,12 @@ const CandidateProfile = (props: compProps) => {
                         <Typography variant='h6'>{item.document_name}</Typography>
                       </Grid>
                       <Grid xs={3} md={1}>
-                        <Button variant='contained' color='info' size='small'>
+                        <Button variant='contained' color='info' size='small' href={item.path} target='_blank'>
                           Preview
                         </Button>
                       </Grid>
                       <Grid xs={3} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
-                        <Button variant='contained' color='error' size='small'>
-                          {' '}
+                        <Button variant='contained' color='error' size='small' onClick={() => deletework(item.id)}>
                           Delete
                         </Button>
                       </Grid>

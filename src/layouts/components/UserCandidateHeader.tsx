@@ -152,7 +152,7 @@ useEffect(() => {
           </Box>
         </Box>
         <Grid container justifyContent='flex-end'>
-          <Grid item xs={12} md={11}>
+          <Grid item xs={12} md={9}>
             <Box
               sx={{
                 display: 'flex',
@@ -171,6 +171,7 @@ useEffect(() => {
               <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
                 <Icon icon='fontisto:ship' />
                 <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
+                  {props.datauser?.field_preference?.vessel_type?.name}
                   {/* <a href={instagram} target='_blank'>
                     {instagram}
                   </a> */}
@@ -180,6 +181,7 @@ useEffect(() => {
               <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
                 <Icon icon='gis:route' />
                 <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
+                  {props.datauser?.field_preference?.region_travel?.name}
                   {/* <a href={linkedin} target='_blank'>
                     {linkedin}
                   </a> */}
@@ -187,14 +189,14 @@ useEffect(() => {
               </Box>
             </Box>
           </Grid>
-          <Grid item xs={12} md={1} marginTop={'-5px'}>
+          <Grid item xs={12} md={3} marginTop={'-5px'}>
             <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
-              <Typography>
-                Available
-              </Typography>
-              <IconButton LinkComponent={Link} href='/company' sx={{ color: '#424242', fontWeight: 400 }}>
-                <Icon fontSize='medium' icon={'charm:pencil'} />
-              </IconButton>
+              <Box display={'flex'} alignItems={'center'}>
+                <Typography>Available {props.datauser?.field_preference?.available_date}</Typography>
+                <IconButton LinkComponent={Link} href='/candidate' sx={{ color: '#424242', fontWeight: 400 }}>
+                  <Icon fontSize='medium' icon={'charm:pencil'} />
+                </IconButton>
+              </Box>
             </Grid>
           </Grid>
         </Grid>

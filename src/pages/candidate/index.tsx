@@ -96,7 +96,7 @@ const Candidate = () => {
           container
           item
           xs={12}
-          md={10}
+          md={12}
           sx={
             !hidden
               ? {
@@ -172,7 +172,7 @@ const Candidate = () => {
           </Grid>
         </Grid>
 
-        <Grid
+        {/* <Grid
           item
           xs={2}
           container
@@ -238,7 +238,7 @@ const Candidate = () => {
               }}
             ></Grid>
           </Grid>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Box>
   )

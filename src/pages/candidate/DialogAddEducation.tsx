@@ -18,7 +18,7 @@ import { CircularProgress } from '@mui/material'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import { Autocomplete } from '@mui/material'
 import DatePicker from 'react-datepicker' 
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'  
+// import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'  
 import Degree from 'src/contract/models/degree'
 
 const Transition = forwardRef(function Transition(
@@ -54,7 +54,7 @@ const DialogAddEducation = (props: DialogProps) => {
     const [preview, setPreview] = useState()
     const [Education, getEducation] = useState<any[]>([])
     const [selectedFile, setSelectedFile] = useState()
-    const [EduId, setEduId] = useState(0)  
+    const [EduId, setEduId] = useState('---')  
     const combobox = async () =>{  
         const res3 = await HttpClient.get(`/public/data/degree`)
         if (res3.status != 200) {
@@ -100,6 +100,7 @@ const DialogAddEducation = (props: DialogProps) => {
         major: major,
         degree: EduId,
         logo: selectedFile,
+        still_here : 0,
         start_date: dateAwal
           ?.toLocaleDateString('en-GB', {
             year: 'numeric',
@@ -119,8 +120,7 @@ const DialogAddEducation = (props: DialogProps) => {
           .reverse()
           .join('-'),
         short_description: short_description
-      }
-      debugger; 
+      } 
       setOnLoading(true)
 
       try {
@@ -197,7 +197,7 @@ const onSelectFile = (e: any) => {
                   getOptionLabel={(option: Degree) => option.name}
                   renderInput={params => <TextField {...params} label='Education' />}
                   onChange={(event: any, newValue: Degree | null) =>
-                    newValue?.id ? setEduId(newValue.id) : setEduId(0)
+                    newValue?.name ? setEduId(newValue.name) : setEduId('---')
                   }
                 />
               </Grid>
@@ -240,7 +240,7 @@ const onSelectFile = (e: any) => {
                 </Grid>
               </Grid>
               <Grid item md={6} xs={12}>
-                <DatePickerWrapper>
+                {/* <DatePickerWrapper> */}
                   <DatePicker
                     dateFormat='dd/MM/yyyy'
                     selected={dateAwal}
@@ -251,10 +251,10 @@ const onSelectFile = (e: any) => {
                       <TextField label='Start Date' variant='outlined' fullWidth {...register('startdate')} />
                     }
                   />
-                </DatePickerWrapper>
+                {/* </DatePickerWrapper> */}
               </Grid>
               <Grid item md={6} xs={12}>
-                <DatePickerWrapper>
+                {/* <DatePickerWrapper> */}
                   <DatePicker
                     dateFormat='dd/MM/yyyy'
                     selected={dateAkhir}
@@ -263,7 +263,7 @@ const onSelectFile = (e: any) => {
                     placeholderText='Click to select a date'
                     customInput={<TextField label='End Date' variant='outlined' fullWidth {...register('enddate')} />}
                   />
-                </DatePickerWrapper>
+                {/* </DatePickerWrapper> */}
               </Grid>
               <Grid item md={12} xs={12}>
                 <TextField
