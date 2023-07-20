@@ -93,13 +93,13 @@ const Register = () => {
                 </Box>
 
                 <Link href="/register/seafer" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:account-outline'} />} > I Am Candidate</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:account-outline'} />} >as Candidate</Button>
                 </Link>
                 <Link href="/register/recruiter" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:domain'} />} > I Am Recruiter</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:domain'} />} >as Recruiter</Button>
                 </Link>
                 <Link href="/register/trainer" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'healthicons:i-training-class'} />} > I Am Trainer</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'healthicons:i-training-class'} />} >as Trainer</Button>
                 </Link>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
