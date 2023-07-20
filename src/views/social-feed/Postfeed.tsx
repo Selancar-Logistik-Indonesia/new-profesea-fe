@@ -4,6 +4,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers';
 import { useSocialFeed } from 'src/hooks/useSocialFeed';
 import { useState } from 'react';
+import { Icon } from '@iconify/react';
 
 const Postfeed = () => {
     const { user } = useAuth();
@@ -44,10 +45,22 @@ const Postfeed = () => {
                     />
                 </Box>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', mt: 3, alignItems: 'end' }}>
-                <Button sx={{ width: 45 }} disabled={isLoading} onClick={handleUpdateStatus} size='small' color='primary' variant='contained' >
-                    {isLoading ? <CircularProgress /> : "Post"}
-                </Button>
+            <Box sx={{ display: 'flex', flexDirection: 'row', mt: 3, alignItems: 'end' }}>
+                <Box>
+                    <Button size='small' variant='text' sx={{ textDecoration: 'none' }}>
+                        <Icon fontSize={22} icon='mdi:image' />
+                        <div style={{ marginLeft: 5 }}>Photo</div>
+                    </Button>
+                    <Button size='small' variant='text' sx={{ textDecoration: 'none' }}>
+                        <Icon fontSize={22} icon='mdi:videocam' />
+                        <div style={{ marginLeft: 5 }}>Video</div>
+                    </Button>
+                </Box>
+                <Box flexGrow={1} textAlign='right'>
+                    <Button sx={{ width: 45 }} disabled={isLoading} onClick={handleUpdateStatus} size='small' color='primary' variant='contained' >
+                        {isLoading ? <CircularProgress /> : "Post"}
+                    </Button>
+                </Box>
             </Box>
         </Card>
     )
