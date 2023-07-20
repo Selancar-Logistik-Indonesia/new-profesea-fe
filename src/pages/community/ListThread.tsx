@@ -1,8 +1,7 @@
-// ** MUI Components
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid' 
-import Typography from '@mui/material/Typography' 
-import { Button, Paper } from '@mui/material'   
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import { Button, Paper } from '@mui/material'
 import { Icon } from '@iconify/react'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -18,24 +17,22 @@ export type ParamMain = {
   replies: string
   replies_count: string
   created_at: string
-} 
- 
+}
 
- 
 // export type ProfileTeamsType = ProfileTabCommonType & { color: ThemeColor }
 interface Props {
   // teams: ProfileTeamsType[]
-  paramcomment: ParamMain[] 
+  paramcomment: ParamMain[]
 }
- 
+
 const renderList = (arr: ParamMain[]) => {
   if (arr && arr.length) {
-    const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser 
+    const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
     return arr.map((item, index) => {
- 
+
       return (
-        <Paper   key={index}>
+        <Paper key={index}>
           <Box
             height={110}
             sx={{
@@ -68,14 +65,13 @@ const renderList = (arr: ParamMain[]) => {
                 <Box display={'flex'}>
                   <Icon icon={'uil:comment'} fontSize={18} />
                   <Typography variant='body1' sx={{ color: 'text.primary' }} fontSize={10} fontWeight={600} marginLeft={'10px'}>
-                    <a href={'/thread?id='+ item.id}  >
+                    <a href={'/thread?id=' + item.id}  >
                       Replies  {item.replies_count
-                      ? `${
-                          item.replies_count.toString().charAt(0).toUpperCase() + item.replies_count.toString().slice(1)
+                        ? `${item.replies_count.toString().charAt(0).toUpperCase() + item.replies_count.toString().slice(1)
                         }`
-                      : ''}
+                        : ''}
                     </a>
-                   
+
                   </Typography>
                 </Box>
               </Grid>
@@ -94,10 +90,10 @@ const renderList = (arr: ParamMain[]) => {
     return null
   }
 }
- 
+
 
 const ListThread = (props: Props) => {
-  const {   paramcomment  } = props
+  const { paramcomment } = props
 
 
   return (

@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { useSettings } from 'src/@core/hooks/useSettings'
-import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 
@@ -75,9 +74,7 @@ const Register = () => {
       }}>
         <Box className='content-right' >
           {!hidden ? (
-            <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-              <FooterIllustrationsV2 image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`} />
-            </Box>
+            <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}></Box>
           ) : null}
 
           <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
@@ -95,13 +92,13 @@ const Register = () => {
                 </Box>
 
                 <Link href="/register/seafer" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:account-outline'} />} > I Am Candidate</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:account-outline'} />} >as Candidate</Button>
                 </Link>
                 <Link href="/register/recruiter" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:domain'} />} > I Am Recruiter</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:domain'} />} >as Recruiter</Button>
                 </Link>
                 <Link href="/register/trainer" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'healthicons:i-training-class'} />} > I Am Trainer</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'healthicons:i-training-class'} />} >as Trainer</Button>
                 </Link>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
