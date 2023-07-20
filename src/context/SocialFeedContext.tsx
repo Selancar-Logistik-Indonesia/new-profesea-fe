@@ -16,6 +16,7 @@ const defaultValue: SocialFeedContextType = {
     fetchFeeds: () => Promise.resolve(),
     updateStatus: () => Promise.resolve(),
     likeUnlikeFeed: () => Promise.resolve(),
+    postComment: () => Promise.resolve(),
 }
 
 const SocialFeedContext = createContext(defaultValue);
@@ -94,6 +95,17 @@ const SocialFeedProvider = (props: Props) => {
         setFeeds(newFeedList);
     }
 
+    const postComment = async (feedId: number, content: string) => {
+        const response = await HttpClient.post("/social-feed/comment", {
+            content: content,
+            feed_id: feedId
+        });
+
+        if (response.status != 200) {
+            alert(response.data?.message ?? "Something went wrong");
+        }
+    }
+
     const values = useMemo(() => ({
         feeds,
         onLoading,
@@ -103,7 +115,18 @@ const SocialFeedProvider = (props: Props) => {
         page,
         setPage,
         likeUnlikeFeed,
-    }), [feeds, updateStatus, fetchFeeds, onLoading, hasNextPage, page, setPage, likeUnlikeFeed]);
+        postComment,
+    }), [
+        feeds,
+        updateStatus,
+        fetchFeeds,
+        onLoading,
+        hasNextPage,
+        page,
+        setPage,
+        likeUnlikeFeed,
+        postComment,
+    ]);
 
     return <SocialFeedContext.Provider value={values}>{props.children}</SocialFeedContext.Provider>
 }

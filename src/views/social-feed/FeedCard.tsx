@@ -5,9 +5,12 @@ import { getUserAvatar, toTitleCase } from "src/utils/helpers";
 import ButtonLike from "./ButtonLike";
 import ButtonComment from "./ButtonComment";
 import { Icon } from "@iconify/react";
+import { useState } from "react";
+import CommentForm from "./CommentForm";
 
 const FeedCard = (props: { item: ISocialFeed }) => {
     const { item } = props;
+    const [openComment, setOpenComment] = useState(false);
 
     return (
         <Paper sx={{ marginTop: '10px', padding: { xs: 3, md: 5 } }}>
@@ -33,8 +36,9 @@ const FeedCard = (props: { item: ISocialFeed }) => {
                 <Button sx={{ textTransform: 'none' }} size='small' color='primary' startIcon={<Icon icon='ic:round-repeat' fontSize={10} />}>Repost</Button>
                 <Button sx={{ textTransform: 'none' }} size='small' color='primary' startIcon={<Icon icon='solar:share-linear' fontSize={10} />}>Share</Button>
                 <ButtonLike item={item} />
-                <ButtonComment replycount={item.count_comments} />
+                <ButtonComment replyCount={item.count_comments} onClick={() => setOpenComment(!openComment)} />
             </Box>
+            {openComment && (<CommentForm feedId={item.id} />)}
         </Paper>
     );
 }
