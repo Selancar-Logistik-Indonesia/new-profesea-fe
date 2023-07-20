@@ -29,7 +29,7 @@ const Community = () => {
 const theme = useTheme() 
 const hidden = useMediaQuery(theme.breakpoints.down('md')) 
 const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-const [userDetail, setUserDetail] = useState<IUser | null>(null)
+// const [userDetail, setUserDetail] = useState<IUser | null>(null)
 const [listThread, setlistThread] = useState<any>([])
  
 const firstload = () => {
@@ -38,10 +38,10 @@ const firstload = () => {
     
     setlistThread(code)
   })
-  HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
-    const user = response.data.user as IUser
-    setUserDetail(user)
-  })
+  // HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
+  //   const user = response.data.user as IUser
+  //   setUserDetail(user)
+  // })
 }
  useEffect(() => { 
    firstload()
@@ -63,9 +63,9 @@ const firstload = () => {
               : {}
           }
         >
-          <Grid container spacing={6} >
+          <Grid container spacing={6}>
             <Grid item lg={3} md={3} xs={12}>
-              <Profile datauser={userDetail} />
+              <Profile datauser={user} />
               <br></br>
               <Grid container>
                 <Grid item xs={12}>
@@ -84,20 +84,19 @@ const firstload = () => {
               </Grid>
 
               <br></br>
-              <Feed  ></Feed>
+              <Feed></Feed>
             </Grid>
             <Grid item lg={9} md={9} xs={12}>
               <Grid container spacing={6}>
                 <Grid item xs={12}>
-                  <ListThread paramcomment={listThread} ></ListThread>
+                  <ListThread paramcomment={listThread}></ListThread>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
-        
 
-          {/* <SideAd/>  */}
+        {/* <SideAd/>  */}
       </Grid>
     </Box>
   )

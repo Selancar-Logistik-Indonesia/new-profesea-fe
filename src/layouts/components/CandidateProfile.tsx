@@ -356,8 +356,12 @@ const CandidateProfile = (props: compProps) => {
               alt='logo'
               src={preview ? preview : '/images/avatar.png'}
               style={{
-                maxWidth: '100%',
+                maxWidth: '120px',
+                minWidth: '120px',
+                maxHeight: '120px',
+                minHeight: '120px',
                 height: '120px',
+                width: '120px',
                 padding: 0,
                 margin: 0
               }}
@@ -401,8 +405,12 @@ const CandidateProfile = (props: compProps) => {
               alt='logo'
               src={previewBanner ? previewBanner : '/images/avatar.png'}
               style={{
-                maxWidth: '100%',
+                maxWidth: '120px',
+                minWidth: '120px',
+                maxHeight: '120px',
+                minHeight: '120px',
                 height: '120px',
+                width: '120px',
                 padding: 0,
                 margin: 0
               }}

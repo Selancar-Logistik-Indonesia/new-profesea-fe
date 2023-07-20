@@ -3,13 +3,11 @@ import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import { Tabs, Tab, useMediaQuery } from '@mui/material'
+import {   useMediaQuery, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
 import { useForm } from 'react-hook-form'
  import { useTheme } from '@mui/material/styles'
-import ManageAccount from 'src/layouts/components/ManageAccount'
-import Subscription from 'src/layouts/components/Subscription'
-import { IUser } from 'src/contract/models/user'
+ import { IUser } from 'src/contract/models/user'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { HttpClient } from 'src/services'
@@ -38,45 +36,9 @@ const Candidate = () => {
   const {} = useForm<FormData>({
     mode: 'onBlur'
   })
-  interface TabPanelProps {
-    children?: React.ReactNode
-    index: number
-    value: number
-  }
-
-  function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props
-
-    return (
-      <div
-        role='tabpanel'
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-      </div>
-    )
-  }
-
-  function a11yProps(index: number) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`
-    }
-  }
-
-  const [value, setValue] = React.useState(0)
-  const [color, getColor] = useState<any>('#FFFFFF')
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
-    if (newValue == 1) {
-      getColor('#ffeae9')
-    } else {
-      getColor('#FFFFFF')
-    }
-  }
+ 
+ 
+  
   function Firstload() {
     HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
       const user = response.data.user as IUser
@@ -110,7 +72,7 @@ const Candidate = () => {
           }
         >
           <Grid item xs={12}>
-            <Box
+            {/* <Box
               sx={{
                 borderBottom: 1,
                 borderColor: 'divider',
@@ -130,7 +92,7 @@ const Candidate = () => {
                 <Tab label='ACCOUNT' {...a11yProps(1)} />
                 <Tab label='MANAGE' {...a11yProps(2)} />
               </Tabs>
-            </Box>
+            </Box> */}
             <Grid
               container
               item
@@ -138,8 +100,7 @@ const Candidate = () => {
               sx={{
                 borderBottom: 1,
                 borderColor: 'divider',
-                boxSizing: 'border-box',
-                background: color,
+                boxSizing: 'border-box', 
                 border: '1px solid rgba(76, 78, 100, 0.12)',
                 borderRadius: '20px',
                 marginTop: '10px',
@@ -150,23 +111,18 @@ const Candidate = () => {
               }}
             >
               <Grid item xs={12}>
-                <TabPanel value={value} index={0}>
-                  <Grid container item xs={12}>
-                    <Grid container item xs={9}>
-                      {' '}
+                 
+                  <Grid container item xs={12} marginBottom={'10px'}>
+                    <Grid container item xs={12} justifyContent={'center'}>
+                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '40px' }}>
+                        Resume Builder
+                      </Typography>
                     </Grid>
-                    <Grid item md={12} xs={3} container justifyContent={'right'} marginTop={'10px'}></Grid>
                   </Grid>
                   {selectedItem != null && (
                     <CandidateProfile visible={true} datauser={selectedItem} address={selectedItem.address} />
                   )}
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                  <ManageAccount></ManageAccount>
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                  <Subscription></Subscription>
-                </TabPanel>
+                
               </Grid>
             </Grid>
           </Grid>

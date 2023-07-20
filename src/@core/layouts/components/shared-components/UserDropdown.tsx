@@ -127,7 +127,7 @@ const UserDropdown = (props: Props) => {
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:account-outline' />
-            {userData?.role == "Seafarer" && <LinkStyled href='/candidate/profile'>Profile</LinkStyled>}
+            {userData?.role == 'Seafarer' && <LinkStyled href='/candidate/profile'>Profile</LinkStyled>}
             {userData?.role == 'Company' && <LinkStyled href='/company/profile'>Profile</LinkStyled>}
           </Box>
         </MenuItem>
@@ -140,8 +140,14 @@ const UserDropdown = (props: Props) => {
         <Divider />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
+            <Icon icon='mdi:attachment' />
+            <LinkStyled href='/account'>Account</LinkStyled>
+          </Box>
+        </MenuItem>
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+          <Box sx={styles}>
             <Icon icon='mdi:cog-outline' />
-            Settings
+            <LinkStyled href='/manage'>Manage User</LinkStyled>
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
