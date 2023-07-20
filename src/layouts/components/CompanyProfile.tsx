@@ -2,7 +2,7 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Components
-import Box from '@mui/material/Box'
+import Box, { BoxProps } from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { Button, TextField, FormControl, Autocomplete, Divider, IconButton } from '@mui/material'
 
@@ -28,6 +28,10 @@ import Industry from 'src/contract/models/industry'
 import City from 'src/contract/models/city'
 import Address from 'src/contract/models/address'
 import { Icon } from '@iconify/react'
+import { styled } from '@mui/material/styles'
+import CardMedia from '@mui/material/CardMedia'
+import CardContent from '@mui/material/CardContent'
+
 
 type FormData = {
   companyName: string
@@ -55,6 +59,20 @@ type compProps = {
 let statusfb: any = ''
 let statusig: any = ''
 let statuslinkedin: any = ''
+const ProfilePicture = styled('img')(({ theme }) => ({
+  width: 120,
+  height: 120,
+  borderRadius: theme.shape.borderRadius,
+  border: `5px solid ${theme.palette.common.white}`,
+  [theme.breakpoints.down('md')]: {
+    marginBottom: theme.spacing(4)
+  }
+}))
+const BoxWrapper = styled(Box)<BoxProps>(( ) => ({
+  position: 'relative',
+ 
+}))
+  
 const CompanyProfile = (props: compProps) => {
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboindustry, getComboIndustry] = useState<any>([])
@@ -363,7 +381,7 @@ const CompanyProfile = (props: compProps) => {
 
   return (
     <Grid container>
-      <Grid item xs={12} md={6} container>
+      {/* <Grid item xs={12} md={6} container>
         <Grid item xs={6} md={4} container justifyContent={'center'}>
           <img
             alt='logo'
@@ -444,7 +462,65 @@ const CompanyProfile = (props: compProps) => {
             </Typography>
           </Box>
         </Grid>
-      </Grid>
+      </Grid> */}
+      <input
+        accept='image/*'
+        style={{ display: 'none', height: 250, width: '100%' }}
+        id='raised-button-file-banner'
+        onChange={onSelectFileBanner}
+        type='file'
+      ></input>
+      <Box
+        sx={{
+          height: { xs: 150, md: 250 },
+          width: '100%',
+          justifyContent: { xs: 'center', md: 'flex-start' }
+        }}
+      >
+        <CardMedia
+          component='img'
+          alt='profile-header'
+          image={previewBanner ? previewBanner : '/images/avatars/headerprofile.png'}
+          sx={{
+            height: { xs: 150, md: 250 },
+            width: '100%'
+          }}
+        />
+        <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '67%', md: '50%' } }}>
+          <label htmlFor='raised-button-file-banner'>
+            <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
+          </label>
+        </Box>
+      </Box>
+
+      <CardContent
+        sx={{
+          pt: 0,
+          mt: -8,
+          display: 'flex',
+          alignItems: 'flex-end',
+          flexWrap: { xs: 'wrap', md: 'nowrap' },
+          justifyContent: { xs: 'center', md: 'flex-start' },
+          marginLeft: { md: '10px' }
+          // marginTop:'125px'
+        }}
+      >
+        <BoxWrapper>
+          <label htmlFor='raised-button-file'>
+            <ProfilePicture src={preview ? preview : '/images/avatars/1.png'} alt='profile-picture'></ProfilePicture>
+          </label>
+          <input
+            accept='image/*'
+            style={{ display: 'none', height: 250, width: '100%' }}
+            id='raised-button-file'
+            onChange={onSelectFile}
+            type='file'
+          ></input>
+          <Box position={'absolute'} right={'10%'} bottom={'10%'}>
+            <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
+          </Box>
+        </BoxWrapper>
+      </CardContent>
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
           <Grid item xs={12} container marginTop={'25px'}>

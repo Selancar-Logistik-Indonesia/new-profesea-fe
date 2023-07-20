@@ -71,28 +71,7 @@ const Candidate = () => {
               : {}
           }
         >
-          <Grid item xs={12}>
-            {/* <Box
-              sx={{
-                borderBottom: 1,
-                borderColor: 'divider',
-                boxSizing: 'border-box',
-                background: '#FFFFFF',
-                border: '1px solid rgba(76, 78, 100, 0.12)',
-                borderRadius: '40px'
-              }}
-            >
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label='basic tabs example'
-                sx={{ '& button.Mui-selected': { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }}
-              >
-                <Tab label='RESUME BUILDER' {...a11yProps(0)} />
-                <Tab label='ACCOUNT' {...a11yProps(1)} />
-                <Tab label='MANAGE' {...a11yProps(2)} />
-              </Tabs>
-            </Box> */}
+          <Grid item xs={12}> 
             <Grid
               container
               item
@@ -103,11 +82,13 @@ const Candidate = () => {
                 boxSizing: 'border-box', 
                 border: '1px solid rgba(76, 78, 100, 0.12)',
                 borderRadius: '20px',
+                backgroundColor:'#FFFFFF',
                 marginTop: '10px',
                 direction: 'row',
                 justifyContent: 'flex-start',
                 alignItems: 'top',
-                alignContent: 'top'
+                alignContent: 'top',
+                padding:'20px'
               }}
             >
               <Grid item xs={12}>
