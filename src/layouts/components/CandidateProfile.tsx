@@ -2,7 +2,7 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Components
-import Box from '@mui/material/Box'
+import Box, { BoxProps } from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { Button, TextField, FormControl, Autocomplete, Divider } from '@mui/material'
 
@@ -37,6 +37,11 @@ import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import RegionTravel from 'src/contract/models/regional_travel'
 
+import { styled } from '@mui/material/styles'
+import CardMedia from '@mui/material/CardMedia' 
+import CardContent from '@mui/material/CardContent'
+import { Icon } from '@iconify/react'
+ 
 type FormData = {
   fullName: string
   country: string
@@ -64,6 +69,20 @@ type compProps = {
  let ship: any = []
 let tampilkanship: any = ''
 let availabledate: any = ''
+const ProfilePicture = styled('img')(({ theme }) => ({
+  width: 120,
+  height: 120,
+  borderRadius: theme.shape.borderRadius,
+  border: `5px solid ${theme.palette.common.white}`,
+  [theme.breakpoints.down('md')]: {
+    marginBottom: theme.spacing(4)
+  }
+}))
+const BoxWrapper = styled(Box)<BoxProps>(() => ({
+  position: 'relative',
+ 
+}))
+ 
 const CandidateProfile = (props: compProps) => {
   ;
  
@@ -349,7 +368,66 @@ const CandidateProfile = (props: compProps) => {
  
   return (
     <Grid container>
-      <Grid item xs={12} md={6} container>
+      <input
+        accept='image/*'
+        style={{ display: 'none', height: 250, width: '100%' }}
+        id='raised-button-file-banner'
+        onChange={onSelectFileBanner}
+        type='file'
+      ></input>
+      <Box
+        sx={{
+          height: { xs: 150, md: 250 },
+          width: '100%',
+          justifyContent: { xs: 'center', md: 'flex-start' }
+        }}
+      >
+        <CardMedia
+          component='img'
+          alt='profile-header'
+          image={previewBanner ? previewBanner : '/images/avatars/headerprofile.png'}
+          sx={{
+            height: { xs: 150, md: 250 },
+            width: '100%'
+          }}
+        />
+        <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '67%', md: '50%' } }}>
+          <label htmlFor='raised-button-file-banner'>
+            <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
+          </label>
+        </Box>
+      </Box>
+
+      <CardContent
+        sx={{
+          pt: 0,
+          mt: -8,
+          display: 'flex',
+          alignItems: 'flex-end',
+          flexWrap: { xs: 'wrap', md: 'nowrap' },
+          justifyContent: { xs: 'center', md: 'flex-start' },
+          marginLeft: { md: '10px' }
+          // marginTop:'125px'
+        }}
+      >
+        <BoxWrapper>
+          <label htmlFor='raised-button-file'>
+            <ProfilePicture src={preview ? preview : '/images/avatars/1.png'} alt='profile-picture'></ProfilePicture>
+          </label>
+          <input
+            accept='image/*'
+            style={{ display: 'none', height: 250, width: '100%' }}
+            id='raised-button-file'
+            onChange={onSelectFile}
+            type='file'
+          ></input>
+          <Box position={'absolute'} right={'10%'} bottom={'10%'}>
+            <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
+          </Box>
+        </BoxWrapper>
+      </CardContent>
+
+      {/* <Grid item xs={12} md={6} container>
         <Grid item xs={6} md={4} container justifyContent={'center'}>
           <label htmlFor='raised-button-file'>
             <img
@@ -376,14 +454,6 @@ const CandidateProfile = (props: compProps) => {
             onChange={onSelectFile}
             type='file'
           ></input>
-          {/* <Box sx={{ marginTop: '2px' }}>
-            <label htmlFor='raised-button-file'>
-              <Button size='small' variant='contained' component='span'>
-                Upload Profil Image
-              </Button>
-            </label>
-            &nbsp;
-          </Box> */}
 
           <Box sx={{ marginTop: '20px' }}>
             <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
@@ -397,8 +467,8 @@ const CandidateProfile = (props: compProps) => {
             </Typography>
           </Box>
         </Grid>
-      </Grid>
-      <Grid item xs={12} md={6} container>
+      </Grid> */}
+      {/* <Grid item xs={12} md={6} container>
         <Grid item xs={6} md={4} container justifyContent={'center'}>
           <label htmlFor='raised-button-file-banner'>
             <img
@@ -438,7 +508,7 @@ const CandidateProfile = (props: compProps) => {
             </Typography>
           </Box>
         </Grid>
-      </Grid>
+      </Grid> */}
 
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
