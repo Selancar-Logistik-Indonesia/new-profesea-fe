@@ -50,7 +50,7 @@ const FindCandidate = () => {
         </Grid>
         <Feed />
       </Grid>
-      <Grid item lg={7} md={7} xs={12}>
+      <Grid item lg={9} md={7} xs={12}>
         <Grid sx={{ ml: { md: 12 }, mt: { xs: 12 } }} container>
           <Grid item xs={11}>
             <Typography variant='h5'> Recommend for you</Typography>
@@ -61,9 +61,6 @@ const FindCandidate = () => {
             <RecomendedView listCandidate={listCandidate} />
           </Grid>
         </Grid>
-      </Grid>
-      <Grid lg={2} xs={12} sx={{ mt: { xs: 5 } }} item>
-        <SideAd />
       </Grid>
     </Grid>
   )
