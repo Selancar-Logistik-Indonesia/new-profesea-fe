@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { useSettings } from 'src/@core/hooks/useSettings'
-import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 

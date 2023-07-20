@@ -8,7 +8,6 @@ import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'
 import Profile from 'src/layouts/components/Profile'
 import { useAuth } from 'src/hooks/useAuth'
-import SideAd from 'src/views/banner-ad/sidead'
 
 const FindCandidate = () => {
   const [listCandidate, setListCandidate] = useState<IUser[]>([])
