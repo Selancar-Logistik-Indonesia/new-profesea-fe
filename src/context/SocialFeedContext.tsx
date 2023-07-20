@@ -103,10 +103,11 @@ const SocialFeedProvider = (props: Props) => {
         setFeeds(newFeedList);
     }
 
-    const postComment = async (feedId: number, content: string) => {
+    const postComment = async (feedId: number, replyable_type: 'feed' | 'comment', content: string) => {
         const response = await HttpClient.post("/social-feed/comment", {
             content: content,
-            feed_id: feedId
+            replyable_id: feedId,
+            replyable_type: replyable_type
         });
 
         if (response.status != 200) {
@@ -116,9 +117,9 @@ const SocialFeedProvider = (props: Props) => {
         setCommentSignature(v4());
     }
 
-    const getComments = async (feedId: number, page: number, take: number) => {
+    const getComments = async (feedId: number, page: number, take: number, replyable_type: 'feed' | 'comment') => {
         const response = await HttpClient.get(`/social-feed/comment/${feedId}`, {
-            page: page, take: take,
+            page: page, take: take, replyable_type: replyable_type
         });
 
         if (response.status != 200) {
