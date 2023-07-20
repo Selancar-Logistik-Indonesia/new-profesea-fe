@@ -163,6 +163,7 @@ useEffect(() => {
               <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
                 <Icon icon='clarity:briefcase-solid' />
                 <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
+                  {props.datauser?.field_preference?.role_level?.levelName}
                   {/* <a href={facebook} target='_blank'>
                     {facebook}
                   </a> */}
