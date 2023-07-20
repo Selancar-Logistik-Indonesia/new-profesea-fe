@@ -21,6 +21,7 @@ const CommentForm = (props: { feedId: number }) => {
         try {
             await postComment(
                 props.feedId,
+                'feed',
                 content
             );
 

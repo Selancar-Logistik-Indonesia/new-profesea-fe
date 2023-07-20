@@ -18,7 +18,7 @@ const CommentAreaView = (props: { item: ISocialFeed }) => {
 
     const loadComments = async () => {
         setOnLoading(true);
-        const obj = await getComments(item.id, 1, 7);
+        const obj = await getComments(item.id, 1, 7, 'feed');
         setCommentObj(obj);
         setOnLoading(false);
     }
@@ -62,8 +62,8 @@ const CommentAreaView = (props: { item: ISocialFeed }) => {
                                     </Typography>
                                 </Box>
                                 <Box>
-                                    <Button sx={{ textTransform: 'none', fontSize: 11 }} variant='text' size="small">Reply</Button>
                                     <Button sx={{ textTransform: 'none', fontSize: 11 }} variant='text' size="small">Like</Button>
+                                    <Button sx={{ textTransform: 'none', fontSize: 11 }} variant='text' size="small">Reply</Button>
                                 </Box>
                             </Box>
                         ))

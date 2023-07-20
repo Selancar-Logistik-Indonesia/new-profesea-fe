@@ -14,8 +14,8 @@ type SocialFeedContextType = {
     fetchFeeds: (payload: FetchFeedPayload) => Promise<void>,
     updateStatus: (payload: UpdateStatusPayload) => Promise<void>,
     likeUnlikeFeed: (feedId: number) => Promise<void>,
-    postComment: (feedId: number, content: string) => Promise<void>,
-    getComments: (feedId: number, page: number, take: number) => Promise<CommentResponseType>,
+    postComment: (feedId: number, replyable_type: 'feed' | 'comment', content: string) => Promise<void>,
+    getComments: (feedId: number, page: number, take: number, replyable_type: 'feed' | 'comment') => Promise<CommentResponseType>,
 }
 
 export default SocialFeedContextType;
