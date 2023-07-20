@@ -3,19 +3,25 @@ import { ReactNode, createContext, useMemo, useState } from "react";
 import ISocialFeed from "src/contract/models/social_feed";
 import FetchFeedPayload from "src/contract/params/fetch_feed_payload";
 import UpdateStatusPayload from "src/contract/params/update_status_payload";
+import CommentResponseType from "src/contract/types/comment_response_type";
 import SocialFeedContextType from "src/contract/types/social_feed_context_type";
 import { HttpClient } from "src/services";
+import { v4 } from "uuid";
 
 type Props = { children: ReactNode };
 const defaultValue: SocialFeedContextType = {
     page: 1,
+    totalFeed: 0,
     setPage: () => { },
     feeds: [],
     onLoading: false,
     hasNextPage: false,
+    commentSignature: '',
     fetchFeeds: () => Promise.resolve(),
     updateStatus: () => Promise.resolve(),
     likeUnlikeFeed: () => Promise.resolve(),
+    postComment: () => Promise.resolve(),
+    getComments: () => Promise.resolve() as any
 }
 
 const SocialFeedContext = createContext(defaultValue);
@@ -25,6 +31,8 @@ const SocialFeedProvider = (props: Props) => {
     const [onLoading, setOnLoading] = useState(false);
     const [hasNextPage, setHasNextPage] = useState(true);
     const [page, setPage] = useState(1);
+    const [commentSignature, setCommentSignature] = useState('');
+    const [totalFeed, setTotalFeed] = useState(0);
 
     const updateStatus = async (payload: UpdateStatusPayload) => {
         const response = await HttpClient.post('/social-feed/feed', payload);
@@ -50,11 +58,12 @@ const SocialFeedProvider = (props: Props) => {
             });
 
             if (response.status == 200) {
-                const { feeds } = response.data as { feeds: { data: ISocialFeed[], next_page_url?: string } };
+                const { feeds } = response.data as { feeds: { data: ISocialFeed[], next_page_url?: string, total: number } };
                 if (feeds.data.length && feeds.data.length > 0) {
                     setFeeds(old => {
                         const newItems = old;
                         feeds.data.forEach(e => newItems.push(e));
+                        setTotalFeed(newItems.length);
 
                         return newItems;
                     });
@@ -94,8 +103,35 @@ const SocialFeedProvider = (props: Props) => {
         setFeeds(newFeedList);
     }
 
+    const postComment = async (feedId: number, content: string) => {
+        const response = await HttpClient.post("/social-feed/comment", {
+            content: content,
+            feed_id: feedId
+        });
+
+        if (response.status != 200) {
+            alert(response.data?.message ?? "Something went wrong");
+        }
+
+        setCommentSignature(v4());
+    }
+
+    const getComments = async (feedId: number, page: number, take: number) => {
+        const response = await HttpClient.get(`/social-feed/comment/${feedId}`, {
+            page: page, take: take,
+        });
+
+        if (response.status != 200) {
+            throw response.data?.message ?? "Unknow reason";
+        }
+        const { comments } = response.data as { comments: CommentResponseType }
+
+        return comments;
+    }
+
     const values = useMemo(() => ({
         feeds,
+        totalFeed,
         onLoading,
         updateStatus,
         fetchFeeds,
@@ -103,7 +139,23 @@ const SocialFeedProvider = (props: Props) => {
         page,
         setPage,
         likeUnlikeFeed,
-    }), [feeds, updateStatus, fetchFeeds, onLoading, hasNextPage, page, setPage, likeUnlikeFeed]);
+        postComment,
+        getComments,
+        commentSignature,
+    }), [
+        feeds,
+        totalFeed,
+        updateStatus,
+        fetchFeeds,
+        onLoading,
+        hasNextPage,
+        page,
+        setPage,
+        likeUnlikeFeed,
+        postComment,
+        getComments,
+        commentSignature,
+    ]);
 
     return <SocialFeedContext.Provider value={values}>{props.children}</SocialFeedContext.Provider>
 }
