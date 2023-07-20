@@ -15,7 +15,6 @@ import { useTheme } from '@mui/material/styles'
 // import secureLocalStorage from 'react-secure-storage'
 // import { HttpClient } from 'src/services'
 // import { AppConfig } from 'src/configs/api'
-import AdsList from 'src/layouts/components/Ads'
 import AllTrainingScreen from './all'
 import OngoingTrainingScreen from './ongoing'
 
@@ -90,7 +89,7 @@ const SeafererTraining = () => {
   return (
     <Box  >
       <Grid container spacing={2}>
-        <Grid item xs={12} md={10}
+        <Grid item xs={12} md={12}
           sx={!hidden ? {
             direction: "row",
             justifyContent: "flex-start",
@@ -141,14 +140,6 @@ const SeafererTraining = () => {
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid xs={2} item display={'flex'} sx={{
-          direction: "row",
-          justifyContent: "flex-start",
-          alignContent: 'top',
-          alignItems: "stretch"
-        }}>
-          <AdsList></AdsList>
         </Grid>
       </Grid>
 

@@ -2,7 +2,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Button } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services';
 import { AxiosError } from 'axios';
@@ -10,6 +10,7 @@ import { toast } from 'react-hot-toast';
 import Training from 'src/contract/models/training';
 import { v4 } from "uuid";
 import DialogView from '../all/DialogView';
+import Avatar from 'src/@core/components/mui/avatar'
 
 const SeafererOngoingTraining = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -89,7 +90,27 @@ const SeafererOngoingTraining = () => {
                                 Join
                                 </Button>
                             </Grid>
-                            </Grid>
+                            </Grid>   
+                            <Box
+                                height={65}
+                                sx={{
+                                display: 'flex',
+                                alignContent: 'center',
+                                '& svg': { color: 'text.secondary' }
+                                }}
+                            >
+                                <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
+                                <Avatar src={item?.trainer?.photo} alt='profile-picture' sx={{ width: 50, height: 50 }} />
+                                </Box>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
+                                <Typography sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }} fontSize={16}>
+                                    {item?.trainer?.name}
+                                </Typography>
+                                <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
+                                    {item?.trainer?.username ?? "-"}
+                                </Typography>
+                                </Box>
+                            </Box>
                         </CardContent>
                         </Grid>
                     </Card>
