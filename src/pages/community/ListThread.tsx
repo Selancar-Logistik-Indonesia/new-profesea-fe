@@ -102,18 +102,14 @@ const ListThread = (props: Props) => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12} display={'flex'} alignContent={'flex-end'} justifyContent={'flex-end'}> 
-            <Button variant='contained'>
-              Create Thread
-            </Button>
-        
+      <Grid item xs={12} display={'flex'} alignContent={'flex-end'} justifyContent={'flex-end'}>
+        <Button variant='contained' href='thread/create'>
+          Create Thread
+        </Button>
       </Grid>
-      <Grid item xs={12}>         
-            <Box  > 
-              {renderList(paramcomment)} 
-            </Box>  
+      <Grid item xs={12}>
+        <Box>{renderList(paramcomment)}</Box>
       </Grid>
-      
     </Grid>
   )
 }
