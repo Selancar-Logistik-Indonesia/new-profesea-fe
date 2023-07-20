@@ -658,7 +658,7 @@ const CandidateProfile = (props: compProps) => {
               <Box sx={{ marginTop: '20px' }}></Box>
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
-                  <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+                  <Typography variant='h5' sx={{ fontWeight: 'bold', color: '#424242' }}>
                     Educational Info
                   </Typography>
                 </Grid>
@@ -685,7 +685,7 @@ const CandidateProfile = (props: compProps) => {
                       <Grid xs={8} md={10} item container>
                         <Grid xs={10} marginTop={2}>
                           <Typography variant='h6'>{item.title}</Typography>
-                          <Typography variant='h5'>{item.major}</Typography>
+                          <Typography variant='body1'>{item.major}</Typography>
                         </Grid>
                         <Grid xs={12} md={2} marginTop={2} display='flex'>
                           <Box>
@@ -710,7 +710,7 @@ const CandidateProfile = (props: compProps) => {
 
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
-                  <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+                  <Typography variant='h5' sx={{ fontWeight: 'bold', color: '#424242' }}>
                     Work Experience Info
                   </Typography>
                 </Grid>
@@ -737,7 +737,7 @@ const CandidateProfile = (props: compProps) => {
                       <Grid xs={8} md={10} item container>
                         <Grid xs={10} marginTop={2}>
                           <Typography variant='h6'>{item.position}</Typography>
-                          <Typography variant='h5'>{item.institution}</Typography>
+                          <Typography variant='body1'>{item.institution}</Typography>
                         </Grid>
                         <Grid xs={12} md={2} marginTop={2} display='flex'>
                           <Box>
@@ -761,7 +761,7 @@ const CandidateProfile = (props: compProps) => {
               </Grid>
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
-                  <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+                  <Typography variant='h5' sx={{ fontWeight: 'bold', color: '#424242' }}>
                     Document Upload
                   </Typography>
                 </Grid>
