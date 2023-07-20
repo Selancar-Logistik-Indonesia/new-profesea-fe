@@ -8,9 +8,10 @@ import { v4 } from 'uuid'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import FeedCard from './FeedCard'
+import { useEffect } from 'react'
 
 const ListFeedView = () => {
-    const { fetchFeeds, hasNextPage } = useSocialFeed();
+    const { fetchFeeds, hasNextPage, totalFeed } = useSocialFeed();
 
     const renderList = (feeds: ISocialFeed[]) => {
         let itemCount = 0;
@@ -39,6 +40,10 @@ const ListFeedView = () => {
         return components;
     }
 
+    useEffect(() => {
+        console.log(`hasNextPage: ${hasNextPage}`);
+    }, [hasNextPage]);
+
     return (
         <SocialFeedContext.Consumer>
             {({ feeds, onLoading }) => {
@@ -53,7 +58,7 @@ const ListFeedView = () => {
 
                 return (
                     <InfiniteScroll
-                        dataLength={10}
+                        dataLength={totalFeed}
                         next={() => fetchFeeds({ take: 7 })}
                         hasMore={hasNextPage}
                         loader={(<Typography mt={5} color={'text.secondary'}>Loading..</Typography>)}>

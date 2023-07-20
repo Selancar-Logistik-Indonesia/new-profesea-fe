@@ -5,12 +5,31 @@ import { useAuth } from 'src/hooks/useAuth';
 import { getUserAvatar } from 'src/utils/helpers';
 import { Icon } from '@iconify/react';
 import UseBgColor from 'src/@core/hooks/useBgColor';
+import { useSocialFeed } from 'src/hooks/useSocialFeed';
 
-const CommentForm = () => {
+const CommentForm = (props: { feedId: number }) => {
     const maxLineHeight = 3;
     const [textFieldHeight, setTextFieldHeight] = useState(1);
+    const [content, setContent] = useState('');
+    const [onLoading, setOnLoading] = useState(false);
     const { user } = useAuth();
     const bgColors = UseBgColor();
+    const { postComment } = useSocialFeed();
+
+    const handleSend = async () => {
+        setOnLoading(true);
+        try {
+            await postComment(
+                props.feedId,
+                'feed',
+                content
+            );
+
+            setContent('');
+            setTextFieldHeight(1);
+        } catch (error) { }
+        setOnLoading(false);
+    }
 
     const handleEnter = (evt: KeyboardEvent) => {
         if (evt.key != "Enter") {
@@ -39,11 +58,13 @@ const CommentForm = () => {
                         rows={textFieldHeight}
                         placeholder="Write a comment"
                         variant="standard"
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
                         onKeyDown={handleEnter}
                     />
                 </Box>
                 <Box sx={{ ml: 3, alignSelf: 'end' }}>
-                    <IconButton>
+                    <IconButton onClick={handleSend} disabled={onLoading}>
                         <Icon color={bgColors.primaryLight.color} icon='mdi:send' />
                     </IconButton>
                 </Box>

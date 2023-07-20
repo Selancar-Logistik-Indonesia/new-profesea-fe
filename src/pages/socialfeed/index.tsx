@@ -30,7 +30,7 @@ const SocialFeedApp = () => {
     <Box>
       <Grid container spacing={2}>
         <Grid container spacing={6}>
-          <Grid item lg={4} md={5} xs={12}>
+          <Grid item lg={3} md={5} xs={12}>
             <Profile datauser={user} />
             <Grid container>
               <Grid item my={4} xs={12}>
@@ -48,7 +48,7 @@ const SocialFeedApp = () => {
             </Grid>
             <Feed />
           </Grid>
-          <Grid item lg={8} md={7} xs={12}>
+          <Grid item lg={9} md={7} xs={12}>
             <Grid container spacing={6}>
               <Grid item xs={12}>
                 <Postfeed />

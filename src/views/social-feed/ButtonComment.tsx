@@ -1,21 +1,20 @@
 import { Button, Typography } from "@mui/material";
-import { useState } from "react";
-import CommentForm from "./CommentForm";
 import { Icon } from "@iconify/react";
 
-function ButtonComment({ replycount }: { replycount: number }) {
-    const [replying, setreplying] = useState(false);
+interface Props {
+    replyCount: number,
+    onClick: () => void,
+}
+
+function ButtonComment(props: Props) {
 
     return (
-        <>
-            <Button sx={{ textTransform: 'none' }} size='small' color='primary' startIcon={<Icon icon='mdi:comment-outline' fontSize={10} />} onClick={() => setreplying(!replying)}>
-                {replycount > 0 && (
-                    <Typography ml={-1.4} mr={1.4} fontSize={12}>{replycount}</Typography>
-                )}
-                Comment
-            </Button>
-            {replying && <CommentForm />}
-        </>
+        <Button sx={{ textTransform: 'none' }} size='small' color='primary' startIcon={<Icon icon='mdi:comment-outline' fontSize={10} />} onClick={props.onClick}>
+            {props.replyCount > 0 && (
+                <Typography ml={-1.4} mr={1.4} fontSize={12}>{props.replyCount}</Typography>
+            )}
+            Comment
+        </Button>
     )
 }
 
