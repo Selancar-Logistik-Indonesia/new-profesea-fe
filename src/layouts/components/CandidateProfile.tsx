@@ -317,7 +317,7 @@ const CandidateProfile = (props: compProps) => {
 
   const onSelectFileBanner = (e: any) => {
     if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFile(undefined)
+      setSelectedFileBanner(undefined)
 
       return
     }
@@ -396,7 +396,7 @@ const CandidateProfile = (props: compProps) => {
       </Grid>
       <Grid item xs={12} md={6} container>
         <Grid item xs={6} md={4} container justifyContent={'center'}>
-          <label htmlFor='raised-button-file'>
+          <label htmlFor='raised-button-file-banner'>
             <img
               alt='logo'
               src={previewBanner ? previewBanner : '/images/avatar.png'}
@@ -413,7 +413,7 @@ const CandidateProfile = (props: compProps) => {
           <input
             accept='image/*'
             style={{ display: 'none' }}
-            id='raised-button-file'
+            id='raised-button-file-banner'
             onChange={onSelectFileBanner}
             type='file'
           ></input>
