@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Typography, Divider} from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram, faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons";
 
@@ -31,7 +31,8 @@ const FooterView = () => {
                             title="Profesea"
                             src="/images/logosamudera.png"
                         />
-                        <Typography mt={2} variant='body1' color={"#424242"}>We assist Maritime (Personnel & HR & Crew Managers) and Crew Management Companies in facilitating the easy connection of maritime professionals with each other.</Typography>
+                        <Typography mt={2} fontSize={16} color={"#32487A"}>We assist Maritime (Personnel & HR & Crew Managers) and Crew Management Companies in facilitating the easy connection of maritime professionals with each other.</Typography>
+                        <Divider sx={{ my: '0 !important' }} />
                         <Typography mt={1} variant='body1' color={"#424242"}>Samudera Indonesia Building. 2th FlJl. Letjen S. Parman Kav 35, Kel. Kemanggisan Kec. Palmerah, Jakarta 11480 - Indonesia. (0265) 311766</Typography>
                     </Grid>
                     <Grid item mt={10}>
