@@ -37,13 +37,13 @@ const ProfilePicture = styled('img')(({ theme }) => ({
 const Profile = (props: userProps) => {
   const [facebook, setFacebook] = useState<any>('-')
   const [instagram, setInstagram] = useState<any>('-')
-  const [linkedin, setLinkedin] = useState<any>('-') 
+  const [linkedin, setLinkedin] = useState<any>('-')
   const [selectedItem, setSelectedItem] = useState<IUser | null>(null)
   useEffect(() => {
-     HttpClient.get(AppConfig.baseUrl + '/user/' + props.datauser.id).then(response => {
-       const user = response.data.user as IUser
-       setSelectedItem(user)
-     })
+    HttpClient.get(AppConfig.baseUrl + '/user/' + props.datauser.id).then(response => {
+      const user = response.data.user as IUser
+      setSelectedItem(user)
+    })
     HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
       const code = response.data.sosmeds.data
       for (let x = 0; x < code.length; x++) {
@@ -67,134 +67,115 @@ const Profile = (props: userProps) => {
         <Card>
           <CardContent>
             <Box display='flex' justifyContent='center' alignItems='center'>
-              <ProfilePicture src={props.datauser?.photo} alt='profile-picture' sx={{ borderRadius: '130px' }} />
+              <ProfilePicture src={props.datauser?.photo} alt='profile-picture' />
             </Box>
             <Box display='flex' justifyContent='center' alignItems='center'>
-              <Typography variant='body1' sx={{ color: 'text.primary', textTransform: 'uppercase' }}>
-                <a href='/home' target='_blank'>
-                  {props.datauser?.name}
-                </a>
+              <Typography fontSize={12} sx={{ color: '#32487A', fontWeight: 600, textTransform: 'uppercase' }}>
+                {props.datauser?.name}
               </Typography>
             </Box>
-            <Box display='flex' justifyContent='center' alignItems='center'>
-              <Typography sx={{ color: 'text.secondary' }}> {props.datauser?.industry?.name}</Typography>
+            <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
+            <Box sx={{ pt: 2, pb: 1 }}>
+              <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+                <Icon icon={'material-symbols:corporate-fare-rounded'} fontSize={24} color={'#32487A'} />
+                {' '}
+                <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                  {' '}
+                  {props.datauser?.industry?.name}
+                </Typography>
+              </Box>
+              <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+                <Icon icon={'material-symbols:mail'} fontSize={24} color={'#32487A'} />
+                {' '}
+                <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                  {' '}
+                  Email
+                </Typography>
+              </Box>
+              <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+                <Icon icon={'material-symbols:badge-rounded'} fontSize={24} color={'#32487A'} />
+                {' '}
+                <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                  {' '}
+                  Candidate, Recruiter, Trainer
+                </Typography>
+              </Box>
             </Box>
-            <Divider sx={{ marginTop: '10px' }} />
+            <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
             {props.datauser?.role == 'Seafarer' && (
               <Box>
-                <Box
-                  sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}
-                  fontSize={'25px'}
-                  marginTop={'3px'}
-                >
-                  <Grid xs={1}>
-                    <Icon icon='clarity:briefcase-solid' />
-                  </Grid>
-                  <Grid item container xs={10} alignItems={'center'}>
-                    <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
+
+                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 , mt: 2.7 }} display={'flex'}>
+                  <Icon icon={'clarity:briefcase-solid'} fontSize={24} color={'#32487A'} />
+                  {' '}
+                  <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
                       Role :
                     </Typography>
-                    <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                      {selectedItem?.field_preference?.role_level?.levelName}
-                    </Typography>
-                  </Grid>
+                  <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                    {' '}
+                    {selectedItem?.field_preference?.role_level?.levelName}
+                  </Typography>
                 </Box>
-                <Box
-                  sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}
-                  fontSize={'25px'}
-                  marginTop={'3px'}
-                >
-                  <Grid xs={1}>
-                    <Icon icon='fontisto:ship' />
-                  </Grid>
-                  <Grid item container xs={10} alignItems={'center'}>
-                    <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
+
+                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 , mt: 2.7 }} display={'flex'}>
+                  <Icon icon={'fontisto:ship'} fontSize={24} color={'#32487A'} />
+                  {' '}
+                  <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
                       Vessel :
                     </Typography>
-                    <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                      {selectedItem?.field_preference?.vessel_type?.name}
-                    </Typography>
-                  </Grid>
+                  <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                    {' '}
+                    {selectedItem?.field_preference?.vessel_type?.name}
+                  </Typography>
                 </Box>
-                <Box
-                  sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}
-                  fontSize={'25px'}
-                  marginTop={'3px'}
-                >
-                  <Grid xs={1}>
-                    <Icon icon='gis:route' />
-                  </Grid>
-                  <Grid item container xs={10} alignItems={'center'}>
-                    <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
-                      Region Of Travel :
+
+                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 , mt: 2.7 }} display={'flex'}>
+                  <Icon icon={'gis:route'} fontSize={24} color={'#32487A'} />
+                  {' '}
+                  <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
+                  Region Of Travel :
                     </Typography>
-                    <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                      {selectedItem?.field_preference?.region_travel?.name}
-                    </Typography>
-                  </Grid>
+                  <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                    {' '}
+                    {selectedItem?.field_preference?.region_travel?.name}
+                  </Typography>
                 </Box>
               </Box>
             )}
             {props.datauser?.role != 'Seafarer' && (
               <Box>
-                <Box
-                  sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}
-                  fontSize={'25px'}
-                  marginTop={'5px'}
-                >
-                  <Grid item container xs={1}>
-                    <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                      <img src='/images/logos/facebook.png' alt='Facebook' height='20' />
-                    </Box>
-                  </Grid>
 
-                  <Grid item container xs={10}>
-                    <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                      <a href={facebook} target='_blank'>
-                        {facebook}
-                      </a>
-                    </Typography>
-                  </Grid>
+                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
+                  <img src='/images/logos/facebook.png' alt='Facebook' height='20' />
+                  {' '}
+                  <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                    {' '}
+                    <a href={facebook} target='_blank'>
+                      {facebook}
+                    </a>
+                  </Typography>
                 </Box>
 
-                <Box
-                  sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}
-                  fontSize={'25px'}
-                  marginTop={'5px'}
-                >
-                  <Grid item container xs={1}>
-                    <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                      <img src='/images/logos/instagram.png' alt='Instagram' height='20' />
-                    </Box>
-                  </Grid>
-
-                  <Grid item container xs={10}>
-                    <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                      <a href={instagram} target='_blank'>
-                        {instagram}
-                      </a>
-                    </Typography>
-                  </Grid>
+                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
+                  <img src='/images/logos/instagram.png' alt='Instagram' height='20' />
+                  {' '}
+                  <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                    {' '}
+                    <a href={instagram} target='_blank'>
+                      {instagram}
+                    </a>
+                  </Typography>
                 </Box>
 
-                <Box
-                  sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}
-                  fontSize={'25px'}
-                  marginTop={'5px'}
-                >
-                  <Grid item container xs={1}>
-                    <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                      <img src='/images/logos/linkedin.png' alt='Linkedin' height='20' />
-                    </Box>
-                  </Grid>
-
-                  <Grid item container xs={10}>
-                    <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                      <a href={linkedin} target='_blank'>
-                        {linkedin}
-                      </a>
-                    </Typography>
-                  </Grid>
+                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
+                  <img src='/images/logos/linkedin.png' alt='Linkedin' height='20' />
+                  {' '}
+                  <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                    {' '}
+                    <a href={linkedin} target='_blank'>
+                      {linkedin}
+                    </a>
+                  </Typography>
                 </Box>
               </Box>
             )}

@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
 html,
 body {
   min-height: 100%;
   font-family: 'Poppins';
+  color: '#424242';
 }
 
 #__next {
@@ -14,7 +15,7 @@ code {
   font-family: 'Poppins', sans-serif;
   padding: 0.1rem 0.4rem;
   font-size: 90%;
-  color: #d400ff;
+  color: '#424242';
   border-radius: 0.1335rem;
 }
 
