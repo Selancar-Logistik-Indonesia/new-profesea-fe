@@ -73,12 +73,12 @@ const Feed = () => {
   }, []);
 
   return (
-    <Grid container  >
+    <Grid container>
       <Grid item xs={12}>
         <Card>
           <CardContent>
             <Box sx={{ mb: 7 }}>
-              <Typography variant='h6' sx={{ mb: 4, color: 'text.primary' }}>
+              <Typography color={"#424242"} fontWeight="600" fontSize={"14px"} sx={{ mb: 4}}>
                 Add to your feed
               </Typography>
               {

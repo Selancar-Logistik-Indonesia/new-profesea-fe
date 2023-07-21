@@ -1,4 +1,3 @@
-
 import { useAuth } from 'src/hooks/useAuth'
 import Trainer from '../trainer'
 import SocialFeed from '../socialfeed';

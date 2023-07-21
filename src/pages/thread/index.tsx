@@ -73,13 +73,19 @@ const firstload = () => {
                 <Grid item xs={12}>
                   <Card>
                     <CardContent>
-                      <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }} display={'flex'}>
-                        <Icon icon={'arcticons:connect-you'} fontSize={30} />{' '}
-                        <Typography variant='body1' sx={{ color: '#424242', fontWeight: 600 }}>
-                          {' '}
-                          total connected :250
-                        </Typography>
-                      </Box>
+                    <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }} display={'flex'}>
+                      <Icon icon={'arcticons:connect-you'} fontSize={24} />
+                      <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                        Total Connected :250
+                      </Typography>
+                    </Box>
+                    <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }} display={'flex'}>
+                      <Icon icon={'arcticons:connect-you'} fontSize={24} />{' '}
+                      <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                        {' '}
+                        Total Visitor :250
+                      </Typography>
+                    </Box>
                     </CardContent>
                   </Card>
                 </Grid>

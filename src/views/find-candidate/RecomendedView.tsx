@@ -37,17 +37,17 @@ const renderList = (listCandidate: IUser[]) => {
             <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 60, height: 60 }} />
           </Box>
           <Box sx={{ padding: '5', display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
-            <Typography sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }} fontSize={16}>
+            <Typography sx={{ fontWeight: 'bold', color: '#32487A', mb: 1 }} fontSize={14}>
               {toTitleCase(item.name)}
             </Typography>
-            <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
+            <Typography sx={{ color: '#424242', mb: 1 }} fontSize={12}>
               {toTitleCase(item.field_preference?.role_type?.name ?? "-")}
             </Typography>
             <Box display={'flex'}>
-              <Typography sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+              <Typography sx={{ fontWeight: 'bold', color: '#424242' }}>
                 Location :
               </Typography>
-              <Typography sx={{ color: 'text.primary' }} ml="0.5rem">
+              <Typography sx={{ color: '#424242' }} ml="0.5rem">
                 {item.address?.city?.city_name} - {item.address?.country?.name}
               </Typography>
             </Box>

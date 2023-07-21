@@ -117,13 +117,13 @@ const SeafererJob = () => {
           <Box mb={3}>         
             <Card>
               <CardHeader
-                titleTypographyProps={{variant:'body2' }}
+                titleTypographyProps={{variant: 'subtitle2', color: '#424242' }}
                 title='Category'
                 action={
                   <IconButton
                     size='small'
                     aria-label='collapse'
-                    sx={{ color: 'text.secondary' }}
+                    sx={{ color: '#424242' }}
                     onClick={() => setCollapsed(!collapsed)}
                   >
                     <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />

@@ -29,20 +29,27 @@ const FindCandidate = () => {
   }, [])
 
   return (
-    <Grid container sx={{ marginTop: '1px' }}>
+    <Grid container spacing={2}>
+    <Grid container spacing={6}>
       <Grid item lg={3} md={5} xs={12}>
         <Profile datauser={user} />
         <Grid container mt={3} mb={3}>
-          <Grid item xs={12}>
+        <Grid item my={4} xs={12}>
             <Card>
               <CardContent>
-                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }} display={'flex'}>
-                  <Icon icon={'arcticons:connect-you'} fontSize={30} />{' '}
-                  <Typography variant='body1' sx={{ color: '#424242', fontWeight: 600 }}>
-                    {' '}
-                    Total Conected :250
-                  </Typography>
-                </Box>
+              <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }} display={'flex'}>
+                      <Icon icon={'arcticons:connect-you'} fontSize={24} />
+                      <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                        Total Connected :250
+                      </Typography>
+                    </Box>
+                    <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }} display={'flex'}>
+                      <Icon icon={'arcticons:connect-you'} fontSize={24} />{' '}
+                      <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                        {' '}
+                        Total Visitor :250
+                      </Typography>
+                    </Box>
               </CardContent>
             </Card>
           </Grid>
@@ -50,10 +57,10 @@ const FindCandidate = () => {
         <Feed />
       </Grid>
       <Grid item lg={9} md={7} xs={12}>
-        <Grid sx={{ ml: { md: 12 }, mt: { xs: 12 } }} container>
-          <Grid item xs={11}>
-            <Typography variant='h5'> Recommend for you</Typography>
-            <Typography variant='body2' marginTop={2} marginBottom={5}>
+            <Grid container spacing={6}>
+          <Grid item xs={12}>
+            <Typography variant="h6" color={"#32487A"} fontWeight="600"> Find Candidate</Typography>
+            <Typography fontSize={16} style={{ color: "#424242" }} marginTop={2} marginBottom={5}>
               {' '}
               Based on your profile and search history
             </Typography>
@@ -61,6 +68,7 @@ const FindCandidate = () => {
           </Grid>
         </Grid>
       </Grid>
+    </Grid>
     </Grid>
   )
 }
