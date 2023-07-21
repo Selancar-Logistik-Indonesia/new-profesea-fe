@@ -20,12 +20,10 @@ import Company from 'src/contract/models/company'
 import Degree from 'src/contract/models/degree'
 import JobCategory from 'src/contract/models/job_category'
 import RoleLevel from 'src/contract/models/role_level'
+import RoleType from 'src/contract/models/role_type'
 import { styled } from '@mui/material/styles'
 import { Autocomplete, TextareaAutosize } from '@mui/material'
 
-import { yupResolver } from '@hookform/resolvers/yup'
-
-import * as yup from 'yup'
 
 const blue = {
     100: '#DAECFF',
@@ -48,36 +46,35 @@ const blue = {
     800: '#32383f',
     900: '#24292f',
   };
-const StyledTextarea = styled(TextareaAutosize)(
-    ({ theme }) => `
-    width: 100%;
-    font-family: IBM Plex Sans, sans-serif;
-    font-size: 0.775rem;
-    font-weight: 200;
-    line-height: 1.5;
-    padding: 12px;
-    border-radius: 12px 12px 0 12px;
-    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-    background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-    border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-    box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
-  
-    &:hover {
-      border-color: ${blue[400]};
-    }
-  
-    &:focus {
-      border-color: ${blue[400]};
-      box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[500] : blue[200]};
-    }
-  
-    // firefox
-    &:focus-visible {
-      outline: 0;
-    }
-  `,
-  ); 
-
+  const StyledTextarea = styled(TextareaAutosize)(
+      ({ theme }) => `
+      width: 100%;
+      font-family: Poppins;
+      font-size: 0.770rem;
+      font-weight: 200;
+      line-height: 1.5;
+      padding: 12px;
+      border-radius: 12px 12px 0 12px;
+      color: ${theme.palette.mode === 'dark' ? grey[300] : grey[500]};
+      background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+      border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+      box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
+    
+      &:hover {
+        border-color: ${grey[400]};
+      }
+    
+      &:focus {
+        border-color: ${grey[400]};
+        box-shadow: 0 0 0 2px ${theme.palette.mode === 'dark' ? grey[200] : grey[500]};
+      }
+    
+      // firefox
+      &:focus-visible {
+        outline: 0;
+      }
+    `,
+    ); 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
     ref: Ref<unknown>
@@ -97,14 +94,16 @@ type EditProps = {
 
 const DialogEdit = (props: EditProps) => {
     const [onLoading, setOnLoading] = useState(false);
-    const [EduId, setEduId] = useState(0);
-    const [UserId, setUserId] = useState(0);
-    const [LevelId, setLevelId] = useState(0);
-    const [CatId, setCatId] = useState(0);
+    const [EduId, setEduId] = useState(props.selectedItem?.edugrade_id);
+    const [UserId, setUserId] = useState(props.selectedItem?.user_id);
+    const [LevelId, setLevelId] = useState(props.selectedItem?.rolelevel_id);
+    const [TypeId, setTypeId] = useState(props.selectedItem?.roletype_id);
+    const [CatId, setCatId] = useState(props.selectedItem?.category_id);
     
     const [JobCategory, getJobCategory] =useState<any[]>([]);
     const [Education, getEducation] =useState<any[]>([]);
     const [RoleLevel, getRoleLevel] =useState<any[]>([]);
+    const [RoleType, getRoleType] =useState<any[]>([]);
     const [Company, getCompany] =useState<any[]>([]);
     const combobox = async () =>{
         
@@ -114,11 +113,17 @@ const DialogEdit = (props: EditProps) => {
         }
         getCompany(resp.data.users.data);
 
-        const res = await HttpClient.get(`/role-level?search=&page=1&take=250`);
+        const res = await HttpClient.get(`/public/data/role-level?search=&page=1&take=250`);
         if (res.status != 200) {
             throw res.data.message ?? "Something went wrong!";
         }
         getRoleLevel(res.data.roleLevels.data);
+
+        const res1 = await HttpClient.get(`/public/data/role-type?search=&page=1&take=250`);
+        if (res1.status != 200) {
+            throw res.data.message ?? "Something went wrong!";
+        }
+        getRoleType(res1.data.roleTypes.data);
 
         const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`);
         if (res2.status != 200) {
@@ -137,17 +142,11 @@ const DialogEdit = (props: EditProps) => {
     combobox()
     },[]) 
     
-    const schema = yup.object().shape({
-        user_id: yup.string().required()
-    })
-
     const { 
-        register,
-        formState: { errors }, 
+        register, 
         handleSubmit,
     } = useForm<Job>({
-        mode: 'onBlur',
-        resolver: yupResolver(schema)
+        mode: 'onBlur'
     }) 
 
     
@@ -157,6 +156,7 @@ const DialogEdit = (props: EditProps) => {
         
         const json = {
             "rolelevel_id": LevelId,
+            "roletype_id": TypeId,
             "user_id": UserId,
             "edugrade_id": EduId,
             "category_id": CatId,
@@ -214,7 +214,19 @@ const DialogEdit = (props: EditProps) => {
                         <Typography variant='body2'>Edit Job</Typography>
                     </Box>
                     <Grid container columnSpacing={'1'} rowSpacing={'2'} >
-                        <Grid item md={12} xs={12}>
+                        <Grid item md={6} xs={12}>
+                            <Autocomplete
+                                disablePortal
+                                id="combo-box-level"
+                                value={props.selectedItem.role_type}
+                                options={RoleType}  
+                                {...register("role_type")}
+                                getOptionLabel={(option:RoleType) => option.name}
+                                renderInput={(params) => <TextField {...params} label="Role Type" />}
+                                onChange={(event: any, newValue: RoleType | null)=> (newValue?.id) ? setTypeId(newValue.id) : setTypeId(0)}
+                            />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
                         <Autocomplete
                                 disablePortal
                                 id="combo-box-level"
@@ -222,7 +234,7 @@ const DialogEdit = (props: EditProps) => {
                                 options={RoleLevel}  
                                 {...register("rolelevel")}
                                 getOptionLabel={(option:RoleLevel) => option.levelName}
-                                renderInput={(params) => <TextField {...params} label="Job Title" />}
+                                renderInput={(params) => <TextField {...params} label="Role Level" />}
                                 onChange={(event: any, newValue: RoleLevel | null)=> (newValue?.id) ? setLevelId(newValue.id) : setLevelId(0)}
                             />
                         </Grid>
@@ -230,11 +242,11 @@ const DialogEdit = (props: EditProps) => {
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-company"
-                                value={props.selectedItem.company}
+                                defaultValue={props.selectedItem.company}
                                 options={Company}  
                                 {...register("company")}
                                 getOptionLabel={(option:Company) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Company" error={Boolean(errors.user_id)}/>}
+                                renderInput={(params) => <TextField {...params} label="Company"  />}
                                 onChange={(event: any, newValue: Company | null)=> (newValue?.id) ? setUserId(newValue.id) : setUserId(0)}
                             />
                         </Grid>

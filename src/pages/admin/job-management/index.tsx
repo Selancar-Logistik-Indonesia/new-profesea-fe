@@ -43,6 +43,7 @@ const JobScreen = () => {
                 return {
                     no: index + 1,
                     id: row.id,
+                    role_type: row.role_type.name,
                     company_name: row.company.name,
                     category_name: row.category.name,
                     level_name: row.rolelevel.levelName,
