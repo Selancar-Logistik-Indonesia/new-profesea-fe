@@ -375,28 +375,33 @@ const CandidateProfile = (props: compProps) => {
         onChange={onSelectFileBanner}
         type='file'
       ></input>
-      <Box
+      <Grid
+        item
+        container
         sx={{
           height: { xs: 150, md: 250 },
           width: '100%',
           justifyContent: { xs: 'center', md: 'flex-start' }
         }}
       >
-        <CardMedia
-          component='img'
-          alt='profile-header'
-          image={previewBanner ? previewBanner : '/images/avatars/headerprofile.png'}
-          sx={{
-            height: { xs: 150, md: 250 },
-            width: '100%'
-          }}
-        />
-        <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '67%', md: '50%' } }}>
-          <label htmlFor='raised-button-file-banner'>
-            <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
-          </label>
-        </Box>
-      </Box>
+        {' '}
+        <BoxWrapper>
+          <CardMedia
+            component='img'
+            alt='profile-header'
+            image={previewBanner ? previewBanner : '/images/avatars/headerprofile.png'}
+            sx={{
+              height: { xs: 150, md: 250 },
+              width: '100%'
+            }}
+          />
+          <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '50%', md: '50%' } }}>
+            <label htmlFor='raised-button-file-banner'>
+              <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
+            </label>
+          </Box>
+        </BoxWrapper>
+      </Grid>
 
       <CardContent
         sx={{
