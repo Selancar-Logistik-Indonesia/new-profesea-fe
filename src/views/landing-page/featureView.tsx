@@ -12,47 +12,46 @@ const FeatureView = () => {
             icon: faBriefcase,
             title: t('features.findJobs.title'),
             description: t('features.findJobs.subtitle'),
-            img: ('/images/sailor.png'),
+            img: ('/images/icon-findjob.png'),
         },
         {
             key: "feat2",
             icon: faUsers,
             title: t('features.findCandidates.title'),
             description: t('features.findCandidates.subtitle'),
-            img: ('/images/company.png'),
+            img: ('/images/icon-findcandidate.png'),
         },
         {
             key: "feat3",
             icon: faChartLine,
             title: t('features.improveCareer.title'),
             description: t('features.improveCareer.subtitle'),
-            img: ('/images/traine.png'),
+            img: ('/images/icon-trainer.png'),
         },
     ];
 
     return (
+
         <Grid container justifyContent="center" sx={{ backgroundColor: 'none' }} spacing={9} mt={0} mb={10}>
             {
                 featureItems.map(item => (
                     <Grid item key={item.key}>
-                        <Card sx={{ width: 420, height: 600, backgroundColor: '#4c98cf12' }} elevation={0}>
+                        <Card sx={{ width: 420, height: 450, backgroundColor: '#4c98cf12' }} elevation={0}>
                             <CardContent>
+                                <Typography variant="h6" color={"#32487A"} fontWeight="600">{item.title}</Typography>
+                                <Typography sx={{ mb: 4 }} variant='body2'>
+                                {item.description}
+                                </Typography>
                                 <Box
                                     component="img"
-                                    sx={{ width: 200, height: 450 }}
+                                    sx={{ width: 350, height: 300}}
                                     alt="The Profesea logo"
                                     title="Profesea"
                                     src={item.img}
                                 />
-                                <Typography variant='h6' sx={{ mb: 2 }}>
-                                    {item.title}
-                                </Typography>
-                                <Typography variant='body1'>
-                                    {item.description}
-                                </Typography>
-
                             </CardContent>
                         </Card>
+
                     </Grid>
                 ))
             }
