@@ -32,8 +32,8 @@ const PricingView = () => {
 
     const companyPlan: PlanType[] = [
         { key: v4(), itemName: "Direct messages to applicants", avail: ['basic', 'pro', 'star'] },
-        { key: v4(), itemName: "Talent Recommendation", avail: ['basic', 'pro', 'star'] },
         { key: v4(), itemName: "Direct messages to non-applicants", avail: ['pro', 'star'] },
+        { key: v4(), itemName: "Talent Recommendation", avail: ['basic', 'pro', 'star'] },
         { key: v4(), itemName: "Basic filters", avail: ['basic', 'pro', 'star'] },
         { key: v4(), itemName: "Advance search using keywords", avail: ['pro', 'star'] },
         { key: v4(), itemName: "Advance filters", avail: ['star'] },

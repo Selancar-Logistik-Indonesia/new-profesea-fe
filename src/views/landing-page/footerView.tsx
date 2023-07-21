@@ -8,13 +8,13 @@ const FooterView = () => {
             <Grid item xs={12} md={6} sx={{ px: { md: 10 } }}>
                 <Grid container mt={6}>
                     <Grid item md={3} xs={6}>
-                        <Typography variant='h5' sx={{ mb: 2 }} color={"#32487A"}>Company</Typography>
+                        <Typography variant='h5' sx={{ mb: 2 }} color={"#32487A"} fontWeight="600">Company</Typography>
                         <Typography mt={1.7} variant='body1' color={"#424242"}>Terms Of Service</Typography>
                         <Typography mt={1.7} variant='body1' color={"#424242"}>Privacy Policy</Typography>
                         <Typography mt={1.7} variant='body1' color={"#424242"}>FAQ</Typography>
                     </Grid>
                     <Grid item md={2} xs={6} alignContent={'left'}>
-                        <Typography variant='h5' sx={{ mb: 2 }} color={"#32487A"}>Platform</Typography>
+                        <Typography variant='h5' sx={{ mb: 2 }} color={"#32487A"} fontWeight="600">Platform</Typography>
                         <Typography mt={1.7} variant='body1' color={"#424242"}>Seafarer</Typography>
                         <Typography mt={1.7} variant='body1' color={"#424242"}>Company</Typography>
                         <Typography mt={1.7} variant='body1' color={"#424242"}>Trainer</Typography>

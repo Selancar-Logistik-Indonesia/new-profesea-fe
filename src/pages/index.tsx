@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import landingPageStyle from "src/@core/styles/landing-page/landing-page";
 import { useTranslation } from "react-i18next";
+import FeatureView from "src/views/landing-page/featureView";
 import FindJobsView from "src/views/landing-page/findJobsView";
 import FindCandidateView from "src/views/landing-page/findCandidateView";
 import FooterView from "src/views/landing-page/footerView";
@@ -32,7 +33,7 @@ const Main = () => {
                     </Container>
                 </Grid>
             </Grid>
-
+            <FeatureView id="featureView" />
             <FindJobsView id="findJobSection" />
             <FindCandidateView id="findCandidate" />
 
