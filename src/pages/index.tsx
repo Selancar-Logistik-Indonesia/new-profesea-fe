@@ -33,7 +33,7 @@ const Main = () => {
                     </Container>
                 </Grid>
             </Grid>
-            <FeatureView id="featureView" />
+            <FeatureView></FeatureView>
             <FindJobsView id="findJobSection" />
             <FindCandidateView id="findCandidate" />
 
