@@ -25,7 +25,7 @@ const Main = () => {
             <Grid container sx={landingPageStyle.bannerHero}>
                 <Grid item xs={12} xl={6} lg={8} md={12} pt={5} mt={40} sx={{ maxWidth: { xs: '90%' }, px: { xs: 5, md: 10 } }}>
                     <Typography variant="h4" style={{ color: "#32487A" }} fontWeight="600">{t("landing_hero_title")}</Typography>
-                    <Typography fontSize={18} style={{ color: "#424242" }} mt={8}>{t("landing_hero_subtitle")}</Typography>
+                    <Typography fontSize={16} style={{ color: "#424242" }} mt={8}>{t("landing_hero_subtitle")}</Typography>
 
                     <Container style={{ marginTop: 30, lineHeight: 3.5 }}>
                         <Button style={{ backgroundColor: "#32487A", color: "white", marginRight: 10 }} variant="contained">{t('b_apply_job')}</Button>

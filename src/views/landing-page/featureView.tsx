@@ -39,7 +39,7 @@ const FeatureView = () => {
                         <Card sx={{ width: 420, height: 450, backgroundColor: '#4c98cf12' }} elevation={0}>
                             <CardContent>
                                 <Typography variant="h6" color={"#32487A"} fontWeight="600">{item.title}</Typography>
-                                <Typography sx={{ mb: 4 }} variant='body2'>
+                                <Typography sx={{ mb: 4 }} variant='body1' style={{ color: "#424242" }}>
                                 {item.description}
                                 </Typography>
                                 <Box
