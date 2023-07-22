@@ -28,16 +28,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import * as yup from 'yup'
 
-const blue = {
-    100: '#DAECFF',
-    200: '#b6daff',
-    400: '#3399FF',
-    500: '#007FFF',
-    600: '#0072E5',
-    900: '#003A75',
-  };
-
-  const grey = {
+const grey = {
     50: '#f6f8fa',
     100: '#eaeef2',
     200: '#d0d7de',
@@ -48,7 +39,7 @@ const blue = {
     700: '#424a53',
     800: '#32383f',
     900: '#24292f',
-  };
+};
 const StyledTextarea = styled(TextareaAutosize)(
     ({ theme }) => `
     width: 100%;
@@ -77,7 +68,7 @@ const StyledTextarea = styled(TextareaAutosize)(
       outline: 0;
     }
   `,
-  ); 
+);
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -99,14 +90,14 @@ const DialogAdd = (props: DialogProps) => {
     const [LevelId, setLevelId] = useState(0);
     const [TypeId, setTypeId] = useState(0);
     const [CatId, setCatId] = useState(0);
-    
-    const [JobCategory, getJobCategory] =useState<any[]>([]);
-    const [Education, getEducation] =useState<any[]>([]);
-    const [RoleLevel, getRoleLevel] =useState<any[]>([]);
-    const [RoleType, getRoleType] =useState<any[]>([]);
-    const [Company, getCompany] =useState<any[]>([]);
-    const combobox = async () =>{
-        
+
+    const [JobCategory, getJobCategory] = useState<any[]>([]);
+    const [Education, getEducation] = useState<any[]>([]);
+    const [RoleLevel, getRoleLevel] = useState<any[]>([]);
+    const [RoleType, getRoleType] = useState<any[]>([]);
+    const [Company, getCompany] = useState<any[]>([]);
+    const combobox = async () => {
+
         const resp = await HttpClient.get(`/user-management?page=1&take=250&team_id=3`);
         if (resp.status != 200) {
             throw resp.data.message ?? "Something went wrong!";
@@ -138,27 +129,27 @@ const DialogAdd = (props: DialogProps) => {
         getEducation(res3.data.degrees);
     }
 
-    useEffect(() => {   
-    combobox()
-    },[]) 
-    
-    
+    useEffect(() => {
+        combobox()
+    }, [])
+
+
     const schema = yup.object().shape({
         user_id: yup.string().required()
     })
 
-    const { 
+    const {
         register,
-        formState: { errors }, 
+        formState: { errors },
         handleSubmit,
     } = useForm<Job>({
         mode: 'onBlur',
         resolver: yupResolver(schema)
-    }) 
+    })
 
     const onSubmit = async (formData: Job) => {
-        const {  license, salary_start, salary_end, experience, description} = formData
-        
+        const { license, salary_start, salary_end, experience, description } = formData
+
         const json = {
             "rolelevel_id": LevelId,
             "roletype_id": TypeId,
@@ -171,11 +162,10 @@ const DialogAdd = (props: DialogProps) => {
             "experience": experience,
             "description": description
         }
-        
+
         setOnLoading(true);
 
-        try
-        {
+        try {
             // console.log(json);
             const resp = await HttpClient.post('/job', json);
             if (resp.status != 200) {
@@ -222,78 +212,78 @@ const DialogAdd = (props: DialogProps) => {
                         </Typography>
                         <Typography variant='body2'>Add Job</Typography>
                     </Box>
-                    
+
                     <Grid container columnSpacing={'1'} rowSpacing={'2'} >
                         <Grid item md={6} xs={12}>
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-level"
-                                options={RoleType}  
+                                options={RoleType}
                                 {...register("role_type")}
-                                getOptionLabel={(option:RoleType) => option.name}
+                                getOptionLabel={(option: RoleType) => option.name}
                                 renderInput={(params) => <TextField {...params} label="Role Type" />}
-                                onChange={(event: any, newValue: RoleType | null)=> (newValue?.id) ? setTypeId(newValue.id) : setTypeId(0)}
+                                onChange={(event: any, newValue: RoleType | null) => (newValue?.id) ? setTypeId(newValue.id) : setTypeId(0)}
                             />
                         </Grid>
                         <Grid item md={6} xs={12}>
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-level"
-                                options={RoleLevel}  
+                                options={RoleLevel}
                                 {...register("rolelevel")}
-                                getOptionLabel={(option:RoleLevel) => option.levelName}
+                                getOptionLabel={(option: RoleLevel) => option.levelName}
                                 renderInput={(params) => <TextField {...params} label="Role Level" />}
-                                onChange={(event: any, newValue: RoleLevel | null)=> (newValue?.id) ? setLevelId(newValue.id) : setLevelId(0)}
+                                onChange={(event: any, newValue: RoleLevel | null) => (newValue?.id) ? setLevelId(newValue.id) : setLevelId(0)}
                             />
                         </Grid>
-                        <Grid item md={6} xs={12} > 
+                        <Grid item md={6} xs={12} >
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-company"
-                                options={Company}  
+                                options={Company}
                                 {...register("company")}
-                                getOptionLabel={(option:Company) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Company"  error={Boolean(errors.user_id)} {...register("user_id")}/>}
-                                onChange={(event: any, newValue: Company | null)=> (newValue?.id) ? setUserId(newValue.id) : setUserId(0)}
+                                getOptionLabel={(option: Company) => option.name}
+                                renderInput={(params) => <TextField {...params} label="Company" error={Boolean(errors.user_id)} {...register("user_id")} />}
+                                onChange={(event: any, newValue: Company | null) => (newValue?.id) ? setUserId(newValue.id) : setUserId(0)}
                             />
                         </Grid>
-                        <Grid item md={6} xs={12} > 
+                        <Grid item md={6} xs={12} >
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
-                                options={JobCategory}  
+                                options={JobCategory}
                                 {...register("category")}
-                                getOptionLabel={(option:JobCategory) => option.name}
+                                getOptionLabel={(option: JobCategory) => option.name}
                                 renderInput={(params) => <TextField {...params} label="Job Category" />}
-                                onChange={(event: any, newValue: JobCategory | null)=> (newValue?.id) ? setCatId(newValue.id) : setCatId(0)}
+                                onChange={(event: any, newValue: JobCategory | null) => (newValue?.id) ? setCatId(newValue.id) : setCatId(0)}
                             />
                         </Grid>
-                        <Grid item md={6} xs={12} > 
+                        <Grid item md={6} xs={12} >
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
-                                options={Education}  
+                                options={Education}
                                 {...register("degree")}
-                                getOptionLabel={(option:Degree) => option.name}
+                                getOptionLabel={(option: Degree) => option.name}
                                 renderInput={(params) => <TextField {...params} label="Education" />}
-                                onChange={(event: any, newValue: Degree | null)=> (newValue?.id) ? setEduId(newValue.id) : setEduId(0)}
+                                onChange={(event: any, newValue: Degree | null) => (newValue?.id) ? setEduId(newValue.id) : setEduId(0)}
                             />
                         </Grid>
                         <Grid item md={6} xs={12} >
                             <TextField id="license" label="License" variant="outlined" fullWidth {...register("license")} />
                         </Grid>
                         <Grid item md={6} xs={12} >
-                            <TextField id="salary_start" label="Salary From" variant="outlined" fullWidth  {...register("salary_start")}/>
+                            <TextField id="salary_start" label="Salary From" variant="outlined" fullWidth  {...register("salary_start")} />
                         </Grid>
                         <Grid item md={6} xs={12} >
-                            <TextField id="salary_end" label="Salary To" variant="outlined" fullWidth {...register("salary_end")}/>                  
+                            <TextField id="salary_end" label="Salary To" variant="outlined" fullWidth {...register("salary_end")} />
                         </Grid>
                         <Grid item md={12} xs={12} >
                             <TextField id="experience" label="Experience" variant="outlined" fullWidth {...register("experience")} />
                         </Grid>
                         <Grid item md={12} xs={12} >
-                            <StyledTextarea aria-label="empty textarea" placeholder="Job Description" minRows={'3'}  title='jobdesc' sx={{ mb: 6 }} {...register("description")} /> 
-                        </Grid>                        
+                            <StyledTextarea aria-label="empty textarea" placeholder="Job Description" minRows={'3'} title='jobdesc' sx={{ mb: 6 }} {...register("description")} />
+                        </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions
