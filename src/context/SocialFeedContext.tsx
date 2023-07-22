@@ -35,7 +35,14 @@ const SocialFeedProvider = (props: Props) => {
     const [totalFeed, setTotalFeed] = useState(0);
 
     const updateStatus = async (payload: UpdateStatusPayload) => {
-        const response = await HttpClient.post('/social-feed/feed', payload);
+        const formData = new FormData();
+        formData.append("content", payload.content);
+        formData.append("content_type", payload.content_type);
+        if (payload.attachments) {
+            formData.append("attachments", payload.attachments)
+        }
+
+        const response = await HttpClient.post('/social-feed/feed', formData);
         if (response.status != 200) {
             throw response.data?.message ?? "Something went wrong";
         }

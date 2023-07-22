@@ -23,7 +23,22 @@ const get = (path: string, params?: any) => {
 }
 
 const post = (path: string, data?: any): Promise<AxiosResponse> => {
-    return axios.post(path, data)
+    let option = {};
+
+    console.log(data);
+
+    console.log("test: ", (data instanceof FormData));
+
+    if (data instanceof FormData) {
+        option = {
+            ...option,
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        }
+    };
+
+    return axios.post(path, data, option)
 }
 
 const patch = (path: string, data?: any): Promise<AxiosResponse> => {

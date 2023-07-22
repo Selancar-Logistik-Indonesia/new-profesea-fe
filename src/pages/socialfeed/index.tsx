@@ -37,40 +37,32 @@ const SocialFeedApp = () => {
                 <Card>
                   <CardContent>
                     <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                      <Icon icon={'material-symbols:tenancy'} fontSize={24} color={'#32487A'}/>
+                      <Icon icon={'material-symbols:tenancy'} fontSize={24} color={'#32487A'} />
                       <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
                         Total Connected :250
                       </Typography>
                     </Box>
                     <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                      <Icon icon={'material-symbols:gesture-select-rounded'} fontSize={24} color={'#32487A'}/>
-                      {' '}
+                      <Icon icon={'material-symbols:gesture-select-rounded'} fontSize={24} color={'#32487A'} />
                       <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                        {' '}
                         Total Visitor :250
                       </Typography>
                     </Box>
-                    <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7  }} display={'flex'}>
-                      <Icon icon={'material-symbols:add-notes-rounded'} fontSize={24} color={'#32487A'}/>
-                      {' '}
+                    <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+                      <Icon icon={'material-symbols:add-notes-rounded'} fontSize={24} color={'#32487A'} />
                       <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                        {' '}
                         Total Post :250
                       </Typography>
                     </Box>
                     <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                      <Icon icon={'material-symbols:ballot'} fontSize={24} color={'#32487A'}/>
-                      {' '}
+                      <Icon icon={'material-symbols:ballot'} fontSize={24} color={'#32487A'} />
                       <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                        {' '}
                         Total Post Job / Applied Job :250
                       </Typography>
                     </Box>
-                    <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7  }} display={'flex'}>
-                      <Icon icon={'material-symbols:assignment-late'} fontSize={24} color={'#32487A'}/>
-                      {' '}
+                    <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+                      <Icon icon={'material-symbols:assignment-late'} fontSize={24} color={'#32487A'} />
                       <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                        {' '}
                         Total Thread :250
                       </Typography>
                     </Box>
@@ -98,4 +90,5 @@ SocialFeed.acl = {
   action: 'read',
   subject: 'home'
 };
+
 export default SocialFeed
