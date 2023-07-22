@@ -11,6 +11,7 @@ type SocialFeedContextType = {
     feeds: ISocialFeed[],
     hasNextPage: boolean,
     commentSignature: string,
+    subCommentSignature: string,
     fetchFeeds: (payload: FetchFeedPayload) => Promise<void>,
     updateStatus: (payload: UpdateStatusPayload) => Promise<void>,
     likeUnlikeFeed: (feedId: number) => Promise<void>,

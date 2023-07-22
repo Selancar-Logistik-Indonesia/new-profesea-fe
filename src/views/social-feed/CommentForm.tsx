@@ -7,7 +7,7 @@ import { Icon } from '@iconify/react';
 import UseBgColor from 'src/@core/hooks/useBgColor';
 import { useSocialFeed } from 'src/hooks/useSocialFeed';
 
-const CommentForm = (props: { feedId: number }) => {
+const CommentForm = (props: { feedId: number, replyable_type: 'feed' | 'comment' }) => {
     const maxLineHeight = 3;
     const [textFieldHeight, setTextFieldHeight] = useState(1);
     const [content, setContent] = useState('');
@@ -21,8 +21,8 @@ const CommentForm = (props: { feedId: number }) => {
         try {
             await postComment(
                 props.feedId,
-                'feed',
-                content
+                props.replyable_type,
+                content,
             );
 
             setContent('');
