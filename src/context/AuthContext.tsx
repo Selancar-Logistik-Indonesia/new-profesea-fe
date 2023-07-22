@@ -35,8 +35,9 @@ const AuthProvider = ({ children }: Props) => {
                 await HttpClient
                     .get(authConfig.meEndpoint)
                     .then(async response => {
-                        setLoading(false)
-                        setUser({ ...response.data.user })
+                        setLoading(false);
+                        setUser({ ...response.data.user });
+                        secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);
                     }).catch((error) => {
                         localStorage.removeItem('userData')
                         localStorage.removeItem('refreshToken')
