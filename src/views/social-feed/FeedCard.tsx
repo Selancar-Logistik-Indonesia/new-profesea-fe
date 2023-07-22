@@ -1,4 +1,4 @@
-import { Avatar, Button, CircularProgress, Divider, Paper, Typography } from "@mui/material";
+import { Avatar, Button, CardMedia, CircularProgress, Divider, Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import ISocialFeed from "src/contract/models/social_feed";
 import { getUserAvatar, toTitleCase } from "src/utils/helpers";
@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import CommentForm from "./CommentForm";
 import { useSocialFeed } from "src/hooks/useSocialFeed";
 import CommentResponseType from "src/contract/types/comment_response_type";
+import { AppConfig } from "src/configs/api";
 
 const CommentAreaView = (props: { item: ISocialFeed }) => {
     const { item } = props;
@@ -77,6 +78,7 @@ const CommentAreaView = (props: { item: ISocialFeed }) => {
 const FeedCard = (props: { item: ISocialFeed }) => {
     const { item } = props;
     const [openComment, setOpenComment] = useState(false);
+    const attachments = JSON.parse(item.attachments);
 
     return (
         <Paper sx={{ marginTop: '10px', padding: { xs: 3, md: 5 } }}>
@@ -94,6 +96,10 @@ const FeedCard = (props: { item: ISocialFeed }) => {
                 </Box>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
+                {(item.content_type == "videos") && (
+                    <CardMedia sx={{ width: 420 }} component='video' controls src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments[0]}`} />
+                )}
+
                 <Typography variant="body1" sx={{ color: "#424242", fontWeight: 400, margin: "5px" }}>
                     {item.content}
                 </Typography>
