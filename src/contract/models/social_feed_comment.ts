@@ -8,6 +8,7 @@ interface ISocialFeedComment {
     h_created_at: string
     created_at: string
     updated_at: string
+    count_replies: number
     user: IUser
 }
 

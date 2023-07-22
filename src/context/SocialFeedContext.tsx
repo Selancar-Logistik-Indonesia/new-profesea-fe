@@ -17,6 +17,7 @@ const defaultValue: SocialFeedContextType = {
     onLoading: false,
     hasNextPage: false,
     commentSignature: '',
+    subCommentSignature: '',
     fetchFeeds: () => Promise.resolve(),
     updateStatus: () => Promise.resolve(),
     likeUnlikeFeed: () => Promise.resolve(),
@@ -32,6 +33,7 @@ const SocialFeedProvider = (props: Props) => {
     const [hasNextPage, setHasNextPage] = useState(true);
     const [page, setPage] = useState(1);
     const [commentSignature, setCommentSignature] = useState('');
+    const [subCommentSignature, setSubCommentSignature] = useState('');
     const [totalFeed, setTotalFeed] = useState(0);
 
     const updateStatus = async (payload: UpdateStatusPayload) => {
@@ -121,7 +123,11 @@ const SocialFeedProvider = (props: Props) => {
             alert(response.data?.message ?? "Something went wrong");
         }
 
-        setCommentSignature(v4());
+        if (replyable_type == 'feed')
+            setCommentSignature(v4());
+
+        if (replyable_type == 'comment')
+            setSubCommentSignature(v4());
     }
 
     const getComments = async (feedId: number, page: number, take: number, replyable_type: 'feed' | 'comment') => {
@@ -150,6 +156,7 @@ const SocialFeedProvider = (props: Props) => {
         postComment,
         getComments,
         commentSignature,
+        subCommentSignature,
     }), [
         feeds,
         totalFeed,
@@ -163,6 +170,7 @@ const SocialFeedProvider = (props: Props) => {
         postComment,
         getComments,
         commentSignature,
+        subCommentSignature,
     ]);
 
     return <SocialFeedContext.Provider value={values}>{props.children}</SocialFeedContext.Provider>
