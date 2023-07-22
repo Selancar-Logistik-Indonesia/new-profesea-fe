@@ -18,6 +18,7 @@ interface FieldPreference {
   region_travel: RegionTravel
   country: Country
   province: Province
+  spoken_langs:any
 }
 
 export default FieldPreference;

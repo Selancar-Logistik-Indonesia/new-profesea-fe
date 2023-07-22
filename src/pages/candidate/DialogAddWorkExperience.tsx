@@ -105,7 +105,7 @@ const DialogAddWorkExperience = (props: DialogProps) => {
           .split('/')
           .reverse()
           .join('-'),
-        short_description: short_description
+        description: short_description
       } 
       setOnLoading(true)
 

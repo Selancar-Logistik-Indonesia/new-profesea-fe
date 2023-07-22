@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Box  } from '@mui/system'
+import { Icon } from '@iconify/react'
 
 const slideStyles = {
   width: '100%',
@@ -90,6 +91,11 @@ const ImageSlider = (props: any) => {
           ))}
         </div>
       </div>
+      <Box position={'absolute'} sx={{ right: { xs: '2%', md: '2%' }, top: { xs: '3%', md: '3%' } }}>
+        <label htmlFor='raised-button-file-banner'>
+          <Icon fontSize='large' icon={'material-symbols:delete'} color={'white'} style={{ fontSize: '36px' }} />
+        </label>
+      </Box>
     </Box>
   )
 } 

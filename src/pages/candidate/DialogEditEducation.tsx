@@ -28,11 +28,7 @@ const Transition = forwardRef(function Transition(
     return <Fade ref={ref} {...props} />
 })
 
-type DialogProps = {
-    visible: boolean;
-    onCloseClick: VoidFunction;
-    onStateChange: VoidFunction;
-}
+ 
  
  type FormData = {
    title: string
@@ -44,13 +40,19 @@ type DialogProps = {
    startdate: string
    enddate: string
  }
+type DialogProps = {
+  selectedItem: any
+  visible: boolean
+  onCloseClick: VoidFunction
+  onStateChange: VoidFunction
+}
 
 
-const DialogAddEducation = (props: DialogProps) => {
+const DialogEditEducation = (props: DialogProps) => { 
     const [onLoading, setOnLoading] = useState(false); 
     const [dateAwal, setDateAwal] = useState<DateType>(new Date()) 
     const [dateAkhir, setDateAkhir] = useState<DateType>(new Date()) 
-    const [preview, setPreview] = useState()
+    const [preview, setPreview] = useState(props.selectedItem?.logo)
     const [Education, getEducation] = useState<any[]>([])
     const [selectedFile, setSelectedFile] = useState()
     const [EduId, setEduId] = useState('---')  
@@ -62,12 +64,13 @@ const DialogAddEducation = (props: DialogProps) => {
         getEducation(res3.data.degrees)
     }
 
-    useEffect(() => {   
+    useEffect(() => {  
+        setPreview(props.selectedItem?.logo) 
       combobox()
     },[]) 
     useEffect(() => {
       if (!selectedFile) {
-          setPreview(undefined)
+           setPreview(props.selectedItem?.logo) 
 
           return
       } 
@@ -117,14 +120,13 @@ const DialogAddEducation = (props: DialogProps) => {
           })
           .split('/')
           .reverse()
-          .join('-'),
-        
+          .join('-')
       } 
       setOnLoading(true)
 
       try {
         console.log(json)
-        const resp = await HttpClient.postFile('/user/education', json)
+        const resp = await HttpClient.postFile('/user/education/'+ props.selectedItem.id , json)
         if (resp.status != 200) {
           throw resp.data.message ?? 'Something went wrong!'
         }
@@ -150,7 +152,14 @@ const onSelectFile = (e: any) => {
 }
 
     return (
-      <Dialog fullWidth open={props.visible} maxWidth='md' scroll='body' TransitionComponent={Transition}>
+      <Dialog
+        fullWidth
+        open={props.visible}
+        maxWidth='md'
+        scroll='body'
+        onClose={props.onCloseClick}
+        TransitionComponent={Transition}
+      >
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
           <DialogContent
             sx={{
@@ -169,9 +178,9 @@ const onSelectFile = (e: any) => {
             </IconButton>
             <Box sx={{ mb: 6, textAlign: 'center' }}>
               <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                Add New Educational
+                Edit Educational
               </Typography>
-              <Typography variant='body2'>Add New Candidate Educational info details</Typography>
+              <Typography variant='body2'>Edit Candidate Educational info details</Typography>
             </Box>
 
             <Grid container columnSpacing={'1'} rowSpacing={'2'}>
@@ -182,16 +191,25 @@ const onSelectFile = (e: any) => {
                   variant='outlined'
                   fullWidth
                   {...register('title')}
+                  defaultValue={props.selectedItem?.title}
                 />
               </Grid>
               <Grid item md={6} xs={12}>
-                <TextField id='major' label='Major' variant='outlined' fullWidth {...register('major')} />
+                <TextField
+                  id='major'
+                  label='Major'
+                  variant='outlined'
+                  fullWidth
+                  {...register('major')}
+                  defaultValue={props.selectedItem?.major}
+                />
               </Grid>
               <Grid item md={6} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='combo-box-demo'
                   options={Education}
+                  defaultValue={props.selectedItem?.degree}
                   {...register('degree')}
                   getOptionLabel={(option: Degree) => option.name}
                   renderInput={params => <TextField {...params} label='Education' />}
@@ -240,31 +258,45 @@ const onSelectFile = (e: any) => {
               </Grid>
               <Grid item md={6} xs={12}>
                 {/* <DatePickerWrapper> */}
-                  <DatePicker
-                    dateFormat='dd/MM/yyyy'
-                    selected={dateAwal}
-                    id='basic-input'
-                    onChange={(dateAwal: Date) => setDateAwal(dateAwal)}
-                    placeholderText='Click to select a date'
-                    customInput={
-                      <TextField label='Start Date' variant='outlined' fullWidth {...register('startdate')} />
-                    }
-                  />
+                <DatePicker
+                  dateFormat='dd/MM/yyyy'
+                  selected={dateAwal}
+                  id='basic-input'
+                  onChange={(dateAwal: Date) => setDateAwal(dateAwal)}
+                  placeholderText='Click to select a date'
+                  customInput={
+                    <TextField
+                      label='Start Date'
+                      variant='outlined'
+                      fullWidth
+                      {...register('startdate')}
+                      defaultValue={props.selectedItem?.start_date}
+                    />
+                  }
+                />
                 {/* </DatePickerWrapper> */}
               </Grid>
               <Grid item md={6} xs={12}>
                 {/* <DatePickerWrapper> */}
-                  <DatePicker
-                    dateFormat='dd/MM/yyyy'
-                    selected={dateAkhir}
-                    id='basic-input'
-                    onChange={(dateAkhir: Date) => setDateAkhir(dateAkhir)}
-                    placeholderText='Click to select a date'
-                    customInput={<TextField label='End Date' variant='outlined' fullWidth {...register('enddate')} />}
-                  />
+                <DatePicker
+                  dateFormat='dd/MM/yyyy'
+                  selected={dateAkhir}
+                  id='basic-input'
+                  onChange={(dateAkhir: Date) => setDateAkhir(dateAkhir)}
+                  placeholderText='Click to select a date'
+                  customInput={
+                    <TextField
+                      label='End Date'
+                      variant='outlined'
+                      fullWidth
+                      {...register('enddate')}
+                      defaultValue={props.selectedItem?.end_date}
+                    />
+                  }
+                />
                 {/* </DatePickerWrapper> */}
               </Grid>
-           
+             
             </Grid>
           </DialogContent>
           <DialogActions
@@ -286,4 +318,4 @@ const onSelectFile = (e: any) => {
     )
 }
 
-export default DialogAddEducation
+export default DialogEditEducation
