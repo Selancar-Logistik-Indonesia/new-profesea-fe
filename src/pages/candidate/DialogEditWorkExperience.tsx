@@ -14,36 +14,47 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material'   
-
+import { CircularProgress } from '@mui/material' 
+import { DateType } from 'src/contract/models/DatepickerTypes'
+ import DatePicker from 'react-datepicker' 
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'  
+ 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
     ref: Ref<unknown>
 ) {
     return <Fade ref={ref} {...props} />
 })
-
 type DialogProps = {
-    visible: boolean;
-    onCloseClick: VoidFunction;
-    onStateChange: VoidFunction;
+  selectedItem: any
+  visible: boolean
+  onCloseClick: VoidFunction
+  onStateChange: VoidFunction
 }
- 
- type FormData = {
-   document_name: string 
-   user_document: string 
+ type FormData = { 
+   major: string
+   degree: string
+   start_date: string
+   end_date: string 
+   institution: string
+   short_description: string
+   startdate: string
+   enddate: string
+   position: string
  }
 
 
-const DialogAddDocument = (props: DialogProps) => {
+const DialogEditWorkExperience = (props: DialogProps) => { 
     const [onLoading, setOnLoading] = useState(false); 
-     const [preview, setPreview] = useState()
-     const [selectedFile, setSelectedFile] = useState()
-     
-    // const [document_name, setDocument] = useState<any>(0)
-     useEffect(() => {
+    const [dateAwal, setDateAwal] = useState<DateType>(new Date()) 
+    const [dateAkhir, setDateAkhir] = useState<DateType>(new Date()) 
+    const [preview, setPreview] = useState(props.selectedItem?.logo) 
+    const [selectedFile, setSelectedFile] = useState()   
+    
+    useEffect(() => {
+      debugger;
       if (!selectedFile) {
-          setPreview(undefined)
+          setPreview(props.selectedItem?.logo)
 
           return
       } 
@@ -67,26 +78,46 @@ const DialogAddDocument = (props: DialogProps) => {
     }) 
     
 
-    const onSubmit = async (item:FormData) => { 
-      const {document_name} = item
+    const onSubmit = async (data: FormData) => {
+      const { institution, major, position, short_description } = data
+
       const json = {
-        user_document: selectedFile,
-        document_name: document_name,
-        document_number: 123, 
-        
-      }
-       
+        institution: institution,
+        major: major,
+        position: position,
+        still_here: 0,
+        logo: selectedFile,
+        start_date: dateAwal
+          ?.toLocaleDateString('en-GB', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          })
+          .split('/')
+          .reverse()
+          .join('-'),
+        end_date: dateAkhir
+          ?.toLocaleDateString('en-GB', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          })
+          .split('/')
+          .reverse()
+          .join('-'),
+        description: short_description
+      } 
       setOnLoading(true)
 
       try {
         console.log(json)
-        const resp = await HttpClient.postFile('/user/document', json)
+        const resp = await HttpClient.postFile('/user/experience/'+props.selectedItem.id, json)
         if (resp.status != 200) {
           throw resp.data.message ?? 'Something went wrong!'
         }
 
         props.onCloseClick()
-        toast.success(` Document submited successfully!`)
+        toast.success(` Work Experience submited successfully!`)
       } catch (error) {
         toast.error(`Opps ${getCleanErrorMessage(error)}`)
       }
@@ -94,23 +125,19 @@ const DialogAddDocument = (props: DialogProps) => {
       setOnLoading(false)
       props.onStateChange()
     }
-    const onSelectFile = (e: any) => {
-      if (!e.target.files || e.target.files.length === 0) {
-        setSelectedFile(undefined)
+const onSelectFile = (e: any) => {
+  if (!e.target.files || e.target.files.length === 0) {
+    setSelectedFile(undefined)
 
-        return
-      }
+    return
+  }
 
-      // I've kept this example simple by using the first image instead of multiple
-      setSelectedFile(e.target.files[0]) 
-    }
-    //  const dokumen = [
-    //    { label: 'Identity Card', id: 0 },
-    //    { label: 'SIM', id: 1 }
-    //  ]
+  // I've kept this example simple by using the first image instead of multiple
+  setSelectedFile(e.target.files[0]) 
+}
 
     return (
-      <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
+      <Dialog fullWidth open={props.visible} maxWidth='md' scroll='body' TransitionComponent={Transition}>
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
           <DialogContent
             sx={{
@@ -129,30 +156,34 @@ const DialogAddDocument = (props: DialogProps) => {
             </IconButton>
             <Box sx={{ mb: 6, textAlign: 'center' }}>
               <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                Add New Upload Document
+                Edit Work Experience
               </Typography>
-              <Typography variant='body2'>Add New Upload Document info details</Typography>
+              <Typography variant='body2'>Edit Candidate Experience info details</Typography>
             </Box>
 
             <Grid container columnSpacing={'1'} rowSpacing={'2'}>
-              {/* <Grid item md={12} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='dokumen'
-                  options={!dokumen ? [{ label: 'Loading...', id: 0 }] : dokumen}
-                  renderInput={params => <TextField {...params} label='Document' sx={{ mb: 2 }} />}
-                  {...register('document_name')}
-                  onChange={(event: any, newValue: any | null) => setDocument(newValue)}
+              <Grid item md={6} xs={12}>
+                <TextField
+                  id='institution'
+                  label='Companyname'
+                  variant='outlined'
+                  fullWidth
+                  defaultValue={props.selectedItem?.institution}
+                  {...register('institution')}
                 />
-              </Grid> */}
-              <TextField
-                id='document_name'
-                label='Document Name'
-                variant='outlined'
-                fullWidth
-                {...register('document_name')}
-              />
-              <Grid item md={12} xs={12}>
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  id='Position'
+                  label='Position'
+                  variant='outlined'
+                  fullWidth
+                  {...register('position')}
+                  defaultValue={props.selectedItem?.position}
+                />
+              </Grid>
+
+              <Grid item md={6} xs={12}>
                 <Grid item xs={12} md={12} container justifyContent={'center'}>
                   <Grid xs={6}>
                     <label htmlFor='x'>
@@ -190,6 +221,59 @@ const DialogAddDocument = (props: DialogProps) => {
                   </Grid>
                 </Grid>
               </Grid>
+              <Grid item md={6} xs={12}></Grid>
+              <Grid item md={6} xs={12}>
+                <DatePickerWrapper>
+                  <DatePicker
+                    dateFormat='dd/MM/yyyy'
+                    selected={dateAwal}
+                    id='basic-input'
+                    onChange={(dateAwal: Date) => setDateAwal(dateAwal)}
+                    placeholderText='Click to select a date'
+                    customInput={
+                      <TextField
+                        label='Start Date'
+                        variant='outlined'
+                        fullWidth
+                        {...register('startdate')}
+                        defaultValue={props.selectedItem?.start_date}
+                      />
+                    }
+                  />
+                </DatePickerWrapper>
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <DatePickerWrapper>
+                  <DatePicker
+                    dateFormat='dd/MM/yyyy'
+                    selected={dateAkhir}
+                    id='basic-input'
+                    onChange={(dateAkhir: Date) => setDateAkhir(dateAkhir)}
+                    placeholderText='Click to select a date'
+                    customInput={
+                      <TextField
+                        label='End Date'
+                        variant='outlined'
+                        fullWidth
+                        {...register('enddate')}
+                        defaultValue={props.selectedItem?.end_date}
+                      />
+                    }
+                  />
+                </DatePickerWrapper>
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <TextField
+                  id='short_description'
+                  label='Description'
+                  variant='outlined'
+                  multiline
+                  maxRows={4}
+                  fullWidth
+                  {...register('short_description')}
+                  defaultValue={props.selectedItem?.description}
+                />
+              </Grid>
             </Grid>
           </DialogContent>
           <DialogActions
@@ -211,4 +295,4 @@ const DialogAddDocument = (props: DialogProps) => {
     )
 }
 
-export default DialogAddDocument
+export default DialogEditWorkExperience

@@ -14,7 +14,8 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material'   
+import { CircularProgress } from '@mui/material'  
+// import { Autocomplete } from '@mui/material' 
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -24,10 +25,12 @@ const Transition = forwardRef(function Transition(
 })
 
 type DialogProps = {
-    visible: boolean;
-    onCloseClick: VoidFunction;
-    onStateChange: VoidFunction;
+  selectedItem: any
+  visible: boolean
+  onCloseClick: VoidFunction
+  onStateChange: VoidFunction
 }
+
  
  type FormData = {
    document_name: string 
@@ -35,18 +38,20 @@ type DialogProps = {
  }
 
 
-const DialogAddDocument = (props: DialogProps) => {
+const DialogEditDocument = (props: DialogProps) => {
     const [onLoading, setOnLoading] = useState(false); 
      const [preview, setPreview] = useState()
      const [selectedFile, setSelectedFile] = useState()
      
     // const [document_name, setDocument] = useState<any>(0)
      useEffect(() => {
+        debugger
       if (!selectedFile) {
-          setPreview(undefined)
+          setPreview(props.selectedItem?.path)
 
           return
       } 
+    
       const objectUrl: any = URL.createObjectURL(selectedFile)
       setPreview(objectUrl) 
 
@@ -80,7 +85,7 @@ const DialogAddDocument = (props: DialogProps) => {
 
       try {
         console.log(json)
-        const resp = await HttpClient.postFile('/user/document', json)
+        const resp = await HttpClient.postFile('/user/document/'+props.selectedItem.id, json)
         if (resp.status != 200) {
           throw resp.data.message ?? 'Something went wrong!'
         }
@@ -104,10 +109,7 @@ const DialogAddDocument = (props: DialogProps) => {
       // I've kept this example simple by using the first image instead of multiple
       setSelectedFile(e.target.files[0]) 
     }
-    //  const dokumen = [
-    //    { label: 'Identity Card', id: 0 },
-    //    { label: 'SIM', id: 1 }
-    //  ]
+  
 
     return (
       <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
@@ -135,21 +137,12 @@ const DialogAddDocument = (props: DialogProps) => {
             </Box>
 
             <Grid container columnSpacing={'1'} rowSpacing={'2'}>
-              {/* <Grid item md={12} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='dokumen'
-                  options={!dokumen ? [{ label: 'Loading...', id: 0 }] : dokumen}
-                  renderInput={params => <TextField {...params} label='Document' sx={{ mb: 2 }} />}
-                  {...register('document_name')}
-                  onChange={(event: any, newValue: any | null) => setDocument(newValue)}
-                />
-              </Grid> */}
               <TextField
                 id='document_name'
                 label='Document Name'
                 variant='outlined'
                 fullWidth
+                defaultValue={props.selectedItem?.document_name}
                 {...register('document_name')}
               />
               <Grid item md={12} xs={12}>
@@ -211,4 +204,4 @@ const DialogAddDocument = (props: DialogProps) => {
     )
 }
 
-export default DialogAddDocument
+export default DialogEditDocument

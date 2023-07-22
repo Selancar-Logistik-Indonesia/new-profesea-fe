@@ -1,10 +1,10 @@
 // ** React Imports
 import React, { ReactNode, useEffect, useState } from 'react'
-
+import { Theme, useTheme } from '@mui/material/styles'
 // ** MUI Components
 import Box, { BoxProps } from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { Button, TextField, FormControl, Autocomplete, Divider } from '@mui/material'
+import { Button, TextField, FormControl, Autocomplete, Divider, Select, SelectChangeEvent, OutlinedInput, Chip, MenuItem, Card } from '@mui/material'
 
 import DatePicker from 'react-datepicker'
 // ** Layout Import
@@ -41,6 +41,9 @@ import { styled } from '@mui/material/styles'
 import CardMedia from '@mui/material/CardMedia' 
 import CardContent from '@mui/material/CardContent'
 import { Icon } from '@iconify/react'
+import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
+import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
+import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
  
 type FormData = {
   fullName: string
@@ -82,9 +85,35 @@ const BoxWrapper = styled(Box)<BoxProps>(() => ({
   position: 'relative',
  
 }))
+
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250
+    }
+  }
+}
+
+const names = [
+  'Indonesian',
+  'English',
+  'Mandarin',
+  'Arab',
+  'Melayu',
  
+]
+
+function getStyles(name: string, personName: readonly string[], theme: Theme) {
+  return {
+    fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
+  }
+}
+
 const CandidateProfile = (props: compProps) => {
-  ;
+   const theme = useTheme()
  
    if (props.datauser?.employee_type == 'onship') {
      ship = { employee_type: 'onship', label: 'On-Ship' }
@@ -108,22 +137,32 @@ const CandidateProfile = (props: compProps) => {
   const [idcountry, setCountry] = useState<any>(props.datauser?.country_id)
   const [date, setDate] = useState<DateType>(new Date())
 
-  const [idcomborolLevel, setComboRolLevel] = useState<any>('')
+  const [idcomborolLevel, setComboRolLevel] = useState<any>(props.datauser?.field_preference?.role_level?.id)
   const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
   const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id)
-  const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id)
-
-  
-    const [openAddModal, setOpenAddModal] = useState(false)
-    const [openAddModalWE, setOpenAddModalWE] = useState(false)
-    const [openAddModalDoc, setOpenAddModalDoc] = useState(false)
- 
+  const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id) 
+  const [openAddModal, setOpenAddModal] = useState(false)
+  const [openAddModalWE, setOpenAddModalWE] = useState(false)
+  const [openAddModalDoc, setOpenAddModalDoc] = useState(false) 
+  const [openEditModal, setOpenEditModal] = useState(false)
+  const [openEditModalWE, setOpenEditModalWE] = useState(false) 
+  const [openEditModalDoc, setOpenEditModalDoc] = useState(false)  
   const [itemData, getItemdata] = useState<any[]>([]) 
   const [itemDataWE, getItemdataWE] = useState<any[]>([])
-  const [itemDataED, getItemdataED] = useState<any[]>([])
-  const combobox = () => {
+  const [itemDataED, getItemdataED] = useState<any[]>([]) 
+  const [selectedItem, setSelectedItem] = useState<any>() 
+  const [personName, setPersonName] = React.useState<string[]>(props.datauser?.field_preference?.spoken_langs) 
+  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+    const {
+      target: { value }
+    } = event
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    )
+  }
 
-    
+  const combobox = () => { 
     HttpClient.get(AppConfig.baseUrl + '/public/data/role-level?search=&page=1&take=100').then(response => {
       const code = response.data.roleLevels.data
       getComborolLevel(code)
@@ -220,6 +259,18 @@ const CandidateProfile = (props: compProps) => {
   const { register, handleSubmit } = useForm<FormData>({
     mode: 'onBlur'
   })
+  const editEducation = (item: any) => {
+    setSelectedItem(item)
+    setOpenEditModal(!openEditModal)
+  }
+  const editWorkExperience = (item: any) => {
+    setSelectedItem(item)
+    setOpenEditModalWE(!openEditModalWE)
+  }
+  const editDocument= (item: any) => {
+    setSelectedItem(item)
+    setOpenEditModalDoc(!openEditModalDoc)
+  }
   const deletework  = async (id:any) => {
     
      const resp = await HttpClient.del(`/user/document/` + id)
@@ -231,6 +282,23 @@ const CandidateProfile = (props: compProps) => {
        `  deleted successfully!`
      )
   }
+   const deleteeducation = async (id: any) => {
+     const resp = await HttpClient.del(`/user/education/` + id)
+     if (resp.status != 200) {
+       throw resp.data.message ?? 'Something went wrong!'
+     }
+     combobox()
+     toast.success(`  deleted successfully!`)
+   }
+  const deletewe = async (id: any) => {
+    const resp = await HttpClient.del(`/user/experience/` + id)
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
+    }
+    combobox()
+    toast.success(`  deleted successfully!`)
+  }
+ 
   const onSubmit = (data: FormData) => {
     const { fullName, website, phone, address, about } = data
 
@@ -254,7 +322,8 @@ const CandidateProfile = (props: compProps) => {
             roletype_id: idcomborolType,
             vesseltype_id: idcomboVessel,
             regiontravel_id: idcomboRegion,
-            available_date: availabledate
+            available_date: availabledate,
+            spoken_langs: personName
           }
           HttpClient.post(AppConfig.baseUrl + '/user/field-preference', json).then(({ data }) => {
             console.log('here 1', data)
@@ -386,15 +455,18 @@ const CandidateProfile = (props: compProps) => {
       >
         {' '}
         <BoxWrapper>
-          <CardMedia
-            component='img'
-            alt='profile-header'
-            image={previewBanner ? previewBanner : '/images/avatars/headerprofile.png'}
-            sx={{
-              height: { xs: 150, md: 250 },
-              width: '100%'
-            }}
-          />
+          <Card>
+            <CardMedia
+              component='img'
+              alt='profile-header'
+              image={previewBanner ? previewBanner : '/images/avatars/headerprofile.png'}
+              sx={{
+                height: { xs: 150, md: 250 },
+                width: '100%'
+              }}
+            />
+          </Card>
+
           <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '50%', md: '50%' } }}>
             <label htmlFor='raised-button-file-banner'>
               <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
@@ -728,6 +800,36 @@ const CandidateProfile = (props: compProps) => {
                       />
                     </DatePickerWrapper>
                   </Grid>
+                  <Grid item md={6} xs={12}>
+                    <Select
+                      labelId='demo-multiple-chip-label'
+                      id='demo-multiple-chip'
+                      multiple
+                      value={personName}
+                      onChange={handleChange}
+                      input={
+                        <OutlinedInput
+                          id='select-multiple-chip'
+                          label='Chip'
+                          defaultValue={props.datauser?.field_preference?.spoken_langs}
+                        />
+                      }
+                      renderValue={selected => (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                          {selected.map(value => (
+                            <Chip key={value} label={value} />
+                          ))}
+                        </Box>
+                      )}
+                      MenuProps={MenuProps}
+                    >
+                      {names.map(name => (
+                        <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Grid>
                 </Grid>
               )}
 
@@ -765,21 +867,54 @@ const CandidateProfile = (props: compProps) => {
                           }}
                         />
                       </Grid>
-                      <Grid xs={8} md={10} item container>
+                      <Grid xs={8} md={11} item container>
                         <Grid xs={10} marginTop={2}>
                           <Typography variant='h6'>{item.title}</Typography>
                           <Typography variant='body1'>{item.major}</Typography>
                         </Grid>
-                        <Grid xs={12} md={2} marginTop={2} display='flex'>
-                          <Box>
-                            <Typography variant='body1'>{item.start_date}</Typography>
-                          </Box>
-                          <Box>
-                            <Typography variant='body1'> / </Typography>
-                          </Box>
-                          <Box>
-                            <Typography variant='body1'>{item.end_date}</Typography>
-                          </Box>
+                        <Grid xs={12} md={2} marginTop={2} display='flex' item container>
+                          <Grid xs={12} display='flex'>
+                            <Box>
+                              <Typography variant='body1'>{item.start_date}</Typography>
+                            </Box>
+                            <Box>
+                              <Typography variant='body1'> / </Typography>
+                            </Box>
+                            <Box>
+                              <Typography variant='body1'>{item.end_date}</Typography>
+                            </Box>
+                          </Grid>
+                          <Grid xs={12} display='flex' item container>
+                            <Grid
+                              xs={12}
+                              md={12}
+                              container
+                              direction='row'
+                              justifyContent='flex-end'
+                              alignItems='center'
+                            >
+                              <Box margin={1}>
+                                <Button
+                                  variant='contained'
+                                  color='info'
+                                  size='small'
+                                  onClick={() => editEducation(item)}
+                                >
+                                  Edit
+                                </Button>
+                              </Box>
+                              <Box margin={1}>
+                                <Button
+                                  variant='contained'
+                                  color='error'
+                                  size='small'
+                                  onClick={() => deleteeducation(item.id)}
+                                >
+                                  Delete
+                                </Button>
+                              </Box>
+                            </Grid>
+                          </Grid>
                         </Grid>
                       </Grid>
                       {/* <Grid xs={12}>
@@ -817,21 +952,55 @@ const CandidateProfile = (props: compProps) => {
                           }}
                         />
                       </Grid>
-                      <Grid xs={8} md={10} item container>
+                      <Grid xs={8} md={11} item container>
                         <Grid xs={10} marginTop={2}>
                           <Typography variant='h6'>{item.position}</Typography>
                           <Typography variant='body1'>{item.institution}</Typography>
                         </Grid>
-                        <Grid xs={12} md={2} marginTop={2} display='flex'>
-                          <Box>
-                            <Typography variant='body1'>{item.start_date}</Typography>
-                          </Box>
-                          <Box>
-                            <Typography variant='body1'> / </Typography>
-                          </Box>
-                          <Box>
-                            <Typography variant='body1'>{item.end_date}</Typography>
-                          </Box>
+                        <Grid xs={12} md={2} marginTop={2} display='flex' item container>
+                          <Grid xs={12} display='flex'>
+                            <Box>
+                              <Typography variant='body1'>{item.start_date}</Typography>
+                            </Box>
+                            <Box>
+                              <Typography variant='body1'> / </Typography>
+                            </Box>
+                            <Box>
+                              <Typography variant='body1'>{item.end_date}</Typography>
+                            </Box>
+                          </Grid>
+
+                          <Grid xs={12} display='flex' item container>
+                            <Grid
+                              xs={12}
+                              md={12}
+                              container
+                              direction='row'
+                              justifyContent='flex-end'
+                              alignItems='center'
+                            >
+                              <Box margin={1}>
+                                <Button
+                                  variant='contained'
+                                  color='info'
+                                  size='small'
+                                  onClick={() => editWorkExperience(item)}
+                                >
+                                  Edit
+                                </Button>
+                              </Box>
+                              <Box margin={1}>
+                                <Button
+                                  variant='contained'
+                                  color='error'
+                                  size='small'
+                                  onClick={() => deletewe(item.id)}
+                                >
+                                  Delete
+                                </Button>
+                              </Box>
+                            </Grid>
+                          </Grid>
                         </Grid>
                       </Grid>
                       <Grid xs={12}>
@@ -856,7 +1025,7 @@ const CandidateProfile = (props: compProps) => {
                 <Grid item container xs={12}>
                   {itemData.map(item => (
                     <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
-                      <Grid xs={6} md={10} container direction='row' alignItems='center'>
+                      <Grid xs={12} md={9} container direction='row' alignItems='center'>
                         <img
                           alt='logo'
                           src={'/images/avatars/circle-check-solid 1.svg'}
@@ -869,15 +1038,24 @@ const CandidateProfile = (props: compProps) => {
                         />
                         <Typography variant='h6'>{item.document_name}</Typography>
                       </Grid>
-                      <Grid xs={3} md={1}>
-                        <Button variant='contained' color='info' size='small' href={item.path} target='_blank'>
-                          Preview
-                        </Button>
-                      </Grid>
-                      <Grid xs={3} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
-                        <Button variant='contained' color='error' size='small' onClick={() => deletework(item.id)}>
-                          Delete
-                        </Button>
+                      <Grid xs={12} md={3} display='flex' item container>
+                        <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
+                          <Box margin={1}>
+                            <Button variant='contained' color='success' size='small' href={item.path} target='_blank'>
+                              Preview
+                            </Button>
+                          </Box>
+                          <Box margin={1}>
+                            <Button variant='contained' color='info' size='small' onClick={() => editDocument(item)}>
+                              Edit
+                            </Button>
+                          </Box>
+                          <Box margin={1}>
+                            <Button variant='contained' color='error' size='small' onClick={() => deletework(item.id)}>
+                              Delete
+                            </Button>
+                          </Box>
+                        </Grid>
                       </Grid>
                     </Grid>
                   ))}
@@ -888,6 +1066,29 @@ const CandidateProfile = (props: compProps) => {
         </FormControl>
       </form>
       <Grid>
+        {/* <form> */}
+        <DialogEditEducation
+          key={selectedItem?.id}
+          selectedItem={selectedItem}
+          visible={openEditModal}
+          onCloseClick={() => setOpenEditModal(!openEditModal)}
+          onStateChange={() => setHookSignature(v4())}
+        />
+        {/* </form> */}
+        <DialogEditWorkExperience
+          key={selectedItem?.id}
+          selectedItem={selectedItem}
+          visible={openEditModalWE}
+          onCloseClick={() => setOpenEditModalWE(!openEditModalWE)}
+          onStateChange={() => setHookSignature(v4())}
+        />
+        <DialogEditDocument
+          key={selectedItem?.id}
+          selectedItem={selectedItem}
+          visible={openEditModalDoc}
+          onCloseClick={() => setOpenEditModalDoc(!openEditModalDoc)}
+          onStateChange={() => setHookSignature(v4())}
+        />
         <form>
           <DialogAddEducation
             visible={openAddModal}
