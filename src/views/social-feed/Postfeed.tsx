@@ -5,6 +5,7 @@ import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers';
 import { useSocialFeed } from 'src/hooks/useSocialFeed';
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
+import ButtonUploadVideo from './ButtonUploadVideo';
 
 const Postfeed = () => {
     const { user } = useAuth();
@@ -51,10 +52,7 @@ const Postfeed = () => {
                         <Icon fontSize={22} icon='mdi:image' />
                         <div style={{ marginLeft: 5 }}>Photo</div>
                     </Button>
-                    <Button size='small' variant='text' sx={{ textDecoration: 'none' }}>
-                        <Icon fontSize={22} icon='mdi:videocam' />
-                        <div style={{ marginLeft: 5 }}>Video</div>
-                    </Button>
+                    <ButtonUploadVideo />
                 </Box>
                 <Box flexGrow={1} textAlign='right'>
                     <Button sx={{ width: 45 }} disabled={isLoading} onClick={handleUpdateStatus} size='small' color='primary' variant='contained' >
