@@ -97,7 +97,7 @@ const FeedCard = (props: { item: ISocialFeed }) => {
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
                 {(item.content_type == "videos") && (
-                    <CardMedia sx={{ width: 420 }} component='video' controls src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments[0]}`} />
+                    <CardMedia sx={{ width: { xs: '100%', md: 420 } }} component='video' controls src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments[0]}`} />
                 )}
 
                 <Typography variant="body1" sx={{ color: "#424242", fontWeight: 400, margin: "5px" }}>
