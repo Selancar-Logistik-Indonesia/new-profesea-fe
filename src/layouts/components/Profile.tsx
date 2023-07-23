@@ -12,6 +12,8 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Icon } from '@iconify/react'
 import { IUser } from 'src/contract/models/user'
+import FieldPreference from 'src/contract/models/field_preference'
+import { getUserRoleName } from 'src/utils/helpers'
 
 export type ParamJobVacncy = {
     judul: string
@@ -21,7 +23,7 @@ export type ParamJobVacncy = {
 }
 
 type userProps = {
-    datauser: any
+    datauser: IUser
 }
 
 const ProfilePicture = styled('img')(({ theme }) => ({
@@ -38,13 +40,13 @@ const Profile = (props: userProps) => {
     const [facebook, setFacebook] = useState<any>('-')
     const [instagram, setInstagram] = useState<any>('-')
     const [linkedin, setLinkedin] = useState<any>('-')
-    const [selectedItem, setSelectedItem] = useState<IUser | null>(null)
+    const [selectedItem, setSelectedItem] = useState<FieldPreference | null>(null)
 
     useEffect(() => {
-        HttpClient.get(AppConfig.baseUrl + '/user/' + props.datauser.id).then(response => {
-            const user = response.data.user as IUser
-            setSelectedItem(user)
-        })
+        HttpClient.get('/user/field-preference', { user_id: props.datauser.id }).then(response => {
+            const { fieldPreference } = response.data as { fieldPreference: FieldPreference };
+            setSelectedItem(fieldPreference)
+        });
 
         HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
             const code = response.data.sosmeds.data
@@ -86,13 +88,13 @@ const Profile = (props: userProps) => {
                             <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                                 <Icon icon={'material-symbols:mail'} fontSize={24} color={'#32487A'} />
                                 <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                                    Email
+                                    {props.datauser.email}
                                 </Typography>
                             </Box>
                             <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                                 <Icon icon={'material-symbols:badge-rounded'} fontSize={24} color={'#32487A'} />
                                 <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                                    Candidate, Recruiter, Trainer
+                                    {getUserRoleName(props.datauser.team)}
                                 </Typography>
                             </Box>
                         </Box>
@@ -105,7 +107,7 @@ const Profile = (props: userProps) => {
                                         Role :
                                     </Typography>
                                     <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                                        {selectedItem?.field_preference?.role_level?.levelName}
+                                        {selectedItem?.role_type?.name}
                                     </Typography>
                                 </Box>
                                 <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
@@ -114,7 +116,7 @@ const Profile = (props: userProps) => {
                                         Vessel :
                                     </Typography>
                                     <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                                        {selectedItem?.field_preference?.vessel_type?.name}
+                                        {selectedItem?.vessel_type?.name}
                                     </Typography>
                                 </Box>
                                 <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
@@ -123,7 +125,7 @@ const Profile = (props: userProps) => {
                                         Region Of Travel :
                                     </Typography>
                                     <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                                        {selectedItem?.field_preference?.region_travel?.name}
+                                        {selectedItem?.region_travel?.name}
                                     </Typography>
                                 </Box>
                             </Box>
