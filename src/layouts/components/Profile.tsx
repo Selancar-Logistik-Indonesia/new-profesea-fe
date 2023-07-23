@@ -23,7 +23,7 @@ export type ParamJobVacncy = {
 }
 
 type userProps = {
-    datauser: IUser
+    datauser: IUser | null
 }
 
 const ProfilePicture = styled('img')(({ theme }) => ({
@@ -43,7 +43,7 @@ const Profile = (props: userProps) => {
     const [selectedItem, setSelectedItem] = useState<FieldPreference | null>(null)
 
     useEffect(() => {
-        HttpClient.get('/user/field-preference', { user_id: props.datauser.id }).then(response => {
+        HttpClient.get('/user/field-preference', { user_id: props.datauser?.id }).then(response => {
             const { fieldPreference } = response.data as { fieldPreference: FieldPreference };
             setSelectedItem(fieldPreference)
         });
@@ -88,13 +88,13 @@ const Profile = (props: userProps) => {
                             <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                                 <Icon icon={'material-symbols:mail'} fontSize={24} color={'#32487A'} />
                                 <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                                    {props.datauser.email}
+                                    {props.datauser?.email}
                                 </Typography>
                             </Box>
                             <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                                 <Icon icon={'material-symbols:badge-rounded'} fontSize={24} color={'#32487A'} />
                                 <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                                    {getUserRoleName(props.datauser.team)}
+                                    {getUserRoleName(props.datauser?.team)}
                                 </Typography>
                             </Box>
                         </Box>
