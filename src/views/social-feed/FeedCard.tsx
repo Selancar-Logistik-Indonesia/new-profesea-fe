@@ -20,7 +20,7 @@ const FeedCard = (props: { item: ISocialFeed }) => {
                 <Box>
                     <Avatar sx={{ width: 50, height: 50, mr: 3, mb: 3 }} src={getUserAvatar(item.user)} alt='profile-picture' />
                 </Box>
-                <Box sx={{ mb: [6, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
+                <Box sx={{ mb: 8, display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
                     <Typography variant='body2' sx={{ color: "#424242", fontWeight: 600 }}>
                         {toTitleCase(item.user.name)}
                     </Typography>
