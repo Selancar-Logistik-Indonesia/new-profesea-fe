@@ -72,11 +72,13 @@ const Profile = (props: userProps) => {
                         <Box display='flex' justifyContent='center' alignItems='center'>
                             <ProfilePicture src={props.datauser?.photo} alt='profile-picture' />
                         </Box>
+
                         <Box display='flex' justifyContent='center' alignItems='center'>
                             <Typography fontSize={12} sx={{ color: '#32487A', fontWeight: 600, textTransform: 'uppercase' }}>
                                 {props.datauser?.name}
                             </Typography>
                         </Box>
+
                         <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
                         <Box sx={{ pt: 2, pb: 1 }}>
                             <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
@@ -137,8 +139,8 @@ const Profile = (props: userProps) => {
                                     <Box width={22} textAlign='center'>
                                         <img src='/images/logos/facebook.png' alt='Facebook' height='20' />
                                     </Box>
-                                    <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                                        <a href={facebook} target='_blank'>
+                                    <Typography fontSize={12} sx={{ color: '#0a66c2', fontWeight: 400 }}>
+                                        <a href={facebook} target='_blank' style={{ textDecoration: 'none' }}>
                                             {facebook}
                                         </a>
                                     </Typography>
@@ -147,8 +149,8 @@ const Profile = (props: userProps) => {
                                     <Box width={22} textAlign='center'>
                                         <img src='/images/logos/instagram.png' alt='Instagram' height='20' />
                                     </Box>
-                                    <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                                        <a href={instagram} target='_blank'>
+                                    <Typography fontSize={12} sx={{ color: '#0a66c2', fontWeight: 400 }}>
+                                        <a href={instagram} target='_blank' style={{ textDecoration: 'none' }}>
                                             {instagram}
                                         </a>
                                     </Typography>
@@ -157,38 +159,38 @@ const Profile = (props: userProps) => {
                                     <Box width={22} textAlign='center'>
                                         <img src='/images/logos/linkedin.png' alt='Linkedin' height='20' />
                                     </Box>
-                                    <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                                        <a href={linkedin} target='_blank'>
+                                    <Typography fontSize={12} sx={{ color: '#0a66c2', fontWeight: 400 }}>
+                                        <a href={linkedin} target='_blank' style={{ textDecoration: 'none' }}>
                                             {linkedin}
                                         </a>
                                     </Typography>
                                 </Box>
                             </Box>
                         )}
-
                         <Box display='flex' justifyContent='center' alignItems='center'>
                             {props.datauser?.role == 'Seafarer' && (
                                 <Link style={{ width: '100%', minWidth: '100%' }} href={'/candidate'}>
-                                    <Button variant='contained' sx={{ width: '100%', mt: 3, minWidth: '100%' }}>
-                                        Edit My Profile
+                                    <Button variant='contained' sx={{ width: '100%', mt: 7, minWidth: '100%' }}>
+                                        <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
                                     </Button>
                                 </Link>
                             )}
                             {props.datauser?.role == 'Company' && (
                                 <Link style={{ width: '100%', minWidth: '100%' }} href={'/company'}>
-                                    <Button variant='contained' sx={{ width: '100%', mt: 3, minWidth: '100%' }}>
-                                        Edit My Profile
+                                    <Button variant='contained' sx={{ width: '100%', mt: 7, minWidth: '100%' }}>
+                                        <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
                                     </Button>
                                 </Link>
                             )}
                             {props.datauser?.role == 'Trainer' && (
                                 <Link style={{ width: '100%', minWidth: '100%' }} href={'/trainer'}>
-                                    <Button variant='contained' sx={{ width: '100%', mt: 3, minWidth: '100%' }}>
-                                        Edit My Profile
+                                    <Button variant='contained' sx={{ width: '100%', mt: 7, minWidth: '100%' }}>
+                                        <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
                                     </Button>
                                 </Link>
                             )}
                         </Box>
+
                     </CardContent>
                 </Card>
             </Grid>
