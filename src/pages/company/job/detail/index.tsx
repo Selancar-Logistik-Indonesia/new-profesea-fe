@@ -18,7 +18,6 @@ import { Icon } from '@iconify/react'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import Job from 'src/contract/models/job'  
-import { toast } from 'react-hot-toast'
 
 const JobDetail = () => { 
    const windowUrl = window.location.search
@@ -34,22 +33,9 @@ const firstload = () => {
  useEffect(() => { 
    firstload()
  }, []) 
-
- const handleApply = async () => {
-  try {
-      const resp = await HttpClient.get(`/job/${jobDetail?.id}/apply`);
-      if (resp.status != 200) {
-          throw resp.data.message ?? "Something went wrong!";
-      }
-
-      toast.success(`${jobDetail?.role_type?.name} applied successfully!`);
-  } catch (error) {
-      console.error(error)
-  } 
-}
     
   return (
-      <Grid item xs={12}>
+      <Grid item xs={12} mt={-2}>
             <Card>
               <CardContent>
                 <Box sx={{ mb: 7 }}>
@@ -103,11 +89,7 @@ const firstload = () => {
                     </Grid>
                     <Grid item md={4} xs={12}>
                         <Grid container spacing={2} alignItems="right" justifyContent="center">
-                          <Grid item>
-                            <Button onClick={handleApply} variant='contained' color='warning'>
-                            Lamar
-                            </Button>
-                          </Grid>
+                          
                           <Grid item>
                             <Button variant='contained' color='secondary'>
                               Share
@@ -157,6 +139,6 @@ const firstload = () => {
 
 JobDetail.acl = {
   action: 'read',
-  subject: 'seaferer-jobs'
+  subject: 'home'
 };
 export default JobDetail
