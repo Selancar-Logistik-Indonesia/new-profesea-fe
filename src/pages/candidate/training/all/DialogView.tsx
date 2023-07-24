@@ -1,19 +1,12 @@
-import { Ref, useState, forwardRef, ReactElement } from 'react'
+import { Ref, forwardRef, ReactElement } from 'react'
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
-import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Fade, { FadeProps } from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
 import Icon from 'src/@core/components/icon'
 import Training from 'src/contract/models/training'
-import { DateType } from 'src/contract/models/DatepickerTypes'
-import DatePicker from 'react-datepicker'
-
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { faCalendar } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment'
 import { Avatar, Button } from '@mui/material'
 import { formatIDR, getUserAvatar } from 'src/utils/helpers'
@@ -36,7 +29,6 @@ type ViewProps = {
 
 const DialogView = (props: ViewProps) => {
     const { selectedItem } = props;
-    const [date, setDate] = useState<DateType>(new Date(selectedItem.schedule));
 
     return (
         <Dialog
