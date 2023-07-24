@@ -85,7 +85,7 @@ const SeafererTraining = () => {
     setValue(newValue);
     getColor('#FFFFFF');
   };
-  
+
   return (
     <Box  >
       <Grid container spacing={2}>
