@@ -1,4 +1,3 @@
-import TrainingCategory from "./training_category"
 import {IUser} from "./user"
 
 interface Applicant {

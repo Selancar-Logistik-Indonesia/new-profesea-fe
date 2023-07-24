@@ -3,17 +3,12 @@ import React, { useState , useEffect} from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import {  Card, CardContent, Tabs, Tab, useMediaQuery, Collapse, CardHeader, IconButton, Autocomplete, TextField } from '@mui/material'
+import { Tabs, Tab, useMediaQuery } from '@mui/material'
 import { Grid } from '@mui/material'
 import { useForm } from 'react-hook-form'
 // import Icon from 'src/@core/components/icon' 
 import { useTheme } from '@mui/material/styles'
 
-import { HttpClient } from 'src/services'
-import { Icon } from '@iconify/react'
-import Degree from 'src/contract/models/degree'
-import JobCategory from 'src/contract/models/job_category'
-import RoleLevel from 'src/contract/models/role_level'
 import JobApplied from './applied'
 import JobDetail from './detail'
 
@@ -35,31 +30,9 @@ const UserJob = () => {
 
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
-  const [collapsed, setCollapsed] = useState<boolean>(true)
-  const [collapsed2, setCollapsed2] = useState<boolean>(false)
-  const [collapsed3, setCollapsed3] = useState<boolean>(false)
-  const [JobCategory, getJobCategory] =useState<any[]>([]);
-  const [Education, getEducation] =useState<any[]>([]);
-  const [RoleLevel, getRoleLevel] =useState<any[]>([]);
 
   const firstload = async () => {
-    // const res = await HttpClient.get(`/public/data/role-level?search=&page=1&take=250`);
-    // if (res.status != 200) {
-    //     throw res.data.message ?? "Something went wrong!";
-    // }
-    // getRoleLevel(res.data.roleLevels.data);
-
-    // const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`);
-    // if (res2.status != 200) {
-    //     throw res2.data.message ?? "Something went wrong!";
-    // }
-    // getJobCategory(res2.data.categories.data);
-
-    // const res3 = await HttpClient.get(`/public/data/degree`);
-    // if (res3.status != 200) {
-    //     throw res3.data.message ?? "Something went wrong!";
-    // }
-    // getEducation(res3.data.degrees);
+    
   }
    useEffect(() => { 
      firstload()
