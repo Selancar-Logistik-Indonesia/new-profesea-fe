@@ -469,7 +469,7 @@ const CandidateProfile = (props: compProps) => {
 
           <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '30%', md: '20%' } }}>
             <label htmlFor='raised-button-file-banner'>
-              <Icon fontSize='large' icon={'bi:camera'} color={'black'} style={{ fontSize: '36px' }} />
+              <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
             </label>
           </Box>
         </BoxWrapper>
@@ -499,7 +499,7 @@ const CandidateProfile = (props: compProps) => {
             type='file'
           ></input>
           <Box position={'absolute'} right={'10%'} bottom={'10%'}>
-            <Icon fontSize='large' icon={'bi:camera'} color={'black'} style={{ fontSize: '26px' }} />
+            <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
           </Box>
         </BoxWrapper>
       </CardContent>

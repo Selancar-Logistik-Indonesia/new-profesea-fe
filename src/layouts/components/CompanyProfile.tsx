@@ -4,7 +4,7 @@ import React, { ReactNode, useEffect, useRef, useState } from 'react'
 // ** MUI Components
 import Box, { BoxProps } from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { Button, TextField, FormControl, Autocomplete, Divider, IconButton, Card } from '@mui/material'
+import { Button, TextField, FormControl, Autocomplete, Divider, Card, InputAdornment } from '@mui/material'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
@@ -68,18 +68,18 @@ const ProfilePicture = styled('img')(({ theme }) => ({
     marginBottom: theme.spacing(4)
   }
 }))
-const BoxWrapper = styled(Box)<BoxProps>(( ) => ({
+const BoxWrapper = styled(Box)<BoxProps>(() => ({
   position: 'relative',
- 
+
 }))
-  
+
 const CompanyProfile = (props: compProps) => {
-   
+
   const inputRef = useRef<any>('')
   const handleClick = () => {
     // 👇️ open file input box on click of another element
     inputRef.current.click()
-  } 
+  }
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboindustry, getComboIndustry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
@@ -91,7 +91,7 @@ const CompanyProfile = (props: compProps) => {
   const [facebook, setFacebook] = useState<any>('')
   const [instagram, setInstagram] = useState<any>('')
   const [linkedin, setLinkedin] = useState<any>('')
-  
+
   const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
   const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
   const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
@@ -198,11 +198,11 @@ const CompanyProfile = (props: compProps) => {
     )
   }
 
-  const addbuttonfacebook = ( ) => {
+  const addbuttonfacebook = () => {
     let user = '';
-    if(facebook.length < 10){
+    if (facebook.length < 10) {
       user = 'https://facebook.com/' + facebook
-    }else{ user = facebook}
+    } else { user = facebook }
     const json = {
       sosmed_type: 'Facebook',
       sosmed_address: user
@@ -229,13 +229,13 @@ const CompanyProfile = (props: compProps) => {
     }
     setDisabledFacebook(true)
   }
-  const addbuttoninstagram = ( ) => {
+  const addbuttoninstagram = () => {
     let user = ''
     if (instagram.length < 10) {
       user = 'https://instagram.com/' + instagram
     } else {
       user = instagram
-    } 
+    }
     const json = {
       sosmed_address: user
     }
@@ -263,7 +263,7 @@ const CompanyProfile = (props: compProps) => {
       )
 
     }
-     setDisabledInstagram(true)
+    setDisabledInstagram(true)
 
   }
   const addbuttonlinkedin = () => {
@@ -272,7 +272,7 @@ const CompanyProfile = (props: compProps) => {
       user = 'https://linkedin.com/' + linkedin
     } else {
       user = linkedin
-    } 
+    }
     const json = {
       sosmed_type: 'linkedin',
       sosmed_address: user
@@ -404,7 +404,7 @@ const CompanyProfile = (props: compProps) => {
     }
 
     // I've kept this example simple by using the first image instead of multiple
-  
+
     const selectedFiles = e.target.files as FileList
     // setCurrentImage(selectedFiles?.[0])
     uploadPhotoGallery(selectedFiles?.[0])
@@ -423,7 +423,7 @@ const CompanyProfile = (props: compProps) => {
       }
     )
   }
-  const enabledtextfield=(x:any)=>{
+  const enabledtextfield = (x: any) => {
     if (x == 'fb') setDisabledFacebook(false)
     if (x == 'ig') setDisabledInstagram(false)
     if (x == 'li') setDisabledLinkedin(false)
@@ -437,7 +437,7 @@ const CompanyProfile = (props: compProps) => {
   ]
 
   return (
-    <Grid container padding={5}>
+    <Grid container>
       <input
         accept='image/*'
         style={{ display: 'none', height: 250, width: '100%' }}
@@ -459,7 +459,7 @@ const CompanyProfile = (props: compProps) => {
             <CardMedia
               component='img'
               alt='profile-header'
-              image={previewBanner ? previewBanner : '/images/avatars/headerprofile.png'}
+              image={previewBanner ? previewBanner : '/images/avatars/headerprofile3.png'}
               sx={{
                 height: { xs: 150, md: 250 },
                 width: '100%',
@@ -468,7 +468,7 @@ const CompanyProfile = (props: compProps) => {
             />
           </Card>
 
-          <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '50%', md: '50%' } }}>
+          <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '20%', md: '20%' } }}>
             <label htmlFor='raised-button-file-banner'>
               <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
             </label>
@@ -490,7 +490,7 @@ const CompanyProfile = (props: compProps) => {
       >
         <BoxWrapper>
           <label htmlFor='raised-button-file'>
-            <ProfilePicture src={preview ? preview : '/images/avatars/1.png'} alt='profile-picture'></ProfilePicture>
+            <ProfilePicture src={preview ? preview : '/images/avatars/profilepic.png'} alt='profile-picture'></ProfilePicture>
           </label>
           <input
             accept='image/*'
@@ -636,15 +636,23 @@ const CompanyProfile = (props: compProps) => {
                   {...register('about')}
                 />
               </Grid>
-              <Grid item md={2} xs={12}>
+              <Grid item md={1} xs={12}>
                 <Button fullWidth size='small' type='submit' variant='contained' sx={{ mb: 7 }}>
-                  Save
+                  <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '24px' }} />
                 </Button>
               </Grid>
               <Divider style={{ width: '100%' }} />
               <Grid item md={5} xs={12}>
-                <Typography variant='h6'>Social Media</Typography>
-                <Typography variant='body1'>This is link social medias the company. Please fill it.</Typography>
+                <Grid container item xs={12} justifyContent={'left'}>
+                  <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                    Social Media Info
+                  </Typography>
+                </Grid>
+                <Grid container item xs={12} justifyContent={'left'}>
+                  <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                    Fulfill your Social Media Info
+                  </Typography>
+                </Grid>
               </Grid>
 
               <Grid container item md={12} xs={12} marginTop={'20px'}>
@@ -652,8 +660,8 @@ const CompanyProfile = (props: compProps) => {
                   <Grid container item xs={12} md={12}>
                     <Grid xs={12} item>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box sx={{ mr: 8, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                          <img src='/images/logos/facebook.png' alt='Facebook' height='30' />
+                        <Box sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                          <img src='/images/logos/facebook.png' alt='Facebook' height='20' />
                         </Box>
                         <TextField
                           id='facebook'
@@ -667,10 +675,13 @@ const CompanyProfile = (props: compProps) => {
                           disabled={disabledFacebook}
                           onChange={e => setFacebook(e.target.value)}
                           onBlur={handleSubmit(addbuttonfacebook)}
+                          InputProps={{
+                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                          }}
                         />
-                        <IconButton onClick={() => enabledtextfield('fb')}>
-                          <Icon icon={'charm:pencil'} />
-                        </IconButton>
+                        <Button onClick={() => enabledtextfield('fb')} sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                          <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
+                        </Button>
                       </Box>
                     </Grid>
                   </Grid>
@@ -694,10 +705,13 @@ const CompanyProfile = (props: compProps) => {
                           disabled={disabledInstagram}
                           onChange={e => setInstagram(e.target.value)}
                           onBlur={handleSubmit(addbuttoninstagram)}
+                          InputProps={{
+                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                          }}
                         />
-                        <IconButton onClick={() => enabledtextfield('ig')}>
-                          <Icon icon={'charm:pencil'} />
-                        </IconButton>
+                        <Button onClick={() => enabledtextfield('ig')} sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                          <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
+                        </Button>
                       </Box>
                     </Grid>
                   </Grid>
@@ -722,10 +736,13 @@ const CompanyProfile = (props: compProps) => {
                           value={linkedin}
                           onChange={e => setLinkedin(e.target.value)}
                           onBlur={handleSubmit(addbuttonlinkedin)}
+                          InputProps={{
+                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                          }}
                         />
-                        <IconButton onClick={() => enabledtextfield('li')}>
-                          <Icon icon={'charm:pencil'} />
-                        </IconButton>
+                        <Button onClick={() => enabledtextfield('li')} sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                          <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
+                        </Button>
                       </Box>
                     </Grid>
                   </Grid>
@@ -738,18 +755,26 @@ const CompanyProfile = (props: compProps) => {
           </Grid>
         </FormControl>
       </form>
-      <Grid item md={5} xs={12}>
-        <Typography variant='h6'>Gallery</Typography>
-        <Typography variant='body1'>This is Gallery for the company. Please fill it.</Typography>
+      <Grid item md={6} xs={12}>
+        <Grid container item xs={12} justifyContent={'left'}>
+          <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+            Gallery Upload
+          </Typography>
+        </Grid>
+        <Grid container item xs={12} justifyContent={'left'}>
+          <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+            Upload your Gallery
+          </Typography>
+        </Grid>
       </Grid>
       <Grid item md={5} display={{ xs: 'none', lg: 'block' }}>
         {' '}
       </Grid>
-      <Grid item md={2} xs={12} marginTop={'20px'}>
+      <Grid item md={1} xs={12} marginBottom={'5px'}>
         <Box marginBottom={2}>
           <Button variant='contained' size='small' onClick={handleClick}>
             {' '}
-            upload image
+            <Icon fontSize='large' icon={'material-symbols:drive-folder-upload'} color={'info'} style={{ fontSize: '24px' }} />
           </Button>
         </Box>
         <input
