@@ -3,6 +3,8 @@ import Degree from "./degree"
 import Company from "./company"
 import RoleLevel from "./role_level"
 import RoleType from "./role_type"
+import Country from "./country"
+import City from "./city"
 
 interface Job {
     id: number,
@@ -11,6 +13,8 @@ interface Job {
     roletype_id: number,
     edugrade_id: number,
     category_id: number,
+    city_id: number,
+    country_id: number,
     employee_type: string,
     salary_start: number,
     salary_end: number,
@@ -23,7 +27,9 @@ interface Job {
     company : Company,
     rolelevel : RoleLevel,
     role_type : RoleType,
-    degree: Degree
+    degree: Degree,
+    city: City,
+    country: Country 
 }
 
 export default Job;

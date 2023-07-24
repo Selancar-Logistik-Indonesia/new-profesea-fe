@@ -21,6 +21,8 @@ import Degree from 'src/contract/models/degree'
 import JobCategory from 'src/contract/models/job_category'
 import RoleLevel from 'src/contract/models/role_level'
 import RoleType from 'src/contract/models/role_type'
+import Countries from 'src/contract/models/country'
+import City from 'src/contract/models/city'
 import { styled } from '@mui/material/styles'
 import { Autocomplete, TextareaAutosize } from '@mui/material'
 
@@ -90,43 +92,54 @@ const DialogAdd = (props: DialogProps) => {
     const [LevelId, setLevelId] = useState(0);
     const [TypeId, setTypeId] = useState(0);
     const [CatId, setCatId] = useState(0);
+    const [CouId, setCouId] = useState(0);
+    const [CitId, setCitId] = useState('');
 
     const [JobCategory, getJobCategory] = useState<any[]>([]);
     const [Education, getEducation] = useState<any[]>([]);
     const [RoleLevel, getRoleLevel] = useState<any[]>([]);
     const [RoleType, getRoleType] = useState<any[]>([]);
     const [Company, getCompany] = useState<any[]>([]);
+    const [combocountry, getComboCountry] = useState<any>([])
+    const [combocity, getComboCity] = useState<any[]>([])
     const combobox = async () => {
 
-        const resp = await HttpClient.get(`/user-management?page=1&take=250&team_id=3`);
-        if (resp.status != 200) {
-            throw resp.data.message ?? "Something went wrong!";
-        }
-        getCompany(resp.data.users.data);
-
-        const res = await HttpClient.get(`/public/data/role-level?search=&page=1&take=250`);
-        if (res.status != 200) {
-            throw res.data.message ?? "Something went wrong!";
-        }
-        getRoleLevel(res.data.roleLevels.data);
-
-        const res1 = await HttpClient.get(`/public/data/role-type?search=&page=1&take=250`);
-        if (res1.status != 200) {
-            throw res.data.message ?? "Something went wrong!";
-        }
-        getRoleType(res1.data.roleTypes.data);
-
-        const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`);
-        if (res2.status != 200) {
-            throw res2.data.message ?? "Something went wrong!";
-        }
-        getJobCategory(res2.data.categories.data);
-
-        const res3 = await HttpClient.get(`/public/data/degree`);
-        if (res3.status != 200) {
-            throw res3.data.message ?? "Something went wrong!";
-        }
-        getEducation(res3.data.degrees);
+        HttpClient.get(`/user-management?page=1&take=250&team_id=3`).then(response => {
+            if (response.status != 200) {
+                throw response.data.message ?? "Something went wrong!";
+            }
+            getCompany(response.data.users.data);
+        })
+        HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
+            if (response.status != 200) {
+                throw response.data.message ?? "Something went wrong!";
+            }
+            getRoleLevel(response.data.roleLevels.data);
+        })
+        HttpClient.get(`/public/data/role-type?search=&page=1&take=250`).then(response => {
+            if (response.status != 200) {
+                throw response.data.message ?? "Something went wrong!";
+            }
+            getRoleType(response.data.roleTypes.data);
+        })
+        HttpClient.get(`/job-category?search=&page=1&take=250`).then(response => {
+            if (response.status != 200) {
+                throw response.data.message ?? "Something went wrong!";
+            }
+            getJobCategory(response.data.categories.data);
+        })
+        HttpClient.get(`/public/data/degree`).then(response => {
+            if (response.status != 200) {
+                throw response.data.message ?? "Something went wrong!";
+            }
+            getEducation(response.data.degrees);
+        })
+        HttpClient.get('/public/data/country?search=').then(response => {
+            if (response.status != 200) {
+                throw response.data.message ?? "Something went wrong!";
+            }
+            getComboCountry(response.data.countries)
+        })
     }
 
     useEffect(() => {
@@ -147,6 +160,16 @@ const DialogAdd = (props: DialogProps) => {
         resolver: yupResolver(schema)
     })
 
+    const searchcity = async (q: any) => {
+        setCouId(q)
+        const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
+        if (resp.status != 200) {
+          throw resp.data.message ?? 'Something went wrong!'
+        }
+        const code = resp.data.cities
+        getComboCity(code)
+      }
+
     const onSubmit = async (formData: Job) => {
         const { license, salary_start, salary_end, experience, description } = formData
 
@@ -156,6 +179,8 @@ const DialogAdd = (props: DialogProps) => {
             "user_id": UserId,
             "edugrade_id": EduId,
             "category_id": CatId,
+            "country_id": CouId,
+            "city_id": CitId,
             "license": license,
             "salary_start": salary_start,
             "salary_end": salary_end,
@@ -186,7 +211,7 @@ const DialogAdd = (props: DialogProps) => {
         <Dialog
             fullWidth
             open={props.visible}
-            maxWidth='sm'
+            maxWidth='md'
             scroll='body'
             TransitionComponent={Transition}
         >
@@ -267,6 +292,33 @@ const DialogAdd = (props: DialogProps) => {
                                 getOptionLabel={(option: Degree) => option.name}
                                 renderInput={(params) => <TextField {...params} label="Education" />}
                                 onChange={(event: any, newValue: Degree | null) => (newValue?.id) ? setEduId(newValue.id) : setEduId(0)}
+                            />
+                        </Grid>
+                        
+                        
+                        <Grid item md={6} xs={12}>
+                            <Autocomplete
+                            disablePortal
+                            id='combo-box-demo'
+                            options={combocountry}
+                            getOptionLabel={(option: any) => option.nicename}
+                            renderInput={params => <TextField {...params} label='Country' />}
+                            onChange={(event: any, newValue: Countries | null) =>
+                                newValue?.id ? searchcity(newValue.id) : searchcity(0)
+                            }
+                            />
+                        </Grid>
+
+                        <Grid item md={6} xs={12}>
+                            <Autocomplete
+                            disablePortal
+                            id='city'
+                            options={combocity}
+                            getOptionLabel={(option: City) => option.city_name}
+                            renderInput={params => <TextField {...params} label='City' />}
+                            onChange={(event: any, newValue: City | null) =>
+                                newValue?.id ? setCitId(newValue?.id) : setCitId('')
+                            }
                             />
                         </Grid>
                         <Grid item md={6} xs={12} >

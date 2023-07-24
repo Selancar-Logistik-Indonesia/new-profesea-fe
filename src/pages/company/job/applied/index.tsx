@@ -1,63 +1,56 @@
 import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
-import { Box, Button } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
-import DialogAdd from './DialogAdd';
-import JobDatagrid, { RowItem } from './JobDatagrid';
+import AppliedDataGrid, { RowItem } from './AppliedDataGrid';
 import { HttpClient } from 'src/services';
 import { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
-import Job from 'src/contract/models/job';
+import Applicant from 'src/contract/models/applicant';
 import debounce from 'src/utils/debounce';
 import { GridPaginationModel } from '@mui/x-data-grid';
-import DialogDelete from './DialogDelete';
-import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
+import DialogView from './DialogView';
 
-const JobManagementScreen = () => {
+const JobApplied = () => {
     const [hookSignature, setHookSignature] = useState(v4())
     const [onLoading, setOnLoading] = useState(false);
-    const [openAddModal, setOpenAddModal] = useState(false);
-    const [openDelModal, setOpenDelModal] = useState(false);
-    const [openEditModal, setOpenEditModal] = useState(false);
+    const [openViewModal, setOpenViewModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
-    const [selectedItem, setSelectedItem] = useState<Job | null>(null);
-
+    const [selectedItem, setSelectedItem] = useState<Applicant | null>(null);
+    const windowUrl = window.location.search;
+    const params = new URLSearchParams(windowUrl);
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
     const [search, setSearch] = useState("");
 
     const [perPage, setPerPage] = useState(10);
-    const getListJob = async () => {
+    const getListApplicant = async () => {
         try {
-            const resp = await HttpClient.get(`/job?search=${search}&page=${page}&take=${perPage}`);
+            const resp = await HttpClient.get(`/job/${params.get('id')}/appllicants?search=${search}&page=${page}&take=${perPage}`);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
+            console.log(resp.data.applicants);
 
-            const rows = resp.data.jobs.data as Job[];
+            const rows = resp.data.applicants.data as Applicant[];
             const items = rows.map((row, index) => {
                 return {
                     no: index + 1,
                     id: row.id,
-                    role_type: row.role_type.name,
-                    company_name: row.company.name,
-                    category_name: row.category.name,
-                    level_name: row.rolelevel.levelName,
-                    location: `${row?.city?.city_name} - ${row?.country?.name}`,
-                    degree: row.degree.name,
-                    salary: `Rp. ${row.salary_start} - Rp. ${row.salary_end}`,
+                    name: row.user?.name,
+                    category: row.user?.employee_type,
+                    email: row.user?.email,
+                    phone: row.user?.phone,
+                    status: row.status,
                     actions: {
-                        onDelete: () => deleteHandler(row),
-                        onUpdate: () => updateHandler(row),
+                        onView: () => viewHandler(row),
                     }
                 } as RowItem;
             });
 
-            setRowCount(resp?.data?.jobs?.total ?? 0);
+            setRowCount(resp.data.applicants?.total ?? 0);
             setDataSheet(items);
         } catch (error) {
             let errorMessage = "Something went wrong!";
@@ -86,19 +79,14 @@ const JobManagementScreen = () => {
         setPerPage(model.pageSize);
     }
 
-    const deleteHandler = (row: Job) => {
+    const viewHandler = (row: Applicant) => {
         setSelectedItem(row);
-        setOpenDelModal(true);
-    }
-
-    const updateHandler = (row: Job) => {
-        setSelectedItem(row);
-        setOpenEditModal(true);
+        setOpenViewModal(true);
     }
 
     useEffect(() => {
         setOnLoading(true);
-        getListJob().then(() => {
+        getListApplicant().then(() => {
             setOnLoading(false);
         });
     }, [page, search, hookSignature, perPage]);
@@ -108,7 +96,6 @@ const JobManagementScreen = () => {
             <Grid container spacing={6} className='match-height'>
                 <Grid item xs={12} sm={6} md={12}>
                     <Card>
-                        <CardHeader title='List Jobs' />
                         <CardContent>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
@@ -120,15 +107,10 @@ const JobManagementScreen = () => {
                                     />
                                 </Grid>
                                 <Grid item sx={{ mr: 6, mb: 2 }}>
-                                    <Box>
-                                        <Button variant="contained" onClick={() => setOpenAddModal(!openAddModal)}>
-                                            Add
-                                        </Button>
-                                    </Box>
                                 </Grid>
                             </Grid>
 
-                            <JobDatagrid
+                            <AppliedDataGrid
                                 page={page - 1} // di MUI page pertama = 0
                                 rowCount={rowCount}
                                 pageSize={perPage}
@@ -139,19 +121,11 @@ const JobManagementScreen = () => {
                     </Card>
                 </Grid>
             </Grid>
-
-            <DialogAdd visible={openAddModal}
-                onStateChange={() => setHookSignature(v4())}
-                onCloseClick={() => setOpenAddModal(!openAddModal)} />
             {selectedItem && (
                 <>
-                    <DialogDelete selectedItem={selectedItem}
-                        visible={openDelModal}
-                        onStateChange={() => setHookSignature(v4())}
-                        onCloseClick={() => setOpenDelModal(!openDelModal)} />
-                    <DialogEdit key={selectedItem.id} selectedItem={selectedItem}
-                        visible={openEditModal}
-                        onCloseClick={() => setOpenEditModal(!openEditModal)}
+                    <DialogView key={selectedItem.id} selectedItem={selectedItem}
+                        visible={openViewModal}
+                        onCloseClick={() => setOpenViewModal(!openViewModal)}
                         onStateChange={() => setHookSignature(v4())} />
                 </>
             )}
@@ -159,9 +133,9 @@ const JobManagementScreen = () => {
     )
 }
 
-JobManagementScreen.acl = {
+JobApplied.acl = {
     action: 'read',
-    subject: 'user-job-management'
-};
+    subject: 'company-job-applied'
+}
 
-export default JobManagementScreen
+export default JobApplied
