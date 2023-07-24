@@ -44,7 +44,7 @@ import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
-
+ 
 type FormData = {
   fullName: string
   country: string
@@ -102,8 +102,7 @@ const names = [
   'English',
   'Mandarin',
   'Arab',
-  'Melayu',
-
+  'Melayu', 
 ]
 
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
@@ -113,16 +112,18 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 }
 
 const CandidateProfile = (props: compProps) => {
-  const theme = useTheme()
-
-  if (props.datauser?.employee_type == 'onship') {
-    ship = { employee_type: 'onship', label: 'On-Ship' }
-    //  tampilkanship = ship.label
-  } else if (props.datauser?.employee_type == 'onship') {
-    ship = { employee_type: 'offship', label: 'Off-Ship' }
-    // tampilkanship = ship.label
-  }
-  const [hookSignature, setHookSignature] = useState(v4())
+ 
+   const theme = useTheme()
+ 
+   if (props.datauser?.employee_type == 'onship') {
+     ship = { employee_type: 'onship', label: 'On-Ship' }
+     //  tampilkanship = ship.label
+   } else if (props.datauser?.employee_type == 'onship') {
+     ship = { employee_type: 'offship', label: 'Off-Ship' }
+     // tampilkanship = ship.label
+   } 
+    const [hookSignature, setHookSignature] = useState(v4())
+ 
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboroleLevel, getComborolLevel] = useState<any>([])
   const [comboroleType, getComborolType] = useState<any>([])
@@ -140,18 +141,20 @@ const CandidateProfile = (props: compProps) => {
   const [idcomborolLevel, setComboRolLevel] = useState<any>(props.datauser?.field_preference?.role_level?.id)
   const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
   const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id)
-  const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id)
+ 
+  const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id) 
   const [openAddModal, setOpenAddModal] = useState(false)
   const [openAddModalWE, setOpenAddModalWE] = useState(false)
-  const [openAddModalDoc, setOpenAddModalDoc] = useState(false)
+  const [openAddModalDoc, setOpenAddModalDoc] = useState(false) 
   const [openEditModal, setOpenEditModal] = useState(false)
-  const [openEditModalWE, setOpenEditModalWE] = useState(false)
-  const [openEditModalDoc, setOpenEditModalDoc] = useState(false)
-  const [itemData, getItemdata] = useState<any[]>([])
+  const [openEditModalWE, setOpenEditModalWE] = useState(false) 
+  const [openEditModalDoc, setOpenEditModalDoc] = useState(false)  
+  const [itemData, getItemdata] = useState<any[]>([]) 
   const [itemDataWE, getItemdataWE] = useState<any[]>([])
-  const [itemDataED, getItemdataED] = useState<any[]>([])
-  const [selectedItem, setSelectedItem] = useState<any>()
-  const [personName, setPersonName] = React.useState<string[]>(props.datauser?.field_preference?.spoken_langs)
+  const [itemDataED, getItemdataED] = useState<any[]>([]) 
+  const [selectedItem, setSelectedItem] = useState<any>() 
+  const [personName, setPersonName] = React.useState<string[]>(props.datauser?.field_preference?.spoken_langs) 
+ 
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value }
@@ -162,7 +165,9 @@ const CandidateProfile = (props: compProps) => {
     )
   }
 
-  const combobox = () => {
+ 
+  const combobox = () => { 
+ 
     HttpClient.get(AppConfig.baseUrl + '/public/data/role-level?search=&page=1&take=100').then(response => {
       const code = response.data.roleLevels.data
       getComborolLevel(code)
@@ -267,29 +272,30 @@ const CandidateProfile = (props: compProps) => {
     setSelectedItem(item)
     setOpenEditModalWE(!openEditModalWE)
   }
-  const editDocument = (item: any) => {
+ 
+  const editDocument= (item: any) => {
     setSelectedItem(item)
     setOpenEditModalDoc(!openEditModalDoc)
   }
-  const deletework = async (id: any) => {
-
-    const resp = await HttpClient.del(`/user/document/` + id)
-    if (resp.status != 200) {
-      throw resp.data.message ?? 'Something went wrong!'
-    }
-    combobox();
-    toast.success(
-      `  deleted successfully!`
-    )
+  const deletework  = async (id:any) => {
+    
+     const resp = await HttpClient.del(`/user/document/` + id)
+     if (resp.status != 200) {
+       throw resp.data.message ?? 'Something went wrong!'
+     }
+     combobox();
+      toast.success(
+       `  deleted successfully!`
+     )
   }
-  const deleteeducation = async (id: any) => {
-    const resp = await HttpClient.del(`/user/education/` + id)
-    if (resp.status != 200) {
-      throw resp.data.message ?? 'Something went wrong!'
-    }
-    combobox()
-    toast.success(`  deleted successfully!`)
-  }
+   const deleteeducation = async (id: any) => {
+     const resp = await HttpClient.del(`/user/education/` + id)
+     if (resp.status != 200) {
+       throw resp.data.message ?? 'Something went wrong!'
+     }
+     combobox()
+     toast.success(`  deleted successfully!`)
+   }
   const deletewe = async (id: any) => {
     const resp = await HttpClient.del(`/user/experience/` + id)
     if (resp.status != 200) {
@@ -298,7 +304,8 @@ const CandidateProfile = (props: compProps) => {
     combobox()
     toast.success(`  deleted successfully!`)
   }
-
+ 
+ 
   const onSubmit = (data: FormData) => {
     const { fullName, website, phone, address, about } = data
 
@@ -459,7 +466,9 @@ const CandidateProfile = (props: compProps) => {
             <CardMedia
               component='img'
               alt='profile-header'
+ 
               image={previewBanner ? previewBanner : '/images/avatars/headerprofile3.png'}
+ 
               sx={{
                 height: { xs: 150, md: 250 },
                 width: '100%'
@@ -467,9 +476,11 @@ const CandidateProfile = (props: compProps) => {
             />
           </Card>
 
+ 
           <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '30%', md: '20%' } }}>
             <label htmlFor='raised-button-file-banner'>
               <Icon fontSize='large' icon={'bi:camera'} color={'black'} style={{ fontSize: '36px' }} />
+ 
             </label>
           </Box>
         </BoxWrapper>
@@ -895,8 +906,8 @@ const CandidateProfile = (props: compProps) => {
                           </Grid>
                         </Grid>
                         <Grid xs={12} md={2} marginTop={2} display='flex' item container>
-
-                          <Grid xs={12} display='flex' item container>
+ 
+                        <Grid xs={12} display='flex' item container>
                             <Grid
                               xs={12}
                               md={12}
@@ -907,22 +918,28 @@ const CandidateProfile = (props: compProps) => {
                             >
                               <Box margin={1}>
                                 <Button
+ 
                                   variant='outlined'
                                   color='primary'
                                   size='small'
                                   onClick={() => editEducation(item)}
                                 >
                                   <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
+ 
                                 </Button>
                               </Box>
                               <Box margin={1}>
                                 <Button
+ 
                                   variant='outlined'
+ 
                                   color='error'
                                   size='small'
                                   onClick={() => deleteeducation(item.id)}
                                 >
+ 
                                   <Icon fontSize='large' icon={'fluent:delete-32-filled'} color={'error'} style={{ fontSize: '24px' }} />
+ 
                                 </Button>
                               </Box>
                             </Grid>
@@ -992,6 +1009,7 @@ const CandidateProfile = (props: compProps) => {
                           </Grid>
                         </Grid>
                         <Grid xs={12} md={2} marginTop={2} display='flex' item container>
+ 
                           <Grid xs={12} display='flex' item container>
                             <Grid
                               xs={12}
@@ -1003,22 +1021,28 @@ const CandidateProfile = (props: compProps) => {
                             >
                               <Box margin={1}>
                                 <Button
+ 
                                   variant='outlined'
                                   color='primary'
                                   size='small'
                                   onClick={() => editWorkExperience(item)}
                                 >
                                   <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
+ 
                                 </Button>
                               </Box>
                               <Box margin={1}>
                                 <Button
+ 
                                   variant='outlined'
+ 
                                   color='error'
                                   size='small'
                                   onClick={() => deletewe(item.id)}
                                 >
+ 
                                   <Icon fontSize='large' icon={'fluent:delete-32-filled'} color={'error'} style={{ fontSize: '24px' }} />
+ 
                                 </Button>
                               </Box>
                             </Grid>
@@ -1057,14 +1081,17 @@ const CandidateProfile = (props: compProps) => {
                   {itemData.map(item => (
                     <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
                       <Grid xs={12} md={9} container direction='row' alignItems='center'>
+ 
                         <Icon fontSize='large' icon={'solar:document-bold'} color={'info'} style={{ fontSize: '24px', margin: '5px' }} />
                         <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
                           {item.document_name}
                         </Typography>
+ 
                       </Grid>
                       <Grid xs={12} md={3} display='flex' item container>
                         <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
                           <Box margin={1}>
+ 
                             <Button
                               variant='outlined'
                               color='info'
@@ -1092,6 +1119,7 @@ const CandidateProfile = (props: compProps) => {
                               onClick={() => deletework(item.id)}
                             >
                               <Icon fontSize='large' icon={'fluent:delete-32-filled'} color={'error'} style={{ fontSize: '24px' }} />
+ 
                             </Button>
                           </Box>
                         </Grid>
