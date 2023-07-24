@@ -15,8 +15,8 @@ import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { faCalendar } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment'
-import { Avatar } from '@mui/material'
-import { getUserAvatar } from 'src/utils/helpers'
+import { Avatar, Button } from '@mui/material'
+import { formatIDR, getUserAvatar } from 'src/utils/helpers'
 
 
 const Transition = forwardRef(function Transition(
@@ -86,6 +86,13 @@ const DialogView = (props: ViewProps) => {
                         <Box>
                             <Typography>{selectedItem?.category?.category}</Typography>
                         </Box>
+                    </Box>
+                </Box>
+
+                <Box sx={{ mb: 6 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                        <Typography variant='h6' mt={1} width={155}>{formatIDR(selectedItem.price)}</Typography>
+                        <Button variant='contained'>Buy It</Button>
                     </Box>
                 </Box>
 

@@ -4,6 +4,7 @@ import { IUser } from "./user";
 interface Training {
     id: number,
     user_id: number,
+    price: number,
     category_id: number,
     title: string,
     schedule: string,
