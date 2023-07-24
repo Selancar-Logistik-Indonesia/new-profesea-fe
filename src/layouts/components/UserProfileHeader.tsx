@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Button, Divider, Grid, IconButton } from '@mui/material'
+import { Button, Divider, Grid } from '@mui/material'
 import Icon from 'src/@core/components/icon' 
 
 
@@ -179,16 +179,16 @@ useEffect(() => {
             >
               <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
                 <Icon icon='mdi:facebook' />
-                <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                  <a href={facebook} target='_blank'>
+                <Typography variant='body1' sx={{ color: '#0a66c2', fontWeight: 400 }}>
+                  <a href={facebook} target='_blank' style={{ textDecoration: 'none' }}>
                     {facebook}
                   </a>
                 </Typography>
               </Box>
               <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
                 <Icon icon='mdi:instagram' />
-                <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                  <a href={instagram} target='_blank'>
+                <Typography variant='body1' sx={{ color: '#0a66c2', fontWeight: 400 }}>
+                  <a href={instagram} target='_blank' style={{ textDecoration: 'none' }}>
                     {instagram}
                   </a>
                 </Typography>
@@ -196,8 +196,8 @@ useEffect(() => {
 
               <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
                 <Icon icon='mdi:linkedin' />
-                <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                  <a href={linkedin} target='_blank'>
+                <Typography variant='body1' sx={{ color: '#0a66c2', fontWeight: 400 }}>
+                  <a href={linkedin} target='_blank' style={{ textDecoration: 'none' }}>
                     {linkedin}
                   </a>
                 </Typography>
@@ -206,9 +206,9 @@ useEffect(() => {
           </Grid>
           <Grid item xs={12} md={1} marginTop={'-5px'}>
             <Grid container direction='row' justifyContent='flex-end' alignItems='flex-end'>
-              <IconButton LinkComponent={Link} href='/company' sx={{ color: '#424242', fontWeight: 400 }}>
-                <Icon fontSize='medium' icon={'charm:pencil'} />
-              </IconButton>
+              <Button LinkComponent={Link} href='/company'>
+                <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
+              </Button>
             </Grid>
           </Grid>
         </Grid>
