@@ -1,29 +1,40 @@
 import React, { useEffect, useState } from 'react'
 import { Grid } from '@mui/material'
 import { HttpClient } from 'src/services'
-import { AppConfig } from 'src/configs/api'
-import ListThread from './ListThread'
+import ListThreadView from '../../views/community/ListThreadView'
+import { ThreadProvider } from 'src/context/ThreadContext'
+import { useThread } from 'src/hooks/useThread'
 
 const Community = () => {
-  const [listThread, setlistThread] = useState<any>([])
+  return (
+    <ThreadProvider>
+      <CommunityApp />
+    </ThreadProvider>
+  )
+}
+
+const CommunityApp = () => {
+  const [listThread, setlistThread] = useState<any>([]);
+  const { page } = useThread();
 
   const firstload = () => {
-    HttpClient.get(AppConfig.baseUrl + '/thread?page=1&take=10&search=').then(response => {
-      const code = response.data.threads.data
-
-      setlistThread(code)
-    })
+    HttpClient.get('/thread', { page: page, take: 15, search: '' })
+      .then(response => {
+        const code = response.data.threads.data
+        setlistThread(code)
+      }).catch(() => alert("Something went wrong"));
   }
+
   useEffect(() => {
     firstload()
-  }, [])
+  }, [page]);
 
   return (
     <Grid container spacing={6}>
       <Grid item lg={12} md={9} xs={12}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <ListThread paramcomment={listThread}></ListThread>
+            <ListThreadView paramcomment={listThread} />
           </Grid>
         </Grid>
       </Grid>
@@ -31,9 +42,9 @@ const Community = () => {
   )
 }
 
-
 Community.acl = {
   action: 'read',
   subject: 'home'
 };
+
 export default Community

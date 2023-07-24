@@ -19,9 +19,7 @@ export type ParamMain = {
   created_at: string
 }
 
-// export type ProfileTeamsType = ProfileTabCommonType & { color: ThemeColor }
 interface Props {
-  // teams: ProfileTeamsType[]
   paramcomment: ParamMain[]
 }
 
@@ -91,10 +89,8 @@ const renderList = (arr: ParamMain[]) => {
   }
 }
 
-
-const ListThread = (props: Props) => {
+const ListThreadView = (props: Props) => {
   const { paramcomment } = props
-
 
   return (
     <Grid container spacing={6}>
@@ -110,4 +106,4 @@ const ListThread = (props: Props) => {
   )
 }
 
-export default ListThread
+export default ListThreadView

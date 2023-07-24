@@ -45,30 +45,16 @@ const FeedCard = (props: { item: ISocialFeed }) => {
           <ImageListPreview urls={attachments} />
         )}
 
-        <Typography variant='body1' sx={{ color: '#424242', fontSize: '0.7rem', fontWeight: 400, margin: '5px' }}>
-          {item.content}
-        </Typography>
-      </Box>
-      <Box>
-        <Button
-          sx={{ fontSize: '0.7rem', textTransform: 'none' }}
-          size='small'
-          color='primary'
-          startIcon={<Icon icon='ic:round-repeat' fontSize={10} />}
-        >
-          Repost
-        </Button>
-        <Button
-          sx={{ fontSize: '0.7rem', textTransform: 'none' }}
-          size='small'
-          color='primary'
-          startIcon={<Icon icon='solar:share-linear' fontSize={10} />}
-        >
-          Share
-        </Button>
-        <ButtonLike item={{ id: item.id, count_likes: item.count_likes, liked_at: item.liked_at }} likeableType="feed" />
-        <ButtonComment replyCount={item.count_comments} onClick={() => setOpenComment(!openComment)} />
-      </Box>
+                <Typography variant="body1" sx={{ color: "#424242", fontWeight: 400, margin: "5px" }}>
+                    {item.content}
+                </Typography>
+            </Box>
+            <Box>
+                {/* <Button sx={{ textTransform: 'none' }} size='small' color='primary' startIcon={<Icon icon='ic:round-repeat' fontSize={10} />}>Repost</Button> */}
+                <Button sx={{ textTransform: 'none' }} size='small' color='primary' startIcon={<Icon icon='solar:share-linear' fontSize={10} />}>Share</Button>
+                <ButtonLike item={item} />
+                <ButtonComment replyCount={item.count_comments} onClick={() => setOpenComment(!openComment)} />
+            </Box>
 
       {openComment && <CommentAreaView key={item.id} item={item} />}
     </Paper>
