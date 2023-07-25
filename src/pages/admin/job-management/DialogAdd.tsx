@@ -23,8 +23,11 @@ import RoleLevel from 'src/contract/models/role_level'
 import RoleType from 'src/contract/models/role_type'
 import Countries from 'src/contract/models/country'
 import City from 'src/contract/models/city'
+import { DateType } from 'src/contract/models/DatepickerTypes'
 import { styled } from '@mui/material/styles'
 import { Autocomplete, TextareaAutosize } from '@mui/material'
+import DatePicker from 'react-datepicker'
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 
@@ -94,6 +97,7 @@ const DialogAdd = (props: DialogProps) => {
     const [CatId, setCatId] = useState(0);
     const [CouId, setCouId] = useState(0);
     const [CitId, setCitId] = useState('');
+    const [date, setDate] = useState<DateType>(new Date());
 
     const [JobCategory, getJobCategory] = useState<any[]>([]);
     const [Education, getEducation] = useState<any[]>([]);
@@ -185,7 +189,12 @@ const DialogAdd = (props: DialogProps) => {
             "salary_start": salary_start,
             "salary_end": salary_end,
             "experience": experience,
-            "description": description
+            "description": description,
+            "onboard_at": date?.toLocaleDateString("en-GB", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
+            }).split('/').reverse().join('-')
         }
 
         setOnLoading(true);
@@ -246,7 +255,7 @@ const DialogAdd = (props: DialogProps) => {
                                 options={RoleType}
                                 {...register("role_type")}
                                 getOptionLabel={(option: RoleType) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Role Type" />}
+                                renderInput={(params) => <TextField {...params} label="Job Title" />}
                                 onChange={(event: any, newValue: RoleType | null) => (newValue?.id) ? setTypeId(newValue.id) : setTypeId(0)}
                             />
                         </Grid>
@@ -322,6 +331,18 @@ const DialogAdd = (props: DialogProps) => {
                             />
                         </Grid>
                         <Grid item md={6} xs={12} >
+                            <DatePickerWrapper>
+                                <DatePicker
+                                dateFormat='dd/MM/yyyy'
+                                selected={date}
+                                id='basic-input'
+                                onChange={(date: Date) => setDate(date)}
+                                placeholderText='Click to select a date'
+                                customInput={<TextField label='Schedule' variant="outlined" fullWidth  {...register("onboard_at")} />}
+                                />
+                            </DatePickerWrapper>
+                        </Grid>
+                        <Grid item md={12} xs={12} >
                             <TextField id="license" label="License" variant="outlined" fullWidth {...register("license")} />
                         </Grid>
                         <Grid item md={6} xs={12} >
