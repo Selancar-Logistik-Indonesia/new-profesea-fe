@@ -6,9 +6,9 @@ import RecomendedView from 'src/views/find-candidate/RecomendedView'
 import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'  
 import JobCategory from 'src/contract/models/job_category'  
-import Countries from 'src/contract/models/country'
-import { AppConfig } from 'src/configs/api'
-import City from 'src/contract/models/city'
+// import Countries from 'src/contract/models/country'
+// import { AppConfig } from 'src/configs/api'
+// import City from 'src/contract/models/city'
 
 const FindCandidate = () => {
   function valuetext(value: number) { 
@@ -28,23 +28,22 @@ const FindCandidate = () => {
   const [collapsed3, setCollapsed3] = useState<boolean>(false)
   const [collapsed4, setCollapsed4] = useState<boolean>(false)  
   const [collapsed5, setCollapsed5] = useState<boolean>(false)
-  const [collapsed6, setCollapsed6] = useState<boolean>(false)
-  const [collapsed7, setCollapsed7] = useState<boolean>(false)
-  const [collapsed8, setCollapsed8] = useState<boolean>(false)
+  // const [collapsed6, setCollapsed6] = useState<boolean>(false)
+  // const [collapsed7, setCollapsed7] = useState<boolean>(false)
   const [JobCategory, getJobCategory] = useState<any[]>([]) 
-  const [idposition, setPosition] = useState<any>(0)  
-  const [idcountry, setCountry] = useState<any>()
-  const [combocity, getComboCity] = useState<any[]>([])
-  const [idcity, setCombocity] = useState<any>(0)
-  const [combocode, getCombocode] = useState<any[]>([]) 
+  // const [idposition, setPosition] = useState<any>(0)  
+  // const [idcountry, setCountry] = useState<any>()
+  // const [combocity, getComboCity] = useState<any[]>([])
+  // const [idcity, setCombocity] = useState<any>(0)
+  // const [combocode, getCombocode] = useState<any[]>([]) 
  const [valueSalary, setValueSalary] = React.useState<number[]>([0, 100000000])
  const handleChangeSalary = (event: Event, newValue: number | number[]) => {
    setValueSalary(newValue as number[])
  }
- const position = [
-   { label: 'Onship', id: 0 },
-   { label: 'Offship', id: 1 }
- ]
+//  const position = [
+//    { label: 'Onship', id: 0 },
+//    { label: 'Offship', id: 1 }
+//  ]
 
   const getListCandidates = async () => {
     const response = await HttpClient.get('/candidate?page=1&take=25&search', {
@@ -63,26 +62,26 @@ const FindCandidate = () => {
      }
      getJobCategory(res2.data.categories.data)
      
-    HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
-      const code = response.data.countries
-      for (let x = 0; x < code.length; x++) {
-        const element = code[x]
-        element.label = element.name + '(' + element.phonecode + ')'
-      }
-      getCombocode(code)
-    })
-    console.log({ idposition }, { idcountry }, { idcountry }, { idcity })
+    // HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
+    //   const code = response.data.countries
+    //   for (let x = 0; x < code.length; x++) {
+    //     const element = code[x]
+    //     element.label = element.name + '(' + element.phonecode + ')'
+    //   }
+    //   getCombocode(code)
+    // })
+    // console.log({ idposition }, { idcountry }, { idcountry }, { idcity })
     
   }
-  const searchcity = async (q: any) => {
-    setCountry(q)
-    const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
-    if (resp.status != 200) {
-      throw resp.data.message ?? 'Something went wrong!'
-    }
-    const code = resp.data.cities
-    getComboCity(code)
-  }
+  // const searchcity = async (q: any) => {
+  //   setCountry(q)
+  //   const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
+  //   if (resp.status != 200) {
+  //     throw resp.data.message ?? 'Something went wrong!'
+  //   }
+  //   const code = resp.data.cities
+  //   getComboCity(code)
+  // }
 
   useEffect(() => {
     getListCandidates()
@@ -202,43 +201,6 @@ const FindCandidate = () => {
               </Collapse>
             </Card>
           </Box>
-
-          <Box mb={3}>
-            <Card>
-              <CardHeader
-               title={
-                <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                  Job Title
-                </Typography>
-              }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse'
-                    sx={{ color: '#424242' }}
-                    onClick={() => setCollapsed3(!collapsed3)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed3 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed3}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={JobCategory}
-                    getOptionLabel={(option: JobCategory) => option.name}
-                    renderInput={params => <TextField {...params} label='Job Title' />}
-                    onChange={(event: any, newValue: JobCategory | null) =>
-                      newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
-                    }
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>
-          
           <Box mb={3}>
             <Card>
               <CardHeader
@@ -250,15 +212,15 @@ const FindCandidate = () => {
                 action={
                   <IconButton
                     size='small'
-                    aria-label='collapse'
+                    aria-label='collapse3'
                     sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed4(!collapsed4)}
+                    onClick={() => setCollapsed3(!collapsed3)}
                   >
-                    <Icon fontSize={20} icon={!collapsed4 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                    <Icon fontSize={20} icon={!collapsed3 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
                   </IconButton>
                 }
               />
-              <Collapse in={collapsed4}>
+              <Collapse in={collapsed3}>
                 <CardContent>
                  
                   <br></br>
@@ -280,38 +242,6 @@ const FindCandidate = () => {
           <Box mb={3}>
             <Card>
               <CardHeader
-                title={
-                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Availability
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse'
-                    sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed5(!collapsed5)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed5 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed5}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id='position'
-                    options={!position ? [{ label: 'Loading...', id: 0 }] : position}
-                    renderInput={params => <TextField {...params} label='Availability' sx={{ mb: 2 }} />}
-                    onChange={(event: any, newValue: any | null) => setPosition(newValue)}
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>
-          <Box mb={3}>
-            <Card>
-              <CardHeader
                title={
                 <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
                   Type of Vessel
@@ -320,22 +250,22 @@ const FindCandidate = () => {
                 action={
                   <IconButton
                     size='small'
-                    aria-label='collapse'
+                    aria-label='collapse4'
                     sx={{ color: '#424242' }}
-                    onClick={() => setCollapsed6(!collapsed6)}
+                    onClick={() => setCollapsed4(!collapsed4)}
                   >
-                    <Icon fontSize={20} icon={!collapsed6 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                    <Icon fontSize={20} icon={!collapsed4 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
                   </IconButton>
                 }
               />
-              <Collapse in={collapsed6}>
+              <Collapse in={collapsed4}>
                 <CardContent>
                   <Autocomplete
                     disablePortal
                     id='combo-box-demo'
                     options={JobCategory}
                     getOptionLabel={(option: JobCategory) => option.name}
-                    renderInput={params => <TextField {...params} label='Job Category' />}
+                    renderInput={params => <TextField {...params} label='Type of Vessel' />}
                     onChange={(event: any, newValue: JobCategory | null) =>
                       newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
                     }
@@ -349,80 +279,33 @@ const FindCandidate = () => {
               <CardHeader
                 title={
                   <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Location
+                    License
                   </Typography>
                 }
                 action={
                   <IconButton
                     size='small'
-                    aria-label='collapse'
+                    aria-label='collapse5'
                     sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed7(!collapsed7)}
+                    onClick={() => setCollapsed5(!collapsed5)}
                   >
-                    <Icon fontSize={20} icon={!collapsed7 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                    <Icon fontSize={20} icon={!collapsed5 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
                   </IconButton>
                 }
               />
-              <Collapse in={collapsed7}>
+              <Collapse in={collapsed5}>
                 <CardContent>
-                  <Autocomplete
+                  {/* <Autocomplete
                     disablePortal
                     id='code'
                     options={combocode}
                     getOptionLabel={(option: Countries) => option.nicename}
                     // defaultValue={props.datauser?.country}
-                    renderInput={params => <TextField {...params} label='Location' sx={{ mb: 2 }} />}
+                    renderInput={params => <TextField {...params} label='License' sx={{ mb: 2 }} />}
                     onChange={(event: any, newValue: Countries | null) =>
                       newValue?.id ? searchcity(newValue.id) : searchcity(0)
                     }
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>
-          <Box mb={3}>
-            <Card>
-              <CardHeader
-                title={
-                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Region of Travel
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse'
-                    sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed8(!collapsed8)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed8 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed8}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id='code'
-                    options={combocode}
-                    getOptionLabel={(option: Countries) => option.nicename}
-                    // defaultValue={props.datauser?.country}
-                    renderInput={params => <TextField {...params} label='Code' sx={{ mb: 2 }} />}
-                    onChange={(event: any, newValue: Countries | null) =>
-                      newValue?.id ? searchcity(newValue.id) : searchcity(0)
-                    }
-                  />
-                  <Autocomplete
-                    disablePortal
-                    id='city'
-                    // value={props.datauser.address?.city}
-                    options={combocity}
-                    getOptionLabel={(option: City) => option.city_name}
-                    renderInput={params => <TextField {...params} label='City' sx={{ mb: 2 }} />}
-                    onChange={(event: any, newValue: City | null) =>
-                      newValue?.id ? setCombocity(newValue.id) : setCombocity(0)
-                    }
-                  />
+                  /> */}
                 </CardContent>
               </Collapse>
             </Card>
