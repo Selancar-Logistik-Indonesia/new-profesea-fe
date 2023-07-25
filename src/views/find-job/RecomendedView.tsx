@@ -25,11 +25,11 @@ const renderList = (listJob: Job[]) => {
 
   return listJob.map((item) => {
     const userPhoto = (item?.company?.photo) ? item?.company?.photo : "/images/avatars/default-user.png";
-    
+
     return (
       <Grid item xs={12} md={4} key={item?.id} >
         <Paper sx={{ marginTop: '10px' }} >
-        <Link style={{ textDecoration: 'none' }} href={'/candidate/job/?id='+item?.id} >
+          <Link style={{ textDecoration: 'none' }} href={'/candidate/job/?id=' + item?.id} >
             <Box
               height={65}
               sx={{
@@ -54,19 +54,19 @@ const renderList = (listJob: Job[]) => {
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={2}>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} >
               <Icon icon='mdi:account-tie' color='#32487A' />
-              <Typography sx={{ color: '#424242' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
+              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                 {item?.rolelevel?.levelName}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} >
-              <Icon icon='mdi:currency-usd' color='#32487A'  />
-              <Typography sx={{ color: '#424242' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
+              <Icon icon='mdi:currency-usd' color='#32487A' />
+              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                 Up to Rp. {item?.salary_end}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
               <Icon icon='mdi:school' color='#32487A' />
-              <Typography sx={{ color: '#424242' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
+              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                 {item?.degree?.name}
               </Typography>
             </Box>

@@ -50,7 +50,7 @@ const firstload = () => {
     
   return (
       <Grid item xs={12}>
-        
+
             <Card>
               <CardContent>
                 <Box sx={{ mb: 7 }}>
@@ -142,7 +142,7 @@ const firstload = () => {
                       <Card>
                         <CardHeader 
                         title={
-                          <Typography variant="body2" style={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}>
+                          <Typography variant="body2" style={{ color: '#424242', fontSize: '16px', fontWeight: '600' }}>
                             About Recruiter
                           </Typography>
                         }

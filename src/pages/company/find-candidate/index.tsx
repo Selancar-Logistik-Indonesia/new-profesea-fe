@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Autocomplete, Card, CardContent, CardHeader, Collapse, Grid, IconButton, Tab, Tabs, TextField,   Slider } from '@mui/material'
+import { Autocomplete, Card, CardContent, CardHeader, Collapse, Grid, IconButton, Tab, Tabs, TextField, Typography, Slider } from '@mui/material'
 import { Icon } from '@iconify/react' 
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
 import { IUser } from 'src/contract/models/user'
@@ -26,7 +26,11 @@ const FindCandidate = () => {
   const [collapsed, setCollapsed] = useState<boolean>(true)
   const [collapsed2, setCollapsed2] = useState<boolean>(false)
   const [collapsed3, setCollapsed3] = useState<boolean>(false)
-  const [collapsed4, setCollapsed4] = useState<boolean>(false)
+  const [collapsed4, setCollapsed4] = useState<boolean>(false)  
+  const [collapsed5, setCollapsed5] = useState<boolean>(false)
+  const [collapsed6, setCollapsed6] = useState<boolean>(false)
+  const [collapsed7, setCollapsed7] = useState<boolean>(false)
+  const [collapsed8, setCollapsed8] = useState<boolean>(false)
   const [JobCategory, getJobCategory] = useState<any[]>([]) 
   const [idposition, setPosition] = useState<any>(0)  
   const [idcountry, setCountry] = useState<any>()
@@ -124,14 +128,18 @@ const FindCandidate = () => {
   }
 
   return (
+    <Box>
     <Grid container spacing={2}>
       <Grid container spacing={6}>
         <Grid item lg={3} md={5} xs={12}>
           <Box mb={3}>
             <Card>
               <CardHeader
-                titleTypographyProps={{ variant: 'subtitle2', color: '#424242' }}
-                title='Category'
+               title={
+                <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
+                  Role Level
+                </Typography>
+              }
                 action={
                   <IconButton
                     size='small'
@@ -150,7 +158,7 @@ const FindCandidate = () => {
                     id='combo-box-demo'
                     options={JobCategory}
                     getOptionLabel={(option: JobCategory) => option.name}
-                    renderInput={params => <TextField {...params} label='Job Category' />}
+                    renderInput={params => <TextField {...params} label='Role Level' />}
                     onChange={(event: any, newValue: JobCategory | null) =>
                       newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
                     }
@@ -162,13 +170,16 @@ const FindCandidate = () => {
           <Box mb={3}>
             <Card>
               <CardHeader
-                titleTypographyProps={{ variant: 'body2' }}
-                title='Salary Range'
+               title={
+                <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
+                  Role Type
+                </Typography>
+              }
                 action={
                   <IconButton
                     size='small'
                     aria-label='collapse'
-                    sx={{ color: 'text.secondary' }}
+                    sx={{ color: '#424242' }}
                     onClick={() => setCollapsed2(!collapsed2)}
                   >
                     <Icon fontSize={20} icon={!collapsed2 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
@@ -177,32 +188,34 @@ const FindCandidate = () => {
               />
               <Collapse in={collapsed2}>
                 <CardContent>
-                 
-                  <br></br>
-                  <Slider
-                    getAriaLabel={() => 'Rp'}
-                    min={0}
-                    step={100000}
-                    max={100000000}
-                    value={valueSalary}
-                    onChange={handleChangeSalary}
-                    valueLabelDisplay='on'
-                    valueLabelFormat={valuetext}
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-demo'
+                    options={JobCategory}
+                    getOptionLabel={(option: JobCategory) => option.name}
+                    renderInput={params => <TextField {...params} label='Role Type' />}
+                    onChange={(event: any, newValue: JobCategory | null) =>
+                      newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
+                    }
                   />
                 </CardContent>
               </Collapse>
             </Card>
           </Box>
+
           <Box mb={3}>
             <Card>
               <CardHeader
-                titleTypographyProps={{ variant: 'body2' }}
-                title='Availability'
+               title={
+                <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
+                  Job Title
+                </Typography>
+              }
                 action={
                   <IconButton
                     size='small'
                     aria-label='collapse'
-                    sx={{ color: 'text.secondary' }}
+                    sx={{ color: '#424242' }}
                     onClick={() => setCollapsed3(!collapsed3)}
                   >
                     <Icon fontSize={20} icon={!collapsed3 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
@@ -213,20 +226,27 @@ const FindCandidate = () => {
                 <CardContent>
                   <Autocomplete
                     disablePortal
-                    id='position'
-                    options={!position ? [{ label: 'Loading...', id: 0 }] : position}
-                    renderInput={params => <TextField {...params} label='Position' sx={{ mb: 2 }} />}
-                    onChange={(event: any, newValue: any | null) => setPosition(newValue)}
+                    id='combo-box-demo'
+                    options={JobCategory}
+                    getOptionLabel={(option: JobCategory) => option.name}
+                    renderInput={params => <TextField {...params} label='Job Title' />}
+                    onChange={(event: any, newValue: JobCategory | null) =>
+                      newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
+                    }
                   />
                 </CardContent>
               </Collapse>
             </Card>
           </Box>
+          
           <Box mb={3}>
             <Card>
               <CardHeader
-                titleTypographyProps={{ variant: 'body2' }}
-                title='Location'
+                title={
+                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
+                    Salary Range
+                  </Typography>
+                }
                 action={
                   <IconButton
                     size='small'
@@ -239,6 +259,147 @@ const FindCandidate = () => {
                 }
               />
               <Collapse in={collapsed4}>
+                <CardContent>
+                 
+                  <br></br>
+                  <Slider
+                    getAriaLabel={() => 'Rp'}
+                    min={0}
+                    step={100000}
+                    max={100000000}
+                    value={valueSalary}
+                    onChange={handleChangeSalary}
+                    valueLabelDisplay='on'
+                    valueLabelFormat={valuetext}
+                    size='small'
+                  />
+                </CardContent>
+              </Collapse>
+            </Card>
+          </Box>
+          <Box mb={3}>
+            <Card>
+              <CardHeader
+                title={
+                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
+                    Availability
+                  </Typography>
+                }
+                action={
+                  <IconButton
+                    size='small'
+                    aria-label='collapse'
+                    sx={{ color: 'text.secondary' }}
+                    onClick={() => setCollapsed5(!collapsed5)}
+                  >
+                    <Icon fontSize={20} icon={!collapsed5 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                  </IconButton>
+                }
+              />
+              <Collapse in={collapsed5}>
+                <CardContent>
+                  <Autocomplete
+                    disablePortal
+                    id='position'
+                    options={!position ? [{ label: 'Loading...', id: 0 }] : position}
+                    renderInput={params => <TextField {...params} label='Availability' sx={{ mb: 2 }} />}
+                    onChange={(event: any, newValue: any | null) => setPosition(newValue)}
+                  />
+                </CardContent>
+              </Collapse>
+            </Card>
+          </Box>
+          <Box mb={3}>
+            <Card>
+              <CardHeader
+               title={
+                <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
+                  Type of Vessel
+                </Typography>
+              }
+                action={
+                  <IconButton
+                    size='small'
+                    aria-label='collapse'
+                    sx={{ color: '#424242' }}
+                    onClick={() => setCollapsed6(!collapsed6)}
+                  >
+                    <Icon fontSize={20} icon={!collapsed6 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                  </IconButton>
+                }
+              />
+              <Collapse in={collapsed6}>
+                <CardContent>
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-demo'
+                    options={JobCategory}
+                    getOptionLabel={(option: JobCategory) => option.name}
+                    renderInput={params => <TextField {...params} label='Job Category' />}
+                    onChange={(event: any, newValue: JobCategory | null) =>
+                      newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
+                    }
+                  />
+                </CardContent>
+              </Collapse>
+            </Card>
+          </Box>
+          <Box mb={3}>
+            <Card>
+              <CardHeader
+                title={
+                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
+                    Location
+                  </Typography>
+                }
+                action={
+                  <IconButton
+                    size='small'
+                    aria-label='collapse'
+                    sx={{ color: 'text.secondary' }}
+                    onClick={() => setCollapsed7(!collapsed7)}
+                  >
+                    <Icon fontSize={20} icon={!collapsed7 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                  </IconButton>
+                }
+              />
+              <Collapse in={collapsed7}>
+                <CardContent>
+                  <Autocomplete
+                    disablePortal
+                    id='code'
+                    options={combocode}
+                    getOptionLabel={(option: Countries) => option.nicename}
+                    // defaultValue={props.datauser?.country}
+                    renderInput={params => <TextField {...params} label='Location' sx={{ mb: 2 }} />}
+                    onChange={(event: any, newValue: Countries | null) =>
+                      newValue?.id ? searchcity(newValue.id) : searchcity(0)
+                    }
+                  />
+                </CardContent>
+              </Collapse>
+            </Card>
+          </Box>
+          <Box mb={3}>
+            <Card>
+              <CardHeader
+                title={
+                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
+                    Region of Travel
+                  </Typography>
+                }
+                action={
+                  <IconButton
+                    size='small'
+                    aria-label='collapse'
+                    sx={{ color: 'text.secondary' }}
+                    onClick={() => setCollapsed8(!collapsed8)}
+                  >
+                    <Icon fontSize={20} icon={!collapsed8 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                  </IconButton>
+                }
+              />
+              <Collapse in={collapsed8}>
                 <CardContent>
                   <Autocomplete
                     disablePortal
@@ -324,6 +485,8 @@ const FindCandidate = () => {
         </Grid>
       </Grid>
     </Grid>
+
+    </Box>
   )
 }
 
