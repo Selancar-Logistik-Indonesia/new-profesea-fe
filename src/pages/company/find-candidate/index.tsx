@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Autocomplete, Card, CardContent, CardHeader, Collapse, Grid, IconButton, Tab, Tabs, TextField,   Slider } from '@mui/material'
+import { Autocomplete, Card, CardContent, CardHeader, Collapse, Grid, IconButton, Tab, Tabs, TextField,   Slider, Typography, useMediaQuery } from '@mui/material'
 import { Icon } from '@iconify/react' 
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
 import { IUser } from 'src/contract/models/user'
@@ -9,7 +9,7 @@ import JobCategory from 'src/contract/models/job_category'
 import Countries from 'src/contract/models/country'
 import { AppConfig } from 'src/configs/api'
 import City from 'src/contract/models/city'
-
+import { useTheme } from '@mui/material/styles'
 const FindCandidate = () => {
   function valuetext(value: number) { 
     const rp = formatrup.format(value)
@@ -21,8 +21,8 @@ const FindCandidate = () => {
    currency: 'IDR'
  })
   const [listCandidate, setListCandidate] = useState<IUser[]>([]) 
-  // const theme = useTheme()
-  // const hidden = useMediaQuery(theme.breakpoints.down('md'))
+  const theme = useTheme()
+  const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const [collapsed, setCollapsed] = useState<boolean>(true)
   const [collapsed2, setCollapsed2] = useState<boolean>(false)
   const [collapsed3, setCollapsed3] = useState<boolean>(false)
@@ -177,7 +177,6 @@ const FindCandidate = () => {
               />
               <Collapse in={collapsed2}>
                 <CardContent>
-                 
                   <br></br>
                   <Slider
                     getAriaLabel={() => 'Rp'}
@@ -281,28 +280,19 @@ const FindCandidate = () => {
                     borderRadius: '10px'
                   }}
                 >
-                  <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    aria-label='basic tabs example'
-                    sx={{
-                      '& button.Mui-selected': { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' }
-                    }}
-                  >
-                    <Tab label='Find Candidate' {...a11yProps(0)} />
-                    <Tab label='Job Applied' {...a11yProps(1)} />
-                  </Tabs>
+ 
                 </Box>
+
                 <Grid
                   container
                   sx={{
                     borderBottom: 1,
                     borderColor: 'divider',
                     boxSizing: 'border-box',
-                    // background: color,
+                    background: '#FFFFFF',
                     border: '1px solid rgba(76, 78, 100, 0.12)',
                     borderRadius: '10px',
-                    marginTop: '10px',
+                    // marginTop: '10px',
                     direction: 'row',
                     justifyContent: 'flex-start',
                     alignItems: 'top',
@@ -310,12 +300,25 @@ const FindCandidate = () => {
                   }}
                 >
                   <Grid item xs={12}>
-                    <TabPanel value={value} index={0}>
-                      <RecomendedView listCandidate={listCandidate} />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                      {/* <AllJobApplied></AllJobApplied> */}
-                    </TabPanel>
+                       <Box padding={5}>
+                        <Grid container spacing={2}>
+                          <Grid item xs={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
+                            <Grid container spacing={6}>
+                              <Grid item xs={12}>
+                                <Typography variant='h6' color={'#32487A'} fontWeight='600'>
+                                  {' '}
+                                  Find Candidate
+                                </Typography>
+                                <Typography fontSize={16} style={{ color: '#424242' }} marginTop={2} marginBottom={5}>
+                                  Based on your profile and search history
+                                </Typography>
+                                <RecomendedView listCandidate={listCandidate} />
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Box>
+   
                   </Grid>
                 </Grid>
               </Grid>
@@ -329,6 +332,6 @@ const FindCandidate = () => {
 
 FindCandidate.acl = {
   action: 'read',
-  subject: 'home'
+  subject: 'find-candidate'
 }
 export default FindCandidate
