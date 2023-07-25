@@ -108,7 +108,8 @@ const names = [
 
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
   return {
-    fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
+    fontWeight:
+      personName?.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
   }
 }
 
@@ -151,7 +152,7 @@ const CandidateProfile = (props: compProps) => {
   const [itemDataWE, getItemdataWE] = useState<any[]>([])
   const [itemDataED, getItemdataED] = useState<any[]>([]) 
   const [selectedItem, setSelectedItem] = useState<any>() 
-  const [personName, setPersonName] = React.useState<string[]>(props.datauser?.field_preference?.spoken_langs) 
+  const [personName, setPersonName] = React.useState<string[]>(props.datauser?.field_preference?.spoken_langs ? props.datauser?.field_preference?.spoken_langs:[]) 
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value }
@@ -436,7 +437,7 @@ const CandidateProfile = (props: compProps) => {
   }
  
   return (
-    <Grid container>
+    <Grid container padding={5}>
       <input
         accept='image/*'
         style={{ display: 'none', height: 250, width: '100%' }}
@@ -453,8 +454,7 @@ const CandidateProfile = (props: compProps) => {
           justifyContent: { xs: 'center', md: 'flex-start' }
         }}
       >
-        {' '}
-        <BoxWrapper>
+        <Box position={'relative'} width={'100%'}>
           <Card>
             <CardMedia
               component='img'
@@ -462,7 +462,8 @@ const CandidateProfile = (props: compProps) => {
               image={previewBanner ? previewBanner : '/images/avatars/headerprofile.png'}
               sx={{
                 height: { xs: 150, md: 250 },
-                width: '100%'
+                width: '100%',
+                objectFit: 'cover'
               }}
             />
           </Card>
@@ -472,7 +473,7 @@ const CandidateProfile = (props: compProps) => {
               <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
             </label>
           </Box>
-        </BoxWrapper>
+        </Box>
       </Grid>
 
       <CardContent
@@ -488,9 +489,9 @@ const CandidateProfile = (props: compProps) => {
         }}
       >
         <BoxWrapper>
-          <label htmlFor='raised-button-file'>
+          
             <ProfilePicture src={preview ? preview : '/images/avatars/1.png'} alt='profile-picture'></ProfilePicture>
-          </label>
+ 
           <input
             accept='image/*'
             style={{ display: 'none', height: 250, width: '100%' }}
@@ -499,7 +500,10 @@ const CandidateProfile = (props: compProps) => {
             type='file'
           ></input>
           <Box position={'absolute'} right={'10%'} bottom={'10%'}>
-            <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
+            <label htmlFor='raised-button-file'>
+                <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
+            </label>
+       
           </Box>
         </BoxWrapper>
       </CardContent>

@@ -1,3 +1,4 @@
+import City from "./city"
 import Country from "./country"
 import Province from "./province"
 import RegionTravel from "./regional_travel"
@@ -17,8 +18,9 @@ interface FieldPreference {
   vessel_type: VesselType
   region_travel: RegionTravel
   country: Country
+  city: City
   province: Province
-  spoken_langs:any
+  spoken_langs: any
 }
 
 export default FieldPreference;
