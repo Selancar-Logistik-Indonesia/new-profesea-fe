@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Button, Paper } from '@mui/material'
+import { Button, Link, Paper } from '@mui/material'
 import { Icon } from '@iconify/react'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -62,13 +62,13 @@ const renderList = (arr: ParamMain[]) => {
               <Grid xs={9}>
                 <Box display={'flex'}>
                   <Icon icon={'uil:comment'} fontSize={18} />
-                  <Typography variant='body1' sx={{ color: 'text.primary' }} fontSize={10} fontWeight={600} marginLeft={'10px'}>
-                    <a href={'/thread?id=' + item.id}  >
+                  <Typography variant='body1' sx={{ color: 'text.secondary' }} fontSize={11} fontWeight={600} marginLeft={'5px'} marginTop={'0.08rem'}>
+                    <Link href={'/thread?id=' + item.id} style={{ textDecoration: 'none' }}>
                       Replies  {item.replies_count
                         ? `${item.replies_count.toString().charAt(0).toUpperCase() + item.replies_count.toString().slice(1)
                         }`
                         : ''}
-                    </a>
+                    </Link>
 
                   </Typography>
                 </Box>
@@ -95,7 +95,7 @@ const ListThreadView = (props: Props) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} display={'flex'} alignContent={'flex-end'} justifyContent={'flex-end'}>
-        <Button variant='contained' href='thread/create'>
+        <Button variant='contained' href='/thread/create'>
           Create Thread
         </Button>
       </Grid>

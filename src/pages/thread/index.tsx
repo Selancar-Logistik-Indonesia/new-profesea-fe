@@ -52,148 +52,54 @@ const firstload = () => {
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid
-          container
-          xs={12}
-          md={10}
-          sx={
-            !hidden
-              ? {
-                  alignItems: 'stretch'
-                }
-              : {}
-          }
-        >
-          <Grid item container spacing={6}>
-            <Grid item lg={4} md={5} xs={12}>
-              <Profile datauser={userDetail} />
-              <br></br>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Card>
-                    <CardContent>
-                    <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }} display={'flex'}>
-                      <Icon icon={'arcticons:connect-you'} fontSize={24} />
-                      <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                        Total Connected :250
-                      </Typography>
+        <Grid item container spacing={6}>
+          <Grid item md={9} xs={12}>
+            <Grid container spacing={6}>
+              <Grid item xs={12}>
+                <Card>
+                  <CardContent
+                    sx={{
+                      background: 'rgba(253, 181, 40, 0.05)',
+                      border: '1px solid',
+                      borderColor: 'rgba(253, 181, 40, 0.50)'
+                    }}
+                  >
+                    <Box sx={{ mb: 7 }}>
+                      <Grid item container xs={12} justifyContent={'center'}>
+                        <Typography
+                          variant='body2'
+                          sx={{ mb: 4, color: '#424242', textTransform: 'uppercase', fontWeight: 600 }}
+                        >
+                          {listThread?.title}
+                        </Typography>
+                      </Grid>
+                      <Grid item container xs={12} justifyContent={'flex'}>
+                        <Typography
+                          variant='body1'
+                          sx={{ mb: 4, color: '#424242', textTransform: 'uppercase', fontWeight: 300 }}
+                        >
+                          {listThread?.content}
+                        </Typography>
+                      </Grid>
+                      <Grid item container xs={12} justifyContent={'flex'}>
+                        <CommentForm  />
+                          
+                      </Grid>
                     </Box>
-                    <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }} display={'flex'}>
-                      <Icon icon={'arcticons:connect-you'} fontSize={24} />{' '}
-                      <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                        {' '}
-                        Total Visitor :250
-                      </Typography>
-                    </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
+                  </CardContent>
+                </Card>
               </Grid>
-
-              <br></br>
-              <Feed  ></Feed>
-            </Grid>
-            <Grid item lg={8} md={7} xs={12}>
-              <Grid container spacing={6}>
-                <Grid item xs={12}>
-                  <Card>
-                    <CardContent
-                      sx={{
-                        background: 'rgba(253, 181, 40, 0.05)',
-                        border: '1px solid',
-                        borderColor: 'rgba(253, 181, 40, 0.50)'
-                      }}
-                    >
-                      <Box sx={{ mb: 7 }}>
-                        <Grid item container xs={12} justifyContent={'center'}>
-                          <Typography
-                            variant='body2'
-                            sx={{ mb: 4, color: '#424242', textTransform: 'uppercase', fontWeight: 600 }}
-                          >
-                            {listThread?.title}
-                          </Typography>
-                        </Grid>
-                        <Grid item container xs={12} justifyContent={'flex'}>
-                          <Typography
-                            variant='body1'
-                            sx={{ mb: 4, color: '#424242', textTransform: 'uppercase', fontWeight: 300 }}
-                          >
-                            {listThread?.content}
-                          </Typography>
-                        </Grid>
-                        <Grid item container xs={12} justifyContent={'flex'}>
-                          <CommentForm  />
-                           
-                        </Grid>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={12}>
-                  <Recomended paramcomment={listThread}></Recomended>
-                </Grid>
+              <Grid item xs={12}>
+                <Recomended paramcomment={listThread}></Recomended>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid
-          xs={2}
-          container
-          display={'flex'}
-          sx={{ direction: 'row', justifyContent: 'flex-start', alignContent: 'top', alignItems: 'stretch' }}
-        >
-          <Grid xs={12}>
-            <Grid
-              xs={12}
-              sx={{
-                boxSizing: 'border-box',
-                background: '#FFFFFF',
-                border: '1px solid rgba(76, 78, 100, 0.12)',
-                borderRadius: '20px',
-                p: 4,
-                display: 'flex',
-                alignItems: 'stretch',
-                justifyContent: 'left',
-                marginBottom: '10px',
-                marginLeft: '20px',
-                height: '197px',
-                wrap: 'nowrap'
-              }}
-            ></Grid>
-            <Grid
-              xs={12}
-              sx={{
-                boxSizing: 'border-box',
-                background: '#FFFFFF',
-                border: '1px solid rgba(76, 78, 100, 0.12)',
-                borderRadius: '20px',
-                p: 4,
-                display: 'flex',
-                alignItems: 'stretch',
-                justifyContent: 'left',
-                marginBottom: '10px',
-                marginLeft: '20px',
-                height: '197px',
-                wrap: 'nowrap'
-              }}
-            ></Grid>
-            <Grid
-              xs={12}
-              sx={{
-                boxSizing: 'border-box',
-                background: '#FFFFFF',
-                border: '1px solid rgba(76, 78, 100, 0.12)',
-                borderRadius: '20px',
-                p: 4,
-                display: 'flex',
-                alignItems: 'stretch',
-                justifyContent: 'left',
-                marginBottom: '10px',
-                marginLeft: '20px',
-                height: '197px',
-                wrap: 'nowrap'
-              }}
-            ></Grid>
+          <Grid item md={3} xs={12}>
+            <Grid container spacing={6}>
+              <Grid item xs={12}>
+                <Recomended paramcomment={listThread}></Recomended>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

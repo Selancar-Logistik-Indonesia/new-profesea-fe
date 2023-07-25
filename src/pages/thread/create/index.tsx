@@ -110,7 +110,7 @@ const save = ( ) => {
             </Grid>
             <Grid xs={12}>
               <EditorWrapper>
-                <EditorControlled />
+                <EditorControlled  />
                 <Button onClick={save}>Save</Button>
               </EditorWrapper>
             </Grid>
