@@ -24,7 +24,7 @@ const renderList = (listCandidate: IUser[]) => {
   return listCandidate.map((item) => {
     const userPhoto = (item.photo) ? item.photo : "/images/avatars/default-user.png";
 
-    return (  
+    return (
       <Grid item xs={12} md={4} key={item?.id}>
         <Paper sx={{ marginTop: '10px' }}>
           <Box
@@ -54,17 +54,17 @@ const renderList = (listCandidate: IUser[]) => {
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem'>
                 {item.employee_type ? item.employee_type : '-'}
               </Typography>
-            </Box> 
+            </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
               <Icon icon='codicon:location' fontSize={'20px'} />
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem'>
-                {item.field_preference?.city?.city_name   } - {item.field_preference?.country?.name}
+                {item.field_preference?.city?.city_name} - {item.field_preference?.country?.name}
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
-              <Icon icon='fa6-solid:rupiah-sign' fontSize={'20px'} />
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'], mb: 2 }}>
+              <Icon icon='mdi:currency-usd' fontSize={'20px'} />
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem'>
-               from  1.000.000 To 9.000.000
+                  from Rp. 1.000.000 To Rp. 9.000.000
               </Typography>
             </Box>
           </Box>
