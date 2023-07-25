@@ -16,6 +16,7 @@ import AllJobApplied from './applied'
 import Degree from 'src/contract/models/degree'
 import JobCategory from 'src/contract/models/job_category'
 import RoleLevel from 'src/contract/models/role_level'
+import RoleType from 'src/contract/models/role_type'
 
 type FormData = {
   companyName: string
@@ -46,7 +47,8 @@ const SeafererJob = () => {
   const [collapsed9, setCollapsed9] = useState<boolean>(false)
   const [JobCategory, getJobCategory] = useState<any[]>([]);
   const [Education, getEducation] = useState<any[]>([]);
-  const [RoleLevel, getRoleLevel] = useState<any[]>([]);
+  const [RoleLevel, getRoleLevel] = useState<any[]>([]);  
+  const [RoleType, getRoleType] = useState<any[]>([]);
 
   const firstload = async () => {
     const res = await HttpClient.get(`/public/data/role-level?search=&page=1&take=250`);
@@ -66,6 +68,13 @@ const SeafererJob = () => {
       throw res3.data.message ?? "Something went wrong!";
     }
     getEducation(res3.data.degrees);
+
+    HttpClient.get(`/public/data/role-type?search=&page=1&take=250`).then(response => {
+        if (response.status != 200) {
+            throw response.data.message ?? "Something went wrong!";
+        }
+        getRoleType(response.data.roleTypes.data);
+    })
   }
   useEffect(() => {
     firstload()
@@ -225,7 +234,7 @@ const SeafererJob = () => {
               <CardHeader
                 title={
                   <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Role Type
+                    Job Title
                   </Typography>
                 }
                 action={
@@ -244,9 +253,9 @@ const SeafererJob = () => {
                   <Autocomplete
                     disablePortal
                     id="combo-box-demo"
-                    options={JobCategory}
-                    getOptionLabel={(option: JobCategory) => option.name}
-                    renderInput={(params) => <TextField {...params} label="Role Type" />}
+                    options={RoleType}
+                    getOptionLabel={(option: RoleType) => option.name}
+                    renderInput={(params) => <TextField {...params} label="Job Title" />}
                     onChange={(event: any, newValue: JobCategory | null) => (newValue?.id) ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''}
                   />
                 </CardContent>
@@ -258,7 +267,7 @@ const SeafererJob = () => {
               <CardHeader
                 title={
                   <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Job Title
+                    Job Category
                   </Typography>
                 }
                 action={

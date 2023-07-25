@@ -6,10 +6,13 @@ import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , width: 50},
-    { field: 'title', headerName: 'Title', sortable: true , minWidth: 250},
-    { field: 'schedule', headerName: 'Schedule', sortable: false, minWidth: 150 },
-    { field: 'category', headerName: 'Category', sortable: false, minWidth: 100 },
-    { field: 'short_description', headerName: 'Description', sortable: false, minWidth: 300 },
+    { field: 'role_type', headerName: 'Job Title', sortable: true , minWidth: 250},
+    { field: 'company_name', headerName: 'Company Name', sortable: true , minWidth: 150},
+    { field: 'category_name', headerName: 'Category', sortable: false, minWidth: 250 },
+    { field: 'level_name', headerName: 'Level', sortable: false, minWidth: 130 },
+    { field: 'location', headerName: 'Location', sortable: false, minWidth: 200 },
+    { field: 'degree', headerName: 'Degree', sortable: false, minWidth: 100 },
+    { field: 'salary', headerName: 'Salary', sortable: false, minWidth: 150 },
     { field: 'status', headerName: 'Status', sortable: false, minWidth: 100, 
         renderCell: (cell) => {
         const { row } = cell;
@@ -33,7 +36,7 @@ const columns: GridColDef[] = [
 
             return (
                 <>
-                    <IconButton onClick={() => row.actions.onView()} aria-label='view' color='secondary' size='small'>
+                    <IconButton href={'/candidate/job/?id='+row.id} aria-label='view' color='secondary' size='small'>
                         <Icon icon='mdi:eye' />
                     </IconButton>
                 </>
@@ -53,14 +56,14 @@ type RoleGridProps = {
 
 interface RowItem {
     id:number,
-    title: string,
-    schedule: string,
-    category: string,
-    short_description: string,
-    status: string,
-    actions: {
-        onView: VoidFunction,
-    };
+    role_type: string,
+    company_name: string,
+    category_name: string,
+    level_name: string,
+    location: string,
+    degree: string,
+    salary: string,
+    status: string;
 }
 
 export {
