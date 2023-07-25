@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+import ITeam from "src/contract/models/team";
 import { IUser } from "src/contract/models/user";
 
 /**
@@ -48,9 +49,29 @@ function getUserAvatar(userData: IUser) {
     return (userData?.photo) ? userData.photo : "/images/avatars/default-user.png";
 }
 
+function getUserRoleName(team?: ITeam) {
+    const teamName = team?.teamName ?? "";
+    const mapRole = [{ title: "Seafarer", value: "Candidate" }, { title: 'Company', value: 'Recruiter' }];
+    const newValue = mapRole.find(e => e.title == teamName);
+
+    return newValue ? newValue.value : teamName;
+}
+
+function formatIDR(amount: number) {
+    const options: Intl.NumberFormatOptions = {
+        style: 'currency',
+        currency: 'IDR',
+    };
+
+    return new Intl.NumberFormat('id-ID', options).format(amount);
+}
+
+
 export {
     getCleanErrorMessage,
     removeFirstZeroChar,
     toTitleCase,
     getUserAvatar,
+    getUserRoleName,
+    formatIDR,
 }

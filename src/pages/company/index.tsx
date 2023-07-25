@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import {   useMediaQuery } from '@mui/material'
+import { useMediaQuery, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import CompanyProfile from 'src/layouts/components/CompanyProfile'
 import { useTheme } from '@mui/material/styles'
- import { IUser } from 'src/contract/models/user'
+import { IUser } from 'src/contract/models/user'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { HttpClient } from 'src/services'
@@ -38,9 +38,9 @@ const Company = () => {
   } = useForm<FormData>({
     mode: 'onBlur',
   },)
-  
- 
- 
+
+
+
   // const [value, setValue] = React.useState(0);
   // const [color, getColor] = useState<any>('#FFFFFF')
   // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -66,6 +66,7 @@ const Company = () => {
   }, [])
 
   return (
+    
     <Box>
       <Grid container spacing={2}>
         <Grid
@@ -76,12 +77,12 @@ const Company = () => {
           sx={
             !hidden
               ? {
-                  p: 4,
-                  justifyContent: 'flex-start',
-                  alignItems: 'stretch',
-                  alignContent: 'top',
-                  marginBottom: '10px'
-                }
+                p: 4,
+                justifyContent: 'flex-start',
+                alignItems: 'stretch',
+                alignContent: 'top',
+                marginBottom: '10px'
+              }
               : {}
           }
         >
@@ -107,26 +108,42 @@ const Company = () => {
                 borderBottom: 1,
                 borderColor: 'divider',
                 boxSizing: 'border-box',
-                background: '#FFFFFF',
                 border: '1px solid rgba(76, 78, 100, 0.12)',
-                borderRadius: '20px',
+                borderRadius: '5px',
+                backgroundColor: '#FFFFFF',
                 marginTop: '10px',
                 direction: 'row',
                 justifyContent: 'flex-start',
                 alignItems: 'top',
-                alignContent: 'top'
+                alignContent: 'top',
+                padding: '20px'
               }}
             >
+
               <Grid item xs={12}>
-                   {selectedItem != null && (
+
+                <Grid container item xs={12} marginBottom={'10px'}>
+                  <Grid container item xs={12} justifyContent={'left'}>
+                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '18px' }}>
+                      Company Builder
+                    </Typography>
+                  </Grid>
+                  <Grid container item xs={12} justifyContent={'left'}>
+                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '12px' }}>
+                      Fulfill Data Form to complete your Profile
+                    </Typography>
+                  </Grid>                  
+                </Grid>
+                {selectedItem != null && (
                     <CompanyProfile visible={true} datauser={selectedItem} address={selectedItem.address} />
-                  )} 
+                  )}
+                  
               </Grid>
             </Grid>
           </Grid>
         </Grid>
 
-       </Grid>
+      </Grid>
     </Box>
   )
 }

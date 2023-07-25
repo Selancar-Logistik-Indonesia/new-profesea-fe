@@ -1,18 +1,28 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
-import { IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
-    { field: 'no', headerName: '#', sortable: true , minWidth: 10},
-    { field: 'role_type', headerName: 'Role Type', sortable: true , minWidth: 250},
-    { field: 'company_name', headerName: 'Company Name', sortable: true , minWidth: 150},
-    { field: 'category_name', headerName: 'Category', sortable: false, minWidth: 250 },
-    { field: 'level_name', headerName: 'Level', sortable: false, minWidth: 130 },
-    { field: 'location', headerName: 'Location', sortable: false, minWidth: 200 },
-    { field: 'degree', headerName: 'Degree', sortable: false, minWidth: 100 },
-    { field: 'salary', headerName: 'Salary', sortable: false, minWidth: 150 },
+    { field: 'no', headerName: '#', sortable: true , width: 50},
+    { field: 'name', headerName: 'Name', sortable: true , minWidth: 250},
+    { field: 'category', headerName: 'Category', sortable: false, minWidth: 150 },
+    { field: 'email', headerName: 'Phone', sortable: false, minWidth: 100 },
+    { field: 'phone', headerName: 'Email', sortable: false, minWidth: 300 },
+    { field: 'status', headerName: 'Status', sortable: false, minWidth: 100, 
+        renderCell: (cell) => {
+        const { row } = cell;
+
+            return (
+                <>
+                    <Button color='warning' size='small' >
+                        {row.status}
+                    </Button>
+                </>
+            );
+        } 
+    },
     {
         field: 'action',
         headerName: 'Action',
@@ -23,14 +33,8 @@ const columns: GridColDef[] = [
 
             return (
                 <>
-                    <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
-                        <Icon icon='mdi:pencil' />
-                    </IconButton>
-                    <IconButton href={'/company/job/?id='+row.id} aria-label='view' color='secondary' size='small'>
+                    <IconButton onClick={() => row.actions.onView()} aria-label='view' color='secondary' size='small'>
                         <Icon icon='mdi:eye' />
-                    </IconButton>
-                    <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
-                        <Icon icon='mdi:trash' />
                     </IconButton>
                 </>
             );
@@ -38,7 +42,7 @@ const columns: GridColDef[] = [
     },
 ];
 
-type RoleGridProps = {
+type UserGridProps = {
     rows: RowItem[];
     loading: boolean;
     pageSize: number;
@@ -49,15 +53,13 @@ type RoleGridProps = {
 
 interface RowItem {
     id:number,
-    company_name: string,
-    category_name: string,
-    level_name: string,
-    location: string,
-    degree: string,
-    salary: string,
+    name: string,
+    category: string,
+    email: string,
+    phone: string,
+    status: string,
     actions: {
-        onDelete: VoidFunction,
-        onUpdate: VoidFunction,
+        onView: VoidFunction,
     };
 }
 
@@ -65,7 +67,7 @@ export {
     type RowItem,
 }
 
-export default function AccountDatagrid(props: RoleGridProps) {
+export default function AppliedDataGrid(props: UserGridProps) {
     return (
         <Box sx={{ height: 500, width: '100%' }}>
             <DataGrid
