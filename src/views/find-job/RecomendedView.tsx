@@ -43,7 +43,7 @@ const renderList = (listJob: Job[]) => {
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={2}>
                 <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={14} >
-                  {item?.role_type?.name}
+                  JOB TITLE
                 </Typography>
                 <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
                   {item?.company?.name ?? "-"}
@@ -52,22 +52,40 @@ const renderList = (listJob: Job[]) => {
             </Box>
           </Link>
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={2}>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} >
-              <Icon icon='mdi:account-tie' color='#32487A' />
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
+              <Icon icon='ic:round-business-center' color='#32487A' />
               <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
-                {item?.rolelevel?.levelName}
+              {item?.rolelevel?.levelName} - {item?.role_type?.name} 
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} >
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
               <Icon icon='mdi:currency-usd' color='#32487A' />
               <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
-                Up to Rp. {item?.salary_end}
+                from Rp. {item?.salary_start} to Rp. {item?.salary_end}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
               <Icon icon='mdi:school' color='#32487A' />
               <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                 {item?.degree?.name}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
+              <Icon icon='mingcute:ship-fill' color='#32487A' />
+              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
+                Type of Vessel
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
+              <Icon icon='game-icons:ship-bow' color='#32487A' />
+              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
+                Date on Board (dd-mm-yyyy)
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
+              <Icon icon='mdi:license' color='#32487A' />
+              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
+                {item?.license}
               </Typography>
             </Box>
           </Box>
