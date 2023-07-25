@@ -101,18 +101,20 @@ const names = [
   'Indonesian',
   'English',
   'Mandarin',
-  'Arab',
-  'Melayu', 
+  'Arab', 
+  'Melayu',
+  
 ]
 
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
-  return {
-    fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
+  return { 
+    fontWeight:
+      personName?.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
+ 
   }
 }
 
-const CandidateProfile = (props: compProps) => {
- 
+const CandidateProfile = (props: compProps) => { 
    const theme = useTheme()
  
    if (props.datauser?.employee_type == 'onship') {
@@ -153,7 +155,8 @@ const CandidateProfile = (props: compProps) => {
   const [itemDataWE, getItemdataWE] = useState<any[]>([])
   const [itemDataED, getItemdataED] = useState<any[]>([]) 
   const [selectedItem, setSelectedItem] = useState<any>() 
-  const [personName, setPersonName] = React.useState<string[]>(props.datauser?.field_preference?.spoken_langs) 
+ 
+  const [personName, setPersonName] = React.useState<string[]>(props.datauser?.field_preference?.spoken_langs ? props.datauser?.field_preference?.spoken_langs:[]) 
  
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
@@ -164,7 +167,6 @@ const CandidateProfile = (props: compProps) => {
       typeof value === 'string' ? value.split(',') : value
     )
   }
-
  
   const combobox = () => { 
  
@@ -271,8 +273,7 @@ const CandidateProfile = (props: compProps) => {
   const editWorkExperience = (item: any) => {
     setSelectedItem(item)
     setOpenEditModalWE(!openEditModalWE)
-  }
- 
+  } 
   const editDocument= (item: any) => {
     setSelectedItem(item)
     setOpenEditModalDoc(!openEditModalDoc)
@@ -304,8 +305,7 @@ const CandidateProfile = (props: compProps) => {
     combobox()
     toast.success(`  deleted successfully!`)
   }
- 
- 
+  
   const onSubmit = (data: FormData) => {
     const { fullName, website, phone, address, about } = data
 
@@ -443,7 +443,8 @@ const CandidateProfile = (props: compProps) => {
   }
 
   return (
-    <Grid container>
+    <Grid container padding={5}>
+          <Grid container padding={5}>
       <input
         accept='image/*'
         style={{ display: 'none', height: 250, width: '100%' }}
@@ -460,29 +461,26 @@ const CandidateProfile = (props: compProps) => {
           justifyContent: { xs: 'center', md: 'flex-start' }
         }}
       >
-        {' '}
-        <BoxWrapper>
+        <Box position={'relative'} width={'100%'}>
           <Card>
             <CardMedia
               component='img'
               alt='profile-header'
- 
               image={previewBanner ? previewBanner : '/images/avatars/headerprofile3.png'}
- 
               sx={{
                 height: { xs: 150, md: 250 },
-                width: '100%'
+                width: '100%',
+                objectFit: 'cover'
               }}
             />
           </Card>
 
- 
-          <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '30%', md: '20%' } }}>
+          <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '50%', md: '50%' } }}>
             <label htmlFor='raised-button-file-banner'>
               <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
             </label>
           </Box>
-        </BoxWrapper>
+        </Box>
       </Grid>
 
       <CardContent
@@ -498,9 +496,9 @@ const CandidateProfile = (props: compProps) => {
         }}
       >
         <BoxWrapper>
-          <label htmlFor='raised-button-file'>
+          
             <ProfilePicture src={preview ? preview : '/images/avatars/profilepic.png'} alt='profile-picture'></ProfilePicture>
-          </label>
+ 
           <input
             accept='image/*'
             style={{ display: 'none', height: 250, width: '100%' }}
@@ -509,7 +507,10 @@ const CandidateProfile = (props: compProps) => {
             type='file'
           ></input>
           <Box position={'absolute'} right={'10%'} bottom={'10%'}>
-            <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
+            <label htmlFor='raised-button-file'>
+                <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
+            </label>
+       
           </Box>
         </BoxWrapper>
       </CardContent>
@@ -906,7 +907,9 @@ const CandidateProfile = (props: compProps) => {
                         </Grid>
                         <Grid xs={12} md={2} marginTop={2} display='flex' item container>
  
+ 
                         <Grid xs={12} display='flex' item container>
+ 
                             <Grid
                               xs={12}
                               md={12}
@@ -918,6 +921,7 @@ const CandidateProfile = (props: compProps) => {
                               <Box margin={1}>
                                 <Button
  
+ 
                                   variant='outlined'
                                   color='primary'
                                   size='small'
@@ -925,20 +929,17 @@ const CandidateProfile = (props: compProps) => {
                                 >
                                   <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
  
+ 
                                 </Button>
                               </Box>
                               <Box margin={1}>
                                 <Button
- 
                                   variant='outlined'
- 
                                   color='error'
                                   size='small'
                                   onClick={() => deleteeducation(item.id)}
-                                >
- 
+                                > 
                                   <Icon fontSize='large' icon={'fluent:delete-32-filled'} color={'error'} style={{ fontSize: '24px' }} />
- 
                                 </Button>
                               </Box>
                             </Grid>
@@ -1020,28 +1021,24 @@ const CandidateProfile = (props: compProps) => {
                             >
                               <Box margin={1}>
                                 <Button
- 
-                                  variant='outlined'
+                                   variant='outlined'
                                   color='primary'
                                   size='small'
                                   onClick={() => editWorkExperience(item)}
                                 >
                                   <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
- 
+  
                                 </Button>
                               </Box>
                               <Box margin={1}>
                                 <Button
  
                                   variant='outlined'
- 
-                                  color='error'
+                                   color='error'
                                   size='small'
                                   onClick={() => deletewe(item.id)}
-                                >
- 
+                                > 
                                   <Icon fontSize='large' icon={'fluent:delete-32-filled'} color={'error'} style={{ fontSize: '24px' }} />
- 
                                 </Button>
                               </Box>
                             </Grid>
@@ -1081,15 +1078,17 @@ const CandidateProfile = (props: compProps) => {
                     <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
                       <Grid xs={12} md={9} container direction='row' alignItems='center'>
  
+ 
                         <Icon fontSize='large' icon={'solar:document-bold'} color={'info'} style={{ fontSize: '24px', margin: '5px' }} />
                         <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
                           {item.document_name}
                         </Typography>
- 
+  
                       </Grid>
                       <Grid xs={12} md={3} display='flex' item container>
                         <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
                           <Box margin={1}>
+ 
  
                             <Button
                               variant='outlined'

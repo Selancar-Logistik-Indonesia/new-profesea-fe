@@ -1,9 +1,10 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Avatar, Paper } from '@mui/material'
+import { Avatar,  Paper } from '@mui/material'
 import { IUser } from 'src/contract/models/user'
 import { toTitleCase } from 'src/utils/helpers'
+import { Icon } from '@iconify/react'
 
 export type ParamMain = {
   name: string
@@ -23,37 +24,52 @@ const renderList = (listCandidate: IUser[]) => {
   return listCandidate.map((item) => {
     const userPhoto = (item.photo) ? item.photo : "/images/avatars/default-user.png";
 
-    return (
-      <Paper sx={{ marginTop: '10px' }} key={item.id}>
-        <Box
-          height={95}
-          sx={{
-            display: 'flex',
-            alignContent: 'center',
-            '& svg': { color: 'text.secondary' }
-          }}
-        >
-          <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-            <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 60, height: 60 }} />
-          </Box>
-          <Box sx={{ padding: '5', display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
-            <Typography sx={{ fontWeight: 'bold', color: '#32487A', mb: 1 }} fontSize={14}>
-              {toTitleCase(item.name)}
-            </Typography>
-            <Typography sx={{ color: '#424242', mb: 1 }} fontSize={12}>
-              {toTitleCase(item.field_preference?.role_type?.name ?? "-")}
-            </Typography>
-            <Box display={'flex'}>
-              <Typography sx={{ fontWeight: 'bold', color: '#424242' }}>
-                Location :
+    return (  
+      <Grid item xs={12} md={4} key={item?.id}>
+        <Paper sx={{ marginTop: '10px' }}>
+          <Box
+            height={65}
+            sx={{
+              display: 'flex',
+              alignContent: 'center',
+              '& svg': { color: 'text.secondary' }
+            }}
+          >
+            <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
+              <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50 }} />
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
+              <Typography sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }} fontSize={16}>
+                {toTitleCase(item.name)}
               </Typography>
-              <Typography sx={{ color: '#424242' }} ml="0.5rem">
-                {item.address?.city?.city_name} - {item.address?.country?.name}
+              <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
+                {toTitleCase(item.field_preference?.role_type?.name ?? '-')}
               </Typography>
             </Box>
           </Box>
-        </Box>
-      </Paper>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
+              <Icon icon='raphael:employee' fontSize={'20px'} />
+              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem'>
+                {item.employee_type ? item.employee_type : '-'}
+              </Typography>
+            </Box> 
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
+              <Icon icon='codicon:location' fontSize={'20px'} />
+              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem'>
+                {item.field_preference?.city?.city_name   } - {item.field_preference?.country?.name}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
+              <Icon icon='fa6-solid:rupiah-sign' fontSize={'20px'} />
+              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem'>
+               from  1.000.000 To 9.000.000
+              </Typography>
+            </Box>
+          </Box>
+        </Paper>
+      </Grid>
     )
   })
 }
@@ -62,12 +78,8 @@ const RecomendedView = (props: Props) => {
   const { listCandidate } = props
 
   return (
-    <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <Box>
-          {renderList(listCandidate)}
-        </Box>
-      </Grid>
+    <Grid container spacing={2}>
+      {renderList(listCandidate)}
     </Grid>
   )
 }
