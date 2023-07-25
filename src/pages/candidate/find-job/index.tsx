@@ -1,9 +1,9 @@
 // ** React Imports
-import React, { useState , useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import {  Card, CardContent, Tabs, Tab, useMediaQuery, Collapse, CardHeader, IconButton, Autocomplete, TextField } from '@mui/material'
+import { Card, CardContent, Tabs, Tab, useMediaQuery, Collapse, CardHeader, IconButton, Autocomplete, TextField, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
 import { useForm } from 'react-hook-form'
 // import Icon from 'src/@core/components/icon' 
@@ -38,32 +38,32 @@ const SeafererJob = () => {
   const [collapsed, setCollapsed] = useState<boolean>(true)
   const [collapsed2, setCollapsed2] = useState<boolean>(false)
   const [collapsed3, setCollapsed3] = useState<boolean>(false)
-  const [JobCategory, getJobCategory] =useState<any[]>([]);
-  const [Education, getEducation] =useState<any[]>([]);
-  const [RoleLevel, getRoleLevel] =useState<any[]>([]);
+  const [JobCategory, getJobCategory] = useState<any[]>([]);
+  const [Education, getEducation] = useState<any[]>([]);
+  const [RoleLevel, getRoleLevel] = useState<any[]>([]);
 
   const firstload = async () => {
     const res = await HttpClient.get(`/public/data/role-level?search=&page=1&take=250`);
     if (res.status != 200) {
-        throw res.data.message ?? "Something went wrong!";
+      throw res.data.message ?? "Something went wrong!";
     }
     getRoleLevel(res.data.roleLevels.data);
 
     const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`);
     if (res2.status != 200) {
-        throw res2.data.message ?? "Something went wrong!";
+      throw res2.data.message ?? "Something went wrong!";
     }
     getJobCategory(res2.data.categories.data);
 
     const res3 = await HttpClient.get(`/public/data/degree`);
     if (res3.status != 200) {
-        throw res3.data.message ?? "Something went wrong!";
+      throw res3.data.message ?? "Something went wrong!";
     }
     getEducation(res3.data.degrees);
   }
-   useEffect(() => { 
-     firstload()
-   }, []) 
+  useEffect(() => {
+    firstload()
+  }, [])
 
   const {
   } = useForm<FormData>({
@@ -109,76 +109,19 @@ const SeafererJob = () => {
     setValue(newValue);
     getColor('#FFFFFF');
   };
-  
+
   return (
     <Box  >
       <Grid container spacing={2}>
         <Grid item lg={3} md={5} xs={12}>
-          <Box mb={3}>         
+        <Box mb={3}>
             <Card>
               <CardHeader
-                titleTypographyProps={{variant: 'subtitle2', color: '#424242' }}
-                title='Category'
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse'
-                    sx={{ color: '#424242' }}
-                    onClick={() => setCollapsed(!collapsed)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
+                title={
+                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
+                    Role Level
+                  </Typography>
                 }
-              />
-              <Collapse in={collapsed}>
-                <CardContent>
-                  <Autocomplete
-                      disablePortal
-                      id="combo-box-demo"
-                      options={JobCategory}  
-                      getOptionLabel={(option:JobCategory) => option.name}
-                      renderInput={(params) => <TextField {...params} label="Job Category" />}
-                      onChange={(event: any, newValue: JobCategory | null)=> (newValue?.id) ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''}
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>  
-          <Box mb={3}>         
-            <Card>
-              <CardHeader
-                titleTypographyProps={{variant:'body2' }}
-                title='Education'
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse'
-                    sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed2(!collapsed2)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed2 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed2}>
-                <CardContent>
-                  <Autocomplete
-                      disablePortal
-                      id="combo-box-demo"
-                      options={Education}  
-                      getOptionLabel={(option:Degree) => option.name}
-                      renderInput={(params) => <TextField {...params} label="Education" />}
-                      onChange={(event: any, newValue: Degree | null)=> (newValue?.id) ? '' : ''}
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box> 
-          <Box mb={3}>         
-            <Card>
-              <CardHeader
-                titleTypographyProps={{variant:'body2' }}
-                title='Job Title'
                 action={
                   <IconButton
                     size='small'
@@ -193,19 +136,86 @@ const SeafererJob = () => {
               <Collapse in={collapsed3}>
                 <CardContent>
                   <Autocomplete
-                      disablePortal
-                      id="combo-box-level"
-                      options={RoleLevel}  
-                      getOptionLabel={(option:RoleLevel) => option.levelName}
-                      renderInput={(params) => <TextField {...params} label="Job Title" />}
-                      onChange={(event: any, newValue: RoleLevel | null)=> (newValue?.id) ? '': ''}
+                    disablePortal
+                    id="combo-box-level"
+                    options={RoleLevel}
+                    getOptionLabel={(option: RoleLevel) => option.levelName}
+                    renderInput={(params) => <TextField {...params} label="Role Level" />}
+                    onChange={(event: any, newValue: RoleLevel | null) => (newValue?.id) ? '' : ''}
                   />
                 </CardContent>
               </Collapse>
             </Card>
           </Box>
+          <Box mb={3}>
+            <Card>
+              <CardHeader
+                title={
+                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
+                    Job Title
+                  </Typography>
+                }
+                action={
+                  <IconButton
+                    size='small'
+                    aria-label='collapse'
+                    sx={{ color: '#424242' }}
+                    onClick={() => setCollapsed(!collapsed)}
+                  >
+                    <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                  </IconButton>
+                }
+              />
+              <Collapse in={collapsed}>
+                <CardContent>
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={JobCategory}
+                    getOptionLabel={(option: JobCategory) => option.name}
+                    renderInput={(params) => <TextField {...params} label="Job Title" />}
+                    onChange={(event: any, newValue: JobCategory | null) => (newValue?.id) ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''}
+                  />
+                </CardContent>
+              </Collapse>
+            </Card>
+          </Box>
+          <Box mb={3}>
+            <Card>
+              <CardHeader
+               title={
+                <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
+                  Education
+                </Typography>
+              }
+                action={
+                  <IconButton
+                    size='small'
+                    aria-label='collapse'
+                    sx={{ color: 'text.secondary' }}
+                    onClick={() => setCollapsed2(!collapsed2)}
+                  >
+                    <Icon fontSize={20} icon={!collapsed2 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                  </IconButton>
+                }
+              />
+              <Collapse in={collapsed2}>
+                <CardContent>
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={Education}
+                    getOptionLabel={(option: Degree) => option.name}
+                    renderInput={(params) => <TextField {...params} label="Education" />}
+                    onChange={(event: any, newValue: Degree | null) => (newValue?.id) ? '' : ''}
+                  />
+                </CardContent>
+              </Collapse>
+            </Card>
+          </Box>
+          
         </Grid>
-        <Grid item lg={9} md={7} xs={12} 
+        <Grid item lg={9} md={7} xs={12}
           sx={!hidden ? {
             direction: "row",
             justifyContent: "flex-start",
