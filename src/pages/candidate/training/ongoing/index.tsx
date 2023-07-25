@@ -2,7 +2,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Box, Button } from '@mui/material'
+import { Box, Button, Divider } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services';
 import { AxiosError } from 'axios';
@@ -12,6 +12,7 @@ import { v4 } from "uuid";
 import DialogView from '../all/DialogView';
 import Avatar from 'src/@core/components/mui/avatar'
 import { getUserAvatar } from 'src/utils/helpers'
+import Icon from 'src/@core/components/icon'
 
 const SeafererOngoingTraining = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -58,7 +59,7 @@ const SeafererOngoingTraining = () => {
                 {dataCard.map((item) => {
 
                     return (
-                        <Grid item xs={12} md={4} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
+                        <Grid item xs={12} md={3} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
                             <Card >
                                 <Grid item xs={12} >
                                     <CardContent>
@@ -66,10 +67,11 @@ const SeafererOngoingTraining = () => {
                                             <Grid item>
                                                 <img
                                                     alt='logo'
-                                                    src={item?.thumbnail ? item?.thumbnail : '/images/avatar.png'}
+                                                    src={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
                                                     style={{
-                                                        width: '300px',
+                                                        width: '100%',
                                                         height: '200px',
+                                                        objectFit: "fill",
                                                     }}
                                                     onClick={() => viewHandler(item)}
                                                 />
@@ -77,19 +79,27 @@ const SeafererOngoingTraining = () => {
                                         </Grid>
                                         <Grid container direction="row" justifyContent="space-between" alignItems="center">
                                             <Grid item onClick={() => viewHandler(item)}>
-                                                <Typography sx={{ mb: 0.5, fontStyle: 'bold', fontSize: '14px' }} variant='body1' >
+                                                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={1} >
+                                                    <Icon icon='bxs:book' color='#32487A' />
+                                                    <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                                                     {item.title}
-                                                </Typography>
-                                                <Typography sx={{ mb: 0.5, fontStyle: 'italic', fontSize: '11px' }} variant='body2' >
+                                                    </Typography>
+                                                </Box>
+                                                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
+                                                    <Icon icon='material-symbols:category-rounded' color='#32487A' />
+                                                    <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                                                     {item.category?.category}
-                                                </Typography>
+                                                    </Typography>
+                                                </Box>
+                                                
                                             </Grid>
-                                            <Grid item >
-                                                <Button variant='contained' color='warning' onClick={() => viewHandler(item)}>
-                                                    Join
+                                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
+                                                <Button variant='contained' color='primary' onClick={() => viewHandler(item)}>
+                                                    Buy
                                                 </Button>
-                                            </Grid>
+                                                </Box>
                                         </Grid>
+                                        <Divider sx={{ my: '0 !important' }} />
                                         <Box
                                             height={65}
                                             sx={{
@@ -101,7 +111,7 @@ const SeafererOngoingTraining = () => {
                                                 <Avatar src={getUserAvatar(item.trainer)} alt='profile-picture' sx={{ width: 50, height: 50 }} />
                                             </Box>
                                             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
-                                                <Typography sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }} fontSize={16}>
+                                                <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={16}>
                                                     {item?.trainer?.name}
                                                 </Typography>
                                                 <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
