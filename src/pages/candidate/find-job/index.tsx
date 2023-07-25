@@ -39,10 +39,11 @@ const SeafererJob = () => {
   const [collapsed2, setCollapsed2] = useState<boolean>(false)
   const [collapsed3, setCollapsed3] = useState<boolean>(false)
   const [collapsed4, setCollapsed4] = useState<boolean>(false)  
-  // const [collapsed5, setCollapsed5] = useState<boolean>(false)
+  const [collapsed5, setCollapsed5] = useState<boolean>(false)
   const [collapsed6, setCollapsed6] = useState<boolean>(false)
   // const [collapsed7, setCollapsed7] = useState<boolean>(false)
-  // const [collapsed8, setCollapsed8] = useState<boolean>(false)
+  const [collapsed8, setCollapsed8] = useState<boolean>(false)
+  const [collapsed9, setCollapsed9] = useState<boolean>(false)
   const [JobCategory, getJobCategory] = useState<any[]>([]);
   const [Education, getEducation] = useState<any[]>([]);
   const [RoleLevel, getRoleLevel] = useState<any[]>([]);
@@ -125,7 +126,7 @@ const SeafererJob = () => {
               <CardHeader
                 title={
                   <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Company
+                    Recruiter
                   </Typography>
                 }
                 action={
@@ -146,7 +147,7 @@ const SeafererJob = () => {
                     id="combo-box-level"
                     options={RoleLevel}
                     getOptionLabel={(option: RoleLevel) => option.levelName}
-                    renderInput={(params) => <TextField {...params} label="Company" />}
+                    renderInput={(params) => <TextField {...params} label="Recruiter" />}
                     onChange={(event: any, newValue: RoleLevel | null) => (newValue?.id) ? '' : ''}
                   />
                 </CardContent>
@@ -164,15 +165,15 @@ const SeafererJob = () => {
                 action={
                   <IconButton
                     size='small'
-                    aria-label='collapse'
+                    aria-label='collapse2'
                     sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed(!collapsed)}
+                    onClick={() => setCollapsed2(!collapsed2)}
                   >
-                    <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                    <Icon fontSize={20} icon={!collapsed2 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
                   </IconButton>
                 }
               />
-              <Collapse in={collapsed}>
+              <Collapse in={collapsed2}>
                 <CardContent>
                   <Autocomplete
                     disablePortal
@@ -197,15 +198,15 @@ const SeafererJob = () => {
                 action={
                   <IconButton
                     size='small'
-                    aria-label='collapse'
+                    aria-label='collapse3'
                     sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed(!collapsed)}
+                    onClick={() => setCollapsed3(!collapsed3)}
                   >
-                    <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                    <Icon fontSize={20} icon={!collapsed3 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
                   </IconButton>
                 }
               />
-              <Collapse in={collapsed}>
+              <Collapse in={collapsed3}>
                 <CardContent>
                   <Autocomplete
                     disablePortal
@@ -230,15 +231,15 @@ const SeafererJob = () => {
                 action={
                   <IconButton
                     size='small'
-                    aria-label='collapse2'
+                    aria-label='collapse4'
                     sx={{ color: '#424242' }}
-                    onClick={() => setCollapsed2(!collapsed2)}
+                    onClick={() => setCollapsed4(!collapsed4)}
                   >
-                    <Icon fontSize={20} icon={!collapsed2 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                    <Icon fontSize={20} icon={!collapsed4 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
                   </IconButton>
                 }
               />
-              <Collapse in={collapsed2}>
+              <Collapse in={collapsed4}>
                 <CardContent>
                   <Autocomplete
                     disablePortal
@@ -263,15 +264,15 @@ const SeafererJob = () => {
                 action={
                   <IconButton
                     size='small'
-                    aria-label='collapse3'
+                    aria-label='collapse5'
                     sx={{ color: '#424242' }}
-                    onClick={() => setCollapsed3(!collapsed3)}
+                    onClick={() => setCollapsed5(!collapsed5)}
                   >
-                    <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                    <Icon fontSize={20} icon={!collapsed5 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
                   </IconButton>
                 }
               />
-              <Collapse in={collapsed3}>
+              <Collapse in={collapsed5}>
                 <CardContent>
                   <Autocomplete
                     disablePortal
@@ -296,15 +297,15 @@ const SeafererJob = () => {
                 action={
                   <IconButton
                     size='small'
-                    aria-label='collapse4'
+                    aria-label='collapse6'
                     sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed4(!collapsed4)}
+                    onClick={() => setCollapsed6(!collapsed6)}
                   >
-                    <Icon fontSize={20} icon={!collapsed4 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                    <Icon fontSize={20} icon={!collapsed6 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
                   </IconButton>
                 }
               />
-              <Collapse in={collapsed4}>
+              <Collapse in={collapsed6}>
                 <CardContent>
                   <Autocomplete
                     disablePortal
@@ -329,15 +330,15 @@ const SeafererJob = () => {
                 action={
                   <IconButton
                     size='small'
-                    aria-label='collapse5'
+                    aria-label='collapse7'
                     sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed4(!collapsed5)}
+                    onClick={() => setCollapsed7(!collapsed7)}
                   >
-                    <Icon fontSize={20} icon={!collapsed5 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                    <Icon fontSize={20} icon={!collapsed7 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
                   </IconButton>
                 }
               />
-              <Collapse in={collapsed5}>
+              <Collapse in={collapsed7}>
                 <CardContent>
                  
                   <br></br>
@@ -367,15 +368,15 @@ const SeafererJob = () => {
                 action={
                   <IconButton
                     size='small'
-                    aria-label='collapse6'
+                    aria-label='collapse8'
                     sx={{ color: '#424242' }}
-                    onClick={() => setCollapsed6(!collapsed6)}
+                    onClick={() => setCollapsed8(!collapsed8)}
                   >
-                    <Icon fontSize={20} icon={!collapsed6 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                    <Icon fontSize={20} icon={!collapsed8 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
                   </IconButton>
                 }
               />
-              <Collapse in={collapsed6}>
+              <Collapse in={collapsed8}>
                 <CardContent>
                   <Autocomplete
                     disablePortal
@@ -402,15 +403,15 @@ const SeafererJob = () => {
                 action={
                   <IconButton
                     size='small'
-                    aria-label='collapse6'
+                    aria-label='collapse9'
                     sx={{ color: '#424242' }}
-                    onClick={() => setCollapsed6(!collapsed6)}
+                    onClick={() => setCollapsed9(!collapsed9)}
                   >
-                    <Icon fontSize={20} icon={!collapsed6 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                    <Icon fontSize={20} icon={!collapsed9 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
                   </IconButton>
                 }
               />
-              <Collapse in={collapsed6}>
+              <Collapse in={collapsed9}>
                 <CardContent>
                   <Autocomplete
                     disablePortal
