@@ -64,7 +64,7 @@ const renderList = (listCandidate: IUser[]) => {
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'], mb: 2 }}>
               <Icon icon='mdi:currency-usd' fontSize={'20px'} />
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem'>
-                from Rp. 1.000.000 To Rp. 9.000.000
+                  from Rp. 1.000.000 To Rp. 9.000.000
               </Typography>
             </Box>
           </Box>
