@@ -11,6 +11,7 @@ import Training from 'src/contract/models/training';
 import { v4 } from "uuid";
 import DialogView from '../all/DialogView';
 import Avatar from 'src/@core/components/mui/avatar'
+import { getUserAvatar } from 'src/utils/helpers'
 
 const SeafererOngoingTraining = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -50,86 +51,79 @@ const SeafererOngoingTraining = () => {
     useEffect(() => {
         getListTraining();
     }, [hookSignature]);
-    
-    return ( 
-    <>
-    <Grid container spacing={2} >
-        {
-        dataCard.map((item, index) => {
-                
-            return (
-                <Grid item xs={4} sx={{marginTop:'-10px' , marginBottom:'10px'}}  key={index}>
-                    <Card >
-                        <Grid item xs={12} >
-                        <CardContent>
-                            <Grid container sx={{  alignItems: 'center', justifyContent: 'center' }}>
-                                <Grid item>
-                                <img
-                                    alt='logo'
-                                    src={item?.thumbnail ? item?.thumbnail : '/images/avatar.png'}
-                                    style={{
-                                    width: '300px',
-                                    height: '200px',
-                                    }}
-                                    onClick={() => viewHandler(item)}
-                                    />
 
-                                </Grid>
-                            </Grid>
-                            <Grid container direction="row" justifyContent="space-between" alignItems="center">
-                            <Grid item onClick={() => viewHandler(item)}>
-                                <Typography sx={{ mb: 0.5,  fontStyle: 'bold', fontSize:'14px' }} variant='body1' >
-                                {item.title}
-                                </Typography>
-                                <Typography sx={{ mb: 0.5 ,  fontStyle: 'italic', fontSize:'11px' }} variant='body2' >
-                                {item.category?.category}
-                                </Typography>
-                            </Grid>
-                            <Grid item >
-                                <Button variant='contained' color='warning' onClick={() => viewHandler(item)}>
-                                Join
-                                </Button>
-                            </Grid>
-                            </Grid>   
-                            <Box
-                                height={65}
-                                sx={{
-                                display: 'flex',
-                                alignContent: 'center',
-                                '& svg': { color: 'text.secondary' }
-                                }}
-                            >
-                                <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-                                <Avatar src={item?.trainer?.photo} alt='profile-picture' sx={{ width: 50, height: 50 }} />
-                                </Box>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
-                                <Typography sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }} fontSize={16}>
-                                    {item?.trainer?.name}
-                                </Typography>
-                                <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
-                                    {item?.trainer?.username ?? "-"}
-                                </Typography>
-                                </Box>
-                            </Box>
-                        </CardContent>
-                        </Grid>
-                    </Card>
-                </Grid>
-                )
-            })
-        }
-
-    </Grid>
-
-    {selectedItem && (
+    return (
         <>
-            <DialogView key={selectedItem.id} selectedItem={selectedItem}
-                visible={openViewModal}
-                onCloseClick={() => setOpenViewModal(!openViewModal)}
-                onStateChange={() => setHookSignature(v4())} />
+            <Grid container spacing={2} mt={1}>
+                {dataCard.map((item) => {
+
+                    return (
+                        <Grid item xs={12} md={4} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
+                            <Card >
+                                <Grid item xs={12} >
+                                    <CardContent>
+                                        <Grid container sx={{ alignItems: 'center', justifyContent: 'center' }}>
+                                            <Grid item>
+                                                <img
+                                                    alt='logo'
+                                                    src={item?.thumbnail ? item?.thumbnail : '/images/avatar.png'}
+                                                    style={{
+                                                        width: '300px',
+                                                        height: '200px',
+                                                    }}
+                                                    onClick={() => viewHandler(item)}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                        <Grid container direction="row" justifyContent="space-between" alignItems="center">
+                                            <Grid item onClick={() => viewHandler(item)}>
+                                                <Typography sx={{ mb: 0.5, fontStyle: 'bold', fontSize: '14px' }} variant='body1' >
+                                                    {item.title}
+                                                </Typography>
+                                                <Typography sx={{ mb: 0.5, fontStyle: 'italic', fontSize: '11px' }} variant='body2' >
+                                                    {item.category?.category}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item >
+                                                <Button variant='contained' color='warning' onClick={() => viewHandler(item)}>
+                                                    Join
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                        <Box
+                                            height={65}
+                                            sx={{
+                                                display: 'flex',
+                                                alignContent: 'center',
+                                            }}
+                                        >
+                                            <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
+                                                <Avatar src={getUserAvatar(item.trainer)} alt='profile-picture' sx={{ width: 50, height: 50 }} />
+                                            </Box>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
+                                                <Typography sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }} fontSize={16}>
+                                                    {item?.trainer?.name}
+                                                </Typography>
+                                                <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
+                                                    {item?.trainer?.username ?? "-"}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    </CardContent>
+                                </Grid>
+                            </Card>
+                        </Grid>
+                    )
+                })}
+            </Grid>
+
+            {selectedItem && (
+                <DialogView key={selectedItem.id} selectedItem={selectedItem}
+                    visible={openViewModal}
+                    onCloseClick={() => setOpenViewModal(!openViewModal)}
+                    onStateChange={() => setHookSignature(v4())} />
+            )}
         </>
-    )}
-    </>
     );
 }
 

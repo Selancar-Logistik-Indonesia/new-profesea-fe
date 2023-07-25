@@ -19,15 +19,15 @@ import { Grid } from '@mui/material'
 import { useForm } from 'react-hook-form'
 
 // import { yupResolver } from '@hookform/resolvers/yup'
- import { HttpClient } from 'src/services'
+import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { IUser } from 'src/contract/models/user'
 import { toast } from 'react-hot-toast'
-import Countries from 'src/contract/models/country' 
+import Countries from 'src/contract/models/country'
 import City from 'src/contract/models/city'
-import Address from 'src/contract/models/address' 
+import Address from 'src/contract/models/address'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { DateType } from 'src/contract/models/DatepickerTypes' 
+import { DateType } from 'src/contract/models/DatepickerTypes'
 import { v4 } from 'uuid'
 import DialogAddEducation from 'src/pages/candidate/DialogAddEducation'
 import DialogAddWorkExperience from 'src/pages/candidate/DialogAddWorkExperience'
@@ -38,7 +38,7 @@ import VesselType from 'src/contract/models/vessel_type'
 import RegionTravel from 'src/contract/models/regional_travel'
 
 import { styled } from '@mui/material/styles'
-import CardMedia from '@mui/material/CardMedia' 
+import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
 import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
@@ -68,8 +68,8 @@ type compProps = {
   visible: boolean
   datauser: IUser
   address: Address
-} 
- let ship: any = []
+}
+let ship: any = []
 let tampilkanship: any = ''
 let availabledate: any = ''
 const ProfilePicture = styled('img')(({ theme }) => ({
@@ -83,7 +83,7 @@ const ProfilePicture = styled('img')(({ theme }) => ({
 }))
 const BoxWrapper = styled(Box)<BoxProps>(() => ({
   position: 'relative',
- 
+
 }))
 
 const ITEM_HEIGHT = 48
@@ -101,19 +101,20 @@ const names = [
   'Indonesian',
   'English',
   'Mandarin',
-  'Arab',
+  'Arab', 
   'Melayu',
- 
+  
 ]
 
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
-  return {
+  return { 
     fontWeight:
       personName?.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
+ 
   }
 }
 
-const CandidateProfile = (props: compProps) => {
+const CandidateProfile = (props: compProps) => { 
    const theme = useTheme()
  
    if (props.datauser?.employee_type == 'onship') {
@@ -124,6 +125,7 @@ const CandidateProfile = (props: compProps) => {
      // tampilkanship = ship.label
    } 
     const [hookSignature, setHookSignature] = useState(v4())
+ 
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboroleLevel, getComborolLevel] = useState<any>([])
   const [comboroleType, getComborolType] = useState<any>([])
@@ -141,6 +143,7 @@ const CandidateProfile = (props: compProps) => {
   const [idcomborolLevel, setComboRolLevel] = useState<any>(props.datauser?.field_preference?.role_level?.id)
   const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
   const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id)
+ 
   const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id) 
   const [openAddModal, setOpenAddModal] = useState(false)
   const [openAddModalWE, setOpenAddModalWE] = useState(false)
@@ -152,7 +155,9 @@ const CandidateProfile = (props: compProps) => {
   const [itemDataWE, getItemdataWE] = useState<any[]>([])
   const [itemDataED, getItemdataED] = useState<any[]>([]) 
   const [selectedItem, setSelectedItem] = useState<any>() 
+ 
   const [personName, setPersonName] = React.useState<string[]>(props.datauser?.field_preference?.spoken_langs ? props.datauser?.field_preference?.spoken_langs:[]) 
+ 
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value }
@@ -162,37 +167,38 @@ const CandidateProfile = (props: compProps) => {
       typeof value === 'string' ? value.split(',') : value
     )
   }
-
+ 
   const combobox = () => { 
+ 
     HttpClient.get(AppConfig.baseUrl + '/public/data/role-level?search=&page=1&take=100').then(response => {
       const code = response.data.roleLevels.data
       getComborolLevel(code)
     })
-     HttpClient.get(AppConfig.baseUrl + '/public/data/role-type?page=1&take=25&search').then(response => {
-       const code = response.data.roleTypes.data
-       getComborolType(code)
-     })
-     
-     HttpClient.get(AppConfig.baseUrl + '/public/data/vessel-type?page=1&take=25&search').then(response => {
-       const code = response.data.vesselTypes.data
-       getComborVessel(code)
-     })
-     
-     HttpClient.get(AppConfig.baseUrl + '/public/data/region-travel?page=1&take=25&search').then(response => {
-       const code = response.data.regionTravels.data
-       getComboroRegion(code)
-     })
+    HttpClient.get(AppConfig.baseUrl + '/public/data/role-type?page=1&take=25&search').then(response => {
+      const code = response.data.roleTypes.data
+      getComborolType(code)
+    })
+
+    HttpClient.get(AppConfig.baseUrl + '/public/data/vessel-type?page=1&take=25&search').then(response => {
+      const code = response.data.vesselTypes.data
+      getComborVessel(code)
+    })
+
+    HttpClient.get(AppConfig.baseUrl + '/public/data/region-travel?page=1&take=25&search').then(response => {
+      const code = response.data.regionTravels.data
+      getComboroRegion(code)
+    })
 
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
       getComboCountry(code)
     })
-      const code = [
-        { employee_type: 'onship', label: 'On-Ship' },
-        { employee_type: 'offship', label: 'Off-Ship' }
-      ]
+    const code = [
+      { employee_type: 'onship', label: 'On-Ship' },
+      { employee_type: 'offship', label: 'Off-Ship' }
+    ]
     getShip(code)
-     
+
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
       for (let x = 0; x < code.length; x++) {
@@ -201,7 +207,7 @@ const CandidateProfile = (props: compProps) => {
       }
       getCombocode(code)
     })
-    
+
     HttpClient.get(AppConfig.baseUrl + '/user/' + props.datauser.id).then(response => {
       const code = response.data.user
       setPreview(code.photo)
@@ -209,8 +215,8 @@ const CandidateProfile = (props: compProps) => {
     })
 
     HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
-       const itemData =   response.data.documents
- 
+      const itemData = response.data.documents
+
       getItemdata(itemData)
     })
     HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100').then(response => {
@@ -218,7 +224,7 @@ const CandidateProfile = (props: compProps) => {
 
       getItemdataWE(itemData)
     })
-    
+
     HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100').then(response => {
       const itemData = response.data.educations
 
@@ -226,7 +232,7 @@ const CandidateProfile = (props: compProps) => {
     })
 
 
-    
+
     HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
       .then((response) => {
         const code = response.data.countries;
@@ -256,7 +262,7 @@ const CandidateProfile = (props: compProps) => {
 
     tampilkanship = ship.label
   }, [hookSignature])
-  
+
   const { register, handleSubmit } = useForm<FormData>({
     mode: 'onBlur'
   })
@@ -267,7 +273,7 @@ const CandidateProfile = (props: compProps) => {
   const editWorkExperience = (item: any) => {
     setSelectedItem(item)
     setOpenEditModalWE(!openEditModalWE)
-  }
+  } 
   const editDocument= (item: any) => {
     setSelectedItem(item)
     setOpenEditModalDoc(!openEditModalDoc)
@@ -299,7 +305,7 @@ const CandidateProfile = (props: compProps) => {
     combobox()
     toast.success(`  deleted successfully!`)
   }
- 
+  
   const onSubmit = (data: FormData) => {
     const { fullName, website, phone, address, about } = data
 
@@ -333,7 +339,7 @@ const CandidateProfile = (props: compProps) => {
         } else {
           console.log('here 1', data)
           toast.success(' Successfully submited!')
-        } 
+        }
       },
       error => {
         console.log('here 1', error)
@@ -341,11 +347,11 @@ const CandidateProfile = (props: compProps) => {
       }
     )
   }
- 
+
   const [selectedFile, setSelectedFile] = useState()
   const [selectedFileBanner, setSelectedFileBanner] = useState()
   const [preview, setPreview] = useState()
-  const [previewBanner, setPreviewBanner] = useState() 
+  const [previewBanner, setPreviewBanner] = useState()
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined)
@@ -431,13 +437,14 @@ const CandidateProfile = (props: compProps) => {
       }
     )
   }
-  const displayship = (type:any)=>{
+  const displayship = (type: any) => {
     setShip(type?.employee_type)
     tampilkanship = type?.label
   }
- 
+
   return (
     <Grid container padding={5}>
+          <Grid container padding={5}>
       <input
         accept='image/*'
         style={{ display: 'none', height: 250, width: '100%' }}
@@ -459,7 +466,7 @@ const CandidateProfile = (props: compProps) => {
             <CardMedia
               component='img'
               alt='profile-header'
-              image={previewBanner ? previewBanner : '/images/avatars/headerprofile.png'}
+              image={previewBanner ? previewBanner : '/images/avatars/headerprofile3.png'}
               sx={{
                 height: { xs: 150, md: 250 },
                 width: '100%',
@@ -490,7 +497,7 @@ const CandidateProfile = (props: compProps) => {
       >
         <BoxWrapper>
           
-            <ProfilePicture src={preview ? preview : '/images/avatars/1.png'} alt='profile-picture'></ProfilePicture>
+            <ProfilePicture src={preview ? preview : '/images/avatars/profilepic.png'} alt='profile-picture'></ProfilePicture>
  
           <input
             accept='image/*'
@@ -616,9 +623,9 @@ const CandidateProfile = (props: compProps) => {
                   getOptionLabel={(option: any) => option.label}
                   renderInput={params => <TextField {...params} label='Ship' />}
                   onChange={(event: any, newValue: any | null) => displayship(newValue)}
-                  // onChange={(event: any, newValue: Employee ) =>
-                  //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
-                  // }
+                // onChange={(event: any, newValue: Employee ) =>
+                //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
+                // }
                 />
               </Grid>
 
@@ -837,9 +844,9 @@ const CandidateProfile = (props: compProps) => {
                 </Grid>
               )}
 
-              <Grid item md={2} xs={12}>
+              <Grid item md={1} xs={12}>
                 <Button fullWidth size='small' type='submit' variant='contained' sx={{ mb: 7 }}>
-                  Save
+                  <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '24px' }} />
                 </Button>
               </Grid>
               <Divider style={{ width: '100%' }} />
@@ -847,13 +854,20 @@ const CandidateProfile = (props: compProps) => {
               <Box sx={{ marginTop: '20px' }}></Box>
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
-                  <Typography variant='h5' sx={{ fontWeight: 'bold', color: '#424242' }}>
-                    Educational Info
-                  </Typography>
+                  <Grid container item xs={12} justifyContent={'left'}>
+                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                      Educational Info
+                    </Typography>
+                  </Grid>
+                  <Grid container item xs={12} justifyContent={'left'}>
+                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                      Fulfill your Educational Info
+                    </Typography>
+                  </Grid>
                 </Grid>
                 <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
                   <Button variant='contained' onClick={() => setOpenAddModal(!openAddModal)}>
-                    +
+                    <Icon fontSize='large' icon={'basil:add-solid'} color={'primary'} style={{ fontSize: '24px' }} />
                   </Button>
                 </Grid>
                 <Grid item container xs={12}>
@@ -862,7 +876,7 @@ const CandidateProfile = (props: compProps) => {
                       <Grid xs={4} md={1}>
                         <img
                           alt='logo'
-                          src={item.logo ? item.logo : '/images/avatar.png'}
+                          src={item.logo ? item.logo : '/images/educationalinfo.png'}
                           style={{
                             maxWidth: '100%',
                             height: '100px',
@@ -873,22 +887,29 @@ const CandidateProfile = (props: compProps) => {
                       </Grid>
                       <Grid xs={8} md={11} item container>
                         <Grid xs={10} marginTop={2}>
-                          <Typography variant='h6'>{item.title}</Typography>
-                          <Typography variant='body1'>{item.major}</Typography>
-                        </Grid>
-                        <Grid xs={12} md={2} marginTop={2} display='flex' item container>
+                          <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
+                            {item.title}
+                          </Typography>
+                          <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                            {item.major}
+                          </Typography>
                           <Grid xs={12} display='flex'>
                             <Box>
                               <Typography variant='body1'>{item.start_date}</Typography>
                             </Box>
                             <Box>
-                              <Typography variant='body1'> / </Typography>
+                              <Typography variant='body1'> &nbsp; - &nbsp;</Typography>
                             </Box>
                             <Box>
                               <Typography variant='body1'>{item.end_date}</Typography>
                             </Box>
                           </Grid>
-                          <Grid xs={12} display='flex' item container>
+                        </Grid>
+                        <Grid xs={12} md={2} marginTop={2} display='flex' item container>
+ 
+ 
+                        <Grid xs={12} display='flex' item container>
+ 
                             <Grid
                               xs={12}
                               md={12}
@@ -899,22 +920,26 @@ const CandidateProfile = (props: compProps) => {
                             >
                               <Box margin={1}>
                                 <Button
-                                  variant='contained'
-                                  color='info'
+ 
+ 
+                                  variant='outlined'
+                                  color='primary'
                                   size='small'
                                   onClick={() => editEducation(item)}
                                 >
-                                  Edit
+                                  <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
+ 
+ 
                                 </Button>
                               </Box>
                               <Box margin={1}>
                                 <Button
-                                  variant='contained'
+                                  variant='outlined'
                                   color='error'
                                   size='small'
                                   onClick={() => deleteeducation(item.id)}
-                                >
-                                  Delete
+                                > 
+                                  <Icon fontSize='large' icon={'fluent:delete-32-filled'} color={'error'} style={{ fontSize: '24px' }} />
                                 </Button>
                               </Box>
                             </Grid>
@@ -932,13 +957,20 @@ const CandidateProfile = (props: compProps) => {
 
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
-                  <Typography variant='h5' sx={{ fontWeight: 'bold', color: '#424242' }}>
-                    Work Experience Info
-                  </Typography>
+                  <Grid container item xs={12} justifyContent={'left'}>
+                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                      Work Experience Info
+                    </Typography>
+                  </Grid>
+                  <Grid container item xs={12} justifyContent={'left'}>
+                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                      Fulfill your Work Experience Info
+                    </Typography>
+                  </Grid>
                 </Grid>
                 <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
                   <Button variant='contained' onClick={() => setOpenAddModalWE(!openAddModalWE)}>
-                    +
+                    <Icon fontSize='large' icon={'basil:add-solid'} color={'primary'} style={{ fontSize: '24px' }} />
                   </Button>
                 </Grid>
                 <Grid item container xs={12}>
@@ -947,7 +979,7 @@ const CandidateProfile = (props: compProps) => {
                       <Grid xs={4} md={1}>
                         <img
                           alt='logo'
-                          src={item.logo ? item.logo : '/images/avatar.png'}
+                          src={item.logo ? item.logo : '/images/workexperienceinfo.png'}
                           style={{
                             maxWidth: '100%',
                             height: '100px',
@@ -958,22 +990,26 @@ const CandidateProfile = (props: compProps) => {
                       </Grid>
                       <Grid xs={8} md={11} item container>
                         <Grid xs={10} marginTop={2}>
-                          <Typography variant='h6'>{item.position}</Typography>
-                          <Typography variant='body1'>{item.institution}</Typography>
-                        </Grid>
-                        <Grid xs={12} md={2} marginTop={2} display='flex' item container>
+                          <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
+                            {item.position}
+                          </Typography>
+                          <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                            {item.institution}
+                          </Typography>
                           <Grid xs={12} display='flex'>
                             <Box>
                               <Typography variant='body1'>{item.start_date}</Typography>
                             </Box>
                             <Box>
-                              <Typography variant='body1'> / </Typography>
+                              <Typography variant='body1'> &nbsp; - &nbsp; </Typography>
                             </Box>
                             <Box>
                               <Typography variant='body1'>{item.end_date}</Typography>
                             </Box>
                           </Grid>
-
+                        </Grid>
+                        <Grid xs={12} md={2} marginTop={2} display='flex' item container>
+ 
                           <Grid xs={12} display='flex' item container>
                             <Grid
                               xs={12}
@@ -985,22 +1021,24 @@ const CandidateProfile = (props: compProps) => {
                             >
                               <Box margin={1}>
                                 <Button
-                                  variant='contained'
-                                  color='info'
+                                   variant='outlined'
+                                  color='primary'
                                   size='small'
                                   onClick={() => editWorkExperience(item)}
                                 >
-                                  Edit
+                                  <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
+  
                                 </Button>
                               </Box>
                               <Box margin={1}>
                                 <Button
-                                  variant='contained'
-                                  color='error'
+ 
+                                  variant='outlined'
+                                   color='error'
                                   size='small'
                                   onClick={() => deletewe(item.id)}
-                                >
-                                  Delete
+                                > 
+                                  <Icon fontSize='large' icon={'fluent:delete-32-filled'} color={'error'} style={{ fontSize: '24px' }} />
                                 </Button>
                               </Box>
                             </Grid>
@@ -1008,7 +1046,9 @@ const CandidateProfile = (props: compProps) => {
                         </Grid>
                       </Grid>
                       <Grid xs={12}>
-                        <Typography variant='body1'>{item.description}</Typography>
+                        <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                          {item.description}
+                        </Typography>
                       </Grid>
                       <Divider style={{ width: '100%' }} />
                     </Grid>
@@ -1017,46 +1057,67 @@ const CandidateProfile = (props: compProps) => {
               </Grid>
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
-                  <Typography variant='h5' sx={{ fontWeight: 'bold', color: '#424242' }}>
-                    Document Upload
-                  </Typography>
+                  <Grid container item xs={12} justifyContent={'left'}>
+                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                      Document Upload
+                    </Typography>
+                  </Grid>
+                  <Grid container item xs={12} justifyContent={'left'}>
+                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                      Upload your Document Info
+                    </Typography>
+                  </Grid>
                 </Grid>
                 <Grid display='flex' justifyContent='flex-end' alignItems='flex-end' xs={2} md={1}>
                   <Button variant='contained' onClick={() => setOpenAddModalDoc(!openAddModalDoc)}>
-                    +
+                    <Icon fontSize='large' icon={'basil:add-solid'} color={'primary'} style={{ fontSize: '24px' }} />
                   </Button>
                 </Grid>
                 <Grid item container xs={12}>
                   {itemData.map(item => (
                     <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
                       <Grid xs={12} md={9} container direction='row' alignItems='center'>
-                        <img
-                          alt='logo'
-                          src={'/images/avatars/circle-check-solid 1.svg'}
-                          style={{
-                            maxWidth: '100%',
-                            height: '20px',
-                            padding: 0,
-                            margin: 5
-                          }}
-                        />
-                        <Typography variant='h6'>{item.document_name}</Typography>
+ 
+ 
+                        <Icon fontSize='large' icon={'solar:document-bold'} color={'info'} style={{ fontSize: '24px', margin: '5px' }} />
+                        <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
+                          {item.document_name}
+                        </Typography>
+  
                       </Grid>
                       <Grid xs={12} md={3} display='flex' item container>
                         <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
                           <Box margin={1}>
-                            <Button variant='contained' color='success' size='small' href={item.path} target='_blank'>
-                              Preview
+ 
+ 
+                            <Button
+                              variant='outlined'
+                              color='info'
+                              size='small'
+                              href={item.path} target='_blank'
+                            >
+                              <Icon fontSize='large' icon={'icon-park-outline:preview-open'} color={'info'} style={{ fontSize: '24px' }} />
                             </Button>
                           </Box>
                           <Box margin={1}>
-                            <Button variant='contained' color='info' size='small' onClick={() => editDocument(item)}>
-                              Edit
+                            <Button
+                              variant='outlined'
+                              color='primary'
+                              size='small'
+                              onClick={() => editDocument(item.id)}
+                            >
+                              <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
                             </Button>
                           </Box>
                           <Box margin={1}>
-                            <Button variant='contained' color='error' size='small' onClick={() => deletework(item.id)}>
-                              Delete
+                            <Button
+                              variant='outlined'
+                              color='error'
+                              size='small'
+                              onClick={() => deletework(item.id)}
+                            >
+                              <Icon fontSize='large' icon={'fluent:delete-32-filled'} color={'error'} style={{ fontSize: '24px' }} />
+ 
                             </Button>
                           </Box>
                         </Grid>

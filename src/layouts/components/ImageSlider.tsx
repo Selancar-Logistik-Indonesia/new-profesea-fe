@@ -72,7 +72,7 @@ const ImageSlider = (props: any) => {
   }
 
   return (
-    <Box sx={{ position: 'relative', height: '400px' }}>
+    <Box sx={{ position: 'relative', height: '400px', marginTop: '10px' }}>
       <div style={sliderStyles}>
         <div>
           <Box sx={{ position: 'absolute' }} onClick={goToPrevious} style={leftArrowStyles}>
@@ -93,7 +93,9 @@ const ImageSlider = (props: any) => {
       </div>
       <Box position={'absolute'} sx={{ right: { xs: '2%', md: '2%' }, top: { xs: '3%', md: '3%' } }}>
         <label htmlFor='raised-button-file-banner'>
-          <Icon fontSize='large' icon={'material-symbols:delete'} color={'white'} style={{ fontSize: '36px' }} />
+ 
+          <Icon fontSize='large' icon={'material-symbols:delete'} color={'white'} style={{ fontSize: '24px' }} />
+ 
         </label>
       </Box>
     </Box>
