@@ -32,8 +32,8 @@ const FindJob = () => {
                 <Grid item xs={12} sx={!hidden ? { alignItems: "stretch" } : {}}>
                     <Grid container spacing={6} >
                         <Grid item xs={12}>
-                            <Typography variant="h6" color={"#32487A"} fontWeight="600"> Find Job</Typography>
-                            <Typography fontSize={16} style={{ color: "#424242" }} marginTop={2} marginBottom={5}>Based on your profile and search history</Typography>
+                            <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}> Find Job</Typography>
+                            <Typography fontSize={12} style={{ color: "#424242" }} marginTop={2} marginBottom={5}>Search & Apply Job Based on your profile and your experience</Typography>
                             <RecomendedView listJob={listJob} />
                         </Grid>
                     </Grid>

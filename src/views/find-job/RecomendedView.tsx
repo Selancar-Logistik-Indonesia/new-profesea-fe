@@ -42,7 +42,7 @@ const renderList = (listJob: Job[]) => {
                 <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50 }} />
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={2}>
-                <Typography sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }} fontSize={14} >
+                <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={14} >
                   {item?.role_type?.name}
                 </Typography>
                 <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
@@ -53,20 +53,20 @@ const renderList = (listJob: Job[]) => {
           </Link>
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={2}>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} >
-              <Icon icon='mdi:account-tie'/>
-              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem">
+              <Icon icon='mdi:account-tie' color='#32487A' />
+              <Typography sx={{ color: '#424242' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                 {item?.rolelevel?.levelName}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} >
-              <Icon icon='mdi:currency-usd' />
-              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem">
+              <Icon icon='mdi:currency-usd' color='#32487A'  />
+              <Typography sx={{ color: '#424242' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                 Up to Rp. {item?.salary_end}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
-              <Icon icon='mdi:school'/>
-              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem">
+              <Icon icon='mdi:school' color='#32487A' />
+              <Typography sx={{ color: '#424242' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                 {item?.degree?.name}
               </Typography>
             </Box>
