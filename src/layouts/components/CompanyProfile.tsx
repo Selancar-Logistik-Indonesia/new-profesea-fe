@@ -97,10 +97,7 @@ const CompanyProfile = (props: compProps) => {
   const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
   const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
   const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
-
-  const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
-  const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
-  const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
+  
 
   const combobox = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {

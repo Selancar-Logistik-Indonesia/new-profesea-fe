@@ -443,8 +443,7 @@ const CandidateProfile = (props: compProps) => {
   }
 
   return (
-    <Grid container padding={5}>
-          <Grid container padding={5}>
+    <Grid container padding={5}> 
       <input
         accept='image/*'
         style={{ display: 'none', height: 250, width: '100%' }}
