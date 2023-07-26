@@ -117,7 +117,7 @@ const JobDetail = () => {
               <Grid item md={3} xs={12}>
                 <Grid container spacing={2} alignItems="right" justifyContent="center">
                   <Grid item>
-                  {jobDetail?.count_applicant == 0 ? (
+                  {jobDetail?.applied_at == null ? (
                   <>
                     <Button onClick={handleApply} variant='contained' color='primary' >
                       Apply Job
