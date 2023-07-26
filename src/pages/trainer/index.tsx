@@ -1,52 +1,22 @@
-// ** React Imports
 import React, { useEffect, useState } from 'react'
-
-// ** MUI Components
 import Box from '@mui/material/Box'
-import { Tabs, Tab, useMediaQuery } from '@mui/material'
-import { Grid } from '@mui/material'
-import { useForm } from 'react-hook-form'
-// import Icon from 'src/@core/components/icon' 
+import { Tabs, Tab, useMediaQuery, Grid } from '@mui/material'
 import CompanyProfile from 'src/layouts/components/CompanyProfile'
 import { useTheme } from '@mui/material/styles'
 import ManageAccount from 'src/layouts/components/ManageAccount'
 import Subscription from 'src/layouts/components/Subscription'
-// import CompanyProfilePreview from 'src/layouts/components/CompanyProfilePreview'
 import { IUser } from 'src/contract/models/user'
-
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import AdsList from 'src/layouts/components/Ads'
 
-type FormData = {
-  companyName: string
-  industryType: string
-  country: string
-  district: string
-  city: string
-  postalCode: string
-  email: string
-  code: string
-  website: string
-  phone: string
-  address: string
-  about: string
-}
 const Company = () => {
-
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
-  // const [openPreview, setOpenPreview] = useState(false);
-
-  // const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser; 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser;
   const [selectedItem, setSelectedItem] = useState<IUser | null>(null);
-  const {
-  } = useForm<FormData>({
-    mode: 'onBlur',
-  },)
+
   interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -172,12 +142,9 @@ const Company = () => {
   )
 }
 
-// Company.getLayout = (page: ReactNode) => <BlankLayoutWithAppBar>{page}</BlankLayoutWithAppBar>
-
-// Company.guestGuard = true
-
 Company.acl = {
   action: 'read',
   subject: 'home'
 };
+
 export default Company
