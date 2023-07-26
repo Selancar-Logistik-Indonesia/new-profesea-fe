@@ -129,6 +129,7 @@ const UserDropdown = (props: Props) => {
             <Icon icon='mdi:account-outline' />
             {userData?.role == 'Seafarer' && <LinkStyled href='/candidate/profile'>Profile</LinkStyled>}
             {userData?.role == 'Company' && <LinkStyled href='/company/profile'>Profile</LinkStyled>}
+            {userData?.role == 'Trainer' && <LinkStyled href='/trainer/profile'>Profile</LinkStyled>}
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>

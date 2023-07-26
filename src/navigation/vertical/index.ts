@@ -48,13 +48,6 @@ const navigation = (): VerticalNavItemsType => {
             action: 'read',
             subject: 'user-find-candidate'
         },
-        {
-            path: '/trainer/my-participant',
-            title: 'List of Participant',
-            icon: 'mdi:people',
-            action: 'read',
-            subject: 'user-my-participant'
-        },
 
         // admin section
         {
