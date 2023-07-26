@@ -1,15 +1,27 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
-import { IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
-    { field: 'no', headerName: '#', sortable: true , width: 50},
-    { field: 'title', headerName: 'Title', sortable: true , minWidth: 250},
+    { field: 'no', headerName: '#', sortable: true, width: 50 },
+    { field: 'title', headerName: 'Title', sortable: true, minWidth: 250 },
     { field: 'schedule', headerName: 'Schedule', sortable: false, minWidth: 150 },
     { field: 'category', headerName: 'Category', sortable: false, minWidth: 100 },
     { field: 'short_description', headerName: 'Description', sortable: false, minWidth: 300 },
+    {
+        field: 'count_participant', headerName: 'Participants', sortable: false, minWidth: 120,
+        renderCell: (cell) => {
+            const { row } = cell;
+
+            return (
+                <Button onClick={() => row.actions.onViewParticipants()} variant='text'>
+                    {row.count_participant}
+                </Button>
+            );
+        }
+    },
     {
         field: 'action',
         headerName: 'Action',
@@ -45,7 +57,7 @@ type RoleGridProps = {
 }
 
 interface RowItem {
-    id:number,
+    id: number,
     title: string,
     schedule: string,
     category: string,
@@ -54,6 +66,7 @@ interface RowItem {
         onDelete: VoidFunction,
         onUpdate: VoidFunction,
         onView: VoidFunction,
+        onViewParticipants: VoidFunction,
     };
 }
 

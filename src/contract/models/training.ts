@@ -12,6 +12,7 @@ interface Training {
     thumbnail: string,
     category: TrainingCategory,
     trainer: IUser
+    count_participant: number
 }
 
 export default Training;
