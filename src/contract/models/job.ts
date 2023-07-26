@@ -23,6 +23,7 @@ interface Job {
     experience: string,
     description: string,
     onboard_at: string,
+    applied_at: string,
     created_at: string,
     updated_at: string,
     category: JobCategory,
