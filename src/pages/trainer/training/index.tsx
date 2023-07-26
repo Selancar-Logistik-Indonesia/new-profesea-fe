@@ -2,7 +2,6 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import { Tabs, Tab, useMediaQuery, Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import AdsList from 'src/layouts/components/Ads'
 import AllTrainingScreen from './all'
 import OngoingTrainingScreen from './ongoing'
 

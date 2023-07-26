@@ -7,7 +7,7 @@ import Fade, { FadeProps } from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
 import Icon from 'src/@core/components/icon'
 import Training from 'src/contract/models/training'
-import { Avatar, Button, CircularProgress, Divider, TextField } from '@mui/material'
+import { Avatar, Button, CircularProgress, TextField } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers'
 import ITrainingParticipant from 'src/contract/models/training_participant'
@@ -32,12 +32,14 @@ const DialogViewParticipant = (props: ViewProps) => {
     const training = props.selectedItem;
     const [trainingUsers, setTrainingUsers] = useState<ITrainingParticipant[]>([]);
     const [onLoading, setOnLoading] = useState(true);
+    const [hasNextPage, setHasNextPage] = useState(true);
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
     const take = 25;
 
     const handleSearch = useCallback(
         debounce((value: string) => {
+            setPage(1);
             setSearch(value);
         }, 500), []);
 
@@ -55,7 +57,18 @@ const DialogViewParticipant = (props: ViewProps) => {
             }
 
             const { participants } = response.data as { participants: { data: ITrainingParticipant[], total: number, next_page_url: string } }
-            setTrainingUsers(participants.data);
+            setHasNextPage(!!participants.next_page_url);
+
+            if (page == 1 && !!search) {
+                setTrainingUsers(participants.data);
+            } else {
+                setTrainingUsers(old => {
+                    const newItems = old;
+                    participants.data.forEach(e => newItems.push(e));
+
+                    return newItems;
+                });
+            }
         } catch (error) {
             alert(getCleanErrorMessage(error));
         }
@@ -94,37 +107,41 @@ const DialogViewParticipant = (props: ViewProps) => {
                     <TextField onChange={(e) => handleSearch(e.target.value)} placeholder='Search..' variant='standard' />
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
+                    {trainingUsers.length == 0 && (
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: 120, justifyContent: 'center' }}>
+                            <Typography variant='caption'>No record found</Typography>
+                        </Box>
+                    )}
+
+                    {!onLoading && trainingUsers.map(e => (
+                        <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', mb: 4 }} key={e.id}>
+                            <Box mr={2}>
+                                <Avatar src={getUserAvatar(e.user)} />
+                            </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
+                                <Typography lineHeight={1.4} variant='body1'>{e.user.name}</Typography>
+                                <Typography lineHeight={1.4} variant='caption' fontSize={10}>{e.user.email}</Typography>
+                            </Box>
+
+                            <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'}>
+                                <Button size='small'>Open Profile</Button>
+                            </Box>
+                        </Box>
+                    ))}
+
                     {onLoading && (
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: 120, justifyContent: 'center' }}>
                             <CircularProgress />
                         </Box>
                     )}
 
-                    {!onLoading && trainingUsers.length == 0 && (
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: 120, justifyContent: 'center' }}>
-                            <Typography variant='caption'>No record found</Typography>
+                    {!onLoading && hasNextPage && (
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', justifyContent: 'center' }}>
+                            <Button onClick={() => {
+                                if (hasNextPage) setPage((old) => old + 1);
+                            }} variant='text'>Load More ..</Button>
                         </Box>
                     )}
-
-                    {
-                        !onLoading && trainingUsers.map(e => (
-                            <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', mb: 4 }} key={e.id}>
-                                <Box mr={2}>
-                                    <Avatar src={getUserAvatar(e.user)} />
-                                </Box>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
-                                    <Typography lineHeight={1.4} variant='body1'>{e.user.name}</Typography>
-                                    <Typography lineHeight={1.4} variant='caption' fontSize={10}>{e.user.email}</Typography>
-                                </Box>
-
-                                <Divider color='red' />
-
-                                <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'}>
-                                    <Button size='small'>Open Profile</Button>
-                                </Box>
-                            </Box>
-                        ))
-                    }
                 </Box>
             </DialogContent>
         </Dialog>
