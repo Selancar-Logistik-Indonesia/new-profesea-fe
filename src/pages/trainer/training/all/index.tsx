@@ -17,6 +17,7 @@ import DialogDelete from './DialogDelete';
 import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
 import DialogView from './DialogView';
+import DialogViewParticipant from './DialogViewParticipant';
 
 const AllTrainingScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -25,6 +26,7 @@ const AllTrainingScreen = () => {
     const [openDelModal, setOpenDelModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [openViewModal, setOpenViewModal] = useState(false);
+    const [openParticipantModal, setOpenParticipantModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<Training | null>(null);
 
@@ -43,16 +45,18 @@ const AllTrainingScreen = () => {
             const rows = resp.data.trainings.data as Training[];
             const items = rows.map((row, index) => {
                 return {
-                    no: index + 1,
                     id: row.id,
+                    no: index + 1,
                     title: row.title,
                     schedule: row.schedule,
                     category: row.category.category,
                     short_description: row.short_description,
+                    count_participant: row.count_participant,
                     actions: {
                         onDelete: () => deleteHandler(row),
                         onUpdate: () => updateHandler(row),
                         onView: () => viewHandler(row),
+                        onViewParticipants: () => openParticipantDialog(row),
                     }
                 } as RowItem;
             });
@@ -99,6 +103,11 @@ const AllTrainingScreen = () => {
     const viewHandler = (row: Training) => {
         setSelectedItem(row);
         setOpenViewModal(true);
+    }
+
+    const openParticipantDialog = (row: Training) => {
+        setSelectedItem(row);
+        setOpenParticipantModal(true);
     }
 
     useEffect(() => {
@@ -161,6 +170,10 @@ const AllTrainingScreen = () => {
                     <DialogView key={selectedItem.id} selectedItem={selectedItem}
                         visible={openViewModal}
                         onCloseClick={() => setOpenViewModal(!openViewModal)}
+                        onStateChange={() => setHookSignature(v4())} />
+                    <DialogViewParticipant key={selectedItem.id} selectedItem={selectedItem}
+                        visible={openParticipantModal}
+                        onCloseClick={() => setOpenParticipantModal(!openParticipantModal)}
                         onStateChange={() => setHookSignature(v4())} />
                 </>
             )}

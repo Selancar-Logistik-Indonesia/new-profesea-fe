@@ -2,7 +2,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Button } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services';
 import { AxiosError } from 'axios';
@@ -56,70 +56,69 @@ const OngoingTrainingScreen = () => {
     useEffect(() => {
         getListTraining();
     }, [hookSignature]);
-    
-    return ( 
-    <>
-    <Grid container spacing={2} >
-        {
-        dataCard.map((item, index) => {
-                
-            return (
-                <Grid item xs={4} sx={{marginTop:'-10px' , marginBottom:'10px'}}  key={index}>
-                    <Card >
-                        <Grid item xs={12} >
-                        <CardContent>
-                            <Grid container sx={{  alignItems: 'center', justifyContent: 'center' }}>
-                                <Grid item>
-                                <img
-                                    alt='logo'
-                                    src={item?.thumbnail ? item?.thumbnail : '/images/avatar.png'}
-                                    style={{
-                                    width: '300px',
-                                    height: '200px',
-                                    }}
-                                    onClick={() => viewHandler(item)}
-                                    />
 
-                                </Grid>
-                            </Grid>
-                            <Grid container direction="row" justifyContent="space-between" alignItems="center">
-                            <Grid item onClick={() => viewHandler(item)}>
-                                <Typography sx={{ mb: 0.5,  fontStyle: 'bold', fontSize:'14px' }} variant='body1' >
-                                {item.title}
-                                </Typography>
-                                <Typography sx={{ mb: 0.5 ,  fontStyle: 'italic', fontSize:'11px' }} variant='body2' >
-                                {item.category?.category}
-                                </Typography>
-                            </Grid>
-                            <Grid item >
-                                <Button variant='contained' color='warning' onClick={() => updateHandler(item)}>
-                                Edit
-                                </Button>
-                            </Grid>
-                            </Grid>
-                        </CardContent>
-                        </Grid>
-                    </Card>
-                </Grid>
-                )
-            })
-        }
-
-    </Grid>
-
-    {selectedItem && (
+    return (
         <>
-            <DialogEdit key={selectedItem.id} selectedItem={selectedItem}
-                visible={openEditModal}
-                onCloseClick={() => setOpenEditModal(!openEditModal)}
-                onStateChange={() => setHookSignature(v4())} />
-            <DialogView key={selectedItem.id} selectedItem={selectedItem}
-                visible={openViewModal}
-                onCloseClick={() => setOpenViewModal(!openViewModal)}
-                onStateChange={() => setHookSignature(v4())} />
+            <Grid container spacing={2} >
+                {
+                    dataCard.map((item) => {
+
+                        return (
+                            <Grid item xs={12} md={4} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
+                                <Card >
+                                    <Grid item xs={12} >
+                                        <CardContent>
+                                            <Grid container sx={{ alignItems: 'center', justifyContent: 'center' }}>
+                                                <Grid item>
+                                                    <Box component='img'
+                                                        alt='logo'
+                                                        src={item?.thumbnail ? item?.thumbnail : '/images/avatar.png'}
+                                                        style={{
+                                                            width: 310,
+                                                            height: 200,
+                                                        }}
+                                                        onClick={() => viewHandler(item)}
+                                                    />
+                                                </Grid>
+                                            </Grid>
+                                            <Grid container direction="row" justifyContent="space-between" alignItems="center">
+                                                <Grid item onClick={() => viewHandler(item)}>
+                                                    <Typography sx={{ mb: 0.5, fontStyle: 'bold', fontSize: '14px' }} variant='body1' >
+                                                        {item.title}
+                                                    </Typography>
+                                                    <Typography sx={{ mb: 0.5, fontStyle: 'italic', fontSize: '11px' }} variant='body2' >
+                                                        {item.category?.category}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item>
+                                                    <Button variant='contained' color='warning' onClick={() => updateHandler(item)}>
+                                                        Edit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </CardContent>
+                                    </Grid>
+                                </Card>
+                            </Grid>
+                        )
+                    })
+                }
+
+            </Grid>
+
+            {selectedItem && (
+                <>
+                    <DialogEdit key={selectedItem.id} selectedItem={selectedItem}
+                        visible={openEditModal}
+                        onCloseClick={() => setOpenEditModal(!openEditModal)}
+                        onStateChange={() => setHookSignature(v4())} />
+                    <DialogView key={selectedItem.id} selectedItem={selectedItem}
+                        visible={openViewModal}
+                        onCloseClick={() => setOpenViewModal(!openViewModal)}
+                        onStateChange={() => setHookSignature(v4())} />
+                </>
+            )}
         </>
-    )}
-    </>
     );
 }
 

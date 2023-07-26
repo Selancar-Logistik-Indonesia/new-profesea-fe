@@ -5,6 +5,7 @@ import Icon from 'src/@core/components/icon'
 import { Avatar, Paper } from '@mui/material'
 import Job from 'src/contract/models/job'
 import Link from 'next/link'
+import Moment from 'moment'
 
 export type ParamMain = {
   name: string
@@ -43,7 +44,7 @@ const renderList = (listJob: Job[]) => {
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={2}>
                 <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={14} >
-                  JOB TITLE
+                  {item?.role_type?.name ?? "-"}
                 </Typography>
                 <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
                   {item?.company?.name ?? "-"}
@@ -55,7 +56,7 @@ const renderList = (listJob: Job[]) => {
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
               <Icon icon='ic:round-business-center' color='#32487A' />
               <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
-              {item?.rolelevel?.levelName} - {item?.role_type?.name} 
+              {item?.rolelevel?.levelName} - {item?.category?.name} 
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
@@ -79,7 +80,7 @@ const renderList = (listJob: Job[]) => {
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
               <Icon icon='game-icons:ship-bow' color='#32487A' />
               <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
-                Date on Board (dd-mm-yyyy)
+                Date on Board { (item.onboard_at) ? Moment(item?.onboard_at).format('DD/MM/YYYY') : '-'}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >

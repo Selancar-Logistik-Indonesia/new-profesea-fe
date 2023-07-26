@@ -12,14 +12,14 @@ const navigation = (): VerticalNavItemsType => {
         subject: 'home'
       },
 
-      // non-admin section
+       // non-admin section
       {
         path: '/candidate/find-job',
         title: 'Find Job',
         icon: 'mdi:work',
         action: 'read',
         subject: 'seaferer-jobs'
-      },
+      }, 
 
       {
         path: '/candidate/training',
