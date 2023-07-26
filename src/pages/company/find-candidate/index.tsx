@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Autocomplete, Card, CardContent, CardHeader, Collapse, Grid, IconButton, Tab, Tabs, TextField, Typography, Slider } from '@mui/material'
+import { Autocomplete, Card, CardContent, CardHeader, Collapse, Grid, IconButton,  TextField,   Slider, Typography, useMediaQuery } from '@mui/material'
 import { Icon } from '@iconify/react' 
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
 import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'  
 import JobCategory from 'src/contract/models/job_category'  
-// import Countries from 'src/contract/models/country'
-// import { AppConfig } from 'src/configs/api'
-// import City from 'src/contract/models/city'
+import { AppConfig } from 'src/configs/api' 
+import { useTheme } from '@mui/material/styles'
 
 const FindCandidate = () => {
   function valuetext(value: number) { 
@@ -21,21 +20,19 @@ const FindCandidate = () => {
    currency: 'IDR'
  })
   const [listCandidate, setListCandidate] = useState<IUser[]>([]) 
-  // const theme = useTheme()
-  // const hidden = useMediaQuery(theme.breakpoints.down('md'))
+  const theme = useTheme()
+  const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const [collapsed, setCollapsed] = useState<boolean>(true)
   const [collapsed2, setCollapsed2] = useState<boolean>(false)
   const [collapsed3, setCollapsed3] = useState<boolean>(false)
-  const [collapsed4, setCollapsed4] = useState<boolean>(false)  
+  const [collapsed4, setCollapsed4] = useState<boolean>(false)
   const [collapsed5, setCollapsed5] = useState<boolean>(false)
-  // const [collapsed6, setCollapsed6] = useState<boolean>(false)
-  // const [collapsed7, setCollapsed7] = useState<boolean>(false)
   const [JobCategory, getJobCategory] = useState<any[]>([]) 
   // const [idposition, setPosition] = useState<any>(0)  
   // const [idcountry, setCountry] = useState<any>()
   // const [combocity, getComboCity] = useState<any[]>([])
   // const [idcity, setCombocity] = useState<any>(0)
-  // const [combocode, getCombocode] = useState<any[]>([]) 
+  const [combocode, getCombocode] = useState<any[]>([]) 
  const [valueSalary, setValueSalary] = React.useState<number[]>([0, 100000000])
  const handleChangeSalary = (event: Event, newValue: number | number[]) => {
    setValueSalary(newValue as number[])
@@ -62,15 +59,15 @@ const FindCandidate = () => {
      }
      getJobCategory(res2.data.categories.data)
      
-    // HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
-    //   const code = response.data.countries
-    //   for (let x = 0; x < code.length; x++) {
-    //     const element = code[x]
-    //     element.label = element.name + '(' + element.phonecode + ')'
-    //   }
-    //   getCombocode(code)
-    // })
-    // console.log({ idposition }, { idcountry }, { idcountry }, { idcity })
+    HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
+      const code = response.data.countries
+      for (let x = 0; x < code.length; x++) {
+        const element = code[x]
+        element.label = element.name + '(' + element.phonecode + ')'
+      }
+      getCombocode(code)
+    })
+    console.log(   { combocode })
     
   }
   // const searchcity = async (q: any) => {
@@ -86,59 +83,20 @@ const FindCandidate = () => {
   useEffect(() => {
     getListCandidates()
   }, [])
- interface TabPanelProps {
-   children?: React.ReactNode
-   index: number
-   value: number
- }
-  function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props
-
-    return (
-      <div
-        role='tabpanel'
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box sx={{ p: 0 }}>
-            {children} 
-          </Box>
-        )}
-      </div>
-    )
-  }
- 
-
-  function a11yProps(index: number) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`
-    }
-  }
-
-  const [value, setValue] = React.useState(0)
-  // const [color, getColor] = useState<any>('#FFFFFF')
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
-    // getColor('#FFFFFF')
-  }
-
+  
+  
   return (
-    <Box>
     <Grid container spacing={2}>
       <Grid container spacing={6}>
         <Grid item lg={3} md={5} xs={12}>
           <Box mb={3}>
             <Card>
               <CardHeader
-               title={
-                <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                  Role Level
-                </Typography>
-              }
+                title={
+                  <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
+                    Role Level
+                  </Typography>
+                }
                 action={
                   <IconButton
                     size='small'
@@ -169,11 +127,11 @@ const FindCandidate = () => {
           <Box mb={3}>
             <Card>
               <CardHeader
-               title={
-                <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                  Role Type
-                </Typography>
-              }
+                title={
+                  <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
+                    Role Type
+                  </Typography>
+                }
                 action={
                   <IconButton
                     size='small'
@@ -205,7 +163,7 @@ const FindCandidate = () => {
             <Card>
               <CardHeader
                 title={
-                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
+                  <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
                     Salary Range
                   </Typography>
                 }
@@ -222,7 +180,6 @@ const FindCandidate = () => {
               />
               <Collapse in={collapsed3}>
                 <CardContent>
-                 
                   <br></br>
                   <Slider
                     getAriaLabel={() => 'Rp'}
@@ -242,11 +199,11 @@ const FindCandidate = () => {
           <Box mb={3}>
             <Card>
               <CardHeader
-               title={
-                <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                  Type of Vessel
-                </Typography>
-              }
+                title={
+                  <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
+                    Type of Vessel
+                  </Typography>
+                }
                 action={
                   <IconButton
                     size='small'
@@ -278,7 +235,7 @@ const FindCandidate = () => {
             <Card>
               <CardHeader
                 title={
-                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
+                  <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
                     License
                   </Typography>
                 }
@@ -314,39 +271,17 @@ const FindCandidate = () => {
         <Grid item lg={9} md={7} xs={12}>
           <Grid container spacing={6}>
             <Grid item xs={12}>
-              <Grid item xs={12}>
-                <Box
-                  sx={{
-                    borderBottom: 1,
-                    borderColor: 'divider',
-                    boxSizing: 'border-box',
-                    background: '#FFFFFF',
-                    border: '1px solid rgba(76, 78, 100, 0.12)',
-                    borderRadius: '10px'
-                  }}
-                >
-                  <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    aria-label='basic tabs example'
-                    sx={{
-                      '& button.Mui-selected': { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' }
-                    }}
-                  >
-                    <Tab label='Find Candidate' {...a11yProps(0)} />
-                    <Tab label='Job Applied' {...a11yProps(1)} />
-                  </Tabs>
-                </Box>
+              <Grid item xs={12}>                 
                 <Grid
                   container
                   sx={{
                     borderBottom: 1,
                     borderColor: 'divider',
                     boxSizing: 'border-box',
-                    // background: color,
+                    background: '#FFFFFF',
                     border: '1px solid rgba(76, 78, 100, 0.12)',
                     borderRadius: '10px',
-                    marginTop: '10px',
+                    // marginTop: '10px',
                     direction: 'row',
                     justifyContent: 'flex-start',
                     alignItems: 'top',
@@ -354,12 +289,24 @@ const FindCandidate = () => {
                   }}
                 >
                   <Grid item xs={12}>
-                    <TabPanel value={value} index={0}>
-                      <RecomendedView listCandidate={listCandidate} />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                      {/* <AllJobApplied></AllJobApplied> */}
-                    </TabPanel>
+                    <Box padding={5}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
+                          <Grid container spacing={6}>
+                            <Grid item xs={12}>
+                              <Typography variant='h6' color={'#32487A'} fontWeight='600'>
+                                {' '}
+                                Find Candidate
+                              </Typography>
+                              <Typography fontSize={16} style={{ color: '#424242' }} marginTop={2} marginBottom={5}>
+                                Based on your profile and search history
+                              </Typography>
+                              <RecomendedView listCandidate={listCandidate} />
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Box>
                   </Grid>
                 </Grid>
               </Grid>
@@ -368,13 +315,11 @@ const FindCandidate = () => {
         </Grid>
       </Grid>
     </Grid>
-
-    </Box>
   )
 }
 
 FindCandidate.acl = {
   action: 'read',
-  subject: 'home'
+  subject: 'find-candidate'
 }
 export default FindCandidate
