@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement } from 'react'
+import { Ref, forwardRef, ReactElement, useState } from 'react'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import IconButton from '@mui/material/IconButton'
@@ -8,8 +8,9 @@ import DialogContent from '@mui/material/DialogContent'
 import Icon from 'src/@core/components/icon'
 import Training from 'src/contract/models/training'
 import moment from 'moment'
-import { Avatar, Button } from '@mui/material'
-import { formatIDR, getUserAvatar } from 'src/utils/helpers'
+import { Avatar, Button, CircularProgress } from '@mui/material'
+import { formatIDR, getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers'
+import { HttpClient } from 'src/services'
 
 
 const Transition = forwardRef(function Transition(
@@ -29,6 +30,21 @@ type ViewProps = {
 
 const DialogView = (props: ViewProps) => {
     const { selectedItem } = props;
+    const [onLoading, setOnLoading] = useState(false);
+
+    const handleClickBuy = async () => {
+        setOnLoading(true);
+        try {
+            const response = await HttpClient.get(`/training/${selectedItem.id}/join`);
+            if (response.status != 200) {
+                throw response.data?.message ?? 'Unknow error';
+            }
+        } catch (error) {
+            alert(getCleanErrorMessage(error));
+        }
+
+        setOnLoading(false);
+    }
 
     return (
         <Dialog
@@ -84,7 +100,13 @@ const DialogView = (props: ViewProps) => {
                 <Box sx={{ mb: 6 }}>
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Typography variant='h6' mt={1} width={155}>{formatIDR(selectedItem.price)}</Typography>
-                        <Button variant='contained'>Buy It</Button>
+                        <Button disabled={onLoading} onClick={handleClickBuy} variant='contained'>
+                            {
+                                onLoading
+                                    ? <CircularProgress size={21} />
+                                    : "Buy It"
+                            }
+                        </Button>
                     </Box>
                 </Box>
 
