@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement } from 'react'
+import { Ref, forwardRef, ReactElement, useState, useEffect, useCallback } from 'react'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import IconButton from '@mui/material/IconButton'
@@ -7,7 +7,11 @@ import Fade, { FadeProps } from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
 import Icon from 'src/@core/components/icon'
 import Training from 'src/contract/models/training'
-import { Avatar, Button, Divider, TextField } from '@mui/material'
+import { Avatar, Button, CircularProgress, Divider, TextField } from '@mui/material'
+import { HttpClient } from 'src/services'
+import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers'
+import ITrainingParticipant from 'src/contract/models/training_participant'
+import debounce from 'src/utils/debounce'
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -26,6 +30,41 @@ type ViewProps = {
 
 const DialogViewParticipant = (props: ViewProps) => {
     const training = props.selectedItem;
+    const [trainingUsers, setTrainingUsers] = useState<ITrainingParticipant[]>([]);
+    const [onLoading, setOnLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [search, setSearch] = useState('');
+    const take = 25;
+
+    const handleSearch = useCallback(
+        debounce((value: string) => {
+            setSearch(value);
+        }, 500), []);
+
+    const getParticipants = async () => {
+        setOnLoading(true);
+        try {
+            const response = await HttpClient.get(`/training/${training.id}/participants`, {
+                page: page,
+                take: take,
+                search: search
+            });
+
+            if (response.status != 200) {
+                throw response.data?.message ?? "Something went wrong";
+            }
+
+            const { participants } = response.data as { participants: { data: ITrainingParticipant[], total: number, next_page_url: string } }
+            setTrainingUsers(participants.data);
+        } catch (error) {
+            alert(getCleanErrorMessage(error));
+        }
+        setOnLoading(false);
+    }
+
+    useEffect(() => {
+        getParticipants();
+    }, [page, search]);
 
     return (
         <Dialog
@@ -52,24 +91,40 @@ const DialogViewParticipant = (props: ViewProps) => {
                     <Typography variant='body2' sx={{ mb: 3 }}>Total Participants: {training.count_participant}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', mb: 4 }}>
-                    <TextField placeholder='Search..' variant='standard' />
+                    <TextField onChange={(e) => handleSearch(e.target.value)} placeholder='Search..' variant='standard' />
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-                        <Box mr={2}>
-                            <Avatar />
+                    {onLoading && (
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: 120, justifyContent: 'center' }}>
+                            <CircularProgress />
                         </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
-                            <Typography lineHeight={1.4} variant='body1'>Username</Typography>
-                            <Typography lineHeight={1.4} variant='caption' fontSize={10}>Username</Typography>
-                        </Box>
+                    )}
 
-                        <Divider color='red' />
-
-                        <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'}>
-                            <Button size='small'>Open Profile</Button>
+                    {!onLoading && trainingUsers.length == 0 && (
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: 120, justifyContent: 'center' }}>
+                            <Typography variant='caption'>No record found</Typography>
                         </Box>
-                    </Box>
+                    )}
+
+                    {
+                        !onLoading && trainingUsers.map(e => (
+                            <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', mb: 4 }} key={e.id}>
+                                <Box mr={2}>
+                                    <Avatar src={getUserAvatar(e.user)} />
+                                </Box>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
+                                    <Typography lineHeight={1.4} variant='body1'>{e.user.name}</Typography>
+                                    <Typography lineHeight={1.4} variant='caption' fontSize={10}>{e.user.email}</Typography>
+                                </Box>
+
+                                <Divider color='red' />
+
+                                <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'}>
+                                    <Button size='small'>Open Profile</Button>
+                                </Box>
+                            </Box>
+                        ))
+                    }
                 </Box>
             </DialogContent>
         </Dialog>
