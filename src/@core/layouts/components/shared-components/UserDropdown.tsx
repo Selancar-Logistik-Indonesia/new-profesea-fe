@@ -150,12 +150,6 @@ const UserDropdown = (props: Props) => {
             <LinkStyled href='/manage'>Manage User</LinkStyled>
           </Box>
         </MenuItem>
-        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='mdi:currency-usd' />
-            Pricing
-          </Box>
-        </MenuItem> */}
         <Divider />
         <MenuItem
           onClick={handleLogout}
