@@ -55,7 +55,7 @@ const JobDetail = () => {
         <CardContent>
           <Box sx={{ mb: 7 }}>
             <Grid container spacing={6} >
-              <Grid item md={10} xs={12}>
+              <Grid item md={9} xs={12}>
                 <Box
                   height={250}
                   sx={{
@@ -114,12 +114,22 @@ const JobDetail = () => {
                   </Box>
                 </Box>
               </Grid>
-              <Grid item md={2} xs={12}>
+              <Grid item md={3} xs={12}>
                 <Grid container spacing={2} alignItems="right" justifyContent="center">
                   <Grid item>
-                    <Button onClick={handleApply} variant='contained' color='primary'>
+                  {jobDetail?.count_applicant == 0 ? (
+                  <>
+                    <Button onClick={handleApply} variant='contained' color='primary' >
                       Apply Job
                     </Button>
+                  </>)
+                  :
+                  <>
+                    <Button variant='contained' color='primary' >
+                      Applied
+                    </Button>
+                  </>
+                  }
                   </Grid>
                   <Grid item>
                     <Button variant='contained' color='secondary'>
