@@ -5,6 +5,7 @@ import { Avatar, Paper } from '@mui/material'
 import { IUser } from 'src/contract/models/user'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
+import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useState } from 'react'
 
 export type ParamMain = {
   name: string
@@ -20,10 +21,11 @@ const renderList = (listCandidate: IUser[]) => {
   if (!listCandidate || listCandidate.length == 0) {
     return <></>
   }
-
+  const [spoken, getSpoken] = useState<[]>([]) 
   return listCandidate.map(item => {
-    const userPhoto = item.photo ? item.photo : '/images/avatars/default-user.png'
-
+    const userPhoto = item.photo ? item.photo : '/images/avatars/default-user.png' 
+    const names = item.field_preference?.spoken_langs ? item.field_preference?.spoken_langs : []
+   
     return (
       <Grid item xs={12} md={4} key={item?.id}>
         <Paper sx={{ marginTop: '10px' }}>
@@ -44,20 +46,25 @@ const renderList = (listCandidate: IUser[]) => {
                 marginTop={2}
               >
                 <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={14}>
-                  CANDIDATE NAME
+                  {item.name ? item.name : '-'}
                 </Typography>
                 <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
-                  Role Level - Role Type
+                  {item.field_preference?.role_level?.levelName ? item.field_preference?.role_level?.levelName : '-'}{' '}
+                  {item.field_preference?.role_type?.name ? item.field_preference?.role_type?.name : '-'}
                 </Typography>
               </Box>
             </Box>
           </Link>
+
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={2}>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
               <Icon icon='game-icons:ship-bow' color='#32487A' />
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                Bahasa
-              </Typography>
+
+              {names?.map((name: string) => (
+                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                  {name}
+                </Typography>
+              ))}
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
               <Icon icon='mdi:license' color='#32487A' />
@@ -68,7 +75,8 @@ const renderList = (listCandidate: IUser[]) => {
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
               <Icon icon='mdi:currency-usd' color='#32487A' />
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                from Rp. 1.000.000 To Rp. 9.000.000
+                from Rp. {item.field_preference?.role_type?.name ? item.field_preference?.salary_start : '0'} To Rp.
+                {item.field_preference?.role_type?.name ? item.field_preference?.salary_end : '0'}
               </Typography>
             </Box>
           </Box>
