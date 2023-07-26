@@ -121,15 +121,15 @@ const CompanyProfile = (props: compProps) => {
       for (let x = 0; x < code.length; x++) {
         const element = code[x]
         if (element.sosmed_type == 'Facebook') {
-          setFacebook(element.sosmed_address)
+          setFacebook(element.username)
           statusfb = element.id;
         }
         if (element.sosmed_type == 'Instagram') {
-          setInstagram(element.sosmed_address)
+          setInstagram(element.username)
           statusig = element.id
         }
         if (element.sosmed_type == 'LinkedIn') {
-          setLinkedin(element.sosmed_address)
+          setLinkedin(element.username)
           statuslinkedin = element.id
         }
 
