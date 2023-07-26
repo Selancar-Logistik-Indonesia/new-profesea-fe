@@ -20,7 +20,6 @@ const Transition = forwardRef(function Transition(
     return <Fade ref={ref} {...props} />
 })
 
-
 type ViewProps = {
     selectedItem: Training;
     visible: boolean;

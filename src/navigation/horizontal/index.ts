@@ -58,13 +58,6 @@ const navigation = (): HorizontalNavItemsType => [
     action: 'read',
     subject: 'seaferer-training'
   },
-  {
-    path: '/trainer/my-participant',
-    title: 'List of Participant',
-    icon: 'mdi:people',
-    action: 'read',
-    subject: 'user-my-participant'
-  }
 ]
 
 export default navigation
