@@ -29,6 +29,7 @@ const AllJobApplied = () => {
             const items = rows.map((row, index) => {
                 return {
                     no: index + 1,
+                    id: row.id,
                     role_type: row?.job?.role_type?.name,
                     category_name: row?.job?.category.name,
                     level_name: row?.job?.rolelevel.levelName,

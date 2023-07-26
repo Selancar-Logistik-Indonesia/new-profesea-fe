@@ -18,6 +18,7 @@ interface Job {
     employee_type: string,
     salary_start: number,
     salary_end: number,
+    count_applicant: number,
     license: string,
     experience: string,
     description: string,
