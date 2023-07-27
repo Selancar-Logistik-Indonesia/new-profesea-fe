@@ -20,8 +20,11 @@ interface Props {
 
 const renderList = (listCandidate: IUser[]) => {
   if (!listCandidate || listCandidate.length == 0) {
-    return <></>
+  
+    return  
+    
   } 
+
   return listCandidate.map(item => {
     const userPhoto = item.photo ? item.photo : '/images/avatars/default-user.png'
     const names = item.field_preference?.spoken_langs ? item.field_preference?.spoken_langs : []
