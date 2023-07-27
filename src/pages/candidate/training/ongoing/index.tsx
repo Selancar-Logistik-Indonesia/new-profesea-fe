@@ -82,22 +82,21 @@ const SeafererOngoingTraining = () => {
                                                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={1} >
                                                     <Icon icon='bxs:book' color='#32487A' />
                                                     <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
-                                                    {item.title}
+                                                        {item.title}
                                                     </Typography>
                                                 </Box>
                                                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
                                                     <Icon icon='material-symbols:category-rounded' color='#32487A' />
                                                     <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
-                                                    {item.category?.category}
+                                                        {item.category?.category}
                                                     </Typography>
                                                 </Box>
-                                                
                                             </Grid>
                                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
                                                 <Button variant='contained' color='primary' onClick={() => viewHandler(item)}>
                                                     Buy
                                                 </Button>
-                                                </Box>
+                                            </Box>
                                         </Grid>
                                         <Divider sx={{ my: '0 !important' }} />
                                         <Box

@@ -39,6 +39,8 @@ const DialogView = (props: ViewProps) => {
             if (response.status != 200) {
                 throw response.data?.message ?? 'Unknow error';
             }
+
+            selectedItem.joined_at = moment().format();
         } catch (error) {
             alert(getCleanErrorMessage(error));
         }
@@ -100,13 +102,18 @@ const DialogView = (props: ViewProps) => {
                 <Box sx={{ mb: 6 }}>
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Typography variant='h6' mt={1} width={155}>{formatIDR(selectedItem.price)}</Typography>
-                        <Button disabled={onLoading} onClick={handleClickBuy} variant='contained'>
-                            {
-                                onLoading
-                                    ? <CircularProgress size={21} />
-                                    : "Buy It"
-                            }
-                        </Button>
+
+                        {selectedItem.joined_at
+                            ? (<Button disabled={true} variant='contained'>Joined</Button>)
+                            : (
+                                <Button disabled={onLoading} onClick={handleClickBuy} variant='contained'>
+                                    {
+                                        onLoading
+                                            ? <CircularProgress size={21} />
+                                            : "Buy It"
+                                    }
+                                </Button>
+                            )}
                     </Box>
                 </Box>
 
@@ -125,7 +132,7 @@ const DialogView = (props: ViewProps) => {
 
                 <Box sx={{ maxWidth: 720 }} component='div' dangerouslySetInnerHTML={{ __html: selectedItem.short_description }}></Box>
             </DialogContent>
-        </Dialog>
+        </Dialog >
     )
 }
 
