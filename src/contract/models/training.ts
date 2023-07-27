@@ -9,6 +9,7 @@ interface Training {
     title: string,
     schedule: string,
     short_description: string,
+    joined_at?: string,
     thumbnail: string,
     category: TrainingCategory,
     trainer: IUser
