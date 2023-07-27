@@ -4,8 +4,7 @@ import Typography from '@mui/material/Typography'
 import { Avatar, Paper } from '@mui/material'
 import { IUser } from 'src/contract/models/user'
 import { Icon } from '@iconify/react'
-import Link from 'next/link'
-import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useState } from 'react'
+import Link from 'next/link' 
 
 export type ParamMain = {
   name: string
@@ -21,7 +20,7 @@ const renderList = (listCandidate: IUser[]) => {
   if (!listCandidate || listCandidate.length == 0) {
     return <></>
   }
-  const [spoken, getSpoken] = useState<[]>([]) 
+  
   return listCandidate.map(item => {
     const userPhoto = item.photo ? item.photo : '/images/avatars/default-user.png' 
     const names = item.field_preference?.spoken_langs ? item.field_preference?.spoken_langs : []
@@ -61,7 +60,7 @@ const renderList = (listCandidate: IUser[]) => {
               <Icon icon='game-icons:ship-bow' color='#32487A' />
 
               {names?.map((name: string) => (
-                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12} key={name}>
                   {name}
                 </Typography>
               ))}
