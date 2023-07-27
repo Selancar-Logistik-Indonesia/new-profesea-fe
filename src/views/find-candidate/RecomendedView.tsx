@@ -22,6 +22,7 @@ const renderList = (listCandidate: IUser[]) => {
   if (!listCandidate || listCandidate.length == 0) {
   
     return  
+    
   } 
 
   return listCandidate.map(item => {
