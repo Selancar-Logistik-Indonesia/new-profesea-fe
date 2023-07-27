@@ -72,9 +72,7 @@ const renderList = (listCandidate: IUser[]) => {
               ))}
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-              <Icon icon='game-icons:ship-bow' color='#32487A' />
-
-            
+              <Icon icon='game-icons:ship-bow' color='#32487A' /> 
                 <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}  >
                   {item.field_preference?.vessel_type?.name ? item.field_preference?.vessel_type?.name : '-'}
                 </Typography>
