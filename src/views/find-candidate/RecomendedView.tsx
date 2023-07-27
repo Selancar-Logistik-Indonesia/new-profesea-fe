@@ -60,20 +60,20 @@ const renderList = (listCandidate: IUser[]) => {
               <Icon icon='game-icons:ship-bow' color='#32487A' />
 
               {names?.map((name: string) => (
-                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12} key={name}>
+                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12} key={name}>
                   {name}
                 </Typography>
               ))}
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
               <Icon icon='mdi:license' color='#32487A' />
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}>
                 License
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
               <Icon icon='mdi:currency-usd' color='#32487A' />
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}>
                 from Rp. {item.field_preference?.role_type?.name ? item.field_preference?.salary_start : '0'} To Rp.
                 {item.field_preference?.role_type?.name ? item.field_preference?.salary_end : '0'}
               </Typography>
