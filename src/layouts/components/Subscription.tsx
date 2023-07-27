@@ -82,6 +82,7 @@ const Sub = styled('sub')({
   alignSelf: 'flex-end'
 })
 
+
 const data: DataType[] = [
   {
     cardCvc: '587',
