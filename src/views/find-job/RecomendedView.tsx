@@ -5,7 +5,6 @@ import Icon from 'src/@core/components/icon'
 import { Avatar, Paper } from '@mui/material'
 import Job from 'src/contract/models/job'
 import Link from 'next/link'
-import Moment from 'moment'
 
 export type ParamMain = {
   name: string
@@ -59,30 +58,14 @@ const renderList = (listJob: Job[]) => {
               {item?.rolelevel?.levelName} - {item?.category?.name} 
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
-              <Icon icon='mdi:currency-usd' color='#32487A' />
-              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
-                from Rp. {item?.salary_start} to Rp. {item?.salary_end}
-              </Typography>
-            </Box>
+            
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
               <Icon icon='mdi:school' color='#32487A' />
               <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                 {item?.degree?.name}
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
-              <Icon icon='mingcute:ship-fill' color='#32487A' />
-              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
-                Type of Vessel
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
-              <Icon icon='game-icons:ship-bow' color='#32487A' />
-              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
-                Date on Board { (item.onboard_at) ? Moment(item?.onboard_at).format('DD/MM/YYYY') : '-'}
-              </Typography>
-            </Box>
+           
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
               <Icon icon='mdi:license' color='#32487A' />
               <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>

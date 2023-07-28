@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Button, Divider, Grid, IconButton } from '@mui/material'
+import { Button, Divider, Grid } from '@mui/material'
 import Icon from 'src/@core/components/icon' 
 
 
@@ -141,7 +141,7 @@ useEffect(() => {
           }}
         >
           <Box
-            sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 1, mt: 2, mb: 3, color: 'text.secondary' } }}
+            sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 1, mt: 2, mb: 3, color: '#32487A' } }}
           >
             {/* <Icon icon={designationIcon} /> */}
             {/* <Typography sx={{ color: 'text.secondary', fontWeight: 600 }}>teest 2</Typography> */}
@@ -160,8 +160,9 @@ useEffect(() => {
                 justifyContent: ['center', 'flex-start']
               }}
             >
-              <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
-                <Icon icon='clarity:briefcase-solid' />
+              
+              <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: '#32487A' } }}>
+                <Icon icon='clarity:briefcase-solid'/>
                 <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
                   {props.datauser?.field_preference?.role_level?.levelName}
                   {/* <a href={facebook} target='_blank'>
@@ -169,8 +170,8 @@ useEffect(() => {
                   </a> */}
                 </Typography>
               </Box>
-              <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
-                <Icon icon='fontisto:ship' />
+              <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: '#32487A' } }}>
+                <Icon icon='fontisto:ship' color={'primary'} />
                 <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
                   {props.datauser?.field_preference?.vessel_type?.name}
                   {/* <a href={instagram} target='_blank'>
@@ -179,8 +180,8 @@ useEffect(() => {
                 </Typography>
               </Box>
 
-              <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
-                <Icon icon='gis:route' />
+              <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: '#32487A' } }}>
+                <Icon icon='gis:route' color={'primary'} />
                 <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
                   {props.datauser?.field_preference?.region_travel?.name}
                   {/* <a href={linkedin} target='_blank'>
@@ -193,10 +194,11 @@ useEffect(() => {
           <Grid item xs={12} md={3} marginTop={'-5px'}>
             <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
               <Box display={'flex'} alignItems={'center'}>
-                <Typography>Available {props.datauser?.field_preference?.available_date}</Typography>
-                <IconButton LinkComponent={Link} href='/candidate' sx={{ color: '#424242', fontWeight: 400 }}>
-                  <Icon fontSize='medium' icon={'charm:pencil'} />
-                </IconButton>
+                <Typography>Available Date : {props.datauser?.field_preference?.available_date}</Typography>
+
+                <Button LinkComponent={Link} href='/candidate'>
+                <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
+              </Button>
               </Box>
             </Grid>
           </Grid>
