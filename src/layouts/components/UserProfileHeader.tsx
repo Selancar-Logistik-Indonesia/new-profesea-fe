@@ -35,7 +35,7 @@ type userProps = {
 const UserProfileHeader = (props:userProps) => {
   const [facebook, setFacebook] = useState<any>('-')
   const [instagram, setInstagram] = useState<any>('-')
-  const [linkedin, setLinkedin] = useState<any>('-')
+  const [linkedin, setLinkedin] = useState<any>('-') 
   const [preview, setPreview] = useState()
   const [previewBanner, setPreviewBanner] = useState()
 useEffect(() => {

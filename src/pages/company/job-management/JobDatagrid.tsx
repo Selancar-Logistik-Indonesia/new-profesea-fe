@@ -7,12 +7,10 @@ import Icon from 'src/@core/components/icon'
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , minWidth: 10},
     { field: 'role_type', headerName: 'Job Title', sortable: true , minWidth: 250},
-    { field: 'company_name', headerName: 'Company Name', sortable: true , minWidth: 150},
+    { field: 'level_name', headerName: 'Role Level', sortable: false, minWidth: 130 },
     { field: 'category_name', headerName: 'Job Category', sortable: false, minWidth: 250 },
-    { field: 'level_name', headerName: 'Level', sortable: false, minWidth: 130 },
-    { field: 'location', headerName: 'Location', sortable: false, minWidth: 200 },
-    { field: 'degree', headerName: 'Degree', sortable: false, minWidth: 100 },
-    { field: 'salary', headerName: 'Salary', sortable: false, minWidth: 150 },
+    { field: 'degree', headerName: 'Degree', sortable: false, minWidth: 250 },
+    { field: 'license', headerName: 'License', sortable: false, minWidth: 250 },
     {
         field: 'action',
         headerName: 'Action',
@@ -49,12 +47,10 @@ type RoleGridProps = {
 
 interface RowItem {
     id:number,
-    company_name: string,
     category_name: string,
     level_name: string,
-    location: string,
+    license: string,
     degree: string,
-    salary: string,
     actions: {
         onDelete: VoidFunction,
         onUpdate: VoidFunction,
