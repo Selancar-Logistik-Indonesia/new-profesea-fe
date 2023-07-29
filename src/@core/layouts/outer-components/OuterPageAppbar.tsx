@@ -5,17 +5,16 @@ import { useTheme } from '@mui/material/styles'
 import { useSettings } from 'src/@core/hooks/useSettings'
 import { Box, Button, Container, Divider, IconButton } from '@mui/material'
 import { useEffect, useState } from 'react'
-import UserDropdown from '../shared-components/UserDropdown'
-import LanguageDropdown from '../shared-components/LanguageDropdown'
 import { useRouter } from 'next/router'
 import NavItemType from 'src/contract/types/navItemType'
 import IconifyIcon from 'src/@core/components/icon'
 import themeConfig from 'src/configs/themeConfig'
-import Navigation from '../vertical/landing-navigation'
 import { useAuth } from 'src/hooks/useAuth'
-import { isProduction, isStaging } from 'src/utils/helpers'
+import Navigation from '../components/vertical/landing-navigation'
+import LanguageDropdown from '../components/shared-components/LanguageDropdown'
+import UserDropdown from '../components/shared-components/UserDropdown'
 
-const LandingPageAppBar = (props: { appBarElevation?: number }) => {
+const OuterPageAppbar = (props: { appBarElevation?: number }) => {
     const { user } = useAuth();
     const theme = useTheme();
     const { settings, saveSettings } = useSettings();
@@ -27,7 +26,14 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
         { title: 'Register', variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
     ])
 
-    const [homeNavItems, setHomeNavItems] = useState<{ title: string, path: string }[]>([]);
+    const homeNavItems = [
+        { title: "Jobs", path: "/#findJobSection" },
+        { title: "Discover", path: "/#discoverSection" },
+        { title: "Contact", path: "/#footer" },
+        { title: "For Recruiter", path: '/' },
+        { title: "For Trainer", path: '/' },
+    ];
+
     const { navigationSize, collapsedNavigationSize } = themeConfig
     const navWidth = navigationSize
     const navigationBorderWidth = skin === 'bordered' ? 1 : 0
@@ -43,27 +49,6 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
             ]);
         }
     }, [user]);
-
-    useEffect(() => {
-
-        let baseAddress1 = "/landingpage-recruiter";
-        let baseAddress2 = "/landingpage-trainer";
-        if (isStaging()) {
-            baseAddress1 = "https://staging.recruiter.profesea.id";
-            baseAddress2 = "https://staging.trainer.profesea.id";
-        } else if (isProduction()) {
-            baseAddress1 = "https://recruiter.profesea.id";
-            baseAddress2 = "https://trainer.profesea.id";
-        }
-
-        setHomeNavItems([
-            { title: "Jobs", path: "/#findJobSection" },
-            { title: "Discover", path: "/#discoverSection" },
-            { title: "Contact", path: "/#footer" },
-            { title: "For Recruiter", path: baseAddress1 },
-            { title: "For Trainer", path: baseAddress2 },
-        ]);
-    }, []);
 
     return (
         <>
@@ -206,4 +191,4 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     )
 }
 
-export default LandingPageAppBar;
+export default OuterPageAppbar;

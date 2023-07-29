@@ -1,6 +1,5 @@
 import { Button, Container, Grid, Typography, Card, CardContent } from "@mui/material";
 import { ReactNode } from "react";
-import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import landingPageStyle from "src/@core/styles/landing-page/landing-page";
 import { useTranslation } from "react-i18next";
 import DiscoverView from "src/views/landing-page/discoverView";
@@ -8,10 +7,9 @@ import FindJobsView from "src/views/landing-page/findJobsView";
 import FooterView from "src/views/landing-page/footerView";
 import Head from "next/head";
 import themeConfig from "src/configs/themeConfig";
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
-// ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
+import OuterPageLayout from "src/@core/layouts/outer-components/OuterPageLayout";
 
 const Main = () => {
     const { t } = useTranslation();
@@ -38,10 +36,10 @@ const Main = () => {
                                         <Icon icon='noto-v1:ship' fontSize='2rem' />
                                     </CustomAvatar>
                                     <Typography variant='h6' sx={{ mb: 2 }}>
-                                    {t('b_to_seafarer')}
+                                        {t('b_to_seafarer')}
                                     </Typography>
                                     <Typography variant='body2' sx={{ mb: 6.5, color: "#424242" }}>
-                                    {t('b_to_seafarer_detail')}
+                                        {t('b_to_seafarer_detail')}
                                     </Typography>
                                     <Button style={{ backgroundColor: "#32487A", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
                                 </CardContent>
@@ -53,10 +51,10 @@ const Main = () => {
                                         <Icon icon='noto:man-office-worker-light-skin-tone' fontSize='2rem' />
                                     </CustomAvatar>
                                     <Typography variant='h6' sx={{ mb: 2 }}>
-                                    {t('b_to_professional')}
+                                        {t('b_to_professional')}
                                     </Typography>
                                     <Typography variant='body2' sx={{ mb: 6.5, color: "#424242" }}>
-                                    {t('b_to_professional_detail')}
+                                        {t('b_to_professional_detail')}
                                     </Typography>
                                     <Button style={{ backgroundColor: "#32487A", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
                                 </CardContent>
@@ -74,6 +72,6 @@ const Main = () => {
 
 Main.guestGuard = false;
 Main.authGuard = false;
-Main.getLayout = (page: ReactNode) => <LandingPageLayout>{page}</LandingPageLayout>
+Main.getLayout = (page: ReactNode) => <OuterPageLayout>{page}</OuterPageLayout>
 
 export default Main;
