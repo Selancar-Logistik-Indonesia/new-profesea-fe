@@ -1,31 +1,46 @@
 {
     "translation": {
         "app_keyword": "Job, candidate, Recruiter, Maritime industry jobs, Career, Seafarer",
-        "landing_hero_title": "Welcome to profesea.id",
-        "landing_hero_subtitle": "Connect with millions of people and jobs in our community platform to help you boost your career in the maritime industry!",
+        "landing_hero_title": "Most Integrated Maritime Professional Job Platform",
+        "landing_hero_subtitle": "Explore countless opportunities to connect with a vast network of professionals and find your dream job in the maritime industry through our robust community platform!",
         "landing_about_title": "About Us",
         "landing_about_subtitle": "Profesea is Seafarer and Vessel match platform that provides featured and rapid candidate sourcing for Maritime Industry. Companies and employees have a chance to choose specific-technical options and detailed criterias via Profesea. Main goal is to help personnel & HR managers find suitable seafarers for their companies quickly and easily.",
+        "landing_join_now": "Join Now",
         "l_password": "Password",
         "b_apply_job": "Apply for job",
         "b_post_job": "Post a job",
-        "landing_pricing_title": "Pricing",
+        "b_to_seafarer": "Seafarer",
+        "b_to_professional": "Professional", 
+        "b_to_seafarer_detail": "Discover your next seafaring adventure in our job platform. ",
+        "b_to_professional_detail": "Enhance your career, join our platform, and explore endless job opportunities. ", 
+        "landing_pricing_title": "Pricing", 
         "landing_pricing_subtitle": "Description of pricing (waiting)",
-        "landing_jobs_title": "Find Jobs",
+        "landing_jobs_title": "Most Searched Jobs",
         "landing_jobs_subtitle": "Find any jobs in the maritime industry that match your skills and interest",
+        "landing_jobs_suggested": "Suggested Jobs",
         "landing_candidate_title": "Find Candidates",
         "landing_candidate_subtitle": "Find the right candidate using our specific filters made for maritime industry jobs",
+        "landing_show_more": "Show More",
+        "landing_discover_title": "What is Profesea?",
+        "landing_discover_subtitle": "Profesea is a professional and community platform to connects people with thousands of career opportunities in the maritime industry under our network. With the principle of understanding the maritime tight community, our objective is to provide solution for human resources problems in the maritime industry using our platform",
+        "landing_discover_item_title": "How We Do Help You?",
+        "landing_footer_title": "Profesea adalah platform profesional dan komunitas untuk menghubungkan orang-orang dengan ribuan peluang karir di industri maritim di bawah jaringan kami.",
         "features": {
-            "findJobs": {
-                "title": "Find Jobs",
-                "subtitle": "Find any jobs in the maritime industry that match your skills and interest"
+            "meetthecompanies": {
+                "title": "Meet the Companies",
+                "subtitle": "Fresh candidates with connections may find companies that suit their qualifications."
             },
-            "findCandidates": {
-                "title": "Find Candidates",
-                "subtitle": "Find the right candidate using our specific filters made for maritime industry jobs"
+            "cvbuilder": {
+                "title": "Real-time CV Builder",
+                "subtitle": "Create, update, and upload your CV and Certificate realtime."
             },
-            "improveCareer": {
-                "title": "Improve your career",
-                "subtitle": "Improve your chance to become the star candidate and get picked by the employers using training and certification"
+            "careerassistance": {
+                "title": "Maritime Career Assistance",
+                "subtitle": "Reminder for due date and next scheduled certification directly to your email."
+            },
+            "beavailable": {
+                "title": "Be Available and Recruit Alert",
+                "subtitle": "Display your availability status and get spotlight from the recruiters right away."
             }
         }
     }
