@@ -1,31 +1,46 @@
 {
     "translation": {
         "app_keyword": "Job, candidate, Recruiter, Maritime industry jobs, Career, Seafarer",
-        "landing_hero_title": "Selamat datang di profesea.id",
-        "landing_hero_subtitle": "Terhubung dengan jutaan orang dan pekerjaan di platform komunitas kami untuk membantu meningkatkan karier Anda di industri maritim!",
+        "landing_hero_title": "Platform Pekerjaan Maritim Terintegrasi",
+        "landing_hero_subtitle": "Jelajahi peluang yang tak terhitung jumlahnya untuk terhubung dengan jaringan profesional yang luas dan temukan pekerjaan impian Anda di industri maritim melalui platform komunitas kami yang kuat!",
         "landing_about_title": "Tentang Kami",
         "landing_about_subtitle": "Profesea adalah platform pencocokan Pelaut dan Kapal yang menyediakan fitur unggulan dan sumber kandidat yang cepat untuk Industri Maritim. Perusahaan dan karyawan memiliki kesempatan untuk memilih opsi teknis yang spesifik dan kriteria terperinci melalui Profesea. Tujuan utama kami adalah membantu manajer personil dan HR menemukan pelaut yang cocok untuk perusahaan mereka dengan cepat dan mudah.",
+        "landing_join_now": "Gabung Sekarang",
         "l_password": "Kata Sandi",
         "b_apply_job": "Lamar Pekerjaan",
-        "b_post_job": "Pasang Pekerjaan",
+        "b_post_job": "Pasang Pekerjaan", 
+        "b_to_seafarer": "Pelaut",
+        "b_to_professional": "Profesional", 
+        "b_to_seafarer_detail": "Temukan petualangan pelayaran Anda berikutnya di platform pekerjaan kami. ",
+        "b_to_professional_detail": "Tingkatkan karier Anda, bergabunglah dengan platform kami, dan jelajahi peluang kerja tanpa akhir. ", 
         "landing_pricing_title": "Harga",
         "landing_pricing_subtitle": "Deskripsi harga (menunggu)",
-        "landing_jobs_title": "Temukan Pekerjaan",
+        "landing_jobs_title": "Pekerjaan Paling banyak di cari",
         "landing_jobs_subtitle": "Temukan pekerjaan di industri maritim yang sesuai dengan keahlian dan minat Anda",
+        "landing_jobs_suggested": "Rekomendasi Pekerjaan",
         "landing_candidate_title": "Temukan Kandidat",
         "landing_candidate_subtitle": "Temukan kandidat yang tepat menggunakan filter khusus yang dibuat untuk pekerjaan di industri maritim",
+        "landing_show_more": "Lebih Banyak",
+        "landing_discover_title": "What is Profesea?",
+        "landing_discover_subtitle": "Profesea is a professional and community platform to connects people with thousands of career opportunities in the maritime industry under our network. With the principle of understanding the maritime tight community, our objective is to provide solution for human resources problems in the maritime industry using our platform",
+        "landing_discover_item_title": "How We Do Help You?",
+        "landing_footer_title": "Profesea is a professional and community platform to connects people with thousands of career opportunities in the maritime industry under our network.",
         "features": {
-            "findJobs": {
-                "title": "Temukan Pekerjaan",
-                "subtitle": "Temukan pekerjaan di industri maritim yang sesuai dengan keahlian dan minat Anda"
+            "meetthecompanies": {
+                "title": "Temui Perusahaan",
+                "subtitle": "Kandidat baru dengan koneksi dapat menemukan perusahaan yang sesuai dengan kualifikasi mereka."
             },
-            "findCandidates": {
-                "title": "Temukan Kandidat",
-                "subtitle": "Temukan kandidat yang tepat menggunakan filter khusus yang dibuat untuk pekerjaan di industri maritim"
+            "cvbuilder": {
+                "title": "Buat CV",
+                "subtitle": "Buat, perbarui, dan unggah CV dan Sertifikat Anda secara realtime."
             },
-            "improveCareer": {
-                "title": "Tingkatkan karier Anda",
-                "subtitle": "Tingkatkan peluang Anda menjadi kandidat unggulan dan dipilih oleh pemberi kerja dengan pelatihan dan sertifikasi"
+            "careerassistance": {
+                "title": "Bantuan Karir Maritim",
+                "subtitle": "Pengingat untuk tanggal jatuh tempo dan jadwal sertifikasi berikutnya langsung ke email Anda."
+            },
+            "beavailable": {
+                "title": "Ketersediaan",
+                "subtitle": "Tampilkan status ketersediaan Anda dan dapatkan sorotan dari perekrut segera."
             }
         }
     }
