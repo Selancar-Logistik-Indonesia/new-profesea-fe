@@ -3,8 +3,9 @@ import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import landingPageStyle from "src/@core/styles/landing-page/landing-page";
 import { useTranslation } from "react-i18next";
-import DiscoverView from "src/views/landing-page/discoverView";
 import FindJobsView from "src/views/landing-page/findJobsView";
+import DiscoverView from "src/views/landing-page/discoverView";
+import LetsSailView from "src/views/landing-page/letsSailView";
 import FooterView from "src/views/landing-page/footerView";
 import Head from "next/head";
 import themeConfig from "src/configs/themeConfig";
@@ -26,13 +27,13 @@ const Main = () => {
             </Head>
 
             <Grid container sx={landingPageStyle.bannerHero}>
-                <Grid item xs={12} xl={6} lg={8} md={12} pt={5} mt={40} sx={{ maxWidth: { xs: '90%' }, px: { xs: 5, md: 10 } }}>
+                <Grid item xs={12} xl={6} lg={8} md={12} pt={5} mt={20} mb={10} sx={{ maxWidth: { xs: '90%' }, px: { xs: 5, md: 10 } }}>
                     <Typography variant="h4" style={{ color: "#32487A" }} fontWeight="600">{t("landing_hero_title")}</Typography>
-                    <Typography fontSize={16} style={{ color: "#424242" }} mt={8}>{t("landing_hero_subtitle")}</Typography>
+                    <Typography fontSize={16} style={{ color: "#424242" }} mt={2}>{t("landing_hero_subtitle")}</Typography>
 
                     <Container style={{ marginTop: 30, lineHeight: 3.5 }}>
                         <Grid container justifyContent="center" sx={{ backgroundColor: 'none' }} spacing={9} mt={0} mb={10}>
-                            <Card sx={{ width: 420, height: 300, backgroundColor: '#4c98cf12' }} elevation={10}>
+                            <Card sx={{ width: 320, height: 280, backgroundColor: '#4c98cf12' }} elevation={10}>
                                 <CardContent sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}>
                                     <CustomAvatar skin='light' sx={{ width: 56, height: 56, mb: 2 }}>
                                         <Icon icon='noto-v1:ship' fontSize='2rem' />
@@ -47,7 +48,7 @@ const Main = () => {
                                 </CardContent>
                             </Card>
                             &nbsp; &nbsp;
-                            <Card sx={{ width: 420, height: 300, backgroundColor: '#4c98cf12' }} elevation={10}>
+                            <Card sx={{ width: 320, height: 280, backgroundColor: '#4c98cf12' }} elevation={10}>
                                 <CardContent sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}>
                                     <CustomAvatar skin='light' sx={{ width: 56, height: 56, mb: 2 }}>
                                         <Icon icon='noto:man-office-worker-light-skin-tone' fontSize='2rem' />
@@ -67,6 +68,7 @@ const Main = () => {
             </Grid>
             <FindJobsView id="findJobSection" />
             <DiscoverView></DiscoverView>
+            <LetsSailView></LetsSailView>
             <FooterView />
         </>
     );

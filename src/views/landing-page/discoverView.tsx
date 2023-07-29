@@ -48,10 +48,10 @@ const DiscoverView = () => {
             {
                 featureItems.map(item => (
                     <Grid item key={item.key}>
-                        <Card sx={{ width: 350, height: 150}} elevation={10}>
+                        <Card sx={{ width: 270, height: 150}} elevation={10}>
                             <CardContent>
                                 <Typography fontSize={18} color={"#32487A"} fontWeight="600">{item.title}</Typography>
-                                <Typography fontSize={16} sx={{ mb: 4 }} variant='body1' style={{ color: "#424242" }}>
+                                <Typography fontSize={14} sx={{ mb: 4 }} variant='body1' style={{ color: "#424242" }}>
                                     {item.description}
                                 </Typography>
                             </CardContent>

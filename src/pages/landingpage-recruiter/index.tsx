@@ -1,6 +1,6 @@
 import { Button, Grid, Typography, Box } from "@mui/material";
 import { ReactNode } from "react";
-import landingPageStyle from "src/@core/styles/landing-page/landing-page";
+import landingPageStyle from "src/@core/styles/landing-page/landing-page-recruiter";
 import { useTranslation } from "react-i18next";
 import FooterView from "src/views/landing-page/footerView";
 import Head from "next/head";
@@ -23,16 +23,16 @@ const Main = () => {
                 <Grid item xs={12} xl={6} lg={6} md={6} pt={5} sx={{ maxWidth: { xs: '90%' }, px: { xs: 5, md: 10 } }}>
                     <Box sx={{ display: "flex", flexDirection: 'column', mt: 30 }}>
                         <Box mb={4} mt={10}>
-                            <Typography variant="h4" style={{ color: "#32487A" }} fontWeight="600">{t("landing_hero_title")}</Typography>
-                            <Typography fontSize={16} style={{ color: "#424242" }}>{t("landing_hero_subtitle")}</Typography>
+                            <Typography variant="h4" style={{ color: "#32487A" }} fontWeight="600">{t("landing_recruiter_title_1")}</Typography>
+                            <Typography fontSize={16} style={{ color: "#424242" }}>{t("landing_recruiter_subtitle_1")}</Typography>
                         </Box>
                         <Box mb={4}>
-                            <Typography variant="h4" style={{ color: "#32487A" }} fontWeight="600">Lorem ipsum dolor sit amet</Typography>
-                            <Typography fontSize={16} style={{ color: "#424242" }}>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</Typography>
+                            <Typography variant="h4" style={{ color: "#32487A" }} fontWeight="600">{t("landing_recruiter_title_2")}</Typography>
+                            <Typography fontSize={16} style={{ color: "#424242" }}>{t("landing_recruiter_subtitle_2")}</Typography>
                         </Box>
                         <Box>
-                            <Typography variant="h4" style={{ color: "#32487A" }} fontWeight="600">Duis aute irure dolor in reprehenderit</Typography>
-                            <Typography fontSize={16} style={{ color: "#424242" }}>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
+                            <Typography variant="h4" style={{ color: "#32487A" }} fontWeight="600">{t("landing_recruiter_title_3")}</Typography>
+                            <Typography fontSize={16} style={{ color: "#424242" }}>{t("landing_recruiter_subtitle_3")}</Typography>
                         </Box>
                     </Box>
                 </Grid>
@@ -42,7 +42,7 @@ const Main = () => {
                     alignItems: "center"
                 }}>
                     <Box mb={20}>
-                        <Button variant="outlined">Register Here</Button>
+                        <Button variant="contained">Register Here</Button>
                     </Box>
                 </Grid>
             </Grid >
