@@ -10,7 +10,7 @@ import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import FeedCard from './FeedCard'
 import { useEffect } from 'react'
 
-const ListFeedView = () => {
+const ListFeedView = () => { 
     const { fetchFeeds, hasNextPage, totalFeed } = useSocialFeed();
 
     const renderList = (feeds: ISocialFeed[]) => {

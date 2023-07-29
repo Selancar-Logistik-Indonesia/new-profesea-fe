@@ -16,6 +16,8 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
 
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
@@ -33,12 +35,25 @@ type userProps = {
 }
 
 const UserProfileHeader = (props:userProps) => {
+   const windowUrl = window.location.search
+   const params = new URLSearchParams(windowUrl)
   const [facebook, setFacebook] = useState<any>('-')
   const [instagram, setInstagram] = useState<any>('-')
   const [linkedin, setLinkedin] = useState<any>('-') 
+  const [showFriendship, setShowFriendship] = useState<boolean>(false) 
   const [preview, setPreview] = useState()
   const [previewBanner, setPreviewBanner] = useState()
-useEffect(() => {
+ 
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+ debugger;
+  useEffect(() => {
+    if (params.get('username') != undefined) {
+      
+      const username = params.get('username')
+      if (user.username != username) {
+        setShowFriendship(true)
+      }
+    }
    HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
      const code = response.data.sosmeds.data
      for (let x = 0; x < code.length; x++) {
@@ -114,35 +129,36 @@ useEffect(() => {
               </Box>
             </Box>
           </Box>
-
-          <Box sx={{ justifyContent: 'right', display: 'inline-flex' }}>
-            <Button
-              size='small'
-              variant='contained'
-              sx={{ margin: '5px' }}
-              startIcon={<Icon icon='mdi:account-check-outline' fontSize={20} />}
-            >
-              Message
-            </Button>
-            <Button
-              color='warning'
-              size='small'
-              variant='contained'
-              sx={{ margin: '5px' }}
-              startIcon={<Icon icon='fa6-solid:link-slash' fontSize={20} />}
-            >
-              Unconnect
-            </Button>
-            <Button
-              color='error'
-              size='small'
-              variant='contained'
-              sx={{ margin: '5px' }}
-              startIcon={<Icon icon='mdi:ban' fontSize={20} />}
-            >
-              Block
-            </Button>
-          </Box>
+          {showFriendship == true && (
+            <Box sx={{ justifyContent: 'right', display: 'inline-flex' }}>
+              <Button
+                size='small'
+                variant='contained'
+                sx={{ margin: '5px' }}
+                startIcon={<Icon icon='mdi:account-check-outline' fontSize={20} />}
+              >
+                Message
+              </Button>
+              <Button
+                color='warning'
+                size='small'
+                variant='contained'
+                sx={{ margin: '5px' }}
+                startIcon={<Icon icon='fa6-solid:link-slash' fontSize={20} />}
+              >
+                Unconnect
+              </Button>
+              <Button
+                color='error'
+                size='small'
+                variant='contained'
+                sx={{ margin: '5px' }}
+                startIcon={<Icon icon='mdi:ban' fontSize={20} />}
+              >
+                Block
+              </Button>
+            </Box>
+          )}
         </Box>
       </CardContent>
       <Divider style={{ width: '100%' }} />
@@ -205,11 +221,30 @@ useEffect(() => {
             </Box>
           </Grid>
           <Grid item xs={12} md={1} marginTop={'-5px'}>
-            <Grid container direction='row' justifyContent='flex-end' alignItems='flex-end'>
-              <Button LinkComponent={Link} href='/company'>
-                <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
-              </Button>
-            </Grid>
+            {showFriendship == false && (
+              <Grid container direction='row' justifyContent='flex-end' alignItems='flex-end'>
+                {props.datauser.role == 'Company' && (
+                  <Button LinkComponent={Link} href='/company'>
+                    <Icon
+                      fontSize='large'
+                      icon={'material-symbols:edit'}
+                      color={'primary'}
+                      style={{ fontSize: '24px' }}
+                    />
+                  </Button>
+                )}
+                {props.datauser.role == 'Seafarer' && (
+                  <Button LinkComponent={Link} href='/candidate'>
+                    <Icon
+                      fontSize='large'
+                      icon={'material-symbols:edit'}
+                      color={'primary'}
+                      style={{ fontSize: '24px' }}
+                    />
+                  </Button>
+                )}
+              </Grid>
+            )}
           </Grid>
         </Grid>
       </CardContent>
