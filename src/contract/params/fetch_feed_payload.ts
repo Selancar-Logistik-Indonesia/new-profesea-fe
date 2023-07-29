@@ -1,6 +1,7 @@
 interface FetchFeedPayload {
     take: number,
-    search?: string
+    search?: string,
+    username?:string
 }
 
 export default FetchFeedPayload;

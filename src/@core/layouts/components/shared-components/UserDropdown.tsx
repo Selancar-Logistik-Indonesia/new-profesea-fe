@@ -14,7 +14,7 @@ import { Settings } from 'src/@core/context/settingsContext'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import secureLocalStorage from 'react-secure-storage'
-import Link from 'next/link'
+import Link from 'next/link' 
 
 interface Props {
   settings: Settings
@@ -126,10 +126,8 @@ const UserDropdown = (props: Props) => {
         <Divider sx={{ mt: '0 !important' }} />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
-            <Icon icon='mdi:account-outline' />
-            {userData?.role == 'Seafarer' && <LinkStyled href='/candidate/profile'>Profile</LinkStyled>}
-            {userData?.role == 'Company' && <LinkStyled href='/company/profile'>Profile</LinkStyled>}
-            {userData?.role == 'Trainer' && <LinkStyled href='/trainer/profile'>Profile</LinkStyled>}
+            <Icon icon='mdi:account-outline' />  
+           <LinkStyled href='/profile'  ><Typography>Profile</Typography>  </LinkStyled>
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
@@ -142,13 +140,13 @@ const UserDropdown = (props: Props) => {
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:attachment' />
-            <LinkStyled href='/account'>Account</LinkStyled>
-          </Box>
+            <LinkStyled href='/account'> <Typography>Account</Typography>  </LinkStyled>
+          </Box> 
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:cog-outline' />
-            <LinkStyled href='/manage'>Manage User</LinkStyled>
+            <LinkStyled href='/manage'><Typography>Manage User</Typography></LinkStyled>
           </Box>
         </MenuItem>
         <Divider />
