@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+import { AppConfig } from "src/configs/api";
 import ITeam from "src/contract/models/team";
 import { IUser } from "src/contract/models/user";
 
@@ -66,6 +67,17 @@ function formatIDR(amount: number) {
     return new Intl.NumberFormat('id-ID', options).format(amount);
 }
 
+function isDevelopment() {
+    return AppConfig.appEnv == "DEV";
+}
+
+function isStaging() {
+    return AppConfig.appEnv == "STAGING";
+}
+
+function isProduction() {
+    return AppConfig.appEnv == "PROD";
+}
 
 export {
     getCleanErrorMessage,
@@ -74,4 +86,7 @@ export {
     getUserAvatar,
     getUserRoleName,
     formatIDR,
+    isStaging,
+    isDevelopment,
+    isProduction,
 }
