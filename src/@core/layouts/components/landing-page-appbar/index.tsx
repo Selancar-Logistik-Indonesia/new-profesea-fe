@@ -27,11 +27,11 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     ])
 
     const homeNavItems = [
-        { title: "Home", path: "/" },
-        { title: "Job", path: "/#findJobSection" },
-        { title: "Seafarer", path: "/#findCandidate" },
-        { title: "Pricing", path: "/pricing/" },
+        { title: "Jobs", path: "/#findJobSection" },
+        { title: "Discover", path: "/#discoverSection" },
         { title: "Contact", path: "/#footer" },
+        { title: "For Recruiter", path: "/#" },
+        { title: "For Trainer", path: "/#" },
     ];
 
     const { navigationSize, collapsedNavigationSize } = themeConfig
@@ -97,7 +97,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                         <Link href='/'>
                             <Box
                                 component="img"
-                                sx={{ width: 150 }}
+                                sx={{ width: 100 }}
                                 alt="The Profesea logo"
                                 title="Profesea"
                                 src="/images/logosamudera.png"
@@ -176,7 +176,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                                 <Link href='/'>
                                     <Box
                                         component="img"
-                                        sx={{ width: 150 }}
+                                        sx={{ width: 100 }}
                                         alt="The Profesea logo"
                                         title="Profesea"
                                         src="/images/logosamudera.png"

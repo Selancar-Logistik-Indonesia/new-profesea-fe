@@ -3,12 +3,12 @@ import { Card, CardContent, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import discoverPageStyle from "src/@core/styles/discover/discover-page";
 
-const FeatureView = () => {
+const DiscoverView = () => {
     const { t } = useTranslation();
 
     const featureItems = [
         {
-            key: "feat1",
+            key: "feat1", 
             icon: faBriefcase,
             title: t('features.meetthecompanies.title'),
             description: t('features.meetthecompanies.subtitle'),
@@ -64,4 +64,4 @@ const FeatureView = () => {
     );
 }
 
-export default FeatureView;
+export default DiscoverView;
