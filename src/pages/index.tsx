@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import landingPageStyle from "src/@core/styles/landing-page/landing-page";
 import { useTranslation } from "react-i18next";
-import Discover from "src/views/landing-page/Discover";
+import DiscoverView from "src/views/landing-page/discoverView";
 import FindJobsView from "src/views/landing-page/findJobsView";
 import FooterView from "src/views/landing-page/footerView";
 import Head from "next/head";
@@ -22,7 +22,7 @@ const Main = () => {
                 <title>{`${themeConfig.templateName} - ${t('landing_hero_title')}`}</title>
                 <meta name='description' content={`${themeConfig.templateName} - ${t('landing_about_subtitle')}`} />
                 <meta name='keywords' content={`${t('app_keyword')}`} />
-                <meta name='viewport' content='initial-scale=1, width=device-width' />
+                <meta name='viewport' content='initial-scale=0.8, width=device-width' />
             </Head>
 
             <Grid container sx={landingPageStyle.bannerHero}>
@@ -66,8 +66,7 @@ const Main = () => {
                 </Grid>
             </Grid>
             <FindJobsView id="findJobSection" />
-            <Discover></Discover>
-
+            <DiscoverView></DiscoverView>
             <FooterView />
         </>
     );
