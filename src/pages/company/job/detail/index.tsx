@@ -5,13 +5,7 @@ import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import { Avatar, Button, Card, CardContent, Typography, Divider } from '@mui/material'
 
-// ** Layout Import
-// import BlankLayout from 'src/@core/layouts/BlankLayout'
-
-// ** Hooks 
-
-// ** Demo Imports
-// import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+import ReactHtmlParser from 'react-html-parser';
 
 import Grid, { GridProps } from '@mui/material/Grid'
 import { styled } from '@mui/material/styles'
@@ -25,7 +19,7 @@ const JobDetail = () => {
   const windowUrl = window.location.search
   const params = new URLSearchParams(windowUrl)
   const [jobDetail, setJobDetail] = useState<Job>()
-
+  const license:any[] = Object.values((jobDetail?.license != undefined) ? jobDetail?.license : '')
   // Styled Grid component
   const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -48,7 +42,7 @@ const JobDetail = () => {
   }, [])
 
   return (
-    <Grid item xs={12}>
+    <Grid item xs={12} mt={-2}>
       <Card>
         <Grid container>
           <StyledGrid item xs={12} sm={4}>
@@ -105,7 +99,7 @@ const JobDetail = () => {
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
                     <Icon icon='mdi:license' fontSize={20} color='#32487A' />
                     <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                      {jobDetail?.license}
+                      {license.map(e => e.title).join(", ")}
                     </Typography>
                   </Box>
                 </Box>
@@ -137,14 +131,14 @@ const JobDetail = () => {
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item xs={6} sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                <Grid item xs={6} sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column' }}>
                   <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={5} >
                     <Typography sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }} ml="0.5rem" variant='body2'>
                       Description
                     </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} >
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }} >
                       <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                        {jobDetail?.description}
+                        {ReactHtmlParser(`${jobDetail?.description}`)}
                       </Typography>
                     </Box>
                   </Box>
@@ -165,7 +159,7 @@ const JobDetail = () => {
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }} >
                       <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                        {jobDetail?.company?.about}
+                        {ReactHtmlParser(`${jobDetail?.company?.about}`)}
                       </Typography>
                     </Box>
                   </Box>
