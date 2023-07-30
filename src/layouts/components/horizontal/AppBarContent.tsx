@@ -3,7 +3,7 @@ import { Settings } from 'src/@core/context/settingsContext'
 import Navigation from 'src/@core/layouts/components/horizontal/navigation'
 import HorizontalNavItems from 'src/navigation/horizontal'
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
-import NotificationDropdown, { NotificationsType } from 'src/@core/layouts/components/shared-components/NotificationDropdown'
+import NotificationDropdown from 'src/@core/layouts/components/shared-components/NotificationDropdown'
 
 interface Props {
     settings: Settings
