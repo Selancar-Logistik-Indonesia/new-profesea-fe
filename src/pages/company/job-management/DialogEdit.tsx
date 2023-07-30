@@ -25,51 +25,21 @@ import City from 'src/contract/models/city'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import { Autocomplete } from '@mui/material'
+import { ContentState, EditorState, convertFromHTML, convertToRaw } from 'draft-js'
+import draftToHtml from 'draftjs-to-html';
 
-import { styled } from '@mui/material/styles'
-import { Autocomplete, TextareaAutosize } from '@mui/material'
+import EditorArea from 'src/@core/components/react-draft-wysiwyg'
+import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
-const grey = {
-    50: '#f6f8fa',
-    100: '#eaeef2',
-    200: '#d0d7de',
-    300: '#afb8c1',
-    400: '#8c959f',
-    500: '#6e7781',
-    600: '#57606a',
-    700: '#424a53',
-    800: '#32383f',
-    900: '#24292f',
-};
-const StyledTextarea = styled(TextareaAutosize)(
-    ({ theme }) => `
-    width: 100%;
-    font-family: Poppins;
-    font-size: 0.770rem;
-    font-weight: 200;
-    line-height: 1.5;
-    padding: 12px;
-    border-radius: 12px 12px 0 12px;
-    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[500]};
-    background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-    border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-    box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
-  
-    &:hover {
-      border-color: ${grey[400]};
-    }
-  
-    &:focus {
-      border-color: ${grey[400]};
-      box-shadow: 0 0 0 2px ${theme.palette.mode === 'dark' ? grey[200] : grey[500]};
-    }
-  
-    // firefox
-    &:focus-visible {
-      outline: 0;
-    }
-  `,
-);
+const licenseData = [
+    { title: 'Certificate of Competency', docType: 'COC' },
+    { title: 'Certificate of Profeciency', docType: 'COP' },
+    { title: 'Certificate of Recognition', docType: 'COR' },
+    { title: 'Certificate of Endorsement', docType: 'COE' },
+    { title: 'MCU Certificates', docType: 'MCU' }
+]
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -96,6 +66,9 @@ const DialogEdit = (props: EditProps) => {
     const [Cat, setCat] = useState(props.selectedItem?.category);
     const [Cou, setCou] = useState(props.selectedItem?.country);
     const [Cit, setCit] = useState<any>(props.selectedItem?.city);
+   
+    const [license, setLicense] = useState<any>(props.selectedItem?.license);
+
     const onboard = (props.selectedItem?.onboard_at) ? new Date(props.selectedItem?.onboard_at) : new Date();
     const [date, setDate] = useState<DateType>(onboard);
 
@@ -105,6 +78,13 @@ const DialogEdit = (props: EditProps) => {
     const [RoleType, getRoleType] = useState<any[]>([]);
     const [combocountry, getComboCountry] = useState<any>([])
     const [combocity, getComboCity] = useState<any[]>([])
+    
+    const contenDesc = convertFromHTML(props.selectedItem.description).contentBlocks
+    const contentState = ContentState.createFromBlockArray(contenDesc)
+    const editorState = EditorState.createWithContent(contentState)
+    // console.log(editorState);
+    
+    const [desc, setDesc] = useState(editorState)
     const combobox = async () => {
         HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
             if (response.status != 200) {
@@ -142,7 +122,7 @@ const DialogEdit = (props: EditProps) => {
         combobox()
     }, [])
 
-
+    
     const {
         register,
         handleSubmit,
@@ -163,7 +143,7 @@ const DialogEdit = (props: EditProps) => {
 
 
     const onSubmit = async (formData: Job) => {
-        const { license, salary_start, salary_end, experience, description } = formData
+        const { salary_start, salary_end, experience } = formData
 
         const json = {
             "rolelevel_id": Level.id,
@@ -176,7 +156,7 @@ const DialogEdit = (props: EditProps) => {
             "salary_start": salary_start,
             "salary_end": salary_end,
             "experience": experience,
-            "description": description,
+            "description": draftToHtml(convertToRaw(desc?.getCurrentContent())),
             "onboard_at": date?.toLocaleDateString("en-GB", {
                 year: "numeric",
                 month: "2-digit",
@@ -280,7 +260,7 @@ const DialogEdit = (props: EditProps) => {
                             />
                         </Grid>
                         
-                        <Grid item md={6} xs={12}>
+                        <Grid item md={4} xs={12}>
                             <Autocomplete
                             disablePortal
                             id='combo-box-country'
@@ -294,7 +274,7 @@ const DialogEdit = (props: EditProps) => {
                             />
                         </Grid>
 
-                        <Grid item md={6} xs={12}>
+                        <Grid item md={4} xs={12}>
                             <Autocomplete
                             disablePortal
                             id='combo-box-city'
@@ -307,7 +287,7 @@ const DialogEdit = (props: EditProps) => {
                             }
                             />
                         </Grid>
-                        <Grid item md={6} xs={12} >
+                        <Grid item md={4} xs={12} >
                             <DatePickerWrapper>
                                 <DatePicker
                                 dateFormat='dd/MM/yyyy'
@@ -315,12 +295,23 @@ const DialogEdit = (props: EditProps) => {
                                 id='basic-input'
                                 onChange={(date: Date) => setDate(date)}
                                 placeholderText='Click to select a date'
-                                customInput={<TextField label='Schedule' variant="outlined" fullWidth  {...register("onboard_at")} />}
+                                customInput={<TextField label='Date On Board' variant="outlined" fullWidth  {...register("onboard_at")} />}
                                 />
                             </DatePickerWrapper>
                         </Grid>
-                        <Grid item md={6} xs={12} >
-                            <TextField defaultValue={props.selectedItem.license} id="license" label="License" variant="outlined" fullWidth {...register("license")} />
+                        <Grid item md={12} xs={12} >
+                            <Autocomplete
+                                multiple
+                                options={licenseData}
+                                id='license'
+                                value={license}
+                                filterSelectedOptions
+                                getOptionLabel={option => option.title || ''}
+                                fullWidth
+                                onChange={(e, newValue: any) => (newValue) ? setLicense(newValue) : setLicense([])}
+                                renderInput={params => <TextField {...params} fullWidth label='License'
+                                 />}
+                            />
                         </Grid>
                         <Grid item md={6} xs={12} >
                             <TextField defaultValue={props.selectedItem.salary_start} id="salary_start" label="Salary From" variant="outlined" fullWidth  {...register("salary_start")} />
@@ -332,7 +323,16 @@ const DialogEdit = (props: EditProps) => {
                             <TextField defaultValue={props.selectedItem.experience} id="experience" label="Experience" variant="outlined" fullWidth {...register("experience")} />
                         </Grid>
                         <Grid item md={12} xs={12} >
-                            <StyledTextarea defaultValue={props.selectedItem.description} aria-label="empty textarea" placeholder="Job Description" minRows={'3'} title='jobdesc' sx={{ mb: 6 }} {...register("description")} />
+                            <EditorWrapper>
+                                <EditorArea editorState={desc} onEditorStateChange={data => setDesc(data)} toolbar={{
+                                    options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
+                                    inline: { inDropdown: true },
+                                    list: { inDropdown: true },
+                                    textAlign: { inDropdown: true },
+                                    link: { inDropdown: true },
+                                    history: { inDropdown: true },
+                                }}  />
+                            </EditorWrapper>
                         </Grid>
                     </Grid>
                 </DialogContent>
