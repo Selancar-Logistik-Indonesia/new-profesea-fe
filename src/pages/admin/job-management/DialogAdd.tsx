@@ -15,8 +15,8 @@ import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { CircularProgress } from '@mui/material'
-import Job from 'src/contract/models/job'
 import Company from 'src/contract/models/company'
+import Job from 'src/contract/models/job'
 import Degree from 'src/contract/models/degree'
 import JobCategory from 'src/contract/models/job_category'
 import RoleLevel from 'src/contract/models/role_level'
@@ -24,56 +24,27 @@ import RoleType from 'src/contract/models/role_type'
 import Countries from 'src/contract/models/country'
 import City from 'src/contract/models/city'
 import { DateType } from 'src/contract/models/DatepickerTypes'
-import { styled } from '@mui/material/styles'
-import { Autocomplete, TextareaAutosize } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import * as yup from 'yup'
+import { EditorState, convertToRaw } from 'draft-js'
+import draftToHtml from 'draftjs-to-html';
 
-const grey = {
-    50: '#f6f8fa',
-    100: '#eaeef2',
-    200: '#d0d7de',
-    300: '#afb8c1',
-    400: '#8c959f',
-    500: '#6e7781',
-    600: '#57606a',
-    700: '#424a53',
-    800: '#32383f',
-    900: '#24292f',
-};
-const StyledTextarea = styled(TextareaAutosize)(
-    ({ theme }) => `
-    width: 100%;
-    font-family: Poppins;
-    font-size: 0.770rem;
-    font-weight: 200;
-    line-height: 1.5;
-    padding: 12px;
-    border-radius: 12px 12px 0 12px;
-    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[500]};
-    background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-    border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-    box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
-  
-    &:hover {
-      border-color: ${grey[400]};
-    }
-  
-    &:focus {
-      border-color: ${grey[400]};
-      box-shadow: 0 0 0 2px ${theme.palette.mode === 'dark' ? grey[200] : grey[500]};
-    }
-  
-    // firefox
-    &:focus-visible {
-      outline: 0;
-    }
-  `,
-);
+import EditorArea from 'src/@core/components/react-draft-wysiwyg'
+import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+
+const licenseData = [
+    { title: 'Certificate of Competency', docType: 'COC' },
+    { title: 'Certificate of Profeciency', docType: 'COP' },
+    { title: 'Certificate of Recognition', docType: 'COR' },
+    { title: 'Certificate of Endorsement', docType: 'COE' },
+    { title: 'MCU Certificates', docType: 'MCU' }
+]
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -97,6 +68,7 @@ const DialogAdd = (props: DialogProps) => {
     const [CatId, setCatId] = useState(0);
     const [CouId, setCouId] = useState(0);
     const [CitId, setCitId] = useState('');
+    const [license, setLicense] = useState<any[]>([]);
     const [date, setDate] = useState<DateType>(new Date());
 
     const [JobCategory, getJobCategory] = useState<any[]>([]);
@@ -106,6 +78,8 @@ const DialogAdd = (props: DialogProps) => {
     const [Company, getCompany] = useState<any[]>([]);
     const [combocountry, getComboCountry] = useState<any>([])
     const [combocity, getComboCity] = useState<any[]>([])
+    const [desc, setDesc] = useState(EditorState.createEmpty())
+    
     const combobox = async () => {
 
         HttpClient.get(`/user-management?page=1&take=250&team_id=3`).then(response => {
@@ -175,11 +149,11 @@ const DialogAdd = (props: DialogProps) => {
       }
 
     const onSubmit = async (formData: Job) => {
-        const { license, salary_start, salary_end, experience, description } = formData
+        const { salary_start, salary_end, experience } = formData
 
         const json = {
             "rolelevel_id": LevelId,
-            "roletype_id": TypeId,
+            "roletype_id": TypeId,           
             "user_id": UserId,
             "edugrade_id": EduId,
             "category_id": CatId,
@@ -189,7 +163,7 @@ const DialogAdd = (props: DialogProps) => {
             "salary_start": salary_start,
             "salary_end": salary_end,
             "experience": experience,
-            "description": description,
+            "description": draftToHtml(convertToRaw(desc?.getCurrentContent())),
             "onboard_at": date?.toLocaleDateString("en-GB", {
                 year: "numeric",
                 month: "2-digit",
@@ -338,24 +312,44 @@ const DialogAdd = (props: DialogProps) => {
                                 id='basic-input'
                                 onChange={(date: Date) => setDate(date)}
                                 placeholderText='Click to select a date'
-                                customInput={<TextField label='Schedule' variant="outlined" fullWidth  {...register("onboard_at")} />}
+                                customInput={<TextField label='Date On Board' variant="outlined" fullWidth  {...register("onboard_at")} />}
                                 />
                             </DatePickerWrapper>
                         </Grid>
                         <Grid item md={12} xs={12} >
-                            <TextField id="license" label="License" variant="outlined" fullWidth {...register("license")} />
+                            <Autocomplete
+                                multiple
+                                options={licenseData}
+                                id='license'
+                                value={license}
+                                filterSelectedOptions
+                                getOptionLabel={option => option.title || ''}
+                                fullWidth
+                                onChange={(e, newValue: any) => (newValue) ? setLicense(newValue) : setLicense([])}
+                                renderInput={params => <TextField {...params} fullWidth label='License'
+                                 />}
+                            />
                         </Grid>
                         <Grid item md={6} xs={12} >
-                            <TextField id="salary_start" label="Salary From" variant="outlined" fullWidth  {...register("salary_start")} />
+                            <TextField defaultValue={0} id="salary_start" label="Salary From" variant="outlined" fullWidth  {...register("salary_start")} />
                         </Grid>
                         <Grid item md={6} xs={12} >
-                            <TextField id="salary_end" label="Salary To" variant="outlined" fullWidth {...register("salary_end")} />
+                            <TextField defaultValue={0} id="salary_end" label="Salary To" variant="outlined" fullWidth {...register("salary_end")} />
                         </Grid>
                         <Grid item md={12} xs={12} >
                             <TextField id="experience" label="Experience" variant="outlined" fullWidth {...register("experience")} />
                         </Grid>
                         <Grid item md={12} xs={12} >
-                            <StyledTextarea aria-label="empty textarea" placeholder="Job Description" minRows={'3'} title='jobdesc' sx={{ mb: 6 }} {...register("description")} />
+                            <EditorWrapper>
+                                <EditorArea editorState={desc} onEditorStateChange={data => setDesc(data)} toolbar={{
+                                    options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
+                                    inline: { inDropdown: true },
+                                    list: { inDropdown: true },
+                                    textAlign: { inDropdown: true },
+                                    link: { inDropdown: true },
+                                    history: { inDropdown: true },
+                                }}  />
+                            </EditorWrapper>
                         </Grid>
                     </Grid>
                 </DialogContent>

@@ -6,11 +6,11 @@ import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , minWidth: 10},
-    { field: 'role_type', headerName: 'Job Title', sortable: true , minWidth: 250},
-    { field: 'level_name', headerName: 'Role Level', sortable: false, minWidth: 130 },
+    { field: 'role_type', headerName: 'Job Title', sortable: true , minWidth: 150},
+    { field: 'level_name', headerName: 'Role Level', sortable: false, minWidth: 100 },
     { field: 'category_name', headerName: 'Job Category', sortable: false, minWidth: 250 },
-    { field: 'degree', headerName: 'Degree', sortable: false, minWidth: 250 },
-    { field: 'license', headerName: 'License', sortable: false, minWidth: 250 },
+    { field: 'degree', headerName: 'Degree', sortable: false, minWidth: 200 },
+    { field: 'license', headerName: 'License', sortable: false, minWidth: 300 },
     {
         field: 'action',
         headerName: 'Action',
