@@ -33,7 +33,6 @@ import { HttpClient } from 'src/services'
 import INotification from 'src/contract/models/notification'
 import moment, { now } from 'moment'
 import NotificationType from 'src/utils/notification_type'
-import { faLinkedin } from '@fortawesome/free-brands-svg-icons'
 
 export type NotificationsType = {
     meta: string
@@ -166,6 +165,7 @@ const NotificationDropdown = (props: Props) => {
 
         if (response.status != 200) {
             alert(response.data?.message ?? "Unknow error");
+
             return;
         }
 
