@@ -19,16 +19,21 @@ interface Props {
 }
 
 const VerticalNavItems = (props: Props) => {
-  const { homeNavItems, navItems } = props
+  const { homeNavItems, navItems } = props;
+  const menus: { title: string, path: string }[] = [];
+
+  homeNavItems.forEach((item) => {
+    menus.push(item);
+  });
 
   navItems.forEach((item) => {
-    homeNavItems.push({
+    menus.push({
       title: item.title,
       path: item.onClick,
     });
   });
 
-  const RenderMenuItems = homeNavItems.map((item, index) => {
+  const RenderMenuItems = menus.map((item, index) => {
     const menuItem: NavLink = {
       title: item.title,
       path: item.path,
