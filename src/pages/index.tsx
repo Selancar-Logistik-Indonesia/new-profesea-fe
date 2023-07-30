@@ -31,33 +31,32 @@ const Main = () => {
                     <Typography variant="h4" style={{ color: "#32487A" }} fontWeight="600">{t("landing_hero_title")}</Typography>
                     <Typography fontSize={16} style={{ color: "#424242" }} mt={2}>{t("landing_hero_subtitle")}</Typography>
 
-                    <Container style={{ marginTop: 30, lineHeight: 3.5 }}>
+                    <Container style={{ marginTop: 30, lineHeight: 3.5 }} sx={{ display: { xs: 'none', md: 'block' } }}>
                         <Grid container justifyContent="center" sx={{ backgroundColor: 'none' }} spacing={9} mt={0} mb={10}>
-                            <Card sx={{ width: 320, height: 280, backgroundColor: '#4c98cf12' }} elevation={10}>
+                            <Card sx={{ width: 320, height: 280, backgroundColor: '#F0F6FA', mr: 5 }} elevation={10}>
                                 <CardContent sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}>
                                     <CustomAvatar skin='light' sx={{ width: 56, height: 56, mb: 2 }}>
                                         <Icon icon='noto-v1:ship' fontSize='2rem' />
                                     </CustomAvatar>
                                     <Typography variant='h6' sx={{ mb: 2 }}>
-                                    {t('b_to_seafarer')}
+                                        {t('b_to_seafarer')}
                                     </Typography>
                                     <Typography variant='body2' sx={{ mb: 6.5, color: "#424242" }}>
-                                    {t('b_to_seafarer_detail')}
+                                        {t('b_to_seafarer_detail')}
                                     </Typography>
                                     <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
                                 </CardContent>
                             </Card>
-                            &nbsp; &nbsp;
-                            <Card sx={{ width: 320, height: 280, backgroundColor: '#4c98cf12' }} elevation={10}>
+                            <Card sx={{ width: 320, height: 280, backgroundColor: '#F0F6FA' }} elevation={10}>
                                 <CardContent sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}>
                                     <CustomAvatar skin='light' sx={{ width: 56, height: 56, mb: 2 }}>
                                         <Icon icon='noto:man-office-worker-light-skin-tone' fontSize='2rem' />
                                     </CustomAvatar>
                                     <Typography variant='h6' sx={{ mb: 2 }}>
-                                    {t('b_to_professional')}
+                                        {t('b_to_professional')}
                                     </Typography>
                                     <Typography variant='body2' sx={{ mb: 6.5, color: "#424242" }}>
-                                    {t('b_to_professional_detail')}
+                                        {t('b_to_professional_detail')}
                                     </Typography>
                                     <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
                                 </CardContent>
@@ -66,9 +65,46 @@ const Main = () => {
                     </Container>
                 </Grid>
             </Grid>
+
+            <Grid container justifyContent="center" sx={{ backgroundColor: 'none', py: 10, display: { xs: 'flex', md: 'none' } }}>
+                <Grid item sx={{ mb: 10, mx: 5 }}>
+                    <Card sx={{ width: 320, height: 280, backgroundColor: '#F0F6FA' }} elevation={5}>
+                        <CardContent sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}>
+                            <CustomAvatar skin='light' sx={{ width: 56, height: 56, mb: 2 }}>
+                                <Icon icon='noto-v1:ship' fontSize='2rem' />
+                            </CustomAvatar>
+                            <Typography variant='h6' sx={{ mb: 2 }}>
+                                {t('b_to_seafarer')}
+                            </Typography>
+                            <Typography variant='body2' sx={{ mb: 6.5, color: "#424242" }}>
+                                {t('b_to_seafarer_detail')}
+                            </Typography>
+                            <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
+                        </CardContent>
+                    </Card>
+                </Grid>
+
+                <Grid item sx={{ mx: 5 }}>
+                    <Card sx={{ width: 320, height: 280, backgroundColor: '#F0F6FA' }} elevation={5}>
+                        <CardContent sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}>
+                            <CustomAvatar skin='light' sx={{ width: 56, height: 56, mb: 2 }}>
+                                <Icon icon='noto:man-office-worker-light-skin-tone' fontSize='2rem' />
+                            </CustomAvatar>
+                            <Typography variant='h6' sx={{ mb: 2 }}>
+                                {t('b_to_professional')}
+                            </Typography>
+                            <Typography variant='body2' sx={{ mb: 6.5, color: "#424242" }}>
+                                {t('b_to_professional_detail')}
+                            </Typography>
+                            <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+
             <FindJobsView id="findJobSection" />
-            <DiscoverView></DiscoverView>
-            <LetsSailView></LetsSailView>
+            <DiscoverView />
+            <LetsSailView />
             <FooterView />
         </>
     );
