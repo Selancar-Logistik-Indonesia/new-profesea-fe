@@ -44,7 +44,7 @@ const Main = () => {
                                     <Typography variant='body2' sx={{ mb: 6.5, color: "#424242" }}>
                                     {t('b_to_seafarer_detail')}
                                     </Typography>
-                                    <Button style={{ backgroundColor: "#32487A", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
+                                    <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
                                 </CardContent>
                             </Card>
                             &nbsp; &nbsp;
@@ -59,7 +59,7 @@ const Main = () => {
                                     <Typography variant='body2' sx={{ mb: 6.5, color: "#424242" }}>
                                     {t('b_to_professional_detail')}
                                     </Typography>
-                                    <Button style={{ backgroundColor: "#32487A", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
+                                    <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
                                 </CardContent>
                             </Card>
                         </Grid>
