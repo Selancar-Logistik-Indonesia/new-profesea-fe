@@ -20,7 +20,7 @@ interface Props {
 
 const VerticalNavItems = (props: Props) => {
   const { homeNavItems, navItems } = props;
-  let menus: { title: string, path: string }[] = [];
+  const menus: { title: string, path: string }[] = [];
 
   homeNavItems.forEach((item) => {
     menus.push(item);
