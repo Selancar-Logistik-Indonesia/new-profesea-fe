@@ -16,7 +16,7 @@ const DiscoverView = () => {
                 </Grid>
                 <Grid item lg={3} md={6} xs={12} textAlign={'left'} sx={{ mb: { xs: 5 } }}>
                     <Grid container>
-                            <Button style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
+                            <Button  href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
                             
                     </Grid>
                 </Grid>

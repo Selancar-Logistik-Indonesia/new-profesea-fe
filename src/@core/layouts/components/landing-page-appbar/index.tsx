@@ -24,7 +24,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const router = useRouter();
     const [navItems, setNavItems] = useState<NavItemType[]>([
         { title: 'Login', variant: 'contained', onClick: "/login" },
-        { title: 'Register', variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
+        // { title: 'Register', variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
     ])
 
     const [homeNavItems, setHomeNavItems] = useState<{ title: string, path: string }[]>([]);
@@ -138,7 +138,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                             }
 
                             <Divider orientation="vertical" variant="middle" flexItem color='#ddd' />
-                            <LanguageDropdown settings={settings} saveSettings={saveSettings} />
+
 
                             {!user ? navItems.map((item) => (
                                 <Link href={item.onClick} key={item.title} locale={locale}>
@@ -156,6 +156,9 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                                     <UserDropdown settings={settings} />
                                 </>
                             )}
+                            
+                            <Divider orientation="vertical" variant="middle" flexItem color='#ddd' />
+                            <LanguageDropdown settings={settings} saveSettings={saveSettings} />
                         </Box>
                     </Toolbar>
                 </Container>
