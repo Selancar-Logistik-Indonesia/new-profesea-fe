@@ -11,7 +11,7 @@ const Candidate = () => {
     return (
         <Box>
             <Grid container spacing={2}>
-                <Grid item xs={12} md={6} sx={
+                <Grid item xs={12} md={12} sx={
                     !hidden
                         ? {
                             p: 4,
