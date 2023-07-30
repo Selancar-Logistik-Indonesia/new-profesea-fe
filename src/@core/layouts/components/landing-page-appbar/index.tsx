@@ -156,7 +156,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                                     <UserDropdown settings={settings} />
                                 </>
                             )}
-                            
+
                             <Divider orientation="vertical" variant="middle" flexItem color='#ddd' />
                             <LanguageDropdown settings={settings} saveSettings={saveSettings} />
                         </Box>
