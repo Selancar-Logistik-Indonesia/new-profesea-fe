@@ -6,9 +6,7 @@ import FooterView from "src/views/landing-page/footerView";
 import Head from "next/head";
 import themeConfig from "src/configs/themeConfig";
 import OuterPageLayout from "src/@core/layouts/outer-components/OuterPageLayout";
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
-// ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
 const Main = () => {
@@ -23,7 +21,10 @@ const Main = () => {
                 <meta name='viewport' content='initial-scale=0.8, width=device-width' />
             </Head>
 
-            <Grid container sx={landingPageStyle.bannerHero}>
+            <Grid container sx={{
+                ...landingPageStyle.bannerHero,
+                height: { xs: 900, md: 550 }
+            }}>
                 <Grid item xs={12} xl={6} lg={6} md={6} pt={5} sx={{ maxWidth: { xs: '90%' }, px: { xs: 5, md: 10 } }}>
                     <Box sx={{ display: "flex", flexDirection: 'column', mt: 30 }}>
                         <Box mb={4} mt={10}>

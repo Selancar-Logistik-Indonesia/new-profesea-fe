@@ -34,34 +34,32 @@ const DiscoverView = () => {
     ];
 
     return (
-        <Grid container justifyContent="center" sx={discoverPageStyle.bannerHero} spacing={2} mt={0} pb={2}>
-            <Grid container mt={10} sx={{ mx: { xs: 5, md: 2 } }}>
-                <Grid item lg={12} md={6} xs={12} ml={10} textAlign={'left'}>
-                    <Typography variant='h6' sx={{ mb: 5 }} color={"#ffffff"} fontWeight="600">{t("landing_discover_title")}</Typography>
-                    <Typography fontSize={18} variant='body1' style={{ color: "#ffffff" }}>{t("landing_discover_subtitle")}</Typography>
-                </Grid>
+        <Grid container justifyContent="center" sx={{
+            ...discoverPageStyle.bannerHero,
+            height: { xxs: 660, xs: 550, md: 600 }
+        }} mt={0} pb={2} pt={10}>
+            <Grid item xs={12} ml={10} textAlign={'left'}>
+                <Typography variant='h6' sx={{ mb: 5 }} color={"#ffffff"} fontWeight="600">{t("landing_discover_title")}</Typography>
+                <Typography fontSize={18} variant='body1' style={{ color: "#ffffff" }}>{t("landing_discover_subtitle")}</Typography>
             </Grid>
 
-            <Grid container sx={{ mx: { xs: 5, md: 2 }, height: 12 }}>
-                <Grid item xs={12} ml={10} textAlign={'left'}>
-                    <Typography variant='h6' color={"#ffffff"} fontWeight="600">{t("landing_discover_item_title")}</Typography>
-                </Grid>
+            <Grid item xs={12}>
+                <Typography ml={10} mb={5} variant='h6' color={"#ffffff"} fontWeight="600">{t("landing_discover_item_title")}</Typography>
+                <Box pb={3} width='100%' display={'flex'} flexDirection={'row'} sx={{ overflowX: { xs: 'scroll', lg: 'hidden' }, msScrollbarTrackColor: 'transparent', alignItems: { lg: 'center' }, justifyContent: { xs: 'left', lg: 'center' } }}>
+                    {
+                        featureItems.map((item, i) => (
+                            <Box sx={{ minWidth: 320, maxWidth: 320, height: 200, ml: i == 0 ? 12 : 5 }} mt={2} key={item.key} padding={5} component={Card}>
+                                <CardContent>
+                                    <Typography fontSize={18} color={"#32487A"} fontWeight="600">{item.title}</Typography>
+                                    <Typography fontSize={14} sx={{ mb: 4 }} variant='body1' style={{ color: "#424242" }}>
+                                        {item.description}
+                                    </Typography>
+                                </CardContent>
+                            </Box>
+                        ))
+                    }
+                </Box>
             </Grid>
-
-            <Box width='100%' display={'flex'} flexDirection={'row'} sx={{ overflowX: { xs: 'scroll', lg: 'hidden' }, msScrollbarTrackColor: 'transparent', alignItems: { md: 'center' }, justifyContent: { xs: 'left', md: 'center' } }}>
-                {
-                    featureItems.map((item, i) => (
-                        <Box sx={{ minWidth: 320, maxWidth: 320, height: 200, ml: i == 0 ? 12 : 5 }} mt={2} key={item.key} padding={5} component={Card}>
-                            <CardContent>
-                                <Typography fontSize={18} color={"#32487A"} fontWeight="600">{item.title}</Typography>
-                                <Typography fontSize={14} sx={{ mb: 4 }} variant='body1' style={{ color: "#424242" }}>
-                                    {item.description}
-                                </Typography>
-                            </CardContent>
-                        </Box>
-                    ))
-                }
-            </Box>
         </Grid>
     );
 }
