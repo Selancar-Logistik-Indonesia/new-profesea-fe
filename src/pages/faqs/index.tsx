@@ -1,15 +1,10 @@
-import { Button, Grid, Typography, Box, Card, CardContent, CardHeader } from "@mui/material";
+import { Grid, Typography, Card, CardContent, CardHeader } from "@mui/material";
 import { ReactNode } from "react";
-import landingPageStyle from "src/@core/styles/landing-page/landing-page-trainer";
 import { useTranslation } from "react-i18next";
 import FooterView from "src/views/landing-page/footerView";
 import Head from "next/head";
 import themeConfig from "src/configs/themeConfig";
 import OuterPageLayout from "src/@core/layouts/outer-components/OuterPageLayout";
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-// ** Custom Components Imports
-import CustomAvatar from 'src/@core/components/mui/avatar'
 
 const FAQS = () => {
     const { t } = useTranslation();
