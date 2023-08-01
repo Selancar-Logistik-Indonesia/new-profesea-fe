@@ -17,6 +17,7 @@ import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import ListTraining from './Training'
 import { useRouter } from 'next/router'
+import ListTraining from './Training'
 
 const ProfileCompany = () => {
   return (
@@ -40,26 +41,31 @@ const SocialFeedApp = () => {
   const firstload = async () => {
     let url = '';
     if (!username) {
-      url = '/user/' + iduser
+      url = '/user/' + iduser;
       username = user.username;
     } else {
-      url = '/user/?username=' + username
+      url = '/user/?username=' + username;
     }
 
     try {
       await HttpClient.get(url).then(response => {
         if (response.data.user.length == 0) {
-          toast.error(`Opps data tidak ditemukan`)
+          toast.error(`Opps data tidak ditemukan`);
 
-          return
+          return;
         }
-        const user = response.data.user as IUser
-        setSelectedItem(user)
-        debugger;
+
+        const user = response.data.user as IUser;
+        setSelectedItem(user);
         if (user.role == 'Company') {
           HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=25').then(response => {
-            const code = response.data.jobs.data
-            setArrVacancy(code)
+            const code = response.data.jobs.data;
+            setArrVacancy(code);
+          })
+        } else if (user.role == 'Trainer') {
+          HttpClient.get(AppConfig.baseUrl + '/training?search=&page=1&take=10').then(response => {
+            const itemData = response.data.trainings.data;
+            setArrVacancy(itemData);
           })
         } else if (user.role == 'Trainer') {
           HttpClient.get(AppConfig.baseUrl + '/training?search=&page=1&take=10').then(response => {
@@ -69,9 +75,8 @@ const SocialFeedApp = () => {
           })
         } else {
           HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100').then(response => {
-            const itemData = response.data.experiences
-
-            setArrVacancy(itemData)
+            const itemData = response.data.experiences;
+            setArrVacancy(itemData);
           })
         }
       })
@@ -110,7 +115,7 @@ const SocialFeedApp = () => {
           }
         >
           <Grid container>
-            {selectedItem != null && <UserProfileHeader datauser={selectedItem} address={selectedItem.address} />}
+            {selectedItem != null && <UserProfileHeader username={username} datauser={selectedItem} address={selectedItem.address} />}
           </Grid>
           <Grid container spacing={6} sx={{ marginTop: '1px' }}>
             <Grid item lg={3} md={5} xs={12}>

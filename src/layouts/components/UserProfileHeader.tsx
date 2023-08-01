@@ -1,5 +1,3 @@
-// ** React Imports 
-// ** MUI Components
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import { styled } from '@mui/material/styles'
@@ -8,16 +6,12 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { Button, Divider, Grid } from '@mui/material'
 import Icon from 'src/@core/components/icon'
-
-
 import { IUser } from 'src/contract/models/user'
 import Address from 'src/contract/models/address'
 import { HttpClient } from 'src/services'
-import { AppConfig } from 'src/configs/api'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import secureLocalStorage from 'react-secure-storage'
-import localStorageKeys from 'src/configs/localstorage_keys'
+import { useAuth } from 'src/hooks/useAuth'
 
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
@@ -31,26 +25,23 @@ const ProfilePicture = styled('img')(({ theme }) => ({
 
 type userProps = {
   datauser: IUser;
-  address: Address
+  address: Address;
+  username: string;
 }
 
 const UserProfileHeader = (props: userProps) => {
-  const windowUrl = window.location.search
-  const params = new URLSearchParams(windowUrl)
   const [facebook, setFacebook] = useState<any>('-')
   const [instagram, setInstagram] = useState<any>('-')
   const [linkedin, setLinkedin] = useState<any>('-')
   const [showFriendship, setShowFriendship] = useState<boolean>(false)
   const [preview, setPreview] = useState()
   const [previewBanner, setPreviewBanner] = useState();
-  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser;
+  const { user } = useAuth();
+  const { username } = props;
 
   useEffect(() => {
-    if (params.get('username') != undefined) {
-      const username = params.get('username')
-      if (user.username != username) {
-        setShowFriendship(true)
-      }
+    if (user?.username != username) {
+      setShowFriendship(true);
     }
 
     HttpClient.get('/user/sosmed?page=1&take=5').then(response => {
@@ -75,8 +66,7 @@ const UserProfileHeader = (props: userProps) => {
       setPreview(code.photo)
       setPreviewBanner(code.banner)
     })
-  }, [])
-
+  }, [user])
 
   return (
     <Card sx={{ width: '100%' }}>
