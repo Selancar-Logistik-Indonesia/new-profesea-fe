@@ -42,10 +42,9 @@ const UserProfileHeader = (props:userProps) => {
   const [linkedin, setLinkedin] = useState<any>('-') 
   const [showFriendship, setShowFriendship] = useState<boolean>(false) 
   const [preview, setPreview] = useState()
-  const [previewBanner, setPreviewBanner] = useState()
- 
-  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
- debugger;
+  const [previewBanner, setPreviewBanner] = useState();
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser;
+
   useEffect(() => {
     if (params.get('username') != undefined) {
       

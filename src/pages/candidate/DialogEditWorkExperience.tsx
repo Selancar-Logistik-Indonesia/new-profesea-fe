@@ -52,7 +52,6 @@ const DialogEditWorkExperience = (props: DialogProps) => {
     const [selectedFile, setSelectedFile] = useState()   
     
     useEffect(() => {
-      debugger;
       if (!selectedFile) {
           setPreview(props.selectedItem?.logo)
 

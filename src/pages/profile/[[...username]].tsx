@@ -1,23 +1,22 @@
-// ** React Imports
-import React, { useEffect, useState }  from 'react' 
-import Box  from '@mui/material/Box'  
-import {  useMediaQuery   } from '@mui/material' 
-import {  useTheme } from '@mui/material/styles'  
+import React, { useEffect, useState } from 'react'
+import Box from '@mui/material/Box'
+import { Grid, useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { HttpClient } from 'src/services'
-import { AppConfig } from 'src/configs/api' 
-import {   Grid } from '@mui/material' 
+import { AppConfig } from 'src/configs/api'
 import UserProfileHeader from 'src/layouts/components/UserProfileHeader'
-import JobVacancy from './JobVacancy' 
- import {IUser} from 'src/contract/models/user' 
+import JobVacancy from './JobVacancy'
+import { IUser } from 'src/contract/models/user'
 import { toast } from 'react-hot-toast'
 import WorkeExperience from './Workexperinece'
 import { AxiosError } from 'axios'
 import ListFeedView from 'src/views/social-feed/ListFeedView'
-import { SocialFeedProvider } from 'src/context/SocialFeedContext' 
+import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import ListTraining from './Training'
+import { useRouter } from 'next/router'
 
 const ProfileCompany = () => {
   return (
@@ -29,29 +28,26 @@ const ProfileCompany = () => {
 
 const SocialFeedApp = () => {
   const { fetchFeeds } = useSocialFeed()
-  const windowUrl = window.location.search
-  const params = new URLSearchParams(windowUrl)
+  const router = useRouter();
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [selectedItem, setSelectedItem] = useState<IUser | null>(null)
   const [arrVacany, setArrVacancy] = useState<any>([])
   const iduser: any = user.id
-  let username: any = ''
-  if (params.get('username') != undefined) {
-     username = params.get('username')
-  
-  }
+  let { username } = router.query as { username: string };
+
   const firstload = async () => {
-    let url = ''
-    if (username == '') {
-      url = AppConfig.baseUrl + '/user/' + iduser
+    let url = '';
+    if (!username) {
+      url = '/user/' + iduser
       username = user.username;
     } else {
-      url = AppConfig.baseUrl + '/user/?username=' + username
+      url = '/user/?username=' + username
     }
+
     try {
-       await HttpClient.get(url).then(response => {
+      await HttpClient.get(url).then(response => {
         if (response.data.user.length == 0) {
           toast.error(`Opps data tidak ditemukan`)
 
@@ -80,7 +76,6 @@ const SocialFeedApp = () => {
         }
       })
     } catch (error) {
-      debugger
       let errorMessage: any
       if (error instanceof AxiosError) {
         errorMessage = error?.response?.data?.message ?? errorMessage
@@ -98,7 +93,6 @@ const SocialFeedApp = () => {
     firstload()
     fetchFeeds({ take: 7, username: username })
   }, [])
- 
 
   return (
     <Box>
@@ -110,8 +104,8 @@ const SocialFeedApp = () => {
           sx={
             !hidden
               ? {
-                  alignItems: 'stretch'
-                }
+                alignItems: 'stretch'
+              }
               : {}
           }
         >
@@ -125,7 +119,6 @@ const SocialFeedApp = () => {
               {selectedItem?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
             </Grid>
             <Grid item lg={9} md={7} xs={12}>
-              {/* <NestedComment paramcomment={paramcomment}></NestedComment> */}
               <ListFeedView />
             </Grid>
           </Grid>
