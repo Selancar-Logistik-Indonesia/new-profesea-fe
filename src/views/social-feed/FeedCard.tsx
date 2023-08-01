@@ -23,7 +23,7 @@ const FeedCard = (props: { item: ISocialFeed }) => {
         </Box>
         <Box sx={{ mb: 8, display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
           <Link style={{ textDecoration: 'none' }} href={`/profile/${item.user.username}`}>
-            <Typography variant='body2' sx={{ color: '#424242', fontWeight: 600 }}>
+            <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600 }}>
               {toTitleCase(item.user.name)}
             </Typography>
             <Typography sx={{ color: '#424242', fontWeight: 500 }}>{item.h_created_at}</Typography>

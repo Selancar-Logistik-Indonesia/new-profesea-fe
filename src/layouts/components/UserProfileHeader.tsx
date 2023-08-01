@@ -7,10 +7,10 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { Button, Divider, Grid } from '@mui/material'
-import Icon from 'src/@core/components/icon' 
+import Icon from 'src/@core/components/icon'
 
 
-import {IUser} from 'src/contract/models/user'
+import { IUser } from 'src/contract/models/user'
 import Address from 'src/contract/models/address'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
@@ -31,51 +31,53 @@ const ProfilePicture = styled('img')(({ theme }) => ({
 
 type userProps = {
   datauser: IUser;
-  address : Address
+  address: Address
 }
 
-const UserProfileHeader = (props:userProps) => {
-   const windowUrl = window.location.search
-   const params = new URLSearchParams(windowUrl)
+const UserProfileHeader = (props: userProps) => {
+  const windowUrl = window.location.search
+  const params = new URLSearchParams(windowUrl)
   const [facebook, setFacebook] = useState<any>('-')
   const [instagram, setInstagram] = useState<any>('-')
-  const [linkedin, setLinkedin] = useState<any>('-') 
-  const [showFriendship, setShowFriendship] = useState<boolean>(false) 
+  const [linkedin, setLinkedin] = useState<any>('-')
+  const [showFriendship, setShowFriendship] = useState<boolean>(false)
   const [preview, setPreview] = useState()
   const [previewBanner, setPreviewBanner] = useState();
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser;
 
   useEffect(() => {
     if (params.get('username') != undefined) {
-      
       const username = params.get('username')
       if (user.username != username) {
         setShowFriendship(true)
       }
     }
-   HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
-     const code = response.data.sosmeds.data
-     for (let x = 0; x < code.length; x++) {
-       const element = code[x]
-       if (element.sosmed_type == 'Facebook') {
-         setFacebook(element.sosmed_address)
-       }
-       if (element.sosmed_type == 'Instagram') {
-         setInstagram(element.sosmed_address)
-       }
-       if (element.sosmed_type == 'Linkedin') {
-         setLinkedin(element.sosmed_address)
-       }
-     }
-   })
-    HttpClient.get(AppConfig.baseUrl + '/user/' + props.datauser.id).then(response => {
+
+    HttpClient.get('/user/sosmed?page=1&take=5').then(response => {
+      const code = response.data.sosmeds.data
+      for (const element of code) {
+        if (element.sosmed_type == 'Facebook') {
+          setFacebook(element.sosmed_address)
+        }
+
+        if (element.sosmed_type == 'Instagram') {
+          setInstagram(element.sosmed_address)
+        }
+
+        if (element.sosmed_type == 'Linkedin') {
+          setLinkedin(element.sosmed_address)
+        }
+      }
+    })
+
+    HttpClient.get('/user/' + props.datauser.id).then(response => {
       const code = response.data.user
       setPreview(code.photo)
       setPreviewBanner(code.banner)
     })
-}, [])
- 
-   
+  }, [])
+
+
   return (
     <Card sx={{ width: '100%' }}>
       <CardMedia
