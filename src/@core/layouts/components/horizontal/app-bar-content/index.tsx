@@ -30,7 +30,7 @@ const AppBarContent = (props: Props) => {
                         <LinkStyled href='/'>
                             <Box
                                 component="img"
-                                sx={{ width: 150 }}
+                                sx={{ width: 100 }}
                                 alt="The Profesea logo"
                                 title="Profesea"
                                 src="/images/logosamudera.png"
