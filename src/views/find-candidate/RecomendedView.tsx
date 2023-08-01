@@ -32,7 +32,7 @@ const renderList = (listCandidate: IUser[]) => {
     return (
       <Grid item xs={12} md={4} key={item?.id}>
         <Paper sx={{ marginTop: '10px' }}>
-          <Link style={{ textDecoration: 'none' }} href={'/candidate/profile/?id=' + item?.id}>
+          <Link style={{ textDecoration: 'none' }} href={'/profile/?username=' + item?.username}>
             <Box
               height={65}
               sx={{

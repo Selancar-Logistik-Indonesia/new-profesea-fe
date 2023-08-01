@@ -17,6 +17,7 @@ import { AxiosError } from 'axios'
 import ListFeedView from 'src/views/social-feed/ListFeedView'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext' 
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
+import ListTraining from './Training'
 
 const ProfileCompany = () => {
   return (
@@ -58,10 +59,17 @@ const SocialFeedApp = () => {
         }
         const user = response.data.user as IUser
         setSelectedItem(user)
+        debugger;
         if (user.role == 'Company') {
           HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=25').then(response => {
             const code = response.data.jobs.data
             setArrVacancy(code)
+          })
+        } else if (user.role == 'Trainer') {
+          HttpClient.get(AppConfig.baseUrl + '/training?search=&page=1&take=10').then(response => {
+            const itemData = response.data.trainings.data
+
+            setArrVacancy(itemData)
           })
         } else {
           HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100').then(response => {
@@ -114,6 +122,7 @@ const SocialFeedApp = () => {
             <Grid item lg={3} md={5} xs={12}>
               {selectedItem?.role == 'Company' && <JobVacancy vacancy={arrVacany} />}
               {selectedItem?.role == 'Seafarer' && <WorkeExperience vacancy={arrVacany} />}
+              {selectedItem?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
             </Grid>
             <Grid item lg={9} md={7} xs={12}>
               {/* <NestedComment paramcomment={paramcomment}></NestedComment> */}
