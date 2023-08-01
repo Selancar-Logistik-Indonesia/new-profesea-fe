@@ -17,7 +17,6 @@ import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import ListTraining from './Training'
 import { useRouter } from 'next/router'
-import ListTraining from './Training'
 
 const ProfileCompany = () => {
   return (
