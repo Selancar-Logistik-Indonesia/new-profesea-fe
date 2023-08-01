@@ -9,6 +9,7 @@ import type { AppProps } from 'next/app'
 
 
 
+// ** Fake-DB Import
 
 
 // ** Loader Import
@@ -61,6 +62,8 @@ import 'src/iconify-bundle/icons-bundle-react'
 import '../../styles/globals.css'
 import { I18nextProvider } from 'react-i18next'
 import i18n from 'src/i18next'
+import { Provider } from 'react-redux'
+import { store } from 'src/store'
 
 // ** Extend App Props with Emotion
 type ExtendedAppProps = AppProps & {
@@ -113,37 +116,39 @@ const App = (props: ExtendedAppProps) => {
     const aclAbilities = Component.acl ?? defaultACLObj
 
     return (
+      <Provider store={store}>
         <CacheProvider value={emotionCache}>
-            <Head>
-                <title>{`${themeConfig.templateName}`}</title>
-                <meta name='description' content={`${themeConfig.templateName}`} />
-                <meta name='keywords' content='' />
-                <meta name='viewport' content='initial-scale=1, width=device-width' />
-            </Head>
+          <Head>
+            <title>{`${themeConfig.templateName}`}</title>
+            <meta name='description' content={`${themeConfig.templateName}`} />
+            <meta name='keywords' content='' />
+            <meta name='viewport' content='initial-scale=1, width=device-width' />
+          </Head>
 
-            <AuthProvider>
-                <I18nextProvider i18n={i18n}>
-                    <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
-                        <SettingsConsumer>
-                            {({ settings }) => {
-                                return (
-                                    <ThemeComponent settings={settings}>
-                                        <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                                            <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
-                                                {getLayout(<Component {...pageProps} />)}
-                                            </AclGuard>
-                                        </Guard>
-                                        <ReactHotToast>
-                                            <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
-                                        </ReactHotToast>
-                                    </ThemeComponent>
-                                )
-                            }}
-                        </SettingsConsumer>
-                    </SettingsProvider>
-                </I18nextProvider>
-            </AuthProvider>
+          <AuthProvider>
+            <I18nextProvider i18n={i18n}>
+              <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
+                <SettingsConsumer>
+                  {({ settings }) => {
+                    return (
+                      <ThemeComponent settings={settings}>
+                        <Guard authGuard={authGuard} guestGuard={guestGuard}>
+                          <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
+                            {getLayout(<Component {...pageProps} />)}
+                          </AclGuard>
+                        </Guard>
+                        <ReactHotToast>
+                          <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
+                        </ReactHotToast>
+                      </ThemeComponent>
+                    )
+                  }}
+                </SettingsConsumer>
+              </SettingsProvider>
+            </I18nextProvider>
+          </AuthProvider>
         </CacheProvider>
+      </Provider>
     )
 }
 
