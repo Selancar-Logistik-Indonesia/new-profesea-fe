@@ -14,7 +14,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material'   
+import { Autocomplete, CircularProgress } from '@mui/material'   
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -29,18 +29,23 @@ type DialogProps = {
     onStateChange: VoidFunction;
 }
  
- type FormData = {
-   document_name: string 
-   user_document: string 
- }
+type FormData = {
+  nameOtherDocument: string
+  user_document: string
+}
 
-
+type x = {
+  doctype: string
+  title: string
+}
 const DialogAddDocument = (props: DialogProps) => {
     const [onLoading, setOnLoading] = useState(false); 
      const [preview, setPreview] = useState()
      const [selectedFile, setSelectedFile] = useState()
+     const [showTextName, setTextName] = useState<boolean>(false)
      
-    // const [document_name, setDocument] = useState<any>(0)
+    const [document_name, setDocument] = useState<any>([])
+    
      useEffect(() => {
       if (!selectedFile) {
           setPreview(undefined)
@@ -52,7 +57,16 @@ const DialogAddDocument = (props: DialogProps) => {
 
       return () => URL.revokeObjectURL(objectUrl)
     }, [selectedFile])
-    
+
+
+     useEffect(() => { 
+      if(document_name.docType == 'OTH'){
+        setTextName(true)
+      }else{
+        setTextName(false)
+      }
+     
+     }, [document_name])
     // const schema = yup.object().shape({
     //     user_id: yup.string().required()
     // })
@@ -68,12 +82,18 @@ const DialogAddDocument = (props: DialogProps) => {
     
 
     const onSubmit = async (item:FormData) => { 
-      const {document_name} = item
+      const { nameOtherDocument } = item 
+      let doc = ''
+      if( showTextName == true){
+        doc = nameOtherDocument
+      }else{
+        doc = document_name.title
+      }
       const json = {
         user_document: selectedFile,
-        document_name: document_name,
-        document_number: 123, 
-        
+        document_name: doc,
+        document_type: document_name.docType,
+        document_number: 123
       }
        
       setOnLoading(true)
@@ -104,10 +124,19 @@ const DialogAddDocument = (props: DialogProps) => {
       // I've kept this example simple by using the first image instead of multiple
       setSelectedFile(e.target.files[0]) 
     }
-    //  const dokumen = [
-    //    { label: 'Identity Card', id: 0 },
-    //    { label: 'SIM', id: 1 }
-    //  ]
+    const dokumen = [
+      { title: 'Certificate of Competency', docType: 'COC' },
+      { title: 'Certificate of Profeciency', docType: 'COP' },
+      { title: 'Certificate of Recognition', docType: 'COR' },
+      { title: 'Certificate of Endorsement', docType: 'COE' },
+      { title: 'Other Certificate', docType: 'OTH' },
+      { title: 'MCU Certificates', docType: 'MCU' },
+      { title: 'SIM', docType: 'SIM' },
+      { title: 'KTP', docType: 'KTP' },
+      { title: 'Passport', docType: 'PAS' },
+      { title: 'Visa', docType: 'VIS' }
+    ]
+
 
     return (
       <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
@@ -135,23 +164,26 @@ const DialogAddDocument = (props: DialogProps) => {
             </Box>
 
             <Grid container columnSpacing={'1'} rowSpacing={'2'}>
-              {/* <Grid item md={12} xs={12}>
+              <Grid item md={12} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='dokumen'
-                  options={!dokumen ? [{ label: 'Loading...', id: 0 }] : dokumen}
+                  options={dokumen}
+                  getOptionLabel={option => option.title || ''}
                   renderInput={params => <TextField {...params} label='Document' sx={{ mb: 2 }} />}
-                  {...register('document_name')}
-                  onChange={(event: any, newValue: any | null) => setDocument(newValue)}
+                  onChange={(e, newValue: any) => (newValue ? setDocument(newValue) : setDocument([]))}
                 />
-              </Grid> */}
-              <TextField
+              </Grid>
+              {showTextName == true &&
+                 <TextField
                 id='document_name'
                 label='Document Name'
                 variant='outlined'
                 fullWidth
-                {...register('document_name')}
+                {...register('nameOtherDocument')}
               />
+              }
+           
               <Grid item md={12} xs={12}>
                 <Grid item xs={12} md={12} container justifyContent={'center'}>
                   <Grid xs={6}>

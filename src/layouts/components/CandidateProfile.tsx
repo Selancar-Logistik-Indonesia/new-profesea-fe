@@ -322,9 +322,9 @@ const CandidateProfile = (props: compProps) => {
       address_address: address
     }
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
-      ({ data }) => {
+      ({ data }) => { 
         if (tampilkanship == 'On-Ship') {
-          const json = {
+          const x = {
             rolelevel_id: idcomborolLevel,
             roletype_id: idcomborolType,
             vesseltype_id: idcomboVessel,
@@ -332,19 +332,29 @@ const CandidateProfile = (props: compProps) => {
             available_date: availabledate,
             spoken_langs: personName
           }
-          HttpClient.post(AppConfig.baseUrl + '/user/field-preference', json).then(({ data }) => {
-            console.log('here 1', data)
-            toast.success(' Successfully submited!')
-          })
-        } else {
-          console.log('here 1', data)
-          toast.success(' Successfully submited!')
+            HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
+              console.log('here 1', data)
+              toast.success(' Successfully submited!')
+            })
+        }else{
+           const x = {
+             rolelevel_id: idcomborolLevel,
+             roletype_id: idcomborolType,
+             vesseltype_id: null,
+             regiontravel_id: idcomboRegion,
+             available_date: null,
+             spoken_langs: personName
+           }
+             HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
+               console.log('here 1', data)
+               toast.success(' Successfully submited!')
+             })
         }
+       
+      
+       
       },
-      error => {
-        console.log('here 1', error)
-        toast.error('Registrastion Failed ' + error.response.data.message)
-      }
+     
     )
   }
 
@@ -443,7 +453,7 @@ const CandidateProfile = (props: compProps) => {
   }
 
   return (
-    <Grid container padding={5}> 
+    <Grid container padding={5}>
       <input
         accept='image/*'
         style={{ display: 'none', height: 250, width: '100%' }}
@@ -495,9 +505,11 @@ const CandidateProfile = (props: compProps) => {
         }}
       >
         <BoxWrapper>
-          
-            <ProfilePicture src={preview ? preview : '/images/avatars/profilepic.png'} alt='profile-picture'></ProfilePicture>
- 
+          <ProfilePicture
+            src={preview ? preview : '/images/avatars/profilepic.png'}
+            alt='profile-picture'
+          ></ProfilePicture>
+
           <input
             accept='image/*'
             style={{ display: 'none', height: 250, width: '100%' }}
@@ -507,9 +519,8 @@ const CandidateProfile = (props: compProps) => {
           ></input>
           <Box position={'absolute'} right={'10%'} bottom={'10%'}>
             <label htmlFor='raised-button-file'>
-                <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
+              <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
             </label>
-       
           </Box>
         </BoxWrapper>
       </CardContent>
@@ -622,9 +633,9 @@ const CandidateProfile = (props: compProps) => {
                   getOptionLabel={(option: any) => option.label}
                   renderInput={params => <TextField {...params} label='Ship' />}
                   onChange={(event: any, newValue: any | null) => displayship(newValue)}
-                // onChange={(event: any, newValue: Employee ) =>
-                //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
-                // }
+                  // onChange={(event: any, newValue: Employee ) =>
+                  //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
+                  // }
                 />
               </Grid>
 
@@ -810,22 +821,28 @@ const CandidateProfile = (props: compProps) => {
                       />
                     </DatePickerWrapper>
                   </Grid>
-                  <Grid item md={6} xs={12}>
+                  <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
+                    <Typography variant='body2' sx={{ fontSize: '18px' }} marginRight={2}>
+                      Spoken
+                    </Typography>
                     <Select
                       labelId='demo-multiple-chip-label'
                       id='demo-multiple-chip'
                       multiple
                       value={personName}
                       onChange={handleChange}
+                      label='Spoken'
+                      sx={{ fontSize: '18px' }}
                       input={
                         <OutlinedInput
                           id='select-multiple-chip'
                           label='Chip'
                           defaultValue={props.datauser?.field_preference?.spoken_langs}
+                          sx={{ fontSize: '8px' }}
                         />
                       }
                       renderValue={selected => (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
                           {selected.map(value => (
                             <Chip key={value} label={value} />
                           ))}
@@ -842,8 +859,114 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </Grid>
               )}
+              {tampilkanship != 'On-Ship' && (
+                <Grid item container xs={12} spacing={2} sx={{ mb: 2 }}>
+                  <Grid xs={12}>
+                    <Typography variant='h5'>OFF-SHIP TYPE</Typography>
+                    <br></br>
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={comboroleLevel}
+                      getOptionLabel={(option: any) => option.levelName}
+                      defaultValue={props.datauser?.field_preference?.role_level}
+                      renderInput={params => <TextField {...params} label='Role Level' />}
+                      onChange={(event: any, newValue: RoleLevel | null) =>
+                        newValue?.id
+                          ? setComboRolLevel(newValue.id)
+                          : setComboRolLevel(props.datauser?.field_preference?.role_level?.id)
+                      }
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={comboroleType}
+                      getOptionLabel={(option: any) => option.name}
+                      defaultValue={props.datauser?.field_preference?.role_type}
+                      renderInput={params => <TextField {...params} label='Job Title' />}
+                      onChange={(event: any, newValue: RoleType | null) =>
+                        newValue?.id
+                          ? setComboRolType(newValue.id)
+                          : setComboRolType(props.datauser?.field_preference?.role_type?.id)
+                      }
+                    />
+                  </Grid>
 
-              <Grid item md={1} xs={12}>
+                  <Grid item md={6} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={comboRegion}
+                      getOptionLabel={(option: any) => option.name}
+                      defaultValue={props.datauser?.field_preference?.region_travel}
+                      renderInput={params => <TextField {...params} label='Location' />}
+                      onChange={(event: any, newValue: RegionTravel | null) =>
+                        newValue?.id
+                          ? setComboRegion(newValue.id)
+                          : setComboRegion(props.datauser?.field_preference?.region_travel?.id)
+                      }
+                    />
+                  </Grid>
+                  {/* <Grid item md={6} xs={12}>
+                    <DatePickerWrapper>
+                      <DatePicker
+                        dateFormat='dd/MM/yyyy'
+                        selected={date}
+                        id='basic-input'
+                        onChange={(date: Date) => setDate(date)}
+                        placeholderText='Click to select a date'
+                        customInput={
+                          <TextField label='Available Date' variant='outlined' fullWidth {...register('available')} />
+                        }
+                      />
+                    </DatePickerWrapper>
+                  </Grid> */}
+                  <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
+                    <Typography variant='body2' sx={{ fontSize: '18px' }} marginRight={2}>
+                      Spoken
+                    </Typography>
+                    <Select
+                      labelId='demo-multiple-chip-label'
+                      id='demo-multiple-chip'
+                      multiple
+                      value={personName}
+                      onChange={handleChange}
+                      label='Spoken'
+                      sx={{ fontSize: '18px' }}
+                      input={
+                        <OutlinedInput
+                          id='select-multiple-chip'
+                          label='Chip'
+                          defaultValue={props.datauser?.field_preference?.spoken_langs}
+                          sx={{ fontSize: '8px' }}
+                        />
+                      }
+                      renderValue={selected => (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                          {selected.map(value => (
+                            <Chip key={value} label={value} />
+                          ))}
+                        </Box>
+                      )}
+                      MenuProps={MenuProps}
+                    >
+                      {names.map(name => (
+                        <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Grid>
+                </Grid>
+              )}
+              <Grid item  direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}>
+                
+              </Grid>
+              <Grid item  direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
                 <Button fullWidth size='small' type='submit' variant='contained' sx={{ mb: 7 }}>
                   <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '24px' }} />
                 </Button>
@@ -905,10 +1028,7 @@ const CandidateProfile = (props: compProps) => {
                           </Grid>
                         </Grid>
                         <Grid xs={12} md={2} marginTop={2} display='flex' item container>
- 
- 
-                        <Grid xs={12} display='flex' item container>
- 
+                          <Grid xs={12} display='flex' item container>
                             <Grid
                               xs={12}
                               md={12}
@@ -919,16 +1039,17 @@ const CandidateProfile = (props: compProps) => {
                             >
                               <Box margin={1}>
                                 <Button
- 
- 
                                   variant='outlined'
                                   color='primary'
                                   size='small'
                                   onClick={() => editEducation(item)}
                                 >
-                                  <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
- 
- 
+                                  <Icon
+                                    fontSize='large'
+                                    icon={'material-symbols:edit'}
+                                    color={'primary'}
+                                    style={{ fontSize: '24px' }}
+                                  />
                                 </Button>
                               </Box>
                               <Box margin={1}>
@@ -937,8 +1058,13 @@ const CandidateProfile = (props: compProps) => {
                                   color='error'
                                   size='small'
                                   onClick={() => deleteeducation(item.id)}
-                                > 
-                                  <Icon fontSize='large' icon={'fluent:delete-32-filled'} color={'error'} style={{ fontSize: '24px' }} />
+                                >
+                                  <Icon
+                                    fontSize='large'
+                                    icon={'fluent:delete-32-filled'}
+                                    color={'error'}
+                                    style={{ fontSize: '24px' }}
+                                  />
                                 </Button>
                               </Box>
                             </Grid>
@@ -1008,7 +1134,6 @@ const CandidateProfile = (props: compProps) => {
                           </Grid>
                         </Grid>
                         <Grid xs={12} md={2} marginTop={2} display='flex' item container>
- 
                           <Grid xs={12} display='flex' item container>
                             <Grid
                               xs={12}
@@ -1020,24 +1145,27 @@ const CandidateProfile = (props: compProps) => {
                             >
                               <Box margin={1}>
                                 <Button
-                                   variant='outlined'
+                                  variant='outlined'
                                   color='primary'
                                   size='small'
                                   onClick={() => editWorkExperience(item)}
                                 >
-                                  <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
-  
+                                  <Icon
+                                    fontSize='large'
+                                    icon={'material-symbols:edit'}
+                                    color={'primary'}
+                                    style={{ fontSize: '24px' }}
+                                  />
                                 </Button>
                               </Box>
                               <Box margin={1}>
-                                <Button
- 
-                                  variant='outlined'
-                                   color='error'
-                                  size='small'
-                                  onClick={() => deletewe(item.id)}
-                                > 
-                                  <Icon fontSize='large' icon={'fluent:delete-32-filled'} color={'error'} style={{ fontSize: '24px' }} />
+                                <Button variant='outlined' color='error' size='small' onClick={() => deletewe(item.id)}>
+                                  <Icon
+                                    fontSize='large'
+                                    icon={'fluent:delete-32-filled'}
+                                    color={'error'}
+                                    style={{ fontSize: '24px' }}
+                                  />
                                 </Button>
                               </Box>
                             </Grid>
@@ -1076,26 +1204,26 @@ const CandidateProfile = (props: compProps) => {
                   {itemData.map(item => (
                     <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
                       <Grid xs={12} md={9} container direction='row' alignItems='center'>
- 
- 
-                        <Icon fontSize='large' icon={'solar:document-bold'} color={'info'} style={{ fontSize: '24px', margin: '5px' }} />
+                        <Icon
+                          fontSize='large'
+                          icon={'solar:document-bold'}
+                          color={'info'}
+                          style={{ fontSize: '24px', margin: '5px' }}
+                        />
                         <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
                           {item.document_name}
                         </Typography>
-  
                       </Grid>
                       <Grid xs={12} md={3} display='flex' item container>
                         <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
                           <Box margin={1}>
- 
- 
-                            <Button
-                              variant='outlined'
-                              color='info'
-                              size='small'
-                              href={item.path} target='_blank'
-                            >
-                              <Icon fontSize='large' icon={'icon-park-outline:preview-open'} color={'info'} style={{ fontSize: '24px' }} />
+                            <Button variant='outlined' color='info' size='small' href={item.path} target='_blank'>
+                              <Icon
+                                fontSize='large'
+                                icon={'icon-park-outline:preview-open'}
+                                color={'info'}
+                                style={{ fontSize: '24px' }}
+                              />
                             </Button>
                           </Box>
                           <Box margin={1}>
@@ -1105,18 +1233,22 @@ const CandidateProfile = (props: compProps) => {
                               size='small'
                               onClick={() => editDocument(item.id)}
                             >
-                              <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
+                              <Icon
+                                fontSize='large'
+                                icon={'material-symbols:edit'}
+                                color={'primary'}
+                                style={{ fontSize: '24px' }}
+                              />
                             </Button>
                           </Box>
                           <Box margin={1}>
-                            <Button
-                              variant='outlined'
-                              color='error'
-                              size='small'
-                              onClick={() => deletework(item.id)}
-                            >
-                              <Icon fontSize='large' icon={'fluent:delete-32-filled'} color={'error'} style={{ fontSize: '24px' }} />
- 
+                            <Button variant='outlined' color='error' size='small' onClick={() => deletework(item.id)}>
+                              <Icon
+                                fontSize='large'
+                                icon={'fluent:delete-32-filled'}
+                                color={'error'}
+                                style={{ fontSize: '24px' }}
+                              />
                             </Button>
                           </Box>
                         </Grid>
