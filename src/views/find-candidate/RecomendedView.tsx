@@ -84,13 +84,13 @@ const renderList = (listCandidate: IUser[]) => {
                 License
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
+            {/* <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
               <Icon icon='mdi:currency-usd' color='#32487A' />
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}>
                 from Rp. {item.field_preference?.role_type?.name ? item.field_preference?.salary_start : '0'} To Rp.
                 {item.field_preference?.role_type?.name ? item.field_preference?.salary_end : '0'}
               </Typography>
-            </Box>
+            </Box> */}
           </Box>
         </Paper>
       </Grid>
