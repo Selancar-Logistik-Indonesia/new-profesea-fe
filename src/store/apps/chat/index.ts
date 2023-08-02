@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // ** Axios Imports
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import secureLocalStorage from 'react-secure-storage'
 
 // ** Types
