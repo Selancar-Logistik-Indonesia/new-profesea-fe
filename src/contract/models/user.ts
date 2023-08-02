@@ -29,4 +29,5 @@ export interface IUser {
   industry: Industry
   address: Address
   field_preference?: FieldPreference
+  frienship_status?: string
 }

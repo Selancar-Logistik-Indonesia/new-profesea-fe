@@ -11,12 +11,12 @@ import JobVacancy from './JobVacancy'
 import { IUser } from 'src/contract/models/user'
 import { toast } from 'react-hot-toast'
 import WorkeExperience from './Workexperinece'
-import { AxiosError } from 'axios'
 import ListFeedView from 'src/views/social-feed/ListFeedView'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import ListTraining from './Training'
 import { useRouter } from 'next/router'
+import { getCleanErrorMessage } from 'src/utils/helpers'
 
 const ProfileCompany = () => {
   return (
@@ -32,7 +32,7 @@ const SocialFeedApp = () => {
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  const [selectedItem, setSelectedItem] = useState<IUser | null>(null)
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [arrVacany, setArrVacancy] = useState<any>([])
   const iduser: any = user.id
   let { username } = router.query as { username: string };
@@ -47,49 +47,34 @@ const SocialFeedApp = () => {
     }
 
     try {
-      await HttpClient.get(url).then(response => {
-        if (response.data.user.length == 0) {
-          toast.error(`Opps data tidak ditemukan`);
+      const response = await HttpClient.get(url);
+      if (response.data.user.length == 0) {
+        toast.error(`Opps data tidak ditemukan`);
 
-          return;
-        }
+        return;
+      }
 
-        const user = response.data.user as IUser;
-        setSelectedItem(user);
-        if (user.role == 'Company') {
-          HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=25').then(response => {
-            const code = response.data.jobs.data;
-            setArrVacancy(code);
-          })
-        } else if (user.role == 'Trainer') {
-          HttpClient.get(AppConfig.baseUrl + '/training?search=&page=1&take=10').then(response => {
-            const itemData = response.data.trainings.data;
-            setArrVacancy(itemData);
-          })
-        } else if (user.role == 'Trainer') {
-          HttpClient.get(AppConfig.baseUrl + '/training?search=&page=1&take=10').then(response => {
-            const itemData = response.data.trainings.data
+      const user = response.data.user as IUser;
+      setSelectedUser(user);
 
-            setArrVacancy(itemData)
-          })
-        } else {
-          HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100').then(response => {
-            const itemData = response.data.experiences;
-            setArrVacancy(itemData);
-          })
-        }
-      })
+      if (user.role == 'Company') {
+        HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=25').then(response => {
+          const code = response.data.jobs.data;
+          setArrVacancy(code);
+        })
+      } else if (user.role == 'Trainer') {
+        HttpClient.get(AppConfig.baseUrl + '/training?search=&page=1&take=10').then(response => {
+          const itemData = response.data.trainings.data;
+          setArrVacancy(itemData);
+        })
+      } else {
+        HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100').then(response => {
+          const itemData = response.data.experiences;
+          setArrVacancy(itemData);
+        })
+      }
     } catch (error) {
-      let errorMessage: any
-      if (error instanceof AxiosError) {
-        errorMessage = error?.response?.data?.message ?? errorMessage
-      }
-
-      if (typeof error == 'string') {
-        errorMessage = error
-      }
-
-      toast.error(`Opps ${errorMessage}`)
+      toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
   }
 
@@ -105,22 +90,16 @@ const SocialFeedApp = () => {
           item
           xs={12}
           md={12}
-          sx={
-            !hidden
-              ? {
-                alignItems: 'stretch'
-              }
-              : {}
-          }
+          sx={!hidden ? { alignItems: 'stretch' } : {}}
         >
           <Grid container>
-            {selectedItem != null && <UserProfileHeader username={username} datauser={selectedItem} address={selectedItem.address} />}
+            {selectedUser && <UserProfileHeader datauser={selectedUser} address={selectedUser.address} />}
           </Grid>
           <Grid container spacing={6} sx={{ marginTop: '1px' }}>
             <Grid item lg={3} md={5} xs={12}>
-              {selectedItem?.role == 'Company' && <JobVacancy vacancy={arrVacany} />}
-              {selectedItem?.role == 'Seafarer' && <WorkeExperience vacancy={arrVacany} />}
-              {selectedItem?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
+              {selectedUser?.role == 'Company' && <JobVacancy vacancy={arrVacany} />}
+              {selectedUser?.role == 'Seafarer' && <WorkeExperience vacancy={arrVacany} />}
+              {selectedUser?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
             </Grid>
             <Grid item lg={9} md={7} xs={12}>
               <ListFeedView />

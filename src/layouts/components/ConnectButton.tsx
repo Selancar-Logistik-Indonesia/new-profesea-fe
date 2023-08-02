@@ -11,8 +11,8 @@ interface ConnectButtonProps {
 };
 
 const ConnectButton = (props: ConnectButtonProps) => {
+    const [user, setUser] = useState(props.user);
     const [isLoading, setIsLoading] = useState(false);
-    const [requested, setRequested] = useState(false);
 
     const onConnectRequest = async (user: IUser) => {
         console.log(user.name);
@@ -23,7 +23,12 @@ const ConnectButton = (props: ConnectButtonProps) => {
             });
 
             if (response.status == 200) {
-                setRequested(true);
+                setUser((old) => {
+                    return {
+                        ...old,
+                        frienship_status: 'WA'
+                    };
+                });
             }
         } catch (error) {
             toast.error(getCleanErrorMessage(error));
@@ -32,15 +37,38 @@ const ConnectButton = (props: ConnectButtonProps) => {
         setIsLoading(false);
     }
 
+    const buildConnectIcon = () => {
+        if (user.frienship_status == "AP") {
+            return 'fa6-solid:link-slash';
+        }
+
+        return 'fa6-solid:link';
+    }
+
+    const buildConnectText = () => {
+        if (user.frienship_status == "AP") {
+            return 'Disconnect';
+        }
+
+        if (user.frienship_status == "WA") {
+            return 'Requested';
+        }
+
+        return 'Connect';
+    }
+
     return (
-        <Button disabled={isLoading} onClick={() => onConnectRequest(props.user)}
-            variant={requested ? 'outlined' : 'contained'} size='small'
-            startIcon={!isLoading && !requested ? <Icon icon={'mdi:add'} color='white' /> : null}
+        <Button disabled={isLoading} onClick={() => onConnectRequest(user)}
+            variant={user.frienship_status ? 'outlined' : 'contained'}
+            size='small'
+            sx={{ margin: '5px' }}
+            color='warning'
+            startIcon={!isLoading && <Icon icon={buildConnectIcon()} color={user.frienship_status ? '#FDB528' : 'white'} />}
         >
             {
                 isLoading
                     ? (<CircularProgress size={22} />)
-                    : requested ? "Requested" : "Connect"
+                    : buildConnectText()
             }
         </Button>
     );
