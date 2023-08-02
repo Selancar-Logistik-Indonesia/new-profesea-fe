@@ -43,7 +43,6 @@ const schema = yup.object().shape({
  const combobox = () => {
    HttpClient.get(AppConfig.baseUrl + '/forum?page=1&take=10&search=').then(response => {
      const code = response.data.forums.data
-     debugger;
      getForumCode(code)
    })
  }

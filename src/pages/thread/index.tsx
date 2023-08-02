@@ -36,7 +36,6 @@ const [userDetail, setUserDetail] = useState<IUser | null>(null)
 const [listThread, setlistThread] = useState<any>([])
  
 const firstload = () => {
-   debugger;
     HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
       const user = response.data.user  
       setUserDetail(user)

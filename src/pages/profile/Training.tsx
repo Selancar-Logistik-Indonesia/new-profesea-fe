@@ -4,23 +4,22 @@ import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
- 
 
 export type ParamJobVacncy = {
   title: string
   category: any
-  schedule: string 
+  schedule: string
 }
 
 // export type ProfileTeamsType = ProfileTabCommonType & { color: ThemeColor }
 interface Props {
   // teams: ProfileTeamsType[]
-  vacancy: ParamJobVacncy[] 
+  vacancy: ParamJobVacncy[]
 }
 
 const renderList = (arr: ParamJobVacncy[]) => {
-  if (arr && arr.length) { 
-    
+  if (arr && arr.length) {
+
     return arr.map((item, index) => {
       return (
         <Box
@@ -36,7 +35,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
         >
           <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
             <Typography sx={{ color: '#424242', fontWeight: 600 }}>
-              {`${item.title.charAt(0).toUpperCase() + item.title.slice(1)}`}
+              {`${item.title?.charAt(0).toUpperCase() + item.title?.slice(1)}`}
             </Typography>
             <Typography sx={{ color: '#424242', fontWeight: 400 }}>
               {item.category.category.charAt(0).toUpperCase() + item.category.category.slice(1)}
@@ -45,7 +44,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
             <Grid xs={12} display='flex'>
               <Box>
                 <Typography variant='body1'>
-                 Schedule
+                  Schedule
                 </Typography>
               </Box>
               <Box>
@@ -65,18 +64,18 @@ const renderList = (arr: ParamJobVacncy[]) => {
     return null
   }
 }
- 
+
 
 const ListTraining = (props: Props) => {
-  const {   vacancy  } = props
+  const { vacancy } = props
 
   return (
-    <Grid container  marginTop={'10px'} >
+    <Grid container marginTop={'10px'} >
       <Grid item xs={12}>
         <Card>
           <CardContent>
             <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: "#424242", textTransform: 'uppercase' , fontWeight: 600}}>
+              <Typography variant='body2' sx={{ mb: 4, color: "#424242", textTransform: 'uppercase', fontWeight: 600 }}>
                 List Training
               </Typography>
               {renderList(vacancy)}
@@ -87,11 +86,11 @@ const ListTraining = (props: Props) => {
               </Typography>
               {renderList(contacts)}
             </Box> */}
-           
+
           </CardContent>
         </Card>
       </Grid>
-      
+
     </Grid>
   )
 }

@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { IUser } from 'src/contract/models/user'
 import { toTitleCase } from 'src/utils/helpers'
 import ConnectButton from './ConnectButton'
+import Link from 'next/link'
 
 const renderList = (arr: IUser[]) => {
   if (!arr || arr.length == 0) {
@@ -32,9 +33,11 @@ const renderList = (arr: IUser[]) => {
           <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 60, height: 60 }} />
         </Box>
         <Box sx={{ flexGrow: 1, ml: 3, display: 'flex', flexDirection: 'column' }}>
-          <Typography sx={{ color: 'text.primary', fontWeight: 'bold', mt: 1, fontSize: 14 }}>
-            {toTitleCase(item.name)}
-          </Typography>
+          <Link style={{ textDecoration: 'none' }} href={`/profile/${item.username}`}>
+            <Typography sx={{ color: 'text.primary', fontWeight: 'bold', mt: 1, fontSize: 14 }}>
+              {toTitleCase(item.name)}
+            </Typography>
+          </Link>
           <Typography sx={{ color: 'text.primary', mt: 1, mb: 1, fontSize: 14 }}>
             {item.email}
           </Typography>
@@ -78,7 +81,7 @@ const Feed = () => {
         <Card>
           <CardContent>
             <Box sx={{ mb: 7 }}>
-              <Typography color={"#424242"} fontWeight="600" fontSize={"14px"} sx={{ mb: 4}}>
+              <Typography color={"#424242"} fontWeight="600" fontSize={"14px"} sx={{ mb: 4 }}>
                 Add to your feed
               </Typography>
               {
