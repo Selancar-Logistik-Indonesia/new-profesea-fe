@@ -33,11 +33,7 @@ type FormData = {
   nameOtherDocument: string
   user_document: string
 }
-
-type x = {
-  doctype: string
-  title: string
-}
+ 
 const DialogAddDocument = (props: DialogProps) => {
     const [onLoading, setOnLoading] = useState(false); 
      const [preview, setPreview] = useState()
