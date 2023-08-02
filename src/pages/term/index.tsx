@@ -9,7 +9,7 @@ import fsPromises from 'fs/promises';
 import path from 'path'
 
 export async function getServerSideProps() {
-  let filePath = path.join(process.cwd(), 'assets/tos/en.html');
+  const filePath = path.join(process.cwd(), 'assets/tos/en.html');
   const data = await fsPromises.readFile(filePath);
 
   return {
