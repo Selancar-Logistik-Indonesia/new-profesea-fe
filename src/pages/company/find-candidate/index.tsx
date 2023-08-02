@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Autocomplete, Card, CardContent, CardHeader, Collapse, Grid, IconButton,  TextField,   Slider, Typography, useMediaQuery } from '@mui/material'
+import { Autocomplete, Card, CardContent, CardHeader, Collapse, Grid, IconButton,  TextField,  Typography, useMediaQuery } from '@mui/material'
 import { Icon } from '@iconify/react' 
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
 import { IUser } from 'src/contract/models/user'
@@ -8,48 +8,54 @@ import { HttpClient } from 'src/services'
 import JobCategory from 'src/contract/models/job_category'  
 import { AppConfig } from 'src/configs/api' 
 import { useTheme } from '@mui/material/styles'
+import RoleType from 'src/contract/models/role_type'
+import VesselType from 'src/contract/models/vessel_type'
 
+type Dokumen = {
+  title: string 
+  docType: string
+}
 const FindCandidate = () => {
-  function valuetext(value: number) { 
-    const rp = formatrup.format(value)
+//   function valuetext(value: number) { 
+//     const rp = formatrup.format(value)
 
-   return ` ${rp}`
- }
- const formatrup = Intl.NumberFormat('id-ID', {
-   style: 'currency',
-   currency: 'IDR'
- })
+//    return ` ${rp}`
+//  }
+//  const formatrup = Intl.NumberFormat('id-ID', {
+//    style: 'currency',
+//    currency: 'IDR'
+//  })
   const [listCandidate, setListCandidate] = useState<IUser[]>([]) 
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const [collapsed, setCollapsed] = useState<boolean>(true)
   const [collapsed2, setCollapsed2] = useState<boolean>(false)
-  const [collapsed3, setCollapsed3] = useState<boolean>(false)
+  // const [collapsed3, setCollapsed3] = useState<boolean>(false)
   const [collapsed4, setCollapsed4] = useState<boolean>(false)
   const [collapsed5, setCollapsed5] = useState<boolean>(false)
-  const [JobCategory, getJobCategory] = useState<any[]>([]) 
-  // const [idposition, setPosition] = useState<any>(0)  
-  // const [idcountry, setCountry] = useState<any>()
-  // const [combocity, getComboCity] = useState<any[]>([])
-  // const [idcity, setCombocity] = useState<any>(0)
+  const [JobCategory, getJobCategory] = useState<any[]>([])  
+  const [JobTitle, getJobTitle] = useState<any[]>([])  
+  const [VesselType, getVesselType] = useState<any[]>([])  
   const [combocode, getCombocode] = useState<any[]>([]) 
- const [valueSalary, setValueSalary] = React.useState<number[]>([0, 100000000])
- const handleChangeSalary = (event: Event, newValue: number | number[]) => {
-   setValueSalary(newValue as number[])
- }
-//  const position = [
-//    { label: 'Onship', id: 0 },
-//    { label: 'Offship', id: 1 }
-//  ]
+  const [textCandidate, SetTextCandidate] = useState<any>('') 
+
+  
+  const [sJobCategory, setJobCategory] = useState<any>('')
+  const [sJobTitle, setJobTitle] = useState<any>('')
+  const [sVesselType, setVesselType] = useState<any>('')  
+//  const [valueSalary, setValueSalary] = React.useState<number[]>([0, 100000000])
+//  const handleChangeSalary = (event: Event, newValue: number | number[]) => {
+//    setValueSalary(newValue as number[])
+//  } 
 
   const getListCandidates = async () => {
     const response = await HttpClient.get('/candidate?page=1&take=25&search', {
       page: 1,
       take: 25,
       search: ''
-    })
-
-    const { candidates } = response.data as { candidates: IUser[] }
+    }) 
+    // const { candidates } = response.data.data as { candidates: IUser[] } 
+    const candidates = response.data.candidates.data
     setListCandidate(candidates)
  
 
@@ -58,7 +64,19 @@ const FindCandidate = () => {
        throw res2.data.message ?? 'Something went wrong!'
      }
      getJobCategory(res2.data.categories.data)
-     
+
+    const res3 = await HttpClient.get(`/public/data/role-type?search=&page=1&take=250`)
+    if (res3.status != 200) {
+      throw res2.data.message ?? 'Something went wrong!'
+    }
+    getJobTitle(res3.data.roleTypes.data)
+
+   const res4 = await HttpClient.get(`/public/data/vessel-type?search=&page=1&take=250`)
+   if (res4.status != 200) {
+     throw res4.data.message ?? 'Something went wrong!'
+   }
+   getVesselType(res4.data.vesselTypes.data)
+
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
       for (let x = 0; x < code.length; x++) {
@@ -70,6 +88,15 @@ const FindCandidate = () => {
     console.log(   { combocode })
     
   }
+   const dokumen = [
+     { title: 'Certificate of Competency', docType: 'COC' },
+     { title: 'Certificate of Profeciency', docType: 'COP' },
+     { title: 'Certificate of Recognition', docType: 'COR' },
+     { title: 'Certificate of Endorsement', docType: 'COE' },
+     { title: 'Other Certificate', docType: 'OTH' },
+     { title: 'MCU Certificates', docType: 'MCU' }, 
+   ]
+
   // const searchcity = async (q: any) => {
   //   setCountry(q)
   //   const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
@@ -79,16 +106,47 @@ const FindCandidate = () => {
   //   const code = resp.data.cities
   //   getComboCity(code)
   // }
-
+ 
   useEffect(() => {
     getListCandidates()
   }, [])
-  
+
+  const getdatapencarian = async () => {  
+    const response = await HttpClient.get(
+      '/candidate?page=1&take=25&search=' + textCandidate + '&vesseltype_id='+ sVesselType +'&roletype_id='+ sJobTitle +'&rolelevel_id='+sJobCategory,
+      {
+        page: 1,
+        take: 25,
+        search: ''
+      }
+    )
+    const candidates = response.data.candidates.data
+    setListCandidate(candidates)
+ 
+  }
+  useEffect(() => {
+    getdatapencarian()
+  }, [textCandidate, sVesselType, sJobTitle, sJobCategory])
   
   return (
     <Grid container spacing={2}>
       <Grid container spacing={6}>
         <Grid item lg={3} md={5} xs={12}>
+          <Box mb={3}>
+            <Card>
+              <CardContent>
+                <TextField
+                  id='fullName'
+                  // defaultValue={props.datauser.name}
+                  label='Search Candidate Name'
+                  variant='outlined'
+                  fullWidth
+                  sx={{ mb: 1 }}
+                  onChange={e => SetTextCandidate(e.target.value)}
+                />
+              </CardContent>
+            </Card>
+          </Box>
           <Box mb={3}>
             <Card>
               <CardHeader
@@ -117,7 +175,7 @@ const FindCandidate = () => {
                     getOptionLabel={(option: JobCategory) => option.name}
                     renderInput={params => <TextField {...params} label='Role Level' />}
                     onChange={(event: any, newValue: JobCategory | null) =>
-                      newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
+                      newValue?.id ? setJobCategory(newValue.id) : setJobCategory('')
                     }
                   />
                 </CardContent>
@@ -148,18 +206,18 @@ const FindCandidate = () => {
                   <Autocomplete
                     disablePortal
                     id='combo-box-demo'
-                    options={JobCategory}
-                    getOptionLabel={(option: JobCategory) => option.name}
+                    options={JobTitle}
+                    getOptionLabel={(option: RoleType) => option.name}
                     renderInput={params => <TextField {...params} label='Role Type' />}
-                    onChange={(event: any, newValue: JobCategory | null) =>
-                      newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
+                    onChange={(event: any, newValue: RoleType | null) =>
+                      newValue?.id ? setJobTitle(newValue.id) : setJobTitle('')
                     }
                   />
                 </CardContent>
               </Collapse>
             </Card>
           </Box>
-          <Box mb={3}>
+          {/* <Box mb={3}>
             <Card>
               <CardHeader
                 title={
@@ -195,7 +253,7 @@ const FindCandidate = () => {
                 </CardContent>
               </Collapse>
             </Card>
-          </Box>
+          </Box> */}
           <Box mb={3}>
             <Card>
               <CardHeader
@@ -220,11 +278,11 @@ const FindCandidate = () => {
                   <Autocomplete
                     disablePortal
                     id='combo-box-demo'
-                    options={JobCategory}
-                    getOptionLabel={(option: JobCategory) => option.name}
+                    options={VesselType}
+                    getOptionLabel={(option: VesselType) => option.name}
                     renderInput={params => <TextField {...params} label='Type of Vessel' />}
-                    onChange={(event: any, newValue: JobCategory | null) =>
-                      newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
+                    onChange={(event: any, newValue: VesselType | null) =>
+                      newValue?.id ? setVesselType(newValue.id) : setVesselType('')
                     }
                   />
                 </CardContent>
@@ -252,17 +310,17 @@ const FindCandidate = () => {
               />
               <Collapse in={collapsed5}>
                 <CardContent>
-                  {/* <Autocomplete
+                  <Autocomplete
                     disablePortal
                     id='code'
-                    options={combocode}
-                    getOptionLabel={(option: Countries) => option.nicename}
+                    options={dokumen}
+                    getOptionLabel={(option: Dokumen) => option.title}
                     // defaultValue={props.datauser?.country}
                     renderInput={params => <TextField {...params} label='License' sx={{ mb: 2 }} />}
-                    onChange={(event: any, newValue: Countries | null) =>
-                      newValue?.id ? searchcity(newValue.id) : searchcity(0)
-                    }
-                  /> */}
+                    // onChange={(event: any, newValue: Dokumen | null) =>
+                    //   newValue?.id ? searchcity(newValue.id) : searchcity(0)
+                    // }
+                  />
                 </CardContent>
               </Collapse>
             </Card>
@@ -271,7 +329,7 @@ const FindCandidate = () => {
         <Grid item lg={9} md={7} xs={12}>
           <Grid container spacing={6}>
             <Grid item xs={12}>
-              <Grid item xs={12}>                 
+              <Grid item xs={12}>
                 <Grid
                   container
                   sx={{

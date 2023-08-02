@@ -322,7 +322,7 @@ const CandidateProfile = (props: compProps) => {
       address_address: address
     }
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
-      ({ data }) => { 
+      () => { 
         if (tampilkanship == 'On-Ship') {
           const x = {
             rolelevel_id: idcomborolLevel,
