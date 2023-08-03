@@ -84,8 +84,8 @@ const FindCandidate = () => {
   const getdatapencarian = async () => {
     let allword = ''
     if (values.length > 0) allword = JSON.stringify(values)
-    let oneword = ''
-    if (valuesoneword.length > 0) oneword = JSON.stringify(valuesoneword)
+    // let oneword = ''
+    // if (valuesoneword.length > 0) oneword = JSON.stringify(valuesoneword)
     const response = await HttpClient.get(
        '/candidate?page=1&take=25&search=' +
          textCandidate +
@@ -165,19 +165,19 @@ const FindCandidate = () => {
 
   const handleDelete = (item:any, index:any,x:any) => {
     if (x == 1) {
-      let arr = [...values]
+      const arr = [...values]
       arr.splice(index, 1)
       setValues(arr)
     } else if (x == 2) {
-      let arr = [...valuesoneword]
+      const arr = [...valuesoneword]
       arr.splice(index, 1)
       setValuesOneWord(arr)
     } else if (x == 3) {
-      let arr = [...valuesexclude]
+      const arr = [...valuesexclude]
       arr.splice(index, 1)
       setValuesExclude(arr)
     } else if (x == 4) {
-      let arr = [...valueslitle]
+      const arr = [...valueslitle]
       arr.splice(index, 1)
       setValuesLitle(arr)
     }
@@ -300,28 +300,28 @@ const FindCandidate = () => {
                     <Typography>Including all these words</Typography>
                     <div className={'container'}>
                       {values.map((item, index) => (
-                        <Chip color="primary"  size='small' onDelete={() => handleDelete(item, index,1)} label={item} />
+                        <Chip color="primary"  size='small' onDelete={() => handleDelete(item, index,1)} label={item} key={item} />
                       ))}
                       <Input value={currValue} onChange={e => handleChange(e,'1')} onKeyDown={e => handleKeyDown(e,'1')} onKeyUp={handleKeyUp} />
                     </div>
                     <Typography>include one word</Typography>
                     <div className={'container'}>
                       {valuesoneword.map((item, index) => (
-                        <Chip color="primary"  size='small' onDelete={() => handleDelete(item, index,2)} label={item} />
+                        <Chip color="primary"  size='small' onDelete={() => handleDelete(item, index,2)} label={item} key={item} />
                       ))}
                       <Input value={currValueoneword} onChange={e => handleChange(e,'2')} onKeyDown={e => handleKeyDown(e,'2')} onKeyUp={handleKeyUp} />
                     </div>
                     <Typography>Excluding all these words</Typography>
                     <div className={'container'}>
                       {valuesexclude.map((item, index) => (
-                        <Chip color="primary"  size='small' onDelete={() => handleDelete(item, index,3)} label={item} />
+                        <Chip color="primary"  size='small' onDelete={() => handleDelete(item, index,3)} label={item} key={item}/>
                       ))}
                       <Input value={currValueexclude} onChange={e => handleChange(e,'3')} onKeyDown={e => handleKeyDown(e,'3')} onKeyUp={handleKeyUp} />
                     </div>
                     <Typography>Including these words in the title</Typography>
                     <div className={'container'}>
                       {valueslitle.map((item, index) => (
-                        <Chip color="primary"  size='small' onDelete={() => handleDelete(item, index,4)} label={item} />
+                        <Chip color="primary"  size='small' onDelete={() => handleDelete(item, index,4)} label={item} key={item} />
                       ))}
                       <Input value={currValuelitle} onChange={e => handleChange(e,'4')} onKeyDown={e => handleKeyDown(e,'4')} onKeyUp={handleKeyUp} />
                     </div>
