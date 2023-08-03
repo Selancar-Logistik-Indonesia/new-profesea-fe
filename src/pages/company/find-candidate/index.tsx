@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Autocomplete, Card, CardContent, CardHeader, Collapse, Grid, IconButton,  TextField,  Typography, useMediaQuery } from '@mui/material'
+import { Autocomplete, Card, CardContent, CardHeader, Chip, Collapse, FormControl, Grid, IconButton,  Input,   TextField,  Typography, useMediaQuery } from '@mui/material'
 import { Icon } from '@iconify/react' 
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
 import { IUser } from 'src/contract/models/user'
@@ -10,43 +10,25 @@ import { AppConfig } from 'src/configs/api'
 import { useTheme } from '@mui/material/styles'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
-
+ 
 type Dokumen = {
   title: string 
   docType: string
 }
 const FindCandidate = () => {
-//   function valuetext(value: number) { 
-//     const rp = formatrup.format(value)
-
-//    return ` ${rp}`
-//  }
-//  const formatrup = Intl.NumberFormat('id-ID', {
-//    style: 'currency',
-//    currency: 'IDR'
-//  })
   const [listCandidate, setListCandidate] = useState<IUser[]>([]) 
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const [collapsed, setCollapsed] = useState<boolean>(true)
   const [collapsed2, setCollapsed2] = useState<boolean>(false)
-  // const [collapsed3, setCollapsed3] = useState<boolean>(false)
-  const [collapsed4, setCollapsed4] = useState<boolean>(false)
-  const [collapsed5, setCollapsed5] = useState<boolean>(false)
   const [JobCategory, getJobCategory] = useState<any[]>([])  
   const [JobTitle, getJobTitle] = useState<any[]>([])  
   const [VesselType, getVesselType] = useState<any[]>([])  
   const [combocode, getCombocode] = useState<any[]>([]) 
-  const [textCandidate, SetTextCandidate] = useState<any>('') 
-
-  
+  const [textCandidate, SetTextCandidate] = useState<any>('')   
   const [sJobCategory, setJobCategory] = useState<any>('')
   const [sJobTitle, setJobTitle] = useState<any>('')
   const [sVesselType, setVesselType] = useState<any>('')  
-//  const [valueSalary, setValueSalary] = React.useState<number[]>([0, 100000000])
-//  const handleChangeSalary = (event: Event, newValue: number | number[]) => {
-//    setValueSalary(newValue as number[])
-//  } 
 
   const getListCandidates = async () => {
     const response = await HttpClient.get('/candidate?page=1&take=25&search', {
@@ -54,16 +36,14 @@ const FindCandidate = () => {
       take: 25,
       search: ''
     }) 
-    // const { candidates } = response.data.data as { candidates: IUser[] } 
     const candidates = response.data.candidates.data
     setListCandidate(candidates)
  
-
-     const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`)
-     if (res2.status != 200) {
-       throw res2.data.message ?? 'Something went wrong!'
-     }
-     getJobCategory(res2.data.categories.data)
+    const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`)
+    if (res2.status != 200) {
+      throw res2.data.message ?? 'Something went wrong!'
+    }
+    getJobCategory(res2.data.categories.data)
 
     const res3 = await HttpClient.get(`/public/data/role-type?search=&page=1&take=250`)
     if (res3.status != 200) {
@@ -71,11 +51,11 @@ const FindCandidate = () => {
     }
     getJobTitle(res3.data.roleTypes.data)
 
-   const res4 = await HttpClient.get(`/public/data/vessel-type?search=&page=1&take=250`)
-   if (res4.status != 200) {
-     throw res4.data.message ?? 'Something went wrong!'
-   }
-   getVesselType(res4.data.vesselTypes.data)
+    const res4 = await HttpClient.get(`/public/data/vessel-type?search=&page=1&take=250`)
+    if (res4.status != 200) {
+      throw res4.data.message ?? 'Something went wrong!'
+    }
+    getVesselType(res4.data.vesselTypes.data)
 
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
@@ -85,8 +65,7 @@ const FindCandidate = () => {
       }
       getCombocode(code)
     })
-    console.log(   { combocode })
-    
+    console.log(   { combocode })    
   }
    const dokumen = [
      { title: 'Certificate of Competency', docType: 'COC' },
@@ -97,29 +76,37 @@ const FindCandidate = () => {
      { title: 'MCU Certificates', docType: 'MCU' }, 
    ]
 
-  // const searchcity = async (q: any) => {
-  //   setCountry(q)
-  //   const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
-  //   if (resp.status != 200) {
-  //     throw resp.data.message ?? 'Something went wrong!'
-  //   }
-  //   const code = resp.data.cities
-  //   getComboCity(code)
-  // }
  
   useEffect(() => {
     getListCandidates()
   }, [])
 
-  const getdatapencarian = async () => {  
+  const getdatapencarian = async () => {
+    let allword = ''
+    if (values.length > 0) allword = JSON.stringify(values)
+    let oneword = ''
+    if (valuesoneword.length > 0) oneword = JSON.stringify(valuesoneword)
     const response = await HttpClient.get(
-      '/candidate?page=1&take=25&search=' + textCandidate + '&vesseltype_id='+ sVesselType +'&roletype_id='+ sJobTitle +'&rolelevel_id='+sJobCategory,
-      {
-        page: 1,
-        take: 25,
-        search: ''
-      }
-    )
+       '/candidate?page=1&take=25&search=' +
+         textCandidate +
+         '&vesseltype_id=' +
+         sVesselType +
+         '&roletype_id=' +
+         sJobTitle +
+         '&rolelevel_id=' +
+         sJobCategory +
+         '&include_all_word=' +
+         allword
+        //  +
+        // '&include_one_word=' +
+        // oneword
+        ,
+       {
+         page: 1,
+         take: 25,
+         search: ''
+       }
+     )
     const candidates = response.data.candidates.data
     setListCandidate(candidates)
  
@@ -127,7 +114,77 @@ const FindCandidate = () => {
   useEffect(() => {
     getdatapencarian()
   }, [textCandidate, sVesselType, sJobTitle, sJobCategory])
+   
+  const [values, setValues] = useState<any[]>([])
+  const [currValue, setCurrValue] = useState('')
+  const [valuesoneword, setValuesOneWord] = useState<any[]>([])
+  const [currValueoneword, setCurrValueOneWord] = useState('')
+  const [valuesexclude, setValuesExclude] = useState<any[]>([])
+  const [currValueexclude, setCurrValueExclude] = useState('')
+  const [valueslitle, setValuesLitle] = useState<any[]>([])
+  const [currValuelitle, setCurrValueLitle] = useState('')
+
+  const handleKeyUp = (e: any) => {
+    console.log(e.keyCode)
+    if (e.keyCode == 32) {
+       getdatapencarian()
+     }
+  }
   
+  const handleKeyDown = (e: any,x:any) => {
+     if (e.keyCode == 32) {
+       if (x == 1) {
+         setValues(oldState => [...oldState, e.target.value])
+         setCurrValue('')
+       } else if (x == 2) {
+         setValuesOneWord(oldState => [...oldState, e.target.value])
+         setCurrValueOneWord('')
+       } else if (x == 3) {
+         setValuesExclude(oldState => [...oldState, e.target.value])
+         setCurrValueExclude('')
+       } else if (x == 4) {
+         setValuesLitle(oldState => [...oldState, e.target.value])
+         setCurrValueLitle('')
+       }
+        
+     }
+  }
+ 
+
+  const handleChange = (e: any,x:any) => {
+    if (x == 1) {
+      setCurrValue(e.value)
+    } else if (x == 2) {
+      setCurrValueOneWord(e.value)
+    } else if (x == 3) {
+      setCurrValueExclude(e.value)
+    } else if (x == 4) {
+      setCurrValueLitle(e.value)
+    }
+  }
+
+  const handleDelete = (item:any, index:any,x:any) => {
+    if (x == 1) {
+      let arr = [...values]
+      arr.splice(index, 1)
+      setValues(arr)
+    } else if (x == 2) {
+      let arr = [...valuesoneword]
+      arr.splice(index, 1)
+      setValuesOneWord(arr)
+    } else if (x == 3) {
+      let arr = [...valuesexclude]
+      arr.splice(index, 1)
+      setValuesExclude(arr)
+    } else if (x == 4) {
+      let arr = [...valueslitle]
+      arr.splice(index, 1)
+      setValuesLitle(arr)
+    }
+    getdatapencarian();
+
+  }
+
   return (
     <Grid container spacing={2}>
       <Grid container spacing={6}>
@@ -147,12 +204,13 @@ const FindCandidate = () => {
               </CardContent>
             </Card>
           </Box>
+
           <Box mb={3}>
             <Card>
               <CardHeader
                 title={
                   <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
-                    Role Level
+                    Basic Search
                   </Typography>
                 }
                 action={
@@ -177,6 +235,41 @@ const FindCandidate = () => {
                     onChange={(event: any, newValue: JobCategory | null) =>
                       newValue?.id ? setJobCategory(newValue.id) : setJobCategory('')
                     }
+                    sx={{ marginBottom: 2 }}
+                  />
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-demo'
+                    options={JobTitle}
+                    getOptionLabel={(option: RoleType) => option.name}
+                    renderInput={params => <TextField {...params} label='Role Type' />}
+                    onChange={(event: any, newValue: RoleType | null) =>
+                      newValue?.id ? setJobTitle(newValue.id) : setJobTitle('')
+                    }
+                    sx={{ marginBottom: 2 }}
+                  />
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-demo'
+                    options={VesselType}
+                    getOptionLabel={(option: VesselType) => option.name}
+                    renderInput={params => <TextField {...params} label='Type of Vessel' />}
+                    onChange={(event: any, newValue: VesselType | null) =>
+                      newValue?.id ? setVesselType(newValue.id) : setVesselType('')
+                    }
+                    sx={{ marginBottom: 2 }}
+                  />
+                  <Autocomplete
+                    disablePortal
+                    id='code'
+                    options={dokumen}
+                    getOptionLabel={(option: Dokumen) => option.title}
+                    // defaultValue={props.datauser?.country}
+                    renderInput={params => <TextField {...params} label='License' sx={{ mb: 2 }} />}
+                    // onChange={(event: any, newValue: Dokumen | null) =>
+                    //   newValue?.id ? searchcity(newValue.id) : searchcity(0)
+                    // }
+                    sx={{ marginBottom: 2 }}
                   />
                 </CardContent>
               </Collapse>
@@ -187,7 +280,7 @@ const FindCandidate = () => {
               <CardHeader
                 title={
                   <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
-                    Role Type
+                    Advanced Search
                   </Typography>
                 }
                 action={
@@ -203,124 +296,38 @@ const FindCandidate = () => {
               />
               <Collapse in={collapsed2}>
                 <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={JobTitle}
-                    getOptionLabel={(option: RoleType) => option.name}
-                    renderInput={params => <TextField {...params} label='Role Type' />}
-                    onChange={(event: any, newValue: RoleType | null) =>
-                      newValue?.id ? setJobTitle(newValue.id) : setJobTitle('')
-                    }
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>
-          {/* <Box mb={3}>
-            <Card>
-              <CardHeader
-                title={
-                  <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
-                    Salary Range
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse3'
-                    sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed3(!collapsed3)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed3 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed3}>
-                <CardContent>
-                  <br></br>
-                  <Slider
-                    getAriaLabel={() => 'Rp'}
-                    min={0}
-                    step={100000}
-                    max={100000000}
-                    value={valueSalary}
-                    onChange={handleChangeSalary}
-                    valueLabelDisplay='on'
-                    valueLabelFormat={valuetext}
-                    size='small'
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box> */}
-          <Box mb={3}>
-            <Card>
-              <CardHeader
-                title={
-                  <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
-                    Type of Vessel
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse4'
-                    sx={{ color: '#424242' }}
-                    onClick={() => setCollapsed4(!collapsed4)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed4 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed4}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={VesselType}
-                    getOptionLabel={(option: VesselType) => option.name}
-                    renderInput={params => <TextField {...params} label='Type of Vessel' />}
-                    onChange={(event: any, newValue: VesselType | null) =>
-                      newValue?.id ? setVesselType(newValue.id) : setVesselType('')
-                    }
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>
-          <Box mb={3}>
-            <Card>
-              <CardHeader
-                title={
-                  <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
-                    License
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse5'
-                    sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed5(!collapsed5)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed5 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed5}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id='code'
-                    options={dokumen}
-                    getOptionLabel={(option: Dokumen) => option.title}
-                    // defaultValue={props.datauser?.country}
-                    renderInput={params => <TextField {...params} label='License' sx={{ mb: 2 }} />}
-                    // onChange={(event: any, newValue: Dokumen | null) =>
-                    //   newValue?.id ? searchcity(newValue.id) : searchcity(0)
-                    // }
-                  />
+                  <FormControl>
+                    <Typography>Including all these words</Typography>
+                    <div className={'container'}>
+                      {values.map((item, index) => (
+                        <Chip color="primary"  size='small' onDelete={() => handleDelete(item, index,1)} label={item} />
+                      ))}
+                      <Input value={currValue} onChange={e => handleChange(e,'1')} onKeyDown={e => handleKeyDown(e,'1')} onKeyUp={handleKeyUp} />
+                    </div>
+                    <Typography>include one word</Typography>
+                    <div className={'container'}>
+                      {valuesoneword.map((item, index) => (
+                        <Chip color="primary"  size='small' onDelete={() => handleDelete(item, index,2)} label={item} />
+                      ))}
+                      <Input value={currValueoneword} onChange={e => handleChange(e,'2')} onKeyDown={e => handleKeyDown(e,'2')} onKeyUp={handleKeyUp} />
+                    </div>
+                    <Typography>Excluding all these words</Typography>
+                    <div className={'container'}>
+                      {valuesexclude.map((item, index) => (
+                        <Chip color="primary"  size='small' onDelete={() => handleDelete(item, index,3)} label={item} />
+                      ))}
+                      <Input value={currValueexclude} onChange={e => handleChange(e,'3')} onKeyDown={e => handleKeyDown(e,'3')} onKeyUp={handleKeyUp} />
+                    </div>
+                    <Typography>Including these words in the title</Typography>
+                    <div className={'container'}>
+                      {valueslitle.map((item, index) => (
+                        <Chip color="primary"  size='small' onDelete={() => handleDelete(item, index,4)} label={item} />
+                      ))}
+                      <Input value={currValuelitle} onChange={e => handleChange(e,'4')} onKeyDown={e => handleKeyDown(e,'4')} onKeyUp={handleKeyUp} />
+                    </div>
+
+                    
+                  </FormControl>
                 </CardContent>
               </Collapse>
             </Card>
@@ -375,6 +382,30 @@ const FindCandidate = () => {
     </Grid>
   )
 }
+// const useStyles = makeStyles(theme => ({
+//   formControlRoot: {
+//     display: 'flex',
+//     alignItems: 'center',
+//     gap: '8px',
+//     width: '300px',
+//     flexWrap: 'wrap',
+//     flexDirection: 'row',
+//     border: '2px solid lightgray',
+//     padding: 4,
+//     borderRadius: '4px',
+//     '&> div.container': {
+//       gap: '6px',
+//       display: 'flex',
+//       flexDirection: 'row',
+//       flexWrap: 'wrap'
+//     },
+//     '& > div.container > span': {
+//       backgroundColor: 'gray',
+//       padding: '1px 3px',
+//       borderRadius: '4px'
+//     }
+//   }
+// }))
 
 FindCandidate.acl = {
   action: 'read',
