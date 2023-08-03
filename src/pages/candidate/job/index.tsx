@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import { Avatar, Button, Card, CardContent, Typography, Divider } from '@mui/material'
 // ** Layout Import
-// import BlankLayout from 'src/@core/layouts/BlankLayout'
+import ReactHtmlParser from 'react-html-parser';
 
 // ** Hooks 
 
@@ -26,6 +26,7 @@ const JobDetail = () => {
   const windowUrl = window.location.search
   const params = new URLSearchParams(windowUrl)
   const [jobDetail, setJobDetail] = useState<Job>()
+  const license:any[] = Object.values((jobDetail?.license != undefined) ? jobDetail?.license : '')
 
   // Styled Grid component
   const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
@@ -118,7 +119,7 @@ const JobDetail = () => {
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
                     <Icon icon='mdi:license' fontSize={20} color='#32487A' />
                     <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                      {jobDetail?.license}
+                      {license.map(e => e.title).join(", ")}
                     </Typography>
                   </Box>
                 </Box>
@@ -157,7 +158,7 @@ const JobDetail = () => {
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} >
                       <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                        {jobDetail?.description}
+                        {ReactHtmlParser(`${jobDetail?.description}`)}
                       </Typography>
                     </Box>
                   </Box>
