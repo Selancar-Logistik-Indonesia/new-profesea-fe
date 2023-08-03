@@ -17,6 +17,7 @@ import Degree from 'src/contract/models/degree'
 import JobCategory from 'src/contract/models/job_category'
 import RoleLevel from 'src/contract/models/role_level'
 import RoleType from 'src/contract/models/role_type'
+// import Company from 'src/contract/models/company'
 
 type FormData = {
   companyName: string
@@ -45,35 +46,42 @@ const SeafererJob = () => {
   // const [collapsed7, setCollapsed7] = useState<boolean>(false)
   const [collapsed8, setCollapsed8] = useState<boolean>(false)
   const [collapsed9, setCollapsed9] = useState<boolean>(false)
+  // const [Company, getCompany] = useState<any[]>([]);
   const [JobCategory, getJobCategory] = useState<any[]>([]);
   const [Education, getEducation] = useState<any[]>([]);
   const [RoleLevel, getRoleLevel] = useState<any[]>([]);  
   const [RoleType, getRoleType] = useState<any[]>([]);
 
   const firstload = async () => {
-    const res = await HttpClient.get(`/public/data/role-level?search=&page=1&take=250`);
-    if (res.status != 200) {
-      throw res.data.message ?? "Something went wrong!";
-    }
-    getRoleLevel(res.data.roleLevels.data);
-
-    const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`);
-    if (res2.status != 200) {
-      throw res2.data.message ?? "Something went wrong!";
-    }
-    getJobCategory(res2.data.categories.data);
-
-    const res3 = await HttpClient.get(`/public/data/degree`);
-    if (res3.status != 200) {
-      throw res3.data.message ?? "Something went wrong!";
-    }
-    getEducation(res3.data.degrees);
-
+    // HttpClient.get(`/user-management?page=1&take=250&team_id=3`).then(response => {
+    //   if (response.status != 200) {
+    //       throw response.data.message ?? "Something went wrong!";
+    //   }
+    //   getCompany(response.data.users.data);
+    // })
+    HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
+        if (response.status != 200) {
+            throw response.data.message ?? "Something went wrong!";
+        }
+        getRoleLevel(response.data.roleLevels.data);
+    })
     HttpClient.get(`/public/data/role-type?search=&page=1&take=250`).then(response => {
         if (response.status != 200) {
             throw response.data.message ?? "Something went wrong!";
         }
         getRoleType(response.data.roleTypes.data);
+    })
+    HttpClient.get(`/job-category?search=&page=1&take=250`).then(response => {
+        if (response.status != 200) {
+            throw response.data.message ?? "Something went wrong!";
+        }
+        getJobCategory(response.data.categories.data);
+    })
+    HttpClient.get(`/public/data/degree`).then(response => {
+        if (response.status != 200) {
+            throw response.data.message ?? "Something went wrong!";
+        }
+        getEducation(response.data.degrees);
     })
   }
   useEffect(() => {
@@ -151,14 +159,14 @@ const SeafererJob = () => {
               />
               <Collapse in={collapsed}>
                 <CardContent>
-                  <Autocomplete
+                  {/* <Autocomplete
                     disablePortal
                     id="combo-box-level"
-                    options={RoleLevel}
-                    getOptionLabel={(option: RoleLevel) => option.levelName}
+                    options={Company}
+                    getOptionLabel={(option: Company) => option.name}
                     renderInput={(params) => <TextField {...params} label="Recruiter" />}
-                    onChange={(event: any, newValue: RoleLevel | null) => (newValue?.id) ? '' : ''}
-                  />
+                    onChange={(event: any, newValue: Company | null) => (newValue?.id) ? '' : ''}
+                  /> */}
                 </CardContent>
               </Collapse>
             </Card>
