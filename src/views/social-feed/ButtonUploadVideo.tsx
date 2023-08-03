@@ -51,7 +51,7 @@ const ButtonUploadVideo = () => {
 
     return <>
         <Button onClick={openModalVideo} size='small' variant='text' sx={{ textDecoration: 'none' }}>
-            <Icon fontSize={22} icon='mdi:videocam' />
+            <Icon color="#5f9b41" fontSize={22} icon='mdi:videocam' />
             <div style={{ marginLeft: 5 }}>Video</div>
         </Button>
         <Dialog sx={{ minWidth: { md: 320 } }} open={open} onClose={() => setOpen(!open)}>

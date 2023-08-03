@@ -187,7 +187,7 @@ const Profile = (props: userProps) => {
                         <Box display='flex' justifyContent='right' alignItems='center'>
                             <Link href={resolveEditHref(props.datauser?.role)}>
                                 <IconButton>
-                                    <Icon fontSize='large' icon={'material-symbols:edit'} color={'#32487A'} style={{ fontSize: '24px' }} />
+                                    <Icon fontSize='large' icon={'material-symbols:edit'} color={'#ef6c00'} style={{ fontSize: '24px' }} />
                                 </IconButton>
                             </Link>
                         </Box>

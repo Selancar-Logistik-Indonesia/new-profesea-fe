@@ -49,7 +49,7 @@ const Postfeed = () => {
             <Box sx={{ display: 'flex', flexDirection: 'row', mt: 3, alignItems: 'end' }}>
                 <Box>
                     <Button size='small' variant='text' sx={{ textDecoration: 'none' }}>
-                        <Icon fontSize={22} icon='mdi:image' />
+                        <Icon color='#378fe9' fontSize={22} icon='mdi:image' />
                         <div style={{ marginLeft: 5 }}>Photo</div>
                     </Button>
                     <ButtonUploadVideo />

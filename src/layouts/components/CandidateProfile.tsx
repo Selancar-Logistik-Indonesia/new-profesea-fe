@@ -4,7 +4,7 @@ import { Theme, useTheme } from '@mui/material/styles'
 // ** MUI Components
 import Box, { BoxProps } from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { Button, TextField, FormControl, Autocomplete, Divider, Select, SelectChangeEvent, OutlinedInput, Chip, MenuItem, Card } from '@mui/material'
+import { Button, TextField, FormControl, Autocomplete, Divider, Select, SelectChangeEvent, OutlinedInput, Chip, MenuItem, Card, InputLabel } from '@mui/material'
 
 import DatePicker from 'react-datepicker'
 // ** Layout Import
@@ -44,7 +44,7 @@ import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
- 
+
 type FormData = {
   fullName: string
   country: string
@@ -101,31 +101,31 @@ const names = [
   'Indonesian',
   'English',
   'Mandarin',
-  'Arab', 
+  'Arab',
   'Melayu',
-  
+
 ]
 
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
-  return { 
+  return {
     fontWeight:
       personName?.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
- 
+
   }
 }
 
-const CandidateProfile = (props: compProps) => { 
-   const theme = useTheme()
- 
-   if (props.datauser?.employee_type == 'onship') {
-     ship = { employee_type: 'onship', label: 'On-Ship' }
-     //  tampilkanship = ship.label
-   } else if (props.datauser?.employee_type == 'onship') {
-     ship = { employee_type: 'offship', label: 'Off-Ship' }
-     // tampilkanship = ship.label
-   } 
-    const [hookSignature, setHookSignature] = useState(v4())
- 
+const CandidateProfile = (props: compProps) => {
+  const theme = useTheme()
+
+  if (props.datauser?.employee_type == 'onship') {
+    ship = { employee_type: 'onship', label: 'On-Ship' }
+    //  tampilkanship = ship.label
+  } else if (props.datauser?.employee_type == 'onship') {
+    ship = { employee_type: 'offship', label: 'Off-Ship' }
+    // tampilkanship = ship.label
+  }
+  const [hookSignature, setHookSignature] = useState(v4())
+
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboroleLevel, getComborolLevel] = useState<any>([])
   const [comboroleType, getComborolType] = useState<any>([])
@@ -143,21 +143,21 @@ const CandidateProfile = (props: compProps) => {
   const [idcomborolLevel, setComboRolLevel] = useState<any>(props.datauser?.field_preference?.role_level?.id)
   const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
   const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id)
- 
-  const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id) 
+
+  const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id)
   const [openAddModal, setOpenAddModal] = useState(false)
   const [openAddModalWE, setOpenAddModalWE] = useState(false)
-  const [openAddModalDoc, setOpenAddModalDoc] = useState(false) 
+  const [openAddModalDoc, setOpenAddModalDoc] = useState(false)
   const [openEditModal, setOpenEditModal] = useState(false)
-  const [openEditModalWE, setOpenEditModalWE] = useState(false) 
-  const [openEditModalDoc, setOpenEditModalDoc] = useState(false)  
-  const [itemData, getItemdata] = useState<any[]>([]) 
+  const [openEditModalWE, setOpenEditModalWE] = useState(false)
+  const [openEditModalDoc, setOpenEditModalDoc] = useState(false)
+  const [itemData, getItemdata] = useState<any[]>([])
   const [itemDataWE, getItemdataWE] = useState<any[]>([])
-  const [itemDataED, getItemdataED] = useState<any[]>([]) 
-  const [selectedItem, setSelectedItem] = useState<any>() 
- 
-  const [personName, setPersonName] = React.useState<string[]>(props.datauser?.field_preference?.spoken_langs ? props.datauser?.field_preference?.spoken_langs:[]) 
- 
+  const [itemDataED, getItemdataED] = useState<any[]>([])
+  const [selectedItem, setSelectedItem] = useState<any>()
+
+  const [personName, setPersonName] = React.useState<string[]>(props.datauser?.field_preference?.spoken_langs ? props.datauser?.field_preference?.spoken_langs : [])
+
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value }
@@ -167,9 +167,9 @@ const CandidateProfile = (props: compProps) => {
       typeof value === 'string' ? value.split(',') : value
     )
   }
- 
-  const combobox = () => { 
- 
+
+  const combobox = () => {
+
     HttpClient.get(AppConfig.baseUrl + '/public/data/role-level?search=&page=1&take=100').then(response => {
       const code = response.data.roleLevels.data
       getComborolLevel(code)
@@ -273,30 +273,30 @@ const CandidateProfile = (props: compProps) => {
   const editWorkExperience = (item: any) => {
     setSelectedItem(item)
     setOpenEditModalWE(!openEditModalWE)
-  } 
-  const editDocument= (item: any) => {
+  }
+  const editDocument = (item: any) => {
     setSelectedItem(item)
     setOpenEditModalDoc(!openEditModalDoc)
   }
-  const deletework  = async (id:any) => {
-    
-     const resp = await HttpClient.del(`/user/document/` + id)
-     if (resp.status != 200) {
-       throw resp.data.message ?? 'Something went wrong!'
-     }
-     combobox();
-      toast.success(
-       `  deleted successfully!`
-     )
+  const deletework = async (id: any) => {
+
+    const resp = await HttpClient.del(`/user/document/` + id)
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
+    }
+    combobox();
+    toast.success(
+      `  deleted successfully!`
+    )
   }
-   const deleteeducation = async (id: any) => {
-     const resp = await HttpClient.del(`/user/education/` + id)
-     if (resp.status != 200) {
-       throw resp.data.message ?? 'Something went wrong!'
-     }
-     combobox()
-     toast.success(`  deleted successfully!`)
-   }
+  const deleteeducation = async (id: any) => {
+    const resp = await HttpClient.del(`/user/education/` + id)
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
+    }
+    combobox()
+    toast.success(`  deleted successfully!`)
+  }
   const deletewe = async (id: any) => {
     const resp = await HttpClient.del(`/user/experience/` + id)
     if (resp.status != 200) {
@@ -305,7 +305,7 @@ const CandidateProfile = (props: compProps) => {
     combobox()
     toast.success(`  deleted successfully!`)
   }
-  
+
   const onSubmit = (data: FormData) => {
     const { fullName, website, phone, address, about } = data
 
@@ -322,7 +322,7 @@ const CandidateProfile = (props: compProps) => {
       address_address: address
     }
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
-      () => { 
+      () => {
         if (tampilkanship == 'On-Ship') {
           const x = {
             rolelevel_id: idcomborolLevel,
@@ -332,29 +332,29 @@ const CandidateProfile = (props: compProps) => {
             available_date: availabledate,
             spoken_langs: personName
           }
-            HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
-              console.log('here 1', data)
-              toast.success(' Successfully submited!')
-            })
-        }else{
-           const x = {
-             rolelevel_id: idcomborolLevel,
-             roletype_id: idcomborolType,
-             vesseltype_id: null,
-             regiontravel_id: idcomboRegion,
-             available_date: null,
-             spoken_langs: personName
-           }
-             HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
-               console.log('here 1', data)
-               toast.success(' Successfully submited!')
-             })
+          HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
+            console.log('here 1', data)
+            toast.success(' Successfully submited!')
+          })
+        } else {
+          const x = {
+            rolelevel_id: idcomborolLevel,
+            roletype_id: idcomborolType,
+            vesseltype_id: null,
+            regiontravel_id: idcomboRegion,
+            available_date: null,
+            spoken_langs: personName
+          }
+          HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
+            console.log('here 1', data)
+            toast.success(' Successfully submited!')
+          })
         }
-       
-      
-       
+
+
+
       },
-     
+
     )
   }
 
@@ -633,9 +633,9 @@ const CandidateProfile = (props: compProps) => {
                   getOptionLabel={(option: any) => option.label}
                   renderInput={params => <TextField {...params} label='Ship' />}
                   onChange={(event: any, newValue: any | null) => displayship(newValue)}
-                  // onChange={(event: any, newValue: Employee ) =>
-                  //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
-                  // }
+                // onChange={(event: any, newValue: Employee ) =>
+                //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
+                // }
                 />
               </Grid>
 
@@ -861,9 +861,8 @@ const CandidateProfile = (props: compProps) => {
               )}
               {tampilkanship != 'On-Ship' && (
                 <Grid item container xs={12} spacing={2} sx={{ mb: 2 }}>
-                  <Grid xs={12}>
-                    <Typography variant='h5'>OFF-SHIP TYPE</Typography>
-                    <br></br>
+                  <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
+                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>Off-Ship Type</Typography>
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <Autocomplete
@@ -926,47 +925,47 @@ const CandidateProfile = (props: compProps) => {
                     </DatePickerWrapper>
                   </Grid> */}
                   <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
-                    <Typography variant='body2' sx={{ fontSize: '18px' }} marginRight={2}>
-                      Spoken
-                    </Typography>
-                    <Select
-                      labelId='demo-multiple-chip-label'
-                      id='demo-multiple-chip'
-                      multiple
-                      value={personName}
-                      onChange={handleChange}
-                      label='Spoken'
-                      sx={{ fontSize: '18px' }}
-                      input={
-                        <OutlinedInput
-                          id='select-multiple-chip'
-                          label='Chip'
-                          defaultValue={props.datauser?.field_preference?.spoken_langs}
-                          sx={{ fontSize: '8px' }}
-                        />
-                      }
-                      renderValue={selected => (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
-                          {selected.map(value => (
-                            <Chip key={value} label={value} />
-                          ))}
-                        </Box>
-                      )}
-                      MenuProps={MenuProps}
-                    >
-                      {names.map(name => (
-                        <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-                          {name}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                    <FormControl>
+                      <InputLabel id="demo-multiple-chip-label">Spoken</InputLabel>
+                      <Select
+                        labelId='demo-multiple-chip-label'
+                        id='demo-multiple-chip'
+                        multiple
+                        value={personName}
+                        onChange={handleChange}
+                        label='Spoken'
+                        sx={{ fontSize: '18px', height: 50.2 }}
+                        input={
+                          <OutlinedInput
+                            id='select-multiple-chip'
+                            label='Chip'
+                            defaultValue={props.datauser?.field_preference?.spoken_langs}
+                            sx={{ fontSize: '8px' }}
+                          />
+                        }
+                        renderValue={selected => (
+                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                            {selected.map(value => (
+                              <Chip key={value} label={value} />
+                            ))}
+                          </Box>
+                        )}
+                        MenuProps={MenuProps}
+                      >
+                        {names.map(name => (
+                          <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                            {name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                   </Grid>
                 </Grid>
               )}
-              <Grid item  direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}>
-                
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}>
+
               </Grid>
-              <Grid item  direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
                 <Button fullWidth size='small' type='submit' variant='contained' sx={{ mb: 7 }}>
                   <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '24px' }} />
                 </Button>
