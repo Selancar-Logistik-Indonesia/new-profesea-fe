@@ -5,26 +5,41 @@ import { useTheme } from '@mui/material/styles'
 import RecomendedView from 'src/views/find-job/RecomendedView'
 import { HttpClient } from 'src/services'
 import Job from 'src/contract/models/job'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 const FindJob = () => {
     const theme = useTheme()
     const hidden = useMediaQuery(theme.breakpoints.down('md'))
     const [listJob, setListJob] = useState<Job[]>([]);
+    const [page, setPage] = useState(1);
+    const [search, setSearch] = useState("");
+    const [hasNextPage, setHasNextPage] = useState(true);
+    const [total, setTotal] = useState(0);
+    const [perPage, setPerPage] = useState(9);
 
     const getListJobs = async () => {
-        const response = await HttpClient.get('/job?page=1&take=25&search', {
-            page: 1,
-            take: 25,
-            search: '',
-        });
-
+        const response = await HttpClient.get(`/job?search=${search}&page=${page}&take=${perPage}`);
         const jobs = response.data.jobs.data;
+        if(jobs?.total == null){
+            setTotal(jobs?.total)
+        }
+        if(jobs?.next_page_url == null){
+            setHasNextPage(jobs?.next_page_url)
+        }
         setListJob(jobs);
     }
 
     useEffect(() => {
         getListJobs();
     }, []);
+
+
+    const onPageChange = () => {
+        const mPage = page + 1;
+        setSearch('');
+        setPage(mPage);
+        setPerPage(15);
+    }
 
     return (
         <Box padding={5}>
@@ -34,7 +49,13 @@ const FindJob = () => {
                         <Grid item xs={12}>
                             <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}> Find Job</Typography>
                             <Typography fontSize={12} style={{ color: "#424242" }} marginTop={2} marginBottom={5}>Search & Apply Job Based on your profile and your experience</Typography>
-                            <RecomendedView listJob={listJob} />
+                            <InfiniteScroll
+                                dataLength={total}
+                                next={onPageChange}
+                                hasMore={hasNextPage}
+                                loader={(<Typography mt={5} color={'text.secondary'}>Loading..</Typography>)}>
+                                <RecomendedView listJob={listJob} />
+                            </InfiniteScroll>
                         </Grid>
                     </Grid>
                 </Grid>
