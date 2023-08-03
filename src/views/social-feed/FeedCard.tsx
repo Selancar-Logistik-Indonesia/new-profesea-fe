@@ -40,13 +40,13 @@ const FeedCard = (props: { item: ISocialFeed }) => {
           />
         )}
 
-        <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400, margin: '5px' }}>
+        <Typography variant='body1' sx={{ color: '#424242', fontSize: '0.7rem', fontWeight: 400, margin: '5px' }}>
           {item.content}
         </Typography>
       </Box>
       <Box>
         <Button
-          sx={{ textTransform: 'none' }}
+          sx={{ fontSize: '0.7rem', textTransform: 'none' }}
           size='small'
           color='primary'
           startIcon={<Icon icon='ic:round-repeat' fontSize={10} />}
@@ -54,7 +54,7 @@ const FeedCard = (props: { item: ISocialFeed }) => {
           Repost
         </Button>
         <Button
-          sx={{ textTransform: 'none' }}
+          sx={{ fontSize: '0.7rem', textTransform: 'none' }}
           size='small'
           color='primary'
           startIcon={<Icon icon='solar:share-linear' fontSize={10} />}

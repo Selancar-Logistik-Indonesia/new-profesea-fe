@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography'
 import { Avatar, Paper } from '@mui/material'
 import { IUser } from 'src/contract/models/user'
 import { Icon } from '@iconify/react'
- 
+
 import Link from 'next/link'
- 
+
 
 export type ParamMain = {
   name: string
@@ -20,10 +20,10 @@ interface Props {
 
 const renderList = (listCandidate: IUser[]) => {
   if (!listCandidate || listCandidate.length == 0) {
-  
-    return  
-    
-  } 
+
+    return
+
+  }
 
   return listCandidate.map(item => {
     const userPhoto = item.photo ? item.photo : '/images/avatars/default-user.png'
@@ -31,7 +31,7 @@ const renderList = (listCandidate: IUser[]) => {
 
     return (
       <Grid item xs={12} md={4} key={item?.id}>
-        <Paper sx={{ marginTop: '10px' }}>
+        <Paper sx={{ marginTop: '10px', border: '1px solid #eee' }} elevation={0}>
           <Link style={{ textDecoration: 'none' }} href={'/profile/?username=' + item?.username}>
             <Box
               height={65}
@@ -72,11 +72,11 @@ const renderList = (listCandidate: IUser[]) => {
               ))}
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-              <Icon icon='game-icons:ship-bow' color='#32487A' /> 
-                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}  >
-                  {item.field_preference?.vessel_type?.name ? item.field_preference?.vessel_type?.name : '-'}
-                </Typography>
-      
+              <Icon icon='game-icons:ship-bow' color='#32487A' />
+              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}  >
+                {item.field_preference?.vessel_type?.name ? item.field_preference?.vessel_type?.name : '-'}
+              </Typography>
+
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
               <Icon icon='mdi:license' color='#32487A' />
