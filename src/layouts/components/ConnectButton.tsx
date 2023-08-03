@@ -58,12 +58,12 @@ const ConnectButton = (props: ConnectButtonProps) => {
     }
 
     return (
-        <Button disabled={isLoading} onClick={() => onConnectRequest(user)}
+        <Button disabled={isLoading || !!user.frienship_status} onClick={() => onConnectRequest(user)}
             variant={user.frienship_status ? 'outlined' : 'contained'}
             size='small'
             sx={{ margin: '5px' }}
             color='warning'
-            startIcon={!isLoading && <Icon icon={buildConnectIcon()} color={user.frienship_status ? '#FDB528' : 'white'} />}
+            startIcon={!isLoading && <Icon icon={buildConnectIcon()} color={user.frienship_status ? '#42424242' : 'white'} />}
         >
             {
                 isLoading
