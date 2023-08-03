@@ -5,7 +5,7 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
-import { Button, Divider } from '@mui/material'
+import { Divider, IconButton } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { useEffect, useState } from 'react'
@@ -63,6 +63,22 @@ const Profile = (props: userProps) => {
             }
         });
     }, [])
+
+    const resolveEditHref = (role?: string) => {
+        if (role == "Seafarer") {
+            return "/candidate";
+        }
+
+        if (role == "Company") {
+            return "/company";
+        }
+
+        if (role == "Trainer") {
+            return "/trainer";
+        }
+
+        return "/";
+    }
 
     return (
         <Grid container>
@@ -124,7 +140,7 @@ const Profile = (props: userProps) => {
                                 <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
                                     <Icon icon={'gis:route'} fontSize={24} color={'#32487A'} />
                                     <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
-                                        Region Of Travel :
+                                        Region Of Travel:
                                     </Typography>
                                     <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
                                         {selectedItem?.region_travel?.name}
@@ -167,30 +183,14 @@ const Profile = (props: userProps) => {
                                 </Box>
                             </Box>
                         )}
-                        <Box display='flex' justifyContent='center' alignItems='center'>
-                            {props.datauser?.role == 'Seafarer' && (
-                                <Link style={{ width: '100%', minWidth: '100%' }} href={'/candidate'}>
-                                    <Button variant='contained' sx={{ width: '100%', mt: 7, minWidth: '100%' }}>
-                                        <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
-                                    </Button>
-                                </Link>
-                            )}
-                            {props.datauser?.role == 'Company' && (
-                                <Link style={{ width: '100%', minWidth: '100%' }} href={'/company'}>
-                                    <Button variant='contained' sx={{ width: '100%', mt: 7, minWidth: '100%' }}>
-                                        <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
-                                    </Button>
-                                </Link>
-                            )}
-                            {props.datauser?.role == 'Trainer' && (
-                                <Link style={{ width: '100%', minWidth: '100%' }} href={'/trainer'}>
-                                    <Button variant='contained' sx={{ width: '100%', mt: 7, minWidth: '100%' }}>
-                                        <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
-                                    </Button>
-                                </Link>
-                            )}
-                        </Box>
 
+                        <Box display='flex' justifyContent='right' alignItems='center'>
+                            <Link href={resolveEditHref(props.datauser?.role)}>
+                                <IconButton>
+                                    <Icon fontSize='large' icon={'material-symbols:edit'} color={'#32487A'} style={{ fontSize: '24px' }} />
+                                </IconButton>
+                            </Link>
+                        </Box>
                     </CardContent>
                 </Card>
             </Grid>
