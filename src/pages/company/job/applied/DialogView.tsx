@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement } from 'react'
+import { Ref, forwardRef, ReactElement, useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
@@ -9,14 +9,7 @@ import DialogContent from '@mui/material/DialogContent'
 import Icon from 'src/@core/components/icon'
 import Applicant from 'src/contract/models/applicant'
 import { Avatar, Button, DialogActions } from '@mui/material'
-
-const cert = [
-    { title: 'Certificate of Competency', docType: 'COC' },
-    { title: 'Certificate of Profeciency', docType: 'COP' },
-    { title: 'Certificate of Recognition', docType: 'COR' },
-    { title: 'Certificate of Endorsement', docType: 'COE' },
-    { title: 'MCU Certificates', docType: 'MCU' }
-] 
+import  {HttpClient} from 'src/services'
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -34,8 +27,19 @@ type ViewProps = {
 };
 
 const DialogView = (props: ViewProps) => {
-
-    const uCert = cert as any[];
+    const [license, setLicense] = useState<any[]>([]);
+    const firstload = () => {
+        HttpClient.get(`/user/document?user_id=${props.selectedItem.user.id}`).then(response => {
+        if (response.status != 200) {
+            throw response.data.message ?? "Something went wrong!";
+        }
+        setLicense(response.data.documents);
+        })
+    }
+  
+    useEffect(() => {
+        firstload()
+      }, [])
     
     return (
         <Dialog
@@ -71,17 +75,17 @@ const DialogView = (props: ViewProps) => {
                         </Box>
                     </Box>
                     <Grid container columnSpacing={'1'} rowSpacing={'2'} mt={5} alignItems={'end'} >
-                        {uCert.length != 0 && uCert.map(e => (
+                        {license.length != 0 && license.map(e => (
                             <Box sx={{ display: 'flex', flexDirection: 'row', width: '90%', mb: 1, justifyContent: 'center' }} key={e.id} ml={5}>
                                 <Box mr={2} mt={1}>
                                     <Icon icon='mdi:book' color='#32487A' />
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
-                                    <Typography lineHeight={1.4} variant='body1'>{e.title}</Typography>
+                                    <Typography lineHeight={1.4} variant='body1'>{e.document_name}</Typography>
                                 </Box>
 
                                 <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'}>
-                                    <Button target='blank' href={'#'} size='small'>Open File</Button>
+                                    <Button target='blank' href={e.path} size='small'>Open File</Button>
                                 </Box>
                             </Box>
                         ))}               
