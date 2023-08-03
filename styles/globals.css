@@ -27,3 +27,11 @@ code:not([class*='language-']):after {
 code[class*='language-'] {
   padding: 0;
 }
+
+.MuiPaper-root{
+  border-radius: 5px !important;
+}
+
+.MuiButton-root{
+  border-radius: 5px !important;
+}
