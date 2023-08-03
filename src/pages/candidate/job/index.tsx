@@ -25,6 +25,7 @@ import { styled } from '@mui/material/styles'
 const JobDetail = () => {
   const windowUrl = window.location.search
   const params = new URLSearchParams(windowUrl)
+  const [onApplied, setOnApplied] = useState(false);
   const [jobDetail, setJobDetail] = useState<Job>()
   const license:any[] = Object.values((jobDetail?.license != undefined) ? jobDetail?.license : '')
 
@@ -41,6 +42,9 @@ const JobDetail = () => {
   const firstload = () => {
     HttpClient.get(AppConfig.baseUrl + '/job/' + params.get('id')).then(response => {
       const job = response.data.job
+      if(job?.applied_at != null){
+        setOnApplied(true);
+      }
       setJobDetail(job)
     })
   }
@@ -54,7 +58,7 @@ const JobDetail = () => {
       if (resp.status != 200) {
         throw resp.data.message ?? "Something went wrong!";
       }
-
+      setOnApplied(true);
       toast.success(`${jobDetail?.role_type?.name} applied successfully!`);
     } catch (error) {
       console.error(error)
@@ -170,7 +174,7 @@ const JobDetail = () => {
               <Grid container>
                 <Grid
                   item
-                  xs={9}
+                  xs={8}
                   sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column'}}
                 >
                   <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={5} >
@@ -184,10 +188,10 @@ const JobDetail = () => {
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                   <Grid container spacing={2} alignItems="right" justifyContent="center">
                     <Grid item>
-                      {jobDetail?.applied_at == null ? (
+                      {onApplied == false ? (
                         <>
                           <Button onClick={handleApply} variant='contained' color='primary' >
                             Apply Job
@@ -203,6 +207,7 @@ const JobDetail = () => {
                     </Grid>
                     <Grid item>
                       <Button variant='contained' color='secondary'>
+                      <Icon icon='mdi:share' />
                         Share
                       </Button>
                     </Grid>
