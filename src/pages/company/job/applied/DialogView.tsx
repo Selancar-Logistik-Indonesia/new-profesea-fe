@@ -2,14 +2,21 @@ import { Ref, forwardRef, ReactElement } from 'react'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
-import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Fade, { FadeProps } from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
 import Icon from 'src/@core/components/icon'
 import Applicant from 'src/contract/models/applicant'
+import { Avatar, Button, DialogActions } from '@mui/material'
 
+const cert = [
+    { title: 'Certificate of Competency', docType: 'COC' },
+    { title: 'Certificate of Profeciency', docType: 'COP' },
+    { title: 'Certificate of Recognition', docType: 'COR' },
+    { title: 'Certificate of Endorsement', docType: 'COE' },
+    { title: 'MCU Certificates', docType: 'MCU' }
+] 
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -27,6 +34,8 @@ type ViewProps = {
 };
 
 const DialogView = (props: ViewProps) => {
+
+    const uCert = cert as any[];
     
     return (
         <Dialog
@@ -49,31 +58,53 @@ const DialogView = (props: ViewProps) => {
                     <IconButton size='small' onClick={props.onCloseClick} sx={{ position: 'absolute', right: '1rem', top: '1rem' }} >
                         <Icon icon='mdi:close' />
                     </IconButton>
-                    <Box sx={{ mb: 6, textAlign: 'center' }}>
-                        <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                           Detail {props.selectedItem?.user.name}
-                        </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', mb: 3 }}>
+                        <Box mr={2}>
+                            <Avatar src={props.selectedItem?.user.photo} />
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
+                            <Typography lineHeight={1.4} variant='body1' fontSize={16}>{props.selectedItem?.user.name}</Typography>
+                            <Typography lineHeight={1.4} variant='caption' fontSize={12}>{props.selectedItem?.user.email}</Typography>
+                        </Box>
+                        <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'} mt={1}>
+                            <Button target='blank' href={'/profile/?username='+props.selectedItem?.user.username} size='small'>Open Profile</Button>
+                        </Box>
                     </Box>
-                    <Grid container columnSpacing={'1'} rowSpacing={'2'} >
-                        <Grid item md={6} xs={12} > 
-                            <TextField defaultValue={props.selectedItem?.user.email} fullWidth disabled/>
-                        </Grid>
-                        <Grid item md={6} xs={12} > 
-                            <TextField defaultValue={props.selectedItem?.user.phone} fullWidth disabled/>
-                        </Grid>
-                        <Grid item md={12} xs={12} >
-                            <TextField defaultValue={props.selectedItem?.user.address} fullWidth disabled/>
-                        </Grid>
-                        <Grid item md={12} xs={12} >
-                            <TextField defaultValue={props.selectedItem?.user.employee_type} variant="outlined" multiline  maxRows={4} fullWidth disabled/>                  
-                        </Grid>  
-                        <Grid item md={12} xs={12} >
-                            <Box sx={{ p: 2, border: '1px dashed ', borderRadius: '10px', borderColor: 'grey.400' , '&:hover': { borderColor: 'grey.500' }}} >
-                                <img alt='item thumbnail' className='single-file-image' src={props.selectedItem?.user.photo} width={450} />
+                    <Grid container columnSpacing={'1'} rowSpacing={'2'} mt={5} alignItems={'end'} >
+                        {uCert.length != 0 && uCert.map(e => (
+                            <Box sx={{ display: 'flex', flexDirection: 'row', width: '90%', mb: 1, justifyContent: 'center' }} key={e.id} ml={5}>
+                                <Box mr={2} mt={1}>
+                                    <Icon icon='mdi:book' color='#32487A' />
+                                </Box>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
+                                    <Typography lineHeight={1.4} variant='body1'>{e.title}</Typography>
+                                </Box>
+
+                                <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'}>
+                                    <Button target='blank' href={'#'} size='small'>Open File</Button>
+                                </Box>
                             </Box>
-                        </Grid>                      
+                        ))}               
                     </Grid>
                 </DialogContent>
+                <DialogActions
+                    sx={{
+                        justifyContent: 'center',
+                        px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+                        pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+                    }}
+                >
+                    
+                    <Button variant='outlined' sx={{ mr: 2 }}>
+                        Recomend
+                    </Button>
+                    <Button variant='outlined' color='warning'  sx={{ mr: 2 }}>
+                        Save
+                    </Button>
+                    <Button variant='outlined' color='error' >
+                        Reject
+                    </Button>
+                </DialogActions>
             </form>
         </Dialog>
     )
