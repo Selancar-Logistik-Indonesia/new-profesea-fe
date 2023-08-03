@@ -20,11 +20,13 @@ const renderList = (listJob: Job[]) => {
   if (!listJob || listJob.length == 0) {
     return <></>
   }
+  
 
   console.log(listJob);
 
   return listJob.map((item) => {
     const userPhoto = (item?.company?.photo) ? item?.company?.photo : "/images/avatars/default-user.png";
+    const license:any[] = Object.values(item?.license)
 
     return (
       <Grid item xs={12} md={4} key={item?.id} >
@@ -69,7 +71,7 @@ const renderList = (listJob: Job[]) => {
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
               <Icon icon='mdi:license' color='#32487A' />
               <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
-                {item?.license}
+                {license.map(e => e.title).join(", ")}
               </Typography>
             </Box>
           </Box>
