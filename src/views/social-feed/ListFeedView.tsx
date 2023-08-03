@@ -10,8 +10,9 @@ import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import FeedCard from './FeedCard'
 import { useEffect } from 'react'
 
-const ListFeedView = () => { 
+const ListFeedView = () => {
     const { fetchFeeds, hasNextPage, totalFeed } = useSocialFeed();
+    const adsEveryLine = 5;
 
     const renderList = (feeds: ISocialFeed[]) => {
         let itemCount = 0;
@@ -25,7 +26,7 @@ const ListFeedView = () => {
 
         feeds.forEach((item) => {
             itemCount++;
-            if (itemCount > 3) {
+            if (itemCount > adsEveryLine) {
                 itemCount = 1;
                 components.push(
                     <Paper sx={{ marginTop: '10px', padding: '10px', textAlign: 'center' }} key={v4()}>
