@@ -295,9 +295,7 @@ const FindCandidate = () => {
               />
               <Collapse in={collapsed2}>
                 <CardContent>
-                  <Typography variant='body2' style={{ fontSize: '14px' , marginBottom:'20px' }}>
-                    Use space to separate words
-                  </Typography>
+                 
                   <Typography>Including all these words</Typography>
                   <FormControl>
                     <div className={'container'}>
