@@ -19,7 +19,7 @@ interface Job {
     salary_start: number,
     salary_end: number,
     count_applicant: number,
-    license: string,
+    license: any,
     experience: string,
     description: string,
     onboard_at: string,
@@ -32,7 +32,8 @@ interface Job {
     role_type : RoleType,
     degree: Degree,
     city: City,
-    country: Country 
+    country: Country ,
+    
 }
 
 export default Job;

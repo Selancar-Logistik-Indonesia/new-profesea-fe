@@ -9,7 +9,7 @@ interface Props {
 function ButtonComment(props: Props) {
 
     return (
-        <Button sx={{ textTransform: 'none' }} size='small' color='primary' startIcon={<Icon icon='mdi:comment-outline' fontSize={10} />} onClick={props.onClick}>
+        <Button sx={{ fontSize: '0.7rem', textTransform: 'none' }} size='small' color='primary' startIcon={<Icon icon='mdi:comment-outline' fontSize={10} />} onClick={props.onClick}>
             {props.replyCount > 0 && (
                 <Typography ml={-1.4} mr={1.4} fontSize={12}>{props.replyCount}</Typography>
             )}

@@ -74,7 +74,7 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
   // ** Hooks
   const router = useRouter()
 
-  const handleChatClick = (type: 'chat' | 'contact', id: number,header:any) => {
+  const handleChatClick = (type: 'chat' | 'contact', id: number, header: any) => {
     dispatch(selectChat(id))
     dispatch(headerChat(header))
     setActive({ type, id })
@@ -126,7 +126,7 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
         const arrToMap = query.length && filteredChat.length ? filteredChat : store.chats
 
         return arrToMap.map((chat: ChatsArrType, index: number) => {
-          const lastMessage:any  = chat.last_chat
+          const lastMessage: any = chat.last_chat
           const activeCondition = active !== null && active.id === chat.id && active.type === 'chat'
 
           return (
@@ -160,8 +160,7 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
                           // color: `${statusObj[chat.status]}.main`,
                           // backgroundColor: `${statusObj[chat.status]}.main`,
                           boxShadow: theme =>
-                            `0 0 0 2px ${
-                              !activeCondition ? theme.palette.background.paper : theme.palette.common.white
+                            `0 0 0 2px ${!activeCondition ? theme.palette.background.paper : theme.palette.common.white
                             }`
                         }}
                       />
@@ -328,7 +327,6 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
   // }
 
   const handleFilter = (e: ChangeEvent<HTMLInputElement>) => {
-    debugger;
     setQuery(e.target.value)
     if (store.chats !== null && store.contacts !== null) {
       const searchFilterFunction = (contact: ChatsArrType | ContactType) =>
