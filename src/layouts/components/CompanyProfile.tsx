@@ -203,9 +203,11 @@ const CompanyProfile = (props: compProps) => {
 
    const addbuttonfacebook = ( ) => {
     let user = '';
-    if(facebook.length < 10){
+    if (facebook.length < 20) {
       user = 'https://facebook.com/' + facebook
-    }else{ user = facebook}
+    } else {
+      user = facebook
+    }
 
     const json = {
       sosmed_type: 'Facebook',
@@ -213,8 +215,9 @@ const CompanyProfile = (props: compProps) => {
     }
     if (statusfb == '') {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
-        () => {
+        ({ data }) => {
           toast.success(' Successfully submited!')
+          statusfb = data.sosmed.id
         },
         error => {
           toast.error('Registrastion Failed ' + error.response.data.message)
@@ -237,7 +240,7 @@ const CompanyProfile = (props: compProps) => {
   const addbuttoninstagram = ( ) => {
  
     let user = ''
-    if (instagram.length < 10) {
+    if (instagram.length < 20) {
       user = 'https://instagram.com/' + instagram
     } else {
       user = instagram
@@ -247,9 +250,10 @@ const CompanyProfile = (props: compProps) => {
     }
     if (statusig == '') {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
-        ({ data }) => {
+        ({ data }) => { 
           console.log('here 1', data)
           toast.success(' Successfully submited!')
+          statusig = data.sosmed.id
         },
         error => {
           console.log('here 1', error)
@@ -274,7 +278,7 @@ const CompanyProfile = (props: compProps) => {
   }
   const addbuttonlinkedin = () => {
     let user = ''
-    if (linkedin.length < 10) {
+    if (linkedin.length < 20) {
       user = 'https://linkedin.com/' + linkedin
     } else {
       user = linkedin
@@ -286,8 +290,9 @@ const CompanyProfile = (props: compProps) => {
     if (statuslinkedin == '') {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
         ({ data }) => {
-          console.log('here 1', data)
+         
           toast.success(' Successfully submited!')
+            statuslinkedin = data.sosmed.id
         },
         error => {
           console.log('here 1', error)
