@@ -96,12 +96,12 @@ const JobDetail = () => {
                       {jobDetail?.rolelevel?.levelName} - {jobDetail?.category?.name}
                     </Typography>
                   </Box>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
+                  {/* <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
                     <Icon icon='mdi:currency-usd' fontSize={20} color='#32487A' />
                     <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
                       from Rp. {jobDetail?.salary_start} to Rp. {jobDetail?.salary_end}
                     </Typography>
-                  </Box>
+                  </Box> */}
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
                     <Icon icon='mdi:school' fontSize={20} color='#32487A' />
                     <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
