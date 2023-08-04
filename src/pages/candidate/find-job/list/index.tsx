@@ -6,7 +6,6 @@ import RecomendedView from 'src/views/find-job/RecomendedView'
 import { HttpClient } from 'src/services'
 import Job from 'src/contract/models/job'
 import InfiniteScroll from 'react-infinite-scroll-component'
-
 type filterType = {
     filter: any;
     search: string;
