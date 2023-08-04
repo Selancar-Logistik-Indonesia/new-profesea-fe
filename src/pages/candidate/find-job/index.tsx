@@ -71,8 +71,10 @@ const SeafererJob = () => {
   const [JC, setJC] = useState(0);
   const [RL, setRL] = useState(0);
   const [ED, setED] = useState(0);
-  const [DB, setDB] = useState<DateType>(new Date());
+  const [DB, setDB] = useState<DateType>(null);
   // const [VT, setVT] = useState(0);
+  
+  const [textCompany, SetTextCompany] = useState<any>('') 
 
   const firstload = () => {
     HttpClient.get(`/public/data/vessel-type?page=1&take=250&search`).then(response => {
@@ -144,6 +146,7 @@ const SeafererJob = () => {
                   label='Search Recruiter Name'
                   variant='outlined'
                   fullWidth
+                  onChange={e => SetTextCompany(e.target.value)}
                 />
               </CardContent>
             </Card>
@@ -273,7 +276,7 @@ const SeafererJob = () => {
                   </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={0}>
-                  <FindJob filter={vFilter} search='' aSearch={[]}></FindJob>
+                  <FindJob filter={vFilter} search={textCompany} aSearch={[]}></FindJob>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                   <AllJobApplied></AllJobApplied>

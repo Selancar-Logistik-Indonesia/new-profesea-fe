@@ -17,14 +17,14 @@ const FindJob = (props:filterType) => {
     const hidden = useMediaQuery(theme.breakpoints.down('md'))
     const [listJob, setListJob] = useState<Job[]>([]);
     const [page, setPage] = useState(1);
-    const [search, setSearch] = useState("");
+    // const [search, setSearch] = useState("");
     const [hasNextPage, setHasNextPage] = useState(true);
     const [total, setTotal] = useState(0);
     const [perPage, setPerPage] = useState(9);
 
     const getListJobs = async () => {
         const response = await HttpClient.get(
-            `/job?search=${search}&roletype_id=${props?.filter?.roletype}&category_id=${props?.filter?.category}&rolelevel_id=${props?.filter?.level}&edugrade_id=${props?.filter?.education}&page=${page}&take=${perPage}`);
+            `/job?search=${props?.search}&roletype_id=${props?.filter?.roletype}&category_id=${props?.filter?.category}&rolelevel_id=${props?.filter?.level}&edugrade_id=${props?.filter?.education}&page=${page}&take=${perPage}`);
         const jobs = response.data.jobs.data;
         if(jobs?.total == null){
             setTotal(jobs?.total)
@@ -37,12 +37,11 @@ const FindJob = (props:filterType) => {
 
     useEffect(() => {
         getListJobs();
-    }, [page, search, perPage, props.filter]);
+    }, [page, props.search, perPage, props.filter]);
 
 
     const onPageChange = () => {
         const mPage = page + 1;
-        setSearch('');
         setPage(mPage);
         setPerPage(15);
     }
