@@ -45,6 +45,22 @@ const DialogView = (props: ViewProps) => {
         props.onStateChange();
     }
 
+    const handleSaved = async () => {
+        try {
+            const resp = await HttpClient.post(`/directory/save`, { "dirable_id": props.selectedItem?.user_id, "dirable_type": "user" });
+            if (resp.status != 200) {
+                throw resp.data.message ?? "Something went wrong!";
+            }
+
+            props.onCloseClick();
+            toast.success(`${props.selectedItem.user.name} saved successfully!`);
+        } catch (error) {
+            console.error(error)
+        }
+
+        props.onStateChange();
+    }
+
     const handleReject = async () => {
         try {
             const resp = await HttpClient.patch(`/job/appllicant/reject`, { "applicant_id": props.selectedItem?.id });
@@ -135,7 +151,7 @@ const DialogView = (props: ViewProps) => {
                     <Button variant='outlined' sx={{ mr: 2 }} onClick={handleApprove}>
                         Recomend
                     </Button>
-                    <Button variant='outlined' color='warning'  sx={{ mr: 2 }}>
+                    <Button variant='outlined' color='warning'  sx={{ mr: 2 }} onClick={handleSaved}>
                         Save
                     </Button>
                     <Button variant='outlined' color='error' onClick={handleReject}>

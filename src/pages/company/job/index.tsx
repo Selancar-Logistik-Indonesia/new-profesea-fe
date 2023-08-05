@@ -11,6 +11,7 @@ import { useTheme } from '@mui/material/styles'
 
 import JobApplied from './applied'
 import JobDetail from './detail'
+import UserSaved from './saved'
 
 type FormData = {
   companyName: string
@@ -106,6 +107,7 @@ const UserJob = () => {
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
                 <Tab label="Detail Job" {...a11yProps(0)} />
                 <Tab label="List Applicant" {...a11yProps(1)} />
+                <Tab label="Applicant Saved" {...a11yProps(2)} />
               </Tabs>
             </Box>
             <Grid container sx={{
@@ -133,6 +135,9 @@ const UserJob = () => {
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                   <JobApplied></JobApplied>
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                  <UserSaved></UserSaved>
                 </TabPanel>
               </Grid>
             </Grid>
