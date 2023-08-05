@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import { Card, CardContent, Tabs, Tab, useMediaQuery, Collapse, CardHeader, IconButton, Autocomplete, TextField, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
-import { useForm } from 'react-hook-form'
 // import Icon from 'src/@core/components/icon' 
 import { useTheme } from '@mui/material/styles'
 
@@ -17,48 +16,73 @@ import Degree from 'src/contract/models/degree'
 import JobCategory from 'src/contract/models/job_category'
 import RoleLevel from 'src/contract/models/role_level'
 import RoleType from 'src/contract/models/role_type'
-// import Company from 'src/contract/models/company'
+import VesselType from 'src/contract/models/vessel_type'
+import { DateType } from 'src/contract/models/DatepickerTypes'
+import DatePicker from 'react-datepicker'
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
-type FormData = {
-  companyName: string
-  industryType: string
-  country: string
-  district: string
-  city: string
-  postalCode: string
-  email: string
-  code: string
-  website: string
-  phone: string
-  address: string
-  about: string
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
 }
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 0 }}>
+          {children}
+          {/* <Typography>{children}</Typography> */}
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
 const SeafererJob = () => {
 
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const [collapsed, setCollapsed] = useState<boolean>(true)
-  const [collapsed2, setCollapsed2] = useState<boolean>(false)
-  const [collapsed3, setCollapsed3] = useState<boolean>(false)
-  const [collapsed4, setCollapsed4] = useState<boolean>(false)  
-  const [collapsed5, setCollapsed5] = useState<boolean>(false)
-  const [collapsed6, setCollapsed6] = useState<boolean>(false)
-  // const [collapsed7, setCollapsed7] = useState<boolean>(false)
-  const [collapsed8, setCollapsed8] = useState<boolean>(false)
-  const [collapsed9, setCollapsed9] = useState<boolean>(false)
-  // const [Company, getCompany] = useState<any[]>([]);
+  // const [collapsed2, setCollapsed2] = useState<boolean>(false)
+  const [vessel, getVessel] = useState<any[]>([]);
   const [JobCategory, getJobCategory] = useState<any[]>([]);
   const [Education, getEducation] = useState<any[]>([]);
   const [RoleLevel, getRoleLevel] = useState<any[]>([]);  
   const [RoleType, getRoleType] = useState<any[]>([]);
 
-  const firstload = async () => {
-    // HttpClient.get(`/user-management?page=1&take=250&team_id=3`).then(response => {
-    //   if (response.status != 200) {
-    //       throw response.data.message ?? "Something went wrong!";
-    //   }
-    //   getCompany(response.data.users.data);
-    // })
+  const [JT, setJT] = useState(0);
+  const [JC, setJC] = useState(0);
+  const [RL, setRL] = useState(0);
+  const [ED, setED] = useState(0);
+  const [DB, setDB] = useState<DateType>(null);
+  // const [VT, setVT] = useState(0);
+  
+  const [textCompany, SetTextCompany] = useState<any>('') 
+
+  const firstload = () => {
+    HttpClient.get(`/public/data/vessel-type?page=1&take=250&search`).then(response => {
+      if (response.status != 200) {
+          throw response.data.message ?? "Something went wrong!";
+      }
+      getVessel(response.data.vesselTypes.data);
+    })
     HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
         if (response.status != 200) {
             throw response.data.message ?? "Something went wrong!";
@@ -88,50 +112,25 @@ const SeafererJob = () => {
     firstload()
   }, [])
 
-  const {
-  } = useForm<FormData>({
-    mode: 'onBlur',
-  },)
-  interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-  }
-
-  function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box sx={{ p: 0 }}>
-            {children}
-            {/* <Typography>{children}</Typography> */}
-          </Box>
-        )}
-      </div>
-    );
-  }
-
-  function a11yProps(index: number) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-  }
-  
   const [value, setValue] = React.useState(0);
   const [color, getColor] = useState<any>('#FFFFFF')
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     getColor('#FFFFFF');
   };
+
+  const vFilter = {
+    'roletype' : JT,
+    'category' : JC,
+    'level' : RL,
+    'education':ED,
+    // 'vessel': VT,
+    'date':DB?.toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+    }).split('/').reverse().join('-')
+  }
 
   
   return (
@@ -140,394 +139,99 @@ const SeafererJob = () => {
         <Grid item lg={3} md={5} xs={12}>
         <Box mb={3}>
             <Card>
-              <CardHeader
-                title={
-                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Recruiter
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse'
-                    sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed(!collapsed)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed}>
-                <CardContent>
-                  {/* <Autocomplete
-                    disablePortal
-                    id="combo-box-level"
-                    options={Company}
-                    getOptionLabel={(option: Company) => option.name}
-                    renderInput={(params) => <TextField {...params} label="Recruiter" />}
-                    onChange={(event: any, newValue: Company | null) => (newValue?.id) ? '' : ''}
-                  /> */}
-                </CardContent>
-              </Collapse>
+              <CardContent>
+                <TextField
+                  id='fullName'
+                  // defaultValue={props.datauser.name}
+                  label='Search Recruiter Name'
+                  variant='outlined'
+                  fullWidth
+                  onChange={e => SetTextCompany(e.target.value)}
+                />
+              </CardContent>
             </Card>
           </Box>
-          <Box mb={3}>
-            <Card>
-              <CardHeader
-                title={
-                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Type of Employment
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse2'
-                    sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed2(!collapsed2)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed2 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed2}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-level"
-                    options={RoleLevel}
-                    getOptionLabel={(option: RoleLevel) => option.levelName}
-                    renderInput={(params) => <TextField {...params} label="Type of Employment" />}
-                    onChange={(event: any, newValue: RoleLevel | null) => (newValue?.id) ? '' : ''}
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>
-          <Box mb={3}>
-            <Card>
-              <CardHeader
-                title={
-                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Role Level
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse3'
-                    sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed3(!collapsed3)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed3 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed3}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-level"
-                    options={RoleLevel}
-                    getOptionLabel={(option: RoleLevel) => option.levelName}
-                    renderInput={(params) => <TextField {...params} label="Role Level" />}
-                    onChange={(event: any, newValue: RoleLevel | null) => (newValue?.id) ? '' : ''}
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>
-          <Box mb={3}>
-            <Card>
-              <CardHeader
-                title={
-                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Job Title
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse4'
-                    sx={{ color: '#424242' }}
-                    onClick={() => setCollapsed4(!collapsed4)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed4 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed4}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={RoleType}
-                    getOptionLabel={(option: RoleType) => option.name}
-                    renderInput={(params) => <TextField {...params} label="Job Title" />}
-                    onChange={(event: any, newValue: JobCategory | null) => (newValue?.id) ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''}
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>
-          <Box mb={3}>
-            <Card>
-              <CardHeader
-                title={
-                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Job Category
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse5'
-                    sx={{ color: '#424242' }}
-                    onClick={() => setCollapsed5(!collapsed5)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed5 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed5}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={JobCategory}
-                    getOptionLabel={(option: JobCategory) => option.name}
-                    renderInput={(params) => <TextField {...params} label="Job Title" />}
-                    onChange={(event: any, newValue: JobCategory | null) => (newValue?.id) ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''}
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>
-          <Box mb={3}>
-            <Card>
-              <CardHeader
-               title={
+        <Box mb={3}>
+          <Card>
+            <CardHeader
+              title={
                 <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                  Education
+                  Basic Search
                 </Typography>
               }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse6'
-                    sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed6(!collapsed6)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed6 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed6}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={Education}
-                    getOptionLabel={(option: Degree) => option.name}
-                    renderInput={(params) => <TextField {...params} label="Education" />}
-                    onChange={(event: any, newValue: Degree | null) => (newValue?.id) ? '' : ''}
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>
-          {/* <Box mb={3}>
-            <Card>
-              <CardHeader
-                title={
-                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Salary Range
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse7'
-                    sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed7(!collapsed7)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed7 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed7}>
-                <CardContent>
-                 
-                  <br></br>
-                  <Slider
-                    getAriaLabel={() => 'Rp'}
-                    min={0}
-                    step={100000}
-                    max={100000000}
-                    value={valueSalary}
-                    onChange={handleChangeSalary}
-                    valueLabelDisplay='on'
-                    valueLabelFormat={valuetext}
-                    size='small'
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box> */}
-          <Box mb={3}>
-            <Card>
-              <CardHeader
-               title={
-                <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                  Type of Vessel
-                </Typography>
+              action={
+                <IconButton
+                  size='small'
+                  aria-label='collapse'
+                  sx={{ color: 'text.secondary' }}
+                  onClick={() => setCollapsed(!collapsed)}
+                >
+                  <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                </IconButton>
               }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse8'
-                    sx={{ color: '#424242' }}
-                    onClick={() => setCollapsed8(!collapsed8)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed8 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed8}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={JobCategory}
-                    getOptionLabel={(option: JobCategory) => option.name}
-                    renderInput={params => <TextField {...params} label='Type of Vessel' />}
-                    onChange={(event: any, newValue: JobCategory | null) =>
-                      newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
-                    }
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>
-          <Box mb={3}>
-            <Card>
-              <CardHeader
-               title={
-                <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                  Date on Board
-                </Typography>
-              }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse9'
-                    sx={{ color: '#424242' }}
-                    onClick={() => setCollapsed9(!collapsed9)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed9 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed9}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={JobCategory}
-                    getOptionLabel={(option: JobCategory) => option.name}
-                    renderInput={params => <TextField {...params} label='Date on Board' />}
-                    onChange={(event: any, newValue: JobCategory | null) =>
-                      newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
-                    }
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>
-          {/* <Box mb={3}>
-            <Card>
-              <CardHeader
-                title={
-                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Location
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse7'
-                    sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed7(!collapsed7)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed7 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed7}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id='code'
-                    options={combocode}
-                    getOptionLabel={(option: Countries) => option.nicename}
-                    // defaultValue={props.datauser?.country}
-                    renderInput={params => <TextField {...params} label='Location' sx={{ mb: 2 }} />}
-                    onChange={(event: any, newValue: Countries | null) =>
-                      newValue?.id ? searchcity(newValue.id) : searchcity(0)
-                    }
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box>
-          <Box mb={3}>
-            <Card>
-              <CardHeader
-                title={
-                  <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                    Region of Travel
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse8'
-                    sx={{ color: 'text.secondary' }}
-                    onClick={() => setCollapsed8(!collapsed8)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed8 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed8}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id='code'
-                    options={combocode}
-                    getOptionLabel={(option: Countries) => option.nicename}
-                    // defaultValue={props.datauser?.country}
-                    renderInput={params => <TextField {...params} label='Code' sx={{ mb: 2 }} />}
-                    onChange={(event: any, newValue: Countries | null) =>
-                      newValue?.id ? searchcity(newValue.id) : searchcity(0)
-                    }
-                  />
-                  <Autocomplete
-                    disablePortal
-                    id='city'
-                    // value={props.datauser.address?.city}
-                    options={combocity}
-                    getOptionLabel={(option: City) => option.city_name}
-                    renderInput={params => <TextField {...params} label='City' sx={{ mb: 2 }} />}
-                    onChange={(event: any, newValue: City | null) =>
-                      newValue?.id ? setCombocity(newValue.id) : setCombocity(0)
-                    }
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box> */}
-          
+            />
+            <Collapse in={collapsed}>
+              <CardContent>         
+                <Autocomplete
+                  sx={{ marginBottom:2 }}
+                  disablePortal
+                  id="combo-box-demo"
+                  options={RoleType}
+                  getOptionLabel={(option: RoleType) => option.name}
+                  renderInput={(params) => <TextField {...params} label="Job Title" />}
+                  onChange={(event: any, newValue: RoleType | null) => (newValue?.id) ? setJT(newValue?.id) : setJT(0)}
+                />  
+                  {/* Category */}
+                <Autocomplete
+                sx={{ marginBottom:2 }}
+                  disablePortal
+                  id="combo-box-level"
+                  options={JobCategory}
+                  getOptionLabel={(option: JobCategory) => option.name}
+                  renderInput={(params) => <TextField {...params} label="Job Category" />}
+                  onChange={(event: any, newValue: JobCategory | null) => (newValue?.id) ? setJC(newValue?.id) : setJC(0)}
+                />
+                <Autocomplete
+                sx={{ marginBottom:2 }}
+                  disablePortal
+                  id="combo-box-level"
+                  options={RoleLevel}
+                  getOptionLabel={(option: RoleLevel) => option.levelName}
+                  renderInput={(params) => <TextField {...params} label="Role Level" />}
+                  onChange={(event: any, newValue: RoleLevel | null) => (newValue?.id) ?  setRL(newValue?.id) : setRL(0)}
+                />
+                <Autocomplete
+                sx={{ marginBottom:2 }}
+                  disablePortal
+                  id="combo-box-demo"
+                  options={Education}
+                  getOptionLabel={(option: Degree) => option.name}
+                  renderInput={(params) => <TextField {...params} label="Education" />}
+                  onChange={(event: any, newValue: Degree | null) => (newValue?.id) ?  setED(newValue?.id) : setED(0)}
+                />                
+                <DatePickerWrapper>
+                    <DatePicker
+                    dateFormat='dd/MM/yyyy'
+                    id='basic-input'
+                    onChange={(date: Date) => setDB(date)}
+                    placeholderText='Click to select a date'
+                    customInput={<TextField label='Date On Board' variant="outlined" fullWidth sx={{ marginBottom:2 }}/>}
+                    />
+                </DatePickerWrapper>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-demo'
+                  options={vessel}
+                  getOptionLabel={(option: VesselType) => option.name}
+                  renderInput={params => <TextField {...params} label='Type of Vessel' />}
+                  onChange={(event: any, newValue: VesselType | null) =>
+                    newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
+                  }
+                />
+              </CardContent>
+            </Collapse>
+          </Card>
+        </Box>   
         </Grid>
         <Grid item lg={9} md={7} xs={12}
           sx={!hidden ? {
@@ -572,7 +276,7 @@ const SeafererJob = () => {
                   </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={0}>
-                  <FindJob></FindJob>
+                  <FindJob filter={vFilter} search={textCompany} aSearch={[]}></FindJob>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                   <AllJobApplied></AllJobApplied>
@@ -582,10 +286,6 @@ const SeafererJob = () => {
           </Grid>
         </Grid>
       </Grid>
-
-
-
-
     </Box>
 
 

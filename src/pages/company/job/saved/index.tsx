@@ -7,25 +7,18 @@ import AppliedDataGrid, { RowItem } from './AppliedDataGrid';
 import { HttpClient } from 'src/services';
 import { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
-import Applicant from 'src/contract/models/applicant';
+import Directory from 'src/contract/models/directory';
 import debounce from 'src/utils/debounce';
 import { GridPaginationModel } from '@mui/x-data-grid';
-import { v4 } from "uuid";
-import DialogView from './DialogView';
 
 const status:any = {
     AP : 'Approved',
     RJ : 'Rejected',
     WR : 'Waiting Review'
 }
-const JobApplied = () => {
-    const [hookSignature, setHookSignature] = useState(v4())
+const UserSaved = () => {
     const [onLoading, setOnLoading] = useState(false);
-    const [openViewModal, setOpenViewModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
-    const [selectedItem, setSelectedItem] = useState<Applicant | null>(null);
-    const windowUrl = window.location.search;
-    const params = new URLSearchParams(windowUrl);
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
     const [search, setSearch] = useState("");
@@ -33,30 +26,29 @@ const JobApplied = () => {
     const [perPage, setPerPage] = useState(10);
     const getListApplicant = async () => {
         try {
-            const resp = await HttpClient.get(`/job/${params.get('id')}/appllicants?search=${search}&page=${page}&take=${perPage}`);
+            const resp = await HttpClient.get(`/directory?search=${search}&page=${page}&take=${perPage}`);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
-            console.log(resp.data.applicants);
+            console.log(resp.data.directories);
 
-            const rows = resp.data.applicants.data as Applicant[];
+            const rows = resp.data.directories.data as Directory[];
             const items = rows.map((row, index) => {
                 return {
                     no: index + 1,
                     id: row.id,
-                    name: row.user?.name,
-                    category: row.user?.employee_type,
-                    email: row.user?.email,
-                    phone: row.user?.phone,
+                    name: row.dirable?.name,
+                    username: row.dirable?.username,
+                    email: row.dirable?.email,
+                    phone: row.dirable?.phone,
                     status: status[row.status],
                     actions: {
-                        onView: () => viewHandler(row),
                         onDownload: () => resumeHandler(row),
                     }
                 } as RowItem;
             });
 
-            setRowCount(resp.data.applicants?.total ?? 0);
+            setRowCount(resp.data.directories?.total ?? 0);
             setDataSheet(items);
         } catch (error) {
             let errorMessage = "Something went wrong!";
@@ -85,12 +77,7 @@ const JobApplied = () => {
         setPerPage(model.pageSize);
     }
 
-    const viewHandler = (row: Applicant) => {
-        setSelectedItem(row);
-        setOpenViewModal(true);
-    }
-
-    const resumeHandler = (row: Applicant) => {
+    const resumeHandler = (row: Directory) => {
         HttpClient.get(`/user/${row.user_id}/profile/resume`).then(response => {
             if (response.status != 200) {
                 throw response.data.message ?? "Something went wrong!";
@@ -104,7 +91,7 @@ const JobApplied = () => {
         getListApplicant().then(() => {
             setOnLoading(false);
         });
-    }, [page, search, hookSignature, perPage]);
+    }, [page, search, perPage]);
 
     return (
         <>
@@ -136,21 +123,13 @@ const JobApplied = () => {
                     </Card>
                 </Grid>
             </Grid>
-            {selectedItem && (
-                <>
-                    <DialogView key={selectedItem.id} selectedItem={selectedItem}
-                        visible={openViewModal}
-                        onCloseClick={() => setOpenViewModal(!openViewModal)}
-                        onStateChange={() => setHookSignature(v4())} />
-                </>
-            )}
         </>
     )
 }
 
-JobApplied.acl = {
+UserSaved.acl = {
     action: 'read',
     subject: 'company-job-applied'
 }
 
-export default JobApplied
+export default UserSaved

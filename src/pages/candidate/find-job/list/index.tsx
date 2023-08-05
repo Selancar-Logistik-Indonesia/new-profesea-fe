@@ -7,23 +7,30 @@ import { HttpClient } from 'src/services'
 import Job from 'src/contract/models/job'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
-const FindJob = () => {
+type filterType = {
+    filter: any;
+    search: string;
+    aSearch: any[];
+};
+
+const FindJob = (props: filterType) => {
     const theme = useTheme()
     const hidden = useMediaQuery(theme.breakpoints.down('md'))
     const [listJob, setListJob] = useState<Job[]>([]);
     const [page, setPage] = useState(1);
-    const [search, setSearch] = useState("");
+    // const [search, setSearch] = useState("");
     const [hasNextPage, setHasNextPage] = useState(true);
     const [total, setTotal] = useState(0);
     const [perPage, setPerPage] = useState(9);
 
     const getListJobs = async () => {
-        const response = await HttpClient.get(`/job?search=${search}&page=${page}&take=${perPage}`);
+        const response = await HttpClient.get(
+            `/job?search=${props?.search}&roletype_id=${props?.filter?.roletype}&category_id=${props?.filter?.category}&rolelevel_id=${props?.filter?.level}&edugrade_id=${props?.filter?.education}&page=${page}&take=${perPage}`);
         const jobs = response.data.jobs.data;
-        if(jobs?.total == null){
+        if (jobs?.total == null) {
             setTotal(jobs?.total)
         }
-        if(jobs?.next_page_url == null){
+        if (jobs?.next_page_url == null) {
             setHasNextPage(jobs?.next_page_url)
         }
         setListJob(jobs);
@@ -31,12 +38,11 @@ const FindJob = () => {
 
     useEffect(() => {
         getListJobs();
-    }, []);
+    }, [page, props.search, perPage, props.filter]);
 
 
     const onPageChange = () => {
         const mPage = page + 1;
-        setSearch('');
         setPage(mPage);
         setPerPage(15);
     }

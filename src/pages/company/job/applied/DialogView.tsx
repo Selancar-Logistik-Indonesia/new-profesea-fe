@@ -10,6 +10,7 @@ import Icon from 'src/@core/components/icon'
 import Applicant from 'src/contract/models/applicant'
 import { Avatar, Button, DialogActions } from '@mui/material'
 import  {HttpClient} from 'src/services'
+import { toast } from 'react-hot-toast'
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -28,6 +29,54 @@ type ViewProps = {
 
 const DialogView = (props: ViewProps) => {
     const [license, setLicense] = useState<any[]>([]);
+    const handleApprove = async () => {
+        try {
+            const resp = await HttpClient.patch(`/job/appllicant/approve`, { "applicant_id": props.selectedItem?.id });
+            if (resp.status != 200) {
+                throw resp.data.message ?? "Something went wrong!";
+            }
+
+            props.onCloseClick();
+            toast.success(`${props.selectedItem.user.name} recomended successfully!`);
+        } catch (error) {
+            console.error(error)
+        }
+
+        props.onStateChange();
+    }
+
+    const handleSaved = async () => {
+        try {
+            const resp = await HttpClient.post(`/directory/save`, { "dirable_id": props.selectedItem?.user_id, "dirable_type": "user" });
+            if (resp.status != 200) {
+                throw resp.data.message ?? "Something went wrong!";
+            }
+
+            props.onCloseClick();
+            toast.success(`${props.selectedItem.user.name} saved successfully!`);
+        } catch (error) {
+            console.error(error)
+        }
+
+        props.onStateChange();
+    }
+
+    const handleReject = async () => {
+        try {
+            const resp = await HttpClient.patch(`/job/appllicant/reject`, { "applicant_id": props.selectedItem?.id });
+            if (resp.status != 200) {
+                throw resp.data.message ?? "Something went wrong!";
+            }
+
+            props.onCloseClick();
+            toast.success(`${props.selectedItem.user.name} rejected successfully!`);
+        } catch (error) {
+            console.error(error)
+        }
+
+        props.onStateChange();
+    }
+
     const firstload = () => {
         HttpClient.get(`/user/document?user_id=${props.selectedItem.user.id}`).then(response => {
         if (response.status != 200) {
@@ -99,13 +148,13 @@ const DialogView = (props: ViewProps) => {
                     }}
                 >
                     
-                    <Button variant='outlined' sx={{ mr: 2 }}>
+                    <Button variant='outlined' sx={{ mr: 2 }} onClick={handleApprove}>
                         Recomend
                     </Button>
-                    <Button variant='outlined' color='warning'  sx={{ mr: 2 }}>
+                    <Button variant='outlined' color='warning'  sx={{ mr: 2 }} onClick={handleSaved}>
                         Save
                     </Button>
-                    <Button variant='outlined' color='error' >
+                    <Button variant='outlined' color='error' onClick={handleReject}>
                         Reject
                     </Button>
                 </DialogActions>

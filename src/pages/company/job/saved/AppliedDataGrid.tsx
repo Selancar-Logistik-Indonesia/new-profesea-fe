@@ -1,28 +1,15 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
-import { Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , width: 50},
     { field: 'name', headerName: 'Name', sortable: true , minWidth: 250},
-    { field: 'category', headerName: 'Category', sortable: false, minWidth: 150 },
+    { field: 'username', headerName: 'Username', sortable: false , minWidth: 150},
     { field: 'email', headerName: 'Email', sortable: false, minWidth: 250 },
-    { field: 'phone', headerName: 'Phone', sortable: false, minWidth: 150 },
-    { field: 'status', headerName: 'Status', sortable: false, minWidth: 100, 
-        renderCell: (cell) => {
-        const { row } = cell;
-
-            return (
-                <>
-                    <Button color='warning' size='small' >
-                        {row.status}
-                    </Button>
-                </>
-            );
-        } 
-    },
+    { field: 'phone', headerName: 'Phone', sortable: false, minWidth: 250 },
     {
         field: 'action',
         headerName: 'Action',
@@ -33,13 +20,11 @@ const columns: GridColDef[] = [
 
             return (
                 <>
-                    <Button onClick={() => row.actions.onView()} variant='outlined' color='primary' size='small' sx={{ mr: 2 }}>
-                        <Icon icon='mdi:eye' />
-                        <Typography ml={1} fontSize={'14px'} color='primary'> View</Typography>
+                    <Button target='blank' href={'/profile/?username='+row?.username} variant='outlined' size='small' sx={{mr:2}}>
+                        <Icon icon='mdi:user' />Profile
                     </Button>
                     <Button onClick={() => row.actions.onDownload()} variant='outlined' color='secondary' size='small'>
-                        <Icon icon='mdi:download' />
-                        <Typography ml={1} fontSize={'14px'}>Resume </Typography>
+                        <Icon icon='mdi:download' />Resume
                     </Button>
                 </>
             );
@@ -59,12 +44,12 @@ type UserGridProps = {
 interface RowItem {
     id:number,
     name: string,
-    category: string,
+    username: string,
     email: string,
     phone: string,
     status: string,
     actions: {
-        onView: VoidFunction,
+        onDownload: VoidFunction,
     };
 }
 
