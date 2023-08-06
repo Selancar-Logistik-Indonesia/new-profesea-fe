@@ -40,6 +40,14 @@ const FeedCard = (props: { item: ISocialFeed }) => {
           />
         )}
 
+        {item.content_type == 'images' && (
+          <CardMedia
+            sx={{ maxWidth: 460 }}
+            component='img'
+            src={attachments[0]}
+          />
+        )}
+
         <Typography variant='body1' sx={{ color: '#424242', fontSize: '0.7rem', fontWeight: 400, margin: '5px' }}>
           {item.content}
         </Typography>

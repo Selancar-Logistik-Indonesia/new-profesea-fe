@@ -4,8 +4,8 @@ import { useAuth } from 'src/hooks/useAuth'
 import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers';
 import { useSocialFeed } from 'src/hooks/useSocialFeed';
 import { useState } from 'react';
-import { Icon } from '@iconify/react';
 import ButtonUploadVideo from './ButtonUploadVideo';
+import ButtonUploadPhoto from './ButtonUploadPhoto';
 
 const Postfeed = () => {
     const { user } = useAuth();
@@ -37,6 +37,7 @@ const Postfeed = () => {
                 </Box>
                 <Box sx={{ flexGrow: 1 }}>
                     <TextField
+                        value={content}
                         multiline
                         fullWidth
                         rows={3}
@@ -48,10 +49,7 @@ const Postfeed = () => {
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', mt: 3, alignItems: 'end' }}>
                 <Box>
-                    <Button size='small' variant='text' sx={{ textDecoration: 'none' }}>
-                        <Icon color='#378fe9' fontSize={22} icon='mdi:image' />
-                        <div style={{ marginLeft: 5 }}>Photo</div>
-                    </Button>
+                    <ButtonUploadPhoto />
                     <ButtonUploadVideo />
                 </Box>
                 <Box flexGrow={1} textAlign='right'>
