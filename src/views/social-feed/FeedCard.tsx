@@ -9,6 +9,7 @@ import { useState } from "react";
 import { AppConfig } from "src/configs/api";
 import CommentAreaView from "./CommentAreaView";
 import Link from "next/link";
+import ImageListPreview from "./ImageListPreview";
 
 const FeedCard = (props: { item: ISocialFeed }) => {
   const { item } = props;
@@ -41,11 +42,7 @@ const FeedCard = (props: { item: ISocialFeed }) => {
         )}
 
         {item.content_type == 'images' && (
-          <CardMedia
-            sx={{ maxWidth: 460 }}
-            component='img'
-            src={attachments[0]}
-          />
+          <ImageListPreview urls={attachments} />
         )}
 
         <Typography variant='body1' sx={{ color: '#424242', fontSize: '0.7rem', fontWeight: 400, margin: '5px' }}>

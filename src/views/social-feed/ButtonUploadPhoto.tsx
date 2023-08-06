@@ -1,33 +1,38 @@
 import { Icon } from "@iconify/react";
-import { Box, Button, CardMedia, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { ChangeEvent, useRef, useState } from "react";
 import { useSocialFeed } from "src/hooks/useSocialFeed";
 import { getCleanErrorMessage } from "src/utils/helpers";
+import ImageListPreview from "./ImageListPreview";
 
 const ButtonUploadPhoto = () => {
     const [open, setOpen] = useState(false);
     const inputFile = useRef<HTMLInputElement>(null);
     const imagePreview = useRef<HTMLImageElement>(null);
     const [content, setContent] = useState('');
-    const [isVideoSelected, setVideoSelected] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const { updateStatus } = useSocialFeed();
+    const [imagePreviewUrls, setPreviewUrls] = useState<string[]>([]);
 
     const onFileSelected = (evt: ChangeEvent<HTMLInputElement>) => {
-        const mfile = evt.target?.files?.item(0);
-        if (!mfile) {
+        const mfiles = evt.target?.files;
+        if (!mfiles) {
             return;
         }
 
-        const objUrl = URL.createObjectURL(mfile);
-        imagePreview.current!.src = objUrl;
-        setVideoSelected(true);
+        setPreviewUrls([]);
+        let urls = [];
+        for (const file of mfiles) {
+            urls.push(URL.createObjectURL(file));
+        }
+
+        setPreviewUrls(urls);
     }
 
     const openModalPhoto = () => {
         inputFile.current?.click();
         setOpen(true);
-        setVideoSelected(false);
+        setPreviewUrls([]);
     }
 
     const handleUpdateStatus = async () => {
@@ -36,7 +41,7 @@ const ButtonUploadPhoto = () => {
             await updateStatus({
                 content_type: 'images',
                 content: content,
-                attachments: inputFile.current?.files?.item(0)
+                attachments: inputFile.current?.files
             });
 
             setContent('');
@@ -56,9 +61,13 @@ const ButtonUploadPhoto = () => {
         <Dialog sx={{ minWidth: { md: 320 } }} open={open} onClose={() => setOpen(!open)}>
             <DialogTitle>Upload Photo</DialogTitle>
             <DialogContent>
-                <CardMedia sx={{ width: { xs: '100%', md: 420 }, display: isVideoSelected ? 'block' : 'none' }} component='img' ref={imagePreview} />
+                {
+                    imagePreviewUrls.length > 0 && (
+                        <ImageListPreview urls={imagePreviewUrls} />
+                    )
+                }
 
-                <Box component='div' onClick={openModalPhoto} sx={{ display: !isVideoSelected ? 'flex' : 'none', flexDirection: 'column', backgroundColor: "#eee", alignItems: 'center', justifyContent: 'center', width: { xs: '100%', md: 420 }, height: 240 }}>
+                <Box component='div' onClick={openModalPhoto} sx={{ display: imagePreviewUrls.length == 0 ? 'flex' : 'none', flexDirection: 'column', backgroundColor: "#eee", alignItems: 'center', justifyContent: 'center', width: { xs: '100%', md: 420 }, height: 240 }}>
                     <Icon icon='mdi:image' fontSize={110} />
                 </Box>
 
@@ -86,7 +95,7 @@ const ButtonUploadPhoto = () => {
             </DialogActions>
         </Dialog>
 
-        <input onChange={onFileSelected} ref={inputFile} type='file' style={{ display: 'none' }} />
+        <input onChange={onFileSelected} ref={inputFile} type='file' multiple style={{ display: 'none' }} />
     </>
 }
 
