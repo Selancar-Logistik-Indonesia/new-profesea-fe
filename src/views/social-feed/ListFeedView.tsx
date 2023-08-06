@@ -29,8 +29,8 @@ const ListFeedView = () => {
             if (itemCount > adsEveryLine) {
                 itemCount = 1;
                 components.push(
-                    <Paper sx={{ marginTop: '10px', padding: '10px', textAlign: 'center' }} key={v4()}>
-                        <Box component='img' src={'/images/backgrounds/samplead.jpg'} sx={{ opacity: 0.2 }} />
+                    <Paper sx={{ marginTop: '10px', padding: '10px', textAlign: 'center', }} key={v4()}>
+                        <Box component='img' src={'/images/backgrounds/samplead.jpg'} sx={{ opacity: 0.2, maxWidth: '100%' }} />
                     </Paper>
                 );
             }
