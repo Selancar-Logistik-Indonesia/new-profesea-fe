@@ -8,7 +8,6 @@ import ImageListPreview from "./ImageListPreview";
 const ButtonUploadPhoto = () => {
     const [open, setOpen] = useState(false);
     const inputFile = useRef<HTMLInputElement>(null);
-    const imagePreview = useRef<HTMLImageElement>(null);
     const [content, setContent] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const { updateStatus } = useSocialFeed();
@@ -21,7 +20,7 @@ const ButtonUploadPhoto = () => {
         }
 
         setPreviewUrls([]);
-        let urls = [];
+        const urls = [];
         for (const file of mfiles) {
             urls.push(URL.createObjectURL(file));
         }
