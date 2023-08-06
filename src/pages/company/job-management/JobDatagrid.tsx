@@ -3,10 +3,11 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { IconButton } from '@mui/material';
 import Icon from 'src/@core/components/icon'
+import Link from 'next/link';
 
 const columns: GridColDef[] = [
-    { field: 'no', headerName: '#', sortable: true , minWidth: 10},
-    { field: 'role_type', headerName: 'Job Title', sortable: true , minWidth: 150},
+    { field: 'no', headerName: '#', sortable: true, minWidth: 10 },
+    { field: 'role_type', headerName: 'Job Title', sortable: true, minWidth: 150 },
     { field: 'level_name', headerName: 'Role Level', sortable: false, minWidth: 100 },
     { field: 'category_name', headerName: 'Job Category', sortable: false, minWidth: 250 },
     { field: 'degree', headerName: 'Degree', sortable: false, minWidth: 200 },
@@ -24,7 +25,7 @@ const columns: GridColDef[] = [
                     <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
                         <Icon icon='mdi:pencil' />
                     </IconButton>
-                    <IconButton href={'/company/job/?id='+row.id} aria-label='view' color='secondary' size='small'>
+                    <IconButton LinkComponent={Link} href={`/company/job/?id=${row.id}`} aria-label='view' color='secondary' size='small'>
                         <Icon icon='mdi:eye' />
                     </IconButton>
                     <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
@@ -46,7 +47,7 @@ type RoleGridProps = {
 }
 
 interface RowItem {
-    id:number,
+    id: number,
     category_name: string,
     level_name: string,
     license: string,
