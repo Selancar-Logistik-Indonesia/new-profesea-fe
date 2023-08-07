@@ -36,7 +36,6 @@ import draftToHtml from 'draftjs-to-html';
 import EditorArea from 'src/@core/components/react-draft-wysiwyg'
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import { margin } from '@mui/system'
 
 const licenseData = [
     { title: 'Certificate of Competency', docType: 'COC' },
