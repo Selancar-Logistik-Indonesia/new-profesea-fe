@@ -42,7 +42,9 @@ const SocialFeedProvider = (props: Props) => {
         formData.append("content", payload.content);
         formData.append("content_type", payload.content_type);
         if (payload.attachments) {
-            formData.append("attachments", payload.attachments)
+            for (const item of payload.attachments) {
+                formData.append("attachments[]", item);
+            }
         }
 
         const response = await HttpClient.post('/social-feed/feed', formData);
@@ -59,21 +61,21 @@ const SocialFeedProvider = (props: Props) => {
 
     const fetchFeeds = async (payload: FetchFeedPayload) => {
         // only trigger in page 1
-  
+
         if (page == 1) setOnLoading(true);
 
         try {
-            let url='';
-            if (payload?.username){
-                
+            let url = '';
+            if (payload?.username) {
+
                 url = AppConfig.baseUrl + '/social-feed/feed/'
-            }else{
+            } else {
                 url = AppConfig.baseUrl + '/social-feed/feed'
             }
-              const response = await HttpClient.get(url, {
+            const response = await HttpClient.get(url, {
                 page: page,
                 ...payload
-              })
+            })
 
             if (response.status == 200) {
                 const { feeds } = response.data as { feeds: { data: ISocialFeed[], next_page_url?: string, total: number } };

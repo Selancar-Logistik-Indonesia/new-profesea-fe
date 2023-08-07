@@ -9,6 +9,7 @@ import { useState } from "react";
 import { AppConfig } from "src/configs/api";
 import CommentAreaView from "./CommentAreaView";
 import Link from "next/link";
+import ImageListPreview from "./ImageListPreview";
 
 const FeedCard = (props: { item: ISocialFeed }) => {
   const { item } = props;
@@ -38,6 +39,10 @@ const FeedCard = (props: { item: ISocialFeed }) => {
             controls
             src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments[0]}`}
           />
+        )}
+
+        {item.content_type == 'images' && (
+          <ImageListPreview urls={attachments} />
         )}
 
         <Typography variant='body1' sx={{ color: '#424242', fontSize: '0.7rem', fontWeight: 400, margin: '5px' }}>
