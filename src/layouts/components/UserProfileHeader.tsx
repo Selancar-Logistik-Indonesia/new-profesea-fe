@@ -38,11 +38,14 @@ const UserProfileHeader = (props: userProps) => {
     const { datauser } = props;
 
     useEffect(() => {
+        let userId = user?.id;
         if (user?.username != datauser.username) {
             setShowFriendship(true);
+            userId = datauser.id;
         }
 
-        HttpClient.get('/user/sosmed?page=1&take=5').then(response => {
+        const payload = { page: 1, take: 5, user_id: userId };
+        HttpClient.get('/user/sosmed', payload).then(response => {
             const code = response.data.sosmeds.data
             for (const element of code) {
                 if (element.sosmed_type == 'Facebook') {
