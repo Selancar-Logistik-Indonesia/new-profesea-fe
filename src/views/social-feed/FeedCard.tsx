@@ -66,7 +66,7 @@ const FeedCard = (props: { item: ISocialFeed }) => {
         >
           Share
         </Button>
-        <ButtonLike item={item} />
+        <ButtonLike item={{ id: item.id, count_likes: item.count_likes, liked_at: item.liked_at }} likeableType="feed" />
         <ButtonComment replyCount={item.count_comments} onClick={() => setOpenComment(!openComment)} />
       </Box>
 

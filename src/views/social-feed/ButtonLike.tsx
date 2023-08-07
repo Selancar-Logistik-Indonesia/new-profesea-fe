@@ -1,27 +1,44 @@
 import { Icon } from "@iconify/react";
 import { Button, Typography } from "@mui/material";
+import moment from "moment";
 import { useState } from "react";
-import ISocialFeed from "src/contract/models/social_feed";
 import { useSocialFeed } from "src/hooks/useSocialFeed";
 
-const ButtonLike = (props: { item: ISocialFeed }) => {
-    const { item } = props;
+type ButtonLikeParam = {
+    id: number,
+    liked_at?: string,
+    count_likes: number,
+}
+
+const ButtonLike = (props: { item: ButtonLikeParam, likeableType: string, variant?: 'no-icon' }) => {
+    const { item, likeableType } = props;
     const { likeUnlikeFeed } = useSocialFeed();
     const [onLoading, setOnLoading] = useState(false);
+    const [likedAt, setLikedAt] = useState(item.liked_at);
+    const [countLikes, setCountLikes] = useState(item.count_likes);
 
     const handleClick = () => {
         setOnLoading(true);
-        likeUnlikeFeed(item.id)
+        likeUnlikeFeed(item.id, likeableType)
+            .then(() => {
+                setCountLikes(!likedAt ? (countLikes + 1) : (countLikes - 1));
+                setLikedAt(!likedAt ? moment().toISOString() : undefined);
+            })
             .finally(() => setOnLoading(false));
     }
 
     return (
-        <Button disabled={onLoading} sx={{ fontSize: '0.7rem', fontWeight: item.liked_at ? 'bold' : 'normal', textTransform: 'none' }}
+        <Button disabled={onLoading} sx={{
+            fontSize: props.variant == 'no-icon' ? 11 : '0.7rem',
+            fontWeight: likedAt ? 'bold' : 'normal',
+            textTransform: 'none',
+        }}
             onClick={handleClick} size='small' color='primary'
-            startIcon={<Icon icon={item.liked_at ? 'mdi:like' : 'mdi:like-outline'} />}
+            startIcon={props.variant == 'no-icon' ? undefined : <Icon icon={likedAt ? 'mdi:like' : 'mdi:like-outline'} />}
+            variant={props.variant == 'no-icon' ? "text" : undefined}
         >
-            {item.count_likes > 0 && (
-                <Typography sx={{ fontSize: '0.7rem', fontWeight: item.liked_at ? 'bold' : 'normal', }} ml={-1.4} mr={1.4}>{item.count_likes}</Typography>
+            {countLikes > 0 && (
+                <Typography sx={{ fontSize: '0.7rem', fontWeight: likedAt ? 'bold' : 'normal', }} ml={-1.4} mr={1.4}>{countLikes}</Typography>
             )}
             Like
         </Button>

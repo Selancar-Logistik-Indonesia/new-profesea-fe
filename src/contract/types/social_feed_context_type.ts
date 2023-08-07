@@ -14,7 +14,7 @@ type SocialFeedContextType = {
     subCommentSignature: string,
     fetchFeeds: (payload: FetchFeedPayload) => Promise<void>,
     updateStatus: (payload: UpdateStatusPayload) => Promise<void>,
-    likeUnlikeFeed: (feedId: number) => Promise<void>,
+    likeUnlikeFeed: (likeableId: number, likeableType: string) => Promise<void>,
     postComment: (feedId: number, replyable_type: 'feed' | 'comment', content: string) => Promise<void>,
     getComments: (feedId: number, page: number, take: number, replyable_type: 'feed' | 'comment') => Promise<CommentResponseType>,
 }

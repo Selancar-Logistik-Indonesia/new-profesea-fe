@@ -8,6 +8,7 @@ import { useSocialFeed } from "src/hooks/useSocialFeed";
 import { getUserAvatar, toTitleCase } from "src/utils/helpers";
 import CommentForm from "./CommentForm";
 import SubCommentAreaView from "./SubCommentAreaView";
+import ButtonLike from "./ButtonLike";
 
 const CommentCard = (props: { comment: ISocialFeedComment }) => {
     const { comment } = props;
@@ -34,9 +35,9 @@ const CommentCard = (props: { comment: ISocialFeedComment }) => {
                 </Typography>
             </Box>
             <Box>
-                <Button sx={{ textTransform: 'none', fontSize: 11 }} variant='text' size="small">Like</Button>
+                <ButtonLike variant="no-icon" item={{ id: comment.id, liked_at: comment.liked_at, count_likes: comment.count_likes }} likeableType="comment" />
                 <Button onClick={() => setOpenReply(!openReply)} sx={{ textTransform: 'none', fontSize: 11 }} variant='text' size="small">
-                    {comment.count_replies > 0 && `(${comment.count_replies})`} Reply
+                    {comment.count_replies > 0 && comment.count_replies} Reply
                 </Button>
             </Box>
 

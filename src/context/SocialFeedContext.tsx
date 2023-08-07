@@ -99,8 +99,8 @@ const SocialFeedProvider = (props: Props) => {
         setOnLoading(false);
     }
 
-    const likeUnlikeFeed = async (feedId: number) => {
-        const response = await HttpClient.get(`/social-feed/like/${feedId}`);
+    const likeUnlikeFeed = async (feedId: number, likeableType: string) => {
+        const response = await HttpClient.get(`/social-feed/like/${feedId}?likeable_type=${likeableType}`);
         if (response.status != 200) {
             return;
         }
