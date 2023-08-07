@@ -18,7 +18,7 @@ const FeedCard = (props: { item: ISocialFeed }) => {
 
   return (
     <Paper sx={{ marginTop: '10px', padding: { xs: 3, md: 5 } }}>
-      <Box sx={{ display: 'flex', '& svg': { color: 'text.secondary' } }}>
+      <Box sx={{ display: 'flex', '& svg': { color: 'text.secondary' }, height: 60 }}>
         <Box>
           <Avatar sx={{ width: 50, height: 50, mr: 3, mb: 3 }} src={getUserAvatar(item.user)} alt='profile-picture' />
         </Box>
@@ -32,9 +32,13 @@ const FeedCard = (props: { item: ISocialFeed }) => {
         </Box>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
+        <Typography variant='body1' sx={{ color: '#424242', fontSize: '0.7rem', fontWeight: 400, my: 2 }}>
+          {item.content}
+        </Typography>
+
         {item.content_type == 'videos' && (
           <CardMedia
-            sx={{ width: '100%', height: 320 }}
+            sx={{ width: '100%', height: 320, my: 2 }}
             component='video'
             controls
             src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments[0]}`}
@@ -44,10 +48,6 @@ const FeedCard = (props: { item: ISocialFeed }) => {
         {item.content_type == 'images' && (
           <ImageListPreview urls={attachments} />
         )}
-
-        <Typography variant='body1' sx={{ color: '#424242', fontSize: '0.7rem', fontWeight: 400, margin: '5px' }}>
-          {item.content}
-        </Typography>
       </Box>
       <Box>
         <Button
