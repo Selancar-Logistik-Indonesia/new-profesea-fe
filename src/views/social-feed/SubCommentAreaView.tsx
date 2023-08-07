@@ -1,4 +1,4 @@
-import { CircularProgress, Avatar, Typography, Button } from "@mui/material";
+import { CircularProgress, Avatar, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState, useEffect } from "react";
 import ISocialFeedComment from "src/contract/models/social_feed_comment";
@@ -6,6 +6,7 @@ import CommentResponseType from "src/contract/types/comment_response_type";
 import { useSocialFeed } from "src/hooks/useSocialFeed";
 import { getUserAvatar, toTitleCase } from "src/utils/helpers";
 import CommentForm from "./CommentForm";
+import ButtonLike from "./ButtonLike";
 
 const SubCommentCard = (props: { comment: ISocialFeedComment }) => {
     const { comment } = props;
@@ -31,7 +32,7 @@ const SubCommentCard = (props: { comment: ISocialFeedComment }) => {
                 </Typography>
             </Box>
             <Box>
-                <Button sx={{ textTransform: 'none', fontSize: 11 }} variant='text' size="small">Like</Button>
+                <ButtonLike variant="no-icon" item={{ id: comment.id, liked_at: comment.liked_at, count_likes: comment.count_likes }} likeableType="comment" />
             </Box>
         </Box>
     );
