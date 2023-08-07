@@ -11,8 +11,7 @@ import { useTheme } from '@mui/material/styles'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { GridPaginationModel } from '@mui/x-data-grid'
- 
+  
 type Dokumen = {
   title: string 
   docType: string
@@ -114,7 +113,7 @@ const FindCandidate = () => {
          
        
      ) 
-     debugger;
+     
     const candidates = response.data.candidates
     if (candidates?.total == null) {
       setTotal(candidates?.total)
@@ -130,7 +129,7 @@ const FindCandidate = () => {
   }, [textCandidate, sVesselType, sJobTitle, sJobCategory, page,  perPage])
    
   const onPageChange = () => {
-    debugger;
+    
   const mPage = page + 1
   setPage(mPage)
   setPerPage(15)
