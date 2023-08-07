@@ -248,10 +248,10 @@ const JobApplied = () => {
     }, [page, search, sVesselType, sJobTitle, sJobCategory, comboShip, comboStatus, hookSignature, perPage]);
     
     return (
-            <>
-                <Grid container spacing={6} className='match-height'>
-                    <Grid item lg={3} md={5} xs={12}>
-                        {/* <Box mb={3}>
+      <>
+        <Grid container spacing={6} className='match-height'>
+          <Grid item lg={3} md={5} xs={12}>
+            {/* <Box mb={3}>
                             <Card>
                             <CardContent>
                                 <TextField
@@ -267,248 +267,259 @@ const JobApplied = () => {
                             </Card>
                         </Box> */}
 
-                        <Box mb={3}>
-                            <Card>
-                            <CardHeader
-                                title={
-                                <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
-                                    Basic Filter
-                                </Typography>
-                                }
-                                action={
-                                <IconButton
-                                    size='small'
-                                    aria-label='collapse'
-                                    sx={{ color: '#424242' }}
-                                    onClick={() => setCollapsed(!collapsed)}
-                                >
-                                    <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                                </IconButton>
-                                }
-                            />
-                            <Collapse in={collapsed}>
-                                <CardContent>
-                                <Autocomplete
-                                    disablePortal
-                                    id='combo-box-demo'
-                                    options={JobCategory}
-                                    getOptionLabel={(option: JobCategory) => option.name}
-                                    renderInput={params => <TextField {...params} label='Role Level' />}
-                                    onChange={(event: any, newValue: JobCategory | null) =>
-                                    newValue?.id ? setJobCategory(newValue.id) : setJobCategory('')
-                                    }
-                                    sx={{ marginBottom: 2 }}
-                                />
-                                <Autocomplete
-                                    disablePortal
-                                    id='combo-box-demo'
-                                    options={JobTitle}
-                                    getOptionLabel={(option: RoleType) => option.name}
-                                    renderInput={params => <TextField {...params} label='Job Title' />}
-                                    onChange={(event: any, newValue: RoleType | null) =>
-                                    newValue?.id ? setJobTitle(newValue.id) : setJobTitle('')
-                                    }
-                                    sx={{ marginBottom: 2 }}
-                                />
-                                <Autocomplete
-                                    disablePortal
-                                    id='combo-box-demo'
-                                    options={VesselType}
-                                    getOptionLabel={(option: VesselType) => option.name}
-                                    renderInput={params => <TextField {...params} label='Type of Vessel' />}
-                                    onChange={(event: any, newValue: VesselType | null) =>
-                                    newValue?.id ? setVesselType(newValue.id) : setVesselType('')
-                                    }
-                                    sx={{ marginBottom: 2 }}
-                                />
-                                <Autocomplete
-                                    disablePortal
-                                    id='combo-box-demo'
-                                    options={EmployeeType}
-                                    getOptionLabel={(option: any) => option.label}
-                                    renderInput={params => <TextField {...params} label='Category' />}
-                                    onChange={(event: any, newValue: any | null) =>
-                                    newValue?.employee_type ? getShip(newValue?.employee_type) : getShip('')
-                                    }
-                                    sx={{ marginBottom: 2 }}
-                                />
-                                <Autocomplete
-                                    disablePortal
-                                    id='combo-box-demo'
-                                    options={status}
-                                    getOptionLabel={(option: any) => option.title}
-                                    renderInput={params => <TextField {...params} label='Status' />}
-                                    onChange={(event: any, newValue: any | null) =>
-                                    newValue?.id ? getStatus(newValue.id) : getStatus('')
-                                    }
-                                    sx={{ marginBottom: 2 }}
-                                />
-                                </CardContent>
-                            </Collapse>
-                            </Card>
-                        </Box>
-                        <Box mb={3}>
-                            <Card>
-                            <CardHeader
-                                title={
-                                <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
-                                    Advanced Filter
-                                </Typography>
-                                }
-                            />
-                            <CardContent>
-                            {params.get('plan') != 'advance' ? (
-                                <>
-                                    <Button href={'/company/job/applied/?id='+params.get('id')+'&plan=advance'} variant='outlined' color='warning'  sx={{ mr: 2 }} fullWidth>
-                                        Advance Filter
-                                    </Button>
-                                </>  
-                            ) : (
-                                    <>
-                                    <Autocomplete
-                                        disablePortal
-                                        id='code'
-                                        options={dokumen}
-                                        getOptionLabel={(option: any) => option.title}
-                                        // defaultValue={props.datauser?.country}
-                                        renderInput={params => <TextField {...params} label='License' sx={{ mb: 2 }} />}
-                                        // onChange={(event: any, newValue: Dokumen | null) =>
-                                        //   newValue?.id ? searchcity(newValue.id) : searchcity(0)
-                                        // }
-                                        sx={{ marginBottom: 2 }}
-                                    />
-                                    <Typography>Including all these words</Typography>
-                                    <FormControl>
-                                        <div className={'container'}>
-                                        {values.map((item, index) => (
-                                            <Chip
-                                            color='primary'
-                                            size='small'
-                                            onDelete={() => handleDelete(item, index, 1)}
-                                            label={item}
-                                            key={item}
-                                            />
-                                        ))}
-                                        <Input
-                                            value={currValue}
-                                            onChange={e => handleChange(e, '1')}
-                                            onKeyDown={e => handleKeyDown(e, '1')}
-                                            onKeyUp={handleKeyUp}
-                                            id='1'
-                                            name='1'
-                                        />
-                                        </div>
-                                    </FormControl>
-
-                                    <Typography>include one word</Typography>
-                                    <FormControl>
-                                        <div className={'container'}>
-                                        {valuesoneword.map((item, index) => (
-                                            <Chip
-                                            color='primary'
-                                            size='small'
-                                            onDelete={() => handleDelete(item, index, 2)}
-                                            label={item}
-                                            key={item}
-                                            />
-                                        ))}
-                                        <Input
-                                            value={currValueoneword}
-                                            onChange={e => handleChange(e, '2')}
-                                            onKeyDown={e => handleKeyDown(e, '2')}
-                                            onKeyUp={handleKeyUp}
-                                            id='2'
-                                            name='2'
-                                        />
-                                        </div>
-                                    </FormControl>
-
-                                    <Typography>Excluding all these words</Typography>
-                                    <FormControl>
-                                        <div className={'container'}>
-                                        {valuesexclude.map((item, index) => (
-                                            <Chip
-                                            color='primary'
-                                            size='small'
-                                            onDelete={() => handleDelete(item, index, 3)}
-                                            label={item}
-                                            key={item}
-                                            />
-                                        ))}
-                                        <Input
-                                            value={currValueexclude}
-                                            onChange={e => handleChange(e, '3')}
-                                            onKeyDown={e => handleKeyDown(e, '3')}
-                                            onKeyUp={handleKeyUp}
-                                        />
-                                        </div>
-                                    </FormControl>
-                                    <Typography>Including these words in the title</Typography>
-                                    <FormControl>
-                                        <div className={'container'}>
-                                        {valueslitle.map((item, index) => (
-                                            <Chip
-                                            color='primary'
-                                            size='small'
-                                            onDelete={() => handleDelete(item, index, 4)}
-                                            label={item}
-                                            key={item}
-                                            />
-                                        ))}
-                                        <Input
-                                            value={currValuelitle}
-                                            onChange={e => handleChange(e, '4')}
-                                            onKeyDown={e => handleKeyDown(e, '4')}
-                                            onKeyUp={handleKeyUp}
-                                        />
-                                        </div>
-                                    </FormControl>
-                                    </>
-                                )}
-                            </CardContent>
-                            </Card>
-                        </Box>
-                    </Grid>
-                    <Grid item lg={9} md={7} xs={12}>
-                        <Card>
-                        {params.get('plan') === 'advance' && (
-                            <CardHeader title='List Applicants' />
-                        )}
-                            <CardContent>
-                                <Grid container justifyContent="flex-end">
-                                    <Grid item>
-                                        <TextField
-                                            size='small'
-                                            sx={{ mr: 6, mb: 2 }}
-                                            placeholder='Search'
-                                            onChange={(e) => handleSearch(e.target.value)}
-                                        />
-                                    </Grid>
-                                    <Grid item sx={{ mr: 6, mb: 2 }}>
-                                    </Grid>
-                                </Grid>
-
-                                <AppliedDataGrid
-                                    page={page - 1} // di MUI page pertama = 0
-                                    rowCount={rowCount}
-                                    pageSize={perPage}
-                                    loading={onLoading}
-                                    onPageChange={(model) => onPageChange(model)}
-                                    rows={dataSheet} />
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                </Grid>
-                {selectedItem && (
+            <Box mb={3}>
+              <Card>
+                <CardHeader
+                  title={
+                    <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
+                      Basic Filter
+                    </Typography>
+                  }
+                  action={
+                    <IconButton
+                      size='small'
+                      aria-label='collapse'
+                      sx={{ color: '#424242' }}
+                      onClick={() => setCollapsed(!collapsed)}
+                    >
+                      <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                    </IconButton>
+                  }
+                />
+                <Collapse in={collapsed}>
+                  <CardContent>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={JobCategory}
+                      getOptionLabel={(option: JobCategory) => option.name}
+                      renderInput={params => <TextField {...params} label='Role Level' />}
+                      onChange={(event: any, newValue: JobCategory | null) =>
+                        newValue?.id ? setJobCategory(newValue.id) : setJobCategory('')
+                      }
+                      sx={{ marginBottom: 2 }}
+                    />
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={JobTitle}
+                      getOptionLabel={(option: RoleType) => option.name}
+                      renderInput={params => <TextField {...params} label='Job Title' />}
+                      onChange={(event: any, newValue: RoleType | null) =>
+                        newValue?.id ? setJobTitle(newValue.id) : setJobTitle('')
+                      }
+                      sx={{ marginBottom: 2 }}
+                    />
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={VesselType}
+                      getOptionLabel={(option: VesselType) => option.name}
+                      renderInput={params => <TextField {...params} label='Type of Vessel' />}
+                      onChange={(event: any, newValue: VesselType | null) =>
+                        newValue?.id ? setVesselType(newValue.id) : setVesselType('')
+                      }
+                      sx={{ marginBottom: 2 }}
+                    />
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={EmployeeType}
+                      getOptionLabel={(option: any) => option.label}
+                      renderInput={params => <TextField {...params} label='Category' />}
+                      onChange={(event: any, newValue: any | null) =>
+                        newValue?.employee_type ? getShip(newValue?.employee_type) : getShip('')
+                      }
+                      sx={{ marginBottom: 2 }}
+                    />
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={status}
+                      getOptionLabel={(option: any) => option.title}
+                      renderInput={params => <TextField {...params} label='Status' />}
+                      onChange={(event: any, newValue: any | null) =>
+                        newValue?.id ? getStatus(newValue.id) : getStatus('')
+                      }
+                      sx={{ marginBottom: 2 }}
+                    />
+                  </CardContent>
+                </Collapse>
+              </Card>
+            </Box>
+            <Box mb={3}>
+              <Card>
+                <CardHeader
+                  title={
+                    <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
+                      Advanced Filter
+                    </Typography>
+                  }
+                />
+                <CardContent>
+                  {params.get('plan') != 'advance' ? (
                     <>
-                        <DialogView key={selectedItem.id} selectedItem={selectedItem}
-                            visible={openViewModal}
-                            onCloseClick={() => setOpenViewModal(!openViewModal)}
-                            onStateChange={() => setHookSignature(v4())} />
+                      <Button
+                        href={'/company/job/applied/?id=' + params.get('id') + '&plan=advance'}
+                        variant='contained'
+                        color='warning'
+                        sx={{ mr: 2 }}
+                        fullWidth
+                      >
+                        Advance Filter
+                      </Button>
                     </>
+                  ) : (
+                    <>
+                      <Autocomplete
+                        disablePortal
+                        id='code'
+                        options={dokumen}
+                        getOptionLabel={(option: any) => option.title}
+                        // defaultValue={props.datauser?.country}
+                        renderInput={params => <TextField {...params} label='License' sx={{ mb: 2 }} />}
+                        // onChange={(event: any, newValue: Dokumen | null) =>
+                        //   newValue?.id ? searchcity(newValue.id) : searchcity(0)
+                        // }
+                        sx={{ marginBottom: 2 }}
+                      />
+                      <Typography>Including all these words</Typography>
+                      <FormControl>
+                        <div className={'container'}>
+                          {values.map((item, index) => (
+                            <Chip
+                              color='primary'
+                              size='small'
+                              onDelete={() => handleDelete(item, index, 1)}
+                              label={item}
+                              key={item}
+                            />
+                          ))}
+                          <Input
+                            value={currValue}
+                            onChange={e => handleChange(e, '1')}
+                            onKeyDown={e => handleKeyDown(e, '1')}
+                            onKeyUp={handleKeyUp}
+                            id='1'
+                            name='1'
+                          />
+                        </div>
+                      </FormControl>
+
+                      <Typography>include one word</Typography>
+                      <FormControl>
+                        <div className={'container'}>
+                          {valuesoneword.map((item, index) => (
+                            <Chip
+                              color='primary'
+                              size='small'
+                              onDelete={() => handleDelete(item, index, 2)}
+                              label={item}
+                              key={item}
+                            />
+                          ))}
+                          <Input
+                            value={currValueoneword}
+                            onChange={e => handleChange(e, '2')}
+                            onKeyDown={e => handleKeyDown(e, '2')}
+                            onKeyUp={handleKeyUp}
+                            id='2'
+                            name='2'
+                          />
+                        </div>
+                      </FormControl>
+
+                      <Typography>Excluding all these words</Typography>
+                      <FormControl>
+                        <div className={'container'}>
+                          {valuesexclude.map((item, index) => (
+                            <Chip
+                              color='primary'
+                              size='small'
+                              onDelete={() => handleDelete(item, index, 3)}
+                              label={item}
+                              key={item}
+                            />
+                          ))}
+                          <Input
+                            value={currValueexclude}
+                            onChange={e => handleChange(e, '3')}
+                            onKeyDown={e => handleKeyDown(e, '3')}
+                            onKeyUp={handleKeyUp}
+                          />
+                        </div>
+                      </FormControl>
+                      <Typography>Including these words in the title</Typography>
+                      <FormControl>
+                        <div className={'container'}>
+                          {valueslitle.map((item, index) => (
+                            <Chip
+                              color='primary'
+                              size='small'
+                              onDelete={() => handleDelete(item, index, 4)}
+                              label={item}
+                              key={item}
+                            />
+                          ))}
+                          <Input
+                            value={currValuelitle}
+                            onChange={e => handleChange(e, '4')}
+                            onKeyDown={e => handleKeyDown(e, '4')}
+                            onKeyUp={handleKeyUp}
+                          />
+                        </div>
+                      </FormControl>
+                    </>
+                  )}
+                </CardContent>
+              </Card>
+            </Box>
+          </Grid>
+          <Grid item lg={9} md={7} xs={12}>
+            <Card>
+              <CardContent>
+                {params.get('plan') === 'advance' && (
+                  <Typography variant='h6' color={'#32487A'} fontWeight='600'>
+                    List Applicants
+                  </Typography>
                 )}
-            </>
-        )
+                <Grid container justifyContent='flex-end'>
+                  <Grid item>
+                    <TextField
+                      size='small'
+                      sx={{ mr: 6, mb: 2 }}
+                      placeholder='Search'
+                      onChange={e => handleSearch(e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item sx={{ mr: 6, mb: 2 }}></Grid>
+                </Grid>
+
+                <AppliedDataGrid
+                  page={page - 1} // di MUI page pertama = 0
+                  rowCount={rowCount}
+                  pageSize={perPage}
+                  loading={onLoading}
+                  onPageChange={model => onPageChange(model)}
+                  rows={dataSheet}
+                />
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+        {selectedItem && (
+          <>
+            <DialogView
+              key={selectedItem.id}
+              selectedItem={selectedItem}
+              visible={openViewModal}
+              onCloseClick={() => setOpenViewModal(!openViewModal)}
+              onStateChange={() => setHookSignature(v4())}
+            />
+          </>
+        )}
+      </>
+    )
 }
 
 JobApplied.acl = {
