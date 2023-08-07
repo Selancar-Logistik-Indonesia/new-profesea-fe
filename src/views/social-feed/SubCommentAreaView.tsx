@@ -1,4 +1,4 @@
-import { CircularProgress, Avatar, Typography, Button } from "@mui/material";
+import { CircularProgress, Avatar, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState, useEffect } from "react";
 import ISocialFeedComment from "src/contract/models/social_feed_comment";
