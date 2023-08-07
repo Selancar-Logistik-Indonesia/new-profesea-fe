@@ -224,6 +224,131 @@ const Main = () => {
                 </div>
             </div>
 
+            <section id="timeline">
+                <h1>A Flexbox Timeline</h1>
+                <p className="leader">All cards must be the same height and width for space calculations on large screens.</p>
+                <div className="demo-card-wrapper">
+                    <div className="demo-card demo-card--step1">
+                        <div className="head">
+                            <div className="number-box">
+                                <span>01</span>
+                            </div>
+                            <h2><span className="small">Subtitle</span> Technology</h2>
+                        </div>
+                        <div className="body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.</p>
+                            <img src="http://placehold.it/1000x500" alt="Graphic" />
+                        </div>
+                    </div>
+
+                    <div className="demo-card demo-card--step2">
+                        <div className="head">
+                            <div className="number-box">
+                                <span>02</span>
+                            </div>
+                            <h2><span className="small">Subtitle</span> Confidence</h2>
+                        </div>
+                        <div className="body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.</p>
+                            <img src="http://placehold.it/1000x500" alt="Graphic" />
+                        </div>
+                    </div>
+
+                    <div className="demo-card demo-card--step3">
+                        <div className="head">
+                            <div className="number-box">
+                                <span>03</span>
+                            </div>
+                            <h2><span className="small">Subtitle</span> Adaptation</h2>
+                        </div>
+                        <div className="body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.</p>
+                            <img src="http://placehold.it/1000x500" alt="Graphic" />
+                        </div>
+                    </div>
+
+                    <div className="demo-card demo-card--step4">
+                        <div className="head">
+                            <div className="number-box">
+                                <span>04</span>
+                            </div>
+                            <h2><span className="small">Subtitle</span> Consistency</h2>
+                        </div>
+                        <div className="body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.</p>
+                            <img src="http://placehold.it/1000x500" alt="Graphic" />
+                        </div>
+                    </div>
+
+                    <div className="demo-card demo-card--step5">
+                        <div className="head">
+                            <div className="number-box">
+                                <span>05</span>
+                            </div>
+                            <h2><span className="small">Subtitle</span> Conversion</h2>
+                        </div>
+                        <div className="body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.</p>
+                            <img src="http://placehold.it/1000x500" alt="Graphic" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div className="row">
+                <div className="example-1 card">
+                    <div className="wrapper">
+                        <div className="date">
+                            <span className="day">12</span>
+                            <span className="month">Aug</span>
+                            <span className="year">2016</span>
+                        </div>
+                        <div className="data">
+                            <div className="content">
+                                <span className="author">Jane Doe</span>
+                                <h1 className="title"><a href="#">Boxing icon has the will for a couple more fights</a></h1>
+                                <p className="text">The highly anticipated world championship fight will take place at 10am and is the second major boxing blockbuster in the nation after 43 years.</p>
+                                <label htmlFor="show-menu" className="menu-button"><span></span></label>
+                            </div>
+                            <input type="checkbox" id="show-menu" />
+                            <ul className="menu-content">
+                                <li>
+                                    <a href="#" className="fa fa-bookmark-o"></a>
+                                </li>
+                                <li><a href="#" className="fa fa-heart-o"><span>47</span></a></li>
+                                <li><a href="#" className="fa fa-comment-o"><span>8</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div className="example-2 card">
+                    <div className="wrapper">
+                        <div className="header">
+                            <div className="date">
+                                <span className="day">12</span>
+                                <span className="month">Aug</span>
+                                <span className="year">2016</span>
+                            </div>
+                            <ul className="menu-content">
+                                <li>
+                                    <a href="#" className="fa fa-bookmark-o"></a>
+                                </li>
+                                <li><a href="#" className="fa fa-heart-o"><span>18</span></a></li>
+                                <li><a href="#" className="fa fa-comment-o"><span>3</span></a></li>
+                            </ul>
+                        </div>
+                        <div className="data">
+                            <div className="content">
+                                <span className="author">Jane Doe</span>
+                                <h1 className="title"><a href="#">Stranger Things: The sound of the Upside Down</a></h1>
+                                <p className="text">The antsy bingers of Netflix will eagerly anticipate the digital release of the Survive soundtrack, out today.</p>
+                                <a href="#" className="button">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <FooterView />
         </>
     );
