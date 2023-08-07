@@ -51,10 +51,10 @@ const renderList = (listCandidate: IUser[]) => {
                 <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={14}>
                   {item.name ? item.name : '-'}
                 </Typography>
-                <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
+                <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={13}>
                   {item.field_preference?.role_level?.levelName ? item.field_preference?.role_level?.levelName : '-'}{' '}
                 </Typography>
-                <Typography sx={{ color: 'text.primary' }} fontSize={12} marginTop={-2}>
+                <Typography sx={{ color: 'text.primary' }} fontSize={13} marginTop={-2}>
                   {item.field_preference?.role_type?.name ? item.field_preference?.role_type?.name : '-'}
                 </Typography>
               </Box>
@@ -63,30 +63,30 @@ const renderList = (listCandidate: IUser[]) => {
 
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={2}>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-              <Icon icon='material-symbols:language' color='#32487A' />
+              <Icon icon='material-symbols:language' color='#32487A' fontSize={14} />
 
               {names?.map((name: string) => (
-                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12} key={name}>
+                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={13} key={name}>
                   {name}
                 </Typography>
               ))}
             </Box>
+            
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-              <Icon icon='game-icons:ship-bow' color='#32487A' />
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}  >
+              <Icon icon='game-icons:ship-bow' color='#32487A' fontSize={14} />
+              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={13}>
                 {item.field_preference?.vessel_type?.name ? item.field_preference?.vessel_type?.name : '-'}
               </Typography>
-
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-              <Icon icon='mdi:license' color='#32487A' />
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}>
+              <Icon icon='mdi:license' color='#32487A' fontSize={14} />
+              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={13}>
                 License
               </Typography>
             </Box>
             {/* <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
               <Icon icon='mdi:currency-usd' color='#32487A' />
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}>
+              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={13}>
                 from Rp. {item.field_preference?.role_type?.name ? item.field_preference?.salary_start : '0'} To Rp.
                 {item.field_preference?.role_type?.name ? item.field_preference?.salary_end : '0'}
               </Typography>

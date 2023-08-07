@@ -15,8 +15,7 @@ import AllJobApplied from './applied'
 import Degree from 'src/contract/models/degree'
 import JobCategory from 'src/contract/models/job_category'
 import RoleLevel from 'src/contract/models/role_level'
-import RoleType from 'src/contract/models/role_type'
-import VesselType from 'src/contract/models/vessel_type'
+import RoleType from 'src/contract/models/role_type' 
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
@@ -60,8 +59,7 @@ const SeafererJob = () => {
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const [collapsed, setCollapsed] = useState<boolean>(true)
-  // const [collapsed2, setCollapsed2] = useState<boolean>(false)
-  const [vessel, getVessel] = useState<any[]>([]);
+  // const [collapsed2, setCollapsed2] = useState<boolean>(false) 
   const [JobCategory, getJobCategory] = useState<any[]>([]);
   const [Education, getEducation] = useState<any[]>([]);
   const [RoleLevel, getRoleLevel] = useState<any[]>([]);  
@@ -77,12 +75,7 @@ const SeafererJob = () => {
   const [textCompany, SetTextCompany] = useState<any>('') 
 
   const firstload = () => {
-    HttpClient.get(`/public/data/vessel-type?page=1&take=250&search`).then(response => {
-      if (response.status != 200) {
-          throw response.data.message ?? "Something went wrong!";
-      }
-      getVessel(response.data.vesselTypes.data);
-    })
+   
     HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
         if (response.status != 200) {
             throw response.data.message ?? "Something went wrong!";
@@ -218,16 +211,7 @@ const SeafererJob = () => {
                     customInput={<TextField label='Date On Board' variant="outlined" fullWidth sx={{ marginBottom:2 }}/>}
                     />
                 </DatePickerWrapper>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  options={vessel}
-                  getOptionLabel={(option: VesselType) => option.name}
-                  renderInput={params => <TextField {...params} label='Type of Vessel' />}
-                  onChange={(event: any, newValue: VesselType | null) =>
-                    newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
-                  }
-                />
+              
               </CardContent>
             </Collapse>
           </Card>

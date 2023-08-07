@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 import Link from 'next/link';
 
@@ -21,18 +21,30 @@ const columns: GridColDef[] = [
             const { row } = cell;
 
             return (
-                <>
-                    <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
-                        <Icon icon='mdi:pencil' />
-                    </IconButton>
-                    <IconButton LinkComponent={Link} href={`/company/job/?id=${row.id}`} aria-label='view' color='secondary' size='small'>
-                        <Icon icon='mdi:eye' />
-                    </IconButton>
-                    <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
-                        <Icon icon='mdi:trash' />
-                    </IconButton>
-                </>
-            );
+              <>
+                <Tooltip title='Edit'>
+                  <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
+                    <Icon icon='mdi:pencil' />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='View'>
+                  <IconButton
+                    LinkComponent={Link}
+                    href={`/company/job/?id=${row.id}`}
+                    aria-label='view'
+                    color='secondary'
+                    size='small'
+                  >
+                    <Icon icon='mdi:eye' />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='Delete'>
+                  <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
+                    <Icon icon='mdi:trash' />
+                  </IconButton>
+                </Tooltip>
+              </>
+            )
         }
     },
 ];

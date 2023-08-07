@@ -43,7 +43,8 @@ import CardContent from '@mui/material/CardContent'
 import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
-import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
+import DialogEditDocument from 'src/pages/candidate/DialogEditDocument' 
+import { refreshsession } from 'src/utils/helpers'
 
 type FormData = {
   fullName: string
@@ -348,6 +349,7 @@ const CandidateProfile = (props: compProps) => {
           HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
             console.log('here 1', data)
             toast.success(' Successfully submited!')
+            refreshsession();
           })
         }
 
