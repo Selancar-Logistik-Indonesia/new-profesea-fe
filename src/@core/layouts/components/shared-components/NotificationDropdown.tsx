@@ -28,11 +28,11 @@ import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Util Import
-import { getInitials } from 'src/@core/utils/get-initials'
 import { HttpClient } from 'src/services'
 import INotification from 'src/contract/models/notification'
 import moment, { now } from 'moment'
 import NotificationType from 'src/utils/notification_type'
+import { getInitials } from 'src/@core/utils/get-initials'
 
 export type NotificationsType = {
     meta: string
@@ -136,7 +136,7 @@ const RenderAvatar = ({ notification }: { notification: NotificationsType }) => 
     } else {
         return (
             <Avatar skin='light' color={avatarColor}>
-                {/* {getInitials(avatarText as string)} */}
+                {getInitials(avatarText as string)}
             </Avatar>
         )
     }
