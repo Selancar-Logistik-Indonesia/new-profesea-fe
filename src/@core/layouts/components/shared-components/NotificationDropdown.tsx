@@ -28,11 +28,11 @@ import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Util Import
-import { getInitials } from 'src/@core/utils/get-initials'
 import { HttpClient } from 'src/services'
 import INotification from 'src/contract/models/notification'
 import moment, { now } from 'moment'
 import NotificationType from 'src/utils/notification_type'
+import { getInitials } from 'src/@core/utils/get-initials'
 
 export type NotificationsType = {
     meta: string
@@ -191,6 +191,16 @@ const NotificationDropdown = (props: Props) => {
                     title: 'Connect Request',
                     avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
                     subtitle: `${e.data.friend.name} request to connect with You.`,
+                };
+            }
+
+            if (e.type == NotificationType.newApplicant) {
+                return {
+                    meta: hDiff,
+                    avatarAlt: e.data.candidate.name,
+                    title: 'New applicant',
+                    avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
+                    subtitle: `${e.data.candidate.name} applied to your job post "${e.data.job.role_type.name}".`,
                 };
             }
 
