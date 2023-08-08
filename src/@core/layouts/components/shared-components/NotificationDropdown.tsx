@@ -136,7 +136,7 @@ const RenderAvatar = ({ notification }: { notification: NotificationsType }) => 
     } else {
         return (
             <Avatar skin='light' color={avatarColor}>
-                {getInitials(avatarText as string)}
+                {/* {getInitials(avatarText as string)} */}
             </Avatar>
         )
     }
@@ -191,6 +191,16 @@ const NotificationDropdown = (props: Props) => {
                     title: 'Connect Request',
                     avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
                     subtitle: `${e.data.friend.name} request to connect with You.`,
+                };
+            }
+
+            if (e.type == NotificationType.newApplicant) {
+                return {
+                    meta: hDiff,
+                    avatarAlt: e.data.candidate.name,
+                    title: 'New applicant',
+                    avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
+                    subtitle: `${e.data.candidate.name} applied to your job post "${e.data.job.role_type.name}".`,
                 };
             }
 
