@@ -11,7 +11,6 @@ import { useTheme } from '@mui/material/styles'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { GridPaginationModel } from '@mui/x-data-grid'
  
 type Dokumen = {
   title: string 
