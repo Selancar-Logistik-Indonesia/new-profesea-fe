@@ -1,7 +1,4 @@
-// ** React Imports
 import { useState, SyntheticEvent, Fragment, ReactNode, useEffect } from 'react'
-
-// ** MUI Imports
 import Box from '@mui/material/Box'
 import Badge from '@mui/material/Badge'
 import Button from '@mui/material/Button'
@@ -10,34 +7,25 @@ import { styled, Theme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import MuiMenu, { MenuProps } from '@mui/material/Menu'
 import MuiMenuItem, { MenuItemProps } from '@mui/material/MenuItem'
-import Typography, { TypographyProps } from '@mui/material/Typography'
-
-// ** Icon Imports
+import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
-
-// ** Third Party Components
 import PerfectScrollbarComponent from 'react-perfect-scrollbar'
-
-// ** Type Imports
 import { ThemeColor } from 'src/@core/layouts/types'
 import { Settings } from 'src/@core/context/settingsContext'
-import { CustomAvatarProps } from 'src/@core/components/mui/avatar/types'
-
-// ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
-import CustomAvatar from 'src/@core/components/mui/avatar'
-
-// ** Util Import
 import { HttpClient } from 'src/services'
 import INotification from 'src/contract/models/notification'
 import moment, { now } from 'moment'
 import NotificationType from 'src/utils/notification_type'
-import { getInitials } from 'src/@core/utils/get-initials'
+import NotificationItem from './NotificationItem'
 
 export type NotificationsType = {
+    id: string
     meta: string
     title: string
     subtitle: string
+    type: string
+    payload?: any
 } & (
         | { avatarAlt: string; avatarImg: string; avatarText?: never; avatarColor?: never; avatarIcon?: never }
         | {
@@ -59,7 +47,6 @@ interface Props {
     settings: Settings
 }
 
-// ** Styled Menu component
 const Menu = styled(MuiMenu)<MenuProps>(({ theme }) => ({
     '& .MuiMenu-paper': {
         width: 380,
@@ -74,7 +61,6 @@ const Menu = styled(MuiMenu)<MenuProps>(({ theme }) => ({
     }
 }))
 
-// ** Styled MenuItem component
 const MenuItem = styled(MuiMenuItem)<MenuItemProps>(({ theme }) => ({
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
@@ -83,34 +69,8 @@ const MenuItem = styled(MuiMenuItem)<MenuItemProps>(({ theme }) => ({
     }
 }))
 
-// ** Styled PerfectScrollbar component
 const PerfectScrollbar = styled(PerfectScrollbarComponent)({
     maxHeight: 344
-})
-
-// ** Styled Avatar component
-const Avatar = styled(CustomAvatar)<CustomAvatarProps>({
-    width: 38,
-    height: 38,
-    fontSize: '1.125rem'
-})
-
-// ** Styled component for the title in MenuItems
-const MenuItemTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
-    fontWeight: 600,
-    flex: '1 1 100%',
-    overflow: 'hidden',
-    fontSize: '0.875rem',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    marginBottom: theme.spacing(0.75)
-}))
-
-// ** Styled component for the subtitle in MenuItems
-const MenuItemSubtitle = styled(Typography)<TypographyProps>({
-    flex: '1 1 100%',
-    whiteSpace: 'break-spaces',
-    fontSize: '11px'
 })
 
 const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: boolean }) => {
@@ -121,24 +81,80 @@ const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: bool
     }
 }
 
-const RenderAvatar = ({ notification }: { notification: NotificationsType }) => {
-    const { avatarAlt, avatarImg, avatarIcon, avatarText, avatarColor } = notification
+const buildNotifies = (e: INotification) => {
+    const diff = moment(e.created_at).diff(now());
+    const hDiff = moment.duration(diff).humanize();
 
-    if (avatarImg) {
-        return <Avatar alt={avatarAlt} src={avatarImg} />
-    } else if (avatarIcon) {
-        return (
-            <Avatar skin='light' color={avatarColor}>
-                {avatarIcon}
-            </Avatar>
-        )
-    } else {
-        return (
-            <Avatar skin='light' color={avatarColor}>
-                {getInitials(avatarText as string)}
-            </Avatar>
-        )
+    if (e.type == NotificationType.feedLike) {
+        return {
+            id: e.id,
+            meta: hDiff,
+            avatarAlt: e.data.liker.name,
+            title: 'New like on your feed',
+            avatarIcon: <Icon icon='ic:baseline-thumb-up-off-alt' />,
+            subtitle: `${e.data.liker.name} like your feed`,
+            type: e.type,
+        };
     }
+
+    if (e.type == NotificationType.connectRequest) {
+        return {
+            id: e.id,
+            meta: hDiff,
+            avatarAlt: e.data.friend.name,
+            title: 'Connect Request',
+            avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
+            subtitle: `${e.data.friend.name} request to connect with You.`,
+            type: e.type,
+            payload: e.data.friend,
+        };
+    }
+
+    if (e.type == NotificationType.newApplicant) {
+        return {
+            id: e.id,
+            meta: hDiff,
+            avatarAlt: e.data.candidate.name,
+            title: 'New applicant',
+            avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
+            subtitle: `${e.data.candidate.name} applied to your job post "${e.data.job.role_type.name}".`,
+            type: e.type,
+        };
+    }
+
+    if (e.type == NotificationType.connectRequestApproved) {
+        return {
+            id: e.id,
+            meta: hDiff,
+            avatarAlt: e.data.friend.name,
+            title: 'Connect request approved',
+            avatarIcon: <Icon icon='ic:round-check-circle-outline' />,
+            subtitle: `${e.data.friend.name} approved your connect request.`,
+            type: e.type,
+        };
+    }
+
+    if (e.type == NotificationType.connectRequestRejected) {
+        return {
+            id: e.id,
+            meta: hDiff,
+            avatarAlt: e.data.friend.name,
+            title: 'Connect request rejected',
+            avatarIcon: <Icon icon='ic:baseline-remove-circle-outline' />,
+            subtitle: `${e.data.friend.name} rejected your connect request.`,
+            type: e.type,
+        };
+    }
+
+    return {
+        id: "0",
+        meta: hDiff,
+        avatarAlt: 'undefined',
+        title: 'undefined',
+        avatarImg: '',
+        subtitle: 'undefined',
+        type: '',
+    };
 }
 
 const NotificationDropdown = (props: Props) => {
@@ -159,7 +175,7 @@ const NotificationDropdown = (props: Props) => {
     const getNotifications = async () => {
         const response = await HttpClient.get("/user/notification", {
             page: 1,
-            take: 35
+            take: 35,
         });
 
         if (response.status != 200) {
@@ -169,69 +185,7 @@ const NotificationDropdown = (props: Props) => {
         }
 
         const { notifications } = response.data as { notifications: { data: INotification[] } };
-        const notifies = notifications.data.map((e) => {
-            const diff = moment(e.created_at).diff(now());
-            const hDiff = moment.duration(diff).humanize();
-
-            if (e.type == NotificationType.feedLike) {
-                return {
-                    meta: hDiff,
-                    avatarAlt: e.data.liker.name,
-                    title: 'New like on your feed',
-                    avatarIcon: <Icon icon='ic:baseline-thumb-up-off-alt' />,
-                    subtitle: `${e.data.liker.name} like your feed`,
-                };
-            }
-
-            if (e.type == NotificationType.connectRequest) {
-                return {
-                    meta: hDiff,
-                    avatarAlt: e.data.friend.name,
-                    title: 'Connect Request',
-                    avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
-                    subtitle: `${e.data.friend.name} request to connect with You.`,
-                };
-            }
-
-            if (e.type == NotificationType.newApplicant) {
-                return {
-                    meta: hDiff,
-                    avatarAlt: e.data.candidate.name,
-                    title: 'New applicant',
-                    avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
-                    subtitle: `${e.data.candidate.name} applied to your job post "${e.data.job.role_type.name}".`,
-                };
-            }
-
-            if (e.type == NotificationType.connectRequestApproved) {
-                return {
-                    meta: hDiff,
-                    avatarAlt: e.data.friend.name,
-                    title: 'Connect request approved',
-                    avatarIcon: <Icon icon='ic:round-check-circle-outline' />,
-                    subtitle: `${e.data.friend.name} approved your connect request.`,
-                };
-            }
-
-            if (e.type == NotificationType.connectRequestRejected) {
-                return {
-                    meta: hDiff,
-                    avatarAlt: e.data.friend.name,
-                    title: 'Connect request rejected',
-                    avatarIcon: <Icon icon='ic:baseline-remove-circle-outline' />,
-                    subtitle: `${e.data.friend.name} rejected your connect request.`,
-                };
-            }
-
-            return {
-                meta: hDiff,
-                avatarAlt: 'undefined',
-                title: 'undefined',
-                avatarImg: '',
-                subtitle: 'undefined'
-            };
-        });
-
+        const notifies = notifications.data.map(buildNotifies);
         setNotifies(notifies);
     }
 
@@ -277,19 +231,8 @@ const NotificationDropdown = (props: Props) => {
                     </Box>
                 </MenuItem>
                 <ScrollWrapper hidden={hidden}>
-                    {notifies.map((notification: NotificationsType, index: number) => (
-                        <MenuItem key={index} onClick={handleDropdownClose}>
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <RenderAvatar notification={notification} />
-                                <Box sx={{ mx: 4 }}>
-                                    <MenuItemTitle>{notification.title}</MenuItemTitle>
-                                    <MenuItemSubtitle variant='body2'>{notification.subtitle}</MenuItemSubtitle>
-                                </Box>
-                                <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-                                    {notification.meta}
-                                </Typography>
-                            </Box>
-                        </MenuItem>
+                    {notifies.map((notification: NotificationsType) => (
+                        <NotificationItem key={notification.id} item={notification} />
                     ))}
                 </ScrollWrapper>
                 <MenuItem

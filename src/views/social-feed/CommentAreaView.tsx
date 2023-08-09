@@ -9,6 +9,7 @@ import { getUserAvatar, toTitleCase } from "src/utils/helpers";
 import CommentForm from "./CommentForm";
 import SubCommentAreaView from "./SubCommentAreaView";
 import ButtonLike from "./ButtonLike";
+import Link from "next/link";
 
 const CommentCard = (props: { comment: ISocialFeedComment }) => {
     const { comment } = props;
@@ -21,12 +22,14 @@ const CommentCard = (props: { comment: ISocialFeedComment }) => {
                     <Avatar sx={{ width: 35, height: 35, mr: 3, mb: 3 }} src={getUserAvatar(comment.user)} alt='profile-picture' />
                 </Box>
                 <Box sx={{ mb: [6, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
-                    <Typography variant='body2' sx={{ color: "#424242", fontWeight: 500 }}>
-                        {toTitleCase(comment.user.name)}
-                    </Typography>
-                    <Typography sx={{ color: "#424242", fontWeight: 400 }}>
-                        {comment.h_created_at}
-                    </Typography>
+                    <Link style={{ textDecoration: 'none' }} href={`/profile/${comment.user.username}`}>
+                        <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600 }}>
+                            {toTitleCase(comment.user.name)}
+                        </Typography>
+                        <Typography sx={{ color: "#424242", fontWeight: 400 }}>
+                            {comment.h_created_at}
+                        </Typography>
+                    </Link>
                 </Box>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
