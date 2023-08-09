@@ -109,9 +109,8 @@ const MenuItemTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
 // ** Styled component for the subtitle in MenuItems
 const MenuItemSubtitle = styled(Typography)<TypographyProps>({
     flex: '1 1 100%',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis'
+    whiteSpace: 'break-spaces',
+    fontSize: '11px'
 })
 
 const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: boolean }) => {
@@ -204,6 +203,26 @@ const NotificationDropdown = (props: Props) => {
                 };
             }
 
+            if (e.type == NotificationType.connectRequestApproved) {
+                return {
+                    meta: hDiff,
+                    avatarAlt: e.data.friend.name,
+                    title: 'Connect request approved',
+                    avatarIcon: <Icon icon='ic:round-check-circle-outline' />,
+                    subtitle: `${e.data.friend.name} approved your connect request.`,
+                };
+            }
+
+            if (e.type == NotificationType.connectRequestRejected) {
+                return {
+                    meta: hDiff,
+                    avatarAlt: e.data.friend.name,
+                    title: 'Connect request rejected',
+                    avatarIcon: <Icon icon='ic:baseline-remove-circle-outline' />,
+                    subtitle: `${e.data.friend.name} rejected your connect request.`,
+                };
+            }
+
             return {
                 meta: hDiff,
                 avatarAlt: 'undefined',
@@ -260,9 +279,9 @@ const NotificationDropdown = (props: Props) => {
                 <ScrollWrapper hidden={hidden}>
                     {notifies.map((notification: NotificationsType, index: number) => (
                         <MenuItem key={index} onClick={handleDropdownClose}>
-                            <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                 <RenderAvatar notification={notification} />
-                                <Box sx={{ mx: 4, flex: '1 1', display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
+                                <Box sx={{ mx: 4 }}>
                                     <MenuItemTitle>{notification.title}</MenuItemTitle>
                                     <MenuItemSubtitle variant='body2'>{notification.subtitle}</MenuItemSubtitle>
                                 </Box>
