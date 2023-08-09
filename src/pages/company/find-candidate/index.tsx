@@ -1,26 +1,46 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Autocomplete, Button, Card, CardContent, CardHeader, Chip, Collapse, FormControl, Grid, IconButton,  Input,   TextField,  Typography, useMediaQuery } from '@mui/material'
+import { Autocomplete, Button, Card, CardContent, CardHeader, Chip, SelectChangeEvent,  Collapse, FormControl, Grid, IconButton,  Input,   InputLabel,   MenuItem,   OutlinedInput,   Select,   TextField,  Typography, useMediaQuery } from '@mui/material'
 import { Icon } from '@iconify/react' 
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
 import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'  
 import JobCategory from 'src/contract/models/job_category'  
 import { AppConfig } from 'src/configs/api' 
-import { useTheme } from '@mui/material/styles'
+import { Theme, useTheme } from '@mui/material/styles'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
-import InfiniteScroll from 'react-infinite-scroll-component'
-  
+import InfiniteScroll from 'react-infinite-scroll-component' 
 type Dokumen = {
   title: string 
   docType: string
 }
+
+
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250
+    }
+  }
+}
+
+const names = ['Indonesian', 'English', 'Mandarin', 'Arab', 'Melayu']
+
+function getStyles(name: string, personName: readonly string[], theme: Theme) {
+  return {
+    fontWeight:
+      personName?.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
+  }
+}
 const FindCandidate = () => {
   const [listCandidate, setListCandidate] = useState<IUser[]>([]) 
   const theme = useTheme()
-    const windowUrl = window.location.search
-   const params = new URLSearchParams(windowUrl)
+  const windowUrl = window.location.search
+  const params = new URLSearchParams(windowUrl)
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const [collapsed, setCollapsed] = useState<boolean>(true)
   const [collapsed2, setCollapsed2] = useState<boolean>(params.get('plan') === 'advance' ? false : true)
@@ -32,11 +52,22 @@ const FindCandidate = () => {
   const [sJobCategory, setJobCategory] = useState<any>('')
   const [sJobTitle, setJobTitle] = useState<any>('')
   const [sVesselType, setVesselType] = useState<any>('')  
-   const [hasNextPage, setHasNextPage] = useState(true)
-   const [total, setTotal] = useState(0)
-   const [perPage, setPerPage] = useState(3)
-      const [page, setPage] = useState(1)
+  const [hasNextPage, setHasNextPage] = useState(true)
+  const [total, setTotal] = useState(0)
+  const [perPage, setPerPage] = useState(12)
+  const [page, setPage] = useState(1)
+ const [personName, setPersonName] = React.useState<string[]>( [])
+ 
 
+  const handleChange2 = (event: SelectChangeEvent<typeof personName>) => {
+    const {
+      target: { value }
+    } = event
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    )
+  }
   const getListCandidates = async () => {
     // const response = await HttpClient.get('/candidate?page=1&take=25&search', {
     //   page: 1,
@@ -291,6 +322,39 @@ const FindCandidate = () => {
                     // }
                     sx={{ marginBottom: 2 }}
                   />
+                  <FormControl>
+                    <InputLabel id='demo-multiple-chip-label'>Spoken</InputLabel>
+                    <Select
+                      labelId='demo-multiple-chip-label'
+                      id='demo-multiple-chip'
+                      multiple
+                      value={personName}
+                      onChange={handleChange2}
+                      label='Spoken'
+                      sx={{ fontSize: '18px', height: 50.2 }}
+                      input={
+                        <OutlinedInput
+                          id='select-multiple-chip'
+                          label='Chip' 
+                          sx={{ fontSize: '8px' }}
+                        />
+                      }
+                      renderValue={selected => (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                          {selected.map(value => (
+                            <Chip key={value} label={value} />
+                          ))}
+                        </Box>
+                      )}
+                      MenuProps={MenuProps}
+                    >
+                      {names.map(name => (
+                        <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </CardContent>
               </Collapse>
             </Card>
@@ -467,14 +531,18 @@ const FindCandidate = () => {
                               <Typography fontSize={16} style={{ color: '#424242' }} marginTop={2} marginBottom={5}>
                                 Based on your profile and search history
                               </Typography>
-                                <InfiniteScroll
+                              <InfiniteScroll
                                 dataLength={total}
                                 next={onPageChange}
                                 hasMore={hasNextPage}
-                                loader={(<Typography mt={5} color={'text.secondary'}>Loading..</Typography>)}>
-                                 <RecomendedView listCandidate={listCandidate} />
-                            </InfiniteScroll>
-                              
+                                loader={
+                                  <Typography mt={5} color={'text.secondary'}>
+                                    Loading..
+                                  </Typography>
+                                }
+                              >
+                                <RecomendedView listCandidate={listCandidate} />
+                              </InfiniteScroll>
                             </Grid>
                           </Grid>
                         </Grid>

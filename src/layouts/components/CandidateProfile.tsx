@@ -824,40 +824,40 @@ const CandidateProfile = (props: compProps) => {
                     </DatePickerWrapper>
                   </Grid>
                   <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
-                    <Typography variant='body2' sx={{ fontSize: '18px' }} marginRight={2}>
-                      Spoken
-                    </Typography>
-                    <Select
-                      labelId='demo-multiple-chip-label'
-                      id='demo-multiple-chip'
-                      multiple
-                      value={personName}
-                      onChange={handleChange}
-                      label='Spoken'
-                      sx={{ fontSize: '18px' }}
-                      input={
-                        <OutlinedInput
-                          id='select-multiple-chip'
-                          label='Chip'
-                          defaultValue={props.datauser?.field_preference?.spoken_langs}
-                          sx={{ fontSize: '8px' }}
-                        />
-                      }
-                      renderValue={selected => (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
-                          {selected.map(value => (
-                            <Chip key={value} label={value} />
-                          ))}
-                        </Box>
-                      )}
-                      MenuProps={MenuProps}
-                    >
-                      {names.map(name => (
-                        <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-                          {name}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                   <FormControl>
+                      <InputLabel id="demo-multiple-chip-label">Spoken</InputLabel>
+                      <Select
+                        labelId='demo-multiple-chip-label'
+                        id='demo-multiple-chip'
+                        multiple
+                        value={personName}
+                        onChange={handleChange}
+                        label='Spoken'
+                        sx={{ fontSize: '18px', height: 50.2 }}
+                        input={
+                          <OutlinedInput
+                            id='select-multiple-chip'
+                            label='Chip'
+                            defaultValue={props.datauser?.field_preference?.spoken_langs}
+                            sx={{ fontSize: '8px' }}
+                          />
+                        }
+                        renderValue={selected => (
+                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                            {selected.map(value => (
+                              <Chip key={value} label={value} />
+                            ))}
+                          </Box>
+                        )}
+                        MenuProps={MenuProps}
+                      >
+                        {names.map(name => (
+                          <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                            {name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                   </Grid>
                 </Grid>
               )}
