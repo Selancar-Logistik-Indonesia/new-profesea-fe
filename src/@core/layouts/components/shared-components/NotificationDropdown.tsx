@@ -28,11 +28,11 @@ import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Util Import
-import { getInitials } from 'src/@core/utils/get-initials'
 import { HttpClient } from 'src/services'
 import INotification from 'src/contract/models/notification'
 import moment, { now } from 'moment'
 import NotificationType from 'src/utils/notification_type'
+import { getInitials } from 'src/@core/utils/get-initials'
 
 export type NotificationsType = {
     meta: string
@@ -109,9 +109,8 @@ const MenuItemTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
 // ** Styled component for the subtitle in MenuItems
 const MenuItemSubtitle = styled(Typography)<TypographyProps>({
     flex: '1 1 100%',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis'
+    whiteSpace: 'break-spaces',
+    fontSize: '11px'
 })
 
 const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: boolean }) => {
@@ -194,6 +193,36 @@ const NotificationDropdown = (props: Props) => {
                 };
             }
 
+            if (e.type == NotificationType.newApplicant) {
+                return {
+                    meta: hDiff,
+                    avatarAlt: e.data.candidate.name,
+                    title: 'New applicant',
+                    avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
+                    subtitle: `${e.data.candidate.name} applied to your job post "${e.data.job.role_type.name}".`,
+                };
+            }
+
+            if (e.type == NotificationType.connectRequestApproved) {
+                return {
+                    meta: hDiff,
+                    avatarAlt: e.data.friend.name,
+                    title: 'Connect request approved',
+                    avatarIcon: <Icon icon='ic:round-check-circle-outline' />,
+                    subtitle: `${e.data.friend.name} approved your connect request.`,
+                };
+            }
+
+            if (e.type == NotificationType.connectRequestRejected) {
+                return {
+                    meta: hDiff,
+                    avatarAlt: e.data.friend.name,
+                    title: 'Connect request rejected',
+                    avatarIcon: <Icon icon='ic:baseline-remove-circle-outline' />,
+                    subtitle: `${e.data.friend.name} rejected your connect request.`,
+                };
+            }
+
             return {
                 meta: hDiff,
                 avatarAlt: 'undefined',
@@ -250,9 +279,9 @@ const NotificationDropdown = (props: Props) => {
                 <ScrollWrapper hidden={hidden}>
                     {notifies.map((notification: NotificationsType, index: number) => (
                         <MenuItem key={index} onClick={handleDropdownClose}>
-                            <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                 <RenderAvatar notification={notification} />
-                                <Box sx={{ mx: 4, flex: '1 1', display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
+                                <Box sx={{ mx: 4 }}>
                                     <MenuItemTitle>{notification.title}</MenuItemTitle>
                                     <MenuItemSubtitle variant='body2'>{notification.subtitle}</MenuItemSubtitle>
                                 </Box>

@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import { useTheme } from '@mui/material/styles'
 import { useSettings } from 'src/@core/hooks/useSettings'
-import { Box, Button, Container, Divider, IconButton } from '@mui/material'
+import { Box, Button, CircularProgress, Container, Divider, IconButton } from '@mui/material'
 import { useEffect, useState } from 'react'
 import UserDropdown from '../shared-components/UserDropdown'
 import LanguageDropdown from '../shared-components/LanguageDropdown'
@@ -16,7 +16,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import { isProduction, isStaging } from 'src/utils/helpers'
 
 const LandingPageAppBar = (props: { appBarElevation?: number }) => {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const theme = useTheme();
     const { settings, saveSettings } = useSettings();
     const { locale } = useRouter();
@@ -64,6 +64,29 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
             { title: "For Trainer", path: baseAddress2 },
         ]);
     }, []);
+
+    const buildAppbarActions = () => {
+
+        return <>
+            <Divider orientation="vertical" variant="middle" flexItem color='#ddd' />
+            {!user ? navItems.map((item) => (
+                <Link href={item.onClick} key={item.title} locale={locale}>
+                    <Button size='small' type='button' variant={item.variant} sx={{ ...item.sx, mr: 2, ml: 2 }} >
+                        {item.title}
+                    </Button>
+                </Link>
+            )) : (
+                <>
+                    <Link href="/home" locale={locale}>
+                        <Button size='small' type='button' variant='outlined' sx={{ mr: 2, ml: 2 }}>
+                            Dashboard
+                        </Button>
+                    </Link>
+                    <UserDropdown settings={settings} />
+                </>
+            )}
+        </>;
+    }
 
     return (
         <>
@@ -136,27 +159,11 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                                     </Link>
                                 ))
                             }
-
-                            <Divider orientation="vertical" variant="middle" flexItem color='#ddd' />
-
-
-                            {!user ? navItems.map((item) => (
-                                <Link href={item.onClick} key={item.title} locale={locale}>
-                                    <Button size='small' type='button' variant={item.variant} sx={{ ...item.sx, mr: 2, ml: 2 }} >
-                                        {item.title}
-                                    </Button>
-                                </Link>
-                            )) : (
-                                <>
-                                    <Link href="/home" locale={locale}>
-                                        <Button size='small' type='button' variant='outlined' sx={{ mr: 2, ml: 2 }}>
-                                            Dashboard
-                                        </Button>
-                                    </Link>
-                                    <UserDropdown settings={settings} />
-                                </>
-                            )}
-
+                            {
+                                loading
+                                    ? (<CircularProgress />)
+                                    : buildAppbarActions()
+                            }
                             <Divider orientation="vertical" variant="middle" flexItem color='#ddd' />
                             <LanguageDropdown settings={settings} saveSettings={saveSettings} />
                         </Box>
