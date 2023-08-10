@@ -41,6 +41,11 @@ const SocialFeedProvider = (props: Props) => {
         const formData = new FormData();
         formData.append("content", payload.content);
         formData.append("content_type", payload.content_type);
+
+        if (payload.feed_repost) {
+            formData.append("feed_repost", payload.feed_repost);
+        }
+
         if (payload.attachments) {
             for (const item of payload.attachments) {
                 formData.append("attachments[]", item);
