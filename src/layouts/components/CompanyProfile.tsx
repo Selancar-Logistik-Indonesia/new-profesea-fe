@@ -32,6 +32,7 @@ import { Icon } from '@iconify/react'
 import { styled } from '@mui/material/styles'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
+import { refreshsession } from 'src/utils/helpers'
 
 
 type FormData = {
@@ -193,6 +194,8 @@ const CompanyProfile = (props: compProps) => {
       ({ data }) => {
         console.log('here 1', data)
         toast.success(' Successfully submited!')
+        refreshsession()
+        window.location.replace('/home')
       },
       error => {
         console.log('here 1', error)

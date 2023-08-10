@@ -350,6 +350,7 @@ const CandidateProfile = (props: compProps) => {
             console.log('here 1', data)
             toast.success(' Successfully submited!')
             refreshsession();
+            window.location.replace('/home')
           })
         }
 
