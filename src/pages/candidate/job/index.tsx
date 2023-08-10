@@ -22,10 +22,13 @@ import { toast } from 'react-hot-toast'
 import Grid, { GridProps } from '@mui/material/Grid'
 import { styled } from '@mui/material/styles'
 import Link from 'next/link';
- 
+import CopyLinkButton from './coplink';
+import EmailShareButton from './emailshare';
+  
 
 const JobDetail = () => {
-  const windowUrl = window.location.search
+  const windowUrl = window.location.search 
+  const url = window.location.href 
   const params = new URLSearchParams(windowUrl)
   const [onApplied, setOnApplied] = useState(false);
   const [jobDetail, setJobDetail] = useState<Job>()
@@ -35,8 +38,7 @@ const JobDetail = () => {
   const options = ['Whatsapp', 'Email','Link' ]
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLDivElement>(null)
-  const [selectedIndex, setSelectedIndex] = React.useState(1)
-
+  const [selectedIndex, setSelectedIndex] = React.useState(1) 
   const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => {
     setSelectedIndex(index)
     setOpen(false)
@@ -102,7 +104,7 @@ const JobDetail = () => {
       console.error(error)
     }
   }
-
+  
   return (
     <>
       <Box>
@@ -182,20 +184,32 @@ const JobDetail = () => {
                             ml={-1}
                             mb={2}
                           >
-                            <Icon icon='game-icons:ship-bow' fontSize={20} color='#32487A' />
-                            <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
-                              Date on Board
-                            </Typography>
+                            <Grid item container>
+                              <Grid xs={1}>
+                                <Icon icon='game-icons:ship-bow' color='#32487A' fontSize={20} />
+                              </Grid>
+                              <Grid xs={11}>
+                                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                                  Date on Board
+                                </Typography>
+                              </Grid>
+                            </Grid>
                           </Box>
                           <Box
                             sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
                             ml={-1}
                             mb={2}
                           >
-                            <Icon icon='mdi:license' fontSize={20} color='#32487A' />
-                            <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
-                              {license.map(e => e.title).join(', ')}
-                            </Typography>
+                            <Grid item container>
+                              <Grid xs={1}>
+                                <Icon icon='mdi:license' color='#32487A' fontSize={20} />
+                              </Grid>
+                              <Grid xs={11}>
+                                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                                  {license.map(e => e.title).join(', ')}
+                                </Typography>
+                              </Grid>
+                            </Grid>
                           </Box>
                         </Box>
                       </Box>
@@ -286,16 +300,14 @@ const JobDetail = () => {
                             </Box>
                           </Box>
                         </Grid>
-                        <Grid item xs={7} mt={2}></Grid>
-                        <Grid item xs={5} mt={2}>
+                        <Grid item xs={6} mt={2}></Grid>
+                        <Grid item xs={6} mt={2}>
                           <Grid container spacing={1} alignItems='right' justifyContent='center'>
                             <Grid item>
                               {onApplied == false ? (
                                 <>
                                   <Button onClick={handleApply} variant='contained' color='primary'>
-                                       <Icon icon='iconoir:submit-document' color='white' fontSize={19} />
-                                       {' '}
-                                     Apply Job
+                                    <Icon icon='iconoir:submit-document' color='white' fontSize={19} /> Apply Job
                                   </Button>
                                 </>
                               ) : (
@@ -311,12 +323,28 @@ const JobDetail = () => {
                             </Grid>
                             <Grid item>
                               <ButtonGroup variant='contained' ref={anchorRef} aria-label='split button'>
-                                <Button variant='contained' color='warning'>
-                                  <Box mr={2}>
-                                    <Icon icon='mdi:share' />
-                                  </Box>
-                                  {options[selectedIndex]}
-                                </Button>
+                                {options[selectedIndex] == 'Link' ? (
+                                  <CopyLinkButton linkToCopy={url} />
+                                ) : options[selectedIndex] == 'Whatsapp' ? (
+                                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                                    <Button
+                                      variant='contained'
+                                      color='warning'
+                                      href={url} 
+                                    >
+                                      <Box mr={2}>
+                                        <Icon icon='mdi:share' />
+                                      </Box>
+                                      {options[selectedIndex]}
+                                    </Button>
+                                  </Typography>
+                                ) : (
+                                  <>
+                                    <EmailShareButton subject={'Job For '+jobDetail?.rolelevel?.levelName} body={url} />
+                                    {/* <Button variant='contained' onClick={() => setOpenAddModal(!openAddModal)}></Button> */}
+                                  </>
+                                )}
+
                                 <Button
                                   variant='contained'
                                   color='warning'
@@ -446,21 +474,26 @@ const JobDetail = () => {
                               sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
                               mb={2}
                             >
-                              <Icon icon='mdi:license' color='#32487A' />
-                              <Typography
-                                sx={{
-                                  color: 'text.primary',
-                                  display: '-webkit-box',
-                                  overflow: 'hidden',
-                                  WebkitBoxOrient: 'vertical',
-                                  WebkitLineClamp: 2
-                                }}
-                                ml='0.5rem'
-                                mt='0.2rem'
-                                fontSize={12}
-                              >
-                                {license.map(e => e.title).join(', ')}
-                              </Typography>
+                              <Grid item container>
+                                <Grid xs={1}>
+                                  <Icon icon='mdi:license' color='#32487A' />
+                                </Grid>
+                                <Grid xs={10}>
+                                  <Typography
+                                    sx={{
+                                      color: 'text.primary',
+                                      display: '-webkit-box',
+                                      overflow: 'hidden',
+                                      WebkitBoxOrient: 'vertical',
+                                      WebkitLineClamp: 2
+                                    }}
+                                    mt='0.2rem'
+                                    fontSize={12}
+                                  >
+                                    {license.map(e => e.title).join(', ')}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
                             </Box>
                           </Box>
                         </Paper>
@@ -473,6 +506,7 @@ const JobDetail = () => {
           </Grid>
         </Grid>
       </Box>
+     
     </>
   )
 }
