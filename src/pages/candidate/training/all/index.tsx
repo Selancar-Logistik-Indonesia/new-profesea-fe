@@ -1,5 +1,4 @@
 import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
@@ -13,6 +12,7 @@ import debounce from 'src/utils/debounce';
 import { GridPaginationModel } from '@mui/x-data-grid';
 import { v4 } from "uuid";
 import DialogView from './DialogView';
+import { Typography } from '@mui/material';
 
 const AllTrainingScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -93,9 +93,11 @@ const AllTrainingScreen = () => {
         <>
             <Grid container spacing={6} className='match-height'>
                 <Grid item xs={12} sm={6} md={12}>
-                    <Card>
-                        <CardHeader title='List Trainings' />
+                    <Card>                   
                         <CardContent>
+                        <Typography variant='h6' color={'#32487A'} fontWeight='600'>
+                  List Trainings
+                </Typography>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
                                     <TextField
