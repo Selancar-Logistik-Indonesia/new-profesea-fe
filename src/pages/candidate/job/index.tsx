@@ -330,7 +330,7 @@ const JobDetail = () => {
                                     <Button
                                       variant='contained'
                                       color='warning'
-                                      href={url} 
+                                      href={'whatsapp://send?text='+url} 
                                     >
                                       <Box mr={2}>
                                         <Icon icon='mdi:share' />
