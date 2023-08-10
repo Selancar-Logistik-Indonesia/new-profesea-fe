@@ -17,7 +17,7 @@ type Prop = {
 const FeedCard = (props: Prop) => {
     const { item, withBottomArea } = props;
     const [openComment, setOpenComment] = useState(false);
-    const attachments = JSON.parse(item.attachments);
+    const attachments = item.attachments;
 
     return (
         <Paper sx={{ marginTop: '10px', padding: { xs: 3, md: 5 } }}>
@@ -44,12 +44,12 @@ const FeedCard = (props: Prop) => {
                         sx={{ width: '100%', height: 320, my: 2 }}
                         component='video'
                         controls
-                        src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments[0]}`}
+                        src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments![0]}`}
                     />
                 )}
 
                 {item.content_type == 'images' && (
-                    <ImageListPreview urls={attachments} />
+                    <ImageListPreview urls={attachments!} />
                 )}
             </Box>
 
