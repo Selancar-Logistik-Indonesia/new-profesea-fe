@@ -281,6 +281,7 @@ const DialogAdd = (props: DialogProps) => {
               <Grid item md={4} xs={12} sx={{ mb: 1 }}>
                 <DatePickerWrapper>
                   <DatePicker
+                    minDate={new Date()}
                     dateFormat='dd/MM/yyyy'
                     selected={date}
                     id='basic-input'
