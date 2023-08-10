@@ -8,6 +8,7 @@ import CommentAreaView from "./CommentAreaView";
 import Link from "next/link";
 import ImageListPreview from "./ImageListPreview";
 import FeedBottomActions from "./FeedBottomActions";
+import moment from "moment";
 
 type Prop = {
     item: ISocialFeed,
@@ -30,7 +31,7 @@ const FeedCard = (props: Prop) => {
                         <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600 }}>
                             {toTitleCase(item.user.name)}
                         </Typography>
-                        <Typography sx={{ color: '#424242', fontWeight: 500 }}>{item.h_created_at}</Typography>
+                        <Typography sx={{ color: '#424242', fontWeight: 500 }}>{moment(item.created_at).fromNow()}</Typography>
                     </Link>
                 </Box>
             </Box>
@@ -50,6 +51,10 @@ const FeedCard = (props: Prop) => {
 
                 {item.content_type == 'images' && (
                     <ImageListPreview urls={attachments!} />
+                )}
+
+                {item.feed_repost && (
+                    <FeedCard item={item.feed_repost} withBottomArea={false} />
                 )}
             </Box>
 

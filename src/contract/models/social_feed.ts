@@ -13,6 +13,7 @@ interface ISocialFeed {
     created_at: string
     updated_at: string
 
+    feed_repost?: ISocialFeed
     user: IUser
 }
 
