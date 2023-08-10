@@ -668,6 +668,17 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid>
+              <Grid item md={12} xs={12}>
+                <TextField
+                  id='address'
+                  label='Address'
+                  defaultValue={props.datauser.address?.address}
+                  variant='outlined'
+                  fullWidth
+                  sx={{ mb: 1 }}
+                  {...register('address')}
+                />
+              </Grid>
               <Grid item md={6} xs={12}>
                 <TextField
                   id='Email'
@@ -719,17 +730,7 @@ const CandidateProfile = (props: compProps) => {
                   {...register('phone')}
                 />
               </Grid>
-              <Grid item md={6} xs={12}>
-                <TextField
-                  id='address'
-                  label='Address'
-                  defaultValue={props.datauser.address?.address}
-                  variant='outlined'
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  {...register('address')}
-                />
-              </Grid>
+              
 
               <Grid item md={12} xs={12}>
                 <TextField
@@ -745,9 +746,8 @@ const CandidateProfile = (props: compProps) => {
               </Grid>
               {tampilkanship == 'On-Ship' && (
                 <Grid item container xs={12} spacing={2} sx={{ mb: 2 }}>
-                  <Grid xs={12}>
-                    <Typography variant='h5'>ON-SHIP TYPE</Typography>
-                    <br></br>
+                  <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
+                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>On-Ship Type</Typography>
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <Autocomplete
@@ -812,6 +812,7 @@ const CandidateProfile = (props: compProps) => {
                   <Grid item md={6} xs={12}>
                     <DatePickerWrapper>
                       <DatePicker
+                      minDate={new Date()}
                         dateFormat='dd/MM/yyyy'
                         selected={date}
                         id='basic-input'
