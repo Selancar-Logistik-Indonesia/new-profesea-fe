@@ -14,7 +14,7 @@ const FeedBottomActions = (props: Props) => {
     const { item, openComment, setOpenComment } = props;
 
     return (
-        <Box>
+        <Box sx={{ mt: 4 }}>
             <Button
                 sx={{ fontSize: '0.7rem', textTransform: 'none' }}
                 size='small'
