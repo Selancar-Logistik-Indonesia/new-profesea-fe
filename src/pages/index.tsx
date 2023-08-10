@@ -5,7 +5,7 @@ import landingPageStyle from "src/@core/styles/landing-page/landing-page";
 import { useTranslation } from "react-i18next";
 import FindJobsView from "src/views/landing-page/findJobsView";
 import DiscoverView from "src/views/landing-page/discoverView";
-import LetsSailView from "src/views/landing-page/letsSailView";
+//import LetsSailView from "src/views/landing-page/letsSailView";
 import FooterView from "src/views/landing-page/footerView";
 import Head from "next/head";
 import themeConfig from "src/configs/themeConfig";
@@ -104,9 +104,9 @@ const Main = () => {
 
             <FindJobsView id="findJobSection" />
             <DiscoverView />
-            <LetsSailView />
+            {/* <LetsSailView /> */}
 
-            <div className="box-wrapper">
+            {/* <div className="box-wrapper">
                 <figure className="shape-box shape-box_half">
                     <img src="https://images.unsplash.com/photo-1534670007418-fbb7f6cf32c3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="" />
                     <div className="brk-abs-overlay z-index-0 bg-black opacity-60"></div>
@@ -159,143 +159,9 @@ const Main = () => {
                     </figcaption>
                     <span className="after"></span>
                 </figure>
-            </div>
+            </div> */}
 
-            <div className="timeline">
-                <div className="container left">
-                    <div className="date">15 Dec</div>
-                    <i className="icon fa fa-home"></i>
-                    <div className="content">
-                        <h2>Lorem ipsum dolor sit amet</h2>
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Aliquam odio dolor, id luctus erat sagittis non. Ut blandit semper pretium.
-                        </p>
-                    </div>
-                </div>
-                <div className="container right">
-                    <div className="date">22 Oct</div>
-                    <i className="icon fa fa-gift"></i>
-                    <div className="content">
-                        <h2>Lorem ipsum dolor sit amet</h2>
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Aliquam odio dolor, id luctus erat sagittis non. Ut blandit semper pretium.
-                        </p>
-                    </div>
-                </div>
-                <div className="container left">
-                    <div className="date">10 Jul</div>
-                    <i className="icon fa fa-user"></i>
-                    <div className="content">
-                        <h2>Lorem ipsum dolor sit amet</h2>
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Aliquam odio dolor, id luctus erat sagittis non. Ut blandit semper pretium.
-                        </p>
-                    </div>
-                </div>
-                <div className="container right">
-                    <div className="date">18 May</div>
-                    <i className="icon fa fa-running"></i>
-                    <div className="content">
-                        <h2>Lorem ipsum dolor sit amet</h2>
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Aliquam odio dolor, id luctus erat sagittis non. Ut blandit semper pretium.
-                        </p>
-                    </div>
-                </div>
-                <div className="container left">
-                    <div className="date">10 Feb</div>
-                    <i className="icon fa fa-cog"></i>
-                    <div className="content">
-                        <h2>Lorem ipsum dolor sit amet</h2>
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Aliquam odio dolor, id luctus erat sagittis non. Ut blandit semper pretium.
-                        </p>
-                    </div>
-                </div>
-                <div className="container right">
-                    <div className="date">01 Jan</div>
-                    <i className="icon fa fa-certificate"></i>
-                    <div className="content">
-                        <h2>Lorem ipsum dolor sit amet</h2>
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Aliquam odio dolor, id luctus erat sagittis non. Ut blandit semper pretium.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <section id="timeline">
-                <h1>A Flexbox Timeline</h1>
-                <p className="leader">All cards must be the same height and width for space calculations on large screens.</p>
-                <div className="demo-card-wrapper">
-                    <div className="demo-card demo-card--step1">
-                        <div className="head">
-                            <div className="number-box">
-                                <span>01</span>
-                            </div>
-                            <h2><span className="small">Subtitle</span> Technology</h2>
-                        </div>
-                        <div className="body">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.</p>
-                            <img src="http://placehold.it/1000x500" alt="Graphic" />
-                        </div>
-                    </div>
-
-                    <div className="demo-card demo-card--step2">
-                        <div className="head">
-                            <div className="number-box">
-                                <span>02</span>
-                            </div>
-                            <h2><span className="small">Subtitle</span> Confidence</h2>
-                        </div>
-                        <div className="body">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.</p>
-                            <img src="http://placehold.it/1000x500" alt="Graphic" />
-                        </div>
-                    </div>
-
-                    <div className="demo-card demo-card--step3">
-                        <div className="head">
-                            <div className="number-box">
-                                <span>03</span>
-                            </div>
-                            <h2><span className="small">Subtitle</span> Adaptation</h2>
-                        </div>
-                        <div className="body">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.</p>
-                            <img src="http://placehold.it/1000x500" alt="Graphic" />
-                        </div>
-                    </div>
-
-                    <div className="demo-card demo-card--step4">
-                        <div className="head">
-                            <div className="number-box">
-                                <span>04</span>
-                            </div>
-                            <h2><span className="small">Subtitle</span> Consistency</h2>
-                        </div>
-                        <div className="body">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.</p>
-                            <img src="http://placehold.it/1000x500" alt="Graphic" />
-                        </div>
-                    </div>
-
-                    <div className="demo-card demo-card--step5">
-                        <div className="head">
-                            <div className="number-box">
-                                <span>05</span>
-                            </div>
-                            <h2><span className="small">Subtitle</span> Conversion</h2>
-                        </div>
-                        <div className="body">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta reiciendis deserunt doloribus consequatur, laudantium odio dolorum laboriosam.</p>
-                            <img src="http://placehold.it/1000x500" alt="Graphic" />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div className="row">
+            {/* <div className="row">
                 <div className="example-1 card">
                     <div className="wrapper">
                         <div className="date">
@@ -347,7 +213,7 @@ const Main = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <FooterView />
         </>
