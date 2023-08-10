@@ -55,21 +55,21 @@ const renderList = (listJob: Job[]) => {
           </Link>
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={2}>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
-              <Icon icon='ic:round-business-center' color='#32487A' />
+              <Icon icon='ic:round-business-center' color='#32487A' fontSize={'18px'}/>
               <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                 {item?.rolelevel?.levelName} - {item?.category?.name}
               </Typography>
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
-              <Icon icon='mdi:school' color='#32487A' />
+              <Icon icon='mdi:school' color='#32487A' fontSize={'18px'} />
               <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                 {item?.degree?.name}
               </Typography>
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
-              <Icon icon='mdi:license' color='#32487A' />
+              <Icon icon='mdi:license' color='#32487A' fontSize={'18px'} />
               <Typography sx={{ color: 'text.primary', display: '-webkit-box', overflow: 'hidden', WebkitBoxOrient: 'vertical', WebkitLineClamp: 2, }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                 {license.map(e => e.title).join(", ")}
               </Typography>

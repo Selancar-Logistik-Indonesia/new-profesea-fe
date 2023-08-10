@@ -82,13 +82,15 @@ const LoginPage = () => {
                         <Box sx={{ mb: 3, maxWidth: '100%', textAlign: 'center' }}>
                             <Link href={"/"}>
                                 <img alt='logo' src='/images/logosamudera.png' style={{
-                                    width: 169,
+                                    width: 125,
                                     padding: 0,
                                     marginBottom: 10,
                                 }} />
                             </Link>
 
-                            <Typography mb={5} variant='h5' sx={{ textAlign: 'center' }}>Verify your email</Typography>
+                            <Typography variant='h6' color={'#32487A'} fontWeight='600' mb={5} sx={{ textAlign: 'center' }}>
+                                Verify your email
+                            </Typography>
                             <Typography mb={5} variant='body1' sx={{ textAlign: 'center' }}> Account activation link sent to your email address: john.doe@email.com Please follow the link inside to continue.</Typography>
                         </Box>
 
@@ -117,9 +119,16 @@ const LoginPage = () => {
             {!hidden ? (
                 <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
                     <LoginIllustrationWrapper>
-                        <LoginIllustration alt='login-illustration' src={`/images/shiplogin.png`} />
+                        <LoginIllustration alt='login-illustration' src={`/images/img-verifyemail.png`} style={{
+                                    maxWidth: '100%',
+                                    height: '320px',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginBottom: '10%'
+                                }} />
+
+
                     </LoginIllustrationWrapper>
-                    <FooterIllustrationsV2 />
                 </Box>
             ) : null}
         </Box>
