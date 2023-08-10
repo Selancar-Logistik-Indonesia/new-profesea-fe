@@ -3,6 +3,7 @@ import Icon from "src/@core/components/icon"
 import ButtonComment from "./ButtonComment"
 import ButtonLike from "./ButtonLike"
 import ISocialFeed from "src/contract/models/social_feed"
+import ButtonRepost from "./ButtonRepost"
 
 type Props = {
     item: ISocialFeed,
@@ -14,15 +15,8 @@ const FeedBottomActions = (props: Props) => {
     const { item, openComment, setOpenComment } = props;
 
     return (
-        <Box>
-            <Button
-                sx={{ fontSize: '0.7rem', textTransform: 'none' }}
-                size='small'
-                color='primary'
-                startIcon={<Icon icon='ic:round-repeat' fontSize={10} />}
-            >
-                Repost
-            </Button>
+        <Box sx={{ mt: 4 }}>
+            <ButtonRepost post={item} />
             <Button
                 sx={{ fontSize: '0.7rem', textTransform: 'none' }}
                 size='small'

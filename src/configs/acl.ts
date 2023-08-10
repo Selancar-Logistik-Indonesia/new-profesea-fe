@@ -34,9 +34,9 @@ const defineRulesFor = (role: string, subject: string) => {
             'master/role-level'
         ]);
     } else if (role === 'Seafarer') {
-        can(['read'], ['home', 'community', 'seaferer-training', 'seaferer', 'seaferer-jobs', 'candidate/profile'])
+        can(['read'], ['home', 'user-community', 'seaferer-training', 'seaferer', 'seaferer-jobs', 'candidate/profile'])
     } else if (role === 'Company') {
-        can(['read'], ['home', 'company', 'user-community', 'user-job-management', 'user-find-candidate', 'company/profile', 'user-job-detail','find-candidate', 'company-job-applied']);
+        can(['read'], ['home', 'company', 'user-community', 'user-job-management', 'user-find-candidate', 'company/profile', 'user-job-detail', 'find-candidate', 'company-job-applied']);
     } else if (role === 'Trainer') {
         can(['read'], ['home', 'user-community', 'user-training-management', 'user-my-participant']);
     }

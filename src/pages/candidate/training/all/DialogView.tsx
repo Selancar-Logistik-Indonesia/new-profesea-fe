@@ -69,7 +69,7 @@ const DialogView = (props: ViewProps) => {
                     <Icon icon='mdi:close' />
                 </IconButton>
                 <Box sx={{ mb: 6, }}>
-                    <Typography variant='h4' sx={{ mb: 3 }}>
+                    <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18} mb={3}>
                         Training: {selectedItem.title}
                     </Typography>
                 </Box>
@@ -118,7 +118,7 @@ const DialogView = (props: ViewProps) => {
                 </Box>
 
                 <Box sx={{ mb: 6 }}>
-                    <Typography variant='h6' mb={2}>Subject Matter Expert</Typography>
+                <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={16} mb={2}>Subject Matter Expert</Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Box sx={{ mr: 3 }}>
                             <Avatar sx={{ height: 60, width: 60 }} src={getUserAvatar(selectedItem.trainer)} />

@@ -1,10 +1,9 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import { CircularProgress, Paper } from '@mui/material'
+import { CircularProgress } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import ISocialFeed from 'src/contract/models/social_feed'
 import SocialFeedContext from 'src/context/SocialFeedContext'
-import { v4 } from 'uuid'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import FeedCard from './FeedCard'
@@ -12,10 +11,10 @@ import { useEffect } from 'react'
 
 const ListFeedView = () => {
     const { fetchFeeds, hasNextPage, totalFeed } = useSocialFeed();
-    const adsEveryLine = 5;
+    // const adsEveryLine = 5;
 
     const renderList = (feeds: ISocialFeed[]) => {
-        let itemCount = 0;
+        // let itemCount = 0;
         const components: JSX.Element[] = [];
 
         if (feeds.length == 0) {
@@ -25,15 +24,15 @@ const ListFeedView = () => {
         }
 
         feeds.forEach((item) => {
-            itemCount++;
-            if (itemCount > adsEveryLine) {
-                itemCount = 1;
-                components.push(
-                    <Paper sx={{ marginTop: '10px', padding: '10px', textAlign: 'center', }} key={v4()}>
-                        <Box component='img' src={'/images/backgrounds/samplead.jpg'} sx={{ opacity: 0.2, maxWidth: '100%' }} />
-                    </Paper>
-                );
-            }
+            // itemCount++;
+            // if (itemCount > adsEveryLine) {
+            //     itemCount = 1;
+            //     components.push(
+            //         <Paper sx={{ marginTop: '10px', padding: '10px', textAlign: 'center', }} key={v4()}>
+            //             <Box component='img' src={'/images/backgrounds/samplead.jpg'} sx={{ opacity: 0.2, maxWidth: '100%' }} />
+            //         </Paper>
+            //     );
+            // }
 
             components.push(<FeedCard item={item} key={`feedItem${item.id}`} />)
         })

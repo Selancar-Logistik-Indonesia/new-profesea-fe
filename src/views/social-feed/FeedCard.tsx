@@ -8,6 +8,7 @@ import CommentAreaView from "./CommentAreaView";
 import Link from "next/link";
 import ImageListPreview from "./ImageListPreview";
 import FeedBottomActions from "./FeedBottomActions";
+import moment from "moment";
 
 type Prop = {
     item: ISocialFeed,
@@ -17,7 +18,7 @@ type Prop = {
 const FeedCard = (props: Prop) => {
     const { item, withBottomArea } = props;
     const [openComment, setOpenComment] = useState(false);
-    const attachments = JSON.parse(item.attachments);
+    const attachments = item.attachments;
 
     return (
         <Paper sx={{ marginTop: '10px', padding: { xs: 3, md: 5 } }}>
@@ -30,7 +31,7 @@ const FeedCard = (props: Prop) => {
                         <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600 }}>
                             {toTitleCase(item.user.name)}
                         </Typography>
-                        <Typography sx={{ color: '#424242', fontWeight: 500 }}>{item.h_created_at}</Typography>
+                        <Typography sx={{ color: '#424242', fontWeight: 500 }}>{moment(item.created_at).fromNow()}</Typography>
                     </Link>
                 </Box>
             </Box>
@@ -44,12 +45,16 @@ const FeedCard = (props: Prop) => {
                         sx={{ width: '100%', height: 320, my: 2 }}
                         component='video'
                         controls
-                        src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments[0]}`}
+                        src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments![0]}`}
                     />
                 )}
 
                 {item.content_type == 'images' && (
-                    <ImageListPreview urls={attachments} />
+                    <ImageListPreview urls={attachments!} />
+                )}
+
+                {item.feed_repost && (
+                    <FeedCard item={item.feed_repost} withBottomArea={false} />
                 )}
             </Box>
 

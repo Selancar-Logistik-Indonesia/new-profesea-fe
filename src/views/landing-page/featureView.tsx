@@ -22,18 +22,14 @@ const FeatureView = () => {
 
                         <Grid container spacing={6}>
 
-                        <Grid item xs={12} sm={12} alignItems={'center'} justifyContent={'center'}>
-                                <Typography variant="h4" style={{ color: "#32487A" }} fontWeight="600" mt={6} alignItems="center" justifyContent={'center'}>Mengapa Memilih Profesea?</Typography>
-                                <Typography fontSize={18} style={{ color: "#EF6C00" }} mt={2} mb={10} fontWeight="600">Solusi Profesea dapat mendukung bisnis dan karir anda di Dunia Maritim </Typography>
+                            <Grid item xs={12} sm={12}>
+                                <Typography variant="h4" style={{ color: "#32487A" }} fontWeight="600" mt={6} textAlign="center">{t("landing_discover_item_title")}</Typography>
+                                <Typography fontSize={18} style={{ color: "#EF6C00" }} mt={2} mb={10} fontWeight="600" textAlign="center">{t("landing_discover_item_title_detail")}</Typography>
                             </Grid>
 
                             <Grid item xs={12} sm={2}>
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
-                            <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_1")}</Typography>
-                                <Typography fontSize={18} style={{ color: "#000000"}} mt={2} align={"justify"}>{t("landing_features_subtitle_1")}</Typography>
-                            </Grid>
                             <Grid item xs={12} sm={3}>
                                 <img alt="Whatis" src='/images/img-meetthecompanies.png' style={{
                                     maxWidth: '100%',
@@ -43,6 +39,10 @@ const FeatureView = () => {
                                     marginBottom: '10%'
                                 }} />
                             </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_1")}</Typography>
+                                <Typography fontSize={18} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_features_subtitle_1")}</Typography>
+                            </Grid>
                             <Grid item xs={12} sm={1}>
                             </Grid>
                         </Grid>
@@ -50,6 +50,11 @@ const FeatureView = () => {
                         <Grid container spacing={6}>
 
                             <Grid item xs={12} sm={2}>
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                                <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_2")}</Typography>
+                                <Typography fontSize={20} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_features_subtitle_2")}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={3}>
                                 <img alt="Whatis" src='/images/img-createcv.png' style={{
@@ -60,22 +65,12 @@ const FeatureView = () => {
                                     marginBottom: '10%'
                                 }} />
                             </Grid>
-
-                            <Grid item xs={12} sm={6}>
-                            <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_2")}</Typography>
-                                <Typography fontSize={20} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_features_subtitle_2")}</Typography>
-                            </Grid>
                             <Grid item xs={12} sm={1}>
                             </Grid>
                         </Grid>
 
                         <Grid container spacing={6}>
                             <Grid item xs={12} sm={2}>
-                            </Grid>
-
-                            <Grid item xs={12} sm={6}>
-                            <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_3")}</Typography>
-                                <Typography fontSize={20} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_features_subtitle_3")}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={3}>
                                 <img alt="Whatis" src='/images/img-careerassistance.png' style={{
@@ -86,6 +81,11 @@ const FeatureView = () => {
                                     marginBottom: '10%'
                                 }} />
                             </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_3")}</Typography>
+                                <Typography fontSize={20} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_features_subtitle_3")}</Typography>
+                            </Grid>
+                           
                             <Grid item xs={12} sm={1}>
                             </Grid>
                         </Grid>
@@ -93,6 +93,10 @@ const FeatureView = () => {
                         <Grid container spacing={6}>
 
                             <Grid item xs={12} sm={2}>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_4")}</Typography>
+                                <Typography fontSize={20} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_features_subtitle_4")}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={3}>
                                 <img alt="Whatis" src='/images/img-availabledate.png' style={{
@@ -104,10 +108,6 @@ const FeatureView = () => {
                                 }} />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
-                                <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_4")}</Typography>
-                                <Typography fontSize={20} style={{ color: "#000000"}} mt={2} align={"justify"}>{t("landing_features_subtitle_4")}</Typography>
-                            </Grid>
                             <Grid item xs={12} sm={1}>
                             </Grid>
                         </Grid>

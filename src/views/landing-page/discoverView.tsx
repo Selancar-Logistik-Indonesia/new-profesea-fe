@@ -69,12 +69,14 @@ const DiscoverView = () => {
                     }}>
 
                         <Grid container spacing={6}>
-                            <Grid item xs={12} sm={2}>
+                            <Grid item xs={12} sm={1}>
                             </Grid>
                             <Grid item xs={12} sm={5}>
                                 <Typography variant="h4" style={{ color: "#32487A" }} fontWeight="600" mt={6}>{t("landing_discover_title")}</Typography>
                                 <Typography fontSize={18} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_discover_subtitle")}</Typography>
-                                <Typography variant="h5" style={{ color: "#EF6C00" }} fontWeight="600" mt={6}>Tidak ada yang lebih baik dari kami, Profesea adalah solusi yang tepat untuk Karir Maritim Anda !</Typography>
+                                <Typography variant="h5" style={{ color: "#EF6C00" }} fontWeight="600" mt={6}>{t("landing_discover_subtitle_2")}</Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={1}>
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <img alt="Whatis" src='/images/img-whatis.png' style={{
