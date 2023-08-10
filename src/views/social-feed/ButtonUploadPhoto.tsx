@@ -53,63 +53,63 @@ const ButtonUploadPhoto = () => {
     }
 
     return (
-      <>
-        <Button onClick={openModalPhoto} size='small' variant='text' sx={{ textDecoration: 'none' }}>
-          <Icon color='#378fe9' fontSize={22} icon='mdi:image' />
-          <div style={{ marginLeft: 5 }}>Photo</div>
-        </Button>
-        <Dialog sx={{ minWidth: { md: 320 } }} open={open} onClose={() => setOpen(!open)}>
-          <DialogTitle>
-            <Typography variant='h6' color={'#32487A'} fontWeight='600'>
-              Upload Photo
-            </Typography>
-          </DialogTitle>
-
-          <DialogContent>
-            {imagePreviewUrls.length > 0 && <ImageListPreview urls={imagePreviewUrls} />}
-
-            <Box
-              component='div'
-              onClick={openModalPhoto}
-              sx={{
-                display: imagePreviewUrls.length == 0 ? 'flex' : 'none',
-                flexDirection: 'column',
-                backgroundColor: '#eee',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: { xs: '100%', md: 420 },
-                height: 240
-              }}
-            >
-              <Icon icon='mdi:image' fontSize={110} />
-            </Box>
-
-            <TextField
-              disabled={isLoading}
-              sx={{ mt: 4 }}
-              value={content}
-              multiline
-              fullWidth
-              rows={4}
-              placeholder='Write a caption'
-              variant='standard'
-              onChange={e => setContent(e.target.value)}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button variant="contained" color="error" onClick={() => setOpen(!open)}>
-              <Icon icon='material-symbols:cancel-outline' color='white' fontSize={19} />
-              Cancel
+        <>
+            <Button onClick={openModalPhoto} size='small' variant='text' sx={{ textDecoration: 'none' }}>
+                <Icon color='#378fe9' fontSize={22} icon='mdi:image' />
+                <div style={{ marginLeft: 5 }}>Photo</div>
             </Button>
-            <Button variant="contained" disabled={isLoading} onClick={handleUpdateStatus}>
-              <Icon icon='material-symbols:upload' color='white' fontSize={19} />
-              {isLoading ? <CircularProgress /> : 'Upload'}
-            </Button>
-          </DialogActions>
-        </Dialog>
+            <Dialog sx={{ minWidth: { md: 320 } }} open={open} onClose={() => setOpen(!open)}>
+                <DialogTitle>
+                    <Typography variant='h6' color={'#32487A'} fontWeight='600'>
+                        Upload Photo
+                    </Typography>
+                </DialogTitle>
 
-        <input onChange={onFileSelected} ref={inputFile} type='file' multiple style={{ display: 'none' }} />
-      </>
+                <DialogContent>
+                    {imagePreviewUrls.length > 0 && <ImageListPreview urls={imagePreviewUrls} />}
+
+                    <Box
+                        component='div'
+                        onClick={openModalPhoto}
+                        sx={{
+                            display: imagePreviewUrls.length == 0 ? 'flex' : 'none',
+                            flexDirection: 'column',
+                            backgroundColor: '#eee',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: { xs: '100%', md: 420 },
+                            height: 240
+                        }}
+                    >
+                        <Icon icon='mdi:image' fontSize={110} />
+                    </Box>
+
+                    <TextField
+                        disabled={isLoading}
+                        sx={{ mt: 4 }}
+                        value={content}
+                        multiline
+                        fullWidth
+                        rows={4}
+                        placeholder='Write a caption'
+                        variant='standard'
+                        onChange={e => setContent(e.target.value)}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button variant="contained" color="error" onClick={() => setOpen(!open)}>
+                        <Icon icon='material-symbols:cancel-outline' color='white' fontSize={19} />
+                        Cancel
+                    </Button>
+                    <Button variant="contained" disabled={isLoading} onClick={handleUpdateStatus}>
+                        <Icon icon='material-symbols:upload' color='white' fontSize={19} />
+                        {isLoading ? <CircularProgress /> : 'Upload'}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <input onChange={onFileSelected} ref={inputFile} type='file' multiple style={{ display: 'none' }} />
+        </>
     )
 }
 

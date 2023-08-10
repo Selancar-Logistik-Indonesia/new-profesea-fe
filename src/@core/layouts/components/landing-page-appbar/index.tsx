@@ -135,7 +135,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                         <Link href='/'>
                             <Box
                                 component="img"
-                                sx={{ width: 100 }}
+                                sx={{ width: 125 }}
                                 alt="The Profesea logo"
                                 title="Profesea"
                                 src="/images/logosamudera.png"

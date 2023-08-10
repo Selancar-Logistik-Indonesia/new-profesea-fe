@@ -21,14 +21,14 @@ const FindJobsView = (props: { id: string }) => {
     ];
 
     return (
-        <Grid id={props.id} sx={{ backgroundColor: '#eae6df', backgroundSize: 'cover', py: 10 }} container direction="column" alignItems="center" justifyContent="center">
+        <Grid id={props.id} sx={{ backgroundColor: '#FFFFFF', backgroundSize: 'cover', py: 30 }} container direction="column" alignItems="center" justifyContent="center">
             <Box sx={{ display: { xs: 'block', md: 'flex' }, flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Box sx={{ flexShrink: 1, mx: 10 }}>
-                    <Typography variant='h5' sx={{ mb: 5 }} color={"#32487A"} fontWeight="600">{t("landing_jobs_title")}</Typography>
-                    <Typography fontSize={14} variant='body1' style={{ color: "#424242" }}>{t("landing_jobs_subtitle")}</Typography>
+                    <Typography variant='h5' sx={{ mb: 5 }} color={"#000000"} fontWeight="600">{t("landing_jobs_title")}</Typography>
+                    <Typography fontSize={18} variant='body1' style={{ color: "#000" }}>{t("landing_jobs_subtitle")}</Typography>
                 </Box>
                 <Box sx={{ flexDirection: 'column', py: { xs: 10, md: 0 }, mx: 10 }}>
-                    <Typography variant="h5" sx={{ mb: 5 }} color={"#32487A"} fontWeight="600">{t("landing_jobs_suggested")}</Typography>
+                    <Typography variant="h5" sx={{ mb: 5 }} color={"#000000"} fontWeight="600">{t("landing_jobs_suggested")}</Typography>
                     <Box sx={{ maxWidth: 880 }}>
                         {
                             planItems.map((item, i) => (
