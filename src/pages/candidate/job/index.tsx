@@ -330,7 +330,8 @@ const JobDetail = () => {
                                     <Button
                                       variant='contained'
                                       color='warning'
-                                      href={'whatsapp://send?text='+url} 
+                                      href={'https://web.whatsapp.com/send?text=' + url}
+                                      target='_blank'
                                     >
                                       <Box mr={2}>
                                         <Icon icon='mdi:share' />
@@ -340,7 +341,10 @@ const JobDetail = () => {
                                   </Typography>
                                 ) : (
                                   <>
-                                    <EmailShareButton subject={'Job For '+jobDetail?.rolelevel?.levelName} body={url} />
+                                    <EmailShareButton
+                                      subject={'Job For ' + jobDetail?.rolelevel?.levelName}
+                                      body={url}
+                                    />
                                     {/* <Button variant='contained' onClick={() => setOpenAddModal(!openAddModal)}></Button> */}
                                   </>
                                 )}
@@ -506,7 +510,6 @@ const JobDetail = () => {
           </Grid>
         </Grid>
       </Box>
-     
     </>
   )
 }
