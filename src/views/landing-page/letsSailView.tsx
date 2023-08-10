@@ -24,14 +24,12 @@ const DiscoverView = () => {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <img alt="Whatis" src='/images/img-letssail.png' style={{
-                                    maxWidth: '150%',
-                                    height: '380px',
+                                    maxWidth: '100%',
+                                    height: '300px',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     marginBottom: '10%'
                                 }} />
-                            </Grid>
-                            <Grid item xs={12} sm={1}> 
                             </Grid>
                             <Grid item xs={12} sm={3}>
                                 <Typography variant='h4' sx={{ mb: 5 }} color={"#32487A"} fontWeight="900" >{t("landing_lets_sail")}</Typography>
@@ -39,7 +37,7 @@ const DiscoverView = () => {
                                     <Button style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
                                 </Link>
                             </Grid>
-                            <Grid item xs={12} sm={2}>
+                            <Grid item xs={12} sm={3}>
                             </Grid>
                         </Grid>
 
