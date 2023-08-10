@@ -2,7 +2,7 @@ import { Theme } from "@mui/material";
 import { SxProps } from "@mui/system";
 
 const bannerHero: SxProps<Theme> = {
-    backgroundImage: "url(/images/header-homepage.jpg)",
+    backgroundImage: "url(/images/header-homepage2.jpg)",
     backgroundSize: "cover",
     backgroundPosition: {
         xs: "67% 40%",
