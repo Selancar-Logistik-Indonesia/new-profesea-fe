@@ -7,8 +7,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { styled, useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import { useSettings } from 'src/@core/hooks/useSettings'
-import BlankLayout from 'src/@core/layouts/BlankLayout'
-import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+import BlankLayout from 'src/@core/layouts/BlankLayout' 
 
 const LoginIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
     padding: theme.spacing(20),
