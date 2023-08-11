@@ -20,7 +20,7 @@ const CopyLinkButton: React.FC<CopyLinkButtonProps> = ({ linkToCopy }) => {
 
   return (
     <div>
-      <Button variant='contained' color='warning' onClick={copyLinkToClipboard}>
+      <Button variant='contained' color='secondary' onClick={copyLinkToClipboard}>
         {isCopied ? 'Link Copied!' : 'Copy Link'}
       </Button>
     </div>
