@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { Grid } from '@mui/material'
 import { HttpClient } from 'src/services'
 import ListThreadView from '../../views/community/ListThreadView'
-import { ThreadProvider } from 'src/context/ThreadContext'
-import { useThread } from 'src/hooks/useThread'
+// import { ThreadProvider } from 'src/context/ThreadContext'
+// import { useThread } from 'src/hooks/useThread'
 
 const Community = () => {
   return (
-    <ThreadProvider>
+    // <ThreadProvider>
       <CommunityApp />
-    </ThreadProvider>
+    // </ThreadProvider>
   )
 }
 
 const CommunityApp = () => {
   const [listThread, setlistThread] = useState<any>([]);
-  const { page } = useThread();
+  // const { page } = useThread();
 
   const firstload = () => {
-    HttpClient.get('/thread', { page: page, take: 15, search: '' })
+    HttpClient.get('/thread', { page: 1, take: 15, search: '' })
       .then(response => {
         const code = response.data.threads.data
         setlistThread(code)
@@ -27,7 +27,7 @@ const CommunityApp = () => {
 
   useEffect(() => {
     firstload()
-  }, [page]);
+  }, []);
 
   return (
     <Grid container spacing={6}>
