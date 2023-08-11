@@ -336,6 +336,8 @@ const CandidateProfile = (props: compProps) => {
           HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
             console.log('here 1', data)
             toast.success(' Successfully submited!')
+            refreshsession()
+            window.location.replace('/home')
           })
         } else {
           const x = {

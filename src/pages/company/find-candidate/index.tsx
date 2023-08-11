@@ -379,7 +379,7 @@ const FindCandidate = () => {
                   </IconButton>
                 }
               />
-              <Collapse in={collapsed2}>
+               
                 <CardContent>
                   {params.get('plan') != 'advance' ? (
                     <>
@@ -495,8 +495,7 @@ const FindCandidate = () => {
                       </FormControl>
                     </>
                   )}
-                </CardContent>
-              </Collapse>
+                </CardContent> 
             </Card>
           </Box>
         </Grid>
