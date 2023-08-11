@@ -5,22 +5,14 @@ import { Button } from '@mui/material'
  
 import { styled } from '@mui/material/styles'
 import {   TextareaAutosize } from '@mui/material' 
+import { HttpClient } from 'src/services'
+import { useState } from 'react'
 
 export type ParamMain = {
-  logo: string 
-  name: string 
-  waktu: string 
-  postcomment: string 
+  user_id: number 
+  thread_id: number 
 }
-// const ProfilePicture = styled('img')(({ theme }) => ({
-//   width: 45,
-//   height: 45,
-//   borderRadius: theme.shape.borderRadius,
-//   border: `5px solid ${theme.palette.common.white}`,
-//   [theme.breakpoints.down('md')]: {
-//     marginBottom: theme.spacing(4)
-//   }
-// }))
+
   const blue = {
     100: '#DAECFF',
     200: '#b6daff',
@@ -46,7 +38,7 @@ export type ParamMain = {
   const StyledTextarea = styled(TextareaAutosize)(
     ({ theme }) => `
     width: 100%;
-    font-family: IBM Plex Sans, sans-serif;
+    font-family: Poppins, sans-serif;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
@@ -73,21 +65,43 @@ export type ParamMain = {
   `,
   ); 
   
- const CommentForm = ( ) => {
+ const CommentForm = (props : ParamMain) => {
+
+  const [content , setContent] = useState<any>('')
+
+  console.log(content)
+  const onComment = async () => {
+
+    const json = {
+        "user_id": props.user_id,
+        "replyable_id": props.thread_id,
+        "replyable_type": "thread_reply",
+        "content": content
+    }   
+
+    const resp = await HttpClient.post('/thread/reply', json);
+      if (resp.status != 200) {
+          throw resp.data.message ?? "Something went wrong!";
+      }
+      window.location.reload();
+  
+  }
   
   // const parentId = props['parentid'];
 
       return ( 
+        // <form noValidate autoComplete='off' onSubmit={handleSubmit(onComment)} >
           <Grid container justifyContent="flex-end">
-          <Grid xs={12} md={12}>
-            <StyledTextarea aria-label="empty textarea" placeholder="Write a reply" minRows={'3'}  title='tes' /> 
-          </Grid>  
-          <Grid container display={{ xs: "none", lg: "block" }} md={10}>  </Grid>
-          <Grid justifyContent="flex-end" sx={{display:  { xs: 12, md: 2  ,justifyContent:'right'}}}>
-          <Button size='small' color='primary' variant='contained' > Post Comment </Button>
-          </Grid>
-          </Grid>  
-       
+            
+            <Grid xs={12}>
+              <StyledTextarea aria-label="textarea" placeholder="Write a comment" minRows={'3'}  title='comment' onChange={(e) => setContent(e.target.value)}  /> 
+            </Grid>  
+            <Grid container display={{ xs: "none", lg: "block" }} md={10}>  </Grid>
+            <Grid justifyContent="flex-end" sx={{display:  { xs: 12, md: 2  ,justifyContent:'right'}}}>
+            <Button type='submit' size='small' color='primary' variant='contained' onClick={onComment}> Post Comment </Button>
+            </Grid>
+          </Grid> 
+          // </form>  
       ) 
 }
  

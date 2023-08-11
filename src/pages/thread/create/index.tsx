@@ -17,10 +17,9 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import secureLocalStorage from 'react-secure-storage'
-import localStorageKeys from 'src/configs/localstorage_keys'
-import { IUser } from 'src/contract/models/user'   
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+// import "../../node_modules/draft-js-image-plugin/lib/plugin.css"
+
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -33,10 +32,10 @@ import { getCleanErrorMessage } from 'src/utils/helpers'
 const Thread = () => {  
   // const theme = useTheme()  
   const [onLoading, setOnLoading] = useState(false);
-  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser 
   const [forumCode, getForumCode] = useState<[]>([])
   const [sforumCode, setForumCode] = useState(0)
   const [desc, setDesc] = useState(EditorState.createEmpty())
+
   const schema = yup.object().shape({
     title: yup.string().min(1).required()
   })
@@ -57,6 +56,23 @@ const Thread = () => {
 useEffect(() => {
   combobox()
 }, [])
+
+function uploadCallback(file:any){
+  console.log(file);
+  
+  return new Promise((resolve, reject) => {
+    const form_data = new FormData();
+    form_data.append('file', file)
+    HttpClient.postFile(`/user/filemanager` , form_data).then(response => {
+      if (response.status != 200) {
+        const error = response.data.message;
+        reject(error);
+      }
+      resolve({ data: { link: response.data.path } })
+    })
+  });
+}
+
 const onCreate = async (formData: any) => {
   const { title } = formData
 
@@ -137,12 +153,7 @@ const onCreate = async (formData: any) => {
                     <Grid item xs={12}>
                       <EditorWrapper>
                           <EditorArea editorState={desc} onEditorStateChange={data => setDesc(data)} toolbar={{
-                              options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
-                              inline: { inDropdown: true },
-                              list: { inDropdown: true },
-                              textAlign: { inDropdown: true },
-                              link: { inDropdown: true },
-                              history: { inDropdown: true },
+                              image: { uploadCallback: uploadCallback, previewImage: true,  alt: { present: true, mandatory: false }},
                           }}  placeholder='Write a thread'/>
                           <Button variant='contained' sx={{ mr: 2 }} type='submit'>
                               {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Save"}

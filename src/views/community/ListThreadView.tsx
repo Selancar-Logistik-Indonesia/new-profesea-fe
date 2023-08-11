@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Button, Link, Paper } from '@mui/material'
-import { Icon } from '@iconify/react'
+import { Avatar, Button, Card, CardContent, Link } from '@mui/material'
+import Icon from 'src/@core/components/icon'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
@@ -12,6 +12,7 @@ export type ParamMain = {
   id: string
   name: string
   title: any
+  snap_content: any
   forum: any
   date: string
   replies: string
@@ -30,59 +31,70 @@ const renderList = (arr: ParamMain[]) => {
     return arr.map((item, index) => {
 
       return (
-          <Grid item xs={4} key={index}>
-            <Paper>
-              <Box
-                height={110}
-                sx={{
-                  display: 'flex',
-                  alignContent: 'center',
-                  '& svg': { color: 'text.secondary' }
-                }}
-              >
-                <Grid container margin={2}>
-                  <Grid xs={9}>
-                    <Typography variant='body1' sx={{ color: 'text.primary', textTransform: 'uppercase' }} fontWeight={600}>
-                      {user.name}
-                    </Typography>
-                  </Grid>
-                  <Grid container xs={3} justifyContent='flex-end'>
-                    <Typography sx={{ fontWeight: 600, color: 'text.secondary', fontSize:12 }}>
-                      {item.forum
-                        ? `${item.forum.name.toString().charAt(0).toUpperCase() + item.forum.name.toString().slice(1)}`
-                        : ''}
-                    </Typography>
-                  </Grid>
-                  <Grid xs={12}>
-                    <Typography variant='h6' sx={{ color: 'text.primary', textTransform: 'uppercase' }} fontWeight={600}>
-                      {item.title
-                        ? `${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`
-                        : ''}
-                    </Typography>
-                  </Grid>
-                  <Grid xs={9}>
-                    <Box display={'flex'}>
-                      <Icon icon={'uil:comment'} fontSize={18} />
-                      <Typography variant='body1' sx={{ color: 'text.secondary' }} fontSize={11} fontWeight={600} marginLeft={'5px'} marginTop={'0.08rem'}>
-                        <Link href={'/thread?id=' + item.id} style={{ textDecoration: 'none' }}>
-                          Replies  {item.replies_count
-                            ? `${item.replies_count.toString().charAt(0).toUpperCase() + item.replies_count.toString().slice(1)
-                            }`
-                            : ''}
-                        </Link>
-
-                      </Typography>
+          <Grid item xs={12} md={4} key={index}>
+            <Card>
+              <CardContent>
+                <Link style={{ textDecoration: 'none' }} href={'/thread?id=' + item.id}>
+                  <Box
+                    height={65}
+                    sx={{
+                        display: 'flex',
+                        alignContent: 'center',
+                    }}
+                    mt={-5}
+                    >
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
+                        <Avatar src={user?.photo} alt='profile-picture' sx={{ width: 50, height: 50 }} />
                     </Box>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
+                        <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={14}>
+                            {user?.name}
+                        </Typography>
+                        <Grid container direction="row" alignItems="center" spacing={4}>
+                          <Grid item>                              
+                            <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
+                            {item.forum
+                          ? `${item.forum.name.toString().charAt(0).toUpperCase() + item.forum.name.toString().slice(1)}`
+                          : ''}
+                            </Typography>
+                          </Grid>
+                          <Grid item> 
+                            <Typography sx={{ color: 'text.secondary', mb: 1, fontSize:10 }}>
+                              {Moment(item.created_at).format('DD/MM/YYYY HH:MM:SS')}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                    </Box>
+                  </Box>
+                  <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} >
+                      <Typography sx={{ color: 'text.primary', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
+                        {item.title
+                          ? `${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`
+                          : ''}
+                      </Typography>
+                      <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={12}>
+                          {item?.snap_content}
+                      </Typography>
+                  </Box>
+                </Link>               
+                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-end'] }} >
+                  <Grid container direction="row" justifyContent="flex-end" spacing={6} >
+                      <Grid item xs={1} mr={2}> 
+                          <Icon icon={'uil:comment'} fontSize={18} />
+                          <Typography ml="1.5rem" mt="-1.5rem" fontSize={14}>
+                            {item.replies_count
+                              ? `${item.replies_count.toString().charAt(0).toUpperCase() + item.replies_count.toString().slice(1)
+                              }`
+                              : ''}    
+                          </Typography>    
+                      </Grid>
+                      <Grid item xs={1}> 
+                        <Icon icon={'uil:share'} fontSize={18} />
+                      </Grid>
                   </Grid>
-                  <Grid container xs={3} justifyContent='flex-end' mt={2}>
-                    <Typography sx={{ fontWeight: 600, color: 'text.secondary', fontSize:9 }}>
-                      {/* {item.created_at ? `${item.created_at.toString().charAt(0).toUpperCase() + item.crregeated_at.toString().slice(1)}` : ''} */}
-                      {Moment(item.created_at).format('DD/MM/YYYY HH:MM:SS')}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Paper>
+                </Box>
+              </CardContent>
+            </Card>
           </Grid>
       )
     })
@@ -111,10 +123,8 @@ const ListThreadView = (props: Props) => {
           Create Thread
         </Button>
       </Grid>
-      <Grid item xs={12}>
-        <Grid container spacing={2}>
-          {renderList(paramcomment)}
-        </Grid>
+      <Grid container spacing={2} mt={3}>
+        {renderList(paramcomment)}
       </Grid>
     </Grid>
   )
