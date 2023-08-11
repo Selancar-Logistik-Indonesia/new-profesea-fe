@@ -7,7 +7,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { styled, useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import { useSettings } from 'src/@core/hooks/useSettings'
-import BlankLayout from 'src/@core/layouts/BlankLayout' 
+import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 const LoginIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
     padding: theme.spacing(20),
@@ -119,12 +119,12 @@ const LoginPage = () => {
                 <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
                     <LoginIllustrationWrapper>
                         <LoginIllustration alt='login-illustration' src={`/images/img-verifyemail.png`} style={{
-                                    maxWidth: '100%',
-                                    height: '320px',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    marginBottom: '10%'
-                                }} />
+                            maxWidth: '100%',
+                            height: '320px',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginBottom: '10%'
+                        }} />
 
 
                     </LoginIllustrationWrapper>
