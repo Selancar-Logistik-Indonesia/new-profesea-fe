@@ -1,40 +1,47 @@
-import React, { useEffect, useState } from 'react'
-import { Grid } from '@mui/material'
-import { HttpClient } from 'src/services'
+import React, { useEffect } from 'react'
+import { Button, Grid } from '@mui/material'
 import ListThreadView from '../../views/community/ListThreadView'
-// import { ThreadProvider } from 'src/context/ThreadContext'
-// import { useThread } from 'src/hooks/useThread'
+import { ThreadProvider } from 'src/context/ThreadContext'
+import { useThread } from 'src/hooks/useThread'
 
 const Community = () => {
   return (
-    // <ThreadProvider>
+    <ThreadProvider>
       <CommunityApp />
-    // </ThreadProvider>
+    </ThreadProvider>
   )
 }
 
 const CommunityApp = () => {
-  const [listThread, setlistThread] = useState<any>([]);
-  // const { page } = useThread();
-
-  const firstload = () => {
-    HttpClient.get('/thread', { page: 1, take: 15, search: '' })
-      .then(response => {
-        const code = response.data.threads.data
-        setlistThread(code)
-      }).catch(() => alert("Something went wrong"));
-  }
+  const { fetchThreads } = useThread();
 
   useEffect(() => {
-    firstload()
+    fetchThreads({ take: 9 });
   }, []);
 
   return (
     <Grid container spacing={6}>
       <Grid item lg={12} md={9} xs={12}>
         <Grid container spacing={6}>
-          <Grid item xs={12}>
-            <ListThreadView paramcomment={listThread} />
+          <Grid item xs={12}>            
+            <Grid container  sx={{
+              boxSizing: 'border-box',
+              background: '#FFFFFF',
+              border: '1px solid rgba(76, 78, 100, 0.12)',
+              borderRadius: '10px',
+              p: 2,
+              display: 'flex',
+              alignItems: 'stretch',
+              justifyContent: 'center',
+              wrap: 'nowrap'
+            }}>
+              <Grid item xs={12} display={'flex'} alignContent={'flex-end'} justifyContent={'flex-end'}>
+                <Button variant='contained' href='/thread/create'>
+                  Create Thread
+                </Button>
+              </Grid>
+            <ListThreadView />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

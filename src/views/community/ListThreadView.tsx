@@ -1,33 +1,19 @@
+import ReactHtmlParser from 'react-html-parser'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Avatar, Button, Card, CardContent, Link } from '@mui/material'
+import { Avatar, Card, CardContent, CircularProgress, Link } from '@mui/material'
 import Icon from 'src/@core/components/icon'
-import secureLocalStorage from 'react-secure-storage'
-import localStorageKeys from 'src/configs/localstorage_keys'
-import { IUser } from 'src/contract/models/user'
 import Moment from 'moment'
+import IThread from 'src/contract/models/thread'
+import { useThread } from 'src/hooks/useThread'
+import { useEffect } from 'react'
+import ThreadContext from 'src/context/ThreadContext'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
-export type ParamMain = {
-  id: string
-  name: string
-  title: any
-  snap_content: any
-  forum: any
-  date: string
-  replies: string
-  replies_count: string
-  created_at: string
-}
-
-interface Props {
-  paramcomment: ParamMain[]
-}
-
-const renderList = (arr: ParamMain[]) => {
+const renderList = (arr: IThread[]) => {
   if (arr && arr.length) {
-    const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-
+    
     return arr.map((item, index) => {
 
       return (
@@ -44,11 +30,11 @@ const renderList = (arr: ParamMain[]) => {
                     mt={-5}
                     >
                     <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-                        <Avatar src={user?.photo} alt='profile-picture' sx={{ width: 50, height: 50 }} />
+                        <Avatar src={item.user?.photo} alt='profile-picture' sx={{ width: 50, height: 50 }} />
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
                         <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={14}>
-                            {user?.name}
+                            {item.user?.name}
                         </Typography>
                         <Grid container direction="row" alignItems="center" spacing={4}>
                           <Grid item>                              
@@ -73,7 +59,7 @@ const renderList = (arr: ParamMain[]) => {
                           : ''}
                       </Typography>
                       <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={12}>
-                          {item?.snap_content}
+                        {ReactHtmlParser(`${item?.snap_content}`)}
                       </Typography>
                   </Box>
                 </Link>               
@@ -103,30 +89,39 @@ const renderList = (arr: ParamMain[]) => {
   }
 }
 
-const ListThreadView = (props: Props) => {
-  const { paramcomment } = props
+const ListThreadView = () => {
+  const { fetchThreads, hasNextPage, totalThread } = useThread();
+
+  useEffect(() => {
+    
+  }, [hasNextPage]);
 
   return (
-    <Grid container  sx={{
-      boxSizing: 'border-box',
-      background: '#FFFFFF',
-      border: '1px solid rgba(76, 78, 100, 0.12)',
-      borderRadius: '10px',
-      p: 2,
-      display: 'flex',
-      alignItems: 'stretch',
-      justifyContent: 'center',
-      wrap: 'nowrap'
-    }}>
-      <Grid item xs={12} display={'flex'} alignContent={'flex-end'} justifyContent={'flex-end'}>
-        <Button variant='contained' href='/thread/create'>
-          Create Thread
-        </Button>
-      </Grid>
-      <Grid container spacing={2} mt={3}>
-        {renderList(paramcomment)}
-      </Grid>
-    </Grid>
+
+    <ThreadContext.Consumer>
+      {({ threads, onLoading }) => {
+        if (onLoading) {
+        
+          return (
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <CircularProgress sx={{ mt: 20 }} />
+                </Box>
+            );
+        }
+        
+        return(
+          <InfiniteScroll
+              dataLength={totalThread}
+              next={() => fetchThreads({ take: 9 })}
+              hasMore={hasNextPage}
+              loader={(<CircularProgress sx={{ mt: 20 }} />)}>
+              <Grid container spacing={2} mt={3}>
+                {renderList(threads)}
+              </Grid>
+          </InfiniteScroll>
+        )
+      }}
+    </ThreadContext.Consumer>
   )
 }
 
