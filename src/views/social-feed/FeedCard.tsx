@@ -58,6 +58,10 @@ const FeedCard = (props: Prop) => {
                 )}
             </Box>
 
+            {withBottomArea !== false && (
+                <FeedBottomActions item={item} openComment={openComment} setOpenComment={setOpenComment} />
+            )}
+
             {withBottomArea !== false && openComment && (
                 <CommentAreaView item={item} />
             )}
