@@ -9,6 +9,7 @@ import Postfeed from 'src/views/social-feed/Postfeed'
 import ListFeedView from 'src/views/social-feed/ListFeedView'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
+import SideAd from 'src/views/banner-ad/sidead'
 
 const SocialFeed = () => {
   return (
@@ -78,6 +79,7 @@ const SocialFeedApp = () => {
             </Grid>
           </Grid>
           <Feed />
+          <SideAd sx={{ mt: 5 }} />
         </Grid>
       </Grid>
     </Box>
