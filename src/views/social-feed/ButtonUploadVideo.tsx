@@ -37,7 +37,7 @@ const ButtonUploadVideo = () => {
             await updateStatus({
                 content_type: 'videos',
                 content: content,
-                attachments: inputFile.current?.files?.item(0)
+                attachments: inputFile.current?.files
             });
 
             setContent('');
