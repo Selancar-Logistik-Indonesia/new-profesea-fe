@@ -76,7 +76,7 @@ const renderList = (arr: ParamMain[]) => {
                         ? `${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`
                         : ''}
                     </Typography>
-                    <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={12}>
+                    <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
                         {item?.snap_content}
                     </Typography>
                 </Box>

@@ -27,13 +27,13 @@ import CommentForm from './CommentForm'
 import Commented from './Commented';
 
 const Thread = () => { 
-   const windowUrl = window.location.search
-   const params = new URLSearchParams(windowUrl)
-const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-// const [userDetail, setUserDetail] = useState<IUser | null>(null)
-const [listComment, setlistComment] = useState<any>([])
-const [listThread, setlistThread] = useState<any>([])
-const [threadDetail, setthreadDetail] = useState<any>([])
+  const windowUrl = window.location.search
+  const params = new URLSearchParams(windowUrl)
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+  // const [userDetail, setUserDetail] = useState<IUser | null>(null)
+  const [listComment, setlistComment] = useState<any>([])
+  const [listThread, setlistThread] = useState<any>([])
+  const [threadDetail, setthreadDetail] = useState<any>([])
  
 const firstload = () => {
 
@@ -41,7 +41,7 @@ const firstload = () => {
     const detail = response.data.thread  
     setthreadDetail(detail)
   })
-  HttpClient.get(`/thread/replies?page=1&take=10&replyable_id=${ params.get('id')}&replyable_type=thread_reply`).then(response => {
+  HttpClient.get(`/thread/replies?page=1&take=10&replyable_id=${ params.get('id')}&replyable_type=thread`).then(response => {
     const replies = response.data.replies.data  
     setlistComment(replies)
   })
@@ -58,48 +58,42 @@ const firstload = () => {
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item container spacing={6}>
-          <Grid item md={9} xs={12}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Card>
-                  <CardContent>
-                    <Box sx={{ mb: 7 }}>
-                      <Grid item container xs={12} justifyContent={'center'}>
-                        <Typography
-                          variant='body2'
-                          sx={{ mb: 4, color: '#424242', textTransform: 'uppercase', fontWeight: 600 }}
-                        >
-                          {listThread?.title}
-                        </Typography>
-                      </Grid>
-                      <Grid item container xs={12} justifyContent={'flex'}>
-                        <Typography
-                          variant='body1'
-                          sx={{ mb: 4, color: '#424242', fontWeight: 300 }}
-                        >
-                          {ReactHtmlParser(`${threadDetail?.content}`)}
-                        </Typography>
-                      </Grid>
-                      <Grid item container xs={12} justifyContent={'flex'}>
-                        <CommentForm  user_id={user?.id} thread_id={threadDetail?.id} />
-                      </Grid>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12}>
-                <Commented paramcomment={listComment}></Commented>
-              </Grid>
+        <Grid item md={9} xs={12}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Card>
+                <CardContent>
+                  <Box sx={{ mb: 7 }}>
+                    <Grid item container xs={12} justifyContent={'center'}>
+                      <Typography
+                        variant='body2'
+                        sx={{ mb: 4, color: '#424242', textTransform: 'uppercase', fontWeight: 600 }}
+                      >
+                        {listThread?.title}
+                      </Typography>
+                    </Grid>
+                    <Grid item container xs={12} justifyContent={'flex'}>
+                      <Typography
+                        variant='body1'
+                        sx={{ p: 4, color: '#424242', fontWeight: 300 }}
+                      >
+                        {ReactHtmlParser(`${threadDetail?.content}`)}
+                      </Typography>
+                    </Grid>
+                    <Grid item container xs={12} justifyContent={'flex'}>
+                      <CommentForm  user_id={user?.id} thread_id={threadDetail?.id} />
+                    </Grid>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12}>
+              <Commented paramcomment={listComment}></Commented>
             </Grid>
           </Grid>
-          <Grid item md={3} xs={12}>
-            <Grid container spacing={6}>
-              <Grid item xs={12}>
-                <Recomended paramcomment={listThread}></Recomended>
-              </Grid>
-            </Grid>
-          </Grid>
+        </Grid>
+        <Grid item md={3} xs={12}>
+            <Recomended paramcomment={listThread}></Recomended>
         </Grid>
       </Grid>
     </Box>

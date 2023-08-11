@@ -7,6 +7,7 @@ type ThreadContextType = {
     onLoading: boolean,
     threads: IThread[],
     hasNextPage: boolean,
+    fetchThreads: (payload : { take: number, search?:any }) => Promise<void>,
 }
 
 export default ThreadContextType;

@@ -75,7 +75,7 @@ export type ParamMain = {
     const json = {
         "user_id": props.user_id,
         "replyable_id": props.thread_id,
-        "replyable_type": "thread_reply",
+        "replyable_type": "thread",
         "content": content
     }   
 
