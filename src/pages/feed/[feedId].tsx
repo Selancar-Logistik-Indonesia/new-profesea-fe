@@ -19,13 +19,14 @@ const FeedDetailApp = () => {
 
 const FeedDetail = () => {
     const router = useRouter();
-    let feedId = parseInt(router.query?.feedId as string);
+    const feedId = parseInt(router.query?.feedId as string);
     const [feed, setFeed] = useState<ISocialFeed | null>(null);
 
     const getDetailFeed = async () => {
         const response = await HttpClient.get(`/social-feed/feed/${feedId}`);
         if (response.status != 200) {
             alert(response.data?.message ?? "Unknow error!");
+
             return;
         }
 
