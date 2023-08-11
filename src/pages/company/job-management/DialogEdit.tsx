@@ -184,174 +184,213 @@ const DialogEdit = (props: EditProps) => {
     // console.log(props)
 
     return (
-        <Dialog
-            fullWidth
-            open={props.visible}
-            maxWidth='md'
-            scroll='body'
-            onClose={props.onCloseClick}
-            TransitionComponent={Transition}
-        >
-            <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
-                <DialogContent
-                    sx={{
-                        position: 'relative',
-                        pb: theme => `${theme.spacing(8)} !important`,
-                        px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-                        pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-                    }}
-                >
-                    <IconButton size='small' onClick={props.onCloseClick} sx={{ position: 'absolute', right: '1rem', top: '1rem' }} >
-                        <Icon icon='mdi:close' />
-                    </IconButton>
-                    <Box sx={{ mb: 6, textAlign: 'center' }}>
-                        <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                            Edit Job
-                        </Typography>
-                        <Typography variant='body2'>Edit Job</Typography>
-                    </Box>
+      <Dialog
+        fullWidth
+        open={props.visible}
+        maxWidth='md'
+        scroll='body'
+        onClose={props.onCloseClick}
+        TransitionComponent={Transition}
+      >
+        <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+          <DialogContent
+            sx={{
+              position: 'relative',
+              pb: theme => `${theme.spacing(8)} !important`,
+              px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+              pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            }}
+          >
+            <IconButton
+              size='small'
+              onClick={props.onCloseClick}
+              sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
+            >
+              <Icon icon='mdi:close' />
+            </IconButton>
+            <Box sx={{ mb: 6, textAlign: 'center' }}>
+              <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
+                Edit Job
+              </Typography>
+              <Typography variant='body2'>Edit Job</Typography>
+            </Box>
 
-                    <Grid container columnSpacing={'1'} rowSpacing={'2'} >
-                        <Grid item md={6} xs={12}>
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-type"
-                                value={Type}
-                                options={RoleType}
-                                {...register("role_type")}
-                                getOptionLabel={(option: RoleType) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Job Title" />}
-                                onChange={(event: any, newValue: RoleType | null) => (newValue) ? setType(newValue) : setType(props.selectedItem.role_type)}
-                            />
-                        </Grid>
-                        <Grid item md={6} xs={12}>
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-level"
-                                value={Level}
-                                options={RoleLevel}
-                                getOptionLabel={(option: RoleLevel) => option.levelName}
-                                renderInput={(params) => <TextField {...params} label="Role Level" />}
-                                onChange={(event: any, newValue: RoleLevel | null) => (newValue) ? setLevel(newValue) : setLevel(props.selectedItem.rolelevel)}
-                            />
-                        </Grid>
-                        <Grid item md={6} xs={12} >
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-category"
-                                value={Cat}
-                                options={JobCategory}
-                                {...register("category")}
-                                getOptionLabel={(option: JobCategory) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Job Category" />}
-                                onChange={(event: any, newValue: JobCategory | null) => (newValue) ? setCat(newValue) : setCat(props.selectedItem.category)}
-                            />
-                        </Grid>
-                        <Grid item md={6} xs={12} >
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-degree"
-                                value={Edu}
-                                options={Education}
-                                {...register("degree")}
-                                getOptionLabel={(option: Degree) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Education" />}
-                                onChange={(event: any, newValue: Degree | null) => (newValue) ? setEdu(newValue) : setEdu(props.selectedItem.degree)}
-                            />
-                        </Grid>
-                        
-                        <Grid item md={4} xs={12}>
-                            <Autocomplete
-                            disablePortal
-                            id='combo-box-country'
-                            options={combocountry}
-                            value={Cou}
-                            getOptionLabel={(option: any) => option.nicename}
-                            renderInput={params => <TextField {...params} label='Country' />}
-                            onChange={(event: any, newValue: Countries | null) =>
-                                newValue ? searchcity(newValue) : searchcity(props.selectedItem.country)
-                            }
-                            />
-                        </Grid>
+            <Grid container columnSpacing={'1'} rowSpacing={'2'}>
+              <Grid item md={6} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-type'
+                  value={Type}
+                  options={RoleType}
+                  {...register('role_type')}
+                  getOptionLabel={(option: RoleType) => option.name}
+                  renderInput={params => <TextField {...params} label='Job Title' />}
+                  onChange={(event: any, newValue: RoleType | null) =>
+                    newValue ? setType(newValue) : setType(props.selectedItem.role_type)
+                  }
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-level'
+                  value={Level}
+                  options={RoleLevel}
+                  getOptionLabel={(option: RoleLevel) => option.levelName}
+                  renderInput={params => <TextField {...params} label='Role Level' />}
+                  onChange={(event: any, newValue: RoleLevel | null) =>
+                    newValue ? setLevel(newValue) : setLevel(props.selectedItem.rolelevel)
+                  }
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-category'
+                  value={Cat}
+                  options={JobCategory}
+                  {...register('category')}
+                  getOptionLabel={(option: JobCategory) => option.name}
+                  renderInput={params => <TextField {...params} label='Job Category' />}
+                  onChange={(event: any, newValue: JobCategory | null) =>
+                    newValue ? setCat(newValue) : setCat(props.selectedItem.category)
+                  }
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-degree'
+                  value={Edu}
+                  options={Education}
+                  {...register('degree')}
+                  getOptionLabel={(option: Degree) => option.name}
+                  renderInput={params => <TextField {...params} label='Education' />}
+                  onChange={(event: any, newValue: Degree | null) =>
+                    newValue ? setEdu(newValue) : setEdu(props.selectedItem.degree)
+                  }
+                />
+              </Grid>
 
-                        <Grid item md={4} xs={12}>
-                            <Autocomplete
-                            disablePortal
-                            id='combo-box-city'
-                            options={combocity}                            
-                            value={Cit}
-                            getOptionLabel={(option: City) => option.city_name}
-                            renderInput={params => <TextField {...params} label='City' />}
-                            onChange={(event: any, newValue: City | null) =>
-                                newValue ? setCit(newValue) : setCit(props.selectedItem.city)
-                            }
-                            />
-                        </Grid>
-                        <Grid item md={4} xs={12} >
-                            <DatePickerWrapper>
-                                <DatePicker
-                                dateFormat='dd/MM/yyyy'
-                                selected={date}
-                                id='basic-input'
-                                onChange={(date: Date) => setDate(date)}
-                                placeholderText='Click to select a date'
-                                customInput={<TextField label='Date On Board' variant="outlined" fullWidth  {...register("onboard_at")} />}
-                                />
-                            </DatePickerWrapper>
-                        </Grid>
-                        <Grid item md={12} xs={12} >
-                            <Autocomplete
-                                multiple
-                                options={licenseData}
-                                id='license'
-                                value={license}
-                                filterSelectedOptions
-                                getOptionLabel={option => option.title || ''}
-                                fullWidth
-                                onChange={(e, newValue: any) => (newValue) ? setLicense(newValue) : setLicense([])}
-                                renderInput={params => <TextField {...params} fullWidth label='License'
-                                 />}
-                            />
-                        </Grid>
-                        <Grid item md={6} xs={12} >
-                            <TextField defaultValue={props.selectedItem.salary_start} id="salary_start" label="Salary From" variant="outlined" fullWidth  {...register("salary_start")} />
-                        </Grid>
-                        <Grid item md={6} xs={12} >
-                            <TextField defaultValue={props.selectedItem.salary_end} id="salary_end" label="Salary To" variant="outlined" fullWidth {...register("salary_end")} />
-                        </Grid>
-                        <Grid item md={12} xs={12} >
-                            <TextField defaultValue={props.selectedItem.experience} id="experience" label="Experience" variant="outlined" fullWidth {...register("experience")} />
-                        </Grid>
-                        <Grid item md={12} xs={12} >
-                            <EditorWrapper>
-                                <EditorArea editorState={desc} onEditorStateChange={data => setDesc(data)} toolbar={{
-                                    options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
-                                    inline: { inDropdown: true },
-                                    list: { inDropdown: true },
-                                    textAlign: { inDropdown: true },
-                                    link: { inDropdown: true },
-                                    history: { inDropdown: true },
-                                }}  />
-                            </EditorWrapper>
-                        </Grid>
-                    </Grid>
-                </DialogContent>
-                <DialogActions
-                    sx={{
-                        justifyContent: 'center',
-                        px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-                        pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+              <Grid item md={4} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-country'
+                  options={combocountry}
+                  value={Cou}
+                  getOptionLabel={(option: any) => option.nicename}
+                  renderInput={params => <TextField {...params} label='Country' />}
+                  onChange={(event: any, newValue: Countries | null) =>
+                    newValue ? searchcity(newValue) : searchcity(props.selectedItem.country)
+                  }
+                />
+              </Grid>
+
+              <Grid item md={4} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-city'
+                  options={combocity}
+                  value={Cit}
+                  getOptionLabel={(option: City) => option.city_name}
+                  renderInput={params => <TextField {...params} label='City' />}
+                  onChange={(event: any, newValue: City | null) =>
+                    newValue ? setCit(newValue) : setCit(props.selectedItem.city)
+                  }
+                />
+              </Grid>
+              <Grid item md={4} xs={12}>
+                <DatePickerWrapper>
+                  <DatePicker
+                    minDate={new Date()}
+                    dateFormat='dd/MM/yyyy'
+                    selected={date}
+                    id='basic-input'
+                    onChange={(date: Date) => setDate(date)}
+                    placeholderText='Click to select a date'
+                    customInput={
+                      <TextField label='Date On Board' variant='outlined' fullWidth {...register('onboard_at')} />
+                    }
+                  />
+                </DatePickerWrapper>
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <Autocomplete
+                  multiple
+                  options={licenseData}
+                  id='license'
+                  value={license}
+                  filterSelectedOptions
+                  getOptionLabel={option => option.title || ''}
+                  fullWidth
+                  onChange={(e, newValue: any) => (newValue ? setLicense(newValue) : setLicense([]))}
+                  renderInput={params => <TextField {...params} fullWidth label='License' />}
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  defaultValue={props.selectedItem.salary_start}
+                  id='salary_start'
+                  label='Salary From'
+                  variant='outlined'
+                  fullWidth
+                  {...register('salary_start')}
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  defaultValue={props.selectedItem.salary_end}
+                  id='salary_end'
+                  label='Salary To'
+                  variant='outlined'
+                  fullWidth
+                  {...register('salary_end')}
+                />
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <TextField
+                  defaultValue={props.selectedItem.experience}
+                  id='experience'
+                  label='Experience'
+                  variant='outlined'
+                  fullWidth
+                  {...register('experience')}
+                />
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <EditorWrapper>
+                  <EditorArea
+                    editorState={desc}
+                    onEditorStateChange={data => setDesc(data)}
+                    toolbar={{
+                      options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
+                      inline: { inDropdown: true },
+                      list: { inDropdown: true },
+                      textAlign: { inDropdown: true },
+                      link: { inDropdown: true },
+                      history: { inDropdown: true }
                     }}
-                >
-                    <Button variant='contained' sx={{ mr: 2 }} type='submit'>
-                        {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
-                    </Button>
-                    <Button variant='outlined' color='secondary' onClick={props.onCloseClick}>
-                        Cancel
-                    </Button>
-                </DialogActions>
-            </form>
-        </Dialog>
+                  />
+                </EditorWrapper>
+              </Grid>
+            </Grid>
+          </DialogContent>
+          <DialogActions
+            sx={{
+              justifyContent: 'center',
+              px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+              pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            }}
+          >
+            <Button variant='contained' sx={{ mr: 2 }} type='submit'>
+              {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
+            </Button>
+            <Button variant='outlined' color='secondary' onClick={props.onCloseClick}>
+              Cancel
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
     )
 }
 

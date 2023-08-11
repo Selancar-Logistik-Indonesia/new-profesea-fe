@@ -1,26 +1,25 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
-import { Button, Typography } from '@mui/material';
+import { Button, Chip, Typography } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , width: 50},
     { field: 'name', headerName: 'Name', sortable: true , minWidth: 250},
     { field: 'category', headerName: 'Category', sortable: false, minWidth: 150 },
-    { field: 'email', headerName: 'Email', sortable: false, minWidth: 250 },
+    { field: 'email', headerName: 'Email', sortable: false, minWidth: 230 },
     { field: 'phone', headerName: 'Phone', sortable: false, minWidth: 150 },
-    { field: 'status', headerName: 'Status', sortable: false, minWidth: 100, 
+    { field: 'status', headerName: 'Status', sortable: false, minWidth: 130, 
         renderCell: (cell) => {
         const { row } = cell;
 
             return (
-                <>
-                    <Button color='warning' size='small' >
-                        {row.status}
-                    </Button>
-                </>
-            );
+              <>
+                <Chip label={row.status} color='primary' />
+                
+              </>
+            )
         } 
     },
     {
@@ -32,17 +31,28 @@ const columns: GridColDef[] = [
             const { row } = cell;
 
             return (
-                <>
-                    <Button onClick={() => row.actions.onView()} variant='outlined' color='primary' size='small' sx={{ mr: 2 }}>
-                        <Icon icon='mdi:eye' />
-                        <Typography ml={1} fontSize={'14px'} color='primary'> View</Typography>
-                    </Button>
-                    <Button onClick={() => row.actions.onDownload()} variant='outlined' color='secondary' size='small'>
-                        <Icon icon='mdi:download' />
-                        <Typography ml={1} fontSize={'14px'}>Resume </Typography>
-                    </Button>
-                </>
-            );
+              <>
+                <Button
+                  onClick={() => row.actions.onView()}
+                  variant='outlined'
+                  color='secondary'
+                  size='small'
+                  sx={{ mr: 2 }}
+                >
+                  <Icon icon='mdi:eye' />
+                  <Typography ml={1} fontSize={'14px'} color='grey'>
+                    {' '}
+                    View
+                  </Typography>
+                </Button>
+                <Button onClick={() => row.actions.onDownload()} variant='outlined' color='warning' size='small'>
+                  <Icon icon='mdi:download' color='warning' />
+                  <Typography ml={1} fontSize={'14px'} color='#DF9F23'>
+                    Resume
+                  </Typography>
+                </Button>
+              </>
+            )
         }
     },
 ];

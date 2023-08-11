@@ -35,7 +35,7 @@ const FooterView = () => {
                     <Grid item md={4} xs={6} alignContent={'left'}>
                         <Typography sx={{ mb: 2 }} color={"#ef6c00"} fontSize={16}>Platform</Typography>
                         <Typography mt={1.7} variant='body1' color={"#ffffff"}>Seafarer</Typography>
-                        <Typography mt={1.7} variant='body1' color={"#ffffff"}>Company</Typography>
+                        <Typography mt={1.7} variant='body1' color={"#ffffff"}>Recruiter</Typography>
                         <Typography mt={1.7} variant='body1' color={"#ffffff"}>Trainer</Typography>
                     </Grid>
                 </Grid>

@@ -97,7 +97,7 @@ const JobDetail = () => {
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
-                    <Icon icon='mdi:license' fontSize={20} color='#32487A' />
+                    <Icon icon='mdi:license' fontSize={35} color='#32487A' />
                     <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
                       {license.map(e => e.title).join(", ")}
                     </Typography>
@@ -168,6 +168,13 @@ const JobDetail = () => {
                   <Grid container spacing={2} alignItems="right" justifyContent="center">
                     <Grid item>
                       <Button variant='contained' color='secondary'>
+                       <Icon
+                          fontSize='large'
+                          icon={'mdi:share'}
+                          color={'info'}
+                          style={{ fontSize: '14px', margin:3 }}
+                        
+                        />
                         Share
                       </Button>
                     </Grid>

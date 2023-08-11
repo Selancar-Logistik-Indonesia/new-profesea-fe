@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
@@ -19,15 +19,29 @@ const columns: GridColDef[] = [
             const { row } = cell;
 
             return (
-                <>
-                    <Button target='blank' href={'/profile/?username='+row?.username} variant='outlined' size='small' sx={{mr:2}}>
-                        <Icon icon='mdi:user' />Profile
-                    </Button>
-                    <Button onClick={() => row.actions.onDownload()} variant='outlined' color='secondary' size='small'>
-                        <Icon icon='mdi:download' />Resume
-                    </Button>
-                </>
-            );
+              <>
+                <Button
+                  target='blank'
+                  href={'/profile/?username=' + row?.username}
+                  variant='outlined'
+                  size='small'
+                  sx={{ mr: 2 }}
+                >
+                  <Icon icon='mdi:user' />
+                  Profile
+                </Button>
+                <Button onClick={() => row.actions.onDownload()} variant='outlined' color='warning' size='small'>
+                  <Icon icon='mdi:download' color='warning' />
+                  <Typography ml={1} fontSize={'14px'} color='#DF9F23'>
+                    Resume
+                  </Typography>
+                </Button>
+                {/* <Button onClick={() => row.actions.onDownload()} variant='outlined' color='secondary' size='small'>
+                  <Icon icon='mdi:download' />
+                  Resume
+                </Button> */}
+              </>
+            )
         }
     },
 ];

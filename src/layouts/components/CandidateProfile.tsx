@@ -43,7 +43,8 @@ import CardContent from '@mui/material/CardContent'
 import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
-import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
+import DialogEditDocument from 'src/pages/candidate/DialogEditDocument' 
+import { refreshsession } from 'src/utils/helpers'
 
 type FormData = {
   fullName: string
@@ -348,6 +349,8 @@ const CandidateProfile = (props: compProps) => {
           HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
             console.log('here 1', data)
             toast.success(' Successfully submited!')
+            refreshsession();
+            window.location.replace('/home')
           })
         }
 
@@ -666,6 +669,17 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid>
+              <Grid item md={12} xs={12}>
+                <TextField
+                  id='address'
+                  label='Address'
+                  defaultValue={props.datauser.address?.address}
+                  variant='outlined'
+                  fullWidth
+                  sx={{ mb: 1 }}
+                  {...register('address')}
+                />
+              </Grid>
               <Grid item md={6} xs={12}>
                 <TextField
                   id='Email'
@@ -717,17 +731,7 @@ const CandidateProfile = (props: compProps) => {
                   {...register('phone')}
                 />
               </Grid>
-              <Grid item md={6} xs={12}>
-                <TextField
-                  id='address'
-                  label='Address'
-                  defaultValue={props.datauser.address?.address}
-                  variant='outlined'
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  {...register('address')}
-                />
-              </Grid>
+              
 
               <Grid item md={12} xs={12}>
                 <TextField
@@ -743,9 +747,8 @@ const CandidateProfile = (props: compProps) => {
               </Grid>
               {tampilkanship == 'On-Ship' && (
                 <Grid item container xs={12} spacing={2} sx={{ mb: 2 }}>
-                  <Grid xs={12}>
-                    <Typography variant='h5'>ON-SHIP TYPE</Typography>
-                    <br></br>
+                  <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
+                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>On-Ship Type</Typography>
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <Autocomplete
@@ -810,6 +813,7 @@ const CandidateProfile = (props: compProps) => {
                   <Grid item md={6} xs={12}>
                     <DatePickerWrapper>
                       <DatePicker
+                      minDate={new Date()}
                         dateFormat='dd/MM/yyyy'
                         selected={date}
                         id='basic-input'
@@ -822,40 +826,40 @@ const CandidateProfile = (props: compProps) => {
                     </DatePickerWrapper>
                   </Grid>
                   <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
-                    <Typography variant='body2' sx={{ fontSize: '18px' }} marginRight={2}>
-                      Spoken
-                    </Typography>
-                    <Select
-                      labelId='demo-multiple-chip-label'
-                      id='demo-multiple-chip'
-                      multiple
-                      value={personName}
-                      onChange={handleChange}
-                      label='Spoken'
-                      sx={{ fontSize: '18px' }}
-                      input={
-                        <OutlinedInput
-                          id='select-multiple-chip'
-                          label='Chip'
-                          defaultValue={props.datauser?.field_preference?.spoken_langs}
-                          sx={{ fontSize: '8px' }}
-                        />
-                      }
-                      renderValue={selected => (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
-                          {selected.map(value => (
-                            <Chip key={value} label={value} />
-                          ))}
-                        </Box>
-                      )}
-                      MenuProps={MenuProps}
-                    >
-                      {names.map(name => (
-                        <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-                          {name}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                   <FormControl>
+                      <InputLabel id="demo-multiple-chip-label">Spoken</InputLabel>
+                      <Select
+                        labelId='demo-multiple-chip-label'
+                        id='demo-multiple-chip'
+                        multiple
+                        value={personName}
+                        onChange={handleChange}
+                        label='Spoken'
+                        sx={{ fontSize: '18px', height: 50.2 }}
+                        input={
+                          <OutlinedInput
+                            id='select-multiple-chip'
+                            label='Chip'
+                            defaultValue={props.datauser?.field_preference?.spoken_langs}
+                            sx={{ fontSize: '8px' }}
+                          />
+                        }
+                        renderValue={selected => (
+                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                            {selected.map(value => (
+                              <Chip key={value} label={value} />
+                            ))}
+                          </Box>
+                        )}
+                        MenuProps={MenuProps}
+                      >
+                        {names.map(name => (
+                          <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                            {name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                   </Grid>
                 </Grid>
               )}

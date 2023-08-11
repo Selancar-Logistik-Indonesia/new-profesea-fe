@@ -15,8 +15,7 @@ import AllJobApplied from './applied'
 import Degree from 'src/contract/models/degree'
 import JobCategory from 'src/contract/models/job_category'
 import RoleLevel from 'src/contract/models/role_level'
-import RoleType from 'src/contract/models/role_type'
-import VesselType from 'src/contract/models/vessel_type'
+import RoleType from 'src/contract/models/role_type' 
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
@@ -60,8 +59,7 @@ const SeafererJob = () => {
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const [collapsed, setCollapsed] = useState<boolean>(true)
-  // const [collapsed2, setCollapsed2] = useState<boolean>(false)
-  const [vessel, getVessel] = useState<any[]>([]);
+  // const [collapsed2, setCollapsed2] = useState<boolean>(false) 
   const [JobCategory, getJobCategory] = useState<any[]>([]);
   const [Education, getEducation] = useState<any[]>([]);
   const [RoleLevel, getRoleLevel] = useState<any[]>([]);  
@@ -77,12 +75,7 @@ const SeafererJob = () => {
   const [textCompany, SetTextCompany] = useState<any>('') 
 
   const firstload = () => {
-    HttpClient.get(`/public/data/vessel-type?page=1&take=250&search`).then(response => {
-      if (response.status != 200) {
-          throw response.data.message ?? "Something went wrong!";
-      }
-      getVessel(response.data.vesselTypes.data);
-    })
+   
     HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
         if (response.status != 200) {
             throw response.data.message ?? "Something went wrong!";
@@ -137,7 +130,7 @@ const SeafererJob = () => {
     <Box>
       <Grid container spacing={2}>
         <Grid item lg={3} md={5} xs={12}>
-        <Box mb={3}>
+          <Box mb={3}>
             <Card>
               <CardContent>
                 <TextField
@@ -151,128 +144,146 @@ const SeafererJob = () => {
               </CardContent>
             </Card>
           </Box>
-        <Box mb={3}>
-          <Card>
-            <CardHeader
-              title={
-                <Typography variant="body2" style={{ fontSize: '14px', color: '#424242' }}>
-                  Basic Search
-                </Typography>
-              }
-              action={
-                <IconButton
-                  size='small'
-                  aria-label='collapse'
-                  sx={{ color: 'text.secondary' }}
-                  onClick={() => setCollapsed(!collapsed)}
-                >
-                  <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                </IconButton>
-              }
-            />
-            <Collapse in={collapsed}>
-              <CardContent>         
-                <Autocomplete
-                  sx={{ marginBottom:2 }}
-                  disablePortal
-                  id="combo-box-demo"
-                  options={RoleType}
-                  getOptionLabel={(option: RoleType) => option.name}
-                  renderInput={(params) => <TextField {...params} label="Job Title" />}
-                  onChange={(event: any, newValue: RoleType | null) => (newValue?.id) ? setJT(newValue?.id) : setJT(0)}
-                />  
+          <Box mb={3}>
+            <Card>
+              <CardHeader
+                title={
+                  <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
+                    Basic Search
+                  </Typography>
+                }
+                action={
+                  <IconButton
+                    size='small'
+                    aria-label='collapse'
+                    sx={{ color: 'text.secondary' }}
+                    onClick={() => setCollapsed(!collapsed)}
+                  >
+                    <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                  </IconButton>
+                }
+              />
+              <Collapse in={collapsed}>
+                <CardContent>
+                  <Autocomplete
+                    sx={{ marginBottom: 2 }}
+                    disablePortal
+                    id='combo-box-demo'
+                    options={RoleType}
+                    getOptionLabel={(option: RoleType) => option.name}
+                    renderInput={params => <TextField {...params} label='Job Title' />}
+                    onChange={(event: any, newValue: RoleType | null) =>
+                      newValue?.id ? setJT(newValue?.id) : setJT(0)
+                    }
+                  />
                   {/* Category */}
-                <Autocomplete
-                sx={{ marginBottom:2 }}
-                  disablePortal
-                  id="combo-box-level"
-                  options={JobCategory}
-                  getOptionLabel={(option: JobCategory) => option.name}
-                  renderInput={(params) => <TextField {...params} label="Job Category" />}
-                  onChange={(event: any, newValue: JobCategory | null) => (newValue?.id) ? setJC(newValue?.id) : setJC(0)}
-                />
-                <Autocomplete
-                sx={{ marginBottom:2 }}
-                  disablePortal
-                  id="combo-box-level"
-                  options={RoleLevel}
-                  getOptionLabel={(option: RoleLevel) => option.levelName}
-                  renderInput={(params) => <TextField {...params} label="Role Level" />}
-                  onChange={(event: any, newValue: RoleLevel | null) => (newValue?.id) ?  setRL(newValue?.id) : setRL(0)}
-                />
-                <Autocomplete
-                sx={{ marginBottom:2 }}
-                  disablePortal
-                  id="combo-box-demo"
-                  options={Education}
-                  getOptionLabel={(option: Degree) => option.name}
-                  renderInput={(params) => <TextField {...params} label="Education" />}
-                  onChange={(event: any, newValue: Degree | null) => (newValue?.id) ?  setED(newValue?.id) : setED(0)}
-                />                
-                <DatePickerWrapper>
+                  <Autocomplete
+                    sx={{ marginBottom: 2 }}
+                    disablePortal
+                    id='combo-box-level'
+                    options={JobCategory}
+                    getOptionLabel={(option: JobCategory) => option.name}
+                    renderInput={params => <TextField {...params} label='Job Category' />}
+                    onChange={(event: any, newValue: JobCategory | null) =>
+                      newValue?.id ? setJC(newValue?.id) : setJC(0)
+                    }
+                  />
+                  <Autocomplete
+                    sx={{ marginBottom: 2 }}
+                    disablePortal
+                    id='combo-box-level'
+                    options={RoleLevel}
+                    getOptionLabel={(option: RoleLevel) => option.levelName}
+                    renderInput={params => <TextField {...params} label='Role Level' />}
+                    onChange={(event: any, newValue: RoleLevel | null) =>
+                      newValue?.id ? setRL(newValue?.id) : setRL(0)
+                    }
+                  />
+                  <Autocomplete
+                    sx={{ marginBottom: 2 }}
+                    disablePortal
+                    id='combo-box-demo'
+                    options={Education}
+                    getOptionLabel={(option: Degree) => option.name}
+                    renderInput={params => <TextField {...params} label='Education' />}
+                    onChange={(event: any, newValue: Degree | null) => (newValue?.id ? setED(newValue?.id) : setED(0))}
+                  />
+                  <DatePickerWrapper>
                     <DatePicker
-                    dateFormat='dd/MM/yyyy'
-                    id='basic-input'
-                    onChange={(date: Date) => setDB(date)}
-                    placeholderText='Click to select a date'
-                    customInput={<TextField label='Date On Board' variant="outlined" fullWidth sx={{ marginBottom:2 }}/>}
+                      minDate={new Date()}
+                      dateFormat='dd/MM/yyyy'
+                      id='basic-input'
+                      onChange={(date: Date) => setDB(date)}
+                      placeholderText='Click to select a date'
+                      customInput={
+                        <TextField label='Date On Board' variant='outlined' fullWidth sx={{ marginBottom: 2 }} />
+                      }
                     />
-                </DatePickerWrapper>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  options={vessel}
-                  getOptionLabel={(option: VesselType) => option.name}
-                  renderInput={params => <TextField {...params} label='Type of Vessel' />}
-                  onChange={(event: any, newValue: VesselType | null) =>
-                    newValue?.id ? /*setCatId(newValue.id) : setCatId(0)*/ '' : ''
-                  }
-                />
-              </CardContent>
-            </Collapse>
-          </Card>
-        </Box>   
+                  </DatePickerWrapper>
+                </CardContent>
+              </Collapse>
+            </Card>
+          </Box>
         </Grid>
-        <Grid item lg={9} md={7} xs={12}
-          sx={!hidden ? {
-            direction: "row",
-            justifyContent: "flex-start",
-            alignItems: "stretch",
-            alignContent: 'top',
-            marginBottom: '10px',
-          } : {
-          }}
+        <Grid
+          item
+          lg={9}
+          md={7}
+          xs={12}
+          sx={
+            !hidden
+              ? {
+                  direction: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'stretch',
+                  alignContent: 'top',
+                  marginBottom: '10px'
+                }
+              : {}
+          }
         >
           <Grid item xs={12}>
-            <Box sx={{
-              borderBottom: 1, borderColor: 'divider', boxSizing: 'border-box',
-              background: '#FFFFFF',
-              border: '1px solid rgba(76, 78, 100, 0.12)',
-              borderRadius: '10px'
-            }}>
-              <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
-                <Tab label="Find Job" {...a11yProps(0)} />
-                <Tab label="Job Applied" {...a11yProps(1)} />
+            <Box
+              sx={{
+                borderBottom: 1,
+                borderColor: 'divider',
+                boxSizing: 'border-box',
+                background: '#FFFFFF',
+                border: '1px solid rgba(76, 78, 100, 0.12)',
+                borderRadius: '10px'
+              }}
+            >
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label='basic tabs example'
+                sx={{ '& button.Mui-selected': { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }}
+              >
+                <Tab label='Find Job' {...a11yProps(0)} />
+                <Tab label='Job Applied' {...a11yProps(1)} />
               </Tabs>
             </Box>
-            <Grid container sx={{
-              borderBottom: 1, borderColor: 'divider', boxSizing: 'border-box',
-              background: color,
-              border: '1px solid rgba(76, 78, 100, 0.12)',
-              borderRadius: '10px',
-              marginTop: '10px',
-              direction: "row",
-              justifyContent: "flex-start",
-              alignItems: "top",
-              alignContent: 'top',
-            }}>
-              <Grid item xs={12} >
+            <Grid
+              container
+              sx={{
+                borderBottom: 1,
+                borderColor: 'divider',
+                boxSizing: 'border-box',
+                background: color,
+                border: '1px solid rgba(76, 78, 100, 0.12)',
+                borderRadius: '10px',
+                marginTop: '10px',
+                direction: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'top',
+                alignContent: 'top'
+              }}
+            >
+              <Grid item xs={12}>
                 <TabPanel value={value} index={0}>
                   <Grid item xs={12}>
-                    <Grid item xs={9}>
-                    </Grid>
-                    <Grid md={12} xs={3} item justifyContent={'right'} marginTop={'10px'}>
-                    </Grid>
+                    <Grid item xs={9}></Grid>
+                    <Grid md={12} xs={3} item justifyContent={'right'} marginTop={'10px'}></Grid>
                   </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={0}>
@@ -287,9 +298,6 @@ const SeafererJob = () => {
         </Grid>
       </Grid>
     </Box>
-
-
-
   )
 }
 

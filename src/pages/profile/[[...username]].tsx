@@ -17,6 +17,7 @@ import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import ListTraining from './Training'
 import { useRouter } from 'next/router'
 import { getCleanErrorMessage } from 'src/utils/helpers'
+import EducationalInfo from './Educational'
 
 const ProfileCompany = () => {
   return (
@@ -34,6 +35,7 @@ const SocialFeedApp = () => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [arrVacany, setArrVacancy] = useState<any>([])
+  const [arrVacany2, setArrVacancy2] = useState<any>([])
   const iduser: any = user.id
   let { username } = router.query as { username: string };
 
@@ -72,6 +74,10 @@ const SocialFeedApp = () => {
           const itemData = response.data.experiences;
           setArrVacancy(itemData);
         })
+         HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100').then(response => {
+           const itemData = response.data.educations
+           setArrVacancy2(itemData)
+         })
       }
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
@@ -86,19 +92,19 @@ const SocialFeedApp = () => {
   return (
     <Box>
       <Grid container spacing={1}>
-        <Grid
-          item
-          xs={12}
-          md={12}
-          sx={!hidden ? { alignItems: 'stretch' } : {}}
-        >
+        <Grid item xs={12} md={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
           <Grid container>
             {selectedUser && <UserProfileHeader datauser={selectedUser} address={selectedUser.address} />}
           </Grid>
           <Grid container spacing={6} sx={{ marginTop: '1px' }}>
             <Grid item lg={3} md={5} xs={12}>
               {selectedUser?.role == 'Company' && <JobVacancy vacancy={arrVacany} />}
-              {selectedUser?.role == 'Seafarer' && <WorkeExperience vacancy={arrVacany} />}
+              {selectedUser?.role == 'Seafarer' && (
+                <Box>
+                  <EducationalInfo vacancy={arrVacany2} />
+                  <WorkeExperience vacancy={arrVacany} />
+                </Box>
+              )}
               {selectedUser?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
             </Grid>
             <Grid item lg={9} md={7} xs={12}>

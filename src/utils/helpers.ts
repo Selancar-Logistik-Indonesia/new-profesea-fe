@@ -2,7 +2,10 @@ import { AxiosError } from "axios";
 import { AppConfig } from "src/configs/api";
 import ITeam from "src/contract/models/team";
 import { IUser } from "src/contract/models/user";
-
+import { HttpClient } from "src/services";
+import authConfig from 'src/configs/auth'
+import secureLocalStorage from "react-secure-storage";
+import localStorageKeys from "src/configs/localstorage_keys";
 /**
  * we need to sanitize error messages, so that no sensitive data is leaked
  */
@@ -78,15 +81,20 @@ function isStaging() {
 function isProduction() {
     return AppConfig.appEnv == "PROD";
 }
-
+ async function refreshsession(){
+  await HttpClient.get(authConfig.meEndpoint).then(async response => { 
+    secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
+  })
+ }
 export {
-    getCleanErrorMessage,
-    removeFirstZeroChar,
-    toTitleCase,
-    getUserAvatar,
-    getUserRoleName,
-    formatIDR,
-    isStaging,
-    isDevelopment,
-    isProduction,
+  getCleanErrorMessage,
+  removeFirstZeroChar,
+  toTitleCase,
+  getUserAvatar,
+  getUserRoleName,
+  formatIDR,
+  isStaging,
+  isDevelopment,
+  isProduction,
+  refreshsession,
 }

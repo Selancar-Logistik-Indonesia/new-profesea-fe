@@ -6,13 +6,14 @@ interface ISocialFeed {
     count_likes: number
     count_comments: number
     content: string
-    attachments: any
+    attachments?: string[]
     content_type: string
     h_created_at: string
     liked_at?: string
     created_at: string
     updated_at: string
 
+    feed_repost?: ISocialFeed
     user: IUser
 }
 

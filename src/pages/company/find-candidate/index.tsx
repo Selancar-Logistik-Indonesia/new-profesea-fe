@@ -1,26 +1,50 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Autocomplete, Card, CardContent, CardHeader, Chip, Collapse, FormControl, Grid, IconButton,  Input,   TextField,  Typography, useMediaQuery } from '@mui/material'
+import { Autocomplete, Button, Card, CardContent, CardHeader, Chip, SelectChangeEvent,  Collapse, FormControl, Grid, IconButton,  Input,   InputLabel,   MenuItem,   OutlinedInput,   Select,   TextField,  Typography, useMediaQuery } from '@mui/material'
 import { Icon } from '@iconify/react' 
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
 import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'  
 import JobCategory from 'src/contract/models/job_category'  
 import { AppConfig } from 'src/configs/api' 
-import { useTheme } from '@mui/material/styles'
+import { Theme, useTheme } from '@mui/material/styles'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
- 
+import InfiniteScroll from 'react-infinite-scroll-component' 
+
 type Dokumen = {
   title: string 
   docType: string
 }
+
+
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250
+    }
+  }
+}
+
+const names = ['Indonesian', 'English', 'Mandarin', 'Arab', 'Melayu']
+
+function getStyles(name: string, personName: readonly string[], theme: Theme) {
+  return {
+    fontWeight:
+      personName?.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
+  }
+}
 const FindCandidate = () => {
   const [listCandidate, setListCandidate] = useState<IUser[]>([]) 
   const theme = useTheme()
+  const windowUrl = window.location.search
+  const params = new URLSearchParams(windowUrl)
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const [collapsed, setCollapsed] = useState<boolean>(true)
-  const [collapsed2, setCollapsed2] = useState<boolean>(false)
+  const [collapsed2, setCollapsed2] = useState<boolean>(params.get('plan') === 'advance' ? false : true)
   const [JobCategory, getJobCategory] = useState<any[]>([])  
   const [JobTitle, getJobTitle] = useState<any[]>([])  
   const [VesselType, getVesselType] = useState<any[]>([])  
@@ -29,15 +53,30 @@ const FindCandidate = () => {
   const [sJobCategory, setJobCategory] = useState<any>('')
   const [sJobTitle, setJobTitle] = useState<any>('')
   const [sVesselType, setVesselType] = useState<any>('')  
+  const [hasNextPage, setHasNextPage] = useState(true)
+  const [total, setTotal] = useState(0)
+  const [perPage, setPerPage] = useState(12)
+  const [page, setPage] = useState(1)
+ const [personName, setPersonName] = React.useState<string[]>( [])
+ 
 
+  const handleChange2 = (event: SelectChangeEvent<typeof personName>) => {
+    const {
+      target: { value }
+    } = event
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    )
+  }
   const getListCandidates = async () => {
-    const response = await HttpClient.get('/candidate?page=1&take=25&search', {
-      page: 1,
-      take: 25,
-      search: ''
-    }) 
-    const candidates = response.data.candidates.data
-    setListCandidate(candidates)
+    // const response = await HttpClient.get('/candidate?page=1&take=25&search', {
+    //   page: 1,
+    //   take: 3,
+    //   search: ''
+    // }) 
+    // const candidates = response.data.candidates.data
+    // setListCandidate(candidates)
  
     const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`)
     if (res2.status != 200) {
@@ -87,7 +126,7 @@ const FindCandidate = () => {
     // let oneword = ''
     // if (valuesoneword.length > 0) oneword = JSON.stringify(valuesoneword)
     const response = await HttpClient.get(
-       '/candidate?page=1&take=25&search=' +
+       '/candidate?search=' +
          textCandidate +
          '&vesseltype_id=' +
          sVesselType +
@@ -96,24 +135,38 @@ const FindCandidate = () => {
          '&rolelevel_id=' +
          sJobCategory +
          '&include_all_word=' +
-         allword
+         allword+
+         '&page='+
+         page+
+         '&take='+perPage
         //  +
         // '&include_one_word=' +
         // oneword
-        ,
-       {
-         page: 1,
-         take: 25, 
-       }
-     )
-    const candidates = response.data.candidates.data
-    setListCandidate(candidates)
+         
+       
+     ) 
+     
+    const candidates = response.data.candidates
+    if (candidates?.total == null) {
+      setTotal(candidates?.total)
+    }
+    if (candidates?.next_page_url == null) {
+      setHasNextPage(candidates?.next_page_url)
+    }
+    setListCandidate(candidates.data)
  
   }
   useEffect(() => {
     getdatapencarian()
-  }, [textCandidate, sVesselType, sJobTitle, sJobCategory])
+  }, [textCandidate, sVesselType, sJobTitle, sJobCategory, page,  perPage])
    
+  const onPageChange = () => {
+    
+  const mPage = page + 1
+  setPage(mPage)
+  setPerPage(15)
+  }
+
   const [values, setValues] = useState<any[]>([])
   const [currValue, setCurrValue] = useState('')
   const [valuesoneword, setValuesOneWord] = useState<any[]>([])
@@ -270,6 +323,39 @@ const FindCandidate = () => {
                     // }
                     sx={{ marginBottom: 2 }}
                   />
+                  <FormControl>
+                    <InputLabel id='demo-multiple-chip-label'>Spoken</InputLabel>
+                    <Select
+                      labelId='demo-multiple-chip-label'
+                      id='demo-multiple-chip'
+                      multiple
+                      value={personName}
+                      onChange={handleChange2}
+                      label='Spoken'
+                      sx={{ fontSize: '18px', height: 50.2 }}
+                      input={
+                        <OutlinedInput
+                          id='select-multiple-chip'
+                          label='Chip' 
+                          sx={{ fontSize: '8px' }}
+                        />
+                      }
+                      renderValue={selected => (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                          {selected.map(value => (
+                            <Chip key={value} label={value} />
+                          ))}
+                        </Box>
+                      )}
+                      MenuProps={MenuProps}
+                    >
+                      {names.map(name => (
+                        <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </CardContent>
               </Collapse>
             </Card>
@@ -295,93 +381,120 @@ const FindCandidate = () => {
               />
               <Collapse in={collapsed2}>
                 <CardContent>
-                 
-                  <Typography>Including all these words</Typography>
-                  <FormControl>
-                    <div className={'container'}>
-                      {values.map((item, index) => (
-                        <Chip
-                          color='primary'
-                          size='small'
-                          onDelete={() => handleDelete(item, index, 1)}
-                          label={item}
-                          key={item}
-                        />
-                      ))}
-                      <Input
-                        value={currValue}
-                        onChange={e => handleChange(e, '1')}
-                        onKeyDown={e => handleKeyDown(e, '1')}
-                        onKeyUp={handleKeyUp}
-                        id='1'
-                        name='1'
+                  {params.get('plan') != 'advance' ? (
+                    <>
+                      <Button
+                        href={'/company/find-candidate/?plan=advance'}
+                        variant='contained'
+                        color='warning'
+                        sx={{ mr: 2 }}
+                        fullWidth
+                      >
+                        Advance Filter
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Autocomplete
+                        disablePortal
+                        id='code'
+                        options={dokumen}
+                        getOptionLabel={(option: any) => option.title}
+                        // defaultValue={props.datauser?.country}
+                        renderInput={params => <TextField {...params} label='License' sx={{ mb: 2 }} />}
+                        // onChange={(event: any, newValue: Dokumen | null) =>
+                        //   newValue?.id ? searchcity(newValue.id) : searchcity(0)
+                        // }
+                        sx={{ marginBottom: 2 }}
                       />
-                    </div>
-                  </FormControl>
+                      <Typography>Including all these words</Typography>
+                      <FormControl>
+                        <div className={'container'}>
+                          {values.map((item, index) => (
+                            <Chip
+                              color='primary'
+                              size='small'
+                              onDelete={() => handleDelete(item, index, 1)}
+                              label={item}
+                              key={item}
+                            />
+                          ))}
+                          <Input
+                            value={currValue}
+                            onChange={e => handleChange(e, '1')}
+                            onKeyDown={e => handleKeyDown(e, '1')}
+                            onKeyUp={handleKeyUp}
+                            id='1'
+                            name='1'
+                          />
+                        </div>
+                      </FormControl>
 
-                  <Typography>include one word</Typography>
-                  <FormControl>
-                    <div className={'container'}>
-                      {valuesoneword.map((item, index) => (
-                        <Chip
-                          color='primary'
-                          size='small'
-                          onDelete={() => handleDelete(item, index, 2)}
-                          label={item}
-                          key={item}
-                        />
-                      ))}
-                      <Input
-                        value={currValueoneword}
-                        onChange={e => handleChange(e, '2')}
-                        onKeyDown={e => handleKeyDown(e, '2')}
-                        onKeyUp={handleKeyUp}
-                        id='2'
-                        name='2'
-                      />
-                    </div>
-                  </FormControl>
+                      <Typography>include one word</Typography>
+                      <FormControl>
+                        <div className={'container'}>
+                          {valuesoneword.map((item, index) => (
+                            <Chip
+                              color='primary'
+                              size='small'
+                              onDelete={() => handleDelete(item, index, 2)}
+                              label={item}
+                              key={item}
+                            />
+                          ))}
+                          <Input
+                            value={currValueoneword}
+                            onChange={e => handleChange(e, '2')}
+                            onKeyDown={e => handleKeyDown(e, '2')}
+                            onKeyUp={handleKeyUp}
+                            id='2'
+                            name='2'
+                          />
+                        </div>
+                      </FormControl>
 
-                  <Typography>Excluding all these words</Typography>
-                  <FormControl>
-                    <div className={'container'}>
-                      {valuesexclude.map((item, index) => (
-                        <Chip
-                          color='primary'
-                          size='small'
-                          onDelete={() => handleDelete(item, index, 3)}
-                          label={item}
-                          key={item}
-                        />
-                      ))}
-                      <Input
-                        value={currValueexclude}
-                        onChange={e => handleChange(e, '3')}
-                        onKeyDown={e => handleKeyDown(e, '3')}
-                        onKeyUp={handleKeyUp}
-                      />
-                    </div>
-                  </FormControl>
-                  <Typography>Including these words in the title</Typography>
-                  <FormControl>
-                    <div className={'container'}>
-                      {valueslitle.map((item, index) => (
-                        <Chip
-                          color='primary'
-                          size='small'
-                          onDelete={() => handleDelete(item, index, 4)}
-                          label={item}
-                          key={item}
-                        />
-                      ))}
-                      <Input
-                        value={currValuelitle}
-                        onChange={e => handleChange(e, '4')}
-                        onKeyDown={e => handleKeyDown(e, '4')}
-                        onKeyUp={handleKeyUp}
-                      />
-                    </div>
-                  </FormControl>
+                      <Typography>Excluding all these words</Typography>
+                      <FormControl>
+                        <div className={'container'}>
+                          {valuesexclude.map((item, index) => (
+                            <Chip
+                              color='primary'
+                              size='small'
+                              onDelete={() => handleDelete(item, index, 3)}
+                              label={item}
+                              key={item}
+                            />
+                          ))}
+                          <Input
+                            value={currValueexclude}
+                            onChange={e => handleChange(e, '3')}
+                            onKeyDown={e => handleKeyDown(e, '3')}
+                            onKeyUp={handleKeyUp}
+                          />
+                        </div>
+                      </FormControl>
+                      <Typography>Including these words in the title</Typography>
+                      <FormControl>
+                        <div className={'container'}>
+                          {valueslitle.map((item, index) => (
+                            <Chip
+                              color='primary'
+                              size='small'
+                              onDelete={() => handleDelete(item, index, 4)}
+                              label={item}
+                              key={item}
+                            />
+                          ))}
+                          <Input
+                            value={currValuelitle}
+                            onChange={e => handleChange(e, '4')}
+                            onKeyDown={e => handleKeyDown(e, '4')}
+                            onKeyUp={handleKeyUp}
+                          />
+                        </div>
+                      </FormControl>
+                    </>
+                  )}
                 </CardContent>
               </Collapse>
             </Card>
@@ -414,13 +527,23 @@ const FindCandidate = () => {
                           <Grid container spacing={6}>
                             <Grid item xs={12}>
                               <Typography variant='h6' color={'#32487A'} fontWeight='600'>
-                                {' '}
                                 Find Candidate
                               </Typography>
                               <Typography fontSize={16} style={{ color: '#424242' }} marginTop={2} marginBottom={5}>
                                 Based on your profile and search history
                               </Typography>
-                              <RecomendedView listCandidate={listCandidate} />
+                              <InfiniteScroll
+                                dataLength={total}
+                                next={onPageChange}
+                                hasMore={hasNextPage}
+                                loader={
+                                  <Typography mt={5} color={'text.secondary'}>
+                                    Loading..
+                                  </Typography>
+                                }
+                              >
+                                <RecomendedView listCandidate={listCandidate} />
+                              </InfiniteScroll>
                             </Grid>
                           </Grid>
                         </Grid>
