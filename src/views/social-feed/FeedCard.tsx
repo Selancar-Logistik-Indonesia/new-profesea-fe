@@ -35,7 +35,7 @@ const FeedCard = (props: Prop) => {
                     </Link>
                 </Box>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
+            <Box component={Link} href={`/feed/${item.id}`} sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
                 <Typography variant='body1' sx={{ color: '#424242', fontSize: '0.7rem', fontWeight: 400, my: 2 }}>
                     {item.content}
                 </Typography>
