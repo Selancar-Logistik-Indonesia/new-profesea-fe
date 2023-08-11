@@ -12,7 +12,7 @@ const EmailShareButton: React.FC<EmailShareButtonProps> = ({ subject, body }) =>
 
   return (
     <div>
-      <Button variant='contained' color='warning' href={emailLink}>
+      <Button variant='contained' color='secondary' href={emailLink}>
         <Box mr={2}>
           <Icon icon='mdi:share' />
         </Box>

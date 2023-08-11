@@ -140,8 +140,12 @@ const JobDetail = () => {
                               sx={{ width: 70, height: 70 }}
                             />
                           </Grid>
-                          <Grid item container justifyContent={'center'}   flexDirection={'column'}>
-                            <Typography sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }} fontSize={18} textAlign={'center'}> 
+                          <Grid item container justifyContent={'center'} flexDirection={'column'}>
+                            <Typography
+                              sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }}
+                              fontSize={18}
+                              textAlign={'center'}
+                            >
                               {jobDetail?.role_type?.name}
                             </Typography>
                             <Typography sx={{ color: 'text.primary', mb: 3 }} fontSize={12} textAlign={'center'}>
@@ -184,13 +188,11 @@ const JobDetail = () => {
                             ml={-1}
                             mb={2}
                           >
-                           
-                                <Icon icon='game-icons:ship-bow' color='#32487A' fontSize={20} />
-                             
-                                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
-                                  Date on Board
-                                </Typography>
-                              
+                            <Icon icon='game-icons:ship-bow' color='#32487A' fontSize={20} />
+
+                            <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                              Date on Board
+                            </Typography>
                           </Box>
                           <Box
                             sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
@@ -326,7 +328,7 @@ const JobDetail = () => {
                                   <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
                                     <Button
                                       variant='contained'
-                                      color='warning'
+                                      color='secondary'
                                       href={'https://web.whatsapp.com/send?text=' + url}
                                       target='_blank'
                                     >
@@ -348,7 +350,7 @@ const JobDetail = () => {
 
                                 <Button
                                   variant='contained'
-                                  color='warning'
+                                  color='secondary'
                                   size='small'
                                   aria-controls={open ? 'split-button-menu' : undefined}
                                   aria-expanded={open ? 'true' : undefined}
