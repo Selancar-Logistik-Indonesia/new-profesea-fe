@@ -1,4 +1,4 @@
-import IThread from "../models/thread";
+// import IThread from "../models/thread";
 
 type ThreadContextType = {
     page: number,
