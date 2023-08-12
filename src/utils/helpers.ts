@@ -81,20 +81,32 @@ function isStaging() {
 function isProduction() {
     return AppConfig.appEnv == "PROD";
 }
- async function refreshsession(){
-  await HttpClient.get(authConfig.meEndpoint).then(async response => { 
-    secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
-  })
- }
+
+async function refreshsession() {
+    await HttpClient.get(authConfig.meEndpoint).then(async response => {
+        secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
+    })
+}
+
+function getUrl(path?: string) {
+    let baseUrl = `${window.location.protocol}//${window.location.host}`;
+    if (path) {
+        baseUrl = baseUrl + path;
+    }
+
+    return baseUrl;
+}
+
 export {
-  getCleanErrorMessage,
-  removeFirstZeroChar,
-  toTitleCase,
-  getUserAvatar,
-  getUserRoleName,
-  formatIDR,
-  isStaging,
-  isDevelopment,
-  isProduction,
-  refreshsession,
+    getCleanErrorMessage,
+    removeFirstZeroChar,
+    toTitleCase,
+    getUserAvatar,
+    getUserRoleName,
+    formatIDR,
+    isStaging,
+    isDevelopment,
+    isProduction,
+    refreshsession,
+    getUrl,
 }
