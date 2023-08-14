@@ -25,14 +25,23 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'  
 import CommentForm from './CommentForm'
 import Commented from './Commented';
+import { ThreadProvider } from 'src/context/ThreadContext';
+import { useThread } from 'src/hooks/useThread';
 
-const Thread = () => { 
+const Thread = () => {
+  return (
+    <ThreadProvider>
+      <ThreadApp />
+    </ThreadProvider>
+  )
+}
+
+const ThreadApp = () => { 
+  const { fetchComments, fetchThreads } = useThread();
   const windowUrl = window.location.search
   const params = new URLSearchParams(windowUrl)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   // const [userDetail, setUserDetail] = useState<IUser | null>(null)
-  const [listComment, setlistComment] = useState<any>([])
-  const [listThread, setlistThread] = useState<any>([])
   const [threadDetail, setthreadDetail] = useState<any>([])
  
 const firstload = () => {
@@ -41,15 +50,10 @@ const firstload = () => {
     const detail = response.data.thread  
     setthreadDetail(detail)
   })
-  HttpClient.get(`/thread/replies?page=1&take=10&replyable_id=${ params.get('id')}&replyable_type=thread`).then(response => {
-    const replies = response.data.replies.data  
-    setlistComment(replies)
-  })
-  HttpClient.get('/thread', { page: 1, take: 15, search: '' })
-  .then(response => {
-    const code = response.data.threads.data
-    setlistThread(code)
-  }).catch(() => alert("Something went wrong"));
+  
+  fetchComments({ take: 5 , replyable_id: params.get('id'), replyable_type:'thread'})
+  fetchThreads({take: 5})
+
 }
  useEffect(() => { 
    firstload()
@@ -63,13 +67,13 @@ const firstload = () => {
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Box sx={{ mb: 7 }}>
+                  <Box sx={{ mb: 1 }}>
                     <Grid item container xs={12} justifyContent={'center'}>
                       <Typography
                         variant='body2'
-                        sx={{ mb: 4, color: '#424242', textTransform: 'uppercase', fontWeight: 600 }}
+                        sx={{ mb: 2, color: '#424242', textTransform: 'uppercase', fontWeight: 600 }}
                       >
-                        {listThread?.title}
+                        {threadDetail?.title}
                       </Typography>
                     </Grid>
                     <Grid item container xs={12} justifyContent={'flex'}>
@@ -88,12 +92,12 @@ const firstload = () => {
               </Card>
             </Grid>
             <Grid item xs={12}>
-              <Commented paramcomment={listComment}></Commented>
+              <Commented replyable_id={params.get('id')}></Commented>
             </Grid>
           </Grid>
         </Grid>
         <Grid item md={3} xs={12}>
-            <Recomended paramcomment={listThread}></Recomended>
+            <Recomended></Recomended>
         </Grid>
       </Grid>
     </Box>

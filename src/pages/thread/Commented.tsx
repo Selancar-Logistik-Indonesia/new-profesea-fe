@@ -2,11 +2,15 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid' 
 import Typography from '@mui/material/Typography' 
-import { Avatar, Card, CardContent } from '@mui/material'
+import { Avatar, Card, CardContent, CircularProgress } from '@mui/material'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import Moment from 'moment'
+import { useEffect } from 'react'
+import ThreadContext from 'src/context/ThreadContext'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { useThread } from 'src/hooks/useThread'
 
 export type ParamMain = {
   name: string
@@ -17,14 +21,7 @@ export type ParamMain = {
   replies_count: string
   created_at: string
 } 
- 
 
- 
-// export type ProfileTeamsType = ProfileTabCommonType & { color: ThemeColor }
-interface Props {
-  // teams: ProfileTeamsType[]
-  paramcomment: ParamMain[] 
-}
  
 const renderList = (arr: ParamMain[]) => {
   if (arr && arr.length) {
@@ -76,14 +73,39 @@ const renderList = (arr: ParamMain[]) => {
 }
  
 
-const Commented = (props: Props) => {
-  const {   paramcomment  } = props
+const Commented = (props:any) => {
+  
+  const { fetchComments, hasNextPage, totalComments } = useThread();
 
+  useEffect(() => {
+    
+  }, [hasNextPage]);
 
   return (
-    <Grid container spacing={2}>
-      {renderList(paramcomment)} 
-    </Grid>
+    <ThreadContext.Consumer>
+      {({ comments, onLoading }) => {
+        if (onLoading) {
+        
+          return (
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <CircularProgress sx={{ mt: 20 }} />
+                </Box>
+            );
+        }
+        
+        return(
+          <InfiniteScroll
+              dataLength={totalComments}
+              next={() => fetchComments({ take: 5, replyable_id:props.replyable_id, replyable_type:'thread' })}
+              hasMore={hasNextPage}
+              loader={(<CircularProgress sx={{ mt: 20, alignItems:'center', justifyContent:'center' }}/>)}>
+              <Grid container spacing={2} >
+                {renderList(comments)}
+              </Grid>
+          </InfiniteScroll>
+        )
+      }}
+    </ThreadContext.Consumer>
   )
 }
 
