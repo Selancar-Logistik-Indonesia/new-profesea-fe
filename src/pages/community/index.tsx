@@ -3,6 +3,7 @@ import { Button, Grid } from '@mui/material'
 import ListThreadView from '../../views/community/ListThreadView'
 import { ThreadProvider } from 'src/context/ThreadContext'
 import { useThread } from 'src/hooks/useThread'
+import { Icon } from '@iconify/react'
 
 const Community = () => {
   return (
@@ -36,11 +37,11 @@ const CommunityApp = () => {
               wrap: 'nowrap'
             }}>
               <Grid item xs={12} display={'flex'} alignContent={'flex-end'} justifyContent={'flex-end'}>
-                <Button variant='contained' href='/thread/create'>
+                <Button variant='contained' href='/thread/create' startIcon={<Icon icon='mdi:tooltip-plus-outline' fontSize={10} />}>
                   Create Thread
                 </Button>
               </Grid>
-            <ListThreadView />
+              <ListThreadView />
             </Grid>
           </Grid>
         </Grid>

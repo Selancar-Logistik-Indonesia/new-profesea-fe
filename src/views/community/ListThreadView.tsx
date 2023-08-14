@@ -53,12 +53,12 @@ const renderList = (arr: IThread[]) => {
                     </Box>
                   </Box>
                   <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} >
-                      <Typography sx={{ color: 'text.primary', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
+                      <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
                         {item.title
                           ? `${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`
                           : ''}
                       </Typography>
-                      <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={12}>
+                      <Typography sx={{ fontWeight: '450', color: 'text.primary', mb: 1 }} fontSize={12}>
                         {ReactHtmlParser(`${item?.snap_content}`)}
                       </Typography>
                   </Box>
