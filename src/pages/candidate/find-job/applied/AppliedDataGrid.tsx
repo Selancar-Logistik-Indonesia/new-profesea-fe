@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
-import { Button, IconButton } from '@mui/material';
+import {  Chip, IconButton } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
@@ -15,14 +15,13 @@ const columns: GridColDef[] = [
         const { row } = cell;
 
             return (
-                <>
-                    <Button color='warning' size='small' >
-                        {row.status}
-                    </Button>
-                </>
-            );
+              <>
+                <Chip label={row.status} color='primary' />
+              </>
+            )
         } 
     },
+    
     {
         field: 'action',
         headerName: 'Action',

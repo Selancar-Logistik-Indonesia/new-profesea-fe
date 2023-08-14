@@ -109,14 +109,14 @@ const JobDetail = () => {
     <>
       <Box>
         <Grid container spacing={2}>
-          <Grid item lg={9} md={9} xs={12} style={{ maxHeight: '110vh', overflow: 'auto' }}>
+          <Grid item lg={9} md={9} xs={12} style={{ maxHeight: '100vh', overflow: 'auto' }}>
             <Card>
               {isLoading ? (
                 <Box textAlign={'center'} mt={10}>
                   <CircularProgress />
                 </Box>
               ) : (
-                <Grid container item height={'100vh'}>
+                <Grid container item>
                   <StyledGrid item xs={12} sm={3}>
                     <CardContent>
                       <Box
@@ -152,153 +152,59 @@ const JobDetail = () => {
                               {jobDetail?.company?.name ?? '-'}
                             </Typography>
                           </Grid>
-
-                          <Box
-                            sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
-                            ml={-1}
-                            mb={2}
-                          >
-                            <Icon icon='ic:round-business-center' fontSize={20} color='#32487A' />
-                            <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
-                              {jobDetail?.rolelevel?.levelName} - {jobDetail?.category?.name}
-                            </Typography>
-                          </Box>
-                          <Box
-                            sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
-                            ml={-1}
-                            mb={2}
-                          >
-                            <Icon icon='mdi:school' fontSize={20} color='#32487A' />
-                            <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
-                              {jobDetail?.degree?.name}
-                            </Typography>
-                          </Box>
-                          <Box
-                            sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
-                            ml={-1}
-                            mb={2}
-                          >
-                            <Icon icon='mingcute:ship-fill' fontSize={20} color='#32487A' />
-                            <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
-                              Type of Vessel
-                            </Typography>
-                          </Box>
-                          <Box
-                            sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
-                            ml={-1}
-                            mb={2}
-                          >
-                            <Icon icon='game-icons:ship-bow' color='#32487A' fontSize={20} />
-
-                            <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
-                              Date on Board
-                            </Typography>
-                          </Box>
-                          <Box
-                            sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
-                            ml={-1}
-                            mb={2}
-                          >
-                            <Grid item container>
-                              <Grid xs={1}>
-                                <Icon icon='mdi:license' color='#32487A' fontSize={20} />
-                              </Grid>
-                              <Grid xs={11}>
-                                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
-                                  {license.map(e => e.title).join(', ')}
-                                </Typography>
-                              </Grid>
+                          <Grid item container>
+                            <Grid xs={1}>
+                              <Icon icon='ic:round-business-center' color='#32487A' fontSize={'20px'} />
                             </Grid>
-                          </Box>
+                            <Grid xs={11}>
+                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                                {jobDetail?.rolelevel?.levelName} - {jobDetail?.category?.name}
+                              </Typography>
+                            </Grid>
+
+                            <Grid xs={1}>
+                              <Icon icon='mdi:school' fontSize={20} color='#32487A' />
+                            </Grid>
+                            <Grid xs={11}>
+                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                                {jobDetail?.degree?.name}
+                              </Typography>
+                            </Grid>
+
+                            <Grid xs={1}>
+                              <Icon icon='mingcute:ship-fill' fontSize={20} color='#32487A' />
+                            </Grid>
+                            <Grid xs={11}>
+                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                                Type of Vessel
+                              </Typography>
+                            </Grid>
+
+                            <Grid xs={1}>
+                              <Icon icon='game-icons:ship-bow' color='#32487A' fontSize={20} />
+                            </Grid>
+                            <Grid xs={11}>
+                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                                Date on Board
+                              </Typography>
+                            </Grid>
+
+                            <Grid xs={1}>
+                              <Icon icon='mdi:license' color='#32487A' fontSize={20} />
+                            </Grid>
+                            <Grid xs={11}>
+                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                                {license.map(e => e.title).join(', ')}
+                              </Typography>
+                            </Grid>
+                          </Grid>
                         </Box>
                       </Box>
                     </CardContent>
                   </StyledGrid>
                   <Grid item xs={12} sm={9}>
                     <CardContent sx={{ pt: theme => `${theme.spacing(6)} !important` }}>
-                      <Grid container>
-                        <Grid
-                          item
-                          xs={6}
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'left',
-                            flexDirection: 'column',
-                            borderRight: theme => `1px solid ${theme.palette.divider}`
-                          }}
-                        >
-                          <Box
-                            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
-                            ml={2}
-                            mr={3}
-                            mt={5}
-                          >
-                            <Typography
-                              sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
-                              ml='0.5rem'
-                              mt={3}
-                              variant='body2'
-                            >
-                              Experience
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
-                                {jobDetail?.experience}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </Grid>
-                        <Grid item xs={6} sx={{ display: 'flex', flexDirection: 'column' }}>
-                          <Box
-                            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }}
-                            ml={2}
-                            mr={3}
-                            mt={5}
-                          >
-                            <Typography
-                              sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
-                              ml='0.5rem'
-                              mt={3}
-                              variant='body2'
-                            >
-                              Description
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
-                                {ReactHtmlParser(`${jobDetail?.description}`)}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </Grid>
-                      </Grid>
-                      <Divider
-                        sx={{
-                          mt: theme => `${theme.spacing(6)} !important`,
-                          mb: theme => `${theme.spacing(7.5)} !important`
-                        }}
-                      />
-                      <Grid container>
-                        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column' }}>
-                          <Box
-                            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }}
-                            ml={2}
-                            mr={3}
-                            mt={5}
-                          >
-                            <Typography
-                              sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
-                              ml='0.5rem'
-                              variant='body2'
-                            >
-                              About Recruiter
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
-                                {jobDetail?.company?.about}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </Grid>
+                      <Grid container marginTop={5}>
                         <Grid item xs={6} mt={2}></Grid>
                         <Grid item xs={6} mt={2}>
                           <Grid container spacing={1} alignItems='right' justifyContent='center'>
@@ -399,6 +305,103 @@ const JobDetail = () => {
                             </Grid>
                           </Grid>
                         </Grid>
+
+                        <Grid
+                          item
+                          xs={6}
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'left',
+                            flexDirection: 'column',
+                            borderRight: theme => `1px solid ${theme.palette.divider}`
+                          }}
+                        >
+                          <Box
+                            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                            ml={2}
+                            mr={3}
+                            mt={5}
+                          >
+                            <Typography
+                              sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
+                              ml='0.5rem'
+                              mt={3}
+                              variant='body2'
+                            >
+                              Experience
+                            </Typography>
+                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
+                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                                {jobDetail?.experience}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={6} sx={{ display: 'flex', flexDirection: 'column' }}>
+                          <Box
+                            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }}
+                            ml={2}
+                            mr={3}
+                            mt={5}
+                          >
+                            <Typography
+                              sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
+                              ml='0.5rem'
+                              mt={3}
+                              variant='body2'
+                            >
+                              Description
+                            </Typography>
+                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
+                              <Typography
+                                sx={{ color: 'text.primary' }}
+                                ml='0.5rem'
+                                fontSize={12}
+                                textAlign={'justify'}
+                              >
+                                {ReactHtmlParser(`${jobDetail?.description}`)}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                      <Divider
+                        sx={{
+                          mt: theme => `${theme.spacing(6)} !important`,
+                          mb: theme => `${theme.spacing(7.5)} !important`
+                        }}
+                      />
+
+                      <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column' }}>
+                        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#007BB6' }}>
+                          <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
+                            <Box
+                              sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }}
+                              ml={2}
+                              mr={3}
+                              mt={5}
+                            >
+                              <Typography
+                                sx={{ color: 'common.white', fontSize: '16px', fontWeight: '600' }}
+                                ml='0.5rem'
+                                variant='body2'
+                              >
+                                About Recruiter
+                              </Typography>
+                              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
+                                <Typography
+                                  sx={{ color: 'common.white' }}
+                                  ml='0.5rem'
+                                  fontSize={14}
+                                  textAlign={'justify'}
+                                  fontFamily={'Poppins'}
+                                >
+                                  {jobDetail?.company?.about}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          </CardContent>
+                        </Card>
                       </Grid>
                     </CardContent>
                   </Grid>
@@ -457,7 +460,7 @@ const JobDetail = () => {
                               sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
                               mb={2}
                             >
-                              <Icon icon='ic:round-business-center' color='#32487A' />
+                              <Icon icon='ic:round-business-center' color='#32487A' fontSize={'20px'} />
                               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                                 {item?.rolelevel?.levelName} - {item?.category?.name}
                               </Typography>
@@ -467,7 +470,7 @@ const JobDetail = () => {
                               sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
                               mb={2}
                             >
-                              <Icon icon='mdi:school' color='#32487A' />
+                              <Icon icon='mdi:school' color='#32487A' fontSize={'20px'} />
                               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                                 {item?.degree?.name}
                               </Typography>
@@ -479,7 +482,7 @@ const JobDetail = () => {
                             >
                               <Grid item container>
                                 <Grid xs={1}>
-                                  <Icon icon='mdi:license' color='#32487A' />
+                                  <Icon icon='mdi:license' color='#32487A' fontSize={'20px'} />
                                 </Grid>
                                 <Grid xs={10}>
                                   <Typography
@@ -490,6 +493,7 @@ const JobDetail = () => {
                                       WebkitBoxOrient: 'vertical',
                                       WebkitLineClamp: 2
                                     }}
+                                    ml='0.5rem'
                                     mt='0.2rem'
                                     fontSize={12}
                                   >

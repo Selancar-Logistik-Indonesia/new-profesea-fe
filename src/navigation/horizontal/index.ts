@@ -5,21 +5,21 @@ const navigation = (): HorizontalNavItemsType => [
   {
     path: '/home',
     title: 'Home',
-    icon: 'mdi:home-outline',
+    icon: 'ion:home-sharp',
     action: 'read',
     subject: 'home'
   },
   {
     path: '/company',
     title: 'Home',
-    icon: 'mdi:home-outline',
+    icon: 'ion:home-sharp',
     action: 'read',
     subject: 'user-company'
   },
   {
     path: '/community',
     title: 'Community',
-    icon: 'mdi:public',
+    icon: 'fluent:people-community-24-filled',
     action: 'read',
     subject: 'user-community'
   },
@@ -54,10 +54,17 @@ const navigation = (): HorizontalNavItemsType => [
   {
     path: '/candidate/training',
     title: 'My Training',
-    icon: 'mdi:play',
+    icon: 'ion:book-sharp',
     action: 'read',
     subject: 'seaferer-training'
   },
+  {
+    path: '/pricing',
+    title: 'Pricing',
+    icon: 'raphael:dollar',
+    action: 'read',
+    subject: 'PricingPage'
+  }
 ]
 
 export default navigation

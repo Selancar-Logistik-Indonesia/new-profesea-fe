@@ -14,7 +14,7 @@ import { Icon } from '@iconify/react'
 import { IUser } from 'src/contract/models/user'
 import FieldPreference from 'src/contract/models/field_preference'
 import { getUserRoleName } from 'src/utils/helpers'
-
+ 
 export type ParamJobVacncy = {
     judul: string
     namapt: string
@@ -25,7 +25,9 @@ export type ParamJobVacncy = {
 type userProps = {
     datauser: IUser | null
 }
-
+const LinkStyled = styled(Link)(( ) => ({
+  textDecoration: 'none'
+}))
 const ProfilePicture = styled('img')(({ theme }) => ({
     width: 85,
     height: 85,
@@ -81,116 +83,163 @@ const Profile = (props: userProps) => {
     }
 
     return (
-        <Grid container>
-            <Grid item xs={12}>
-                <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#007BB6' }}>
-                    <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
-                        <Typography
-                            variant='body2'
-                            sx={{ display: 'flex', mr: 2.75, alignItems: 'center', color: 'common.white', '& svg': { mr: 2.5 } }}
-                        >
-                            <ProfilePicture src={props.datauser?.photo} alt='profile-picture' />
-                             &nbsp; {props.datauser?.name}
-                        </Typography>
-                        <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
-                        <Box sx={{ pt: 2, pb: 1 }}>
-                            <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                                <Icon icon={'material-symbols:corporate-fare-rounded'} fontSize={24} color={'#FFFFFF'} />
-                                <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
-                                    {props.datauser?.industry?.name}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                                <Icon icon={'material-symbols:mail'} fontSize={24} color={'#FFFFFF'} />
-                                <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
-                                    {props.datauser?.email}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                                <Icon icon={'material-symbols:badge-rounded'} fontSize={24} color={'#FFFFFF'} />
-                                <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
-                                    {getUserRoleName(props.datauser?.team)}
-                                </Typography>
-                            </Box>
-                        </Box>
-                        <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
-                        {props.datauser?.role == 'Seafarer' && (
-                            <Box>
-                                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
-                                    <Icon icon={'clarity:briefcase-solid'} fontSize={24} color={'#FFFFFF'} />
-                                    <Typography variant='body1' sx={{ color: '#FFFFFF', fontWeight: 'bold' }}>
-                                        Role :
-                                    </Typography>
-                                    <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
-                                        {selectedItem?.role_type?.name}
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
-                                    <Icon icon={'fontisto:ship'} fontSize={24} color={'#FFFFFF'} />
-                                    <Typography variant='body1' sx={{ color: '#FFFFFF', fontWeight: 'bold' }}>
-                                        Vessel :
-                                    </Typography>
-                                    <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
-                                        {selectedItem?.vessel_type?.name}
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
-                                    <Icon icon={'gis:route'} fontSize={24} color={'#FFFFFF'} />
-                                    <Typography variant='body1' sx={{ color: '#FFFFFF', fontWeight: 'bold' }}>
-                                        Region Of Travel:
-                                    </Typography>
-                                    <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
-                                        {selectedItem?.region_travel?.name}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                        )}
+      <Grid container>
+        <Grid item xs={12}>
+          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#007BB6' }}>
+            <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
+              <Typography
+                variant='body2'
+                sx={{ display: 'flex', mr: 2.75, alignItems: 'center', color: 'common.white', '& svg': { mr: 2.5 } }}
+              >
+                <ProfilePicture src={props.datauser?.photo} alt='profile-picture' />
+                &nbsp; {props.datauser?.name}
+              </Typography>
+              <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
+              <Box sx={{ pt: 2, pb: 1 }}>
+                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+                  <Icon icon={'material-symbols:corporate-fare-rounded'} fontSize={24} color={'#FFFFFF'} />
+                  <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
+                    {props.datauser?.industry?.name}
+                  </Typography>
+                </Box>
+                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+                  <Icon icon={'material-symbols:mail'} fontSize={24} color={'#FFFFFF'} />
+                  <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
+                    {props.datauser?.email}
+                  </Typography>
+                </Box>
+                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+                  <Icon icon={'material-symbols:badge-rounded'} fontSize={24} color={'#FFFFFF'} />
+                  <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
+                    {getUserRoleName(props.datauser?.team)}
+                  </Typography>
+                </Box>
+              </Box>
+              <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
+              {props.datauser?.role == 'Seafarer' && (
+                <Box>
+                  <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
+                    <Icon icon={'clarity:briefcase-solid'} fontSize={24} color={'#FFFFFF'} />
+                    <Typography variant='body1' sx={{ color: '#FFFFFF', fontWeight: 'bold' }}>
+                      Role :
+                    </Typography>
+                    <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
+                      {selectedItem?.role_type?.name}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
+                    <Icon icon={'fontisto:ship'} fontSize={24} color={'#FFFFFF'} />
+                    <Typography variant='body1' sx={{ color: '#FFFFFF', fontWeight: 'bold' }}>
+                      Vessel :
+                    </Typography>
+                    <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
+                      {selectedItem?.vessel_type?.name}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
+                    <Icon icon={'gis:route'} fontSize={24} color={'#FFFFFF'} />
+                    <Typography variant='body1' sx={{ color: '#FFFFFF', fontWeight: 'bold' }}>
+                      Region Of Travel:
+                    </Typography>
+                    <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
+                      {selectedItem?.region_travel?.name}
+                    </Typography>
+                  </Box>
+                </Box>
+              )}
 
-                        {props.datauser?.role != 'Seafarer' && (
-                            <Box>
-                                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7, display: 'flex', flexDirection: 'row' }}>
-                                    <Box width={22} textAlign='center'>
-                                    <Icon icon='mdi:facebook' fontSize={24} color={'#FFFFFF'} />
-                                    </Box>
-                                    <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
-                                        <a href={facebook} target='_blank' style={{ textDecoration: 'none' }}>
-                                            {facebook}
-                                        </a>
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
-                                    <Box width={22} textAlign='center'>
-                                    <Icon icon='mdi:instagram' fontSize={24} color={'#FFFFFF'} />
-                                    </Box>
-                                    <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
-                                        <a href={instagram} target='_blank' style={{ textDecoration: 'none' }}>
-                                            {instagram}
-                                        </a>
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
-                                    <Box width={22} textAlign='center'>
-                                        <Icon icon='mdi:linkedin' fontSize={24} color={'#FFFFFF'} />
-                                    </Box>
-                                    <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
-                                        <a href={linkedin} target='_blank' style={{ textDecoration: 'none' }}>
-                                            {linkedin}
-                                        </a>
-                                    </Typography>
-                                </Box>
-                            </Box>
-                        )}
+              {props.datauser?.role != 'Seafarer' && (
+                <Box>
+                  <Box
+                    sx={{
+                      columnGap: 2,
+                      flexWrap: 'wrap',
+                      alignItems: 'center',
+                      display: 'flex',
+                      flexDirection: 'row'
+                    }}
+                  >
+                    <LinkStyled
+                      href={facebook}
+                      target='_blank'
+                      sx={{
+                        columnGap: 2,
+                        flexWrap: 'wrap',
+                        alignItems: 'center',
+                        display: 'flex',
+                        flexDirection: 'row'
+                      }}
+                    >
+                      <Box width={22} textAlign='center'>
+                        <Icon icon='mdi:facebook' fontSize={24} color={'#FFFFFF'} />
+                      </Box>
+                      <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
+                        {facebook}
+                      </Typography>
+                    </LinkStyled>
+                  </Box>
+                  <LinkStyled
+                    href={instagram}
+                    target='_blank'
+                    sx={{
+                      columnGap: 2,
+                      flexWrap: 'wrap',
+                      alignItems: 'center',
+                      display: 'flex',
+                      flexDirection: 'row'
+                    }}
+                  >
+                    <Box
+                      sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }}
+                      display={'flex'}
+                    >
+                      <Box width={22} textAlign='center'>
+                        <Icon icon='mdi:instagram' fontSize={24} color={'#FFFFFF'} />
+                      </Box>
+                      <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
+                        {instagram}
+                      </Typography>
+                    </Box>
+                  </LinkStyled>
 
-                        <Box display='flex' justifyContent='right' alignItems='center'>
-                            <Link href={resolveEditHref(props.datauser?.role)}>
-                                <IconButton>
-                                    <Icon fontSize='large' icon={'material-symbols:edit'} color={'#FFFFFF'} style={{ fontSize: '24px' }} />
-                                </IconButton>
-                            </Link>
-                        </Box>
-                    </CardContent>
-                </Card>
-                {/* <Card>
+                  <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }} display={'flex'}>
+                    <LinkStyled
+                      href={linkedin}
+                      target='_blank'
+                      sx={{
+                        columnGap: 2,
+                        flexWrap: 'wrap',
+                        alignItems: 'center',
+                        display: 'flex',
+                        flexDirection: 'row'
+                      }}
+                    >
+                      <Box width={22} textAlign='center'>
+                        <Icon icon='mdi:linkedin' fontSize={24} color={'#FFFFFF'} />
+                      </Box>
+                      <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
+                        {linkedin}
+                      </Typography>
+                    </LinkStyled>
+                  </Box>
+                </Box>
+              )}
+
+              <Box display='flex' justifyContent='right' alignItems='center'>
+                <Link href={resolveEditHref(props.datauser?.role)}>
+                  <IconButton>
+                    <Icon
+                      fontSize='large'
+                      icon={'material-symbols:edit'}
+                      color={'#FFFFFF'}
+                      style={{ fontSize: '24px' }}
+                    />
+                  </IconButton>
+                </Link>
+              </Box>
+            </CardContent>
+          </Card>
+          {/* <Card>
                     <CardContent>
                         <Box display='flex' justifyContent='center' alignItems='center'>
                             <ProfilePicture src={props.datauser?.photo} alt='profile-picture' />
@@ -300,8 +349,8 @@ const Profile = (props: userProps) => {
                         </Box>
                     </CardContent>
                 </Card> */}
-            </Grid>
         </Grid>
+      </Grid>
     )
 }
 

@@ -9,6 +9,11 @@ import Applied from 'src/contract/models/applicant';
 import debounce from 'src/utils/debounce';
 import { GridPaginationModel } from '@mui/x-data-grid';
 
+const status: any[] = [
+  { id: 'AP', title: 'Approved' },
+  { id: 'RJ', title: 'Rejected' },
+  { id: 'WR', title: 'Waiting Review' }
+]
 const AllJobApplied = () => {
     const [onLoading, setOnLoading] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
@@ -28,16 +33,16 @@ const AllJobApplied = () => {
             const rows = resp.data.jobs.data as Applied[];
             const items = rows.map((row, index) => {
                 return {
-                    no: index + 1,
-                    id: row.id,
-                    role_type: row?.job?.role_type?.name,
-                    category_name: row?.job?.category.name,
-                    level_name: row?.job?.rolelevel.levelName,
-                    location: `${row?.job?.city?.city_name} - ${row?.job?.country?.name}`,
-                    degree: row?.job?.degree.name,
-                    salary: `Rp. ${row?.job?.salary_start} - Rp. ${row?.job?.salary_end}`,
-                    status: row?.status,
-                } as unknown as RowItem;
+                  no: index + 1,
+                  id: row.id,
+                  role_type: row?.job?.role_type?.name,
+                  category_name: row?.job?.category.name,
+                  level_name: row?.job?.rolelevel.levelName,
+                  location: `${row?.job?.city?.city_name} - ${row?.job?.country?.name}`,
+                  degree: row?.job?.degree.name,
+                  salary: `Rp. ${row?.job?.salary_start} - Rp. ${row?.job?.salary_end}`,
+                  status: status.find(e => e.id === row.status).title
+                } as unknown as RowItem
             });
 
             setRowCount(resp?.data?.jobs?.total ?? 0);

@@ -29,6 +29,8 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { removeFirstZeroChar } from 'src/utils/helpers'
 
+import { styled } from '@mui/material/styles'
+
 interface FormData {
     password2: string
     password: string
@@ -41,7 +43,10 @@ interface FormData {
     term: string
     privacy: string
 }
-
+const LinkStyled = styled(Link)(() => ({
+  
+  textDecoration: 'none', 
+}))
 const Registration = (props: any) => {
     const { tipereg } = props;
     const router = useRouter()
@@ -152,164 +157,199 @@ const Registration = (props: any) => {
     ]
 
     return (
-        <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
+      <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+        <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
+          {tipereg == 'seafer' ? (
             <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
-                {
-                    tipereg == 'seafer' ? (
-                        <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
-                            <Grid item md={12} xs={12}>
-                                <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 2 }} {...register("name")} />
-                            </Grid>
+              <Grid item md={12} xs={12}>
+                <TextField id='Name' label='Name' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
+              </Grid>
 
-                            <Grid item md={4} xs={12} >
-                                <Autocomplete
-                                    disablePortal
-                                    id="position"
-                                    options={!position ? [{ label: "Loading...", id: 0 }] : position}
-                                    renderInput={(params) => <TextField {...params} label="Position" sx={{ mb: 2 }} />}
-                                    {...register("position")}
-                                    onChange={(event: any, newValue: any | null) => setPosition(newValue)}
-                                />
-                            </Grid>
-                            <Grid item md={4} xs={12} >
-                                <Autocomplete
-                                    disablePortal
-                                    id="code"
-                                    options={!combocode ? [{ label: "Loading...", id: 0 }] : combocode}
-                                    renderInput={(params) => <TextField {...params} label="Code" sx={{ mb: 2 }} />}
-                                    {...register("code")}
-                                    onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
-                                />
-                            </Grid>
-                            <Grid item md={4} xs={12} >
-                                <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 2 }} value={phoneNum} onChange={(e) => onChangePhoneNum(e.target.value)} />
-                            </Grid>
-                        </Grid>
-                    ) : <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
-                        <Grid item md={6} xs={12}>
-                            <TextField id="Name" label="Name" variant="outlined" fullWidth sx={{ mb: 2 }} {...register("name")} />
-                        </Grid>
-                        <Grid item md={3} xs={12} >
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                options={!combocode ? [{ label: "Loading...", id: 0 }] : combocode}
-                                renderInput={(params) => <TextField {...params} label="Phone Code" sx={{ mb: 2 }} />}
-                                {...register("code")}
-                                onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
-                            />
-                        </Grid>
-                        <Grid item md={3} xs={12} >
-                            <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 2 }} value={phoneNum} onChange={(e) => onChangePhoneNum(e.target.value)} />
-                        </Grid>
-                    </Grid>
-                }
-
-                <Divider style={{ width: '100%', marginBottom: '10px' }} />
-                <Grid item md={6} xs={12} >
-                    <TextField id="Username" label="Username" variant="outlined" fullWidth sx={{ mb: 2 }} {...register("username")} />
-                </Grid>
-                <Grid item md={6} xs={12} >
-                    <TextField id="Email" label="Email" variant="outlined" fullWidth sx={{ mb: 2 }} {...register("email")} />
-                </Grid>
-                <Grid item md={6} xs={12} >
-                    <FormControl fullWidth>
-                        <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                            Password
-                        </InputLabel>
-                        <OutlinedInput
-                            sx={{ mb: 1 }}
-                            label='Password'
-                            id='password1'
-                            error={Boolean(errors.password)}
-                            type={showPassword ? 'text' : 'password'}
-                            {...register("password")}
-                            endAdornment={
-                                <InputAdornment position='end'>
-                                    <IconButton
-                                        edge='end'
-                                        onMouseDown={e => e.preventDefault()}
-                                        onClick={() => setShowPassword(!showPassword)}
-                                    >
-                                        <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                        />
-                        {errors.password && (
-                            <FormHelperText sx={{ color: 'error.main' }} id=''>
-                                {(errors as any).password?.message}
-                            </FormHelperText>
-                        )}
-                    </FormControl>
-                </Grid>
-
-                <Grid item md={6} xs={12} >
-                    <FormControl fullWidth>
-                        <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                            Confirm Password
-                        </InputLabel>
-                        <OutlinedInput
-                            sx={{ mb: 1 }}
-                            label='Confirm Password'
-                            id='password2'
-                            error={Boolean(errors.password)}
-                            type={showPassword ? 'text' : 'password'}
-                            {...register("password2")}
-                            endAdornment={
-                                <InputAdornment position='end'>
-                                    <IconButton
-                                        edge='end'
-                                        onMouseDown={e => e.preventDefault()}
-                                        onClick={() => setShowPassword(!showPassword)}
-                                    >
-                                        <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                        />
-                        {errors.password && (
-                            <FormHelperText sx={{ color: 'error.main' }} id=''>
-                                {(errors as any).password?.message}
-                            </FormHelperText>
-                        )}
-                    </FormControl>
-                </Grid>
-                <Grid item md={12} xs={12} >
-                    <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
-                        <Checkbox id='term'  {...register("term")}></Checkbox>
-                        <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>
-                            Terms Of Services,
-                        </Typography>
-                        <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; I read and accept</Typography>
-
-                    </Box>
-                </Grid>
-                <Grid item md={12} xs={12} >
-                    <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
-                        <Checkbox id='privacy' {...register("privacy")}></Checkbox>
-                        <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>
-                            Privacy Police,
-                        </Typography>
-                        <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; I read and accept</Typography>
-                    </Box>
-                </Grid>
-                <Grid item md={3} xs={12} >
-                    <Link href='/register'>
-                        <Button fullWidth size='large' type='button' variant='contained' sx={{ mb: 7 }} startIcon={<Icon icon={'mdi:arrow-left'} />} >
-                            PREVIOUS
-                        </Button>
-                    </Link>
-                </Grid>
-
-                <Grid item md={6} xs={0} ></Grid>
-                <Grid item md={3} xs={12} >
-                    <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }} endIcon={<Icon icon={'mdi:arrow-right'} />}>
-                        REGISTER
-                    </Button>
-                </Grid>
+              <Grid item md={4} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='position'
+                  options={!position ? [{ label: 'Loading...', id: 0 }] : position}
+                  renderInput={params => <TextField {...params} label='Position' sx={{ mb: 2 }} />}
+                  {...register('position')}
+                  onChange={(event: any, newValue: any | null) => setPosition(newValue)}
+                />
+              </Grid>
+              <Grid item md={4} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='code'
+                  options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
+                  renderInput={params => <TextField {...params} label='Code' sx={{ mb: 2 }} />}
+                  {...register('code')}
+                  onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
+                />
+              </Grid>
+              <Grid item md={4} xs={12}>
+                <TextField
+                  id='Phone'
+                  label='Phone'
+                  variant='outlined'
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  value={phoneNum}
+                  onChange={e => onChangePhoneNum(e.target.value)}
+                />
+              </Grid>
             </Grid>
-        </form>
+          ) : (
+            <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
+              <Grid item md={6} xs={12}>
+                <TextField id='Name' label='Name' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
+              </Grid>
+              <Grid item md={3} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-demo'
+                  options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
+                  renderInput={params => <TextField {...params} label='Phone Code' sx={{ mb: 2 }} />}
+                  {...register('code')}
+                  onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
+                />
+              </Grid>
+              <Grid item md={3} xs={12}>
+                <TextField
+                  id='Phone'
+                  label='Phone'
+                  variant='outlined'
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  value={phoneNum}
+                  onChange={e => onChangePhoneNum(e.target.value)}
+                />
+              </Grid>
+            </Grid>
+          )}
+
+          <Divider style={{ width: '100%', marginBottom: '10px' }} />
+          <Grid item md={6} xs={12}>
+            <TextField
+              id='Username'
+              label='Username'
+              variant='outlined'
+              fullWidth
+              sx={{ mb: 2 }}
+              {...register('username')}
+            />
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <TextField id='Email' label='Email' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('email')} />
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <FormControl fullWidth>
+              <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
+                Password
+              </InputLabel>
+              <OutlinedInput
+                sx={{ mb: 1 }}
+                label='Password'
+                id='password1'
+                error={Boolean(errors.password)}
+                type={showPassword ? 'text' : 'password'}
+                {...register('password')}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    <IconButton
+                      edge='end'
+                      onMouseDown={e => e.preventDefault()}
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+              {errors.password && (
+                <FormHelperText sx={{ color: 'error.main' }} id=''>
+                  {(errors as any).password?.message}
+                </FormHelperText>
+              )}
+            </FormControl>
+          </Grid>
+
+          <Grid item md={6} xs={12}>
+            <FormControl fullWidth>
+              <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
+                Confirm Password
+              </InputLabel>
+              <OutlinedInput
+                sx={{ mb: 1 }}
+                label='Confirm Password'
+                id='password2'
+                error={Boolean(errors.password)}
+                type={showPassword ? 'text' : 'password'}
+                {...register('password2')}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    <IconButton
+                      edge='end'
+                      onMouseDown={e => e.preventDefault()}
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+              {errors.password && (
+                <FormHelperText sx={{ color: 'error.main' }} id=''>
+                  {(errors as any).password?.message}
+                </FormHelperText>
+              )}
+            </FormControl>
+          </Grid>
+          <Grid item md={12} xs={12}>
+            <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
+              <Checkbox id='term' {...register('term')}></Checkbox>
+              <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>Terms Of Services,</Typography>
+              <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; I read and accept</Typography>
+            </Box>
+          </Grid>
+          <Grid item md={12} xs={12}>
+            <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
+              <Checkbox id='privacy' {...register('privacy')}></Checkbox>
+
+              <LinkStyled href={'/privacy'}>
+                <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>Privacy Police,</Typography>
+              </LinkStyled>
+              <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; I read and accept</Typography>
+            </Box>
+          </Grid>
+          <Grid item md={3} xs={12}>
+            <Link href='/register'>
+              <Button
+                fullWidth
+                size='large'
+                type='button'
+                variant='contained'
+                sx={{ mb: 7 }}
+                startIcon={<Icon icon={'mdi:arrow-left'} />}
+              >
+                PREVIOUS
+              </Button>
+            </Link>
+          </Grid>
+
+          <Grid item md={6} xs={0}></Grid>
+          <Grid item md={3} xs={12}>
+            <Button
+              fullWidth
+              size='large'
+              type='submit'
+              variant='contained'
+              sx={{ mb: 7 }}
+              endIcon={<Icon icon={'mdi:arrow-right'} />}
+            >
+              REGISTER
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
     )
 }
 

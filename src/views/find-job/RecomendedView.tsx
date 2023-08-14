@@ -6,6 +6,7 @@ import { Avatar, Paper } from '@mui/material'
 import Job from 'src/contract/models/job'
 import Link from 'next/link'
 
+ 
 export type ParamMain = {
   name: string
   skill: string
@@ -29,9 +30,9 @@ const renderList = (listJob: Job[]) => {
     const license: any[] = Object.values(item?.license)
 
     return (
-      <Grid item xs={12} md={4} key={item?.id} >
+      <Grid item xs={12} md={4} key={item?.id}>
         <Paper sx={{ marginTop: '10px', border: '1px solid #eee', height: 185 }} elevation={0}>
-          <Link style={{ textDecoration: 'none' }} href={'/candidate/job/?id=' + item?.id} >
+          <Link style={{ textDecoration: 'none' }} href={'/candidate/job/?id=' + item?.id}>
             <Box
               height={65}
               sx={{
@@ -43,38 +44,59 @@ const renderList = (listJob: Job[]) => {
               <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={2} ml={2} mr={3}>
                 <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50 }} />
               </Box>
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={2}>
-                <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={14} >
-                  {item?.role_type?.name ?? "-"}
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
+                marginTop={2}
+              >
+                <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={14}>
+                  {item?.role_type?.name ?? '-'}
                 </Typography>
                 <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
-                  {item?.company?.name ?? "-"}
+                  {item?.company?.name ?? '-'}
                 </Typography>
               </Box>
             </Box>
           </Link>
-          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={2}>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
-              <Icon icon='ic:round-business-center' color='#32487A' fontSize={'18px'}/>
-              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
+          <Grid item container>
+            <Grid xs={1}>
+              <Icon icon='ic:round-business-center' color='#32487A' fontSize={'18px'} />
+            </Grid>
+            <Grid xs={11}>
+              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                 {item?.rolelevel?.levelName} - {item?.category?.name}
               </Typography>
-            </Box>
+            </Grid>
 
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
+            <Grid xs={1}>
               <Icon icon='mdi:school' color='#32487A' fontSize={'18px'} />
-              <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
+            </Grid>
+            <Grid xs={11}>
+              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                 {item?.degree?.name}
               </Typography>
-            </Box>
+            </Grid>
 
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
+            <Grid xs={1}>
               <Icon icon='mdi:license' color='#32487A' fontSize={'18px'} />
-              <Typography sx={{ color: 'text.primary', display: '-webkit-box', overflow: 'hidden', WebkitBoxOrient: 'vertical', WebkitLineClamp: 2, }} ml="0.5rem" mt="0.2rem" fontSize={12}>
-                {license.map(e => e.title).join(", ")}
+            </Grid>
+            <Grid xs={11}>
+              <Typography
+                sx={{
+                  color: 'text.primary',
+                  display: '-webkit-box',
+                  overflow: 'hidden',
+                  WebkitBoxOrient: 'vertical',
+                  WebkitLineClamp: 2
+                }}
+                ml='0.5rem'
+                mt='0.2rem'
+                fontSize={12}
+              >
+                {license.map(e => e.title).join(', ')}
               </Typography>
-            </Box>
-          </Box>
+            </Grid>
+          </Grid>
+           
         </Paper>
       </Grid>
     )

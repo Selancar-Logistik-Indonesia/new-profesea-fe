@@ -22,12 +22,19 @@ const navigation = (): VerticalNavItemsType => {
       }, 
 
       {
-        path: '/candidate/training',
-        title: 'My Training',
-        icon: 'mdi:play',
-        action: 'read',
-        subject: 'seaferer-training'
-      },
+    path: '/candidate/training',
+    title: 'My Training',
+    icon: 'ion:book-sharp',
+    action: 'read',
+    subject: 'seaferer-training'
+    },
+    {
+      path: '/pricing',
+      title: 'Pricing',
+      icon: 'raphael:dollar',
+      action: 'read',
+      subject: 'seaferer-training'
+    },
       {
         path: '/company',
         title: 'Home',
