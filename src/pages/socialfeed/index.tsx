@@ -44,6 +44,9 @@ const SocialFeedApp = () => {
             <Grid item my={4} xs={12}>
               <Card>
                 <CardContent>
+                <Typography color={"#424242"} fontWeight="600" fontSize={"14px"} sx={{ mb: 4 }}>
+                Your Activities
+              </Typography>
                   <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                     <Icon icon={'material-symbols:tenancy'} fontSize={24} color={'#32487A'} />
                     <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
