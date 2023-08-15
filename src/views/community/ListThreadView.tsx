@@ -3,13 +3,13 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { Avatar, Card, CardContent, CircularProgress, Link } from '@mui/material'
-import Icon from 'src/@core/components/icon'
 import Moment from 'moment'
 import IThread from 'src/contract/models/thread'
 import { useThread } from 'src/hooks/useThread'
 import { useEffect } from 'react'
 import ThreadContext from 'src/context/ThreadContext'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import ShareArea from 'src/pages/thread/ShareArea'
 
 const renderList = (arr: IThread[]) => {
   if (arr && arr.length) {
@@ -53,29 +53,23 @@ const renderList = (arr: IThread[]) => {
                     </Box>
                   </Box>
                   <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} >
-                      <Typography sx={{ color: 'text.primary', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
+                      <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
                         {item.title
                           ? `${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`
                           : ''}
                       </Typography>
-                      <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={12}>
+                      <Typography sx={{ fontWeight: '450', color: 'text.primary', mb: 1 }} fontSize={12}>
                         {ReactHtmlParser(`${item?.snap_content}`)}
                       </Typography>
                   </Box>
                 </Link>               
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-end'] }} >
                   <Grid container direction="row" justifyContent="flex-end" spacing={6} >
-                      <Grid item xs={1} mr={2}> 
-                          <Icon icon={'uil:comment'} fontSize={18} />
-                          <Typography ml="1.5rem" mt="-1.5rem" fontSize={14}>
-                            {item.replies_count
+                      <Grid item xs={6}> 
+                        <ShareArea subject={`${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`} url={window.location.host + `/thread?id=${item.id}`} total={item.replies_count
                               ? `${item.replies_count.toString().charAt(0).toUpperCase() + item.replies_count.toString().slice(1)
                               }`
-                              : ''}    
-                          </Typography>    
-                      </Grid>
-                      <Grid item xs={1}> 
-                        <Icon icon={'uil:share'} fontSize={18} />
+                              : ''} ></ShareArea>
                       </Grid>
                   </Grid>
                 </Box>

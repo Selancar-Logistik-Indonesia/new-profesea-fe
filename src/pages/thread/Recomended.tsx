@@ -1,36 +1,16 @@
 // ** MUI Components
+import ReactHtmlParser from 'react-html-parser'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid' 
 import Typography from '@mui/material/Typography' 
 import { Avatar, Card, CardContent, Link } from '@mui/material'
-import secureLocalStorage from 'react-secure-storage'
-import localStorageKeys from 'src/configs/localstorage_keys'
-import { IUser } from 'src/contract/models/user'
 import Moment from 'moment'
-
-export type ParamMain = {
-  id: number
-  name: string
-  title: any
-  forum: any
-  snap_content: any
-  date: string
-  replies: string
-  replies_count: string
-  created_at: string
-} 
+import IThread from 'src/contract/models/thread'
+import { useThread } from 'src/hooks/useThread'
+import { Icon } from '@iconify/react'
  
-
- 
-// export type ProfileTeamsType = ProfileTabCommonType & { color: ThemeColor }
-interface Props {
-  // teams: ProfileTeamsType[]
-  paramcomment: ParamMain[] 
-}
- 
-const renderList = (arr: ParamMain[]) => {
+const renderList = (arr: IThread[]) => {
   if (arr && arr.length) {
-    const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
     return arr.map((item, index) => {
  
@@ -38,7 +18,7 @@ const renderList = (arr: ParamMain[]) => {
         <Grid item xs={12} key={index}>
           <Card>
             <CardContent>
-              <Link style={{ textDecoration: 'none' }} href={'/thread?id=' + item?.id}>
+              <Link style={{ textDecoration: 'none' }} href={'/thread?id=' + item.id}>
                 <Box
                   height={65}
                   sx={{
@@ -48,11 +28,11 @@ const renderList = (arr: ParamMain[]) => {
                   mt={-5}
                   >
                   <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-                      <Avatar src={user?.photo} alt='profile-picture' sx={{ width: 50, height: 50 }} />
+                      <Avatar src={item.user?.photo} alt='profile-picture' sx={{ width: 50, height: 50 }} />
                   </Box>
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
                       <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={14}>
-                          {user?.name}
+                          {item.user?.name}
                       </Typography>
                       <Grid container direction="row" alignItems="center" spacing={4}>
                         <Grid item>                              
@@ -70,17 +50,33 @@ const renderList = (arr: ParamMain[]) => {
                       </Grid>
                   </Box>
                 </Box>
-                <Box   height={100} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} >
-                    <Typography sx={{ color: 'text.primary', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
+                <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} >
+                    <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
                       {item.title
                         ? `${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`
                         : ''}
                     </Typography>
-                    <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
-                        {item?.snap_content}
+                    <Typography sx={{ fontWeight: '400', color: 'text.primary', mb: 1 }} fontSize={12}>
+                      {ReactHtmlParser(`${item?.snap_content}`)}
                     </Typography>
                 </Box>
-              </Link>  
+              </Link>               
+              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-end'] }} marginTop={3} >
+                <Grid container direction="row" justifyContent="flex-end" spacing={6} >
+                    <Grid item xs={2} mr={2}> 
+                        <Icon icon={'uil:comment'} fontSize={18} />
+                        <Typography ml="1.5rem" mt="-1.5rem" fontSize={14}>
+                          {item.replies_count
+                            ? `${item.replies_count.toString().charAt(0).toUpperCase() + item.replies_count.toString().slice(1)
+                            }`
+                            : ''}    
+                        </Typography>    
+                    </Grid>
+                    <Grid item xs={2}> 
+                      <Icon icon={'uil:share'} fontSize={18} />
+                    </Grid>
+                </Grid>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
@@ -92,13 +88,12 @@ const renderList = (arr: ParamMain[]) => {
 }
  
 
-const Recomended = (props: Props) => {
-  const {   paramcomment  } = props
-
+const Recomended = () => {
+  const { threads } = useThread();
 
   return (
     <Grid container spacing={2}>
-        {renderList(paramcomment)} 
+        {renderList(threads)} 
     </Grid>
   )
 }
