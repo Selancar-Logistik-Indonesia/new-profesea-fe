@@ -10,6 +10,7 @@ import { useThread } from 'src/hooks/useThread'
 import { useEffect } from 'react'
 import ThreadContext from 'src/context/ThreadContext'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import ShareArea from 'src/pages/thread/ShareArea'
 
 const renderList = (arr: IThread[]) => {
   if (arr && arr.length) {
@@ -65,17 +66,11 @@ const renderList = (arr: IThread[]) => {
                 </Link>               
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-end'] }} >
                   <Grid container direction="row" justifyContent="flex-end" spacing={6} >
-                      <Grid item xs={1} mr={2}> 
-                          <Icon icon={'uil:comment'} fontSize={18} />
-                          <Typography ml="1.5rem" mt="-1.5rem" fontSize={14}>
-                            {item.replies_count
+                      <Grid item xs={6}> 
+                        <ShareArea subject={`${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`} url={window.location.host + `/thread?id=${item.id}`} total={item.replies_count
                               ? `${item.replies_count.toString().charAt(0).toUpperCase() + item.replies_count.toString().slice(1)
                               }`
-                              : ''}    
-                          </Typography>    
-                      </Grid>
-                      <Grid item xs={1}> 
-                        <Icon icon={'uil:share'} fontSize={18} />
+                              : ''} ></ShareArea>
                       </Grid>
                   </Grid>
                 </Box>
