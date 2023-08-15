@@ -196,31 +196,32 @@ const FindCandidate = () => {
   const handleKeyDown = (e: any,x:any) => {
      if (e.keyCode == 32) { 
        if (x == 1) {
-        if(values.length>0){
+        if(values.length > 0){
           setValues(oldState => [...oldState, e.target.value.substr(1)])
         }else{
-          setValues(oldState => [e.target.value])
+          setValues(() => [e.target.value])
         } 
          setCurrValue('')
        } else if (x == 2) {
          if (valuesoneword.length > 0) {
              setValuesOneWord(oldState => [...oldState, e.target.value.substr(1)])
          } else {
-             setValuesOneWord(oldState => [ e.target.value])
+             setValuesOneWord(() => [ e.target.value])
          }  
          setCurrValueOneWord('')
        } else if (x == 3) {
         if (valuesexclude.length > 0) {
             setValuesExclude(oldState => [...oldState, e.target.value.substr(1)])
         } else {
-           setValuesExclude(oldState => [ e.target.value])
+           setValuesExclude(() => [ e.target.value])
         }  
          setCurrValueExclude('')
        } else if (x == 4) {
         if (valueslitle.length > 0) {
           setValuesLitle(oldState => [...oldState, e.target.value.substr(1)])
         } else {
-          setValuesLitle(oldState => [e.target.value])
+          setValuesLitle(() => [e.target.value])
+          
         } 
          
          setCurrValueLitle('')
@@ -246,6 +247,7 @@ const FindCandidate = () => {
     if (x == 1) {
       const arr = [...values]
       arr.splice(index, 1)
+      setCurrValue('')
       setValues(arr)
     } else if (x == 2) {
       const arr = [...valuesoneword]
