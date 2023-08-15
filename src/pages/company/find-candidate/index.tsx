@@ -59,6 +59,16 @@ const FindCandidate = () => {
   const [page, setPage] = useState(1)
  const [personName, setPersonName] = React.useState<string[]>( [])
  
+  const [values, setValues] = useState<any[]>([])
+  const [currValue, setCurrValue] = useState('')
+  const [valuesoneword, setValuesOneWord] = useState<any[]>([])
+  const [currValueoneword, setCurrValueOneWord] = useState('')
+  const [valuesexclude, setValuesExclude] = useState<any[]>([])
+  const [currValueexclude, setCurrValueExclude] = useState('')
+  const [valueslitle, setValuesLitle] = useState<any[]>([])
+  const [currValuelitle, setCurrValueLitle] = useState('')
+
+ 
 
   const handleChange2 = (event: SelectChangeEvent<typeof personName>) => {
     const {
@@ -121,30 +131,39 @@ const FindCandidate = () => {
   }, [])
 
   const getdatapencarian = async () => {
+    debugger;
     let allword = ''
     if (values.length > 0) allword = JSON.stringify(values)
-    // let oneword = ''
-    // if (valuesoneword.length > 0) oneword = JSON.stringify(valuesoneword)
+    let oneword = ''
+    if (valuesoneword.length > 0) oneword = JSON.stringify(valuesoneword)
+    let exclude = ''
+    if (valuesexclude.length > 0) exclude = JSON.stringify(valuesexclude)
+    let valuelitle = ''
+    if (valueslitle.length > 0) valuelitle = JSON.stringify(valueslitle)
+
+    setCurrValueLitle
     const response = await HttpClient.get(
-       '/candidate?search=' +
-         textCandidate +
-         '&vesseltype_id=' +
-         sVesselType +
-         '&roletype_id=' +
-         sJobTitle +
-         '&rolelevel_id=' +
-         sJobCategory +
-         '&include_all_word=' +
-         allword+
-         '&page='+
-         page+
-         '&take='+perPage
-        //  +
-        // '&include_one_word=' +
-        // oneword
-         
-       
-     ) 
+      '/candidate?search=' +
+        textCandidate +
+        '&vesseltype_id=' +
+        sVesselType +
+        '&roletype_id=' +
+        sJobTitle +
+        '&rolelevel_id=' +
+        sJobCategory +
+        '&include_all_word=' +
+        allword +
+        '&page=' +
+        page +
+        '&take=' +
+        perPage +
+        '&include_one_word=' +
+        oneword +
+        '&exact_phrase=' +
+        valuelitle +
+        '&exclude_all_these=' +
+        exclude
+    ) 
      
     const candidates = response.data.candidates
     if (candidates?.total == null) {
@@ -167,15 +186,6 @@ const FindCandidate = () => {
   setPerPage(15)
   }
 
-  const [values, setValues] = useState<any[]>([])
-  const [currValue, setCurrValue] = useState('')
-  const [valuesoneword, setValuesOneWord] = useState<any[]>([])
-  const [currValueoneword, setCurrValueOneWord] = useState('')
-  const [valuesexclude, setValuesExclude] = useState<any[]>([])
-  const [currValueexclude, setCurrValueExclude] = useState('')
-  const [valueslitle, setValuesLitle] = useState<any[]>([])
-  const [currValuelitle, setCurrValueLitle] = useState('')
-
   const handleKeyUp = (e: any) => {
     console.log(e.keyCode)
     if (e.keyCode == 32) {
@@ -186,16 +196,33 @@ const FindCandidate = () => {
   const handleKeyDown = (e: any,x:any) => {
      if (e.keyCode == 32) {
        if (x == 1) {
-         setValues(oldState => [...oldState, e.target.value])
+        if(values.length>0){
+          setValues(oldState => [...oldState, e.target.value])
+        }else{
+          setValues(oldState => [e.target.value])
+        } 
          setCurrValue('')
        } else if (x == 2) {
-         setValuesOneWord(oldState => [...oldState, e.target.value])
+         if (valuesoneword.length > 0) {
+             setValuesOneWord(oldState => [...oldState, e.target.value])
+         } else {
+             setValuesOneWord(oldState => [ e.target.value])
+         }  
          setCurrValueOneWord('')
        } else if (x == 3) {
-         setValuesExclude(oldState => [...oldState, e.target.value])
+        if (valuesexclude.length > 0) {
+            setValuesExclude(oldState => [...oldState, e.target.value])
+        } else {
+           setValuesExclude(oldState => [ e.target.value])
+        }  
          setCurrValueExclude('')
        } else if (x == 4) {
-         setValuesLitle(oldState => [...oldState, e.target.value])
+        if (valueslitle.length > 0) {
+          setValuesLitle(oldState => [...oldState, e.target.value])
+        } else {
+          setValuesLitle(oldState => [e.target.value])
+        } 
+         
          setCurrValueLitle('')
        }
         
@@ -311,18 +338,7 @@ const FindCandidate = () => {
                     }
                     sx={{ marginBottom: 2 }}
                   />
-                  <Autocomplete
-                    disablePortal
-                    id='code'
-                    options={dokumen}
-                    getOptionLabel={(option: Dokumen) => option.title}
-                    // defaultValue={props.datauser?.country}
-                    renderInput={params => <TextField {...params} label='License' sx={{ mb: 2 }} />}
-                    // onChange={(event: any, newValue: Dokumen | null) =>
-                    //   newValue?.id ? searchcity(newValue.id) : searchcity(0)
-                    // }
-                    sx={{ marginBottom: 2 }}
-                  />
+                 
                   <FormControl>
                     <InputLabel id='demo-multiple-chip-label'>Spoken</InputLabel>
                     <Select
