@@ -1,5 +1,5 @@
 // ** React Imports
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Button, Paper, ButtonGroup, Popper, ClickAwayListener, MenuList, MenuItem, Grow } from '@mui/material'
 // ** Layout Import
@@ -22,7 +22,7 @@ const ShareArea = (props:{url:string, subject:any, total:any}) => {
     }else if(options[index] == 'Whatsapp'){
       window.open('https://web.whatsapp.com/send?text='+ props.url, '_blank')
     }else if(options[index] == 'Email'){
-      const emailLink = `mailto:?subject=${encodeURIComponent("Test")}&body=${encodeURIComponent("TEST")}`
+      const emailLink = `mailto:?subject=${encodeURIComponent(props.subject)}&body=${encodeURIComponent(props.url)}`
       window.open(emailLink, '_blank')
     }
     setOpen(false)
@@ -38,6 +38,7 @@ const ShareArea = (props:{url:string, subject:any, total:any}) => {
 
      setOpen(false)
    }
+  
   return (
     <>
       <Grid container direction="row" justifyContent="flex-end" alignItems="center">
