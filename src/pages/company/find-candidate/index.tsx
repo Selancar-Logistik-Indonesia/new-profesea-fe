@@ -12,10 +12,10 @@ import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import InfiniteScroll from 'react-infinite-scroll-component' 
 
-type Dokumen = {
-  title: string 
-  docType: string
-}
+// type Dokumen = {
+//   title: string 
+//   docType: string
+// }
 
 
 const ITEM_HEIGHT = 48
