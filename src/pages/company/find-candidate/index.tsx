@@ -131,8 +131,7 @@ const FindCandidate = () => {
   }, [])
 
   const getdatapencarian = async () => {
-    debugger;
-    let allword = ''
+     let allword = ''
     if (values.length > 0) allword = JSON.stringify(values)
     let oneword = ''
     if (valuesoneword.length > 0) oneword = JSON.stringify(valuesoneword)
@@ -247,20 +246,23 @@ const FindCandidate = () => {
     if (x == 1) {
       const arr = [...values]
       arr.splice(index, 1)
-      setCurrValue('')
       setValues(arr)
+      setCurrValue('')
     } else if (x == 2) {
       const arr = [...valuesoneword]
       arr.splice(index, 1)
       setValuesOneWord(arr)
+      setCurrValueOneWord('')
     } else if (x == 3) {
       const arr = [...valuesexclude]
       arr.splice(index, 1)
       setValuesExclude(arr)
+      setCurrValueExclude('')
     } else if (x == 4) {
       const arr = [...valueslitle]
       arr.splice(index, 1)
       setValuesLitle(arr)
+      setCurrValueLitle('')
     }
     getdatapencarian();
 
