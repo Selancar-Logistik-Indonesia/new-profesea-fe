@@ -32,6 +32,7 @@ const defineRulesFor = (role: string, subject: string) => {
             'master/job-categories',
             'master/training-categories',
             'master/role-level',
+            'master/forum',
             'feed-detail',
         ]);
     } else if (role === 'Seafarer') {

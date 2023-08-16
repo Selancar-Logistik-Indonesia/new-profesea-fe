@@ -145,6 +145,12 @@ const navigation = (): VerticalNavItemsType => {
             path: '/admin/master/role-level',
             subject: 'master/role-level',
             action: 'read'
+          },
+          {
+            title: 'Forum',
+            path: '/admin/master/forum',
+            subject: 'master/forum',
+            action: 'read'
           }
         ]
       }
