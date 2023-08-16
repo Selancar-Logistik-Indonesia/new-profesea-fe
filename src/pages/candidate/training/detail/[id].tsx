@@ -5,37 +5,27 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { HttpClient } from "src/services";
 import Training from "src/contract/models/training";
-import { formatIDR, getCleanErrorMessage, getUserAvatar } from "src/utils/helpers";
+import { formatIDR, getUserAvatar } from "src/utils/helpers";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import PaymentDialog from "src/views/payment/PaymentDialog";
 
 const TrainingDetailPage = () => {
     const router = useRouter();
-    let trainingId = router.query.id;
+    const trainingId = router.query.id;
     const [training, setTraining] = useState<Training | null>(null);
-    const [onLoading, setOnLoading] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
 
     const handleClickBuy = async () => {
-        setOnLoading(true);
-        try {
-            const response = await HttpClient.get(`/training/${training!.id}/join`);
-            if (response.status != 200) {
-                throw response.data?.message ?? 'Unknow error';
-            }
-
-            training!.joined_at = moment().format();
-        } catch (error) {
-            alert(getCleanErrorMessage(error));
-        }
-
-        setOnLoading(false);
+        setOpenDialog(!openDialog);
     }
 
     const getDetailTraining = async () => {
         const resp = await HttpClient.get(`/training/${trainingId}`);
         if (resp.status != 200) {
             alert(resp.data?.message ?? "");
+
             return;
         }
 
@@ -89,15 +79,7 @@ const TrainingDetailPage = () => {
 
                         {training.joined_at
                             ? (<Button disabled={true} variant='contained'>Joined</Button>)
-                            : (
-                                <Button disabled={onLoading} onClick={handleClickBuy} variant='contained'>
-                                    {
-                                        onLoading
-                                            ? <CircularProgress size={21} />
-                                            : "Buy It"
-                                    }
-                                </Button>
-                            )}
+                            : (<Button onClick={handleClickBuy} variant='contained'>Buy It</Button>)}
                     </Box>
                 </Box>
 
@@ -116,6 +98,8 @@ const TrainingDetailPage = () => {
 
                 <Box sx={{ maxWidth: 720 }} component='div' dangerouslySetInnerHTML={{ __html: training.short_description }}></Box>
             </Grid>
+
+            {openDialog && (<PaymentDialog training={training} openDialog={openDialog} />)}
         </Grid>
     );
 }
