@@ -7,7 +7,7 @@ import { Avatar, Card, CardContent, Link } from '@mui/material'
 import Moment from 'moment'
 import IThread from 'src/contract/models/thread'
 import { useThread } from 'src/hooks/useThread'
-import { Icon } from '@iconify/react'
+import ShareArea from './ShareArea'
  
 const renderList = (arr: IThread[]) => {
   if (arr && arr.length) {
@@ -18,7 +18,7 @@ const renderList = (arr: IThread[]) => {
         <Grid item xs={12} key={index}>
           <Card>
             <CardContent>
-              <Link style={{ textDecoration: 'none' }} href={'/thread?id=' + item.id}>
+              <Link style={{ textDecoration: 'none' }} href={'/profile/?username=' + item?.user?.username}>
                 <Box
                   height={65}
                   sx={{
@@ -50,6 +50,8 @@ const renderList = (arr: IThread[]) => {
                       </Grid>
                   </Box>
                 </Box>
+              </Link>
+              <Link style={{ textDecoration: 'none' }} href={'/thread/?id=' + item.id}>
                 <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} >
                     <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
                       {item.title
@@ -63,18 +65,12 @@ const renderList = (arr: IThread[]) => {
               </Link>               
               <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-end'] }} marginTop={3} >
                 <Grid container direction="row" justifyContent="flex-end" spacing={6} >
-                    <Grid item xs={2} mr={2}> 
-                        <Icon icon={'uil:comment'} fontSize={18} />
-                        <Typography ml="1.5rem" mt="-1.5rem" fontSize={14}>
-                          {item.replies_count
-                            ? `${item.replies_count.toString().charAt(0).toUpperCase() + item.replies_count.toString().slice(1)
-                            }`
-                            : ''}    
-                        </Typography>    
-                    </Grid>
-                    <Grid item xs={2}> 
-                      <Icon icon={'uil:share'} fontSize={18} />
-                    </Grid>
+                  <Grid item xs={8}> 
+                        <ShareArea subject={`${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`} url={`/thread/?id=${item.id}`} total={item.replies_count
+                              ? `${item.replies_count.toString().charAt(0).toUpperCase() + item.replies_count.toString().slice(1)
+                              }`
+                              : ''} ></ShareArea>
+                      </Grid>
                 </Grid>
               </Box>
             </CardContent>

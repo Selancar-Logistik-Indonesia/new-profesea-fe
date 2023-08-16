@@ -8,6 +8,7 @@ import { Icon } from '@iconify/react'
 
 import Grid from '@mui/material/Grid'
 import { toast } from 'react-hot-toast'
+import Link from 'next/link'
   
 
 const ShareArea = (props:{url:string, subject:any, total:any}) => {
@@ -17,12 +18,13 @@ const ShareArea = (props:{url:string, subject:any, total:any}) => {
   const anchorRef = React.useRef<HTMLDivElement>(null)
   const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => {
     if(options[index] == 'Link'){
-      navigator.clipboard.writeText(props.url);
+      navigator.clipboard.writeText(window.location.origin+props.url);
       toast.success('Link copied') 
     }else if(options[index] == 'Whatsapp'){
-      window.open('https://web.whatsapp.com/send?text='+ props.url, '_blank')
+      window.open('https://web.whatsapp.com/send?text='+ window.location.origin+props.url, '_blank')
     }else if(options[index] == 'Email'){
-      const emailLink = `mailto:?subject=${encodeURIComponent(props.subject)}&body=${encodeURIComponent(props.url)}`
+      const body = `Click link here ${window.location.origin+props.url+props.url}`
+      const emailLink = `mailto:?subject=${encodeURIComponent(props.subject)}&body=${encodeURIComponent(body)}`
       window.open(emailLink, '_blank')
     }
     setOpen(false)
@@ -43,13 +45,14 @@ const ShareArea = (props:{url:string, subject:any, total:any}) => {
     <>
       <Grid container direction="row" justifyContent="flex-end" alignItems="center">
         <Grid>
-          <Button
-              variant='text'
-              color='secondary'
-              size='small'
-              startIcon={<Icon icon='uil:comment' fontSize={10} />}
-              href={props.url}
-            >{props.total}</Button>
+          <Link style={{ textDecoration: 'none' }} href={props.url}>
+            <Button
+                variant='text'
+                color='secondary'
+                size='small'
+                startIcon={<Icon icon='uil:comment' fontSize={10} />}
+              >{props.total}</Button>
+          </Link>
         </Grid>
         <Grid>
           <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">

@@ -11,10 +11,12 @@ import { useEffect } from 'react'
 import ThreadContext from 'src/context/ThreadContext'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useThread } from 'src/hooks/useThread'
+import Link from 'next/link'
 
 export type ParamMain = {
   name: string
   title: any
+  user:any
   content: any
   date: string
   replies: string
@@ -33,30 +35,32 @@ const renderList = (arr: ParamMain[]) => {
         <Grid item xs={12} key={index}>
           <Card>
             <CardContent>
-              <Box
-                  height={65}
-                  sx={{
-                      display: 'flex',
-                      alignContent: 'center',
-                  }}
-                  mt={-5}
-                  >
-                  <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-                      <Avatar src={user?.photo} alt='profile-picture' sx={{ width: 40, height: 40 }} />
-                  </Box>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
-                      <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={14}>
-                          {user?.name}
-                      </Typography>
-                      <Grid container direction="row" alignItems="center" spacing={4}>
-                        <Grid item> 
-                          <Typography sx={{ color: 'text.secondary', mb: 1, fontSize:9 }}>
-                            {Moment(item.created_at).format('DD/MM/YYYY HH:MM:SS')}
-                          </Typography>
+                <Link style={{ textDecoration: 'none' }} href={'/profile/?username=' + item?.user?.username}>
+                  <Box
+                    height={65}
+                    sx={{
+                        display: 'flex',
+                        alignContent: 'center',
+                    }}
+                    mt={-5}
+                    >
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
+                        <Avatar src={(item.user?.photo) ? item.user?.photo : user?.photo} alt='profile-picture' sx={{ width: 40, height: 40 }} />
+                    </Box>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
+                        <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={14}>
+                            {(item.user?.name) ? item.user?.name : user?.name}
+                        </Typography>
+                        <Grid container direction="row" alignItems="center" spacing={4}>
+                          <Grid item> 
+                            <Typography sx={{ color: 'text.secondary', mb: 1, fontSize:9 }}>
+                              {Moment(item.created_at).format('DD/MM/YYYY HH:MM:SS')}
+                            </Typography>
+                          </Grid>
                         </Grid>
-                      </Grid>
+                    </Box>
                   </Box>
-                </Box>
+                </Link>
                 <Box height={35} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} >
                     <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={12}>
                         {item?.content}
