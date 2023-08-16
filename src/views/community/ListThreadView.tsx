@@ -20,7 +20,7 @@ const renderList = (arr: IThread[]) => {
           <Grid item xs={12} md={4} key={index}>
             <Card>
               <CardContent>
-                <Link style={{ textDecoration: 'none' }} href={'/thread?id=' + item.id}>
+                <Link style={{ textDecoration: 'none' }} href={'/profile/?username=' + item?.user?.username}>
                   <Box
                     height={65}
                     sx={{
@@ -52,6 +52,8 @@ const renderList = (arr: IThread[]) => {
                         </Grid>
                     </Box>
                   </Box>
+                </Link> 
+                <Link style={{ textDecoration: 'none' }} href={'/thread/?id=' + item.id}>
                   <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} >
                       <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
                         {item.title
@@ -66,7 +68,7 @@ const renderList = (arr: IThread[]) => {
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-end'] }} >
                   <Grid container direction="row" justifyContent="flex-end" spacing={6} >
                       <Grid item xs={6}> 
-                        <ShareArea subject={`${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`} url={window.location.host + `/thread?id=${item.id}`} total={item.replies_count
+                        <ShareArea subject={`${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`} url={`/thread/?id=${item.id}`} total={item.replies_count
                               ? `${item.replies_count.toString().charAt(0).toUpperCase() + item.replies_count.toString().slice(1)
                               }`
                               : ''} ></ShareArea>
