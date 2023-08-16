@@ -9,6 +9,7 @@ import { formatIDR } from "src/utils/helpers";
 type Props = {
     openDialog: boolean,
     training: Training,
+    onClose: () => void,
 }
 
 const PaymentDialog = (props: Props) => {
@@ -34,10 +35,10 @@ const PaymentDialog = (props: Props) => {
     }, []);
 
     return (
-        <Dialog open={props.openDialog}>
+        <Dialog open={props.openDialog} onClose={() => props.onClose()}>
             <DialogActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Typography variant="body1" fontSize={24}>Transaction</Typography>
-                <IconButton>
+                <IconButton onClick={() => props.onClose()}>
                     <Icon icon='mdi:close' />
                 </IconButton>
             </DialogActions>

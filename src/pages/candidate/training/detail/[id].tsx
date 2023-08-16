@@ -99,7 +99,7 @@ const TrainingDetailPage = () => {
                 <Box sx={{ maxWidth: 720 }} component='div' dangerouslySetInnerHTML={{ __html: training.short_description }}></Box>
             </Grid>
 
-            {openDialog && (<PaymentDialog training={training} openDialog={openDialog} />)}
+            {openDialog && (<PaymentDialog onClose={() => setOpenDialog(!openDialog)} training={training} openDialog={openDialog} />)}
         </Grid>
     );
 }
