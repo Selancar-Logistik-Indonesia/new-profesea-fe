@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import { Box, Button, Card, CircularProgress, Dialog, DialogActions, DialogContent, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Radio, Typography } from "@mui/material";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import IBank from "src/contract/models/bank";
@@ -36,6 +36,7 @@ const PaymentDialog = (props: Props) => {
     const checkoutHander = async () => {
         if (!selectedBank) {
             toast.error('Bank is not selected', { position: 'bottom-right' });
+
             return;
         }
 

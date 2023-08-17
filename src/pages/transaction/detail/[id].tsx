@@ -68,7 +68,7 @@ const TransactionDetailPage = () => {
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'column', mb: 6 }}>
                     {trx?.trx_detail.map(e => {
-                        let item = e.trxable as Training
+                        const item = e.trxable as Training
 
                         return (
                             <Card key={e.id} elevation={3} sx={{ my: 5 }}>
