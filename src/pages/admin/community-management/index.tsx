@@ -46,7 +46,6 @@ const CommunityScreen = () => {
                     forum_name: row.forum.name,
                     actions: {
                         onDelete: () => deleteHandler(row),
-                        onUpdate: () => updateHandler(row),
                     }
                 } as RowItem;
             });
@@ -85,11 +84,6 @@ const CommunityScreen = () => {
         setOpenDelModal(true);
     }
 
-    const updateHandler = (row: Thread) => {
-        setSelectedItem(row);
-        window.location.replace('edit/?id='+row.id)
-        // setOpenEditModal(true);
-    }
 
     useEffect(() => {
         setOnLoading(true);

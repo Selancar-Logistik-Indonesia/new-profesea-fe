@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { IconButton } from '@mui/material';
 import Icon from 'src/@core/components/icon'
+import Link from 'next/link';
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , minWidth: 10},
@@ -19,10 +20,12 @@ const columns: GridColDef[] = [
 
             return (
                 <>
-                    <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
-                        <Icon icon='mdi:pencil' />
-                    </IconButton>
-                    <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
+                    <Link href={'/admin/community-management/edit/?id='+row.id}>
+                        <IconButton aria-label='edit' color='warning' size='small'>
+                            <Icon icon='mdi:pencil' />
+                        </IconButton>
+                    </Link>
+                    <IconButton onClick={() => row.actions.onDelete()} aria-label='delete' color='error' size='small'>
                         <Icon icon='mdi:trash' />
                     </IconButton>
                 </>
@@ -48,7 +51,6 @@ interface RowItem {
     forum_name: string,
     actions: {
         onDelete: VoidFunction,
-        onUpdate: VoidFunction,
     };
 }
 
