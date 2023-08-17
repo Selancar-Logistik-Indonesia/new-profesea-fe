@@ -7,7 +7,7 @@ const DiscoverView = () => {
 
     return (
 
-        <Grid container justifyContent="center" sx={{ backgroundColor: '#eae6df' }} mt={0} pb={2} pt={30}>
+        <Grid container justifyContent="center" sx={{ background: 'linear-gradient(to left, #101820, #eae6df)}' }} mt={0} pb={2} pt={30}>
             <Grid item xs={12}>
                 <Box>
                     <Grid container sx={{
@@ -32,7 +32,7 @@ const DiscoverView = () => {
                                 }} />
                             </Grid>
                             <Grid item xs={12} sm={3}>
-                                <Typography variant='h3' sx={{ mb: 5 }} color={"#101820"} fontWeight="800" >{t("landing_lets_sail")}</Typography>
+                                <Typography variant='h3' sx={{ mb: 5 }} color={"#FFFFFF"} fontWeight="800" >{t("landing_lets_sail")}</Typography>
                                 <Link href="/register">
                                     <Button style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
                                 </Link>

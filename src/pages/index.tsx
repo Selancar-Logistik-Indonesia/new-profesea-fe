@@ -64,12 +64,12 @@ const Main = () => {
 
             <Grid container justifyContent="center" sx={{ backgroundColor: 'none', py: 10, display: { xs: 'flex', md: 'none' } }}>
                 <Grid item sx={{ mb: 10, mx: 5 }}>
-                    <Card sx={{ width: 320, height: 200, backgroundColor: '#F0F6FA' }} elevation={5}>
+                    <Card sx={{ width: 320, height: 200, backgroundColor: '#101820' }} elevation={5}>
                         <CardContent sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}>
-                            <Typography variant='h5' sx={{ mb: 2 }} color={"#000000"} fontWeight="800">
+                            <Typography variant='h5' sx={{ mb: 2 }} color={"#FFFFFF"} fontWeight="800">
                                 {t('b_to_seafarer')}
                             </Typography>
-                            <Typography variant='body2' sx={{ mb: 6.5, color: "#000000" }}>
+                            <Typography variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
                                 {t('b_to_seafarer_detail')}
                             </Typography>
                             <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
@@ -78,12 +78,12 @@ const Main = () => {
                 </Grid>
 
                 <Grid item sx={{ mx: 5 }}>
-                    <Card sx={{ width: 320, height: 200, backgroundColor: '#F0F6FA' }} elevation={5}>
+                    <Card sx={{ width: 320, height: 200, backgroundColor: '#101820' }} elevation={5}>
                         <CardContent sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}>
-                            <Typography variant='h5' sx={{ mb: 2 }} color={"#000000"} fontWeight="800">
+                            <Typography variant='h5' sx={{ mb: 2 }} color={"#FFFFFF"} fontWeight="800">
                                 {t('b_to_professional')}
                             </Typography>
-                            <Typography variant='body2' sx={{ mb: 6.5, color: "#000000" }}>
+                            <Typography variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
                                 {t('b_to_professional_detail')}
                             </Typography>
                             <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
