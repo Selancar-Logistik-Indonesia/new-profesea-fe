@@ -1,6 +1,8 @@
 import { Icon } from "@iconify/react";
 import { Box, Button, Card, CircularProgress, Dialog, DialogActions, DialogContent, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Radio, Typography } from "@mui/material";
+import { Router, useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import IBank from "src/contract/models/bank";
 import Training from "src/contract/models/training";
 import { HttpClient } from "src/services";
@@ -13,12 +15,13 @@ type Props = {
 }
 
 const PaymentDialog = (props: Props) => {
-    const [onLoading, setOnLoading] = useState(true);
+    const [onLoading, setOnLoading] = useState<string[]>(['widget']);
     const [banks, setBanks] = useState<IBank[]>([]);
     const [selectedBank, setSelectedBank] = useState('');
+    const router = useRouter();
 
     const getListBanks = async () => {
-        setOnLoading(true);
+        setOnLoading(['widget']);
         const response = await HttpClient.get('/transaction/virtual-account/bank');
         if (response.status != 200) {
             alert(response.data?.message ?? "Internal server error!");
@@ -26,8 +29,32 @@ const PaymentDialog = (props: Props) => {
             return;
         }
 
-        setOnLoading(false);
+        setOnLoading([]);
         setBanks(response.data.banks);
+    }
+
+    const checkoutHander = async () => {
+        if (!selectedBank) {
+            toast.error('Bank is not selected', { position: 'bottom-right' });
+            return;
+        }
+
+        setOnLoading(['checkout']);
+        const response = await HttpClient.post('/transaction/create', {
+            "payment_type": "VA",
+            "bank_code": selectedBank,
+            "trxable_ids": [props.training.id],
+            "trxable_type": "training"
+        });
+
+        if (response.status != 200) {
+            alert(response.data?.message ?? "Internal server error!");
+
+            return;
+        }
+
+        setOnLoading([]);
+        router.push(`/transaction/detail/${response.data.transaction.trx_id}`);
     }
 
     useEffect(() => {
@@ -64,11 +91,11 @@ const PaymentDialog = (props: Props) => {
                     </Card>
                 </List>
 
-                {onLoading && banks.length == 0 && (
+                {onLoading.includes('widget') && banks.length == 0 && (
                     <CircularProgress />
                 )}
 
-                {(!onLoading && banks.length > 0) && (
+                {(!onLoading.includes('widget') && banks.length > 0) && (
                     <>
                         <Typography variant="body1" mt={10} ml={5} mb={3} fontSize={20}>Pilih Bank</Typography>
                         <Divider />
@@ -87,7 +114,9 @@ const PaymentDialog = (props: Props) => {
                             ))}
                         </List>
 
-                        <Button sx={{ width: '100%', mt: 10 }} variant="contained">Continue</Button>
+                        <Button onClick={checkoutHander} disabled={onLoading.includes('checkout')} sx={{ width: '100%', mt: 10 }} variant="contained">
+                            {onLoading.includes('checkout') ? (<CircularProgress />) : 'Continue'}
+                        </Button>
                     </>
                 )}
             </DialogContent>
