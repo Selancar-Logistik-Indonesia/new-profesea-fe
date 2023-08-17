@@ -7,8 +7,7 @@ const FeatureView = () => {
 
     return (
 
-        <Grid container justifyContent="center" sx={{ backgroundColor: '#FFFFFF' }} spacing={9} mt={0} mb={0}>
-
+        <Grid container justifyContent="center" sx={{ backgroundColor: '#101820' }} spacing={9} mt={0} mb={0}>
             <Grid item xs={11}>
                 <Box>
                     <Grid container sx={{
@@ -20,98 +19,94 @@ const FeatureView = () => {
                         marginLeft: '2px'
                     }}>
 
-                        <Grid container spacing={6}>
-
+                        <Grid container spacing={12} mb={5}>
                             <Grid item xs={12} sm={12}>
-                                <Typography variant="h4" style={{ color: "#32487A" }} fontWeight="600" mt={6} textAlign="center">{t("landing_discover_item_title")}</Typography>
-                                <Typography fontSize={18} style={{ color: "#EF6C00" }} mt={2} mb={10} fontWeight="600" textAlign="center">{t("landing_discover_item_title_detail")}</Typography>
+                                <Typography variant="h3" style={{ color: "#FFFFFF" }} fontWeight="800" mt={6} textAlign="center">{t("landing_discover_item_title")}</Typography>
+                                <Typography fontSize={18} style={{ color: "#FFFFFF" }} mt={2} mb={10} fontWeight="600" textAlign="center">{t("landing_discover_item_title_detail")}</Typography>
                             </Grid>
+                        </Grid>
+                        <Grid container spacing={6}>
+                        <Grid item xs={12} sm={1}>
+                            </Grid>
+                            <Grid item xs={12} sm={5}>
+                                <div className="ag-courses_item">
+                                    <a href="#" className="ag-courses-item_link">
+                                        <div className="ag-courses-item_bg"></div>
 
-                            <Grid item xs={12} sm={2}>
-                            </Grid>
+                                        <div className="ag-courses-item_title">
+                                            {t("landing_features_title_1")}
+                                        </div>
 
-                            <Grid item xs={12} sm={3}>
-                                <img alt="Whatis" src='/images/img-meetthecompanies.png' style={{
-                                    maxWidth: '100%',
-                                    height: '320px',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    marginBottom: '10%'
-                                }} />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
+                                        <div className="ag-courses-item_date-box">
+                                            <span className="ag-courses-item_date">
+                                                {t("landing_features_subtitle_1")}
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div className="ag-courses_item">
+                                    <a href="#" className="ag-courses-item_link">
+                                        <div className="ag-courses-item_bg"></div>
+
+                                        <div className="ag-courses-item_title">
+                                            {t("landing_features_title_2")}
+                                        </div>
+
+                                        <div className="ag-courses-item_date-box">
+                                            <span className="ag-courses-item_date">
+                                                {t("landing_features_subtitle_2")}
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+                                {/* 
                                 <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_1")}</Typography>
-                                <Typography fontSize={18} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_features_subtitle_1")}</Typography>
+                                <Typography fontSize={18} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_features_subtitle_1")}</Typography> */}
+                            </Grid>
+
+                            <Grid item xs={12} sm={5} mt={-20}>
+                                <div className="ag-courses_item">
+                                </div>
+
+                                <div className="ag-courses_item">
+                                </div>
+
+                                <div className="ag-courses_item">
+                                    <a href="#" className="ag-courses-item_link">
+                                        <div className="ag-courses-item_bg"></div>
+
+                                        <div className="ag-courses-item_title">
+                                            {t("landing_features_title_3")}
+                                        </div>
+
+                                        <div className="ag-courses-item_date-box">
+                                            <span className="ag-courses-item_date">
+                                                {t("landing_features_subtitle_3")}
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div className="ag-courses_item">
+                                    <a href="#" className="ag-courses-item_link">
+                                        <div className="ag-courses-item_bg"></div>
+
+                                        <div className="ag-courses-item_title">
+                                            {t("landing_features_title_4")}
+                                        </div>
+
+                                        <div className="ag-courses-item_date-box">
+                                            <span className="ag-courses-item_date">
+                                                {t("landing_features_subtitle_4")}
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
                             </Grid>
                             <Grid item xs={12} sm={1}>
                             </Grid>
                         </Grid>
-
-                        <Grid container spacing={6}>
-
-                            <Grid item xs={12} sm={2}>
-                            </Grid>
-
-                            <Grid item xs={12} sm={6}>
-                                <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_2")}</Typography>
-                                <Typography fontSize={20} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_features_subtitle_2")}</Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={3}>
-                                <img alt="Whatis" src='/images/img-createcv.png' style={{
-                                    maxWidth: '100%',
-                                    height: '320px',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    marginBottom: '10%'
-                                }} />
-                            </Grid>
-                            <Grid item xs={12} sm={1}>
-                            </Grid>
-                        </Grid>
-
-                        <Grid container spacing={6}>
-                            <Grid item xs={12} sm={2}>
-                            </Grid>
-                            <Grid item xs={12} sm={3}>
-                                <img alt="Whatis" src='/images/img-careerassistance.png' style={{
-                                    maxWidth: '100%',
-                                    height: '320px',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    marginBottom: '10%'
-                                }} />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_3")}</Typography>
-                                <Typography fontSize={20} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_features_subtitle_3")}</Typography>
-                            </Grid>
-                           
-                            <Grid item xs={12} sm={1}>
-                            </Grid>
-                        </Grid>
-
-                        <Grid container spacing={6}>
-
-                            <Grid item xs={12} sm={2}>
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_4")}</Typography>
-                                <Typography fontSize={20} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_features_subtitle_4")}</Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={3}>
-                                <img alt="Whatis" src='/images/img-availabledate.png' style={{
-                                    maxWidth: '100%',
-                                    height: '320px',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    marginBottom: '10%'
-                                }} />
-                            </Grid>
-
-                            <Grid item xs={12} sm={1}>
-                            </Grid>
-                        </Grid>
-
                     </Grid>
                 </Box>
             </Grid>
