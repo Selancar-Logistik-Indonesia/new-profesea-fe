@@ -30,7 +30,7 @@ import Thread from 'src/contract/models/thread'
 import { toast } from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
  
-const ThreadScreen = () => {  
+const EditThreadScreen = () => {  
   // const theme = useTheme()    
   const windowUrl = window.location.search 
   const params = new URLSearchParams(windowUrl)
@@ -186,8 +186,8 @@ const ThreadScreen = () => {
 }
  
 
-ThreadScreen.acl = {
+EditThreadScreen.acl = {
   action: 'read',
   subject: 'admin-community-management'
 };
-export default ThreadScreen
+export default EditThreadScreen
