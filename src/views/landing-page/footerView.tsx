@@ -17,7 +17,7 @@ const FooterView = () => {
 
     return (
       <Grid
-        sx={{ backgroundColor: '#000a22', backgroundSize: 'cover', px: { xs: 5, md: 10 } }}
+        sx={{ backgroundColor: '#101820', backgroundSize: 'cover', px: { xs: 5, md: 10 } }}
         pt={5}
         pb={5}
         container
@@ -28,12 +28,12 @@ const FooterView = () => {
             <Grid item xs={12} textAlign={'left'} justifyItems='flex-end'>
               <Box
                 component='img'
-                sx={{ width: 100 }}
+                sx={{ width: 150 }}
                 alt='The Profesea logo'
                 title='Profesea'
                 src='/images/logosamudera.png'
               />
-              <Typography variant='body1' style={{ color: '#ffffff' }}>
+              <Typography variant='body1' style={{ color: '#ffffff' }} mt={5}>
                 {t('landing_footer_title')}
               </Typography>
               <Divider sx={{ my: '0 !important' }} />
@@ -102,14 +102,14 @@ const FooterView = () => {
             </Grid>
             <Grid item xs={12} textAlign={'left'} justifyItems='flex-end'>
               <Divider sx={{ my: '0 !important' }} />
-              <Typography mt={1} variant='body1' color={'#ffffff'}>
+              <Typography mt={1} variant='body1' color={'#FFFFFF'}>
                 Jl. Letjen S. Parman Kav. 35 Palmerah Jakarta Barat, <br></br>DKI Jakarta, 11480
               </Typography>
             </Grid>
           </Grid>
         </Grid>
         <Grid xs={12} md={12} item sx={{ mt: { xs: 7 } }}>
-          <Typography color='#32487A' align='center'>
+          <Typography color='#FFFFFF' align='center'>
             &copy; 2023 PT Selancar Logistik Indonesia. All Rights Reserved. Profesea
           </Typography>
         </Grid>
