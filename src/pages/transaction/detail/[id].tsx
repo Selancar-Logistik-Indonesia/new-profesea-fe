@@ -114,7 +114,7 @@ const TransactionDetailPage = () => {
                     <Box my={2}>
                         <Typography variant="caption">Bayar sebelum:</Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
-                            <Typography variant="body1" fontSize={24}>{moment(trx?.expiration_date).format("d MMMM Y hh:mm:ss")}</Typography>
+                            <Typography variant="body1" fontSize={24}>{moment(trx?.expiration_date).format("DD MMMM Y hh:mm:ss")}</Typography>
                         </Box>
                     </Box>
                 </Box>
