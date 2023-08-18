@@ -1,6 +1,6 @@
 const typography = {
   fontFamily: [
-    'Poppins',
+    'Barlow',
   ].join(','),
   h1: {
     fontWeight: 500,

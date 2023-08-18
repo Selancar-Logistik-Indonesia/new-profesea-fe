@@ -25,18 +25,53 @@ const Main = () => {
 
             <Grid container sx={{
                 ...landingPageStyle.bannerHero,
-                height: { xs: 900, md: 550 }
+                height: { xs: 850, md: 650 }
             }}>
-                <Grid item xs={12} xl={6} lg={6} md={6} pt={5} sx={{ maxWidth: { xs: '90%' }, px: { xs: 5, md: 10 } }}>
-                    <Box sx={{ display: "flex", flexDirection: 'column', mt: 30 }}>
-                        <Box mb={4} mt={10}>
-                            <Typography variant="h5" style={{ color: "#32487A" }} fontWeight="900">{t("landing_trainer_title_1")}</Typography>
-                            <Typography fontSize={20} style={{ color: "#000000" }}>{t("landing_trainer_subtitle_1")}</Typography>
-                        </Box>
-                        <Box mb={4}>
-                            <Typography variant="h5" style={{ color: "#32487A" }} fontWeight="900">{t("landing_trainer_title_2")}</Typography>
-                            <Typography fontSize={20} style={{ color: "#000000" }}>{t("landing_trainer_subtitle_2")}</Typography>
-                        </Box>
+                <Grid item xs={12} xl={6} lg={6} md={6} sx={{ maxWidth: { xs: '90%' }, px: { xs: 5, md: 10 } }}>
+                    <Box sx={{ display: "flex", flexDirection: 'column', mt: 2 }}>
+                        <div className="ag-courses_item">
+                            </div>
+
+                            <div className="ag-courses_item">
+                            </div>
+
+                            <div className="ag-courses_item">
+                            </div>
+
+                            <div className="ag-courses_item">
+                            </div>
+
+                            <div className="ag-courses_item">
+                                <a href="#" className="ag-courses-item_link">
+                                    <div className="ag-courses-item_bg"></div>
+
+                                    <div className="ag-courses-item_title">
+                                        {t("landing_trainer_title_1")}
+                                    </div>
+
+                                    <div className="ag-courses-item_date-box">
+                                        <span className="ag-courses-item_date">
+                                            {t("landing_trainer_subtitle_1")}
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div className="ag-courses_item">
+                                <a href="#" className="ag-courses-item_link">
+                                    <div className="ag-courses-item_bg"></div>
+
+                                    <div className="ag-courses-item_title">
+                                        {t("landing_trainer_title_2")}
+                                    </div>
+
+                                    <div className="ag-courses-item_date-box">
+                                        <span className="ag-courses-item_date">
+                                            {t("landing_trainer_subtitle_2")}
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
                     </Box>
                 </Grid>
                 <Grid item xs={12} xl={6} lg={6} md={6} pt={5} sx={{
@@ -45,12 +80,12 @@ const Main = () => {
                     alignItems: "center"
                 }}>
                     <Box mb={20}>
-                        <Card sx={{ width: 320, height: 200, backgroundColor: '#F0F6FA' }} elevation={10}>
+                        <Card sx={{ width: 320, height: 200, backgroundColor: '#101820' }} elevation={10}>
                             <CardContent sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}>
-                            <Typography variant='h5' sx={{ mb: 2 }} color={"#000000"} fontWeight="800">
+                            <Typography variant='h5' sx={{ mb: 2 }} color={"#FFFFFF"} fontWeight="800">
                                     {t('b_to_trainer')}
                                 </Typography>
-                                <Typography variant='body2' sx={{ mb: 6.5, color: "#000000" }}>
+                                <Typography variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
                                     {t('b_to_trainer_detail')}
                                 </Typography>
                                 <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>

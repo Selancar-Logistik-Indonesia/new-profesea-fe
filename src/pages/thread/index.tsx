@@ -57,7 +57,7 @@ const firstload = () => {
 }
  useEffect(() => { 
    firstload()
- }, []) 
+ }, [params.get('id')]) 
     
   return (
     <Box>

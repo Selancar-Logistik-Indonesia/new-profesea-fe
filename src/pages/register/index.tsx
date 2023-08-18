@@ -85,7 +85,7 @@ const Register = () => {
                     <Box
                       component="img"
                       src='/images/logosamudera.png'
-                      sx={{ width: 100 }}></Box>
+                      sx={{ width: 125, mt: 5 }}></Box>
                   </Link>
                   <Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#424242" }}>Register</Typography>
                   <Typography variant='body2' sx={{ textAlign: 'center', color: "#424242" }}> Adventures start from here, let’s join with our!</Typography>

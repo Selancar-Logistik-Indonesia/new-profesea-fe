@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement, useState } from 'react'
+import { Ref, useState, forwardRef, ReactElement } from 'react'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { HttpClient } from 'src/services'
+import Forum from 'src/contract/models/forum'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { CircularProgress } from '@mui/material'
 
@@ -26,19 +27,21 @@ const Transition = forwardRef(function Transition(
 })
 
 interface FormPayload {
-    name: string
+    forumName: string
 }
-const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-})
 
-type DialogProps = {
+const validationSchema = Yup.object().shape({
+    forumName: Yup.string().required('Name is required'),
+});
+
+type EditProps = {
+    selectedItem: Forum;
     visible: boolean;
     onCloseClick: VoidFunction;
     onStateChange: VoidFunction;
-}
+};
 
-const DialogAdd = (props: DialogProps) => {
+const DialogEdit = (props: EditProps) => {
     const [onLoading, setOnLoading] = useState(false);
 
     const { handleSubmit, register } = useForm<FormPayload>({
@@ -46,16 +49,16 @@ const DialogAdd = (props: DialogProps) => {
         resolver: yupResolver(validationSchema)
     })
 
-    const onSubmit = async (json: FormPayload) => {
+    const onSubmit = async (formPayload: FormPayload) => {
         setOnLoading(true);
         try {
-            const resp = await HttpClient.post('/job-category', json);
+            const resp = await HttpClient.patch(`/forum/${props.selectedItem.id}`, formPayload);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
 
             props.onCloseClick();
-            toast.success(`${json.name} submited successfully!`);
+            toast.success(`Updated successfully!`);
         } catch (error) {
             toast.error(`Opps ${getCleanErrorMessage(error)}`);
         }
@@ -70,6 +73,7 @@ const DialogAdd = (props: DialogProps) => {
             open={props.visible}
             maxWidth='sm'
             scroll='body'
+            onClose={props.onCloseClick}
             TransitionComponent={Transition}
         >
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
@@ -81,24 +85,21 @@ const DialogAdd = (props: DialogProps) => {
                         pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
                     }}
                 >
-                    <IconButton
-                        size='small'
-                        sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-                        onClick={props.onCloseClick}
-                    >
+                    <IconButton size='small' onClick={props.onCloseClick} sx={{ position: 'absolute', right: '1rem', top: '1rem' }} >
                         <Icon icon='mdi:close' />
                     </IconButton>
                     <Box sx={{ mb: 6, textAlign: 'center' }}>
                         <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                            Add New Job Category
+                            Edit Forum
                         </Typography>
-                        <Typography variant='body2'>Add Job Category</Typography>
+                        <Typography variant='body2'>Edit Forum</Typography>
                     </Box>
                     <Grid container spacing={6}>
                         <Grid item sm={12} xs={12}>
-                            <TextField label='Category Name'
-                                placeholder='Category Name'
-                                fullWidth sx={{ mb: 6 }} {...register("name")} />
+                            <TextField label='Forum Name'
+                                placeholder='Forum Name'
+                                defaultValue={props.selectedItem.name}
+                                fullWidth sx={{ mb: 6 }} {...register("forumName")} />
                         </Grid>
                     </Grid>
                 </DialogContent>
@@ -121,4 +122,4 @@ const DialogAdd = (props: DialogProps) => {
     )
 }
 
-export default DialogAdd
+export default DialogEdit;

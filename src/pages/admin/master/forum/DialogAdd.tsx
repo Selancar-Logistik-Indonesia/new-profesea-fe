@@ -26,10 +26,10 @@ const Transition = forwardRef(function Transition(
 })
 
 interface FormPayload {
-    name: string
+    forumName: string
 }
 const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
+    forumName: Yup.string().required('Name is required'),
 })
 
 type DialogProps = {
@@ -49,13 +49,13 @@ const DialogAdd = (props: DialogProps) => {
     const onSubmit = async (json: FormPayload) => {
         setOnLoading(true);
         try {
-            const resp = await HttpClient.post('/job-category', json);
+            const resp = await HttpClient.post('/forum', json);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
 
             props.onCloseClick();
-            toast.success(`${json.name} submited successfully!`);
+            toast.success(`${json.forumName} submited successfully!`);
         } catch (error) {
             toast.error(`Opps ${getCleanErrorMessage(error)}`);
         }
@@ -90,15 +90,15 @@ const DialogAdd = (props: DialogProps) => {
                     </IconButton>
                     <Box sx={{ mb: 6, textAlign: 'center' }}>
                         <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                            Add New Job Category
+                            Add New Forum
                         </Typography>
-                        <Typography variant='body2'>Add Job Category</Typography>
+                        <Typography variant='body2'>Add Forum</Typography>
                     </Box>
                     <Grid container spacing={6}>
                         <Grid item sm={12} xs={12}>
-                            <TextField label='Category Name'
-                                placeholder='Category Name'
-                                fullWidth sx={{ mb: 6 }} {...register("name")} />
+                            <TextField label='Forum Name'
+                                placeholder='Forum Name'
+                                fullWidth sx={{ mb: 6 }} {...register("forumName")} />
                         </Grid>
                     </Grid>
                 </DialogContent>

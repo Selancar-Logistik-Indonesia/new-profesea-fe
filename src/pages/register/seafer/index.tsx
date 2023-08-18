@@ -108,7 +108,7 @@ const Register = () => {
                     <Grid item md={12} xs={12}  >
                       <img alt="logo" src='/images/logosamudera.png' style={{
                         maxWidth: '100%',
-                        height: '40px',
+                        height: '30px',
                         alignItems: 'center',
                         justifyContent: 'center'
                       }} />
