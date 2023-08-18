@@ -53,7 +53,7 @@ const renderList = (arr: IThread[]) => {
               </Link>
               <Link style={{ textDecoration: 'none' }} href={'/thread/?id=' + item.id}>
                 <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} >
-                    <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
+                    <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={14}>
                       {item.title
                         ? `${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`
                         : ''}
