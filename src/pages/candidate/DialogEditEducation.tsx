@@ -177,13 +177,13 @@ const onSelectFile = (e: any) => {
               <Icon icon='mdi:close' />
             </IconButton>
             <Box sx={{ mb: 6, textAlign: 'center' }}>
-              <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                Edit Educational
+              <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
+               Edit Educational
               </Typography>
-              <Typography variant='body2'>Edit Candidate Educational info details</Typography>
+              <Typography variant='body2'>Fulfill your Educational Info here</Typography>
             </Box>
 
-            <Grid container columnSpacing={'1'} rowSpacing={'2'}>
+            <Grid container columnSpacing={'1'} rowSpacing={'4'}>
               <Grid item md={6} xs={12}>
                 <TextField
                   id='institutuin'
@@ -194,6 +194,45 @@ const onSelectFile = (e: any) => {
                   defaultValue={props.selectedItem?.title}
                 />
               </Grid>
+              <Grid item md={6} xs={12}>
+                <Grid item xs={12} md={8} container justifyContent={'center'}>
+                  <Grid xs={6}>
+                    <label htmlFor='x'>
+                      <img
+                        alt='logo'
+                        src={preview ? preview : '/images/avatar.png'}
+                        style={{
+                          maxWidth: '100%',
+                          height: '120px',
+                          padding: 0,
+                          margin: 0
+                        }}
+                      />
+                    </label>
+                    <input
+                      accept='image/*'
+                      style={{ display: 'none' }}
+                      id='x'
+                      onChange={onSelectFile}
+                      type='file'
+                    ></input>
+                  </Grid>
+                  <Grid xs={6}>
+                  <Box sx={{ marginTop: '20px', marginLeft: '20px' }}>
+                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
+                        Click Photo to change institution Logo.
+                      </Typography>
+                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
+                        Allowed JPG, GIF or PNG.
+                      </Typography>
+                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
+                        Max size of 800K. Aspect Ratio 1:1
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Grid>
+
               <Grid item md={6} xs={12}>
                 <TextField
                   id='major'
@@ -218,44 +257,7 @@ const onSelectFile = (e: any) => {
                   }
                 />
               </Grid>
-              <Grid item md={6} xs={12}>
-                <Grid item xs={12} md={12} container justifyContent={'center'}>
-                  <Grid xs={6}>
-                    <label htmlFor='x'>
-                      <img
-                        alt='logo'
-                        src={preview ? preview : '/images/avatar.png'}
-                        style={{
-                          maxWidth: '100%',
-                          height: '120px',
-                          padding: 0,
-                          margin: 0
-                        }}
-                      />
-                    </label>
-                    <input
-                      accept='image/*'
-                      style={{ display: 'none' }}
-                      id='x'
-                      onChange={onSelectFile}
-                      type='file'
-                    ></input>
-                  </Grid>
-                  <Grid xs={6}>
-                    <Box sx={{ marginTop: '20px' }}>
-                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                        Click Photo to change institution Logo.
-                      </Typography>
-                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                        Allowed JPG, GIF or PNG.
-                      </Typography>
-                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                        Max size of 800K. Aspect Ratio 1:1
-                      </Typography>
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Grid>
+              
               <Grid item md={6} xs={12}>
                 {/* <DatePickerWrapper> */}
                 <DatePicker

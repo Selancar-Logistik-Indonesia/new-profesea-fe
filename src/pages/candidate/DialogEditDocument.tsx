@@ -129,11 +129,11 @@ const DialogEditDocument = (props: DialogProps) => {
             <Icon icon='mdi:close' />
           </IconButton>
           <Box sx={{ mb: 6, textAlign: 'center' }}>
-            <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-              Add New Upload Document
-            </Typography>
-            <Typography variant='body2'>Add New Upload Document info details</Typography>
-          </Box>
+              <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
+               Edit Document
+              </Typography>
+              <Typography variant='body2'>Fulfill your Document Info here</Typography>
+            </Box>
 
           <Grid container columnSpacing={'1'} rowSpacing={'2'}>
             <TextField

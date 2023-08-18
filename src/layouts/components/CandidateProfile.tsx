@@ -715,7 +715,7 @@ const CandidateProfile = (props: compProps) => {
                   options={combocode}
                   getOptionLabel={(option: Countries) => option.iso}
                   defaultValue={props.datauser?.country}
-                  renderInput={params => <TextField {...params} label='Code' sx={{ mb: 2 }} />}
+                  renderInput={params => <TextField {...params} label='Code Phone' sx={{ mb: 2 }} />}
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
                   }
@@ -968,14 +968,13 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </Grid>
               )}
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}>
-
-              </Grid>
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11.3} xs={12}></Grid>
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.5} lg={0.5} xs={12}>
                 <Button fullWidth size='small' type='submit' variant='contained' sx={{ mb: 7 }}>
                   <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '24px' }} />
                 </Button>
               </Grid>
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.2} lg={0.2} xs={12}></Grid>
               <Divider style={{ width: '100%' }} />
 
               <Box sx={{ marginTop: '20px' }}></Box>

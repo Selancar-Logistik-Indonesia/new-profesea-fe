@@ -165,7 +165,7 @@ const Registration = (props: any) => {
                 <TextField id='Name' label='Name' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
               </Grid>
 
-              <Grid item md={4} xs={12}>
+              <Grid item md={5} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='position'
@@ -175,12 +175,12 @@ const Registration = (props: any) => {
                   onChange={(event: any, newValue: any | null) => setPosition(newValue)}
                 />
               </Grid>
-              <Grid item md={4} xs={12}>
+              <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='code'
                   options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
-                  renderInput={params => <TextField {...params} label='Code' sx={{ mb: 2 }} />}
+                  renderInput={params => <TextField {...params} label='Code Phone' sx={{ mb: 2 }} />}
                   {...register('code')}
                   onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
                 />
