@@ -2,7 +2,7 @@ import ReactHtmlParser from 'react-html-parser'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Avatar, Card, CardContent, CircularProgress, Link } from '@mui/material'
+import { Avatar, Card, CardContent, CircularProgress, Link, Paper } from '@mui/material'
 import Moment from 'moment'
 import IThread from 'src/contract/models/thread'
 import { useThread } from 'src/hooks/useThread'
@@ -18,8 +18,7 @@ const renderList = (arr: IThread[]) => {
 
       return (
           <Grid item xs={12} md={4} key={index}>
-            <Card>
-              <CardContent>
+           <Paper sx={{ marginTop: '10px', border: '1px solid #eee' }} elevation={0}>
                 <Link style={{ textDecoration: 'none' }} href={'/profile/?username=' + item?.user?.username}>
                   <Box
                     height={65}
@@ -29,11 +28,11 @@ const renderList = (arr: IThread[]) => {
                     }}
                     mt={-5}
                     >
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={5} ml={2} mr={3}>
                         <Avatar src={item.user?.photo} alt='profile-picture' sx={{ width: 50, height: 50 }} />
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
-                        <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={14}>
+                        <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1, mt:5 }} fontSize={14}>
                             {item.user?.name}
                         </Typography>
                         <Grid container direction="row" alignItems="center" spacing={4}>
@@ -53,8 +52,8 @@ const renderList = (arr: IThread[]) => {
                     </Box>
                   </Box>
                 </Link> 
-                <Link style={{ textDecoration: 'none' }} href={'/thread/?id=' + item.id}>
-                  <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} >
+                <Link style={{ textDecoration: 'none' }} href={'/thread/?id=' + item.id} >
+                  <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} mt={5} ml={5} >
                       <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
                         {item.title
                           ? `${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`
@@ -75,8 +74,7 @@ const renderList = (arr: IThread[]) => {
                       </Grid>
                   </Grid>
                 </Box>
-              </CardContent>
-            </Card>
+                </Paper>
           </Grid>
       )
     })
