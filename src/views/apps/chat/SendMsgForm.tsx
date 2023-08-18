@@ -5,14 +5,15 @@ import { useState, SyntheticEvent } from 'react'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
+// import IconButton from '@mui/material/IconButton'
 import Box, { BoxProps } from '@mui/material/Box'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
+// import Icon from 'src/@core/components/icon'
 
 // ** Types
 import { SendMsgComponentType } from 'src/types/apps/chatTypes'
+import { sendNewMsg } from 'src/store/apps/chat'
 
 // ** Styled Components
 const ChatFormWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -31,15 +32,18 @@ const Form = styled('form')(({ theme }) => ({
 
 const SendMsgForm = (props: SendMsgComponentType) => {
   // ** Props
-  const { store, dispatch, sendMsg } = props
+  const { store, dispatch, sendMsg, id } = props
 
   // ** State
   const [msg, setMsg] = useState<string>('')
 
   const handleSendMsg = (e: SyntheticEvent) => {
-    e.preventDefault()
+    e.preventDefault() 
+    debugger;
     if (store && store.selectedChat && msg.trim().length) {
-      dispatch(sendMsg({ ...store.selectedChat, message: msg }))
+      dispatch(sendMsg({ ...store.selectedChat, message: msg}))
+    }else{
+      dispatch(sendNewMsg({ message: msg ,id:id}))
     }
     setMsg('')
   }
@@ -58,13 +62,13 @@ const SendMsgForm = (props: SendMsgComponentType) => {
           />
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton size='small' sx={{ mr: 1.5, color: 'text.primary' }}>
+          {/* <IconButton size='small' sx={{ mr: 1.5, color: 'text.primary' }}>
             <Icon icon='mdi:microphone' fontSize='1.375rem' />
           </IconButton>
           <IconButton size='small' component='label' htmlFor='upload-img' sx={{ mr: 2.75, color: 'text.primary' }}>
             <Icon icon='mdi:attachment' fontSize='1.375rem' />
             <input hidden type='file' id='upload-img' />
-          </IconButton>
+          </IconButton> */}
           <Button type='submit' variant='contained'>
             Send
           </Button>

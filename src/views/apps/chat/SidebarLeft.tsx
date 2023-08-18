@@ -27,13 +27,14 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import Icon from 'src/@core/components/icon'
 
 // ** Types
-import { ContactType, ChatSidebarLeftType, ChatsArrType } from 'src/types/apps/chatTypes'
+import { ContactType, ChatSidebarLeftType, ChatsArrType, StatusType } from 'src/types/apps/chatTypes'
 
 // ** Custom Components Import
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Chat App Components Imports
 import UserProfileLeft from 'src/views/apps/chat/UserProfileLeft'
+import { headerChatFromContact } from 'src/store/apps/chat'
 
 const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: boolean }) => {
   if (hidden) {
@@ -68,15 +69,24 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
   // ** States
   const [query, setQuery] = useState<string>('')
   const [filteredChat, setFilteredChat] = useState<ChatsArrType[]>([])
-  // const [filteredContacts, setFilteredContacts] = useState<ContactType[]>([])
+  const [filteredContacts, setFilteredContacts] = useState<ContactType[]>([])
   const [active, setActive] = useState<null | { type: string; id: string | number }>(null)
 
   // ** Hooks
   const router = useRouter()
 
-  const handleChatClick = (type: 'chat' | 'contact', id: number, header: any) => {
-    dispatch(selectChat(id))
-    dispatch(headerChat(header))
+  const handleChatClick = (type: 'chat' | 'contact', id: number, header: any,typeheader:any ) => {
+    if (typeheader == 'chat') {
+      dispatch(headerChat(header))
+    } else {
+      dispatch(headerChatFromContact(header))
+    }
+    if(type =='chat'){
+      dispatch(selectChat(id))
+    }else{
+      dispatch(selectChat(0))
+    }
+   
     setActive({ type, id })
     if (!mdAbove) {
       handleLeftSidebarToggle()
@@ -106,13 +116,14 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // const hasActiveId = (id: number | string) => {
-  //   if (store.chats !== null) {
-  //     const arr = store.chats.filter(i => i.id === id)
+  const hasActiveId = (id: number | string) => {
+    debugger;
+    if (store.chats !== null) {
+      const arr = store.chats.filter(i => i.friend_id === id)
 
-  //     return !!arr.length
-  //   }
-  // }
+      return !!arr.length
+    }
+  }
 
   const renderChats = () => {
     if (store && store.chats && store.chats.length) {
@@ -128,12 +139,13 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
         return arrToMap.map((chat: ChatsArrType, index: number) => {
           const lastMessage: any = chat.last_chat
           const activeCondition = active !== null && active.id === chat.id && active.type === 'chat'
+          const is_online: StatusType = chat.participants[0]?.is_online
 
           return (
             <ListItem key={index} disablePadding sx={{ '&:not(:last-child)': { mb: 1.5 } }}>
               <ListItemButton
                 disableRipple
-                onClick={() => handleChatClick('chat', chat.id, chat)}
+                onClick={() => handleChatClick('chat', chat.id, chat,'chat')}
                 sx={{
                   px: 2.5,
                   py: 2.5,
@@ -158,9 +170,10 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
                           height: 8,
                           borderRadius: '50%',
                           // color: `${statusObj[chat.status]}.main`,
-                          // backgroundColor: `${statusObj[chat.status]}.main`,
+                          backgroundColor: `${statusObj[is_online]}.main`,
                           boxShadow: theme =>
-                            `0 0 0 2px ${!activeCondition ? theme.palette.background.paper : theme.palette.common.white
+                            `0 0 0 2px ${
+                              !activeCondition ? theme.palette.background.paper : theme.palette.common.white
                             }`
                         }}
                       />
@@ -243,98 +256,103 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
     }
   }
 
-  // const renderContacts = () => {
-  //   if (store && store.chats && store.chats.length) {
-  //     if (query.length && !filteredContacts.length) {
-  //       return (
-  //         <ListItem>
-  //           <Typography sx={{ color: 'text.secondary' }}>No Contacts Found</Typography>
-  //         </ListItem>
-  //       )
-  //     } else {
-  //       const arrToMap = query.length && filteredContacts.length ? filteredContacts : store.contacts
+  const renderContacts = () => {
+    if (store && store.chats && store.chats.length) {
+      if (query.length && !filteredContacts.length) {
+        return (
+          <ListItem>
+            <Typography sx={{ color: 'text.secondary' }}>No Contacts Found</Typography>
+          </ListItem>
+        )
+      } else {
+        const arrToMap = query.length && filteredContacts.length ? filteredContacts : store.contacts
 
-  //       return arrToMap !== null
-  //         ? arrToMap.map((contact: ContactType, index: number) => {
-  //             const activeCondition =
-  //               active !== null && active.id === contact.id && active.type === 'contact' && !hasActiveId(contact.id)
+        return arrToMap !== null  
+          ? arrToMap.map((contact: ContactType, index: number) => {
+              const activeCondition =
+                active !== null && active.id === contact.id && active.type === 'contact' && !hasActiveId(contact.id)
 
-  //             return (
-  //               <ListItem key={index} disablePadding sx={{ '&:not(:last-child)': { mb: 1.5 } }}>
-  //                 <ListItemButton
-  //                   disableRipple
-  //                   onClick={() => handleChatClick(hasActiveId(contact.id) ? 'chat' : 'contact', contact.id,contact)}
-  //                   sx={{
-  //                     px: 2.5,
-  //                     py: 2.5,
-  //                     width: '100%',
-  //                     borderRadius: 1,
-  //                     ...(activeCondition && { backgroundColor: theme => `${theme.palette.primary.main} !important` })
-  //                   }}
-  //                 >
-  //                   <ListItemAvatar sx={{ m: 0 }}>
-  //                     {contact.avatar ? (
-  //                       <MuiAvatar
-  //                         alt={contact.fullName}
-  //                         src={contact.avatar}
-  //                         sx={{
-  //                           width: 40,
-  //                           height: 40,
-  //                           outline: theme =>
-  //                             `2px solid ${activeCondition ? theme.palette.common.white : 'transparent'}`
-  //                         }}
-  //                       />
-  //                     ) : (
-  //                       <CustomAvatar
-  //                         color={contact.avatarColor}
-  //                         skin={activeCondition ? 'light-static' : 'light'}
-  //                         sx={{
-  //                           width: 40,
-  //                           height: 40,
-  //                           fontSize: '1rem',
-  //                           outline: theme =>
-  //                             `2px solid ${activeCondition ? theme.palette.common.white : 'transparent'}`
-  //                         }}
-  //                       >
-  //                         {getInitials(contact.fullName)}
-  //                       </CustomAvatar>
-  //                     )}
-  //                   </ListItemAvatar>
-  //                   <ListItemText
-  //                     sx={{
-  //                       my: 0,
-  //                       ml: 4,
-  //                       ...(activeCondition && { '& .MuiTypography-root': { color: 'common.white' } })
-  //                     }}
-  //                     primary={
-  //                       <Typography sx={{ ...(!activeCondition ? { color: 'text.secondary' } : {}) }}>
-  //                         {contact.fullName}
-  //                       </Typography>
-  //                     }
-  //                     secondary={
-  //                       <Typography noWrap variant='body2' sx={{ ...(!activeCondition && { color: 'text.disabled' }) }}>
-  //                         {contact.about}
-  //                       </Typography>
-  //                     }
-  //                   />
-  //                 </ListItemButton>
-  //               </ListItem>
-  //             )
-  //           })
-  //         : null
-  //     }
-  //   }
-  // }
+              return (
+                <ListItem key={index} disablePadding sx={{ '&:not(:last-child)': { mb: 1.5 } }}>
+                  <ListItemButton
+                    disableRipple
+                    onClick={() => handleChatClick(hasActiveId(contact.friend_id) ? 'chat' : 'contact', contact.id_chat, contact,'contact')}
+                    sx={{
+                      px: 2.5,
+                      py: 2.5,
+                      width: '100%',
+                      borderRadius: 1,
+                      ...(activeCondition && { backgroundColor: theme => `${theme.palette.primary.main} !important` })
+                    }}
+                  >
+                    <ListItemAvatar sx={{ m: 0 }}>
+                      {contact.friend.photo ? (
+                        <MuiAvatar
+                          alt={contact.friend.name}
+                          src={contact.friend.photo}
+                          sx={{
+                            width: 40,
+                            height: 40,
+                            outline: theme =>
+                              `2px solid ${activeCondition ? theme.palette.common.white : 'transparent'}`
+                          }}
+                        />
+                      ) : (
+                        <CustomAvatar
+                          // color={contact.avatarColor}
+                          skin={activeCondition ? 'light-static' : 'light'}
+                          sx={{
+                            width: 40,
+                            height: 40,
+                            fontSize: '1rem',
+                            outline: theme =>
+                              `2px solid ${activeCondition ? theme.palette.common.white : 'transparent'}`
+                          }}
+                        >
+                          {/* {getInitials(contact.fullName)} */}
+                        </CustomAvatar>
+                      )}
+                    </ListItemAvatar>
+                    <ListItemText
+                      sx={{
+                        my: 0,
+                        ml: 4,
+                        ...(activeCondition && { '& .MuiTypography-root': { color: 'common.white' } })
+                      }}
+                      primary={
+                        <Typography sx={{ ...(!activeCondition ? { color: 'text.secondary' } : {}) }}>
+                          {contact.friend.name}
+                        </Typography>
+                      }
+                      secondary={
+                        <Typography noWrap variant='body2' sx={{ ...(!activeCondition && { color: 'text.disabled' }) }}>
+                          {contact.friend.role}
+                        </Typography>
+                      }
+                    />
+                  </ListItemButton>
+                </ListItem>
+              )
+            })
+          : null
+      }
+    }
+  }
 
   const handleFilter = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
-    if (store.chats !== null && store.contacts !== null) {
-      const searchFilterFunction = (contact: ChatsArrType | ContactType) =>
-        contact.fullName.toLowerCase().includes(e.target.value.toLowerCase())
+    debugger;
+    if (store.chats !== null ) {
+      const searchFilterFunction = (contact: ChatsArrType) =>
+      contact.name.toLowerCase().includes(e.target.value.toLowerCase())
       const filteredChatsArr = store.chats.filter(searchFilterFunction)
-      // const filteredContactsArr = store.contacts.filter(searchFilterFunction)
       setFilteredChat(filteredChatsArr)
-      // setFilteredContacts(filteredContactsArr)
+     }
+    if (store.contacts !== null) {
+      const searchFilterFunction = (contact: ContactType) =>
+        contact.friend.name.toLowerCase().includes(e.target.value.toLowerCase())
+       const filteredContactsArr = store.contacts.filter(searchFilterFunction)
+       setFilteredContacts(filteredContactsArr)
     }
   }
 
@@ -394,7 +412,7 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
                     height: 8,
                     borderRadius: '50%',
                     // color: `${statusObj[userStatus]}.main`,
-                    // backgroundColor: `${statusObj[userStatus]}.main`,
+                    backgroundColor: `${statusObj['true']}.main`,
                     boxShadow: theme => `0 0 0 2px ${theme.palette.background.paper}`
                   }}
                 />
@@ -439,7 +457,7 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
               <Typography variant='h6' sx={{ ml: 2, mb: 4, color: 'primary.main' }}>
                 Contacts
               </Typography>
-              {/* <List sx={{ p: 0 }}>{renderContacts()}</List> */}
+              <List sx={{ p: 0 }}>{renderContacts()}</List>
             </Box>
           </ScrollWrapper>
         </Box>

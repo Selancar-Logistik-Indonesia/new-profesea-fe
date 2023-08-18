@@ -50,13 +50,14 @@ const AppChat = () => {
     busy: 'error',
     away: 'warning',
     online: 'success',
-    offline: 'secondary'
+    offline: 'secondary',
+    true: 'success',
+    false: 'error'
   }
 
   useEffect(() => {
     dispatch(fetchUserProfile())
-    dispatch(fetchChatsContacts())
-    debugger;
+    dispatch(fetchChatsContacts()) 
   }, [dispatch])
 
   const handleLeftSidebarToggle = () => setLeftSidebarOpen(!leftSidebarOpen)
