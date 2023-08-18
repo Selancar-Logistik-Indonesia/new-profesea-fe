@@ -155,28 +155,24 @@ const onSelectFile = (e: any) => {
               <Icon icon='mdi:close' />
             </IconButton>
             <Box sx={{ mb: 6, textAlign: 'center' }}>
-              <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                Add New Work Experience
+              <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
+               Add New Work Experience
               </Typography>
-              <Typography variant='body2'>Add New Candidate Experience info details</Typography>
+              <Typography variant='body2'>Fulfill your Work Experience Info here</Typography>
             </Box>
 
-            <Grid container columnSpacing={'1'} rowSpacing={'2'}>
+            <Grid container columnSpacing={'1'} rowSpacing={'4'}>
               <Grid item md={6} xs={12}>
                 <TextField
                   id='institution'
-                  label='Companyname'
+                  label='Company Name'
                   variant='outlined'
                   fullWidth
                   {...register('institution')}
                 />
               </Grid>
               <Grid item md={6} xs={12}>
-                <TextField id='Position' label='Position' variant='outlined' fullWidth {...register('position')} />
-              </Grid>
-
-              <Grid item md={6} xs={12}>
-                <Grid item xs={12} md={12} container justifyContent={'center'}>
+                <Grid item xs={12} md={8} container justifyContent={'center'}>
                   <Grid xs={6}>
                     <label htmlFor='x'>
                       <img
@@ -199,9 +195,9 @@ const onSelectFile = (e: any) => {
                     ></input>
                   </Grid>
                   <Grid xs={6}>
-                    <Box sx={{ marginTop: '20px' }}>
+                  <Box sx={{ marginTop: '20px', marginLeft: '20px' }}>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                        Click Photo to change institution Logo.
+                        Click Photo to change Company Logo.
                       </Typography>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
                         Allowed JPG, GIF or PNG.
@@ -213,8 +209,11 @@ const onSelectFile = (e: any) => {
                   </Grid>
                 </Grid>
               </Grid>
-                <Grid item md={6} xs={12}></Grid>
+             
               <Grid item md={6} xs={12}>
+                <TextField id='Position' label='Position' variant='outlined' fullWidth {...register('position')} />
+              </Grid>
+              <Grid item md={3} xs={12}>
                 <DatePickerWrapper>
                   <DatePicker
                     dateFormat='dd/MM/yyyy'
@@ -228,7 +227,7 @@ const onSelectFile = (e: any) => {
                   />
                 </DatePickerWrapper>
               </Grid>
-              <Grid item md={6} xs={12}>
+              <Grid item md={3} xs={12}>
                 <DatePickerWrapper>
                   <DatePicker
                     dateFormat='dd/MM/yyyy'

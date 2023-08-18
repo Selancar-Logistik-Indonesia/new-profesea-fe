@@ -14,7 +14,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material' 
+import { CircularProgress, Divider } from '@mui/material' 
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import { Autocomplete } from '@mui/material'
 import DatePicker from 'react-datepicker' 
@@ -168,13 +168,13 @@ const onSelectFile = (e: any) => {
               <Icon icon='mdi:close' />
             </IconButton>
             <Box sx={{ mb: 6, textAlign: 'center' }}>
-              <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
+              <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
                 Add New Educational
               </Typography>
-              <Typography variant='body2'>Add New Candidate Educational info details</Typography>
+              <Typography variant='body2'>Fulfill your Educational Info here</Typography>
             </Box>
 
-            <Grid container columnSpacing={'1'} rowSpacing={'2'}>
+            <Grid container columnSpacing={'1'} rowSpacing={'4'}>
               <Grid item md={6} xs={12}>
                 <TextField
                   id='institutuin'
@@ -185,23 +185,7 @@ const onSelectFile = (e: any) => {
                 />
               </Grid>
               <Grid item md={6} xs={12}>
-                <TextField id='major' label='Major' variant='outlined' fullWidth {...register('major')} />
-              </Grid>
-              <Grid item md={6} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  options={Education}
-                  {...register('degree')}
-                  getOptionLabel={(option: Degree) => option.name}
-                  renderInput={params => <TextField {...params} label='Education' />}
-                  onChange={(event: any, newValue: Degree | null) =>
-                    newValue?.name ? setEduId(newValue.name) : setEduId('---')
-                  }
-                />
-              </Grid>
-              <Grid item md={6} xs={12}>
-                <Grid item xs={12} md={12} container justifyContent={'center'}>
+                <Grid item xs={12} md={8} container justifyContent={'center'}>
                   <Grid xs={6}>
                     <label htmlFor='x'>
                       <img
@@ -224,11 +208,12 @@ const onSelectFile = (e: any) => {
                     ></input>
                   </Grid>
                   <Grid xs={6}>
-                    <Box sx={{ marginTop: '20px' }}>
-                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
+                    <Box sx={{ marginTop: '20px', marginLeft: '20px' }}>
+                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px', mb: '5px' }}>
                         Click Photo to change institution Logo.
                       </Typography>
-                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
+                      <Divider></Divider>
+                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px', mt: '5px'  }}>
                         Allowed JPG, GIF or PNG.
                       </Typography>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
@@ -237,6 +222,22 @@ const onSelectFile = (e: any) => {
                     </Box>
                   </Grid>
                 </Grid>
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-demo'
+                  options={Education}
+                  {...register('degree')}
+                  getOptionLabel={(option: Degree) => option.name}
+                  renderInput={params => <TextField {...params} label='Education' />}
+                  onChange={(event: any, newValue: Degree | null) =>
+                    newValue?.name ? setEduId(newValue.name) : setEduId('---')
+                  }
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField id='major' label='Major' variant='outlined' fullWidth {...register('major')} />
               </Grid>
               <Grid item md={6} xs={12}>
                 {/* <DatePickerWrapper> */}
@@ -264,6 +265,8 @@ const onSelectFile = (e: any) => {
                   />
                 {/* </DatePickerWrapper> */}
               </Grid>
+              
+             
            
             </Grid>
           </DialogContent>
