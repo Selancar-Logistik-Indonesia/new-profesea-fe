@@ -320,7 +320,7 @@ const Registration = (props: any) => {
               <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; I read and accept</Typography>
             </Box>
           </Grid>
-          <Grid item md={3} xs={12}>
+          <Grid item md={3} xs={12} mt={5}>
             <Link href='/register'>
               <Button
                 fullWidth
@@ -336,7 +336,7 @@ const Registration = (props: any) => {
           </Grid>
 
           <Grid item md={6} xs={0}></Grid>
-          <Grid item md={3} xs={12}>
+          <Grid item md={3} xs={12} mt={5}>
             <Button
               fullWidth
               size='large'
