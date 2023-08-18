@@ -71,7 +71,7 @@ const VerticalNavHeader = (props: Props) => {
                 <LinkStyled href='/'>
                     <Box
                         component="img"
-                        sx={{ width: 150 }}
+                        sx={{ width: 125}}
                         alt="The Profesea logo"
                         title="Profesea"
                         src="/images/logosamudera.png"

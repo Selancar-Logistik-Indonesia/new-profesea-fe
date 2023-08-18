@@ -131,7 +131,7 @@ const LoginPage = () => {
 										<Box
 											component="img"
 											src='/images/logosamudera.png'
-											sx={{ width: 100 }}
+											sx={{ width: 125, mt: 5 }}
 										>
 										</Box>
 									</Link>
