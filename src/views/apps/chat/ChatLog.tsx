@@ -67,7 +67,7 @@ const ChatLog = (props: ChatLogType) => {
     chatLog.forEach((msg: MessageType, index: number) => {
       if (chatMessageSenderId === msg.user_id) {
         msgGroup.messages.push({
-          time: msg.time,
+          time: msg.updated_at,
           msg: msg.content
         })
       } else {
@@ -78,7 +78,7 @@ const ChatLog = (props: ChatLogType) => {
           senderId: msg.user_id,
           messages: [
             {
-              time: msg.time,
+              time: msg.updated_at,
               msg: msg.content
             }
           ]
@@ -210,7 +210,7 @@ const ChatLog = (props: ChatLogType) => {
                       {/* {renderMsgFeedback(isSender, chat.feedback)} */}
                       <Typography variant='caption' sx={{ color: 'text.disabled' }}>
                         {time
-                          ? new Date(time).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+                          ? new Date(time).toLocaleString('en-US', { year:'numeric',month:'long',day:'2-digit', hour: 'numeric', minute: 'numeric', hour12: true })
                           : null}
                       </Typography>
                     </Box>

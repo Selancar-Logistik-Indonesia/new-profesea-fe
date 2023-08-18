@@ -126,27 +126,37 @@ const UserDropdown = (props: Props) => {
         <Divider sx={{ mt: '0 !important' }} />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
-            <Icon icon='mdi:account-outline' />  
-           <LinkStyled href='/profile'  ><Typography>Profile</Typography>  </LinkStyled>
+            <Icon icon='mdi:account-outline' />
+            <LinkStyled href='/profile'>
+              <Typography>Profile</Typography>{' '}
+            </LinkStyled>
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:message-outline' />
-            Chat
-          </Box>
+
+            <LinkStyled href='/chat'>
+              <Typography>Chat</Typography>{' '}
+            </LinkStyled>
+          </Box> 
         </MenuItem>
         <Divider />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:attachment' />
-            <LinkStyled href='/account'> <Typography>Account</Typography>  </LinkStyled>
-          </Box> 
+            <LinkStyled href='/account'>
+              {' '}
+              <Typography>Account</Typography>{' '}
+            </LinkStyled>
+          </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:cog-outline' />
-            <LinkStyled href='/manage'><Typography>Manage User</Typography></LinkStyled>
+            <LinkStyled href='/manage'>
+              <Typography>Manage User</Typography>
+            </LinkStyled>
           </Box>
         </MenuItem>
         <Divider />

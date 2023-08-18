@@ -3,13 +3,15 @@ import { Dispatch } from 'redux'
 import { ThemeColor } from 'src/@core/layouts/types'
 import { IUser } from 'src/contract/models/user'
 
-export type StatusType = 'busy' | 'away' | 'online' | 'offline'
+export type StatusType = 'busy' | 'away' | 'online' | 'offline' | 'true' | 'false'
 
 export type StatusObjType = {
   busy: ThemeColor
   away: ThemeColor
   online: ThemeColor
   offline: ThemeColor
+  true: ThemeColor
+  false: ThemeColor
 }
 
 export type ProfileUserType = {
@@ -54,6 +56,10 @@ export type ContactType = {
   fullName: string
   status: StatusType
   avatarColor?: ThemeColor
+  friend?: any
+  photo?: string
+  friend_id?: any
+  id_chat?: any
 }
 
 export type ChatsArrType = {
@@ -68,8 +74,11 @@ export type ChatsArrType = {
   avatarColor?: ThemeColor
   username: string
   photo?: string
-  participants? :any
-  updated_at:any
+  participants?: any
+  room_title?: string
+  updated_at: any
+  name: string
+  friend_id?: any
 }
 
 export type SelectedChatType = null | {
@@ -91,6 +100,7 @@ export type SendMsgParamsType = {
   message: string 
   contact?: ChatsArrType
   data?: any
+  id?: string
 }
 
 export type ChatContentType = {
@@ -152,6 +162,7 @@ export type SendMsgComponentType = {
   store: ChatStoreType
   dispatch: Dispatch<any>
   sendMsg: (params: SendMsgParamsType) => void
+  id?: string
 }
 
 export type ChatLogType = {
@@ -166,6 +177,7 @@ export type ChatLogType = {
 
 export type MessageType = {
   time: string | Date
+  updated_at: string | Date
   message: string
   senderId: number
   // feedback: MsgFeedbackType
