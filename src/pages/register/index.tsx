@@ -85,20 +85,21 @@ const Register = () => {
                     <Box
                       component="img"
                       src='/images/logosamudera.png'
-                      sx={{ width: 125, mt: 5 }}></Box>
+                      sx={{ width: 125, mt: 5, mb: 5 }}></Box>
                   </Link>
-                  <Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#424242" }}>Register</Typography>
-                  <Typography variant='body2' sx={{ textAlign: 'center', color: "#424242" }}> Adventures start from here, let’s join with our!</Typography>
+                  {/* <Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#424242" }}>Register</Typography> */}
+                  <Typography variant='body2' sx={{ textAlign: 'center', color: "#424242", mb: 8 }}> Adventures start from here, Please Register</Typography>
+                  
                 </Box>
 
                 <Link href="/register/seafer" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:account-outline'} />} >as Candidate</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:account-outline'} />} >for Candidate</Button>
                 </Link>
                 <Link href="/register/recruiter" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:domain'} />} >as Recruiter</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:domain'} />} >for Recruiter</Button>
                 </Link>
                 <Link href="/register/trainer" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'healthicons:i-training-class'} />} >as Trainer</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'healthicons:i-training-class'} />} >for Trainer</Button>
                 </Link>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>

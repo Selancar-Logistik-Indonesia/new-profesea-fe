@@ -17,7 +17,7 @@ const FooterView = () => {
 
     return (
       <Grid
-        sx={{ backgroundColor: '#101820', backgroundSize: 'cover', px: { xs: 5, md: 10 } }}
+        sx={{ backgroundColor: '#f4f4f4', backgroundSize: 'cover', px: { xs: 5, md: 10 } }}
         pt={5}
         pb={5}
         container
@@ -33,7 +33,7 @@ const FooterView = () => {
                 title='Profesea'
                 src='/images/logosamudera.png'
               />
-              <Typography variant='body1' style={{ color: '#ffffff' }} mt={5}>
+              <Typography variant='body1' style={{ color: '#101820' }} mt={5}>
                 {t('landing_footer_title')}
               </Typography>
               <Divider sx={{ my: '0 !important' }} />
@@ -47,15 +47,15 @@ const FooterView = () => {
                 {' '}
                 Company
               </Typography>
-              <Typography mt={1.7} variant='body1' color={'#ffffff'}>
+              <Typography mt={1.7} variant='body1' color={'#101820'}>
                 Terms Of Service
               </Typography>
               <LinkStyled href={'/privacy'}>
-                <Typography mt={1.7} variant='body1' color={'#ffffff'}>
+                <Typography mt={1.7} variant='body1' color={'#101820'}>
                   Privacy Policy
                 </Typography>
               </LinkStyled>
-              <Typography mt={1.7} variant='body1' color={'#ffffff'}>
+              <Typography mt={1.7} variant='body1' color={'#101820'}>
                 FAQ
               </Typography>
             </Grid>
@@ -64,17 +64,17 @@ const FooterView = () => {
                 Platform
               </Typography>
               <LinkStyled href={'/'}>
-                <Typography mt={1.7} variant='body1' color={'#ffffff'}>
+                <Typography mt={1.7} variant='body1' color={'#101820'}>
                   Seafarer
                 </Typography>
               </LinkStyled>
               <LinkStyled href={'/landingpage-recruiter'}>
-                <Typography mt={1.7} variant='body1' color={'#ffffff'}>
+                <Typography mt={1.7} variant='body1' color={'#101820'}>
                   Recruiter
                 </Typography>
               </LinkStyled>
               <LinkStyled href={'/landingpage-trainer'}>
-                <Typography mt={1.7} variant='body1' color={'#ffffff'}>
+                <Typography mt={1.7} variant='body1' color={'#101820'}>
                   Trainer
                 </Typography>
               </LinkStyled>
@@ -88,28 +88,28 @@ const FooterView = () => {
                 Our Social Media
               </Typography>
               <IconButton>
-                <FontAwesomeIcon icon={faFacebook} color='#ffffff' />
+                <FontAwesomeIcon icon={faFacebook} color='#101820' />
               </IconButton>
               <IconButton>
-                <FontAwesomeIcon icon={faInstagram} color='#ffffff' />
+                <FontAwesomeIcon icon={faInstagram} color='#101820' />
               </IconButton>
               <IconButton>
-                <FontAwesomeIcon icon={faLinkedin} color='#ffffff' />
+                <FontAwesomeIcon icon={faLinkedin} color='#101820' />
               </IconButton>
               <IconButton>
-                <FontAwesomeIcon icon={faTwitter} color='#ffffff' />
+                <FontAwesomeIcon icon={faTwitter} color='#101820' />
               </IconButton>
             </Grid>
             <Grid item xs={12} textAlign={'left'} justifyItems='flex-end'>
               <Divider sx={{ my: '0 !important' }} />
-              <Typography mt={1} variant='body1' color={'#FFFFFF'}>
+              <Typography mt={1} variant='body1' color={'#101820'}>
                 Jl. Letjen S. Parman Kav. 35 Palmerah Jakarta Barat, <br></br>DKI Jakarta, 11480
               </Typography>
             </Grid>
           </Grid>
         </Grid>
         <Grid xs={12} md={12} item sx={{ mt: { xs: 7 } }}>
-          <Typography color='#FFFFFF' align='center'>
+          <Typography color='#101820' align='center'>
             &copy; 2023 PT Selancar Logistik Indonesia. All Rights Reserved. Profesea
           </Typography>
         </Grid>
