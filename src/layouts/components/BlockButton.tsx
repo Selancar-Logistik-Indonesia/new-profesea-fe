@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import { Button, CircularProgress } from "@mui/material";
-import moment, { now } from "moment";
+import moment from "moment";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { IUser } from "src/contract/models/user";
