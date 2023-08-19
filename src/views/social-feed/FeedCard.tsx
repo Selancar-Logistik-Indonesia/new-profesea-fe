@@ -28,15 +28,15 @@ const FeedCard = (props: Prop) => {
                 </Box>
                 <Box sx={{ mb: 8, display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
                     <Link style={{ textDecoration: 'none' }} href={`/profile/${item.user.username}`}>
-                        <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600 }}>
+                        <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600, fontSize: '16px' }}>
                             {toTitleCase(item.user.name)}
                         </Typography>
-                        <Typography sx={{ color: '#424242', fontWeight: 500 }}>{moment(item.created_at).fromNow()}</Typography>
+                        <Typography sx={{ color: '#424242', fontWeight: 400, fontSize: '12px' }}>{moment(item.created_at).fromNow()}</Typography>
                     </Link>
                 </Box>
             </Box>
             <Box component={Link} href={`/feed/${item.id}`} sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
-                <Typography variant='body1' sx={{ color: '#424242', fontSize: '0.7rem', fontWeight: 400, my: 2 }}>
+                <Typography variant='body1' sx={{ color: '#424242', fontSize: '14px', fontWeight: 500, my: 2 }}>
                     {item.content}
                 </Typography>
 

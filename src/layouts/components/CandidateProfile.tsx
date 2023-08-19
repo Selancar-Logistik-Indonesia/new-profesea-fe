@@ -522,7 +522,7 @@ const CandidateProfile = (props: compProps) => {
             onChange={onSelectFile}
             type='file'
           ></input>
-          <Box position={'absolute'} right={'10%'} bottom={'10%'}>
+          <Box position={'absolute'} right={'40%'} bottom={'40%'}>
             <label htmlFor='raised-button-file'>
               <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
             </label>

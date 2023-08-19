@@ -30,7 +30,7 @@ const Postfeed = () => {
     }
 
     return (
-        <Card sx={{ padding: { xs: 3, md: 5 } }}>
+        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', padding: { xs: 3, md: 5 } }}>
             <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                 <Box mr={3} mt={1}>
                     <Avatar src={getUserAvatar(user!)} alt='profile-picture' sx={{ height: 50, width: 50 }} />

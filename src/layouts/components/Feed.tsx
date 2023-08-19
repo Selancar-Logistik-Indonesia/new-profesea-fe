@@ -78,7 +78,7 @@ const Feed = () => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Card>
+      <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             <Box sx={{ mb: 7 }}>
               <Typography color={"#424242"} fontWeight="600" fontSize={"14px"} sx={{ mb: 4 }}>

@@ -89,7 +89,7 @@ const Profile = (props: userProps) => {
             <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
               <Typography
                 variant='body2'
-                sx={{ display: 'flex', mr: 2.75, alignItems: 'center', color: 'common.white', '& svg': { mr: 2.5 } }}
+                sx={{ display: 'flex', mr: 2.75, alignItems: 'center', color: '#424242', '& svg': { mr: 2.5 } }}
               >
                 <ProfilePicture src={props.datauser?.photo} alt='profile-picture' />
                 &nbsp; {props.datauser?.name}
