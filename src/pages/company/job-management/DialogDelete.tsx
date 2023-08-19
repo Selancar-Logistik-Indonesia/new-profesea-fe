@@ -36,7 +36,7 @@ const DialogDelete = (props: DeleteDialogProps) => {
             }
 
             props.onCloseClick();
-            toast.success(`${props.selectedItem.rolelevel.levelName} on job's ${props.selectedItem.company.name} deleted successfully!`);
+            toast.success(`${props.selectedItem.role_type.name} on job's ${props.selectedItem.company.name} deleted successfully!`);
         } catch (error) {
             console.error(error)
         }
@@ -67,10 +67,10 @@ const DialogDelete = (props: DeleteDialogProps) => {
                     <Icon icon='mdi:close' />
                 </IconButton>
                 <Box sx={{ textAlign: 'center' }}>
-                    <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                        Confirm Delete
-                    </Typography>
-                    <Typography variant='body2'>Are you sure delete {props.selectedItem.rolelevel.levelName} on job's {props.selectedItem.company.name}?</Typography>
+                <Typography variant='h6' color={'#32487A'} fontWeight='600'>
+                  Confirm Delete
+                </Typography>
+                    <Typography variant='body2'>Are you sure delete {props.selectedItem.role_type.name} on job's {props.selectedItem.company.name}?</Typography>
                 </Box>
             </DialogContent>
             <DialogActions
@@ -80,10 +80,17 @@ const DialogDelete = (props: DeleteDialogProps) => {
                     pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
                 }}
             >
-                <Button onClick={handleDelete} variant='contained' color='error' sx={{ mr: 2 }} type='button'>
+                <Button onClick={handleDelete} variant='contained' color='error' sx={{ mr: 2 }} type='button' size='small'>
+                    <Icon fontSize='large' icon={'mdi:trash'} color={'info'} style={{ fontSize: '18px' }} />
                     Yes
                 </Button>
-                <Button variant='outlined' color='secondary' onClick={props.onCloseClick}>
+                <Button variant='outlined' size='small' color='secondary' onClick={props.onCloseClick}>
+                    <Icon
+                        fontSize='large'
+                        icon={'material-symbols:cancel-outline'}
+                        color={'info'}
+                        style={{ fontSize: '18px' }}
+                    />
                     No
                 </Button>
             </DialogActions>

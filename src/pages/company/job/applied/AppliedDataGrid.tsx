@@ -6,10 +6,10 @@ import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , width: 50},
-    { field: 'name', headerName: 'Name', sortable: true , minWidth: 250},
-    { field: 'category', headerName: 'Category', sortable: false, minWidth: 150 },
-    { field: 'email', headerName: 'Email', sortable: false, minWidth: 230 },
+    { field: 'name', headerName: 'Name', sortable: true , minWidth: 200},
+    { field: 'email', headerName: 'Email', sortable: false, minWidth: 200 },
     { field: 'phone', headerName: 'Phone', sortable: false, minWidth: 150 },
+    { field: 'category', headerName: 'Category', sortable: false, minWidth: 120 },
     { field: 'status', headerName: 'Status', sortable: false, minWidth: 130, 
         renderCell: (cell) => {
         const { row } = cell;
@@ -34,20 +34,20 @@ const columns: GridColDef[] = [
               <>
                 <Button
                   onClick={() => row.actions.onView()}
-                  variant='outlined'
+                  variant='contained'
                   color='secondary'
                   size='small'
                   sx={{ mr: 2 }}
                 >
-                  <Icon icon='mdi:eye' />
-                  <Typography ml={1} fontSize={'14px'} color='grey'>
+                  <Icon icon='mdi:eye' style={{ fontSize: '20px' }}/>
+                  <Typography ml={1} fontSize={'12px'} color='common.white'>
                     {' '}
                     View
                   </Typography>
                 </Button>
-                <Button onClick={() => row.actions.onDownload()} variant='outlined' color='warning' size='small'>
-                  <Icon icon='mdi:download' color='warning' />
-                  <Typography ml={1} fontSize={'14px'} color='#DF9F23'>
+                <Button onClick={() => row.actions.onDownload()} variant='contained' color='info' size='small'>
+                <Icon icon='mdi:download' style={{ fontSize: '20px' }}/>
+                  <Typography ml={1} fontSize={'12px'} color='common.white'>
                     Resume
                   </Typography>
                 </Button>

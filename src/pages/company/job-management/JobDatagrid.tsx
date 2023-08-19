@@ -7,11 +7,11 @@ import Link from 'next/link';
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true, minWidth: 10 },
-    { field: 'role_type', headerName: 'Job Title', sortable: true, minWidth: 150 },
-    { field: 'level_name', headerName: 'Role Level', sortable: false, minWidth: 100 },
-    { field: 'category_name', headerName: 'Job Category', sortable: false, minWidth: 250 },
-    { field: 'degree', headerName: 'Degree', sortable: false, minWidth: 200 },
-    { field: 'license', headerName: 'License', sortable: false, minWidth: 300 },
+    { field: 'role_type', headerName: 'Job Title', sortable: true, minWidth: 180 },
+    { field: 'level_name', headerName: 'Role Level', sortable: true, minWidth: 120 },
+    { field: 'category_name', headerName: 'Job Category', sortable: true, minWidth: 250 },
+    { field: 'degree', headerName: 'Degree', sortable: true, minWidth: 180 },
+    { field: 'license', headerName: 'License', sortable: false, minWidth: 200 },
     {
         field: 'action',
         headerName: 'Action',
@@ -24,7 +24,7 @@ const columns: GridColDef[] = [
               <>
                 <Tooltip title='Edit'>
                   <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
-                    <Icon icon='mdi:pencil' />
+                    <Icon icon='mdi:pencil' style={{ fontSize: '20px' }}/>
                   </IconButton>
                 </Tooltip>
                 <Tooltip title='View'>
@@ -35,12 +35,12 @@ const columns: GridColDef[] = [
                     color='secondary'
                     size='small'
                   >
-                    <Icon icon='mdi:eye' />
+                    <Icon icon='mdi:eye' style={{ fontSize: '18px' }} />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title='Delete'>
                   <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
-                    <Icon icon='mdi:trash' />
+                    <Icon icon='mdi:trash' style={{ fontSize: '18px' }} />
                   </IconButton>
                 </Tooltip>
               </>

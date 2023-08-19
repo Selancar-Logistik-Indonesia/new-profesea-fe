@@ -19,7 +19,7 @@ const JobDetail = () => {
   const windowUrl = window.location.search
   const params = new URLSearchParams(windowUrl)
   const [jobDetail, setJobDetail] = useState<Job>()
-  const license:any[] = Object.values((jobDetail?.license != undefined) ? jobDetail?.license : '')
+  const license: any[] = Object.values((jobDetail?.license != undefined) ? jobDetail?.license : '')
   // Styled Grid component
   const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -43,7 +43,7 @@ const JobDetail = () => {
 
   return (
     <Grid item xs={12} mt={-2}>
-      <Card>
+      <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
         <Grid container>
           <StyledGrid item xs={12} sm={4}>
             <CardContent>
@@ -147,40 +147,39 @@ const JobDetail = () => {
               <Divider
                 sx={{ mt: theme => `${theme.spacing(6)} !important`, mb: theme => `${theme.spacing(7.5)} !important` }}
               />
-              <Grid container>
-                <Grid
-                  item
-                  xs={9}
-                  sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column' }}
-                >
-                  <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={5} >
-                    <Typography sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }} ml="0.5rem" variant='body2'>
-                      About Recruiter
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }} >
-                      <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                        {ReactHtmlParser(`${jobDetail?.company?.about}`)}
+              <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column' }}>
+                <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#32487A' }}>
+                  <CardContent sx={{ p: theme => `${theme.spacing(3.25, 3, 4.5)} !important` }}>
+                    <Box
+                      sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }}
+                      ml={2}
+                      mr={3}
+                      mt={2}
+                    >
+                      <Typography
+                        sx={{ color: 'common.white', fontSize: '16px', fontWeight: '600' }}
+                        ml='0.5rem'
+                        variant='body2'
+                      >
+                        About Recruiter
                       </Typography>
+                      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
+                        <Typography
+                          sx={{ color: 'common.white' }}
+                          ml='0.5rem'
+                          fontSize={12}
+                          fontWeight={500}
+                          fontFamily={'Barlow'}
+                          textAlign={'justify'}
+                        >
+                          {ReactHtmlParser(`${jobDetail?.company?.about}`)}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                </Grid>
-                <Grid item xs={3}>
-                  <Grid container spacing={2} alignItems="right" justifyContent="center">
-                    <Grid item>
-                      <Button variant='contained' color='secondary'>
-                       <Icon
-                          fontSize='large'
-                          icon={'mdi:share'}
-                          color={'info'}
-                          style={{ fontSize: '14px', margin:3 }}
-                        
-                        />
-                        Share
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Grid>
+                  </CardContent>
+                </Card>
               </Grid>
+              
             </CardContent>
           </Grid>
         </Grid>

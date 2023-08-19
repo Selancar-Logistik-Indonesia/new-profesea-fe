@@ -125,13 +125,12 @@ const JobManagementScreen = () => {
                   </Grid>
                   <Grid item sx={{ mr: 6, mb: 2 }}>
                     <Box>
-                      <Button variant='contained' onClick={() => setOpenAddModal(!openAddModal)}>
+                      <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
                         <Icon
                           fontSize='large'
                           icon={'zondicons:add-outline'}
                           color={'info'}
                           style={{ fontSize: '14px', margin:3 }}
-                        
                         />
                         
                         Add

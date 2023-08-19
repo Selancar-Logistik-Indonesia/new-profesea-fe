@@ -23,16 +23,17 @@ const columns: GridColDef[] = [
                 <Button
                   target='blank'
                   href={'/profile/?username=' + row?.username}
-                  variant='outlined'
+                  variant='contained'
+                  color='secondary'
                   size='small'
                   sx={{ mr: 2 }}
                 >
-                  <Icon icon='mdi:user' />
+                  <Icon icon='mdi:user' style={{ fontSize: '20px' }}/>
                   Profile
                 </Button>
-                <Button onClick={() => row.actions.onDownload()} variant='outlined' color='warning' size='small'>
-                  <Icon icon='mdi:download' color='warning' />
-                  <Typography ml={1} fontSize={'14px'} color='#DF9F23'>
+                <Button onClick={() => row.actions.onDownload()} variant='contained' color='info' size='small'>
+                <Icon icon='mdi:download' style={{ fontSize: '20px' }}/>
+                  <Typography ml={1} fontSize={'12px'} color='common.white'>
                     Resume
                   </Typography>
                 </Button>
