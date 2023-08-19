@@ -5,9 +5,7 @@ import { useEffect, useState } from "react";
 import Job from "src/contract/models/job";
 import { HttpClient } from "src/services";
 
-type Props = {}
-
-const RelatedJobView = (props: Props) => {
+const RelatedJobView = () => {
     const [jobDetailSugestion, setJobDetailSugestion] = useState<Job[]>([]);
 
     useEffect(() => {
