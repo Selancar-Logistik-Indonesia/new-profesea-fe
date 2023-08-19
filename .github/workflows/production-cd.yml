@@ -1,12 +1,12 @@
 # This is a basic workflow to help you get started with Actions
 
-name: FE Profesea Staging
+name: FE Profesea Production
 
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ main ]
+    tags: 'v*'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -22,7 +22,7 @@ jobs:
         port: 22
         script: |
           source ~/.bashrc
-          cd ~/www/fe-selancar/
+          cd ~/www/fe-selancar-prod/
           git add . && git stash
           git pull origin main
   instal_dependency:
@@ -40,7 +40,7 @@ jobs:
         port: 22
         script: |
           source ~/.bashrc
-          cd ~/www/fe-selancar/
+          cd ~/www/fe-selancar-prod/
           /root/n/bin/npm i
   build:
     needs:
@@ -56,6 +56,6 @@ jobs:
         port: 22
         script: |
           source ~/.bashrc
-          cd ~/www/fe-selancar/
+          cd ~/www/fe-selancar-prod/
           /root/n/bin/npm run build || false
           /root/n/bin/pm2 restart fe_selancar_stg
