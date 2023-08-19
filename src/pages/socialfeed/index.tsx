@@ -42,7 +42,7 @@ const SocialFeedApp = () => {
           <Profile datauser={user} />
           <Grid container>
             <Grid item my={4} xs={12}>
-              <Card>
+            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardContent>
                 <Typography color={"#424242"} fontWeight="600" fontSize={"14px"} sx={{ mb: 4 }}>
                 Your Activities

@@ -34,7 +34,7 @@ const ButtonRepost = (props: { post: ISocialFeed }) => {
     return (
         <>
             <Button onClick={() => setOpenDialog(!dialogOpen)}
-                sx={{ fontSize: '0.7rem', textTransform: 'none' }}
+                sx={{ fontSize: '0.9rem', textTransform: 'none' }}
                 size='small'
                 color='primary'
                 startIcon={<Icon icon='ic:round-repeat' fontSize={10} />}

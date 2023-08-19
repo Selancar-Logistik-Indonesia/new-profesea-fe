@@ -35,7 +35,7 @@ const ButtonShare = (props: { feedPage: string }) => {
         <>
             <Button
                 onClick={() => setOpenDialog(!openDialog)}
-                sx={{ fontSize: '0.7rem', textTransform: 'none' }}
+                sx={{ fontSize: '0.9rem', textTransform: 'none' }}
                 size='small'
                 color='primary'
                 startIcon={<Icon icon='solar:share-linear' fontSize={10} />}
