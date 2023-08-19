@@ -1,10 +1,10 @@
 {
-  "name": "materialize-nextjs-admin-template",
-  "version": "2.1.0",
+  "name": "profesea",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build || false",
     "start": "next start",
     "export": "next export",
     "lint": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
