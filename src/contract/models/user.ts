@@ -30,4 +30,5 @@ export interface IUser {
   address: Address
   field_preference?: FieldPreference
   frienship_status?: string
+  blocked_at?: string
 }
