@@ -21,7 +21,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Types
 import { ChatContentType, StatusType } from 'src/types/apps/chatTypes'
-
+ 
 // ** Styled Components
 const ChatWrapperStartChat = styled(Box)<BoxProps>(({ theme }) => ({
   flexGrow: 1,
@@ -47,7 +47,7 @@ const ChatContent = (props: ChatContentType) => {
     // sidebarWidth,
     // userProfileRightOpen,
     handleLeftSidebarToggle,
-    handleUserProfileRightSidebarToggle,
+    handleUserProfileRightSidebarToggle
   } = props
 
   const handleStartConversation = () => {
@@ -57,6 +57,29 @@ const ChatContent = (props: ChatContentType) => {
   }
 
   const renderContent = () => {
+    // const searchUsername = async () => {
+    //   const resp = await HttpClient.get('/user?username=' + param)
+    //   if (resp.status != 200) {
+    //     throw resp.data.message ?? 'Something went wrong!'
+    //   }
+    //   const header = resp.data.user
+    //   const arr: any = {
+    //     name: header?.name,
+    //     photo: header?.photo,
+    //     is_online: header?.is_online,
+    //     id: header?.id
+    //   }
+    //   dispatch(headerChatFromContact(arr))
+    // }
+    // const windowUrl = window.location.search
+    // const params = new URLSearchParams(windowUrl)
+    // const param = params.get('username')
+    // if (param) {
+    //   //cari dulu udah pernah chat apa belum
+    //   searchUsername()
+    //   //jika belum maka cari userdetail
+    // }
+
     if (store) { 
 
       const selectedChat = store.selectedChat
