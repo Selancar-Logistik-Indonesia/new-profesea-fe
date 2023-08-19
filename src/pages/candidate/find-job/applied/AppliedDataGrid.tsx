@@ -6,17 +6,17 @@ import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , width: 50},
-    { field: 'role_type', headerName: 'Job Title', sortable: true , minWidth: 250},
-    { field: 'level_name', headerName: 'Role Level', sortable: false, minWidth: 130 },
-    { field: 'category_name', headerName: 'Job Category', sortable: false, minWidth: 250 },
+    { field: 'role_type', headerName: 'Job Title', sortable: true , minWidth: 200},
+    { field: 'level_name', headerName: 'Role Level', sortable: true, minWidth: 130 },
+    { field: 'category_name', headerName: 'Job Category', sortable: true, minWidth: 200 },
     { field: 'company_name', headerName: 'Company Name', sortable: true , minWidth: 150},
-    { field: 'status', headerName: 'Status', sortable: false, minWidth: 100, 
+    { field: 'status', headerName: 'Status', sortable: false, minWidth: 150, 
         renderCell: (cell) => {
         const { row } = cell;
 
             return (
               <>
-                <Chip label={row.status} color='primary' />
+                <Chip label={row.status} color='secondary' size='small' />
               </>
             )
         } 

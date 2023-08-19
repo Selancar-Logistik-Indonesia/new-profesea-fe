@@ -50,7 +50,7 @@ const SeafererOngoingTraining = () => {
 
                 return (
                     <Grid item xs={12} md={3} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
-                        <Card >
+                        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                             <Grid item xs={12} >
                                 <CardContent>
                                     <Grid container sx={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -81,6 +81,8 @@ const SeafererOngoingTraining = () => {
                                                 </Typography>
                                             </Box>
                                         </Grid>
+                                    </Grid>
+                                    <Grid container sx={{ alignItems: 'right', justifyContent: 'right' }}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
                                             <Button LinkComponent={Link} variant='contained' color='primary' href={`/candidate/training/detail/${item.id}`}>
                                                 Buy
