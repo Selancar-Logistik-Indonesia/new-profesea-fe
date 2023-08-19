@@ -1,6 +1,5 @@
 import { now } from "moment";
 import { ReactNode, createContext, useMemo, useState } from "react";
-import { AppConfig } from "src/configs/api";
 import ISocialFeed from "src/contract/models/social_feed";
 import FetchFeedPayload from "src/contract/params/fetch_feed_payload";
 import UpdateStatusPayload from "src/contract/params/update_status_payload";
@@ -66,17 +65,10 @@ const SocialFeedProvider = (props: Props) => {
 
     const fetchFeeds = async (payload: FetchFeedPayload) => {
         // only trigger in page 1
-
         if (page == 1) setOnLoading(true);
 
         try {
-            let url = '';
-            if (payload?.username) {
-
-                url = AppConfig.baseUrl + '/social-feed/feed/'
-            } else {
-                url = AppConfig.baseUrl + '/social-feed/feed'
-            }
+            const url = '/social-feed/feed/';
             const response = await HttpClient.get(url, {
                 page: page,
                 ...payload

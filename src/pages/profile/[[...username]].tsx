@@ -22,12 +22,12 @@ import EducationalInfo from './Educational'
 const ProfileCompany = () => {
   return (
     <SocialFeedProvider>
-      <SocialFeedApp />
+      <UserFeedApp />
     </SocialFeedProvider>
   )
 }
 
-const SocialFeedApp = () => {
+const UserFeedApp = () => {
   const { fetchFeeds } = useSocialFeed()
   const router = useRouter();
   const theme = useTheme()
@@ -74,10 +74,10 @@ const SocialFeedApp = () => {
           const itemData = response.data.experiences;
           setArrVacancy(itemData);
         })
-         HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100').then(response => {
-           const itemData = response.data.educations
-           setArrVacancy2(itemData)
-         })
+        HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100').then(response => {
+          const itemData = response.data.educations
+          setArrVacancy2(itemData)
+        })
       }
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
@@ -108,7 +108,7 @@ const SocialFeedApp = () => {
               {selectedUser?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
             </Grid>
             <Grid item lg={9} md={7} xs={12}>
-              <ListFeedView />
+              <ListFeedView username={username} />
             </Grid>
           </Grid>
         </Grid>
