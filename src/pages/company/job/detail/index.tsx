@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import { Avatar, Button, Card, CardContent, Typography, Divider } from '@mui/material'
+import { Avatar, Card, CardContent, Typography, Divider } from '@mui/material'
 
 import ReactHtmlParser from 'react-html-parser';
 
