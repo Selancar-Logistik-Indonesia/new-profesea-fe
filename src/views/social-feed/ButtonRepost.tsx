@@ -37,7 +37,7 @@ const ButtonRepost = (props: { post: ISocialFeed }) => {
                 sx={{ fontSize: '0.7rem', textTransform: 'none' }}
                 size='small'
                 color='primary'
-                startIcon={<Icon icon='ic:round-repeat' fontSize={8} />}
+                startIcon={<Icon icon='solar:repeat-bold-duotone' fontSize={8} />}
             >
                 Repost
             </Button >

@@ -5,63 +5,63 @@ const navigation = (): HorizontalNavItemsType => [
   {
     path: '/home',
     title: 'Home',
-    icon: 'ion:home-sharp',
+    icon: 'solar:home-smile-bold-duotone',
     action: 'read',
     subject: 'home'
   },
   {
     path: '/company',
     title: 'Home',
-    icon: 'ion:home-sharp',
+    icon: 'solar:home-smile-bold-duotone',
     action: 'read',
     subject: 'user-company'
   },
   {
     path: '/community',
     title: 'Community',
-    icon: 'fluent:people-community-24-filled',
+    icon: 'solar:users-group-two-rounded-bold-duotone',
     action: 'read',
     subject: 'user-community'
   },
   {
     path: '/company/job-management',
     title: 'Manage Job',
-    icon: 'mdi:work',
+    icon: 'solar:case-minimalistic-bold-duotone',
     action: 'read',
     subject: 'user-job-management'
   },
   {
     path: '/trainer/training',
     title: 'Manage Training',
-    icon: 'mdi:work',
+    icon: 'solar:book-bookmark-bold-duotone',
     action: 'read',
     subject: 'user-training-management'
   },
   {
     path: '/company/find-candidate',
     title: 'Find Candidate',
-    icon: 'mdi:people',
+    icon: 'solar:glasses-bold-duotone',
     action: 'read',
     subject: 'user-find-candidate'
   },
   {
     path: '/candidate/find-job',
     title: 'Find Job',
-    icon: 'mdi:work',
+    icon: 'solar:boombox-bold-duotone',
     action: 'read',
     subject: 'seaferer-jobs'
   },
   {
     path: '/candidate/training',
     title: 'My Training',
-    icon: 'ion:book-sharp',
+    icon: 'solar:notebook-bookmark-bold-duotone',
     action: 'read',
     subject: 'seaferer-training'
   },
   {
     path: '/pricing',
     title: 'Pricing',
-    icon: 'raphael:dollar',
+    icon: 'solar:tag-price-bold-duotone',
     action: 'read',
     subject: 'PricingPage'
   }

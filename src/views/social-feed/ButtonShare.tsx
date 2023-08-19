@@ -38,7 +38,7 @@ const ButtonShare = (props: { feedPage: string }) => {
                 sx={{ fontSize: '0.7rem', textTransform: 'none' }}
                 size='small'
                 color='primary'
-                startIcon={<Icon icon='solar:share-linear' fontSize={10} />}
+                startIcon={<Icon icon='solar:share-line-duotone' fontSize={10} />}
             >
                 Share
             </Button>
