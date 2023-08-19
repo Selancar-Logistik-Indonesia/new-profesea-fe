@@ -28,6 +28,7 @@ import draftToHtml from 'draftjs-to-html';
 import Forum from 'src/contract/models/forum'
 import { toast } from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
+import { Icon } from '@iconify/react'
 
 const Thread = () => {
   // const theme = useTheme()  
@@ -166,7 +167,7 @@ const Thread = () => {
                     <EditorArea editorState={desc} onEditorStateChange={data => setDesc(data)} toolbar={{
                       image: { uploadCallback: uploadCallback, previewImage: true, alt: { present: true, mandatory: false } },
                     }} placeholder='Write a thread' />
-                    <Button variant='contained' sx={{ mr: 2, mt: 2 }} type='submit'>
+                    <Button variant='contained' sx={{ mr: 2, mt: 2 }} type='submit' startIcon={<Icon icon='ion:enter' fontSize={10} />}>
                       {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Save"}
                     </Button>
                   </EditorWrapper>
