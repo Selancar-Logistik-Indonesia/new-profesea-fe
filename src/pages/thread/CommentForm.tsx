@@ -47,7 +47,7 @@ const CommentForm = (props : ParamMain) => {
             </Grid>  
             <Grid container display={{ xs: "none", lg: "block" }} md={10}>  </Grid>
             <Grid justifyContent="flex-end" sx={{display:  { xs: 12, md: 2  ,justifyContent:'right'}}}>
-              <Button type='submit' size='small' color='primary' variant='contained' onClick={onComment} disabled={onLoading} startIcon={<Icon icon='mdi:send-outline' fontSize={10} />}> Post Comment </Button>
+              <Button type='submit' size='small' color='primary' variant='contained' onClick={onComment} disabled={onLoading} startIcon={<Icon icon='ion:enter' fontSize={10} />}> Post Comment </Button>
             </Grid>
           </Grid> 
       ) 

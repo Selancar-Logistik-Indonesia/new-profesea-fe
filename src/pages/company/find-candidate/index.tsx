@@ -274,7 +274,7 @@ const FindCandidate = () => {
       <Grid container spacing={6}>
         <Grid item lg={3} md={5} xs={12}>
           <Box mb={3}>
-            <Card>
+          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardContent>
                 <TextField
                   id='fullName'
@@ -290,7 +290,7 @@ const FindCandidate = () => {
           </Box>
 
           <Box mb={3}>
-            <Card>
+          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardHeader
                 title={
                   <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
@@ -376,7 +376,7 @@ const FindCandidate = () => {
             </Card>
           </Box>
           <Box mb={3}>
-            <Card>
+          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardHeader
                 title={
                   <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>

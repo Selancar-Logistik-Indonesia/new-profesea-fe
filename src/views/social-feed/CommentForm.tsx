@@ -64,7 +64,7 @@ const CommentForm = (props: { feedId: number, replyable_type: 'feed' | 'comment'
             </Box>
             <Box sx={{ ml: 3, alignSelf: 'end' }}>
                 <IconButton onClick={handleSend} disabled={onLoading}>
-                    <Icon color={bgColors.primaryLight.color} icon='mdi:send' />
+                    <Icon color={bgColors.primaryLight.color} icon='ion:enter' />
                 </IconButton>
             </Box>
         </Box>
