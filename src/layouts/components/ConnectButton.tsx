@@ -61,7 +61,7 @@ const ConnectButton = (props: ConnectButtonProps) => {
         <Button disabled={isLoading || !!user.frienship_status} onClick={() => onConnectRequest(user)}
             variant={user.frienship_status ? 'outlined' : 'contained'}
             size='small'
-            sx={{ margin: '5px' }}
+            sx={{ margin: '5px', fontSize: '10px' }}
             color='warning'
             startIcon={!isLoading && <Icon icon={buildConnectIcon()} color={user.frienship_status ? '#42424242' : 'white'} />}
         >

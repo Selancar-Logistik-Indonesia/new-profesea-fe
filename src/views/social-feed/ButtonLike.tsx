@@ -29,7 +29,7 @@ const ButtonLike = (props: { item: ButtonLikeParam, likeableType: string, varian
 
     return (
         <Button disabled={onLoading} sx={{
-            fontSize: props.variant == 'no-icon' ? 11 : '0.9rem',
+            fontSize: props.variant == 'no-icon' ? 11 : '0.7rem',
             fontWeight: likedAt ? 'bold' : 'normal',
             textTransform: 'none',
         }}
@@ -38,7 +38,7 @@ const ButtonLike = (props: { item: ButtonLikeParam, likeableType: string, varian
             variant={props.variant == 'no-icon' ? "text" : undefined}
         >
             {countLikes > 0 && (
-                <Typography sx={{ fontSize: '0.9rem', fontWeight: likedAt ? 'bold' : 'normal', }} ml={-1.4} mr={1.4}>{countLikes}</Typography>
+                <Typography sx={{ fontSize: '0.7rem', fontWeight: likedAt ? 'bold' : 'normal', }} ml={-1.4} mr={1.4}>{countLikes}</Typography>
             )}
             Like
         </Button>

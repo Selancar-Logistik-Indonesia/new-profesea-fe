@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { Box, Button, Dialog, DialogTitle, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { Box, Button, Dialog, DialogTitle, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
 import { useState } from "react";
 
 const ButtonShare = (props: { feedPage: string }) => {
@@ -35,7 +35,7 @@ const ButtonShare = (props: { feedPage: string }) => {
         <>
             <Button
                 onClick={() => setOpenDialog(!openDialog)}
-                sx={{ fontSize: '0.9rem', textTransform: 'none' }}
+                sx={{ fontSize: '0.7rem', textTransform: 'none' }}
                 size='small'
                 color='primary'
                 startIcon={<Icon icon='solar:share-linear' fontSize={10} />}
@@ -43,7 +43,11 @@ const ButtonShare = (props: { feedPage: string }) => {
                 Share
             </Button>
             <Dialog onClose={() => setOpenDialog(!openDialog)} open={openDialog}>
-                <DialogTitle>Share to</DialogTitle>
+                <DialogTitle>
+                <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
+                        Share To
+                    </Typography>
+                </DialogTitle>
                 <Box sx={{ width: 220, mx: 2 }}>
                     <List sx={{ pt: 0 }}>
                         {emails.map((title) => (

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { AppConfig } from "src/configs/api";
 import CommentAreaView from "./CommentAreaView";
 import Link from "next/link";
+import { Icon } from '@iconify/react';
 import ImageListPreview from "./ImageListPreview";
 import FeedBottomActions from "./FeedBottomActions";
 import moment from "moment";
@@ -28,10 +29,13 @@ const FeedCard = (props: Prop) => {
                 </Box>
                 <Box sx={{ mb: 8, display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
                     <Link style={{ textDecoration: 'none' }} href={`/profile/${item.user.username}`}>
-                        <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600, fontSize: '16px' }}>
+                        <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600, fontSize: '14px' }}>
                             {toTitleCase(item.user.name)}
                         </Typography>
-                        <Typography sx={{ color: '#424242', fontWeight: 400, fontSize: '12px' }}>{moment(item.created_at).fromNow()}</Typography>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
+                        <Icon color={'#42424242'} icon='mingcute:time-fill' fontSize={'18px'}/> &nbsp;
+                            <Typography sx={{ color: '#424242', fontWeight: 400, fontSize: '12px' }}>{moment(item.created_at).fromNow()}</Typography>
+                        </Box>
                     </Link>
                 </Box>
             </Box>

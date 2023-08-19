@@ -34,16 +34,16 @@ const ButtonRepost = (props: { post: ISocialFeed }) => {
     return (
         <>
             <Button onClick={() => setOpenDialog(!dialogOpen)}
-                sx={{ fontSize: '0.9rem', textTransform: 'none' }}
+                sx={{ fontSize: '0.7rem', textTransform: 'none' }}
                 size='small'
                 color='primary'
-                startIcon={<Icon icon='ic:round-repeat' fontSize={10} />}
+                startIcon={<Icon icon='ic:round-repeat' fontSize={8} />}
             >
                 Repost
             </Button >
             <Dialog sx={{ minWidth: { md: 320 } }} open={dialogOpen} onClose={() => setOpenDialog(!dialogOpen)}>
                 <DialogTitle>
-                    <Typography variant='h6' color={'#32487A'} fontWeight='600'>
+                    <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
                         Repost Feed
                     </Typography>
                 </DialogTitle>
@@ -63,12 +63,12 @@ const ButtonRepost = (props: { post: ISocialFeed }) => {
                     <FeedCard item={post} withBottomArea={false} />
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="contained" color="error" onClick={() => setOpenDialog(!dialogOpen)}>
-                        <Icon icon='material-symbols:cancel-outline' color='white' fontSize={19} />
+                    <Button size="small" variant="contained" color="error" onClick={() => setOpenDialog(!dialogOpen)}>
+                        <Icon icon='material-symbols:cancel-outline' color='white' fontSize={12} />
                         Cancel
                     </Button>
-                    <Button variant="contained" disabled={isLoading} onClick={handleUpdateStatus}>
-                        <Icon icon='material-symbols:upload' color='white' fontSize={19} />
+                    <Button size="small" variant="contained" disabled={isLoading} onClick={handleUpdateStatus}>
+                        <Icon icon='material-symbols:upload' color='white' fontSize={12} />
                         {isLoading ? <CircularProgress /> : 'Post'}
                     </Button>
                 </DialogActions>
