@@ -9,7 +9,11 @@ import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import FeedCard from './FeedCard'
 import { useEffect } from 'react'
 
-const ListFeedView = () => {
+type Props = {
+    username?: string,
+};
+
+const ListFeedView = (props: Props) => {
     const { fetchFeeds, hasNextPage, totalFeed } = useSocialFeed();
     // const adsEveryLine = 5;
 
@@ -59,7 +63,7 @@ const ListFeedView = () => {
                 return (
                     <InfiniteScroll
                         dataLength={totalFeed}
-                        next={() => fetchFeeds({ take: 7 })}
+                        next={() => fetchFeeds({ take: 7, username: props.username })}
                         hasMore={hasNextPage}
                         loader={(<Typography mt={5} color={'text.secondary'}>Loading..</Typography>)}>
                         <Grid container spacing={6}>
