@@ -19,7 +19,7 @@ const navigation = (): HorizontalNavItemsType => [
   {
     path: '/community',
     title: 'Community',
-    icon: 'solar:command-bold-duotone',
+    icon: 'solar:users-group-two-rounded-bold-duotone',
     action: 'read',
     subject: 'user-community'
   },

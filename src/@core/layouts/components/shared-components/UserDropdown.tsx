@@ -126,7 +126,7 @@ const UserDropdown = (props: Props) => {
         <Divider sx={{ mt: '0 !important' }} />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
-            <Icon icon='mdi:account-outline' />
+            <Icon icon='solar:user-circle-bold-duotone' />
             <LinkStyled href='/profile'>
               <Typography>Profile</Typography>{' '}
             </LinkStyled>
@@ -134,7 +134,7 @@ const UserDropdown = (props: Props) => {
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
-            <Icon icon='mdi:message-outline' />
+            <Icon icon='solar:chat-round-dots-bold-duotone' />
 
             <LinkStyled href='/chat'>
               <Typography>Chat</Typography>{' '}
@@ -144,18 +144,18 @@ const UserDropdown = (props: Props) => {
         <Divider />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
-            <Icon icon='mdi:attachment' />
+            <Icon icon='solar:leaf-bold-duotone' />
             <LinkStyled href='/account'>
               {' '}
-              <Typography>Account</Typography>{' '}
+              <Typography>Subsribe</Typography>{' '}
             </LinkStyled>
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
-            <Icon icon='mdi:cog-outline' />
+            <Icon icon='solar:password-bold-duotone' />
             <LinkStyled href='/manage'>
-              <Typography>Manage User</Typography>
+              <Typography>Change Password</Typography>
             </LinkStyled>
           </Box>
         </MenuItem>
@@ -164,7 +164,7 @@ const UserDropdown = (props: Props) => {
           onClick={handleLogout}
           sx={{ py: 2, '& svg': { mr: 2, fontSize: '1.375rem', color: 'text.primary' } }}
         >
-          <Icon icon='mdi:logout-variant' />
+          <Icon icon='solar:logout-2-bold-duotone' />
           Logout
         </MenuItem>
       </Menu>
