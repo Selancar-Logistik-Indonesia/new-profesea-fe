@@ -274,7 +274,7 @@ const FindCandidate = () => {
       <Grid container spacing={6}>
         <Grid item lg={3} md={5} xs={12}>
           <Box mb={3}>
-          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardContent>
                 <TextField
                   id='fullName'
@@ -290,7 +290,7 @@ const FindCandidate = () => {
           </Box>
 
           <Box mb={3}>
-          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardHeader
                 title={
                   <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
@@ -376,7 +376,7 @@ const FindCandidate = () => {
             </Card>
           </Box>
           <Box mb={3}>
-          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardHeader
                 title={
                   <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
@@ -394,123 +394,124 @@ const FindCandidate = () => {
                   </IconButton>
                 }
               />
+              <Collapse in={collapsed2}>
+                <CardContent>
+                  {params.get('plan') != 'advance' ? (
+                    <>
+                      <Button
+                        href={'/company/find-candidate/?plan=advance'}
+                        variant='contained'
+                        color='warning'
+                        sx={{ mr: 2 }}
+                        fullWidth
+                      >
+                        Advance Filter
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Autocomplete
+                        disablePortal
+                        id='code'
+                        options={dokumen}
+                        getOptionLabel={(option: any) => option.title}
+                        // defaultValue={props.datauser?.country}
+                        renderInput={params => <TextField {...params} label='License' sx={{ mb: 2 }} />}
+                        // onChange={(event: any, newValue: Dokumen | null) =>
+                        //   newValue?.id ? searchcity(newValue.id) : searchcity(0)
+                        // }
+                        sx={{ marginBottom: 2 }}
+                      />
+                      <Typography>Including all these words</Typography>
+                      <FormControl>
+                        <div className={'container'}>
+                          {values.map((item, index) => (
+                            <Chip
+                              color='primary'
+                              size='small'
+                              onDelete={() => handleDelete(item, index, 1)}
+                              label={item}
+                              key={item}
+                            />
+                          ))}
+                          <Input
+                            value={currValue}
+                            onChange={e => handleChange(e, '1')}
+                            onKeyDown={e => handleKeyDown(e, '1')}
+                            onKeyUp={handleKeyUp}
+                            id='1'
+                            name='1'
+                          />
+                        </div>
+                      </FormControl>
 
-              <CardContent>
-                {params.get('plan') != 'advance' ? (
-                  <>
-                    <Button
-                      href={'/company/find-candidate/?plan=advance'}
-                      variant='contained'
-                      color='warning'
-                      sx={{ mr: 2 }}
-                      fullWidth
-                    >
-                      Advance Filter
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Autocomplete
-                      disablePortal
-                      id='code'
-                      options={dokumen}
-                      getOptionLabel={(option: any) => option.title}
-                      // defaultValue={props.datauser?.country}
-                      renderInput={params => <TextField {...params} label='License' sx={{ mb: 2 }} />}
-                      // onChange={(event: any, newValue: Dokumen | null) =>
-                      //   newValue?.id ? searchcity(newValue.id) : searchcity(0)
-                      // }
-                      sx={{ marginBottom: 2 }}
-                    />
-                    <Typography>Including all these words</Typography>
-                    <FormControl>
-                      <div className={'container'}>
-                        {values.map((item, index) => (
-                          <Chip
-                            color='primary'
-                            size='small'
-                            onDelete={() => handleDelete(item, index, 1)}
-                            label={item}
-                            key={item}
+                      <Typography>include one word</Typography>
+                      <FormControl>
+                        <div className={'container'}>
+                          {valuesoneword.map((item, index) => (
+                            <Chip
+                              color='primary'
+                              size='small'
+                              onDelete={() => handleDelete(item, index, 2)}
+                              label={item}
+                              key={item}
+                            />
+                          ))}
+                          <Input
+                            value={currValueoneword}
+                            onChange={e => handleChange(e, '2')}
+                            onKeyDown={e => handleKeyDown(e, '2')}
+                            onKeyUp={handleKeyUp}
+                            id='2'
+                            name='2'
                           />
-                        ))}
-                        <Input
-                          value={currValue}
-                          onChange={e => handleChange(e, '1')}
-                          onKeyDown={e => handleKeyDown(e, '1')}
-                          onKeyUp={handleKeyUp}
-                          id='1'
-                          name='1'
-                        />
-                      </div>
-                    </FormControl>
+                        </div>
+                      </FormControl>
 
-                    <Typography>include one word</Typography>
-                    <FormControl>
-                      <div className={'container'}>
-                        {valuesoneword.map((item, index) => (
-                          <Chip
-                            color='primary'
-                            size='small'
-                            onDelete={() => handleDelete(item, index, 2)}
-                            label={item}
-                            key={item}
+                      <Typography>Excluding all these words</Typography>
+                      <FormControl>
+                        <div className={'container'}>
+                          {valuesexclude.map((item, index) => (
+                            <Chip
+                              color='primary'
+                              size='small'
+                              onDelete={() => handleDelete(item, index, 3)}
+                              label={item}
+                              key={item}
+                            />
+                          ))}
+                          <Input
+                            value={currValueexclude}
+                            onChange={e => handleChange(e, '3')}
+                            onKeyDown={e => handleKeyDown(e, '3')}
+                            onKeyUp={handleKeyUp}
                           />
-                        ))}
-                        <Input
-                          value={currValueoneword}
-                          onChange={e => handleChange(e, '2')}
-                          onKeyDown={e => handleKeyDown(e, '2')}
-                          onKeyUp={handleKeyUp}
-                          id='2'
-                          name='2'
-                        />
-                      </div>
-                    </FormControl>
-
-                    <Typography>Excluding all these words</Typography>
-                    <FormControl>
-                      <div className={'container'}>
-                        {valuesexclude.map((item, index) => (
-                          <Chip
-                            color='primary'
-                            size='small'
-                            onDelete={() => handleDelete(item, index, 3)}
-                            label={item}
-                            key={item}
+                        </div>
+                      </FormControl>
+                      <Typography>Including these words in the title</Typography>
+                      <FormControl>
+                        <div className={'container'}>
+                          {valueslitle.map((item, index) => (
+                            <Chip
+                              color='primary'
+                              size='small'
+                              onDelete={() => handleDelete(item, index, 4)}
+                              label={item}
+                              key={item}
+                            />
+                          ))}
+                          <Input
+                            value={currValuelitle}
+                            onChange={e => handleChange(e, '4')}
+                            onKeyDown={e => handleKeyDown(e, '4')}
+                            onKeyUp={handleKeyUp}
                           />
-                        ))}
-                        <Input
-                          value={currValueexclude}
-                          onChange={e => handleChange(e, '3')}
-                          onKeyDown={e => handleKeyDown(e, '3')}
-                          onKeyUp={handleKeyUp}
-                        />
-                      </div>
-                    </FormControl>
-                    <Typography>Including these words in the title</Typography>
-                    <FormControl>
-                      <div className={'container'}>
-                        {valueslitle.map((item, index) => (
-                          <Chip
-                            color='primary'
-                            size='small'
-                            onDelete={() => handleDelete(item, index, 4)}
-                            label={item}
-                            key={item}
-                          />
-                        ))}
-                        <Input
-                          value={currValuelitle}
-                          onChange={e => handleChange(e, '4')}
-                          onKeyDown={e => handleKeyDown(e, '4')}
-                          onKeyUp={handleKeyUp}
-                        />
-                      </div>
-                    </FormControl>
-                  </>
-                )}
-              </CardContent>
+                        </div>
+                      </FormControl>
+                    </>
+                  )}
+                </CardContent>
+              </Collapse>
             </Card>
           </Box>
         </Grid>
