@@ -268,7 +268,7 @@ const JobApplied = () => {
                         </Box> */}
 
             <Box mb={3}>
-              <Card>
+              <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFFF' }}>
                 <CardHeader
                   title={
                     <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
@@ -348,7 +348,7 @@ const JobApplied = () => {
               </Card>
             </Box>
             <Box mb={3}>
-              <Card>
+            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardHeader
                   title={
                     <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
@@ -476,7 +476,7 @@ const JobApplied = () => {
             </Box>
           </Grid>
           <Grid item lg={9} md={7} xs={12}>
-            <Card>
+          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardContent>
                 {params.get('plan') === 'advance' && (
                   <Typography variant='h6' color={'#32487A'} fontWeight='600'>
