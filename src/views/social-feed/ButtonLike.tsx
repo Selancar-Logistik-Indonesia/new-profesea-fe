@@ -34,7 +34,7 @@ const ButtonLike = (props: { item: ButtonLikeParam, likeableType: string, varian
             textTransform: 'none',
         }}
             onClick={handleClick} size='small' color='primary'
-            startIcon={props.variant == 'no-icon' ? undefined : <Icon icon={likedAt ? 'mdi:like' : 'mdi:like-outline'} />}
+            startIcon={props.variant == 'no-icon' ? undefined : <Icon icon={likedAt ? 'solar:like-bold-duotone' : 'solar:like-line-duotone'} />}
             variant={props.variant == 'no-icon' ? "text" : undefined}
         >
             {countLikes > 0 && (

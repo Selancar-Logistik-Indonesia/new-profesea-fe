@@ -98,19 +98,19 @@ const Profile = (props: userProps) => {
             <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
             <Box sx={{ pt: 2, pb: 1 }}>
               <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                <Icon icon={'material-symbols:corporate-fare-rounded'} fontSize={24} color={'#32487A'} />
+                <Icon icon={'solar:buildings-3-bold-duotone'} fontSize={20} color={'#424242'} />
                 <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
                   {props.datauser?.industry?.name}
                 </Typography>
               </Box>
               <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                <Icon icon={'material-symbols:mail'} fontSize={24} color={'#32487A'} />
+                <Icon icon={'solar:mailbox-bold-duotone'} fontSize={20} color={'#424242'} />
                 <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
                   {props.datauser?.email}
                 </Typography>
               </Box>
               <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                <Icon icon={'material-symbols:badge-rounded'} fontSize={24} color={'#32487A'} />
+                <Icon icon={'solar:user-id-bold-duotone'} fontSize={20} color={'#424242'} />
                 <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
                   {getUserRoleName(props.datauser?.team)}
                 </Typography>
@@ -120,7 +120,7 @@ const Profile = (props: userProps) => {
             {props.datauser?.role == 'Seafarer' && (
               <Box>
                 <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
-                  <Icon icon={'clarity:briefcase-solid'} fontSize={24} color={'#32487A'} />
+                  <Icon icon={'solar:accessibility-bold-duotone'} fontSize={20} color={'#424242'} />
                   <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
                     Role :
                   </Typography>
@@ -129,7 +129,7 @@ const Profile = (props: userProps) => {
                   </Typography>
                 </Box>
                 <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
-                  <Icon icon={'fontisto:ship'} fontSize={24} color={'#32487A'} />
+                  <Icon icon={'icon-park-twotone:ship'} fontSize={20} color={'#424242'} />
                   <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
                     Vessel :
                   </Typography>
@@ -138,7 +138,7 @@ const Profile = (props: userProps) => {
                   </Typography>
                 </Box>
                 <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
-                  <Icon icon={'gis:route'} fontSize={24} color={'#32487A'} />
+                  <Icon icon={'solar:routing-2-bold-duotone'} fontSize={20} color={'#424242'} />
                   <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
                     Region Of Travel:
                   </Typography>
