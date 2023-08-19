@@ -157,7 +157,7 @@ const JobDetail = () => {
                               <Icon icon='ic:round-business-center' color='#32487A' fontSize={'20px'} />
                             </Grid>
                             <Grid xs={11}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                              <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>
                                 {jobDetail?.rolelevel?.levelName} - {jobDetail?.category?.name}
                               </Typography>
                             </Grid>
@@ -166,7 +166,7 @@ const JobDetail = () => {
                               <Icon icon='mdi:school' fontSize={20} color='#32487A' />
                             </Grid>
                             <Grid xs={11}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                              <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
                                 {jobDetail?.degree?.name}
                               </Typography>
                             </Grid>
@@ -175,7 +175,7 @@ const JobDetail = () => {
                               <Icon icon='mingcute:ship-fill' fontSize={20} color='#32487A' />
                             </Grid>
                             <Grid xs={11}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                              <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
                                 Type of Vessel
                               </Typography>
                             </Grid>
@@ -184,7 +184,7 @@ const JobDetail = () => {
                               <Icon icon='game-icons:ship-bow' color='#32487A' fontSize={20} />
                             </Grid>
                             <Grid xs={11}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                              <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
                                 Date on Board
                               </Typography>
                             </Grid>
@@ -193,7 +193,7 @@ const JobDetail = () => {
                               <Icon icon='mdi:license' color='#32487A' fontSize={20} />
                             </Grid>
                             <Grid xs={11}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                              <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
                                 {license.map(e => e.title).join(', ')}
                               </Typography>
                             </Grid>
@@ -227,6 +227,7 @@ const JobDetail = () => {
                               )}
                             </Grid>
                             <Grid item>
+                              
                               <ButtonGroup variant='contained' ref={anchorRef} aria-label='split button'>
                                 {options[selectedIndex] == 'Link' ? (
                                   <CopyLinkButton linkToCopy={url} />
@@ -331,7 +332,13 @@ const JobDetail = () => {
                               Experience
                             </Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
+                              <Typography 
+                              sx={{ color: 'text.primary' }} 
+                              ml='0.5rem' 
+                              fontSize={12}
+                              fontWeight={500}
+                              fontFamily={'Barlow'}
+                              >
                                 {jobDetail?.experience}
                               </Typography>
                             </Box>
@@ -357,6 +364,8 @@ const JobDetail = () => {
                                 sx={{ color: 'text.primary' }}
                                 ml='0.5rem'
                                 fontSize={12}
+                                fontWeight={500}
+                                fontFamily={'Barlow'}
                                 textAlign={'justify'}
                               >
                                 {ReactHtmlParser(`${jobDetail?.description}`)}
@@ -373,7 +382,7 @@ const JobDetail = () => {
                       />
 
                       <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column' }}>
-                        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#007BB6' }}>
+                        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#32487A' }}>
                           <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
                             <Box
                               sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }}
@@ -392,9 +401,10 @@ const JobDetail = () => {
                                 <Typography
                                   sx={{ color: 'common.white' }}
                                   ml='0.5rem'
-                                  fontSize={14}
+                                  fontSize={12}
+                                  fontWeight={500}
+                                  fontFamily={'Barlow'}
                                   textAlign={'justify'}
-                                  fontFamily={'Poppins'}
                                 >
                                   {jobDetail?.company?.about}
                                 </Typography>

@@ -45,7 +45,7 @@ const renderList = (listJob: Job[]) => {
                 <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50 }} />
               </Box>
               <Box
-                sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
+                sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }}
                 marginTop={2}
               >
                 <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={14}>
@@ -57,7 +57,7 @@ const renderList = (listJob: Job[]) => {
               </Box>
             </Box>
           </Link>
-          <Grid item container>
+          <Grid item container ml={5} mr={5}>
             <Grid xs={1}>
               <Icon icon='ic:round-business-center' color='#32487A' fontSize={'18px'} />
             </Grid>
@@ -79,7 +79,7 @@ const renderList = (listJob: Job[]) => {
             <Grid xs={1}>
               <Icon icon='mdi:license' color='#32487A' fontSize={'18px'} />
             </Grid>
-            <Grid xs={11}>
+            <Grid xs={11} maxWidth={'90%'}>
               <Typography
                 sx={{
                   color: 'text.primary',
