@@ -88,6 +88,19 @@ export const headerChatFromContact = createAsyncThunk(
 
   }
 )
+export const headerChatFromParam= createAsyncThunk('appChat/header', async (header: any) => {
+  debugger
+  if (header) {
+    const arr: any = {
+      name: header?.name,
+      photo: header?.photo,
+      is_online: header?.is_online,
+      id: header?.id
+    }
+
+    return arr
+  }
+})
  export const headerChat = createAsyncThunk('appChat/header', async (header: any) => {
   if(header){
     const arr: any = {

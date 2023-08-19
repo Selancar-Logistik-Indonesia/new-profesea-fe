@@ -8,7 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 
 // ** Store & Actions Imports
 import { useDispatch, useSelector } from 'react-redux'
-import { sendMsg, selectChat, fetchUserProfile, fetchChatsContacts, removeSelectedChat,headerChat} from 'src/store/apps/chat'
+import { sendMsg, selectChat, fetchUserProfile, fetchChatsContacts, removeSelectedChat,headerChat,  headerChatFromParam} from 'src/store/apps/chat'
 
 // ** Types
 import { RootState, AppDispatch } from 'src/store'
@@ -22,6 +22,7 @@ import { getInitials } from 'src/@core/utils/get-initials'
 import { formatDateToMonthShort } from 'src/@core/utils/format'
 import SidebarLeft from 'src/views/apps/chat/SidebarLeft'
 import ChatContent from 'src/views/apps/chat/ChatContent'
+import { HttpClient } from 'src/services'
 // import 'src/@fake-db'
 
 // ** Chat App Components Imports 
@@ -63,6 +64,36 @@ const AppChat = () => {
   const handleLeftSidebarToggle = () => setLeftSidebarOpen(!leftSidebarOpen)
   const handleUserProfileLeftSidebarToggle = () => setUserProfileLeftOpen(!userProfileLeftOpen)
   const handleUserProfileRightSidebarToggle = () => setUserProfileRightOpen(!userProfileRightOpen)
+    
+  const windowUrl = window.location.search
+  const params = new URLSearchParams(windowUrl)
+ 
+  const param = params.get('username')
+  const status = params.get('status')
+  const searchUsername = async () => {
+    const resp = await HttpClient.get('/user?username=' + param)
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
+    }
+    const header = resp.data.user
+    const arr: any = {
+      name: header?.name,
+      photo: header?.photo,
+      is_online: header?.is_online,
+      id: header?.id
+    }
+    dispatch(headerChatFromParam(arr))
+  } 
+ 
+  if (!status) {
+    searchUsername()
+    params.set('status', 'true')
+    const newUrl = `${window.location.pathname}?${params.toString()}`
+    window.history.pushState({ path: newUrl }, '', newUrl)
+
+    //cari dulu udah pernah chat apa belum
+    //jika belum maka cari userdetail
+  }
 
   return (
     <Box
@@ -96,6 +127,7 @@ const AppChat = () => {
         handleLeftSidebarToggle={handleLeftSidebarToggle}
         handleUserProfileLeftSidebarToggle={handleUserProfileLeftSidebarToggle}
         headerChat={headerChat}
+        
       />
       <ChatContent
         store={store}
@@ -108,7 +140,8 @@ const AppChat = () => {
         sidebarWidth={sidebarWidth}
         userProfileRightOpen={userProfileRightOpen}
         handleLeftSidebarToggle={handleLeftSidebarToggle}
-        handleUserProfileRightSidebarToggle={handleUserProfileRightSidebarToggle}
+        handleUserProfileRightSidebarToggle={handleUserProfileRightSidebarToggle} 
+     
       />
     </Box>
   )

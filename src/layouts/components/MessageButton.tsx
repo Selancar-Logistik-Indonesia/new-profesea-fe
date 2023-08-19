@@ -1,20 +1,18 @@
 import { Icon } from "@iconify/react";
 import { Button, CircularProgress } from "@mui/material";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { IUser } from "src/contract/models/user";
-import { HttpClient } from "src/services";
-import { getCleanErrorMessage } from "src/utils/helpers";
+import { useState } from "react"; 
+import { IUser } from "src/contract/models/user"; 
 
 interface MessageButtonProps {
     user: IUser,
 };
 
-const MessageButton = (props: MessageButtonProps) => {
-    const [user, setUser] = useState(props.user);
+const MessageButton = (props: MessageButtonProps) => { 
+    const user = props.user;
     const [isLoading, setIsLoading] = useState(false);
 
     const onMessage = async (user: IUser) => {
+       setIsLoading(true)
        window.location.replace('/chat?username='+user.username)
     }
 
@@ -25,6 +23,7 @@ const MessageButton = (props: MessageButtonProps) => {
         if (user.frienship_status == 'WA') {
           return 'mdi:account-check-outline'
         }
+
         return 'fa6-solid:link';
     }
 
