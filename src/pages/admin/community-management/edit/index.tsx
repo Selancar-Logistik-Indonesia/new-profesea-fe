@@ -9,7 +9,7 @@ import {  Autocomplete, Button,    CircularProgress,    TextField, Typography   
 // ** Third Party Imports
 
 // ** Component Import
-import {   Grid } from '@mui/material'  
+import { Grid } from '@mui/material'  
  
 import EditorArea from 'src/@core/components/react-draft-wysiwyg'
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
@@ -23,8 +23,9 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { EditorState, convertToRaw } from 'draft-js'
+import { ContentState, EditorState, convertFromHTML, convertToRaw } from 'draft-js'
 import draftToHtml from 'draftjs-to-html';
+
 import Forum from 'src/contract/models/forum'
 import Thread from 'src/contract/models/thread'
 import { toast } from 'react-hot-toast'
@@ -37,6 +38,7 @@ const EditThreadScreen = () => {
   const [onLoading, setOnLoading] = useState(false);
   const [forumCode, getForumCode] = useState<[]>([])
   const [sforumCode, setForumCode] = useState(0)
+  const [sforum, setForum] = useState<any>([])
   const [threadDetail, setThreadDetail] = useState<Thread>()
   const [desc, setDesc] = useState(EditorState.createEmpty())
 
@@ -51,16 +53,18 @@ const EditThreadScreen = () => {
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })  
-  const firstload = async () => {
-      try {
-        const resp = await HttpClient.get('/thread/' + params.get('id')) 
+  const firstload = () => {
+      HttpClient.get(AppConfig.baseUrl + '/thread/' + params.get('id')).then(resp => {        
         const thread  = resp.data.thread 
+        const contenDesc = convertFromHTML(thread?.content).contentBlocks
+        const contentState = ContentState.createFromBlockArray(contenDesc)
+        const editorState = EditorState.createWithContent(contentState)
+        setDesc(editorState)
         setThreadDetail(thread)
-      } catch (error) {
-        alert(error)
-      }
+        setForum(thread?.forum as any[])
+      })
 
-      HttpClient.get(AppConfig.baseUrl + '/forum?page=1&take=10&search=').then(response => {
+      HttpClient.get(AppConfig.baseUrl + '/forum?page=1&take=15&search=').then(response => {
         const code = response.data.forums.data
         getForumCode(code)
       })
@@ -95,19 +99,18 @@ const EditThreadScreen = () => {
     }
     setOnLoading(true);       
     try {
-        const resp = await HttpClient.post('/thread', json);
+        const resp = await HttpClient.patch(`/thread/${params.get('id')}`, json);
         if (resp.status != 200) {
             throw resp.data.message ?? "Something went wrong!";
         }
 
-        toast.success(` Thread created successfully!`);
+        toast.success(` Thread update successfully!`);
     } catch (error) {
         toast.error(`Opps ${getCleanErrorMessage(error)}`);
     }
     setOnLoading(false);       
 
   }
-  console.log(threadDetail?.forum)
 
   return (
     <Box>
@@ -146,7 +149,7 @@ const EditThreadScreen = () => {
                       <TextField
                         id='title'
                         {...register("title")} error={Boolean(errors.title)}
-                        value={threadDetail?.title}
+                        defaultValue={threadDetail?.title}
                         label='Title'
                         variant='outlined'
                         fullWidth
@@ -157,7 +160,7 @@ const EditThreadScreen = () => {
                       <Autocomplete
                         disablePortal
                         id='code'
-                        defaultValue={threadDetail?.forum}
+                        value={sforum}
                         options={forumCode}
                         renderInput={params => <TextField {...params} label='Forum' />}
                         getOptionLabel={(option: any) => option.name}
