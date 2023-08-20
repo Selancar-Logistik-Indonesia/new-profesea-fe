@@ -67,6 +67,7 @@ const FindCandidate = () => {
   const [currValueexclude, setCurrValueExclude] = useState('')
   const [valueslitle, setValuesLitle] = useState<any[]>([])
   const [currValuelitle, setCurrValueLitle] = useState('')
+  const [heightSpoken, setHeightSpoken] = useState('50')
 
  
 
@@ -128,6 +129,10 @@ const FindCandidate = () => {
  
   useEffect(() => {
     getListCandidates()
+    if (params.get('plan') == 'advance') {
+      setCollapsed2(true)
+      setCollapsed(false)
+    }
   }, [])
 
   const getdatapencarian = async () => {
@@ -139,30 +144,33 @@ const FindCandidate = () => {
     if (valuesexclude.length > 0) exclude = JSON.stringify(valuesexclude)
     let valuelitle = ''
     if (valueslitle.length > 0) valuelitle = JSON.stringify(valueslitle)
-
-    setCurrValueLitle
-    const response = await HttpClient.get(
-      '/candidate?search=' +
-        textCandidate +
-        '&vesseltype_id=' +
-        sVesselType +
-        '&roletype_id=' +
-        sJobTitle +
-        '&rolelevel_id=' +
-        sJobCategory +
-        '&include_all_word=' +
-        allword +
-        '&page=' +
-        page +
-        '&take=' +
-        perPage +
-        '&include_one_word=' +
-        oneword +
-        '&exact_phrase=' +
-        valuelitle +
-        '&exclude_all_these=' +
-        exclude
-    ) 
+    let spoken=''
+  debugger;
+    if (personName.length > 0 ) spoken = JSON.stringify(personName)
+      const response = await HttpClient.get(
+        '/candidate?search=' +
+          textCandidate +
+          '&vesseltype_id=' +
+          sVesselType +
+          '&roletype_id=' +
+          sJobTitle +
+          '&rolelevel_id=' +
+          sJobCategory +
+          '&include_all_word=' +
+          allword +
+          '&page=' +
+          page +
+          '&take=' +
+          perPage +
+          '&include_one_word=' +
+          oneword +
+          '&exact_phrase=' +
+          valuelitle +
+          '&exclude_all_these=' +
+          exclude +
+          '&spoken=' +
+          spoken
+      ) 
      
     const candidates = response.data.candidates
     if (candidates?.total == null) {
@@ -176,7 +184,24 @@ const FindCandidate = () => {
   }
   useEffect(() => {
     getdatapencarian()
-  }, [textCandidate, sVesselType, sJobTitle, sJobCategory, page,  perPage,values,valuesoneword,valuesexclude,valueslitle])
+    if(personName.length>2){
+      setHeightSpoken('100')
+    }else{
+      setHeightSpoken('50')
+    }
+  }, [
+    textCandidate,
+    sVesselType,
+    sJobTitle,
+    sJobCategory,
+    page,
+    perPage,
+    values,
+    valuesoneword,
+    valuesexclude,
+    valueslitle,
+    personName
+  ])
    
   const onPageChange = () => {
     
@@ -353,7 +378,7 @@ const FindCandidate = () => {
                       value={personName}
                       onChange={handleChange2}
                       label='Spoken'
-                      sx={{ fontSize: '18px', height: 50.2 }}
+                      sx={{ fontSize: '18px', height: heightSpoken }}
                       input={<OutlinedInput id='select-multiple-chip' label='Chip' sx={{ fontSize: '8px' }} />}
                       renderValue={selected => (
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>

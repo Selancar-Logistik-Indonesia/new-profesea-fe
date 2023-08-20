@@ -78,16 +78,27 @@ const SocialFeedApp = () => {
                       Total Visitor :{activities?.total_visitor}
                     </Typography>
                   </Box>
+                  {user?.role == 'Company' ? (
+                    <>
+                      <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+                        <Icon icon={'material-symbols:ballot'} fontSize={24} color={'#32487A'} />
+                        <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                          Total Post Job :{activities?.total_post_feed}  
+                        </Typography>
+                      </Box>
+                    </>
+                  ) : (
+                    <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+                      <Icon icon={'material-symbols:ballot'} fontSize={24} color={'#32487A'} />
+                      <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                         Applied Job : {activities?.total_applied_job}
+                      </Typography>
+                    </Box>
+                  )}
                   <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                     <Icon icon={'material-symbols:add-notes-rounded'} fontSize={24} color={'#32487A'} />
                     <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
                       Total Post :{activities?.total_visitor}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                    <Icon icon={'material-symbols:ballot'} fontSize={24} color={'#32487A'} />
-                    <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                      Total Post Job / Applied Job :{activities?.total_post_feed} / {activities?.total_applied_job}
                     </Typography>
                   </Box>
                   <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>

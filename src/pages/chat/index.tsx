@@ -71,6 +71,7 @@ const AppChat = () => {
   const param = params.get('username')
   const status = params.get('status')
   const searchUsername = async () => {
+    debugger;
     const resp = await HttpClient.get('/user?username=' + param)
     if (resp.status != 200) {
       throw resp.data.message ?? 'Something went wrong!'
@@ -83,16 +84,24 @@ const AppChat = () => {
       id: header?.id
     }
     dispatch(headerChatFromParam(arr))
+    //cari dulu udah pernah chat apa belum
+    //jika belum maka kasih id 0
+    const resp2 = await HttpClient.get('/messanger?page=1&take=25&search=' + param)
+    if (resp2.data.messangers.data.length>0) {
+      dispatch(selectChat(resp2.data.messangers.data[0].id))
+    } else { 
+      dispatch(selectChat(0))
+    }
+
   } 
  
-  if (!status) {
+  if (!status && param) {
     searchUsername()
     params.set('status', 'true')
     const newUrl = `${window.location.pathname}?${params.toString()}`
     window.history.pushState({ path: newUrl }, '', newUrl)
 
-    //cari dulu udah pernah chat apa belum
-    //jika belum maka cari userdetail
+
   }
 
   return (
