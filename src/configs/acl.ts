@@ -32,6 +32,7 @@ const defineRulesFor = (role: string, subject: string) => {
             'master/job-categories',
             'master/training-categories',
             'master/role-level',
+            'master/role-type',
             'master/forum',
             'feed-detail',
         ]);

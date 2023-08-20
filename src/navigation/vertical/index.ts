@@ -93,11 +93,25 @@ const navigation = (): VerticalNavItemsType => {
         subject: 'admin-job-management'
       },
       {
-        path: '/admin/training-management/',
+        path: '#',
         title: 'Training Management',
         icon: 'solar:notebook-bookmark-bold-duotone',
         action: 'read',
-        subject: 'admin-training-management'
+        subject: 'admin-training-management',
+        children: [
+          {
+            title: 'Training',
+            path: '/admin/training-management/',
+            subject: 'admin-training-management',
+            action: 'read'
+          },
+          {
+            title: 'Instant',
+            path: '/admin/training-management-instant/',
+            subject: 'admin-training-management',
+            action: 'read'
+          }
+        ]
       },
       {
         path: '/admin/subcription-management/',
@@ -143,6 +157,12 @@ const navigation = (): VerticalNavItemsType => {
             title: 'Role Level',
             path: '/admin/master/role-level',
             subject: 'master/role-level',
+            action: 'read'
+          },
+          {
+            title: 'Job Title',
+            path: '/admin/master/role-type',
+            subject: 'master/role-type',
             action: 'read'
           },
           {
