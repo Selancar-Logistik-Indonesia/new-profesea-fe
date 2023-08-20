@@ -71,6 +71,7 @@ type compProps = {
   address: Address
 }
 let ship: any = []
+let opp: any = []
 let tampilkanship: any = ''
 let availabledate: any = ''
 const ProfilePicture = styled('img')(({ theme }) => ({
@@ -120,10 +121,14 @@ const CandidateProfile = (props: compProps) => {
 
   if (props.datauser?.employee_type == 'onship') {
     ship = { employee_type: 'onship', label: 'On-Ship' }
-    //  tampilkanship = ship.label
-  } else if (props.datauser?.employee_type == 'offship') {
-    ship = { employee_type: 'offship', label: 'Off-Ship' }
-    // tampilkanship = ship.label
+   } else if (props.datauser?.employee_type == 'offship') {
+    ship = { employee_type: 'offship', label: 'Off-Ship' }    
+  }
+  
+  if (props.datauser.field_preference?.open_to_opp == 0) {
+    opp =  { id: '0', label: 'Not Available' } 
+  } else {
+    opp = { id: '1', label: 'Open to Work' }
   }
   const [hookSignature, setHookSignature] = useState(v4())
 
@@ -488,6 +493,10 @@ const CandidateProfile = (props: compProps) => {
     setShip(type?.employee_type)
     tampilkanship = type?.label
   }
+  
+  const displayopp = (type: any) => {
+    setOpp(type?.id)
+  }
 
   return (
     <Grid container padding={5}>
@@ -791,12 +800,10 @@ const CandidateProfile = (props: compProps) => {
                       disablePortal
                       id='combo-box-demo'
                       options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
-                      defaultValue={idOPP}
+                      defaultValue={opp}
                       getOptionLabel={(option: any) => option.label}
                       renderInput={params => <TextField {...params} label='Status' />}
-                      onChange={(event: any, newValue: any | null) =>
-                        newValue?.id ? setOpp(newValue.id) : setOpp(props.datauser?.field_preference?.open_to_opp)
-                      }
+                      onChange={(event: any, newValue: any | null) => displayopp(newValue)}
                     />
                   </Grid>
                   <Grid item md={6} xs={12}>
@@ -924,12 +931,10 @@ const CandidateProfile = (props: compProps) => {
                       disablePortal
                       id='combo-box-demo'
                       options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
-                      defaultValue={idOPP}
+                      defaultValue={opp}
                       getOptionLabel={(option: any) => option.label}
                       renderInput={params => <TextField {...params} label='Status' />}
-                      onChange={(event: any, newValue: any | null) =>
-                        newValue?.id ? setOpp(newValue.id) : setOpp(props.datauser?.field_preference?.open_to_opp)
-                      }
+                      onChange={(event: any, newValue: any | null) => displayopp(newValue)}
                     />
                   </Grid>
                   <Grid item md={6} xs={12}>
