@@ -17,7 +17,7 @@ import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { CircularProgress } from '@mui/material'
 import Training from 'src/contract/models/training'
-import Trainer from 'src/contract/models/company'
+// import Trainer from 'src/contract/models/company'
 import TrainingCategory from 'src/contract/models/training_category'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import { Autocomplete } from '@mui/material'
@@ -67,7 +67,7 @@ const Img = styled('img')(({ theme }) => ({
 
 const DialogEdit = (props: EditProps) => {
     const [onLoading, setOnLoading] = useState(false);
-    const [UserId, setUserId] = useState(props.selectedItem.user_id);
+    // const [UserId, setUserId] = useState(props.selectedItem.user_id);
     const [CatId, setCatId] = useState(props.selectedItem.category_id);
     const [date, setDate] = useState<DateType>(new Date(props.selectedItem.schedule))
     const [files, setFiles] = useState<File[]>([])
@@ -87,14 +87,14 @@ const DialogEdit = (props: EditProps) => {
     ))
     
     const [TrainingCategory, getTrainingCategory] =useState<any[]>([]);
-    const [Trainer, getTrainer] =useState<Trainer[]>([]);
+    // const [Trainer, getTrainer] =useState<Trainer[]>([]);
     const combobox = async () =>{
         
-        const resp = await HttpClient.get(`/user-management?page=1&take=250&team_id=4`);
-        if (resp.status != 200) {
-            throw resp.data.message ?? "Something went wrong!";
-        }
-        getTrainer(resp.data.users.data);
+        // const resp = await HttpClient.get(`/user-management?page=1&take=250&team_id=4`);
+        // if (resp.status != 200) {
+        //     throw resp.data.message ?? "Something went wrong!";
+        // }
+        // getTrainer(resp.data.users.data);
 
         const res = await HttpClient.get(`/training-category?search=&page=1&take=250`);
         if (res.status != 200) {
