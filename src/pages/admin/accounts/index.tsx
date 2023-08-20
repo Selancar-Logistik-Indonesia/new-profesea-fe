@@ -106,7 +106,13 @@ const UserScreen = () => {
             <Grid container spacing={6} className='match-height'>
                 <Grid item xs={12} sm={6} md={12}>
                     <Card>
-                        <CardHeader title='List Accounts' />
+                        <CardHeader 
+                        title='List Accounts'
+                        variant="body2" 
+                        color={"#32487A"} 
+                        fontWeight="600" 
+                        fontSize={14}
+                        />
                         <CardContent>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>

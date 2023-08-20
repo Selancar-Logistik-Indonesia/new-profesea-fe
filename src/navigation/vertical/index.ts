@@ -49,7 +49,7 @@ const navigation = (): VerticalNavItemsType => {
         subject: 'user-company'
       },
       {
-        path: '/job-management',
+        path: '/company/job-management',
         title: 'Manage Job',
         icon: 'solar:case-minimalistic-bold-duotone',
         action: 'read',
