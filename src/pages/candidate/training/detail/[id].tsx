@@ -78,8 +78,8 @@ const TrainingDetailPage = () => {
                         <Typography variant='h6' mt={1} width={155}>{formatIDR(training.price)}</Typography>
 
                         {training.joined_at
-                            ? (<Button disabled={true} variant='contained'>Joined</Button>)
-                            : (<Button onClick={handleClickBuy} variant='contained'>Buy It</Button>)}
+                            ? (<Button disabled={true} variant='contained' size='small'>Joined</Button>)
+                            : (<Button onClick={handleClickBuy} variant='contained' size='small'>Buy It</Button>)}
                     </Box>
                 </Box>
 

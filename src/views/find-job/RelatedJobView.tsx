@@ -61,11 +61,19 @@ const RelatedJobView = () => {
                                     >
                                         <Box
                                             sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
+                                            mb={0}
+                                        >
+                                            <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
+                                            <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                                                {item?.rolelevel?.levelName}
+                                            </Typography>
+                                        </Box>
+                                        <Box
+                                            sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
                                             mb={2}
                                         >
-                                            <Icon icon='ic:round-business-center' color='#32487A' fontSize={'20px'} />
                                             <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                                                {item?.rolelevel?.levelName} - {item?.category?.name}
+                                                {item?.category?.name}
                                             </Typography>
                                         </Box>
 
@@ -73,7 +81,7 @@ const RelatedJobView = () => {
                                             sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
                                             mb={2}
                                         >
-                                            <Icon icon='mdi:school' color='#32487A' fontSize={'20px'} />
+                                            <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
                                             <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                                                 {item?.degree?.name}
                                             </Typography>
@@ -85,7 +93,7 @@ const RelatedJobView = () => {
                                         >
                                             <Grid item container>
                                                 <Grid xs={1}>
-                                                    <Icon icon='mdi:license' color='#32487A' fontSize={'20px'} />
+                                                    <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
                                                 </Grid>
                                                 <Grid xs={10}>
                                                     <Typography
@@ -103,7 +111,7 @@ const RelatedJobView = () => {
                                                         {license.map(e => e.title).join(', ')}
                                                     </Typography>
                                                 </Grid>
-                                            </Grid>
+                                            </Grid>                                            
                                         </Box>
                                     </Box>
                                 </Paper>

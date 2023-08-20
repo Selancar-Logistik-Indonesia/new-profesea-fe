@@ -172,7 +172,7 @@ const Profile = (props: userProps) => {
                     }}
                   >
                     <Box width={22} textAlign='center'>
-                      <Icon icon='mdi:facebook' fontSize={24} color={'#32487A'} />
+                      <Icon icon='mdi:facebook' fontSize={20} color={'#424242'} />
                     </Box>
                     <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
                       {facebook}
@@ -195,7 +195,7 @@ const Profile = (props: userProps) => {
                     display={'flex'}
                   >
                     <Box width={22} textAlign='center'>
-                      <Icon icon='mdi:instagram' fontSize={24} color={'#32487A'} />
+                      <Icon icon='mdi:instagram' fontSize={20} color={'#424242'} />
                     </Box>
                     <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
                       {instagram}
@@ -216,7 +216,7 @@ const Profile = (props: userProps) => {
                     }}
                   >
                     <Box width={22} textAlign='center'>
-                      <Icon icon='mdi:linkedin' fontSize={24} color={'#32487A'} />
+                      <Icon icon='mdi:linkedin' fontSize={20} color={'#424242'} />
                     </Box>
                     <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
                       {linkedin}

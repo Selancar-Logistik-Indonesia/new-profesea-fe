@@ -49,7 +49,7 @@ const SeafererOngoingTraining = () => {
             {dataCard.map((item) => {
 
                 return (
-                    <Grid item xs={12} md={3} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
+                    <Grid item xs={12} md={4} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
                         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                             <Grid item xs={12} >
                                 <CardContent>
@@ -69,13 +69,13 @@ const SeafererOngoingTraining = () => {
                                     <Grid container direction="row" justifyContent="space-between" alignItems="center">
                                         <Grid item component={Link} href={`/candidate/training/detail/${item.id}`}>
                                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={1} >
-                                                <Icon icon='bxs:book' color='#32487A' />
-                                                <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
+                                                <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' />
+                                                <Typography sx={{ fontWeight: 'bold', color: '#0a66c2'}} ml="0.5rem" mt="0.2rem" fontSize={14}>
                                                     {item.title}
                                                 </Typography>
                                             </Box>
                                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
-                                                <Icon icon='material-symbols:category-rounded' color='#32487A' />
+                                                <Icon icon='solar:tag-horizontal-bold-duotone' color='#32487A' />
                                                 <Typography sx={{ color: 'text.primary' }} ml="0.5rem" mt="0.2rem" fontSize={12}>
                                                     {item.category?.category}
                                                 </Typography>
@@ -84,7 +84,7 @@ const SeafererOngoingTraining = () => {
                                     </Grid>
                                     <Grid container sx={{ alignItems: 'right', justifyContent: 'right' }}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
-                                            <Button LinkComponent={Link} variant='contained' color='primary' href={`/candidate/training/detail/${item.id}`}>
+                                            <Button size='small' LinkComponent={Link} variant='contained' color='primary' href={`/candidate/training/detail/${item.id}`}>
                                                 Buy
                                             </Button>
                                         </Box>
@@ -101,7 +101,7 @@ const SeafererOngoingTraining = () => {
                                             <Avatar src={getUserAvatar(item.trainer)} alt='profile-picture' sx={{ width: 50, height: 50 }} />
                                         </Box>
                                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
-                                            <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={16}>
+                                        <Typography sx={{ fontWeight: 'bold', color: '#0a66c2'}} fontSize={14}>
                                                 {item?.trainer?.name}
                                             </Typography>
                                             <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>

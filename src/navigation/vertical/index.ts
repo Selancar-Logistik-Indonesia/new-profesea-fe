@@ -7,124 +7,123 @@ const navigation = (): VerticalNavItemsType => {
       {
         path: '/home',
         title: 'Home',
-        icon: 'mdi:home-outline',
+        icon: 'solar:home-smile-bold-duotone',
         action: 'read',
         subject: 'home'
       },
 
        // non-admin section
       {
+        path: '/community',
+        title: 'Community',
+        icon: 'solar:users-group-two-rounded-bold-duotone',
+        action: 'read',
+        subject: 'user-community'
+      },
+      {
         path: '/candidate/find-job',
         title: 'Find Job',
-        icon: 'mdi:work',
+        icon: 'solar:boombox-bold-duotone',
         action: 'read',
         subject: 'seaferer-jobs'
       }, 
-
       {
     path: '/candidate/training',
     title: 'My Training',
-    icon: 'ion:book-sharp',
+    icon: 'solar:book-bookmark-bold-duotone',
     action: 'read',
     subject: 'seaferer-training'
     },
     {
       path: '/pricing',
       title: 'Pricing',
-      icon: 'raphael:dollar',
+      icon: 'solar:tag-price-bold-duotone',
       action: 'read',
       subject: 'seaferer-training'
     },
       {
         path: '/company',
         title: 'Home',
-        icon: 'mdi:home-outline',
+        icon: 'solar:home-smile-bold-duotone',
         action: 'read',
         subject: 'user-company'
       },
       {
-        path: '/community',
-        title: 'Community',
-        icon: 'mdi:public',
-        action: 'read',
-        subject: 'user-community'
-      },
-      {
         path: '/job-management',
         title: 'Manage Job',
-        icon: 'mdi:work',
+        icon: 'solar:case-minimalistic-bold-duotone',
         action: 'read',
         subject: 'user-job-management'
       },
       {
         path: '/trainer/training',
         title: 'Manage Training',
-        icon: 'mdi:work',
+        icon: 'solar:notebook-bookmark-bold-duotone',
         action: 'read',
         subject: 'user-training-management'
       },
       {
         path: '/company/find-candidate',
         title: 'Find Candidate',
-        icon: 'mdi:people',
+        icon: 'solar:glasses-bold-duotone',
         action: 'read',
         subject: 'user-find-candidate'
       },
-      {
-        path: '/trainer/my-participant',
-        title: 'List of Participant',
-        icon: 'mdi:people',
-        action: 'read',
-        subject: 'user-my-participant'
-      },
+      // {
+      //   path: '/trainer/my-participant',
+      //   title: 'List of Participant',
+      //   icon: 'solar:user-hand-up-bold-duotone',
+      //   action: 'read',
+      //   subject: 'user-my-participant'
+      // },
 
       // admin section
       {
         path: '/admin/accounts/',
         title: 'Accounts',
-        icon: 'mdi:user',
+        icon: 'solar:user-bold-duotone',
         action: 'read',
         subject: 'admin-accounts'
       },
       {
         path: '/admin/job-management/',
         title: 'Job Management',
-        icon: 'mdi:clipboard-account',
+        icon: 'solar:suitcase-lines-bold-duotone',
         action: 'read',
         subject: 'admin-job-management'
       },
       {
         path: '/admin/training-management/',
         title: 'Training Management',
-        icon: 'mdi:play',
+        icon: 'solar:notebook-bookmark-bold-duotone',
         action: 'read',
         subject: 'admin-training-management'
       },
       {
         path: '/admin/subcription-management/',
         title: 'Subcription Management',
-        icon: 'mdi:cash',
+        icon: 'solar:leaf-bold-duotone',
         action: 'read',
         subject: 'admin-subcription-management'
       },
       {
         path: '/admin/ads-management/',
         title: 'Ads Management',
-        icon: 'mdi:currency-usd',
+        icon: 'solar:presentation-graph-bold-duotone',
         action: 'read',
         subject: 'admin-ads-management'
       },
       {
         path: '/admin/community-management/',
         title: 'Community Management',
-        icon: 'mdi:account-group',
+        icon: 'solar:users-group-two-rounded-bold-duotone',
         action: 'read',
         subject: 'admin-community-management'
       },
       {
         path: '#',
         title: 'Master Data',
-        icon: 'mdi:email-outline',
+        icon: 'solar:notes-bold-duotone',
         action: 'read',
         subject: 'admin-master-data',
         children: [
