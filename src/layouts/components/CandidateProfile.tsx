@@ -388,6 +388,18 @@ const CandidateProfile = (props: compProps) => {
   const [preview, setPreview] = useState()
   const [previewBanner, setPreviewBanner] = useState()
   useEffect(() => {
+    const a =
+      props.datauser?.employee_type == 'offship'
+        ?  'offship' 
+        :  'onship' 
+    setShip(a)
+    const b =
+      props.datauser.field_preference?.open_to_opp == 0
+        ?   '0' 
+        :  '1' 
+    setOpp(b)
+  }, [])
+  useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined)
 
