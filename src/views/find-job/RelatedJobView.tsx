@@ -111,7 +111,7 @@ const RelatedJobView = () => {
                                                         {license.map(e => e.title).join(', ')}
                                                     </Typography>
                                                 </Grid>
-                                            </Grid>
+                                            </Grid>                                            
                                         </Box>
                                     </Box>
                                 </Paper>

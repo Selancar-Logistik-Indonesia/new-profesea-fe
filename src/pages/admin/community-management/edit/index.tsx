@@ -28,7 +28,7 @@ import { ContentState, EditorState, convertFromHTML, convertToRaw } from 'draft-
 import draftToHtml from 'draftjs-to-html';
 
 import Forum from 'src/contract/models/forum'
-import Thread from 'src/contract/models/thread'
+//import Thread from 'src/contract/models/thread'
 import { toast } from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { Icon } from '@iconify/react'
@@ -42,7 +42,7 @@ const EditThreadScreen = () => {
   const [sforumCode, setForumCode] = useState(0)
   const [sforum, setForum] = useState<any>([])
   const [sTitle, setTitle] = useState<any>([])
-  const [threadDetail, setThreadDetail] = useState<Thread>()
+  //const [threadDetail, setThreadDetail] = useState<Thread>()
   const [desc, setDesc] = useState(EditorState.createEmpty())
 
   const schema = yup.object().shape({

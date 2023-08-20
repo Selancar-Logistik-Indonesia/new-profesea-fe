@@ -21,7 +21,7 @@ const columns: GridColDef[] = [
             return (
                 <>
                     <IconButton onClick={() => row.actions.onView()} aria-label='view' color='secondary' size='small'>
-                        <Icon icon='mdi:eye' />
+                        <Icon icon='mdi:eye' style={{ fontSize: '18px' }} />
                     </IconButton>
                 </>
             );
