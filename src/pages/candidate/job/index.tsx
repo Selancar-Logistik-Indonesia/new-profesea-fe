@@ -133,25 +133,28 @@ const JobDetail = () => {
                           </Grid>
                           <Grid item container>
                             <Grid xs={1}>
-                              <Icon icon='ic:round-business-center' color='#32487A' fontSize={'20px'} />
+                              <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
                             </Grid>
                             <Grid xs={11}>
                               <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>
-                                {jobDetail?.rolelevel?.levelName} - {jobDetail?.category?.name}
+                                {jobDetail?.rolelevel?.levelName}
+                              </Typography>
+                              <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>
+                                {jobDetail?.category?.name}
                               </Typography>
                             </Grid>
 
-                            <Grid xs={1}>
-                              <Icon icon='mdi:school' fontSize={20} color='#32487A' />
+                            <Grid xs={1} mt={1}>
+                              <Icon icon='solar:square-academic-cap-bold-duotone' fontSize={20} color='#32487A' />
                             </Grid>
-                            <Grid xs={11}>
+                            <Grid xs={11} mt={1}>
                               <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
                                 {jobDetail?.degree?.name}
                               </Typography>
                             </Grid>
 
                             <Grid xs={1}>
-                              <Icon icon='mingcute:ship-fill' fontSize={20} color='#32487A' />
+                              <Icon icon='icon-park-twotone:ship' fontSize={20} color='#32487A' />
                             </Grid>
                             <Grid xs={11}>
                               <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
@@ -160,7 +163,7 @@ const JobDetail = () => {
                             </Grid>
 
                             <Grid xs={1}>
-                              <Icon icon='game-icons:ship-bow' color='#32487A' fontSize={20} />
+                              <Icon icon='solar:calendar-bold-duotone' color='#32487A' fontSize={20} />
                             </Grid>
                             <Grid xs={11}>
                               <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
@@ -169,7 +172,7 @@ const JobDetail = () => {
                             </Grid>
 
                             <Grid xs={1}>
-                              <Icon icon='mdi:license' color='#32487A' fontSize={20} />
+                              <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={20} />
                             </Grid>
                             <Grid xs={11}>
                               <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
@@ -313,7 +316,7 @@ const JobDetail = () => {
                                   sx={{ color: 'common.white' }}
                                   ml='0.5rem'
                                   fontSize={12}
-                                  fontWeight={500}
+                                  fontWeight={400}
                                   fontFamily={'Barlow'}
                                   textAlign={'justify'}
                                 >

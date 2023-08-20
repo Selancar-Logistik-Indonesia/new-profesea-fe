@@ -3,7 +3,8 @@ import React , { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box  from '@mui/material/Box'  
-import {  Autocomplete, Button,    CircularProgress,    TextField, Typography    } from '@mui/material'
+import { Autocomplete, Button, CircularProgress, Typography } from '@mui/material'
+import TextField from '@mui/material/TextField'
 
 // import {  useTheme } from '@mui/material/styles'
 // ** Third Party Imports
@@ -27,9 +28,10 @@ import { ContentState, EditorState, convertFromHTML, convertToRaw } from 'draft-
 import draftToHtml from 'draftjs-to-html';
 
 import Forum from 'src/contract/models/forum'
-import Thread from 'src/contract/models/thread'
+//import Thread from 'src/contract/models/thread'
 import { toast } from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
+import { Icon } from '@iconify/react'
  
 const EditThreadScreen = () => {  
   // const theme = useTheme()    
@@ -39,7 +41,8 @@ const EditThreadScreen = () => {
   const [forumCode, getForumCode] = useState<[]>([])
   const [sforumCode, setForumCode] = useState(0)
   const [sforum, setForum] = useState<any>([])
-  const [threadDetail, setThreadDetail] = useState<Thread>()
+  const [sTitle, setTitle] = useState<any>([])
+  //const [threadDetail, setThreadDetail] = useState<Thread>()
   const [desc, setDesc] = useState(EditorState.createEmpty())
 
   const schema = yup.object().shape({
@@ -60,7 +63,7 @@ const EditThreadScreen = () => {
         const contentState = ContentState.createFromBlockArray(contenDesc)
         const editorState = EditorState.createWithContent(contentState)
         setDesc(editorState)
-        setThreadDetail(thread)
+        setTitle(thread?.title)
         setForum(thread?.forum as any[])
       })
 
@@ -143,13 +146,14 @@ const EditThreadScreen = () => {
                   wrap: 'nowrap'
                 }}
               >
-                <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18} mb={3}> Create Thread</Typography>
+                <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18} mb={3}> Edit Thread</Typography>
                   <Grid container xs={12} columnSpacing={'2'} rowSpacing={'2'} sx={{ mb: 2 }}>
                     <Grid item xs={12} md={6}>
                       <TextField
-                        id='title'
+                        id='title'                                  
                         {...register("title")} error={Boolean(errors.title)}
-                        defaultValue={threadDetail?.title}
+                        value={sTitle} 
+                        onChange={(e) => setTitle(e.target.value)}           
                         label='Title'
                         variant='outlined'
                         fullWidth
@@ -173,8 +177,8 @@ const EditThreadScreen = () => {
                       <EditorWrapper>
                           <EditorArea editorState={desc} onEditorStateChange={data => setDesc(data)} toolbar={{
                               image: { uploadCallback: uploadCallback, previewImage: true,  alt: { present: true, mandatory: false }},
-                          }}  placeholder='Write a thread' defaultContentState={threadDetail?.content}/>
-                          <Button variant='contained' sx={{ mr: 2 }} type='submit'>
+                          }}  placeholder='Write a thread' />
+                          <Button variant='contained' sx={{ mr: 2 }} type='submit' startIcon={<Icon icon='ion:enter' fontSize={10} />}>
                               {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Save"}
                           </Button>
                       </EditorWrapper>

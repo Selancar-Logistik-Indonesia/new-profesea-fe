@@ -33,7 +33,7 @@ const columns: GridColDef[] = [
             return (
                 <>
                     <IconButton href={'/candidate/job/?id='+row.id} aria-label='view' color='secondary' size='small'>
-                        <Icon icon='mdi:eye' />
+                        <Icon icon='mdi:eye'style={{ fontSize: '18px' }} />
                     </IconButton>
                 </>
             );

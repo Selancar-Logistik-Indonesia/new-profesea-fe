@@ -61,7 +61,7 @@ const renderList = (listCandidate: IUser[]) => {
 
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={2}>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-              <Icon icon='fa6-solid:language' color='#32487A' fontSize={'18px'} />
+              <Icon icon='clarity:language-solid' color='#32487A' fontSize={'20px'} />
 
               {names?.map((name: string) => (
                 <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12} key={name}>
@@ -71,13 +71,13 @@ const renderList = (listCandidate: IUser[]) => {
             </Box>
             
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-              <Icon icon='game-icons:ship-bow' color='#32487A' fontSize={'18px'} />
+              <Icon icon='icon-park-twotone:ship' color='#32487A' fontSize={'20px'} />
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}>
                 {item.field_preference?.vessel_type?.name ? item.field_preference?.vessel_type?.name : '-'}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-              <Icon icon='mdi:license' color='#32487A' fontSize={'18px'} />
+              <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}>
                 License
               </Typography>

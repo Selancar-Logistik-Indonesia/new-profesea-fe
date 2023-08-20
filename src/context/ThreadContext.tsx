@@ -30,7 +30,7 @@ const ThreadProvider = (props: Props) => {
     const [hasNextPage, setHasNextPage] = useState(true);
     const [totalThread, setTotalThread] = useState(0);
 
-    const fetchThreads = async (payload : { take: number }) => {
+    const fetchThreads = async (payload : { take: number, search?:any }) => {
         // only trigger in page 1
 
         if (page == 1) setOnLoading(true);

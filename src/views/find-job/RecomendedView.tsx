@@ -59,7 +59,7 @@ const renderList = (listJob: Job[]) => {
           </Link>
           <Grid item container ml={5} mr={5}>
             <Grid xs={1}>
-              <Icon icon='ic:round-business-center' color='#32487A' fontSize={'18px'} />
+              <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
             </Grid>
             <Grid xs={11}>
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
@@ -68,7 +68,7 @@ const renderList = (listJob: Job[]) => {
             </Grid>
 
             <Grid xs={1}>
-              <Icon icon='mdi:school' color='#32487A' fontSize={'18px'} />
+              <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
             </Grid>
             <Grid xs={11}>
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
@@ -77,7 +77,7 @@ const renderList = (listJob: Job[]) => {
             </Grid>
 
             <Grid xs={1}>
-              <Icon icon='mdi:license' color='#32487A' fontSize={'18px'} />
+              <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
             </Grid>
             <Grid xs={11} maxWidth={'90%'}>
               <Typography
@@ -86,7 +86,8 @@ const renderList = (listJob: Job[]) => {
                   display: '-webkit-box',
                   overflow: 'hidden',
                   WebkitBoxOrient: 'vertical',
-                  WebkitLineClamp: 2
+                  WebkitLineClamp: 2,
+                  maxWidth: '70%'
                 }}
                 ml='0.5rem'
                 mt='0.2rem'
