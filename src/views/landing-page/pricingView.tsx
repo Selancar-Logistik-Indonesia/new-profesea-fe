@@ -1,54 +1,91 @@
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Card, Grid, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, Card, CircularProgress, Grid, IconButton, List, ListItem, ListItemText, Typography } from "@mui/material";
+import collect, { Collection } from "collect.js";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { v4 } from "uuid";
-
-type PlanType = {
-    key: string;
-    itemName: string;
-    avail: string[];
-    quota?: any;
-}
+import Pricing from "src/contract/models/pricing";
+import { HttpClient } from "src/services";
+import { formatIDR, toTitleCase } from "src/utils/helpers";
 
 const PricingView = () => {
     const { t } = useTranslation();
-    const [pricingType, setPricingType] = useState<'company' | 'candidate'>('company');
+    const [pricingType, setPricingType] = useState<string>();
+    const [keys, setKeys] = useState<string[]>([]);
+    const [pricings, setPricings] = useState<Collection<Pricing>>();
 
-    const candidatePlan: PlanType[] = [
-        { key: v4(), itemName: "Direct messages to connection", avail: ['basic', 'pro', 'star'] },
-        { key: v4(), itemName: "Direct messages to non-connection", avail: ['pro', 'star'] },
-        { key: v4(), itemName: "Direct messages to recruiter inbox", avail: ['star'] },
-        { key: v4(), itemName: "Private browsing", avail: ['basic', 'pro', 'star'] },
-        { key: v4(), itemName: "Who viewed your profile", avail: ['basic', 'pro', 'star'] },
-        { key: v4(), itemName: "Who viewed your profile insight availability", avail: ['basic', 'pro', 'star'], quota: ['20 days', '60 days', '90 days'] },
-        { key: v4(), itemName: "Job applied", avail: ['basic', 'pro', 'star'], quota: ['5/month', '30/month', 'Unlimited'] },
-        { key: v4(), itemName: "Job application ranking", avail: ['pro', 'star'] },
-        { key: v4(), itemName: "Job application status (opened/not opened)", avail: ['star'] },
-        { key: v4(), itemName: "Certificate tracking", avail: ['star'] },
-        { key: v4(), itemName: "Automatic profile booster (7 days/month)", avail: ['star'] },
-    ];
+    const getPricing = async () => {
+        const response = await HttpClient.get(`/public/data/pricing`);
+        if (response.status != 200) {
+            alert("Failed to get pricing data");
+            
+return;
+        }
 
-    const companyPlan: PlanType[] = [
-        { key: v4(), itemName: "Direct messages to applicants", avail: ['basic', 'pro', 'star'] },
-        { key: v4(), itemName: "Direct messages to non-applicants", avail: ['pro', 'star'] },
-        { key: v4(), itemName: "Talent Recommendation", avail: ['basic', 'pro', 'star'] },
-        { key: v4(), itemName: "Basic filters", avail: ['basic', 'pro', 'star'] },
-        { key: v4(), itemName: "Advance search using keywords", avail: ['pro', 'star'] },
-        { key: v4(), itemName: "Advance filters", avail: ['star'] },
-        { key: v4(), itemName: "Project Management (save combinations of custom filters, categorize)", avail: ['star'] },
-        { key: v4(), itemName: "Candidate recommendations based on filters, certificate completeness, and availability", avail: ['star'] },
-        { key: v4(), itemName: "Job post", avail: ['basic', 'pro', 'star'], quota: ['2/month', '10/month', 'Unlimited'] },
-        { key: v4(), itemName: "Automatic job booster (7 days/month)", avail: ['star'] },
-    ];
+        const { pricing, keys } = response.data as { pricing: Pricing[], keys: string[] };
+        const pricings = collect(pricing);
 
-    const payPerUsePlan: PlanType[] = [
-        { key: v4(), itemName: "Direct Message to non-connection", avail: [] },
-        { key: v4(), itemName: "Direct Message to recruiter inbox", avail: [] },
-        { key: v4(), itemName: "Job Applied (amount/month)", avail: [] },
-        { key: v4(), itemName: "Automatic profile booster (7 days/month)", avail: [] },
-    ];
+        setPricings(pricings);
+        setKeys(keys);
+        setPricingType(keys[0]);
+    }
+
+    useEffect(() => {
+        getPricing();
+    }, []);
+
+    const buildPricingArea = () => {
+        const items = pricings?.get(pricingType) as any;
+        const keys = Object.entries(items);
+
+        return keys.map(e => {
+            if (e.at(0) == "pay-per-value") {
+                return false;
+            }
+
+            const title = e.at(0) as string;
+            const price = items[title].at(0).price;
+
+            return (
+                <Box sx={{ minWidth: 320, maxWidth: 320 }} height={850} mx={5} mt={5} key={title} padding={5} component={Card} textAlign="center">
+                    <Typography mb={2} variant="h5">{toTitleCase(title)}</Typography>
+                    {/* <Typography mb={2} fontWeight="body1" sx={{ textDecoration: "line-through", color: "grey" }} variant="h6">Rp50.000</Typography> */}
+                    <Typography mb={2} variant="h5">{price > 0 ? formatIDR(price) : "Free"}</Typography>
+
+                    {/* <Grid
+                        container
+                        spacing={0}
+                        direction="column"
+                        alignItems="center"
+                        justifyContent="center">
+                        <Grid item width={200}>
+                            <Typography mb={2} variant="body1">per user/month paid annualy minimum of 3 users</Typography>
+                        </Grid>
+                    </Grid> */}
+
+                    <Button fullWidth={true} type="button" variant="contained">Buy It</Button>
+                    {/* <Typography my={3} variant="body1">Team Collaboration for any business</Typography> */}
+
+                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                        {items[title].map((value: Pricing) => {
+
+                            return (
+                                <ListItem
+                                    key={value.id}
+                                    disableGutters>
+                                    <IconButton size="small" aria-label="comment">
+                                        <FontAwesomeIcon color="#66bb6a" icon={faCheckCircle} />
+                                    </IconButton>
+
+                                    <ListItemText primary={value.item.name} />
+                                </ListItem>
+                            )
+                        })}
+                    </List>
+                </Box>
+            );
+        });
+    }
 
     return (
         <Grid marginY={5} container direction="column" alignItems="center" justifyContent="center">
@@ -58,62 +95,21 @@ const PricingView = () => {
             </Grid>
 
             <Grid container direction="row" alignItems="center" justifyContent="center">
-                <Button onClick={() => setPricingType('company')} variant={pricingType == 'company' ? "contained" : undefined}>Company</Button>
-                <Button onClick={() => setPricingType('candidate')} variant={pricingType == 'candidate' ? "contained" : undefined} sx={{ marginLeft: 4 }}>Candidate</Button>
+                {
+                    keys.map(e => (
+                        <Button sx={{ mx: 2 }} key={e} onClick={() => setPricingType(e)} variant={pricingType == e ? "contained" : undefined}>{e}</Button>
+                    ))
+                }
             </Grid>
 
             <Box display={'flex'} flexDirection={'row'} sx={{ overflowX: { xs: 'scroll', md: 'hidden' }, msScrollbarTrackColor: 'transparent', width: '100%', pb: 10, alignItems: { md: 'center' }, justifyContent: { md: 'center' } }}>
                 {
-                    ['Basic', 'Pro', 'Star'].map((item, n) => {
-                        let planItems = pricingType == 'company' ? companyPlan : candidatePlan;
-                        planItems = planItems.filter(e => e.avail.includes(item.toLowerCase()));
-
-                        return (
-                            <Box sx={{ minWidth: 320, maxWidth: 320 }} height={850} mx={5} mt={5} key={item} padding={5} component={Card} textAlign="center">
-                                <Typography mb={2} variant="h5">{item}</Typography>
-                                <Typography mb={2} fontWeight="body1" sx={{ textDecoration: "line-through", color: "grey" }} variant="h6">Rp50.000</Typography>
-                                <Typography mb={2} variant="h5">Rp30.000</Typography>
-
-                                <Grid
-                                    container
-                                    spacing={0}
-                                    direction="column"
-                                    alignItems="center"
-                                    justifyContent="center">
-                                    <Grid item width={200}>
-                                        <Typography mb={2} variant="body1">per user/month paid annualy minimum of 3 users</Typography>
-                                    </Grid>
-                                </Grid>
-
-                                <Button fullWidth={true} type="button" variant="contained">Buy It</Button>
-                                <Typography my={3} variant="body1">Team Collaboration for any business</Typography>
-
-                                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                                    {planItems.map((value) => {
-                                        let appendText = "";
-                                        if (value.quota) {
-                                            appendText = ` (${value.quota[n]})`;
-                                        }
-
-                                        return (
-                                            <ListItem
-                                                key={value.key}
-                                                disableGutters>
-                                                <IconButton size="small" aria-label="comment">
-                                                    <FontAwesomeIcon color="#66bb6a" icon={faCheckCircle} />
-                                                </IconButton>
-
-                                                <ListItemText primary={value.itemName + appendText} />
-                                            </ListItem>
-                                        )
-                                    })}
-                                </List>
-                            </Box>
-                        )
-                    })
+                    !pricings ? (<CircularProgress />)
+                        : buildPricingArea()
                 }
             </Box>
 
+            {/* 
             <Grid container
                 direction="row"
                 alignItems="center"
@@ -157,7 +153,8 @@ const PricingView = () => {
                         })}
                     </List>
                 </Grid>
-            </Grid>
+            </Grid> */}
+
         </Grid>
 
     );
