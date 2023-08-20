@@ -3,8 +3,8 @@ import Box from '@mui/material/Box'
 import { Tabs, Tab, useMediaQuery, Grid } from '@mui/material'
 import CompanyProfile from 'src/layouts/components/CompanyProfile'
 import { useTheme } from '@mui/material/styles'
-import ManageAccount from 'src/layouts/components/ManageAccount'
-import Subscription from 'src/layouts/components/Subscription'
+// import ManageAccount from 'src/layouts/components/ManageAccount'
+// import Subscription from 'src/layouts/components/Subscription'
 import { IUser } from 'src/contract/models/user'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
@@ -100,8 +100,8 @@ const Company = () => {
             }}>
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
                 <Tab label="Edit Profile" {...a11yProps(0)} />
-                <Tab label="Subcription" {...a11yProps(1)} />
-                <Tab label="Change Password" {...a11yProps(2)} />
+                {/* <Tab label="Subcription" {...a11yProps(1)} />
+                <Tab label="Change Password" {...a11yProps(2)} /> */}
               </Tabs>
             </Box>
             <Grid container sx={{
@@ -127,12 +127,12 @@ const Company = () => {
                 <TabPanel value={value} index={0}>
                   {selectedItem != null && <CompanyProfile visible={true} datauser={selectedItem} address={selectedItem.address} />}
                 </TabPanel>
-                <TabPanel value={value} index={2}>
+                {/* <TabPanel value={value} index={2}>
                   <ManageAccount></ManageAccount>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                   <Subscription></Subscription>
-                </TabPanel>
+                </TabPanel> */}
               </Grid>
             </Grid>
           </Grid>

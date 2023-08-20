@@ -121,7 +121,7 @@ const CandidateProfile = (props: compProps) => {
   if (props.datauser?.employee_type == 'onship') {
     ship = { employee_type: 'onship', label: 'On-Ship' }
     //  tampilkanship = ship.label
-  } else if (props.datauser?.employee_type == 'onship') {
+  } else if (props.datauser?.employee_type == 'offship') {
     ship = { employee_type: 'offship', label: 'Off-Ship' }
     // tampilkanship = ship.label
   }
@@ -133,12 +133,18 @@ const CandidateProfile = (props: compProps) => {
   const [comboVessel, getComborVessel] = useState<any>([])
   const [comboRegion, getComboroRegion] = useState<any>([])
   const [comboShip, getShip] = useState<any>([])
+  const [comboOPP, getOpp] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
   const [combocode, getCombocode] = useState<any[]>([])
   const [idcombocode, setCombocode] = useState<any>(props.datauser?.country_id)
   const [idcity, setCombocity] = useState<any>(props.datauser.address?.city_id)
-  const [idship, setShip] = useState<any>(props.datauser?.employee_type)
+  const [idship, setShip] = useState<any>(
+    props.datauser?.employee_type == 'offship'
+      ? { employee_type: 'offship', label: 'Off-Ship' }
+      : { employee_type: 'onship', label: 'On-Ship' }
+  )
   const [idcountry, setCountry] = useState<any>(props.datauser?.country_id)
+  
   const [date, setDate] = useState<DateType>(new Date())
 
   const [idcomborolLevel, setComboRolLevel] = useState<any>(props.datauser?.field_preference?.role_level?.id)
@@ -146,6 +152,12 @@ const CandidateProfile = (props: compProps) => {
   const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id)
 
   const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id)
+  const [idOPP, setOpp] = useState<any>(
+    props.datauser.field_preference?.open_to_opp == 0
+      ? { id: '0', label: 'Not Available' }
+      : { id: '1', label: 'Open to Work' }
+  )
+
   const [openAddModal, setOpenAddModal] = useState(false)
   const [openAddModalWE, setOpenAddModalWE] = useState(false)
   const [openAddModalDoc, setOpenAddModalDoc] = useState(false)
@@ -199,6 +211,12 @@ const CandidateProfile = (props: compProps) => {
       { employee_type: 'offship', label: 'Off-Ship' }
     ]
     getShip(code)
+
+    const codeopp = [
+      { id: '0', label: 'Not Available' },
+      { id: '1', label: 'Open to Work' }
+    ]
+    getOpp(codeopp)
 
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
@@ -313,7 +331,7 @@ const CandidateProfile = (props: compProps) => {
     availabledate = date
     const json = {
       country_id: idcountry,
-      employe_type: idship,
+      employee_type: idship,
       name: fullName,
       phone: phone,
       website: website,
@@ -331,7 +349,8 @@ const CandidateProfile = (props: compProps) => {
             vesseltype_id: idcomboVessel,
             regiontravel_id: idcomboRegion,
             available_date: availabledate,
-            spoken_langs: personName
+            spoken_langs: personName,
+            open_to_opp: idOPP
           }
           HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
             console.log('here 1', data)
@@ -346,7 +365,8 @@ const CandidateProfile = (props: compProps) => {
             vesseltype_id: null,
             regiontravel_id: idcomboRegion,
             available_date: null,
-            spoken_langs: personName
+            spoken_langs: personName,
+            open_to_opp: idOPP
           }
           HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
             console.log('here 1', data)
@@ -638,9 +658,9 @@ const CandidateProfile = (props: compProps) => {
                   getOptionLabel={(option: any) => option.label}
                   renderInput={params => <TextField {...params} label='Ship' />}
                   onChange={(event: any, newValue: any | null) => displayship(newValue)}
-                // onChange={(event: any, newValue: Employee ) =>
-                //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
-                // }
+                  // onChange={(event: any, newValue: Employee ) =>
+                  //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
+                  // }
                 />
               </Grid>
 
@@ -733,7 +753,6 @@ const CandidateProfile = (props: compProps) => {
                   {...register('phone')}
                 />
               </Grid>
-              
 
               <Grid item md={12} xs={12}>
                 <TextField
@@ -750,7 +769,9 @@ const CandidateProfile = (props: compProps) => {
               {tampilkanship == 'On-Ship' && (
                 <Grid item container xs={12} spacing={2} sx={{ mb: 2 }}>
                   <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
-                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>On-Ship Type</Typography>
+                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                      On-Ship Type
+                    </Typography>
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <Autocomplete
@@ -815,7 +836,7 @@ const CandidateProfile = (props: compProps) => {
                   <Grid item md={6} xs={12}>
                     <DatePickerWrapper>
                       <DatePicker
-                      minDate={new Date()}
+                        minDate={new Date()}
                         dateFormat='dd/MM/yyyy'
                         selected={date}
                         id='basic-input'
@@ -828,8 +849,8 @@ const CandidateProfile = (props: compProps) => {
                     </DatePickerWrapper>
                   </Grid>
                   <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
-                   <FormControl>
-                      <InputLabel id="demo-multiple-chip-label">Spoken</InputLabel>
+                    <FormControl>
+                      <InputLabel id='demo-multiple-chip-label'>Spoken</InputLabel>
                       <Select
                         labelId='demo-multiple-chip-label'
                         id='demo-multiple-chip'
@@ -868,7 +889,22 @@ const CandidateProfile = (props: compProps) => {
               {tampilkanship != 'On-Ship' && (
                 <Grid item container xs={12} spacing={2} sx={{ mb: 2 }}>
                   <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
-                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>Off-Ship Type</Typography>
+                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                      Off-Ship Type
+                    </Typography>
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
+                      defaultValue={idOPP}
+                      getOptionLabel={(option: any) => option.label}
+                      renderInput={params => <TextField {...params} label='Status' />}
+                      onChange={(event: any, newValue: any | null) =>
+                        newValue?.id ? setOpp(newValue.id) : setOpp(props.datauser?.field_preference?.open_to_opp)
+                      }
+                    />
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <Autocomplete
@@ -932,7 +968,7 @@ const CandidateProfile = (props: compProps) => {
                   </Grid> */}
                   <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
                     <FormControl>
-                      <InputLabel id="demo-multiple-chip-label">Spoken</InputLabel>
+                      <InputLabel id='demo-multiple-chip-label'>Spoken</InputLabel>
                       <Select
                         labelId='demo-multiple-chip-label'
                         id='demo-multiple-chip'

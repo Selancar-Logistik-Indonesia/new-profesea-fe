@@ -33,6 +33,7 @@ import { styled } from '@mui/material/styles'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
 import { refreshsession } from 'src/utils/helpers'
+import ButtonUploadPhotoGallery from './ButtonUploadPhotoGallery'
 
 
 type FormData = {
@@ -78,11 +79,7 @@ const BoxWrapper = styled(Box)<BoxProps>(() => ({
 const CompanyProfile = (props: compProps) => {
 
   const inputRef = useRef<any>('')
-  const handleClick = () => {
-    // 👇️ open file input box on click of another element
-    inputRef.current.click()
-
-  }
+ 
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboindustry, getComboIndustry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
@@ -99,6 +96,7 @@ const CompanyProfile = (props: compProps) => {
   const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
   const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
 
+  const [slides, setSlides] = useState<any>([])
 
   const combobox = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
@@ -173,6 +171,7 @@ const CompanyProfile = (props: compProps) => {
     if (props.datauser.address != undefined) {
       searchcity(props.datauser.country_id)
     }
+    getimage();
   }, [])
   const { register, handleSubmit } = useForm<FormData>({
     mode: 'onBlur'
@@ -443,17 +442,31 @@ const CompanyProfile = (props: compProps) => {
     if (x == 'ig') setDisabledInstagram(false)
     if (x == 'li') setDisabledLinkedin(false)
   }
-  const slides = [
-    { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'beach' },
-    { url: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d', title: 'boat' },
-    { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'forest' },
-    { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'city' },
-    { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'italy' }
-  ]
+  const getimage = async () => {
+    const resp = await HttpClient.get('/user/gallery?page=1&take=25' )
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
+    }
+    const slides=[]
+    const data = resp.data.data
+    for (let x = 0; x < data.length; x++) {
+      const element = data[x];
+      const url = { url: element.file_address , title: element.mime, id: element.id }
+      slides.push(url)
+      
+    }
+    setSlides(slides)
+  }
+  // const slides = [
+  //   { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'beach' },
+  //   { url: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d', title: 'boat' },
+  //   { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'forest' },
+  //   { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'city' },
+  //   { url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', title: 'italy' }
+  // ]
 
   return (
     <Grid container padding={5}>
-
       <input
         accept='image/*'
         style={{ display: 'none', height: 250, width: '100%' }}
@@ -475,7 +488,6 @@ const CompanyProfile = (props: compProps) => {
             <CardMedia
               component='img'
               alt='profile-header'
-
               image={previewBanner ? previewBanner : '/images/avatars/headerprofile3.png'}
               sx={{
                 height: { xs: 150, md: 250 },
@@ -486,7 +498,6 @@ const CompanyProfile = (props: compProps) => {
           </Card>
 
           <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '50%', md: '50%' } }}>
-
             <label htmlFor='raised-button-file-banner'>
               <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
             </label>
@@ -508,7 +519,10 @@ const CompanyProfile = (props: compProps) => {
       >
         <BoxWrapper>
           <label htmlFor='raised-button-file'>
-            <ProfilePicture src={preview ? preview : '/images/avatars/profilepic.png'} alt='profile-picture'></ProfilePicture>
+            <ProfilePicture
+              src={preview ? preview : '/images/avatars/profilepic.png'}
+              alt='profile-picture'
+            ></ProfilePicture>
           </label>
           <input
             accept='image/*'
@@ -590,7 +604,7 @@ const CompanyProfile = (props: compProps) => {
                   {...register('address')}
                 />
               </Grid>
-              
+
               {props.datauser.role == 'Company' && (
                 <>
                   <Grid item md={3} xs={12}>
@@ -681,10 +695,8 @@ const CompanyProfile = (props: compProps) => {
                   <Grid container item xs={12} md={12}>
                     <Grid xs={12} item>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-
                         <Box sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
                           <img src='/images/logos/facebook.png' alt='Facebook' height='20' />
-
                         </Box>
                         <TextField
                           id='facebook'
@@ -698,15 +710,21 @@ const CompanyProfile = (props: compProps) => {
                           disabled={disabledFacebook}
                           onChange={e => setFacebook(e.target.value)}
                           onBlur={handleSubmit(addbuttonfacebook)}
-
                           InputProps={{
                             startAdornment: <InputAdornment position='start'>/</InputAdornment>
                           }}
                         />
-                        <Button onClick={() => enabledtextfield('fb')} sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                          <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
+                        <Button
+                          onClick={() => enabledtextfield('fb')}
+                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                        >
+                          <Icon
+                            fontSize='large'
+                            icon={'material-symbols:edit'}
+                            color={'primary'}
+                            style={{ fontSize: '24px' }}
+                          />
                         </Button>
-
                       </Box>
                     </Grid>
                   </Grid>
@@ -730,13 +748,20 @@ const CompanyProfile = (props: compProps) => {
                           disabled={disabledInstagram}
                           onChange={e => setInstagram(e.target.value)}
                           onBlur={handleSubmit(addbuttoninstagram)}
-
                           InputProps={{
                             startAdornment: <InputAdornment position='start'>/</InputAdornment>
                           }}
                         />
-                        <Button onClick={() => enabledtextfield('ig')} sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                          <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
+                        <Button
+                          onClick={() => enabledtextfield('ig')}
+                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                        >
+                          <Icon
+                            fontSize='large'
+                            icon={'material-symbols:edit'}
+                            color={'primary'}
+                            style={{ fontSize: '24px' }}
+                          />
                         </Button>
                       </Box>
                     </Grid>
@@ -762,15 +787,21 @@ const CompanyProfile = (props: compProps) => {
                           value={linkedin}
                           onChange={e => setLinkedin(e.target.value)}
                           onBlur={handleSubmit(addbuttonlinkedin)}
-
                           InputProps={{
                             startAdornment: <InputAdornment position='start'>/</InputAdornment>
                           }}
                         />
-                        <Button onClick={() => enabledtextfield('li')} sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                          <Icon fontSize='large' icon={'material-symbols:edit'} color={'primary'} style={{ fontSize: '24px' }} />
+                        <Button
+                          onClick={() => enabledtextfield('li')}
+                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                        >
+                          <Icon
+                            fontSize='large'
+                            icon={'material-symbols:edit'}
+                            color={'primary'}
+                            style={{ fontSize: '24px' }}
+                          />
                         </Button>
-
                       </Box>
                     </Grid>
                   </Grid>
@@ -801,11 +832,12 @@ const CompanyProfile = (props: compProps) => {
 
       <Grid item md={0.6} xs={12} marginBottom={'5px'}>
         <Box marginBottom={2}>
-          <Button variant='contained' size='small' onClick={handleClick}>
+          {/* <Button variant='contained' size='small' onClick={handleClick}>
             {' '}
             <Icon fontSize='large' icon={'material-symbols:drive-folder-upload'} color={'info'} style={{ fontSize: '24px' }} />
 
-          </Button>
+          </Button> */}
+          <ButtonUploadPhotoGallery />
         </Box>
         <input
           accept='image/*'
@@ -816,9 +848,11 @@ const CompanyProfile = (props: compProps) => {
           ref={inputRef}
         ></input>
       </Grid>
-      <Grid item md={12} xs={12}>
-        <ImageSlider slide={slides} />
-      </Grid>
+      {slides.length>0 && (
+        <Grid item md={12} xs={12}>
+          <ImageSlider slide={slides} />
+        </Grid>
+      )}
     </Grid>
   )
 }
