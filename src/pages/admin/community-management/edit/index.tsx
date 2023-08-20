@@ -177,7 +177,7 @@ const EditThreadScreen = () => {
                       <EditorWrapper>
                           <EditorArea editorState={desc} onEditorStateChange={data => setDesc(data)} toolbar={{
                               image: { uploadCallback: uploadCallback, previewImage: true,  alt: { present: true, mandatory: false }},
-                          }}  placeholder='Write a thread' defaultContentState={threadDetail?.content}/>
+                          }}  placeholder='Write a thread' />
                           <Button variant='contained' sx={{ mr: 2 }} type='submit' startIcon={<Icon icon='ion:enter' fontSize={10} />}>
                               {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Save"}
                           </Button>
