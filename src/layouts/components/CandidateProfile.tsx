@@ -773,6 +773,20 @@ const CandidateProfile = (props: compProps) => {
                       On-Ship Type
                     </Typography>
                   </Grid>
+
+                  <Grid item md={6} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
+                      defaultValue={idOPP}
+                      getOptionLabel={(option: any) => option.label}
+                      renderInput={params => <TextField {...params} label='Status' />}
+                      onChange={(event: any, newValue: any | null) =>
+                        newValue?.id ? setOpp(newValue.id) : setOpp(props.datauser?.field_preference?.open_to_opp)
+                      }
+                    />
+                  </Grid>
                   <Grid item md={6} xs={12}>
                     <Autocomplete
                       disablePortal
