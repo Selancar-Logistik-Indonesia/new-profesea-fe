@@ -31,4 +31,5 @@ export interface IUser {
   field_preference?: FieldPreference
   frienship_status?: string
   blocked_at?: string
+  
 }

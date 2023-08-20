@@ -168,7 +168,7 @@ const onSelectFile = (e: any) => {
               <Icon icon='mdi:close' />
             </IconButton>
             <Box sx={{ mb: 6, textAlign: 'center' }}>
-              <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
+              <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
                 Add New Educational
               </Typography>
               <Typography variant='body2'>Fulfill your Educational Info here</Typography>
@@ -209,11 +209,17 @@ const onSelectFile = (e: any) => {
                   </Grid>
                   <Grid xs={6}>
                     <Box sx={{ marginTop: '20px', marginLeft: '20px' }}>
-                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px', mb: '5px' }}>
+                      <Typography
+                        variant='body2'
+                        sx={{ textAlign: 'left', color: '#424242', fontSize: '10px', mb: '5px' }}
+                      >
                         Click Photo to change institution Logo.
                       </Typography>
                       <Divider></Divider>
-                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px', mt: '5px'  }}>
+                      <Typography
+                        variant='body2'
+                        sx={{ textAlign: 'left', color: '#424242', fontSize: '10px', mt: '5px' }}
+                      >
                         Allowed JPG, GIF or PNG.
                       </Typography>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
@@ -241,33 +247,33 @@ const onSelectFile = (e: any) => {
               </Grid>
               <Grid item md={6} xs={12}>
                 {/* <DatePickerWrapper> */}
-                  <DatePicker
-                    dateFormat='dd/MM/yyyy'
-                    selected={dateAwal}
-                    id='basic-input'
-                    onChange={(dateAwal: Date) => setDateAwal(dateAwal)}
-                    placeholderText='Click to select a date'
-                    customInput={
-                      <TextField label='Start Date' variant='outlined' fullWidth {...register('startdate')} />
-                    }
-                  />
+                <DatePicker
+                  dateFormat='dd/MM/yyyy'
+                  selected={dateAwal}
+                  id='basic-input'
+                  onChange={(dateAwal: Date) => setDateAwal(dateAwal)}
+                  placeholderText='Click to select a date'
+                  showYearDropdown
+                  showMonthDropdown
+                  dropdownMode='select'
+                  customInput={<TextField label='Start Date' variant='outlined' fullWidth {...register('startdate')} />}
+                />
                 {/* </DatePickerWrapper> */}
               </Grid>
               <Grid item md={6} xs={12}>
                 {/* <DatePickerWrapper> */}
-                  <DatePicker
-                    dateFormat='dd/MM/yyyy'
-                    selected={dateAkhir}
-                    id='basic-input'
-                    onChange={(dateAkhir: Date) => setDateAkhir(dateAkhir)}
-                    placeholderText='Click to select a date'
-                    customInput={<TextField label='End Date' variant='outlined' fullWidth {...register('enddate')} />}
-                  />
+                <DatePicker
+                  dateFormat='dd/MM/yyyy'
+                  selected={dateAkhir}
+                  showYearDropdown
+                  showMonthDropdown
+                  id='basic-input'
+                  onChange={(dateAkhir: Date) => setDateAkhir(dateAkhir)}
+                  placeholderText='Click to select a date'
+                  customInput={<TextField label='End Date' variant='outlined' fullWidth {...register('enddate')} />}
+                />
                 {/* </DatePickerWrapper> */}
               </Grid>
-              
-             
-           
             </Grid>
           </DialogContent>
           <DialogActions

@@ -132,15 +132,17 @@ const UserDropdown = (props: Props) => {
             </LinkStyled>
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='solar:chat-round-dots-bold-duotone' />
+        {userData?.role != "admin" && (
+            <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+              <Box sx={styles}>
+                <Icon icon='solar:chat-round-dots-bold-duotone' />
 
-            <LinkStyled href='/chat'>
-              <Typography>Chat</Typography>{' '}
-            </LinkStyled>
-          </Box> 
-        </MenuItem>
+                <LinkStyled href='/chat'>
+                  <Typography>Chat</Typography>{' '}
+                </LinkStyled>
+              </Box>
+            </MenuItem>
+          )}
         <Divider />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
