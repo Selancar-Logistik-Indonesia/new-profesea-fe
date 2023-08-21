@@ -195,7 +195,8 @@ const DialogAdd = (props: DialogProps) => {
                             <DatePickerWrapper>
                                 <DatePicker
                                 showTimeSelect
-                                dateFormat='dd/MM/yyyy h:mm aa'
+                                minDate={new Date()}
+                                dateFormat='dd/MM/yyyy hh:mm aa'
                                 selected={date}
                                 id='basic-input'
                                 onChange={(date: Date) => setDate(date)}
