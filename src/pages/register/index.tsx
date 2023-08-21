@@ -67,7 +67,7 @@ const Register = () => {
         position: 'fit',
         width: '100%',
         height: '100%',
-        backgroundImage: "url(/images/bgregister2.jpeg)",
+        backgroundImage: "url(/images/register-00.jpg)",
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
@@ -93,13 +93,13 @@ const Register = () => {
                 </Box>
 
                 <Link href="/register/seafer" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:account-outline'} />} >for Candidate</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'solar:user-hands-bold-duotone'} />} >for Candidate</Button>
                 </Link>
                 <Link href="/register/recruiter" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'mdi:domain'} />} >for Recruiter</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'solar:buildings-3-bold-duotone'} />} >for Recruiter</Button>
                 </Link>
                 <Link href="/register/trainer" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'healthicons:i-training-class'} />} >for Trainer</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'solar:user-hand-up-bold-duotone'} />} >for Trainer</Button>
                 </Link>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
