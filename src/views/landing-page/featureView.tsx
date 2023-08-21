@@ -21,9 +21,8 @@ const FeatureView = () => {
 
                         <Grid container spacing={12} mb={5}>
                             <Grid item xs={12} sm={12}>
-                                <Typography variant="h3" style={{ color: "#FFFFFF" }} fontWeight="800" mt={6} textAlign="center">{t("landing_discover_item_title")}</Typography>
-                                <Typography fontSize={18} style={{ color: "#FFFFFF" }} mt={2} mb={10} fontWeight="600" textAlign="center">{t("landing_discover_item_title_detail")}</Typography>
-                            </Grid>
+                                <Typography variant="h3" style={{ color: "#FFFFFF" }} fontWeight="800" mt={6} mb={10} textAlign="center">{t("landing_discover_item_title")}</Typography>
+                                </Grid>
                         </Grid>
                         <Grid container spacing={6}>
                         <Grid item xs={12} sm={1}>
