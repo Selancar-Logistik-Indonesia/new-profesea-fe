@@ -81,7 +81,7 @@ const ButtonUploadPhoto = () => {
                             height: 240
                         }}
                     >
-                        <Icon icon='mdi:image' fontSize={110} />
+                        <Icon icon='solar:gallery-bold-duotone' fontSize={110} />
                     </Box>
 
                     <TextField
@@ -97,11 +97,11 @@ const ButtonUploadPhoto = () => {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="contained" color="error" onClick={() => setOpen(!open)}>
+                    <Button variant="contained" size="small" color="error" onClick={() => setOpen(!open)}>
                         <Icon icon='material-symbols:cancel-outline' color='white' fontSize={19} />
                         Cancel
                     </Button>
-                    <Button variant="contained" disabled={isLoading} onClick={handleUpdateStatus}>
+                    <Button variant="contained" size="small" disabled={isLoading} onClick={handleUpdateStatus}>
                         <Icon icon='material-symbols:upload' color='white' fontSize={19} />
                         {isLoading ? <CircularProgress /> : 'Upload'}
                     </Button>

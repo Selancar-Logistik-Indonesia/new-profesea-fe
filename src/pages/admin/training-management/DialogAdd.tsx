@@ -179,13 +179,13 @@ const DialogAdd = (props: DialogProps) => {
                         <Icon icon='mdi:close' />
                     </IconButton>
                     <Box sx={{ mb: 6, textAlign: 'center' }}>
-                        <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
+                    <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
                             Add New Training
                         </Typography>
-                        <Typography variant='body2'>Add Training</Typography>
+                        <Typography variant='body2'>Fulfill your Training Info here</Typography>
                     </Box>
                     
-                    <Grid container columnSpacing={'1'} rowSpacing={'2'} >
+                    <Grid container columnSpacing={'1'} rowSpacing={'4'} >
                         <Grid item md={6} xs={12} > 
                             <Autocomplete
                                 disablePortal
@@ -255,10 +255,17 @@ const DialogAdd = (props: DialogProps) => {
                         pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
                     }}
                 >
-                    <Button variant='contained' sx={{ mr: 2 }} type='submit'>
+                    <Button variant='contained' size="small" sx={{ mr: 2 }} type='submit'>
+                    <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '18px' }} />
                         {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
                     </Button>
-                    <Button variant='outlined' color='secondary' onClick={props.onCloseClick}>
+                    <Button variant='outlined' size="small" color='error' onClick={props.onCloseClick}>
+                    <Icon
+                            fontSize='large'
+                            icon={'material-symbols:cancel-outline'}
+                            color={'info'}
+                            style={{ fontSize: '18px' }}
+                        />
                         Cancel
                     </Button>
                 </DialogActions>

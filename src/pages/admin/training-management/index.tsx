@@ -17,6 +17,7 @@ import DialogDelete from './DialogDelete';
 import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
 import DialogView from './DialogView';
+import { Icon } from '@iconify/react';
 
 const TrainingScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -126,8 +127,13 @@ const TrainingScreen = () => {
                                 </Grid>
                                 <Grid item sx={{ mr: 6, mb: 2 }}>
                                     <Box>
-                                        <Button variant="contained" onClick={() => setOpenAddModal(!openAddModal)}>
-                                            Add
+                                    <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
+                                            <Icon
+                                                fontSize='large'
+                                                icon={'zondicons:add-outline'}
+                                                color={'info'}
+                                                style={{ fontSize: '14px', margin: 3 }}
+                                            /> Add
                                         </Button>
                                     </Box>
                                 </Grid>

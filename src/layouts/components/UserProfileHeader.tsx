@@ -68,7 +68,7 @@ const UserProfileHeader = (props: userProps) => {
             <CardMedia
                 component='img'
                 alt='profile-header'
-                image={datauser.banner ? datauser.banner : '/images/avatars/headerprofile.png'}
+                image={datauser.banner ? datauser.banner : '/images/header-default-profile-candidate.jpeg'}
                 sx={{
                     height: { xs: 150, md: 250 },
                     width: '100%'
@@ -181,7 +181,7 @@ const UserProfileHeader = (props: userProps) => {
                                     <Button LinkComponent={Link} href='/company'>
                                         <Icon
                                             fontSize='large'
-                                            icon={'material-symbols:edit'}
+                                            icon={'solar:pen-new-round-bold-duotone'}
                                             color={'primary'}
                                             style={{ fontSize: '24px' }}
                                         />
@@ -191,7 +191,7 @@ const UserProfileHeader = (props: userProps) => {
                                     <Button LinkComponent={Link} href='/candidate'>
                                         <Icon
                                             fontSize='large'
-                                            icon={'material-symbols:edit'}
+                                            icon={'solar:pen-new-round-bold-duotone'}
                                             color={'primary'}
                                             style={{ fontSize: '24px' }}
                                         />
