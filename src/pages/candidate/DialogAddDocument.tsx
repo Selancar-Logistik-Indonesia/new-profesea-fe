@@ -383,7 +383,7 @@ const DialogAddDocument = (props: DialogProps) => {
                       showMonthDropdown
                       dropdownMode='select'
                       customInput={
-                        <TextField label='Start Date' variant='outlined' fullWidth   />
+                        <TextField label='Expired Date' variant='outlined' fullWidth   />
                       }
                     />
                   </Grid>
