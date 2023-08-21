@@ -119,7 +119,9 @@ const DialogAdd = (props: DialogProps) => {
                 year: "numeric",
                 month: "2-digit",
                 day: "2-digit"
-            }).split('/').reverse().join('-'),
+            }).split('/').reverse().join('-')+" "
+            +date?.toTimeString().split(' ')[0],
+            "instant":0,
             "short_description": short_description
         }
         
@@ -192,7 +194,8 @@ const DialogAdd = (props: DialogProps) => {
                         <Grid item md={12} xs={12} >
                             <DatePickerWrapper>
                                 <DatePicker
-                                dateFormat='dd/MM/yyyy'
+                                showTimeSelect
+                                dateFormat='dd/MM/yyyy h:mm aa'
                                 selected={date}
                                 id='basic-input'
                                 onChange={(date: Date) => setDate(date)}
