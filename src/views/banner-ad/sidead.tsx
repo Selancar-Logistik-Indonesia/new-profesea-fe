@@ -7,11 +7,11 @@ const SideAd = (props: { sx?: any }) => {
         direction: "row",
         justifyContent: "flex-start",
         alignContent: 'top',
-        alignItems: "stretch"
+        alignItems: "stretch",
     }}>
         <Grid xs={12}>
-            <Card elevation={8}>
-                <Box component='img' src="/images/backgrounds/samplead.jpg"></Box>
+            <Card elevation={1} sx={{height: "240px"}}>
+                <Box component='img' src="/images/backgrounds/ads-here.png" ></Box>
             </Card>
         </Grid>
     </Grid>
