@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, Typography, Divider } from "@mui/material";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram, faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useTranslation } from "react-i18next";
