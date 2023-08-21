@@ -3,7 +3,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
-import { Box, Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import DialogAdd from './DialogAdd';
 import ForumDatagrid, { RowItem } from './ForumDatagrid';
@@ -107,7 +107,13 @@ const ForumScreen = () => {
             <Grid container spacing={6} className='match-height'>
                 <Grid item xs={12} sm={6} md={12}>
                     <Card>
-                        <CardHeader title='List Forums' />
+                    <CardHeader
+                        title={
+                            <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600' ,color: '#32487A' }}>
+                              List Forums
+                            </Typography>
+                          }
+                        />
                         <CardContent>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
