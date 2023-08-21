@@ -1,17 +1,49 @@
+// ** React Imports
 import { ReactNode } from 'react'
+
+// ** MUI Components
 import Box, { BoxProps } from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { styled, useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
+
+// ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
+
+// ** Hooks
 import { useSettings } from 'src/@core/hooks/useSettings'
+
+// ** Demo Imports
+// import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { Container } from '@mui/material'
+
 import { useForm } from 'react-hook-form'
+
 import { yupResolver } from '@hookform/resolvers/yup'
+
 import * as yup from 'yup'
 import Registration from 'src/layouts/components/registrastion'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
+
+// ** Styled Components
+// const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
+//   padding: theme.spacing(20),
+//   paddingRight: '0 !important',
+//   [theme.breakpoints.down('lg')]: {
+//     padding: theme.spacing(10)
+//   }
+// }))
+
+// const RegisterIllustration = styled('img')(({ theme }) => ({
+//   maxWidth: '100%',
+//   [theme.breakpoints.down('xl')]: {
+//     maxWidth: '10%'
+//   },
+//   [theme.breakpoints.down('lg')]: {
+//     maxWidth: '10%'
+//   }
+// }))
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -34,6 +66,8 @@ const Register = () => {
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
+
+  // ** Vars
   const { skin } = settings
 
   const schema = yup.object().shape({
@@ -41,7 +75,8 @@ const Register = () => {
     password: yup.string().min(5).required()
   })
 
-  const { } = useForm({
+  const {
+  } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
@@ -49,13 +84,13 @@ const Register = () => {
   return (
     <>
       <Head>
-        <title>{`${themeConfig.templateName} - Trainer Registration`}</title>
+        <title>{`${themeConfig.templateName} - Candidate Registration`}</title>
       </Head>
       <Box className='content-right'>
 
         {!hidden ? (
 
-          <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center', backgroundImage: "url(/images/training-02.jpeg)", backgroundSize: 'cover' }}>
+          <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center', backgroundImage: "url(/images/candidate-00.jpg)", backgroundSize: 'cover' }}>
             <Container fixed>
               <Box
                 display="flex"
@@ -86,7 +121,7 @@ const Register = () => {
                       alignItems="center"
                       minHeight="100vh"
                     >
-                      <img alt="sailor" src='/images/traine.png' style={{
+                      <img alt="sailor" src='/images/sailor.png' style={{
                         maxWidth: '100%',
                         height: '450px',
                         alignItems: 'center',
@@ -125,16 +160,14 @@ const Register = () => {
               <BoxWrapper>
                 <Box sx={!hidden ? { mb: 6, marginLeft: '5%', width: '80%', alignItems: 'center', justifyContent: 'center' } :
                   { mb: 6, alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: "#424242" }}>Create a Trainer Account</Typography>
-                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: "#424242" }}> Enter your information as Trainer here!</Typography>
-                  <Registration tipereg="trainer"></Registration>
+                  <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: "#424242" }}>Create a Candidate Account</Typography>
+                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: "#424242" }}> Enter your information as Candidate here!</Typography>
+                  <Registration tipereg="seafer" type="offship"></Registration>
                 </Box>
-
               </BoxWrapper>
             </Container>
           </Box>
         </RightWrapper>
-
       </Box>
     </>
   )

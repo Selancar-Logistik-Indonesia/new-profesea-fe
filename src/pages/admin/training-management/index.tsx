@@ -3,7 +3,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
-import { Box, Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import DialogAdd from './DialogAdd';
 import TrainingDatagrid, { RowItem } from './Trainingtagrid';
@@ -17,6 +17,7 @@ import DialogDelete from './DialogDelete';
 import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
 import DialogView from './DialogView';
+import { Icon } from '@iconify/react';
 
 const TrainingScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -113,7 +114,13 @@ const TrainingScreen = () => {
             <Grid container spacing={6} className='match-height'>
                 <Grid item xs={12} sm={6} md={12}>
                     <Card>
-                        <CardHeader title='List Trainings' />
+                    <CardHeader
+                        title={
+                            <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600' ,color: '#32487A' }}>
+                              List Training
+                            </Typography>
+                          }
+                        />
                         <CardContent>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
@@ -126,8 +133,13 @@ const TrainingScreen = () => {
                                 </Grid>
                                 <Grid item sx={{ mr: 6, mb: 2 }}>
                                     <Box>
-                                        <Button variant="contained" onClick={() => setOpenAddModal(!openAddModal)}>
-                                            Add
+                                    <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
+                                            <Icon
+                                                fontSize='large'
+                                                icon={'zondicons:add-outline'}
+                                                color={'info'}
+                                                style={{ fontSize: '14px', margin: 3 }}
+                                            /> Add
                                         </Button>
                                     </Box>
                                 </Grid>

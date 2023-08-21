@@ -209,36 +209,13 @@ const DialogEdit = (props: EditProps) => {
                         <Icon icon='mdi:close' />
                     </IconButton>
                     <Box sx={{ mb: 6, textAlign: 'center' }}>
-                        <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
+                    <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
                             Edit Job
                         </Typography>
-                        <Typography variant='body2'>Edit Job</Typography>
+                        <Typography variant='body2'>Fulfill your Job Info here</Typography>
                     </Box>
                     <Grid container columnSpacing={'1'} rowSpacing={'2'} >
-                    <Grid item md={6} xs={12}>
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-type"
-                                value={Type}
-                                options={RoleType}
-                                {...register("role_type")}
-                                getOptionLabel={(option: RoleType) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Job Title" />}
-                                onChange={(event: any, newValue: RoleType | null) => (newValue) ? setType(newValue) : setType(props.selectedItem.role_type)}
-                            />
-                        </Grid>
-                        <Grid item md={6} xs={12}>
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-level"
-                                value={Level}
-                                options={RoleLevel}
-                                getOptionLabel={(option: RoleLevel) => option.levelName}
-                                renderInput={(params) => <TextField {...params} label="Role Level" />}
-                                onChange={(event: any, newValue: RoleLevel | null) => (newValue) ? setLevel(newValue) : setLevel(props.selectedItem.rolelevel)}
-                            />
-                        </Grid>
-                        <Grid item md={6} xs={12} >
+                        <Grid item md={12} xs={12} >
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-company"
@@ -250,7 +227,30 @@ const DialogEdit = (props: EditProps) => {
                                 onChange={(event: any, newValue: Company | null) => (newValue) ? setUser(newValue) : setUser(props.selectedItem.company)}
                             />
                         </Grid>
-                        <Grid item md={6} xs={12} >
+                    <Grid item md={4} xs={12}>
+                            <Autocomplete
+                                disablePortal
+                                id="combo-box-type"
+                                value={Type}
+                                options={RoleType}
+                                {...register("role_type")}
+                                getOptionLabel={(option: RoleType) => option.name}
+                                renderInput={(params) => <TextField {...params} label="Job Title" />}
+                                onChange={(event: any, newValue: RoleType | null) => (newValue) ? setType(newValue) : setType(props.selectedItem.role_type)}
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12}>
+                            <Autocomplete
+                                disablePortal
+                                id="combo-box-level"
+                                value={Level}
+                                options={RoleLevel}
+                                getOptionLabel={(option: RoleLevel) => option.levelName}
+                                renderInput={(params) => <TextField {...params} label="Role Level" />}
+                                onChange={(event: any, newValue: RoleLevel | null) => (newValue) ? setLevel(newValue) : setLevel(props.selectedItem.rolelevel)}
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12} >
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
@@ -262,19 +262,7 @@ const DialogEdit = (props: EditProps) => {
                                 onChange={(event: any, newValue: JobCategory | null) => (newValue?.id) ? setCat(newValue) : setCat(props.selectedItem.category)}
                             />
                         </Grid>
-                        <Grid item md={6} xs={12} >
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                value={Edu}
-                                options={Education}
-                                {...register("degree")}
-                                getOptionLabel={(option: Degree) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Education" />}
-                                onChange={(event: any, newValue: Degree | null) => (newValue?.id) ? setEdu(newValue) : setEdu(props.selectedItem.degree)}
-                            />
-                        </Grid>
-                        <Grid item md={6} xs={12}>
+                        <Grid item md={4} xs={12}>
                             <Autocomplete
                             disablePortal
                             id='combo-box-demo'
@@ -288,7 +276,7 @@ const DialogEdit = (props: EditProps) => {
                             />
                         </Grid>
 
-                        <Grid item md={6} xs={12}>
+                        <Grid item md={4} xs={12}>
                             <Autocomplete
                             disablePortal
                             id='city'
@@ -301,7 +289,7 @@ const DialogEdit = (props: EditProps) => {
                             }
                             />
                         </Grid>
-                        <Grid item md={6} xs={12} >
+                        <Grid item md={4} xs={12} >
                             <DatePickerWrapper>
                                 <DatePicker
                                 dateFormat='dd/MM/yyyy'
@@ -312,6 +300,24 @@ const DialogEdit = (props: EditProps) => {
                                 customInput={<TextField label='Date On Board' variant="outlined" fullWidth  {...register("onboard_at")} />}
                                 />
                             </DatePickerWrapper>
+                        </Grid>
+                        <Grid item md={4} xs={12} >
+                            <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                value={Edu}
+                                options={Education}
+                                {...register("degree")}
+                                getOptionLabel={(option: Degree) => option.name}
+                                renderInput={(params) => <TextField {...params} label="Education" />}
+                                onChange={(event: any, newValue: Degree | null) => (newValue?.id) ? setEdu(newValue) : setEdu(props.selectedItem.degree)}
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12} >
+                            <TextField defaultValue={props.selectedItem.salary_start} id="salary_start" label="Salary From" variant="outlined" fullWidth  {...register("salary_start")} />
+                        </Grid>
+                        <Grid item md={4} xs={12} >
+                            <TextField defaultValue={props.selectedItem.salary_end} id="salary_end" label="Salary To" variant="outlined" fullWidth {...register("salary_end")} />
                         </Grid>
                         <Grid item md={12} xs={12} >
                             <Autocomplete
@@ -327,18 +333,12 @@ const DialogEdit = (props: EditProps) => {
                                  />}
                             />
                         </Grid>
-                        <Grid item md={6} xs={12} >
-                            <TextField defaultValue={props.selectedItem.salary_start} id="salary_start" label="Salary From" variant="outlined" fullWidth  {...register("salary_start")} />
-                        </Grid>
-                        <Grid item md={6} xs={12} >
-                            <TextField defaultValue={props.selectedItem.salary_end} id="salary_end" label="Salary To" variant="outlined" fullWidth {...register("salary_end")} />
-                        </Grid>
                         <Grid item md={12} xs={12} >
                             <TextField defaultValue={props.selectedItem.experience} id="experience" label="Experience" variant="outlined" fullWidth {...register("experience")} />
                         </Grid>
                         <Grid item md={12} xs={12} >
                             <EditorWrapper>
-                                <EditorArea editorState={desc} onEditorStateChange={data => setDesc(data)} toolbar={{
+                                <EditorArea placeholder='Description' editorState={desc} onEditorStateChange={data => setDesc(data)} toolbar={{
                                     options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
                                     inline: { inDropdown: true },
                                     list: { inDropdown: true },
@@ -357,10 +357,17 @@ const DialogEdit = (props: EditProps) => {
                         pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
                     }}
                 >
-                    <Button variant='contained' sx={{ mr: 2 }} type='submit'>
+                    <Button variant='contained' size="small" sx={{ mr: 2 }} type='submit'>
+                        <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '18px' }} />
                         {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
                     </Button>
-                    <Button variant='outlined' color='secondary' onClick={props.onCloseClick}>
+                    <Button variant='outlined' size="small" color='error' onClick={props.onCloseClick}>
+                        <Icon
+                            fontSize='large'
+                            icon={'material-symbols:cancel-outline'}
+                            color={'info'}
+                            style={{ fontSize: '18px' }}
+                        />
                         Cancel
                     </Button>
                 </DialogActions>

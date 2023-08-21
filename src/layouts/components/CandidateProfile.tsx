@@ -679,6 +679,7 @@ const CandidateProfile = (props: compProps) => {
                   getOptionLabel={(option: any) => option.label}
                   renderInput={params => <TextField {...params} label='Ship' />}
                   onChange={(event: any, newValue: any | null) => displayship(newValue)}
+                  disabled
                   // onChange={(event: any, newValue: Employee ) =>
                   //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
                   // }
@@ -1035,12 +1036,7 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </Grid>
               )}
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11.3} xs={12}></Grid>
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.5} lg={0.5} xs={12}>
-                <Button fullWidth size='small' type='submit' variant='contained' sx={{ mb: 7 }}>
-                  <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '24px' }} />
-                </Button>
-              </Grid>
+
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.2} lg={0.2} xs={12}></Grid>
               <Divider style={{ width: '100%' }} />
 
@@ -1253,80 +1249,103 @@ const CandidateProfile = (props: compProps) => {
                   ))}
                 </Grid>
               </Grid>
-              <Grid item container xs={12}>
-                <Grid xs={10} md={11}>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
-                      Document Upload
-                    </Typography>
-                  </Grid>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
-                      Upload your Document Info
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid display='flex' justifyContent='flex-end' alignItems='flex-end' xs={2} md={1}>
-                  <Button variant='contained' onClick={() => setOpenAddModalDoc(!openAddModalDoc)}>
-                    <Icon fontSize='large' icon={'basil:add-solid'} color={'primary'} style={{ fontSize: '24px' }} />
-                  </Button>
-                </Grid>
+              {tampilkanship == 'On-Ship' && (
                 <Grid item container xs={12}>
-                  {itemData.map(item => (
-                    <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
-                      <Grid xs={12} md={9} container direction='row' alignItems='center'>
-                        <Icon
-                          fontSize='large'
-                          icon={'solar:document-bold'}
-                          color={'info'}
-                          style={{ fontSize: '24px', margin: '5px' }}
-                        />
-                        <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
-                          {item.document_name}
-                        </Typography>
-                      </Grid>
-                      <Grid xs={12} md={3} display='flex' item container>
-                        <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
-                          <Box margin={1}>
-                            <Button variant='outlined' color='info' size='small' href={item.path} target='_blank'>
-                              <Icon
-                                fontSize='large'
-                                icon={'icon-park-outline:preview-open'}
-                                color={'info'}
-                                style={{ fontSize: '24px' }}
-                              />
-                            </Button>
-                          </Box>
-                          <Box margin={1}>
-                            <Button
-                              variant='outlined'
-                              color='primary'
-                              size='small'
-                              onClick={() => editDocument(item.id)}
-                            >
-                              <Icon
-                                fontSize='large'
-                                icon={'material-symbols:edit'}
-                                color={'primary'}
-                                style={{ fontSize: '24px' }}
-                              />
-                            </Button>
-                          </Box>
-                          <Box margin={1}>
-                            <Button variant='outlined' color='error' size='small' onClick={() => deletework(item.id)}>
-                              <Icon
-                                fontSize='large'
-                                icon={'fluent:delete-32-filled'}
-                                color={'error'}
-                                style={{ fontSize: '24px' }}
-                              />
-                            </Button>
-                          </Box>
+                  <Grid xs={10} md={11}>
+                    <Grid container item xs={12} justifyContent={'left'}>
+                      <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                        Document Upload
+                      </Typography>
+                    </Grid>
+                    <Grid container item xs={12} justifyContent={'left'}>
+                      <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                        Upload your Document Info
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid display='flex' justifyContent='flex-end' alignItems='flex-end' xs={2} md={1}>
+                    <Button variant='contained' onClick={() => setOpenAddModalDoc(!openAddModalDoc)}>
+                      <Icon fontSize='large' icon={'basil:add-solid'} color={'primary'} style={{ fontSize: '24px' }} />
+                    </Button>
+                  </Grid>
+                  <Grid item container xs={12}>
+                    {itemData.map(item => (
+                      <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
+                        <Grid xs={12} md={9} container direction='row' alignItems='center'>
+                          <Icon
+                            fontSize='large'
+                            icon={'solar:document-bold'}
+                            color={'info'}
+                            style={{ fontSize: '24px', margin: '5px' }}
+                          />
+                          <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
+                            {item.document_name}
+                          </Typography>
+                        </Grid>
+                        <Grid xs={12} md={3} display='flex' item container>
+                          <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
+                            <Box margin={1}>
+                              <Button variant='outlined' color='info' size='small' href={item.path} target='_blank'>
+                                <Icon
+                                  fontSize='large'
+                                  icon={'icon-park-outline:preview-open'}
+                                  color={'info'}
+                                  style={{ fontSize: '24px' }}
+                                />
+                              </Button>
+                            </Box>
+                            <Box margin={1}>
+                              <Button
+                                variant='outlined'
+                                color='primary'
+                                size='small'
+                                onClick={() => editDocument(item.id)}
+                              >
+                                <Icon
+                                  fontSize='large'
+                                  icon={'material-symbols:edit'}
+                                  color={'primary'}
+                                  style={{ fontSize: '24px' }}
+                                />
+                              </Button>
+                            </Box>
+                            <Box margin={1}>
+                              <Button variant='outlined' color='error' size='small' onClick={() => deletework(item.id)}>
+                                <Icon
+                                  fontSize='large'
+                                  icon={'fluent:delete-32-filled'}
+                                  color={'error'}
+                                  style={{ fontSize: '24px' }}
+                                />
+                              </Button>
+                            </Box>
+                          </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
-                  ))}
+                    ))}
+                  </Grid>
                 </Grid>
+              )}
+
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
+              <Grid
+                item
+                container
+                direction='row'
+                justifyContent='flex-end'
+                alignItems='center'
+                md={1}
+                lg={1}
+                xs={12}
+              >
+                <Button fullWidth size='small' type='submit' variant='contained' sx={{ mb: 7, background: 'green' }}>
+                  <Grid item xs={2}>
+                    <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '24px' }} />
+                  </Grid>
+                  <Grid item xs={10}>
+                    SAVE
+                  </Grid>
+                </Button>
               </Grid>
             </Grid>
           </Grid>

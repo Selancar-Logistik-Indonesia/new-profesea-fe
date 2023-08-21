@@ -89,10 +89,10 @@ const DialogEdit = (props: EditProps) => {
                         <Icon icon='mdi:close' />
                     </IconButton>
                     <Box sx={{ mb: 6, textAlign: 'center' }}>
-                        <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                            Edit Role Level
+                    <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
+                            Edit Training Category
                         </Typography>
-                        <Typography variant='body2'>Edit Role Level</Typography>
+                        <Typography variant='body2'>Fulfill your Training Categories Info here</Typography>
                     </Box>
                     <Grid container spacing={6}>
                         <Grid item sm={12} xs={12}>
@@ -110,10 +110,17 @@ const DialogEdit = (props: EditProps) => {
                         pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
                     }}
                 >
-                    <Button variant='contained' sx={{ mr: 2 }} type='submit'>
+                    <Button variant='contained' size="small" sx={{ mr: 2 }} type='submit'>
+                        <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '18px' }} />
                         {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
                     </Button>
-                    <Button variant='outlined' color='secondary' onClick={props.onCloseClick}>
+                    <Button variant='outlined' size="small" color='error' onClick={props.onCloseClick}>
+                        <Icon
+                            fontSize='large'
+                            icon={'material-symbols:cancel-outline'}
+                            color={'info'}
+                            style={{ fontSize: '18px' }}
+                        />
                         Cancel
                     </Button>
                 </DialogActions>

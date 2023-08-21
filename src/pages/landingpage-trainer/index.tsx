@@ -14,7 +14,7 @@ import OuterPageLayout from "src/@core/layouts/outer-components/OuterPageLayout"
 const Main = () => {
     const { t } = useTranslation();
 
-    return (
+    return ( 
         <>
             <Head>
                 <title>{`${themeConfig.templateName} - ${t('landing_hero_title')}`}</title>
@@ -25,9 +25,9 @@ const Main = () => {
 
             <Grid container sx={{
                 ...landingPageStyle.bannerHero,
-                height: { xs: 850, md: 650 }
+                height: { xs: 850, md: 850 }
             }}>
-                <Grid item xs={12} xl={6} lg={6} md={6} sx={{ maxWidth: { xs: '90%' }, px: { xs: 5, md: 10 } }}>
+                <Grid item xs={12} xl={6} lg={6} md={6} sx={{ maxWidth: { xs: '100%' }, px: { xs: 5, md: 10 } }}>
                     <Box sx={{ display: "flex", flexDirection: 'column', mt: 2 }}>
                         <div className="ag-courses_item">
                             </div>
@@ -73,13 +73,12 @@ const Main = () => {
                                 </a>
                             </div>
                     </Box>
-                </Grid>
-                <Grid item xs={12} xl={6} lg={6} md={6} pt={5} sx={{
+                    <Grid item xs={12} xl={6} lg={6} md={6} pt={2} sx={{
                     maxWidth: { xs: '90%' }, px: { xs: 5, md: 10 },
                     display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
                     alignItems: "center"
                 }}>
-                    <Box mb={20}>
+                    <Box mb={5}>
                         <Card sx={{ width: 320, height: 200, backgroundColor: '#101820' }} elevation={10}>
                             <CardContent sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}>
                             <Typography variant='h5' sx={{ mb: 2 }} color={"#FFFFFF"} fontWeight="800">
@@ -93,6 +92,8 @@ const Main = () => {
                         </Card>
                     </Box>
                 </Grid>
+                </Grid>
+                
             </Grid >
 
             <FooterView />
