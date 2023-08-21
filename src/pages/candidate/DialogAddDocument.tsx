@@ -16,6 +16,8 @@ import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { Autocomplete, CircularProgress } from '@mui/material'   
 
+import DatePicker from 'react-datepicker' 
+import { DateType } from 'src/contract/models/DatepickerTypes'
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
     ref: Ref<unknown>
@@ -28,6 +30,10 @@ type DialogProps = {
     onCloseClick: VoidFunction;
     onStateChange: VoidFunction;
 }
+type dokumen = {
+  title: string
+  docType:string
+}
  
 type FormData = {
   nameOtherDocument: string
@@ -36,11 +42,15 @@ type FormData = {
  
 const DialogAddDocument = (props: DialogProps) => {
     const [onLoading, setOnLoading] = useState(false); 
-     const [preview, setPreview] = useState()
-     const [selectedFile, setSelectedFile] = useState()
-     const [showTextName, setTextName] = useState<boolean>(false)
+    const [preview, setPreview] = useState()
+    const [selectedFile, setSelectedFile] = useState()
+    const [showTextName, setTextName] = useState<boolean>(false)
+    const [showChild, setChild] = useState<boolean>(false)     
+    const [combochild, setCombochild] = useState<any[]>([])
      
+    const [expiredDate, setExpiredDate] = useState<DateType>(new Date()) 
     const [document_name, setDocument] = useState<any>([])
+    const [document_nameChild, setDocumentChild] = useState<any>([])
     
      useEffect(() => {
       if (!selectedFile) {
@@ -61,7 +71,12 @@ const DialogAddDocument = (props: DialogProps) => {
       }else{
         setTextName(false)
       }
-     
+      if(document_name.child){
+        setChild(true)
+        setCombochild(document_name.child)
+      }else{
+        setChild(false)
+      }
      }, [document_name])
     // const schema = yup.object().shape({
     //     user_id: yup.string().required()
@@ -120,9 +135,186 @@ const DialogAddDocument = (props: DialogProps) => {
       // I've kept this example simple by using the first image instead of multiple
       setSelectedFile(e.target.files[0]) 
     }
+   
+    const dokumencoc= [
+      {
+        title: 'Ahli Nautika Tingkat Dasar (ANTD), Teknika',
+        doctype: 'coc1'
+      },
+      {
+        title: 'Ahli Nautika Tingkat V (ANT V), Teknika',
+        doctype: 'coc2'
+      },
+      {
+        title: 'Ahli Nautika Tingkat IV (ANT IV), Teknika',
+        doctype: 'coc3'
+      },
+      {
+        title: 'Ahli Nautika Tingkat III (ANT III), Teknika',
+        doctype: 'coc4'
+      },
+      {
+        title: 'Ahli Nautika Tingkat II (ANT II), Teknika',
+        doctype: 'coc5'
+      },
+      {
+        title: 'Ahli Nautika Tingkat I (ANT I), Teknika',
+        doctype: 'coc6'
+      },
+      {
+        title: 'Ahli Teknika Tingkat Dasar (ATTD), Nautika',
+        doctype: 'coc7'
+      },
+      {
+        title: 'Ahli Teknika Tingkat V (ATT V), Nautika',
+        doctype: 'coc8'
+      },
+      {
+        title: 'Ahli Teknika Tingkat IV (ATT IV), Nautika',
+        doctype: 'coc9'
+      },
+      {
+        title: 'Ahli Teknika Tingkat III (ATT III), Nautika',
+        doctype: 'coc10'
+      },
+      {
+        title: 'Ahli Teknika Tingkat II (ATT II), Nautika',
+        doctype: 'coc11'
+      },
+      {
+        title: 'Ahli Teknika Tingkat I (ATT I), Nautika',
+        doctype: 'coc12'
+      }, 
+    ]
+    const dokumencop  = [
+      {
+        title: 'Basic training for Oil and Chemical Tanker (BOCT)',
+        doctype: 'cop1'
+      },
+      {
+        title: 'Basic training for Liquefied Gas Tanker (BLGT)',
+        doctype: 'cop2'
+      },
+      {
+        title: 'Advance training for Oil Tanker (AOT)',
+        doctype: 'cop3'
+      },
+      {
+        title: 'Advance training for Chemical Tanker cargo operation (ACT)',
+        doctype: 'cop4'
+      },
+      {
+        title: 'Advance training for Liquefied Gas Tanker cargo operation (ALGT)',
+        doctype: 'cop5'
+      },
+      {
+        title: 'Crowd Management Training Certificate (CMT)',
+        doctype: 'cop6'
+      },
+      {
+        title: 'Crisis Management and Human Behaviour Training Certificate (CMHBT)',
+        doctype: 'cop7'
+      },
+      {
+        title: 'Ro-ro Passenger Safety, Cargo Safety and Hull Intergrity Training Certificate',
+        doctype: 'cop8'
+      },
+      {
+        title: 'Survical Craft and Rescue Boats other than fast rescue boat (SCRB)',
+        doctype: 'cop9'
+      },
+      {
+        title: 'Fast Rescue Boats (FRB)',
+        doctype: 'cop10'
+      },
+      {
+        title: 'Advanced Fire Fighting (AFF)',
+        doctype: 'cop11'
+      },
+      {
+        title: 'Medical First Aid (MFA)',
+        doctype: 'cop12'
+      },
+      {
+        title: 'Medical Care (MC)',
+        doctype: 'cop13'
+      },
+      {
+        title: 'Radar Observation (RADAR Simulator)',
+        doctype: 'cop14'
+      },
+      {
+        title: 'Automatic Radar Plotting Aid Simulator (ARPA Simulator)',
+        doctype: 'cop15'
+      },
+      {
+        title: 'Electronics Charts Display and Information System (ECDIS)',
+        doctype: 'cop16'
+      },
+      {
+        title: 'Bridge Resource Management (BRM)',
+        doctype: 'cop17'
+      },
+      {
+        title: 'Engine Room Resource Management (ERM)',
+        doctype: 'cop18'
+      },
+      {
+        title: 'Security Awareness Training (SAT)',
+        doctype: 'cop19'
+      },
+      {
+        title: 'Security for Seafarers with Designated Security Duties (SDSD)',
+        doctype: 'cop20'
+      },
+      {
+        title: 'Ship Security Officers (SSO)',
+        doctype: 'cop21'
+      },
+      {
+        title: 'International Maritime Dangerous Good Cargo (IMDG) Code',
+        doctype: 'cop22'
+      },
+      {
+        title: 'Able Seafarer Deck',
+        doctype: 'cop23'
+      },
+      {
+        title: 'Able Seafarer Engine',
+        doctype: 'cop24'
+      },
+      {
+        title: 'Cook Certificate',
+        doctype: 'cop25'
+      },
+      {
+        title: 'Basic Safety Training',
+        doctype: 'cop26'
+      },
+      {
+        title: 'GMDSS (Global Maritime Distress Safety System)',
+        doctype: 'cop27'
+      },
+      {
+        title: 'Rating Forming Part of Navigational Watch',
+        doctype: 'cop28'
+      },
+      {
+        title: 'Rating Forming Part of Engine Room Watch',
+        doctype: 'cop29'
+      },
+      {
+        title: 'Proficiency in Survival Craft and Rescue Boats other than Fast Rescue Boats (PSCRB)',
+        doctype: 'cop30'
+      },
+      {
+        title: 'International Safety Management (ISM) Code',
+        doctype: 'cop31'
+      }
+    ]
     const dokumen = [
-      { title: 'Certificate of Competency', docType: 'COC' },
-      { title: 'Certificate of Profeciency', docType: 'COP' },
+      { title: 'Certificate of Competency', docType: 'COC', child: dokumencoc },
+      { title: 'Certificate of Profeciency', docType: 'COP', child: dokumencop },
       { title: 'Certificate of Recognition', docType: 'COR' },
       { title: 'Certificate of Endorsement', docType: 'COE' },
       { title: 'Other Certificate', docType: 'OTH' },
@@ -132,8 +324,6 @@ const DialogAddDocument = (props: DialogProps) => {
       { title: 'Passport', docType: 'PAS' },
       { title: 'Visa', docType: 'VIS' }
     ]
-
-
     return (
       <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
@@ -153,8 +343,8 @@ const DialogAddDocument = (props: DialogProps) => {
               <Icon icon='mdi:close' />
             </IconButton>
             <Box sx={{ mb: 6, textAlign: 'center' }}>
-              <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
-               Add New Document
+              <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
+                Add New Document
               </Typography>
               <Typography variant='body2'>Fulfill your Document Info here</Typography>
             </Box>
@@ -170,16 +360,46 @@ const DialogAddDocument = (props: DialogProps) => {
                   onChange={(e, newValue: any) => (newValue ? setDocument(newValue) : setDocument([]))}
                 />
               </Grid>
-              {showTextName == true &&
-                 <TextField
-                id='document_name'
-                label='Document Name'
-                variant='outlined'
-                fullWidth
-                {...register('nameOtherDocument')}
-              />
-              }
-           
+              {showChild == true && (
+                <>
+                  <Grid item md={12} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='dokumen2'
+                      options={combochild}
+                      getOptionLabel={(option: dokumen) => option.title}
+                      renderInput={params => <TextField {...params} label='Document Child' sx={{ mb: 2 }} />}
+                      onChange={(e, newValue: any) => (newValue ? setDocumentChild(newValue) : setDocumentChild([]))}
+                    />
+                  </Grid>
+                  <Grid item md={12} xs={12}>
+                    <DatePicker
+                      dateFormat='dd/MM/yyyy'
+                      selected={expiredDate}
+                      id='basic-input'
+                      onChange={(dateAwal: Date) => setExpiredDate(dateAwal)}
+                      placeholderText='Click to select a date'
+                      showYearDropdown
+                      showMonthDropdown
+                      dropdownMode='select'
+                      customInput={
+                        <TextField label='Start Date' variant='outlined' fullWidth   />
+                      }
+                    />
+                  </Grid>
+                </>
+              )}
+
+              {showTextName == true && (
+                <TextField
+                  id='document_name'
+                  label='Document Name'
+                  variant='outlined'
+                  fullWidth
+                  {...register('nameOtherDocument')}
+                />
+              )}
+
               <Grid item md={12} xs={12}>
                 <Grid item xs={12} md={12} container justifyContent={'center'}>
                   <Grid xs={6}>
