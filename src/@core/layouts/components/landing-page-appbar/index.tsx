@@ -149,13 +149,14 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                             borderRadius: 1,
                             bgcolor: 'background.paper',
                             color: 'text.secondary',
+                            textTransform: 'capitalize',
                             '& svg': { m: 1.5 },
                             '& hr': { mx: 0.5 },
                         }}>
                             {
                                 homeNavItems.map(el => (
                                     <Link key={el.path} href={el.path}>
-                                        <Button sx={{ fontWeight: router.asPath == el.path ? 'bold' : undefined }} variant="text" color='secondary'>{el.title}</Button>
+                                        <Button sx={{ fontWeight: router.asPath == el.path ? 'bold' : undefined, textTransform: 'capitalize' }} variant="text" color='secondary'>{el.title}</Button>
                                     </Link>
                                 ))
                             }

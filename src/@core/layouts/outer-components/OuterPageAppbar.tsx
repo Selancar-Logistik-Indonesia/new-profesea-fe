@@ -117,7 +117,7 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
                             {
                                 homeNavItems.map(el => (
                                     <Link key={el.path} href={el.path}>
-                                        <Button sx={{ fontWeight: router.asPath == el.path ? 'bold' : undefined }} variant="text" color='secondary'>{el.title}</Button>
+                                        <Button sx={{ fontWeight: router.asPath == el.path ? 'bold' : undefined, textTransform: 'capitalize' }} variant="text" color='secondary'>{el.title}</Button>
                                     </Link>
                                 ))
                             }
