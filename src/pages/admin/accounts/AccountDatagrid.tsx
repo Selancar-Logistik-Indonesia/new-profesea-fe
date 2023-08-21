@@ -6,11 +6,11 @@ import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true },
-    { field: 'name', headerName: 'Name', sortable: true , minWidth: 250},
-    { field: 'email', headerName: 'Email', sortable: false, minWidth: 200 },
-    { field: 'phone', headerName: 'Phone', sortable: false, minWidth: 150 },
-    { field: 'role', headerName: 'Role', sortable: false, minWidth: 100 },
-    { field: 'plan', headerName: 'Plan', sortable: false, minWidth: 100 },
+    { field: 'name', headerName: 'Name', sortable: true , minWidth: 200},
+    { field: 'email', headerName: 'Email', sortable: true, minWidth: 250 },
+    { field: 'phone', headerName: 'Phone', sortable: true, minWidth: 150 },
+    { field: 'role', headerName: 'Role', sortable: true, minWidth: 100 },
+    { field: 'plan', headerName: 'Plan', sortable: true, minWidth: 100 },
     {
         field: 'action',
         headerName: 'Action',
@@ -21,10 +21,10 @@ const columns: GridColDef[] = [
             return (
                 <>
                     <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
-                        <Icon icon='mdi:pencil' />
+                        <Icon icon='solar:pen-new-round-bold-duotone' />
                     </IconButton>
                     <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
-                        <Icon icon='mdi:trash' />
+                        <Icon icon='solar:trash-bin-trash-bold-duotone' />
                     </IconButton>
                 </>
             );

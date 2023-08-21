@@ -79,7 +79,7 @@ const BoxWrapper = styled(Box)<BoxProps>(() => ({
 const CompanyProfile = (props: compProps) => {
 
   const inputRef = useRef<any>('')
- 
+
   const [combocountry, getComboCountry] = useState<any>([])
   const [comboindustry, getComboIndustry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
@@ -443,17 +443,17 @@ const CompanyProfile = (props: compProps) => {
     if (x == 'li') setDisabledLinkedin(false)
   }
   const getimage = async () => {
-    const resp = await HttpClient.get('/user/gallery?page=1&take=25' )
+    const resp = await HttpClient.get('/user/gallery?page=1&take=25')
     if (resp.status != 200) {
       throw resp.data.message ?? 'Something went wrong!'
     }
-    const slides=[]
+    const slides = []
     const data = resp.data.data
     for (let x = 0; x < data.length; x++) {
       const element = data[x];
-      const url = { url: element.file_address , title: element.mime, id: element.id }
+      const url = { url: element.file_address, title: element.mime, id: element.id }
       slides.push(url)
-      
+
     }
     setSlides(slides)
   }
@@ -631,14 +631,14 @@ const CompanyProfile = (props: compProps) => {
                   {...register('email')}
                 />
               </Grid>
-              <Grid item md={3} xs={12}>
+              <Grid item md={1} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='code'
                   options={combocode}
                   getOptionLabel={(option: Countries) => option.iso}
                   defaultValue={props.datauser?.country}
-                  renderInput={params => <TextField {...params} label='Code' sx={{ mb: 2 }} />}
+                  renderInput={params => <TextField {...params} label='Code Phone' sx={{ mb: 2 }} />}
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
                   }
@@ -696,7 +696,7 @@ const CompanyProfile = (props: compProps) => {
                     <Grid xs={12} item>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Box sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                          <img src='/images/logos/facebook.png' alt='Facebook' height='20' />
+                          <Icon icon='mdi:facebook' fontSize={24} color={'#424242'} />
                         </Box>
                         <TextField
                           id='facebook'
@@ -720,7 +720,7 @@ const CompanyProfile = (props: compProps) => {
                         >
                           <Icon
                             fontSize='large'
-                            icon={'material-symbols:edit'}
+                            icon={'solar:pen-new-round-bold-duotone'}
                             color={'primary'}
                             style={{ fontSize: '24px' }}
                           />
@@ -735,7 +735,7 @@ const CompanyProfile = (props: compProps) => {
                     <Grid xs={12} item>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                          <img src='/images/logos/instagram.png' alt='instagram' height='30' />
+                          <Icon icon='mdi:instagram' fontSize={24} color={'#424242'} />
                         </Box>
                         <TextField
                           id='instagram'
@@ -758,7 +758,7 @@ const CompanyProfile = (props: compProps) => {
                         >
                           <Icon
                             fontSize='large'
-                            icon={'material-symbols:edit'}
+                            icon={'solar:pen-new-round-bold-duotone'}
                             color={'primary'}
                             style={{ fontSize: '24px' }}
                           />
@@ -773,7 +773,7 @@ const CompanyProfile = (props: compProps) => {
                     <Grid xs={12} item>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                          <img src='/images/logos/linkedin.png' alt='linkedin' height='30' />
+                          <Icon icon='mdi:linkedin' fontSize={24} color={'#424242'} />
                         </Box>
                         <TextField
                           id='linkedin'
@@ -797,7 +797,7 @@ const CompanyProfile = (props: compProps) => {
                         >
                           <Icon
                             fontSize='large'
-                            icon={'material-symbols:edit'}
+                            icon={'solar:pen-new-round-bold-duotone'}
                             color={'primary'}
                             style={{ fontSize: '24px' }}
                           />
@@ -822,7 +822,7 @@ const CompanyProfile = (props: compProps) => {
         </Grid>
         <Grid container item xs={12} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
-            Upload your Picture here
+            Upload your Photo here
           </Typography>
         </Grid>
       </Grid>
@@ -848,7 +848,7 @@ const CompanyProfile = (props: compProps) => {
           ref={inputRef}
         ></input>
       </Grid>
-      {slides.length>0 && (
+      {slides.length > 0 && (
         <Grid item md={12} xs={12}>
           <ImageSlider slide={slides} />
         </Grid>

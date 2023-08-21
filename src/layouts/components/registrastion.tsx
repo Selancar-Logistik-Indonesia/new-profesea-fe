@@ -47,14 +47,19 @@ const LinkStyled = styled(Link)(() => ({
   
   textDecoration: 'none', 
 }))
-const Registration = (props: any) => {
-    const { tipereg } = props;
+const Registration = (props: any ) => {
+   
+    debugger;
+    const { tipereg } = props 
+    const { type } = props 
     const router = useRouter()
     const [showPassword, setShowPassword] = useState<boolean>(false)
-
     const [combocode, getCombocode] = useState<any>([])
     const [idcombocode, setCombocode] = useState<any>(0)
-    const [idposition, setPosition] = useState<any>(0)
+     
+    const [idposition, setPosition] = useState<any>(
+      type == 'onship' ? { label: 'Onship', id: 0 } : type == 'offship' ? { label: 'Offship', id: 1 } : ''
+    )
     const schema = yup.object().shape({
         email: yup.string().email().required(),
         password: yup.string().min(5).required()
@@ -145,10 +150,13 @@ const Registration = (props: any) => {
 
                 getCombocode(code);
             })
+        
     }
 
     useEffect(() => {
         combobox()
+        debugger;
+       
     }, []);
 
     const position = [
@@ -170,7 +178,8 @@ const Registration = (props: any) => {
                   disablePortal
                   id='position'
                   options={!position ? [{ label: 'Loading...', id: 0 }] : position}
-                  renderInput={params => <TextField {...params} label='Position' sx={{ mb: 2 }} />}
+                  defaultValue={idposition}
+                  renderInput={params => <TextField {...params} label='Work Area' sx={{ mb: 2 }} />}
                   {...register('position')}
                   onChange={(event: any, newValue: any | null) => setPosition(newValue)}
                 />
@@ -326,11 +335,11 @@ const Registration = (props: any) => {
                 fullWidth
                 size='large'
                 type='button'
-                variant='contained'
+                variant='outlined'
                 sx={{ mb: 7 }}
-                startIcon={<Icon icon={'mdi:arrow-left'} />}
+                startIcon={<Icon icon={'solar:double-alt-arrow-left-bold-duotone'} />}
               >
-                PREVIOUS
+                BACK
               </Button>
             </Link>
           </Grid>
@@ -343,7 +352,7 @@ const Registration = (props: any) => {
               type='submit'
               variant='contained'
               sx={{ mb: 7 }}
-              endIcon={<Icon icon={'mdi:arrow-right'} />}
+              endIcon={<Icon icon={'solar:double-alt-arrow-right-bold-duotone'} />}
             >
               REGISTER
             </Button>

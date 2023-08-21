@@ -231,8 +231,8 @@ const Profile = (props: userProps) => {
                 <IconButton>
                   <Icon
                     fontSize='large'
-                    icon={'material-symbols:edit'}
-                    color={'#FFFFFF'}
+                    icon={'solar:pen-new-round-bold-duotone'}
+                    color={'#32487A'}
                     style={{ fontSize: '24px' }}
                   />
                 </IconButton>

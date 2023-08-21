@@ -48,14 +48,13 @@ const DiscoverView = () => {
                     }}>
 
                         <Grid container spacing={6}>
-                            <Grid item xs={12} sm={1}>
+                            <Grid item xs={12} sm={0.5}>
                             </Grid>
-                            <Grid item xs={12} sm={5}>
-                                <Typography variant="h3" style={{ color: "#FFFFFF" }} fontWeight="800" mt={6}>{t("landing_discover_title")}</Typography>
+                            <Grid item xs={12} sm={6}>
+                                <Typography variant="h3" style={{ color: "#FFFFFF" }} fontWeight="800" mt={20}>{t("landing_discover_title")}</Typography>
                                 <Typography fontSize={18} style={{ color: "#FFFFFF" }} mt={2} align={"justify"}>{t("landing_discover_subtitle")}</Typography>
-                                <Typography variant="h5" style={{ color: "#EF6C00" }} fontWeight="600" mt={6}>{t("landing_discover_subtitle_2")}</Typography>
                             </Grid>
-                            <Grid item xs={12} sm={1}>
+                            <Grid item xs={12} sm={0.5}>
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <img alt="Whatis" src='/images/img-whatis.png' style={{

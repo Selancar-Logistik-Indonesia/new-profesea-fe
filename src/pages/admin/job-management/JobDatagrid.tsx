@@ -6,12 +6,11 @@ import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , minWidth: 10},
-    { field: 'role_type', headerName: 'Job Title', sortable: true , minWidth: 150},
     { field: 'company_name', headerName: 'Company Name', sortable: true , minWidth: 150},
-    { field: 'category_name', headerName: 'Category', sortable: false, minWidth: 200 },
-    { field: 'level_name', headerName: 'Level', sortable: false, minWidth: 150 },
-    { field: 'degree', headerName: 'Degree', sortable: false, minWidth: 100 },
-    { field: 'salary', headerName: 'Salary', sortable: false, minWidth: 150 },
+    { field: 'role_type', headerName: 'Job Title', sortable: true , minWidth: 150},
+    { field: 'level_name', headerName: 'Role Level', sortable: false, minWidth: 150 },
+    { field: 'category_name', headerName: 'Job Category', sortable: false, minWidth: 200 },
+    { field: 'license', headerName: 'License', sortable: true, minWidth: 200 },
     {
         field: 'action',
         headerName: 'Action',
@@ -22,10 +21,10 @@ const columns: GridColDef[] = [
             return (
                 <>
                     <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
-                        <Icon icon='mdi:pencil' />
+                        <Icon icon='solar:pen-new-round-bold-duotone' />
                     </IconButton>
                     <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
-                        <Icon icon='mdi:trash' />
+                        <Icon icon='solar:trash-bin-trash-bold-duotone' />
                     </IconButton>
                 </>
             );
