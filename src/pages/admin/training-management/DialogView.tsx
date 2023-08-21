@@ -73,7 +73,7 @@ const DialogView = (props: ViewProps) => {
                             <DatePickerWrapper>
                                 <DatePicker
                                 disabled
-                                dateFormat='dd/MM/yyyy'
+                                dateFormat='dd/MM/yyyy hh:mm aa'
                                 selected={date}
                                 id='basic-input'
                                 onChange={(date: Date) => setDate(date)}
