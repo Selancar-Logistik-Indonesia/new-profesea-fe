@@ -3,7 +3,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
-import { Box, Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import JobDatagrid, { RowItem } from './CommunityDatagrid';
 import { HttpClient } from 'src/services';
@@ -97,7 +97,13 @@ const CommunityScreen = () => {
             <Grid container spacing={6} className='match-height'>
                 <Grid item xs={12} sm={6} md={12}>
                     <Card>
-                        <CardHeader title='List Threads' />
+                    <CardHeader
+                        title={
+                            <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600' ,color: '#32487A' }}>
+                              List Threads
+                            </Typography>
+                          }
+                        />
                         <CardContent>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
