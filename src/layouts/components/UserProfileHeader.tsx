@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useAuth } from 'src/hooks/useAuth'
 import ProfileActionArea from 'src/views/profile/action_area'
+import ShareArea from './ShareArea'
 
 const ProfilePicture = styled('img')(({ theme }) => ({
     width: 120,
@@ -139,7 +140,7 @@ const UserProfileHeader = (props: userProps) => {
                     </Box>
                 </Box>
                 <Grid container justifyContent='flex-end'>
-                    <Grid item xs={12} md={11}>
+                    <Grid item xs={12} md={10}>
                         <Box
                             sx={{
                                 display: 'flex',
@@ -174,32 +175,33 @@ const UserProfileHeader = (props: userProps) => {
                             </Box>
                         </Box>
                     </Grid>
-                    <Grid item xs={12} md={1} marginTop={'-5px'}>
+                    <Grid item xs={12} md={2} marginTop={'-5px'}>
                         {!showFriendship && (
+                            <>
                             <Grid container direction='row' justifyContent='flex-end' alignItems='flex-end'>
+                                <Grid item>
                                 {datauser.role == 'Company' && (
-                                    <Button LinkComponent={Link} href='/company'>
-                                        <Icon
-                                            fontSize='large'
-                                            icon={'solar:pen-new-round-bold-duotone'}
-                                            color={'primary'}
-                                            style={{ fontSize: '24px' }}
-                                        />
+                                    <Button size='small' LinkComponent={Link} href='/company' startIcon={<Icon icon='material-symbols:edit' fontSize={10} />} >
+                                    &nbsp;
                                     </Button>
                                 )}
                                 {datauser.role == 'Seafarer' && (
-                                    <Button LinkComponent={Link} href='/candidate'>
-                                        <Icon
-                                            fontSize='large'
-                                            icon={'solar:pen-new-round-bold-duotone'}
-                                            color={'primary'}
-                                            style={{ fontSize: '24px' }}
-                                        />
+                                    <Button size='small' LinkComponent={Link} href='/candidate' startIcon={<Icon icon='material-symbols:edit' fontSize={10} />} >
+                                    &nbsp;
                                     </Button>
                                 )}
+                                </Grid>
+                                <Grid item>
+                                    <ShareArea  subject={`User Shared ${datauser.name}.`} url={`/profile/${datauser.username}`} ></ShareArea>
+                                </Grid>
                             </Grid>
+                            </>
+                        )}
+                        {showFriendship &&(
+                            <ShareArea  subject={`User Shared ${datauser.name}.`} url={`/profile/${datauser.username}`} ></ShareArea>
                         )}
                     </Grid>
+                    
                 </Grid>
             </CardContent>
         </Card>
