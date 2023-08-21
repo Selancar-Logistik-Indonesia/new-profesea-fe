@@ -122,7 +122,8 @@ const DialogEdit = (props: EditProps) => {
                 year: "numeric",
                 month: "2-digit",
                 day: "2-digit"
-            }).split('/').reverse().join('-'),
+            }).split('/').reverse().join('-')+" "
+            +date?.toTimeString().split(' ')[0],
             "thumbnail" : files[0],
             "instant" : 0,
             "short_description": short_description
