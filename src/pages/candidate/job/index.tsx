@@ -10,36 +10,37 @@ import Grid, { GridProps } from '@mui/material/Grid'
 import { styled } from '@mui/material/styles'
 import { useSearchParams } from 'next/navigation';
 import RelatedJobView from 'src/views/find-job/RelatedJobView';
-import ShareButton from 'src/views/find-job/ShareButton';
+// import ShareButton from 'src/views/find-job/ShareButton';
+import ShareArea from './ShareArea';
 
 const JobDetail = () => {
-  const url = window.location.href
+  // const url = window.location.href
   const [onApplied, setOnApplied] = useState(false);
   const [jobDetail, setJobDetail] = useState<Job>()
   const license: any[] = Object.values((jobDetail?.license != undefined) ? jobDetail?.license : '')
   const [isLoading, setIsLoading] = useState(true)
-  const [open, setOpen] = React.useState(false)
-  const anchorRef = React.useRef<HTMLDivElement>(null)
-  const [selectedIndex, setSelectedIndex] = React.useState(1)
+  // const [open, setOpen] = React.useState(false)
+  // const anchorRef = React.useRef<HTMLDivElement>(null)
+  // const [selectedIndex, setSelectedIndex] = React.useState(1)
   const searchParams = useSearchParams();
   const jobId = searchParams.get("id");
 
-  const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => {
-    setSelectedIndex(index)
-    setOpen(false)
-  }
+  // const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => {
+  //   setSelectedIndex(index)
+  //   setOpen(false)
+  // }
 
-  const handleToggle = () => {
-    setOpen(prevOpen => !prevOpen)
-  }
+  // const handleToggle = () => {
+  //   setOpen(prevOpen => !prevOpen)
+  // }
 
-  const handleClose = (event: Event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
-      return;
-    }
+  // const handleClose = (event: Event) => {
+  //   if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
+  //     return;
+  //   }
 
-    setOpen(false)
-  }
+  //   setOpen(false)
+  // }
 
   const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -193,28 +194,19 @@ const JobDetail = () => {
                             <Grid item>
                               {onApplied == false ? (
                                 <>
-                                  <Button onClick={handleApply} variant='contained' color='primary'>
-                                    <Icon icon='iconoir:submit-document' color='white' fontSize={19} /> Apply Job
+                                  <Button onClick={handleApply} variant='contained' color='primary' size='small' startIcon={<Icon icon='iconoir:submit-document' fontSize={10} />}>Apply Job
                                   </Button>
                                 </>
                               ) : (
                                 <>
-                                  <Button variant='contained' color='primary'>
-                                    <Box mr={2}>
-                                      <Icon icon='iconoir:submit-document' color='white' fontSize={19} />
-                                    </Box>
+                                  <Button variant='contained' color='primary' size='small' startIcon={<Icon icon='iconoir:submit-document' fontSize={10} />}>
                                     Applied
                                   </Button>
                                 </>
                               )}
                             </Grid>
                             <Grid item>
-                              <ShareButton anchorRef={anchorRef}
-                                handleClose={handleClose}
-                                handleMenuItemClick={handleMenuItemClick}
-                                jobDetail={jobDetail} handleToggle={handleToggle}
-                                open={open} selectedIndex={selectedIndex} url={url}
-                              />
+                              <ShareArea  subject={`Job For ${jobDetail?.role_type?.name}.`} url={`/candidate/job/?id=${jobDetail?.id}`} ></ShareArea>
                             </Grid>
                           </Grid>
                         </Grid>
