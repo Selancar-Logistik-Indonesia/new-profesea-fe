@@ -631,7 +631,7 @@ const CompanyProfile = (props: compProps) => {
                   {...register('email')}
                 />
               </Grid>
-              <Grid item md={3} xs={12}>
+              <Grid item md={1} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='code'

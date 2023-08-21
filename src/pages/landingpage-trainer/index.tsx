@@ -27,7 +27,7 @@ const Main = () => {
                 ...landingPageStyle.bannerHero,
                 height: { xs: 850, md: 850 }
             }}>
-                <Grid item xs={12} xl={6} lg={6} md={6} sx={{ maxWidth: { xs: '90%' }, px: { xs: 5, md: 10 } }}>
+                <Grid item xs={12} xl={6} lg={6} md={6} sx={{ maxWidth: { xs: '100%' }, px: { xs: 5, md: 10 } }}>
                     <Box sx={{ display: "flex", flexDirection: 'column', mt: 2 }}>
                         <div className="ag-courses_item">
                             </div>
