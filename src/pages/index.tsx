@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Typography, Card, CardContent } from "@mui/material";
+import { Button, Container, Grid, Typography, Card, CardContent, Box } from "@mui/material";
 import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import landingPageStyle from "src/@core/styles/landing-page/landing-page";
@@ -35,7 +35,7 @@ const Main = () => {
                     <Container style={{ marginTop: 60, lineHeight: 3.5 }} sx={{ display: { xs: 'none', md: 'block' } }}>
                         <Grid container justifyContent="center" sx={{ backgroundColor: 'none' }} spacing={9} mt={0} mb={10}>
                             <Card sx={{ width: 320, height: 200, backgroundColor: '#101820', mr: 5 }} elevation={10}>
-                                
+
                                 <CardContent sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}>
                                     <Typography variant='h5' sx={{ mb: 2 }} color={"#FFFFFF"} fontWeight="800">
                                         {t('b_to_seafarer')}
@@ -43,7 +43,9 @@ const Main = () => {
                                     <Typography variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
                                         {t('b_to_seafarer_detail')}
                                     </Typography>
-                                    <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
+                                    <Box>
+                                        <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
+                                    </Box>
                                 </CardContent>
                             </Card>
                             <Card sx={{ width: 320, height: 200, backgroundColor: '#101820' }} elevation={10}>
@@ -54,7 +56,9 @@ const Main = () => {
                                     <Typography variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
                                         {t('b_to_professional_detail')}
                                     </Typography>
-                                    <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
+                                    <Box>
+                                        <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
+                                    </Box>
                                 </CardContent>
                             </Card>
                         </Grid>
