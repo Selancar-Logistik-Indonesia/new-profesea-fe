@@ -1327,11 +1327,24 @@ const CandidateProfile = (props: compProps) => {
                 </Grid>
               )}
 
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11.3} xs={12}></Grid>
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.5} lg={0.7} xs={12}>
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
+              <Grid
+                item
+                container
+                direction='row'
+                justifyContent='flex-end'
+                alignItems='center'
+                md={1}
+                lg={1}
+                xs={12}
+              >
                 <Button fullWidth size='small' type='submit' variant='contained' sx={{ mb: 7, background: 'green' }}>
-                  <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '24px' }} />
-                  SAVE
+                  <Grid item xs={2}>
+                    <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '24px' }} />
+                  </Grid>
+                  <Grid item xs={10}>
+                    SAVE
+                  </Grid>
                 </Button>
               </Grid>
             </Grid>
