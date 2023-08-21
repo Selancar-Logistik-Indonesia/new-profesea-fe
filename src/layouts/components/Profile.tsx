@@ -21,7 +21,7 @@ export type ParamJobVacncy = {
   lokasi: string
   waktu: string
 }
- 
+
 type userProps = {
   datauser: IUser | null
 }
@@ -82,7 +82,7 @@ const Profile = (props: userProps) => {
     return "/";
   }
 
-  
+
   return (
     <Grid container>
       <Grid item xs={12}>

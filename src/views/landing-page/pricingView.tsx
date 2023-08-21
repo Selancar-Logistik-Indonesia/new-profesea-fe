@@ -18,8 +18,8 @@ const PricingView = () => {
         const response = await HttpClient.get(`/public/data/pricing`);
         if (response.status != 200) {
             alert("Failed to get pricing data");
-            
-return;
+
+            return;
         }
 
         const { pricing, keys } = response.data as { pricing: Pricing[], keys: string[] };
@@ -39,49 +39,51 @@ return;
         const keys = Object.entries(items);
 
         return keys.map(e => {
-            if (e.at(0) == "pay-per-value") {
-                return false;
-            }
-
             const title = e.at(0) as string;
             const price = items[title].at(0).price;
 
             return (
-                <Box sx={{ minWidth: 320, maxWidth: 320 }} height={850} mx={5} mt={5} key={title} padding={5} component={Card} textAlign="center">
+                <Box sx={{ minWidth: 310, maxWidth: 310 }} height={850} mx={5} mt={5} key={title} padding={5} component={Card} textAlign="center">
                     <Typography mb={2} variant="h5">{toTitleCase(title)}</Typography>
-                    {/* <Typography mb={2} fontWeight="body1" sx={{ textDecoration: "line-through", color: "grey" }} variant="h6">Rp50.000</Typography> */}
-                    <Typography mb={2} variant="h5">{price > 0 ? formatIDR(price) : "Free"}</Typography>
-
-                    {/* <Grid
-                        container
-                        spacing={0}
-                        direction="column"
-                        alignItems="center"
-                        justifyContent="center">
-                        <Grid item width={200}>
-                            <Typography mb={2} variant="body1">per user/month paid annualy minimum of 3 users</Typography>
-                        </Grid>
-                    </Grid> */}
-
-                    <Button fullWidth={true} type="button" variant="contained">Buy It</Button>
-                    {/* <Typography my={3} variant="body1">Team Collaboration for any business</Typography> */}
-
-                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                        {items[title].map((value: Pricing) => {
-
-                            return (
-                                <ListItem
-                                    key={value.id}
-                                    disableGutters>
-                                    <IconButton size="small" aria-label="comment">
-                                        <FontAwesomeIcon color="#66bb6a" icon={faCheckCircle} />
-                                    </IconButton>
-
-                                    <ListItemText primary={value.item.name} />
-                                </ListItem>
+                    {
+                        title == "pay-per-value"
+                            ? (
+                                <Grid
+                                    container
+                                    spacing={0}
+                                    direction="column"
+                                    alignItems="center"
+                                    justifyContent="center">
+                                    <Grid item width={200}>
+                                        <Typography mb={2} variant="body1">Wants only specific feature we have?</Typography>
+                                    </Grid>
+                                </Grid>
                             )
-                        })}
-                    </List>
+                            : (<Typography mb={2} variant="h5">{price > 0 ? formatIDR(price) : "Free"}</Typography>)
+                    }
+
+                    <Button fullWidth={true} type="button" variant="contained">
+                        {['pay-per-value', 'basic'].includes(title) ? "Try It" : "Buy It"}
+                    </Button>
+
+                    {title != "pay-per-value" && (
+                        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                            {items[title].map((value: Pricing) => {
+
+                                return (
+                                    <ListItem
+                                        key={value.id}
+                                        disableGutters>
+                                        <IconButton size="small" aria-label="comment">
+                                            <FontAwesomeIcon color="#66bb6a" icon={faCheckCircle} />
+                                        </IconButton>
+
+                                        <ListItemText primary={value.item.name} />
+                                    </ListItem>
+                                )
+                            })}
+                        </List>
+                    )}
                 </Box>
             );
         });
@@ -108,55 +110,7 @@ return;
                         : buildPricingArea()
                 }
             </Box>
-
-            {/* 
-            <Grid container
-                direction="row"
-                alignItems="center"
-                justifyContent="center">
-                <Grid width={320} height={420} mx={5} mt={5} padding={5} item component={Card} textAlign="center">
-                    <Typography mb={2} variant="h5">Pay per Items</Typography>
-
-                    <Grid
-                        container
-                        spacing={0}
-                        direction="column"
-                        alignItems="center"
-                        justifyContent="center">
-                        <Grid item width={200}>
-                            <Typography mb={2} variant="body1">per user/month paid by your needs</Typography>
-                        </Grid>
-                    </Grid>
-
-                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                        {payPerUsePlan.map((value) => {
-                            let appendText = "";
-                            if (value.quota) {
-                                appendText = ` (${value.quota[2]})`;
-                            }
-
-                            return (
-                                <ListItem
-                                    key={value.key}
-                                    disableGutters>
-                                    <IconButton size="small" aria-label="comment">
-                                        <FontAwesomeIcon color="#66bb6a" icon={faCheckCircle} />
-                                    </IconButton>
-
-                                    <ListItemText sx={{ maxWidth: 180 }} primary={value.itemName + appendText} />
-
-                                    <ListItemSecondaryAction>
-                                        <Button size="small" type="button" variant="contained">Buy It</Button>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                            )
-                        })}
-                    </List>
-                </Grid>
-            </Grid> */}
-
         </Grid>
-
     );
 }
 
