@@ -326,11 +326,11 @@ const Registration = (props: any) => {
                 fullWidth
                 size='large'
                 type='button'
-                variant='contained'
+                variant='outlined'
                 sx={{ mb: 7 }}
-                startIcon={<Icon icon={'mdi:arrow-left'} />}
+                startIcon={<Icon icon={'solar:double-alt-arrow-left-bold-duotone'} />}
               >
-                PREVIOUS
+                BACK
               </Button>
             </Link>
           </Grid>
@@ -343,7 +343,7 @@ const Registration = (props: any) => {
               type='submit'
               variant='contained'
               sx={{ mb: 7 }}
-              endIcon={<Icon icon={'mdi:arrow-right'} />}
+              endIcon={<Icon icon={'solar:double-alt-arrow-right-bold-duotone'} />}
             >
               REGISTER
             </Button>

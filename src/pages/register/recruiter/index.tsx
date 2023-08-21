@@ -15,7 +15,7 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
 // import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import { Container, Grid } from '@mui/material'
+import { Container } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
 
@@ -90,7 +90,7 @@ const Register = () => {
 
         {!hidden ? (
 
-          <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center', backgroundImage: "url(/images/bg-register-form.jpg)", backgroundSize: 'cover' }}>
+          <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center', backgroundImage: "url(/images/recruiter-00.jpeg)", backgroundSize: 'cover' }}>
             <Container fixed>
               <Box
                 display="flex"
@@ -98,7 +98,7 @@ const Register = () => {
                 alignItems="center"
                 minHeight="100vh"
               >
-                <Grid container justifyContent={'center'} alignContent={'center'}>
+                {/* <Grid container justifyContent={'center'} alignContent={'center'}>
                   <Box
                     display="flex"
                     justifyContent="center"
@@ -130,7 +130,7 @@ const Register = () => {
                       }} />
                     </Box>
                   </Grid>
-                </Grid>
+                </Grid> */}
               </Box>
             </Container>
           </Box>
@@ -161,7 +161,7 @@ const Register = () => {
                 <Box sx={!hidden ? { mb: 6, marginLeft: '5%', width: '80%', alignItems: 'center', justifyContent: 'center' } :
                   { mb: 6, alignItems: 'center', justifyContent: 'center' }}>
                   <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: "#424242" }}>Create an Account Recruiter</Typography>
-                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: "#424242" }}> Enter Your Account As Recruiter In Here!</Typography>
+                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: "#424242" }}> Enter your information as Recruiter here!</Typography>
                   <Registration tipereg="company"></Registration>
                 </Box>
 
