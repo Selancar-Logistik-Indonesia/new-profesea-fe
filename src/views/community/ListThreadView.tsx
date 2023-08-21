@@ -24,18 +24,18 @@ const renderList = (arr: IThread[]) => {
                     height={65}
                     sx={{
                         display: 'flex',
-                        alignContent: 'center',
+                        alignContent: 'left',
                     }}
                     mt={-5}
                     >
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={5} ml={2} mr={3}>
+                    <Box sx={{ display: 'flex', justifyContent: 'left' }} mt={7} ml={2} mr={3}>
                         <Avatar src={item.user?.photo} alt='profile-picture' sx={{ width: 50, height: 50 }} />
                     </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={2}>
                         <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1, mt:5 }} fontSize={14}>
                             {item.user?.name}
                         </Typography>
-                        <Grid container direction="row" alignItems="center" spacing={4}>
+                        <Grid container direction="row" alignItems="left" spacing={4}>
                           <Grid item>                              
                             <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
                             {item.forum
@@ -53,7 +53,7 @@ const renderList = (arr: IThread[]) => {
                   </Box>
                 </Link> 
                 <Link style={{ textDecoration: 'none' }} href={'/thread/?id=' + item.id} >
-                  <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} mt={5} ml={5} mr={5} >
+                  <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} mt={5} ml={5} mr={5} >
                       <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
                         {item.title
                           ? `${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`
@@ -64,7 +64,7 @@ const renderList = (arr: IThread[]) => {
                       </Typography>
                   </Box>
                 </Link>               
-                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-end'] }} >
+                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-end'] }} >
                   <Grid container direction="row" justifyContent="flex-end" spacing={6} >
                       <Grid item xs={6}> 
                         <ShareArea subject={`${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`} url={`/thread/?id=${item.id}`} total={item.replies_count
@@ -97,7 +97,7 @@ const ListThreadView = () => {
         if (onLoading) {
         
           return (
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
                     <CircularProgress sx={{ mt: 20 }} />
                 </Box>
             );

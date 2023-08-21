@@ -23,9 +23,7 @@ const CommunityApp = () => {
   return (
     <Grid container spacing={6}>
       <Grid item lg={12} md={9} xs={12}>
-        <Grid container spacing={6}>
-          <Grid item xs={12}>            
-            <Grid container  sx={{
+        <Grid container spacing={2} sx={{
               boxSizing: 'border-box',
               background: '#FFFFFF',
               border: '1px solid rgba(76, 78, 100, 0.12)',
@@ -36,13 +34,15 @@ const CommunityApp = () => {
               justifyContent: 'center',
               wrap: 'nowrap'
             }}>
+          <Grid item xs={12}>            
+            <Grid container >
               <Grid item xs={12} display={'flex'} alignContent={'flex-end'} justifyContent={'flex-end'}>
                 <Button variant='contained' href='/thread/create' startIcon={<Icon icon='mdi:tooltip-plus-outline' fontSize={10} />}>
                   Create Thread
                 </Button>
               </Grid>
-              <ListThreadView />
             </Grid>
+            <ListThreadView />
           </Grid>
         </Grid>
       </Grid>

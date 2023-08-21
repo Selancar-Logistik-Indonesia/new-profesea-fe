@@ -1,5 +1,6 @@
 // ** React Imports
 import React, { useEffect, useState } from 'react'
+import {useRouter} from 'next/router'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
@@ -31,7 +32,8 @@ import { getCleanErrorMessage } from 'src/utils/helpers'
 import { Icon } from '@iconify/react'
 
 const Thread = () => {
-  // const theme = useTheme()  
+  // const theme = useTheme() 
+  const router = useRouter() 
   const [onLoading, setOnLoading] = useState(false);
   const [forumCode, getForumCode] = useState<[]>([])
   const [sforumCode, setForumCode] = useState(0)
@@ -90,6 +92,7 @@ const Thread = () => {
       }
 
       toast.success(` Thread created successfully!`);
+      router.push('/community')
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`);
     }
