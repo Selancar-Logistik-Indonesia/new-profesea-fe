@@ -22,6 +22,7 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { IUser } from 'src/contract/models/user'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -30,6 +31,7 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
+
   return (
     <div
       role="tabpanel"

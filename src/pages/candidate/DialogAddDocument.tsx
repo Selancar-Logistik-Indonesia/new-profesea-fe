@@ -18,6 +18,7 @@ import { Autocomplete, CircularProgress } from '@mui/material'
 
 import DatePicker from 'react-datepicker' 
 import { DateType } from 'src/contract/models/DatepickerTypes'
+
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
     ref: Ref<unknown>
@@ -100,11 +101,20 @@ const DialogAddDocument = (props: DialogProps) => {
       }else{
         doc = document_name.title
       }
+      let childname = ''
+      let childtype = ''
+        if (showChild == true) {
+          childname = document_nameChild.title
+          childtype = document_nameChild.docType
+        }  
       const json = {
         user_document: selectedFile,
         document_name: doc,
         document_type: document_name.docType,
-        document_number: 123
+        document_number: 123,
+
+        document_child: childname,
+        document_child_type: childtype
       }
        
       setOnLoading(true)
@@ -324,6 +334,7 @@ const DialogAddDocument = (props: DialogProps) => {
       { title: 'Passport', docType: 'PAS' },
       { title: 'Visa', docType: 'VIS' }
     ]
+
     return (
       <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
