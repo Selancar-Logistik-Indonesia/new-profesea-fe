@@ -195,7 +195,7 @@ const DialogEdit = (props: EditProps) => {
                         <Grid item md={12} xs={12} >
                             <DatePickerWrapper>
                                 <DatePicker
-                                dateFormat='dd/MM/yyyy'
+                                dateFormat='dd/MM/yyyy hh:mm aa'
                                 selected={date}
                                 id='basic-input'
                                 onChange={(date: Date) => setDate(date)}
