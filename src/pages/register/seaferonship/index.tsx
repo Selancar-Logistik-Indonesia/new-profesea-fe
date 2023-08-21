@@ -63,7 +63,6 @@ const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 const Register = () => {
-  
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -85,13 +84,13 @@ const Register = () => {
   return (
     <>
       <Head>
-        <title>{`${themeConfig.templateName} - Recruiter Registration`}</title>
+        <title>{`${themeConfig.templateName} - Candidate Registration`}</title>
       </Head>
       <Box className='content-right'>
 
         {!hidden ? (
 
-          <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center', backgroundImage: "url(/images/recruiter-00.jpeg)", backgroundSize: 'cover' }}>
+          <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center', backgroundImage: "url(/images/candidate-00.jpg)", backgroundSize: 'cover' }}>
             <Container fixed>
               <Box
                 display="flex"
@@ -122,7 +121,7 @@ const Register = () => {
                       alignItems="center"
                       minHeight="100vh"
                     >
-                      <img alt="sailor" src='/images/company.png' style={{
+                      <img alt="sailor" src='/images/sailor.png' style={{
                         maxWidth: '100%',
                         height: '450px',
                         alignItems: 'center',
@@ -161,16 +160,14 @@ const Register = () => {
               <BoxWrapper>
                 <Box sx={!hidden ? { mb: 6, marginLeft: '5%', width: '80%', alignItems: 'center', justifyContent: 'center' } :
                   { mb: 6, alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: "#424242" }}>Create a Recruiter Account</Typography>
-                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: "#424242" }}> Enter your information as Recruiter here!</Typography>
-                  <Registration tipereg="company"></Registration>
+                  <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: "#424242" }}>Create a Candidate Account</Typography>
+                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: "#424242" }}> Enter your information as Candidate here!</Typography>
+                  <Registration tipereg="seafer" type="onship"></Registration>
                 </Box>
-
               </BoxWrapper>
             </Container>
           </Box>
         </RightWrapper>
-
       </Box>
     </>
   )
