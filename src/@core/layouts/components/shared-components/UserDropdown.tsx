@@ -14,7 +14,7 @@ import { Settings } from 'src/@core/context/settingsContext'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import secureLocalStorage from 'react-secure-storage'
-import Link from 'next/link' 
+import Link from 'next/link'
 
 interface Props {
   settings: Settings
@@ -124,35 +124,38 @@ const UserDropdown = (props: Props) => {
           </Box>
         </Box>
         <Divider sx={{ mt: '0 !important' }} />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='solar:user-circle-bold-duotone' />
-            <LinkStyled href='/profile'>
-              <Typography>Profile</Typography>{' '}
-            </LinkStyled>
-          </Box>
-        </MenuItem>
+
         {userData?.role != "admin" && (
+          <>
+            <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+              <Box sx={styles}>
+                <Icon icon='solar:user-circle-bold-duotone' />
+                <LinkStyled href='/profile'>
+                  <Typography>Profile</Typography>{' '}
+                </LinkStyled>
+              </Box>
+            </MenuItem>
             <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
               <Box sx={styles}>
                 <Icon icon='solar:chat-round-dots-bold-duotone' />
-
                 <LinkStyled href='/chat'>
                   <Typography>Chat</Typography>{' '}
                 </LinkStyled>
               </Box>
             </MenuItem>
-          )}
-        <Divider />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='solar:leaf-bold-duotone' />
-            <LinkStyled href='/account'>
-              {' '}
-              <Typography>Subscribe</Typography>{' '}
-            </LinkStyled>
-          </Box>
-        </MenuItem>
+            <Divider />
+            <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+              <Box sx={styles}>
+                <Icon icon='solar:leaf-bold-duotone' />
+                <LinkStyled href='/account'>
+                  {' '}
+                  <Typography>Subscribe</Typography>{' '}
+                </LinkStyled>
+              </Box>
+            </MenuItem>
+          </>
+        )}
+
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='solar:password-bold-duotone' />
