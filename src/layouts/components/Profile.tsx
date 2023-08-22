@@ -171,8 +171,7 @@ const Profile = (props: userProps) => {
                   </>
                 )}
               </Box>
-            )}
-
+            )} 
             {props.datauser?.role != 'Trainer' && (
               <Box>
                 <Box
