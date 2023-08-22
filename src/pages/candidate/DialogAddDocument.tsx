@@ -117,12 +117,7 @@ const DialogAddDocument = (props: DialogProps) => {
         document_type: document_name.docType,
         document_number: 123, 
       }
-       const jsonchild = {
-         user_document: selectedFile,
-         document_name: childname,
-         document_type: childtype,
-         document_number: 456
-       }
+      
         
       setOnLoading(true)
 
@@ -132,6 +127,22 @@ const DialogAddDocument = (props: DialogProps) => {
           throw resp.data.message ?? 'Something went wrong!'
         }
         if(savechild == true ){
+            const jsonchild = {
+              user_document: selectedFile,
+              document_name: childname,
+              document_type: childtype,
+              document_number: 456,
+              parent_id: resp.data.document.id,
+              expired_at: expiredDate
+                ?.toLocaleDateString('en-GB', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit'
+                })
+                .split('/')
+                .reverse()
+                .join('-')
+            }
           const resp2 = await HttpClient.postFile('/user/document', jsonchild)
            if (resp2.status != 200) {
              throw resp2.data.message ?? 'Something went wrong!'
@@ -350,11 +361,13 @@ const DialogAddDocument = (props: DialogProps) => {
       <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
           <DialogContent
+           
             sx={{
               position: 'relative',
               pb: theme => `${theme.spacing(8)} !important`,
               px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-              pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+              pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`],
+              height: '540px'
             }}
           >
             <IconButton

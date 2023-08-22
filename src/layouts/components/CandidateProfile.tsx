@@ -4,7 +4,7 @@ import { Theme, useTheme } from '@mui/material/styles'
 // ** MUI Components
 import Box, { BoxProps } from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { Button, TextField, FormControl, Autocomplete, Divider, Select, SelectChangeEvent, OutlinedInput, Chip, MenuItem, Card, InputLabel } from '@mui/material'
+import { Button, TextField, FormControl, Autocomplete, Divider, Select, SelectChangeEvent, OutlinedInput, Chip, MenuItem, Card, InputLabel, InputAdornment } from '@mui/material'
 
 import DatePicker from 'react-datepicker'
 // ** Layout Import
@@ -60,9 +60,9 @@ type FormData = {
   about: string
   usernamesosmed: string
   available: string
-  // facebook: string
-  // instagram: string
-  // linkedin: string
+  facebook: string
+  instagram: string
+  linkedin: string
 }
 
 type compProps = {
@@ -116,6 +116,9 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   }
 }
 
+let statusfb: any = ''
+let statusig: any = ''
+let statuslinkedin: any = ''
 const CandidateProfile = (props: compProps) => {
   const theme = useTheme()
 
@@ -148,21 +151,17 @@ const CandidateProfile = (props: compProps) => {
       ? { employee_type: 'offship', label: 'Off-Ship' }
       : { employee_type: 'onship', label: 'On-Ship' }
   )
-  const [idcountry, setCountry] = useState<any>(props.datauser?.country_id)
-  
-  const [date, setDate] = useState<DateType>(new Date())
-
+  const [idcountry, setCountry] = useState<any>(props.datauser?.country_id) 
+  const [date, setDate] = useState<DateType>(new Date()) 
   const [idcomborolLevel, setComboRolLevel] = useState<any>(props.datauser?.field_preference?.role_level?.id)
   const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
-  const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id)
-
+  const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id) 
   const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id)
   const [idOPP, setOpp] = useState<any>(
     props.datauser.field_preference?.open_to_opp == 0
       ? { id: '0', label: 'Not Available' }
       : { id: '1', label: 'Open to Work' }
-  )
-
+  ) 
   const [openAddModal, setOpenAddModal] = useState(false)
   const [openAddModalWE, setOpenAddModalWE] = useState(false)
   const [openAddModalDoc, setOpenAddModalDoc] = useState(false)
@@ -172,10 +171,14 @@ const CandidateProfile = (props: compProps) => {
   const [itemData, getItemdata] = useState<any[]>([])
   const [itemDataWE, getItemdataWE] = useState<any[]>([])
   const [itemDataED, getItemdataED] = useState<any[]>([])
-  const [selectedItem, setSelectedItem] = useState<any>()
-
+  const [selectedItem, setSelectedItem] = useState<any>() 
   const [personName, setPersonName] = React.useState<string[]>(props.datauser?.field_preference?.spoken_langs ? props.datauser?.field_preference?.spoken_langs : [])
-
+  const [facebook, setFacebook] = useState<any>('')
+  const [instagram, setInstagram] = useState<any>('')
+  const [linkedin, setLinkedin] = useState<any>('') 
+  const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
+  const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
+  const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value }
@@ -253,10 +256,7 @@ const CandidateProfile = (props: compProps) => {
       const itemData = response.data.educations
 
       getItemdataED(itemData)
-    })
-
-
-
+    }) 
     HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
       .then((response) => {
         const code = response.data.countries;
@@ -266,8 +266,137 @@ const CandidateProfile = (props: compProps) => {
         }
         getCombocode(code);
       })
+      HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
+        const code = response.data.sosmeds.data
+        for (let x = 0; x < code.length; x++) {
+          const element = code[x]
+          if (element.sosmed_type == 'Facebook') {
+            setFacebook(element.username)
+            statusfb = element.id
+          }
+          if (element.sosmed_type == 'Instagram') {
+            setInstagram(element.username)
+            statusig = element.id
+          }
+          if (element.sosmed_type == 'LinkedIn') {
+            setLinkedin(element.username)
+            statuslinkedin = element.id
+          }
+        }
+      })
+  }
+  const addbuttonfacebook = () => {
+    let user = ''
+    if (facebook.length < 20) {
+      user = 'https://facebook.com/' + facebook
+    } else {
+      user = facebook
+    }
+
+    const json = {
+      sosmed_type: 'Facebook',
+      sosmed_address: user
+    }
+    if (statusfb == '') {
+      HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
+        ({ data }) => {
+          toast.success(' Successfully submited!')
+          statusfb = data.sosmed.id
+        },
+        error => {
+          toast.error('Registrastion Failed ' + error.response.data.message)
+        }
+      )
+    } else {
+      HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statusfb, json).then(
+        () => {
+          toast.success(' Successfully submited!')
+        },
+        error => {
+          toast.error('Registrastion Failed ' + error.response.data.message)
+        }
+      )
+    }
+    setDisabledFacebook(true)
   }
 
+  const addbuttoninstagram = () => {
+    let user = ''
+    if (instagram.length < 20) {
+      user = 'https://instagram.com/' + instagram
+    } else {
+      user = instagram
+    }
+    const json = {
+      sosmed_address: user
+    }
+    if (statusig == '') {
+      HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
+        ({ data }) => {
+          console.log('here 1', data)
+          toast.success(' Successfully submited!')
+          statusig = data.sosmed.id
+        },
+        error => {
+          console.log('here 1', error)
+          toast.error('Registrastion Failed ' + error.response.data.message)
+        }
+      )
+    } else {
+      HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statusig, json).then(
+        ({ data }) => {
+          console.log('here 1', data)
+          toast.success(' Successfully submited!')
+        },
+        error => {
+          console.log('here 1', error)
+          toast.error('Registrastion Failed ' + error.response.data.message)
+        }
+      )
+    }
+    setDisabledInstagram(true)
+  }
+  const addbuttonlinkedin = () => {
+    let user = ''
+    if (linkedin.length < 20) {
+      user = 'https://linkedin.com/' + linkedin
+    } else {
+      user = linkedin
+    }
+    const json = {
+      sosmed_type: 'linkedin',
+      sosmed_address: user
+    }
+    if (statuslinkedin == '') {
+      HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
+        ({ data }) => {
+          toast.success(' Successfully submited!')
+          statuslinkedin = data.sosmed.id
+        },
+        error => {
+          console.log('here 1', error)
+          toast.error('Registrastion Failed ' + error.response.data.message)
+        }
+      )
+    } else {
+      HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statuslinkedin, json).then(
+        ({ data }) => {
+          console.log('here 1', data)
+          toast.success(' Successfully submited!')
+        },
+        error => {
+          console.log('here 1', error)
+          toast.error('Registrastion Failed ' + error.response.data.message)
+        }
+      )
+    }
+    setDisabledLinkedin(true)
+  }
+   const enabledtextfield = (x: any) => {
+     if (x == 'fb') setDisabledFacebook(false)
+     if (x == 'ig') setDisabledInstagram(false)
+     if (x == 'li') setDisabledLinkedin(false)
+   }
   const searchcity = async (q: any) => {
     setCountry(q)
     const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
@@ -1036,7 +1165,136 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </Grid>
               )}
+              <Grid item md={5} xs={12}>
+                <Grid container item xs={12} justifyContent={'left'}>
+                  <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                    Social Media Info
+                  </Typography>
+                </Grid>
+                <Grid container item xs={12} justifyContent={'left'}>
+                  <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                    Fulfill your Social Media Info
+                  </Typography>
+                </Grid>
+              </Grid>
 
+              <Grid container item md={12} xs={12} marginTop={'20px'}>
+                <Grid container item xs={12} md={4} marginBottom={2}>
+                  <Grid container item xs={12} md={12}>
+                    <Grid xs={12} item>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                          <Icon icon='mdi:facebook' fontSize={24} color={'#424242'} />
+                        </Box>
+                        <TextField
+                          id='facebook'
+                          defaultValue={facebook}
+                          label='Facebook'
+                          variant='outlined'
+                          fullWidth
+                          sx={{ mb: 1 }}
+                          value={facebook}
+                          {...register('facebook')}
+                          disabled={disabledFacebook}
+                          onChange={e => setFacebook(e.target.value)}
+                          onBlur={handleSubmit(addbuttonfacebook)}
+                          InputProps={{
+                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                          }}
+                        />
+                        <Button
+                          onClick={() => enabledtextfield('fb')}
+                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                        >
+                          <Icon
+                            fontSize='large'
+                            icon={'solar:pen-new-round-bold-duotone'}
+                            color={'primary'}
+                            style={{ fontSize: '24px' }}
+                          />
+                        </Button>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Grid>
+
+                <Grid container item xs={12} marginBottom={2} md={4}>
+                  <Grid container item xs={12} md={12}>
+                    <Grid xs={12} item>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                          <Icon icon='mdi:instagram' fontSize={24} color={'#424242'} />
+                        </Box>
+                        <TextField
+                          id='instagram'
+                          label='Instagram'
+                          variant='outlined'
+                          fullWidth
+                          value={instagram}
+                          sx={{ mb: 1 }}
+                          {...register('instagram')}
+                          disabled={disabledInstagram}
+                          onChange={e => setInstagram(e.target.value)}
+                          onBlur={handleSubmit(addbuttoninstagram)}
+                          InputProps={{
+                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                          }}
+                        />
+                        <Button
+                          onClick={() => enabledtextfield('ig')}
+                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                        >
+                          <Icon
+                            fontSize='large'
+                            icon={'solar:pen-new-round-bold-duotone'}
+                            color={'primary'}
+                            style={{ fontSize: '24px' }}
+                          />
+                        </Button>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Grid>
+
+                <Grid container item xs={12} marginBottom={2} md={4}>
+                  <Grid container item xs={12} md={12}>
+                    <Grid xs={12} item>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                          <Icon icon='mdi:linkedin' fontSize={24} color={'#424242'} />
+                        </Box>
+                        <TextField
+                          id='linkedin'
+                          defaultValue={linkedin}
+                          label='Linkedin'
+                          variant='outlined'
+                          fullWidth
+                          sx={{ mb: 1 }}
+                          {...register('linkedin')}
+                          disabled={disabledLinkedn}
+                          value={linkedin}
+                          onChange={e => setLinkedin(e.target.value)}
+                          onBlur={handleSubmit(addbuttonlinkedin)}
+                          InputProps={{
+                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                          }}
+                        />
+                        <Button
+                          onClick={() => enabledtextfield('li')}
+                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                        >
+                          <Icon
+                            fontSize='large'
+                            icon={'solar:pen-new-round-bold-duotone'}
+                            color={'primary'}
+                            style={{ fontSize: '24px' }}
+                          />
+                        </Button>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.2} lg={0.2} xs={12}></Grid>
               <Divider style={{ width: '100%' }} />
 
@@ -1056,7 +1314,12 @@ const CandidateProfile = (props: compProps) => {
                 </Grid>
                 <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
                   <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
-                    <Icon fontSize='small' icon={'solar:add-circle-bold-duotone'} color={'success'} style={{ fontSize: '18px' }} />
+                    <Icon
+                      fontSize='small'
+                      icon={'solar:add-circle-bold-duotone'}
+                      color={'success'}
+                      style={{ fontSize: '18px' }}
+                    />
                     <div style={{ marginLeft: 5 }}>ADD</div>
                   </Button>
                 </Grid>
@@ -1163,8 +1426,13 @@ const CandidateProfile = (props: compProps) => {
                 </Grid>
                 <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
                   <Button variant='contained' size='small' onClick={() => setOpenAddModalWE(!openAddModalWE)}>
-                  <Icon fontSize='small' icon={'solar:add-circle-bold-duotone'} color={'success'} style={{ fontSize: '18px' }} />
-                  <div style={{ marginLeft: 5 }}>ADD</div>
+                    <Icon
+                      fontSize='small'
+                      icon={'solar:add-circle-bold-duotone'}
+                      color={'success'}
+                      style={{ fontSize: '18px' }}
+                    />
+                    <div style={{ marginLeft: 5 }}>ADD</div>
                   </Button>
                 </Grid>
                 <Grid item container xs={12}>
@@ -1330,21 +1598,16 @@ const CandidateProfile = (props: compProps) => {
               )}
 
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
-              <Grid
-                item
-                container
-                direction='row'
-                justifyContent='flex-end'
-                alignItems='center'
-                md={1}
-                lg={1}
-                xs={12}
-              >
-                
-                <Button variant='contained' color='success' size="small" type='submit' sx={{ mb: 7}}>
-                    <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'success'} style={{ fontSize: '18px' }} />
-                    <div style={{ marginLeft: 5 }}>SAVE</div>
-                    </Button>
+              <Grid item container direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
+                <Button variant='contained' color='success' size='small' type='submit' sx={{ mb: 7 }}>
+                  <Icon
+                    fontSize='large'
+                    icon={'solar:diskette-bold-duotone'}
+                    color={'success'}
+                    style={{ fontSize: '18px' }}
+                  />
+                  <div style={{ marginLeft: 5 }}>SAVE</div>
+                </Button>
               </Grid>
             </Grid>
           </Grid>
