@@ -13,6 +13,7 @@ import { GridPaginationModel } from '@mui/x-data-grid';
 import { v4 } from "uuid";
 import DialogView from './DialogView';
 import { Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 
 const AllTrainingScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -20,6 +21,7 @@ const AllTrainingScreen = () => {
     const [openViewModal, setOpenViewModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<Training | null>(null);
+    const router = useRouter();
 
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
@@ -78,8 +80,7 @@ const AllTrainingScreen = () => {
     }
 
     const viewHandler = (row: Training) => {
-        setSelectedItem(row);
-        setOpenViewModal(true);
+        router.push(`/candidate/training/detail/${row.id}`);
     }
 
     useEffect(() => {
@@ -93,11 +94,11 @@ const AllTrainingScreen = () => {
         <>
             <Grid container spacing={6} className='match-height'>
                 <Grid item xs={12} sm={6} md={12}>
-                    <Card>                   
+                    <Card>
                         <CardContent>
-                        <Typography variant='h6' color={'#32487A'} fontWeight='600'>
-                  List Trainings
-                </Typography>
+                            <Typography variant='h6' color={'#32487A'} fontWeight='600'>
+                                List Trainings
+                            </Typography>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
                                     <TextField
