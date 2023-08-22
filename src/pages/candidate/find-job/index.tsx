@@ -241,12 +241,12 @@ const SeafererJob = () => {
           sx={
             !hidden
               ? {
-                  direction: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'stretch',
-                  alignContent: 'top',
-                  marginBottom: '10px'
-                }
+                direction: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'stretch',
+                alignContent: 'top',
+                marginBottom: '10px'
+              }
               : {}
           }
         >

@@ -34,13 +34,13 @@ const navigation = (): VerticalNavItemsType => {
     action: 'read',
     subject: 'seaferer-training'
     },
-    {
-      path: '/pricing',
-      title: 'Pricing',
-      icon: 'solar:tag-price-bold-duotone',
-      action: 'read',
-      subject: 'seaferer-training'
-    },
+    // {
+    //   path: '/pricing',
+    //   title: 'Pricing',
+    //   icon: 'solar:tag-price-bold-duotone',
+    //   action: 'read',
+    //   subject: 'seaferer-training'
+    // },
       {
         path: '/company',
         title: 'Home',
