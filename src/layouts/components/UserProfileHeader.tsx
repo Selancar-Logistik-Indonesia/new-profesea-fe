@@ -178,30 +178,33 @@ const UserProfileHeader = (props: userProps) => {
                     <Grid item xs={12} md={2} marginTop={'-5px'}>
                         {!showFriendship && (
                             <>
-                            <Grid container direction='row' justifyContent='flex-end' alignItems='flex-end'>
-                                <Grid item>
-                                {datauser.role == 'Company' && (
-                                    <Button size='small' LinkComponent={Link} href='/company' startIcon={<Icon icon='solar:pen-new-round-bold-duotone' fontSize={30} />} >
-                                    &nbsp;
-                                    </Button>
-                                )}
-                                {datauser.role == 'Seafarer' && (
-                                    <Button size='small' LinkComponent={Link} href='/candidate' startIcon={<Icon icon='solar:pen-new-round-bold-duotone' fontSize={30} />} >
-                                    &nbsp;
-                                    </Button>
-                                )}
+                                <Grid container direction='row' justifyContent='flex-end' alignItems='flex-end'>
+                                    <Grid item>
+                                        {datauser.role == 'Company' && (
+                                            <Button size='small' LinkComponent={Link} href='/company' >
+                                                <Icon fontSize='large' icon={'solar:pen-new-round-bold-duotone'} style={{ fontSize: '18px' }} />
+                                                <div style={{ marginLeft: 5 }}>EDIT</div>
+                                            </Button>
+                                        )}
+                                        {datauser.role == 'Seafarer' && (
+                                            <Button size='small' LinkComponent={Link} href='/candidate' >
+                                                <Icon fontSize='large' icon={'solar:pen-new-round-bold-duotone'} style={{ fontSize: '18px' }} />
+                                                <div style={{ marginLeft: 5 }}>EDIT</div>
+                                            </Button>
+
+                                        )}
+                                    </Grid>
+                                    <Grid item>
+                                        <ShareArea subject={`User Shared ${datauser.name}.`} url={`/profile/${datauser.username}`} ></ShareArea>
+                                    </Grid>
                                 </Grid>
-                                <Grid item>
-                                    <ShareArea  subject={`User Shared ${datauser.name}.`} url={`/profile/${datauser.username}`} ></ShareArea>
-                                </Grid>
-                            </Grid>
                             </>
                         )}
-                        {showFriendship &&(
-                            <ShareArea  subject={`User Shared ${datauser.name}.`} url={`/profile/${datauser.username}`} ></ShareArea>
+                        {showFriendship && (
+                            <ShareArea subject={`User Shared ${datauser.name}.`} url={`/profile/${datauser.username}`} ></ShareArea>
                         )}
                     </Grid>
-                    
+
                 </Grid>
             </CardContent>
         </Card>
