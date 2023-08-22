@@ -97,16 +97,27 @@ function getUrl(path?: string) {
     return baseUrl;
 }
 
+function getEmployeetype(name?: string) {
+  const employee = name  ?? ''
+  const mapRole = [
+    { title: 'onship', value: 'On-ship' },
+    { title: 'offship', value: 'Off-Ship' }
+  ]
+  const newValue = mapRole.find(e => e.title == employee)
+
+  return newValue ? newValue.value : employee
+}
 export {
-    getCleanErrorMessage,
-    removeFirstZeroChar,
-    toTitleCase,
-    getUserAvatar,
-    getUserRoleName,
-    formatIDR,
-    isStaging,
-    isDevelopment,
-    isProduction,
-    refreshsession,
-    getUrl,
+  getCleanErrorMessage,
+  removeFirstZeroChar,
+  toTitleCase,
+  getUserAvatar,
+  getUserRoleName,
+  formatIDR,
+  isStaging,
+  isDevelopment,
+  isProduction,
+  refreshsession,
+  getUrl,
+  getEmployeetype,
 }
