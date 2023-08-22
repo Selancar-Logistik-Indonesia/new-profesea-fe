@@ -101,6 +101,12 @@ const Profile = (props: userProps) => {
               </Typography>
             </Box>
             <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
+            <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+              <Icon icon={'solar:user-id-bold-duotone'} fontSize={20} color={'#424242'} />
+              <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                {getUserRoleName(props.datauser?.team)}
+              </Typography>
+            </Box>
             <Box sx={{ pt: 2, pb: 1 }}>
               <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                 <Icon icon={'iconamoon:box-bold'} fontSize={20} color={'#424242'} />
@@ -113,12 +119,6 @@ const Profile = (props: userProps) => {
                 <Icon icon={'solar:mailbox-bold-duotone'} fontSize={20} color={'#424242'} />
                 <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
                   {props.datauser?.email}
-                </Typography>
-              </Box>
-              <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                <Icon icon={'solar:user-id-bold-duotone'} fontSize={20} color={'#424242'} />
-                <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                  {getUserRoleName(props.datauser?.team)}
                 </Typography>
               </Box>
             </Box>
@@ -173,7 +173,7 @@ const Profile = (props: userProps) => {
               </Box>
             )}
 
-            {props.datauser?.role != 'Seafarer' && (
+            {props.datauser?.role != 'Trainer' && (
               <Box>
                 <Box
                   sx={{
