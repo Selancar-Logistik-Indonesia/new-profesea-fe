@@ -13,7 +13,7 @@ import Link from 'next/link'
 import { Icon } from '@iconify/react'
 import { IUser } from 'src/contract/models/user'
 import FieldPreference from 'src/contract/models/field_preference'
-import { getUserAvatar, getUserRoleName } from 'src/utils/helpers'
+import { getEmployeetype, getUserAvatar, getUserRoleName } from 'src/utils/helpers'
 
 export type ParamJobVacncy = {
   judul: string
@@ -22,6 +22,10 @@ export type ParamJobVacncy = {
   waktu: string
 }
 
+type employee = {
+  onship: 'ON-SHIP'
+  offship: 'OFF-SHIP'
+}
 type userProps = {
   datauser: IUser | null
 }
@@ -88,7 +92,11 @@ const Profile = (props: userProps) => {
         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
             <Box sx={{ mb: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', objectFit: 'Fill' }}>
-              <ProfilePicture src={getUserAvatar(props.datauser!)} sx={{ width: 65, height: 65, mr: 3, mb: 3 }} alt='profile-picture' />
+              <ProfilePicture
+                src={getUserAvatar(props.datauser!)}
+                sx={{ width: 65, height: 65, mr: 3, mb: 3 }}
+                alt='profile-picture'
+              />
             </Box>
             <Box sx={{ mb: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Typography variant='body2' sx={{ color: '#32487A', fontWeight: 500, fontSize: '14px' }}>
@@ -115,6 +123,12 @@ const Profile = (props: userProps) => {
                   {getUserRoleName(props.datauser?.team)}
                 </Typography>
               </Box>
+              <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+                <Icon icon={'iconamoon:box-bold'} fontSize={20} color={'#424242'} />
+                <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                  {getEmployeetype(props.datauser?.employee_type)}
+                </Typography>
+              </Box>
             </Box>
             <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
             {props.datauser?.role == 'Seafarer' && (
@@ -128,24 +142,34 @@ const Profile = (props: userProps) => {
                     {selectedItem?.role_type?.name}
                   </Typography>
                 </Box>
-                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
-                  <Icon icon={'icon-park-twotone:ship'} fontSize={20} color={'#424242'} />
-                  <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
-                    Vessel :
-                  </Typography>
-                  <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                    {selectedItem?.vessel_type?.name}
-                  </Typography>
-                </Box>
-                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
-                  <Icon icon={'solar:routing-2-bold-duotone'} fontSize={20} color={'#424242'} />
-                  <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
-                    Region Of Travel:
-                  </Typography>
-                  <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                    {selectedItem?.region_travel?.name}
-                  </Typography>
-                </Box>
+                {props.datauser?.employee_type == 'onship' && (
+                  <>
+                    <Box
+                      sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }}
+                      display={'flex'}
+                    >
+                      <Icon icon={'icon-park-twotone:ship'} fontSize={20} color={'#424242'} />
+                      <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
+                        Vessel :
+                      </Typography>
+                      <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                        {selectedItem?.vessel_type?.name}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }}
+                      display={'flex'}
+                    >
+                      <Icon icon={'solar:routing-2-bold-duotone'} fontSize={20} color={'#424242'} />
+                      <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
+                        Region Of Travel:
+                      </Typography>
+                      <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                        {selectedItem?.region_travel?.name}
+                      </Typography>
+                    </Box>
+                  </>
+                )}
               </Box>
             )}
 
@@ -190,10 +214,7 @@ const Profile = (props: userProps) => {
                     flexDirection: 'row'
                   }}
                 >
-                  <Box
-                    sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }}
-                    display={'flex'}
-                  >
+                  <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
                     <Box width={22} textAlign='center'>
                       <Icon icon='mdi:instagram' fontSize={20} color={'#424242'} />
                     </Box>
