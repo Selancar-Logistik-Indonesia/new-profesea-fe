@@ -14,9 +14,11 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material'
+import { Autocomplete, CircularProgress } from '@mui/material'
 // import { Autocomplete } from '@mui/material' 
 
+import DatePicker from 'react-datepicker' 
+import { DateType } from 'src/contract/models/DatepickerTypes'
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
@@ -31,18 +33,45 @@ type DialogProps = {
   onStateChange: VoidFunction
 }
 
+type dokumen = {
+  title: string
+  docType:string
+}
 
 type FormData = {
   document_name: string
   user_document: string
+  nameOtherDocument: string
 }
 
 
 const DialogEditDocument = (props: DialogProps) => {
   const [onLoading, setOnLoading] = useState(false);
-  const [preview, setPreview] = useState()
+  const [preview, setPreview] = useState(props.selectedItem?.path)
   const [selectedFile, setSelectedFile] = useState()
+  const iddokumen = props.selectedItem?.childs.length > 0 ? props.selectedItem?.childs[0].id : props.selectedItem?.id
+  
 
+  const [showTextName, setTextName] = useState<boolean>(false)
+  const [showChild, setChild] = useState<boolean>(true)     
+  const [combochild, setCombochild] = useState<any[]>([])
+    
+  const [expiredDate, setExpiredDate] = useState<DateType>(new Date()) 
+  const [document_name, setDocument] = useState<any>({
+    title: props.selectedItem?.document_name,
+    docType: props.selectedItem?.document_type
+  })
+  const [document_nameChild, setDocumentChild] = useState<any>(
+    props.selectedItem?.childs.length>0
+      ? {
+          title: props.selectedItem?.childs[0].document_name,
+          docType: props.selectedItem?.childs[0].document_type
+        }
+      : {
+          title: '',
+          docType: ''
+        }
+  )
   // const [document_name, setDocument] = useState<any>(0)
   useEffect(() => {
     if (!selectedFile) {
@@ -56,10 +85,20 @@ const DialogEditDocument = (props: DialogProps) => {
 
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
-
-  // const schema = yup.object().shape({
-  //     user_id: yup.string().required()
-  // })
+ 
+  useEffect(() => {
+    if (document_name.docType == 'OTH') {
+      setTextName(true)
+    } else {
+      setTextName(false)
+    }
+    if (document_name.child) {
+      setChild(true)
+      setCombochild(document_name.child)
+    } else {
+      setChild(false)
+    }
+  }, [document_name])
 
   const {
     register,
@@ -72,28 +111,71 @@ const DialogEditDocument = (props: DialogProps) => {
 
 
   const onSubmit = async (item: FormData) => {
-    const { document_name } = item
-    const json = {
-      user_document: selectedFile,
-      document_name: document_name,
-      document_number: 123,
+     const { nameOtherDocument } = item
+     let doc = ''
+     if (showTextName == true) {
+       doc = nameOtherDocument
+     } else {
+       doc = document_name.title
+     }
+     let childname = ''
+     let childtype = ''
+     let savechild = false
+     if (showChild == true) {
+       childname = document_nameChild.title
+       childtype = document_nameChild.docType
+       savechild = true
+     }  
+     if(savechild == true){
+        const json = {
+          user_document: selectedFile,
+          document_name: childname,
+          document_type: childtype,
+          document_number: 456,
+          expired_at: expiredDate
+            ?.toLocaleDateString('en-GB', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit'
+            })
+            .split('/')
+            .reverse()
+            .join('-')
+        }
+         try {
+           const resp = await HttpClient.postFile('/user/document/' + iddokumen, json)
+           if (resp.status != 200) {
+             throw resp.data.message ?? 'Something went wrong!'
+           }
 
-    }
+           props.onCloseClick()
+           toast.success(` Document submited successfully!`)
+         } catch (error) {
+           toast.error(`Opps ${getCleanErrorMessage(error)}`)
+         }
+     }else{
+        const json = {
+          user_document: selectedFile,
+          document_name: doc,
+          document_number: 123
+        }
+         try {
+           const resp = await HttpClient.postFile('/user/document/' + iddokumen, json)
+           if (resp.status != 200) {
+             throw resp.data.message ?? 'Something went wrong!'
+           }
+
+           props.onCloseClick()
+           toast.success(` Document submited successfully!`)
+         } catch (error) {
+           toast.error(`Opps ${getCleanErrorMessage(error)}`)
+         }
+     }
+   
 
     setOnLoading(true)
 
-    try {
-      console.log(json)
-      const resp = await HttpClient.postFile('/user/document/' + props.selectedItem.id, json)
-      if (resp.status != 200) {
-        throw resp.data.message ?? 'Something went wrong!'
-      }
-
-      props.onCloseClick()
-      toast.success(` Document submited successfully!`)
-    } catch (error) {
-      toast.error(`Opps ${getCleanErrorMessage(error)}`)
-    }
+   
 
     setOnLoading(false)
     props.onStateChange()
@@ -108,7 +190,194 @@ const DialogEditDocument = (props: DialogProps) => {
     // I've kept this example simple by using the first image instead of multiple
     setSelectedFile(e.target.files[0])
   }
-
+ const dokumencoc = [
+   {
+     title: 'Ahli Nautika Tingkat Dasar (ANTD), Teknika',
+     docType: 'coc1'
+   },
+   {
+     title: 'Ahli Nautika Tingkat V (ANT V), Teknika',
+     docType: 'coc2'
+   },
+   {
+     title: 'Ahli Nautika Tingkat IV (ANT IV), Teknika',
+     docType: 'coc3'
+   },
+   {
+     title: 'Ahli Nautika Tingkat III (ANT III), Teknika',
+     docType: 'coc4'
+   },
+   {
+     title: 'Ahli Nautika Tingkat II (ANT II), Teknika',
+     docType: 'coc5'
+   },
+   {
+     title: 'Ahli Nautika Tingkat I (ANT I), Teknika',
+     docType: 'coc6'
+   },
+   {
+     title: 'Ahli Teknika Tingkat Dasar (ATTD), Nautika',
+     docType: 'coc7'
+   },
+   {
+     title: 'Ahli Teknika Tingkat V (ATT V), Nautika',
+     docType: 'coc8'
+   },
+   {
+     title: 'Ahli Teknika Tingkat IV (ATT IV), Nautika',
+     docType: 'coc9'
+   },
+   {
+     title: 'Ahli Teknika Tingkat III (ATT III), Nautika',
+     docType: 'coc10'
+   },
+   {
+     title: 'Ahli Teknika Tingkat II (ATT II), Nautika',
+     docType: 'coc11'
+   },
+   {
+     title: 'Ahli Teknika Tingkat I (ATT I), Nautika',
+     docType: 'coc12'
+   }
+ ]
+ const dokumencop = [
+   {
+     title: 'Basic training for Oil and Chemical Tanker (BOCT)',
+     docType: 'cop1'
+   },
+   {
+     title: 'Basic training for Liquefied Gas Tanker (BLGT)',
+     docType: 'cop2'
+   },
+   {
+     title: 'Advance training for Oil Tanker (AOT)',
+     docType: 'cop3'
+   },
+   {
+     title: 'Advance training for Chemical Tanker cargo operation (ACT)',
+     docType: 'cop4'
+   },
+   {
+     title: 'Advance training for Liquefied Gas Tanker cargo operation (ALGT)',
+     docType: 'cop5'
+   },
+   {
+     title: 'Crowd Management Training Certificate (CMT)',
+     docType: 'cop6'
+   },
+   {
+     title: 'Crisis Management and Human Behaviour Training Certificate (CMHBT)',
+     docType: 'cop7'
+   },
+   {
+     title: 'Ro-ro Passenger Safety, Cargo Safety and Hull Intergrity Training Certificate',
+     docType: 'cop8'
+   },
+   {
+     title: 'Survical Craft and Rescue Boats other than fast rescue boat (SCRB)',
+     docType: 'cop9'
+   },
+   {
+     title: 'Fast Rescue Boats (FRB)',
+     docType: 'cop10'
+   },
+   {
+     title: 'Advanced Fire Fighting (AFF)',
+     docType: 'cop11'
+   },
+   {
+     title: 'Medical First Aid (MFA)',
+     docType: 'cop12'
+   },
+   {
+     title: 'Medical Care (MC)',
+     docType: 'cop13'
+   },
+   {
+     title: 'Radar Observation (RADAR Simulator)',
+     docType: 'cop14'
+   },
+   {
+     title: 'Automatic Radar Plotting Aid Simulator (ARPA Simulator)',
+     docType: 'cop15'
+   },
+   {
+     title: 'Electronics Charts Display and Information System (ECDIS)',
+     docType: 'cop16'
+   },
+   {
+     title: 'Bridge Resource Management (BRM)',
+     docType: 'cop17'
+   },
+   {
+     title: 'Engine Room Resource Management (ERM)',
+     docType: 'cop18'
+   },
+   {
+     title: 'Security Awareness Training (SAT)',
+     docType: 'cop19'
+   },
+   {
+     title: 'Security for Seafarers with Designated Security Duties (SDSD)',
+     docType: 'cop20'
+   },
+   {
+     title: 'Ship Security Officers (SSO)',
+     docType: 'cop21'
+   },
+   {
+     title: 'International Maritime Dangerous Good Cargo (IMDG) Code',
+     docType: 'cop22'
+   },
+   {
+     title: 'Able Seafarer Deck',
+     docType: 'cop23'
+   },
+   {
+     title: 'Able Seafarer Engine',
+     docType: 'cop24'
+   },
+   {
+     title: 'Cook Certificate',
+     docType: 'cop25'
+   },
+   {
+     title: 'Basic Safety Training',
+     docType: 'cop26'
+   },
+   {
+     title: 'GMDSS (Global Maritime Distress Safety System)',
+     docType: 'cop27'
+   },
+   {
+     title: 'Rating Forming Part of Navigational Watch',
+     docType: 'cop28'
+   },
+   {
+     title: 'Rating Forming Part of Engine Room Watch',
+     docType: 'cop29'
+   },
+   {
+     title: 'Proficiency in Survival Craft and Rescue Boats other than Fast Rescue Boats (PSCRB)',
+     docType: 'cop30'
+   },
+   {
+     title: 'International Safety Management (ISM) Code',
+     docType: 'cop31'
+   }
+ ]
+ const dokumen = [
+   { title: 'Certificate of Competency', docType: 'COC', child: dokumencoc },
+   { title: 'Certificate of Profeciency', docType: 'COP', child: dokumencop },
+   { title: 'Certificate of Recognition', docType: 'COR' },
+   { title: 'Certificate of Endorsement', docType: 'COE' },
+   { title: 'Other Certificate', docType: 'OTH' },
+   { title: 'MCU Certificates', docType: 'MCU' },
+   { title: 'SIM', docType: 'SIM' },
+   { title: 'KTP', docType: 'KTP' },
+   { title: 'Passport', docType: 'PAS' },
+   { title: 'Visa', docType: 'VIS' }
+ ]
 
   return (
     <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
@@ -118,7 +387,8 @@ const DialogEditDocument = (props: DialogProps) => {
             position: 'relative',
             pb: theme => `${theme.spacing(8)} !important`,
             px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`],
+            height: '540px'
           }}
         >
           <IconButton
@@ -129,21 +399,62 @@ const DialogEditDocument = (props: DialogProps) => {
             <Icon icon='mdi:close' />
           </IconButton>
           <Box sx={{ mb: 6, textAlign: 'center' }}>
-              <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
-               Edit Document
-              </Typography>
-              <Typography variant='body2'>Fulfill your Document Info here</Typography>
-            </Box>
+            <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
+              Edit Document
+            </Typography>
+            <Typography variant='body2'>Fulfill your Document Info here</Typography>
+          </Box>
 
-          <Grid container columnSpacing={'1'} rowSpacing={'2'}>
-            <TextField
-              id='document_name'
-              label='Document Name'
-              variant='outlined'
-              fullWidth
-              defaultValue={props.selectedItem?.document_name}
-              {...register('document_name')}
+          <Grid item md={12} xs={12}>
+            <Autocomplete
+              disablePortal
+              id='dokumen'
+              options={dokumen}
+              defaultValue={document_name}
+              getOptionLabel={option => option.title || ''}
+              renderInput={params => <TextField {...params} label='Document' sx={{ mb: 2 }} />}
+              onChange={(e, newValue: any) => (newValue ? setDocument(newValue) : setDocument([]))}
             />
+          </Grid>
+          <Grid item md={12} xs={12}>
+            {showChild == true && (
+              <>
+                <Grid item md={12} xs={12}>
+                  <Autocomplete
+                    disablePortal
+                    id='dokumen2'
+                    options={combochild}
+                    defaultValue={document_nameChild}
+                    getOptionLabel={(option: dokumen) => option.title}
+                    renderInput={params => <TextField {...params} label='Document Child' sx={{ mb: 2 }} />}
+                    onChange={(e, newValue: any) => (newValue ? setDocumentChild(newValue) : setDocumentChild([]))}
+                  />
+                </Grid>
+                <Grid item md={12} xs={12}>
+                  <DatePicker
+                    dateFormat='dd/MM/yyyy'
+                    selected={expiredDate}
+                    id='basic-input'
+                    onChange={(dateAwal: Date) => setExpiredDate(dateAwal)}
+                    placeholderText='Click to select a date'
+                    showYearDropdown
+                    showMonthDropdown
+                    dropdownMode='select'
+                    customInput={<TextField label='Expired Date' variant='outlined' fullWidth />}
+                  />
+                </Grid>
+              </>
+            )}
+
+            {showTextName == true && (
+              <TextField
+                id='document_name'
+                label='Document Name'
+                variant='outlined'
+                fullWidth
+                {...register('nameOtherDocument')}
+              />
+            )}
             <Grid item md={12} xs={12}>
               <Grid item xs={12} md={12} container justifyContent={'center'}>
                 <Grid xs={6}>
@@ -191,19 +502,19 @@ const DialogEditDocument = (props: DialogProps) => {
             pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
           }}
         >
-          <Button variant='contained' size="small" sx={{ mr: 2 }} type='submit'>
-                        <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
-                        {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
-                    </Button>
-                    <Button variant='outlined' size="small" color='error' onClick={props.onCloseClick}>
-                        <Icon
-                            fontSize='large'
-                            icon={'material-symbols:cancel-outline'}
-                            color={'info'}
-                            style={{ fontSize: '18px' }}
-                        />
-                        Cancel
-                    </Button>
+          <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>
+            <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
+            {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
+          </Button>
+          <Button variant='outlined' size='small' color='error' onClick={props.onCloseClick}>
+            <Icon
+              fontSize='large'
+              icon={'material-symbols:cancel-outline'}
+              color={'info'}
+              style={{ fontSize: '18px' }}
+            />
+            Cancel
+          </Button>
         </DialogActions>
       </form>
     </Dialog>

@@ -248,7 +248,7 @@ const DialogAdd = (props: DialogProps) => {
                             />
                         </Grid>
                         <Grid item md={4} xs={12} >
-                            <TextField id="Phone" label="Phone" variant="outlined" fullWidth sx={{ mb: 6 }} value={phoneNum} onChange={(e) => onChangePhoneNum(e.target.value)} />
+                            <TextField id="Phone" label="Phone" variant="outlined" type='number' fullWidth sx={{ mb: 6 }} value={phoneNum} onChange={(e) => onChangePhoneNum(e.target.value)} />
                         </Grid>
                     </Grid>
                 </DialogContent>

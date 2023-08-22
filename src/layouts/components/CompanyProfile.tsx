@@ -651,6 +651,7 @@ const CompanyProfile = (props: compProps) => {
                   label='Phone'
                   defaultValue={props.datauser.phone}
                   variant='outlined'
+                  type='input'
                   fullWidth
                   sx={{ mb: 1 }}
                   {...register('phone')}
@@ -671,10 +672,15 @@ const CompanyProfile = (props: compProps) => {
               </Grid>
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
-                <Button variant='contained' color='success' size="small" type='submit' sx={{ mb: 7}}>
-                    <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'success'} style={{ fontSize: '18px' }} />
-                    <div style={{ marginLeft: 5 }}>SAVE</div>
-                    </Button>
+                <Button variant='contained' color='success' size='small' type='submit' sx={{ mb: 7 }}>
+                  <Icon
+                    fontSize='large'
+                    icon={'solar:diskette-bold-duotone'}
+                    color={'success'}
+                    style={{ fontSize: '18px' }}
+                  />
+                  <div style={{ marginLeft: 5 }}>SAVE</div>
+                </Button>
               </Grid>
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.2} lg={0.2} xs={12}></Grid>
               <Divider style={{ width: '100%' }} />
