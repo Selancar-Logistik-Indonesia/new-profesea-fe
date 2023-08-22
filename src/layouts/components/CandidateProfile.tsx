@@ -901,6 +901,7 @@ const CandidateProfile = (props: compProps) => {
                   variant='outlined'
                   fullWidth
                   sx={{ mb: 1 }}
+                  type='input'
                   {...register('phone')}
                 />
               </Grid>
@@ -1569,7 +1570,7 @@ const CandidateProfile = (props: compProps) => {
                                 variant='outlined'
                                 color='primary'
                                 size='small'
-                                onClick={() => editDocument(item.id)}
+                                onClick={() => editDocument(item)}
                               >
                                 <Icon
                                   fontSize='large'

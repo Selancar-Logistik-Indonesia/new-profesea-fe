@@ -199,6 +199,7 @@ const Registration = (props: any ) => {
                   id='Phone'
                   label='Phone'
                   variant='outlined'
+                  type='number'
                   fullWidth
                   sx={{ mb: 2 }}
                   value={phoneNum}
