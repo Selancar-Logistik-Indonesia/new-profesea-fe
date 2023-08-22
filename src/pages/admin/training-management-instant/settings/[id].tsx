@@ -9,9 +9,9 @@ import { useForm } from 'react-hook-form'
 // import Icon from 'src/@core/components/icon' 
 import { useTheme } from '@mui/material/styles'
 
-import JobApplied from '../../company/job/applied'
-import JobDetail from '../../company/job/detail'
-import UserSaved from '../../company/job/saved'
+import { useRouter } from 'next/router'
+import EssayForm from 'src/views/instant-training/EssayForm'
+import QuestionForm from './QuestionForm'
 
 type FormData = {
   companyName: string
@@ -27,9 +27,10 @@ type FormData = {
   address: string
   about: string
 }
-const UserJob = () => {
-
+const InstantDetail = () => {
   const theme = useTheme()
+  const router = useRouter();
+  const trainingId = router.query.id;
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
   const firstload = async () => {
@@ -105,9 +106,8 @@ const UserJob = () => {
               borderRadius: '10px'
             }}>
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
-                <Tab label="Detail Job" {...a11yProps(0)} />
-                <Tab label="List Applicant" {...a11yProps(1)} />
-                <Tab label="Applicant Saved" {...a11yProps(2)} />
+                <Tab label="Settings" {...a11yProps(0)} />
+                <Tab label="Preview" {...a11yProps(1)} />
               </Tabs>
             </Box>
             <Grid container sx={{
@@ -131,13 +131,10 @@ const UserJob = () => {
                   </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={0}>
-                  <JobDetail></JobDetail>
+                  <QuestionForm training_id={trainingId}></QuestionForm>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                  <JobApplied></JobApplied>
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                  <UserSaved></UserSaved>
+                  <EssayForm training_id={trainingId}></EssayForm>
                 </TabPanel>
               </Grid>
             </Grid>
@@ -155,8 +152,8 @@ const UserJob = () => {
 
 // OngoingTraining.guestGuard = true
 
-UserJob.acl = {
+InstantDetail.acl = {
   action: 'read',
-  subject: 'user-job-detail'
+  subject: 'admin-training-management'
 };
-export default UserJob
+export default InstantDetail
