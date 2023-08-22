@@ -174,6 +174,7 @@ const Profile = (props: userProps) => {
                 )}
               </Box>
             )}
+            <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
             {props.datauser?.role != 'Trainer' && (
               <Box>
                 <Box
