@@ -386,7 +386,7 @@ const DialogEdit = (props: EditProps) => {
           <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>
             <Icon
               fontSize='large'
-              icon={'fluent:save-28-filled'}
+              icon={'solar:diskette-bold-duotone'}
               color={'info'}
               style={{ fontSize: '14px', margin: 3 }}
             />

@@ -7,10 +7,10 @@ import Link from 'next/link';
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , minWidth: 10},
-    { field: 'title', headerName: 'Title', sortable: true , minWidth: 150},
+    { field: 'title', headerName: 'Title', sortable: true , minWidth: 200},
+    { field: 'forum_name', headerName: 'Forum', sortable: true, minWidth: 150 },
     { field: 'content', headerName: 'Content', sortable: true , minWidth: 300},
-    { field: 'username', headerName: 'User', sortable: false, minWidth: 200 },
-    { field: 'forum_name', headerName: 'Forum', sortable: false, minWidth: 150 },
+    { field: 'username', headerName: 'User', sortable: true, minWidth: 100 },
     {
         field: 'action',
         headerName: 'Action',
@@ -22,11 +22,11 @@ const columns: GridColDef[] = [
                 <>
                     <Link href={'/admin/community-management/edit/?id='+row.id}>
                         <IconButton aria-label='edit' color='warning' size='small'>
-                            <Icon icon='mdi:pencil' />
+                        <Icon icon='solar:pen-new-round-bold-duotone' />
                         </IconButton>
                     </Link>
-                    <IconButton onClick={() => row.actions.onDelete()} aria-label='delete' color='error' size='small'>
-                        <Icon icon='mdi:trash' />
+                    <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
+                        <Icon icon='solar:trash-bin-trash-bold-duotone' />
                     </IconButton>
                 </>
             );

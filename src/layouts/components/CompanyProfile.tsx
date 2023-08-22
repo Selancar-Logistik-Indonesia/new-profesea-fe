@@ -645,7 +645,7 @@ const CompanyProfile = (props: compProps) => {
                 />
               </Grid>
 
-              <Grid item md={3} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   id='phone'
                   label='Phone'
@@ -669,11 +669,12 @@ const CompanyProfile = (props: compProps) => {
                   {...register('about')}
                 />
               </Grid>
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11.3} xs={12}></Grid>
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.5} lg={0.5} xs={12}>
-                <Button fullWidth size='small' type='submit' variant='contained' sx={{ mb: 7 }}>
-                  <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '24px' }} />
-                </Button>
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
+                <Button variant='contained' color='success' size="small" type='submit' sx={{ mb: 7}}>
+                    <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'success'} style={{ fontSize: '18px' }} />
+                    <div style={{ marginLeft: 5 }}>SAVE</div>
+                    </Button>
               </Grid>
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.2} lg={0.2} xs={12}></Grid>
               <Divider style={{ width: '100%' }} />
@@ -826,11 +827,11 @@ const CompanyProfile = (props: compProps) => {
           </Typography>
         </Grid>
       </Grid>
-      <Grid item md={4.4} display={{ xs: 'none', lg: 'block' }}>
+      <Grid item md={4} display={{ xs: 'none', lg: 'block' }}>
         {' '}
       </Grid>
 
-      <Grid item md={0.6} xs={12} marginBottom={'5px'}>
+      <Grid item md={1} xs={12} marginBottom={'5px'}>
         <Box marginBottom={2}>
           {/* <Button variant='contained' size='small' onClick={handleClick}>
             {' '}

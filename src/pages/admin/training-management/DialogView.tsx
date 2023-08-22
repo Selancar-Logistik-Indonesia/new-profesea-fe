@@ -55,8 +55,8 @@ const DialogView = (props: ViewProps) => {
                         <Icon icon='mdi:close' />
                     </IconButton>
                     <Box sx={{ mb: 6, textAlign: 'center' }}>
-                        <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-                           Detail {props.selectedItem.title}
+                        <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
+                        Detail {props.selectedItem.title}
                         </Typography>
                     </Box>
                     <Grid container columnSpacing={'1'} rowSpacing={'2'} >

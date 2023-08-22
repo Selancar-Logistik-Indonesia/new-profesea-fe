@@ -22,25 +22,25 @@ const columns: GridColDef[] = [
 
             return (
               <>
+              <Tooltip title='View'>
+                <IconButton
+                  LinkComponent={Link}
+                  href={`/company/job/?id=${row.id}`}
+                  aria-label='view'
+                  color='secondary'
+                  size='small'
+                >
+                  <Icon icon='solar:eye-scan-bold-duotone' />
+                </IconButton>
+              </Tooltip>
                 <Tooltip title='Edit'>
                   <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
-                    <Icon icon='mdi:pencil' style={{ fontSize: '20px' }}/>
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title='View'>
-                  <IconButton
-                    LinkComponent={Link}
-                    href={`/company/job/?id=${row.id}`}
-                    aria-label='view'
-                    color='secondary'
-                    size='small'
-                  >
-                    <Icon icon='mdi:eye' style={{ fontSize: '18px' }} />
+                    <Icon icon='solar:pen-new-round-bold-duotone'/>
                   </IconButton>
                 </Tooltip>
                 <Tooltip title='Delete'>
                   <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
-                    <Icon icon='mdi:trash' style={{ fontSize: '18px' }} />
+                    <Icon icon='solar:trash-bin-trash-bold-duotone' />
                   </IconButton>
                 </Tooltip>
               </>

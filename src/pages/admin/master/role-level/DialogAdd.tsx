@@ -110,7 +110,7 @@ const DialogAdd = (props: DialogProps) => {
                     }}
                 >
                      <Button variant='contained' size="small" sx={{ mr: 2 }} type='submit'>
-                    <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '18px' }} />
+                    <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
                         {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
                     </Button>
                     <Button variant='outlined' size="small" color='error' onClick={props.onCloseClick}>

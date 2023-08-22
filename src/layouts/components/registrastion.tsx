@@ -323,7 +323,7 @@ const Registration = (props: any ) => {
             <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
               <Checkbox id='privacy' {...register('privacy')}></Checkbox>
 
-              <LinkStyled href={'/privacy'}>
+              <LinkStyled href={'/privacy'} target='_blank'>
                 <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>Privacy Police,</Typography>
               </LinkStyled>
               <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; I read and accept</Typography>

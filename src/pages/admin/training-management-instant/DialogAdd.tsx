@@ -180,10 +180,10 @@ const DialogAdd = (props: DialogProps) => {
                         <Icon icon='mdi:close' />
                     </IconButton>
                     <Box sx={{ mb: 6, textAlign: 'center' }}>
-                        <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
+                    <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
                             Add New Instant Training
                         </Typography>
-                        <Typography variant='body2'>Add Instant Training</Typography>
+                        <Typography variant='body2'>Fulfill your Insstant Training Info here</Typography>
                     </Box>
                     
                     <Grid container columnSpacing={'1'} rowSpacing={'2'} >
