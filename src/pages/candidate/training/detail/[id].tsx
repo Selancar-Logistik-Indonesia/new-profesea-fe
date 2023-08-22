@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { HttpClient } from "src/services";
 import Training from "src/contract/models/training";
 import { formatIDR, getUserAvatar } from "src/utils/helpers";
-import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import PaymentDialog from "src/views/payment/PaymentDialog";
@@ -40,7 +39,7 @@ const TrainingDetailPage = () => {
         <Grid container>
             <Grid item xs={12} sx={{ p: 10, backgroundColor: 'white' }}>
                 <Box sx={{ mb: 6, display: 'flex', flexDirection: 'rows', alignItems: 'center' }}>
-                    <IconButton LinkComponent={Link} href="/candidate/training">
+                    <IconButton onClick={() => router.back()}>
                         <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
                     </IconButton>
                     <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18} ml={5}>

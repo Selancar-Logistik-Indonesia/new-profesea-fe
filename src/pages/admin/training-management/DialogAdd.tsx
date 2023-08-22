@@ -118,6 +118,7 @@ const DialogAdd = (props: DialogProps) => {
         resolver: yupResolver(schema)
     }) 
 
+
     const onSubmit = async (formData: Training) => {
         const { title, short_description} = formData
         
@@ -130,7 +131,9 @@ const DialogAdd = (props: DialogProps) => {
                 year: "numeric",
                 month: "2-digit",
                 day: "2-digit"
-            }).split('/').reverse().join('-'),
+            }).split('/').reverse().join('-')+" "
+            +date?.toTimeString().split(' ')[0],
+            "instant" : 0,
             "short_description": short_description
         }
         
@@ -213,7 +216,9 @@ const DialogAdd = (props: DialogProps) => {
                         <Grid item md={12} xs={12} >
                             <DatePickerWrapper>
                                 <DatePicker
-                                dateFormat='dd/MM/yyyy'
+                                showTimeSelect
+                                minDate={new Date()}
+                                dateFormat='dd/MM/yyyy hh:mm aa'
                                 selected={date}
                                 id='basic-input'
                                 onChange={(date: Date) => setDate(date)}

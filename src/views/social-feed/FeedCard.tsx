@@ -23,20 +23,18 @@ const FeedCard = (props: Prop) => {
 
     return (
         <Paper sx={{ marginTop: '10px', padding: { xs: 3, md: 5 } }}>
-            <Box sx={{ display: 'flex', '& svg': { color: 'text.secondary' }, height: 60 }}>
+            <Box component={Link} style={{ textDecoration: 'none' }} href={`/profile/${item.user.username}`} sx={{ display: 'flex', '& svg': { color: 'text.secondary' }, height: 60 }}>
                 <Box>
                     <Avatar sx={{ width: 50, height: 50, mr: 3, mb: 3 }} src={getUserAvatar(item.user)} alt='profile-picture' />
                 </Box>
                 <Box sx={{ mb: 8, display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-                    <Link style={{ textDecoration: 'none' }} href={`/profile/${item.user.username}`}>
-                        <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600, fontSize: '14px' }}>
-                            {toTitleCase(item.user.name)}
-                        </Typography>
-                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-                        <Icon color={'#42424242'} icon='mingcute:time-fill' fontSize={'18px'}/> &nbsp;
-                            <Typography sx={{ color: '#424242', fontWeight: 400, fontSize: '12px' }}>{moment(item.created_at).fromNow()}</Typography>
-                        </Box>
-                    </Link>
+                    <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600, fontSize: '14px' }}>
+                        {toTitleCase(item.user.name)}
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
+                        <Icon color={'#42424242'} icon='mingcute:time-fill' fontSize={'18px'} /> &nbsp;
+                        <Typography sx={{ color: '#424242', fontWeight: 400, fontSize: '12px' }}>{moment(item.created_at).fromNow()}</Typography>
+                    </Box>
                 </Box>
             </Box>
             <Box component={Link} href={`/feed/${item.id}`} sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>

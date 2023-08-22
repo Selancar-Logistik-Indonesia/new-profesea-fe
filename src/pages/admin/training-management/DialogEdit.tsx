@@ -132,8 +132,10 @@ const DialogEdit = (props: EditProps) => {
                 year: "numeric",
                 month: "2-digit",
                 day: "2-digit"
-            }).split('/').reverse().join('-'),
+            }).split('/').reverse().join('-')+" "
+            +date?.toTimeString().split(' ')[0],
             "thumbnail" : files[0],
+            "instant" : 0,
             "short_description": short_description
         }
 
@@ -215,7 +217,9 @@ const DialogEdit = (props: EditProps) => {
                         <Grid item md={12} xs={12} >
                             <DatePickerWrapper>
                                 <DatePicker
-                                dateFormat='dd/MM/yyyy'
+                                showTimeSelect
+                                minDate={new Date()}
+                                dateFormat='dd/MM/yyyy hh:mm aa'
                                 selected={date}
                                 id='basic-input'
                                 onChange={(date: Date) => setDate(date)}

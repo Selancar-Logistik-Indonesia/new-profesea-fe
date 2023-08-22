@@ -10,16 +10,13 @@ import { toast } from 'react-hot-toast';
 import Training from 'src/contract/models/training';
 import debounce from 'src/utils/debounce';
 import { GridPaginationModel } from '@mui/x-data-grid';
-import { v4 } from "uuid";
-import DialogView from './DialogView';
 import { Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 
 const AllTrainingScreen = () => {
-    const [hookSignature, setHookSignature] = useState(v4())
     const [onLoading, setOnLoading] = useState(false);
-    const [openViewModal, setOpenViewModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
-    const [selectedItem, setSelectedItem] = useState<Training | null>(null);
+    const router = useRouter();
 
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
@@ -78,8 +75,7 @@ const AllTrainingScreen = () => {
     }
 
     const viewHandler = (row: Training) => {
-        setSelectedItem(row);
-        setOpenViewModal(true);
+        router.push(`/candidate/training/detail/${row.id}`);
     }
 
     useEffect(() => {
@@ -87,50 +83,40 @@ const AllTrainingScreen = () => {
         getListTraining().then(() => {
             setOnLoading(false);
         });
-    }, [page, search, hookSignature, perPage]);
+    }, [page, search, perPage]);
 
     return (
-        <>
-            <Grid container spacing={6} className='match-height'>
-                <Grid item xs={12} sm={6} md={12}>
-                    <Card>                   
-                        <CardContent>
+        <Grid container spacing={6} className='match-height'>
+            <Grid item xs={12} sm={6} md={12}>
+                <Card>
+                    <CardContent>
                         <Typography variant='h6' color={'#32487A'} fontWeight='600'>
-                  List Trainings
-                </Typography>
-                            <Grid container justifyContent="flex-end">
-                                <Grid item>
-                                    <TextField
-                                        size='small'
-                                        sx={{ mr: 6, mb: 2 }}
-                                        placeholder='Search'
-                                        onChange={(e) => handleSearch(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item sx={{ mr: 6, mb: 2 }}>
-                                </Grid>
+                            List Trainings
+                        </Typography>
+                        <Grid container justifyContent="flex-end">
+                            <Grid item>
+                                <TextField
+                                    size='small'
+                                    sx={{ mr: 6, mb: 2 }}
+                                    placeholder='Search'
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                />
                             </Grid>
+                            <Grid item sx={{ mr: 6, mb: 2 }}>
+                            </Grid>
+                        </Grid>
 
-                            <TrainingDatagrid
-                                page={page - 1} // di MUI page pertama = 0
-                                rowCount={rowCount}
-                                pageSize={perPage}
-                                loading={onLoading}
-                                onPageChange={(model) => onPageChange(model)}
-                                rows={dataSheet} />
-                        </CardContent>
-                    </Card>
-                </Grid>
+                        <TrainingDatagrid
+                            page={page - 1} // di MUI page pertama = 0
+                            rowCount={rowCount}
+                            pageSize={perPage}
+                            loading={onLoading}
+                            onPageChange={(model) => onPageChange(model)}
+                            rows={dataSheet} />
+                    </CardContent>
+                </Card>
             </Grid>
-            {selectedItem && (
-                <>
-                    <DialogView key={selectedItem.id} selectedItem={selectedItem}
-                        visible={openViewModal}
-                        onCloseClick={() => setOpenViewModal(!openViewModal)}
-                        onStateChange={() => setHookSignature(v4())} />
-                </>
-            )}
-        </>
+        </Grid>
     )
 }
 

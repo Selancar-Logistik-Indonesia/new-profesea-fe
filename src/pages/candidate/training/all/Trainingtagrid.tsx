@@ -5,8 +5,8 @@ import { IconButton } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
-    { field: 'no', headerName: '#', sortable: true , width: 50},
-    { field: 'title', headerName: 'Title', sortable: true , minWidth: 350},
+    { field: 'no', headerName: '#', sortable: true, width: 50 },
+    { field: 'title', headerName: 'Title', sortable: true, minWidth: 350 },
     { field: 'schedule', headerName: 'Schedule', sortable: false, minWidth: 200 },
     { field: 'category', headerName: 'Category', sortable: false, minWidth: 300 },
     { field: 'short_description', headerName: 'Description', sortable: false, minWidth: 150 },
@@ -39,7 +39,7 @@ type RoleGridProps = {
 }
 
 interface RowItem {
-    id:number,
+    id: number,
     title: string,
     schedule: string,
     category: string,
