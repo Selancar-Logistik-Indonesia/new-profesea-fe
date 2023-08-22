@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { IconButton } from '@mui/material';
 import Icon from 'src/@core/components/icon'
+import Link from 'next/link';
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , width: 50},
@@ -20,9 +21,11 @@ const columns: GridColDef[] = [
 
             return (
                 <>
-                    <IconButton onClick={() => row.actions.onView()} aria-label='view' color='secondary' size='small'>
-                        <Icon icon='mdi:eye' />
-                    </IconButton>
+                    <Link href={`/admin/training-management-instant/settings/${row.id}`}>
+                        <IconButton aria-label='view' color='secondary' size='small'>
+                            <Icon icon='mdi:gear' />
+                        </IconButton>
+                    </Link>                        
                     <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
                         <Icon icon='mdi:pencil' />
                     </IconButton>
@@ -53,7 +56,6 @@ interface RowItem {
     actions: {
         onDelete: VoidFunction,
         onUpdate: VoidFunction,
-        onView: VoidFunction,
     };
 }
 
