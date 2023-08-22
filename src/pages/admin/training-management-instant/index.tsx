@@ -16,7 +16,6 @@ import { GridPaginationModel } from '@mui/x-data-grid';
 import DialogDelete from './DialogDelete';
 import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
-import DialogView from './DialogView';
 
 const InstantTrainingScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -24,7 +23,7 @@ const InstantTrainingScreen = () => {
     const [openAddModal, setOpenAddModal] = useState(false);
     const [openDelModal, setOpenDelModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
-    const [openViewModal, setOpenViewModal] = useState(false);
+    // const [openViewModal, setOpenViewModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<Training | null>(null);
 
@@ -52,7 +51,6 @@ const InstantTrainingScreen = () => {
                     actions: {
                         onDelete: () => deleteHandler(row),
                         onUpdate: () => updateHandler(row),
-                        onView: () => viewHandler(row),
                     }
                 } as RowItem;
             });
@@ -94,11 +92,6 @@ const InstantTrainingScreen = () => {
     const updateHandler = (row: Training) => {
         setSelectedItem(row);
         setOpenEditModal(true);
-    }
-
-    const viewHandler = (row: Training) => {
-        setSelectedItem(row);
-        setOpenViewModal(true);
     }
 
     useEffect(() => {
@@ -163,10 +156,6 @@ const InstantTrainingScreen = () => {
                     <DialogEdit key={selectedItem.id} selectedItem={selectedItem}
                         visible={openEditModal}
                         onCloseClick={() => setOpenEditModal(!openEditModal)}
-                        onStateChange={() => setHookSignature(v4())} />
-                    <DialogView key={selectedItem.id} selectedItem={selectedItem}
-                        visible={openViewModal}
-                        onCloseClick={() => setOpenViewModal(!openViewModal)}
                         onStateChange={() => setHookSignature(v4())} />
                 </>
             )}
