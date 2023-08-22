@@ -13,7 +13,7 @@ import Link from 'next/link'
 import { Icon } from '@iconify/react'
 import { IUser } from 'src/contract/models/user'
 import FieldPreference from 'src/contract/models/field_preference'
-import { getUserRoleName } from 'src/utils/helpers'
+import { getUserAvatar, getUserRoleName } from 'src/utils/helpers'
 
 export type ParamJobVacncy = {
   judul: string
@@ -87,13 +87,13 @@ const Profile = (props: userProps) => {
       <Grid item xs={12}>
         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
-          <Box sx={{ mb: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', objectFit: 'Fill' }}>
-            <ProfilePicture src={props.datauser?.photo} sx={{ width: 65, height: 65, mr: 3, mb: 3 }} alt='profile-picture' />
+            <Box sx={{ mb: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', objectFit: 'Fill' }}>
+              <ProfilePicture src={getUserAvatar(props.datauser!)} sx={{ width: 65, height: 65, mr: 3, mb: 3 }} alt='profile-picture' />
             </Box>
             <Box sx={{ mb: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography variant='body2' sx={{ color: '#32487A', fontWeight: 500, fontSize: '14px' }}>
+              <Typography variant='body2' sx={{ color: '#32487A', fontWeight: 500, fontSize: '14px' }}>
                 {props.datauser?.name}
-                </Typography>
+              </Typography>
             </Box>
             <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
             <Box sx={{ pt: 2, pb: 1 }}>
