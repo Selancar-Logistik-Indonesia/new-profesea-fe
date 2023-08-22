@@ -103,29 +103,40 @@ const DialogAddDocument = (props: DialogProps) => {
       }
       let childname = ''
       let childtype = ''
-        if (showChild == true) {
-          childname = document_nameChild.title
-          childtype = document_nameChild.docType
-        }  
+      let savechild=false
+      if (showChild == true) {
+        childname = document_nameChild.title
+        childtype = document_nameChild.doctype
+        savechild = true
+      
+      }  
+       
       const json = {
         user_document: selectedFile,
         document_name: doc,
         document_type: document_name.docType,
-        document_number: 123,
-
-        document_child: childname,
-        document_child_type: childtype
+        document_number: 123, 
       }
-       
+       const jsonchild = {
+         user_document: selectedFile,
+         document_name: childname,
+         document_type: childtype,
+         document_number: 456
+       }
+        
       setOnLoading(true)
 
-      try {
-        console.log(json)
+      try { 
         const resp = await HttpClient.postFile('/user/document', json)
         if (resp.status != 200) {
           throw resp.data.message ?? 'Something went wrong!'
         }
-
+        if(savechild == true ){
+          const resp2 = await HttpClient.postFile('/user/document', jsonchild)
+           if (resp2.status != 200) {
+             throw resp2.data.message ?? 'Something went wrong!'
+           }
+        }
         props.onCloseClick()
         toast.success(` Document submited successfully!`)
       } catch (error) {

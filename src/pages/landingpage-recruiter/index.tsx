@@ -75,7 +75,7 @@ const Main = () => {
                                     <Typography variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
                                         {t('b_to_recruiter_detail')}
                                     </Typography>
-                                    <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
+                                    <Button href="/register/recruiter" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
                                 </CardContent>
 
                             </Card>
