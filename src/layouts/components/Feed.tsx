@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Avatar, CircularProgress } from '@mui/material'
+import { Avatar, CircularProgress, TextField } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { useEffect, useState } from 'react'
 import { IUser } from 'src/contract/models/user'
@@ -53,6 +53,7 @@ const renderList = (arr: IUser[]) => {
 const Feed = () => {
   const [results, setResults] = useState<IUser[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searched, setSearched] = useState<any>('');
 
   const getListFriends = async () => {
     setIsLoading(true);
@@ -60,6 +61,7 @@ const Feed = () => {
       const resp = await HttpClient.get("/friendship/suggestion", {
         page: 1,
         take: 7,
+        search: searched
       });
 
       const { data } = resp.data as { data: IUser[] };
@@ -73,7 +75,7 @@ const Feed = () => {
 
   useEffect(() => {
     getListFriends();
-  }, []);
+  }, [searched]);
 
   return (
     <Grid container>
@@ -84,6 +86,14 @@ const Feed = () => {
               <Typography color={"#424242"} fontWeight="600" fontSize={"14px"} sx={{ mb: 4 }}>
                 Add to your feed
               </Typography>
+              <TextField
+                  id='fullName'
+                  label='Search Name'
+                  variant='outlined'
+                  fullWidth
+                  onChange={e => setSearched(e.target.value)}
+                  sx={{ mb: 3 }}
+                />
               {
                 isLoading
                   ? (<Box textAlign={'center'} mt={10}><CircularProgress /></Box>)
