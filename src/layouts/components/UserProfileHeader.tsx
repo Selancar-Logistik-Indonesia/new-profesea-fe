@@ -69,7 +69,7 @@ const UserProfileHeader = (props: userProps) => {
             <CardMedia
                 component='img'
                 alt='profile-header'
-                image={datauser.banner ? datauser.banner : '/images/header-default-profile-candidate.jpeg'}
+                image={datauser.banner ? datauser.banner : '/images/avatars/headerprofile3.png'}
                 sx={{
                     height: { xs: 150, md: 250 },
                     width: '100%'
@@ -86,7 +86,7 @@ const UserProfileHeader = (props: userProps) => {
                     marginLeft: { md: '10px' }
                 }}
             >
-                <ProfilePicture src={datauser.photo ? datauser.photo : '/images/avatars/1.png'} alt='profile-picture' />
+                <ProfilePicture src={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'} alt='profile-picture' />
                 <Box
                     sx={{
                         width: '100%',
@@ -131,7 +131,7 @@ const UserProfileHeader = (props: userProps) => {
                     }}
                 >
                     <Box
-                        sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 1, mt: 2, mb: 3, color: 'text.secondary' } }}
+                        sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 1, mt: 2, mb: 3, color: 'secondary', fontSize: '18px' } }}
                     >
                         <Icon icon={'mdi:location'} />{' '}
                         <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
@@ -148,26 +148,26 @@ const UserProfileHeader = (props: userProps) => {
                                 justifyContent: ['center', 'flex-start']
                             }}
                         >
-                            <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
+                            <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'secondary', fontSize: '18px' } }}>
                                 <Icon icon='mdi:facebook' />
-                                <Typography variant='body1' sx={{ color: '#0a66c2', fontWeight: 400 }}>
+                                <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
                                     <a href={facebook} target='_blank' style={{ textDecoration: 'none' }}>
                                         {facebook}
                                     </a>
                                 </Typography>
                             </Box>
-                            <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
+                            <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'secondary', fontSize: '18px' } }}>
                                 <Icon icon='mdi:instagram' />
-                                <Typography variant='body1' sx={{ color: '#0a66c2', fontWeight: 400 }}>
+                                <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
                                     <a href={instagram} target='_blank' style={{ textDecoration: 'none' }}>
                                         {instagram}
                                     </a>
                                 </Typography>
                             </Box>
 
-                            <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
+                            <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'secondary', fontSize: '18px' } }}>
                                 <Icon icon='mdi:linkedin' />
-                                <Typography variant='body1' sx={{ color: '#0a66c2', fontWeight: 400 }}>
+                                <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
                                     <a href={linkedin} target='_blank' style={{ textDecoration: 'none' }}>
                                         {linkedin}
                                     </a>
@@ -181,12 +181,12 @@ const UserProfileHeader = (props: userProps) => {
                             <Grid container direction='row' justifyContent='flex-end' alignItems='flex-end'>
                                 <Grid item>
                                 {datauser.role == 'Company' && (
-                                    <Button size='small' LinkComponent={Link} href='/company' startIcon={<Icon icon='material-symbols:edit' fontSize={10} />} >
+                                    <Button size='small' LinkComponent={Link} href='/company' startIcon={<Icon icon='solar:pen-new-round-bold-duotone' fontSize={30} />} >
                                     &nbsp;
                                     </Button>
                                 )}
                                 {datauser.role == 'Seafarer' && (
-                                    <Button size='small' LinkComponent={Link} href='/candidate' startIcon={<Icon icon='material-symbols:edit' fontSize={10} />} >
+                                    <Button size='small' LinkComponent={Link} href='/candidate' startIcon={<Icon icon='solar:pen-new-round-bold-duotone' fontSize={30} />} >
                                     &nbsp;
                                     </Button>
                                 )}

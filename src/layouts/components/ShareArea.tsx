@@ -55,7 +55,7 @@ const ShareArea = (props:{url:string, subject:any}) => {
               aria-label='select merge strategy'
               aria-haspopup='menu'
               onClick={handleToggle}
-              startIcon={<Icon icon='uil:share' fontSize={10} />}
+              startIcon={<Icon icon='uil:share' fontSize={18} />}
             > &nbsp;
             </Button>
           </ButtonGroup>

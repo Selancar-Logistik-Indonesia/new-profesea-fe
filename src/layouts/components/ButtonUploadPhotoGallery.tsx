@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle,   Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material";
 import { ChangeEvent, useRef, useState } from "react";
 // import { useSocialFeed } from "src/hooks/useSocialFeed";
 import { HttpClient } from "src/services";
@@ -43,21 +43,21 @@ const ButtonUploadPhotoGallery = () => {
             formData.append('content', content)
             formData.append('content_type', 'images')
             if (inputFile.current && inputFile.current.files) {
-              const files = inputFile.current.files
-              for (let i = 0; i < files.length; i++) {
-                const file = files[i]
-                formData.append('image_file[]', file)
-                console.log(`Selected file name: ${file.name}`)
-                // Do whatever you want with the individual file
-              }
+                const files = inputFile.current.files
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i]
+                    formData.append('image_file[]', file)
+                    console.log(`Selected file name: ${file.name}`)
+                    // Do whatever you want with the individual file
+                }
             }
- 
+
             const response = await HttpClient.post('/user/gallery', formData)
             if (response.status != 200) {
-              throw response.data?.message ?? 'Something went wrong'
+                throw response.data?.message ?? 'Something went wrong'
             }
- 
- 
+
+
             setContent('');
             setOpen(false);
         } catch (error) {
@@ -69,9 +69,9 @@ const ButtonUploadPhotoGallery = () => {
 
     return (
         <>
-            <Button onClick={openModalPhoto} size='small' variant='text' sx={{ textDecoration: 'none' }}>
-                <Icon color='#378fe9' fontSize={22} icon='solar:gallery-add-bold-duotone' />
-                <div style={{ marginLeft: 5 }}>Photo</div>
+            <Button onClick={openModalPhoto} size='small' variant='contained' sx={{ textDecoration: 'none' }}>
+                <Icon fontSize='small' icon={'solar:add-circle-bold-duotone'} color={'success'} style={{ fontSize: '18px' }} />
+                <div style={{ marginLeft: 5 }}>ADD</div>
             </Button>
             <Dialog sx={{ minWidth: { md: 320 } }} open={open} onClose={() => setOpen(!open)}>
                 <DialogTitle>
@@ -98,15 +98,15 @@ const ButtonUploadPhotoGallery = () => {
                     >
                         <Icon icon='solar:gallery-bold-duotone' fontSize={110} />
                     </Box>
- 
+
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="contained" size="small" color="error" onClick={() => setOpen(!open)}>
-                        <Icon icon='material-symbols:cancel-outline' color='white' fontSize={19} />
+                    <Button variant="outlined" size="small" color="error" onClick={() => setOpen(!open)}>
+                        <Icon icon='material-symbols:cancel-outline' color='error' fontSize={18} />
                         Cancel
                     </Button>
                     <Button variant="contained" size="small" disabled={isLoading} onClick={handleUpdateStatus}>
-                        <Icon icon='material-symbols:upload' color='white' fontSize={19} />
+                        <Icon icon='material-symbols:upload' color='white' fontSize={18} />
                         {isLoading ? <CircularProgress /> : 'Upload'}
                     </Button>
                 </DialogActions>

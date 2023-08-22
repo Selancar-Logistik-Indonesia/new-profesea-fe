@@ -168,7 +168,7 @@ const onSelectFile = (e: any) => {
               px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
               pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
             }}
-          >
+          > 
             <IconButton
               size='small'
               sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
@@ -308,12 +308,19 @@ const onSelectFile = (e: any) => {
               pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
             }}
           >
-            <Button variant='contained' sx={{ mr: 2 }} type='submit'>
-              {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
-            </Button>
-            <Button variant='outlined' color='secondary' onClick={props.onCloseClick}>
-              Cancel
-            </Button>
+          <Button variant='contained' size="small" sx={{ mr: 2 }} type='submit'>
+                        <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
+                        {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
+                    </Button>
+                    <Button variant='outlined' size="small" color='error' onClick={props.onCloseClick}>
+                        <Icon
+                            fontSize='large'
+                            icon={'material-symbols:cancel-outline'}
+                            color={'info'}
+                            style={{ fontSize: '18px' }}
+                        />
+                        Cancel
+                    </Button>
           </DialogActions>
         </form>
       </Dialog>

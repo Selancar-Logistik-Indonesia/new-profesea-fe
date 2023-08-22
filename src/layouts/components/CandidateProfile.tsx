@@ -750,7 +750,7 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </>
               )}
-              <Grid item md={3} xs={12}>
+              <Grid item md={1} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='code'
@@ -764,7 +764,7 @@ const CandidateProfile = (props: compProps) => {
                 />
               </Grid>
 
-              <Grid item md={3} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   id='phone'
                   label='Phone'
@@ -789,7 +789,7 @@ const CandidateProfile = (props: compProps) => {
                 />
               </Grid>
               {tampilkanship == 'On-Ship' && (
-                <Grid item container xs={12} spacing={2} sx={{ mb: 2 }}>
+                <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
                   <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
                     <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
                       On-Ship Type
@@ -921,7 +921,7 @@ const CandidateProfile = (props: compProps) => {
                 </Grid>
               )}
               {tampilkanship != 'On-Ship' && (
-                <Grid item container xs={12} spacing={2} sx={{ mb: 2 }}>
+                <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
                   <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
                     <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
                       Off-Ship Type
@@ -1055,8 +1055,9 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </Grid>
                 <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
-                  <Button variant='contained' onClick={() => setOpenAddModal(!openAddModal)}>
-                    <Icon fontSize='large' icon={'basil:add-solid'} color={'primary'} style={{ fontSize: '24px' }} />
+                  <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
+                    <Icon fontSize='small' icon={'solar:add-circle-bold-duotone'} color={'success'} style={{ fontSize: '18px' }} />
+                    <div style={{ marginLeft: 5 }}>ADD</div>
                   </Button>
                 </Grid>
                 <Grid item container xs={12}>
@@ -1112,10 +1113,10 @@ const CandidateProfile = (props: compProps) => {
                                   onClick={() => editEducation(item)}
                                 >
                                   <Icon
-                                    fontSize='large'
-                                    icon={'material-symbols:edit'}
+                                    fontSize='small'
+                                    icon={'solar:pen-new-round-bold-duotone'}
                                     color={'primary'}
-                                    style={{ fontSize: '24px' }}
+                                    style={{ fontSize: '18px' }}
                                   />
                                 </Button>
                               </Box>
@@ -1127,10 +1128,10 @@ const CandidateProfile = (props: compProps) => {
                                   onClick={() => deleteeducation(item.id)}
                                 >
                                   <Icon
-                                    fontSize='large'
-                                    icon={'fluent:delete-32-filled'}
+                                    fontSize='small'
+                                    icon={'solar:trash-bin-trash-bold-duotone'}
                                     color={'error'}
-                                    style={{ fontSize: '24px' }}
+                                    style={{ fontSize: '18px' }}
                                   />
                                 </Button>
                               </Box>
@@ -1161,8 +1162,9 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </Grid>
                 <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
-                  <Button variant='contained' onClick={() => setOpenAddModalWE(!openAddModalWE)}>
-                    <Icon fontSize='large' icon={'basil:add-solid'} color={'primary'} style={{ fontSize: '24px' }} />
+                  <Button variant='contained' size='small' onClick={() => setOpenAddModalWE(!openAddModalWE)}>
+                  <Icon fontSize='small' icon={'solar:add-circle-bold-duotone'} color={'success'} style={{ fontSize: '18px' }} />
+                  <div style={{ marginLeft: 5 }}>ADD</div>
                   </Button>
                 </Grid>
                 <Grid item container xs={12}>
@@ -1219,9 +1221,9 @@ const CandidateProfile = (props: compProps) => {
                                 >
                                   <Icon
                                     fontSize='large'
-                                    icon={'material-symbols:edit'}
+                                    icon={'solar:pen-new-round-bold-duotone'}
                                     color={'primary'}
-                                    style={{ fontSize: '24px' }}
+                                    style={{ fontSize: '18px' }}
                                   />
                                 </Button>
                               </Box>
@@ -1229,9 +1231,9 @@ const CandidateProfile = (props: compProps) => {
                                 <Button variant='outlined' color='error' size='small' onClick={() => deletewe(item.id)}>
                                   <Icon
                                     fontSize='large'
-                                    icon={'fluent:delete-32-filled'}
+                                    icon={'solar:trash-bin-trash-bold-duotone'}
                                     color={'error'}
-                                    style={{ fontSize: '24px' }}
+                                    style={{ fontSize: '18px' }}
                                   />
                                 </Button>
                               </Box>
@@ -1265,7 +1267,7 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                   <Grid display='flex' justifyContent='flex-end' alignItems='flex-end' xs={2} md={1}>
                     <Button variant='contained' onClick={() => setOpenAddModalDoc(!openAddModalDoc)}>
-                      <Icon fontSize='large' icon={'basil:add-solid'} color={'primary'} style={{ fontSize: '24px' }} />
+                      <Icon fontSize='large' icon={'basil:add-solid'} color={'primary'} style={{ fontSize: '18px' }} />
                     </Button>
                   </Grid>
                   <Grid item container xs={12}>
@@ -1276,7 +1278,7 @@ const CandidateProfile = (props: compProps) => {
                             fontSize='large'
                             icon={'solar:document-bold'}
                             color={'info'}
-                            style={{ fontSize: '24px', margin: '5px' }}
+                            style={{ fontSize: '18px', margin: '5px' }}
                           />
                           <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
                             {item.document_name}
@@ -1290,7 +1292,7 @@ const CandidateProfile = (props: compProps) => {
                                   fontSize='large'
                                   icon={'icon-park-outline:preview-open'}
                                   color={'info'}
-                                  style={{ fontSize: '24px' }}
+                                  style={{ fontSize: '18px' }}
                                 />
                               </Button>
                             </Box>
@@ -1303,9 +1305,9 @@ const CandidateProfile = (props: compProps) => {
                               >
                                 <Icon
                                   fontSize='large'
-                                  icon={'material-symbols:edit'}
+                                  icon={'solar:pen-new-round-bold-duotone'}
                                   color={'primary'}
-                                  style={{ fontSize: '24px' }}
+                                  style={{ fontSize: '18px' }}
                                 />
                               </Button>
                             </Box>
@@ -1313,9 +1315,9 @@ const CandidateProfile = (props: compProps) => {
                               <Button variant='outlined' color='error' size='small' onClick={() => deletework(item.id)}>
                                 <Icon
                                   fontSize='large'
-                                  icon={'fluent:delete-32-filled'}
+                                  icon={'solar:trash-bin-trash-bold-duotone'}
                                   color={'error'}
-                                  style={{ fontSize: '24px' }}
+                                  style={{ fontSize: '18px' }}
                                 />
                               </Button>
                             </Box>
@@ -1338,14 +1340,11 @@ const CandidateProfile = (props: compProps) => {
                 lg={1}
                 xs={12}
               >
-                <Button fullWidth size='small' type='submit' variant='contained' sx={{ mb: 7, background: 'green' }}>
-                  <Grid item xs={2}>
-                    <Icon fontSize='large' icon={'fluent:save-28-filled'} color={'info'} style={{ fontSize: '24px' }} />
-                  </Grid>
-                  <Grid item xs={10}>
-                    SAVE
-                  </Grid>
-                </Button>
+                
+                <Button variant='contained' color='success' size="small" type='submit' sx={{ mb: 7}}>
+                    <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'success'} style={{ fontSize: '18px' }} />
+                    <div style={{ marginLeft: 5 }}>SAVE</div>
+                    </Button>
               </Grid>
             </Grid>
           </Grid>

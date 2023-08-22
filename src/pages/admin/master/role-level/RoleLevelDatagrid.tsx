@@ -16,11 +16,11 @@ const columns: GridColDef[] = [
 
             return (
                 <>
-                    <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
-                        <Icon icon='mdi:pencil' />
+                     <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
+                        <Icon icon='solar:pen-new-round-bold-duotone' />
                     </IconButton>
                     <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
-                        <Icon icon='mdi:trash' />
+                        <Icon icon='solar:trash-bin-trash-bold-duotone' />
                     </IconButton>
                 </>
             );
