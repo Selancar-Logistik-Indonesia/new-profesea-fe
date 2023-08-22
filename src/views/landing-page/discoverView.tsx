@@ -35,7 +35,7 @@ const DiscoverView = () => {
 
     return (
         
-        <Grid container justifyContent="center" sx={{ background: 'linear-gradient(to right, #101820, #eae6df)}' }} mt={0} pb={2} pt={10}>
+        <Grid container justifyContent="center" sx={{ background: 'linear-gradient(to right, #ececec, #eae6df)}' }} mt={0} pb={2} pt={10}>
             <Grid item xs={11}>
                 <Box>
                     <Grid container sx={{
@@ -51,8 +51,8 @@ const DiscoverView = () => {
                             <Grid item xs={12} sm={0.5}>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <Typography variant="h3" style={{ color: "#FFFFFF" }} fontWeight="800" mt={20}>{t("landing_discover_title")}</Typography>
-                                <Typography fontSize={18} style={{ color: "#FFFFFF" }} mt={2} align={"justify"}>{t("landing_discover_subtitle")}</Typography>
+                                <Typography variant="h3" style={{ color: "#32487A" }} fontWeight="800" mt={20}>{t("landing_discover_title")}</Typography>
+                                <Typography fontSize={18} style={{ color: "#32487A" }} mt={2} align={"justify"}>{t("landing_discover_subtitle")}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={0.5}>
                             </Grid>
