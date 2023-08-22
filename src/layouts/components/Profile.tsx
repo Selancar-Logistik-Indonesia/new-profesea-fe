@@ -86,6 +86,7 @@ const Profile = (props: userProps) => {
     return "/";
   }
 
+  
   return (
     <Grid container>
       <Grid item xs={12}>
