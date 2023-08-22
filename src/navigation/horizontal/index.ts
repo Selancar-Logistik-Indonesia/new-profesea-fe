@@ -58,13 +58,13 @@ const navigation = (): HorizontalNavItemsType => [
     action: 'read',
     subject: 'seaferer-training'
   },
-  {
-    path: '/pricing',
-    title: 'Pricing',
-    icon: 'solar:tag-price-bold-duotone',
-    action: 'read',
-    subject: 'PricingPage'
-  }
+  // {
+  //   path: '/pricing', 
+  //   title: 'Pricing',
+  //   icon: 'solar:tag-price-bold-duotone',
+  //   action: 'read',
+  //   subject: 'PricingPage' m,
+  // }
 ]
 
 export default navigation

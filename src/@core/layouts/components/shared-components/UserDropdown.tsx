@@ -144,7 +144,7 @@ const UserDropdown = (props: Props) => {
               </Box>
             </MenuItem>
             <Divider />
-            <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+            {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
               <Box sx={styles}>
                 <Icon icon='solar:leaf-bold-duotone' />
                 <LinkStyled href='/account'>
@@ -152,7 +152,7 @@ const UserDropdown = (props: Props) => {
                   <Typography>Subscribe</Typography>{' '}
                 </LinkStyled>
               </Box>
-            </MenuItem>
+            </MenuItem> */}
           </>
         )}
 
