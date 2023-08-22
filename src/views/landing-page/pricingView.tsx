@@ -2,9 +2,11 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Card, CircularProgress, Grid, IconButton, List, ListItem, ListItemText, Typography } from "@mui/material";
 import collect, { Collection } from "collect.js";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Pricing from "src/contract/models/pricing";
+import { useAuth } from "src/hooks/useAuth";
 import { HttpClient } from "src/services";
 import { formatIDR, toTitleCase } from "src/utils/helpers";
 
@@ -13,6 +15,8 @@ const PricingView = () => {
     const [pricingType, setPricingType] = useState<string>();
     const [keys, setKeys] = useState<string[]>([]);
     const [pricings, setPricings] = useState<Collection<Pricing>>();
+    const { user } = useAuth();
+    const router = useRouter();
 
     const getPricing = async () => {
         const response = await HttpClient.get(`/public/data/pricing`);
@@ -33,6 +37,15 @@ const PricingView = () => {
     useEffect(() => {
         getPricing();
     }, []);
+
+    const handleButtonClick = () => {
+        if (user) {
+            router.push('/account');
+            return;
+        }
+
+        router.push('/register');
+    }
 
     const buildPricingArea = () => {
         const items = pricings?.get(pricingType) as any;
@@ -62,7 +75,7 @@ const PricingView = () => {
                             : (<Typography mb={2} variant="h5">{price > 0 ? formatIDR(price) : "Free"}</Typography>)
                     }
 
-                    <Button fullWidth={true} type="button" variant="contained">
+                    <Button onClick={() => handleButtonClick()} fullWidth={true} type="button" variant="contained">
                         {['pay-per-value', 'basic'].includes(title) ? "Try It" : "Buy It"}
                     </Button>
 
