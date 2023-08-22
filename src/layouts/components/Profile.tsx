@@ -103,11 +103,12 @@ const Profile = (props: userProps) => {
             <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
             <Box sx={{ pt: 2, pb: 1 }}>
               <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                <Icon icon={'solar:buildings-3-bold-duotone'} fontSize={20} color={'#424242'} />
+                <Icon icon={'iconamoon:box-bold'} fontSize={20} color={'#424242'} />
                 <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                  {props.datauser?.industry?.name}
+                  {getEmployeetype(props.datauser?.employee_type)}
                 </Typography>
               </Box>
+
               <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                 <Icon icon={'solar:mailbox-bold-duotone'} fontSize={20} color={'#424242'} />
                 <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
@@ -120,13 +121,15 @@ const Profile = (props: userProps) => {
                   {getUserRoleName(props.datauser?.team)}
                 </Typography>
               </Box>
+            </Box>
+            {props.datauser?.role == 'Company' && (
               <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                <Icon icon={'iconamoon:box-bold'} fontSize={20} color={'#424242'} />
+                <Icon icon={'solar:buildings-3-bold-duotone'} fontSize={20} color={'#424242'} />
                 <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                  {getEmployeetype(props.datauser?.employee_type)}
+                  {props.datauser?.industry?.name}
                 </Typography>
               </Box>
-            </Box>
+            )}
             <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
             {props.datauser?.role == 'Seafarer' && (
               <Box>
