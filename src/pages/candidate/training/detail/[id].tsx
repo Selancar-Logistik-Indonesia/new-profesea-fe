@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { HttpClient } from "src/services";
 import Training from "src/contract/models/training";
 import { formatIDR, getUserAvatar } from "src/utils/helpers";
-import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import PaymentDialog from "src/views/payment/PaymentDialog";
