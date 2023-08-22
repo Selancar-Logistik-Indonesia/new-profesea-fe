@@ -21,11 +21,7 @@ export type ParamJobVacncy = {
   lokasi: string
   waktu: string
 }
-
-type employee = {
-  onship: 'ON-SHIP'
-  offship: 'OFF-SHIP'
-}
+ 
 type userProps = {
   datauser: IUser | null
 }
