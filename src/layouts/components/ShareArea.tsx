@@ -56,7 +56,7 @@ const ShareArea = (props:{url:string, subject:any}) => {
               aria-haspopup='menu'
               onClick={handleToggle}
               startIcon={<Icon icon='uil:share' fontSize={18} />}
-            > &nbsp;
+            > SHARE
             </Button>
           </ButtonGroup>
         </Grid>
