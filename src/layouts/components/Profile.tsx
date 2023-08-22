@@ -236,6 +236,7 @@ const Profile = (props: userProps) => {
                     style={{ fontSize: '24px' }}
                   />
                 </IconButton>
+                EDIT
               </Link>
             </Box>
           </CardContent>
