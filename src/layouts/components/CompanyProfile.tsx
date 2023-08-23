@@ -651,7 +651,7 @@ const CompanyProfile = (props: compProps) => {
                   label='Phone'
                   defaultValue={props.datauser.phone}
                   variant='outlined'
-                  type='input'
+                  type='number'
                   fullWidth
                   sx={{ mb: 1 }}
                   {...register('phone')}
