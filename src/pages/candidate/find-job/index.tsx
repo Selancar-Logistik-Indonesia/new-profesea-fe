@@ -79,16 +79,16 @@ const SeafererJob = () => {
   const [textCompany, SetTextCompany] = useState<any>('')
 
   const firstload = () => {
+ 
+    HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
+      if (response.status != 200) {
+        throw response.data.message ?? "Something went wrong!";
+      }
+      getRoleLevel(response.data.roleLevels.data);
+    })
 
-  
-      HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
-        if (response.status != 200) {
-          throw response.data.message ?? "Something went wrong!";
-        }
-        getRoleLevel(response.data.roleLevels.data);
-      })
     if(JC != 0){
-    HttpClient.get(`/public/data/role-type?search=&page=1&take=250&category_id=${JC}`).then(response => {
+      HttpClient.get(`/public/data/role-type?search=&page=1&take=250&category_id=${JC}`).then(response => {
         if (response.status != 200) {
           throw response.data.message ?? "Something went wrong!";
         }
