@@ -80,18 +80,21 @@ const SeafererJob = () => {
 
   const firstload = () => {
 
-    HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
-      if (response.status != 200) {
-        throw response.data.message ?? "Something went wrong!";
-      }
-      getRoleLevel(response.data.roleLevels.data);
-    })
-    HttpClient.get(`/public/data/role-type?search=&page=1&take=250`).then(response => {
-      if (response.status != 200) {
-        throw response.data.message ?? "Something went wrong!";
-      }
-      getRoleType(response.data.roleTypes.data);
-    })
+  
+      HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
+        if (response.status != 200) {
+          throw response.data.message ?? "Something went wrong!";
+        }
+        getRoleLevel(response.data.roleLevels.data);
+      })
+    if(JC != 0){
+    HttpClient.get(`/public/data/role-type?search=&page=1&take=250&category_id=${JC}`).then(response => {
+        if (response.status != 200) {
+          throw response.data.message ?? "Something went wrong!";
+        }
+        getRoleType(response.data.roleTypes.data);
+      })
+    } 
     HttpClient.get(`/job-category?search=&page=1&take=250`).then(response => {
       if (response.status != 200) {
         throw response.data.message ?? "Something went wrong!";
@@ -107,7 +110,7 @@ const SeafererJob = () => {
   }
   useEffect(() => {
     firstload()
-  }, [])
+  }, [JC])
 
   const [value, setValue] = React.useState(0);
   const [color, getColor] = useState<any>('#FFFFFF')
@@ -169,7 +172,8 @@ const SeafererJob = () => {
               />
               <Collapse in={collapsed}>
                 <CardContent>
-                  <Autocomplete
+
+                  {user?.employee_type === 'onship' && (<Autocomplete
                     sx={{ marginBottom: 2 }}
                     disablePortal
                     id='combo-box-demo'
@@ -179,7 +183,7 @@ const SeafererJob = () => {
                     onChange={(event: any, newValue: RoleType | null) =>
                       newValue?.id ? setJT(newValue?.id) : setJT(0)
                     }
-                  />
+                  />)}
                   {/* Category */}
                   <Autocomplete
                     sx={{ marginBottom: 2 }}
@@ -213,7 +217,7 @@ const SeafererJob = () => {
                     onChange={(event: any, newValue: Degree | null) => (newValue?.id ? setED(newValue?.id) : setED(0))}
                   />
                   {
-                    user.employee_type == 'onship' && (
+                    user.employee_type === 'onship' && (
                       <DatePickerWrapper>
                         <DatePicker
                           minDate={new Date()}
