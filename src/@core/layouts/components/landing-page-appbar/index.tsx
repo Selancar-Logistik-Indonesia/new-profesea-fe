@@ -24,7 +24,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const router = useRouter();
     const [navItems, setNavItems] = useState<NavItemType[]>([
         { title: 'Login', variant: 'contained', onClick: "/login" },
-        // { title: 'Register', variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
+        //{ title: 'Register', variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
     ])
 
     const [homeNavItems, setHomeNavItems] = useState<{ title: string, path: string }[]>([]);
@@ -135,7 +135,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                         <Link href='/'>
                             <Box
                                 component="img"
-                                sx={{ width: 125 }}
+                                sx={{ width: 125, marginLeft: 2 }}
                                 alt="The Profesea logo"
                                 title="Profesea"
                                 src="/images/logosamudera.png"

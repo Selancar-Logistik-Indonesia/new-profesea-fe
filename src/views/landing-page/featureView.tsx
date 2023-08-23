@@ -25,9 +25,7 @@ const FeatureView = () => {
                             </Grid>
                         </Grid>
                         <Grid container spacing={6}>
-                            <Grid item xs={12} sm={1}>
-                            </Grid>
-                            <Grid item xs={12} sm={5}>
+                            <Grid item xs={12} sm={6}>
 
                                 <div className="ag-courses_item">
                                     <a href="#" className="ag-courses-item_link">
@@ -81,8 +79,7 @@ const FeatureView = () => {
                                 <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_1")}</Typography>
                                 <Typography fontSize={18} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_features_subtitle_1")}</Typography> */}
                             </Grid>
-
-                            <Grid item xs={12} sm={5} mt={20}>
+                            <Grid item xs={12} sm={6} mt={20}>
                                 <div className="ag-courses_item">
                                     <a href="#" className="ag-courses-item_link">
                                         <div className="ag-courses-item_bg"></div>
@@ -113,8 +110,6 @@ const FeatureView = () => {
                                         </div>
                                     </a>
                                 </div>
-                            </Grid>
-                            <Grid item xs={12} sm={1}>
                             </Grid>
                         </Grid>
                     </Grid>

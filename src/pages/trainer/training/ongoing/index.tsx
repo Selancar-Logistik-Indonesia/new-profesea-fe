@@ -11,6 +11,7 @@ import Training from 'src/contract/models/training';
 import DialogEdit from '../all/DialogEdit';
 import { v4 } from "uuid";
 import DialogView from '../all/DialogView';
+import { Icon } from '@iconify/react'
 
 const OngoingTrainingScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -83,16 +84,26 @@ const OngoingTrainingScreen = () => {
                                             </Grid>
                                             <Grid container direction="row" justifyContent="space-between" alignItems="center">
                                                 <Grid item onClick={() => viewHandler(item)}>
-                                                    <Typography sx={{ mb: 0.5, fontStyle: 'bold', fontSize: '14px' }} variant='body1' >
+                                                    <Typography sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={14}>
                                                         {item.title}
                                                     </Typography>
-                                                    <Typography sx={{ mb: 0.5, fontStyle: 'italic', fontSize: '11px' }} variant='body2' >
+                                                    <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
                                                         {item.category?.category}
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item>
-                                                    <Button variant='contained' color='warning' onClick={() => updateHandler(item)}>
-                                                        Edit
+                                                    <Button
+                                                        variant='contained'
+                                                        color='primary'
+                                                        size='small'
+                                                        onClick={() => updateHandler(item)}
+                                                    >
+                                                        <Icon
+                                                            fontSize='large'
+                                                            icon={'solar:pen-new-round-bold-duotone'}
+                                                            color={'primary'}
+                                                            style={{ fontSize: '18px' }}
+                                                        /> &nbsp; EDIT
                                                     </Button>
                                                 </Grid>
                                             </Grid>
