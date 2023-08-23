@@ -901,7 +901,7 @@ const CandidateProfile = (props: compProps) => {
                   variant='outlined'
                   fullWidth
                   sx={{ mb: 1 }}
-                  type='input'
+                  type='number'
                   {...register('phone')}
                 />
               </Grid>
