@@ -40,7 +40,7 @@ const Main = () => {
                                     <Typography variant='h5' sx={{ mb: 2 }} color={"#FFFFFF"} fontWeight="800">
                                         {t('b_to_seafarer')}
                                     </Typography>
-                                    <Typography variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
+                                    <Typography maxWidth={'90%'} variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
                                         {t('b_to_seafarer_detail')}
                                     </Typography>
                                     <Box>
@@ -53,7 +53,7 @@ const Main = () => {
                                     <Typography variant='h5' sx={{ mb: 2 }} color={"#FFFFFF"} fontWeight="800">
                                         {t('b_to_professional')}
                                     </Typography>
-                                    <Typography variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
+                                    <Typography maxWidth={'90%'} variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
                                         {t('b_to_professional_detail')}
                                     </Typography>
                                     <Box>
@@ -73,7 +73,7 @@ const Main = () => {
                             <Typography variant='h5' sx={{ mb: 2 }} color={"#FFFFFF"} fontWeight="800">
                                 {t('b_to_seafarer')}
                             </Typography>
-                            <Typography variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
+                            <Typography maxWidth={'90%'} variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
                                 {t('b_to_seafarer_detail')}
                             </Typography>
                             <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
@@ -87,7 +87,7 @@ const Main = () => {
                             <Typography variant='h5' sx={{ mb: 2 }} color={"#FFFFFF"} fontWeight="800">
                                 {t('b_to_professional')}
                             </Typography>
-                            <Typography variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
+                            <Typography maxWidth={'90%'} variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
                                 {t('b_to_professional_detail')}
                             </Typography>
                             <Button href="/register" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>

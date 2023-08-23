@@ -84,7 +84,7 @@ const Main = () => {
                             <Typography variant='h5' sx={{ mb: 2 }} color={"#FFFFFF"} fontWeight="800">
                                     {t('b_to_trainer')}
                                 </Typography>
-                                <Typography variant='body2' sx={{ mb: 6.5, color: "#FFFFFF" }}>
+                                <Typography variant='body2' maxWidth={'60%'} sx={{ mb: 6.5, color: "#FFFFFF" }}>
                                     {t('b_to_trainer_detail')}
                                 </Typography>
                                 <Button href="/register/trainer/" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
