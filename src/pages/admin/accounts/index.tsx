@@ -47,7 +47,7 @@ const UserScreen = () => {
                     name: row.name,
                     email: row.email,
                     phone: row.phone,
-                    role: row.role,
+                    role: (row.employee_type != 'offship') ? row.role : 'Candidate',
                     plan: row.plan_type,
                     actions: {
                         onDelete: () => deleteHandler(row),
