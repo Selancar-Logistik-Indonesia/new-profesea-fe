@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 // ** Next Imports
 import Head from 'next/head'
@@ -55,67 +55,66 @@ import 'prismjs/components/prism-tsx'
 
 // ** React Perfect Scrollbar Style
 import 'react-perfect-scrollbar/dist/css/styles.css'
-
 import 'src/iconify-bundle/icons-bundle-react'
-
-// ** Global css styles
 import '../../styles/globals.css'
 import { I18nextProvider } from 'react-i18next'
 import i18n from 'src/i18next'
 import { Provider } from 'react-redux'
 import { store } from 'src/store'
+import GoogleAnalytics from 'src/views/GoogleAnalytics'
 
 // ** Extend App Props with Emotion
 type ExtendedAppProps = AppProps & {
-    Component: NextPage
-    emotionCache: EmotionCache
+  Component: NextPage
+  emotionCache: EmotionCache
 }
 
 type GuardProps = {
-    authGuard: boolean
-    guestGuard: boolean
-    children: ReactNode
+  authGuard: boolean
+  guestGuard: boolean
+  children: ReactNode
 }
 
 const clientSideEmotionCache = createEmotionCache()
 
 // ** Pace Loader
 if (themeConfig.routingLoader) {
-    Router.events.on('routeChangeStart', () => {
-        NProgress.start()
-    })
-    Router.events.on('routeChangeError', () => {
-        NProgress.done()
-    })
-    Router.events.on('routeChangeComplete', () => {
-        NProgress.done()
-    })
+  Router.events.on('routeChangeStart', () => {
+    NProgress.start()
+  })
+  Router.events.on('routeChangeError', () => {
+    NProgress.done()
+  })
+  Router.events.on('routeChangeComplete', () => {
+    NProgress.done()
+  })
 }
 
 const Guard = ({ children, authGuard, guestGuard }: GuardProps) => {
-    if (guestGuard) {
-        return <GuestGuard fallback={<Spinner />}>{children}</GuestGuard>
-    } else if (!guestGuard && !authGuard) {
-        return <>{children}</>
-    } else {
-        return <AuthGuard fallback={<Spinner />}>{children}</AuthGuard>
-    }
+  if (guestGuard) {
+    return <GuestGuard fallback={<Spinner />}>{children}</GuestGuard>
+  } else if (!guestGuard && !authGuard) {
+    return <>{children}</>
+  } else {
+    return <AuthGuard fallback={<Spinner />}>{children}</AuthGuard>
+  }
 }
 
 // ** Configure JSS & ClassName
 const App = (props: ExtendedAppProps) => {
-    const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
-    // Variables
-    const contentHeightFixed = Component.contentHeightFixed ?? false
-    const getLayout = Component.getLayout ?? (page => <UserLayout contentHeightFixed={contentHeightFixed}>{page}</UserLayout>)
+  // Variables
+  const contentHeightFixed = Component.contentHeightFixed ?? false
+  const getLayout = Component.getLayout ?? (page => <UserLayout contentHeightFixed={contentHeightFixed}>{page}</UserLayout>)
 
-    const setConfig = Component.setConfig ?? undefined
-    const authGuard = Component.authGuard ?? true
-    const guestGuard = Component.guestGuard ?? false
-    const aclAbilities = Component.acl ?? defaultACLObj
+  const setConfig = Component.setConfig ?? undefined
+  const authGuard = Component.authGuard ?? true
+  const guestGuard = Component.guestGuard ?? false
+  const aclAbilities = Component.acl ?? defaultACLObj
 
-    return (
+  return (
+    <>
       <Provider store={store}>
         <CacheProvider value={emotionCache}>
           <Head>
@@ -149,7 +148,10 @@ const App = (props: ExtendedAppProps) => {
           </AuthProvider>
         </CacheProvider>
       </Provider>
-    )
+
+      <GoogleAnalytics />
+    </>
+  )
 }
 
 export default App
