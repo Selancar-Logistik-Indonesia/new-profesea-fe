@@ -17,7 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { HttpClient } from 'src/services'
 import JobCategory from 'src/contract/models/job_category'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material'
+import { Autocomplete, CircularProgress } from '@mui/material'
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -26,9 +26,10 @@ const Transition = forwardRef(function Transition(
     return <Fade ref={ref} {...props} />
 })
 
-interface FormPayload {
-    name: string
-}
+const code = [
+    { employee_type: 'onship', label: 'On-Ship' },
+    { employee_type: 'offship', label: 'Off-Ship' }
+]
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -43,16 +44,23 @@ type EditProps = {
 
 const DialogEdit = (props: EditProps) => {
     const [onLoading, setOnLoading] = useState(false);
+    const [sType, setsType] = useState('');
 
-    const { handleSubmit, register } = useForm<FormPayload>({
+    const { handleSubmit, register } = useForm<JobCategory>({
         mode: 'onBlur',
         resolver: yupResolver(validationSchema)
     })
 
-    const onSubmit = async (formPayload: FormPayload) => {
+    const onSubmit = async (formData: JobCategory) => {
+        const { name } = formData
+        const json = {
+            "name": name,
+            "employee_type": sType
+        }
+
         setOnLoading(true);
         try {
-            const resp = await HttpClient.patch(`/job-category/${props.selectedItem.id}`, formPayload);
+            const resp = await HttpClient.patch(`/job-category/${props.selectedItem.id}`, json);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
@@ -94,12 +102,23 @@ const DialogEdit = (props: EditProps) => {
                         </Typography>
                         <Typography variant='body2'>Fulfill your Job Categories Info here</Typography>
                     </Box>
-                    <Grid container spacing={6}>
+                    <Grid container spacing={3}>
                         <Grid item sm={12} xs={12}>
                             <TextField label='Category Name'
                                 placeholder='Category Name'
                                 defaultValue={props.selectedItem.name}
-                                fullWidth sx={{ mb: 6 }} {...register("name")} />
+                                fullWidth {...register("name")} />
+                        </Grid>
+                        <Grid item md={12} xs={12} >
+                            <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                value={code.find(x => x.employee_type === props?.selectedItem?.employee_type)}
+                                options={code}
+                                getOptionLabel={(option: any) => option.label}
+                                renderInput={(params) => <TextField {...params} label="Employee Type" />}
+                                onChange={(event: any, newValue: any | null) => (newValue?.employee_type) ? setsType(newValue.employee_type) : setsType('')}
+                            />
                         </Grid>
                     </Grid>
                 </DialogContent>

@@ -45,6 +45,7 @@ const RoleTypeScreen = () => {
                     no: index + 1,
                     id: row.id,
                     name: row.name,
+                    category: row?.category?.name,
                     actions: {
                         onDelete: () => deleteHandler(row),
                         onUpdate: () => updateHandler(row),
