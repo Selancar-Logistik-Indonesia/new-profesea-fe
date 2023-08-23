@@ -25,7 +25,7 @@ const FindJobsView = (props: { id: string }) => {
             <Box sx={{ display: { xs: 'block', md: 'flex' }, flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Box sx={{ flexShrink: 1, mx: 10 }}>
                     <Typography variant='h5' sx={{ mb: 5 }} color={"#000000"} fontWeight="600">{t("landing_jobs_title")}</Typography>
-                    <Typography fontSize={18} variant='body1' style={{ color: "#000" }}>{t("landing_jobs_subtitle")}</Typography>
+                    <Typography fontSize={16} variant='body1' style={{ color: "#000" }}>{t("landing_jobs_subtitle")}</Typography>
                 </Box>
                 <Box sx={{ flexDirection: 'column', py: { xs: 10, md: 0 }, mx: 10 }}>
                     <Typography variant="h5" sx={{ mb: 5 }} color={"#000000"} fontWeight="600">{t("landing_jobs_suggested")}</Typography>
