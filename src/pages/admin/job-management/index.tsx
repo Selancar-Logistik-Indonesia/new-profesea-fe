@@ -41,6 +41,8 @@ const JobScreen = () => {
 
             const rows = resp.data.jobs.data as Job[];
             const items = rows.map((row, index) => {
+                const license:any[] = Object.values(row.license)
+                
                 return {
                     no: index + 1,
                     id: row.id,
@@ -49,6 +51,7 @@ const JobScreen = () => {
                     category_name: row.category.name,
                     level_name: row.rolelevel.levelName,
                     degree: row.degree.name,
+                    license:  license.map(e => e.title).join(", "),
                     salary: `Rp. ${row.salary_start} - Rp. ${row.salary_end}`,
                     actions: {
                         onDelete: () => deleteHandler(row),
