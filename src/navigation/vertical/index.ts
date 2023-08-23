@@ -148,6 +148,12 @@ const navigation = (): VerticalNavItemsType => {
             action: 'read'
           },
           {
+            title: 'Job Title',
+            path: '/admin/master/role-type',
+            subject: 'master/role-type',
+            action: 'read'
+          },
+          {
             title: 'Training Category',
             path: '/admin/master/training-categories',
             subject: 'master/training-categories',
@@ -157,12 +163,6 @@ const navigation = (): VerticalNavItemsType => {
             title: 'Role Level',
             path: '/admin/master/role-level',
             subject: 'master/role-level',
-            action: 'read'
-          },
-          {
-            title: 'Job Title',
-            path: '/admin/master/role-type',
-            subject: 'master/role-type',
             action: 'read'
           },
           {
