@@ -16,7 +16,8 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material'
+import { Autocomplete, CircularProgress } from '@mui/material'
+import JobCategory from 'src/contract/models/job_category'
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -25,9 +26,11 @@ const Transition = forwardRef(function Transition(
     return <Fade ref={ref} {...props} />
 })
 
-interface FormPayload {
-    name: string
-}
+const code = [
+    { employee_type: 'onship', label: 'On-Ship' },
+    { employee_type: 'offship', label: 'Off-Ship' }
+]
+
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
 })
@@ -39,14 +42,21 @@ type DialogProps = {
 }
 
 const DialogAdd = (props: DialogProps) => {
-    const [onLoading, setOnLoading] = useState(false);
+    const [onLoading, setOnLoading] = useState(false);    
+    const [sType, setsType] = useState('');
 
-    const { handleSubmit, register } = useForm<FormPayload>({
+    const { handleSubmit, register } = useForm<JobCategory>({
         mode: 'onBlur',
         resolver: yupResolver(validationSchema)
     })
 
-    const onSubmit = async (json: FormPayload) => {
+    const onSubmit = async (formData: JobCategory) => {
+        const { name } = formData
+        const json = {
+            "name": name,
+            "employee_type": sType
+        }
+
         setOnLoading(true);
         try {
             const resp = await HttpClient.post('/job-category', json);
@@ -94,11 +104,23 @@ const DialogAdd = (props: DialogProps) => {
                         </Typography>
                         <Typography variant='body2'>Fulfill your Job Category Info here</Typography>
                     </Box>
-                    <Grid container spacing={6}>
+                    <Grid container spacing={3}>
                         <Grid item sm={12} xs={12}>
                             <TextField label='Category Name'
                                 placeholder='Category Name'
-                                fullWidth sx={{ mb: 6 }} {...register("name")} />
+                                fullWidth 
+                                {...register("name")} 
+                            />
+                        </Grid>
+                        <Grid item md={12} xs={12} >
+                            <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                options={code}
+                                getOptionLabel={(option: any) => option.label}
+                                renderInput={(params) => <TextField {...params} label="Employee Type" />}
+                                onChange={(event: any, newValue: any | null) => (newValue?.employee_type) ? setsType(newValue.employee_type) : setsType('')}
+                            />
                         </Grid>
                     </Grid>
                 </DialogContent>

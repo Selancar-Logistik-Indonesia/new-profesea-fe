@@ -18,6 +18,11 @@ import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
 import { Icon } from '@iconify/react';
 
+const code = [
+    { employee_type: 'onship', label: 'On-Ship' },
+    { employee_type: 'offship', label: 'Off-Ship' }
+]
+
 const JobCategoryScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
     const [onLoading, setOnLoading] = useState(false);
@@ -42,18 +47,19 @@ const JobCategoryScreen = () => {
 
             const rows = resp.data.categories.data as JobCategory[];
             const items = rows.map((row, index) => {
+                const stype = code.find(x => x.employee_type === row.employee_type)
+
                 return {
                     no: index + 1,
                     id: row.id,
                     name: row.name,
+                    type: (stype === undefined) ? '' : stype.label,
                     actions: {
                         onDelete: () => deleteHandler(row),
                         onUpdate: () => updateHandler(row),
                     }
                 } as RowItem;
             });
-
-            console.log(rows);
 
             setRowCount(resp?.data?.categories?.total ?? 0);
             setDataSheet(items);

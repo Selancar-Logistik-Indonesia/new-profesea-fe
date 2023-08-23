@@ -95,7 +95,7 @@ const SeafererJob = () => {
         getRoleType(response.data.roleTypes.data);
       })
     } 
-    HttpClient.get(`/job-category?search=&page=1&take=250`).then(response => {
+    HttpClient.get(`/job-category?search=&page=1&take=250&employee_type=${user?.employee_type}`).then(response => {
       if (response.status != 200) {
         throw response.data.message ?? "Something went wrong!";
       }
