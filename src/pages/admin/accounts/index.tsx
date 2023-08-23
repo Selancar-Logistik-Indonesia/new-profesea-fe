@@ -19,6 +19,13 @@ import { v4 } from "uuid";
 import { Icon } from '@iconify/react';
 
 const UserScreen = () => {
+    const translate: any = {
+      onship: 'On-Ship',
+      offship: 'Off-Ship',
+      null: '',
+      trainer: 'Trainer'
+    }
+
     const [hookSignature, setHookSignature] = useState(v4())
     const [onLoading, setOnLoading] = useState(false);
     const [openAddModal, setOpenAddModal] = useState(false);
@@ -42,18 +49,19 @@ const UserScreen = () => {
             const rows = resp.data.users.data as Account[];
             const items = rows.map((row, index) => {
                 return {
-                    no: index + 1,
-                    id: row.id,
-                    name: row.name,
-                    email: row.email,
-                    phone: row.phone,
-                    role: row.role,
-                    plan: row.plan_type,
-                    actions: {
-                        onDelete: () => deleteHandler(row),
-                        onUpdate: () => updateHandler(row),
-                    }
-                } as RowItem;
+                  no: index + 1,
+                  id: row.id,
+                  name: row.name,
+                  email: row.email,
+                  phone: row.phone,
+                  role: row.role,
+                  type: translate[row.employee_type],
+                  plan: row.plan_type,
+                  actions: {
+                    onDelete: () => deleteHandler(row),
+                    onUpdate: () => updateHandler(row)
+                  }
+                } as RowItem
             });
 
             setRowCount(resp?.data?.users?.total ?? 0);
