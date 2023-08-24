@@ -17,31 +17,32 @@ const FooterView = () => {
 
   return (
     <Grid
-      sx={{ backgroundColor: '#f4f4f4', backgroundSize: 'cover', px: { xs: 5, md: 10 } }}
+      sx={{ backgroundColor: '#f4f4f4', backgroundSize: 'cover', maxWidth: { xs: '100%' }, px: { xs: 5, md: 10 } }}
       pt={5}
       pb={5}
       container
       id='footer'
     >
-      <Grid xs={12} md={4} item sx={{ mt: { xs: 7 } }}>
+      <Grid xs={12} md={3.5} item sx={{ mt: { xs: 7 } }}>
         <Grid container>
           <Grid item xs={12} textAlign={'left'} justifyItems='flex-end'>
             <Box
               component='img'
-              sx={{ width: 150 }}
+              sx={{ width: 125 }}
               alt='The Profesea logo'
               title='Profesea'
               src='/images/logosamudera.png'
             />
-            <Typography variant='body1' style={{ color: '#101820' }} mt={5}>
+            <Typography variant='body1' style={{ color: '#101820' }} mt={5} maxWidth='65%'>
               {t('landing_footer_title')}
             </Typography>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12} md={5} sx={{ px: { md: 10 } }}>
+      <Grid item xs={12} md={0.5} sx={{ px: { md: 10 } }}></Grid>
+      <Grid item xs={12} md={4.5} sx={{ px: { md: 12 } }}>
         <Grid container mt={6}>
-          <Grid item md={4} xs={6}>
+          <Grid item md={6} xs={6}>
             <Typography sx={{ mb: 2 }} color={'#ef6c00'} fontSize={16}>
               {' '}
               Company

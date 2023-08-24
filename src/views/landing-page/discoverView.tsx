@@ -37,7 +37,7 @@ const DiscoverView = () => {
       <Grid
         container
         justifyContent='left'
-        sx={{ background: 'linear-gradient(to right, #ececec, #eae6df)}' }}
+        sx={{maxWidth: { xs: '100%' }, px: { xs: 5, md: 5 }, background: 'linear-gradient(to right, #ececec, #eae6df)}' }}
         mt={0}
         pb={2}
         pt={10}
@@ -58,10 +58,10 @@ const DiscoverView = () => {
             >
               <Grid container spacing={12}>
                 <Grid item xs={12} sm={7}>
-                  <Typography variant='h3' style={{ color: '#32487A' }} fontWeight='800' mt={20}>
+                  <Typography fontSize={34} style={{ color: '#32487A' }} fontWeight='800' mt={0}>
                     {t('landing_discover_title')}
                   </Typography>
-                  <Typography fontSize={18} style={{ color: '#32487A' }} mt={2} align={'justify'}>
+                  <Typography fontSize={18} style={{ color: '#32487A' }} mt={2} align={'justify'} maxWidth='85%'>
                     {t('landing_discover_subtitle')}
                   </Typography>
                 </Grid>
@@ -70,14 +70,15 @@ const DiscoverView = () => {
                     alt='Whatis'
                     src='/images/img-whatis.png'
                     style={{
-                      maxWidth: '150%',
-                      height: '380px',
+                      maxWidth: '100%',
+                      height: '300px',
                       alignItems: 'center',
                       justifyContent: 'center',
                       marginBottom: '10%'
                     }}
                   />
                 </Grid>
+                
               </Grid>
             </Grid>
           </Box>

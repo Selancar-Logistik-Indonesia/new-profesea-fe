@@ -1,14 +1,15 @@
 import { Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Box } from "@mui/material";
+import landingPageStyle from "src/@core/styles/landing-page/landing-page-feature";
 
 const FeatureView = () => {
     const { t } = useTranslation();
 
     return (
 
-        <Grid container justifyContent="center" sx={{ backgroundColor: '#101820' }} spacing={9} mt={0} mb={0}>
-            <Grid item xs={11}>
+        <Grid container sx={landingPageStyle.bannerHero} spacing={9} mt={0} mb={0}>
+            <Grid item xs={12}>
                 <Box>
                     <Grid container sx={{
                         p: 4,
@@ -21,7 +22,7 @@ const FeatureView = () => {
 
                         <Grid container spacing={12} mb={0}>
                             <Grid item xs={12} sm={12} mb={-10}>
-                                <Typography variant="h3" style={{ color: "#FFFFFF" }} fontWeight="800" mt={6} mb={20} textAlign="center">{t("landing_discover_item_title")}</Typography>
+                                <Typography fontSize={34} style={{ color: "#32487A" }} fontWeight="800" mt={6} mb={20} textAlign="center">{t("landing_discover_item_title")}</Typography>
                             </Grid>
                         </Grid>
                         <Grid container spacing={6}>
@@ -58,8 +59,8 @@ const FeatureView = () => {
                                         </div>
                                     </a>
                                 </div>
-                                
-                            <div className="ag-courses_item">
+
+                                <div className="ag-courses_item">
                                     <a href="#" className="ag-courses-item_link">
                                         <div className="ag-courses-item_bg"></div>
 
@@ -74,12 +75,16 @@ const FeatureView = () => {
                                         </div>
                                     </a>
                                 </div>
-                                
+
                                 {/* 
                                 <Typography variant="h4" style={{ color: "#000000" }} fontWeight="900" mt={6}>{t("landing_features_title_1")}</Typography>
                                 <Typography fontSize={18} style={{ color: "#000000" }} mt={2} align={"justify"}>{t("landing_features_subtitle_1")}</Typography> */}
                             </Grid>
                             <Grid item xs={12} sm={6} mt={{ xs: -5, sm: 20, md: 20 }} >
+
+                                <a></a>
+                                <a></a>
+                                <a></a>
                                 <div className="ag-courses_item">
                                     <a href="#" className="ag-courses-item_link">
                                         <div className="ag-courses-item_bg"></div>

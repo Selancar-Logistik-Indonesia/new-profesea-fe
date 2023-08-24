@@ -29,11 +29,11 @@ const Main = () => {
 
             <Grid container sx={landingPageStyle.bannerHero}>
                 <Grid item xs={12} xl={6} lg={8} md={12} pt={5} mt={20} mb={10} sx={{ maxWidth: { xs: '90%' }, px: { xs: 5, md: 10 } }}>
-                    <Typography variant="h3" style={{ color: "#32487A" }} fontWeight="800" mt={1} sx={{ maxWidth: '80%' }}>{t("landing_hero_title")}</Typography>
-                    <Typography fontSize={18} style={{ color: "#32487A" }} fontWeight="500" mt={2} sx={{ maxWidth: '80%' }}>{t("landing_hero_subtitle")}</Typography>
+                    <Typography style={{ color: "#32487A", whiteSpace: 'nowrap' }} mt={1} fontWeight="800" fontSize={34} sx={{ maxWidth: { xs: '100%' }, px: { xs: 5, md: 5 } }}>{t("landing_hero_title")}</Typography>
+                    <Typography fontSize={18} style={{ color: "#32487A" }} fontWeight="500" mt={2} sx={{ maxWidth: { xs: '100%' }, px: { xs: 5, md: 5 } }}>{t("landing_hero_subtitle")}</Typography>
 
                     <Container style={{ marginTop: 60, lineHeight: 3.5 }} sx={{ display: { xs: 'none', md: 'block' } }}>
-                        <Grid container justifyContent="center" sx={{ backgroundColor: 'none' }} spacing={9} mt={0} mb={10}>
+                        <Grid container justifyContent="left" sx={{ backgroundColor: 'none' }} spacing={9} mt={0} mb={10} ml={5}>
                             <Card sx={{ width: 320, height: 200, backgroundColor: '#101820', mr: 5 }} elevation={10}>
 
                                 <CardContent sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}>
