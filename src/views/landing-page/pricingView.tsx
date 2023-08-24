@@ -9,6 +9,7 @@ import Pricing from "src/contract/models/pricing";
 import { useAuth } from "src/hooks/useAuth";
 import { HttpClient } from "src/services";
 import { formatIDR, getUserPlanType, toTitleCase } from "src/utils/helpers";
+import PaymentSubscriptionDialog, { SelectedPlan } from "../payment/PaymentSubscriptionDialog";
 
 const PricingView = () => {
     const { t } = useTranslation();
@@ -17,6 +18,8 @@ const PricingView = () => {
     const [pricings, setPricings] = useState<Collection<Pricing>>();
     const { user } = useAuth();
     const router = useRouter();
+    const [openDialog, setOpenDialog] = useState(false);
+    const [selectedPlan, setSelectedPlan] = useState<SelectedPlan>();
 
     const getPricing = async () => {
         const response = await HttpClient.get(`/public/data/pricing`);
@@ -38,9 +41,10 @@ const PricingView = () => {
         getPricing();
     }, []);
 
-    const handleButtonClick = () => {
+    const handleButtonClick = (setPlan: SelectedPlan) => {
         if (user) {
-            router.push('/account');
+            setSelectedPlan(setPlan);
+            setOpenDialog(true);
             return;
         }
 
@@ -54,7 +58,17 @@ const PricingView = () => {
         return keys.map(e => {
             const title = e.at(0) as string;
             const price = items[title].at(0).price;
-            console.log("plan_type:", getUserPlanType(user));
+            const accountType = items[title].at(0).account_type;
+            const plan: SelectedPlan = {
+                planName: toTitleCase(`${accountType} ${title}`),
+                planType: title,
+                price: price,
+            };
+
+            // skip for pay-per-value, not ready yet!
+            if (title == "pay-per-value") {
+                return null;
+            }
 
             return (
                 <Box sx={{ minWidth: 310, maxWidth: 310 }} height={850} mx={5} mt={5} key={title} padding={5} component={Card} textAlign="center">
@@ -76,7 +90,7 @@ const PricingView = () => {
                             : (<Typography mb={2} variant="h5">{price > 0 ? formatIDR(price) : "Free"}</Typography>)
                     }
 
-                    <Button disabled={getUserPlanType(user) == title} onClick={() => handleButtonClick()} fullWidth={true} type="button" variant="contained">
+                    <Button disabled={getUserPlanType(user) == title} onClick={() => handleButtonClick(plan)} fullWidth={true} type="button" variant="contained">
                         {['pay-per-value', 'basic'].includes(title) ? "Try It" : "Buy It"}
                     </Button>
 
@@ -104,29 +118,30 @@ const PricingView = () => {
     }
 
     return (
-        <Grid marginY={5} container direction="column" alignItems="center" justifyContent="center">
-            <Grid mb={5} sx={{ width: "80%" }} item textAlign="center">
-                <Typography variant='h4' sx={{ mb: 5 }} color={"#32487A"}>{t("landing_pricing_title")}</Typography>
-                <Typography fontSize={14} variant='body1'>{t("landing_pricing_subtitle")}</Typography>
+        <>
+            <Grid marginY={5} container direction="column" alignItems="center" justifyContent="center">
+                <Grid mb={5} sx={{ width: "80%" }} item textAlign="center">
+                    <Typography variant='h4' sx={{ mb: 5 }} color={"#32487A"}>{t("landing_pricing_title")}</Typography>
+                    <Typography fontSize={14} variant='body1'>{t("landing_pricing_subtitle")}</Typography>
+                </Grid>
+
+                <Grid container direction="row" alignItems="center" justifyContent="center">
+                    {user && (
+                        <Typography variant="h4" sx={{ my: 5 }}>Plan for {user.team.teamName}</Typography>
+                    )}
+
+                    {!user && keys.map(e => (
+                        <Button sx={{ mx: 2 }} key={e} onClick={() => setPricingType(e)} variant={pricingType == e ? "contained" : undefined}>{e}</Button>
+                    ))}
+                </Grid>
+
+                <Box display={'flex'} flexDirection={'row'} sx={{ overflowX: { xs: 'scroll', md: 'hidden' }, msScrollbarTrackColor: 'transparent', width: '100%', pb: 10, alignItems: { md: 'center' }, justifyContent: { md: 'center' } }}>
+                    {!pricings ? (<CircularProgress />) : buildPricingArea()}
+                </Box>
             </Grid>
 
-            <Grid container direction="row" alignItems="center" justifyContent="center">
-                {user && (
-                    <Typography variant="h4" sx={{ my: 5 }}>Plan for {user.team.teamName}</Typography>
-                )}
-
-                {!user && keys.map(e => (
-                    <Button sx={{ mx: 2 }} key={e} onClick={() => setPricingType(e)} variant={pricingType == e ? "contained" : undefined}>{e}</Button>
-                ))}
-            </Grid>
-
-            <Box display={'flex'} flexDirection={'row'} sx={{ overflowX: { xs: 'scroll', md: 'hidden' }, msScrollbarTrackColor: 'transparent', width: '100%', pb: 10, alignItems: { md: 'center' }, justifyContent: { md: 'center' } }}>
-                {
-                    !pricings ? (<CircularProgress />)
-                        : buildPricingArea()
-                }
-            </Box>
-        </Grid>
+            {selectedPlan && (<PaymentSubscriptionDialog trxAbleType="subscription" onClose={() => setOpenDialog(!openDialog)} openDialog={openDialog} selectedPlan={selectedPlan} />)}
+        </>
     );
 }
 
