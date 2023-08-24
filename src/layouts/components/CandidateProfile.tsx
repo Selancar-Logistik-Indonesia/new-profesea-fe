@@ -71,11 +71,7 @@ type compProps = {
   address: Address
 }
 
-const gender: any = {
-  laki: 'Laki-Laki',
-  perempuan: 'Perempuan' 
-}
-let ship: any = []
+ let ship: any = []
 let opp: any = []
 let tampilkanship: any = ''
 let availabledate: any = ''
@@ -472,8 +468,7 @@ const CandidateProfile = (props: compProps) => {
 
   const onSubmit = (data: FormData) => {
     const { fullName, website, phone, address, about } = data
-    debugger;
-    const x = idcombokelamin
+    console.log('here 1', idcombokelamin) 
     availabledate = date
     const json = {
       country_id: idcountry,
