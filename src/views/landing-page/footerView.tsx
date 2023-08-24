@@ -99,12 +99,12 @@ const FooterView = () => {
               <FontAwesomeIcon icon={faTwitter} color='#101820' />
             </IconButton>
           </Grid>
-          <Grid item xs={12} textAlign={'left'} justifyItems='flex-end'>
+          {/* <Grid item xs={12} textAlign={'left'} justifyItems='flex-end'>
             <Typography mt={1} variant='body1' color={'#101820'}>
               Jl. Letjen S. Parman Kav. 35 <br></br>Palmerah, Jakarta Barat,
               <br></br>DKI Jakarta, 11480
             </Typography>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
       <Grid xs={12} md={12} item sx={{ mt: { xs: 7 } }}>
