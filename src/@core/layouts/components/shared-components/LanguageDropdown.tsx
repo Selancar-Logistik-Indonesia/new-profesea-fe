@@ -14,8 +14,7 @@ import OptionsMenu from 'src/@core/components/option-menu'
 import { Settings } from 'src/@core/context/settingsContext'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import Router from 'next/router'
-import secureLocalStorage from 'react-secure-storage'
-
+ 
 interface Props {
   settings: Settings
   saveSettings: (values: Settings) => void
