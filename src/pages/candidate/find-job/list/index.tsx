@@ -6,6 +6,7 @@ import RecomendedView from 'src/views/find-job/RecomendedView'
 import { HttpClient } from 'src/services'
 import Job from 'src/contract/models/job'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import RecomendedViewSubscribe from 'src/views/find-job/RecomendedViewSubscribe'
 
 type filterType = {
     filter: any;
@@ -16,7 +17,8 @@ type filterType = {
 const FindJob = (props: filterType) => {
     const theme = useTheme()
     const hidden = useMediaQuery(theme.breakpoints.down('md'))
-    const [listJob, setListJob] = useState<Job[]>([]);
+    const [listJob, setListJob] = useState<Job[]>([])
+    const [listJobSubscribe, setListJobSubscribe] = useState<Job[]>([])
     const [page, setPage] = useState(1);
     // const [search, setSearch] = useState("");
     const [hasNextPage, setHasNextPage] = useState(true);
@@ -35,10 +37,21 @@ const FindJob = (props: filterType) => {
         }
         setListJob(jobs);
     }
+    const getListJobsSubscribe = async () => {
+        const response = await HttpClient.get(
+            `/job?search=${props?.search}&roletype_id=${props?.filter?.roletype}&category_id=${props?.filter?.category}&rolelevel_id=${props?.filter?.level}&edugrade_id=${props?.filter?.education}&page=1&take=6`
+        )
+        const jobs = response.data.jobs.data
+       
+        setListJobSubscribe(jobs)
+    }
+    useEffect(() => {
+      getListJobs()
+    }, [page, props.search, perPage, props.filter])
 
     useEffect(() => {
-        getListJobs();
-    }, [page, props.search, perPage, props.filter]);
+      getListJobsSubscribe()
+    }, [])
 
 
     const onPageChange = () => {
@@ -55,6 +68,7 @@ const FindJob = (props: filterType) => {
                         <Grid item xs={12}>
                             <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}> Find Job</Typography>
                             <Typography fontSize={12} style={{ color: "#424242" }} marginTop={2} marginBottom={5}>Search & Apply Job Based on your profile and your experience</Typography>
+                              <RecomendedViewSubscribe listJob={listJobSubscribe} />
                             <InfiniteScroll
                                 dataLength={total}
                                 next={onPageChange}

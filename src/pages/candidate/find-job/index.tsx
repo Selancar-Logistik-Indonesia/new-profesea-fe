@@ -22,6 +22,11 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { IUser } from 'src/contract/models/user'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
+import Countries from 'src/contract/models/country'
+import City from 'src/contract/models/city'
+import Company from 'src/contract/models/company'
+import VesselType from 'src/contract/models/vessel_type'
+import Industry from 'src/contract/models/industry'
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -67,13 +72,28 @@ const SeafererJob = () => {
   const [JobCategory, getJobCategory] = useState<any[]>([]);
   const [Education, getEducation] = useState<any[]>([]);
   const [RoleLevel, getRoleLevel] = useState<any[]>([]);
-  const [RoleType, getRoleType] = useState<any[]>([]);
+  const [RoleType, getRoleType] = useState<any[]>([]) 
 
   const [JT, setJT] = useState(0);
   const [JC, setJC] = useState(0);
   const [RL, setRL] = useState(0);
   const [ED, setED] = useState(0);
   const [DB, setDB] = useState<DateType>(null);
+
+   
+  
+  const [combocountry, getComboCountry] = useState<any>([])
+  const [combocity, getComboCity] = useState<any[]>([])
+  // const [combocompany, getComboCompany] = useState<any>([])
+  const [combovessel, getComboVessel] = useState<any>([])
+  const [comboindustri, getComboIndustry] = useState<any[]>([])
+  
+  const [idcity, setCombocity] = useState<any>()
+  
+  const [idcountry, setCountry] = useState<any>() 
+  // const [idcompany, setCompany] = useState<any>() 
+  const [idvessel, setVesel] = useState<any>() 
+  const [idindustry, setIndustry] = useState<any>() 
   // const [VT, setVT] = useState(0);
 
   const [textCompany, SetTextCompany] = useState<any>('')
@@ -107,6 +127,21 @@ const SeafererJob = () => {
       }
       getEducation(response.data.degrees);
     })
+    HttpClient.get('/public/data/country?search=').then(response => {
+      const code = response.data.countries
+      getComboCountry(code)
+    })
+    
+    HttpClient.get('/public/data/vessel-type?page=1&take=25&search').then(response => {
+      const code = response.data.vesselTypes.data
+      getComboVessel(code)
+    })
+    HttpClient.get('public/data/industry?').then(response => {
+      const code = response.data.industries
+      getComboIndustry(code)
+    })
+
+    
   }
   useEffect(() => {
     firstload()
@@ -124,6 +159,10 @@ const SeafererJob = () => {
     'category': JC,
     'level': RL,
     'education': ED,
+    'city': idcity,
+    'country': idcountry,
+    'vessel': idvessel,
+    'industry': idindustry,
     // 'vessel': VT,
     'date': DB?.toLocaleDateString("en-GB", {
       year: "numeric",
@@ -131,7 +170,15 @@ const SeafererJob = () => {
       day: "2-digit"
     }).split('/').reverse().join('-')
   }
-
+  const searchcity = async (q: any) => {
+    setCountry(q)
+    const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
+    }
+    const code = resp.data.cities
+    getComboCity(code)
+  }
 
   return (
     <Box>
@@ -173,6 +220,80 @@ const SeafererJob = () => {
               <Collapse in={collapsed}>
                 <CardContent>
                   {/* Category */}
+                  {user.employee_type === 'onship' ? (
+                    <>
+                      <Autocomplete
+                        sx={{ marginBottom: 2 }}
+                        disablePortal
+                        id='combo-box-demo'
+                        options={combovessel}
+                        getOptionLabel={(option: VesselType) => option.name}
+                        renderInput={params => <TextField {...params} label='Type Of Vessel' />}
+                        onChange={(event: any, newValue: VesselType | null) =>
+                          newValue?.id ? setVesel(newValue?.id) : setVesel('')
+                        }
+                      />
+                      <Autocomplete
+                        sx={{ marginBottom: 2 }}
+                        disablePortal
+                        id='combo-box-demo'
+                        disabled
+                        options={Education}
+                        getOptionLabel={(option: Company) => option.name}
+                        renderInput={params => <TextField {...params} label='Company' />}
+                        onChange={(event: any, newValue: Company | null) =>
+                          newValue?.id ? setED(newValue?.id) : setED(0)
+                        }
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Autocomplete
+                        disablePortal
+                        id='combo-box-demo'
+                        options={combocountry}
+                        getOptionLabel={(option: any) => option.nicename}
+                        renderInput={params => <TextField {...params} label='Country' />}
+                        onChange={(event: any, newValue: Countries | null) =>
+                          newValue?.id ? searchcity(newValue.id) : searchcity('')
+                        }
+                      />
+                      <Autocomplete
+                        disablePortal
+                        id='city'
+                        // value={props.datauser.address?.city}
+                        options={combocity}
+                        getOptionLabel={(option: City) => option.city_name}
+                        renderInput={params => <TextField {...params} label='City' sx={{ mb: 2 }} />}
+                        onChange={(event: any, newValue: City | null) =>
+                          newValue?.id ? setCombocity(newValue.id) : setCombocity('')
+                        }
+                      />
+                      <Autocomplete
+                        sx={{ marginBottom: 2 }}
+                        disablePortal
+                        id='combo-box-demo'
+                        disabled
+                        options={Education}
+                        getOptionLabel={(option: Company) => option.name}
+                        renderInput={params => <TextField {...params} label='Company' />}
+                        onChange={(event: any, newValue: Company | null) =>
+                          newValue?.id ? setED(newValue?.id) : setED(0)
+                        }
+                      />
+                      <Autocomplete
+                        sx={{ marginBottom: 2 }}
+                        disablePortal
+                        id='combo-box-demo' 
+                        options={comboindustri}
+                        getOptionLabel={(option: Industry) => option.name}
+                        renderInput={params => <TextField {...params} label='Employment Type' />}
+                        onChange={(event: any, newValue: Industry | null) =>
+                          newValue?.id ? setIndustry(newValue?.id) : setIndustry('')
+                        }
+                      />
+                    </>
+                  )}
                   <Autocomplete
                     sx={{ marginBottom: 2 }}
                     disablePortal
@@ -209,6 +330,7 @@ const SeafererJob = () => {
                       newValue?.id ? setRL(newValue?.id) : setRL(0)
                     }
                   />
+
                   <Autocomplete
                     sx={{ marginBottom: 2 }}
                     disablePortal
@@ -220,17 +342,6 @@ const SeafererJob = () => {
                   />
                   {user.employee_type === 'onship' && (
                     <>
-                      <Autocomplete
-                        sx={{ marginBottom: 2 }}
-                        disablePortal
-                        id='combo-box-demo'
-                        options={Education}
-                        getOptionLabel={(option: Degree) => option.name}
-                        renderInput={params => <TextField {...params} label='Education' />}
-                        onChange={(event: any, newValue: Degree | null) =>
-                          newValue?.id ? setED(newValue?.id) : setED(0)
-                        }
-                      />
                       <DatePickerWrapper>
                         <DatePicker
                           minDate={new Date()}
