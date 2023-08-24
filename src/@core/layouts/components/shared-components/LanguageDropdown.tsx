@@ -14,7 +14,7 @@ import OptionsMenu from 'src/@core/components/option-menu'
 import { Settings } from 'src/@core/context/settingsContext'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import Router from 'next/router'
- 
+
 interface Props {
   settings: Settings
   saveSettings: (values: Settings) => void
@@ -26,9 +26,9 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
 
   // ** Vars
   const { layout } = settings
-   
+
   const [templang, setTemplang] = useState()
-   
+
   const handleLangItemClick = (lang: 'en' | 'id') => {
     localStorage.setItem(localStorageKeys.userLocale, lang);
     setTemplang(localStorage.user_locale)
@@ -39,7 +39,7 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
   // ** Change html `lang` attribute when changing locale
   useEffect(() => {
     document.documentElement.setAttribute('lang', i18n.language)
-    
+
 
   }, [i18n.language])
 
@@ -47,7 +47,7 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
     <OptionsMenu
       icon={
         templang == 'en' ? (
-          <Icon icon='emojione:flag-england' color='#ef6c00' fontSize={28} />
+          <Icon icon='emojione:flag-for-united-states' color='#ef6c00' fontSize={28} />
         ) : (
           <Icon icon='emojione:flag-for-indonesia' color='#ef6c00' fontSize={28} />
         )
