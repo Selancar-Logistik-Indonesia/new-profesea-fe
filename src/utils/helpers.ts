@@ -98,26 +98,40 @@ function getUrl(path?: string) {
 }
 
 function getEmployeetype(name?: string) {
-  const employee = name  ?? ''
-  const mapRole = [
-    { title: 'onship', value: 'On-ship' },
-    { title: 'offship', value: 'Off-Ship' }
-  ]
-  const newValue = mapRole.find(e => e.title == employee)
+    const employee = name ?? ''
+    const mapRole = [
+        { title: 'onship', value: 'On-ship' },
+        { title: 'offship', value: 'Off-Ship' }
+    ]
+    const newValue = mapRole.find(e => e.title == employee)
 
-  return newValue ? newValue.value : employee
+    return newValue ? newValue.value : employee
 }
+
+const getUserPlanType = (user: IUser | null) => {
+    if (!user) {
+        return "";
+    }
+
+    if (!user.plan_type || user.plan_type == "basic") {
+        return "basic";
+    }
+
+    return user.plan_type;
+}
+
 export {
-  getCleanErrorMessage,
-  removeFirstZeroChar,
-  toTitleCase,
-  getUserAvatar,
-  getUserRoleName,
-  formatIDR,
-  isStaging,
-  isDevelopment,
-  isProduction,
-  refreshsession,
-  getUrl,
-  getEmployeetype,
+    getCleanErrorMessage,
+    removeFirstZeroChar,
+    toTitleCase,
+    getUserAvatar,
+    getUserRoleName,
+    formatIDR,
+    isStaging,
+    isDevelopment,
+    isProduction,
+    refreshsession,
+    getUrl,
+    getEmployeetype,
+    getUserPlanType,
 }

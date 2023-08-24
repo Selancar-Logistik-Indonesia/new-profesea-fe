@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import Pricing from "src/contract/models/pricing";
 import { useAuth } from "src/hooks/useAuth";
 import { HttpClient } from "src/services";
-import { formatIDR, toTitleCase } from "src/utils/helpers";
+import { formatIDR, getUserPlanType, toTitleCase } from "src/utils/helpers";
 
 const PricingView = () => {
     const { t } = useTranslation();
@@ -54,6 +54,7 @@ const PricingView = () => {
         return keys.map(e => {
             const title = e.at(0) as string;
             const price = items[title].at(0).price;
+            console.log("plan_type:", getUserPlanType(user));
 
             return (
                 <Box sx={{ minWidth: 310, maxWidth: 310 }} height={850} mx={5} mt={5} key={title} padding={5} component={Card} textAlign="center">
@@ -75,7 +76,7 @@ const PricingView = () => {
                             : (<Typography mb={2} variant="h5">{price > 0 ? formatIDR(price) : "Free"}</Typography>)
                     }
 
-                    <Button onClick={() => handleButtonClick()} fullWidth={true} type="button" variant="contained">
+                    <Button disabled={getUserPlanType(user) == title} onClick={() => handleButtonClick()} fullWidth={true} type="button" variant="contained">
                         {['pay-per-value', 'basic'].includes(title) ? "Try It" : "Buy It"}
                     </Button>
 
@@ -110,11 +111,13 @@ const PricingView = () => {
             </Grid>
 
             <Grid container direction="row" alignItems="center" justifyContent="center">
-                {
-                    keys.map(e => (
-                        <Button sx={{ mx: 2 }} key={e} onClick={() => setPricingType(e)} variant={pricingType == e ? "contained" : undefined}>{e}</Button>
-                    ))
-                }
+                {user && (
+                    <Typography variant="h4" sx={{ my: 5 }}>Plan for {user.team.teamName}</Typography>
+                )}
+
+                {!user && keys.map(e => (
+                    <Button sx={{ mx: 2 }} key={e} onClick={() => setPricingType(e)} variant={pricingType == e ? "contained" : undefined}>{e}</Button>
+                ))}
             </Grid>
 
             <Box display={'flex'} flexDirection={'row'} sx={{ overflowX: { xs: 'scroll', md: 'hidden' }, msScrollbarTrackColor: 'transparent', width: '100%', pb: 10, alignItems: { md: 'center' }, justifyContent: { md: 'center' } }}>
