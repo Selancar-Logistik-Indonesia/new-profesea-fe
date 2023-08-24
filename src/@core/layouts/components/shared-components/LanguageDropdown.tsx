@@ -1,5 +1,5 @@
 // ** React Import
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -26,11 +26,12 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
 
   // ** Vars
   const { layout } = settings
-  const templang = localStorage.user_locale
+   
+  const [templang, setTemplang] = useState()
+   
   const handleLangItemClick = (lang: 'en' | 'id') => {
     localStorage.setItem(localStorageKeys.userLocale, lang);
-    const templang = localStorage.user_locale
-    debugger;
+    setTemplang(localStorage.user_locale)
     i18n.changeLanguage(lang)
     Router.push(Router.pathname, Router.pathname, { locale: lang });
   }
