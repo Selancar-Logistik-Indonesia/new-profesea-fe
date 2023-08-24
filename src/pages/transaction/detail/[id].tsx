@@ -1,6 +1,6 @@
 import { faArrowLeft, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Card, Grid, IconButton, Link, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
+import { Box, Card, Grid, IconButton, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -40,7 +40,7 @@ const TransactionDetailPage = () => {
         <Grid container>
             <Grid item xs={12} sx={{ p: 10, backgroundColor: 'white' }}>
                 <Box sx={{ mb: 6, display: 'flex', flexDirection: 'rows', alignItems: 'center' }}>
-                    <IconButton LinkComponent={Link} href="/candidate/training">
+                    <IconButton onClick={() => router.back()}>
                         <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
                     </IconButton>
                     <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18} ml={5}>
