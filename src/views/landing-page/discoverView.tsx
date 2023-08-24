@@ -34,40 +34,56 @@ const DiscoverView = () => {
     // ];
 
     return (
-
-        <Grid container justifyContent="left" sx={{ background: 'linear-gradient(to right, #ececec, #eae6df)}' }} mt={0} pb={2} pt={10}>
-            <Grid item xs={11}>
-                <Box>
-                    <Grid container sx={{
-                        p: 4,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: '10px',
-                        marginLeft: '20px'
-                    }}>
-
-                        <Grid container spacing={12}>
-                            <Grid item xs={12} sm={7}>
-                                <Typography variant="h3" style={{ color: "#32487A" }} fontWeight="800" mt={20}>{t("landing_discover_title")}</Typography>
-                                <Typography fontSize={18} style={{ color: "#32487A" }} mt={2} align={"justify"}>{t("landing_discover_subtitle")}</Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={5}>
-                                <img alt="Whatis" src='/images/img-whatis.png' style={{
-                                    maxWidth: '150%',
-                                    height: '380px',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    marginBottom: '10%'
-                                }} />
-                            </Grid>
-                        </Grid>
-
-                    </Grid>
-                </Box>
+      <Grid
+        container
+        justifyContent='left'
+        sx={{ background: 'linear-gradient(to right, #ececec, #eae6df)}' }}
+        mt={0}
+        pb={2}
+        pt={10}
+      >
+        <Grid item xs={11}>
+          <Box>
+            <Grid
+              container
+              id='discoverSection'
+              sx={{
+                p: 4,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '10px',
+                marginLeft: '20px'
+              }}
+            >
+              <Grid container spacing={12}>
+                <Grid item xs={12} sm={7}>
+                  <Typography variant='h3' style={{ color: '#32487A' }} fontWeight='800' mt={20}>
+                    {t('landing_discover_title')}
+                  </Typography>
+                  <Typography fontSize={18} style={{ color: '#32487A' }} mt={2} align={'justify'}>
+                    {t('landing_discover_subtitle')}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={5}>
+                  <img
+                    alt='Whatis'
+                    src='/images/img-whatis.png'
+                    style={{
+                      maxWidth: '150%',
+                      height: '380px',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginBottom: '10%'
+                    }}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
+          </Box>
         </Grid>
-    );
+      </Grid>
+    )
 }
 
 export default DiscoverView;
