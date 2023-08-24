@@ -5,7 +5,7 @@ const bannerHero: SxProps<Theme> = {
     backgroundImage: "url(/images/header-homepage3.jpg)",
     backgroundSize: "cover",
     backgroundPosition: {
-        xs: "67% 40%",
+        xs: "78% 40%",
         md: "60% 40%"
     },
     height: 550
