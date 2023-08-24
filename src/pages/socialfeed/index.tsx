@@ -11,6 +11,8 @@ import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import SideAd from 'src/views/banner-ad/sidead'
 import { HttpClient } from 'src/services'
+import Chip from 'src/@core/components/mui/chip'
+import Link from 'next/link'
 
 const SocialFeed = () => {
   return (
@@ -45,7 +47,7 @@ const SocialFeedApp = () => {
    const code = resp.data
   getActivities(code) 
  }
-
+ 
   return (
     <Box>
       <Grid container spacing={6}>
@@ -62,6 +64,16 @@ const SocialFeedApp = () => {
           <Grid container>
             <Grid item my={4} xs={12}>
               <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+                <CardContent>
+                  <Typography color={'#424242'} fontWeight='600' fontSize={'14px'} sx={{ mb: 4 }}>
+                    Who See Your Profile
+                  </Typography>
+                  <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+                    <Link href='/account'>
+                      <Chip label='Try It For Premium' variant='outlined' color='warning' style={{ color: 'black' }} />
+                    </Link>
+                  </Box>
+                </CardContent>
                 <CardContent>
                   <Typography color={'#424242'} fontWeight='600' fontSize={'14px'} sx={{ mb: 4 }}>
                     Your Activities
@@ -83,7 +95,7 @@ const SocialFeedApp = () => {
                       <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                         <Icon icon={'solar:case-minimalistic-bold-duotone'} fontSize={20} color={'#424242'} />
                         <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                          Total Post Job :{activities?.total_post_feed}  
+                          Total Post Job :{activities?.total_post_feed}
                         </Typography>
                       </Box>
                     </>
@@ -91,7 +103,7 @@ const SocialFeedApp = () => {
                     <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                       <Icon icon={'solar:case-minimalistic-bold-duotone'} fontSize={20} color={'#424242'} />
                       <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
-                         Applied Job : {activities?.total_applied_job}
+                        Applied Job : {activities?.total_applied_job}
                       </Typography>
                     </Box>
                   )}

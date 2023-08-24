@@ -18,6 +18,7 @@ import ListTraining from './Training'
 import { useRouter } from 'next/router'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import EducationalInfo from './Educational'
+import Ceritificate from './Certificate'
 
 const ProfileCompany = () => {
   return (
@@ -36,6 +37,7 @@ const UserFeedApp = () => {
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [arrVacany, setArrVacancy] = useState<any>([])
   const [arrVacany2, setArrVacancy2] = useState<any>([])
+  const [itemData, getItemdata] = useState<any[]>([])
   const iduser: any = user.id
   let { username } = router.query as { username: string };
 
@@ -78,6 +80,11 @@ const UserFeedApp = () => {
           const itemData = response.data.educations
           setArrVacancy2(itemData)
         })
+         HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
+           const itemData = response.data.documents
+
+           getItemdata(itemData)
+         })
       }
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
@@ -100,9 +107,10 @@ const UserFeedApp = () => {
             <Grid item lg={3} md={5} xs={12}>
               {selectedUser?.role == 'Company' && <JobVacancy vacancy={arrVacany} />}
               {selectedUser?.role == 'Seafarer' && (
-                <Box>
+                <Box>3q1
                   <EducationalInfo vacancy={arrVacany2} />
                   <WorkeExperience vacancy={arrVacany} />
+                  <Ceritificate vacancy={itemData} />
                 </Box>
               )}
               {selectedUser?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
