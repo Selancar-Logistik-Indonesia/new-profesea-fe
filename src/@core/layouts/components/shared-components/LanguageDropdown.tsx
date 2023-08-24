@@ -14,6 +14,7 @@ import OptionsMenu from 'src/@core/components/option-menu'
 import { Settings } from 'src/@core/context/settingsContext'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import Router from 'next/router'
+import secureLocalStorage from 'react-secure-storage'
 
 interface Props {
   settings: Settings
@@ -26,9 +27,11 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
 
   // ** Vars
   const { layout } = settings
-
+  const templang = localStorage.user_locale
   const handleLangItemClick = (lang: 'en' | 'id') => {
     localStorage.setItem(localStorageKeys.userLocale, lang);
+    const templang = localStorage.user_locale
+    debugger;
     i18n.changeLanguage(lang)
     Router.push(Router.pathname, Router.pathname, { locale: lang });
   }
@@ -36,11 +39,19 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
   // ** Change html `lang` attribute when changing locale
   useEffect(() => {
     document.documentElement.setAttribute('lang', i18n.language)
+    
+
   }, [i18n.language])
 
   return (
     <OptionsMenu
-      icon={<Icon icon='mdi:translate-variant' color='#ef6c00' fontSize={28}/>}
+      icon={
+        templang == 'en' ? (
+          <Icon icon='emojione:flag-england' color='#ef6c00' fontSize={28} />
+        ) : (
+          <Icon icon='emojione:flag-for-indonesia' color='#ef6c00' fontSize={28} />
+        )
+      }
       menuProps={{ sx: { '& .MuiMenu-paper': { mt: 4, minWidth: 130 } } }}
       iconButtonProps={{ color: 'inherit', sx: { ...(layout === 'vertical' ? { mr: 0.75 } : { mx: 0.75 }) } }}
       options={[

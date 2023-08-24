@@ -70,6 +70,11 @@ type compProps = {
   datauser: IUser
   address: Address
 }
+
+const gender: any = {
+  laki: 'Laki-Laki',
+  perempuan: 'Perempuan' 
+}
 let ship: any = []
 let opp: any = []
 let tampilkanship: any = ''
@@ -107,7 +112,10 @@ const names = [
   'Melayu',
 
 ]
-
+const jeniskelamin = [
+  { title: 'laki', label: 'Male' },
+  { title: 'perempuan', label: 'Female' }
+]
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
   return {
     fontWeight:
@@ -144,6 +152,8 @@ const CandidateProfile = (props: compProps) => {
   const [comboOPP, getOpp] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
   const [combocode, getCombocode] = useState<any[]>([])
+  const [combokelamin, getCombokelamin] = useState<any[]>([])
+  const [idcombokelamin, setCombokelamin] = useState<any>()
   const [idcombocode, setCombocode] = useState<any>(props.datauser?.country_id)
   const [idcity, setCombocity] = useState<any>(props.datauser.address?.city_id)
   const [idship, setShip] = useState<any>(
@@ -284,6 +294,7 @@ const CandidateProfile = (props: compProps) => {
           }
         }
       })
+      getCombokelamin(jeniskelamin)
   }
   const addbuttonfacebook = () => {
     let user = ''
@@ -461,7 +472,8 @@ const CandidateProfile = (props: compProps) => {
 
   const onSubmit = (data: FormData) => {
     const { fullName, website, phone, address, about } = data
-
+    debugger;
+    const x = idcombokelamin
     availabledate = date
     const json = {
       country_id: idcountry,
@@ -796,6 +808,20 @@ const CandidateProfile = (props: compProps) => {
                   fullWidth
                   sx={{ mb: 1 }}
                   {...register('fullName')}
+                />
+              </Grid>
+
+              <Grid item md={6} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-demo'
+                  options={!combokelamin ? [{ label: 'Loading...', title: 0 }] : combokelamin}
+                  // defaultValue={props.address?.country}
+                  getOptionLabel={(option: any) => option.label}
+                  renderInput={params => <TextField {...params} label='Gender' />}
+                  onChange={(event: any, newValue: any) =>
+                    newValue?.title ? setCombokelamin(newValue.title) : setCombokelamin('')
+                  }
                 />
               </Grid>
               <Grid item md={6} xs={12}>
