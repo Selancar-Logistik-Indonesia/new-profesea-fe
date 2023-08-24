@@ -34,7 +34,12 @@ const PricingView = () => {
 
         setPricings(pricings);
         setKeys(keys);
-        setPricingType(keys[0]);
+
+        if (user) {
+            setPricingType(user.team.teamName);
+        } else {
+            setPricingType(keys[0]);
+        }
     }
 
     useEffect(() => {
@@ -45,8 +50,8 @@ const PricingView = () => {
         if (user) {
             setSelectedPlan(setPlan);
             setOpenDialog(true);
-            
-return;
+
+            return;
         }
 
         router.push('/register');
