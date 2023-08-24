@@ -45,7 +45,8 @@ const PricingView = () => {
         if (user) {
             setSelectedPlan(setPlan);
             setOpenDialog(true);
-            return;
+            
+return;
         }
 
         router.push('/register');

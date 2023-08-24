@@ -1,6 +1,6 @@
 import { faArrowLeft, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Card, Grid, IconButton, Link, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
+import { Box, Card, Grid, IconButton, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";

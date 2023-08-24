@@ -1,5 +1,4 @@
 import React from 'react'
-import Box from '@mui/material/Box'
 import { Grid } from '@mui/material'
 import Subscription from 'src/layouts/components/Subscription'
 

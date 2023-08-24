@@ -99,7 +99,7 @@ const PaymentSubscriptionDialog = (props: Props) => {
                                     onChange={(e) => setSelectedDuration(parseInt(`${e.target.value}`))}
                                 >
                                     {[1, 3, 6, 9, 12].map(e => (
-                                        <MenuItem value={e}>{e} Month</MenuItem>
+                                        <MenuItem key={e} value={e}>{e} Month</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
