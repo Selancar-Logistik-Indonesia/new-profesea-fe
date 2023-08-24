@@ -30,8 +30,8 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
         { title: "Jobs", path: "/#findJobSection" },
         { title: "Discover", path: "/#discoverSection" },
         { title: "Contact", path: "/#footer" },
-        { title: "For Recruiter", path: '/' },
-        { title: "For Trainer", path: '/' },
+        { title: "For Recruiter", path: "/landingpage-recruiter" },
+        { title: "For Trainer", path: "//landingpage-trainer" },
     ];
 
     const { navigationSize, collapsedNavigationSize } = themeConfig
