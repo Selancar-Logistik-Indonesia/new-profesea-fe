@@ -219,18 +219,31 @@ const SeafererJob = () => {
                     onChange={(event: any, newValue: Degree | null) => (newValue?.id ? setED(newValue?.id) : setED(0))}
                   />
                   {user.employee_type === 'onship' && (
-                    <DatePickerWrapper>
-                      <DatePicker
-                        minDate={new Date()}
-                        dateFormat='dd/MM/yyyy'
-                        id='basic-input'
-                        onChange={(date: Date) => setDB(date)}
-                        placeholderText='Click to select a date'
-                        customInput={
-                          <TextField label='Date On Board' variant='outlined' fullWidth sx={{ marginBottom: 2 }} />
+                    <>
+                      <Autocomplete
+                        sx={{ marginBottom: 2 }}
+                        disablePortal
+                        id='combo-box-demo'
+                        options={Education}
+                        getOptionLabel={(option: Degree) => option.name}
+                        renderInput={params => <TextField {...params} label='Education' />}
+                        onChange={(event: any, newValue: Degree | null) =>
+                          newValue?.id ? setED(newValue?.id) : setED(0)
                         }
                       />
-                    </DatePickerWrapper>
+                      <DatePickerWrapper>
+                        <DatePicker
+                          minDate={new Date()}
+                          dateFormat='dd/MM/yyyy'
+                          id='basic-input'
+                          onChange={(date: Date) => setDB(date)}
+                          placeholderText='Click to select a date'
+                          customInput={
+                            <TextField label='Date On Board' variant='outlined' fullWidth sx={{ marginBottom: 2 }} />
+                          }
+                        />
+                      </DatePickerWrapper>
+                    </>
                   )}
                 </CardContent>
               </Collapse>
