@@ -47,9 +47,9 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
     <OptionsMenu
       icon={
         templang == 'en' ? (
-          <Icon icon='emojione:flag-for-united-states' color='#ef6c00' fontSize={28} />
+          <Icon icon='emojione:flag-for-united-states' color='#ef6c00' fontSize={24} />
         ) : (
-          <Icon icon='emojione:flag-for-indonesia' color='#ef6c00' fontSize={28} />
+          <Icon icon='emojione:flag-for-indonesia' color='#ef6c00' fontSize={24} />
         )
       }
       menuProps={{ sx: { '& .MuiMenu-paper': { mt: 4, minWidth: 130 } } }}

@@ -64,7 +64,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
             { title: t('landing_menu_2'), path: "/#discoverSection" },
             { title: t('landing_menu_3'), path: "/#footer" },
             { title: t('landing_menu_4'), path: baseAddress1 },
-            { title: t('landing_menu_5'), path: baseAddress2 },
+            { title: t('landing_menu_5'), path: baseAddress2 }, 
         ]);
     }, []);
 
@@ -168,7 +168,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                                     ? (<CircularProgress />)
                                     : buildAppbarActions()
                             }
-                            <Divider orientation="vertical" variant="middle" flexItem color='#ddd' />
+                            <Divider orientation="vertical" variant="middle" flexItem color='#ddd'/>
                             <LanguageDropdown settings={settings} saveSettings={saveSettings} />
                         </Box>
                     </Toolbar>
