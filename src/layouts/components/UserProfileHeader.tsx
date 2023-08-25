@@ -72,7 +72,8 @@ const UserProfileHeader = (props: userProps) => {
                 image={datauser.banner ? datauser.banner : '/images/avatars/headerprofile3.png'}
                 sx={{
                     height: { xs: 150, md: 250 },
-                    width: '100%'
+                    width: '100%',
+                    objectFit: 'cover'
                 }}
             />
             <CardContent
@@ -86,10 +87,14 @@ const UserProfileHeader = (props: userProps) => {
                     marginLeft: { md: '10px' }
                 }}
             >
-                <ProfilePicture src={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'} alt='profile-picture' />
+                <ProfilePicture
+                    src={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'}
+                    alt='profile-picture'
+                    sx={{ width: 100, height: 100, objectFit: 'cover'}}
+                />
                 <Box
                     sx={{
-                        width: '100%',
+                        width: ['100%'],
                         display: 'flex',
                         ml: { xs: 0, md: 6 },
                         alignItems: 'flex-end',

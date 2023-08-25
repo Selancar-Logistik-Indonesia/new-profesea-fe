@@ -33,7 +33,7 @@ const FooterView = () => {
               title='Profesea'
               src='/images/logosamudera.png'
             />
-            <Typography variant='body1' style={{ color: '#101820' }} mt={5} maxWidth='65%'>
+            <Typography variant='body1' style={{ color: '#101820' }} mt={2} maxWidth='65%'>
               {t('landing_footer_title')}
             </Typography>
           </Grid>
@@ -45,37 +45,37 @@ const FooterView = () => {
           <Grid item md={6} xs={6}>
             <Typography sx={{ mb: 2 }} color={'#ef6c00'} fontSize={16}>
               {' '}
-              Company
+              {t('landing_footer_menu_1')}
             </Typography>
             <Typography mt={1.7} variant='body1' color={'#101820'}>
-              Terms Of Service
+            {t('landing_footer_menu_3')}
             </Typography>
             <LinkStyled href={'/privacy'}>
               <Typography mt={1.7} variant='body1' color={'#101820'}>
-                Privacy Policy
+              {t('landing_footer_menu_4')}
               </Typography>
             </LinkStyled>
             <Typography mt={1.7} variant='body1' color={'#101820'}>
-              FAQ
+            {t('landing_footer_menu_5')}
             </Typography>
           </Grid>
           <Grid item md={4} xs={6} alignContent={'left'}>
             <Typography sx={{ mb: 0 }} color={'#ef6c00'} fontSize={16}>
-              Platform
+            {t('landing_footer_menu_2')}
             </Typography>
             <LinkStyled href={'/'}>
               <Typography mt={1.7} variant='body1' color={'#101820'}>
-                Seafarer
+              {t('landing_footer_menu_6')}
               </Typography>
             </LinkStyled>
             <LinkStyled href={'/landingpage-recruiter'}>
               <Typography mt={1.7} variant='body1' color={'#101820'}>
-                Recruiter
+              {t('landing_footer_menu_7')}
               </Typography>
             </LinkStyled>
             <LinkStyled href={'/landingpage-trainer'}>
               <Typography mt={1.7} variant='body1' color={'#101820'}>
-                Trainer
+              {t('landing_footer_menu_8')}
               </Typography>
             </LinkStyled>
           </Grid>
@@ -85,7 +85,7 @@ const FooterView = () => {
         <Grid container>
           <Grid item mt={5}>
             <Typography mt={2} fontSize={16} color={'#ef6c00'}>
-              Our Social Media
+            {t('landing_footer_menu_9')}
             </Typography>
             <IconButton>
               <FontAwesomeIcon icon={faFacebook} color='#101820' />

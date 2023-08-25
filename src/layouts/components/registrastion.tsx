@@ -30,6 +30,7 @@ import Link from 'next/link'
 import { removeFirstZeroChar } from 'src/utils/helpers'
 
 import { styled } from '@mui/material/styles'
+import { useTranslation } from 'react-i18next'
 
 interface FormData {
     password2: string
@@ -53,6 +54,7 @@ const Registration = (props: any ) => {
     const { tipereg } = props 
     const { type } = props 
     const router = useRouter()
+    const { t } = useTranslation();
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [combocode, getCombocode] = useState<any>([])
     const [idcombocode, setCombocode] = useState<any>(0)
@@ -217,7 +219,7 @@ const Registration = (props: any ) => {
                   disablePortal
                   id='combo-box-demo'
                   options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
-                  renderInput={params => <TextField {...params} label='Phone Code' sx={{ mb: 2 }} />}
+                  renderInput={params => <TextField {...params} label='Code Phone' sx={{ mb: 2 }} />}
                   {...register('code')}
                   onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
                 />
@@ -316,8 +318,8 @@ const Registration = (props: any ) => {
           <Grid item md={12} xs={12}>
             <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
               <Checkbox id='term' {...register('term')}></Checkbox>
-              <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>Terms Of Services,</Typography>
-              <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; I read and accept</Typography>
+              <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>{t('register_text_11')},</Typography>
+              <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; {t('register_text_13')} </Typography>
             </Box>
           </Grid>
           <Grid item md={12} xs={12}>
@@ -325,9 +327,9 @@ const Registration = (props: any ) => {
               <Checkbox id='privacy' {...register('privacy')}></Checkbox>
 
               <LinkStyled href={'/privacy'} target='_blank'>
-                <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>Privacy Police,</Typography>
+                <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>{t('register_text_12')} ,</Typography>
               </LinkStyled>
-              <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; I read and accept</Typography>
+              <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; {t('register_text_13')} </Typography>
             </Box>
           </Grid>
           <Grid item md={3} xs={12} mt={5}>

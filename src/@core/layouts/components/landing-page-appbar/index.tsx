@@ -14,6 +14,7 @@ import themeConfig from 'src/configs/themeConfig'
 import Navigation from '../vertical/landing-navigation'
 import { useAuth } from 'src/hooks/useAuth'
 import { isProduction, isStaging } from 'src/utils/helpers'
+import { useTranslation } from 'react-i18next'
 
 const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const { user, loading } = useAuth();
@@ -22,9 +23,10 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const { locale } = useRouter();
     const { skin } = settings;
     const router = useRouter();
+    const {t} = useTranslation();
     const [navItems, setNavItems] = useState<NavItemType[]>([
-        { title: 'Login', variant: 'contained', onClick: "/login" },
-        //{ title: 'Register', variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
+        { title: t('button_1'), variant: 'contained', onClick: "/login" },
+        { title: t('button_4'), variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
     ])
 
     const [homeNavItems, setHomeNavItems] = useState<{ title: string, path: string }[]>([]);
@@ -34,6 +36,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const collapsedNavWidth = collapsedNavigationSize
     const [navVisible, setNavVisible] = useState<boolean>(false)
     const toggleNavVisibility = () => setNavVisible(!navVisible)
+
 
     useEffect(() => {
         if (user) {
@@ -57,11 +60,11 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
         }
 
         setHomeNavItems([
-            { title: "Jobs", path: "/#findJobSection" },
-            { title: "Discover", path: "/#discoverSection" },
-            { title: "Contact", path: "/#footer" },
-            { title: "For Recruiter", path: baseAddress1 },
-            { title: "For Trainer", path: baseAddress2 },
+            { title: t('landing_menu_1'), path: "/#findJobSection" },
+            { title: t('landing_menu_2'), path: "/#discoverSection" },
+            { title: t('landing_menu_3'), path: "/#footer" },
+            { title: t('landing_menu_4'), path: baseAddress1 },
+            { title: t('landing_menu_5'), path: baseAddress2 }, 
         ]);
     }, []);
 
@@ -165,7 +168,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                                     ? (<CircularProgress />)
                                     : buildAppbarActions()
                             }
-                            <Divider orientation="vertical" variant="middle" flexItem color='#ddd' />
+                            <Divider orientation="vertical" variant="middle" flexItem color='#ddd'/>
                             <LanguageDropdown settings={settings} saveSettings={saveSettings} />
                         </Box>
                     </Toolbar>

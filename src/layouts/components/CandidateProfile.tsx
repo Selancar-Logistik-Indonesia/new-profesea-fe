@@ -690,6 +690,7 @@ const CandidateProfile = (props: compProps) => {
           <ProfilePicture
             src={preview ? preview : '/images/avatars/profilepic.png'}
             alt='profile-picture'
+            sx={{ width: 100, height: 100, objectFit: 'cover'}}
           ></ProfilePicture>
 
           <input
@@ -806,7 +807,7 @@ const CandidateProfile = (props: compProps) => {
                 />
               </Grid>
 
-              <Grid item md={6} xs={12}>
+              <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='combo-box-demo'
@@ -819,7 +820,7 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid>
-              <Grid item md={6} xs={12}>
+              <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='combo-box-demo'

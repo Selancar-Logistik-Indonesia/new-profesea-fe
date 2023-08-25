@@ -13,6 +13,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import Navigation from '../components/vertical/landing-navigation'
 import LanguageDropdown from '../components/shared-components/LanguageDropdown'
 import UserDropdown from '../components/shared-components/UserDropdown'
+import { useTranslation } from 'react-i18next'
 
 const OuterPageAppbar = (props: { appBarElevation?: number }) => {
     const { user } = useAuth();
@@ -21,17 +22,19 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
     const { locale } = useRouter();
     const { skin } = settings;
     const router = useRouter();
+    const { t } = useTranslation();
     const [navItems, setNavItems] = useState<NavItemType[]>([
-        { title: 'Login', variant: 'contained', onClick: "/login" },
-        { title: 'Register', variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
+        { title: t('button_1'), variant: 'contained', onClick: "/login" },
+        { title: t('button_4'), variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
     ])
 
+
     const homeNavItems = [
-        { title: "Jobs", path: "/#findJobSection" },
-        { title: "Discover", path: "/#discoverSection" },
-        { title: "Contact", path: "/#footer" },
-        { title: "For Recruiter", path: "/landingpage-recruiter" },
-        { title: "For Trainer", path: "//landingpage-trainer" },
+        { title: t('landing_menu_1'), path: "/#findJobSection" },
+        { title: t('landing_menu_2'), path: "/#discoverSection" },
+        { title: t('landing_menu_3'), path: "/#footer" },
+        { title: t('landing_menu_4'), path: "/landingpage-recruiter" },
+        { title: t('landing_menu_5'), path: "/landingpage-trainer" },
     ];
 
     const { navigationSize, collapsedNavigationSize } = themeConfig
@@ -44,8 +47,8 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
     useEffect(() => {
         if (user) {
             setNavItems([
-                { title: 'Dashboard', variant: 'contained', onClick: "/home" },
-                { title: 'Logout', variant: 'contained', onClick: "/login", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
+                { title: t('button_1'), variant: 'contained', onClick: "/home" },
+                { title: t('button_4'), variant: 'contained', onClick: "/login", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
             ]);
         }
     }, [user]);
@@ -123,7 +126,6 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
                             }
 
                             <Divider orientation="vertical" variant="middle" flexItem color='#ddd' />
-                            <LanguageDropdown settings={settings} saveSettings={saveSettings} />
 
                             {!user ? navItems.map((item) => (
                                 <Link href={item.onClick} key={item.title} locale={locale}>
@@ -141,6 +143,10 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
                                     <UserDropdown settings={settings} />
                                 </>
                             )}
+
+                            <Divider orientation="vertical" variant="middle" flexItem color='#ddd' />
+                            <LanguageDropdown settings={settings} saveSettings={saveSettings} />
+
                         </Box>
                     </Toolbar>
                 </Container>

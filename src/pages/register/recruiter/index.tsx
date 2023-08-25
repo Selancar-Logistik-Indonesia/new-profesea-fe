@@ -25,6 +25,7 @@ import * as yup from 'yup'
 import Registration from 'src/layouts/components/registrastion'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
+import { useTranslation } from 'react-i18next'
 
 // ** Styled Components
 // const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -81,7 +82,8 @@ const Register = () => {
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
-
+  const { t } = useTranslation();
+  
   return (
     <>
       <Head>
@@ -161,8 +163,8 @@ const Register = () => {
               <BoxWrapper>
                 <Box sx={!hidden ? { mb: 6, marginLeft: '5%', width: '80%', alignItems: 'center', justifyContent: 'center' } :
                   { mb: 6, alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: "#424242" }}>Create a Recruiter Account</Typography>
-                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: "#424242" }}> Enter your information as Recruiter here!</Typography>
+                  <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: "#424242" }}>{t('register_text_8')}</Typography>
+                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: "#424242" }}> {t('register_text_10')}</Typography>
                   <Registration tipereg="company"></Registration>
                 </Box>
 

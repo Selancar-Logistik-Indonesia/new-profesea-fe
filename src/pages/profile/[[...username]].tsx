@@ -107,7 +107,7 @@ const UserFeedApp = () => {
             <Grid item lg={3} md={5} xs={12}>
               {selectedUser?.role == 'Company' && <JobVacancy vacancy={arrVacany} />}
               {selectedUser?.role == 'Seafarer' && (
-                <Box>3q1
+                <Box>
                   <EducationalInfo vacancy={arrVacany2} />
                   <WorkeExperience vacancy={arrVacany} />
                   <Ceritificate vacancy={itemData} />
