@@ -806,7 +806,7 @@ const CandidateProfile = (props: compProps) => {
                 />
               </Grid>
 
-              <Grid item md={6} xs={12}>
+              <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='combo-box-demo'
@@ -819,7 +819,7 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid>
-              <Grid item md={6} xs={12}>
+              <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='combo-box-demo'
