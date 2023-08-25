@@ -690,6 +690,7 @@ const CandidateProfile = (props: compProps) => {
           <ProfilePicture
             src={preview ? preview : '/images/avatars/profilepic.png'}
             alt='profile-picture'
+            sx={{ width: 100, height: 100, objectFit: 'cover'}}
           ></ProfilePicture>
 
           <input

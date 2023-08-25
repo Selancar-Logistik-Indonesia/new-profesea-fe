@@ -45,6 +45,12 @@ const UserProfileHeader = (props: userProps) => {
             userId = datauser.id;
         }
 
+        const imageStyle = {
+            width: '100%',    // Make the image fill the container width
+            height: '100%',   // Make the image fill the container height
+            objectFit: 'cover', // Scale the image to cover the container while maintaining aspect ratio
+        };
+
         const payload = { page: 1, take: 5, user_id: userId };
         HttpClient.get('/user/sosmed', payload).then(response => {
             const code = response.data.sosmeds.data
@@ -72,7 +78,8 @@ const UserProfileHeader = (props: userProps) => {
                 image={datauser.banner ? datauser.banner : '/images/avatars/headerprofile3.png'}
                 sx={{
                     height: { xs: 150, md: 250 },
-                    width: '100%'
+                    width: '100%',
+                    objectFit: 'cover'
                 }}
             />
             <CardContent
@@ -86,10 +93,14 @@ const UserProfileHeader = (props: userProps) => {
                     marginLeft: { md: '10px' }
                 }}
             >
-                <ProfilePicture src={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'} alt='profile-picture' />
+                <ProfilePicture
+                    src={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'}
+                    alt='profile-picture'
+                    sx={{ width: 100, height: 100, objectFit: 'cover'}}
+                />
                 <Box
                     sx={{
-                        width: '100%',
+                        width: ['100%'],
                         display: 'flex',
                         ml: { xs: 0, md: 6 },
                         alignItems: 'flex-end',

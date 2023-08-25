@@ -91,7 +91,7 @@ const Profile = (props: userProps) => {
             <Box sx={{ mb: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', objectFit: 'Fill' }}>
               <ProfilePicture
                 src={getUserAvatar(props.datauser!)}
-                sx={{ width: 65, height: 65, mr: 3, mb: 3 }}
+                sx={{ width: 65, height: 65, objectFit: 'cover', mr: 3, mb: 3 }}
                 alt='profile-picture'
               />
             </Box>
