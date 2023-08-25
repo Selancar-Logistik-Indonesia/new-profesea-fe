@@ -1,5 +1,6 @@
 
 interface Question {
+    id: number
     training_id: number
     form_type: string
     question: string

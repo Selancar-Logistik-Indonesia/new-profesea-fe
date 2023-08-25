@@ -1,29 +1,27 @@
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
-// import Typography from '@mui/material/Typography';
-// import { Box, Button, Divider } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { HttpClient } from 'src/services';
 import { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
-import Training from 'src/contract/models/training';
-// import Avatar from 'src/@core/components/mui/avatar';
-// import { getUserAvatar } from 'src/utils/helpers';
-// import Icon from 'src/@core/components/icon';
-// import Link from 'next/link';
+import Question from 'src/contract/models/question';
+import { FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
+import EditorArea from 'src/@core/components/react-draft-wysiwyg'
+import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import { EditorState } from 'draft-js'
 
-const QuestionPreview = () => {
-    const [dataCard, setDataCard] = useState<Training[]>([]);
+const QuestionPreview = (props:{ training_id : any}) => {
+    const [dataCard, setDataCard] = useState<Question[]>([]);
+    const [desc, setDesc] = useState(EditorState.createEmpty())
 
-    const getListTraining = async () => {
+    const getListQuestion = async () => {
         try {
-            const resp = await HttpClient.get(`/training?search=&page=1&take=25&ongoing=1`);
+            const resp = await HttpClient.get(`/training/question?training_id=${props.training_id}`);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
 
-            const rows = resp.data.trainings.data;
+            const rows = resp.data.questions;
             setDataCard(rows);
         } catch (error) {
             let errorMessage = "Something went wrong!";
@@ -41,24 +39,51 @@ const QuestionPreview = () => {
     }
 
     useEffect(() => {
-        getListTraining();
+        getListQuestion();
     }, []);
 
     return (
-        <Grid container spacing={2} mt={1}>
-            {dataCard.map((item) => {
+        <Grid container spacing={2} sx={{ padding:5 }}>
+            {dataCard.map((item, index) => {
+                const choices = item.choices as any[]
 
                 return (
-                    <Grid item xs={12} md={4} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
-                        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-                            <Grid item xs={12} >
-                                <CardContent>
-                                    <Grid container sx={{ alignItems: 'center', justifyContent: 'center' }}>
-                                    </Grid>
-                                </CardContent>
-                            </Grid>
-                        </Card>
+                    <>
+                    <Grid item xs={12}>                                            
+                        <Typography sx={{ fontWeight: 'bold' }} fontSize={16}>
+                            {index+1}. {item.question}
+                        </Typography>
                     </Grid>
+                    <Grid item xs={12} ml={4}>  
+                    { item.form_type === 'ft' && (                                          
+                        <EditorWrapper>
+                            <EditorArea placeholder='Description' editorState={desc} onEditorStateChange={data => setDesc(data)} toolbar={{
+                                options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
+                                inline: { inDropdown: true },
+                                list: { inDropdown: true },
+                                textAlign: { inDropdown: true },
+                                link: { inDropdown: true },
+                                history: { inDropdown: true },
+                            }} />
+                        </EditorWrapper>
+                    )}
+                    { item.form_type === 'mc' && ( 
+                    <FormControl>
+                        <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            name="radio-buttons-group"
+                        >
+                            {choices.map((cho) => {
+                            
+                            return (
+                            <FormControlLabel value={cho?.id} control={<Radio />} label={cho?.answer} key={cho.id} />
+                            )
+                            })}
+                        </RadioGroup>
+                    </FormControl>
+                    )}
+                    </Grid>
+                    </>
                 )
             })}
         </Grid>
