@@ -5,32 +5,32 @@ import { IconButton } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
-    { field: 'no', headerName: '#', sortable: true , minWidth: 10},
-    { field: 'company_name', headerName: 'Company Name', sortable: true , minWidth: 150},
-    { field: 'role_type', headerName: 'Job Title', sortable: true , minWidth: 150},
-    { field: 'level_name', headerName: 'Role Level', sortable: false, minWidth: 150 },
-    { field: 'category_name', headerName: 'Job Category', sortable: false, minWidth: 200 },
-    { field: 'license', headerName: 'License', sortable: true, minWidth: 200 },
-    {
-        field: 'action',
-        headerName: 'Action',
-        sortable: false,
-        renderCell: (cell) => {
-            const { row } = cell;
+  { field: 'no', headerName: '#', sortable: true, minWidth: 10 },
+  { field: 'company_name', headerName: 'Company Name', sortable: true, minWidth: 150 },
+  { field: 'category_name', headerName: 'Job Category', sortable: false, minWidth: 200 },
+  { field: 'role_type', headerName: 'Job Title', sortable: true, minWidth: 150 },
+  { field: 'level_name', headerName: 'Role Level', sortable: false, minWidth: 150 },
+  { field: 'license', headerName: 'License', sortable: true, minWidth: 200 },
+  {
+    field: 'action',
+    headerName: 'Action',
+    sortable: false,
+    renderCell: cell => {
+      const { row } = cell
 
-            return (
-                <>
-                    <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
-                        <Icon icon='solar:pen-new-round-bold-duotone' />
-                    </IconButton>
-                    <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
-                        <Icon icon='solar:trash-bin-trash-bold-duotone' />
-                    </IconButton>
-                </>
-            );
-        }
-    },
-];
+      return (
+        <>
+          <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
+            <Icon icon='solar:pen-new-round-bold-duotone' />
+          </IconButton>
+          <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
+            <Icon icon='solar:trash-bin-trash-bold-duotone' />
+          </IconButton>
+        </>
+      )
+    }
+  }
+]
 
 type RoleGridProps = {
     rows: RowItem[];

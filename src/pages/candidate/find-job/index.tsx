@@ -220,8 +220,52 @@ const SeafererJob = () => {
               <Collapse in={collapsed}>
                 <CardContent>
                   {/* Category */}
+                  <Autocomplete
+                    sx={{ marginBottom: 2 }}
+                    disablePortal
+                    id='combo-box-level'
+                    options={JobCategory}
+                    getOptionLabel={(option: JobCategory) => option.name}
+                    renderInput={params => <TextField {...params} label='Job Category' />}
+                    onChange={(event: any, newValue: JobCategory | null) =>
+                      newValue?.id ? setJC(newValue?.id) : setJC(0)
+                    }
+                  />
                   {user.employee_type === 'onship' ? (
                     <>
+                      <Autocomplete
+                        sx={{ marginBottom: 2 }}
+                        disablePortal
+                        id='combo-box-demo'
+                        options={RoleType}
+                        getOptionLabel={(option: RoleType) => option.name}
+                        renderInput={params => <TextField {...params} label='Job Title' />}
+                        onChange={(event: any, newValue: RoleType | null) =>
+                          newValue?.id ? setJT(newValue?.id) : setJT(0)
+                        }
+                      />
+                      <Autocomplete
+                        sx={{ marginBottom: 2 }}
+                        disablePortal
+                        id='combo-box-level'
+                        options={RoleLevel}
+                        getOptionLabel={(option: RoleLevel) => option.levelName}
+                        renderInput={params => <TextField {...params} label='Role Level' />}
+                        onChange={(event: any, newValue: RoleLevel | null) =>
+                          newValue?.id ? setRL(newValue?.id) : setRL(0)
+                        }
+                      />
+                      <Autocomplete
+                        sx={{ marginBottom: 2 }}
+                        disablePortal
+                        id='combo-box-demo'
+                        options={Education}
+                        getOptionLabel={(option: Degree) => option.name}
+                        renderInput={params => <TextField {...params} label='Education' />}
+                        onChange={(event: any, newValue: Degree | null) =>
+                          newValue?.id ? setED(newValue?.id) : setED(0)
+                        }
+                      />
                       <Autocomplete
                         sx={{ marginBottom: 2 }}
                         disablePortal
@@ -233,6 +277,18 @@ const SeafererJob = () => {
                           newValue?.id ? setVesel(newValue?.id) : setVesel('')
                         }
                       />
+                      <DatePickerWrapper>
+                        <DatePicker
+                          minDate={new Date()}
+                          dateFormat='dd/MM/yyyy'
+                          id='basic-input'
+                          onChange={(date: Date) => setDB(date)}
+                          placeholderText='Click to select a date'
+                          customInput={
+                            <TextField label='Date On Board' variant='outlined' fullWidth sx={{ marginBottom: 2 }} />
+                          }
+                        />
+                      </DatePickerWrapper>
                       <Autocomplete
                         sx={{ marginBottom: 2 }}
                         disablePortal
@@ -245,9 +301,32 @@ const SeafererJob = () => {
                           newValue?.id ? setED(newValue?.id) : setED(0)
                         }
                       />
+                      
                     </>
                   ) : (
                     <>
+                      <Autocomplete
+                        sx={{ marginBottom: 2 }}
+                        disablePortal
+                        id='combo-box-level'
+                        options={RoleLevel}
+                        getOptionLabel={(option: RoleLevel) => option.levelName}
+                        renderInput={params => <TextField {...params} label='Role Level' />}
+                        onChange={(event: any, newValue: RoleLevel | null) =>
+                          newValue?.id ? setRL(newValue?.id) : setRL(0)
+                        }
+                      />
+                      <Autocomplete
+                        sx={{ marginBottom: 2 }}
+                        disablePortal
+                        id='combo-box-demo'
+                        options={Education}
+                        getOptionLabel={(option: Degree) => option.name}
+                        renderInput={params => <TextField {...params} label='Education' />}
+                        onChange={(event: any, newValue: Degree | null) =>
+                          newValue?.id ? setED(newValue?.id) : setED(0)
+                        }
+                      />
                       <Autocomplete
                         disablePortal
                         id='combo-box-demo'
@@ -284,7 +363,7 @@ const SeafererJob = () => {
                       <Autocomplete
                         sx={{ marginBottom: 2 }}
                         disablePortal
-                        id='combo-box-demo' 
+                        id='combo-box-demo'
                         options={comboindustri}
                         getOptionLabel={(option: Industry) => option.name}
                         renderInput={params => <TextField {...params} label='Employment Type' />}
@@ -292,68 +371,6 @@ const SeafererJob = () => {
                           newValue?.id ? setIndustry(newValue?.id) : setIndustry('')
                         }
                       />
-                    </>
-                  )}
-                  <Autocomplete
-                    sx={{ marginBottom: 2 }}
-                    disablePortal
-                    id='combo-box-level'
-                    options={JobCategory}
-                    getOptionLabel={(option: JobCategory) => option.name}
-                    renderInput={params => <TextField {...params} label='Job Category' />}
-                    onChange={(event: any, newValue: JobCategory | null) =>
-                      newValue?.id ? setJC(newValue?.id) : setJC(0)
-                    }
-                  />
-
-                  {user?.employee_type === 'onship' && (
-                    <Autocomplete
-                      sx={{ marginBottom: 2 }}
-                      disablePortal
-                      id='combo-box-demo'
-                      options={RoleType}
-                      getOptionLabel={(option: RoleType) => option.name}
-                      renderInput={params => <TextField {...params} label='Job Title' />}
-                      onChange={(event: any, newValue: RoleType | null) =>
-                        newValue?.id ? setJT(newValue?.id) : setJT(0)
-                      }
-                    />
-                  )}
-                  <Autocomplete
-                    sx={{ marginBottom: 2 }}
-                    disablePortal
-                    id='combo-box-level'
-                    options={RoleLevel}
-                    getOptionLabel={(option: RoleLevel) => option.levelName}
-                    renderInput={params => <TextField {...params} label='Role Level' />}
-                    onChange={(event: any, newValue: RoleLevel | null) =>
-                      newValue?.id ? setRL(newValue?.id) : setRL(0)
-                    }
-                  />
-
-                  <Autocomplete
-                    sx={{ marginBottom: 2 }}
-                    disablePortal
-                    id='combo-box-demo'
-                    options={Education}
-                    getOptionLabel={(option: Degree) => option.name}
-                    renderInput={params => <TextField {...params} label='Education' />}
-                    onChange={(event: any, newValue: Degree | null) => (newValue?.id ? setED(newValue?.id) : setED(0))}
-                  />
-                  {user.employee_type === 'onship' && (
-                    <>
-                      <DatePickerWrapper>
-                        <DatePicker
-                          minDate={new Date()}
-                          dateFormat='dd/MM/yyyy'
-                          id='basic-input'
-                          onChange={(date: Date) => setDB(date)}
-                          placeholderText='Click to select a date'
-                          customInput={
-                            <TextField label='Date On Board' variant='outlined' fullWidth sx={{ marginBottom: 2 }} />
-                          }
-                        />
-                      </DatePickerWrapper>
                     </>
                   )}
                 </CardContent>
