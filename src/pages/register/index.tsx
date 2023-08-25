@@ -10,6 +10,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { useSettings } from 'src/@core/hooks/useSettings'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
+import { useTranslation } from "react-i18next";
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -58,6 +59,8 @@ const Register = () => {
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const { skin } = settings
 
+  const { t } = useTranslation();
+
   return (
     <>
       <Head>
@@ -88,24 +91,24 @@ const Register = () => {
                       sx={{ width: 125, mt: 5, mb: 5 }}></Box>
                   </Link>
                   {/* <Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#424242" }}>Register</Typography> */}
-                  <Typography variant='body2' sx={{ textAlign: 'center', color: "#424242", mb: 8 }}> Adventures start from here, Please Register</Typography>
+                  <Typography variant='body2' sx={{ textAlign: 'center', color: "#424242", mb: 8 }}> {t('register_text_1')} </Typography>
                   
                 </Box>
 
                 <Link href="/register/seafer" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'solar:user-hands-bold-duotone'} />} >for Candidate</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'solar:user-hands-bold-duotone'} />} >{t('register_text_4')}</Button>
                 </Link>
                 <Link href="/register/recruiter" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'solar:buildings-3-bold-duotone'} />} >for Recruiter</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'solar:buildings-3-bold-duotone'} />} >{t('register_text_5')}</Button>
                 </Link>
                 <Link href="/register/trainer" passHref legacyBehavior>
-                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'solar:user-hand-up-bold-duotone'} />} >for Trainer</Button>
+                  <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'solar:user-hand-up-bold-duotone'} />} >{t('register_text_6')}</Button>
                 </Link>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                  <Typography sx={{ mr: 2, color: "#424242" }}>Already have an account?</Typography>
+                  <Typography sx={{ mr: 2, color: "#424242" }}>{t('register_text_2')} </Typography>
                   <Typography href='/login' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold', }}>
-                    Sign in instead
+                  {t('register_text_3')} 
                   </Typography>
                 </Box>
 

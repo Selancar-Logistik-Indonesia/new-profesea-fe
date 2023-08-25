@@ -12,6 +12,7 @@ import * as yup from 'yup'
 import Registration from 'src/layouts/components/registrastion'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
+import { useTranslation } from 'react-i18next'
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -45,6 +46,7 @@ const Register = () => {
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
+  const { t } = useTranslation();
 
   return (
     <>
@@ -125,8 +127,8 @@ const Register = () => {
               <BoxWrapper>
                 <Box sx={!hidden ? { mb: 6, marginLeft: '5%', width: '80%', alignItems: 'center', justifyContent: 'center' } :
                   { mb: 6, alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: "#424242" }}>Create a Trainer Account</Typography>
-                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: "#424242" }}> Enter your information as Trainer here!</Typography>
+                  <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: "#424242" }}>{t('register_text_9')}</Typography>
+                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: "#424242" }}> {t('register_text_10')}</Typography>
                   <Registration tipereg="trainer"></Registration>
                 </Box>
 
