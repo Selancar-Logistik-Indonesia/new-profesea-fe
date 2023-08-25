@@ -39,10 +39,10 @@ const ConnectButton = (props: ConnectButtonProps) => {
 
     const buildConnectIcon = () => {
         if (user.frienship_status == "AP") {
-            return 'fa6-solid:link-slash';
+            return 'solar:link-linear';
         }
 
-        return 'fa6-solid:link';
+        return 'solar:link-linear';
     }
 
     const buildConnectText = () => {
