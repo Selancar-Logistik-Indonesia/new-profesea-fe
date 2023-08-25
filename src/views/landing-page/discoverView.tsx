@@ -58,10 +58,10 @@ const DiscoverView = () => {
             >
               <Grid container spacing={12}>
                 <Grid item xs={12} sm={7}>
-                  <Typography fontSize={34} style={{ color: '#32487A' }} fontWeight='800' mt={0}>
+                  <Typography fontSize={34} style={{ color: '#000' }} fontWeight='800' mt={0}>
                     {t('landing_discover_title')}
                   </Typography>
-                  <Typography fontSize={18} style={{ color: '#32487A' }} mt={2} align={'justify'} maxWidth='85%'>
+                  <Typography fontSize={18} style={{ color: '#000' }} mt={2} align={'justify'} maxWidth='85%'>
                     {t('landing_discover_subtitle')}
                   </Typography>
                 </Grid>

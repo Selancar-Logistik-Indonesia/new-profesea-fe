@@ -83,6 +83,7 @@ const Register = () => {
     resolver: yupResolver(schema)
   })
   const { t } = useTranslation();
+  
   return (
     <>
       <Head>
