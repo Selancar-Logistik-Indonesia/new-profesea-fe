@@ -11,6 +11,7 @@ import { Theme, useTheme } from '@mui/material/styles'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import InfiniteScroll from 'react-infinite-scroll-component' 
+import RecomendedViewSubscribe from 'src/views/find-candidate/RecomendedViewSubscribe'
 
 // type Dokumen = {
 //   title: string 
@@ -39,6 +40,7 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 }
 const FindCandidate = () => {
   const [listCandidate, setListCandidate] = useState<IUser[]>([]) 
+  const [listCandidateSubscribe, setListCandidateSubscribe] = useState<IUser[]>([]) 
   const theme = useTheme()
   const windowUrl = window.location.search
   const params = new URLSearchParams(windowUrl)
@@ -293,6 +295,19 @@ const FindCandidate = () => {
   //  await getdatapencarian()
 
   }
+  const getdatapencarianSubscribe = async () => {
+    
+    const response = await HttpClient.get(
+      '/candidate?search=' +  '&take=6&page=1'  
+    )
+
+    const candidates = response.data.candidates
+    
+    setListCandidateSubscribe(candidates.data)
+  }
+  useEffect(() => {
+     getdatapencarianSubscribe()
+  }, [ ])
 
   return (
     <Grid container spacing={2}>
@@ -572,6 +587,7 @@ const FindCandidate = () => {
                               <Typography fontSize={16} style={{ color: '#424242' }} marginTop={2} marginBottom={5}>
                                 Based on your profile and search history
                               </Typography>
+                              <RecomendedViewSubscribe listCandidate={listCandidateSubscribe} />
                               <InfiniteScroll
                                 dataLength={total}
                                 next={onPageChange}
