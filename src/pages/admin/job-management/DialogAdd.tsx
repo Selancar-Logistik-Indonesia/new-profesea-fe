@@ -80,6 +80,8 @@ const DialogAdd = (props: DialogProps) => {
     const [combocity, getComboCity] = useState<any[]>([])
     const [desc, setDesc] = useState(EditorState.createEmpty())
 
+    const [disabled, setDisabled] = useState(true)  
+
     const combobox = async () => {
 
         HttpClient.get(`/user-management?page=1&take=250&team_id=3`).then(response => {
@@ -150,10 +152,13 @@ const DialogAdd = (props: DialogProps) => {
 
     const onSubmit = async (formData: Job) => {
         const { salary_start, salary_end, experience } = formData
-
+        let type: any = ''
+        if (disabled == true) {
+            type = TypeId
+        }
         const json = {
             "rolelevel_id": LevelId,
-            "roletype_id": TypeId,
+            "roletype_id": type,
             "user_id": UserId,
             "edugrade_id": EduId,
             "category_id": CatId,
@@ -189,195 +194,250 @@ const DialogAdd = (props: DialogProps) => {
         setOnLoading(false);
         props.onStateChange();
     }
+    const handlecategory = (q: any) => {
+        
+        if(q !== ''){
+             setCatId(q.id)
+             if(q.employee_type == 'onship'){
+                setDisabled(true)
+             }else{
+                 setDisabled(false)
+                 setTypeId(0)
+               
+             }
+             
+        }else{
+             setCatId(0)
+          
+        }
+    }
+    
 
     return (
-        <Dialog
-            fullWidth
-            open={props.visible}
-            maxWidth='md'
-            scroll='body'
-            TransitionComponent={Transition}
-        >
-            <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
-                <DialogContent
-                    sx={{
-                        position: 'relative',
-                        pb: theme => `${theme.spacing(8)} !important`,
-                        px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-                        pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+      <Dialog fullWidth open={props.visible} maxWidth='md' scroll='body' TransitionComponent={Transition}>
+        <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+          <DialogContent
+            sx={{
+              position: 'relative',
+              pb: theme => `${theme.spacing(8)} !important`,
+              px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+              pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            }}
+          >
+            <IconButton
+              size='small'
+              sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
+              onClick={props.onCloseClick}
+            >
+              <Icon icon='mdi:close' />
+            </IconButton>
+            <Box sx={{ mb: 6, textAlign: 'center' }}>
+              <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
+                Add New Job
+              </Typography>
+              <Typography variant='body2'>Fulfill your Job Info here</Typography>
+            </Box>
+
+            <Grid container columnSpacing={'1'} rowSpacing={'4'}>
+              <Grid item md={12} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-company'
+                  options={Company}
+                  {...register('company')}
+                  getOptionLabel={(option: Company) => option.name}
+                  renderInput={params => (
+                    <TextField {...params} label='Company' error={Boolean(errors.user_id)} {...register('user_id')} />
+                  )}
+                  onChange={(event: any, newValue: Company | null) =>
+                    newValue?.id ? setUserId(newValue.id) : setUserId(0)
+                  }
+                />
+              </Grid>
+              <Grid item md={4} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-demo'
+                  options={JobCategory}
+                  {...register('category')}
+                  getOptionLabel={(option: JobCategory) => option.name}
+                  renderInput={params => <TextField {...params} label='Job Category' />}
+                  //   onChange={(event: any, newValue: JobCategory | null) =>
+                  //     newValue?.id ? setCatId(newValue.id) : setCatId(0)
+                  //   }
+                  onChange={(event: any, newValue: JobCategory | null) =>
+                    newValue ? handlecategory(newValue) : handlecategory('')
+                  }
+                />
+              </Grid>
+              {disabled == true && (
+                <>
+                  <Grid item md={4} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='jobtitle'
+                      options={RoleType}
+                      {...register('role_type')}
+                      getOptionLabel={(option: RoleType) => option.name} 
+                      renderInput={params => <TextField {...params} label='Job Title' />}
+                      onChange={(event: any, newValue: RoleType | null) =>
+                        newValue?.id ? setTypeId(newValue.id) : setTypeId(0)
+                      }
+                    />
+                  </Grid>
+                </>
+              )}
+
+              <Grid item md={4} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-level'
+                  options={RoleLevel}
+                  {...register('rolelevel')}
+                  getOptionLabel={(option: RoleLevel) => option.levelName}
+                  renderInput={params => <TextField {...params} label='Role Level' />}
+                  onChange={(event: any, newValue: RoleLevel | null) =>
+                    newValue?.id ? setLevelId(newValue.id) : setLevelId(0)
+                  }
+                />
+              </Grid>
+
+              <Grid item md={4} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-demo'
+                  options={combocountry}
+                  getOptionLabel={(option: any) => option.nicename}
+                  renderInput={params => <TextField {...params} label='Country' />}
+                  onChange={(event: any, newValue: Countries | null) =>
+                    newValue?.id ? searchcity(newValue.id) : searchcity(0)
+                  }
+                />
+              </Grid>
+
+              <Grid item md={4} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='city'
+                  options={combocity}
+                  getOptionLabel={(option: City) => option.city_name}
+                  renderInput={params => <TextField {...params} label='City' />}
+                  onChange={(event: any, newValue: City | null) =>
+                    newValue?.id ? setCitId(newValue?.id) : setCitId('')
+                  }
+                />
+              </Grid>
+              <Grid item md={4} xs={12}>
+                <DatePickerWrapper>
+                  <DatePicker
+                    dateFormat='dd/MM/yyyy'
+                    selected={date}
+                    id='basic-input'
+                    onChange={(date: Date) => setDate(date)}
+                    placeholderText='Click to select a date'
+                    customInput={
+                      <TextField label='Date On Board' variant='outlined' fullWidth {...register('onboard_at')} />
+                    }
+                  />
+                </DatePickerWrapper>
+              </Grid>
+              <Grid item md={4} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-demo'
+                  options={Education}
+                  {...register('degree')}
+                  getOptionLabel={(option: Degree) => option.name}
+                  renderInput={params => <TextField {...params} label='Education' />}
+                  onChange={(event: any, newValue: Degree | null) =>
+                    newValue?.id ? setEduId(newValue.id) : setEduId(0)
+                  }
+                />
+              </Grid>
+              <Grid item md={4} xs={12}>
+                <TextField
+                  defaultValue={0}
+                  id='salary_start'
+                  label='Salary From'
+                  variant='outlined'
+                  fullWidth
+                  {...register('salary_start')}
+                />
+              </Grid>
+              <Grid item md={4} xs={12}>
+                <TextField
+                  defaultValue={0}
+                  id='salary_end'
+                  label='Salary To'
+                  variant='outlined'
+                  fullWidth
+                  {...register('salary_end')}
+                />
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <Autocomplete
+                  multiple
+                  options={licenseData}
+                  id='license'
+                  value={license}
+                  filterSelectedOptions
+                  getOptionLabel={option => option.title || ''}
+                  fullWidth
+                  onChange={(e, newValue: any) => (newValue ? setLicense(newValue) : setLicense([]))}
+                  renderInput={params => <TextField {...params} fullWidth label='License' />}
+                />
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <TextField
+                  id='experience'
+                  label='Experience'
+                  variant='outlined'
+                  fullWidth
+                  {...register('experience')}
+                />
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <EditorWrapper>
+                  <EditorArea
+                    placeholder='Description'
+                    editorState={desc}
+                    onEditorStateChange={data => setDesc(data)}
+                    toolbar={{
+                      options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
+                      inline: { inDropdown: true },
+                      list: { inDropdown: true },
+                      textAlign: { inDropdown: true },
+                      link: { inDropdown: true },
+                      history: { inDropdown: true }
                     }}
-                >
-                    <IconButton
-                        size='small'
-                        sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-                        onClick={props.onCloseClick}
-                    >
-                        <Icon icon='mdi:close' />
-                    </IconButton>
-                    <Box sx={{ mb: 6, textAlign: 'center' }}>
-                        <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
-                            Add New Job
-                        </Typography>
-                        <Typography variant='body2'>Fulfill your Job Info here</Typography>
-                    </Box>
-
-                    <Grid container columnSpacing={'1'} rowSpacing={'4'} >
-
-                        <Grid item md={12} xs={12} >
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-company"
-                                options={Company}
-                                {...register("company")}
-                                getOptionLabel={(option: Company) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Company" error={Boolean(errors.user_id)} {...register("user_id")} />}
-                                onChange={(event: any, newValue: Company | null) => (newValue?.id) ? setUserId(newValue.id) : setUserId(0)}
-                            />
-                        </Grid>
-                        <Grid item md={4} xs={12}>
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-level"
-                                options={RoleType}
-                                {...register("role_type")}
-                                getOptionLabel={(option: RoleType) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Job Title" />}
-                                onChange={(event: any, newValue: RoleType | null) => (newValue?.id) ? setTypeId(newValue.id) : setTypeId(0)}
-                            />
-                        </Grid>
-                        <Grid item md={4} xs={12}>
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-level"
-                                options={RoleLevel}
-                                {...register("rolelevel")}
-                                getOptionLabel={(option: RoleLevel) => option.levelName}
-                                renderInput={(params) => <TextField {...params} label="Role Level" />}
-                                onChange={(event: any, newValue: RoleLevel | null) => (newValue?.id) ? setLevelId(newValue.id) : setLevelId(0)}
-                            />
-                        </Grid>
-                        <Grid item md={4} xs={12} >
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                options={JobCategory}
-                                {...register("category")}
-                                getOptionLabel={(option: JobCategory) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Job Category" />}
-                                onChange={(event: any, newValue: JobCategory | null) => (newValue?.id) ? setCatId(newValue.id) : setCatId(0)}
-                            />
-                        </Grid>
-                        
-
-
-                        <Grid item md={4} xs={12}>
-                            <Autocomplete
-                                disablePortal
-                                id='combo-box-demo'
-                                options={combocountry}
-                                getOptionLabel={(option: any) => option.nicename}
-                                renderInput={params => <TextField {...params} label='Country' />}
-                                onChange={(event: any, newValue: Countries | null) =>
-                                    newValue?.id ? searchcity(newValue.id) : searchcity(0)
-                                }
-                            />
-                        </Grid>
-
-                        <Grid item md={4} xs={12}>
-                            <Autocomplete
-                                disablePortal
-                                id='city'
-                                options={combocity}
-                                getOptionLabel={(option: City) => option.city_name}
-                                renderInput={params => <TextField {...params} label='City' />}
-                                onChange={(event: any, newValue: City | null) =>
-                                    newValue?.id ? setCitId(newValue?.id) : setCitId('')
-                                }
-                            />
-                        </Grid>
-                        <Grid item md={4} xs={12} >
-                            <DatePickerWrapper>
-                                <DatePicker
-                                    dateFormat='dd/MM/yyyy'
-                                    selected={date}
-                                    id='basic-input'
-                                    onChange={(date: Date) => setDate(date)}
-                                    placeholderText='Click to select a date'
-                                    customInput={<TextField label='Date On Board' variant="outlined" fullWidth  {...register("onboard_at")} />}
-                                />
-                            </DatePickerWrapper>
-                        </Grid>
-                        <Grid item md={4} xs={12} >
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                options={Education}
-                                {...register("degree")}
-                                getOptionLabel={(option: Degree) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Education" />}
-                                onChange={(event: any, newValue: Degree | null) => (newValue?.id) ? setEduId(newValue.id) : setEduId(0)}
-                            />
-                        </Grid>
-                        <Grid item md={4} xs={12} >
-                            <TextField defaultValue={0} id="salary_start" label="Salary From" variant="outlined" fullWidth  {...register("salary_start")} />
-                        </Grid>
-                        <Grid item md={4} xs={12} >
-                            <TextField defaultValue={0} id="salary_end" label="Salary To" variant="outlined" fullWidth {...register("salary_end")} />
-                        </Grid>
-                        <Grid item md={12} xs={12} >
-                            <Autocomplete
-                                multiple
-                                options={licenseData}
-                                id='license'
-                                value={license}
-                                filterSelectedOptions
-                                getOptionLabel={option => option.title || ''}
-                                fullWidth
-                                onChange={(e, newValue: any) => (newValue) ? setLicense(newValue) : setLicense([])}
-                                renderInput={params => <TextField {...params} fullWidth label='License'
-                                />}
-                            />
-                        </Grid>
-                        <Grid item md={12} xs={12} >
-                            <TextField id="experience" label="Experience" variant="outlined" fullWidth {...register("experience")} />
-                        </Grid>
-                        <Grid item md={12} xs={12} >
-                            <EditorWrapper>
-                                <EditorArea placeholder='Description' editorState={desc} onEditorStateChange={data => setDesc(data)} toolbar={{
-                                    options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
-                                    inline: { inDropdown: true },
-                                    list: { inDropdown: true },
-                                    textAlign: { inDropdown: true },
-                                    link: { inDropdown: true },
-                                    history: { inDropdown: true },
-                                }} />
-                            </EditorWrapper>
-                        </Grid>
-                    </Grid>
-                </DialogContent>
-                <DialogActions
-                    sx={{
-                        justifyContent: 'center',
-                        px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-                        pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-                    }}
-                >
-                    <Button variant='contained' size="small" sx={{ mr: 2 }} type='submit'>
-                        <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
-                        {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
-                    </Button>
-                    <Button variant='outlined' size="small" color='error' onClick={props.onCloseClick}>
-                        <Icon
-                            fontSize='large'
-                            icon={'material-symbols:cancel-outline'}
-                            color={'info'}
-                            style={{ fontSize: '18px' }}
-                        />
-                        Cancel
-                    </Button>
-                </DialogActions>
-            </form>
-        </Dialog>
+                  />
+                </EditorWrapper>
+              </Grid>
+            </Grid>
+          </DialogContent>
+          <DialogActions
+            sx={{
+              justifyContent: 'center',
+              px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+              pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            }}
+          >
+            <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>
+              <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
+              {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
+            </Button>
+            <Button variant='outlined' size='small' color='error' onClick={props.onCloseClick}>
+              <Icon
+                fontSize='large'
+                icon={'material-symbols:cancel-outline'}
+                color={'info'}
+                style={{ fontSize: '18px' }}
+              />
+              Cancel
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
     )
 }
 

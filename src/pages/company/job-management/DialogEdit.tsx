@@ -82,6 +82,8 @@ const DialogEdit = (props: EditProps) => {
   const contenDesc = convertFromHTML(props.selectedItem.description).contentBlocks
   const contentState = ContentState.createFromBlockArray(contenDesc)
   const editorState = EditorState.createWithContent(contentState)
+  
+    const [disabled, setDisabled] = useState(true)  
   // console.log(editorState);
 
   const [desc, setDesc] = useState(editorState)
@@ -144,10 +146,13 @@ const DialogEdit = (props: EditProps) => {
 
   const onSubmit = async (formData: Job) => {
     const { salary_start, salary_end, experience } = formData
-
+    let type: any = ''
+    if (disabled == true) {
+      type = Type.id
+    }
     const json = {
       "rolelevel_id": Level.id,
-      "roletype_id": Type.id,
+      "roletype_id":type,
       "edugrade_id": Edu.id,
       "category_id": Cat.id,
       "country_id": Cou.id,
@@ -180,7 +185,16 @@ const DialogEdit = (props: EditProps) => {
     setOnLoading(false);
     props.onStateChange();
   }
-
+   const handlecategory = (q: any) => {
+     if (q !== '') {
+         setCat(q)
+       if (q.employee_type == 'onship') {
+         setDisabled(true)
+       } else {
+         setDisabled(false)
+       }
+     }
+   }
   // console.log(props)
 
   return (
@@ -209,7 +223,7 @@ const DialogEdit = (props: EditProps) => {
             <Icon icon='mdi:close' />
           </IconButton>
           <Box sx={{ mb: 6, textAlign: 'center' }}>
-            <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
+            <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
               Edit Job
             </Typography>
             <Typography variant='body2'>Fulfill your Job Info here</Typography>
@@ -219,17 +233,39 @@ const DialogEdit = (props: EditProps) => {
             <Grid item md={4} xs={12}>
               <Autocomplete
                 disablePortal
-                id='combo-box-type'
-                value={Type}
-                options={RoleType}
-                {...register('role_type')}
-                getOptionLabel={(option: RoleType) => option.name}
-                renderInput={params => <TextField {...params} label='Job Title' />}
-                onChange={(event: any, newValue: RoleType | null) =>
-                  newValue ? setType(newValue) : setType(props.selectedItem.role_type)
+                id='combo-box-category'
+                value={Cat}
+                options={JobCategory}
+                {...register('category')}
+                getOptionLabel={(option: JobCategory) => option.name}
+                renderInput={params => <TextField {...params} label='Job Category' />}
+                // onChange={(event: any, newValue: JobCategory | null) =>
+                //   newValue ? setCat(newValue) : setCat(props.selectedItem.category)
+                // }
+                onChange={(event: any, newValue: JobCategory | null) =>
+                  newValue ? handlecategory(newValue) : handlecategory('')
                 }
               />
             </Grid>
+
+            {disabled == true && (
+              <>
+                <Grid item md={4} xs={12}>
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-type'
+                    value={Type}
+                    options={RoleType}
+                    {...register('role_type')}
+                    getOptionLabel={(option: RoleType) => option.name}
+                    renderInput={params => <TextField {...params} label='Job Title' />}
+                    onChange={(event: any, newValue: RoleType | null) =>
+                      newValue ? setType(newValue) : setType(props.selectedItem.role_type)
+                    }
+                  />
+                </Grid>
+              </>
+            )}
             <Grid item md={4} xs={12}>
               <Autocomplete
                 disablePortal
@@ -243,20 +279,7 @@ const DialogEdit = (props: EditProps) => {
                 }
               />
             </Grid>
-            <Grid item md={4} xs={12}>
-              <Autocomplete
-                disablePortal
-                id='combo-box-category'
-                value={Cat}
-                options={JobCategory}
-                {...register('category')}
-                getOptionLabel={(option: JobCategory) => option.name}
-                renderInput={params => <TextField {...params} label='Job Category' />}
-                onChange={(event: any, newValue: JobCategory | null) =>
-                  newValue ? setCat(newValue) : setCat(props.selectedItem.category)
-                }
-              />
-            </Grid>
+
             <Grid item md={4} xs={12}>
               <Autocomplete
                 disablePortal
@@ -390,10 +413,10 @@ const DialogEdit = (props: EditProps) => {
               color={'info'}
               style={{ fontSize: '14px', margin: 3 }}
             />
-            {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'} 
+            {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
           </Button>
           <Button variant='outlined' size='small' color='error' onClick={props.onCloseClick}>
-          <Icon
+            <Icon
               fontSize='large'
               icon={'material-symbols:cancel-outline'}
               color={'info'}

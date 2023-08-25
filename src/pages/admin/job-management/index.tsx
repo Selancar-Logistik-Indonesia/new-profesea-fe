@@ -36,7 +36,7 @@ const JobScreen = () => {
         try {
             const resp = await HttpClient.get(`/job?search=${search}&page=${page}&take=${perPage}`);
             if (resp.status != 200) {
-                throw resp.data.message ?? "Something went wrong!";
+                throw resp.data.message ?? "Something went wrong!1";
             }
 
             const rows = resp.data.jobs.data as Job[];
@@ -46,7 +46,7 @@ const JobScreen = () => {
                 return {
                     no: index + 1,
                     id: row.id,
-                    role_type: row.role_type.name,
+                    role_type: row?.role_type?.name,
                     company_name: row.company.name,
                     category_name: row.category.name,
                     level_name: row.rolelevel.levelName,
@@ -63,7 +63,7 @@ const JobScreen = () => {
             setRowCount(resp?.data?.jobs?.total ?? 0);
             setDataSheet(items);
         } catch (error) {
-            let errorMessage = "Something went wrong!";
+            let errorMessage = "Something went wrong!2";
 
             if (error instanceof AxiosError) {
                 errorMessage = error?.response?.data?.message ?? errorMessage;
