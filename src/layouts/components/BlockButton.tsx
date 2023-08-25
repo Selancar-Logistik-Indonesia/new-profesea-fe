@@ -43,7 +43,7 @@ const BlockButton = (props: BlockButtonProps) => {
             size='small'
             variant='contained'
             sx={{ margin: '5px' }}
-            startIcon={<Icon icon='mdi:ban' fontSize={20} />}
+            startIcon={<Icon icon='solar:user-block-bold-duotone' fontSize={20} />}
         >
             {
                 isLoading

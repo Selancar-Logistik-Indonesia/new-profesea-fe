@@ -18,13 +18,13 @@ const MessageButton = (props: MessageButtonProps) => {
 
     const buildConnectIcon = () => {
         if (user.frienship_status == "AP") {
-            return 'mdi:account-check-outline'
+            return 'solar:chat-round-dots-bold'
         }
         if (user.frienship_status == 'WA') {
-          return 'mdi:account-check-outline'
+          return 'solar:chat-round-dots-bold-duotone'
         }
 
-        return 'fa6-solid:link';
+        return 'solar:chat-round-dots-bold';
     }
 
     const buildConnectText = () => {
