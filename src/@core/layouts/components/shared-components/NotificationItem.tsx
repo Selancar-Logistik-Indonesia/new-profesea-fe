@@ -6,7 +6,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import { CustomAvatarProps } from "src/@core/components/mui/avatar/types";
 import { getInitials } from "src/@core/utils/get-initials";
 import { useEffect, useState } from "react";
-import NotificationType from "src/utils/notification_type";
+import NotificationType from "src/contract/types/notification_type";
 import { getUserAvatar } from "src/utils/helpers";
 import { IUser } from "src/contract/models/user";
 import { HttpClient } from "src/services";

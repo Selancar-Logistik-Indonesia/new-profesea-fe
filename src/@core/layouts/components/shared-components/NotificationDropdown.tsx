@@ -16,7 +16,7 @@ import CustomChip from 'src/@core/components/mui/chip'
 import { HttpClient } from 'src/services'
 import INotification from 'src/contract/models/notification'
 import moment, { now } from 'moment'
-import NotificationType from 'src/utils/notification_type'
+import NotificationType from 'src/contract/types/notification_type'
 import NotificationItem from './NotificationItem'
 
 export type NotificationsType = {

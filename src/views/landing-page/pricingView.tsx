@@ -69,12 +69,8 @@ const PricingView = () => {
                 planName: toTitleCase(`${accountType} ${title}`),
                 planType: title,
                 price: price,
+                pricingItems: items[title],
             };
-
-            // skip for pay-per-value, not ready yet!
-            if (title == "pay-per-value") {
-                return null;
-            }
 
             return (
                 <Box sx={{ minWidth: 310, maxWidth: 310 }} height={850} mx={5} mt={5} key={title} padding={5} component={Card} textAlign="center">

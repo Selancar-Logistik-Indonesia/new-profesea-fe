@@ -12,6 +12,7 @@ export default interface Transaction {
     created_at: string
     updated_at: string
     bank_logo: string
+    status: string
     trx_detail: TrxDetail[]
 }
 
