@@ -105,7 +105,6 @@ const PaymentSubscriptionDialog = (props: Props) => {
         getListBanks();
     }, []);
 
-    console.log(selectedPlan);
     return (
         <Dialog fullWidth={true} open={props.openDialog} onClose={() => props.onClose()}>
             <DialogActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
