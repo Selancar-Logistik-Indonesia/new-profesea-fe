@@ -3,7 +3,6 @@ import Box from '@mui/material/Box'
 import { Card, CardContent, Grid, Typography } from '@mui/material'
 import { Icon } from '@iconify/react'
 import Profile from 'src/layouts/components/Profile'
-import Feed from 'src/layouts/components/Feed'
 import { useAuth } from 'src/hooks/useAuth'
 import Postfeed from 'src/views/social-feed/Postfeed'
 import ListFeedView from 'src/views/social-feed/ListFeedView'
@@ -13,6 +12,7 @@ import SideAd from 'src/views/banner-ad/sidead'
 import { HttpClient } from 'src/services'
 import Chip from 'src/@core/components/mui/chip'
 import Link from 'next/link'
+import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
 
 const SocialFeed = () => {
   return (
@@ -21,33 +21,35 @@ const SocialFeed = () => {
     </SocialFeedProvider>
   )
 }
+
 type activities = {
   total_connected: string
   total_visitor: string
   total_post_feed: string
   total_post_job: string
   total_applied_job: string
-  total_post_thread: string 
+  total_post_thread: string
 }
+
 const SocialFeedApp = () => {
   const { user } = useAuth();
   const { fetchFeeds } = useSocialFeed();
   const [activities, getActivities] = useState<activities>()
+
   useEffect(() => {
     fetchFeeds({ take: 7 });
     loadActivitis();
   }, []);
-  
- const loadActivitis = async () => {
-  debugger;
-   const resp = await HttpClient.get('/user/statistics?user_id=' + user?.id)
-   if (resp.status != 200) {
-     throw resp.data.message ?? 'Something went wrong!'
-   }
-   const code = resp.data
-  getActivities(code) 
- }
- 
+
+  const loadActivitis = async () => {
+    const resp = await HttpClient.get('/user/statistics?user_id=' + user?.id)
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
+    }
+    const code = resp.data
+    getActivities(code)
+  }
+
   return (
     <Box>
       <Grid container spacing={6}>
@@ -123,7 +125,7 @@ const SocialFeedApp = () => {
               </Card>
             </Grid>
           </Grid>
-          <Feed />
+          <FriendSuggestionCard />
           <SideAd sx={{ mt: 5 }} />
         </Grid>
       </Grid>

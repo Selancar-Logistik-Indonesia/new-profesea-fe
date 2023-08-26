@@ -26,6 +26,7 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
+import { FriendSuggestionProvider } from 'src/context/FriendSuggestionContext'
 
 interface Props {
     children: ReactNode
@@ -59,45 +60,47 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
     }
 
     return (
-        <Layout
-            hidden={hidden}
-            settings={settings}
-            saveSettings={saveSettings}
-            contentHeightFixed={contentHeightFixed}
-            verticalLayoutProps={{
-                navMenu: {
-                    navItems: VerticalNavItems()
-
-                    // Uncomment the below line when using server-side menu in vertical layout and comment the above line
-                    // navItems: verticalMenuItems
-                },
-                appBar: {
-                    content: props => (
-                        <VerticalAppBarContent
-                            hidden={hidden}
-                            settings={settings}
-                            saveSettings={saveSettings}
-                            toggleNavVisibility={props.toggleNavVisibility}
-                        />
-                    )
-                }
-            }}
-            {...(settings.layout === 'horizontal' && {
-                horizontalLayoutProps: {
+        <FriendSuggestionProvider>
+            <Layout
+                hidden={hidden}
+                settings={settings}
+                saveSettings={saveSettings}
+                contentHeightFixed={contentHeightFixed}
+                verticalLayoutProps={{
                     navMenu: {
-                        navItems: HorizontalNavItems()
+                        navItems: VerticalNavItems()
 
-                        // Uncomment the below line when using server-side menu in horizontal layout and comment the above line
-                        // navItems: horizontalMenuItems
+                        // Uncomment the below line when using server-side menu in vertical layout and comment the above line
+                        // navItems: verticalMenuItems
                     },
                     appBar: {
-                        content: () => <HorizontalAppBarContent settings={settings} saveSettings={saveSettings} />
+                        content: props => (
+                            <VerticalAppBarContent
+                                hidden={hidden}
+                                settings={settings}
+                                saveSettings={saveSettings}
+                                toggleNavVisibility={props.toggleNavVisibility}
+                            />
+                        )
                     }
-                }
-            })}
-        >
-            {children}
-        </Layout>
+                }}
+                {...(settings.layout === 'horizontal' && {
+                    horizontalLayoutProps: {
+                        navMenu: {
+                            navItems: HorizontalNavItems()
+
+                            // Uncomment the below line when using server-side menu in horizontal layout and comment the above line
+                            // navItems: horizontalMenuItems
+                        },
+                        appBar: {
+                            content: () => <HorizontalAppBarContent settings={settings} saveSettings={saveSettings} />
+                        }
+                    }
+                })}
+            >
+                {children}
+            </Layout>
+        </FriendSuggestionProvider>
     )
 }
 
