@@ -4,6 +4,7 @@ import { Tabs, Tab, useMediaQuery, Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import AllTrainingScreen from './all'
 import OngoingTrainingScreen from './ongoing'
+import SeafererInstantTraining from './in-house'
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -72,6 +73,7 @@ const SeafererTraining = () => {
                             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
                                 <Tab label="Ongoing Training" {...a11yProps(0)} />
                                 <Tab label="All Training Joined" {...a11yProps(1)} />
+                                <Tab label="In House Training" {...a11yProps(2)} />
                             </Tabs>
                         </Box>
                         <Grid container sx={{
@@ -88,6 +90,9 @@ const SeafererTraining = () => {
                                 </TabPanel>
                                 <TabPanel value={value} index={1}>
                                     <AllTrainingScreen />
+                                </TabPanel>
+                                <TabPanel value={value} index={2}>
+                                    <SeafererInstantTraining />
                                 </TabPanel>
                             </Grid>
                         </Grid>

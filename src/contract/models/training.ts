@@ -11,6 +11,7 @@ interface Training {
     short_description: string,
     joined_at?: string,
     thumbnail: string,
+    score: number,
     category: TrainingCategory,
     trainer: IUser
     count_participant: number
