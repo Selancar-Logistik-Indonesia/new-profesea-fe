@@ -1,3 +1,4 @@
+import IAbilities from "src/contract/models/abilities"
 import { IUser } from "src/contract/models/user"
 
 export type ErrCallbackType = (err: { [key: string]: string }) => void
@@ -23,6 +24,7 @@ export type AuthValuesType = {
   loading: boolean
   logout: () => void
   user: IUser | null
+  abilities: IAbilities | null
   setLoading: (value: boolean) => void
   setUser: (value: IUser | null) => void
   login: (params: LoginParams, errorCallback?: ErrCallbackType) => void

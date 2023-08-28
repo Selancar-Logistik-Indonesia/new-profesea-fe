@@ -3,13 +3,13 @@ import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Avatar, CircularProgress, TextField, debounce } from '@mui/material'
-import { HttpClient } from 'src/services'
-import { useCallback, useEffect, useState } from 'react'
+import { Avatar, CircularProgress } from '@mui/material'
+import { useEffect } from 'react'
 import { IUser } from 'src/contract/models/user'
 import { toTitleCase } from 'src/utils/helpers'
 import ConnectButton from './ConnectButton'
 import Link from 'next/link'
+import { useFriendSuggestion } from 'src/hooks/useFriendSuggestion'
 
 const renderList = (arr: IUser[]) => {
     if (!arr || arr.length == 0) {
@@ -50,38 +50,12 @@ const renderList = (arr: IUser[]) => {
     });
 }
 
-const Feed = () => {
-    const [results, setResults] = useState<IUser[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [searched, setSearched] = useState<any>('');
-
-    const handleSearch = useCallback(
-        debounce((value: string) => {
-            setSearched(value);
-        }, 500), []
-    );
-
-    const getListFriends = async () => {
-        setIsLoading(true);
-        try {
-            const resp = await HttpClient.get("/friendship/suggestion", {
-                page: 1,
-                take: 7,
-                search: searched
-            });
-
-            const { data } = resp.data as { data: IUser[] };
-            setIsLoading(false);
-            setResults(data);
-        } catch (error) {
-            setIsLoading(false);
-            alert(error);
-        }
-    }
+const FriendSuggestionCard = () => {
+    const { fetchListFriends, listFriends, isLoading, search } = useFriendSuggestion();
 
     useEffect(() => {
-        getListFriends();
-    }, [searched]);
+        fetchListFriends();
+    }, [search]);
 
     return (
         <Grid container>
@@ -92,19 +66,9 @@ const Feed = () => {
                             <Typography color={"#424242"} fontWeight="600" fontSize={"14px"} sx={{ mb: 4 }}>
                                 Add to your feed
                             </Typography>
-                            <TextField
-                                id='fullName'
-                                label='Search Name'
-                                variant='outlined'
-                                fullWidth
-                                onChange={e => handleSearch(e.target.value)}
-                                sx={{ mb: 3 }}
-                            />
-                            {
-                                isLoading
-                                    ? (<Box textAlign={'center'} mt={10}><CircularProgress /></Box>)
-                                    : renderList(results)
-                            }
+                            {isLoading
+                                ? (<Box textAlign={'center'} mt={10}><CircularProgress /></Box>)
+                                : renderList(listFriends)}
                         </Box>
                     </CardContent>
                 </Card>
@@ -113,4 +77,4 @@ const Feed = () => {
     )
 }
 
-export default Feed
+export default FriendSuggestionCard

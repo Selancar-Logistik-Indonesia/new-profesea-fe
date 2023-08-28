@@ -85,7 +85,7 @@ const AnalyticsTrafficsByDay = () => {
         titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
         action={
           <OptionsMenu
-            options={['Refresh', 'Edit', 'Share']}
+            options={['Last 28 Days', 'Last Month', 'Last Year']}
             iconButtonProps={{ size: 'small', className: 'card-more-options' }}
           />
         }

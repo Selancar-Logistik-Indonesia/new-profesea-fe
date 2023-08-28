@@ -8,6 +8,6 @@ export default interface TrxDetail {
     qty: string
     created_at: string
     updated_at: string
-
+    measure: string
     trxable: any;
 }

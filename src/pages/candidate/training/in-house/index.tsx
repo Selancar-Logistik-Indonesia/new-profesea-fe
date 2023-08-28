@@ -2,21 +2,19 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { Box, Button, CircularProgress, Divider } from '@mui/material';
+import { Box, Button, CircularProgress } from '@mui/material';
 import { useEffect } from 'react';
 import Training from 'src/contract/models/training';
-import Avatar from 'src/@core/components/mui/avatar';
-import { getUserAvatar } from 'src/utils/helpers';
 import Icon from 'src/@core/components/icon';
 import Link from 'next/link';
 import TrainingContext, { TrainingProvider } from 'src/context/TrainingContext';
 import { useTraining } from 'src/hooks/useTraining';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-const SeafererOngoingTraining = () => {
+const SeafererInstantTraining = () => {
     return (
         <TrainingProvider>
-            <OngoingTrainingApp />
+            <InstantTrainingApp />
         </TrainingProvider>
     )
 }
@@ -32,7 +30,7 @@ const renderList = (arr: Training[]) => {
                         <Grid item xs={12} >
                             <CardContent>
                                 <Grid container sx={{ alignItems: 'center', justifyContent: 'center' }}>
-                                    <Grid item component={Link} href={`/candidate/training/detail/${item.id}`}>
+                                    <Grid item component={Link} href={`/candidate/training/in-house/${item.id}`}>
                                         <img
                                             alt='logo'
                                             src={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
@@ -60,33 +58,20 @@ const renderList = (arr: Training[]) => {
                                         </Box>
                                     </Grid>
                                 </Grid>
-                                <Grid container sx={{ alignItems: 'right', justifyContent: 'right' }}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2} >
-                                        <Button size='small' LinkComponent={Link} variant='contained' color='primary' href={`/candidate/training/detail/${item.id}`}>
-                                            Buy
+                                <Grid container  direction="row" justifyContent="space-between" alignItems="center" mt={1} spacing={2}>
+                                    <Grid item xs={9}>
+                                        <Button size='small'variant='outlined' color='success' >
+                                            <Typography sx={{ ontWeight: 'bold', color: 'text.primary' }} fontSize={12}>
+                                                {`Score - ${item?.score}`}
+                                            </Typography>
                                         </Button>
-                                    </Box>
+                                    </Grid>
+                                    <Grid item xs={3} >                                        
+                                        <Button size='small' LinkComponent={Link} variant='contained' color='primary' href={`/candidate/training/in-house/${item.id}`}>
+                                        {(item?.score > 0) ? `Re-Try` : 'Try It'  } 
+                                        </Button>
+                                    </Grid>
                                 </Grid>
-                                <Divider sx={{ my: '0 !important' }} />
-                                <Box
-                                    height={65}
-                                    sx={{
-                                        display: 'flex',
-                                        alignContent: 'center',
-                                    }}
-                                >
-                                    <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-                                        <Avatar src={getUserAvatar(item.trainer)} alt='profile-picture' sx={{ width: 50, height: 50 }} />
-                                    </Box>
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} marginTop={3}>
-                                    <Typography sx={{ fontWeight: 'bold', color: '#0a66c2'}} fontSize={14}>
-                                            {item?.trainer?.name}
-                                        </Typography>
-                                        <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
-                                            {item?.trainer?.username ?? "-"}
-                                        </Typography>
-                                    </Box>
-                                </Box>
                             </CardContent>
                         </Grid>
                     </Card>
@@ -98,12 +83,12 @@ const renderList = (arr: Training[]) => {
     }
 }
 
-const OngoingTrainingApp = () => {
+const InstantTrainingApp = () => {
     
     const { fetchTrainings, hasNextPage, totalTraining } = useTraining();
 
     useEffect(() => {
-        fetchTrainings({ take: 9, instant:0, ongoing:1 });
+        fetchTrainings({ take: 9, instant:1 });
     }, [hasNextPage]);
 
     return (
@@ -122,7 +107,7 @@ const OngoingTrainingApp = () => {
                 
                 <InfiniteScroll
                     dataLength={totalTraining}
-                    next={() => fetchTrainings({ take: 9, instant:0, ongoing:1 })}
+                    next={() => fetchTrainings({ take: 9, instant:1 })}
                     hasMore={hasNextPage}
                     loader={(<CircularProgress sx={{ mt: 20 }} />)}>
                     
@@ -138,9 +123,9 @@ const OngoingTrainingApp = () => {
     );
 }
 
-SeafererOngoingTraining.acl = {
+SeafererInstantTraining.acl = {
     action: 'read',
-    subject: 'seaferer-training-ongoing'
+    subject: 'seaferer-training'
 }
 
-export default SeafererOngoingTraining
+export default SeafererInstantTraining

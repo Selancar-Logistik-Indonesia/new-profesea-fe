@@ -6,9 +6,11 @@ import { HttpClient } from 'src/services'
 import secureLocalStorage from "react-secure-storage";
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
+import IAbilities from 'src/contract/models/abilities'
 
 const defaultProvider: AuthValuesType = {
     user: null,
+    abilities: null,
     loading: true,
     setUser: () => null,
     setLoading: () => Boolean,
@@ -24,41 +26,43 @@ type Props = {
 
 const AuthProvider = ({ children }: Props) => {
     const [user, setUser] = useState<IUser | null>(defaultProvider.user)
+    const [abilities, setAbilities] = useState<IAbilities | null>(defaultProvider.abilities)
     const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
     const router = useRouter()
 
-    useEffect(() => {
-        const initAuth = async (): Promise<void> => {
-            const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
-            if (storedToken) {
-                setLoading(true)
-                await HttpClient
-                    .get(authConfig.meEndpoint)
-                    .then(async response => {
-                        setLoading(false);
-                        setUser({ ...response.data.user });
-                        secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);
-                    }).catch((error) => {
-                        localStorage.removeItem('userData')
-                        localStorage.removeItem('refreshToken')
-                        localStorage.removeItem('accessToken')
-                        secureLocalStorage.clear();
+    const initAuth = async (): Promise<void> => {
+        const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
+        if (storedToken) {
+            setLoading(true)
+            await HttpClient
+                .get(authConfig.meEndpoint)
+                .then(async response => {
+                    setLoading(false);
+                    setUser({ ...response.data.user });
+                    setAbilities(response.data.abilities);
+                    secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);
+                }).catch((error) => {
+                    localStorage.removeItem('userData')
+                    localStorage.removeItem('refreshToken')
+                    localStorage.removeItem('accessToken')
+                    secureLocalStorage.clear();
 
-                        setUser(null)
-                        setLoading(false)
+                    setUser(null)
+                    setLoading(false)
 
-                        if (error.response.status == 401) {
-                            router.replace('/login');
-                        }
-                    })
-            } else {
-                setLoading(false);
-            }
+                    if (error.response.status == 401) {
+                        router.replace('/login');
+                    }
+                })
+        } else {
+            setLoading(false);
         }
+    }
 
+    useEffect(() => {
         initAuth()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []);
 
     const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
         setLoading(true);
@@ -88,6 +92,7 @@ const AuthProvider = ({ children }: Props) => {
 
     const values = {
         user,
+        abilities,
         loading,
         setUser,
         setLoading,

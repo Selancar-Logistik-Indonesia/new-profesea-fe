@@ -85,6 +85,7 @@ function isProduction() {
 async function refreshsession() {
     await HttpClient.get(authConfig.meEndpoint).then(async response => {
         secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
+        secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
     })
 }
 

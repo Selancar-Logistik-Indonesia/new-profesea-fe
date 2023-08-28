@@ -10,6 +10,9 @@ import Transaction from "src/contract/models/transactions";
 import { HttpClient } from "src/services";
 import { formatIDR } from "src/utils/helpers";
 import collect from 'collect.js';
+import TrxableType from "src/contract/types/trxable_type";
+import SubscriptionPlan from "src/contract/models/subscription_plan";
+import TrxDetail from "src/contract/models/transaction_detail";
 
 const TransactionDetailPage = () => {
     const router = useRouter();
@@ -30,6 +33,21 @@ const TransactionDetailPage = () => {
     const copyLinkToClipboard = (text?: string) => {
         navigator.clipboard.writeText(text ?? "");
         toast.success("Copied to clipboard");
+    }
+
+    const buildCardSubscription = (e: TrxDetail, item: SubscriptionPlan) => {
+        return (
+            <Card key={e.id} elevation={3} sx={{ my: 5 }}>
+                <ListItem>
+                    <ListItemText>
+                        <Box>
+                            <Typography variant="body1" fontSize={24}>{item.item.name}</Typography>
+                            <Typography variant="caption">{`${formatIDR(item.price)} * ${e.qty} ${e.measure}`}</Typography>
+                        </Box>
+                    </ListItemText>
+                </ListItem>
+            </Card>
+        );
     }
 
     useEffect(() => {
@@ -68,7 +86,13 @@ const TransactionDetailPage = () => {
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'column', mb: 6 }}>
                     {trx?.trx_detail.map(e => {
-                        const item = e.trxable as Training
+                        if (e.trxable_type == TrxableType.subscriptionPlan) {
+                            const item = e.trxable as SubscriptionPlan;
+
+                            return buildCardSubscription(e, item);
+                        }
+
+                        const item = e.trxable as Training;
 
                         return (
                             <Card key={e.id} elevation={3} sx={{ my: 5 }}>
@@ -107,7 +131,9 @@ const TransactionDetailPage = () => {
                     <Box my={2}>
                         <Typography variant="caption">Status:</Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
-                            <Typography variant="body1" fontSize={24}>Menunggu Pembayaran</Typography>
+                            <Typography variant="body1" fontSize={24}>
+                                {trx?.status == "paid" ? "Pembayaran diterima" : "Menunggu Pembayaran"}
+                            </Typography>
                         </Box>
                     </Box>
 

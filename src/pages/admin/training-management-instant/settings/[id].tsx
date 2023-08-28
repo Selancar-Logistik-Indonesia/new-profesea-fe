@@ -10,8 +10,8 @@ import { useForm } from 'react-hook-form'
 import { useTheme } from '@mui/material/styles'
 
 import { useRouter } from 'next/router'
-import EssayForm from 'src/views/instant-training/EssayForm'
 import QuestionForm from './QuestionForm'
+import QuestionPreview from './QuestionPreview'
 
 type FormData = {
   companyName: string
@@ -134,7 +134,7 @@ const InstantDetail = () => {
                   <QuestionForm training_id={trainingId}></QuestionForm>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                  <EssayForm training_id={trainingId}></EssayForm>
+                  <QuestionPreview training_id={trainingId}></QuestionPreview>
                 </TabPanel>
               </Grid>
             </Grid>

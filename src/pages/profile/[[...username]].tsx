@@ -80,11 +80,11 @@ const UserFeedApp = () => {
           const itemData = response.data.educations
           setArrVacancy2(itemData)
         })
-         HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
-           const itemData = response.data.documents
+        HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
+          const itemData = response.data.documents
 
-           getItemdata(itemData)
-         })
+          getItemdata(itemData)
+        })
       }
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
@@ -92,9 +92,9 @@ const UserFeedApp = () => {
   }
 
   useEffect(() => {
-    firstload()
-    fetchFeeds({ take: 7, username: username })
-  }, [])
+    firstload();
+    fetchFeeds({ take: 7, username: username, mPage: 1 });
+  }, [username])
 
   return (
     <Box>
