@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement, useState, useEffect } from 'react'
+import { Ref, forwardRef, ReactElement, useState, useEffect, useRef } from 'react'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
@@ -30,6 +30,7 @@ type DialogProps = {
     visible: boolean;
     onCloseClick: VoidFunction;
     onStateChange: VoidFunction;
+    arrayhead: any
 }
 type dokumen = {
   title: string
@@ -48,11 +49,12 @@ const DialogAddDocument = (props: DialogProps) => {
     const [showTextName, setTextName] = useState<boolean>(false)
     const [showChild, setChild] = useState<boolean>(false)     
     const [combochild, setCombochild] = useState<any[]>([])
-     
+     const parent = useRef()
+    // const [parent, setParent] = useState()
     const [expiredDate, setExpiredDate] = useState<DateType>(new Date()) 
     const [document_name, setDocument] = useState<any>([])
     const [document_nameChild, setDocumentChild] = useState<any>([])
-    
+ 
      useEffect(() => {
       if (!selectedFile) {
           setPreview(undefined)
@@ -94,68 +96,89 @@ const DialogAddDocument = (props: DialogProps) => {
     
 
     const onSubmit = async (item:FormData) => { 
-      const { nameOtherDocument } = item 
+     
+        
+      setOnLoading(true)
+      debugger;
+      let status= false;
+       for (let x = 0; x < props.arrayhead.length; x++) {
+         const element = props.arrayhead[x]
+         if (element.name == document_name.docType) {
+           parent.current=element.id
+           status =true
+         }
+       }
+      if(status == false){
+       await saveparent(item)
+      } 
+      if (showChild == true) {
+       await savechild()
+      } 
+      setOnLoading(false)
+      props.onStateChange()
+    }
+    const saveparent = async (item: FormData) => {
+      const { nameOtherDocument } = item
       let doc = ''
-      if( showTextName == true){
+      if (showTextName == true) {
         doc = nameOtherDocument
-      }else{
+      } else {
         doc = document_name.title
       }
-      let childname = ''
-      let childtype = ''
-      let savechild=false
-      if (showChild == true) {
-        childname = document_nameChild.title
-        childtype = document_nameChild.doctype
-        savechild = true
-      
-      }  
-       
       const json = {
         user_document: selectedFile,
         document_name: doc,
         document_type: document_name.docType,
-        document_number: 123, 
+        document_number: 123
       }
-      
-        
-      setOnLoading(true)
+        setOnLoading(true)
 
-      try { 
-        const resp = await HttpClient.postFile('/user/document', json)
-        if (resp.status != 200) {
-          throw resp.data.message ?? 'Something went wrong!'
+        try {
+          const resp = await HttpClient.postFile('/user/document', json)
+          if (resp.status != 200) {
+            throw resp.data.message ?? 'Something went wrong!'
+          } 
+          parent.current = resp.data.document.id
+          props.onCloseClick()
+          toast.success(` Document submited successfully!`)
+        } catch (error) {
+          toast.error(`Opps ${getCleanErrorMessage(error)}`)
         }
-        if(savechild == true ){
-            const jsonchild = {
-              user_document: selectedFile,
-              document_name: childname,
-              document_type: childtype,
-              document_number: 456,
-              parent_id: resp.data.document.id,
-              expired_at: expiredDate
-                ?.toLocaleDateString('en-GB', {
-                  year: 'numeric',
-                  month: '2-digit',
-                  day: '2-digit'
-                })
-                .split('/')
-                .reverse()
-                .join('-')
-            }
-          const resp2 = await HttpClient.postFile('/user/document', jsonchild)
-           if (resp2.status != 200) {
-             throw resp2.data.message ?? 'Something went wrong!'
-           }
+    }
+          
+    const savechild = async () => {
+      let childname = ''
+      let childtype = '' 
+      if (showChild == true) {
+        childname = document_nameChild.title
+        childtype = document_nameChild.doctype 
+      } 
+      for (let x = 0; x < props.arrayhead.length; x++) {
+        const element = props.arrayhead[x]
+        if (element.name == document_nameChild.doctype) {
+          parent.current = element.id
         }
-        props.onCloseClick()
-        toast.success(` Document submited successfully!`)
-      } catch (error) {
-        toast.error(`Opps ${getCleanErrorMessage(error)}`)
       }
-
-      setOnLoading(false)
-      props.onStateChange()
+      const jsonchild = {
+        user_document: selectedFile,
+        document_name: childname,
+        document_type: childtype,
+        document_number: 456,
+        parent_id: parent.current,
+        expired_at: expiredDate
+          ?.toLocaleDateString('en-GB', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          })
+          .split('/')
+          .reverse()
+          .join('-')
+      }
+      const resp2 = await HttpClient.postFile('/user/document', jsonchild)
+      if (resp2.status != 200) {
+        throw resp2.data.message ?? 'Something went wrong!'
+      }
     }
     const onSelectFile = (e: any) => {
       if (!e.target.files || e.target.files.length === 0) {
@@ -171,177 +194,177 @@ const DialogAddDocument = (props: DialogProps) => {
     const dokumencoc= [
       {
         title: 'Ahli Nautika Tingkat Dasar (ANTD), Teknika',
-        doctype: 'coc1'
+        doctype: 'COC1'
       },
       {
         title: 'Ahli Nautika Tingkat V (ANT V), Teknika',
-        doctype: 'coc2'
+        doctype: 'COC2'
       },
       {
         title: 'Ahli Nautika Tingkat IV (ANT IV), Teknika',
-        doctype: 'coc3'
+        doctype: 'COC3'
       },
       {
         title: 'Ahli Nautika Tingkat III (ANT III), Teknika',
-        doctype: 'coc4'
+        doctype: 'COC4'
       },
       {
         title: 'Ahli Nautika Tingkat II (ANT II), Teknika',
-        doctype: 'coc5'
+        doctype: 'COC5'
       },
       {
         title: 'Ahli Nautika Tingkat I (ANT I), Teknika',
-        doctype: 'coc6'
+        doctype: 'COC6'
       },
       {
         title: 'Ahli Teknika Tingkat Dasar (ATTD), Nautika',
-        doctype: 'coc7'
+        doctype: 'COC7'
       },
       {
         title: 'Ahli Teknika Tingkat V (ATT V), Nautika',
-        doctype: 'coc8'
+        doctype: 'COC8'
       },
       {
         title: 'Ahli Teknika Tingkat IV (ATT IV), Nautika',
-        doctype: 'coc9'
+        doctype: 'COC9'
       },
       {
         title: 'Ahli Teknika Tingkat III (ATT III), Nautika',
-        doctype: 'coc10'
+        doctype: 'COC10'
       },
       {
         title: 'Ahli Teknika Tingkat II (ATT II), Nautika',
-        doctype: 'coc11'
+        doctype: 'COC11'
       },
       {
         title: 'Ahli Teknika Tingkat I (ATT I), Nautika',
-        doctype: 'coc12'
+        doctype: 'COC12'
       }, 
     ]
     const dokumencop  = [
       {
         title: 'Basic training for Oil and Chemical Tanker (BOCT)',
-        doctype: 'cop1'
+        doctype: 'COP1'
       },
       {
         title: 'Basic training for Liquefied Gas Tanker (BLGT)',
-        doctype: 'cop2'
+        doctype: 'COP2'
       },
       {
         title: 'Advance training for Oil Tanker (AOT)',
-        doctype: 'cop3'
+        doctype: 'COP3'
       },
       {
         title: 'Advance training for Chemical Tanker cargo operation (ACT)',
-        doctype: 'cop4'
+        doctype: 'COP4'
       },
       {
         title: 'Advance training for Liquefied Gas Tanker cargo operation (ALGT)',
-        doctype: 'cop5'
+        doctype: 'COP5'
       },
       {
         title: 'Crowd Management Training Certificate (CMT)',
-        doctype: 'cop6'
+        doctype: 'COP6'
       },
       {
         title: 'Crisis Management and Human Behaviour Training Certificate (CMHBT)',
-        doctype: 'cop7'
+        doctype: 'COP7'
       },
       {
         title: 'Ro-ro Passenger Safety, Cargo Safety and Hull Intergrity Training Certificate',
-        doctype: 'cop8'
+        doctype: 'COP8'
       },
       {
         title: 'Survical Craft and Rescue Boats other than fast rescue boat (SCRB)',
-        doctype: 'cop9'
+        doctype: 'COP9'
       },
       {
         title: 'Fast Rescue Boats (FRB)',
-        doctype: 'cop10'
+        doctype: 'COP10'
       },
       {
         title: 'Advanced Fire Fighting (AFF)',
-        doctype: 'cop11'
+        doctype: 'COP11'
       },
       {
         title: 'Medical First Aid (MFA)',
-        doctype: 'cop12'
+        doctype: 'COP12'
       },
       {
         title: 'Medical Care (MC)',
-        doctype: 'cop13'
+        doctype: 'COP13'
       },
       {
         title: 'Radar Observation (RADAR Simulator)',
-        doctype: 'cop14'
+        doctype: 'COP14'
       },
       {
         title: 'Automatic Radar Plotting Aid Simulator (ARPA Simulator)',
-        doctype: 'cop15'
+        doctype: 'COP15'
       },
       {
         title: 'Electronics Charts Display and Information System (ECDIS)',
-        doctype: 'cop16'
+        doctype: 'COP16'
       },
       {
         title: 'Bridge Resource Management (BRM)',
-        doctype: 'cop17'
+        doctype: 'COP17'
       },
       {
         title: 'Engine Room Resource Management (ERM)',
-        doctype: 'cop18'
+        doctype: 'COP18'
       },
       {
         title: 'Security Awareness Training (SAT)',
-        doctype: 'cop19'
+        doctype: 'COP19'
       },
       {
         title: 'Security for Seafarers with Designated Security Duties (SDSD)',
-        doctype: 'cop20'
+        doctype: 'COP20'
       },
       {
         title: 'Ship Security Officers (SSO)',
-        doctype: 'cop21'
+        doctype: 'COP21'
       },
       {
         title: 'International Maritime Dangerous Good Cargo (IMDG) Code',
-        doctype: 'cop22'
+        doctype: 'COP22'
       },
       {
         title: 'Able Seafarer Deck',
-        doctype: 'cop23'
+        doctype: 'COP23'
       },
       {
         title: 'Able Seafarer Engine',
-        doctype: 'cop24'
+        doctype: 'COP24'
       },
       {
         title: 'Cook Certificate',
-        doctype: 'cop25'
+        doctype: 'COP25'
       },
       {
         title: 'Basic Safety Training',
-        doctype: 'cop26'
+        doctype: 'COP26'
       },
       {
         title: 'GMDSS (Global Maritime Distress Safety System)',
-        doctype: 'cop27'
+        doctype: 'COP27'
       },
       {
         title: 'Rating Forming Part of Navigational Watch',
-        doctype: 'cop28'
+        doctype: 'COP28'
       },
       {
         title: 'Rating Forming Part of Engine Room Watch',
-        doctype: 'cop29'
+        doctype: 'COP29'
       },
       {
         title: 'Proficiency in Survival Craft and Rescue Boats other than Fast Rescue Boats (PSCRB)',
-        doctype: 'cop30'
+        doctype: 'COP30'
       },
       {
         title: 'International Safety Management (ISM) Code',
-        doctype: 'cop31'
+        doctype: 'COP31'
       }
     ]
     const dokumen = [

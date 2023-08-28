@@ -45,6 +45,7 @@ import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument' 
 import { refreshsession } from 'src/utils/helpers'
+import secureLocalStorage from 'react-secure-storage'
 
 type FormData = {
   fullName: string
@@ -70,7 +71,7 @@ type compProps = {
   datauser: IUser
   address: Address
 }
-
+ 
  let ship: any = []
 let opp: any = []
 let tampilkanship: any = ''
@@ -125,7 +126,7 @@ let statusig: any = ''
 let statuslinkedin: any = ''
 const CandidateProfile = (props: compProps) => {
   const theme = useTheme()
-
+  const user = secureLocalStorage.getItem(localStorage.userData) as IUser
   if (props.datauser?.employee_type == 'onship') {
     ship = { employee_type: 'onship', label: 'On-Ship' }
    } else if (props.datauser?.employee_type == 'offship') {
@@ -184,7 +185,8 @@ const CandidateProfile = (props: compProps) => {
   const [linkedin, setLinkedin] = useState<any>('') 
   const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
   const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
-  const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
+  const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true) 
+  const [arrayHead, getArrayHead] = useState<any[]>([])
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value }
@@ -201,6 +203,7 @@ const CandidateProfile = (props: compProps) => {
       const code = response.data.roleLevels.data
       getComborolLevel(code)
     })
+    
     HttpClient.get(AppConfig.baseUrl + '/public/data/role-type?page=1&take=25&search').then(response => {
       const code = response.data.roleTypes.data
       getComborolType(code)
@@ -249,7 +252,15 @@ const CandidateProfile = (props: compProps) => {
 
     HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
       const itemData = response.data.documents
-
+      
+        const arr = []
+       for (let x = 0; x < itemData.length; x++) {
+         const element = itemData[x]
+         if (element.childs.length>0){
+            arr.push({ id: element.id, name: element.document_type })
+         } 
+       }
+      getArrayHead(arr)
       getItemdata(itemData)
     })
     HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100').then(response => {
@@ -431,6 +442,7 @@ const CandidateProfile = (props: compProps) => {
     setOpenEditModal(!openEditModal)
   }
   const editWorkExperience = (item: any) => {
+    debugger;
     setSelectedItem(item)
     setOpenEditModalWE(!openEditModalWE)
   }
@@ -690,7 +702,7 @@ const CandidateProfile = (props: compProps) => {
           <ProfilePicture
             src={preview ? preview : '/images/avatars/profilepic.png'}
             alt='profile-picture'
-            sx={{ width: 100, height: 100, objectFit: 'cover'}}
+            sx={{ width: 100, height: 100, objectFit: 'cover' }}
           ></ProfilePicture>
 
           <input
@@ -1562,59 +1574,166 @@ const CandidateProfile = (props: compProps) => {
                     </Button>
                   </Grid>
                   <Grid item container xs={12}>
-                    {itemData.map(item => (
-                      <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
-                        <Grid xs={12} md={9} container direction='row' alignItems='center'>
-                          <Icon
-                            fontSize='large'
-                            icon={'solar:document-bold'}
-                            color={'info'}
-                            style={{ fontSize: '18px', margin: '5px' }}
-                          />
-                          <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
-                            {item.document_name}
-                          </Typography>
-                        </Grid>
-                        <Grid xs={12} md={3} display='flex' item container>
-                          <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
-                            <Box margin={1}>
-                              <Button variant='outlined' color='info' size='small' href={item.path} target='_blank'>
+                    {itemData.map(itemhead => (
+                      <>
+                        {itemhead.childs?.length <= 0 ? (
+                          <>
+                            <Grid item container xs={12} marginTop={2} key={itemhead.id} alignItems='center'>
+                              <Grid xs={12} md={9} container direction='row' alignItems='center'>
                                 <Icon
                                   fontSize='large'
-                                  icon={'icon-park-outline:preview-open'}
+                                  icon={'solar:document-bold'}
                                   color={'info'}
-                                  style={{ fontSize: '18px' }}
+                                  style={{ fontSize: '18px', margin: '5px' }}
                                 />
-                              </Button>
-                            </Box>
-                            <Box margin={1}>
-                              <Button
-                                variant='outlined'
-                                color='primary'
-                                size='small'
-                                onClick={() => editDocument(item)}
-                              >
-                                <Icon
-                                  fontSize='large'
-                                  icon={'solar:pen-new-round-bold-duotone'}
-                                  color={'primary'}
-                                  style={{ fontSize: '18px' }}
-                                />
-                              </Button>
-                            </Box>
-                            <Box margin={1}>
-                              <Button variant='outlined' color='error' size='small' onClick={() => deletework(item.id)}>
-                                <Icon
-                                  fontSize='large'
-                                  icon={'solar:trash-bin-trash-bold-duotone'}
-                                  color={'error'}
-                                  style={{ fontSize: '18px' }}
-                                />
-                              </Button>
-                            </Box>
-                          </Grid>
-                        </Grid>
-                      </Grid>
+                                <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
+                                  {itemhead.document_name}
+                                </Typography>
+                              </Grid>
+                              <Grid xs={12} md={3} display='flex' item container>
+                                <Grid
+                                  xs={12}
+                                  md={12}
+                                  container
+                                  direction='row'
+                                  justifyContent='flex-end'
+                                  alignItems='center'
+                                >
+                                  <Box margin={1}>
+                                    <Button
+                                      variant='outlined'
+                                      color='info'
+                                      size='small'
+                                      href={itemhead.path}
+                                      target='_blank'
+                                    >
+                                      <Icon
+                                        fontSize='large'
+                                        icon={'icon-park-outline:preview-open'}
+                                        color={'info'}
+                                        style={{ fontSize: '18px' }}
+                                      />
+                                    </Button>
+                                  </Box>
+                                  <Box margin={1}>
+                                    <Button
+                                      variant='outlined'
+                                      color='primary'
+                                      size='small'
+                                      onClick={() => editDocument(itemhead)}
+                                    >
+                                      <Icon
+                                        fontSize='large'
+                                        icon={'solar:pen-new-round-bold-duotone'}
+                                        color={'primary'}
+                                        style={{ fontSize: '18px' }}
+                                      />
+                                    </Button>
+                                  </Box>
+                                  <Box margin={1}>
+                                    <Button
+                                      variant='outlined'
+                                      color='error'
+                                      size='small'
+                                      onClick={() => deletework(itemhead.id)}
+                                    >
+                                      <Icon
+                                        fontSize='large'
+                                        icon={'solar:trash-bin-trash-bold-duotone'}
+                                        color={'error'}
+                                        style={{ fontSize: '18px' }}
+                                      />
+                                    </Button>
+                                  </Box>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </>
+                        ) : (
+                          <>
+                            <Typography> {itemhead.document_name}</Typography>
+                            {itemhead.childs.map(
+                              (item: {
+                                id: React.Key | null | undefined
+                                document_name: string | null | undefined
+                                path: string
+                              }) => (
+                                <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
+                                  <Grid xs={12} md={9} container direction='row' alignItems='center'>
+                                    <Icon
+                                      fontSize='large'
+                                      icon={'solar:document-bold'}
+                                      color={'info'}
+                                      style={{ fontSize: '18px', margin: '5px' }}
+                                    />
+                                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
+                                      {item.document_name}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid xs={12} md={3} display='flex' item container>
+                                    <Grid
+                                      xs={12}
+                                      md={12}
+                                      container
+                                      direction='row'
+                                      justifyContent='flex-end'
+                                      alignItems='center'
+                                    >
+                                      <Box margin={1}>
+                                        <Button
+                                          variant='outlined'
+                                          color='info'
+                                          size='small'
+                                          href={item.path}
+                                          target='_blank'
+                                        >
+                                          <Icon
+                                            fontSize='large'
+                                            icon={'icon-park-outline:preview-open'}
+                                            color={'info'}
+                                            style={{ fontSize: '18px' }}
+                                          />
+                                        </Button>
+                                      </Box>
+                                      <Box margin={1}>
+                                        <Button
+                                          variant='outlined'
+                                          color='primary'
+                                          size='small'
+                                          onClick={() => editDocument(item)}
+                                        >
+                                          <Icon
+                                            fontSize='large'
+                                            icon={'solar:pen-new-round-bold-duotone'}
+                                            color={'primary'}
+                                            style={{ fontSize: '18px' }}
+                                          />
+                                        </Button>
+                                      </Box>
+                                      <Box margin={1}>
+                                        <Button
+                                          variant='outlined'
+                                          color='error'
+                                          size='small'
+                                          onClick={() => deletework(item.id)}
+                                        >
+                                          <Icon
+                                            fontSize='large'
+                                            icon={'solar:trash-bin-trash-bold-duotone'}
+                                            color={'error'}
+                                            style={{ fontSize: '18px' }}
+                                          />
+                                        </Button>
+                                      </Box>
+                                    </Grid>
+                                  </Grid>
+                                </Grid>
+                              )
+                            )}
+                          </>
+                        )}
+                        <Divider style={{ width: '100%' }} />
+                      </>
                     ))}
                   </Grid>
                 </Grid>
@@ -1679,6 +1798,7 @@ const CandidateProfile = (props: compProps) => {
             visible={openAddModalDoc}
             onStateChange={() => setHookSignature(v4())}
             onCloseClick={() => setOpenAddModalDoc(!openAddModalDoc)}
+            arrayhead={arrayHead}
           />
         </form>
       </Grid>

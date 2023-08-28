@@ -45,6 +45,7 @@ type DialogProps = {
 
 
 const DialogEditWorkExperience = (props: DialogProps) => { 
+  debugger;
     const [onLoading, setOnLoading] = useState(false); 
     const [dateAwal, setDateAwal] = useState<DateType>(new Date()) 
     const [dateAkhir, setDateAkhir] = useState<DateType>(new Date()) 

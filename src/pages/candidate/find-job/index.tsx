@@ -45,7 +45,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
+      {value == index && (
         <Box sx={{ p: 0 }}>
           {children}
           {/* <Typography>{children}</Typography> */}
@@ -97,7 +97,12 @@ const SeafererJob = () => {
   // const [VT, setVT] = useState(0);
 
   const [textCompany, SetTextCompany] = useState<any>('')
-
+  const [value, setValue] = React.useState(0)
+  const [color, getColor] = useState<any>('#FFFFFF')
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue)
+    getColor('#FFFFFF')
+  }
   const firstload = () => {
  
     HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
@@ -147,12 +152,7 @@ const SeafererJob = () => {
     firstload()
   }, [JC])
 
-  const [value, setValue] = React.useState(0);
-  const [color, getColor] = useState<any>('#FFFFFF')
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-    getColor('#FFFFFF');
-  };
+
 
   const vFilter = {
     'roletype': JT,
@@ -190,7 +190,7 @@ const SeafererJob = () => {
                 <TextField
                   id='fullName'
                   // defaultValue={props.datauser.name}
-                  label='Search Recruiter Name'
+                  label='Search Job'
                   variant='outlined'
                   fullWidth
                   onChange={e => SetTextCompany(e.target.value)}
@@ -433,12 +433,7 @@ const SeafererJob = () => {
               }}
             >
               <Grid item xs={12}>
-                <TabPanel value={value} index={0}>
-                  <Grid item xs={12}>
-                    <Grid item xs={9}></Grid>
-                    <Grid md={12} xs={3} item justifyContent={'right'} marginTop={'10px'}></Grid>
-                  </Grid>
-                </TabPanel>
+               
                 <TabPanel value={value} index={0}>
                   <FindJob filter={vFilter} search={textCompany} aSearch={[]}></FindJob>
                 </TabPanel>
