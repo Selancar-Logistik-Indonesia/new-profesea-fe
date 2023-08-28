@@ -4,12 +4,12 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { Avatar, CircularProgress } from '@mui/material'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { IUser } from 'src/contract/models/user'
 import { toTitleCase } from 'src/utils/helpers'
 import ConnectButton from './ConnectButton'
 import Link from 'next/link'
-import { useFriendSuggestion } from 'src/hooks/useFriendSuggestion'
+import { HttpClient } from 'src/services'
 
 const renderList = (arr: IUser[]) => {
     if (!arr || arr.length == 0) {
@@ -51,11 +51,29 @@ const renderList = (arr: IUser[]) => {
 }
 
 const FriendSuggestionCard = () => {
-    const { fetchListFriends, listFriends, isLoading, search } = useFriendSuggestion();
+    const [listFriends, setListFriends] = useState<IUser[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const fetchListFriends = async () => {
+        setIsLoading(true);
+        try {
+            const resp = await HttpClient.get("/friendship/suggestion", {
+                page: 1,
+                take: 9,
+            });
+
+            const { data } = resp.data as { data: IUser[] };
+            setIsLoading(false);
+            setListFriends(data);
+        } catch (error) {
+            setIsLoading(false);
+            alert(error);
+        }
+    }
 
     useEffect(() => {
         fetchListFriends();
-    }, [search]);
+    }, []);
 
     return (
         <Grid container>
