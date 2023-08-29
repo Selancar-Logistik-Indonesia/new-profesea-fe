@@ -53,6 +53,7 @@ const Registration = (props: any ) => {
     debugger;
     const { tipereg } = props 
     const { type } = props 
+    const { vonchangeEmployee } = props 
     const router = useRouter()
     const { t } = useTranslation();
     const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -60,7 +61,7 @@ const Registration = (props: any ) => {
     const [idcombocode, setCombocode] = useState<any>(0)
      
     const [idposition, setPosition] = useState<any>(
-      type == 'onship' ? { label: 'Onship', id: 0 } : type == 'offship' ? { label: 'Offship', id: 1 } : ''
+      type == 'onship' ? { label: 'Pelaut', id: 0 } : type == 'offship' ? { label: 'Non Pelaut', id: 1 } : ''
     )
     const schema = yup.object().shape({
         email: yup.string().email().required(),
@@ -156,16 +157,19 @@ const Registration = (props: any ) => {
     }
 
     useEffect(() => {
-        combobox()
-        debugger;
-       
+        combobox() 
     }, []);
 
     const position = [
-        { label: 'Onship', id: 0 },
-        { label: 'Offship', id: 1 },
+        { label: 'Pelaut', id: 0 },
+        { label: 'Non Pelaut', id: 1 },
     ]
-
+    const onChangeEmployee = (newValue: any) => {
+      setPosition(newValue)
+       vonchangeEmployee(newValue.id)
+    
+    }
+    
     return (
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
@@ -181,9 +185,9 @@ const Registration = (props: any ) => {
                   id='position'
                   options={!position ? [{ label: 'Loading...', id: 0 }] : position}
                   defaultValue={idposition}
-                  renderInput={params => <TextField {...params} label='Work Area' sx={{ mb: 2 }} />}
+                  renderInput={params => <TextField {...params} sx={{ mb: 2 }} />}
                   {...register('position')}
-                  onChange={(event: any, newValue: any | null) => setPosition(newValue)}
+                  onChange={(event: any, newValue: any | null) => onChangeEmployee(newValue)}
                 />
               </Grid>
               <Grid item md={3} xs={12}>

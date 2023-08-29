@@ -32,7 +32,7 @@ import { v4 } from 'uuid'
 import DialogAddEducation from 'src/pages/candidate/DialogAddEducation'
 import DialogAddWorkExperience from 'src/pages/candidate/DialogAddWorkExperience'
 import DialogAddDocument from 'src/pages/candidate/DialogAddDocument'
-import RoleLevel from 'src/contract/models/role_level'
+// import RoleLevel from 'src/contract/models/role_level'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import RegionTravel from 'src/contract/models/regional_travel'
@@ -46,6 +46,7 @@ import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperien
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument' 
 import { refreshsession } from 'src/utils/helpers'
 import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
 
 type FormData = {
   fullName: string
@@ -126,7 +127,7 @@ let statusig: any = ''
 let statuslinkedin: any = ''
 const CandidateProfile = (props: compProps) => {
   const theme = useTheme()
-  const user = secureLocalStorage.getItem(localStorage.userData) as IUser
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   if (props.datauser?.employee_type == 'onship') {
     ship = { employee_type: 'onship', label: 'On-Ship' }
    } else if (props.datauser?.employee_type == 'offship') {
@@ -141,7 +142,7 @@ const CandidateProfile = (props: compProps) => {
   const [hookSignature, setHookSignature] = useState(v4())
 
   const [combocountry, getComboCountry] = useState<any>([])
-  const [comboroleLevel, getComborolLevel] = useState<any>([])
+  // const [comboroleLevel, getComborolLevel] = useState<any>([])
   const [comboroleType, getComborolType] = useState<any>([])
   const [comboVessel, getComborVessel] = useState<any>([])
   const [comboRegion, getComboroRegion] = useState<any>([])
@@ -160,7 +161,7 @@ const CandidateProfile = (props: compProps) => {
   )
   const [idcountry, setCountry] = useState<any>(props.datauser?.country_id) 
   const [date, setDate] = useState<DateType>(new Date()) 
-  const [idcomborolLevel, setComboRolLevel] = useState<any>(props.datauser?.field_preference?.role_level?.id)
+  // const [idcomborolLevel, setComboRolLevel] = useState<any>(props.datauser?.field_preference?.role_level?.id)
   const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
   const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id) 
   const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id)
@@ -199,12 +200,13 @@ const CandidateProfile = (props: compProps) => {
 
   const combobox = () => {
 
-    HttpClient.get(AppConfig.baseUrl + '/public/data/role-level?search=&page=1&take=100').then(response => {
-      const code = response.data.roleLevels.data
-      getComborolLevel(code)
-    })
+    // HttpClient.get(AppConfig.baseUrl + '/public/data/role-level?search=&page=1&take=100').then(response => {
+    //   const code = response.data.roleLevels.data
+    //   getComborolLevel(code)
+    // })
     
-    HttpClient.get(AppConfig.baseUrl + '/public/data/role-type?page=1&take=25&search').then(response => {
+    const x = user?.employee_type
+    HttpClient.get(AppConfig.baseUrl + '/public/data/role-type?page=1&take=25&search&employee_type='+x).then(response => {
       const code = response.data.roleTypes.data
       getComborolType(code)
     })
@@ -497,7 +499,7 @@ const CandidateProfile = (props: compProps) => {
       () => {
         if (tampilkanship == 'On-Ship') {
           const x = {
-            rolelevel_id: idcomborolLevel,
+            // rolelevel_id: idcomborolLevel,
             roletype_id: idcomborolType,
             vesseltype_id: idcomboVessel,
             regiontravel_id: idcomboRegion,
@@ -513,7 +515,7 @@ const CandidateProfile = (props: compProps) => {
           })
         } else {
           const x = {
-            rolelevel_id: idcomborolLevel,
+            // rolelevel_id: idcomborolLevel,
             roletype_id: idcomborolType,
             vesseltype_id: null,
             regiontravel_id: idcomboRegion,
@@ -971,7 +973,7 @@ const CandidateProfile = (props: compProps) => {
                       onChange={(event: any, newValue: any | null) => displayopp(newValue)}
                     />
                   </Grid>
-                  <Grid item md={6} xs={12}>
+                  {/* <Grid item md={6} xs={12}>
                     <Autocomplete
                       disablePortal
                       id='combo-box-demo'
@@ -985,7 +987,7 @@ const CandidateProfile = (props: compProps) => {
                           : setComboRolLevel(props.datauser?.field_preference?.role_level?.id)
                       }
                     />
-                  </Grid>
+                  </Grid> */}
                   <Grid item md={6} xs={12}>
                     <Autocomplete
                       disablePortal
@@ -1102,7 +1104,7 @@ const CandidateProfile = (props: compProps) => {
                       onChange={(event: any, newValue: any | null) => displayopp(newValue)}
                     />
                   </Grid>
-                  <Grid item md={6} xs={12}>
+                  {/* <Grid item md={6} xs={12}>
                     <Autocomplete
                       disablePortal
                       id='combo-box-demo'
@@ -1116,7 +1118,7 @@ const CandidateProfile = (props: compProps) => {
                           : setComboRolLevel(props.datauser?.field_preference?.role_level?.id)
                       }
                     />
-                  </Grid>
+                  </Grid> */}
                   <Grid item md={6} xs={12}>
                     <Autocomplete
                       disablePortal
