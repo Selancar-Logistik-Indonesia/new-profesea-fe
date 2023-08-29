@@ -62,7 +62,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
         setHomeNavItems([
             { title: t('landing_menu_1'), path: "/#findJobSection" },
             { title: t('landing_menu_2'), path: "/#discoverSection" },
-            { title: t('landing_menu_3'), path: "/#footer" },
+            { title: t('landing_menu_3'), path: "/faqs" },
             { title: t('landing_menu_4'), path: baseAddress1 },
             { title: t('landing_menu_5'), path: baseAddress2 }, 
         ]);
