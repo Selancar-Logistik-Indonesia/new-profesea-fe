@@ -664,6 +664,43 @@ const CandidateProfile = (props: compProps) => {
     setOpp(type?.id)
   }
 
+  const provinsi = [
+    'Aceh',
+    'Sumatera Utara',
+    'Sumatera Barat',
+    'Riau',
+    'Kepulauan Riau',
+    'Jambi',
+    'Bengkulu',
+    'Sumatera Selatan',
+    'Bangka Belitung',
+    'Lampung',
+    'Banten',
+    'DKI Jakarta',
+    'Jawa Barat',
+    'Jawa Tengah',
+    'DI Yogyakarta',
+    'Jawa Timur',
+    'Bali',
+    'Nusa Tenggara Barat',
+    'Nusa Tenggara Timur',
+    'Kalimantan Barat',
+    'Kalimantan Tengah',
+    'Kalimantan Selatan',
+    'Kalimantan Timur',
+    'Kalimantan Utara',
+    'Sulawesi Utara',
+    'Gorontalo',
+    'Sulawesi Tengah',
+    'Sulawesi Barat',
+    'Sulawesi Selatan',
+    'Sulawesi Tenggara',
+    'Maluku',
+    'Maluku Utara',
+    'Papua Barat',
+    'Papua'
+  ]
+
   return (
     <Grid container padding={5}>
       <input
@@ -867,19 +904,35 @@ const CandidateProfile = (props: compProps) => {
                 />
               </Grid>
 
-              <Grid item md={6} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  options={combocountry}
-                  getOptionLabel={(option: any) => option.nicename}
-                  defaultValue={props.address?.country}
-                  renderInput={params => <TextField {...params} label='Country' />}
-                  onChange={(event: any, newValue: Countries | null) =>
-                    newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
-                  }
-                />
-              </Grid>
+              {tampilkanship == 'PELAUT' ? (
+                  <Grid item md={6} xs={12}>
+                                  <Autocomplete
+                                    disablePortal
+                                    id='combo-box-demo'
+                                    options={combocountry}
+                                    getOptionLabel={(option: any) => option.nicename}
+                                    defaultValue={props.address?.country}
+                                    renderInput={params => <TextField {...params} label='Country' />}
+                                    onChange={(event: any, newValue: Countries | null) =>
+                                      newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
+                                    }
+                                  />
+                                </Grid>
+                    ):(
+                                <Grid item md={6} xs={12}>
+                                  <Autocomplete
+                                    disablePortal
+                                    id='combo-box-demo'
+                                    options={provinsi}
+                                    getOptionLabel={(option: any) => option} 
+                                    renderInput={params => <TextField {...params} label='Preference Location' />}
+                                    onChange={(event: any, newValue: string | null) =>
+                                      newValue ? searchcity(100) : searchcity(100)
+                                    }
+                                  />
+                                </Grid>
+                    )}
+              
 
               <Grid item md={6} xs={12}>
                 <Autocomplete

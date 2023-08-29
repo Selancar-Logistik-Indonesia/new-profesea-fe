@@ -155,7 +155,7 @@ const Register = () => {
                       {t('register_text_15')}
                     </Typography>
                   )}
-                  <Registration tipereg='seafer' type='offship' vonchangeEmployee={onchangeEmployee}></Registration>
+                  <Registration tipereg='seafer' type='offship' vonchangeEmployee={onchangeEmployee} disabledcombo={true}></Registration>
                 </Box>
               </BoxWrapper>
             </Container>
