@@ -36,7 +36,7 @@ const FAQS = (props: { tosContent: string }) => {
                 <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                   <CardHeader
                     title={
-                      <Typography variant="h4" style={{ color: '#424242' }}>
+                      <Typography variant='h6' color={'#32487A'} fontWeight='600'>
                         FAQ
                       </Typography>
                     }
