@@ -191,16 +191,16 @@ const Register = () => {
                 >
                   {labelAtas == 0 ? (
                     <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: '#424242' }}>
-                      {t('register_text_7')}
+                      {t('register_text_14')}
                     </Typography>
                   ) : (
                     <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: '#424242' }}>
-                      {t('register_text_8')}
+                      {t('register_text_7')}
                     </Typography>
                   )} 
                   <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: '#424242' }}>
                     {' '}
-                    {t('register_text_10')}{' '}
+                    {t('register_text_15')}{' '}
                   </Typography>
                   <Registration tipereg='seafer' type='onship' vonchangeEmployee={onchangeEmployee}></Registration>
                 </Box>

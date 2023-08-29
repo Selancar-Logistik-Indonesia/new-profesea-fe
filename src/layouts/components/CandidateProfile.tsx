@@ -43,7 +43,7 @@ import CardContent from '@mui/material/CardContent'
 import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
-import DialogEditDocument from 'src/pages/candidate/DialogEditDocument' 
+import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
 import { refreshsession } from 'src/utils/helpers'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -73,8 +73,8 @@ type compProps = {
   datauser: IUser
   address: Address
 }
- 
- let ship: any = []
+
+let ship: any = []
 let opp: any = []
 let tampilkanship: any = ''
 let availabledate: any = ''
@@ -131,12 +131,12 @@ const CandidateProfile = (props: compProps) => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   if (props.datauser?.employee_type == 'onship') {
     ship = { employee_type: 'onship', label: 'PELAUT' }
-   } else if (props.datauser?.employee_type == 'offship') {
-    ship = { employee_type: 'offship', label: 'NON PELAUT' }    
+  } else if (props.datauser?.employee_type == 'offship') {
+    ship = { employee_type: 'offship', label: 'NON PELAUT' }
   }
-  
+
   if (props.datauser.field_preference?.open_to_opp == 0) {
-    opp =  { id: '0', label: 'Not Available' } 
+    opp = { id: '0', label: 'Not Available' }
   } else {
     opp = { id: '1', label: 'Open to Work' }
   }
@@ -160,17 +160,17 @@ const CandidateProfile = (props: compProps) => {
       ? { employee_type: 'offship', label: 'NON PELAUT' }
       : { employee_type: 'onship', label: 'PELAUT' }
   )
-  const [idcountry, setCountry] = useState<any>(props.datauser?.country_id) 
-  const [date, setDate] = useState<DateType>(new Date()) 
+  const [idcountry, setCountry] = useState<any>(props.datauser?.country_id)
+  const [date, setDate] = useState<DateType>(new Date())
   // const [idcomborolLevel, setComboRolLevel] = useState<any>(props.datauser?.field_preference?.role_level?.id)
   const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
-  const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id) 
+  const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id)
   const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id)
   const [idOPP, setOpp] = useState<any>(
     props.datauser.field_preference?.open_to_opp == 0
       ? { id: '0', label: 'Not Available' }
       : { id: '1', label: 'Open to Work' }
-  ) 
+  )
   const [openAddModal, setOpenAddModal] = useState(false)
   const [openAddModalWE, setOpenAddModalWE] = useState(false)
   const [openAddModalDoc, setOpenAddModalDoc] = useState(false)
@@ -180,17 +180,17 @@ const CandidateProfile = (props: compProps) => {
   const [itemData, getItemdata] = useState<any[]>([])
   const [itemDataWE, getItemdataWE] = useState<any[]>([])
   const [itemDataED, getItemdataED] = useState<any[]>([])
-  const [selectedItem, setSelectedItem] = useState<any>() 
+  const [selectedItem, setSelectedItem] = useState<any>()
   const [personName, setPersonName] = React.useState<string[]>(props.datauser?.field_preference?.spoken_langs ? props.datauser?.field_preference?.spoken_langs : [])
   const [facebook, setFacebook] = useState<any>('')
   const [instagram, setInstagram] = useState<any>('')
-  const [linkedin, setLinkedin] = useState<any>('') 
+  const [linkedin, setLinkedin] = useState<any>('')
   const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
   const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
-  const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true) 
-  const [arrayHead, getArrayHead] = useState<any[]>([]) 
+  const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
+  const [arrayHead, getArrayHead] = useState<any[]>([])
   const [JobCategory, getJobCategory] = useState<any[]>([])
-  
+
   const [JC, setJC] = useState(0)
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
@@ -208,21 +208,21 @@ const CandidateProfile = (props: compProps) => {
     //   const code = response.data.roleLevels.data
     //   getComborolLevel(code)
     // })
-      HttpClient.get(`/job-category?search=&page=1&take=250&employee_type=${user?.employee_type}`).then(response => {
-        if (response.status != 200) {
-          throw response.data.message ?? 'Something went wrong!'
-        }
-        getJobCategory(response.data.categories.data)
-      })
-      const x = user?.employee_type
-      let z =''
-      if(JC != 0){
-        z = '&category_id=' + JC;
+    HttpClient.get(`/job-category?search=&page=1&take=250&employee_type=${user?.employee_type}`).then(response => {
+      if (response.status != 200) {
+        throw response.data.message ?? 'Something went wrong!'
       }
-      HttpClient.get(AppConfig.baseUrl + '/public/data/role-type?page=1&take=25&search&employee_type='+x+z).then(response => {
-        const code = response.data.roleTypes.data
-        getComborolType(code)
-      })
+      getJobCategory(response.data.categories.data)
+    })
+    const x = user?.employee_type
+    let z = ''
+    if (JC != 0) {
+      z = '&category_id=' + JC;
+    }
+    HttpClient.get(AppConfig.baseUrl + '/public/data/role-type?page=1&take=25&search&employee_type=' + x + z).then(response => {
+      const code = response.data.roleTypes.data
+      getComborolType(code)
+    })
 
     HttpClient.get(AppConfig.baseUrl + '/public/data/vessel-type?page=1&take=25&search').then(response => {
       const code = response.data.vesselTypes.data
@@ -267,14 +267,14 @@ const CandidateProfile = (props: compProps) => {
 
     HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
       const itemData = response.data.documents
-      
-        const arr = []
-       for (let x = 0; x < itemData.length; x++) {
-         const element = itemData[x]
-         if (element.childs.length>0){
-            arr.push({ id: element.id, name: element.document_type })
-         } 
-       }
+
+      const arr = []
+      for (let x = 0; x < itemData.length; x++) {
+        const element = itemData[x]
+        if (element.childs.length > 0) {
+          arr.push({ id: element.id, name: element.document_type })
+        }
+      }
       getArrayHead(arr)
       getItemdata(itemData)
     })
@@ -288,7 +288,7 @@ const CandidateProfile = (props: compProps) => {
       const itemData = response.data.educations
 
       getItemdataED(itemData)
-    }) 
+    })
     HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
       .then((response) => {
         const code = response.data.countries;
@@ -298,29 +298,29 @@ const CandidateProfile = (props: compProps) => {
         }
         getCombocode(code);
       })
-      HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
-        const code = response.data.sosmeds.data
-        for (let x = 0; x < code.length; x++) {
-          const element = code[x]
-          if (element.sosmed_type == 'Facebook') {
-            setFacebook(element.username)
-            statusfb = element.id
-          }
-          if (element.sosmed_type == 'Instagram') {
-            setInstagram(element.username)
-            statusig = element.id
-          }
-          if (element.sosmed_type == 'LinkedIn') {
-            setLinkedin(element.username)
-            statuslinkedin = element.id
-          }
+    HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
+      const code = response.data.sosmeds.data
+      for (let x = 0; x < code.length; x++) {
+        const element = code[x]
+        if (element.sosmed_type == 'Facebook') {
+          setFacebook(element.username)
+          statusfb = element.id
         }
-      })
-      getCombokelamin(jeniskelamin)
+        if (element.sosmed_type == 'Instagram') {
+          setInstagram(element.username)
+          statusig = element.id
+        }
+        if (element.sosmed_type == 'LinkedIn') {
+          setLinkedin(element.username)
+          statuslinkedin = element.id
+        }
+      }
+    })
+    getCombokelamin(jeniskelamin)
   }
-    useEffect(() => {
-      combobox()
-    }, [JC])
+  useEffect(() => {
+    combobox()
+  }, [JC])
   const addbuttonfacebook = () => {
     let user = ''
     if (facebook.length < 20) {
@@ -428,11 +428,11 @@ const CandidateProfile = (props: compProps) => {
     }
     setDisabledLinkedin(true)
   }
-   const enabledtextfield = (x: any) => {
-     if (x == 'fb') setDisabledFacebook(false)
-     if (x == 'ig') setDisabledInstagram(false)
-     if (x == 'li') setDisabledLinkedin(false)
-   }
+  const enabledtextfield = (x: any) => {
+    if (x == 'fb') setDisabledFacebook(false)
+    if (x == 'ig') setDisabledInstagram(false)
+    if (x == 'li') setDisabledLinkedin(false)
+  }
   const searchcity = async (q: any) => {
     setCountry(q)
     const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
@@ -498,7 +498,7 @@ const CandidateProfile = (props: compProps) => {
 
   const onSubmit = (data: FormData) => {
     const { fullName, website, phone, address, about } = data
-    console.log('here 1', idcombokelamin) 
+    console.log('here 1', idcombokelamin)
     availabledate = date
     const json = {
       country_id: idcountry,
@@ -561,13 +561,13 @@ const CandidateProfile = (props: compProps) => {
   useEffect(() => {
     const a =
       props.datauser?.employee_type == 'offship'
-        ?  'offship' 
-        :  'onship' 
+        ? 'offship'
+        : 'onship'
     setShip(a)
     const b =
       props.datauser.field_preference?.open_to_opp == 0
-        ?   '0' 
-        :  '1' 
+        ? '0'
+        : '1'
     setOpp(b)
   }, [])
   useEffect(() => {
@@ -659,7 +659,7 @@ const CandidateProfile = (props: compProps) => {
     setShip(type?.employee_type)
     tampilkanship = type?.label
   }
-  
+
   const displayopp = (type: any) => {
     setOpp(type?.id)
   }
@@ -861,9 +861,9 @@ const CandidateProfile = (props: compProps) => {
                   renderInput={params => <TextField {...params} label='Ship' />}
                   onChange={(event: any, newValue: any | null) => displayship(newValue)}
                   disabled
-                  // onChange={(event: any, newValue: Employee ) =>
-                  //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
-                  // }
+                // onChange={(event: any, newValue: Employee ) =>
+                //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
+                // }
                 />
               </Grid>
 
@@ -974,22 +974,27 @@ const CandidateProfile = (props: compProps) => {
                 <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
                   <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
                     <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
-                      On-Ship Type
+                      Preferences
                     </Typography>
-                  </Grid>
+                    <Grid container item xs={12} justifyContent={'left'}>
+                      <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                        Fulfill your Preferences Info
+                      </Typography>
+                    </Grid>
+                    </Grid>
 
-                  <Grid item md={6} xs={12}>
-                    <Autocomplete
-                      disablePortal
-                      id='combo-box-demo'
-                      options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
-                      defaultValue={opp}
-                      getOptionLabel={(option: any) => option.label}
-                      renderInput={params => <TextField {...params} label='Status' />}
-                      onChange={(event: any, newValue: any | null) => displayopp(newValue)}
-                    />
-                  </Grid>
-                  {/* <Grid item md={6} xs={12}>
+                    <Grid item md={4} xs={12}>
+                      <Autocomplete
+                        disablePortal
+                        id='combo-box-demo'
+                        options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
+                        defaultValue={opp}
+                        getOptionLabel={(option: any) => option.label}
+                        renderInput={params => <TextField {...params} label='Status' />}
+                        onChange={(event: any, newValue: any | null) => displayopp(newValue)}
+                      />
+                    </Grid>
+                    {/* <Grid item md={6} xs={12}>
                     <Autocomplete
                       disablePortal
                       id='combo-box-demo'
@@ -1004,136 +1009,141 @@ const CandidateProfile = (props: compProps) => {
                       }
                     />
                   </Grid> */}
-                  <Grid item md={6} xs={12}>
-                    <Autocomplete
-                      sx={{ marginBottom: 2 }}
-                      disablePortal
-                      id='combo-box-level'
-                      options={JobCategory}
-                      getOptionLabel={(option: JobCategory) => option.name}
-                      renderInput={params => <TextField {...params} label='Job Category' />}
-                      onChange={(event: any, newValue: JobCategory | null) =>
-                        newValue?.id ? setJC(newValue?.id) : setJC(0)
-                      }
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <Autocomplete
-                      disablePortal
-                      id='combo-box-demo'
-                      options={comboroleType}
-                      getOptionLabel={(option: any) => option.name}
-                      defaultValue={props.datauser?.field_preference?.role_type}
-                      renderInput={params => <TextField {...params} label='Role Type' />}
-                      onChange={(event: any, newValue: RoleType | null) =>
-                        newValue?.id
-                          ? setComboRolType(newValue.id)
-                          : setComboRolType(props.datauser?.field_preference?.role_type?.id)
-                      }
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <Autocomplete
-                      disablePortal
-                      id='combo-box-demo'
-                      options={comboVessel}
-                      getOptionLabel={(option: any) => option.name}
-                      defaultValue={props.datauser?.field_preference?.vessel_type}
-                      renderInput={params => <TextField {...params} label='Type of Vessel' />}
-                      onChange={(event: any, newValue: VesselType | null) =>
-                        newValue?.id
-                          ? setComboVessel(newValue.id)
-                          : setComboVessel(props.datauser?.field_preference?.vessel_type?.id)
-                      }
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <Autocomplete
-                      disablePortal
-                      id='combo-box-demo'
-                      options={comboRegion}
-                      getOptionLabel={(option: any) => option.name}
-                      defaultValue={props.datauser?.field_preference?.region_travel}
-                      renderInput={params => <TextField {...params} label='Region of travel' />}
-                      onChange={(event: any, newValue: RegionTravel | null) =>
-                        newValue?.id
-                          ? setComboRegion(newValue.id)
-                          : setComboRegion(props.datauser?.field_preference?.region_travel?.id)
-                      }
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <DatePickerWrapper>
-                      <DatePicker
-                        minDate={new Date()}
-                        dateFormat='dd/MM/yyyy'
-                        selected={date}
-                        id='basic-input'
-                        onChange={(date: Date) => setDate(date)}
-                        placeholderText='Click to select a date'
-                        customInput={
-                          <TextField label='Available Date' variant='outlined' fullWidth {...register('available')} />
+                    <Grid item md={4} xs={12}>
+                      <Autocomplete
+                        sx={{ marginBottom: 2 }}
+                        disablePortal
+                        id='combo-box-level'
+                        options={JobCategory}
+                        getOptionLabel={(option: JobCategory) => option.name}
+                        renderInput={params => <TextField {...params} label='Job Category' />}
+                        onChange={(event: any, newValue: JobCategory | null) =>
+                          newValue?.id ? setJC(newValue?.id) : setJC(0)
                         }
                       />
-                    </DatePickerWrapper>
-                  </Grid>
-                  <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
-                    <FormControl>
-                      <InputLabel id='demo-multiple-chip-label'>Spoken</InputLabel>
-                      <Select
-                        labelId='demo-multiple-chip-label'
-                        id='demo-multiple-chip'
-                        multiple
-                        value={personName}
-                        onChange={handleChange}
-                        label='Spoken'
-                        sx={{ fontSize: '18px', height: 50.2 }}
-                        input={
-                          <OutlinedInput
-                            id='select-multiple-chip'
-                            label='Chip'
-                            defaultValue={props.datauser?.field_preference?.spoken_langs}
-                            sx={{ fontSize: '8px' }}
-                          />
+                    </Grid>
+                    <Grid item md={4} xs={12}>
+                      <Autocomplete
+                        disablePortal
+                        id='combo-box-demo'
+                        options={comboroleType}
+                        getOptionLabel={(option: any) => option.name}
+                        defaultValue={props.datauser?.field_preference?.role_type}
+                        renderInput={params => <TextField {...params} label='Job Title' />}
+                        onChange={(event: any, newValue: RoleType | null) =>
+                          newValue?.id
+                            ? setComboRolType(newValue.id)
+                            : setComboRolType(props.datauser?.field_preference?.role_type?.id)
                         }
-                        renderValue={selected => (
-                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
-                            {selected.map(value => (
-                              <Chip key={value} label={value} />
-                            ))}
-                          </Box>
-                        )}
-                        MenuProps={MenuProps}
-                      >
-                        {names.map(name => (
-                          <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-                            {name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                      />
+                    </Grid>
+                    <Grid item md={4} xs={12}>
+                      <Autocomplete
+                        disablePortal
+                        id='combo-box-demo'
+                        options={comboVessel}
+                        getOptionLabel={(option: any) => option.name}
+                        defaultValue={props.datauser?.field_preference?.vessel_type}
+                        renderInput={params => <TextField {...params} label='Type of Vessel' />}
+                        onChange={(event: any, newValue: VesselType | null) =>
+                          newValue?.id
+                            ? setComboVessel(newValue.id)
+                            : setComboVessel(props.datauser?.field_preference?.vessel_type?.id)
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={4} xs={12}>
+                      <Autocomplete
+                        disablePortal
+                        id='combo-box-demo'
+                        options={comboRegion}
+                        getOptionLabel={(option: any) => option.name}
+                        defaultValue={props.datauser?.field_preference?.region_travel}
+                        renderInput={params => <TextField {...params} label='Region of travel' />}
+                        onChange={(event: any, newValue: RegionTravel | null) =>
+                          newValue?.id
+                            ? setComboRegion(newValue.id)
+                            : setComboRegion(props.datauser?.field_preference?.region_travel?.id)
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={4} xs={12}>
+                      <DatePickerWrapper>
+                        <DatePicker
+                          minDate={new Date()}
+                          dateFormat='dd/MM/yyyy'
+                          selected={date}
+                          id='basic-input'
+                          onChange={(date: Date) => setDate(date)}
+                          placeholderText='Click to select a date'
+                          customInput={
+                            <TextField label='Available Date' variant='outlined' fullWidth {...register('available')} />
+                          }
+                        />
+                      </DatePickerWrapper>
+                    </Grid>
+                    <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
+                      <FormControl>
+                        <InputLabel id='demo-multiple-chip-label'>Spoken</InputLabel>
+                        <Select
+                          labelId='demo-multiple-chip-label'
+                          id='demo-multiple-chip'
+                          multiple
+                          value={personName}
+                          onChange={handleChange}
+                          label='Spoken'
+                          sx={{ fontSize: '18px', height: 50.2 }}
+                          input={
+                            <OutlinedInput
+                              id='select-multiple-chip'
+                              label='Chip'
+                              defaultValue={props.datauser?.field_preference?.spoken_langs}
+                              sx={{ fontSize: '8px' }}
+                            />
+                          }
+                          renderValue={selected => (
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                              {selected.map(value => (
+                                <Chip key={value} label={value} />
+                              ))}
+                            </Box>
+                          )}
+                          MenuProps={MenuProps}
+                        >
+                          {names.map(name => (
+                            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                              {name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
                   </Grid>
-                </Grid>
               )}
-              {tampilkanship != 'PELAUT' && (
-                <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
-                  <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
+                  {tampilkanship != 'PELAUT' && (
+                    <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
+                      <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
                     <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
-                      Off-Ship Type
+                      Preferences
                     </Typography>
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <Autocomplete
-                      disablePortal
-                      id='combo-box-demo'
-                      options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
-                      defaultValue={opp}
-                      getOptionLabel={(option: any) => option.label}
-                      renderInput={params => <TextField {...params} label='Status' />}
-                      onChange={(event: any, newValue: any | null) => displayopp(newValue)}
-                    />
-                  </Grid>
-                  {/* <Grid item md={6} xs={12}>
+                    <Grid container item xs={12} justifyContent={'left'}>
+                      <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                        Fulfill your Preferences Info
+                      </Typography>
+                    </Grid>
+                    </Grid>
+                      <Grid item md={6} xs={12}>
+                        <Autocomplete
+                          disablePortal
+                          id='combo-box-demo'
+                          options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
+                          defaultValue={opp}
+                          getOptionLabel={(option: any) => option.label}
+                          renderInput={params => <TextField {...params} label='Status' />}
+                          onChange={(event: any, newValue: any | null) => displayopp(newValue)}
+                        />
+                      </Grid>
+                      {/* <Grid item md={6} xs={12}>
                     <Autocomplete
                       disablePortal
                       id='combo-box-demo'
@@ -1148,20 +1158,20 @@ const CandidateProfile = (props: compProps) => {
                       }
                     />
                   </Grid> */}
-                  <Grid item md={6} xs={12}>
-                    <Autocomplete
-                      sx={{ marginBottom: 2 }}
-                      disablePortal
-                      id='combo-box-level'
-                      options={JobCategory}
-                      getOptionLabel={(option: JobCategory) => option.name}
-                      renderInput={params => <TextField {...params} label='Job Category' />}
-                      onChange={(event: any, newValue: JobCategory | null) =>
-                        newValue?.id ? setJC(newValue?.id) : setJC(0)
-                      }
-                    />
-                  </Grid>
-                  {/* <Grid item md={6} xs={12}>
+                      <Grid item md={6} xs={12}>
+                        <Autocomplete
+                          sx={{ marginBottom: 2 }}
+                          disablePortal
+                          id='combo-box-level'
+                          options={JobCategory}
+                          getOptionLabel={(option: JobCategory) => option.name}
+                          renderInput={params => <TextField {...params} label='Job Category' />}
+                          onChange={(event: any, newValue: JobCategory | null) =>
+                            newValue?.id ? setJC(newValue?.id) : setJC(0)
+                          }
+                        />
+                      </Grid>
+                      {/* <Grid item md={6} xs={12}>
                     <Autocomplete
                       disablePortal
                       id='combo-box-demo'
@@ -1177,22 +1187,22 @@ const CandidateProfile = (props: compProps) => {
                     />
                   </Grid> */}
 
-                  <Grid item md={6} xs={12}>
-                    <Autocomplete
-                      disablePortal
-                      id='combo-box-demo'
-                      options={comboRegion}
-                      getOptionLabel={(option: any) => option.name}
-                      defaultValue={props.datauser?.field_preference?.region_travel}
-                      renderInput={params => <TextField {...params} label='Location' />}
-                      onChange={(event: any, newValue: RegionTravel | null) =>
-                        newValue?.id
-                          ? setComboRegion(newValue.id)
-                          : setComboRegion(props.datauser?.field_preference?.region_travel?.id)
-                      }
-                    />
-                  </Grid>
-                  {/* <Grid item md={6} xs={12}>
+                      <Grid item md={6} xs={12}>
+                        <Autocomplete
+                          disablePortal
+                          id='combo-box-demo'
+                          options={comboRegion}
+                          getOptionLabel={(option: any) => option.name}
+                          defaultValue={props.datauser?.field_preference?.region_travel}
+                          renderInput={params => <TextField {...params} label='Location' />}
+                          onChange={(event: any, newValue: RegionTravel | null) =>
+                            newValue?.id
+                              ? setComboRegion(newValue.id)
+                              : setComboRegion(props.datauser?.field_preference?.region_travel?.id)
+                          }
+                        />
+                      </Grid>
+                      {/* <Grid item md={6} xs={12}>
                     <DatePickerWrapper>
                       <DatePicker
                         dateFormat='dd/MM/yyyy'
@@ -1206,435 +1216,240 @@ const CandidateProfile = (props: compProps) => {
                       />
                     </DatePickerWrapper>
                   </Grid> */}
-                  <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
-                    <FormControl>
-                      <InputLabel id='demo-multiple-chip-label'>Spoken</InputLabel>
-                      <Select
-                        labelId='demo-multiple-chip-label'
-                        id='demo-multiple-chip'
-                        multiple
-                        value={personName}
-                        onChange={handleChange}
-                        label='Spoken'
-                        sx={{ fontSize: '18px', height: 50.2 }}
-                        input={
-                          <OutlinedInput
-                            id='select-multiple-chip'
-                            label='Chip'
-                            defaultValue={props.datauser?.field_preference?.spoken_langs}
-                            sx={{ fontSize: '8px' }}
-                          />
-                        }
-                        renderValue={selected => (
-                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
-                            {selected.map(value => (
-                              <Chip key={value} label={value} />
+                      <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
+                        <FormControl>
+                          <InputLabel id='demo-multiple-chip-label'>Spoken</InputLabel>
+                          <Select
+                            labelId='demo-multiple-chip-label'
+                            id='demo-multiple-chip'
+                            multiple
+                            value={personName}
+                            onChange={handleChange}
+                            label='Spoken'
+                            sx={{ fontSize: '18px', height: 50.2 }}
+                            input={
+                              <OutlinedInput
+                                id='select-multiple-chip'
+                                label='Chip'
+                                defaultValue={props.datauser?.field_preference?.spoken_langs}
+                                sx={{ fontSize: '8px' }}
+                              />
+                            }
+                            renderValue={selected => (
+                              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                                {selected.map(value => (
+                                  <Chip key={value} label={value} />
+                                ))}
+                              </Box>
+                            )}
+                            MenuProps={MenuProps}
+                          >
+                            {names.map(name => (
+                              <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                                {name}
+                              </MenuItem>
                             ))}
-                          </Box>
-                        )}
-                        MenuProps={MenuProps}
-                      >
-                        {names.map(name => (
-                          <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-                            {name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                </Grid>
-              )}
-              <Grid item md={5} xs={12}>
-                <Grid container item xs={12} justifyContent={'left'}>
-                  <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
-                    Social Media Info
-                  </Typography>
-                </Grid>
-                <Grid container item xs={12} justifyContent={'left'}>
-                  <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
-                    Fulfill your Social Media Info
-                  </Typography>
-                </Grid>
-              </Grid>
-
-              <Grid container item md={12} xs={12} marginTop={'20px'}>
-                <Grid container item xs={12} md={4} marginBottom={2}>
-                  <Grid container item xs={12} md={12}>
-                    <Grid xs={12} item>
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                          <Icon icon='mdi:facebook' fontSize={24} color={'#424242'} />
-                        </Box>
-                        <TextField
-                          id='facebook'
-                          defaultValue={facebook}
-                          label='Facebook'
-                          variant='outlined'
-                          fullWidth
-                          sx={{ mb: 1 }}
-                          value={facebook}
-                          {...register('facebook')}
-                          disabled={disabledFacebook}
-                          onChange={e => setFacebook(e.target.value)}
-                          onBlur={handleSubmit(addbuttonfacebook)}
-                          InputProps={{
-                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
-                          }}
-                        />
-                        <Button
-                          onClick={() => enabledtextfield('fb')}
-                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
-                        >
-                          <Icon
-                            fontSize='large'
-                            icon={'solar:pen-new-round-bold-duotone'}
-                            color={'primary'}
-                            style={{ fontSize: '24px' }}
-                          />
-                        </Button>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </Grid>
-
-                <Grid container item xs={12} marginBottom={2} md={4}>
-                  <Grid container item xs={12} md={12}>
-                    <Grid xs={12} item>
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                          <Icon icon='mdi:instagram' fontSize={24} color={'#424242'} />
-                        </Box>
-                        <TextField
-                          id='instagram'
-                          label='Instagram'
-                          variant='outlined'
-                          fullWidth
-                          value={instagram}
-                          sx={{ mb: 1 }}
-                          {...register('instagram')}
-                          disabled={disabledInstagram}
-                          onChange={e => setInstagram(e.target.value)}
-                          onBlur={handleSubmit(addbuttoninstagram)}
-                          InputProps={{
-                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
-                          }}
-                        />
-                        <Button
-                          onClick={() => enabledtextfield('ig')}
-                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
-                        >
-                          <Icon
-                            fontSize='large'
-                            icon={'solar:pen-new-round-bold-duotone'}
-                            color={'primary'}
-                            style={{ fontSize: '24px' }}
-                          />
-                        </Button>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </Grid>
-
-                <Grid container item xs={12} marginBottom={2} md={4}>
-                  <Grid container item xs={12} md={12}>
-                    <Grid xs={12} item>
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                          <Icon icon='mdi:linkedin' fontSize={24} color={'#424242'} />
-                        </Box>
-                        <TextField
-                          id='linkedin'
-                          defaultValue={linkedin}
-                          label='Linkedin'
-                          variant='outlined'
-                          fullWidth
-                          sx={{ mb: 1 }}
-                          {...register('linkedin')}
-                          disabled={disabledLinkedn}
-                          value={linkedin}
-                          onChange={e => setLinkedin(e.target.value)}
-                          onBlur={handleSubmit(addbuttonlinkedin)}
-                          InputProps={{
-                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
-                          }}
-                        />
-                        <Button
-                          onClick={() => enabledtextfield('li')}
-                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
-                        >
-                          <Icon
-                            fontSize='large'
-                            icon={'solar:pen-new-round-bold-duotone'}
-                            color={'primary'}
-                            style={{ fontSize: '24px' }}
-                          />
-                        </Button>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.2} lg={0.2} xs={12}></Grid>
-              <Divider style={{ width: '100%' }} />
-
-              <Box sx={{ marginTop: '20px' }}></Box>
-              <Grid item container xs={12}>
-                <Grid xs={10} md={11}>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
-                      Educational Info
-                    </Typography>
-                  </Grid>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
-                      Fulfill your Educational Info
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
-                  <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
-                    <Icon
-                      fontSize='small'
-                      icon={'solar:add-circle-bold-duotone'}
-                      color={'success'}
-                      style={{ fontSize: '18px' }}
-                    />
-                    <div style={{ marginLeft: 5 }}>ADD</div>
-                  </Button>
-                </Grid>
-                <Grid item container xs={12}>
-                  {itemDataED.map(item => (
-                    <Grid item container xs={12} marginTop={2} key={item.id}>
-                      <Grid xs={4} md={1}>
-                        <img
-                          alt='logo'
-                          src={item.logo ? item.logo : '/images/educationalinfo.png'}
-                          style={{
-                            maxWidth: '100%',
-                            height: '100px',
-                            padding: 10,
-                            margin: 0
-                          }}
-                        />
+                          </Select>
+                        </FormControl>
                       </Grid>
-                      <Grid xs={8} md={11} item container>
-                        <Grid xs={10} marginTop={2}>
-                          <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
-                            {item.title}
-                          </Typography>
-                          <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
-                            {item.major}
-                          </Typography>
-                          <Grid xs={12} display='flex'>
-                            <Box>
-                              <Typography variant='body1'>{item.start_date}</Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant='body1'> &nbsp; - &nbsp;</Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant='body1'>{item.end_date}</Typography>
-                            </Box>
-                          </Grid>
-                        </Grid>
-                        <Grid xs={12} md={2} marginTop={2} display='flex' item container>
-                          <Grid xs={12} display='flex' item container>
-                            <Grid
-                              xs={12}
-                              md={12}
-                              container
-                              direction='row'
-                              justifyContent='flex-end'
-                              alignItems='center'
-                            >
-                              <Box margin={1}>
-                                <Button
-                                  variant='outlined'
-                                  color='primary'
-                                  size='small'
-                                  onClick={() => editEducation(item)}
-                                >
-                                  <Icon
-                                    fontSize='small'
-                                    icon={'solar:pen-new-round-bold-duotone'}
-                                    color={'primary'}
-                                    style={{ fontSize: '18px' }}
-                                  />
-                                </Button>
-                              </Box>
-                              <Box margin={1}>
-                                <Button
-                                  variant='outlined'
-                                  color='error'
-                                  size='small'
-                                  onClick={() => deleteeducation(item.id)}
-                                >
-                                  <Icon
-                                    fontSize='small'
-                                    icon={'solar:trash-bin-trash-bold-duotone'}
-                                    color={'error'}
-                                    style={{ fontSize: '18px' }}
-                                  />
-                                </Button>
-                              </Box>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      {/* <Grid xs={12}>
-                        <Typography variant='body1'>{item.description}</Typography>
-                      </Grid> */}
-                      <Divider style={{ width: '100%' }} />
                     </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-
-              <Grid item container xs={12}>
-                <Grid xs={10} md={11}>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
-                      Work Experience Info
-                    </Typography>
-                  </Grid>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
-                      Fulfill your Work Experience Info
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
-                  <Button variant='contained' size='small' onClick={() => setOpenAddModalWE(!openAddModalWE)}>
-                    <Icon
-                      fontSize='small'
-                      icon={'solar:add-circle-bold-duotone'}
-                      color={'success'}
-                      style={{ fontSize: '18px' }}
-                    />
-                    <div style={{ marginLeft: 5 }}>ADD</div>
-                  </Button>
-                </Grid>
-                <Grid item container xs={12}>
-                  {itemDataWE.map(item => (
-                    <Grid item container xs={12} marginTop={2} key={item.id}>
-                      <Grid xs={4} md={1}>
-                        <img
-                          alt='logo'
-                          src={item.logo ? item.logo : '/images/workexperienceinfo.png'}
-                          style={{
-                            maxWidth: '100%',
-                            height: '100px',
-                            padding: 10,
-                            margin: 0
-                          }}
-                        />
-                      </Grid>
-                      <Grid xs={8} md={11} item container>
-                        <Grid xs={10} marginTop={2}>
-                          <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
-                            {item.position}
-                          </Typography>
-                          <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
-                            {item.institution}
-                          </Typography>
-                          <Grid xs={12} display='flex'>
-                            <Box>
-                              <Typography variant='body1'>{item.start_date}</Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant='body1'> &nbsp; - &nbsp; </Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant='body1'>{item.end_date}</Typography>
-                            </Box>
-                          </Grid>
-                        </Grid>
-                        <Grid xs={12} md={2} marginTop={2} display='flex' item container>
-                          <Grid xs={12} display='flex' item container>
-                            <Grid
-                              xs={12}
-                              md={12}
-                              container
-                              direction='row'
-                              justifyContent='flex-end'
-                              alignItems='center'
-                            >
-                              <Box margin={1}>
-                                <Button
-                                  variant='outlined'
-                                  color='primary'
-                                  size='small'
-                                  onClick={() => editWorkExperience(item)}
-                                >
-                                  <Icon
-                                    fontSize='large'
-                                    icon={'solar:pen-new-round-bold-duotone'}
-                                    color={'primary'}
-                                    style={{ fontSize: '18px' }}
-                                  />
-                                </Button>
-                              </Box>
-                              <Box margin={1}>
-                                <Button variant='outlined' color='error' size='small' onClick={() => deletewe(item.id)}>
-                                  <Icon
-                                    fontSize='large'
-                                    icon={'solar:trash-bin-trash-bold-duotone'}
-                                    color={'error'}
-                                    style={{ fontSize: '18px' }}
-                                  />
-                                </Button>
-                              </Box>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      <Grid xs={12}>
-                        <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
-                          {item.description}
-                        </Typography>
-                      </Grid>
-                      <Divider style={{ width: '100%' }} />
-                    </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-              {tampilkanship == 'PELAUT' && (
-                <Grid item container xs={12}>
-                  <Grid xs={10} md={11}>
+                  )}
+                  <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
+                  <Grid item md={5} xs={12}>
                     <Grid container item xs={12} justifyContent={'left'}>
                       <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
-                        Document Upload
+                        Social Media Info
                       </Typography>
                     </Grid>
                     <Grid container item xs={12} justifyContent={'left'}>
                       <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
-                        Upload your Document Info
+                        Fulfill your Social Media Info
                       </Typography>
                     </Grid>
                   </Grid>
-                  <Grid display='flex' justifyContent='flex-end' alignItems='flex-end' xs={2} md={1}>
-                    <Button variant='contained' onClick={() => setOpenAddModalDoc(!openAddModalDoc)}>
-                      <Icon fontSize='large' icon={'basil:add-solid'} color={'primary'} style={{ fontSize: '18px' }} />
-                    </Button>
+
+                  <Grid container item md={12} xs={12} marginTop={'20px'}>
+                    <Grid container item xs={12} md={4} marginBottom={2}>
+                      <Grid container item xs={12} md={12}>
+                        <Grid xs={12} item>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                              <Icon icon='mdi:facebook' fontSize={24} color={'#424242'} />
+                            </Box>
+                            <TextField
+                              id='facebook'
+                              defaultValue={facebook}
+                              label='Facebook'
+                              variant='outlined'
+                              fullWidth
+                              sx={{ mb: 1 }}
+                              value={facebook}
+                              {...register('facebook')}
+                              disabled={disabledFacebook}
+                              onChange={e => setFacebook(e.target.value)}
+                              onBlur={handleSubmit(addbuttonfacebook)}
+                              InputProps={{
+                                startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                              }}
+                            />
+                            <Button
+                              onClick={() => enabledtextfield('fb')}
+                              sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                            >
+                              <Icon
+                                fontSize='large'
+                                icon={'solar:pen-new-round-bold-duotone'}
+                                color={'primary'}
+                                style={{ fontSize: '24px' }}
+                              />
+                            </Button>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+
+                    <Grid container item xs={12} marginBottom={2} md={4}>
+                      <Grid container item xs={12} md={12}>
+                        <Grid xs={12} item>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                              <Icon icon='mdi:instagram' fontSize={24} color={'#424242'} />
+                            </Box>
+                            <TextField
+                              id='instagram'
+                              label='Instagram'
+                              variant='outlined'
+                              fullWidth
+                              value={instagram}
+                              sx={{ mb: 1 }}
+                              {...register('instagram')}
+                              disabled={disabledInstagram}
+                              onChange={e => setInstagram(e.target.value)}
+                              onBlur={handleSubmit(addbuttoninstagram)}
+                              InputProps={{
+                                startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                              }}
+                            />
+                            <Button
+                              onClick={() => enabledtextfield('ig')}
+                              sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                            >
+                              <Icon
+                                fontSize='large'
+                                icon={'solar:pen-new-round-bold-duotone'}
+                                color={'primary'}
+                                style={{ fontSize: '24px' }}
+                              />
+                            </Button>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+
+                    <Grid container item xs={12} marginBottom={2} md={4}>
+                      <Grid container item xs={12} md={12}>
+                        <Grid xs={12} item>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                              <Icon icon='mdi:linkedin' fontSize={24} color={'#424242'} />
+                            </Box>
+                            <TextField
+                              id='linkedin'
+                              defaultValue={linkedin}
+                              label='Linkedin'
+                              variant='outlined'
+                              fullWidth
+                              sx={{ mb: 1 }}
+                              {...register('linkedin')}
+                              disabled={disabledLinkedn}
+                              value={linkedin}
+                              onChange={e => setLinkedin(e.target.value)}
+                              onBlur={handleSubmit(addbuttonlinkedin)}
+                              InputProps={{
+                                startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                              }}
+                            />
+                            <Button
+                              onClick={() => enabledtextfield('li')}
+                              sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                            >
+                              <Icon
+                                fontSize='large'
+                                icon={'solar:pen-new-round-bold-duotone'}
+                                color={'primary'}
+                                style={{ fontSize: '24px' }}
+                              />
+                            </Button>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </Grid>
                   </Grid>
+                  <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.2} lg={0.2} xs={12}></Grid>
+                  <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
+
+                  <Box sx={{ marginTop: '20px' }}></Box>
                   <Grid item container xs={12}>
-                    {itemData.map(itemhead => (
-                      <>
-                        {itemhead.childs?.length <= 0 ? (
-                          <>
-                            <Grid item container xs={12} marginTop={2} key={itemhead.id} alignItems='center'>
-                              <Grid xs={12} md={9} container direction='row' alignItems='center'>
-                                <Icon
-                                  fontSize='large'
-                                  icon={'solar:document-bold'}
-                                  color={'info'}
-                                  style={{ fontSize: '18px', margin: '5px' }}
-                                />
-                                <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
-                                  {itemhead.document_name}
-                                </Typography>
+                    <Grid xs={10} md={11}>
+                      <Grid container item xs={12} justifyContent={'left'}>
+                        <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                          Educational Info
+                        </Typography>
+                      </Grid>
+                      <Grid container item xs={12} justifyContent={'left'}>
+                        <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                          Fulfill your Educational Info
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
+                      <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
+                        <Icon
+                          fontSize='small'
+                          icon={'solar:add-circle-bold-duotone'}
+                          color={'success'}
+                          style={{ fontSize: '18px' }}
+                        />
+                        <div style={{ marginLeft: 5 }}>ADD</div>
+                      </Button>
+                    </Grid>
+                    <Grid item container xs={12}>
+                      {itemDataED.map(item => (
+                        <Grid item container xs={12} marginTop={2} key={item.id}>
+                          <Grid xs={4} md={1}>
+                            <img
+                              alt='logo'
+                              src={item.logo ? item.logo : '/images/educationalinfo.png'}
+                              style={{
+                                maxWidth: '100%',
+                                height: '100px',
+                                padding: 10,
+                                margin: 0
+                              }}
+                            />
+                          </Grid>
+                          <Grid xs={8} md={11} item container>
+                            <Grid xs={10} marginTop={2}>
+                              <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
+                                {item.title}
+                              </Typography>
+                              <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                                {item.major}
+                              </Typography>
+                              <Grid xs={12} display='flex'>
+                                <Box>
+                                  <Typography variant='body1'>{item.start_date}</Typography>
+                                </Box>
+                                <Box>
+                                  <Typography variant='body1'> &nbsp; - &nbsp;</Typography>
+                                </Box>
+                                <Box>
+                                  <Typography variant='body1'>{item.end_date}</Typography>
+                                </Box>
                               </Grid>
-                              <Grid xs={12} md={3} display='flex' item container>
+                            </Grid>
+                            <Grid xs={12} md={2} marginTop={2} display='flex' item container>
+                              <Grid xs={12} display='flex' item container>
                                 <Grid
                                   xs={12}
                                   md={12}
@@ -1646,28 +1461,12 @@ const CandidateProfile = (props: compProps) => {
                                   <Box margin={1}>
                                     <Button
                                       variant='outlined'
-                                      color='info'
-                                      size='small'
-                                      href={itemhead.path}
-                                      target='_blank'
-                                    >
-                                      <Icon
-                                        fontSize='large'
-                                        icon={'icon-park-outline:preview-open'}
-                                        color={'info'}
-                                        style={{ fontSize: '18px' }}
-                                      />
-                                    </Button>
-                                  </Box>
-                                  <Box margin={1}>
-                                    <Button
-                                      variant='outlined'
                                       color='primary'
                                       size='small'
-                                      onClick={() => editDocument(itemhead)}
+                                      onClick={() => editEducation(item)}
                                     >
                                       <Icon
-                                        fontSize='large'
+                                        fontSize='small'
                                         icon={'solar:pen-new-round-bold-duotone'}
                                         color={'primary'}
                                         style={{ fontSize: '18px' }}
@@ -1679,8 +1478,115 @@ const CandidateProfile = (props: compProps) => {
                                       variant='outlined'
                                       color='error'
                                       size='small'
-                                      onClick={() => deletework(itemhead.id)}
+                                      onClick={() => deleteeducation(item.id)}
                                     >
+                                      <Icon
+                                        fontSize='small'
+                                        icon={'solar:trash-bin-trash-bold-duotone'}
+                                        color={'error'}
+                                        style={{ fontSize: '18px' }}
+                                      />
+                                    </Button>
+                                  </Box>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          {/* <Grid xs={12}>
+                        <Typography variant='body1'>{item.description}</Typography>
+                      </Grid> */}
+                           <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Grid>
+
+                  <Grid item container xs={12}>
+                    <Grid xs={10} md={11}>
+                      <Grid container item xs={12} justifyContent={'left'}>
+                        <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                          Work Experience Info
+                        </Typography>
+                      </Grid>
+                      <Grid container item xs={12} justifyContent={'left'}>
+                        <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                          Fulfill your Work Experience Info
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
+                      <Button variant='contained' size='small' onClick={() => setOpenAddModalWE(!openAddModalWE)}>
+                        <Icon
+                          fontSize='small'
+                          icon={'solar:add-circle-bold-duotone'}
+                          color={'success'}
+                          style={{ fontSize: '18px' }}
+                        />
+                        <div style={{ marginLeft: 5 }}>ADD</div>
+                      </Button>
+                    </Grid>
+                    <Grid item container xs={12}>
+                      {itemDataWE.map(item => (
+                        <Grid item container xs={12} marginTop={2} key={item.id}>
+                          <Grid xs={4} md={1}>
+                            <img
+                              alt='logo'
+                              src={item.logo ? item.logo : '/images/workexperienceinfo.png'}
+                              style={{
+                                maxWidth: '100%',
+                                height: '100px',
+                                padding: 10,
+                                margin: 0
+                              }}
+                            />
+                          </Grid>
+                          <Grid xs={8} md={11} item container>
+                            <Grid xs={10} marginTop={2}>
+                              <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
+                                {item.position}
+                              </Typography>
+                              <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                                {item.institution}
+                              </Typography>
+                              <Grid xs={12} display='flex'>
+                                <Box>
+                                  <Typography variant='body1'>{item.start_date}</Typography>
+                                </Box>
+                                <Box>
+                                  <Typography variant='body1'> &nbsp; - &nbsp; </Typography>
+                                </Box>
+                                <Box>
+                                  <Typography variant='body1'>{item.end_date}</Typography>
+                                </Box>
+                              </Grid>
+                            </Grid>
+                            <Grid xs={12} md={2} marginTop={2} display='flex' item container>
+                              <Grid xs={12} display='flex' item container>
+                                <Grid
+                                  xs={12}
+                                  md={12}
+                                  container
+                                  direction='row'
+                                  justifyContent='flex-end'
+                                  alignItems='center'
+                                >
+                                  <Box margin={1}>
+                                    <Button
+                                      variant='outlined'
+                                      color='primary'
+                                      size='small'
+                                      onClick={() => editWorkExperience(item)}
+                                    >
+                                      <Icon
+                                        fontSize='large'
+                                        icon={'solar:pen-new-round-bold-duotone'}
+                                        color={'primary'}
+                                        style={{ fontSize: '18px' }}
+                                      />
+                                    </Button>
+                                  </Box>
+                                  <Box margin={1}>
+                                    <Button variant='outlined' color='error' size='small' onClick={() => deletewe(item.id)}>
                                       <Icon
                                         fontSize='large'
                                         icon={'solar:trash-bin-trash-bold-duotone'}
@@ -1692,17 +1598,42 @@ const CandidateProfile = (props: compProps) => {
                                 </Grid>
                               </Grid>
                             </Grid>
-                          </>
-                        ) : (
+                          </Grid>
+                          <Grid xs={12}>
+                            <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                              {item.description}
+                            </Typography>
+                          </Grid>
+                          <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Grid>
+                  {tampilkanship == 'PELAUT' && (
+                    <Grid item container xs={12}>
+                      <Grid xs={10} md={11}>
+                        <Grid container item xs={12} justifyContent={'left'}>
+                          <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                            Document Upload
+                          </Typography>
+                        </Grid>
+                        <Grid container item xs={12} justifyContent={'left'}>
+                          <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                            Upload your Document Info
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                      <Grid display='flex' justifyContent='flex-end' alignItems='flex-end' xs={2} md={1}>
+                        <Button variant='contained' onClick={() => setOpenAddModalDoc(!openAddModalDoc)}>
+                          <Icon fontSize='large' icon={'basil:add-solid'} color={'primary'} style={{ fontSize: '18px' }} />
+                        </Button>
+                      </Grid>
+                      <Grid item container xs={12}>
+                        {itemData.map(itemhead => (
                           <>
-                            <Typography> {itemhead.document_name}</Typography>
-                            {itemhead.childs.map(
-                              (item: {
-                                id: React.Key | null | undefined
-                                document_name: string | null | undefined
-                                path: string
-                              }) => (
-                                <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
+                            {itemhead.childs?.length <= 0 ? (
+                              <>
+                                <Grid item container xs={12} marginTop={2} key={itemhead.id} alignItems='center'>
                                   <Grid xs={12} md={9} container direction='row' alignItems='center'>
                                     <Icon
                                       fontSize='large'
@@ -1711,7 +1642,7 @@ const CandidateProfile = (props: compProps) => {
                                       style={{ fontSize: '18px', margin: '5px' }}
                                     />
                                     <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
-                                      {item.document_name}
+                                      {itemhead.document_name}
                                     </Typography>
                                   </Grid>
                                   <Grid xs={12} md={3} display='flex' item container>
@@ -1728,7 +1659,7 @@ const CandidateProfile = (props: compProps) => {
                                           variant='outlined'
                                           color='info'
                                           size='small'
-                                          href={item.path}
+                                          href={itemhead.path}
                                           target='_blank'
                                         >
                                           <Icon
@@ -1744,7 +1675,7 @@ const CandidateProfile = (props: compProps) => {
                                           variant='outlined'
                                           color='primary'
                                           size='small'
-                                          onClick={() => editDocument(item)}
+                                          onClick={() => editDocument(itemhead)}
                                         >
                                           <Icon
                                             fontSize='large'
@@ -1759,7 +1690,7 @@ const CandidateProfile = (props: compProps) => {
                                           variant='outlined'
                                           color='error'
                                           size='small'
-                                          onClick={() => deletework(item.id)}
+                                          onClick={() => deletework(itemhead.id)}
                                         >
                                           <Icon
                                             fontSize='large'
@@ -1772,30 +1703,110 @@ const CandidateProfile = (props: compProps) => {
                                     </Grid>
                                   </Grid>
                                 </Grid>
-                              )
+                              </>
+                            ) : (
+                              <>
+                                <Typography> {itemhead.document_name}</Typography>
+                                {itemhead.childs.map(
+                                  (item: {
+                                    id: React.Key | null | undefined
+                                    document_name: string | null | undefined
+                                    path: string
+                                  }) => (
+                                    <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
+                                      <Grid xs={12} md={9} container direction='row' alignItems='center'>
+                                        <Icon
+                                          fontSize='large'
+                                          icon={'solar:document-bold'}
+                                          color={'info'}
+                                          style={{ fontSize: '18px', margin: '5px' }}
+                                        />
+                                        <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
+                                          {item.document_name}
+                                        </Typography>
+                                      </Grid>
+                                      <Grid xs={12} md={3} display='flex' item container>
+                                        <Grid
+                                          xs={12}
+                                          md={12}
+                                          container
+                                          direction='row'
+                                          justifyContent='flex-end'
+                                          alignItems='center'
+                                        >
+                                          <Box margin={1}>
+                                            <Button
+                                              variant='outlined'
+                                              color='info'
+                                              size='small'
+                                              href={item.path}
+                                              target='_blank'
+                                            >
+                                              <Icon
+                                                fontSize='large'
+                                                icon={'icon-park-outline:preview-open'}
+                                                color={'info'}
+                                                style={{ fontSize: '18px' }}
+                                              />
+                                            </Button>
+                                          </Box>
+                                          <Box margin={1}>
+                                            <Button
+                                              variant='outlined'
+                                              color='primary'
+                                              size='small'
+                                              onClick={() => editDocument(item)}
+                                            >
+                                              <Icon
+                                                fontSize='large'
+                                                icon={'solar:pen-new-round-bold-duotone'}
+                                                color={'primary'}
+                                                style={{ fontSize: '18px' }}
+                                              />
+                                            </Button>
+                                          </Box>
+                                          <Box margin={1}>
+                                            <Button
+                                              variant='outlined'
+                                              color='error'
+                                              size='small'
+                                              onClick={() => deletework(item.id)}
+                                            >
+                                              <Icon
+                                                fontSize='large'
+                                                icon={'solar:trash-bin-trash-bold-duotone'}
+                                                color={'error'}
+                                                style={{ fontSize: '18px' }}
+                                              />
+                                            </Button>
+                                          </Box>
+                                        </Grid>
+                                      </Grid>
+                                    </Grid>
+                                  )
+                                )}
+                              </>
                             )}
+                             <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
                           </>
-                        )}
-                        <Divider style={{ width: '100%' }} />
-                      </>
-                    ))}
+                        ))}
+                      </Grid>
+                    </Grid>
+                  )}
+
+                  <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
+                  <Grid item container direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
+                    <Button variant='contained' color='success' size='small' type='submit' sx={{ mb: 7 }}>
+                      <Icon
+                        fontSize='large'
+                        icon={'solar:diskette-bold-duotone'}
+                        color={'success'}
+                        style={{ fontSize: '18px' }}
+                      />
+                      <div style={{ marginLeft: 5 }}>SAVE</div>
+                    </Button>
                   </Grid>
                 </Grid>
-              )}
-
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
-              <Grid item container direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
-                <Button variant='contained' color='success' size='small' type='submit' sx={{ mb: 7 }}>
-                  <Icon
-                    fontSize='large'
-                    icon={'solar:diskette-bold-duotone'}
-                    color={'success'}
-                    style={{ fontSize: '18px' }}
-                  />
-                  <div style={{ marginLeft: 5 }}>SAVE</div>
-                </Button>
-              </Grid>
-            </Grid>
           </Grid>
         </FormControl>
       </form>
