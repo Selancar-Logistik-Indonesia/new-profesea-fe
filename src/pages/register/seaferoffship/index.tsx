@@ -70,7 +70,7 @@ const Register = () => {
       setGambar('url(/images/candidate-00.jpg)')
       setLabelAtas(1)
     } else {
-      setGambar('url(/images/candidate-01.jpg)')
+      setGambar('url(/images/training-02.jpeg)')
 
       setLabelAtas(0)
     }

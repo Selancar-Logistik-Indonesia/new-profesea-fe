@@ -183,6 +183,7 @@ const Registration = (props: any ) => {
                 <Autocomplete
                   disablePortal
                   id='position'
+                  disabled
                   options={!position ? [{ label: 'Loading...', id: 0 }] : position}
                   defaultValue={idposition}
                   renderInput={params => <TextField {...params} label='Work Area' sx={{ mb: 2 }} />}
