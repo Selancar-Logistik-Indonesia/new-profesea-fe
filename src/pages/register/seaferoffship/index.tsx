@@ -52,7 +52,7 @@ const Register = () => {
   const { skin } = settings
   // const gambar = useRef('url(/images/candidate-00.jpg)')
 
-  const [gambar, setGambar] = useState('url(/images/candidate-00.jpg)')
+  const [gambar, setGambar] = useState('url(/images/candidate-01.jpg)')
   const [labelAtas, setLabelAtas] = useState(1)
   const schema = yup.object().shape({
     email: yup.string().email().required(),

@@ -14,11 +14,15 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material' 
+import { Autocomplete, CircularProgress } from '@mui/material' 
 import { DateType } from 'src/contract/models/DatepickerTypes'
  import DatePicker from 'react-datepicker' 
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'  
- 
+import { AppConfig } from 'src/configs/api'
+import VesselType from 'src/contract/models/vessel_type'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
+ import { IUser } from 'src/contract/models/user'
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
     ref: Ref<unknown>
@@ -45,13 +49,25 @@ type DialogProps = {
  }
 
 
+
 const DialogAddWorkExperience = (props: DialogProps) => {
+    const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
     const [onLoading, setOnLoading] = useState(false); 
     const [dateAwal, setDateAwal] = useState<DateType>(new Date()) 
     const [dateAkhir, setDateAkhir] = useState<DateType>(new Date()) 
     const [preview, setPreview] = useState() 
     const [selectedFile, setSelectedFile] = useState()   
-    
+    const [comboVessel, getComborVessel] = useState<any>([]) 
+    const [idcomboVessel, setComboVessel] = useState<any>()
+     const combobox = () => {
+          HttpClient.get(AppConfig.baseUrl + '/public/data/vessel-type?page=1&take=25&search').then(response => {
+            const code = response.data.vesselTypes.data
+            getComborVessel(code)
+          })
+     }
+    useEffect(() => {
+    combobox()
+    }, [])
     useEffect(() => {
       if (!selectedFile) {
           setPreview(undefined)
@@ -86,6 +102,7 @@ const DialogAddWorkExperience = (props: DialogProps) => {
         major: major,
         position: position,
         still_here: 0,
+        vessel: idcomboVessel,
         logo: selectedFile,
         start_date: dateAwal
           ?.toLocaleDateString('en-GB', {
@@ -155,8 +172,8 @@ const onSelectFile = (e: any) => {
               <Icon icon='mdi:close' />
             </IconButton>
             <Box sx={{ mb: 6, textAlign: 'center' }}>
-              <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
-               Add New Work Experience
+              <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
+                Add New Work Experience
               </Typography>
               <Typography variant='body2'>Fulfill your Work Experience Info here</Typography>
             </Box>
@@ -195,7 +212,7 @@ const onSelectFile = (e: any) => {
                     ></input>
                   </Grid>
                   <Grid xs={6}>
-                  <Box sx={{ marginTop: '20px', marginLeft: '20px' }}>
+                    <Box sx={{ marginTop: '20px', marginLeft: '20px' }}>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
                         Click Photo to change Company Logo.
                       </Typography>
@@ -209,7 +226,7 @@ const onSelectFile = (e: any) => {
                   </Grid>
                 </Grid>
               </Grid>
-             
+
               <Grid item md={6} xs={12}>
                 <TextField id='Position' label='Position' variant='outlined' fullWidth {...register('position')} />
               </Grid>
@@ -239,7 +256,23 @@ const onSelectFile = (e: any) => {
                   />
                 </DatePickerWrapper>
               </Grid>
-              <Grid item md={12} xs={12}>
+                {user.employee_type == 'onship' && (
+                  <Grid item md={4} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={comboVessel}
+                      getOptionLabel={(option: any) => option.name}
+                      // defaultValue={props.datauser?.field_preference?.vessel_type}
+                      renderInput={params => <TextField {...params} label='Type of Vessel' />}
+                      onChange={(event: any, newValue: VesselType | null) =>
+                        newValue?.id ? setComboVessel(newValue.id) : setComboVessel(0)
+                      }
+                    />
+                  </Grid>
+                )}
+
+              <Grid item md={8} xs={12}>
                 <TextField
                   id='short_description'
                   label='Description'
@@ -259,19 +292,19 @@ const onSelectFile = (e: any) => {
               pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
             }}
           >
-            <Button variant='contained' size="small" sx={{ mr: 2 }} type='submit'>
-                        <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
-                        {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
-                    </Button>
-                    <Button variant='outlined' size="small" color='error' onClick={props.onCloseClick}>
-                        <Icon
-                            fontSize='large'
-                            icon={'material-symbols:cancel-outline'}
-                            color={'info'}
-                            style={{ fontSize: '18px' }}
-                        />
-                        Cancel
-                    </Button>
+            <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>
+              <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
+              {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
+            </Button>
+            <Button variant='outlined' size='small' color='error' onClick={props.onCloseClick}>
+              <Icon
+                fontSize='large'
+                icon={'material-symbols:cancel-outline'}
+                color={'info'}
+                style={{ fontSize: '18px' }}
+              />
+              Cancel
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
