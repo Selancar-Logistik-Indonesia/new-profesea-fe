@@ -129,9 +129,9 @@ const CandidateProfile = (props: compProps) => {
   const theme = useTheme()
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   if (props.datauser?.employee_type == 'onship') {
-    ship = { employee_type: 'onship', label: 'On-Ship' }
+    ship = { employee_type: 'onship', label: 'PELAUT' }
    } else if (props.datauser?.employee_type == 'offship') {
-    ship = { employee_type: 'offship', label: 'Off-Ship' }    
+    ship = { employee_type: 'offship', label: 'NON PELAUT' }    
   }
   
   if (props.datauser.field_preference?.open_to_opp == 0) {
@@ -156,8 +156,8 @@ const CandidateProfile = (props: compProps) => {
   const [idcity, setCombocity] = useState<any>(props.datauser.address?.city_id)
   const [idship, setShip] = useState<any>(
     props.datauser?.employee_type == 'offship'
-      ? { employee_type: 'offship', label: 'Off-Ship' }
-      : { employee_type: 'onship', label: 'On-Ship' }
+      ? { employee_type: 'offship', label: 'NON PELAUT' }
+      : { employee_type: 'onship', label: 'PELAUT' }
   )
   const [idcountry, setCountry] = useState<any>(props.datauser?.country_id) 
   const [date, setDate] = useState<DateType>(new Date()) 
@@ -226,8 +226,8 @@ const CandidateProfile = (props: compProps) => {
       getComboCountry(code)
     })
     const code = [
-      { employee_type: 'onship', label: 'On-Ship' },
-      { employee_type: 'offship', label: 'Off-Ship' }
+      { employee_type: 'onship', label: 'PELAUT' },
+      { employee_type: 'offship', label: 'NON PELAUT' }
     ]
     getShip(code)
 
