@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode,  useState } from 'react'
+import { ReactNode, useState } from 'react'
 
 // ** MUI Components
 import Box, { BoxProps } from '@mui/material/Box'
@@ -59,7 +59,7 @@ const Register = () => {
     password: yup.string().min(5).required()
   })
 
-  const {} = useForm({
+  const { } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
@@ -70,7 +70,7 @@ const Register = () => {
       setGambar('url(/images/candidate-00.jpg)')
       setLabelAtas(1)
     } else {
-      setGambar('url(/images/training-02.jpeg)')
+      setGambar('url(/images/candidate-01.jpg)')
 
       setLabelAtas(0)
     }
@@ -105,21 +105,21 @@ const Register = () => {
             sx={
               !hidden
                 ? {
-                    p: 7,
-                    height: '100%',
-                    weight: '100%',
-                    display: 'flex',
-                    justifyContent: 'flex-start',
-                    backgroundColor: 'background.paper'
-                  }
+                  p: 7,
+                  height: '100%',
+                  weight: '100%',
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  backgroundColor: 'background.paper'
+                }
                 : {
-                    p: 7,
-                    height: '100%',
-                    weight: '100%',
-                    display: 'flex',
-                    justifyContent: 'flex-start',
-                    backgroundColor: 'background.paper'
-                  }
+                  p: 7,
+                  height: '100%',
+                  weight: '100%',
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  backgroundColor: 'background.paper'
+                }
             }
           >
             <Container
@@ -146,10 +146,15 @@ const Register = () => {
                       {t('register_text_14')}
                     </Typography>
                   )}
-
-                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: '#424242' }}>
-                    {t('register_text_15')}
-                  </Typography>
+                  {labelAtas == 0 ? (
+                    <Typography variant='body2' sx={{ mb: 1, textAlign: 'left', color: '#424242' }}>
+                      {t('register_text_10')}
+                    </Typography>
+                  ) : (
+                    <Typography variant='body2' sx={{ mb: 1, textAlign: 'left', color: '#424242' }}>
+                      {t('register_text_15')}
+                    </Typography>
+                  )}
                   <Registration tipereg='seafer' type='offship' vonchangeEmployee={onchangeEmployee}></Registration>
                 </Box>
               </BoxWrapper>
