@@ -48,34 +48,36 @@ const FooterView = () => {
               {t('landing_footer_menu_1')}
             </Typography>
             <Typography mt={1.7} variant='body1' color={'#101820'}>
-            {t('landing_footer_menu_3')}
+              {t('landing_footer_menu_3')}
             </Typography>
             <LinkStyled href={'/privacy'}>
               <Typography mt={1.7} variant='body1' color={'#101820'}>
-              {t('landing_footer_menu_4')}
+                {t('landing_footer_menu_4')}
               </Typography>
             </LinkStyled>
-            <Typography mt={1.7} variant='body1' color={'#101820'}>
-            {t('landing_footer_menu_5')}
-            </Typography>
+            <LinkStyled href={'/faqs'}>
+              <Typography mt={1.7} variant='body1' color={'#101820'}>
+                {t('landing_footer_menu_5')}
+              </Typography>
+            </LinkStyled>
           </Grid>
           <Grid item md={4} xs={6} alignContent={'left'}>
             <Typography sx={{ mb: 0 }} color={'#ef6c00'} fontSize={16}>
-            {t('landing_footer_menu_2')}
+              {t('landing_footer_menu_2')}
             </Typography>
             <LinkStyled href={'/'}>
               <Typography mt={1.7} variant='body1' color={'#101820'}>
-              {t('landing_footer_menu_6')}
+                {t('landing_footer_menu_6')}
               </Typography>
             </LinkStyled>
             <LinkStyled href={'/landingpage-recruiter'}>
               <Typography mt={1.7} variant='body1' color={'#101820'}>
-              {t('landing_footer_menu_7')}
+                {t('landing_footer_menu_7')}
               </Typography>
             </LinkStyled>
             <LinkStyled href={'/landingpage-trainer'}>
               <Typography mt={1.7} variant='body1' color={'#101820'}>
-              {t('landing_footer_menu_8')}
+                {t('landing_footer_menu_8')}
               </Typography>
             </LinkStyled>
           </Grid>
@@ -85,7 +87,7 @@ const FooterView = () => {
         <Grid container>
           <Grid item mt={5}>
             <Typography mt={2} fontSize={16} color={'#ef6c00'}>
-            {t('landing_footer_menu_9')}
+              {t('landing_footer_menu_9')}
             </Typography>
             <IconButton>
               <FontAwesomeIcon icon={faFacebook} color='#101820' />
