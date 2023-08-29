@@ -50,7 +50,7 @@ const DialogEditDocument = (props: DialogProps) => {
   const [onLoading, setOnLoading] = useState(false);
   const [preview, setPreview] = useState(props.selectedItem?.path)
   const [selectedFile, setSelectedFile] = useState()
-  const iddokumen = props.selectedItem?.childs.length > 0 ? props.selectedItem?.childs[0].id : props.selectedItem?.id
+  const iddokumen = props.selectedItem?.childs?.length > 0 ? props.selectedItem?.childs[0].id : props.selectedItem?.id
   
 
   const [showTextName, setTextName] = useState<boolean>(false)
@@ -63,7 +63,7 @@ const DialogEditDocument = (props: DialogProps) => {
     docType: props.selectedItem?.document_type
   })
   const [document_nameChild, setDocumentChild] = useState<any>(
-    props.selectedItem?.childs.length>0
+    props.selectedItem?.childs?.length>0
       ? {
           title: props.selectedItem?.childs[0].document_name,
           docType: props.selectedItem?.childs[0].document_type
@@ -194,177 +194,177 @@ const DialogEditDocument = (props: DialogProps) => {
  const dokumencoc = [
    {
      title: 'Ahli Nautika Tingkat Dasar (ANTD), Teknika',
-     docType: 'coc1'
+     docType: 'COC1'
    },
    {
      title: 'Ahli Nautika Tingkat V (ANT V), Teknika',
-     docType: 'coc2'
+     docType: 'COC2'
    },
    {
      title: 'Ahli Nautika Tingkat IV (ANT IV), Teknika',
-     docType: 'coc3'
+     docType: 'COC3'
    },
    {
      title: 'Ahli Nautika Tingkat III (ANT III), Teknika',
-     docType: 'coc4'
+     docType: 'COC4'
    },
    {
      title: 'Ahli Nautika Tingkat II (ANT II), Teknika',
-     docType: 'coc5'
+     docType: 'COC5'
    },
    {
      title: 'Ahli Nautika Tingkat I (ANT I), Teknika',
-     docType: 'coc6'
+     docType: 'COC6'
    },
    {
      title: 'Ahli Teknika Tingkat Dasar (ATTD), Nautika',
-     docType: 'coc7'
+     docType: 'COC7'
    },
    {
      title: 'Ahli Teknika Tingkat V (ATT V), Nautika',
-     docType: 'coc8'
+     docType: 'COC8'
    },
    {
      title: 'Ahli Teknika Tingkat IV (ATT IV), Nautika',
-     docType: 'coc9'
+     docType: 'COC9'
    },
    {
      title: 'Ahli Teknika Tingkat III (ATT III), Nautika',
-     docType: 'coc10'
+     docType: 'COC10'
    },
    {
      title: 'Ahli Teknika Tingkat II (ATT II), Nautika',
-     docType: 'coc11'
+     docType: 'COC11'
    },
    {
      title: 'Ahli Teknika Tingkat I (ATT I), Nautika',
-     docType: 'coc12'
+     docType: 'COC12'
    }
  ]
  const dokumencop = [
    {
      title: 'Basic training for Oil and Chemical Tanker (BOCT)',
-     docType: 'cop1'
+     docType: 'COP1'
    },
    {
      title: 'Basic training for Liquefied Gas Tanker (BLGT)',
-     docType: 'cop2'
+     docType: 'COP2'
    },
    {
      title: 'Advance training for Oil Tanker (AOT)',
-     docType: 'cop3'
+     docType: 'COP3'
    },
    {
      title: 'Advance training for Chemical Tanker cargo operation (ACT)',
-     docType: 'cop4'
+     docType: 'COP4'
    },
    {
      title: 'Advance training for Liquefied Gas Tanker cargo operation (ALGT)',
-     docType: 'cop5'
+     docType: 'COP5'
    },
    {
      title: 'Crowd Management Training Certificate (CMT)',
-     docType: 'cop6'
+     docType: 'COP6'
    },
    {
      title: 'Crisis Management and Human Behaviour Training Certificate (CMHBT)',
-     docType: 'cop7'
+     docType: 'COP7'
    },
    {
      title: 'Ro-ro Passenger Safety, Cargo Safety and Hull Intergrity Training Certificate',
-     docType: 'cop8'
+     docType: 'COP8'
    },
    {
      title: 'Survical Craft and Rescue Boats other than fast rescue boat (SCRB)',
-     docType: 'cop9'
+     docType: 'COP9'
    },
    {
      title: 'Fast Rescue Boats (FRB)',
-     docType: 'cop10'
+     docType: 'COP10'
    },
    {
      title: 'Advanced Fire Fighting (AFF)',
-     docType: 'cop11'
+     docType: 'COP11'
    },
    {
      title: 'Medical First Aid (MFA)',
-     docType: 'cop12'
+     docType: 'COP12'
    },
    {
      title: 'Medical Care (MC)',
-     docType: 'cop13'
+     docType: 'COP13'
    },
    {
      title: 'Radar Observation (RADAR Simulator)',
-     docType: 'cop14'
+     docType: 'COP14'
    },
    {
      title: 'Automatic Radar Plotting Aid Simulator (ARPA Simulator)',
-     docType: 'cop15'
+     docType: 'COP15'
    },
    {
      title: 'Electronics Charts Display and Information System (ECDIS)',
-     docType: 'cop16'
+     docType: 'COP16'
    },
    {
      title: 'Bridge Resource Management (BRM)',
-     docType: 'cop17'
+     docType: 'COP17'
    },
    {
      title: 'Engine Room Resource Management (ERM)',
-     docType: 'cop18'
+     docType: 'COP18'
    },
    {
      title: 'Security Awareness Training (SAT)',
-     docType: 'cop19'
+     docType: 'COP19'
    },
    {
      title: 'Security for Seafarers with Designated Security Duties (SDSD)',
-     docType: 'cop20'
+     docType: 'COP20'
    },
    {
      title: 'Ship Security Officers (SSO)',
-     docType: 'cop21'
+     docType: 'COP21'
    },
    {
      title: 'International Maritime Dangerous Good Cargo (IMDG) Code',
-     docType: 'cop22'
+     docType: 'COP22'
    },
    {
      title: 'Able Seafarer Deck',
-     docType: 'cop23'
+     docType: 'COP23'
    },
    {
      title: 'Able Seafarer Engine',
-     docType: 'cop24'
+     docType: 'COP24'
    },
    {
      title: 'Cook Certificate',
-     docType: 'cop25'
+     docType: 'COP25'
    },
    {
      title: 'Basic Safety Training',
-     docType: 'cop26'
+     docType: 'COP26'
    },
    {
      title: 'GMDSS (Global Maritime Distress Safety System)',
-     docType: 'cop27'
+     docType: 'COP27'
    },
    {
      title: 'Rating Forming Part of Navigational Watch',
-     docType: 'cop28'
+     docType: 'COP28'
    },
    {
      title: 'Rating Forming Part of Engine Room Watch',
-     docType: 'cop29'
+     docType: 'COP29'
    },
    {
      title: 'Proficiency in Survival Craft and Rescue Boats other than Fast Rescue Boats (PSCRB)',
-     docType: 'cop30'
+     docType: 'COP30'
    },
    {
      title: 'International Safety Management (ISM) Code',
-     docType: 'cop31'
+     docType: 'COP31'
    }
  ]
  const dokumen = [

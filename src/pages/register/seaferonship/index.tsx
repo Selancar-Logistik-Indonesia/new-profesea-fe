@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 
 // ** MUI Components
 import Box, { BoxProps } from '@mui/material/Box'
@@ -67,7 +67,8 @@ const Register = () => {
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
-
+  const [gambar, setGambar] = useState('url(/images/candidate-00.jpg)')
+  const [labelAtas, setLabelAtas] = useState(1)
   // ** Vars
   const { skin } = settings
 
@@ -82,6 +83,16 @@ const Register = () => {
     resolver: yupResolver(schema)
   })
   const { t } = useTranslation();
+  const onchangeEmployee = (src: string) => {
+    if (src == '0') {
+      setGambar('url(/images/candidate-00.jpg)')
+      setLabelAtas(1)
+    } else {
+      setGambar('url(/images/training-02.jpeg)')
+
+      setLabelAtas(0)
+    }
+  }
 
   return (
     <>
@@ -89,17 +100,20 @@ const Register = () => {
         <title>{`${themeConfig.templateName} - Candidate Registration`}</title>
       </Head>
       <Box className='content-right'>
-
         {!hidden ? (
-
-          <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center', backgroundImage: "url(/images/candidate-00.jpg)", backgroundSize: 'cover' }}>
+          <Box
+            sx={{
+              flex: 1,
+              display: 'flex',
+              position: 'relative',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundImage: gambar,
+              backgroundSize: 'cover'
+            }}
+          >
             <Container fixed>
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                minHeight="100vh"
-              >
+              <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
                 {/* <Grid container justifyContent={'center'} alignContent={'center'}>
                   <Box
                     display="flex"
@@ -140,31 +154,55 @@ const Register = () => {
 
         <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
           <Box
-            sx={!hidden ? {
-              p: 7,
-              height: '100%',
-              weight: '100%',
-              display: 'flex',
-              justifyContent: 'flex-start',
-              backgroundColor: 'background.paper'
-            } : {
-              p: 7,
-              height: '100%',
-              weight: '100%',
-              display: 'flex',
-              justifyContent: 'flex-start',
-              backgroundColor: 'background.paper'
-            }}
+            sx={
+              !hidden
+                ? {
+                    p: 7,
+                    height: '100%',
+                    weight: '100%',
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    backgroundColor: 'background.paper'
+                  }
+                : {
+                    p: 7,
+                    height: '100%',
+                    weight: '100%',
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    backgroundColor: 'background.paper'
+                  }
+            }
           >
-            <Container sx={{
-              marginTop: '40px', mr: 6, ml: 6,
-            }}>
+            <Container
+              sx={{
+                marginTop: '40px',
+                mr: 6,
+                ml: 6
+              }}
+            >
               <BoxWrapper>
-                <Box sx={!hidden ? { mb: 6, marginLeft: '5%', width: '80%', alignItems: 'center', justifyContent: 'center' } :
-                  { mb: 6, alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: "#424242" }}>{t('register_text_7')}</Typography>
-                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: "#424242" }}> {t('register_text_10')} </Typography>
-                  <Registration tipereg="seafer" type="onship"></Registration>
+                <Box
+                  sx={
+                    !hidden
+                      ? { mb: 6, marginLeft: '5%', width: '80%', alignItems: 'center', justifyContent: 'center' }
+                      : { mb: 6, alignItems: 'center', justifyContent: 'center' }
+                  }
+                >
+                  {labelAtas == 0 ? (
+                    <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: '#424242' }}>
+                      {t('register_text_7')}
+                    </Typography>
+                  ) : (
+                    <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: '#424242' }}>
+                      {t('register_text_8')}
+                    </Typography>
+                  )} 
+                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: '#424242' }}>
+                    {' '}
+                    {t('register_text_10')}{' '}
+                  </Typography>
+                  <Registration tipereg='seafer' type='onship' vonchangeEmployee={onchangeEmployee}></Registration>
                 </Box>
               </BoxWrapper>
             </Container>

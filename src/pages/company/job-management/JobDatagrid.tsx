@@ -6,48 +6,48 @@ import Icon from 'src/@core/components/icon'
 import Link from 'next/link';
 
 const columns: GridColDef[] = [
-    { field: 'no', headerName: '#', sortable: true, minWidth: 10 },
-    { field: 'role_type', headerName: 'Job Title', sortable: true, minWidth: 180 },
-    { field: 'level_name', headerName: 'Role Level', sortable: true, minWidth: 120 },
-    { field: 'category_name', headerName: 'Job Category', sortable: true, minWidth: 250 },
-    { field: 'degree', headerName: 'Degree', sortable: true, minWidth: 180 },
-    { field: 'license', headerName: 'License', sortable: false, minWidth: 200 },
-    {
-        field: 'action',
-        headerName: 'Action',
-        sortable: false,
-        minWidth: 150,
-        renderCell: (cell) => {
-            const { row } = cell;
+  { field: 'no', headerName: '#', sortable: true, minWidth: 10 },
+  { field: 'category_name', headerName: 'Job Category', sortable: true, minWidth: 250 },
+  { field: 'role_type', headerName: 'Job Title', sortable: true, minWidth: 180 },
+  { field: 'level_name', headerName: 'Role Level', sortable: true, minWidth: 120 },
+  { field: 'degree', headerName: 'Degree', sortable: true, minWidth: 180 },
+  { field: 'license', headerName: 'License', sortable: false, minWidth: 200 },
+  {
+    field: 'action',
+    headerName: 'Action',
+    sortable: false,
+    minWidth: 150,
+    renderCell: cell => {
+      const { row } = cell
 
-            return (
-              <>
-              <Tooltip title='View'>
-                <IconButton
-                  LinkComponent={Link}
-                  href={`/company/job/?id=${row.id}`}
-                  aria-label='view'
-                  color='secondary'
-                  size='small'
-                >
-                  <Icon icon='solar:eye-scan-bold-duotone' />
-                </IconButton>
-              </Tooltip>
-                <Tooltip title='Edit'>
-                  <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
-                    <Icon icon='solar:pen-new-round-bold-duotone'/>
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title='Delete'>
-                  <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
-                    <Icon icon='solar:trash-bin-trash-bold-duotone' />
-                  </IconButton>
-                </Tooltip>
-              </>
-            )
-        }
-    },
-];
+      return (
+        <>
+          <Tooltip title='View'>
+            <IconButton
+              LinkComponent={Link}
+              href={`/company/job/?id=${row.id}`}
+              aria-label='view'
+              color='secondary'
+              size='small'
+            >
+              <Icon icon='solar:eye-scan-bold-duotone' />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='Edit'>
+            <IconButton onClick={() => row.actions.onUpdate()} aria-label='edit' color='warning' size='small'>
+              <Icon icon='solar:pen-new-round-bold-duotone' />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='Delete'>
+            <IconButton onClick={() => row.actions.onDelete()} aria-label='edit' color='error' size='small'>
+              <Icon icon='solar:trash-bin-trash-bold-duotone' />
+            </IconButton>
+          </Tooltip>
+        </>
+      )
+    }
+  }
+]
 
 type RoleGridProps = {
     rows: RowItem[];
