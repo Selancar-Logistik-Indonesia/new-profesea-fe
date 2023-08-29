@@ -1596,7 +1596,7 @@ const CandidateProfile = (props: compProps) => {
                           <Grid xs={8} md={11} item container>
                             <Grid xs={10} marginTop={2}>
                               <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
-                                {item.position}
+                                {item.position} (-)
                               </Typography>
                               <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
                                 {item.institution}
