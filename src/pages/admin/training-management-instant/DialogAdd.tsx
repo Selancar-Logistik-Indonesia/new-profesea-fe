@@ -219,7 +219,7 @@ const DialogAdd = (props: DialogProps) => {
                                 id='basic-input'
                                 onChange={(date: Date) => setDate(date)}
                                 placeholderText='Click to select a date'
-                                customInput={<TextField label='Schedule' variant="outlined" fullWidth  {...register("schedule")} />}
+                                customInput={<TextField label='Expired Date' variant="outlined" fullWidth  {...register("schedule")} />}
                                 />
                             </DatePickerWrapper>
                         </Grid>
