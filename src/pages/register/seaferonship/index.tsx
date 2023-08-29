@@ -88,7 +88,7 @@ const Register = () => {
       setGambar('url(/images/candidate-00.jpg)')
       setLabelAtas(1)
     } else {
-      setGambar('url(/images/training-02.jpeg)')
+      setGambar('url(/images/candidate-01.jpg)')
 
       setLabelAtas(0)
     }
@@ -198,10 +198,15 @@ const Register = () => {
                       {t('register_text_7')}
                     </Typography>
                   )} 
-                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: '#424242' }}>
-                    {' '}
-                    {t('register_text_15')}{' '}
-                  </Typography>
+                  {labelAtas == 0 ? (
+                    <Typography variant='body2' sx={{ mb: 1, textAlign: 'left', color: '#424242' }}>
+                      {t('register_text_15')}
+                    </Typography>
+                  ) : (
+                    <Typography variant='body2' sx={{ mb: 1, textAlign: 'left', color: '#424242' }}>
+                      {t('register_text_10')}
+                    </Typography>
+                  )}
                   <Registration tipereg='seafer' type='onship' vonchangeEmployee={onchangeEmployee}></Registration>
                 </Box>
               </BoxWrapper>
