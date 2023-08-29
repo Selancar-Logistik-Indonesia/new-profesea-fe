@@ -108,6 +108,16 @@ function getEmployeetype(name?: string) {
 
     return newValue ? newValue.value : employee
 }
+function getEmployeetypev2(name?: string) {
+  const employee = name ?? ''
+  const mapRole = [
+    { title: 'onship', value: 'PELAUT' },
+    { title: 'offship', value: 'NON PELAUT' }
+  ]
+  const newValue = mapRole.find(e => e.title == employee)
+
+  return newValue ? newValue.value : employee
+}
 
 const getUserPlanType = (user: IUser | null) => {
     if (!user) {
@@ -122,17 +132,18 @@ const getUserPlanType = (user: IUser | null) => {
 }
 
 export {
-    getCleanErrorMessage,
-    removeFirstZeroChar,
-    toTitleCase,
-    getUserAvatar,
-    getUserRoleName,
-    formatIDR,
-    isStaging,
-    isDevelopment,
-    isProduction,
-    refreshsession,
-    getUrl,
-    getEmployeetype,
-    getUserPlanType,
+  getCleanErrorMessage,
+  removeFirstZeroChar,
+  toTitleCase,
+  getUserAvatar,
+  getUserRoleName,
+  formatIDR,
+  isStaging,
+  isDevelopment,
+  isProduction,
+  refreshsession,
+  getUrl,
+  getEmployeetype,
+  getUserPlanType,
+  getEmployeetypev2
 }

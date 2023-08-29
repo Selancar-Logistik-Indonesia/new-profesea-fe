@@ -47,6 +47,7 @@ import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
 import { refreshsession } from 'src/utils/helpers'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
+import JobCategory from 'src/contract/models/job_category'
 
 type FormData = {
   fullName: string
@@ -187,7 +188,10 @@ const CandidateProfile = (props: compProps) => {
   const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
   const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
   const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true) 
-  const [arrayHead, getArrayHead] = useState<any[]>([])
+  const [arrayHead, getArrayHead] = useState<any[]>([]) 
+  const [JobCategory, getJobCategory] = useState<any[]>([])
+  
+  const [JC, setJC] = useState(0)
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value }
@@ -204,12 +208,21 @@ const CandidateProfile = (props: compProps) => {
     //   const code = response.data.roleLevels.data
     //   getComborolLevel(code)
     // })
-    
-    const x = user?.employee_type
-    HttpClient.get(AppConfig.baseUrl + '/public/data/role-type?page=1&take=25&search&employee_type='+x).then(response => {
-      const code = response.data.roleTypes.data
-      getComborolType(code)
-    })
+      HttpClient.get(`/job-category?search=&page=1&take=250&employee_type=${user?.employee_type}`).then(response => {
+        if (response.status != 200) {
+          throw response.data.message ?? 'Something went wrong!'
+        }
+        getJobCategory(response.data.categories.data)
+      })
+      const x = user?.employee_type
+      let z =''
+      if(JC != 0){
+        z = '&category_id=' + JC;
+      }
+      HttpClient.get(AppConfig.baseUrl + '/public/data/role-type?page=1&take=25&search&employee_type='+x+z).then(response => {
+        const code = response.data.roleTypes.data
+        getComborolType(code)
+      })
 
     HttpClient.get(AppConfig.baseUrl + '/public/data/vessel-type?page=1&take=25&search').then(response => {
       const code = response.data.vesselTypes.data
@@ -305,6 +318,9 @@ const CandidateProfile = (props: compProps) => {
       })
       getCombokelamin(jeniskelamin)
   }
+    useEffect(() => {
+      combobox()
+    }, [JC])
   const addbuttonfacebook = () => {
     let user = ''
     if (facebook.length < 20) {
@@ -497,7 +513,7 @@ const CandidateProfile = (props: compProps) => {
     }
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
       () => {
-        if (tampilkanship == 'On-Ship') {
+        if (tampilkanship == 'PELAUT') {
           const x = {
             // rolelevel_id: idcomborolLevel,
             roletype_id: idcomborolType,
@@ -954,7 +970,7 @@ const CandidateProfile = (props: compProps) => {
                   {...register('about')}
                 />
               </Grid>
-              {tampilkanship == 'On-Ship' && (
+              {tampilkanship == 'PELAUT' && (
                 <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
                   <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
                     <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
@@ -988,6 +1004,19 @@ const CandidateProfile = (props: compProps) => {
                       }
                     />
                   </Grid> */}
+                  <Grid item md={6} xs={12}>
+                    <Autocomplete
+                      sx={{ marginBottom: 2 }}
+                      disablePortal
+                      id='combo-box-level'
+                      options={JobCategory}
+                      getOptionLabel={(option: JobCategory) => option.name}
+                      renderInput={params => <TextField {...params} label='Job Category' />}
+                      onChange={(event: any, newValue: JobCategory | null) =>
+                        newValue?.id ? setJC(newValue?.id) : setJC(0)
+                      }
+                    />
+                  </Grid>
                   <Grid item md={6} xs={12}>
                     <Autocomplete
                       disablePortal
@@ -1086,7 +1115,7 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </Grid>
               )}
-              {tampilkanship != 'On-Ship' && (
+              {tampilkanship != 'PELAUT' && (
                 <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
                   <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
                     <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
@@ -1121,6 +1150,19 @@ const CandidateProfile = (props: compProps) => {
                   </Grid> */}
                   <Grid item md={6} xs={12}>
                     <Autocomplete
+                      sx={{ marginBottom: 2 }}
+                      disablePortal
+                      id='combo-box-level'
+                      options={JobCategory}
+                      getOptionLabel={(option: JobCategory) => option.name}
+                      renderInput={params => <TextField {...params} label='Job Category' />}
+                      onChange={(event: any, newValue: JobCategory | null) =>
+                        newValue?.id ? setJC(newValue?.id) : setJC(0)
+                      }
+                    />
+                  </Grid>
+                  {/* <Grid item md={6} xs={12}>
+                    <Autocomplete
                       disablePortal
                       id='combo-box-demo'
                       options={comboroleType}
@@ -1133,7 +1175,7 @@ const CandidateProfile = (props: compProps) => {
                           : setComboRolType(props.datauser?.field_preference?.role_type?.id)
                       }
                     />
-                  </Grid>
+                  </Grid> */}
 
                   <Grid item md={6} xs={12}>
                     <Autocomplete
@@ -1556,7 +1598,7 @@ const CandidateProfile = (props: compProps) => {
                   ))}
                 </Grid>
               </Grid>
-              {tampilkanship == 'On-Ship' && (
+              {tampilkanship == 'PELAUT' && (
                 <Grid item container xs={12}>
                   <Grid xs={10} md={11}>
                     <Grid container item xs={12} justifyContent={'left'}>

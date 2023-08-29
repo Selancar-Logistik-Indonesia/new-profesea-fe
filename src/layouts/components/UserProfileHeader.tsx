@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { useAuth } from 'src/hooks/useAuth'
 import ProfileActionArea from 'src/views/profile/action_area'
 import ShareArea from './ShareArea'
+import {   getEmployeetypev2 } from 'src/utils/helpers'
 
 const ProfilePicture = styled('img')(({ theme }) => ({
     width: 120,
@@ -65,154 +66,194 @@ const UserProfileHeader = (props: userProps) => {
     }, [user])
 
     return (
-        <Card sx={{ width: '100%' }}>
-            <CardMedia
-                component='img'
-                alt='profile-header'
-                image={datauser.banner ? datauser.banner : '/images/avatars/headerprofile3.png'}
+      <Card sx={{ width: '100%' }}>
+        <CardMedia
+          component='img'
+          alt='profile-header'
+          image={datauser.banner ? datauser.banner : '/images/avatars/headerprofile3.png'}
+          sx={{
+            height: { xs: 150, md: 250 },
+            width: '100%',
+            objectFit: 'cover'
+          }}
+        />
+        <CardContent
+          sx={{
+            pt: 0,
+            mt: -8,
+            display: 'flex',
+            alignItems: 'flex-end',
+            flexWrap: { xs: 'wrap', md: 'nowrap' },
+            justifyContent: { xs: 'center', md: 'flex-start' },
+            marginLeft: { md: '10px' }
+          }}
+        >
+          <ProfilePicture
+            src={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'}
+            alt='profile-picture'
+            sx={{ width: 100, height: 100, objectFit: 'cover' }}
+          />
+          <Box
+            sx={{
+              width: ['100%'],
+              display: 'flex',
+              ml: { xs: 0, md: 6 },
+              alignItems: 'flex-end',
+              flexWrap: ['wrap', 'nowrap'],
+              justifyContent: ['center', 'space-between']
+            }}
+          >
+            <Box sx={{ mb: [4, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
+              <Typography variant='h6' sx={{ mb: 0, color: '#424242', fontWeight: 900 }}>
+                {datauser.name}
+              </Typography>
+              <Box
                 sx={{
-                    height: { xs: 150, md: 250 },
-                    width: '100%',
-                    objectFit: 'cover'
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: ['center', 'flex-start']
                 }}
-            />
-            <CardContent
-                sx={{
-                    pt: 0,
-                    mt: -8,
-                    display: 'flex',
-                    alignItems: 'flex-end',
-                    flexWrap: { xs: 'wrap', md: 'nowrap' },
-                    justifyContent: { xs: 'center', md: 'flex-start' },
-                    marginLeft: { md: '10px' }
-                }}
+              >
+                <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
+                  {datauser.employee_type != null ? (
+                    <Typography sx={{ color: '#424242', fontWeight: 600 }}>
+                      {getEmployeetypev2(datauser.employee_type)}
+                    </Typography>
+                  ) : (
+                    <Typography sx={{ color: '#424242', fontWeight: 600 }}>
+                      {datauser.industry != null ? datauser.industry.name : datauser.role}
+                    </Typography>
+                  )}
+                </Box>
+              </Box>
+            </Box>
+            <ProfileActionArea enabled={showFriendship} user={datauser} />
+          </Box>
+        </CardContent>
+        <Divider style={{ width: '100%' }} />
+        <CardContent>
+          <Typography variant='body1' sx={{ color: '#424242', fontWeight: 500 }}>
+            {datauser.about ? datauser.about : '-'}
+          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: ['center', 'flex-start']
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                '& svg': { mr: 1, mt: 2, mb: 3, color: 'secondary', fontSize: '18px' }
+              }}
             >
-                <ProfilePicture
-                    src={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'}
-                    alt='profile-picture'
-                    sx={{ width: 100, height: 100, objectFit: 'cover'}}
-                />
+              <Icon icon={'mdi:location'} />{' '}
+              <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
+                {props.address != null ? props.address.city.city_name + ', ' + props.address.country.name : '-'}
+              </Typography>
+            </Box>
+          </Box>
+          <Grid container justifyContent='flex-end'>
+            <Grid item xs={12} md={10}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: ['center', 'flex-start']
+                }}
+              >
                 <Box
-                    sx={{
-                        width: ['100%'],
-                        display: 'flex',
-                        ml: { xs: 0, md: 6 },
-                        alignItems: 'flex-end',
-                        flexWrap: ['wrap', 'nowrap'],
-                        justifyContent: ['center', 'space-between']
-                    }}
+                  sx={{
+                    mr: 4,
+                    display: 'flex',
+                    alignItems: 'center',
+                    '& svg': { mr: 1, color: 'secondary', fontSize: '18px' }
+                  }}
                 >
-                    <Box sx={{ mb: [4, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
-                        <Typography variant='h6' sx={{ mb: 0, color: '#424242', fontWeight: 900 }}>
-                            {datauser.name}
-                        </Typography>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                justifyContent: ['center', 'flex-start']
-                            }}
-                        >
-                            <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
-                                <Typography sx={{ color: '#424242', fontWeight: 600 }}>
-                                    {datauser.industry != null ? datauser.industry.name : datauser.role}
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Box>
-                    <ProfileActionArea enabled={showFriendship} user={datauser} />
+                  <Icon icon='mdi:facebook' />
+                  <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
+                    <a href={facebook} target='_blank' style={{ textDecoration: 'none' }}>
+                      {facebook}
+                    </a>
+                  </Typography>
                 </Box>
-            </CardContent>
-            <Divider style={{ width: '100%' }} />
-            <CardContent>
-                <Typography variant='body1' sx={{ color: '#424242', fontWeight: 500 }}>
-                    {datauser.about ? datauser.about : '-'}
-                </Typography>
                 <Box
-                    sx={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        justifyContent: ['center', 'flex-start']
-                    }}
+                  sx={{
+                    mr: 4,
+                    display: 'flex',
+                    alignItems: 'center',
+                    '& svg': { mr: 1, color: 'secondary', fontSize: '18px' }
+                  }}
                 >
-                    <Box
-                        sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 1, mt: 2, mb: 3, color: 'secondary', fontSize: '18px' } }}
-                    >
-                        <Icon icon={'mdi:location'} />{' '}
-                        <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                            {props.address != null ? props.address.city.city_name + ', ' + props.address.country.name : '-'}
-                        </Typography>
-                    </Box>
+                  <Icon icon='mdi:instagram' />
+                  <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
+                    <a href={instagram} target='_blank' style={{ textDecoration: 'none' }}>
+                      {instagram}
+                    </a>
+                  </Typography>
                 </Box>
-                <Grid container justifyContent='flex-end'>
-                    <Grid item xs={12} md={10}>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                justifyContent: ['center', 'flex-start']
-                            }}
-                        >
-                            <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'secondary', fontSize: '18px' } }}>
-                                <Icon icon='mdi:facebook' />
-                                <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                                    <a href={facebook} target='_blank' style={{ textDecoration: 'none' }}>
-                                        {facebook}
-                                    </a>
-                                </Typography>
-                            </Box>
-                            <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'secondary', fontSize: '18px' } }}>
-                                <Icon icon='mdi:instagram' />
-                                <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                                    <a href={instagram} target='_blank' style={{ textDecoration: 'none' }}>
-                                        {instagram}
-                                    </a>
-                                </Typography>
-                            </Box>
 
-                            <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'secondary', fontSize: '18px' } }}>
-                                <Icon icon='mdi:linkedin' />
-                                <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                                    <a href={linkedin} target='_blank' style={{ textDecoration: 'none' }}>
-                                        {linkedin}
-                                    </a>
-                                </Typography>
-                            </Box>
-                        </Box>
+                <Box
+                  sx={{
+                    mr: 4,
+                    display: 'flex',
+                    alignItems: 'center',
+                    '& svg': { mr: 1, color: 'secondary', fontSize: '18px' }
+                  }}
+                >
+                  <Icon icon='mdi:linkedin' />
+                  <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
+                    <a href={linkedin} target='_blank' style={{ textDecoration: 'none' }}>
+                      {linkedin}
+                    </a>
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={2} marginTop={'-5px'}>
+              {!showFriendship && (
+                <>
+                  <Grid container direction='row' justifyContent='flex-end' alignItems='flex-end'>
+                    <Grid item>
+                      {datauser.role == 'Company' && (
+                        <Button size='small' LinkComponent={Link} href='/company'>
+                          <Icon
+                            fontSize='large'
+                            icon={'solar:pen-new-round-bold-duotone'}
+                            style={{ fontSize: '18px' }}
+                          />
+                          <div style={{ marginLeft: 5 }}>EDIT</div>
+                        </Button>
+                      )}
+                      {datauser.role == 'Seafarer' && (
+                        <Button size='small' LinkComponent={Link} href='/candidate'>
+                          <Icon
+                            fontSize='large'
+                            icon={'solar:pen-new-round-bold-duotone'}
+                            style={{ fontSize: '18px' }}
+                          />
+                          <div style={{ marginLeft: 5 }}>EDIT</div>
+                        </Button>
+                      )}
                     </Grid>
-                    <Grid item xs={12} md={2} marginTop={'-5px'}>
-                        {!showFriendship && (
-                            <>
-                                <Grid container direction='row' justifyContent='flex-end' alignItems='flex-end'>
-                                    <Grid item>
-                                        {datauser.role == 'Company' && (
-                                            <Button size='small' LinkComponent={Link} href='/company' >
-                                                <Icon fontSize='large' icon={'solar:pen-new-round-bold-duotone'} style={{ fontSize: '18px' }} />
-                                                <div style={{ marginLeft: 5 }}>EDIT</div>
-                                            </Button>
-                                        )}
-                                        {datauser.role == 'Seafarer' && (
-                                            <Button size='small' LinkComponent={Link} href='/candidate' >
-                                                <Icon fontSize='large' icon={'solar:pen-new-round-bold-duotone'} style={{ fontSize: '18px' }} />
-                                                <div style={{ marginLeft: 5 }}>EDIT</div>
-                                            </Button>
-
-                                        )}
-                                    </Grid>
-                                    <Grid item>
-                                        <ShareArea subject={`User Shared ${datauser.name}.`} url={`/profile/${datauser.username}`} ></ShareArea>
-                                    </Grid>
-                                </Grid>
-                            </>
-                        )}
-                        {showFriendship && (
-                            <ShareArea subject={`User Shared ${datauser.name}.`} url={`/profile/${datauser.username}`} ></ShareArea>
-                        )}
+                    <Grid item>
+                      <ShareArea
+                        subject={`User Shared ${datauser.name}.`}
+                        url={`/profile/${datauser.username}`}
+                      ></ShareArea>
                     </Grid>
-
-                </Grid>
-            </CardContent>
-        </Card>
+                  </Grid>
+                </>
+              )}
+              {showFriendship && (
+                <ShareArea subject={`User Shared ${datauser.name}.`} url={`/profile/${datauser.username}`}></ShareArea>
+              )}
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
     )
 }
 
