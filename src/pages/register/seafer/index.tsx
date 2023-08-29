@@ -108,21 +108,21 @@ const Register = () => {
             sx={
               !hidden
                 ? {
-                  p: 7,
-                  height: '100%',
-                  weight: '100%',
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                  backgroundColor: 'background.paper'
-                }
+                    p: 7,
+                    height: '100%',
+                    weight: '100%',
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    backgroundColor: 'background.paper'
+                  }
                 : {
-                  p: 7,
-                  height: '100%',
-                  weight: '100%',
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                  backgroundColor: 'background.paper'
-                }
+                    p: 7,
+                    height: '100%',
+                    weight: '100%',
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    backgroundColor: 'background.paper'
+                  }
             }
           >
             <Container
@@ -158,7 +158,7 @@ const Register = () => {
                       {t('register_text_10')}
                     </Typography>
                   )}
-                  <Registration tipereg='seafer' vonchangeEmployee={onchangeEmployee}></Registration>
+                  <Registration tipereg='seafer' vonchangeEmployee={onchangeEmployee} disabledcombo={false}></Registration>
                 </Box>
               </BoxWrapper>
             </Container>
