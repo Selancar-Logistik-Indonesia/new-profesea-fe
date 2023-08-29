@@ -903,35 +903,20 @@ const CandidateProfile = (props: compProps) => {
                 // }
                 />
               </Grid>
-
-              {tampilkanship == 'PELAUT' ? (
-                  <Grid item md={6} xs={12}>
-                                  <Autocomplete
-                                    disablePortal
-                                    id='combo-box-demo'
-                                    options={combocountry}
-                                    getOptionLabel={(option: any) => option.nicename}
-                                    defaultValue={props.address?.country}
-                                    renderInput={params => <TextField {...params} label='Country' />}
-                                    onChange={(event: any, newValue: Countries | null) =>
-                                      newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
-                                    }
-                                  />
-                                </Grid>
-                    ):(
-                                <Grid item md={6} xs={12}>
-                                  <Autocomplete
-                                    disablePortal
-                                    id='combo-box-demo'
-                                    options={provinsi}
-                                    getOptionLabel={(option: any) => option} 
-                                    renderInput={params => <TextField {...params} label='Preference Location' />}
-                                    onChange={(event: any, newValue: string | null) =>
-                                      newValue ? searchcity(100) : searchcity(100)
-                                    }
-                                  />
-                                </Grid>
-                    )}
+              <Grid item md={6} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-demo'
+                  options={combocountry}
+                  getOptionLabel={(option: any) => option.nicename}
+                  defaultValue={props.address?.country}
+                  renderInput={params => <TextField {...params} label='Country' />}
+                  onChange={(event: any, newValue: Countries | null) =>
+                    newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
+                  }
+                />
+              </Grid>
+             
               
 
               <Grid item md={6} xs={12}>
@@ -1239,8 +1224,8 @@ const CandidateProfile = (props: compProps) => {
                       }
                     />
                   </Grid> */}
-
-                      <Grid item md={6} xs={12}>
+ {tampilkanship == 'PELAUT' ? (
+                   <Grid item md={6} xs={12}>
                         <Autocomplete
                           disablePortal
                           id='combo-box-demo'
@@ -1255,6 +1240,21 @@ const CandidateProfile = (props: compProps) => {
                           }
                         />
                       </Grid>
+                    ):(
+                                <Grid item md={6} xs={12}>
+                                  <Autocomplete
+                                    disablePortal
+                                    id='combo-box-demo'
+                                    options={provinsi}
+                                    getOptionLabel={(option: any) => option} 
+                                    renderInput={params => <TextField {...params} label='Preference Location' />}
+                                    // onChange={(event: any, newValue: string | null) =>
+                                    //   newValue ? searchcity(100) : searchcity(100)
+                                    // }
+                                  />
+                                </Grid>
+                    )}
+                     
                       {/* <Grid item md={6} xs={12}>
                     <DatePickerWrapper>
                       <DatePicker
