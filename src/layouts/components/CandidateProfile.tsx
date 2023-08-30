@@ -1677,9 +1677,15 @@ const CandidateProfile = (props: compProps) => {
                         </Grid>
                       </Grid>
                       <Grid display='flex' justifyContent='flex-end' alignItems='flex-end' xs={2} md={1}>
-                        <Button variant='contained' onClick={() => setOpenAddModalDoc(!openAddModalDoc)}>
-                          <Icon fontSize='large' icon={'basil:add-solid'} color={'primary'} style={{ fontSize: '18px' }} />
-                        </Button>
+                        <Button variant='contained' size='small' onClick={() => setOpenAddModalWE(!openAddModalDoc)}>
+                        <Icon
+                          fontSize='small'
+                          icon={'solar:add-circle-bold-duotone'}
+                          color={'success'}
+                          style={{ fontSize: '18px' }}
+                        />
+                        <div style={{ marginLeft: 5 }}>ADD</div>
+                      </Button>
                       </Grid>
                       <Grid item container xs={12}>
                         {itemData.map(itemhead => (
@@ -1849,7 +1855,7 @@ const CandidateProfile = (props: compProps) => {
 
                   <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
                   <Grid item container direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
-                    <Button variant='contained' color='success' size='small' type='submit' sx={{ mb: 7 }}>
+                    <Button variant='contained' color='success' size='small' type='submit' sx={{ mt:7, mb: 7 }}>
                       <Icon
                         fontSize='large'
                         icon={'solar:diskette-bold-duotone'}

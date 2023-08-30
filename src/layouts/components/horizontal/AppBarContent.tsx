@@ -16,14 +16,14 @@ const AppBarContent = (props: Props) => {
 
     return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box>
+            <AppbarSearchUser />
+        </Box>
             <Navigation
                 {...props}
                 horizontalNavItems={HorizontalNavItems()}
             />
             <NotificationDropdown settings={settings} />
-            <Box>
-                <AppbarSearchUser />
-            </Box>
             <UserDropdown settings={settings} />
         </Box>
     )
