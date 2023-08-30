@@ -66,7 +66,7 @@ const Company = () => {
   }, [])
 
   return (
-    
+
     <Box>
       <Grid container spacing={2}>
         <Grid
@@ -124,20 +124,13 @@ const Company = () => {
 
                 <Grid container item xs={12} marginBottom={'10px'}>
                   <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '18px' }}>
-                      Company Builder
-                    </Typography>
+                    <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}> Company Builder</Typography>
                   </Grid>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '12px' }}>
-                      Fulfill Data Form to complete your Profile
-                    </Typography>
-                  </Grid>                  
                 </Grid>
                 {selectedItem != null && (
-                    <CompanyProfile visible={true} datauser={selectedItem} address={selectedItem.address} />
-                  )}
-                  
+                  <CompanyProfile visible={true} datauser={selectedItem} address={selectedItem.address} />
+                )}
+
               </Grid>
             </Grid>
           </Grid>

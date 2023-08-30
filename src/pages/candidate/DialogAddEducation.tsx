@@ -184,7 +184,7 @@ const DialogAddEducation = (props: DialogProps) => {
                 {...register('title')}
               />
             </Grid>
-            <Grid item md={6} xs={12}>
+            <Grid item md={6} xs={12} mt={2}>
               <Grid item xs={12} md={8} container justifyContent={'center'}>
                 <Grid xs={6}>
                   <label htmlFor='x'>
@@ -213,7 +213,7 @@ const DialogAddEducation = (props: DialogProps) => {
                       variant='body2'
                       sx={{ textAlign: 'left', color: '#424242', fontSize: '10px', mb: '5px' }}
                     >
-                      Click Photo to change institution Logo.
+                      Click Image to change Institution Logo.
                     </Typography>
                     <Divider></Divider>
                     <Typography

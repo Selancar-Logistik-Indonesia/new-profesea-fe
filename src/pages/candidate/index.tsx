@@ -95,14 +95,7 @@ const Candidate = () => {
                  
                   <Grid container item xs={12} marginBottom={'10px'}>
                     <Grid container item xs={12} justifyContent={'left'}>
-                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '18px' }}>
-                        Resume Builder
-                      </Typography>
-                    </Grid>
-                    <Grid container item xs={12} justifyContent={'left'}>
-                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '12px' }}>
-                      Fulfill Data Form to complete your Profile
-                      </Typography>
+                    <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}> Resume Builder</Typography>
                     </Grid>
                   </Grid>
                   {selectedItem != null && (

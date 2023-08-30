@@ -467,6 +467,16 @@ const CompanyProfile = (props: compProps) => {
 
   return (
     <Grid container padding={5}>
+        <Grid xs={12} sx={{ mt: 0, ml: 2, mb: 2 }}>
+        <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+          General Info
+        </Typography>
+        <Grid container item xs={12} justifyContent={'left'}>
+          <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+            Fulfill your General Info
+          </Typography>
+        </Grid>
+      </Grid>
       <input
         accept='image/*'
         style={{ display: 'none', height: 250, width: '100%' }}
