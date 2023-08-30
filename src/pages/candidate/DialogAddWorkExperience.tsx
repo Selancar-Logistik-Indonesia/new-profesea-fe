@@ -189,7 +189,7 @@ const onSelectFile = (e: any) => {
                   {...register('institution')}
                 />
               </Grid>
-              <Grid item md={6} xs={12}>
+              <Grid item md={6} xs={12} mt={2}>
                 <Grid item xs={12} md={8} container justifyContent={'center'}>
                   <Grid xs={6}>
                     <label htmlFor='x'>
@@ -215,7 +215,7 @@ const onSelectFile = (e: any) => {
                   <Grid xs={6}>
                     <Box sx={{ marginTop: '20px', marginLeft: '20px' }}>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                        Click Photo to change Company Logo.
+                      Click Image to change Company Logo.
                       </Typography>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
                         Allowed JPG, GIF or PNG.

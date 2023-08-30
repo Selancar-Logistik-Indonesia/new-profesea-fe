@@ -390,7 +390,7 @@ const DialogAddDocument = (props: DialogProps) => {
               pb: theme => `${theme.spacing(8)} !important`,
               px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
               pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`],
-              height: '540px'
+              height: 'auto'
             }}
           >
             <IconButton
@@ -458,9 +458,9 @@ const DialogAddDocument = (props: DialogProps) => {
                 />
               )}
 
-              <Grid item md={12} xs={12}>
+              <Grid item md={12} xs={12} mt={2}>
                 <Grid item xs={12} md={12} container justifyContent={'center'}>
-                  <Grid xs={6}>
+                  <Grid xs={5}>
                     <label htmlFor='x'>
                       <img
                         alt='logo'
@@ -481,10 +481,10 @@ const DialogAddDocument = (props: DialogProps) => {
                       type='file'
                     ></input>
                   </Grid>
-                  <Grid xs={6}>
+                  <Grid xs={7}>
                     <Box sx={{ marginTop: '20px' }}>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                        Click Photo to change institution Logo.
+                      Click Image to change Document Photo.
                       </Typography>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
                         Allowed JPG, GIF or PNG.
