@@ -219,17 +219,17 @@ const CandidateProfile = (props: compProps) => {
     if (JC != 0) {
       z = '&category_id=' + JC;
     }
-    HttpClient.get(AppConfig.baseUrl + '/public/data/role-type?page=1&take=25&search&employee_type=' + x + z).then(response => {
+    HttpClient.get(AppConfig.baseUrl + '/public/data/role-type?page=1&take=100&search&employee_type=' + x + z).then(response => {
       const code = response.data.roleTypes.data
       getComborolType(code)
     })
 
-    HttpClient.get(AppConfig.baseUrl + '/public/data/vessel-type?page=1&take=25&search').then(response => {
+    HttpClient.get(AppConfig.baseUrl + '/public/data/vessel-type?page=1&take=100&search').then(response => {
       const code = response.data.vesselTypes.data
       getComborVessel(code)
     })
 
-    HttpClient.get(AppConfig.baseUrl + '/public/data/region-travel?page=1&take=25&search').then(response => {
+    HttpClient.get(AppConfig.baseUrl + '/public/data/region-travel?page=1&take=100&search').then(response => {
       const code = response.data.regionTravels.data
       getComboroRegion(code)
     })
