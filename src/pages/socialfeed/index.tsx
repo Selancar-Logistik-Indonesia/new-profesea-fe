@@ -71,8 +71,9 @@ const SocialFeedApp = () => {
                     Who See Your Profile
                   </Typography>
                   <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                    <Link href='/account'>
-                      <Chip label='Try It For Premium (Coming Soon)' variant='outlined' color='warning' style={{ color: 'black' }} />
+                    {/* <Link href='/account'> */}
+                    <Link href='/home'>
+                      <Chip label='(Coming Soon)' variant='outlined' color='warning' style={{ color: 'black' }} />
                     </Link>
                   </Box>
                 </CardContent>

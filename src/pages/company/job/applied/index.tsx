@@ -272,7 +272,7 @@ const JobApplied = () => {
                 <CardHeader
                   title={
                     <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
-                      Basic Filter
+                      Basic Search
                     </Typography>
                   }
                   action={

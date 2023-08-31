@@ -62,7 +62,7 @@ const Training = () => {
                     }}
                 >
                     <Grid xs={12}>
-                        <Box sx={{
+                        <Box sx={{ 
                             borderBottom: 1, borderColor: 'divider', boxSizing: 'border-box',
                             background: '#FFFFFF',
                             border: '1px solid rgba(76, 78, 100, 0.12)',

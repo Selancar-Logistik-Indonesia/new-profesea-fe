@@ -26,8 +26,9 @@ const CommunityApp = () => {
         <Grid container spacing={2} sx={{
               boxSizing: 'border-box',
               background: '#FFFFFF',
-              border: '1px solid rgba(76, 78, 100, 0.12)',
-              borderRadius: '10px',
+              border: 0,
+              boxShadow: 0,
+              borderRadius: '2px',
               p: 2,
               display: 'flex',
               alignItems: 'stretch',
@@ -37,7 +38,7 @@ const CommunityApp = () => {
           <Grid item xs={12}>            
             <Grid container >
               <Grid item xs={12} display={'flex'} alignContent={'flex-end'} justifyContent={'flex-end'}>
-                <Button variant='contained' size='small' href='/thread/create' startIcon={<Icon icon='mdi:tooltip-plus-outline' fontSize={10} />}>
+                <Button variant='contained' size='small' href='/thread/create' startIcon={<Icon icon='solar:add-circle-bold-duotone' fontSize={10} />}>
                   Create Thread
                 </Button>
               </Grid>

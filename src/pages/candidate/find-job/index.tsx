@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import { Card, CardContent, Tabs, Tab, useMediaQuery, Collapse, CardHeader, IconButton, Autocomplete, TextField, Typography } from '@mui/material'
+import { Card, CardContent, Tabs, Tab, useMediaQuery, Collapse, CardHeader, IconButton, Autocomplete, TextField, Typography, Alert } from '@mui/material'
 import { Grid } from '@mui/material'
 // import Icon from 'src/@core/components/icon' 
 import { useTheme } from '@mui/material/styles'
@@ -72,7 +72,7 @@ const SeafererJob = () => {
   const [JobCategory, getJobCategory] = useState<any[]>([]);
   const [Education, getEducation] = useState<any[]>([]);
   const [RoleLevel, getRoleLevel] = useState<any[]>([]);
-  const [RoleType, getRoleType] = useState<any[]>([]) 
+  const [RoleType, getRoleType] = useState<any[]>([])
 
   const [JT, setJT] = useState(0);
   const [JC, setJC] = useState(0);
@@ -80,20 +80,20 @@ const SeafererJob = () => {
   const [ED, setED] = useState(0);
   const [DB, setDB] = useState<DateType>(null);
 
-   
-  
+
+
   const [combocountry, getComboCountry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
   // const [combocompany, getComboCompany] = useState<any>([])
   const [combovessel, getComboVessel] = useState<any>([])
   const [comboindustri, getComboIndustry] = useState<any[]>([])
-  
+
   const [idcity, setCombocity] = useState<any>()
-  
-  const [idcountry, setCountry] = useState<any>() 
+
+  const [idcountry, setCountry] = useState<any>()
   // const [idcompany, setCompany] = useState<any>() 
-  const [idvessel, setVesel] = useState<any>() 
-  const [idindustry, setIndustry] = useState<any>() 
+  const [idvessel, setVesel] = useState<any>()
+  const [idindustry, setIndustry] = useState<any>()
   // const [VT, setVT] = useState(0);
 
   const [textCompany, SetTextCompany] = useState<any>('')
@@ -104,7 +104,7 @@ const SeafererJob = () => {
     getColor('#FFFFFF')
   }
   const firstload = () => {
- 
+
     HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
       if (response.status != 200) {
         throw response.data.message ?? "Something went wrong!";
@@ -112,14 +112,14 @@ const SeafererJob = () => {
       getRoleLevel(response.data.roleLevels.data);
     })
 
-    if(JC != 0){
+    if (JC != 0) {
       HttpClient.get(`/public/data/role-type?search=&page=1&take=250&category_id=${JC}`).then(response => {
         if (response.status != 200) {
           throw response.data.message ?? "Something went wrong!";
         }
         getRoleType(response.data.roleTypes.data);
       })
-    } 
+    }
     HttpClient.get(`/job-category?search=&page=1&take=250&employee_type=${user?.employee_type}`).then(response => {
       if (response.status != 200) {
         throw response.data.message ?? "Something went wrong!";
@@ -136,7 +136,7 @@ const SeafererJob = () => {
       const code = response.data.countries
       getComboCountry(code)
     })
-    
+
     HttpClient.get('/public/data/vessel-type?page=1&take=25&search').then(response => {
       const code = response.data.vesselTypes.data
       getComboVessel(code)
@@ -146,7 +146,7 @@ const SeafererJob = () => {
       getComboIndustry(code)
     })
 
-    
+
   }
   useEffect(() => {
     firstload()
@@ -203,7 +203,7 @@ const SeafererJob = () => {
               <CardHeader
                 title={
                   <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
-                    Basic Search
+                    Basic Filter
                   </Typography>
                 }
                 action={
@@ -219,6 +219,9 @@ const SeafererJob = () => {
               />
               <Collapse in={collapsed}>
                 <CardContent>
+                  <Alert severity='info' sx={{ marginBottom: 2 }}>
+                    Filter Job here
+                  </Alert>
                   {/* Category */}
                   <Autocomplete
                     sx={{ marginBottom: 2 }}
@@ -301,7 +304,7 @@ const SeafererJob = () => {
                           newValue?.id ? setED(newValue?.id) : setED(0)
                         }
                       />
-                      
+
                     </>
                   ) : (
                     <>
@@ -386,54 +389,44 @@ const SeafererJob = () => {
           sx={
             !hidden
               ? {
-                  direction: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'stretch',
-                  alignContent: 'top',
-                  marginBottom: '10px'
-                }
+                direction: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'stretch',
+                alignContent: 'top',
+                marginBottom: '10px'
+              }
               : {}
           }
         >
           <Grid item xs={12}>
             <Box
               sx={{
+                border: 0,
+                boxShadow: 0,
                 borderBottom: 1,
                 borderColor: 'divider',
                 boxSizing: 'border-box',
-                background: '#FFFFFF',
-                border: '1px solid rgba(76, 78, 100, 0.12)',
-                borderRadius: '10px'
+                color: 'common.white',
+                backgroundColor: '#FFFFFF',
+                borderRadius: '3px'
               }}
             >
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label='basic tabs example'
-                sx={{ '& button.Mui-selected': { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }}
+                aria-label='customized tabs example'
+                //sx={{ '& button.Mui-selected': { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }}
               >
-                <Tab label='Find Job' {...a11yProps(0)} />
-                <Tab label='Job Applied' {...a11yProps(1)} />
+                <Tab label='Find Job' icon={<Icon icon='solar:boombox-bold-duotone' fontSize={18} />} {...a11yProps(0)} />
+                <Tab label='Job Applied' icon={<Icon icon='solar:widget-add-bold-duotone' fontSize={18} />} {...a11yProps(1)} />
               </Tabs>
             </Box>
             <Grid
               container
-              sx={{
-                borderBottom: 1,
-                borderColor: 'divider',
-                boxSizing: 'border-box',
-                background: color,
-                border: '1px solid rgba(76, 78, 100, 0.12)',
-                borderRadius: '10px',
-                marginTop: '10px',
-                direction: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'top',
-                alignContent: 'top'
-              }}
+              sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', background: color, }}
             >
               <Grid item xs={12}>
-               
+
                 <TabPanel value={value} index={0}>
                   <FindJob filter={vFilter} search={textCompany} aSearch={[]}></FindJob>
                 </TabPanel>

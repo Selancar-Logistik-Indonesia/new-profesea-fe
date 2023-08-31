@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Grid, Typography, useMediaQuery } from '@mui/material'
+import { Alert, AlertTitle, Grid, Typography, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import RecomendedView from 'src/views/find-job/RecomendedView'
 import { HttpClient } from 'src/services'
@@ -42,15 +42,15 @@ const FindJob = (props: filterType) => {
             `/job?search=${props?.search}&roletype_id=${props?.filter?.roletype}&category_id=${props?.filter?.category}&rolelevel_id=${props?.filter?.level}&edugrade_id=${props?.filter?.education}&page=1&take=6`
         )
         const jobs = response.data.jobs.data
-       
+
         setListJobSubscribe(jobs)
     }
     useEffect(() => {
-      getListJobs()
+        getListJobs()
     }, [page, props.search, perPage, props.filter])
 
     useEffect(() => {
-      getListJobsSubscribe()
+        getListJobsSubscribe()
     }, [])
 
 
@@ -66,9 +66,11 @@ const FindJob = (props: filterType) => {
                 <Grid item xs={12} sx={!hidden ? { alignItems: "stretch" } : {}}>
                     <Grid container spacing={6} >
                         <Grid item xs={12}>
-                            <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}> Find Job</Typography>
-                            <Typography fontSize={12} style={{ color: "#424242" }} marginTop={2} marginBottom={5}>Search & Apply Job Based on your profile and your experience</Typography>
-                              <RecomendedViewSubscribe listJob={listJobSubscribe} />
+                            <Alert severity='info'>
+                                <AlertTitle>Find & Apply Job</AlertTitle>
+                                Based on <strong>your profile</strong> and <strong> your experience</strong>
+                            </Alert>
+                            <RecomendedViewSubscribe listJob={listJobSubscribe} />
                             <InfiniteScroll
                                 dataLength={total}
                                 next={onPageChange}

@@ -16,7 +16,7 @@ const RelatedJobView = () => {
     }, [])
 
     return (
-        <Card>
+        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
             <Grid item xs={12} sm={12}>
                 <Grid sx={{ padding: 5 }} container style={{ maxHeight: '100vh', overflow: 'auto' }}>
                     {jobDetailSugestion.map(item => {
@@ -24,7 +24,7 @@ const RelatedJobView = () => {
 
                         return (
                             <Grid item xs={12} md={12} key={item?.id}>
-                                <Paper sx={{ marginTop: '10px', border: '1px solid #eee', height: 185 }} elevation={0}>
+                                <Paper sx={{ marginTop: '10px', border: '1px solid #eee', height: 'auto' }} elevation={0}>
                                     <Link style={{ textDecoration: 'none' }} href={`/candidate/job/?id=${item?.id}`}>
                                         <Box height={65}
                                             sx={{
@@ -65,13 +65,8 @@ const RelatedJobView = () => {
                                         >
                                             <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
                                             <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                                                {item?.rolelevel?.levelName}
+                                                {item?.rolelevel?.levelName} -
                                             </Typography>
-                                        </Box>
-                                        <Box
-                                            sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
-                                            mb={2}
-                                        >
                                             <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                                                 {item?.category?.name}
                                             </Typography>
@@ -102,7 +97,7 @@ const RelatedJobView = () => {
                                                             display: '-webkit-box',
                                                             overflow: 'hidden',
                                                             WebkitBoxOrient: 'vertical',
-                                                            WebkitLineClamp: 2
+                                                            WebkitLineClamp: 2,
                                                         }}
                                                         ml='0.5rem'
                                                         mt='0.2rem'
