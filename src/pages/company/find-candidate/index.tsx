@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Autocomplete, Button, Card, CardContent, CardHeader, Chip, SelectChangeEvent,  Collapse, FormControl, Grid, IconButton,  Input,   InputLabel,   MenuItem,   OutlinedInput,   Select,   TextField,  Typography, useMediaQuery } from '@mui/material'
+import { Autocomplete, Button, Card, CardContent, CardHeader, Chip, SelectChangeEvent,  Collapse, FormControl, Grid, IconButton,  Input,   InputLabel,   MenuItem,   OutlinedInput,   Select,   TextField,  Typography, useMediaQuery, Alert } from '@mui/material'
 import { Icon } from '@iconify/react' 
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
 import { IUser } from 'src/contract/models/user'
@@ -350,6 +350,9 @@ const FindCandidate = () => {
               />
               <Collapse in={collapsed}>
                 <CardContent>
+                <Alert severity='info' sx={{ marginBottom: 2 }}>
+                    Filter Candidate here
+                  </Alert>
                   <Autocomplete
                     disablePortal
                     id='combo-box-demo'
@@ -584,9 +587,9 @@ const FindCandidate = () => {
                               <Typography variant='h6' color={'#32487A'} fontWeight='600'>
                                 Find Candidate
                               </Typography>
-                              <Typography fontSize={16} style={{ color: '#424242' }} marginTop={2} marginBottom={5}>
-                                Based on your profile and search history
-                              </Typography>
+                              <Alert severity='info'>
+                                Based on <strong>your profile</strong> and <strong> search history</strong>
+                            </Alert>
                               <RecomendedViewSubscribe listCandidate={listCandidateSubscribe} />
                               <InfiniteScroll
                                 dataLength={total}

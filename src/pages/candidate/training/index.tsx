@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material/styles'
 import AllTrainingScreen from './all'
 import OngoingTrainingScreen from './ongoing'
 import SeafererInstantTraining from './in-house'
+import { Icon } from '@iconify/react'
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -65,19 +66,31 @@ const SeafererTraining = () => {
                 >
                     <Grid item xs={12}>
                         <Box sx={{
-                            borderBottom: 1, borderColor: 'divider', boxSizing: 'border-box',
-                            background: '#FFFFFF',
-                            border: '1px solid rgba(76, 78, 100, 0.12)',
-                            borderRadius: '10px'
+                            border: 0,
+                            boxShadow: 0,
+                            borderBottom: 1,
+                            borderColor: 'divider',
+                            boxSizing: 'border-box',
+                            color: 'common.white',
+                            backgroundColor: '#FFFFFF',
+                            borderRadius: '2px'
                         }}>
-                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
-                                <Tab label="Ongoing Training" {...a11yProps(0)} />
-                                <Tab label="All Training Joined" {...a11yProps(1)} />
-                                <Tab label="In House Training" {...a11yProps(2)} />
+                            <Tabs value={value}
+                                onChange={handleChange}
+                                aria-label="basic tabs example"
+                            // sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} 
+                            >
+                                <Tab label="Find Training" icon={<Icon icon='solar:card-search-bold-duotone' fontSize={18} />} {...a11yProps(0)} />
+                                <Tab label="All Training Joined" icon={<Icon icon='solar:notebook-bookmark-bold-duotone' fontSize={18} />} {...a11yProps(1)} />
+                                <Tab label="In House Training" icon={<Icon icon='solar:bookmark-square-bold-duotone' fontSize={18} />} {...a11yProps(2)} />
                             </Tabs>
                         </Box>
-                        <Grid container sx={{
-                            borderRadius: '10px',
+                        <Grid 
+                        container sx={{
+                            border: 0,
+                            boxShadow: 0,
+                            borderRadius: '5px',
+                            color: 'common.white',
                             marginTop: '10px',
                             direction: "row",
                             justifyContent: "flex-start",

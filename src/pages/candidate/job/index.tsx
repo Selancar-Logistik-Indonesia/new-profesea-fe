@@ -94,7 +94,7 @@ const JobDetail = () => {
       <Box>
         <Grid container spacing={2}>
           <Grid item lg={9} md={9} xs={12} style={{ maxHeight: '100vh', overflow: 'auto' }}>
-            <Card>
+            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               {isLoading ? (
                 <Box textAlign={'center'} mt={10}>
                   <CircularProgress />
@@ -108,43 +108,46 @@ const JobDetail = () => {
                         alignContent: 'center',
                         '& svg': { color: 'text.secondary' }
                       }}>
+
                         <Box
                           sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }}
                           ml={2}
                           mr={3}
                         >
-                          <Grid item container justifyContent={'center'} ml={2} mr={3} mt={5}>
-                            <Avatar
-                              src={jobDetail?.company?.photo}
-                              alt='profile-picture'
-                              sx={{ width: 70, height: 70 }}
-                            />
-                          </Grid>
-                          <Grid item container justifyContent={'center'} flexDirection={'column'}>
-                            <Typography
-                              sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }}
-                              fontSize={18}
-                              textAlign={'center'}
-                            >
-                              {jobDetail?.role_type?.name}
-                            </Typography>
-                            <Typography sx={{ color: 'text.primary', mb: 3 }} fontSize={12} textAlign={'center'}>
-                              {jobDetail?.company?.name ?? '-'}
-                            </Typography>
-                          </Grid>
+                          <Typography
+                            sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
+                            ml='0.5rem'
+                            mt={3}
+                            mb={2}
+                            variant='body2'
+                          >
+                            Job Name
+                          </Typography>
+                          
                           <Grid item container>
                             <Grid xs={1}>
                               <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
                             </Grid>
                             <Grid xs={11}>
                               <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>
-                                {jobDetail?.rolelevel?.levelName}
+                                <strong>{jobDetail?.rolelevel?.levelName}</strong>
                               </Typography>
                               <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>
-                                {jobDetail?.category?.name}
+                                <strong>{jobDetail?.category?.name}</strong>
                               </Typography>
                             </Grid>
+                          </Grid>
 
+                          <Typography
+                            sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
+                            ml='0.5rem'
+                            mt={3}
+                            mb={2}
+                            variant='body2'
+                          >
+                            Detail Job
+                          </Typography>
+                          <Grid item container>
                             <Grid xs={1} mt={1}>
                               <Icon icon='solar:square-academic-cap-bold-duotone' fontSize={20} color='#32487A' />
                             </Grid>
@@ -206,7 +209,7 @@ const JobDetail = () => {
                               )}
                             </Grid>
                             <Grid item>
-                              <ShareArea  subject={`Job For ${jobDetail?.role_type?.name}.`} url={`/candidate/job/?id=${jobDetail?.id}`} ></ShareArea>
+                              <ShareArea subject={`Job For ${jobDetail?.role_type?.name}.`} url={`/candidate/job/?id=${jobDetail?.id}`} ></ShareArea>
                             </Grid>
                           </Grid>
                         </Grid>
@@ -290,6 +293,32 @@ const JobDetail = () => {
                       <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column' }}>
                         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#32487A' }}>
                           <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
+                            <Box height={65}
+                              sx={{
+                                display: 'flex',
+                                alignContent: 'center',
+                                '& svg': { color: 'text.secondary' }
+                              }}
+                            >
+                              <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={2} ml={2} mr={3}>
+                                <Avatar
+                                  src={jobDetail?.company?.photo}
+                                  alt='profile-picture'
+                                  sx={{ width: 50, height: 50 }}
+                                />
+                              </Box>
+                              <Box
+                                sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
+                                marginTop={2}
+                              >
+                                <Typography sx={{ fontWeight: 'bold', color: 'common.white', mb: 1 }} fontSize={14}>
+                                  <strong>{jobDetail?.role_type?.name}</strong>
+                                </Typography>
+                                <Typography sx={{ color: 'common.white', mb: 1 }} fontSize={12}>
+                                  <strong>{jobDetail?.company?.name ?? '-'}</strong>
+                                </Typography>
+                              </Box>
+                            </Box>
                             <Box
                               sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }}
                               ml={2}

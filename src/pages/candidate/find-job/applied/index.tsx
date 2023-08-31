@@ -85,7 +85,7 @@ const AllJobApplied = () => {
         <>
             <Grid container spacing={6} className='match-height'>
                 <Grid item xs={12} sm={6} md={12}>
-                    <Card>
+                    <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                         <CardContent>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>

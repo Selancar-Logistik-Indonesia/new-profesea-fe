@@ -1,6 +1,6 @@
 // ** React Imports
 import React, { useEffect, useState } from 'react'
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
@@ -33,7 +33,7 @@ import { Icon } from '@iconify/react'
 
 const Thread = () => {
   // const theme = useTheme() 
-  const router = useRouter() 
+  const router = useRouter()
   const [onLoading, setOnLoading] = useState(false);
   const [forumCode, getForumCode] = useState<[]>([])
   const [sforumCode, setForumCode] = useState(0)
@@ -101,27 +101,25 @@ const Thread = () => {
   }
 
   return (
-    <Box>
-
-
-      <Grid container spacing={12} sx={{
+    <Box padding={5}>
+      <Grid container spacing={2} sx={{
         boxSizing: 'border-box',
         background: '#FFFFFF',
-        border: '1px solid rgba(76, 78, 100, 0.12)',
-        borderRadius: '10px',
+        border: 0,
+        borderRadius: '2px',
         p: 4,
         display: 'flex',
         alignItems: 'stretch',
         justifyContent: 'center',
         wrap: 'nowrap'
       }}>
-        
+
         <Grid item xs={12} spacing={6}>
-        <Grid item xs={12}>
-                <Typography variant='h6' color={'#32487A'} fontWeight='600' mb={5}>
-                  Create Thread
-                </Typography>
-              </Grid>
+          <Grid item xs={12}>
+            <Typography variant='h6' color={'#32487A'} fontWeight='600' mb={5}>
+              Create Thread
+            </Typography>
+          </Grid>
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onCreate)} >
             <Grid
               item
@@ -141,7 +139,7 @@ const Thread = () => {
             >
 
 
-              
+
               <Grid container xs={12} columnSpacing={'2'} rowSpacing={'2'} sx={{ mb: 2 }}>
                 <Grid item xs={12} md={6}>
                   <TextField
@@ -170,10 +168,13 @@ const Thread = () => {
                     <EditorArea editorState={desc} onEditorStateChange={data => setDesc(data)} toolbar={{
                       image: { uploadCallback: uploadCallback, previewImage: true, alt: { present: true, mandatory: false } },
                     }} placeholder='Write a thread' />
-                    <Button variant='contained' sx={{ mr: 2, mt: 2 }} type='submit' startIcon={<Icon icon='ion:enter' fontSize={10} />}>
+                  </EditorWrapper>
+                </Grid>S
+                <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
+                <Grid item container direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
+                <Button variant='contained' color='success' size='small' sx={{ mr: 2, mt: 2 }} type='submit' startIcon={<Icon icon='solar:diskette-bold-duotone' fontSize={18} />}>
                       {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Save"}
                     </Button>
-                  </EditorWrapper>
                 </Grid>
               </Grid>
             </Grid>
