@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Button, Grid } from '@mui/material'
+import { Button, Grid, Box } from '@mui/material'
 import ListThreadView from '../../views/community/ListThreadView'
 import { ThreadProvider } from 'src/context/ThreadContext'
 import { useThread } from 'src/hooks/useThread'
@@ -21,6 +21,7 @@ const CommunityApp = () => {
   }, []);
 
   return (
+    <Box padding={2}>
     <Grid container spacing={6}>
       <Grid item lg={12} md={9} xs={12}>
         <Grid container spacing={2} sx={{
@@ -48,6 +49,7 @@ const CommunityApp = () => {
         </Grid>
       </Grid>
     </Grid>
+    </Box>
   )
 }
 

@@ -54,13 +54,13 @@ const ManageAccount = () => {
     const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
     return (
-        <Card>
-            <CardHeader 
-            title={
-                <Typography variant="body2" style={{ fontSize: '18px', color: '#32487A', fontWeight: '600' }}>
-                  Change Password
-                </Typography>
-              }
+        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+            <CardHeader
+                title={
+                    <Typography variant="body2" style={{ fontSize: '18px', color: '#32487A', fontWeight: '600' }}>
+                        Change Password
+                    </Typography>
+                }
             />
             <CardContent>
                 <Box component='form' noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
@@ -149,8 +149,14 @@ const ManageAccount = () => {
                             </Box>
                         </Grid>
                         <Grid item xs={12}>
-                            <Button variant='contained' type='submit' sx={{ mr: 3 }} startIcon={<Icon icon={'mdi:content-save'} />}>
-                                Save Changes
+                            <Button variant='contained' color='success' size='small' type='submit' sx={{ mt: 7, mb: 7 }}>
+                                <Icon
+                                    fontSize='large'
+                                    icon={'solar:diskette-bold-duotone'}
+                                    color={'success'}
+                                    style={{ fontSize: '18px' }}
+                                />
+                                <div style={{ marginLeft: 5 }}>SAVE</div>
                             </Button>
                             <Button size='small' type='button' variant='text' sx={{ color: 'red' }} startIcon={<Icon icon={'mdi:delete-alert'} />}>
                                 DELETE YOUR ACCOUNT?

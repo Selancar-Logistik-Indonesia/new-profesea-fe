@@ -6,9 +6,9 @@ import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , width: 50},
+    { field: 'category_name', headerName: 'Job Category', sortable: true, minWidth: 200 },
     { field: 'role_type', headerName: 'Job Title', sortable: true , minWidth: 200},
     { field: 'level_name', headerName: 'Role Level', sortable: true, minWidth: 130 },
-    { field: 'category_name', headerName: 'Job Category', sortable: true, minWidth: 200 },
     { field: 'company_name', headerName: 'Company Name', sortable: true , minWidth: 150},
     { field: 'status', headerName: 'Status', sortable: false, minWidth: 150, 
         renderCell: (cell) => {
@@ -33,8 +33,8 @@ const columns: GridColDef[] = [
             return (
                 <>
                     <IconButton href={'/candidate/job/?id='+row.id} aria-label='view' color='secondary' size='small'>
-                        <Icon icon='mdi:eye'style={{ fontSize: '18px' }} />
-                    </IconButton>
+                        <Icon icon='solar:eye-scan-bold-duotone'style={{ fontSize: '24px' }} />
+                    </IconButton> 
                 </>
             );
         }
