@@ -133,7 +133,7 @@ const JobDetail = () => {
                                 <strong>{jobDetail?.rolelevel?.levelName}</strong>
                               </Typography>
                               <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>
-                                <strong>{jobDetail?.category?.name}</strong>
+                                <strong>{jobDetail?.category?.name}</strong> - <strong>{jobDetail?.role_type?.name}</strong>
                               </Typography>
                             </Grid>
                           </Grid>
@@ -311,10 +311,7 @@ const JobDetail = () => {
                                 sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
                                 marginTop={2}
                               >
-                                <Typography sx={{ fontWeight: 'bold', color: 'common.white', mb: 1 }} fontSize={14}>
-                                  <strong>{jobDetail?.role_type?.name}</strong>
-                                </Typography>
-                                <Typography sx={{ color: 'common.white', mb: 1 }} fontSize={12}>
+                                <Typography sx={{ color: 'common.white', mb: 1 }} fontSize={14}>
                                   <strong>{jobDetail?.company?.name ?? '-'}</strong>
                                 </Typography>
                               </Box>

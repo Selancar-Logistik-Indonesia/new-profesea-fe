@@ -169,7 +169,7 @@ const Thread = () => {
                       image: { uploadCallback: uploadCallback, previewImage: true, alt: { present: true, mandatory: false } },
                     }} placeholder='Write a thread' />
                   </EditorWrapper>
-                </Grid>S
+                </Grid>
                 <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
                 <Grid item container direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
                 <Button variant='contained' color='success' size='small' sx={{ mr: 2, mt: 2 }} type='submit' startIcon={<Icon icon='solar:diskette-bold-duotone' fontSize={18} />}>

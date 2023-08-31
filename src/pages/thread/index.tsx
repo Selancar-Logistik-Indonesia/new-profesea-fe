@@ -65,7 +65,7 @@ const firstload = () => {
         <Grid item md={9} xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Card>
+            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardContent>
                   <Box sx={{ mb: 1 }}>
                     <Grid item container xs={12} justifyContent={'center'}>
