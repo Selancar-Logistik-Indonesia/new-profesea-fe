@@ -53,6 +53,10 @@ function getUserAvatar(userData: IUser) {
     return (userData?.photo) ? userData.photo : "/images/avatars/default-user.png";
 }
 
+function getUserAvatarByPath(path: string) {
+    return path ? path : "/images/avatars/default-user.png";
+}
+
 function getUserRoleName(team?: ITeam) {
     const teamName = team?.teamName ?? "";
     const mapRole = [{ title: "Seafarer", value: "Candidate" }, { title: 'Company', value: 'Recruiter' }];
@@ -109,14 +113,14 @@ function getEmployeetype(name?: string) {
     return newValue ? newValue.value : employee
 }
 function getEmployeetypev2(name?: string) {
-  const employee = name ?? ''
-  const mapRole = [
-    { title: 'onship', value: 'PELAUT' },
-    { title: 'offship', value: 'NON PELAUT' }
-  ]
-  const newValue = mapRole.find(e => e.title == employee)
+    const employee = name ?? ''
+    const mapRole = [
+        { title: 'onship', value: 'PELAUT' },
+        { title: 'offship', value: 'NON PELAUT' }
+    ]
+    const newValue = mapRole.find(e => e.title == employee)
 
-  return newValue ? newValue.value : employee
+    return newValue ? newValue.value : employee
 }
 
 const getUserPlanType = (user: IUser | null) => {
@@ -132,18 +136,19 @@ const getUserPlanType = (user: IUser | null) => {
 }
 
 export {
-  getCleanErrorMessage,
-  removeFirstZeroChar,
-  toTitleCase,
-  getUserAvatar,
-  getUserRoleName,
-  formatIDR,
-  isStaging,
-  isDevelopment,
-  isProduction,
-  refreshsession,
-  getUrl,
-  getEmployeetype,
-  getUserPlanType,
-  getEmployeetypev2
+    getCleanErrorMessage,
+    removeFirstZeroChar,
+    toTitleCase,
+    getUserAvatar,
+    getUserRoleName,
+    formatIDR,
+    isStaging,
+    isDevelopment,
+    isProduction,
+    refreshsession,
+    getUrl,
+    getEmployeetype,
+    getUserPlanType,
+    getEmployeetypev2,
+    getUserAvatarByPath,
 }
