@@ -11,7 +11,6 @@ import Training from 'src/contract/models/training';
 import DialogEdit from '../all/DialogEdit';
 import { v4 } from "uuid";
 import DialogView from '../all/DialogView';
-import { Icon } from '@iconify/react'
 
 const OngoingTrainingScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -66,7 +65,7 @@ const OngoingTrainingScreen = () => {
 
                         return (
                             <Grid item xs={12} md={4} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
-                                <Card >
+                                <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                                     <Grid item xs={12} >
                                         <CardContent>
                                             <Grid container sx={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -97,13 +96,7 @@ const OngoingTrainingScreen = () => {
                                                         color='primary'
                                                         size='small'
                                                         onClick={() => updateHandler(item)}
-                                                    >
-                                                        <Icon
-                                                            fontSize='large'
-                                                            icon={'solar:pen-new-round-bold-duotone'}
-                                                            color={'primary'}
-                                                            style={{ fontSize: '18px' }}
-                                                        /> &nbsp; EDIT
+                                                    > EDIT
                                                     </Button>
                                                 </Grid>
                                             </Grid>

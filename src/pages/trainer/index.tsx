@@ -96,10 +96,10 @@ const Company = () => {
               borderBottom: 1, borderColor: 'divider', boxSizing: 'border-box',
               background: '#FFFFFF',
               border: '1px solid rgba(76, 78, 100, 0.12)',
-              borderRadius: '10px'
+              borderRadius: '2px'
             }}>
-              <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
-                <Tab label="Edit Profile" {...a11yProps(0)} />
+              <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
+                <Tab label='Edit Profile' {...a11yProps(0)} />
                 {/* <Tab label="Subcription" {...a11yProps(1)} />
                 <Tab label="Change Password" {...a11yProps(2)} /> */}
               </Tabs>
@@ -107,23 +107,14 @@ const Company = () => {
             <Grid container sx={{
               borderBottom: 1, borderColor: 'divider', boxSizing: 'border-box',
               background: color,
-              border: '1px solid rgba(76, 78, 100, 0.12)',
-              borderRadius: '10px',
-              marginTop: '10px',
+              border: 0,
+              borderRadius: 'px',
               direction: "row",
               justifyContent: "flex-start",
               alignItems: "top",
               alignContent: 'top',
             }}>
               <Grid item xs={12} >
-                <TabPanel value={value} index={0}>
-                  <Grid container xs={12}>
-                    <Grid container xs={9}>
-                    </Grid>
-                    <Grid md={12} xs={3} container justifyContent={'right'} marginTop={'10px'}>
-                    </Grid>
-                  </Grid>
-                </TabPanel>
                 <TabPanel value={value} index={0}>
                   {selectedItem != null && <CompanyProfile visible={true} datauser={selectedItem} address={selectedItem.address} />}
                 </TabPanel>

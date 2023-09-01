@@ -99,7 +99,9 @@ const DialogViewParticipant = (props: ViewProps) => {
                     <Icon icon='mdi:close' />
                 </IconButton>
                 <Box sx={{ mb: 6 }}>
-                    <Typography variant='h5'>{training.title}</Typography>
+                    <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600' ,color: '#32487A' }}>
+                    {training.title}
+                            </Typography>
                     <Typography variant='body2' sx={{ mb: 3 }}>Total Participants: {training.count_participant}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', mb: 4 }}>
