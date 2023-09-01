@@ -37,7 +37,7 @@ const AllJobApplied = () => {
                   id: row.id,
                   role_type: row?.job?.role_type?.name,
                   category_name: row?.job?.category.name,
-                  level_name: row?.job?.rolelevel.levelName,
+                  company_name: row?.job?.company?.name,
                   location: `${row?.job?.city?.city_name} - ${row?.job?.country?.name}`,
                   degree: row?.job?.degree.name,
                   salary: `Rp. ${row?.job?.salary_start} - Rp. ${row?.job?.salary_end}`,
