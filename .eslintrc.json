@@ -15,6 +15,9 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "jsx-a11y/alt-text": [
+      0
+    ],
     // add new line above comment
     "lines-around-comment": "off",
     // add new line above return
