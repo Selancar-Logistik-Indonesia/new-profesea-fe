@@ -7,11 +7,11 @@ import Icon from 'src/@core/components/icon'
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true, width: 50 },
     { field: 'title', headerName: 'Title', sortable: true, minWidth: 250 },
-    { field: 'schedule', headerName: 'Schedule', sortable: false, minWidth: 200 },
-    { field: 'category', headerName: 'Category', sortable: false, minWidth: 250 },
+    { field: 'schedule', headerName: 'Schedule', sortable: true, minWidth: 200 },
+    { field: 'category', headerName: 'Category', sortable: true, minWidth: 250 },
     { field: 'short_description', headerName: 'Description', sortable: false, minWidth: 150 },
     {
-        field: 'count_participant', headerName: 'Participants', sortable: false, minWidth: 120,
+        field: 'count_participant', headerName: 'Participants', sortable: true, minWidth: 120,
         renderCell: (cell) => {
             const { row } = cell;
 

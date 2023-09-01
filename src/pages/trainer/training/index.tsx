@@ -4,6 +4,7 @@ import { Tabs, Tab, useMediaQuery, Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import AllTrainingScreen from './all'
 import OngoingTrainingScreen from './ongoing'
+import { Icon } from '@iconify/react'
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -65,12 +66,12 @@ const Training = () => {
                         <Box sx={{ 
                             borderBottom: 1, borderColor: 'divider', boxSizing: 'border-box',
                             background: '#FFFFFF',
-                            border: '1px solid rgba(76, 78, 100, 0.12)',
-                            borderRadius: '10px'
+                            border: 0,
+                            borderRadius: '2px'
                         }}>
-                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
-                                <Tab label="Ongoing Training" {...a11yProps(0)} />
-                                <Tab label="All Training" {...a11yProps(1)} />
+                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
+                                <Tab label="Ongoing Training" icon={<Icon icon='solar:play-stream-bold-duotone' fontSize={18} />} {...a11yProps(0)} />
+                                <Tab label="All Training" icon={<Icon icon='solar:notebook-bookmark-bold-duotone' fontSize={18} />} {...a11yProps(1)} />
                             </Tabs>
                         </Box>
                         <Grid container sx={{
