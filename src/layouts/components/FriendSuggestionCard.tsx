@@ -39,7 +39,7 @@ const renderList = (arr: IUser[]) => {
                         </Typography>
                     </Link>
                     <Typography sx={{ color: 'text.primary', mt: 1, mb: 1, fontSize: 10 }}>
-                        {item.email}
+                    {(item.employee_type != 'offship') ? item.role : 'Candidate' } | {item.email}
                     </Typography>
                     <Box>
                         <ConnectButton user={item} />
