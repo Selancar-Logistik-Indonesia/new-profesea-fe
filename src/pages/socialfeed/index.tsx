@@ -13,6 +13,7 @@ import { HttpClient } from 'src/services'
 import Chip from 'src/@core/components/mui/chip'
 import Link from 'next/link'
 import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
+import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 
 const SocialFeed = () => {
   return (
@@ -127,7 +128,9 @@ const SocialFeedApp = () => {
             </Grid>
           </Grid>
           <FriendSuggestionCard />
-          <SideAd sx={{ mt: 5 }} />
+          <KeenSliderWrapper>
+            <SideAd />
+          </KeenSliderWrapper>
         </Grid>
       </Grid>
     </Box>
