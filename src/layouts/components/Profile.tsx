@@ -5,7 +5,7 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
-import { Button, CircularProgress, Divider, IconButton } from '@mui/material'
+import { Button, Divider, IconButton } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { useEffect, useState } from 'react'
@@ -14,8 +14,6 @@ import { Icon } from '@iconify/react'
 import { IUser } from 'src/contract/models/user'
 import FieldPreference from 'src/contract/models/field_preference'
 import { getEmployeetype, getUserAvatar, getUserRoleName } from 'src/utils/helpers'
-import { useAuth } from 'src/hooks/useAuth'
-import toast from 'react-hot-toast'
 
 export type ParamJobVacncy = {
   judul: string
@@ -45,8 +43,6 @@ const Profile = (props: userProps) => {
   const [instagram, setInstagram] = useState<any>('-')
   const [linkedin, setLinkedin] = useState<any>('-')
   const [selectedItem, setSelectedItem] = useState<FieldPreference | null>(null)
-  const { logout, user } = useAuth();
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     HttpClient.get('/user/field-preference', { user_id: props.datauser?.id }).then(response => {
@@ -84,27 +80,6 @@ const Profile = (props: userProps) => {
     }
 
     return "/";
-  }
-
-  const deleteAccount = async () => {
-    if (!confirm("Are you sure want to delete your account?")) {
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const res = await HttpClient.get(`/user-management/${user?.id}`);
-      if (res.status != 200) {
-        alert(res.data?.message ?? "Something went wrong");
-        
-return;
-      }
-
-      toast.success("Your account deleted successfully");
-      logout();
-    } catch (error) { }
-
-    setLoading(false);
   }
 
   return (
@@ -287,21 +262,6 @@ return;
                   />
                 </IconButton>
                 EDIT
-              </Button>
-              <Button disabled={loading} sx={{ ml: 5 }} onClick={deleteAccount}>
-                {loading ? (<CircularProgress />) : (
-                  <>
-                    <IconButton>
-                      <Icon
-                        fontSize='large'
-                        icon={'solar:trash-bin-minimalistic-bold-duotone'}
-                        color={'#32487A'}
-                        style={{ fontSize: '24px' }}
-                      />
-                    </IconButton>
-                    DELETE ACCOUNT
-                  </>
-                )}
               </Button>
             </Box>
           </CardContent>

@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import toast from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
+import { useAuth } from 'src/hooks/useAuth'
 
 type FormData = {
     old_password: string
@@ -20,6 +21,8 @@ const ManageAccount = () => {
         password: yup.string().min(5).required()
     })
     const [showPassword, setShowPassword] = useState<boolean>(false)
+    const { logout, user } = useAuth();
+    const [loading, setLoading] = useState(false);
 
     const {
         register,
@@ -52,6 +55,27 @@ const ManageAccount = () => {
 
     const theme = useTheme()
     const hidden = useMediaQuery(theme.breakpoints.down('md'))
+
+    const deleteAccount = async () => {
+        if (!confirm("Are you sure want to delete your account?")) {
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const res = await HttpClient.get(`/user-management/${user?.id}`);
+            if (res.status != 200) {
+                alert(res.data?.message ?? "Something went wrong");
+
+                return;
+            }
+
+            toast.success("Your account deleted successfully");
+            logout();
+        } catch (error) { }
+
+        setLoading(false);
+    }
 
     return (
         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
@@ -158,7 +182,7 @@ const ManageAccount = () => {
                                 />
                                 <div style={{ marginLeft: 5 }}>SAVE</div>
                             </Button>
-                            <Button size='small' type='button' variant='text' sx={{ color: 'red' }} startIcon={<Icon icon={'mdi:delete-alert'} />}>
+                            <Button disabled={loading} onClick={deleteAccount} size='small' type='button' variant='text' sx={{ color: 'red' }} startIcon={<Icon icon={'mdi:delete-alert'} />}>
                                 DELETE YOUR ACCOUNT?
                             </Button>
                         </Grid>
