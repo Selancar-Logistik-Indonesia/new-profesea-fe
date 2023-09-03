@@ -180,7 +180,7 @@ const AdsScreen = () => {
 
 AdsScreen.acl = {
     action: 'read',
-    subject: 'admin-training-management'
+    subject: 'admin-ads-management'
 };
 
 export default AdsScreen
