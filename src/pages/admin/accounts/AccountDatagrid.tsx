@@ -69,7 +69,7 @@ export default function AccountDatagrid(props: RoleGridProps) {
                 columns={columns}
                 paginationMode="server"
                 rowCount={props.rowCount}
-                pageSizeOptions={[10, 25, 50, 100, 250]}
+                pageSizeOptions={[10, 25, 50, 100]}
                 onPaginationModelChange={props.onPageChange}
                 initialState={{
                     pagination: {
