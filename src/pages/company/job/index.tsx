@@ -12,6 +12,7 @@ import { useTheme } from '@mui/material/styles'
 import JobApplied from './applied'
 import JobDetail from './detail'
 import UserSaved from './saved'
+import { Icon } from '@iconify/react'
 
 type FormData = {
   companyName: string
@@ -101,13 +102,13 @@ const UserJob = () => {
             <Box sx={{
               borderBottom: 1, borderColor: 'divider', boxSizing: 'border-box',
               background: '#FFFFFF',
-              border: '1px solid rgba(76, 78, 100, 0.12)',
-              borderRadius: '10px'
+              border: 0,
+              borderRadius: '2px'
             }}>
-              <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }} >
-                <Tab label="Detail Job" {...a11yProps(0)} />
-                <Tab label="List Applicant" {...a11yProps(1)} />
-                <Tab label="Applicant Saved" {...a11yProps(2)} />
+              <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
+                <Tab label="Detail Job" icon={<Icon icon='solar:case-minimalistic-bold-duotone' fontSize={18} />} {...a11yProps(0)} />
+                <Tab label="List Applicant" icon={<Icon icon='solar:users-group-rounded-bold-duotone' fontSize={18} />} {...a11yProps(1)} />
+                <Tab label="Applicant Saved" icon={<Icon icon='solar:user-heart-rounded-bold-duotone' fontSize={18} />} {...a11yProps(2)} />
               </Tabs>
             </Box>
             <Grid container sx={{

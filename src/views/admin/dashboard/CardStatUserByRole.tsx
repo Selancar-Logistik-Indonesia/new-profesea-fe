@@ -24,7 +24,7 @@ const renderList = (arr: any[]) => {
 
           return (
             <Grid item xs={12} sm={4} md={4} key={item?.team_id}>              
-              <Card sx={{ overflow: 'visible', position: 'relative' }}>
+              <Card sx={{ overflow: 'visible', position: 'relative', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardContent sx={{ pb: '0 !important' }}>
                   <Grid container>
                     <Grid item xs={6} sx={{ display: 'flex', alignItems: 'flex-center', justifyContent: 'flex-center' }}>

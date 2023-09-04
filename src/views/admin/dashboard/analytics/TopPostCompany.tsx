@@ -93,7 +93,7 @@ const TopPostCompanyApp = () => {
             }
 
             return (
-              <Card>
+              <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardHeader
                   title='Top Posted Company'
                   titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}

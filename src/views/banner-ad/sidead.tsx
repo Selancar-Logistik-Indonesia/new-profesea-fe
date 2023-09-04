@@ -99,7 +99,7 @@ const SideAd = () => {
   )
 
   return (
-    <Card sx={{ position: 'relative' }}>
+    <Card sx={{ position: 'relative', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
       <CardContent>
         {loaded && instanceRef.current && (
           <Box className='swiper-dots' sx={{ top: 7, right: 13, position: 'absolute' }}>

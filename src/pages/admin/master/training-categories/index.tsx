@@ -107,7 +107,7 @@ const TrainingCategoryScreen = () => {
         <>
             <Grid container spacing={6} className='match-height'>
                 <Grid item xs={12} sm={6} md={12}>
-                    <Card>
+                    <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                     <CardHeader
                         title={
                             <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600' ,color: '#32487A' }}>
