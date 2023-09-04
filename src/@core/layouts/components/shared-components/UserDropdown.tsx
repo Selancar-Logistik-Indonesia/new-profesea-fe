@@ -106,7 +106,7 @@ const UserDropdown = (props: Props) => {
                   </Typography>
                 ) : (
                   <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                    {userData?.role}
+                    {(userData?.role != 'Company') ? userData?.role : 'Recruiter'}
                   </Typography>
                 )}
               </Box>
