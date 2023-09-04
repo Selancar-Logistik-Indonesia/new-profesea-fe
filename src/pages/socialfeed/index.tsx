@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Card, CardContent, Grid, Typography } from '@mui/material'
+import { Card, CardContent, Divider, Grid, Typography } from '@mui/material'
 import { Icon } from '@iconify/react'
 import Profile from 'src/layouts/components/Profile'
 import { useAuth } from 'src/hooks/useAuth'
@@ -128,6 +128,7 @@ const SocialFeedApp = () => {
             </Grid>
           </Grid>
           <FriendSuggestionCard />
+          <Divider sx={{ my: '0 !important' }} />
           <KeenSliderWrapper>
             <SideAd />
           </KeenSliderWrapper>

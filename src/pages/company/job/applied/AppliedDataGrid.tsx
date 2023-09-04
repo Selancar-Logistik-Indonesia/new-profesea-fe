@@ -9,8 +9,8 @@ const columns: GridColDef[] = [
     { field: 'name', headerName: 'Name', sortable: true , minWidth: 200},
     { field: 'email', headerName: 'Email', sortable: false, minWidth: 200 },
     { field: 'phone', headerName: 'Phone', sortable: false, minWidth: 150 },
-    { field: 'category', headerName: 'Category', sortable: false, minWidth: 120 },
-    { field: 'status', headerName: 'Status', sortable: false, minWidth: 130, 
+    { field: 'category', headerName: 'Category', sortable: true, minWidth: 120 },
+    { field: 'status', headerName: 'Status', sortable: false, minWidth: 150, 
         renderCell: (cell) => {
         const { row } = cell;
 

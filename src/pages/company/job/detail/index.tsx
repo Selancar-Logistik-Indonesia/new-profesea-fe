@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import { Avatar, Card, CardContent, Typography, Divider } from '@mui/material'
+import { Card, CardContent, Typography, Divider } from '@mui/material'
 
 import ReactHtmlParser from 'react-html-parser';
 
@@ -55,49 +55,42 @@ const JobDetail = () => {
                   '& svg': { color: 'text.secondary' }
                 }}
               >
-                <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
+                {/* <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
                   <Avatar src={jobDetail?.company?.photo} alt='profile-picture' sx={{ width: 100, height: 100 }} />
-                </Box>
+                </Box> */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={3}>
-                  <Typography sx={{ fontWeight: 'bold', color: 'text.primary', mb: 1 }} fontSize={18}>
-                    {jobDetail?.role_type?.name}
-                  </Typography>
-                  <Typography sx={{ color: 'text.primary', mb: 3 }} fontSize={12}>
-                    {jobDetail?.company?.name ?? "-"}
-                  </Typography>
-
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
-                    <Icon icon='ic:round-business-center' fontSize={20} color='#32487A' />
+                    <Icon icon='solar:case-minimalistic-bold-duotone' fontSize={20} color='#32487A' />
                     <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                      {jobDetail?.rolelevel?.levelName} - {jobDetail?.category?.name}
+                    <strong>{jobDetail?.category?.name} - {jobDetail?.role_type?.name} </strong> - {jobDetail?.rolelevel?.levelName}
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
-                    <Icon icon='mdi:currency-usd' fontSize={20} color='#32487A' />
+                    <Icon icon='solar:money-bag-bold-duotone' fontSize={20} color='#32487A' />
                     <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
                       from Rp. {jobDetail?.salary_start} to Rp. {jobDetail?.salary_end}
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
-                    <Icon icon='mdi:school' fontSize={20} color='#32487A' />
+                    <Icon icon='solar:square-academic-cap-bold-duotone' fontSize={20} color='#32487A' />
                     <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
                       {jobDetail?.degree?.name}
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
-                    <Icon icon='mingcute:ship-fill' fontSize={20} color='#32487A' />
+                    <Icon icon='icon-park-twotone:ship' fontSize={20} color='#32487A' />
                     <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
                       Type of Vessel
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
-                    <Icon icon='game-icons:ship-bow' fontSize={20} color='#32487A' />
+                    <Icon icon='solar:calendar-bold-duotone' fontSize={20} color='#32487A' />
                     <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
                       Date on Board
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
-                    <Icon icon='mdi:license' fontSize={35} color='#32487A' />
+                    <Icon icon='solar:medal-ribbons-star-bold-duotone' fontSize={35} color='#32487A' />
                     <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
                       {license.map(e => e.title).join(", ")}
                     </Typography>

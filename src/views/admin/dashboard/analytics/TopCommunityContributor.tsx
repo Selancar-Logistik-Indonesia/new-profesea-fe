@@ -93,7 +93,7 @@ const TopCommunityContributorApp = () => {
             }
 
             return (
-              <Card>
+              <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardHeader
                   title='Top Community Contributor'
                   titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}

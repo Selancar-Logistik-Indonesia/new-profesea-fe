@@ -76,7 +76,7 @@ const CardStatOffshipApp = () => {
             }
 
             return (
-              <Card>
+              <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardHeader
                   title={
                     <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600' ,color: '#32487A' }}>
