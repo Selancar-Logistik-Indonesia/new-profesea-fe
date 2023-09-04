@@ -56,7 +56,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
               {item.childs.map(
                 (itemhead: { id: React.Key | null | undefined; document_name: string; path: string }) => (
                   <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center' mb={2}>
-                    <Grid xs={12} md={2} display='flex' item container>
+                    {/* <Grid xs={12} md={2} display='flex' item container>
                       <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
                         <Button variant='outlined' color='info' size='small' href={itemhead.path} target='_blank'>
                           <Icon
@@ -67,8 +67,8 @@ const renderList = (arr: ParamJobVacncy[]) => {
                           />
                         </Button>
                       </Grid>
-                    </Grid>
-                    <Grid xs={12} md={10} container direction='row' alignItems='center' padding={1}>
+                    </Grid> */}
+                    <Grid xs={12} md={12} container direction='row' alignItems='center' padding={1}>
                       <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
                         {itemhead.document_name.charAt(0).toUpperCase() + itemhead.document_name.slice(1)}
                       </Typography>
