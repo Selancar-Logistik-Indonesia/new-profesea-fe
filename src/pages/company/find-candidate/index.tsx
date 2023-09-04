@@ -12,6 +12,9 @@ import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import InfiniteScroll from 'react-infinite-scroll-component' 
 import RecomendedViewSubscribe from 'src/views/find-candidate/RecomendedViewSubscribe'
+// import secureLocalStorage from 'react-secure-storage'
+// import localStorageKeys from 'src/configs/localstorage_keys'
+import { subscribev } from 'src/utils/helpers'
 
 // type Dokumen = {
 //   title: string 
@@ -33,20 +36,23 @@ const MenuProps = {
 const names = ['Indonesian', 'English', 'Mandarin', 'Arab', 'Melayu']
 
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
+
   return {
     fontWeight:
       personName?.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
   }
 }
+
+ 
 const FindCandidate = () => {
   const [listCandidate, setListCandidate] = useState<IUser[]>([]) 
   const [listCandidateSubscribe, setListCandidateSubscribe] = useState<IUser[]>([]) 
   const theme = useTheme()
-  const windowUrl = window.location.search
-  const params = new URLSearchParams(windowUrl)
+  // const windowUrl = window.location.search
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const [collapsed, setCollapsed] = useState<boolean>(true)
-  const [collapsed2, setCollapsed2] = useState<boolean>(params.get('plan') === 'advance' ? false : true)
+  const [collapsed2, setCollapsed2] = useState<boolean>(true)
+  const [showadvance, setShowAdvance] = useState<boolean>(false)
   const [JobCategory, getJobCategory] = useState<any[]>([])  
   const [JobTitle, getJobTitle] = useState<any[]>([])  
   const [VesselType, getVesselType] = useState<any[]>([])  
@@ -59,7 +65,9 @@ const FindCandidate = () => {
   const [total, setTotal] = useState(0)
   const [perPage, setPerPage] = useState(12)
   const [page, setPage] = useState(1)
- const [personName, setPersonName] = React.useState<string[]>( [])
+  const [personName, setPersonName] = React.useState<string[]>([])
+  const [licenseList, setLicense] = React.useState<string[]>([])
+  const [licenseCertificate, setCertificate] = React.useState<string[]>([])
  
   const [values, setValues] = useState<any[]>([])
   const [currValue, setCurrValue] = useState('')
@@ -78,6 +86,24 @@ const FindCandidate = () => {
       target: { value }
     } = event
     setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    )
+  }
+  const handleChangeLicense = (event: SelectChangeEvent<typeof licenseList>) => {
+    const {
+      target: { value }
+    } = event
+    setLicense(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    )
+  }
+  const handleChangeCertificate = (event: SelectChangeEvent<typeof licenseCertificate>) => {
+    const {
+      target: { value }
+    } = event
+    setCertificate(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value
     )
@@ -127,14 +153,192 @@ const FindCandidate = () => {
      { title: 'Other Certificate', docType: 'OTH' },
      { title: 'MCU Certificates', docType: 'MCU' }, 
    ]
+        
+  const certificate = [
+    {
+      title: 'Ahli Nautika Tingkat Dasar (ANTD), Teknika',
+      doctype: 'COC1'
+    },
+    {
+      title: 'Ahli Nautika Tingkat V (ANT V), Teknika',
+      doctype: 'COC2'
+    },
+    {
+      title: 'Ahli Nautika Tingkat IV (ANT IV), Teknika',
+      doctype: 'COC3'
+    },
+    {
+      title: 'Ahli Nautika Tingkat III (ANT III), Teknika',
+      doctype: 'COC4'
+    },
+    {
+      title: 'Ahli Nautika Tingkat II (ANT II), Teknika',
+      doctype: 'COC5'
+    },
+    {
+      title: 'Ahli Nautika Tingkat I (ANT I), Teknika',
+      doctype: 'COC6'
+    },
+    {
+      title: 'Ahli Teknika Tingkat Dasar (ATTD), Nautika',
+      doctype: 'COC7'
+    },
+    {
+      title: 'Ahli Teknika Tingkat V (ATT V), Nautika',
+      doctype: 'COC8'
+    },
+    {
+      title: 'Ahli Teknika Tingkat IV (ATT IV), Nautika',
+      doctype: 'COC9'
+    },
+    {
+      title: 'Ahli Teknika Tingkat III (ATT III), Nautika',
+      doctype: 'COC10'
+    },
+    {
+      title: 'Ahli Teknika Tingkat II (ATT II), Nautika',
+      doctype: 'COC11'
+    },
+    {
+      title: 'Ahli Teknika Tingkat I (ATT I), Nautika',
+      doctype: 'COC12'
+    },
+    {
+      title: 'Basic training for Oil and Chemical Tanker (BOCT)',
+      doctype: 'COP1'
+    },
+    {
+      title: 'Basic training for Liquefied Gas Tanker (BLGT)',
+      doctype: 'COP2'
+    },
+    {
+      title: 'Advance training for Oil Tanker (AOT)',
+      doctype: 'COP3'
+    },
+    {
+      title: 'Advance training for Chemical Tanker cargo operation (ACT)',
+      doctype: 'COP4'
+    },
+    {
+      title: 'Advance training for Liquefied Gas Tanker cargo operation (ALGT)',
+      doctype: 'COP5'
+    },
+    {
+      title: 'Crowd Management Training Certificate (CMT)',
+      doctype: 'COP6'
+    },
+    {
+      title: 'Crisis Management and Human Behaviour Training Certificate (CMHBT)',
+      doctype: 'COP7'
+    },
+    {
+      title: 'Ro-ro Passenger Safety, Cargo Safety and Hull Intergrity Training Certificate',
+      doctype: 'COP8'
+    },
+    {
+      title: 'Survical Craft and Rescue Boats other than fast rescue boat (SCRB)',
+      doctype: 'COP9'
+    },
+    {
+      title: 'Fast Rescue Boats (FRB)',
+      doctype: 'COP10'
+    },
+    {
+      title: 'Advanced Fire Fighting (AFF)',
+      doctype: 'COP11'
+    },
+    {
+      title: 'Medical First Aid (MFA)',
+      doctype: 'COP12'
+    },
+    {
+      title: 'Medical Care (MC)',
+      doctype: 'COP13'
+    },
+    {
+      title: 'Radar Observation (RADAR Simulator)',
+      doctype: 'COP14'
+    },
+    {
+      title: 'Automatic Radar Plotting Aid Simulator (ARPA Simulator)',
+      doctype: 'COP15'
+    },
+    {
+      title: 'Electronics Charts Display and Information System (ECDIS)',
+      doctype: 'COP16'
+    },
+    {
+      title: 'Bridge Resource Management (BRM)',
+      doctype: 'COP17'
+    },
+    {
+      title: 'Engine Room Resource Management (ERM)',
+      doctype: 'COP18'
+    },
+    {
+      title: 'Security Awareness Training (SAT)',
+      doctype: 'COP19'
+    },
+    {
+      title: 'Security for Seafarers with Designated Security Duties (SDSD)',
+      doctype: 'COP20'
+    },
+    {
+      title: 'Ship Security Officers (SSO)',
+      doctype: 'COP21'
+    },
+    {
+      title: 'International Maritime Dangerous Good Cargo (IMDG) Code',
+      doctype: 'COP22'
+    },
+    {
+      title: 'Able Seafarer Deck',
+      doctype: 'COP23'
+    },
+    {
+      title: 'Able Seafarer Engine',
+      doctype: 'COP24'
+    },
+    {
+      title: 'Cook Certificate',
+      doctype: 'COP25'
+    },
+    {
+      title: 'Basic Safety Training',
+      doctype: 'COP26'
+    },
+    {
+      title: 'GMDSS (Global Maritime Distress Safety System)',
+      doctype: 'COP27'
+    },
+    {
+      title: 'Rating Forming Part of Navigational Watch',
+      doctype: 'COP28'
+    },
+    {
+      title: 'Rating Forming Part of Engine Room Watch',
+      doctype: 'COP29'
+    },
+    {
+      title: 'Proficiency in Survival Craft and Rescue Boats other than Fast Rescue Boats (PSCRB)',
+      doctype: 'COP30'
+    },
+    {
+      title: 'International Safety Management (ISM) Code',
+      doctype: 'COP31'
+    }
+  ]
 
  
   useEffect(() => {
     getListCandidates()
-    if (params.get('plan') == 'advance') {
+    const a = subscribev(['A16'])
+    if (a == true) {
+      setShowAdvance(true)
       setCollapsed2(true)
-      setCollapsed(false)
+      setCollapsed(true)
     }
+      
   }, [])
 
   const getdatapencarian = async () => {
@@ -350,7 +554,7 @@ const FindCandidate = () => {
               />
               <Collapse in={collapsed}>
                 <CardContent>
-                <Alert severity='info' sx={{ marginBottom: 2 }}>
+                  <Alert severity='info' sx={{ marginBottom: 2 }}>
                     Filter Candidate here
                   </Alert>
                   <Autocomplete
@@ -439,10 +643,10 @@ const FindCandidate = () => {
               />
               <Collapse in={collapsed2}>
                 <CardContent>
-                  {params.get('plan') != 'advance' ? (
+                  {showadvance !== true ? (
                     <>
                       <Button
-                        href={'/company/find-candidate/?plan=advance'}
+                        href={'/account'}
                         variant='contained'
                         color='warning'
                         sx={{ mr: 2 }}
@@ -453,18 +657,77 @@ const FindCandidate = () => {
                     </>
                   ) : (
                     <>
-                      <Autocomplete
+                      {/* <Autocomplete
                         disablePortal
                         id='code'
                         options={dokumen}
-                        getOptionLabel={(option: any) => option.title}
-                        // defaultValue={props.datauser?.country}
-                        renderInput={params => <TextField {...params} label='License' sx={{ mb: 2 }} />}
-                        // onChange={(event: any, newValue: Dokumen | null) =>
-                        //   newValue?.id ? searchcity(newValue.id) : searchcity(0)
-                        // }
+                        getOptionLabel={(option: any) => option.title} 
+                        renderInput={params => <TextField {...params} label='License' sx={{ mb: 2 }} />} 
                         sx={{ marginBottom: 2 }}
-                      />
+                      /> */}
+
+                      <FormControl fullWidth sx={{mb:2}}>
+                        <InputLabel id='demo-multiple-chip-label2'>License</InputLabel>
+                        <Select
+                          labelId='demo-multiple-chip-label2'
+                          id='demo-multiple-chip2'
+                          multiple
+                          value={licenseList}
+                          onChange={handleChangeLicense}
+                          label='License'
+                          sx={{ fontSize: '18px', height: heightSpoken }}
+                          input={<OutlinedInput id='select-multiple-chip' label='Chip' sx={{ fontSize: '8px' }} />}
+                          renderValue={selected => (
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                              {selected.map(value => (
+                                <Chip key={value} label={value} />
+                              ))}
+                            </Box>
+                          )}
+                          MenuProps={MenuProps}
+                        >
+                          {dokumen.map(name => (
+                            <MenuItem
+                              key={name.title}
+                              value={name.title}
+                              style={getStyles(name.title, licenseList, theme)}
+                            >
+                              {name.title}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      <FormControl fullWidth>
+                        <InputLabel id='demo-multiple-chip-label2'>Certificate</InputLabel>
+                        <Select
+                          labelId='demo-multiple-chip-label2'
+                          id='demo-multiple-chip2'
+                          multiple
+                          value={licenseCertificate}
+                          onChange={handleChangeCertificate}
+                          label='Certificate'
+                          sx={{ fontSize: '18px', height: heightSpoken }}
+                          input={<OutlinedInput id='select-multiple-chip' label='Chip' sx={{ fontSize: '8px' }} />}
+                          renderValue={selected => (
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                              {selected.map(value => (
+                                <Chip key={value} label={value} />
+                              ))}
+                            </Box>
+                          )}
+                          MenuProps={MenuProps}
+                        >
+                          {certificate.map(name => (
+                            <MenuItem
+                              key={name.title}
+                              value={name.title}
+                              style={getStyles(name.title, licenseList, theme)}
+                            >
+                              {name.title}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                       <Typography>Including all these words</Typography>
                       <FormControl>
                         <div className={'container'}>
@@ -589,7 +852,7 @@ const FindCandidate = () => {
                               </Typography>
                               <Alert severity='info'>
                                 Based on <strong>your profile</strong> and <strong> search history</strong>
-                            </Alert>
+                              </Alert>
                               <RecomendedViewSubscribe listCandidate={listCandidateSubscribe} />
                               <InfiniteScroll
                                 dataLength={total}

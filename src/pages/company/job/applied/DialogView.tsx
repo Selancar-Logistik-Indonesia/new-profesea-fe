@@ -136,28 +136,82 @@ const DialogView = (props: ViewProps) => {
             <Grid container columnSpacing={'1'} rowSpacing={'2'} mt={5} alignItems={'end'}>
               {license.length != 0 &&
                 license.map(e => (
-                  <Box
-                    sx={{ display: 'flex', flexDirection: 'row', width: '90%', mb: 1, justifyContent: 'center' }}
-                    key={e.id}
-                    ml={5}
-                  >
-                    <Box mr={2} mt={1}>
-                      <Icon icon='mdi:book' color='#32487A' />
-                    </Box>
-                    <Box
-                      sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}
-                    >
-                      <Typography lineHeight={1.4} variant='body1'>
-                        {e.document_name}
-                      </Typography>
-                    </Box>
+                  <>
+                    {e.childs?.length <= 0 ? (
+                      <Box
+                        sx={{ display: 'flex', flexDirection: 'row', width: '90%', mb: 1, justifyContent: 'center' }}
+                        key={e.id}
+                        ml={5}
+                      >
+                        <Box mr={2} mt={1}>
+                          <Icon icon='mdi:book' color='#32487A' />
+                        </Box>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'start',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <Typography lineHeight={1.4} variant='body1'>
+                            {e.document_name}
+                          </Typography>
+                        </Box>
 
-                    <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'}>
-                      <Button target='blank' href={e.path} size='small'>
-                        Open File
-                      </Button>
-                    </Box>
-                  </Box>
+                        <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'}>
+                          <Button target='blank' href={e.path} size='small'>
+                            Open File
+                          </Button>
+                        </Box>
+                      </Box>
+                    ) : (
+                      <>
+                        <Typography> {e.document_name}</Typography>
+                        {e.childs.map(
+                          (item: {
+                            id: React.Key | null | undefined
+                            document_name: string | null | undefined
+                            path: string
+                          }) => (
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                width: '90%',
+                                mb: 1,
+                                justifyContent: 'center'
+                              }}
+                              key={e.id}
+                              ml={5}
+                            >
+                              <Box mr={2} mt={1}>
+                                <Icon icon='mdi:book' color='#32487A' />
+                              </Box>
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  alignItems: 'start',
+                                  justifyContent: 'center'
+                                }}
+                              >
+                                <Typography lineHeight={1.4} variant='body1'>
+                                  {item.document_name}
+                                </Typography>
+                              </Box>
+
+                              <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'}>
+                                <Button target='blank' href={e.path} size='small'>
+                                  Open File
+                                </Button>
+                              </Box>
+                            </Box>
+                          )
+                        )}
+                      </>
+                    )}
+                  </>
                 ))}
             </Grid>
           </DialogContent>

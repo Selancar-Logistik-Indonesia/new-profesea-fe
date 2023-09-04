@@ -40,7 +40,8 @@ const AuthProvider = ({ children }: Props) => {
                     setLoading(false);
                     setUser({ ...response.data.user });
                     setAbilities(response.data.abilities);
-                    secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);
+                    secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);                    
+                    secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
                 }).catch((error) => {
                     localStorage.removeItem('userData')
                     localStorage.removeItem('refreshToken')
@@ -74,7 +75,8 @@ const AuthProvider = ({ children }: Props) => {
                 const returnUrl = router.query.returnUrl
                 setUser({ ...response.data.user })
                 localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken);
-                secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);
+                secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);                
+                secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
                 const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'  // console.log(`redirectURL: ${redirectURL}`);
                 await router.replace(redirectURL as string);
             }).catch(err => {
