@@ -36,6 +36,7 @@ import DialogAddDocument from 'src/pages/candidate/DialogAddDocument'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import RegionTravel from 'src/contract/models/regional_travel'
+import Province from 'src/contract/models/province'
 
 import { styled } from '@mui/material/styles'
 import CardMedia from '@mui/material/CardMedia'
@@ -112,8 +113,8 @@ const names = [
 
 ]
 const jeniskelamin = [
-  { title: 'laki', label: 'Male' },
-  { title: 'perempuan', label: 'Female' }
+  { title: 'm', label: 'Male' },
+  { title: 'f', label: 'Female' }
 ]
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
   return {
@@ -144,6 +145,7 @@ const CandidateProfile = (props: compProps) => {
 
   const [combocountry, getComboCountry] = useState<any>([])
   // const [comboroleLevel, getComborolLevel] = useState<any>([])
+  const [comboProvince, getComboProvince] = useState<any>([])
   const [comboroleType, getComborolType] = useState<any>([])
   const [comboVessel, getComborVessel] = useState<any>([])
   const [comboRegion, getComboroRegion] = useState<any>([])
@@ -152,7 +154,9 @@ const CandidateProfile = (props: compProps) => {
   const [combocity, getComboCity] = useState<any[]>([])
   const [combocode, getCombocode] = useState<any[]>([])
   const [combokelamin, getCombokelamin] = useState<any[]>([])
-  const [idcombokelamin, setCombokelamin] = useState<any>()
+  const [idcombokelamin, setCombokelamin] = useState<any>(
+    props.datauser?.gender == 'f' ? { title: 'f', label: 'Female' } : { title: 'm', label: 'Male' }
+  )
   const [idcombocode, setCombocode] = useState<any>(props.datauser?.country_id)
   const [idcity, setCombocity] = useState<any>(props.datauser.address?.city_id)
   const [idship, setShip] = useState<any>(
@@ -166,6 +170,7 @@ const CandidateProfile = (props: compProps) => {
   const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
   const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id)
   const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id)
+  const [idcomboProvince, setComboProvince] = useState<any>(props.datauser?.location_province)
   const [idOPP, setOpp] = useState<any>(
     props.datauser.field_preference?.open_to_opp == 0
       ? { id: '0', label: 'Not Available' }
@@ -189,8 +194,7 @@ const CandidateProfile = (props: compProps) => {
   const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
   const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
   const [arrayHead, getArrayHead] = useState<any[]>([])
-  const [JobCategory, getJobCategory] = useState<any[]>([])
-
+  const [JobCategory, getJobCategory] = useState<any[]>([])   
   const [JC, setJC] = useState(0)
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
@@ -208,6 +212,13 @@ const CandidateProfile = (props: compProps) => {
     //   const code = response.data.roleLevels.data
     //   getComborolLevel(code)
     // })
+    
+    HttpClient.get(AppConfig.baseUrl + '/public/data/province?search=&country_id=100').then(response => {
+      const code = response.data.provinces
+      debugger;
+      getComboProvince(code)
+    })
+
     HttpClient.get(`/job-category?search=&page=1&take=250&employee_type=${user?.employee_type}`).then(response => {
       if (response.status != 200) {
         throw response.data.message ?? 'Something went wrong!'
@@ -509,7 +520,9 @@ const CandidateProfile = (props: compProps) => {
       about: about,
       address_country_id: idcombocode,
       address_city_id: idcity,
-      address_address: address
+      address_address: address,
+      gender: idcombokelamin.title,
+      location_province_id: idcomboProvince
     }
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
       () => {
@@ -519,6 +532,7 @@ const CandidateProfile = (props: compProps) => {
             roletype_id: idcomborolType,
             vesseltype_id: idcomboVessel,
             regiontravel_id: idcomboRegion,
+            category_id: JC,
             available_date: availabledate,
             spoken_langs: personName,
             open_to_opp: idOPP
@@ -537,7 +551,8 @@ const CandidateProfile = (props: compProps) => {
             regiontravel_id: idcomboRegion,
             available_date: null,
             spoken_langs: personName,
-            open_to_opp: idOPP
+            open_to_opp: idOPP,
+            category_id: JC
           }
           HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
             console.log('here 1', data)
@@ -664,42 +679,7 @@ const CandidateProfile = (props: compProps) => {
     setOpp(type?.id)
   }
 
-  const provinsi = [
-    'Aceh',
-    'Sumatera Utara',
-    'Sumatera Barat',
-    'Riau',
-    'Kepulauan Riau',
-    'Jambi',
-    'Bengkulu',
-    'Sumatera Selatan',
-    'Bangka Belitung',
-    'Lampung',
-    'Banten',
-    'DKI Jakarta',
-    'Jawa Barat',
-    'Jawa Tengah',
-    'DI Yogyakarta',
-    'Jawa Timur',
-    'Bali',
-    'Nusa Tenggara Barat',
-    'Nusa Tenggara Timur',
-    'Kalimantan Barat',
-    'Kalimantan Tengah',
-    'Kalimantan Selatan',
-    'Kalimantan Timur',
-    'Kalimantan Utara',
-    'Sulawesi Utara',
-    'Gorontalo',
-    'Sulawesi Tengah',
-    'Sulawesi Barat',
-    'Sulawesi Selatan',
-    'Sulawesi Tenggara',
-    'Maluku',
-    'Maluku Utara',
-    'Papua Barat',
-    'Papua'
-  ]
+ 
 
   return (
     <Grid container padding={5}>
@@ -889,11 +869,11 @@ const CandidateProfile = (props: compProps) => {
                   disablePortal
                   id='combo-box-demo'
                   options={!combokelamin ? [{ label: 'Loading...', title: 0 }] : combokelamin}
-                  // defaultValue={props.address?.country}
+                  defaultValue={idcombokelamin}
                   getOptionLabel={(option: any) => option.label}
                   renderInput={params => <TextField {...params} label='Gender' />}
                   onChange={(event: any, newValue: any) =>
-                    newValue?.title ? setCombokelamin(newValue.title) : setCombokelamin('')
+                    newValue?.title ? setCombokelamin(newValue) : setCombokelamin('')
                   }
                 />
               </Grid>
@@ -908,9 +888,9 @@ const CandidateProfile = (props: compProps) => {
                   renderInput={params => <TextField {...params} label='Ship' />}
                   onChange={(event: any, newValue: any | null) => displayship(newValue)}
                   disabled
-                // onChange={(event: any, newValue: Employee ) =>
-                //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
-                // }
+                  // onChange={(event: any, newValue: Employee ) =>
+                  //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
+                  // }
                 />
               </Grid>
               <Grid item md={6} xs={12}>
@@ -926,8 +906,6 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid>
-
-
 
               <Grid item md={6} xs={12}>
                 <Autocomplete
@@ -1063,6 +1041,7 @@ const CandidateProfile = (props: compProps) => {
                       disablePortal
                       id='combo-box-level'
                       options={JobCategory}
+                      defaultValue={props.datauser?.jobcategory}
                       getOptionLabel={(option: JobCategory) => option.name}
                       renderInput={params => <TextField {...params} label='Job Category' />}
                       onChange={(event: any, newValue: JobCategory | null) =>
@@ -1212,6 +1191,7 @@ const CandidateProfile = (props: compProps) => {
                       disablePortal
                       id='combo-box-level'
                       options={JobCategory}
+                      defaultValue={props.datauser?.jobcategory}
                       getOptionLabel={(option: JobCategory) => option.name}
                       renderInput={params => <TextField {...params} label='Job Category' />}
                       onChange={(event: any, newValue: JobCategory | null) =>
@@ -1255,12 +1235,15 @@ const CandidateProfile = (props: compProps) => {
                       <Autocomplete
                         disablePortal
                         id='combo-box-demo'
-                        options={provinsi}
-                        getOptionLabel={(option: any) => option}
-                        renderInput={params => <TextField {...params} label='Preference Location' />}
-                      // onChange={(event: any, newValue: string | null) =>
-                      //   newValue ? searchcity(100) : searchcity(100)
-                      // }
+                        options={comboProvince}
+                        getOptionLabel={(option: any) => option.province_name}
+                        defaultValue={props.datauser?.location_province}
+                        renderInput={params => <TextField {...params} label='Location' />}
+                        onChange={(event: any, newValue: Province | null) =>
+                          newValue?.id
+                            ? setComboProvince(newValue.id)
+                            : setComboProvince(props.datauser?.location_province?.id)
+                        }
                       />
                     </Grid>
                   )}

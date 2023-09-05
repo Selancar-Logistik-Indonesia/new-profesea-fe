@@ -66,7 +66,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
             { title: t('landing_menu_4'), path: baseAddress1 },
             { title: t('landing_menu_5'), path: baseAddress2 }, 
         ]);
-    }, []);
+    }, );
 
     const buildAppbarActions = () => {
 
