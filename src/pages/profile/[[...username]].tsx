@@ -43,11 +43,15 @@ const UserFeedApp = () => {
 
   const firstload = async () => {
     let url = '';
+    let filter = ''
+    let filterdoc = ''
     if (!username) {
       url = '/user/' + iduser;
       username = user.username;
     } else {
       url = '/user/?username=' + username;
+      filter = '&username=' + username
+      filterdoc = '?username=' + username
     }
 
     try {
@@ -62,25 +66,25 @@ const UserFeedApp = () => {
       setSelectedUser(user);
 
       if (user.role == 'Company') {
-        HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=25').then(response => {
+        HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=250'+filter).then(response => {
           const code = response.data.jobs.data;
           setArrVacancy(code);
         })
       } else if (user.role == 'Trainer') {
-        HttpClient.get(AppConfig.baseUrl + '/training?search=&page=1&take=10').then(response => {
-          const itemData = response.data.trainings.data;
-          setArrVacancy(itemData);
+        HttpClient.get(AppConfig.baseUrl + '/training?search=&page=1&take=250' + filter).then(response => {
+          const itemData = response.data.trainings.data
+          setArrVacancy(itemData)
         })
       } else {
-        HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100').then(response => {
-          const itemData = response.data.experiences;
-          setArrVacancy(itemData);
+        HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100' + filter).then(response => {
+          const itemData = response.data.experiences
+          setArrVacancy(itemData)
         })
-        HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100').then(response => {
+        HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100' + filter).then(response => {
           const itemData = response.data.educations
           setArrVacancy2(itemData)
         })
-        HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
+        HttpClient.get(AppConfig.baseUrl + '/user/document' + filterdoc).then(response => {
           const itemData = response.data.documents
 
           getItemdata(itemData)

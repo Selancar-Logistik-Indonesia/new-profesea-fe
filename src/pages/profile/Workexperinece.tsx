@@ -37,16 +37,16 @@ const renderList = (arr: ParamJobVacncy[]) => {
         >
           <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
             <Typography sx={{ color: '#424242', fontWeight: 600 }}>
-              {`${item.institution.charAt(0).toUpperCase() + item.institution.slice(1)}`}
+              {`${item.institution?.charAt(0).toUpperCase() + item.institution?.slice(1)}`}
             </Typography>
             <Typography sx={{ color: '#424242', fontWeight: 400 }}>
-              {item.position.charAt(0).toUpperCase() + item.position.slice(1)}
+              {item.position?.charAt(0).toUpperCase() + item.position?.slice(1)}
             </Typography>
 
             <Grid xs={12} display='flex'>
               <Box>
                 <Typography variant='body1'>
-                  {item.start_date.charAt(0).toUpperCase() + item.start_date.slice(1)}
+                  {item.start_date?.charAt(0).toUpperCase() + item.start_date?.slice(1)}
                 </Typography>
               </Box>
               <Box>
@@ -54,7 +54,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
               </Box>
               <Box>
                 <Typography variant='body1'>
-                  {item.end_date.charAt(0).toUpperCase() + item.end_date.slice(1)}
+                  {item.end_date?.charAt(0).toUpperCase() + item.end_date?.slice(1)}
                 </Typography>
               </Box>
             </Grid>

@@ -136,10 +136,9 @@ const getUserPlanType = (user: IUser | null) => {
 }
 function subscribev(id:string[]) {
   const abilities = secureLocalStorage.getItem(localStorageKeys.abilities) as IUser
-    let newValue = ''
-    debugger;
+    let newValue = '' 
     for (let i = 0; i < id.length; i++) {
-       newValue = abilities.items.find((e: any) => e.code == id[i])
+       newValue = abilities?.items.find((e: any) => e.code == id[i])
        if(newValue!= undefined)break;
     }
     console.log('here 1', newValue);
