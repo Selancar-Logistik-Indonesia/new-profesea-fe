@@ -1,5 +1,7 @@
 interface IAbilities {
     plan_type: string
+    start_date: string
+    end_date: string
     account_type: string
     items: AbilitiesItem[]
 }
