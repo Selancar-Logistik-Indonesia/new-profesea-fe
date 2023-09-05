@@ -3,7 +3,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
-import { Box, Button, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, Typography } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import DialogAdd from './DialogAdd';
 import AccountDatagrid, { RowItem } from './AccountDatagrid';
@@ -17,6 +17,7 @@ import DialogDelete from './DialogDelete';
 import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
 import { Icon } from '@iconify/react';
+import ITeam from 'src/contract/models/team';
 
 const UserScreen = () => {
     const translate: any = {
@@ -33,15 +34,17 @@ const UserScreen = () => {
     const [openEditModal, setOpenEditModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<Account | null>(null);
+    const [teams, getTeams] = useState<any[]>([]);
 
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
     const [search, setSearch] = useState("");
+    const [filter, setFilter] = useState<any>(0);
 
     const [perPage, setPerPage] = useState(10);
     const getListAccount = async () => {
         try {
-            const resp = await HttpClient.get(`/user-management?search=${search}&page=${page}&take=${perPage}`);
+            const resp = await HttpClient.get(`/user-management?search=${search}&page=${page}&take=${perPage}&team_id=${filter}`);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
@@ -82,6 +85,14 @@ const UserScreen = () => {
         }
     }
 
+    const combobox = async () => {
+        const resp = await HttpClient.get(`/public/data/team?nonpublic=1`);
+        if (resp.status != 200) {
+            throw resp.data.message ?? "Something went wrong!";
+        }
+        getTeams(resp.data.teams);
+    }
+
     const handleSearch = useCallback(
         debounce((value: string) => {
             setSearch(value);
@@ -106,10 +117,11 @@ const UserScreen = () => {
 
     useEffect(() => {
         setOnLoading(true);
+        combobox();
         getListAccount().then(() => {
             setOnLoading(false);
         });
-    }, [page, search, hookSignature, perPage]);
+    }, [page, search, hookSignature, perPage, filter]);
 
     return (
         <>
@@ -126,9 +138,19 @@ const UserScreen = () => {
                         <CardContent>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
+                                    <Autocomplete                                        
+                                        disablePortal
+                                        id="combo-box-demo"
+                                        options={teams}
+                                        getOptionLabel={(option: ITeam) => option.teamName}
+                                        renderInput={(params) => <TextField {...params} label="Role" size='small' sx={{ mb: 2 , width:'150px'}}/>}
+                                        onChange={(event: any, newValue: ITeam | null) => (newValue?.id) ? setFilter(newValue.id) : setFilter(0)}
+                                    />
+                                </Grid>
+                                <Grid item>
                                     <TextField
                                         size='small'
-                                        sx={{ mr: 6, mb: 2 }}
+                                        sx={{ mr: 6, mb: 2, ml:5 }}
                                         placeholder='Search'
                                         onChange={(e) => handleSearch(e.target.value)}
                                     />
