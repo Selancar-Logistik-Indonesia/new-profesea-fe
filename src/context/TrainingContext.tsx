@@ -12,7 +12,8 @@ const defaultValue: TrainingContextType = {
     listTrainings: [],
     onLoading: false,
     hasNextPage: false,
-    fetchTrainings: () => Promise.resolve()
+    fetchTrainings: () => Promise.resolve(),
+    joinTraining: () => Promise.resolve()
 }
 
 const TrainingContext = createContext(defaultValue);
@@ -60,6 +61,24 @@ const TrainingProvider = (props: Props) => {
         setOnLoading(false);
     }
 
+    const joinTraining = async (id:any) => {
+
+        try {
+            const response = await HttpClient.get(`/training/${id}/join`)
+
+            if (response.status == 200) {
+                setTrainings([]);
+                setPage(1);
+                setHasNextPage(true);
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+        
+        setOnLoading(false);
+    }
+
     
 
 
@@ -71,6 +90,7 @@ const TrainingProvider = (props: Props) => {
         onLoading,
         hasNextPage,
         fetchTrainings,
+        joinTraining,
     }), [
         page,
         setPage,
@@ -79,6 +99,7 @@ const TrainingProvider = (props: Props) => {
         onLoading,
         hasNextPage,
         fetchTrainings,
+        joinTraining,
     ]);
 
     return <TrainingContext.Provider value={values}>{props.children}</TrainingContext.Provider>;

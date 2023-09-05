@@ -8,6 +8,7 @@ type TrainingContextType = {
     listTrainings: Training[],
     hasNextPage: boolean,
     fetchTrainings: (payload: {take: number, ongoing?:any, instant?:any, category_id?:any, search?:any}) => Promise<void>,
+    joinTraining: (id:any) => Promise<void>
 }
 
 export default TrainingContextType;
