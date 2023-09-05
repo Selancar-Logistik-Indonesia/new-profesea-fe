@@ -109,21 +109,25 @@ const Registration = (props: any ) => {
             return;
         }
 
+        let ship = ''
+        if (idposition.id == 0) {
+          ship = 'onship'
+        } else {
+          ship = 'offship'
+        } 
+
         let teamid: number;
         if (tipereg == 'seafer') {
             teamid = 2
         } else if (tipereg == 'company') {
             teamid = 3
+            ship = ''
         } else {
             teamid = 4
+            ship = ''
         }
 
-        let ship = ''
-        if (idposition.id == 0) {
-            ship = 'onship'
-        } else {
-            ship = 'offship'
-        } const json = {
+        const json = {
             'name': name,
             "email": email,
             "username": username,
