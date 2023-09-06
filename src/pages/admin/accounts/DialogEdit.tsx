@@ -47,9 +47,9 @@ const DialogEdit = (props: EditProps) => {
     const [onLoading, setOnLoading] = useState(false);
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [showPassword2, setShowPassword2] = useState<boolean>(false)
-    const [phoneNum, setPhoneNum] = useState('');
+    const [phoneNum, setPhoneNum] = useState(props.selectedItem.phone);
 
-    const [teamId, setTeamId] = useState(0);
+    const [teamId, setTeamId] = useState(props.selectedItem.team_id);
     const [idcombocode, setCombocode] = useState<any>(0)
     const [selectedCombo, getSelectedCombo] = useState<any[]>([])
 
@@ -96,7 +96,7 @@ const DialogEdit = (props: EditProps) => {
     })
 
     const onSubmit = async (formData: Account) => {
-        const { name, email, username, password, password_confirmation, phone } = formData
+        const { name, email, username, password, password_confirmation } = formData
 
         const json = {
             "name": name,
@@ -105,8 +105,8 @@ const DialogEdit = (props: EditProps) => {
             "password": password,
             "password_confirmation": password_confirmation,
             "team_id": teamId,
-            "country_id": idcombocode.id,
-            "phone": phone
+            "country_id": (idcombocode.id) ? idcombocode.id : props.selectedItem.country_id,
+            "phone": phoneNum
         }
 
         setOnLoading(true);
@@ -254,7 +254,6 @@ const DialogEdit = (props: EditProps) => {
                             <TextField id="Phone"
                                 label="Phone"
                                 variant="outlined"
-                                defaultValue={props.selectedItem.phone}
                                 fullWidth sx={{ mb: 6 }} value={phoneNum} onChange={(e) => setPhoneNum(removeFirstZeroChar(e.target.value))} />
                         </Grid>
                     </Grid>
