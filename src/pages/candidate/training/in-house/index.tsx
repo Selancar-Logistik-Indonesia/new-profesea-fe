@@ -10,6 +10,7 @@ import Link from 'next/link';
 import TrainingContext, { TrainingProvider } from 'src/context/TrainingContext';
 import { useTraining } from 'src/hooks/useTraining';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import ButtonJoin from './ButtonJoin';
 
 const SeafererInstantTraining = () => {
     return (
@@ -20,6 +21,7 @@ const SeafererInstantTraining = () => {
 }
 
 const renderList = (arr: Training[]) => {
+    
     if (arr && arr.length) {
     
         return arr.map((item) => {
@@ -66,10 +68,15 @@ const renderList = (arr: Training[]) => {
                                             </Typography>
                                         </Button>
                                     </Grid>
-                                    <Grid item xs={3} >                                        
+                                    <Grid item xs={3} > 
+                                    {item?.score && item?.joined_at != null && (
                                         <Button size='small' LinkComponent={Link} variant='contained' color='primary' href={`/candidate/training/in-house/${item.id}`}>
                                         {(item?.score > 0) ? `Re-Try` : 'Try It'  } 
                                         </Button>
+                                    )} 
+                                    {item?.joined_at === null && (
+                                       <ButtonJoin id={item.id}></ButtonJoin>
+                                    )}                                       
                                     </Grid>
                                 </Grid>
                             </CardContent>
@@ -85,8 +92,8 @@ const renderList = (arr: Training[]) => {
 
 const InstantTrainingApp = () => {
     
-    const { fetchTrainings, hasNextPage, totalTraining } = useTraining();
-
+    const { fetchTrainings,  hasNextPage, totalTraining } = useTraining();
+    
     useEffect(() => {
         fetchTrainings({ take: 9, instant:1 });
     }, [hasNextPage]);
@@ -97,24 +104,24 @@ const InstantTrainingApp = () => {
                 if (onLoading) {
                 
                     return (
-                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <CircularProgress sx={{ mt: 20 }} />
-                            </Box>
-                        );
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <CircularProgress sx={{ mt: 20 }} />
+                        </Box>
+                    );
                 }
                 
                 return(
                 
-                <InfiniteScroll
-                    dataLength={totalTraining}
-                    next={() => fetchTrainings({ take: 9, instant:1 })}
-                    hasMore={hasNextPage}
-                    loader={(<CircularProgress sx={{ mt: 20 }} />)}>
-                    
-                    <Grid container spacing={2} mt={1}>
-                        {renderList(listTrainings)}
-                    </Grid>
-                </InfiniteScroll>
+                    <InfiniteScroll
+                        dataLength={totalTraining}
+                        next={() => fetchTrainings({ take: 9, instant:1 })}
+                        hasMore={hasNextPage}
+                        loader={(<CircularProgress sx={{ mt: 20 }} />)}>
+                        
+                        <Grid container spacing={2} mt={1}>
+                            {renderList(listTrainings)}
+                        </Grid>
+                    </InfiniteScroll>
                 )
                 
             }}
