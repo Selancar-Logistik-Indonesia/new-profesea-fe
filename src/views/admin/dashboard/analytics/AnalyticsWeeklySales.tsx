@@ -17,7 +17,7 @@ import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 const series = [
   {
     name: 'Subscriptions',
-    data: [17165, 13850, 12375, 9567]
+    data: [3354000, 138500000, 123750000, 95670000]
   }
 ]
 
@@ -38,13 +38,7 @@ const AnalyticsSalesCountry = () => {
         startingShape: 'rounded'
       }
     },
-    dataLabels: {
-      offsetY: 8,
-      style: {
-        fontWeight: 500,
-        fontSize: '0.875rem'
-      }
-    },
+    dataLabels: { enabled: false },
     grid: {
       strokeDashArray: 8,
       borderColor: theme.palette.divider,
@@ -83,26 +77,26 @@ const AnalyticsSalesCountry = () => {
       categories: ['BASIC', 'PRO', 'STAR', 'PPV'],
       labels: {        
         style: {
+          fontWeight: 600,
           fontSize: '0.875rem',
-          colors: theme.palette.text.disabled
+          colors: theme.palette.text.primary
         }
       }
     },
     yaxis: {
       labels: {
         align: theme.direction === 'rtl' ? 'right' : 'left',        
-        formatter: val => `Rp. ${Number(val) / 1000}`,
+        formatter: val => `Rp. ${Number(val) / 1000}k`,
         style: {
-          fontWeight: 600,
           fontSize: '0.875rem',
-          colors: theme.palette.text.primary
+          colors: theme.palette.text.disabled
         }
       }
     }
   }
 
   return (
-    <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+    <Card sx={{ border: 0, boxShadow: 0}}>
       <CardHeader
         title='Subscriptions Weekly Sales'
         subheader='Total Rp. 123445'
@@ -127,7 +121,7 @@ const AnalyticsSalesCountry = () => {
           }
         }}
       >
-        <ReactApexcharts type='bar' height={340} series={series} options={options} />
+        <ReactApexcharts type='bar' height={338} series={series} options={options} />
       </CardContent>
     </Card>
   )
