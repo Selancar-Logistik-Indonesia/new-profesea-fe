@@ -21,6 +21,16 @@ const Subscription = () => {
     const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState<boolean>(false);
     const { abilities } = useAuth();
 
+    const startTime = moment(abilities?.start_date);
+    const endTime = moment(abilities?.end_date);
+    const now = moment();
+    const duration = moment.duration(endTime.diff(startTime));
+    const duration2 = moment.duration(now.diff(startTime));
+
+    const totalDays = duration.asDays();
+    const currentDays = duration2.asDays();
+    const percent = (currentDays / totalDays) * 100;
+
     return (
         <Grid container spacing={6}>
             <Grid item xs={12}>
@@ -44,20 +54,19 @@ const Subscription = () => {
                             </Grid>
 
                             <Grid item xs={12} md={6} sx={{ mt: [4, 4, 0] }}>
-                                <Alert icon={false} severity='warning' sx={{ mb: 4 }}>
-                                    <AlertTitle sx={{ fontWeight: 600, mb: theme => `${theme.spacing(1)} !important` }}>
-                                        We need your attention!
-                                    </AlertTitle>
-                                    Your plan requires updates
-                                </Alert>
+                                {percent > 95 && (
+                                    <Alert icon={false} severity='warning' sx={{ mb: 4 }}>
+                                        <AlertTitle sx={{ fontWeight: 600, mb: theme => `${theme.spacing(1)} !important` }}>
+                                            We need your attention!
+                                        </AlertTitle>
+                                        Your plan requires updates
+                                    </Alert>
+                                )}
                                 <Box sx={{ display: 'flex', mb: 2, justifyContent: 'space-between' }}>
                                     <Typography sx={{ fontWeight: 600, fontSize: '0.875rem' }}>Days</Typography>
-                                    <Typography sx={{ fontWeight: 600, fontSize: '0.875rem' }}>26 of 30 Days</Typography>
+                                    <Typography sx={{ fontWeight: 600, fontSize: '0.875rem' }}>{Math.floor(duration2.asDays())} of {duration.asDays()} Days</Typography>
                                 </Box>
-                                <LinearProgress value={86.6666666} variant='determinate' sx={{ height: 10, borderRadius: '5px' }} />
-                                <Typography variant='body2' sx={{ mt: 2, mb: 4 }}>
-                                    Your plan requires update
-                                </Typography>
+                                <LinearProgress value={percent} variant='determinate' sx={{ height: 10, borderRadius: '5px' }} />
                             </Grid>
 
                             <Grid item xs={12} sx={{ mt: 4, display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start' }}>
