@@ -34,6 +34,7 @@ const AnalyticsSalesCountry = () => {
       bar: {
         borderRadius: 8,
         barHeight: '60%',
+        horizontal: true,
         distributed: true,
         startingShape: 'rounded'
       }
@@ -81,7 +82,8 @@ const AnalyticsSalesCountry = () => {
       axisTicks: { show: false },
       axisBorder: { show: false },
       categories: ['BASIC', 'PRO', 'STAR', 'PPV'],
-      labels: {        
+      labels: {
+        formatter: val => `${Number(val) / 1000}k`,
         style: {
           fontSize: '0.875rem',
           colors: theme.palette.text.disabled
@@ -90,8 +92,7 @@ const AnalyticsSalesCountry = () => {
     },
     yaxis: {
       labels: {
-        align: theme.direction === 'rtl' ? 'right' : 'left',        
-        formatter: val => `Rp. ${Number(val) / 1000}`,
+        align: theme.direction === 'rtl' ? 'right' : 'left',
         style: {
           fontWeight: 600,
           fontSize: '0.875rem',
@@ -104,8 +105,8 @@ const AnalyticsSalesCountry = () => {
   return (
     <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
       <CardHeader
-        title='Subscriptions Weekly Sales'
-        subheader='Total Rp. 123445'
+        title='Subscriptions Country'
+        subheader='Total 123445 Subscriptions'
         subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
         titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
         action={
@@ -127,7 +128,7 @@ const AnalyticsSalesCountry = () => {
           }
         }}
       >
-        <ReactApexcharts type='bar' height={340} series={series} options={options} />
+        <ReactApexcharts type='bar' height={332} series={series} options={options} />
       </CardContent>
     </Card>
   )
