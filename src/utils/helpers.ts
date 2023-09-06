@@ -147,7 +147,7 @@ function subscribev(id: string[]) {
 }
 
 const translateTrxStatus = (s: string) => {
-    let map = new Map<string, string>([
+    const map = new Map<string, string>([
         ["canceled", "Dibatalkan"],
         ["paid", "Pembayaran diterima"],
         ["unpaid", "Menunggu pembayaran"],

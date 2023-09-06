@@ -57,7 +57,8 @@ const TransactionDetailPage = () => {
             const resp = await HttpClient.post('/transaction/cancel', { trx_id: trx?.trx_id });
             if (resp.status != 200) {
                 alert(resp.data.message ?? "Unknow error!");
-                return;
+                
+return;
             }
 
             getTransaction();
