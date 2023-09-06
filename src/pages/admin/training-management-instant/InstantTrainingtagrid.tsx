@@ -21,6 +21,11 @@ const columns: GridColDef[] = [
 
             return (
                 <>
+                    <Link href={`/admin/training-management-instant/joined/${row.id}`}>
+                        <IconButton aria-label='view' color='info' size='small'>
+                            <Icon icon='mdi:user' />
+                        </IconButton>
+                    </Link>
                     <Link href={`/admin/training-management-instant/settings/${row.id}`}>
                         <IconButton aria-label='view' color='secondary' size='small'>
                             <Icon icon='mdi:gear' />
