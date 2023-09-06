@@ -1,6 +1,6 @@
 import { faArrowLeft, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Card, Grid, IconButton, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
+import { Box, Button, Card, CircularProgress, Grid, IconButton, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import Training from "src/contract/models/training";
 import Transaction from "src/contract/models/transactions";
 import { HttpClient } from "src/services";
-import { formatIDR } from "src/utils/helpers";
+import { formatIDR, translateTrxStatus } from "src/utils/helpers";
 import collect from 'collect.js';
 import TrxableType from "src/contract/types/trxable_type";
 import SubscriptionPlan from "src/contract/models/subscription_plan";
@@ -18,6 +18,7 @@ const TransactionDetailPage = () => {
     const router = useRouter();
     const trxId = router.query.id;
     const [trx, setTrx] = useState<Transaction>();
+    const [onLoading, setOnLoading] = useState<boolean>(false);
 
     const getTransaction = async () => {
         const response = await HttpClient.get(`/transaction/${trxId}`);
@@ -48,6 +49,23 @@ const TransactionDetailPage = () => {
                 </ListItem>
             </Card>
         );
+    }
+
+    const handleCancelTrx = async () => {
+        setOnLoading(true)
+        try {
+            const resp = await HttpClient.post('/transaction/cancel', { trx_id: trx?.trx_id });
+            if (resp.status != 200) {
+                alert(resp.data.message ?? "Unknow error!");
+                
+return;
+            }
+
+            getTransaction();
+            setOnLoading(false);
+        } catch (error) { }
+
+        setOnLoading(false);
     }
 
     useEffect(() => {
@@ -132,8 +150,14 @@ const TransactionDetailPage = () => {
                         <Typography variant="caption">Status:</Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
                             <Typography variant="body1" fontSize={24}>
-                                {trx?.status == "paid" ? "Pembayaran diterima" : "Menunggu Pembayaran"}
+                                {translateTrxStatus(`${trx?.status}`)}
                             </Typography>
+
+                            {trx?.status != 'canceled' && (
+                                <Button disabled={onLoading} onClick={handleCancelTrx} variant="outlined" color="error" size="small" sx={{ ml: 5 }}>
+                                    {onLoading ? (<CircularProgress />) : "Batalkan"}
+                                </Button>
+                            )}
                         </Box>
                     </Box>
 

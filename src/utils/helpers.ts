@@ -134,16 +134,26 @@ const getUserPlanType = (user: IUser | null) => {
 
     return user.plan_type;
 }
-function subscribev(id:string[]) {
-  const abilities = secureLocalStorage.getItem(localStorageKeys.abilities) as IUser
-    let newValue = '' 
+function subscribev(id: string[]) {
+    const abilities = secureLocalStorage.getItem(localStorageKeys.abilities) as IUser
+    let newValue = ''
     for (let i = 0; i < id.length; i++) {
-       newValue = abilities?.items.find((e: any) => e.code == id[i])
-       if(newValue!= undefined)break;
+        newValue = abilities?.items.find((e: any) => e.code == id[i])
+        if (newValue != undefined) break;
     }
     console.log('here 1', newValue);
 
-  return newValue ? true : false
+    return newValue ? true : false
+}
+
+const translateTrxStatus = (s: string) => {
+    const map = new Map<string, string>([
+        ["canceled", "Dibatalkan"],
+        ["paid", "Pembayaran diterima"],
+        ["unpaid", "Menunggu pembayaran"],
+    ]);
+
+    return map.get(s) ?? "Undefined";
 }
 
 export {
@@ -162,5 +172,6 @@ export {
     getUserPlanType,
     getEmployeetypev2,
     getUserAvatarByPath,
-    subscribev
+    subscribev,
+    translateTrxStatus,
 }

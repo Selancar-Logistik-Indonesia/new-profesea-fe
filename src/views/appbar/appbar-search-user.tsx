@@ -87,6 +87,8 @@ const AppbarSearchUser = () => {
                     {...params}
                     disabled={isLoading}
                     label="Search"
+                    name="search"
+                    id="search"
                     inputProps={{
                         ...params.inputProps,
                         autoComplete: 'new-password', // disable autocomplete and autofill
