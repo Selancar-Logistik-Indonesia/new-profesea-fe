@@ -10,7 +10,6 @@ import { toast } from 'react-hot-toast';
 import Participants from 'src/contract/models/participants';
 import debounce from 'src/utils/debounce';
 import { GridPaginationModel } from '@mui/x-data-grid';
-import { v4 } from "uuid";
 import { Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 

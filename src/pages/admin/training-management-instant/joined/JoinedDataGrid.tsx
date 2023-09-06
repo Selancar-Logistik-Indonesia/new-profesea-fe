@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
-import { Button, Chip, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [

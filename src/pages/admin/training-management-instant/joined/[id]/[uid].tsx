@@ -1,5 +1,5 @@
-import { Icon } from "@iconify/react";
-import { Box, Button, CircularProgress, Grid, IconButton, Typography } from "@mui/material";
+// import { Icon } from "@iconify/react";
+import { Box, CircularProgress, Grid, IconButton, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { HttpClient } from "src/services";
@@ -7,8 +7,6 @@ import Training from "src/contract/models/training";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import AnswerResult from "src/contract/models/answer_result";
-import { toast } from "react-hot-toast";
-import { getCleanErrorMessage } from "src/utils/helpers";
 import FormScore from "./FormScore";
 
 const TrainingResultPage = () => {
@@ -45,20 +43,6 @@ const TrainingResultPage = () => {
         getListAnswerResult();
         getDetailTraining();
     }, []);
-
-
-    const finish = async () => {
-        try
-        {
-            const resp = await HttpClient.post('/training/answer/submit', { training_id: trainingId});
-            if (resp.status != 200) {
-                throw resp.data.message ?? "Something went wrong!";
-            }
-            toast.success(` The test submited successfully!`);
-        } catch (error) {
-            toast.error(`Opps ${getCleanErrorMessage(error)}`);
-        }
-    }
     
 
     return !training ? (<CircularProgress />) : (
