@@ -39,12 +39,12 @@ const UserScreen = () => {
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
     const [search, setSearch] = useState("");
-    const [filter, setFilter] = useState<any>(0);
+    const [filterTeam, setFilterTeam] = useState<any>(0);
 
     const [perPage, setPerPage] = useState(10);
     const getListAccount = async () => {
         try {
-            const resp = await HttpClient.get(`/user-management?search=${search}&page=${page}&take=${perPage}&team_id=${filter}`);
+            const resp = await HttpClient.get(`/user-management?search=${search}&page=${page}&take=${perPage}&team_id=${filterTeam}`);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
@@ -121,7 +121,7 @@ const UserScreen = () => {
         getListAccount().then(() => {
             setOnLoading(false);
         });
-    }, [page, search, hookSignature, perPage, filter]);
+    }, [page, search, hookSignature, perPage, filterTeam]);
 
     return (
         <>
@@ -144,7 +144,7 @@ const UserScreen = () => {
                                         options={teams}
                                         getOptionLabel={(option: ITeam) => option.teamName}
                                         renderInput={(params) => <TextField {...params} label="Role" size='small' sx={{ mb: 2 , width:'150px'}}/>}
-                                        onChange={(event: any, newValue: ITeam | null) => (newValue?.id) ? setFilter(newValue.id) : setFilter(0)}
+                                        onChange={(event: any, newValue: ITeam | null) => (newValue?.id) ? setFilterTeam(newValue.id) : setFilterTeam(0)}
                                     />
                                 </Grid>
                                 <Grid item>
@@ -154,6 +154,14 @@ const UserScreen = () => {
                                         placeholder='Search'
                                         onChange={(e) => handleSearch(e.target.value)}
                                     />
+                                </Grid>
+                                <Grid item sx={{ mr: 6, mb: 2 }}>
+                                    <Box>
+                                        <Button variant='contained' size='small' onClick={() => 
+                                            HttpClient.downloadFile(`/user-management/export?status=&team_id=${filterTeam}&employee_type=&plan_type=`, "users.xlsx")}
+                                        >
+                                            Export</Button>
+                                    </Box>
                                 </Grid>
                                 <Grid item sx={{ mr: 6, mb: 2 }}>
                                     <Box>
