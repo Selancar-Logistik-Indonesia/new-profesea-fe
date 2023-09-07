@@ -22,7 +22,7 @@ const FeedCard = (props: Prop) => {
     const attachments = item.attachments;
 
     return (
-        <Paper sx={{ marginTop: '10px', padding: { xs: 3, md: 5 } }}>
+        <Paper sx={{ marginTop: '10px', padding: { xs: 3, md: 5 }, border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
             <Box component={Link} style={{ textDecoration: 'none' }} href={`/profile/${item.user.username}`} sx={{ display: 'flex', '& svg': { color: 'text.secondary' }, height: 60 }}>
                 <Box>
                     <Avatar sx={{ width: 50, height: 50, mr: 3, mb: 3 }} src={getUserAvatar(item.user)} alt='profile-picture' />

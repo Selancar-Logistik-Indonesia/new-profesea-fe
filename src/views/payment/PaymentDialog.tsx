@@ -65,7 +65,7 @@ const PaymentDialog = (props: Props) => {
     return (
         <Dialog open={props.openDialog} onClose={() => props.onClose()}>
             <DialogActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Typography variant="body1" fontSize={24}>Transaction</Typography>
+            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>Transaction</Typography>
                 <IconButton onClick={() => props.onClose()}>
                     <Icon icon='mdi:close' />
                 </IconButton>
@@ -79,7 +79,7 @@ const PaymentDialog = (props: Props) => {
                             </ListItemAvatar>
                             <ListItemText>
                                 <Box>
-                                    <Typography variant="body1" fontSize={24}>{props.training.title}</Typography>
+                                    <Typography variant="body1" style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>{props.training.title}</Typography>
                                     <Typography variant="caption">{formatIDR(props.training.price)}</Typography>
                                 </Box>
                             </ListItemText>
@@ -98,7 +98,7 @@ const PaymentDialog = (props: Props) => {
 
                 {(!onLoading.includes('widget') && banks.length > 0) && (
                     <>
-                        <Typography variant="body1" mt={10} ml={5} mb={3} fontSize={20}>Pilih Bank</Typography>
+                        <Typography variant="body1" mt={10} mb={3} style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>Pilih Bank</Typography>
                         <Divider />
                         <List>
                             {banks.map(e => (

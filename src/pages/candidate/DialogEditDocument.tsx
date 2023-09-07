@@ -389,7 +389,7 @@ const DialogEditDocument = (props: DialogProps) => {
             pb: theme => `${theme.spacing(8)} !important`,
             px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
             pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`],
-            height: 'auto'
+            height: '450px'
           }}
         >
           <IconButton

@@ -1699,6 +1699,7 @@ const CandidateProfile = (props: compProps) => {
                       <div style={{ marginLeft: 5 }}>ADD</div>
                     </Button>
                   </Grid>
+                  <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
                   <Grid item container xs={12}>
                     {itemData.map(itemhead => (
                       <>
