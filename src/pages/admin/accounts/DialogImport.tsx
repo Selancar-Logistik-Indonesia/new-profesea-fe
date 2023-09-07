@@ -3,7 +3,6 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
 import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Fade, { FadeProps } from '@mui/material/Fade'
@@ -17,10 +16,6 @@ import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { CircularProgress } from '@mui/material'
 // import User from 'src/contract/models/company'
-import { DateType } from 'src/contract/models/DatepickerTypes'
-// import { Autocomplete } from '@mui/material'
-import DatePicker from 'react-datepicker'
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { useDropzone } from 'react-dropzone'
 
 
@@ -57,17 +52,15 @@ const Img = styled('img')(({ theme }) => ({
     }
 }))
 
-const DialogAdd = (props: DialogProps) => {
+const DialogImport = (props: DialogProps) => {
     const [onLoading, setOnLoading] = useState(false);
-    // const [UserId, setUserId] = useState(0);
-    const [date, setDate] = useState<DateType>(new Date())
     const [files, setFiles] = useState<File[]>([])    
     // const [User, getUser] =useState<any[]>([])
 
     const { getRootProps, getInputProps } = useDropzone({
         multiple: false,
         accept: {
-        'image/*': ['.png', '.jpg', '.jpeg', '.gif']
+        'data/*': ['.xls', '.xlsx', '.ods']
         },
         onDrop: (acceptedFiles: File[]) => {
         setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
@@ -77,54 +70,30 @@ const DialogAdd = (props: DialogProps) => {
     const img = files.map((file: FileProp) => (
         <img key={file.name} alt={file.name} className='single-file-image' src={URL.createObjectURL(file as any)} width={450} />
     ))
-    
-    // const combobox = async () =>{
-        
-    //     const resp = await HttpClient.get(`/user-management?page=1&take=250&team_id=4`);
-    //     if (resp.status != 200) {
-    //         throw resp.data.message ?? "Something went wrong!";
-    //     }
-    //     getUser(resp.data.users.data);
-
-    // }
-
-    // useEffect(() => {   
-    // combobox()
-    // },[]) 
 
     const { 
-        register,
         handleSubmit,
     } = useForm<any>({
         mode: 'onBlur'
     }) 
 
 
-    const onSubmit = async (formData: { description : string }) => {
-        const { description } = formData
+    const onSubmit = async () => {
         const json = {
-            // "user_id": UserId,
-            "attachments": files,
-            "expired_at": date?.toLocaleDateString("en-GB", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit"
-            }).split('/').reverse().join('-')+" "
-            +date?.toTimeString().split(' ')[0],
-            "description" : description
+            "file": files[0]
         }
         
         setOnLoading(true);
 
         try
         {
-            const resp = await HttpClient.postFile('/ads', json);
+            const resp = await HttpClient.postFile('/user-management/import', json);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
 
             props.onCloseClick();
-            toast.success(` Ads submited successfully!`);
+            toast.success(`Users imported successfully!`);
         } catch (error) {
             toast.error(`Opps ${getCleanErrorMessage(error)}`);
         }
@@ -159,39 +128,13 @@ const DialogAdd = (props: DialogProps) => {
                     </IconButton>
                     <Box sx={{ mb: 6, textAlign: 'center' }}>
                     <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
-                            Add New ADS
+                            Import New Accounts
                         </Typography>
-                        <Typography variant='body2'>Fulfill your ADS Info here</Typography>
+                        <Typography variant='body2'>Download Template Import Account <Button variant='outlined' color='info' size="small" sx={{ mr: 2 }} href='/templates/import_users_template.xlsx' target='_blank'>Here</Button></Typography>
                     </Box>
                     
                     <Grid container columnSpacing={'1'} rowSpacing={'4'} >
-                        {/* <Grid item md={12} xs={12} > 
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-Trainer"
-                                options={User}  
-                                getOptionLabel={(option:Trainer) => option.name}
-                                renderInput={(params) => <TextField {...params} label="Trainer" error={Boolean(errors.user_id)} {...register("user_id")}/>}
-                                onChange={(event: any, newValue: Trainer | null)=> (newValue?.id) ? setUserId(newValue.id) : setUserId(0)}
-                            />
-                        </Grid> */}
-                        <Grid item md={12} xs={12} >
-                            <DatePickerWrapper>
-                                <DatePicker
-                                showTimeSelect
-                                minDate={new Date()}
-                                dateFormat='dd/MM/yyyy hh:mm aa'
-                                selected={date}
-                                id='basic-input'
-                                onChange={(date: Date) => setDate(date)}
-                                placeholderText='Click to select a date'
-                                customInput={<TextField label='Expired At' variant="outlined" fullWidth />}
-                                />
-                            </DatePickerWrapper>
-                        </Grid> 
-                        <Grid item md={12} xs={12} >
-                            <TextField id="description" label="Description" variant="outlined" multiline  maxRows={4} fullWidth {...register("description")} />                  
-                        </Grid>
+                        
                         <Grid item md={12} xs={12} >
                         <Box  {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed' }}>
                             <input {...getInputProps()} />
@@ -206,7 +149,7 @@ const DialogAdd = (props: DialogProps) => {
                                     <Link href='/' onClick={e => e.preventDefault()}>
                                         browse / image
                                     </Link>{' '}
-                                    to upload ADS
+                                    to upload account
                                     </Typography>
                                 </Box>
                                 </Box>
@@ -241,4 +184,4 @@ const DialogAdd = (props: DialogProps) => {
     )
 }
 
-export default DialogAdd
+export default DialogImport

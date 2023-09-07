@@ -17,7 +17,7 @@ import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 const series = [
   {
     name: 'Subscriptions',
-    data: [3354000, 138500000, 123750000, 95670000]
+    data: [17165, 13850, 12375, 9567]
   }
 ]
 
@@ -34,11 +34,18 @@ const AnalyticsSalesCountry = () => {
       bar: {
         borderRadius: 8,
         barHeight: '60%',
+        horizontal: true,
         distributed: true,
         startingShape: 'rounded'
       }
     },
-    dataLabels: { enabled: false },
+    dataLabels: {
+      offsetY: 8,
+      style: {
+        fontWeight: 500,
+        fontSize: '0.875rem'
+      }
+    },
     grid: {
       strokeDashArray: 8,
       borderColor: theme.palette.divider,
@@ -75,31 +82,31 @@ const AnalyticsSalesCountry = () => {
       axisTicks: { show: false },
       axisBorder: { show: false },
       categories: ['BASIC', 'PRO', 'STAR', 'PPV'],
-      labels: {        
+      labels: {
+        formatter: val => `${Number(val) / 1000}k`,
+        style: {
+          fontSize: '0.875rem',
+          colors: theme.palette.text.disabled
+        }
+      }
+    },
+    yaxis: {
+      labels: {
+        align: theme.direction === 'rtl' ? 'right' : 'left',
         style: {
           fontWeight: 600,
           fontSize: '0.875rem',
           colors: theme.palette.text.primary
         }
       }
-    },
-    yaxis: {
-      labels: {
-        align: theme.direction === 'rtl' ? 'right' : 'left',        
-        formatter: val => `Rp. ${Number(val) / 1000}k`,
-        style: {
-          fontSize: '0.875rem',
-          colors: theme.palette.text.disabled
-        }
-      }
     }
   }
 
   return (
-    <Card sx={{ border: 0, boxShadow: 0}}>
+    <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
       <CardHeader
-        title='Subscriptions Weekly Sales'
-        subheader='Total Rp. 123445'
+        title='Subscriptions Country'
+        subheader='Total 123445 Subscriptions'
         subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
         titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
         action={
@@ -121,7 +128,7 @@ const AnalyticsSalesCountry = () => {
           }
         }}
       >
-        <ReactApexcharts type='bar' height={338} series={series} options={options} />
+        <ReactApexcharts type='bar' height={332} series={series} options={options} />
       </CardContent>
     </Card>
   )

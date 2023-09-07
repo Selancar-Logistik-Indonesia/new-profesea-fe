@@ -18,6 +18,7 @@ import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
 import { Icon } from '@iconify/react';
 import ITeam from 'src/contract/models/team';
+import DialogImport from './DialogImport';
 
 const UserScreen = () => {
     const translate: any = {
@@ -30,6 +31,7 @@ const UserScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
     const [onLoading, setOnLoading] = useState(false);
     const [openAddModal, setOpenAddModal] = useState(false);
+    const [openImModal, setOpenImModal] = useState(false);
     const [openDelModal, setOpenDelModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
@@ -165,6 +167,13 @@ const UserScreen = () => {
                                 </Grid>
                                 <Grid item sx={{ mr: 6, mb: 2 }}>
                                     <Box>
+                                    <Button variant='contained' size='small' onClick={() => setOpenImModal(!openImModal)}>
+                                            Import
+                                        </Button>
+                                    </Box>
+                                </Grid>
+                                <Grid item sx={{ mr: 6, mb: 2 }}>
+                                    <Box>
                                     <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
                                             <Icon
                                                 fontSize='large'
@@ -192,6 +201,9 @@ const UserScreen = () => {
             <DialogAdd visible={openAddModal}
                 onStateChange={() => setHookSignature(v4())}
                 onCloseClick={() => setOpenAddModal(!openAddModal)} />
+            <DialogImport visible={openImModal}
+                onStateChange={() => setHookSignature(v4())}
+                onCloseClick={() => setOpenImModal(!openImModal)} />
             {selectedItem && (
                 <>
                     <DialogDelete selectedItem={selectedItem}
