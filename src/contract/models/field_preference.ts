@@ -22,6 +22,7 @@ interface FieldPreference {
   province: Province
   spoken_langs: any
   open_to_opp:any
+  jobcategory: JobCategory
 }
 
 export default FieldPreference;

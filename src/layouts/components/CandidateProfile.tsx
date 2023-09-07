@@ -170,7 +170,7 @@ const CandidateProfile = (props: compProps) => {
   const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
   const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id)
   const [idcomboRegion, setComboRegion] = useState<any>(props.datauser?.field_preference?.region_travel?.id)
-  const [idcomboProvince, setComboProvince] = useState<any>(props.datauser?.location_province)
+  const [idcomboProvince, setComboProvince] = useState<any>(props.datauser?.location_province?.id)
   const [idOPP, setOpp] = useState<any>(
     props.datauser.field_preference?.open_to_opp == 0
       ? { id: '0', label: 'Not Available' }
@@ -537,12 +537,18 @@ const CandidateProfile = (props: compProps) => {
             spoken_langs: personName,
             open_to_opp: idOPP
           }
-          HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
-            console.log('here 1', data)
-            toast.success(' Successfully submited!')
-            refreshsession()
-            window.location.replace('/home')
-          })
+          HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(
+            ({ data }) => {
+              console.log('here 1', data)
+              toast.success(' Successfully submited!')
+              refreshsession()
+              window.location.replace('/home')
+            },
+            error => {
+              console.log('here 1', error)
+              toast.error(' Failed ' + error.response.data.message)
+            }
+          )
         } else {
           const x = {
             // rolelevel_id: idcomborolLevel,
@@ -554,18 +560,24 @@ const CandidateProfile = (props: compProps) => {
             open_to_opp: idOPP,
             category_id: JC
           }
-          HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(({ data }) => {
-            console.log('here 1', data)
-            toast.success(' Successfully submited!')
-            refreshsession();
-            window.location.replace('/home')
-          })
+          HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(
+            ({ data }) => {
+              console.log('here 1', data)
+              toast.success(' Successfully submited!')
+              refreshsession()
+              window.location.replace('/home')
+            },
+            error => {
+              console.log('here 1', error)
+              toast.error(' Failed ' + error.response.data.message)
+            }
+          )
         }
-
-
-
       },
-
+      error => {
+        console.log('here 1', error)
+        toast.error(' Failed ' + error.response.data.message)
+      }
     )
   }
 
@@ -1041,7 +1053,7 @@ const CandidateProfile = (props: compProps) => {
                       disablePortal
                       id='combo-box-level'
                       options={JobCategory}
-                      defaultValue={props.datauser?.jobcategory}
+                      defaultValue={props.datauser?.field_preference?.jobcategory}
                       getOptionLabel={(option: JobCategory) => option.name}
                       renderInput={params => <TextField {...params} label='Job Category' />}
                       onChange={(event: any, newValue: JobCategory | null) =>
@@ -1191,7 +1203,7 @@ const CandidateProfile = (props: compProps) => {
                       disablePortal
                       id='combo-box-level'
                       options={JobCategory}
-                      defaultValue={props.datauser?.jobcategory}
+                      defaultValue={props.datauser?.field_preference?.jobcategory}
                       getOptionLabel={(option: JobCategory) => option.name}
                       renderInput={params => <TextField {...params} label='Job Category' />}
                       onChange={(event: any, newValue: JobCategory | null) =>
