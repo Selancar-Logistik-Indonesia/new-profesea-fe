@@ -31,15 +31,17 @@ const renderList = (arr: Training[]) => {
                     <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                         <Grid item xs={12} >
                             <CardContent>
-                                <Grid container sx={{ alignItems: 'center', justifyContent: 'center' }}>
+                                <Grid container sx={{ alignItems: 'center', justifyContent: 'center', marginBottom: '5px'}}>
                                     <Grid item component={Link} href={`/candidate/training/detail/${item.id}`}>
                                         <img
                                             alt='logo'
                                             src={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
                                             style={{
-                                                width: '100%',
-                                                height: '200px',
-                                                objectFit: "fill",
+                                                width: '450px',
+                                                height: '250px',
+                                                objectFit: 'cover',
+                                                borderRadius: '8px', 
+                                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                                             }}
                                         />
                                     </Grid>

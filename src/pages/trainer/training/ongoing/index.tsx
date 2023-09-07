@@ -68,14 +68,17 @@ const OngoingTrainingScreen = () => {
                                 <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                                     <Grid item xs={12} >
                                         <CardContent>
-                                            <Grid container sx={{ alignItems: 'center', justifyContent: 'center' }}>
+                                            <Grid container sx={{ alignItems: 'center', justifyContent: 'center', marginBottom: '5px'  }}>
                                                 <Grid item>
                                                     <Box component='img'
                                                         alt='logo'
                                                         src={item?.thumbnail ? item?.thumbnail : '/images/avatar.png'}
                                                         style={{
-                                                            width: 310,
-                                                            height: 200,
+                                                            width: '450px',
+                                                            height: '250px',
+                                                            objectFit: 'cover',
+                                                            borderRadius: '8px',
+                                                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                                                         }}
                                                         onClick={() => viewHandler(item)}
                                                     />

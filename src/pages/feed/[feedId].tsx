@@ -38,7 +38,7 @@ const FeedDetail = () => {
     }, []);
 
     return (
-        <Card>
+        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
             <CardHeader
                 avatar={(
                     <IconButton LinkComponent={Link} href="/home">
