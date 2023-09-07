@@ -66,7 +66,7 @@ const UserProfileHeader = (props: userProps) => {
     }, [user])
 
     return (
-      <Card sx={{ width: '100%' }}>
+      <Card sx={{ width: '100%', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
         <CardMedia
           component='img'
           alt='profile-header'

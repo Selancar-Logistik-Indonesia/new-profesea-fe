@@ -52,13 +52,13 @@ interface FileProp {
 
 const Img = styled('img')(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
-      marginRight: theme.spacing(10)
+        marginRight: theme.spacing(10)
     },
     [theme.breakpoints.down('md')]: {
-      marginBottom: theme.spacing(4)
+        marginBottom: theme.spacing(4)
     },
     [theme.breakpoints.down('sm')]: {
-      width: 250
+        width: 250
     }
 }))
 
@@ -72,21 +72,21 @@ const DialogAdd = (props: DialogProps) => {
     const { getRootProps, getInputProps } = useDropzone({
         multiple: false,
         accept: {
-        'image/*': ['.png', '.jpg', '.jpeg', '.gif']
+            'image/*': ['.png', '.jpg', '.jpeg', '.gif']
         },
         onDrop: (acceptedFiles: File[]) => {
-        setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
+            setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
         }
     })
 
     const img = files.map((file: FileProp) => (
         <img key={file.name} alt={file.name} className='single-file-image' src={URL.createObjectURL(file as any)} width={450} />
     ))
-    
-    const [TrainingCategory, getTrainingCategory] =useState<any[]>([]);
+
+    const [TrainingCategory, getTrainingCategory] = useState<any[]>([]);
     // const [Trainer, getTrainer] =useState<any[]>([]);
-    const combobox = async () =>{
-        
+    const combobox = async () => {
+
         // const resp = await HttpClient.get(`/user-management?page=1&take=250&team_id=4`);
         // if (resp.status != 200) {
         //     throw resp.data.message ?? "Something went wrong!";
@@ -100,27 +100,27 @@ const DialogAdd = (props: DialogProps) => {
         getTrainingCategory(res.data.trainingCategories.data);
     }
 
-    useEffect(() => {   
-    combobox()
-    },[]) 
-    
-    
+    useEffect(() => {
+        combobox()
+    }, [])
+
+
     const schema = yup.object().shape({
         title: yup.string().required()
     })
 
-    const { 
+    const {
         register,
-        formState: { errors }, 
+        formState: { errors },
         handleSubmit,
     } = useForm<Training>({
         mode: 'onBlur',
         resolver: yupResolver(schema)
-    }) 
+    })
 
     const onSubmit = async (formData: Training) => {
-        const { title, short_description} = formData
-        
+        const { title, short_description } = formData
+
         const json = {
             "user_id": 1,
             "category_id": CatId,
@@ -131,14 +131,13 @@ const DialogAdd = (props: DialogProps) => {
                 month: "2-digit",
                 day: "2-digit"
             }).split('/').reverse().join('-'),
-            "instant" : 1,
+            "instant": 1,
             "short_description": short_description
         }
-        
+
         setOnLoading(true);
 
-        try
-        {
+        try {
             console.log(json);
             const resp = await HttpClient.postFile('/training', json);
             if (resp.status != 200) {
@@ -180,13 +179,13 @@ const DialogAdd = (props: DialogProps) => {
                         <Icon icon='mdi:close' />
                     </IconButton>
                     <Box sx={{ mb: 6, textAlign: 'center' }}>
-                    <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
+                        <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
                             Add New Instant Training
                         </Typography>
-                        <Typography variant='body2'>Fulfill your Insstant Training Info here</Typography>
+                        <Typography variant='body2'>Fulfill your Instant Training Info here</Typography>
                     </Box>
-                    
-                    <Grid container columnSpacing={'1'} rowSpacing={'2'} >
+
+                    <Grid container columnSpacing={'1'} rowSpacing={'4'} >
                         {/* <Grid item md={6} xs={12} > 
                             <Autocomplete
                                 disablePortal
@@ -197,56 +196,56 @@ const DialogAdd = (props: DialogProps) => {
                                 onChange={(event: any, newValue: Trainer | null)=> (newValue?.id) ? setUserId(newValue.id) : setUserId(0)}
                             />
                         </Grid> */}
-                        <Grid item md={12} xs={12} > 
+                        <Grid item md={12} xs={12} >
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
-                                options={TrainingCategory}  
+                                options={TrainingCategory}
                                 {...register("category")}
-                                getOptionLabel={(option:TrainingCategory) => option.category}
+                                getOptionLabel={(option: TrainingCategory) => option.category}
                                 renderInput={(params) => <TextField {...params} label="Training Category" />}
-                                onChange={(event: any, newValue: TrainingCategory | null)=> (newValue?.id) ? setCatId(newValue.id) : setCatId(0)}
+                                onChange={(event: any, newValue: TrainingCategory | null) => (newValue?.id) ? setCatId(newValue.id) : setCatId(0)}
                             />
                         </Grid>
                         <Grid item md={12} xs={12} >
-                            <TextField id="title" label="Title" variant="outlined" fullWidth   error={Boolean(errors.title)}  {...register("title")}/>
+                            <TextField id="title" label="Title" variant="outlined" fullWidth error={Boolean(errors.title)}  {...register("title")} />
                         </Grid>
                         <Grid item md={12} xs={12} >
                             <DatePickerWrapper>
                                 <DatePicker
-                                dateFormat='dd/MM/yyyy'
-                                selected={date}
-                                id='basic-input'
-                                onChange={(date: Date) => setDate(date)}
-                                placeholderText='Click to select a date'
-                                customInput={<TextField label='Expired Date' variant="outlined" fullWidth  {...register("schedule")} />}
+                                    dateFormat='dd/MM/yyyy'
+                                    selected={date}
+                                    id='basic-input'
+                                    onChange={(date: Date) => setDate(date)}
+                                    placeholderText='Click to select a date'
+                                    customInput={<TextField label='Expired Date' variant="outlined" fullWidth  {...register("schedule")} />}
                                 />
                             </DatePickerWrapper>
                         </Grid>
                         <Grid item md={12} xs={12} >
-                            <TextField id="short_description" label="Description" variant="outlined" multiline  maxRows={4} fullWidth {...register("short_description")} />                  
-                        </Grid>  
+                            <TextField id="short_description" label="Description" variant="outlined" multiline maxRows={4} fullWidth {...register("short_description")} />
+                        </Grid>
                         <Grid item md={12} xs={12} >
-                        <Box  {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed' }}>
-                            <input {...getInputProps()} />
-                            {files.length ? (
-                                img
-                            ) : (
-                                <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center' }}>
-                                <Img width={200} alt='Upload img' src='/images/upload.png' />
-                                <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}>
-                                    <Typography variant='h5'  color='textSecondary' sx={{ '& a': { color: 'primary.main', textDecoration: 'none' } }}>
-                                    Click{' '}
-                                    <Link href='/' onClick={e => e.preventDefault()}>
-                                        browse / image
-                                    </Link>{' '}
-                                    to upload Thumbnail
-                                    </Typography>
-                                </Box>
-                                </Box>
-                            )}
+                            <Box  {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed' }}>
+                                <input {...getInputProps()} />
+                                {files.length ? (
+                                    img
+                                ) : (
+                                    <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center' }}>
+                                        <Img width={200} alt='Upload img' src='/images/upload.png' />
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}>
+                                            <Typography variant='h5' color='textSecondary' sx={{ '& a': { color: 'primary.main', textDecoration: 'none' } }}>
+                                                Click{' '}
+                                                <Link href='/' onClick={e => e.preventDefault()}>
+                                                    browse / image
+                                                </Link>{' '}
+                                                to upload Thumbnail
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                )}
                             </Box>
-                        </Grid>                      
+                        </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions
@@ -256,10 +255,17 @@ const DialogAdd = (props: DialogProps) => {
                         pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
                     }}
                 >
-                    <Button variant='contained' sx={{ mr: 2 }} type='submit'>
-                        {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
+                    <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>
+                        <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
+                        {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
                     </Button>
-                    <Button variant='outlined' color='secondary' onClick={props.onCloseClick}>
+                    <Button variant='outlined' size='small' color='error' onClick={props.onCloseClick}>
+                        <Icon
+                            fontSize='large'
+                            icon={'material-symbols:cancel-outline'}
+                            color={'info'}
+                            style={{ fontSize: '18px' }}
+                        />
                         Cancel
                     </Button>
                 </DialogActions>
