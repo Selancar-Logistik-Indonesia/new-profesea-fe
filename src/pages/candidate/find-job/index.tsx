@@ -137,7 +137,7 @@ const SeafererJob = () => {
       getComboCountry(code)
     })
 
-    HttpClient.get('/public/data/vessel-type?page=1&take=25&search').then(response => {
+    HttpClient.get('/public/data/vessel-type?page=1&take=250&search').then(response => {
       const code = response.data.vesselTypes.data
       getComboVessel(code)
     })
