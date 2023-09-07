@@ -17,6 +17,9 @@ import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
 import DialogView from './DialogView';
 import { Icon } from '@iconify/react';
+import { DateType } from 'src/contract/models/DatepickerTypes';
+import DatePicker from 'react-datepicker'
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 const AdsScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -27,6 +30,7 @@ const AdsScreen = () => {
     const [openViewModal, setOpenViewModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<any | null>(null);
+    const [filterDate, setDate] = useState<DateType>(new Date())
 
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
@@ -106,7 +110,7 @@ const AdsScreen = () => {
         getListAds().then(() => {
             setOnLoading(false);
         });
-    }, [page, search, hookSignature, perPage]);
+    }, [page, search, hookSignature, perPage, filterDate]);
 
     return (
         <>
@@ -121,6 +125,21 @@ const AdsScreen = () => {
                           }
                         />
                         <CardContent>
+                            <Grid container justifyContent="flex-start">
+                                <Grid item>
+                                    <DatePickerWrapper>
+                                        <DatePicker
+                                        minDate={new Date()}
+                                        dateFormat='dd/MM/yyyy'
+                                        selected={filterDate}
+                                        id='basic-input'
+                                        onChange={(date: Date) => setDate(date)}
+                                        placeholderText='Click to select a date'
+                                        customInput={<TextField size='small' label='Schedule' variant="outlined" fullWidth />}
+                                        />
+                                    </DatePickerWrapper>
+                                </Grid>
+                            </Grid>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
                                     <TextField

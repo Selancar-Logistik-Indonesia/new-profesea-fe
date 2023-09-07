@@ -3,7 +3,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
-import { Box, Button, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, Typography } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import DialogAdd from './DialogAdd';
 import JobDatagrid, { RowItem } from './JobDatagrid';
@@ -17,6 +17,9 @@ import DialogDelete from './DialogDelete';
 import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
 import { Icon } from '@iconify/react';
+import RoleType from 'src/contract/models/role_type';
+import JobCategory from 'src/contract/models/job_category';
+import RoleLevel from 'src/contract/models/role_level';
 
 const JobScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -26,7 +29,13 @@ const JobScreen = () => {
     const [openEditModal, setOpenEditModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<Job | null>(null);
+    const [filterJC, setJC] = useState<any>(0);
+    const [filterJT, setJT] = useState<any>(0);
+    const [filterRL, setRL] = useState<any>(0);
 
+    const [JobCategory, getJobCategory] = useState<any[]>([]);
+    const [RoleLevel, getRoleLevel] = useState<any[]>([]);
+    const [RoleType, getRoleType] = useState<any[]>([]);
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
     const [search, setSearch] = useState("");
@@ -34,7 +43,7 @@ const JobScreen = () => {
     const [perPage, setPerPage] = useState(10);
     const getListJob = async () => {
         try {
-            const resp = await HttpClient.get(`/job?search=${search}&page=${page}&take=${perPage}`);
+            const resp = await HttpClient.get(`/job?search=${search}&page=${page}&take=${perPage}&category_id=${filterJC}&rolelevel_id=${filterRL}&roletype_id=${filterJT}`);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!1";
             }
@@ -77,6 +86,27 @@ const JobScreen = () => {
         }
     }
 
+    const combobox = async () => {
+        HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
+            if (response.status != 200) {
+                throw response.data.message ?? "Something went wrong!";
+            }
+            getRoleLevel(response.data.roleLevels.data);
+        })
+        HttpClient.get(`/public/data/role-type?search=&page=1&take=250`).then(response => {
+            if (response.status != 200) {
+                throw response.data.message ?? "Something went wrong!";
+            }
+            getRoleType(response.data.roleTypes.data);
+        })
+        HttpClient.get(`/job-category?search=&page=1&take=250`).then(response => {
+            if (response.status != 200) {
+                throw response.data.message ?? "Something went wrong!";
+            }
+            getJobCategory(response.data.categories.data);
+        })
+    }
+
     const handleSearch = useCallback(
         debounce((value: string) => {
             setSearch(value);
@@ -104,7 +134,8 @@ const JobScreen = () => {
         getListJob().then(() => {
             setOnLoading(false);
         });
-    }, [page, search, hookSignature, perPage]);
+        combobox()
+    }, [page, search, hookSignature, perPage, filterJC, filterJT, filterRL]);
 
     return (
         <>
@@ -119,6 +150,50 @@ const JobScreen = () => {
                           }
                         />
                         <CardContent>
+                            <Grid container justifyContent="flex-start">
+                                <Grid item>
+                                    <Autocomplete
+                                        disablePortal
+                                        size='small'
+                                        sx={{ mb: 2, width: '150px', mr:2 }}
+                                        id='jobtitle'
+                                        options={RoleType}
+                                        getOptionLabel={(option: RoleType) => option.name} 
+                                        renderInput={params => <TextField {...params} label='Job Title' />}
+                                        onChange={(event: any, newValue: RoleType | null) =>
+                                            newValue?.id ? setJT(newValue.id) : setJT(0)
+                                        }
+                                        />
+                                </Grid>
+                                <Grid item>
+                                    <Autocomplete
+                                        disablePortal
+                                        size='small'
+                                        sx={{ mb: 2, width: '150px', mr:2 }}
+                                        id='combo-box-demo'
+                                        options={JobCategory}
+                                        getOptionLabel={(option: JobCategory) => option.name}
+                                        renderInput={params => <TextField {...params} label='Job Category' />}
+                                        onChange={(event: any, newValue: JobCategory | null) =>
+                                            newValue ? setJC(newValue.id) : setJC(0)
+                                        }
+                                        />
+                                </Grid>
+                                <Grid item>
+                                    <Autocomplete
+                                        disablePortal
+                                        size='small'
+                                        sx={{ mb: 2, width: '150px', mr:2 }} 
+                                        id='combo-box-level'
+                                        options={RoleLevel}
+                                        getOptionLabel={(option: RoleLevel) => option.levelName}
+                                        renderInput={params => <TextField {...params} label='Role Level' />}
+                                        onChange={(event: any, newValue: RoleLevel | null) =>
+                                            newValue?.id ? setRL(newValue.id) : setRL(0)
+                                        }
+                                        />
+                                </Grid>
+                            </Grid>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
                                     <TextField
