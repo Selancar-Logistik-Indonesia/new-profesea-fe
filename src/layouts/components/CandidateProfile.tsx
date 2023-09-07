@@ -863,10 +863,11 @@ const CandidateProfile = (props: compProps) => {
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
           <Grid item xs={12} container marginTop={'25px'}>
-            <Grid item container spacing={2} sx={{ mb: 2 }}>
+            <Grid item container spacing={3} sx={{ mb: 2 }}>
               <Grid item md={6} xs={12}>
                 <TextField
                   id='fullName'
+                  required 
                   defaultValue={props.datauser.name}
                   label='Full Name'
                   variant='outlined'
@@ -883,7 +884,7 @@ const CandidateProfile = (props: compProps) => {
                   options={!combokelamin ? [{ label: 'Loading...', title: 0 }] : combokelamin}
                   defaultValue={idcombokelamin}
                   getOptionLabel={(option: any) => option.label}
-                  renderInput={params => <TextField {...params} label='Gender' />}
+                  renderInput={params => <TextField {...params} label='Gender *' />}
                   onChange={(event: any, newValue: any) =>
                     newValue?.title ? setCombokelamin(newValue) : setCombokelamin('')
                   }
@@ -897,7 +898,7 @@ const CandidateProfile = (props: compProps) => {
                   options={!comboShip ? [{ label: 'Loading...', id: 0 }] : comboShip}
                   defaultValue={ship}
                   getOptionLabel={(option: any) => option.label}
-                  renderInput={params => <TextField {...params} label='Ship' />}
+                  renderInput={params => <TextField {...params} label='Ship *' />}
                   onChange={(event: any, newValue: any | null) => displayship(newValue)}
                   disabled
                   // onChange={(event: any, newValue: Employee ) =>
@@ -905,37 +906,38 @@ const CandidateProfile = (props: compProps) => {
                   // }
                 />
               </Grid>
-              <Grid item md={6} xs={12}>
+              <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='combo-box-demo'
                   options={combocountry}
                   getOptionLabel={(option: any) => option.nicename}
                   defaultValue={props.address?.country}
-                  renderInput={params => <TextField {...params} label='Country' />}
+                  renderInput={params => <TextField {...params} label='Country *' />}
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
                   }
                 />
               </Grid>
 
-              <Grid item md={6} xs={12}>
+              <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='city'
                   value={props.datauser.address?.city}
                   options={combocity}
                   getOptionLabel={(option: City) => option.city_name}
-                  renderInput={params => <TextField {...params} label='City' sx={{ mb: 2 }} />}
+                  renderInput={params => <TextField {...params} label='City *' sx={{ mb: 2 }} />}
                   onChange={(event: any, newValue: City | null) =>
                     newValue?.id ? setCombocity(newValue.id) : setCombocity(props.address?.city_id)
                   }
                 />
               </Grid>
-              <Grid item md={12} xs={12}>
+              <Grid item md={6} xs={12}>
                 <TextField
                   id='address'
                   label='Address'
+                  required
                   defaultValue={props.datauser.address?.address}
                   variant='outlined'
                   fullWidth
@@ -943,10 +945,11 @@ const CandidateProfile = (props: compProps) => {
                   {...register('address')}
                 />
               </Grid>
-              <Grid item md={6} xs={12}>
+              <Grid item md={3} xs={12}>
                 <TextField
                   id='Email'
                   label='Email'
+                  required
                   defaultValue={props.datauser.email}
                   variant='outlined'
                   fullWidth
@@ -960,6 +963,7 @@ const CandidateProfile = (props: compProps) => {
                     <TextField
                       id='website'
                       label='Website'
+                      required
                       defaultValue={props.datauser.website}
                       variant='outlined'
                       fullWidth
@@ -969,6 +973,7 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </>
               )}
+              
               <Grid item md={1} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -976,7 +981,7 @@ const CandidateProfile = (props: compProps) => {
                   options={combocode}
                   getOptionLabel={(option: Countries) => option.iso}
                   defaultValue={props.datauser?.country}
-                  renderInput={params => <TextField {...params} label='Code Phone' sx={{ mb: 2 }} />}
+                  renderInput={params => <TextField {...params} label='Code Phone *' sx={{ mb: 2 }} />}
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
                   }
@@ -987,6 +992,7 @@ const CandidateProfile = (props: compProps) => {
                 <TextField
                   id='phone'
                   label='Phone'
+                  required
                   defaultValue={props.datauser.phone}
                   variant='outlined'
                   fullWidth
@@ -1002,6 +1008,7 @@ const CandidateProfile = (props: compProps) => {
                   sx={{ mb: 1 }}
                   id='outlined-multiline-static'
                   label='About'
+                  required
                   multiline
                   rows={4}
                   defaultValue={props.datauser.about}
@@ -1028,7 +1035,7 @@ const CandidateProfile = (props: compProps) => {
                       options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
                       defaultValue={opp}
                       getOptionLabel={(option: any) => option.label}
-                      renderInput={params => <TextField {...params} label='Status' />}
+                      renderInput={params => <TextField {...params} label='Status *' />}
                       onChange={(event: any, newValue: any | null) => displayopp(newValue)}
                     />
                   </Grid>
@@ -1055,7 +1062,7 @@ const CandidateProfile = (props: compProps) => {
                       options={JobCategory}
                       defaultValue={props.datauser?.field_preference?.jobcategory}
                       getOptionLabel={(option: JobCategory) => option.name}
-                      renderInput={params => <TextField {...params} label='Job Category' />}
+                      renderInput={params => <TextField {...params} label='Job Category *' />}
                       onChange={(event: any, newValue: JobCategory | null) =>
                         newValue?.id ? setJC(newValue?.id) : setJC(0)
                       }
@@ -1068,7 +1075,7 @@ const CandidateProfile = (props: compProps) => {
                       options={comboroleType}
                       getOptionLabel={(option: any) => option.name}
                       defaultValue={props.datauser?.field_preference?.role_type}
-                      renderInput={params => <TextField {...params} label='Job Title' />}
+                      renderInput={params => <TextField {...params} label='Job Title *' />}
                       onChange={(event: any, newValue: RoleType | null) =>
                         newValue?.id
                           ? setComboRolType(newValue.id)
@@ -1083,7 +1090,7 @@ const CandidateProfile = (props: compProps) => {
                       options={comboVessel}
                       getOptionLabel={(option: any) => option.name}
                       defaultValue={props.datauser?.field_preference?.vessel_type}
-                      renderInput={params => <TextField {...params} label='Type of Vessel' />}
+                      renderInput={params => <TextField {...params} label='Type of Vessel *' />}
                       onChange={(event: any, newValue: VesselType | null) =>
                         newValue?.id
                           ? setComboVessel(newValue.id)
@@ -1098,7 +1105,7 @@ const CandidateProfile = (props: compProps) => {
                       options={comboRegion}
                       getOptionLabel={(option: any) => option.name}
                       defaultValue={props.datauser?.field_preference?.region_travel}
-                      renderInput={params => <TextField {...params} label='Region of travel' />}
+                      renderInput={params => <TextField {...params} label='Region of Travel *' />}
                       onChange={(event: any, newValue: RegionTravel | null) =>
                         newValue?.id
                           ? setComboRegion(newValue.id)
@@ -1116,7 +1123,7 @@ const CandidateProfile = (props: compProps) => {
                         onChange={(date: Date) => setDate(date)}
                         placeholderText='Click to select a date'
                         customInput={
-                          <TextField label='Available Date' variant='outlined' fullWidth {...register('available')} />
+                          <TextField label='Available Date *' variant='outlined' fullWidth {...register('available')} />
                         }
                       />
                     </DatePickerWrapper>
@@ -1178,7 +1185,7 @@ const CandidateProfile = (props: compProps) => {
                       options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
                       defaultValue={opp}
                       getOptionLabel={(option: any) => option.label}
-                      renderInput={params => <TextField {...params} label='Status' />}
+                      renderInput={params => <TextField {...params} label='Status *' />}
                       onChange={(event: any, newValue: any | null) => displayopp(newValue)}
                     />
                   </Grid>
@@ -1205,7 +1212,7 @@ const CandidateProfile = (props: compProps) => {
                       options={JobCategory}
                       defaultValue={props.datauser?.field_preference?.jobcategory}
                       getOptionLabel={(option: JobCategory) => option.name}
-                      renderInput={params => <TextField {...params} label='Job Category' />}
+                      renderInput={params => <TextField {...params} label='Job Category *' />}
                       onChange={(event: any, newValue: JobCategory | null) =>
                         newValue?.id ? setJC(newValue?.id) : setJC(0)
                       }
@@ -1234,7 +1241,7 @@ const CandidateProfile = (props: compProps) => {
                         options={comboRegion}
                         getOptionLabel={(option: any) => option.name}
                         defaultValue={props.datauser?.field_preference?.region_travel}
-                        renderInput={params => <TextField {...params} label='Location' />}
+                        renderInput={params => <TextField {...params} label='Location *' />}
                         onChange={(event: any, newValue: RegionTravel | null) =>
                           newValue?.id
                             ? setComboRegion(newValue.id)
@@ -1250,7 +1257,7 @@ const CandidateProfile = (props: compProps) => {
                         options={comboProvince}
                         getOptionLabel={(option: any) => option.province_name}
                         defaultValue={props.datauser?.location_province}
-                        renderInput={params => <TextField {...params} label='Location' />}
+                        renderInput={params => <TextField {...params} label='Location *' />}
                         onChange={(event: any, newValue: Province | null) =>
                           newValue?.id
                             ? setComboProvince(newValue.id)

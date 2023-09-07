@@ -549,12 +549,13 @@ const CompanyProfile = (props: compProps) => {
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
           <Grid item xs={12} container marginTop={'25px'}>
-            <Grid item container spacing={2} sx={{ mb: 2 }}>
+            <Grid item container spacing={3} sx={{ mb: 2 }}>
               <Grid item md={6} xs={12}>
                 <TextField
                   id='companyName'
                   defaultValue={props.datauser.name}
                   label='Company Name'
+                  required
                   variant='outlined'
                   fullWidth
                   sx={{ mb: 1 }}
@@ -569,44 +570,45 @@ const CompanyProfile = (props: compProps) => {
                     options={comboindustry}
                     defaultValue={props.datauser?.industry}
                     getOptionLabel={(option: any) => option.name}
-                    renderInput={params => <TextField {...params} label='Industry' />}
+                    renderInput={params => <TextField {...params} label='Industry *' />}
                     onChange={(event: any, newValue: Industry | null) =>
                       newValue?.id ? setIndustry(newValue.id) : setIndustry(props.datauser.industry_id)
                     }
                   />
                 </Grid>
               )}
-              <Grid item md={6} xs={12}>
+              <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='combo-box-demo'
                   options={combocountry}
                   getOptionLabel={(option: any) => option.nicename}
                   defaultValue={props.address?.country}
-                  renderInput={params => <TextField {...params} label='Country' />}
+                  renderInput={params => <TextField {...params} label='Country *' />}
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
                   }
                 />
               </Grid>
 
-              <Grid item md={6} xs={12}>
+              <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='city'
                   value={props.datauser.address?.city}
                   options={combocity}
                   getOptionLabel={(option: City) => option.city_name}
-                  renderInput={params => <TextField {...params} label='City' sx={{ mb: 2 }} />}
+                  renderInput={params => <TextField {...params} label='City *' sx={{ mb: 2 }} />}
                   onChange={(event: any, newValue: City | null) =>
                     newValue?.id ? setCombocity(newValue.id) : setCombocity(props.address?.city_id)
                   }
                 />
               </Grid>
-              <Grid item md={12} xs={12}>
+              <Grid item md={6} xs={12}>
                 <TextField
                   id='address'
                   label='Address'
+                  required
                   defaultValue={props.datauser.address?.address}
                   variant='outlined'
                   fullWidth
@@ -621,6 +623,7 @@ const CompanyProfile = (props: compProps) => {
                     <TextField
                       id='website'
                       label='Website'
+                      required
                       defaultValue={props.datauser.website}
                       variant='outlined'
                       fullWidth
@@ -634,6 +637,7 @@ const CompanyProfile = (props: compProps) => {
                 <TextField
                   id='Email'
                   label='Email'
+                  required
                   defaultValue={props.datauser.email}
                   variant='outlined'
                   fullWidth
@@ -648,7 +652,7 @@ const CompanyProfile = (props: compProps) => {
                   options={combocode}
                   getOptionLabel={(option: Countries) => option.iso}
                   defaultValue={props.datauser?.country}
-                  renderInput={params => <TextField {...params} label='Code Phone' sx={{ mb: 2 }} />}
+                  renderInput={params => <TextField {...params} label='Code Phone *' sx={{ mb: 2 }} />}
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
                   }
@@ -659,6 +663,7 @@ const CompanyProfile = (props: compProps) => {
                 <TextField
                   id='phone'
                   label='Phone'
+                  required
                   defaultValue={props.datauser.phone}
                   variant='outlined'
                   type='number'
@@ -674,6 +679,7 @@ const CompanyProfile = (props: compProps) => {
                   sx={{ mb: 1 }}
                   id='outlined-multiline-static'
                   label='About'
+                  required
                   multiline
                   rows={4}
                   defaultValue={props.datauser.about}
