@@ -50,7 +50,7 @@ const TrainingDetailPage = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column', mb: 6 }}>
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Box sx={{ width: 35 }}>
-                            <Icon icon='mdi:calendar' />
+                        <Icon icon='solar:calendar-bold-duotone' color='#32487A' fontSize={24}/>
                         </Box>
                         <Box sx={{ width: 120 }}>
                             <Typography>Date & time</Typography>
@@ -61,7 +61,7 @@ const TrainingDetailPage = () => {
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Box sx={{ width: 35 }}>
-                            <Icon icon='mdi:label' />
+                            <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' fontSize={24}/>
                         </Box>
                         <Box sx={{ width: 120 }}>
                             <Typography>Category</Typography>

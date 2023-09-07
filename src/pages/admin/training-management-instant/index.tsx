@@ -3,7 +3,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
-import { Box, Button, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, Typography } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import DialogAdd from './DialogAdd';
 import TrainingDatagrid, { RowItem } from './InstantTrainingtagrid';
@@ -17,6 +17,7 @@ import DialogDelete from './DialogDelete';
 import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
 import { Icon } from '@iconify/react';
+import TrainingCategory from 'src/contract/models/training_category';
 
 const InstantTrainingScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -27,6 +28,9 @@ const InstantTrainingScreen = () => {
     // const [openViewModal, setOpenViewModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<Training | null>(null);
+    
+    const [CatId, setCatId] = useState(0);
+    const [TrainingCategory, getTrainingCategory] =useState<any[]>([]);
 
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
@@ -35,7 +39,7 @@ const InstantTrainingScreen = () => {
     const [perPage, setPerPage] = useState(10);
     const getListTraining = async () => {
         try {
-            const resp = await HttpClient.get(`/training?instant=1&search=${search}&page=${page}&take=${perPage}`);
+            const resp = await HttpClient.get(`/training?instant=1&search=${search}&page=${page}&take=${perPage}&category_id=${CatId}`);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
@@ -72,6 +76,13 @@ const InstantTrainingScreen = () => {
             toast.error(`Opps ${errorMessage}`);
         }
     }
+    const combobox = async () =>{
+        const res = await HttpClient.get(`/training-category?search=&page=1&take=250`);
+        if (res.status != 200) {
+            throw res.data.message ?? "Something went wrong!";
+        }
+        getTrainingCategory(res.data.trainingCategories.data);
+    }
 
     const handleSearch = useCallback(
         debounce((value: string) => {
@@ -100,7 +111,9 @@ const InstantTrainingScreen = () => {
         getListTraining().then(() => {
             setOnLoading(false);
         });
-    }, [page, search, hookSignature, perPage]);
+        combobox()
+
+    }, [page, search, hookSignature, perPage, CatId]);
 
     return (
         <>
@@ -115,6 +128,33 @@ const InstantTrainingScreen = () => {
                           }
                         />
                         <CardContent>
+                            <Grid container justifyContent="flex-start">
+                                <Grid item>
+                                    <Autocomplete
+                                        disablePortal
+                                        size='small'
+                                        sx={{ mb: 2, width: '150px', mr:2 }}
+                                        id="combo-box-demo"
+                                        options={TrainingCategory}  getOptionLabel={(option:TrainingCategory) => option.category}
+                                        renderInput={(params) => <TextField {...params} label="Training Category" />}
+                                        onChange={(event: any, newValue: TrainingCategory | null)=> (newValue?.id) ? setCatId(newValue.id) : setCatId(0)}
+                                        />
+                                </Grid>
+                                {/* <Grid item>
+                                    <DatePickerWrapper>
+                                        <DatePicker
+                                        showTimeSelect
+                                        minDate={new Date()}
+                                        dateFormat='dd/MM/yyyy hh:mm aa'
+                                        selected={filterDate}
+                                        id='basic-input'
+                                        onChange={(date: Date) => setDate(date)}
+                                        placeholderText='Click to select a date'
+                                        customInput={<TextField size='small' label='Schedule' variant="outlined" fullWidth />}
+                                        />
+                                    </DatePickerWrapper>
+                                </Grid> */}
+                            </Grid>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
                                     <TextField

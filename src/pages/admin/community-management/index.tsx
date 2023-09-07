@@ -3,7 +3,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
-import { Box, Button, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, Typography } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import JobDatagrid, { RowItem } from './CommunityDatagrid';
 import { HttpClient } from 'src/services';
@@ -15,6 +15,8 @@ import { GridPaginationModel } from '@mui/x-data-grid';
 import DialogDelete from './DialogDelete';
 import { v4 } from "uuid";
 import { Icon } from '@iconify/react';
+import Forum from 'src/contract/models/forum';
+import { IUser } from 'src/contract/models/user';
 
 const CommunityScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -22,6 +24,11 @@ const CommunityScreen = () => {
     const [openDelModal, setOpenDelModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<Thread | null>(null);
+
+    const [forumCode, setForumCode] = useState(0)
+    const [UserId, setUserId] = useState(0)
+    const [Forum, getForum] = useState<any[]>([]);
+    const [User, getUser] = useState<any[]>([]);
 
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
@@ -67,6 +74,20 @@ const CommunityScreen = () => {
         }
     }
 
+    const combobox = async () => {
+
+        HttpClient.get(`/user-management?page=1&take=250&team_id=3`).then(response => {
+            if (response.status != 200) {
+                throw response.data.message ?? "Something went wrong!";
+            }
+            getUser(response.data.users.data);
+        })
+        HttpClient.get('/forum?page=1&take=250&search=').then(response => {
+            const code = response.data.forums.data
+            getForum(code)
+        })
+    }
+
     const handleSearch = useCallback(
         debounce((value: string) => {
             setSearch(value);
@@ -90,7 +111,8 @@ const CommunityScreen = () => {
         getListThread().then(() => {
             setOnLoading(false);
         });
-    }, [page, search, hookSignature, perPage]);
+        combobox()
+    }, [page, search, hookSignature, perPage, UserId, forumCode]);
 
     return (
         <>
@@ -105,6 +127,36 @@ const CommunityScreen = () => {
                           }
                         />
                         <CardContent>
+                            <Grid container justifyContent="flex-start">
+                                <Grid item>
+                                    <Autocomplete
+                                        disablePortal
+                                        size='small'
+                                        sx={{ mb: 2, width: '150px', mr:2 }}
+                                        id='User'
+                                        options={User}
+                                        getOptionLabel={(option: IUser) => option.name} 
+                                        renderInput={params => <TextField {...params} label='User' />}
+                                        onChange={(event: any, newValue: IUser | null) =>
+                                            newValue?.id ? setUserId(newValue.id) : setUserId(0)
+                                        }
+                                        />
+                                </Grid>
+                                <Grid item>
+                                    <Autocomplete
+                                        disablePortal
+                                        size='small'
+                                        sx={{ mb: 2, width: '150px', mr:2 }} 
+                                        id='combo-box-level'
+                                        options={Forum}
+                                        renderInput={params => <TextField {...params} label='Forum' />}
+                                        getOptionLabel={(option: Forum) => option.name}
+                                        onChange={(event: any, newValue: Forum | null) =>
+                                          newValue?.id ? setForumCode(newValue.id) : setForumCode(0)
+                                        }
+                                        />
+                                </Grid>
+                            </Grid>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
                                     <TextField

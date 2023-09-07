@@ -99,7 +99,7 @@ const Profile = (props: userProps) => {
                 {props.datauser?.name}
               </Typography>
             </Box>
-            <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
+            <Divider sx={{ mt: theme => `${theme.spacing(2)} !important`, mb: theme => `${theme.spacing(2)} !important` }} />
             <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
               <Icon icon={'solar:user-id-bold-duotone'} fontSize={20} color={'#424242'} />
               <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
@@ -132,11 +132,11 @@ const Profile = (props: userProps) => {
                 </Typography>
               </Box>
             )}
-            <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
+             <Divider sx={{ mt: theme => `${theme.spacing(2)} !important`, mb: theme => `${theme.spacing(2)} !important` }} />
 
             {props.datauser?.role == 'Seafarer' && (
               <Box>
-                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7, mt: 2.7 }} display={'flex'}>
+                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                   <Icon icon={'solar:accessibility-bold-duotone'} fontSize={20} color={'#424242'} />
                   <Typography variant='body1' sx={{ color: '#424242', fontWeight: 'bold' }}>
                     Role :
@@ -176,7 +176,8 @@ const Profile = (props: userProps) => {
               </Box>
             )}
 
-            <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
+            <Divider sx={{ mt: theme => `${theme.spacing(2)} !important`, mb: theme => `${theme.spacing(2)} !important` }} />
+
             {props.datauser?.role != 'Trainer' && (
               <Box>
                 <Box

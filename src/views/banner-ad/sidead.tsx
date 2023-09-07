@@ -23,8 +23,11 @@ const Slides = (Ads: any[]) => {
                   <Box component='img' 
                   src={arr} 
                   style={{
-                      width: '261px',
-                      height: '241px',
+                    width: '261px',
+                    height: '241px',
+                    objectFit: 'cover',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                   }} >                    
                   </Box>
           </Box>
@@ -143,8 +146,11 @@ const SideAd = () => {
             mt={3}
             src="images/backgrounds/ads-here.png"
             style={{
-                width: '261px',
-                height: '241px',
+              width: '261px',
+              height: '241px',
+              objectFit: 'cover',
+              borderRadius: '8px',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
             }} >                    
           </Box>
         )}
