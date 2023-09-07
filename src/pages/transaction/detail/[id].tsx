@@ -87,7 +87,7 @@ return;
                 <Box sx={{ display: 'flex', flexDirection: 'row', mb: 6, justifyContent: 'space-between' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Box sx={{ width: 80 }}>
-                            <Typography variant="body2">Order ID</Typography>
+                            <Typography variant="body2" color={"#32487A"} fontWeight="600">Order ID</Typography>
                         </Box>
                         <Box>
                             <Typography variant="body2" color='#333'>{trx?.trx_id}</Typography>
@@ -95,7 +95,7 @@ return;
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Box sx={{ width: 90 }}>
-                            <Typography variant="body2">Order Date</Typography>
+                            <Typography variant="body2" color={"#32487A"} fontWeight="600">Order Date</Typography>
                         </Box>
                         <Box>
                             <Typography variant="body2" color='#333'>{moment(trx?.created_at).format(`d/M/Y hh:mm:ss`)}</Typography>
@@ -120,7 +120,7 @@ return;
                                     </ListItemAvatar>
                                     <ListItemText>
                                         <Box>
-                                            <Typography variant="body1" fontSize={24}>{item.title}</Typography>
+                                            <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={24}>{item.title}</Typography>
                                             <Typography variant="caption">{formatIDR(item.price)}</Typography>
                                         </Box>
                                     </ListItemText>
@@ -130,12 +130,12 @@ return;
                     })}
 
                     <Box my={2}>
-                        <Typography variant="caption">Jumlah yang harus dibayar:</Typography>
+                        <Typography variant="body2" color={"#32487A"} fontWeight="600">Jumlah yang harus dibayar:</Typography>
                         <Typography variant="body1" fontSize={24}>{formatIDR(collect(trx?.trx_detail).sum('item_price') as number)}</Typography>
                     </Box>
 
                     <Box my={2}>
-                        <Typography variant="caption">Virtual account:</Typography>
+                        <Typography variant="body2" color={"#32487A"} fontWeight="600">Virtual account:</Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
                             <Box component='img' src={trx?.bank_logo} sx={{ height: 25, mr: 5 }} />
 
@@ -147,7 +147,7 @@ return;
                     </Box>
 
                     <Box my={2}>
-                        <Typography variant="caption">Status:</Typography>
+                        <Typography variant="body2" color={"#32487A"} fontWeight="600">Status:</Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
                             <Typography variant="body1" fontSize={24}>
                                 {translateTrxStatus(`${trx?.status}`)}
@@ -162,7 +162,7 @@ return;
                     </Box>
 
                     <Box my={2}>
-                        <Typography variant="caption">Bayar sebelum:</Typography>
+                        <Typography variant="body2" color={"#32487A"} fontWeight="600">Bayar sebelum:</Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
                             <Typography variant="body1" fontSize={24}>{moment(trx?.expiration_date).format("DD MMMM Y hh:mm:ss")}</Typography>
                         </Box>

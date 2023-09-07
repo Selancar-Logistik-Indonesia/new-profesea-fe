@@ -108,7 +108,7 @@ const PaymentSubscriptionDialog = (props: Props) => {
     return (
         <Dialog fullWidth={true} open={props.openDialog} onClose={() => props.onClose()}>
             <DialogActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Typography variant="body1" fontSize={24}>Subscription</Typography>
+                <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>Subscription</Typography>
                 <IconButton onClick={() => props.onClose()}>
                     <Icon icon='mdi:close' />
                 </IconButton>
@@ -118,7 +118,7 @@ const PaymentSubscriptionDialog = (props: Props) => {
                     <Card>
                         <ListItem>
                             <ListItemText>
-                                <Typography variant="body1" fontSize={24}>{selectedPlan.planName}</Typography>
+                                <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>{selectedPlan.planName}</Typography>
                             </ListItemText>
                         </ListItem>
 
@@ -144,7 +144,7 @@ const PaymentSubscriptionDialog = (props: Props) => {
                             </Box>
                         )}
 
-                        <Box sx={{ mx: 5, mt: 3 }}>
+                        <Box mx={7} my={5} mt={3}>
                             <FormControl fullWidth>
                                 <InputLabel sx={{ fontSize: 16 }} id="demo-simple-select-label">Durasi berlangganan</InputLabel>
                                 <Select
@@ -183,7 +183,7 @@ const PaymentSubscriptionDialog = (props: Props) => {
 
                 {(!onLoading.includes('widget') && banks.length > 0) && (
                     <>
-                        <Typography variant="body1" mt={10} ml={5} mb={3} fontSize={20}>Pilih Bank</Typography>
+                        <Typography variant="body1" mt={10} ml={5} mb={3} style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>Pilih Bank</Typography>
                         <Divider />
                         <List>
                             {banks.map(e => (
