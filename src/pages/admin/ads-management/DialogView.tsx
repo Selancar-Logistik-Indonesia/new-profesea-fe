@@ -73,6 +73,9 @@ const DialogView = (props: ViewProps) => {
                             </DatePickerWrapper>
                         </Grid>
                         <Grid item md={12} xs={12} >
+                            <TextField defaultValue={props.selectedItem.description} id="description" label="Description" variant="outlined" multiline  maxRows={4} fullWidth disabled/>                  
+                        </Grid> 
+                        <Grid item md={12} xs={12} >
                             <Box sx={{ p: 2, border: '1px dashed ', borderRadius: '10px', borderColor: 'grey.400' , '&:hover': { borderColor: 'grey.500' }}} >
                                 <img alt='thumbnail' className='single-file-image' src={props.selectedItem.attachments} width={450} />
                             </Box>

@@ -47,6 +47,7 @@ const AdsScreen = () => {
                     no: index + 1,
                     id: index,
                     image: row?.attachments,
+                    description: row?.description,
                     expired_at: row?.expired_at,
                     actions: {
                         onDelete: () => deleteHandler(row),

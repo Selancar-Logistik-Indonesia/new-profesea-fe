@@ -93,14 +93,15 @@ const DialogAdd = (props: DialogProps) => {
     // },[]) 
 
     const { 
+        register,
         handleSubmit,
-    } = useForm<any[]>({
+    } = useForm<any>({
         mode: 'onBlur'
     }) 
 
 
-    const onSubmit = async () => {
-        
+    const onSubmit = async (formData: { description : string }) => {
+        const { description } = formData
         const json = {
             // "user_id": UserId,
             "attachments": files,
@@ -109,7 +110,8 @@ const DialogAdd = (props: DialogProps) => {
                 month: "2-digit",
                 day: "2-digit"
             }).split('/').reverse().join('-')+" "
-            +date?.toTimeString().split(' ')[0]
+            +date?.toTimeString().split(' ')[0],
+            "description" : description
         }
         
         setOnLoading(true);
@@ -187,6 +189,9 @@ const DialogAdd = (props: DialogProps) => {
                                 />
                             </DatePickerWrapper>
                         </Grid> 
+                        <Grid item md={12} xs={12} >
+                            <TextField id="description" label="Description" variant="outlined" multiline  maxRows={4} fullWidth {...register("description")} />                  
+                        </Grid>
                         <Grid item md={12} xs={12} >
                         <Box  {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed' }}>
                             <input {...getInputProps()} />
