@@ -95,7 +95,11 @@ const TopTrainingAttendanceApp = () => {
             return (
               <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardHeader
-                  title='Top Training Attendance'
+                  title={
+                    <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
+                      Top Training Attendance
+                    </Typography>
+                  }
                   titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}
                   action={
                     <OptionsMenu

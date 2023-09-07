@@ -28,7 +28,7 @@ const renderList = (arr: any[]) => {
                 <CardContent sx={{ pb: '0 !important' }}>
                   <Grid container>
                     <Grid item xs={6} sx={{ display: 'flex', alignItems: 'flex-center', justifyContent: 'flex-center' }}>
-                      <Typography sx={{ mb: 1.5, fontWeight: 500, whiteSpace: 'nowrap' }} fontSize={14}>Total {item?.team_name}</Typography>
+                      <Typography sx={{ mb: 1.5, fontWeight: 600, whiteSpace: 'nowrap', color: '#32487A'}} fontSize={18} >Total {item?.team_name}</Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                         <Typography variant='h3' sx={{ mr: 1.5 }}>
                           {item?.total_user}

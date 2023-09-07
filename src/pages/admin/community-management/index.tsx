@@ -116,8 +116,8 @@ const CommunityScreen = () => {
                                 </Grid>
                                 <Grid item sx={{ mb: 3 }}>
                                     <Box>
-                                        <Button variant='contained' href='create' size='medium' startIcon={<Icon icon='mdi:tooltip-plus-outline' fontSize={16} />}>
-                                            Create Thread
+                                        <Button variant='contained' href='create' size='small' startIcon={<Icon icon='zondicons:add-outline' fontSize={16} />}>
+                                            Add
                                         </Button>
                                     </Box>
                                 </Grid>

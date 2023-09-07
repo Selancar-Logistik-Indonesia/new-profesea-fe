@@ -51,7 +51,7 @@ const Gallery = (props: Props) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <Card>
+      <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             <Box sx={{ mb: 7 }}>
               <Typography variant='body2' sx={{ mb: 4, color: 'text.primary', textTransform: 'uppercase' }}>

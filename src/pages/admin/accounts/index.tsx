@@ -22,10 +22,10 @@ import DialogImport from './DialogImport';
 
 const UserScreen = () => {
     const translate: any = {
-      onship: 'On-Ship',
-      offship: 'Off-Ship',
-      null: '',
-      trainer: 'Trainer'
+        onship: 'On-Ship',
+        offship: 'Off-Ship',
+        null: '',
+        trainer: 'Trainer'
     }
 
     const [hookSignature, setHookSignature] = useState(v4())
@@ -54,20 +54,20 @@ const UserScreen = () => {
             const rows = resp.data.users.data as Account[];
             const items = rows.map((row, index) => {
                 return {
-                  no: index + 1,
-                  id: row.id,
-                  name: row.name,
-                  email: row.email,
-                  phone: row.phone,
-                  role: row.employee_type != 'offship' ? row.role : 'Candidate',
-                  type: translate[row.employee_type],
-                  plan: row.plan_type,
-                  actions: {
-                    onDelete: () => deleteHandler(row),
-                    onUpdate: () => updateHandler(row)
-                  }
+                    no: index + 1,
+                    id: row.id,
+                    name: row.name,
+                    email: row.email,
+                    phone: row.phone,
+                    role: row.employee_type != 'offship' ? row.role : 'Candidate',
+                    type: translate[row.employee_type],
+                    plan: row.plan_type,
+                    actions: {
+                        onDelete: () => deleteHandler(row),
+                        onUpdate: () => updateHandler(row)
+                    }
                 } as RowItem
- 
+
             });
 
             setRowCount(resp?.data?.users?.total ?? 0);
@@ -129,52 +129,67 @@ const UserScreen = () => {
         <>
             <Grid container spacing={6} className='match-height'>
                 <Grid item xs={12} sm={6} md={12}>
-                    <Card>
+                    <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                         <CardHeader
-                        title={
-                            <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600' ,color: '#32487A' }}>
-                              List Accounts
-                            </Typography>
-                          }
+                            title={
+                                <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
+                                    List Accounts
+                                </Typography>
+                            }
                         />
                         <CardContent>
-                            <Grid container justifyContent="flex-end">
+                            <Grid container justifyContent="flex-start">
                                 <Grid item>
-                                    <Autocomplete                                        
+                                    <Autocomplete
                                         disablePortal
                                         id="combo-box-demo"
                                         options={teams}
                                         getOptionLabel={(option: ITeam) => option.teamName}
-                                        renderInput={(params) => <TextField {...params} label="Role" size='small' sx={{ mb: 2 , width:'150px'}}/>}
+                                        renderInput={(params) => <TextField {...params} label="Role" size='small' sx={{ mb: 2, width: '150px' }} />}
                                         onChange={(event: any, newValue: ITeam | null) => (newValue?.id) ? setFilterTeam(newValue.id) : setFilterTeam(0)}
                                     />
                                 </Grid>
+                            </Grid>
+                            <Grid container justifyContent="flex-end">
+
                                 <Grid item>
                                     <TextField
                                         size='small'
-                                        sx={{ mr: 6, mb: 2, ml:5 }}
+                                        sx={{ mr: 2, mb: 2, ml: 5 }}
                                         placeholder='Search'
                                         onChange={(e) => handleSearch(e.target.value)}
                                     />
                                 </Grid>
-                                <Grid item sx={{ mr: 6, mb: 2 }}>
+                                <Grid item sx={{ mr: 2, mb: 2 }}>
                                     <Box>
-                                        <Button variant='contained' size='small' onClick={() => 
+                                        <Button variant='contained' size='small' onClick={() =>
                                             HttpClient.downloadFile(`/user-management/export?status=&team_id=${filterTeam}&employee_type=&plan_type=`, "users.xlsx")}
                                         >
+                                            <Icon
+                                                fontSize='large'
+                                                icon={'solar:export-bold-duotone'}
+                                                color={'info'}
+                                                style={{ fontSize: '14px', margin: 3 }}
+                                            />
                                             Export</Button>
                                     </Box>
                                 </Grid>
-                                <Grid item sx={{ mr: 6, mb: 2 }}>
+                                <Grid item sx={{ mr: 2, mb: 2 }}>
                                     <Box>
-                                    <Button variant='contained' size='small' onClick={() => setOpenImModal(!openImModal)}>
+                                        <Button variant='contained' size='small' onClick={() => setOpenImModal(!openImModal)}>
+                                            <Icon
+                                                fontSize='large'
+                                                icon={'solar:import-bold-duotone'}
+                                                color={'info'}
+                                                style={{ fontSize: '14px', margin: 3 }}
+                                            />
                                             Import
                                         </Button>
                                     </Box>
                                 </Grid>
                                 <Grid item sx={{ mr: 6, mb: 2 }}>
                                     <Box>
-                                    <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
+                                        <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
                                             <Icon
                                                 fontSize='large'
                                                 icon={'zondicons:add-outline'}

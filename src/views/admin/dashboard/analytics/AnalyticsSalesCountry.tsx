@@ -13,6 +13,7 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+import { Typography } from '@mui/material'
 
 const series = [
   {
@@ -64,8 +65,8 @@ const AnalyticsSalesCountry = () => {
     },
     colors: [
       hexToRGBA(theme.palette.primary.light, 1),
-      hexToRGBA(theme.palette.success.light, 1),
-      hexToRGBA(theme.palette.warning.light, 1),
+      hexToRGBA(theme.palette.success.dark, 1),
+      hexToRGBA(theme.palette.warning.dark, 1),
       hexToRGBA(theme.palette.info.light, 1),
       hexToRGBA(theme.palette.error.light, 1)
     ],
@@ -86,7 +87,7 @@ const AnalyticsSalesCountry = () => {
         formatter: val => `${Number(val) / 1000}k`,
         style: {
           fontSize: '0.875rem',
-          colors: theme.palette.text.disabled
+          colors: theme.palette.text.secondary
         }
       }
     },
@@ -96,7 +97,7 @@ const AnalyticsSalesCountry = () => {
         style: {
           fontWeight: 600,
           fontSize: '0.875rem',
-          colors: theme.palette.text.primary
+          colors: theme.palette.text.secondary
         }
       }
     }
@@ -105,7 +106,11 @@ const AnalyticsSalesCountry = () => {
   return (
     <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
       <CardHeader
-        title='Subscriptions Country'
+        title={
+          <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
+            Subscription Country
+          </Typography>
+        }
         subheader='Total 123445 Subscriptions'
         subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
         titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}

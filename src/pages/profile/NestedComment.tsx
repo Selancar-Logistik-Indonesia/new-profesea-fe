@@ -111,7 +111,7 @@ const NestedComment = (props: Props) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <Card>
+      <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             <Box  > 
               {renderList(paramcomment)} 
