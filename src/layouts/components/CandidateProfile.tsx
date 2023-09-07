@@ -1060,7 +1060,7 @@ const CandidateProfile = (props: compProps) => {
                       disablePortal
                       id='combo-box-level'
                       options={JobCategory}
-                      defaultValue={props.datauser?.field_preference?.jobcategory}
+                      defaultValue={props.datauser?.field_preference?.job_category}
                       getOptionLabel={(option: JobCategory) => option.name}
                       renderInput={params => <TextField {...params} label='Job Category *' />}
                       onChange={(event: any, newValue: JobCategory | null) =>
@@ -1210,7 +1210,7 @@ const CandidateProfile = (props: compProps) => {
                       disablePortal
                       id='combo-box-level'
                       options={JobCategory}
-                      defaultValue={props.datauser?.field_preference?.jobcategory}
+                      defaultValue={props.datauser?.field_preference?.job_category}
                       getOptionLabel={(option: JobCategory) => option.name}
                       renderInput={params => <TextField {...params} label='Job Category *' />}
                       onChange={(event: any, newValue: JobCategory | null) =>
