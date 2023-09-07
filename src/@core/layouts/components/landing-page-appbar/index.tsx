@@ -29,7 +29,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
         { title: t('button_4'), variant: 'contained', onClick: "/register", sx: { backgroundColor: "#ffa000", ":hover": { backgroundColor: "#ef6c00" } } },
     ])
 
-    // const [homeNavItems, setHomeNavItems] = useState<{ title: string, path: string }[]>([]);
+    const [homeNavItems, setHomeNavItems] = useState<{ title: string, path: string }[]>([]);
     const { navigationSize, collapsedNavigationSize } = themeConfig
     const navWidth = navigationSize
     const navigationBorderWidth = skin === 'bordered' ? 1 : 0
@@ -59,21 +59,21 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
             baseAddress2 = "https://trainer.profesea.id";
         }
 
-        // setHomeNavItems([
-        //     { title: t('landing_menu_1'), path: "/#findJobSection" },
-        //     { title: t('landing_menu_2'), path: "/#discoverSection" },
-        //     { title: t('landing_menu_3'), path: "/faqs" },
-        //     { title: t('landing_menu_4'), path: baseAddress1 },
-        //     { title: t('landing_menu_5'), path: baseAddress2 }, 
-        // ]);
+        setHomeNavItems([
+            { title: t('landing_menu_1'), path: "/#findJobSection" },
+            { title: t('landing_menu_2'), path: "/#discoverSection" },
+            { title: t('landing_menu_3'), path: "/faqs" },
+            { title: t('landing_menu_4'), path: baseAddress1 },
+            { title: t('landing_menu_5'), path: baseAddress2 }, 
+        ]);
     },[] );
-    const homeNavItems = [
-        { title: t('landing_menu_1'), path: '/#findJobSection' },
-        { title: t('landing_menu_2'), path: '/#discoverSection' },
-        { title: t('landing_menu_3'), path: '/#footer' },
-        { title: t('landing_menu_4'), path: '/landingpage-recruiter' },
-        { title: t('landing_menu_5'), path: '/landingpage-trainer' }
-    ]
+    // const homeNavItems = [
+    //     { title: t('landing_menu_1'), path: '/#findJobSection' },
+    //     { title: t('landing_menu_2'), path: '/#discoverSection' },
+    //     { title: t('landing_menu_3'), path: '/#footer' },
+    //     { title: t('landing_menu_4'), path: '/landingpage-recruiter' },
+    //     { title: t('landing_menu_5'), path: '/landingpage-trainer' }
+    // ]
     const buildAppbarActions = () => {
 
         return <>
