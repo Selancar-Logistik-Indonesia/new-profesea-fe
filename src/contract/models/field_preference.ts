@@ -1,5 +1,6 @@
 import City from "./city"
 import Country from "./country"
+import JobCategory from "./job_category"
 import Province from "./province"
 import RegionTravel from "./regional_travel"
 import RoleLevel from "./role_level"
@@ -22,7 +23,7 @@ interface FieldPreference {
   province: Province
   spoken_langs: any
   open_to_opp:any
-  jobcategory: JobCategory
+  jobcategory?: JobCategory
 }
 
 export default FieldPreference;
