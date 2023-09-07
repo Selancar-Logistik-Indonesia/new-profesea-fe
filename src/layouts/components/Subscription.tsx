@@ -34,8 +34,12 @@ const Subscription = () => {
     return (
         <Grid container spacing={6}>
             <Grid item xs={12}>
-                <Card>
-                    <CardHeader title='Current plan' />
+                <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+                    <CardHeader title={
+                        <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
+                            Current Plan
+                        </Typography>
+                    } />
                     <CardContent>
                         <Grid container spacing={6}>
                             <Grid item xs={12} md={6}>
@@ -70,10 +74,10 @@ const Subscription = () => {
                             </Grid>
 
                             <Grid item xs={12} sx={{ mt: 4, display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-                                <Button LinkComponent={Link} variant='contained' href='/pricing' sx={{ mr: 3, mb: [3, 0] }}>
+                                <Button LinkComponent={Link} size='small' variant='contained' href='/pricing' sx={{ mr: 3, mb: [3, 0] }}>
                                     Upgrade Plan
                                 </Button>
-                                <Button variant='outlined' color='error' onClick={() => setSubscriptionDialogOpen(true)}>
+                                <Button variant='outlined' size='small' color='error' onClick={() => setSubscriptionDialogOpen(true)}>
                                     Cancel Subscription
                                 </Button>
                             </Grid>
