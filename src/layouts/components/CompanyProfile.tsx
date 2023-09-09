@@ -467,7 +467,7 @@ const CompanyProfile = (props: compProps) => {
 
   return (
     <Grid container padding={5}>
-        <Grid xs={12} sx={{ mt: 0, ml: 2, mb: 2 }}>
+      <Grid xs={12} sx={{ mt: 0, ml: 2, mb: 2 }}>
         <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
           General Info
         </Typography>
@@ -556,7 +556,7 @@ const CompanyProfile = (props: compProps) => {
                   defaultValue={props.datauser.name}
                   label='Company Name'
                   required
-                  variant='outlined'
+                  variant='standard'
                   fullWidth
                   sx={{ mb: 1 }}
                   {...register('companyName')}
@@ -570,7 +570,7 @@ const CompanyProfile = (props: compProps) => {
                     options={comboindustry}
                     defaultValue={props.datauser?.industry}
                     getOptionLabel={(option: any) => option.name}
-                    renderInput={params => <TextField {...params} label='Industry *' />}
+                    renderInput={params => <TextField {...params} label='Industry *' variant='standard' />}
                     onChange={(event: any, newValue: Industry | null) =>
                       newValue?.id ? setIndustry(newValue.id) : setIndustry(props.datauser.industry_id)
                     }
@@ -584,7 +584,7 @@ const CompanyProfile = (props: compProps) => {
                   options={combocountry}
                   getOptionLabel={(option: any) => option.nicename}
                   defaultValue={props.address?.country}
-                  renderInput={params => <TextField {...params} label='Country *' />}
+                  renderInput={params => <TextField {...params} label='Country *' variant='standard' />}
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
                   }
@@ -598,7 +598,7 @@ const CompanyProfile = (props: compProps) => {
                   value={props.datauser.address?.city}
                   options={combocity}
                   getOptionLabel={(option: City) => option.city_name}
-                  renderInput={params => <TextField {...params} label='City *' sx={{ mb: 2 }} />}
+                  renderInput={params => <TextField {...params} label='City *' sx={{ mb: 2 }} variant='standard' />}
                   onChange={(event: any, newValue: City | null) =>
                     newValue?.id ? setCombocity(newValue.id) : setCombocity(props.address?.city_id)
                   }
@@ -610,7 +610,7 @@ const CompanyProfile = (props: compProps) => {
                   label='Address'
                   required
                   defaultValue={props.datauser.address?.address}
-                  variant='outlined'
+                  variant='standard'
                   fullWidth
                   sx={{ mb: 1 }}
                   {...register('address')}
@@ -625,7 +625,7 @@ const CompanyProfile = (props: compProps) => {
                       label='Website'
                       required
                       defaultValue={props.datauser.website}
-                      variant='outlined'
+                      variant='standard'
                       fullWidth
                       sx={{ mb: 1 }}
                       {...register('website')}
@@ -639,7 +639,7 @@ const CompanyProfile = (props: compProps) => {
                   label='Email'
                   required
                   defaultValue={props.datauser.email}
-                  variant='outlined'
+                  variant='standard'
                   fullWidth
                   sx={{ mb: 1 }}
                   {...register('email')}
@@ -652,7 +652,7 @@ const CompanyProfile = (props: compProps) => {
                   options={combocode}
                   getOptionLabel={(option: Countries) => option.iso}
                   defaultValue={props.datauser?.country}
-                  renderInput={params => <TextField {...params} label='Code Phone *' sx={{ mb: 2 }} />}
+                  renderInput={params => <TextField {...params} label='Code Phone *' sx={{ mb: 2 }} variant='standard' />}
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
                   }
@@ -665,7 +665,7 @@ const CompanyProfile = (props: compProps) => {
                   label='Phone'
                   required
                   defaultValue={props.datauser.phone}
-                  variant='outlined'
+                  variant='standard'
                   type='number'
                   fullWidth
                   sx={{ mb: 1 }}
@@ -681,25 +681,13 @@ const CompanyProfile = (props: compProps) => {
                   label='About'
                   required
                   multiline
+                  variant='standard'
                   rows={4}
                   defaultValue={props.datauser.about}
                   {...register('about')}
                 />
               </Grid>
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
-                <Button variant='contained' color='success' size='small' type='submit' sx={{ mb: 7 }}>
-                  <Icon
-                    fontSize='large'
-                    icon={'solar:diskette-bold-duotone'}
-                    color={'success'}
-                    style={{ fontSize: '18px' }}
-                  />
-                  <div style={{ marginLeft: 5 }}>SAVE</div>
-                </Button>
-              </Grid>
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.2} lg={0.2} xs={12}></Grid>
-              <Divider style={{ width: '100%' }} />
+
               <Grid item md={5} xs={12}>
                 <Grid container item xs={12} justifyContent={'left'}>
                   <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
@@ -718,14 +706,14 @@ const CompanyProfile = (props: compProps) => {
                   <Grid container item xs={12} md={12}>
                     <Grid xs={12} item>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
                           <Icon icon='mdi:facebook' fontSize={24} color={'#424242'} />
                         </Box>
                         <TextField
                           id='facebook'
                           defaultValue={facebook}
                           label='Facebook'
-                          variant='outlined'
+                          variant='standard'
                           fullWidth
                           sx={{ mb: 1 }}
                           value={facebook}
@@ -763,7 +751,7 @@ const CompanyProfile = (props: compProps) => {
                         <TextField
                           id='instagram'
                           label='Instagram'
-                          variant='outlined'
+                          variant='standard'
                           fullWidth
                           value={instagram}
                           sx={{ mb: 1 }}
@@ -802,7 +790,7 @@ const CompanyProfile = (props: compProps) => {
                           id='linkedin'
                           defaultValue={linkedin}
                           label='Linkedin'
-                          variant='outlined'
+                          variant='standard'
                           fullWidth
                           sx={{ mb: 1 }}
                           {...register('linkedin')}
@@ -830,7 +818,19 @@ const CompanyProfile = (props: compProps) => {
                   </Grid>
                 </Grid>
               </Grid>
-
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
+                <Button variant='contained' color='success' size='small' type='submit' sx={{ mb: 7 }}>
+                  <Icon
+                    fontSize='large'
+                    icon={'solar:diskette-bold-duotone'}
+                    color={'success'}
+                    style={{ fontSize: '18px' }}
+                  />
+                  <div style={{ marginLeft: 5 }}>SAVE</div>
+                </Button>
+              </Grid>
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.2} lg={0.2} xs={12}></Grid>
               <Divider style={{ width: '100%' }} />
               <Box sx={{ marginTop: '20px' }}></Box>
             </Grid>

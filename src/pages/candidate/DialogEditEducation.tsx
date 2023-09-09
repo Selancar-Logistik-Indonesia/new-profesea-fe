@@ -188,14 +188,14 @@ const onSelectFile = (e: any) => {
                 <TextField
                   id='institutuin'
                   label='Institution Name'
-                  variant='outlined'
+                  variant='standard'
                   fullWidth
                   {...register('title')}
                   defaultValue={props.selectedItem?.title}
                 />
               </Grid>
               <Grid item md={6} xs={12} mt={2}>
-                <Grid item xs={12} md={8} container justifyContent={'center'}>
+                <Grid item xs={6} md={8} container justifyContent={'left'}>
                   <Grid xs={6}>
                     <label htmlFor='x'>
                       <img
@@ -218,9 +218,9 @@ const onSelectFile = (e: any) => {
                     ></input>
                   </Grid>
                   <Grid xs={6}>
-                  <Box sx={{ marginTop: '20px', marginLeft: '20px' }}>
+                  <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                      Click Image to change Institution Logo.
+                      <strong>Click Image to change Institution Logo.</strong>
                       </Typography>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
                         Allowed JPG, GIF or PNG.
@@ -237,7 +237,7 @@ const onSelectFile = (e: any) => {
                 <TextField
                   id='major'
                   label='Major'
-                  variant='outlined'
+                  variant='standard'
                   fullWidth
                   {...register('major')}
                   defaultValue={props.selectedItem?.major}
@@ -251,7 +251,7 @@ const onSelectFile = (e: any) => {
                   defaultValue={props.selectedItem?.degree}
                   {...register('degree')}
                   getOptionLabel={(option: Degree) => option.name}
-                  renderInput={params => <TextField {...params} label='Education' />}
+                  renderInput={params => <TextField {...params} label='Education' variant='standard' />}
                   onChange={(event: any, newValue: Degree | null) =>
                     newValue?.name ? setEduId(newValue.name) : setEduId('---')
                   }
@@ -269,7 +269,7 @@ const onSelectFile = (e: any) => {
                   customInput={
                     <TextField
                       label='Start Date'
-                      variant='outlined'
+                      variant='standard'
                       fullWidth
                       {...register('startdate')}
                       defaultValue={props.selectedItem?.start_date}
@@ -289,7 +289,7 @@ const onSelectFile = (e: any) => {
                   customInput={
                     <TextField
                       label='End Date'
-                      variant='outlined'
+                      variant='standard'
                       fullWidth
                       {...register('enddate')}
                       defaultValue={props.selectedItem?.end_date}

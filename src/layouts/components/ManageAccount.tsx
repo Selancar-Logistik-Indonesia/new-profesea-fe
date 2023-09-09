@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, TextField, FormControl, IconButton, useMediaQuery, InputLabel, OutlinedInput, InputAdornment, FormHelperText, Grid, Box, Typography, Card, CardHeader, CardContent } from '@mui/material'
+import { Button, TextField, FormControl, IconButton, useMediaQuery, InputLabel, OutlinedInput, InputAdornment, FormHelperText, Grid, Box, Typography, Card, CardHeader, CardContent, Alert } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import Icon from 'src/@core/components/icon'
@@ -165,12 +165,14 @@ const ManageAccount = () => {
                         </Grid>
 
                         <Grid item xs={12} mb={5}>
-                            <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>Password Requirements:</Typography>
-                            <Box component='ul' sx={{ pl: 4, mb: 0, '& li': { mb: 1, color: 'text.primary' } }}>
-                                <li>Minimum 8 characters long - the more, the better</li>
-                                <li>At least one lowercase & one uppercase character</li>
-                                <li>At least one number, symbol, or whitespace character</li>
-                            </Box>
+                            <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2 }}>
+                                <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>Password Requirements:</Typography>
+                                <Box component='ul' sx={{ pl: 4, mb: 0, '& li': { mb: 1, color: 'text.primary' } }}>
+                                    <li>Minimum 8 characters long - the more, the better</li>
+                                    <li>At least one lowercase & one uppercase character</li>
+                                    <li>At least one number, symbol, or whitespace character</li>
+                                </Box>
+                            </Alert>
                         </Grid>
                         <Grid item xs={12}>
                             <Button variant='contained' color='success' size='small' type='submit' sx={{ mt: 7, mb: 7 }}>

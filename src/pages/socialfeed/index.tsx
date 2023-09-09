@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Card, CardContent, Divider, Grid, Typography } from '@mui/material'
+import { Avatar, AvatarGroup, Card, CardContent, Divider, Grid, Typography } from '@mui/material'
 import { Icon } from '@iconify/react'
 import Profile from 'src/layouts/components/Profile'
 import { useAuth } from 'src/hooks/useAuth'
@@ -10,7 +10,6 @@ import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import SideAd from 'src/views/banner-ad/sidead'
 import { HttpClient } from 'src/services'
-import Chip from 'src/@core/components/mui/chip'
 import Link from 'next/link'
 import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
 import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
@@ -72,9 +71,16 @@ const SocialFeedApp = () => {
                     Who See Your Profile
                   </Typography>
                   <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                    {/* <Link href='/account'> */}
+                      {/* 0\;uy \a p,\]'[p/* <Link href='/account'> */}
                     <Link href='/home'>
-                      <Chip label='(Coming Soon)' variant='outlined' color='warning' style={{ color: 'black' }} />
+                      <AvatarGroup className='pull-up' max={4}>
+                        <Avatar src='/images/avatars/avatar-3.png' alt='1' />                        
+                        <Avatar src='/images/avatars/avatar-4.png' alt='2' />
+                        <Avatar src='/images/avatars/avatar-5.png' alt='3' />
+                        <Avatar src='/images/avatars/avatar-6.png' alt='4' />
+                        <Avatar src='/images/avatars/avatar-7.png' alt='5' />
+                        <Avatar src='/images/avatars/avatar-8.png' alt='6' />
+                      </AvatarGroup>
                     </Link>
                   </Box>
                 </CardContent>

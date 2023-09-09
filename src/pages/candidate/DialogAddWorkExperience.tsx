@@ -184,13 +184,13 @@ const onSelectFile = (e: any) => {
                 <TextField
                   id='institution'
                   label='Company Name'
-                  variant='outlined'
+                  variant='standard'
                   fullWidth
                   {...register('institution')}
                 />
               </Grid>
               <Grid item md={6} xs={12} mt={2}>
-                <Grid item xs={12} md={8} container justifyContent={'center'}>
+                <Grid item xs={12} md={8} container justifyContent={'left'}>
                   <Grid xs={6}>
                     <label htmlFor='x'>
                       <img
@@ -213,9 +213,9 @@ const onSelectFile = (e: any) => {
                     ></input>
                   </Grid>
                   <Grid xs={6}>
-                    <Box sx={{ marginTop: '20px', marginLeft: '20px' }}>
+                    <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                      Click Image to change Company Logo.
+                      <strong>Click Image to change Company Logo.</strong>
                       </Typography>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
                         Allowed JPG, GIF or PNG.
@@ -229,7 +229,7 @@ const onSelectFile = (e: any) => {
               </Grid>
 
               <Grid item md={6} xs={12}>
-                <TextField id='Position' label='Position' variant='outlined' fullWidth {...register('position')} />
+                <TextField id='Position' label='Position' variant='standard' fullWidth {...register('position')} />
               </Grid>
               <Grid item md={3} xs={12}>
                 <DatePickerWrapper>
@@ -240,7 +240,7 @@ const onSelectFile = (e: any) => {
                     onChange={(dateAwal: Date) => setDateAwal(dateAwal)}
                     placeholderText='Click to select a date'
                     customInput={
-                      <TextField label='Start Date' variant='outlined' fullWidth {...register('startdate')} />
+                      <TextField label='Start Date' variant='standard' fullWidth {...register('startdate')} />
                     }
                   />
                 </DatePickerWrapper>
@@ -253,7 +253,7 @@ const onSelectFile = (e: any) => {
                     id='basic-input'
                     onChange={(dateAkhir: Date) => setDateAkhir(dateAkhir)}
                     placeholderText='Click to select a date'
-                    customInput={<TextField label='End Date' variant='outlined' fullWidth {...register('enddate')} />}
+                    customInput={<TextField label='End Date' variant='standard' fullWidth {...register('enddate')} />}
                   />
                 </DatePickerWrapper>
               </Grid>
@@ -265,7 +265,7 @@ const onSelectFile = (e: any) => {
                       options={comboVessel}
                       getOptionLabel={(option: any) => option.name}
                       // defaultValue={props.datauser?.field_preference?.vessel_type}
-                      renderInput={params => <TextField {...params} label='Type of Vessel' />}
+                      renderInput={params => <TextField {...params} label='Type of Vessel' variant='standard'/>}
                       onChange={(event: any, newValue: VesselType | null) =>
                         newValue?.id ? setComboVessel(newValue.id) : setComboVessel(0)
                       }
@@ -277,7 +277,7 @@ const onSelectFile = (e: any) => {
                 <TextField
                   id='short_description'
                   label='Description'
-                  variant='outlined'
+                  variant='standard'
                   multiline
                   maxRows={4}
                   fullWidth
