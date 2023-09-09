@@ -179,13 +179,13 @@ const DialogAddEducation = (props: DialogProps) => {
               <TextField
                 id='institutuin'
                 label='Institution Name'
-                variant='outlined'
+                variant='standard'
                 fullWidth
                 {...register('title')}
               />
             </Grid>
             <Grid item md={6} xs={12} mt={2}>
-              <Grid item xs={12} md={8} container justifyContent={'center'}>
+              <Grid item xs={6} md={8} container justifyContent={'left'}>
                 <Grid xs={6}>
                   <label htmlFor='x'>
                     <img
@@ -208,12 +208,12 @@ const DialogAddEducation = (props: DialogProps) => {
                   ></input>
                 </Grid>
                 <Grid xs={6}>
-                  <Box sx={{ marginTop: '20px', marginLeft: '20px' }}>
+                  <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                     <Typography
                       variant='body2'
                       sx={{ textAlign: 'left', color: '#424242', fontSize: '10px', mb: '5px' }}
                     >
-                      Click Image to change Institution Logo.
+                      <strong>Click Image to change Institution Logo.</strong>
                     </Typography>
                     <Divider></Divider>
                     <Typography
@@ -236,14 +236,14 @@ const DialogAddEducation = (props: DialogProps) => {
                 options={Education}
                 {...register('degree')}
                 getOptionLabel={(option: Degree) => option.name}
-                renderInput={params => <TextField {...params} label='Education' />}
+                renderInput={params => <TextField {...params} label='Education' variant='standard' />}
                 onChange={(event: any, newValue: Degree | null) =>
                   newValue?.name ? setEduId(newValue.name) : setEduId('---')
                 }
               />
             </Grid>
             <Grid item md={6} xs={12}>
-              <TextField id='major' label='Major' variant='outlined' fullWidth {...register('major')} />
+              <TextField id='major' label='Major' variant='standard' fullWidth {...register('major')} />
             </Grid>
             <Grid item md={6} xs={12}>
               {/* <DatePickerWrapper> */}
@@ -256,7 +256,7 @@ const DialogAddEducation = (props: DialogProps) => {
                 showYearDropdown
                 showMonthDropdown
                 dropdownMode='select'
-                customInput={<TextField label='Start Date' variant='outlined' fullWidth {...register('startdate')} />}
+                customInput={<TextField label='Start Date' variant='standard' fullWidth {...register('startdate')} />}
               />
               {/* </DatePickerWrapper> */}
             </Grid>
@@ -270,7 +270,7 @@ const DialogAddEducation = (props: DialogProps) => {
                 id='basic-input'
                 onChange={(dateAkhir: Date) => setDateAkhir(dateAkhir)}
                 placeholderText='Click to select a date'
-                customInput={<TextField label='End Date' variant='outlined' fullWidth {...register('enddate')} />}
+                customInput={<TextField label='End Date' variant='standard' fullWidth {...register('enddate')} />}
               />
               {/* </DatePickerWrapper> */}
             </Grid>
