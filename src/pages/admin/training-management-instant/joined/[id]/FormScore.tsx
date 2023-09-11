@@ -6,9 +6,9 @@ import toast from 'react-hot-toast';
 import TrainingContext from 'src/context/TrainingContext';
 import { useTraining } from 'src/hooks/useTraining';
 
-const FormScore = (props :{ id : any, user_id:number, result_id:number}) => {
+const FormScore = (props :{ id : any, user_id:number, result_id:number, score:number}) => {
     const { updateScore , onLoading} = useTraining();
-    const [score, setScore ] = useState<any>()
+    const [score, setScore ] = useState<any>(props.score)
 
     if(onLoading){
         toast.success('Score has been submited!.')
@@ -26,6 +26,7 @@ const FormScore = (props :{ id : any, user_id:number, result_id:number}) => {
                         placeholder="Score"
                         variant="outlined"
                         type='number'
+                        value={score}
                         onChange={(e) => setScore(e.target.value) }
                     />
                  

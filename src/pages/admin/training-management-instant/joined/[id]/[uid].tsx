@@ -1,5 +1,6 @@
 // import { Icon } from "@iconify/react";
 import { Box, CircularProgress, Grid, IconButton, Typography } from "@mui/material";
+import ReactHtmlParser from 'react-html-parser';
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { HttpClient } from "src/services";
@@ -75,13 +76,23 @@ const TrainingResultPageApp = () => {
                                     <Typography sx={{ fontWeight: 'bold' }} fontSize={16}>
                                         {index+1}. {item?.question?.question}
                                     </Typography>
+                                    { item.form_type === 'ft' && (
+                                        <>
+                                        <Typography sx={{ ml:7, fontWeight: 'bold', mt:2 }} fontSize={16}>
+                                            Answer :
+                                        </Typography>
+                                        <Typography sx={{ ml:4 , border:0.4, p:3, mt:-6}} fontSize={14}>
+                                            {ReactHtmlParser(item?.answer_text)}
+                                        </Typography>
+                                        </>
+                                    )}
                                 </Grid>
                                 <Grid item xs={3}> 
                                     <Grid container sx={{ alignItems: 'center', justifyContent: 'center' }}>
                                     { item.form_type === 'ft' && (
-                                        <FormScore id={trainingId} result_id={item.id} user_id={item.user_id}></FormScore>
+                                        <FormScore id={trainingId} result_id={item.id} user_id={item.user_id} score={item?.score}></FormScore>
                                     )}
-                                    { item.form_type === 'mc' && item?.score > 0 && (
+                                    { item.form_type === 'mc' && (
                                         <Typography sx={{ fontWeight: 'bold' }} fontSize={16}>
                                             {item?.score}
                                         </Typography>
