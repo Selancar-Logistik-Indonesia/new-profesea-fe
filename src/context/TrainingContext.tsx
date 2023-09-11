@@ -13,7 +13,9 @@ const defaultValue: TrainingContextType = {
     onLoading: false,
     hasNextPage: false,
     fetchTrainings: () => Promise.resolve(),
-    joinTraining: () => Promise.resolve()
+    joinTraining: () => Promise.resolve(),
+    updateScore: () => Promise.resolve()
+
 }
 
 const TrainingContext = createContext(defaultValue);
@@ -79,7 +81,24 @@ const TrainingProvider = (props: Props) => {
         setOnLoading(false);
     }
 
-    
+    const updateScore = async (id: any, payload: {user_id:number, result_id:number, score?:number}) => {
+
+        if(payload?.score) setOnLoading(true)
+
+        try {
+            const response = await HttpClient.post(AppConfig.baseUrl+`/training/${id}/result` , {
+                ...payload
+            })
+
+            if (response.status == 200) {
+                setOnLoading(true)
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+        setOnLoading(false)
+    }
 
 
     const values = useMemo(() => ({
@@ -91,6 +110,7 @@ const TrainingProvider = (props: Props) => {
         hasNextPage,
         fetchTrainings,
         joinTraining,
+        updateScore,
     }), [
         page,
         setPage,
@@ -100,6 +120,7 @@ const TrainingProvider = (props: Props) => {
         hasNextPage,
         fetchTrainings,
         joinTraining,
+        updateScore,
     ]);
 
     return <TrainingContext.Provider value={values}>{props.children}</TrainingContext.Provider>;
