@@ -12,10 +12,12 @@ const defaultValue: DashboardContextType = {
     dataTopCompany:[],
     dataTopCommunity:[],
     dataTopTraining:[],
+    dataChartSubs:[],
     statOfCandidateOff: () => Promise.resolve(),
     statOfCandidateOn: () => Promise.resolve(),
     statOfUserByRole: () => Promise.resolve(),
-    statTopList: () => Promise.resolve()
+    statTopList: () => Promise.resolve(),
+    chartSubscriptions:() => Promise.resolve(),
 }
 
 const DashboardContext = createContext(defaultValue);
@@ -27,9 +29,9 @@ const DashboardProvider = (props: Props) => {
     const [dataTopCompany, setDataTopCompany] = useState<any[]>([]);
     const [dataTopCommunity, setDataTopCommunity] = useState<any[]>([]);
     const [dataTopTraining, setDataTopTraining] = useState<any[]>([]);
+    const [dataChartSubs, setDataChartSubs] = useState<any>();
     const [onLoading, setOnLoading] = useState(false);
 
-    console.log(dataOnship);
     const statOfCandidateOff = async () => {
         // only trigger in page 1
 
@@ -154,6 +156,27 @@ const DashboardProvider = (props: Props) => {
         setOnLoading(false);
     }
 
+    const chartSubscriptions = async (payload: { data_type: string, range?:any }) => {
+        // only trigger in page 1
+
+        setOnLoading(true)
+
+        try {
+            const response = await HttpClient.get(AppConfig.baseUrl + `/dashboard/charts/subscriptions` , { ...payload })
+
+            if (response.status == 200) {
+                const result = response.data;
+                setDataChartSubs(result.data);
+                
+                
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        
+        setOnLoading(false);
+    }
+
     
 
 
@@ -165,20 +188,24 @@ const DashboardProvider = (props: Props) => {
         dataTopCompany,
         dataTopCommunity,
         dataTopTraining,
+        dataChartSubs,
         statOfCandidateOff,
         statOfCandidateOn,
         statOfUserByRole,
-        statTopList
+        statTopList,
+        chartSubscriptions,
     }), [
         onLoading,
         dataOffship,
         dataOnship,
         dataTotalUser,
         dataTopCompany,
+        dataChartSubs,
         statOfCandidateOff,
         statOfCandidateOn,
         statOfUserByRole,
-        statTopList
+        statTopList,
+        chartSubscriptions,
     ]);
 
     return <DashboardContext.Provider value={values}>{props.children}</DashboardContext.Provider>;
