@@ -65,7 +65,7 @@ const CardStatOffshipApp = () => {
   return (
     <DashboardContext.Consumer>
         {({ dataOffship, onLoading }) => {
-          console.log(dataOffship)
+          
             if (onLoading) {
             
                 return (
