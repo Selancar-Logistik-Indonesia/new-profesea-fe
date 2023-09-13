@@ -34,7 +34,7 @@ const TrainingScreen = () => {
     const [selectedItem, setSelectedItem] = useState<Training | null>(null);
 
     const [CatId, setCatId] = useState(0);
-    const [filterDate, setDate] = useState<DateType>(new Date())
+    const [filterDate, setDate] = useState<DateType>()
     const [TrainingCategory, getTrainingCategory] =useState<any[]>([]);
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
@@ -43,7 +43,13 @@ const TrainingScreen = () => {
     const [perPage, setPerPage] = useState(10);
     const getListTraining = async () => {
         try {
-            const resp = await HttpClient.get(`/training?search=${search}&page=${page}&take=${perPage}&category_id=${CatId}`);
+            const resp = await HttpClient.get(`/training?search=${search}&page=${page}&take=${perPage}&category_id=${CatId}`+
+            `&schedule=${
+            (filterDate) ? filterDate?.toLocaleDateString("en-GB", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
+            }).split('/').reverse().join('-')+" "+filterDate?.toTimeString().split(' ')[0] : ''}`)
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
@@ -153,7 +159,6 @@ const TrainingScreen = () => {
                                     <DatePickerWrapper>
                                         <DatePicker
                                         showTimeSelect
-                                        minDate={new Date()}
                                         dateFormat='dd/MM/yyyy hh:mm aa'
                                         selected={filterDate}
                                         id='basic-input'
