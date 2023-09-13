@@ -37,7 +37,7 @@ const CommunityScreen = () => {
     const [perPage, setPerPage] = useState(10);
     const getListThread = async () => {
         try {
-            const resp = await HttpClient.get(`/thread?search=${search}&page=${page}&take=${perPage}`);
+            const resp = await HttpClient.get(`/thread?search=${search}&page=${page}&take=${perPage}&forum_id=${forumCode}&user_id=${UserId}`);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
