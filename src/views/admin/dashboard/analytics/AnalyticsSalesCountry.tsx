@@ -13,18 +13,27 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-import { Typography } from '@mui/material'
-
-const series = [
-  {
-    name: 'Subscriptions',
-    data: [17165, 13850, 12375, 9567]
-  }
-]
+import { Box, CircularProgress, Typography } from '@mui/material'
+import DashboardContext, { DashboardProvider } from 'src/context/DashboardContext'
+import { useEffect } from 'react'
+import { useDashboard } from 'src/hooks/useDashboard'
 
 const AnalyticsSalesCountry = () => {
+  return (
+      <DashboardProvider>
+          <AnalyticsSalesCountryApp />
+      </DashboardProvider>
+  )
+}
+
+const AnalyticsSalesCountryApp = () => {
   // ** Hook
   const theme = useTheme()
+  const { chartSubscriptions, dataChartSubs } = useDashboard();
+  // console.log(dataChartSubs?.series)
+  useEffect(() => {
+    chartSubscriptions({data_type:'by-qty'});
+  }, []);
 
   const options: ApexOptions = {
     chart: {
@@ -82,7 +91,7 @@ const AnalyticsSalesCountry = () => {
     xaxis: {
       axisTicks: { show: false },
       axisBorder: { show: false },
-      categories: ['BASIC', 'PRO', 'STAR', 'PPV'],
+      categories: (dataChartSubs) ? dataChartSubs?.categories : [],
       labels: {
         formatter: val => `${Number(val) / 1000}k`,
         style: {
@@ -104,39 +113,57 @@ const AnalyticsSalesCountry = () => {
   }
 
   return (
-    <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-      <CardHeader
-        title={
-          <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
-            Subscription Country
-          </Typography>
-        }
-        subheader='Total 123445 Subscriptions'
-        subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
-        titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
-        action={
-          <OptionsMenu
-            options={['Last 28 Days', 'Last Month', 'Last Year']}
-            iconButtonProps={{ size: 'small', className: 'card-more-options' }}
-          />
-        }
-      />
-      <CardContent
-        sx={{
-          p: '0 !important',
-          '& .apexcharts-canvas .apexcharts-yaxis-label': { fontSize: '0.875rem', fontWeight: 600 },
-          '& .apexcharts-canvas .apexcharts-xaxis-label': { fontSize: '0.875rem', fill: theme.palette.text.disabled },
-          '& .apexcharts-data-labels .apexcharts-datalabel': {
-            fontWeight: 500,
-            fontSize: '0.875rem',
-            fill: theme.palette.common.white
-          }
-        }}
-      >
-        <ReactApexcharts type='bar' height={332} series={series} options={options} />
-      </CardContent>
-    </Card>
-  )
-}
+    <DashboardContext.Consumer>
+        {({ dataChartSubs, onLoading }) => {
+          // console.log(dataChartSubs);
+            if (onLoading) {
+                  return (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <CircularProgress sx={{ mt: 20 }} />
+                    </Box>
+                );
+            }
+
+            return (
+              <Card sx={{ border: 0, boxShadow: 0}}>
+                <CardHeader
+                  title={
+                    <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
+                      Subscription Country
+                    </Typography>
+                  }
+                  subheader='Total 123445 Subscriptions'
+                  subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
+                  titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
+                  action={
+                    <OptionsMenu
+                      options={['Last 28 Days', 'Last Month', 'Last Year']}
+                      iconButtonProps={{ size: 'small', className: 'card-more-options' }}
+                    />
+                  }
+                />
+                <CardContent
+                  sx={{
+                    p: '0 !important',
+                    '& .apexcharts-canvas .apexcharts-yaxis-label': { fontSize: '0.875rem', fontWeight: 600 },
+                    '& .apexcharts-canvas .apexcharts-xaxis-label': { fontSize: '0.875rem', fill: theme.palette.text.disabled },
+                    '& .apexcharts-data-labels .apexcharts-datalabel': {
+                      fontWeight: 500,
+                      fontSize: '0.875rem',
+                      fill: theme.palette.common.white
+                    }
+                  }}
+                >
+                  <ReactApexcharts type='bar' height={332} series={(dataChartSubs) ? dataChartSubs?.series : []} options={options} />
+                </CardContent>
+              </Card>
+            )
+
+          }}
+          </DashboardContext.Consumer>
+        
+          );
+    }
+
 
 export default AnalyticsSalesCountry

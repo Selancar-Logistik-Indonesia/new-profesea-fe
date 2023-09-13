@@ -150,7 +150,7 @@ const ImageSlider = (props: any) => {
         </div>
         <Box position={'absolute'} sx={{ right: { xs: '2%', md: '2%' }, top: { xs: '3%', md: '3%' } }}>
           <label htmlFor='raised-button-file-banner'></label>
-          <Button variant='outlined' sx={{ color: 'white' }} onClick={handleClickOpen}>
+          <Button variant='contained' color='error' size='small' onClick={handleClickOpen}>
             <Icon fontSize='large' icon={'material-symbols:delete'} color={'white'} style={{ fontSize: '24px' }} />
             Delete
           </Button>

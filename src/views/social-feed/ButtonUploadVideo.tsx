@@ -98,8 +98,8 @@ const ButtonUploadVideo = () => {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button variant='contained' size="small" color='error' onClick={() => setOpen(!open)}>
-                        <Icon icon='material-symbols:cancel-outline' color='white' fontSize={19} />
+                    <Button variant='outlined' size="small" color='error' onClick={() => setOpen(!open)}>
+                        <Icon icon='material-symbols:cancel-outline' color='error' fontSize={19} />
                         Cancel
                     </Button>
 

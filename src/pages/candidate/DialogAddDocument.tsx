@@ -414,7 +414,7 @@ const DialogAddDocument = (props: DialogProps) => {
                   id='dokumen'
                   options={dokumen}
                   getOptionLabel={option => option.title || ''}
-                  renderInput={params => <TextField {...params} label='Document' sx={{ mb: 2 }} />}
+                  renderInput={params => <TextField {...params} label='Document' sx={{ mb: 2 }} variant='standard' />}
                   onChange={(e, newValue: any) => (newValue ? setDocument(newValue) : setDocument([]))}
                 />
               </Grid>
@@ -426,7 +426,7 @@ const DialogAddDocument = (props: DialogProps) => {
                       id='dokumen2'
                       options={combochild}
                       getOptionLabel={(option: dokumen) => option.title}
-                      renderInput={params => <TextField {...params} label='Document Child' sx={{ mb: 2 }} />}
+                      renderInput={params => <TextField {...params} label='Document Child' sx={{ mb: 2 }} variant='standard' />}
                       onChange={(e, newValue: any) => (newValue ? setDocumentChild(newValue) : setDocumentChild([]))}
                     />
                   </Grid>
@@ -441,7 +441,7 @@ const DialogAddDocument = (props: DialogProps) => {
                       showMonthDropdown
                       dropdownMode='select'
                       customInput={
-                        <TextField label='Expired Date' variant='outlined' fullWidth   />
+                        <TextField label='Expired Date' variant='standard' fullWidth   />
                       }
                     />
                   </Grid>
@@ -452,15 +452,15 @@ const DialogAddDocument = (props: DialogProps) => {
                 <TextField
                   id='document_name'
                   label='Document Name'
-                  variant='outlined'
+                  variant='standard'
                   fullWidth
                   {...register('nameOtherDocument')}
                 />
               )}
 
               <Grid item md={12} xs={12} mt={2}>
-                <Grid item xs={12} md={12} container justifyContent={'center'}>
-                  <Grid xs={5}>
+                <Grid item xs={12} md={12} container justifyContent={'left'}>
+                  <Grid xs={6}>
                     <label htmlFor='x'>
                       <img
                         alt='logo'
@@ -481,10 +481,10 @@ const DialogAddDocument = (props: DialogProps) => {
                       type='file'
                     ></input>
                   </Grid>
-                  <Grid xs={7}>
-                    <Box sx={{ marginTop: '20px' }}>
+                  <Grid xs={6}>
+                  <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                      Click Image to change Document Photo.
+                      <strong>Click Image to change Document Photo.</strong>
                       </Typography>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
                         Allowed JPG, GIF or PNG.

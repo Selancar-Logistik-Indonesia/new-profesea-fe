@@ -37,10 +37,10 @@ const FeedCard = (props: Prop) => {
                     </Box>
                 </Box>
             </Box>
-            <Box component={Link} href={`/feed/${item.id}`} sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
+            <Box component={Link} href={`/feed/${item.id}`} sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px', p: 2, border: '1px solid #e4e4e4' }}>
                 <Typography variant='body1' sx={{ color: '#424242', fontSize: '14px', fontWeight: 500, my: 2 }}>
                     {item.content}
-                </Typography>
+                </Typography> 
 
                 {item.content_type == 'videos' && (
                     <CardMedia
