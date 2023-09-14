@@ -45,7 +45,7 @@ import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
-import { refreshsession } from 'src/utils/helpers'
+import { refreshsession, removeFirstZeroChar } from 'src/utils/helpers'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import JobCategory from 'src/contract/models/job_category'
@@ -205,7 +205,10 @@ const CandidateProfile = (props: compProps) => {
       typeof value === 'string' ? value.split(',') : value
     )
   }
-
+  const [phoneNum, setPhoneNum] = useState(props.datauser?.phone)
+  const onChangePhoneNum = (input: string) => {
+    setPhoneNum(removeFirstZeroChar(input))
+  }
   const combobox = () => {
 
     // HttpClient.get(AppConfig.baseUrl + '/public/data/role-level?search=&page=1&take=100').then(response => {
@@ -515,7 +518,7 @@ const CandidateProfile = (props: compProps) => {
       country_id: idcountry,
       employee_type: idship,
       name: fullName,
-      phone: phone,
+      phone: phoneNum,
       website: website,
       about: about,
       address_country_id: idcombocode,
@@ -1001,6 +1004,8 @@ const CandidateProfile = (props: compProps) => {
                   sx={{ mb: 1 }}
                   type='number'
                   {...register('phone')}
+                  value={phoneNum} 
+                  onChange={e => onChangePhoneNum(e.target.value)}
                   InputProps={{
                     // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
                     startAdornment: (
@@ -1010,9 +1015,7 @@ const CandidateProfile = (props: compProps) => {
                         options={combocode}
                         getOptionLabel={(option: Countries) => option.iso}
                         defaultValue={props.datauser?.country}
-                        renderInput={params => (
-                          <TextField {...params}   variant='standard' />
-                        )}
+                        renderInput={params => <TextField {...params} variant='standard' />}
                         onChange={(event: any, newValue: Countries | null) =>
                           newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
                         }
