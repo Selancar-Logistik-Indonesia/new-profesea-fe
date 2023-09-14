@@ -32,7 +32,7 @@ import { Icon } from '@iconify/react'
 import { styled } from '@mui/material/styles'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
-import { refreshsession } from 'src/utils/helpers'
+import { refreshsession, removeFirstZeroChar } from 'src/utils/helpers'
 import ButtonUploadPhotoGallery from './ButtonUploadPhotoGallery'
 
 
@@ -97,7 +97,10 @@ const CompanyProfile = (props: compProps) => {
   const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
 
   const [slides, setSlides] = useState<any>([])
-
+  const [phoneNum, setPhoneNum] = useState(props.datauser?.phone)
+  const onChangePhoneNum = (input: string) => {
+    setPhoneNum(removeFirstZeroChar(input))
+  }
   const combobox = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
@@ -182,7 +185,7 @@ const CompanyProfile = (props: compProps) => {
       country_id: idcountry,
       industry_id: idindustry,
       name: companyName,
-      phone: phone,
+      phone: phoneNum,
       website: website,
       about: about,
       address_country_id: idcombocode,
@@ -645,31 +648,44 @@ const CompanyProfile = (props: compProps) => {
                   {...register('email')}
                 />
               </Grid>
-              <Grid item md={1} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='code'
-                  options={combocode}
-                  getOptionLabel={(option: Countries) => option.iso}
-                  defaultValue={props.datauser?.country}
-                  renderInput={params => <TextField {...params} label='Code Phone *' sx={{ mb: 2 }} variant='standard' />}
-                  onChange={(event: any, newValue: Countries | null) =>
-                    newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
-                  }
-                />
-              </Grid>
-
-              <Grid item md={2} xs={12}>
+              <Grid item md={3} xs={12}>
                 <TextField
                   id='phone'
                   label='Phone'
                   required
                   defaultValue={props.datauser.phone}
                   variant='standard'
-                  type='number'
                   fullWidth
                   sx={{ mb: 1 }}
+                  type='number'
+                  value={phoneNum}
                   {...register('phone')}
+                  onChange={e => onChangePhoneNum(e.target.value)}
+                  InputProps={{
+                    // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
+                    startAdornment: (
+                      <Autocomplete
+                        disablePortal
+                        id='code'
+                        options={combocode}
+                        getOptionLabel={(option: Countries) => option.iso}
+                        defaultValue={props.datauser?.country}
+                        renderInput={params => <TextField {...params} variant='standard' />}
+                        onChange={(event: any, newValue: Countries | null) =>
+                          newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
+                        }
+                      />
+                      // <Autocomplete
+                      //   style={{ width: '160px' }}
+                      //   disablePortal
+                      //   id='code'
+                      //   options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
+                      //   renderInput={params => <TextField {...params} variant='standard' />}
+                      //   {...register('code')}
+                      //   onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
+                      // />
+                    )
+                  }}
                 />
               </Grid>
 
