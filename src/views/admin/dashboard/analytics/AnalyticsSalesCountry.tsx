@@ -8,7 +8,7 @@ import CardContent from '@mui/material/CardContent'
 import { ApexOptions } from 'apexcharts'
 
 // ** Custom Components Imports
-import OptionsMenu from 'src/@core/components/option-menu'
+// import OptionsMenu from 'src/@core/components/option-menu'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Util Import
@@ -30,7 +30,8 @@ const AnalyticsSalesCountryApp = () => {
   // ** Hook
   const theme = useTheme()
   const { chartSubscriptions, dataChartSubs } = useDashboard();
-  // console.log(dataChartSubs?.series)
+  // console.log(dataChartSubs?.series[0].data)
+  
   useEffect(() => {
     chartSubscriptions({data_type:'by-qty'});
   }, []);
@@ -132,15 +133,12 @@ const AnalyticsSalesCountryApp = () => {
                       Subscription Country
                     </Typography>
                   }
-                  subheader='Total 123445 Subscriptions'
+                  subheader={`Total ${(dataChartSubs?.series)?
+                                    dataChartSubs?.series[0].data.reduce((a :any , b :any) => a + b, 0) : 0 } 
+                            Subscriptions`}
                   subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
                   titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
-                  action={
-                    <OptionsMenu
-                      options={['Last 28 Days', 'Last Month', 'Last Year']}
-                      iconButtonProps={{ size: 'small', className: 'card-more-options' }}
-                    />
-                  }
+                 
                 />
                 <CardContent
                   sx={{

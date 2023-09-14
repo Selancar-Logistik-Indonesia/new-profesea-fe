@@ -8,7 +8,7 @@ import CardContent from '@mui/material/CardContent'
 import { ApexOptions } from 'apexcharts'
 
 // ** Custom Components Imports
-import OptionsMenu from 'src/@core/components/option-menu'
+// import OptionsMenu from 'src/@core/components/option-menu'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Util Import
@@ -123,18 +123,15 @@ const AnalyticsWeeklySalesApp = () => {
                 <CardHeader
                   title={
                     <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
-                      Subscription Weekly Sales
+                      Subscription Realtime Sales
                     </Typography>
                   }
-                  subheader='Total Rp. 123445'
+                  subheader={`Total Rp. ${(dataChartSubs?.series)?
+                    dataChartSubs?.series[0].data.reduce((a :any , b :any) => a + b, 0) : 0 } 
+                  `}
                   subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
                   titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
-                  action={
-                    <OptionsMenu
-                      options={['Last 28 Days', 'Last Month', 'Last Year']}
-                      iconButtonProps={{ size: 'small', className: 'card-more-options' }}
-                    />
-                  }
+                  
                 />
                 <CardContent
                   sx={{
