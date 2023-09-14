@@ -1,13 +1,8 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import { Alert, AlertTitle, Avatar, CircularProgress, Paper } from '@mui/material'
+import { Alert, AlertTitle, Avatar,   Paper } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import ISocialFeed from 'src/contract/models/social_feed'
-import SocialFeedContext from 'src/context/SocialFeedContext'
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { useSocialFeed } from 'src/hooks/useSocialFeed'
- import { useEffect } from 'react'
-import { getEmployeetypev2, getUserAvatar, toTitleCase } from 'src/utils/helpers'
+ import { getEmployeetypev2,   toTitleCase } from 'src/utils/helpers'
 import { Icon } from '@iconify/react'
 import moment from 'moment'
 import { IUser } from 'src/contract/models/user'
@@ -27,8 +22,7 @@ const renderList = (listCandidate: IUser[]) => {
 
   return listCandidate.map(item => {
     const userPhoto = item.photo ? item.photo : '/images/avatars/default-user.png'
-    const names = item.field_preference?.spoken_langs ? item.field_preference?.spoken_langs : []
-
+ 
     return (
       <Grid item xs={12} md={6} key={item?.id}>
         <Paper
