@@ -68,13 +68,16 @@ const Registration = (props: any) => {
     email: yup.string().email().required(),
     password: yup.string().min(5).required()
   })
-
-  const [phoneNum, setPhoneNum] = useState('');
-
+   const [phoneNum, setPhoneNum] = useState('');
+  // const [teks, setTeks] = useState('')
   const onChangePhoneNum = (input: string) => {
     setPhoneNum(removeFirstZeroChar(input));
   }
-
+  const handleInputChange = (e: any) => {
+    // Mengubah teks menjadi huruf kecil dan menyimpannya dalam state
+    // setTeks(e.toLowerCase())
+    register('email', e.toLowerCase())
+  }
   const {
     register,
     formState: { errors },
@@ -126,7 +129,7 @@ const Registration = (props: any) => {
       teamid = 4
       ship = ''
     }
-
+debugger
     const json = {
       'name': name,
       "email": email,
@@ -161,6 +164,7 @@ const Registration = (props: any) => {
 
   }
 
+
   useEffect(() => {
     combobox()
   }, []);
@@ -184,7 +188,7 @@ const Registration = (props: any) => {
               <TextField id='Name' label='Name' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
             </Grid>
 
-            <Grid item md={5} xs={12}>
+            <Grid item md={6} xs={12}>
               <Autocomplete
                 disablePortal
                 id='position'
@@ -196,17 +200,41 @@ const Registration = (props: any) => {
                 onChange={(event: any, newValue: any | null) => onChangeEmployee(newValue)}
               />
             </Grid>
-            <Grid item md={3} xs={12}>
-              <Autocomplete
+            <Grid item md={6} xs={12}>
+              {/* <Autocomplete
                 disablePortal
                 id='code'
                 options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
                 renderInput={params => <TextField {...params} label='Code Phone' sx={{ mb: 2 }} />}
                 {...register('code')}
                 onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
+              /> */}
+              <TextField
+                id='Phone'
+                label='Phone'
+                variant='outlined'
+                type='number'
+                fullWidth
+                sx={{ mb: 2 }}
+                value={phoneNum}
+                onChange={e => onChangePhoneNum(e.target.value)}
+                InputProps={{
+                  // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
+                  startAdornment: (
+                    <Autocomplete
+                      style={{ width: '160px' }}
+                      disablePortal
+                      id='code'
+                      options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
+                      renderInput={params => <TextField {...params} variant='standard' />}
+                      {...register('code')}
+                      onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
+                    />
+                  )
+                }}
               />
             </Grid>
-            <Grid item md={4} xs={12}>
+            {/* <Grid item md={4} xs={12}>
               <TextField
                 id='Phone'
                 label='Phone'
@@ -217,7 +245,7 @@ const Registration = (props: any) => {
                 value={phoneNum}
                 onChange={e => onChangePhoneNum(e.target.value)}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
         ) : (
           <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
@@ -260,7 +288,16 @@ const Registration = (props: any) => {
           />
         </Grid>
         <Grid item md={6} xs={12}>
-          <TextField id='Email' label='Email' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('email')} />
+          <TextField
+            id='Email'
+            label='Email'
+            variant='outlined'
+            fullWidth
+            // value={teks}
+            sx={{ mb: 2 }}
+            {...register('email')}
+            onChange={e => handleInputChange(e.target.value)}
+          />
         </Grid>
         <Grid item md={6} xs={12}>
           <FormControl fullWidth>
