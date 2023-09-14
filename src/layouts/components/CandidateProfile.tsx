@@ -511,7 +511,7 @@ const CandidateProfile = (props: compProps) => {
   }
 
   const onSubmit = (data: FormData) => {
-    const { fullName, website, phone, address, about } = data
+    const { fullName, website,  address, about } = data
     console.log('here 1', idcombokelamin)
     availabledate = date
     const json = {
