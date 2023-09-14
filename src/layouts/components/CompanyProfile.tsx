@@ -180,7 +180,7 @@ const CompanyProfile = (props: compProps) => {
     mode: 'onBlur'
   })
   const onSubmit = (data: FormData) => {
-    const { companyName, website, phone, address, about } = data
+    const { companyName, website,   address, about } = data
     const json = {
       country_id: idcountry,
       industry_id: idindustry,
