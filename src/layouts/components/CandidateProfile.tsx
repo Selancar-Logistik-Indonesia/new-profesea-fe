@@ -870,7 +870,7 @@ const CandidateProfile = (props: compProps) => {
                   required
                   defaultValue={props.datauser.name}
                   label='Full Name'
-                  variant='standard' 
+                  variant='standard'
                   fullWidth
                   sx={{ mb: 1 }}
                   {...register('fullName')}
@@ -973,22 +973,24 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </>
               )}
-              
-              <Grid item md={1} xs={12}>
+
+              {/* <Grid item md={1} xs={12}>
                 <Autocomplete
                   disablePortal
                   id='code'
                   options={combocode}
                   getOptionLabel={(option: Countries) => option.iso}
                   defaultValue={props.datauser?.country}
-                  renderInput={params => <TextField {...params} label='Code Phone *' sx={{ mb: 2 }} variant='standard' />}
+                  renderInput={params => (
+                    <TextField {...params} label='Code Phone *' sx={{ mb: 2 }} variant='standard' />
+                  )}
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
                   }
                 />
-              </Grid>
+              </Grid> */}
 
-              <Grid item md={2} xs={12}>
+              <Grid item md={3} xs={12}>
                 <TextField
                   id='phone'
                   label='Phone'
@@ -999,6 +1001,33 @@ const CandidateProfile = (props: compProps) => {
                   sx={{ mb: 1 }}
                   type='number'
                   {...register('phone')}
+                  InputProps={{
+                    // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
+                    startAdornment: (
+                      <Autocomplete
+                        disablePortal
+                        id='code'
+                        options={combocode}
+                        getOptionLabel={(option: Countries) => option.iso}
+                        defaultValue={props.datauser?.country}
+                        renderInput={params => (
+                          <TextField {...params}   variant='standard' />
+                        )}
+                        onChange={(event: any, newValue: Countries | null) =>
+                          newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
+                        }
+                      />
+                      // <Autocomplete
+                      //   style={{ width: '160px' }}
+                      //   disablePortal
+                      //   id='code'
+                      //   options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
+                      //   renderInput={params => <TextField {...params} variant='standard' />}
+                      //   {...register('code')}
+                      //   onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
+                      // />
+                    )
+                  }}
                 />
               </Grid>
 
@@ -1186,7 +1215,7 @@ const CandidateProfile = (props: compProps) => {
                       options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
                       defaultValue={opp}
                       getOptionLabel={(option: any) => option.label}
-                      renderInput={params => <TextField {...params} label='Status *' variant='standard'/>}
+                      renderInput={params => <TextField {...params} label='Status *' variant='standard' />}
                       onChange={(event: any, newValue: any | null) => displayopp(newValue)}
                     />
                   </Grid>
@@ -1213,7 +1242,7 @@ const CandidateProfile = (props: compProps) => {
                       options={JobCategory}
                       defaultValue={props.datauser?.field_preference?.job_category}
                       getOptionLabel={(option: JobCategory) => option.name}
-                      renderInput={params => <TextField {...params} label='Job Category *' variant='standard'/>}
+                      renderInput={params => <TextField {...params} label='Job Category *' variant='standard' />}
                       onChange={(event: any, newValue: JobCategory | null) =>
                         newValue?.id ? setJC(newValue?.id) : setJC(0)
                       }
@@ -1242,7 +1271,7 @@ const CandidateProfile = (props: compProps) => {
                         options={comboRegion}
                         getOptionLabel={(option: any) => option.name}
                         defaultValue={props.datauser?.field_preference?.region_travel}
-                        renderInput={params => <TextField {...params} label='Location *' variant='standard'/>}
+                        renderInput={params => <TextField {...params} label='Location *' variant='standard' />}
                         onChange={(event: any, newValue: RegionTravel | null) =>
                           newValue?.id
                             ? setComboRegion(newValue.id)
@@ -1258,7 +1287,7 @@ const CandidateProfile = (props: compProps) => {
                         options={comboProvince}
                         getOptionLabel={(option: any) => option.province_name}
                         defaultValue={props.datauser?.location_province}
-                        renderInput={params => <TextField {...params} label='Location *' variant='standard'/>}
+                        renderInput={params => <TextField {...params} label='Location *' variant='standard' />}
                         onChange={(event: any, newValue: Province | null) =>
                           newValue?.id
                             ? setComboProvince(newValue.id)
