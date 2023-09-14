@@ -4,16 +4,15 @@ import { Avatar, AvatarGroup, Card, CardContent, Divider, Grid, Typography } fro
 import { Icon } from '@iconify/react'
 import Profile from 'src/layouts/components/Profile'
 import { useAuth } from 'src/hooks/useAuth'
-import Postfeed from 'src/views/social-feed/Postfeed'
-import ListFeedView from 'src/views/social-feed/ListFeedView'
-import { SocialFeedProvider } from 'src/context/SocialFeedContext'
-import { useSocialFeed } from 'src/hooks/useSocialFeed'
-import SideAd from 'src/views/banner-ad/sidead'
+ import { SocialFeedProvider } from 'src/context/SocialFeedContext'
+ import SideAd from 'src/views/banner-ad/sidead'
 import { HttpClient } from 'src/services'
 import Link from 'next/link'
 import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
 import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
-
+import ListSeeProfile from 'src/views/seeprofile/ListSeeProfile'
+import { IUser } from 'src/contract/models/user'
+ 
 const SocialFeed = () => {
   return (
     <SocialFeedProvider>
@@ -32,22 +31,35 @@ type activities = {
 }
 
 const SocialFeedApp = () => {
-  const { user } = useAuth();
-  const { fetchFeeds } = useSocialFeed();
-  const [activities, getActivities] = useState<activities>()
+  const { user } = useAuth()
+  const [listCandidate, setListCandidate] = useState<IUser[]>([]) 
+   const [activities, getActivities] = useState<activities>()
+ 
+   const loadActivitis = async () => {
+     const resp = await HttpClient.get('/user/statistics?user_id=' + user?.id)
+     if (resp.status != 200) {
+       throw resp.data.message ?? 'Something went wrong!'
+     }
+     const code = resp.data
+     getActivities(code)
+   }
 
-  useEffect(() => {
-    fetchFeeds({ take: 7 });
-    loadActivitis();
-  }, []);
 
-  const loadActivitis = async () => {
-    const resp = await HttpClient.get('/user/statistics?user_id=' + user?.id)
-    if (resp.status != 200) {
-      throw resp.data.message ?? 'Something went wrong!'
-    }
-    const code = resp.data
-    getActivities(code)
+  useEffect(() => 
+  {
+    getdatapencarian();
+     loadActivitis();
+  }, [])
+
+  const getdatapencarian = async () => {
+ 
+    const response = await HttpClient.get(
+      '/candidate?search=&page=1&take=25'      
+    )
+
+    const candidates = response.data.candidates
+     
+    setListCandidate(candidates.data)
   }
 
   return (
@@ -56,8 +68,7 @@ const SocialFeedApp = () => {
         <Grid item lg={9} md={7} xs={12}>
           <Grid container spacing={6}>
             <Grid item xs={12}>
-              <Postfeed />
-              <ListFeedView />
+              <ListSeeProfile listCandidate={listCandidate} />
             </Grid>
           </Grid>
         </Grid>
@@ -147,6 +158,6 @@ const SocialFeedApp = () => {
 SocialFeed.acl = {
   action: 'read',
   subject: 'home'
-};
+}
 
 export default SocialFeed

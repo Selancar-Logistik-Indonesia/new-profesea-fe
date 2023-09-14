@@ -23,7 +23,7 @@ const MessageButton = (props: MessageButtonProps) => {
     // const abilities = secureLocalStorage.getItem(localStorageKeys.abilities) as IUser
 
     useEffect(() => { 
-    const a = subscribev(['A02','A12']);
+    const a = subscribev(['A01','A02','A03','A12','A14']);
     setShowDM(!a)
     }, [])
     

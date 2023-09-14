@@ -17,6 +17,7 @@ import JobCategory from 'src/contract/models/job_category';
 import RoleType from 'src/contract/models/role_type';
 import VesselType from 'src/contract/models/vessel_type';
 import { Icon } from '@iconify/react';
+import { subscribev } from 'src/utils/helpers'
 
 const status:any[] = [
     {id: 'AP' , title : 'Approved'},
@@ -60,6 +61,7 @@ const JobApplied = () => {
     const [currValueexclude, setCurrValueExclude] = useState('')
     const [valueslitle, setValuesLitle] = useState<any[]>([])
     const [currValuelitle, setCurrValueLitle] = useState('')
+    const [showadvance, setShowAdvance] = useState<boolean>(false)
 
     const getListCombo = async () => {
         const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`)
@@ -92,6 +94,12 @@ const JobApplied = () => {
     
     useEffect(() => {
         getListCombo()
+        const a = subscribev(['A01', 'A02', 'A03', 'A12', 'A14'])
+         if (a == true) {
+           setShowAdvance(true)
+          //  setCollapsed2(true)
+           setCollapsed(true)
+         } 
     }, [])
 
     const [hookSignature, setHookSignature] = useState(v4())
@@ -129,6 +137,7 @@ const JobApplied = () => {
                     email: row.user?.email,
                     phone: row.user?.phone,
                     status: status.find(e => e.id === row.status).title,
+                    subsribed: {showadvance},
                     actions: {
                         onView: () => viewHandler(row),
                         onDownload: () => resumeHandler(row),
@@ -348,7 +357,7 @@ const JobApplied = () => {
               </Card>
             </Box>
             <Box mb={3}>
-            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+              <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardHeader
                   title={
                     <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
@@ -357,15 +366,9 @@ const JobApplied = () => {
                   }
                 />
                 <CardContent>
-                  {params.get('plan') != 'advance' ? (
+                  {showadvance !== true ? (
                     <>
-                      <Button
-                        href={'/company/job/applied/?id=' + params.get('id') + '&plan=advance'}
-                        variant='contained'
-                        color='warning'
-                        sx={{ mr: 2 }}
-                        fullWidth
-                      >
+                      <Button href={'/account'} variant='contained' color='warning' sx={{ mr: 2 }} fullWidth>
                         Advance Filter
                       </Button>
                     </>
@@ -476,7 +479,7 @@ const JobApplied = () => {
             </Box>
           </Grid>
           <Grid item lg={9} md={7} xs={12}>
-          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardContent>
                 {params.get('plan') === 'advance' && (
                   <Typography variant='h6' color={'#32487A'} fontWeight='600'>
@@ -502,6 +505,7 @@ const JobApplied = () => {
                   loading={onLoading}
                   onPageChange={model => onPageChange(model)}
                   rows={dataSheet}
+                  subsribed={showadvance}
                 />
               </CardContent>
             </Card>

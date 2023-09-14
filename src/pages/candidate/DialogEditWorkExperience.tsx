@@ -67,7 +67,45 @@ const DialogEditWorkExperience = (props: DialogProps) => {
     }
     useEffect(() => {
       combobox()
+      handleSetURL();
     }, [])
+     
+    const handleSetURL = async () => {
+      debugger;
+      const imageUrl = preview
+
+      if (imageUrl) {
+        try {
+            //  const response = await fetch(
+            //    'https://api.staging.profesea.id/storage/logos/I4Du5vKsqkq8DShkm397wM1IW0NNxLV5NY3l2lAU.jpg',
+            //    {
+            //      method:'GET', 
+            //      mode:'no-cors'
+            //    }
+            //  )
+            // const response= await HttpClient.get(imageUrl).then(response => {
+            //   debugger 
+            //   const code = response.data.vesselTypes.data
+            //    getComborVessel(code)
+            //  })
+            // fetch(imageUrl)
+            //   .then(res => res.blob)
+            //   .then(blob => {
+            //     debugger
+            //   })
+          // const response = await fetch(imageUrl)
+
+          // const blob = await response.blob()
+          // const file = new File([blob], 'image.jpg', { type: 'image/jpeg' })
+
+          // Set the blob as the value of the file input
+          // setSelectedFile([file])
+        } catch (error) {
+          console.error(error)
+          // Handle the error here
+        }
+      }
+    }
     useEffect(() => {
       if (!selectedFile) {
           setPreview(props.selectedItem?.logo)

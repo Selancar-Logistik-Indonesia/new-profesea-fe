@@ -33,6 +33,7 @@ const columns: GridColDef[] = [
             return (
               <>
                 <Button
+                disabled={!row.subsribed}
                   onClick={() => row.actions.onView()}
                   variant='contained'
                   color='secondary'
@@ -64,6 +65,7 @@ type UserGridProps = {
     page: number;
     rowCount: number;
     onPageChange: (model: GridPaginationModel, details: GridCallbackDetails) => void;
+    subsribed: boolean;
 }
 
 interface RowItem {
