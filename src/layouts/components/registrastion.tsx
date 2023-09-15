@@ -252,25 +252,30 @@ debugger
             <Grid item md={6} xs={12}>
               <TextField id='Name' label='Name' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
             </Grid>
-            <Grid item md={3} xs={12}>
-              <Autocomplete
-                disablePortal
-                id='combo-box-demo'
-                options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
-                renderInput={params => <TextField {...params} label='Code Phone' sx={{ mb: 2 }} />}
-                {...register('code')}
-                onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
-              />
-            </Grid>
-            <Grid item md={3} xs={12}>
+            <Grid item md={6} xs={12}>
               <TextField
                 id='Phone'
                 label='Phone'
                 variant='outlined'
+                type='number'
                 fullWidth
                 sx={{ mb: 2 }}
                 value={phoneNum}
                 onChange={e => onChangePhoneNum(e.target.value)}
+                InputProps={{
+                  // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
+                  startAdornment: (
+                    <Autocomplete
+                      style={{ width: '160px' }}
+                      disablePortal
+                      id='code'
+                      options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
+                      renderInput={params => <TextField {...params} variant='standard' />}
+                      {...register('code')}
+                      onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
+                    />
+                  )
+                }}
               />
             </Grid>
           </Grid>

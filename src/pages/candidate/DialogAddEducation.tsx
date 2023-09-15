@@ -36,6 +36,7 @@ type DialogProps = {
 
 type FormData = {
   title: string
+  titletext: string
   major: string
   degree: string
   start_date: string
@@ -45,21 +46,33 @@ type FormData = {
   enddate: string
 }
 
-
+type tInstitute = {
+  institution_name : string
+}
 const DialogAddEducation = (props: DialogProps) => {
   const [onLoading, setOnLoading] = useState(false);
   const [dateAwal, setDateAwal] = useState<DateType>(new Date())
   const [dateAkhir, setDateAkhir] = useState<DateType>(new Date())
   const [preview, setPreview] = useState()
   const [Education, getEducation] = useState<any[]>([])
+  const [Instutite, getInstitute] = useState<any[]>([])
   const [selectedFile, setSelectedFile] = useState()
   const [EduId, setEduId] = useState('---')
+  const [ItId, setItId] = useState('---')
+  const [muncul, setMuncul] = useState<boolean>(false)
   const combobox = async () => {
     const res3 = await HttpClient.get(`/public/data/degree`)
     if (res3.status != 200) {
       throw res3.data.message ?? 'Something went wrong!'
     }
     getEducation(res3.data.degrees)
+    
+    const res4 = await HttpClient.get(`institutions?page=1&take=1000&search=`)
+    if (res4.status != 200) {
+      throw res3.data.message ?? 'Something went wrong!'
+    }
+    getInstitute(res4.data.institutions)
+ 
   }
 
   useEffect(() => {
@@ -92,10 +105,15 @@ const DialogAddEducation = (props: DialogProps) => {
 
 
   const onSubmit = async (data: FormData) => {
-    const { title, major } = data
-
+    const { title, major, titletext } = data
+    let titlefix =''
+    if(muncul == true){
+      titlefix = titletext
+    }else{
+      titlefix = ItId
+    }
     const json = {
-      title: title,
+      title: titlefix,
       major: major,
       degree: EduId,
       logo: selectedFile,
@@ -148,6 +166,14 @@ const DialogAddEducation = (props: DialogProps) => {
     // I've kept this example simple by using the first image instead of multiple
     setSelectedFile(e.target.files[0])
   }
+    const filter = (e: any) => {
+      setItId(e)
+      if(e == 'OTHER'){
+        setMuncul(true)
+      }else{
+        setMuncul(false)
+      }
+    }
 
   return (
     <Dialog fullWidth open={props.visible} maxWidth='md' scroll='body' TransitionComponent={Transition}>
@@ -176,13 +202,26 @@ const DialogAddEducation = (props: DialogProps) => {
 
           <Grid container columnSpacing={'1'} rowSpacing={'4'}>
             <Grid item md={6} xs={12}>
-              <TextField
-                id='institutuin'
-                label='Institution Name'
-                variant='standard'
-                fullWidth
+              <Autocomplete
+                disablePortal
+                id='combo-box-demo'
+                options={Instutite}
                 {...register('title')}
+                getOptionLabel={(option: tInstitute) => option.institution_name}
+                renderInput={params => <TextField {...params} label='Institution Name' variant='standard' />}
+                onChange={(event: any, newValue: tInstitute | null) =>
+                  newValue?.institution_name ? filter(newValue.institution_name) : filter('---')
+                }
               />
+              {muncul && (
+                <TextField
+                  id='institutuin'
+                  label='Institution Name'
+                  variant='standard'
+                  fullWidth
+                  {...register('titletext')}
+                />
+              )}
             </Grid>
             <Grid item md={6} xs={12} mt={2}>
               <Grid item xs={6} md={8} container justifyContent={'left'}>
@@ -283,12 +322,11 @@ const DialogAddEducation = (props: DialogProps) => {
             pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
           }}
         >
-
-          <Button variant='contained' size="small" sx={{ mr: 2 }} type='submit'>
+          <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>
             <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
-            {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
+            {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
           </Button>
-          <Button variant='outlined' size="small" color='error' onClick={props.onCloseClick}>
+          <Button variant='outlined' size='small' color='error' onClick={props.onCloseClick}>
             <Icon
               fontSize='large'
               icon={'material-symbols:cancel-outline'}
