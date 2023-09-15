@@ -105,7 +105,7 @@ const DialogAddEducation = (props: DialogProps) => {
 
 
   const onSubmit = async (data: FormData) => {
-    const { title, major, titletext } = data
+    const {  major, titletext } = data
     let titlefix =''
     if(muncul == true){
       titlefix = titletext
