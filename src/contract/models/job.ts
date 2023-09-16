@@ -5,6 +5,7 @@ import RoleLevel from "./role_level"
 import RoleType from "./role_type"
 import Country from "./country"
 import City from "./city"
+import VesselType from "./vessel_type"
 
 interface Job {
     id: number,
@@ -13,6 +14,7 @@ interface Job {
     roletype_id: number,
     edugrade_id: number,
     category_id: number,
+    vesseltype_id: number,
     city_id: number,
     country_id: number,
     employee_type: string,
@@ -22,6 +24,7 @@ interface Job {
     license: any,
     experience: string,
     description: string,
+    sailing_region: string,
     onboard_at: string,
     applied_at: string,
     created_at: string,
@@ -33,6 +36,8 @@ interface Job {
     degree: Degree,
     city: City,
     country: Country ,
+    vessel_type: VesselType ,
+
     
 }
 
