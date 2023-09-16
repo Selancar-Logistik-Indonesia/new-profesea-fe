@@ -36,7 +36,7 @@ const DialogDelete = (props: DeleteDialogProps) => {
             }
 
             props.onCloseClick();
-            toast.success(`${props.selectedItem.role_type.name} on job's ${props.selectedItem.company.name} deleted successfully!`);
+            toast.success(`${props.selectedItem.role_type?.name} on job's ${props.selectedItem.company.name} deleted successfully!`);
         } catch (error) {
             console.error(error)
         }
@@ -70,7 +70,7 @@ const DialogDelete = (props: DeleteDialogProps) => {
                 <Typography variant='h6' color={'#32487A'} fontWeight='600'>
                   Confirm Delete
                 </Typography>
-                    <Typography variant='body2'>Are you sure delete {props.selectedItem.role_type.name} on job's {props.selectedItem.company.name}?</Typography>
+                    <Typography variant='body2'>Are you sure delete {props.selectedItem.role_type?.name} on job's {props.selectedItem.company.name}?</Typography>
                 </Box>
             </DialogContent>
             <DialogActions

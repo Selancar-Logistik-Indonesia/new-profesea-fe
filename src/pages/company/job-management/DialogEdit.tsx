@@ -22,6 +22,7 @@ import RoleLevel from 'src/contract/models/role_level'
 import RoleType from 'src/contract/models/role_type'
 import Countries from 'src/contract/models/country'
 import City from 'src/contract/models/city'
+import VesselType from 'src/contract/models/vessel_type'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
@@ -39,6 +40,11 @@ const licenseData = [
   { title: 'Certificate of Recognition', docType: 'COR' },
   { title: 'Certificate of Endorsement', docType: 'COE' },
   { title: 'MCU Certificates', docType: 'MCU' }
+]
+
+const SailRegion = [
+  { id : 'ncv', name : 'Near Coastal Voyage (NCV)'},
+  { id : 'iv', name : 'International Voyage'},
 ]
 
 const Transition = forwardRef(function Transition(
@@ -65,7 +71,10 @@ const DialogEdit = (props: EditProps) => {
   const [Type, setType] = useState(props.selectedItem?.role_type);
   const [Cat, setCat] = useState(props.selectedItem?.category);
   const [Cou, setCou] = useState(props.selectedItem?.country);
+  const [CouId, setCouId] = useState(100);
   const [Cit, setCit] = useState<any>(props.selectedItem?.city);
+  const [Vessel, setVessel] = useState(props.selectedItem?.vessel_type);
+  const [Sail, setSail] = useState('');
 
   const [license, setLicense] = useState<any>(props.selectedItem?.license);
 
@@ -78,12 +87,13 @@ const DialogEdit = (props: EditProps) => {
   const [RoleType, getRoleType] = useState<any[]>([]);
   const [combocountry, getComboCountry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
+  const [VesselType, getVesselType] = useState<any[]>([]);
 
   const contenDesc = convertFromHTML(props.selectedItem.description).contentBlocks
   const contentState = ContentState.createFromBlockArray(contenDesc)
   const editorState = EditorState.createWithContent(contentState)
   
-    const [disabled, setDisabled] = useState(true)  
+  const [disabled, setDisabled] = useState(true)  
   // console.log(editorState);
 
   const [desc, setDesc] = useState(editorState)
@@ -118,6 +128,12 @@ const DialogEdit = (props: EditProps) => {
       }
       getComboCountry(response.data.countries)
     })
+    HttpClient.get('/public/data/vessel-type?page=1&take=250&search=').then(response => {
+      if (response.status != 200) {
+          throw response.data.message ?? "Something went wrong!";
+      }
+      getVesselType(response.data.vesselTypes.data)
+    })
   }
 
   useEffect(() => {
@@ -142,6 +158,16 @@ const DialogEdit = (props: EditProps) => {
     getComboCity(code)
   }
 
+  const getCity = async (q: number) => {
+    setCouId(q)
+    const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
+    }
+    const code = resp.data.cities
+    getComboCity(code)
+  }
+
 
 
   const onSubmit = async (formData: Job) => {
@@ -155,9 +181,11 @@ const DialogEdit = (props: EditProps) => {
       "roletype_id":type,
       "edugrade_id": Edu.id,
       "category_id": Cat.id,
-      "country_id": Cou.id,
+      "country_id": (Cou.id) ? Cou.id : CouId,
       "city_id": Cit.id,
       "license": license,
+      "sailing_region": Sail,
+      "vesseltype_id": Vessel.id,
       "salary_start": salary_start,
       "salary_end": salary_end,
       "experience": experience,
@@ -193,6 +221,8 @@ const DialogEdit = (props: EditProps) => {
        } else {
          setDisabled(false)
        }
+     } else {
+      getCity(100)
      }
    }
   // console.log(props)
@@ -280,19 +310,41 @@ const DialogEdit = (props: EditProps) => {
               />
             </Grid>
 
-            <Grid item md={4} xs={12}>
-              <Autocomplete
-                disablePortal
-                id='combo-box-country'
-                options={combocountry}
-                value={Cou}
-                getOptionLabel={(option: any) => option.nicename}
-                renderInput={params => <TextField {...params} label='Country' />}
-                onChange={(event: any, newValue: Countries | null) =>
-                  newValue ? searchcity(newValue) : searchcity(props.selectedItem.country)
-                }
-              />
-            </Grid>
+
+            {disabled == true && (
+              <>
+                <Grid item md={4} xs={12}>
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-country'
+                    options={combocountry}
+                    value={Cou}
+                    getOptionLabel={(option: any) => option.nicename}
+                    renderInput={params => <TextField {...params} label='Country' />}
+                    onChange={(event: any, newValue: Countries | null) =>
+                      newValue ? searchcity(newValue) : searchcity(props.selectedItem.country)
+                    }
+                  />
+                </Grid>
+              </>
+            )}
+
+            {disabled == false && (
+              <>
+                <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-demo'
+                    options={SailRegion}
+                    getOptionLabel={(option: any) => option.name}
+                    renderInput={params => <TextField {...params} label='Sail Region' />}
+                    onChange={(event: any, newValue: any | null) =>
+                      newValue?.id ? setSail(newValue.id) : setSail('')
+                    }
+                  />
+                </Grid>
+              </>
+            )}
 
             <Grid item md={4} xs={12}>
               <Autocomplete
@@ -307,21 +359,41 @@ const DialogEdit = (props: EditProps) => {
                 }
               />
             </Grid>
-            <Grid item md={4} xs={12}>
-              <DatePickerWrapper>
-                <DatePicker
-                  minDate={new Date()}
-                  dateFormat='dd/MM/yyyy'
-                  selected={date}
-                  id='basic-input'
-                  onChange={(date: Date) => setDate(date)}
-                  placeholderText='Click to select a date'
-                  customInput={
-                    <TextField label='Date On Board' variant='outlined' fullWidth {...register('onboard_at')} />
-                  }
-                />
-              </DatePickerWrapper>
-            </Grid>
+
+            {disabled == false && (
+              <>
+                <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                  <DatePickerWrapper>
+                    <DatePicker
+                      minDate={new Date()}
+                      dateFormat='dd/MM/yyyy'
+                      selected={date}
+                      id='basic-input'
+                      onChange={(date: Date) => setDate(date)}
+                      placeholderText='Click to select a date'
+                      customInput={
+                        <TextField label='Date On Board' variant='outlined' fullWidth {...register('onboard_at')} />
+                      }
+                    />
+                  </DatePickerWrapper>
+                </Grid>
+
+                <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-demo'
+                    options={VesselType}
+                    value={Vessel}
+                    getOptionLabel={(option: VesselType) => option.name}
+                    renderInput={params => <TextField {...params} label='Vessel Type' />}
+                    onChange={(event: any, newValue: VesselType | null) =>
+                      newValue?.id ? setVessel(newValue) : setVessel(props.selectedItem.vessel_type)
+                    }
+                  />
+                </Grid>
+              </>
+            )}
+
             <Grid item md={6} xs={12}>
               <Autocomplete
                 disablePortal
