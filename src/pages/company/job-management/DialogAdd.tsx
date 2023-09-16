@@ -36,6 +36,7 @@ import draftToHtml from 'draftjs-to-html';
 import EditorArea from 'src/@core/components/react-draft-wysiwyg'
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import VesselType from 'src/contract/models/vessel_type'
 
 const licenseData = [
     { title: 'Certificate of Competency', docType: 'COC' },
@@ -43,6 +44,11 @@ const licenseData = [
     { title: 'Certificate of Recognition', docType: 'COR' },
     { title: 'Certificate of Endorsement', docType: 'COE' },
     { title: 'MCU Certificates', docType: 'MCU' }
+]
+
+const SailRegion = [
+  { id : 'ncv', name : 'Near Coastal Voyage (NCV)'},
+  { id : 'iv', name : 'International Voyage'},
 ]
 
 const Transition = forwardRef(function Transition(
@@ -63,9 +69,12 @@ const DialogAdd = (props: DialogProps) => {
     const [EduId, setEduId] = useState(0);
     const [LevelId, setLevelId] = useState(0);
     const [TypeId, setTypeId] = useState(0);
+    const [VesselId, setVesselId] = useState(0);
     const [CatId, setCatId] = useState(0);
     const [CouId, setCouId] = useState(0);
     const [CitId, setCitId] = useState('');
+    const [Sail, setSail] = useState('');
+
     const [license, setLicense] = useState<any[]>([]);
     const [date, setDate] = useState<DateType>(new Date());
 
@@ -75,6 +84,8 @@ const DialogAdd = (props: DialogProps) => {
     const [RoleLevel, getRoleLevel] = useState<any[]>([]);
     const [combocountry, getComboCountry] = useState<any>([])
     const [combocity, getComboCity] = useState<any[]>([])
+    const [VesselType, getVesselType] = useState<any[]>([]);
+
     const [desc, setDesc] = useState(EditorState.createEmpty())
     
     const [disabled, setDisabled] = useState(true)  
@@ -110,6 +121,12 @@ const DialogAdd = (props: DialogProps) => {
             }
             getComboCountry(response.data.countries)
         })
+        HttpClient.get('/public/data/vessel-type?page=1&take=250&search=').then(response => {
+          if (response.status != 200) {
+              throw response.data.message ?? "Something went wrong!";
+          }
+          getVesselType(response.data.vesselTypes.data)
+      })
     }
 
        
@@ -159,6 +176,8 @@ const DialogAdd = (props: DialogProps) => {
             "salary_start": salary_start,
             "salary_end": salary_end,
             "experience": experience,
+            "sailing_region": Sail,
+            "vesseltype_id": VesselId,
             "description": draftToHtml(convertToRaw(desc?.getCurrentContent())),
             "onboard_at": date?.toLocaleDateString("en-GB", {
                 year: "numeric",
@@ -190,6 +209,7 @@ const DialogAdd = (props: DialogProps) => {
           setCatId(q.id)
           if (q.employee_type == 'onship') {
             setDisabled(true)
+            searchcity(100)
           } else {
             setDisabled(false)
             setTypeId(0)
@@ -279,19 +299,39 @@ const DialogAdd = (props: DialogProps) => {
                   }
                 />
               </Grid>
-
-              <Grid item md={4} xs={12} sx={{ mb: 1 }}>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  options={combocountry}
-                  getOptionLabel={(option: any) => option.nicename}
-                  renderInput={params => <TextField {...params} label='Country' />}
-                  onChange={(event: any, newValue: Countries | null) =>
-                    newValue?.id ? searchcity(newValue.id) : searchcity(0)
-                  }
-                />
-              </Grid>
+              
+              {disabled == true && (
+                <>
+                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={combocountry}
+                      getOptionLabel={(option: any) => option.nicename}
+                      renderInput={params => <TextField {...params} label='Country' />}
+                      onChange={(event: any, newValue: Countries | null) =>
+                        newValue?.id ? searchcity(newValue.id) : searchcity(0)
+                      }
+                    />
+                  </Grid>
+                </>
+              )}
+              {disabled == false && (
+                <>
+                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={SailRegion}
+                      getOptionLabel={(option: any) => option.name}
+                      renderInput={params => <TextField {...params} label='Sail Region' />}
+                      onChange={(event: any, newValue: any | null) =>
+                        newValue?.id ? setSail(newValue.id) : setSail('')
+                      }
+                    />
+                  </Grid>
+                </>
+              )}
 
               <Grid item md={4} xs={12} sx={{ mb: 1 }}>
                 <Autocomplete
@@ -305,21 +345,37 @@ const DialogAdd = (props: DialogProps) => {
                   }
                 />
               </Grid>
-              <Grid item md={4} xs={12} sx={{ mb: 1 }}>
-                <DatePickerWrapper>
-                  <DatePicker
-                    minDate={new Date()}
-                    dateFormat='dd/MM/yyyy'
-                    selected={date}
-                    id='basic-input'
-                    onChange={(date: Date) => setDate(date)}
-                    placeholderText='Click to select a date'
-                    customInput={
-                      <TextField label='Date On Board' variant='outlined' fullWidth {...register('onboard_at')} />
-                    }
-                  />
-                </DatePickerWrapper>
-              </Grid>
+              {disabled == false && (
+                <>
+                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                    <DatePickerWrapper>
+                      <DatePicker
+                        minDate={new Date()}
+                        dateFormat='dd/MM/yyyy'
+                        selected={date}
+                        id='basic-input'
+                        onChange={(date: Date) => setDate(date)}
+                        placeholderText='Click to select a date'
+                        customInput={
+                          <TextField label='Date On Board' variant='outlined' fullWidth {...register('onboard_at')} />
+                        }
+                      />
+                    </DatePickerWrapper>
+                  </Grid>
+                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={VesselType}
+                      getOptionLabel={(option: VesselType) => option.name}
+                      renderInput={params => <TextField {...params} label='Vessel Type' />}
+                      onChange={(event: any, newValue: VesselType | null) =>
+                        newValue?.id ? setVesselId(newValue.id) : setVesselId(0)
+                      }
+                    />
+                  </Grid>
+                </>
+              )}
               <Grid item md={6} xs={12} sx={{ mb: 1 }}>
                 <Autocomplete
                   disablePortal
