@@ -34,6 +34,8 @@ import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
 import { refreshsession, removeFirstZeroChar } from 'src/utils/helpers'
 import ButtonUploadPhotoGallery from './ButtonUploadPhotoGallery'
+import DialogAddDocument from 'src/pages/company/DialogAddDocument'
+import { v4 } from 'uuid'
 
 
 type FormData = {
@@ -95,7 +97,10 @@ const CompanyProfile = (props: compProps) => {
   const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
   const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
   const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
-
+  const [itemData, getItemdata] = useState<any[]>([])
+  const [arrayHead, getArrayHead] = useState<any[]>([])
+  const [openAddModalDoc, setOpenAddModalDoc] = useState(false)
+  const [hookSignature, setHookSignature] = useState(v4())
   const [slides, setSlides] = useState<any>([])
   const [phoneNum, setPhoneNum] = useState(props.datauser?.phone)
   const onChangePhoneNum = (input: string) => {
@@ -153,6 +158,19 @@ const CompanyProfile = (props: compProps) => {
         }
         getCombocode(code);
       })
+      HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
+        const itemData = response.data.documents
+
+        const arr = []
+        for (let x = 0; x < itemData.length; x++) {
+          const element = itemData[x]
+          if (element.childs.length > 0) {
+            arr.push({ id: element.id, name: element.document_type })
+          }
+        }
+        getArrayHead(arr)
+        getItemdata(itemData)
+      })
   }
   const searchcity = async (q: any) => {
     setCountry(q)
@@ -163,19 +181,19 @@ const CompanyProfile = (props: compProps) => {
     const code = resp.data.cities
     getComboCity(code)
   }
-  useEffect(() => {
-    combobox()
-    if (props.datauser.address != undefined) {
-      searchcity(props.datauser.country_id)
-    }
-  }, [])
+  // useEffect(() => {
+  //   combobox()
+  //   if (props.datauser.address != undefined) {
+  //     searchcity(props.datauser.country_id)
+  //   }
+  // }, [])
   useEffect(() => {
     combobox()
     if (props.datauser.address != undefined) {
       searchcity(props.datauser.country_id)
     }
     getimage();
-  }, [])
+  }, [hookSignature])
   const { register, handleSubmit } = useForm<FormData>({
     mode: 'onBlur'
   })
@@ -549,348 +567,579 @@ const CompanyProfile = (props: compProps) => {
           </Box>
         </BoxWrapper>
       </CardContent>
-      <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-        <FormControl>
-          <Grid item xs={12} container marginTop={'25px'}>
-            <Grid item container spacing={3} sx={{ mb: 2 }}>
-              <Grid item md={6} xs={12}>
-                <TextField
-                  id='companyName'
-                  defaultValue={props.datauser.name}
-                  label='Company Name'
-                  required
-                  variant='standard'
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  {...register('companyName')}
-                />
-              </Grid>
-              {props.datauser.role == 'Company' && (
-                <Grid item md={6} xs={12}>
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={comboindustry}
-                    defaultValue={props.datauser?.industry}
-                    getOptionLabel={(option: any) => option.name}
-                    renderInput={params => <TextField {...params} label='Industry *' variant='standard' />}
-                    onChange={(event: any, newValue: Industry | null) =>
-                      newValue?.id ? setIndustry(newValue.id) : setIndustry(props.datauser.industry_id)
-                    }
-                  />
-                </Grid>
-              )}
-              <Grid item md={3} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  options={combocountry}
-                  getOptionLabel={(option: any) => option.nicename}
-                  defaultValue={props.address?.country}
-                  renderInput={params => <TextField {...params} label='Country *' variant='standard' />}
-                  onChange={(event: any, newValue: Countries | null) =>
-                    newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
-                  }
-                />
-              </Grid>
 
-              <Grid item md={3} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='city'
-                  value={props.datauser.address?.city}
-                  options={combocity}
-                  getOptionLabel={(option: City) => option.city_name}
-                  renderInput={params => <TextField {...params} label='City *' sx={{ mb: 2 }} variant='standard' />}
-                  onChange={(event: any, newValue: City | null) =>
-                    newValue?.id ? setCombocity(newValue.id) : setCombocity(props.address?.city_id)
-                  }
-                />
-              </Grid>
-              <Grid item md={6} xs={12}>
-                <TextField
-                  id='address'
-                  label='Address'
-                  required
-                  defaultValue={props.datauser.address?.address}
-                  variant='standard'
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  {...register('address')}
-                />
-              </Grid>
-
-              {props.datauser.role == 'Company' && (
-                <>
-                  <Grid item md={3} xs={12}>
-                    <TextField
-                      id='website'
-                      label='Website'
-                      required
-                      defaultValue={props.datauser.website}
-                      variant='standard'
-                      fullWidth
-                      sx={{ mb: 1 }}
-                      {...register('website')}
-                    />
-                  </Grid>
-                </>
-              )}
-              <Grid item md={3} xs={12}>
-                <TextField
-                  id='Email'
-                  label='Email'
-                  required
-                  defaultValue={props.datauser.email}
-                  variant='standard'
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  {...register('email')}
-                />
-              </Grid>
-              <Grid item md={3} xs={12}>
-                <TextField
-                  id='phone'
-                  label='Phone'
-                  required
-                  defaultValue={props.datauser.phone}
-                  variant='standard'
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  type='number'
-                  value={phoneNum}
-                  {...register('phone')}
-                  onChange={e => onChangePhoneNum(e.target.value)}
-                  InputProps={{
-                    // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
-                    startAdornment: (
-                      <Autocomplete
-                        disablePortal
-                        id='code'
-                        options={combocode}
-                        getOptionLabel={(option: Countries) => option.iso}
-                        defaultValue={props.datauser?.country}
-                        renderInput={params => <TextField {...params} variant='standard' />}
-                        onChange={(event: any, newValue: Countries | null) =>
-                          newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
-                        }
-                      />
-                      // <Autocomplete
-                      //   style={{ width: '160px' }}
-                      //   disablePortal
-                      //   id='code'
-                      //   options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
-                      //   renderInput={params => <TextField {...params} variant='standard' />}
-                      //   {...register('code')}
-                      //   onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
-                      // />
-                    )
-                  }}
-                />
-              </Grid>
-
-              <Grid item md={12} xs={12}>
-                <TextField
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  id='outlined-multiline-static'
-                  label='About'
-                  required
-                  multiline
-                  variant='standard'
-                  rows={4}
-                  defaultValue={props.datauser.about}
-                  {...register('about')}
-                />
-              </Grid>
-
-              <Grid item md={5} xs={12}>
+      {itemData.length < 3 ? (
+        <>
+          <Grid item container md={12} xs={12}>
+            <Divider style={{ width: '100%' }} />
+            <Grid item container xs={12}>
+              <Grid xs={10} md={11}>
                 <Grid container item xs={12} justifyContent={'left'}>
                   <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
-                    Social Media Info
+                    Document Upload
                   </Typography>
                 </Grid>
                 <Grid container item xs={12} justifyContent={'left'}>
                   <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
-                    Fulfill your Social Media Info
+                    Please upload 3 mandatory documents and wait for admin to verify
                   </Typography>
                 </Grid>
               </Grid>
-
-              <Grid container item md={12} xs={12} marginTop={'20px'}>
-                <Grid container item xs={12} md={4} marginBottom={2}>
-                  <Grid container item xs={12} md={12}>
-                    <Grid xs={12} item>
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                          <Icon icon='mdi:facebook' fontSize={24} color={'#424242'} />
-                        </Box>
-                        <TextField
-                          id='facebook'
-                          defaultValue={facebook}
-                          label='Facebook'
-                          variant='standard'
-                          fullWidth
-                          sx={{ mb: 1 }}
-                          value={facebook}
-                          {...register('facebook')}
-                          disabled={disabledFacebook}
-                          onChange={e => setFacebook(e.target.value)}
-                          onBlur={handleSubmit(addbuttonfacebook)}
-                          InputProps={{
-                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
-                          }}
-                        />
-                        <Button
-                          onClick={() => enabledtextfield('fb')}
-                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
-                        >
-                          <Icon
-                            fontSize='large'
-                            icon={'solar:pen-new-round-bold-duotone'}
-                            color={'primary'}
-                            style={{ fontSize: '24px' }}
-                          />
-                        </Button>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </Grid>
-
-                <Grid container item xs={12} marginBottom={2} md={4}>
-                  <Grid container item xs={12} md={12}>
-                    <Grid xs={12} item>
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                          <Icon icon='mdi:instagram' fontSize={24} color={'#424242'} />
-                        </Box>
-                        <TextField
-                          id='instagram'
-                          label='Instagram'
-                          variant='standard'
-                          fullWidth
-                          value={instagram}
-                          sx={{ mb: 1 }}
-                          {...register('instagram')}
-                          disabled={disabledInstagram}
-                          onChange={e => setInstagram(e.target.value)}
-                          onBlur={handleSubmit(addbuttoninstagram)}
-                          InputProps={{
-                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
-                          }}
-                        />
-                        <Button
-                          onClick={() => enabledtextfield('ig')}
-                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
-                        >
-                          <Icon
-                            fontSize='large'
-                            icon={'solar:pen-new-round-bold-duotone'}
-                            color={'primary'}
-                            style={{ fontSize: '24px' }}
-                          />
-                        </Button>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </Grid>
-
-                <Grid container item xs={12} marginBottom={2} md={4}>
-                  <Grid container item xs={12} md={12}>
-                    <Grid xs={12} item>
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                          <Icon icon='mdi:linkedin' fontSize={24} color={'#424242'} />
-                        </Box>
-                        <TextField
-                          id='linkedin'
-                          defaultValue={linkedin}
-                          label='Linkedin'
-                          variant='standard'
-                          fullWidth
-                          sx={{ mb: 1 }}
-                          {...register('linkedin')}
-                          disabled={disabledLinkedn}
-                          value={linkedin}
-                          onChange={e => setLinkedin(e.target.value)}
-                          onBlur={handleSubmit(addbuttonlinkedin)}
-                          InputProps={{
-                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
-                          }}
-                        />
-                        <Button
-                          onClick={() => enabledtextfield('li')}
-                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
-                        >
-                          <Icon
-                            fontSize='large'
-                            icon={'solar:pen-new-round-bold-duotone'}
-                            color={'primary'}
-                            style={{ fontSize: '24px' }}
-                          />
-                        </Button>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
-                <Button variant='contained' color='success' size='small' type='submit' sx={{ mb: 7 }}>
+              <Grid display='flex' justifyContent='flex-end' alignItems='flex-end' xs={2} md={1}>
+                <Button variant='contained' size='small' onClick={() => setOpenAddModalDoc(!openAddModalDoc)}>
                   <Icon
-                    fontSize='large'
-                    icon={'solar:diskette-bold-duotone'}
+                    fontSize='small'
+                    icon={'solar:add-circle-bold-duotone'}
                     color={'success'}
                     style={{ fontSize: '18px' }}
                   />
-                  <div style={{ marginLeft: 5 }}>SAVE</div>
+                  <div style={{ marginLeft: 5 }}>ADD</div>
                 </Button>
               </Grid>
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.2} lg={0.2} xs={12}></Grid>
-              <Divider style={{ width: '100%' }} />
-              <Box sx={{ marginTop: '20px' }}></Box>
+              <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
+              <Grid item container xs={12}>
+                {itemData.map(itemhead => (
+                  <>
+                    {itemhead.childs?.length <= 0 ? (
+                      <>
+                        <Grid item container xs={12} marginTop={2} key={itemhead.id} alignItems='center'>
+                          <Grid xs={12} md={9} container direction='row' alignItems='center'>
+                            <Icon
+                              fontSize='large'
+                              icon={'solar:document-bold'}
+                              color={'info'}
+                              style={{ fontSize: '18px', margin: '5px' }}
+                            />
+                            <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
+                              {itemhead.document_name}
+                            </Typography>
+                          </Grid>
+                          <Grid xs={12} md={3} display='flex' item container>
+                            <Grid
+                              xs={12}
+                              md={12}
+                              container
+                              direction='row'
+                              justifyContent='flex-end'
+                              alignItems='center'
+                            >
+                              <Box margin={1}>
+                                <Button
+                                  variant='outlined'
+                                  color='info'
+                                  size='small'
+                                  href={itemhead.path}
+                                  target='_blank'
+                                >
+                                  <Icon
+                                    fontSize='large'
+                                    icon={'icon-park-outline:preview-open'}
+                                    color={'info'}
+                                    style={{ fontSize: '18px' }}
+                                  />
+                                </Button>
+                              </Box>
+                              {/* <Box margin={1}>
+                              <Button
+                                variant='outlined'
+                                color='primary'
+                                size='small'
+                                onClick={() => editDocument(itemhead)}
+                              >
+                                <Icon
+                                  fontSize='large'
+                                  icon={'solar:pen-new-round-bold-duotone'}
+                                  color={'primary'}
+                                  style={{ fontSize: '18px' }}
+                                />
+                              </Button>
+                            </Box> */}
+                              <Box margin={1}>
+                                <Button
+                                  variant='outlined'
+                                  color='error'
+                                  size='small'
+                                  // onClick={() => deletework(itemhead.id)}
+                                >
+                                  <Icon
+                                    fontSize='large'
+                                    icon={'solar:trash-bin-trash-bold-duotone'}
+                                    color={'error'}
+                                    style={{ fontSize: '18px' }}
+                                  />
+                                </Button>
+                              </Box>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </>
+                    ) : (
+                      <>
+                        <Typography> {itemhead.document_name}</Typography>
+                        {itemhead.childs.map(
+                          (item: {
+                            id: React.Key | null | undefined
+                            document_name: string | null | undefined
+                            path: string
+                          }) => (
+                            <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
+                              <Grid xs={12} md={9} container direction='row' alignItems='center'>
+                                <Icon
+                                  fontSize='large'
+                                  icon={'solar:document-bold'}
+                                  color={'info'}
+                                  style={{ fontSize: '18px', margin: '5px' }}
+                                />
+                                <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
+                                  {item.document_name}
+                                </Typography>
+                              </Grid>
+                              <Grid xs={12} md={3} display='flex' item container>
+                                <Grid
+                                  xs={12}
+                                  md={12}
+                                  container
+                                  direction='row'
+                                  justifyContent='flex-end'
+                                  alignItems='center'
+                                >
+                                  <Box margin={1}>
+                                    <Button
+                                      variant='outlined'
+                                      color='info'
+                                      size='small'
+                                      href={item.path}
+                                      target='_blank'
+                                    >
+                                      <Icon
+                                        fontSize='large'
+                                        icon={'icon-park-outline:preview-open'}
+                                        color={'info'}
+                                        style={{ fontSize: '18px' }}
+                                      />
+                                    </Button>
+                                  </Box>
+                                  <Box margin={1}>
+                                    <Button
+                                      variant='outlined'
+                                      color='primary'
+                                      size='small'
+                                      // onClick={() => editDocument(item)}
+                                    >
+                                      <Icon
+                                        fontSize='large'
+                                        icon={'solar:pen-new-round-bold-duotone'}
+                                        color={'primary'}
+                                        style={{ fontSize: '18px' }}
+                                      />
+                                    </Button>
+                                  </Box>
+                                  <Box margin={1}>
+                                    <Button
+                                      variant='outlined'
+                                      color='error'
+                                      size='small'
+                                      // onClick={() => deletework(item.id)}
+                                    >
+                                      <Icon
+                                        fontSize='large'
+                                        icon={'solar:trash-bin-trash-bold-duotone'}
+                                        color={'error'}
+                                        style={{ fontSize: '18px' }}
+                                      />
+                                    </Button>
+                                  </Box>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          )
+                        )}
+                      </>
+                    )}
+                    <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
+                  </>
+                ))}
+              </Grid>
             </Grid>
           </Grid>
-        </FormControl>
-      </form>
-      <Grid item md={7} xs={12}>
-        <Grid container item xs={12} justifyContent={'left'}>
-          <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
-            Gallery
-          </Typography>
-        </Grid>
-        <Grid container item xs={12} justifyContent={'left'}>
-          <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
-            Upload your Photo here
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid item md={4} display={{ xs: 'none', lg: 'block' }}>
-        {' '}
-      </Grid>
+          <form>
+            <DialogAddDocument
+              visible={openAddModalDoc}
+              onStateChange={() => setHookSignature(v4())}
+              onCloseClick={() => setOpenAddModalDoc(!openAddModalDoc)}
+              arrayhead={arrayHead}
+            />
+          </form>
+        </>
+      ) : (
+        <>
+          <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+            <FormControl>
+              <Grid item xs={12} container marginTop={'25px'}>
+                <Grid item container spacing={3} sx={{ mb: 2 }}>
+                  <Grid item md={6} xs={12}>
+                    <TextField
+                      id='companyName'
+                      defaultValue={props.datauser.name}
+                      label='Company Name'
+                      required
+                      variant='standard'
+                      fullWidth
+                      sx={{ mb: 1 }}
+                      {...register('companyName')}
+                    />
+                  </Grid>
+                  {props.datauser.role == 'Company' && (
+                    <Grid item md={6} xs={12}>
+                      <Autocomplete
+                        disablePortal
+                        id='combo-box-demo'
+                        options={comboindustry}
+                        defaultValue={props.datauser?.industry}
+                        getOptionLabel={(option: any) => option.name}
+                        renderInput={params => <TextField {...params} label='Industry *' variant='standard' />}
+                        onChange={(event: any, newValue: Industry | null) =>
+                          newValue?.id ? setIndustry(newValue.id) : setIndustry(props.datauser.industry_id)
+                        }
+                      />
+                    </Grid>
+                  )}
+                  <Grid item md={3} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={combocountry}
+                      getOptionLabel={(option: any) => option.nicename}
+                      defaultValue={props.address?.country}
+                      renderInput={params => <TextField {...params} label='Country *' variant='standard' />}
+                      onChange={(event: any, newValue: Countries | null) =>
+                        newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
+                      }
+                    />
+                  </Grid>
 
-      <Grid item md={1} xs={12} marginBottom={'5px'}>
-        <Box marginBottom={2}>
-          {/* <Button variant='contained' size='small' onClick={handleClick}>
+                  <Grid item md={3} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='city'
+                      value={props.datauser.address?.city}
+                      options={combocity}
+                      getOptionLabel={(option: City) => option.city_name}
+                      renderInput={params => <TextField {...params} label='City *' sx={{ mb: 2 }} variant='standard' />}
+                      onChange={(event: any, newValue: City | null) =>
+                        newValue?.id ? setCombocity(newValue.id) : setCombocity(props.address?.city_id)
+                      }
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <TextField
+                      id='address'
+                      label='Address'
+                      required
+                      defaultValue={props.datauser.address?.address}
+                      variant='standard'
+                      fullWidth
+                      sx={{ mb: 1 }}
+                      {...register('address')}
+                    />
+                  </Grid>
+
+                  {props.datauser.role == 'Company' && (
+                    <>
+                      <Grid item md={3} xs={12}>
+                        <TextField
+                          id='website'
+                          label='Website'
+                          required
+                          defaultValue={props.datauser.website}
+                          variant='standard'
+                          fullWidth
+                          sx={{ mb: 1 }}
+                          {...register('website')}
+                        />
+                      </Grid>
+                    </>
+                  )}
+                  <Grid item md={3} xs={12}>
+                    <TextField
+                      id='Email'
+                      label='Email'
+                      required
+                      defaultValue={props.datauser.email}
+                      variant='standard'
+                      fullWidth
+                      sx={{ mb: 1 }}
+                      {...register('email')}
+                    />
+                  </Grid>
+                  <Grid item md={3} xs={12}>
+                    <TextField
+                      id='phone'
+                      label='Phone'
+                      required
+                      defaultValue={props.datauser.phone}
+                      variant='standard'
+                      fullWidth
+                      sx={{ mb: 1 }}
+                      type='number'
+                      value={phoneNum}
+                      {...register('phone')}
+                      onChange={e => onChangePhoneNum(e.target.value)}
+                      InputProps={{
+                        // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
+                        startAdornment: (
+                          <Autocomplete
+                            disablePortal
+                            id='code'
+                            options={combocode}
+                            getOptionLabel={(option: Countries) => option.iso}
+                            defaultValue={props.datauser?.country}
+                            renderInput={params => <TextField {...params} variant='standard' />}
+                            onChange={(event: any, newValue: Countries | null) =>
+                              newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
+                            }
+                          />
+                          // <Autocomplete
+                          //   style={{ width: '160px' }}
+                          //   disablePortal
+                          //   id='code'
+                          //   options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
+                          //   renderInput={params => <TextField {...params} variant='standard' />}
+                          //   {...register('code')}
+                          //   onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
+                          // />
+                        )
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item md={12} xs={12}>
+                    <TextField
+                      fullWidth
+                      sx={{ mb: 1 }}
+                      id='outlined-multiline-static'
+                      label='About'
+                      required
+                      multiline
+                      variant='standard'
+                      rows={4}
+                      defaultValue={props.datauser.about}
+                      {...register('about')}
+                    />
+                  </Grid>
+
+                  <Grid item md={5} xs={12}>
+                    <Grid container item xs={12} justifyContent={'left'}>
+                      <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                        Social Media Info
+                      </Typography>
+                    </Grid>
+                    <Grid container item xs={12} justifyContent={'left'}>
+                      <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                        Fulfill your Social Media Info
+                      </Typography>
+                    </Grid>
+                  </Grid>
+
+                  <Grid container item md={12} xs={12} marginTop={'20px'}>
+                    <Grid container item xs={12} md={4} marginBottom={2}>
+                      <Grid container item xs={12} md={12}>
+                        <Grid xs={12} item>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                              <Icon icon='mdi:facebook' fontSize={24} color={'#424242'} />
+                            </Box>
+                            <TextField
+                              id='facebook'
+                              defaultValue={facebook}
+                              label='Facebook'
+                              variant='standard'
+                              fullWidth
+                              sx={{ mb: 1 }}
+                              value={facebook}
+                              {...register('facebook')}
+                              disabled={disabledFacebook}
+                              onChange={e => setFacebook(e.target.value)}
+                              onBlur={handleSubmit(addbuttonfacebook)}
+                              InputProps={{
+                                startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                              }}
+                            />
+                            <Button
+                              onClick={() => enabledtextfield('fb')}
+                              sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                            >
+                              <Icon
+                                fontSize='large'
+                                icon={'solar:pen-new-round-bold-duotone'}
+                                color={'primary'}
+                                style={{ fontSize: '24px' }}
+                              />
+                            </Button>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+
+                    <Grid container item xs={12} marginBottom={2} md={4}>
+                      <Grid container item xs={12} md={12}>
+                        <Grid xs={12} item>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                              <Icon icon='mdi:instagram' fontSize={24} color={'#424242'} />
+                            </Box>
+                            <TextField
+                              id='instagram'
+                              label='Instagram'
+                              variant='standard'
+                              fullWidth
+                              value={instagram}
+                              sx={{ mb: 1 }}
+                              {...register('instagram')}
+                              disabled={disabledInstagram}
+                              onChange={e => setInstagram(e.target.value)}
+                              onBlur={handleSubmit(addbuttoninstagram)}
+                              InputProps={{
+                                startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                              }}
+                            />
+                            <Button
+                              onClick={() => enabledtextfield('ig')}
+                              sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                            >
+                              <Icon
+                                fontSize='large'
+                                icon={'solar:pen-new-round-bold-duotone'}
+                                color={'primary'}
+                                style={{ fontSize: '24px' }}
+                              />
+                            </Button>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+
+                    <Grid container item xs={12} marginBottom={2} md={4}>
+                      <Grid container item xs={12} md={12}>
+                        <Grid xs={12} item>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                              <Icon icon='mdi:linkedin' fontSize={24} color={'#424242'} />
+                            </Box>
+                            <TextField
+                              id='linkedin'
+                              defaultValue={linkedin}
+                              label='Linkedin'
+                              variant='standard'
+                              fullWidth
+                              sx={{ mb: 1 }}
+                              {...register('linkedin')}
+                              disabled={disabledLinkedn}
+                              value={linkedin}
+                              onChange={e => setLinkedin(e.target.value)}
+                              onBlur={handleSubmit(addbuttonlinkedin)}
+                              InputProps={{
+                                startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                              }}
+                            />
+                            <Button
+                              onClick={() => enabledtextfield('li')}
+                              sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                            >
+                              <Icon
+                                fontSize='large'
+                                icon={'solar:pen-new-round-bold-duotone'}
+                                color={'primary'}
+                                style={{ fontSize: '24px' }}
+                              />
+                            </Button>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    item
+                    direction='row'
+                    justifyContent='flex-end'
+                    alignItems='center'
+                    md={11}
+                    lg={11}
+                    xs={12}
+                  ></Grid>
+                  <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
+                    <Button variant='contained' color='success' size='small' type='submit' sx={{ mb: 7 }}>
+                      <Icon
+                        fontSize='large'
+                        icon={'solar:diskette-bold-duotone'}
+                        color={'success'}
+                        style={{ fontSize: '18px' }}
+                      />
+                      <div style={{ marginLeft: 5 }}>SAVE</div>
+                    </Button>
+                  </Grid>
+                  <Grid
+                    item
+                    direction='row'
+                    justifyContent='flex-end'
+                    alignItems='center'
+                    md={0.2}
+                    lg={0.2}
+                    xs={12}
+                  ></Grid>
+                  <Divider style={{ width: '100%' }} />
+                  <Box sx={{ marginTop: '20px' }}></Box>
+                </Grid>
+              </Grid>
+            </FormControl>
+          </form>
+          <Grid item md={7} xs={12}>
+            <Grid container item xs={12} justifyContent={'left'}>
+              <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                Gallery
+              </Typography>
+            </Grid>
+            <Grid container item xs={12} justifyContent={'left'}>
+              <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                Upload your Photo here
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item md={4} display={{ xs: 'none', lg: 'block' }}>
+            {' '}
+          </Grid>
+
+          <Grid item md={1} xs={12} marginBottom={'5px'}>
+            <Box marginBottom={2}>
+              {/* <Button variant='contained' size='small' onClick={handleClick}>
             {' '}
             <Icon fontSize='large' icon={'material-symbols:drive-folder-upload'} color={'info'} style={{ fontSize: '24px' }} />
 
           </Button> */}
-          <ButtonUploadPhotoGallery />
-        </Box>
-        <input
-          accept='image/*'
-          id='raised-button-x'
-          style={{ display: 'none', height: 250, width: '100%' }}
-          onChange={onSelectFileGallery}
-          type='file'
-          ref={inputRef}
-        ></input>
-      </Grid>
-      {slides.length > 0 && (
-        <Grid item md={12} xs={12}>
-          <ImageSlider slide={slides} />
-        </Grid>
+              <ButtonUploadPhotoGallery />
+            </Box>
+            <input
+              accept='image/*'
+              id='raised-button-x'
+              style={{ display: 'none', height: 250, width: '100%' }}
+              onChange={onSelectFileGallery}
+              type='file'
+              ref={inputRef}
+            ></input>
+          </Grid>
+          {slides.length > 0 && (
+            <Grid item md={12} xs={12}>
+              <ImageSlider slide={slides} />
+            </Grid>
+          )}
+          {/* <DialogEditDocument
+            key={selectedItem?.id}
+            selectedItem={selectedItem}
+            visible={openEditModalDoc}
+            onCloseClick={() => setOpenEditModalDoc(!openEditModalDoc)}
+            onStateChange={() => setHookSignature(v4())}
+          />  */}
+        </>
       )}
     </Grid>
   )

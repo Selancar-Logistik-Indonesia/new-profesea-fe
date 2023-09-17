@@ -28,7 +28,7 @@ const renderList = (listJob: Job[]) => {
   return listJob.map((item) => {
     const userPhoto = (item?.company?.photo) ? item?.company?.photo : "/images/avatars/default-user.png";
     const license: any[] = Object.values(item?.license)
-
+ 
     return (
       <Grid item xs={12} md={4} key={item?.id}>
         <Paper sx={{ marginTop: '10px', border: '1px solid #eee', height: 185 }} elevation={0}>
@@ -44,10 +44,7 @@ const renderList = (listJob: Job[]) => {
               <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={2} ml={2} mr={3}>
                 <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50 }} />
               </Box>
-              <Box
-                sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }}
-                marginTop={2}
-              >
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={2}>
                 <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={14}>
                   {item?.role_type?.name ?? '-'}
                 </Typography>
@@ -96,8 +93,15 @@ const renderList = (listJob: Job[]) => {
                 {license.map(e => e.title).join(', ')}
               </Typography>
             </Grid>
+            <Grid xs={1}>
+              <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
+            </Grid>
+            <Grid xs={11} maxWidth={'90%'}>
+              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                {item?.vessel_type?.name}
+              </Typography>
+            </Grid>
           </Grid>
-           
         </Paper>
       </Grid>
     )

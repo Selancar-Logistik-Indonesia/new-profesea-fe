@@ -5,6 +5,7 @@ import Industry from "./industry"
 import JobCategory from "./job_category"
 import Province from "./province"
 import ITeam from "./team"
+import VesselType from "./vessel_type"
 
 export interface IUser {
   id: number
@@ -37,4 +38,6 @@ export interface IUser {
   gender?: any
   location_province?: Province
   jobcategory?: JobCategory
+  license?: any
+  vessel_type?: VesselType
 }
