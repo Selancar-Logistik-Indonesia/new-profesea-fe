@@ -106,6 +106,14 @@ const CompanyProfile = (props: compProps) => {
   const onChangePhoneNum = (input: string) => {
     setPhoneNum(removeFirstZeroChar(input))
   }
+    const deletework = async (id: any) => {
+      const resp = await HttpClient.del(`/user/document/` + id)
+      if (resp.status != 200) {
+        throw resp.data.message ?? 'Something went wrong!'
+      }
+      combobox()
+      toast.success(`  deleted successfully!`)
+    }
   const combobox = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
@@ -659,7 +667,7 @@ const CompanyProfile = (props: compProps) => {
                                   variant='outlined'
                                   color='error'
                                   size='small'
-                                  // onClick={() => deletework(itemhead.id)}
+                                  onClick={() => deletework(itemhead.id)}
                                 >
                                   <Icon
                                     fontSize='large'
@@ -739,7 +747,7 @@ const CompanyProfile = (props: compProps) => {
                                       variant='outlined'
                                       color='error'
                                       size='small'
-                                      // onClick={() => deletework(item.id)}
+                                      onClick={() => deletework(item.id)}
                                     >
                                       <Icon
                                         fontSize='large'
