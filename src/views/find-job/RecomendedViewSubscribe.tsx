@@ -96,6 +96,14 @@ const renderList = (listJob: Job[]) => {
                 {license.map(e => e.title).join(', ')}
               </Typography>
             </Grid>
+            <Grid xs={1}>
+              <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
+            </Grid>
+            <Grid xs={11} maxWidth={'90%'}>
+              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                {item?.vessel_type?.name}
+              </Typography>
+            </Grid>
           </Grid>
            
         </Paper>
