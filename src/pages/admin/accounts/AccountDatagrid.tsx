@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
-import { IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
@@ -12,6 +12,23 @@ const columns: GridColDef[] = [
   { field: 'role', headerName: 'Role', sortable: true, minWidth: 100 },
   { field: 'type', headerName: 'Type', sortable: true, minWidth: 100 },
   { field: 'plan', headerName: 'Plan', sortable: true, minWidth: 100 },
+  {
+    field: 'doc',
+    headerName: 'Documents',
+    sortable: false,
+    minWidth: 150,
+    renderCell: cell => {
+      const { row } = cell
+
+      return (
+        <>
+          <Button variant='outlined' onClick={() => row.actions.docView()} aria-label='edit' color='secondary' size='small'>
+            {(row.verified_at == null) ? (row.rejected_at) ? 'Rejected' : 'Unverified' : (row.rejected_at) ? 'Rejected' : 'Verified'}
+          </Button>
+        </>
+      )
+    }
+  },
   {
     field: 'action',
     headerName: 'Action',
@@ -52,6 +69,7 @@ interface RowItem {
     actions: {
         onDelete: VoidFunction,
         onUpdate: VoidFunction,
+        docView: VoidFunction,
     };
 }
 

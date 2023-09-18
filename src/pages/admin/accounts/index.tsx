@@ -19,6 +19,7 @@ import { v4 } from "uuid";
 import { Icon } from '@iconify/react';
 import ITeam from 'src/contract/models/team';
 import DialogImport from './DialogImport';
+import DialogView from './DialogView';
 
 const UserScreen = () => {
     const translate: any = {
@@ -34,6 +35,7 @@ const UserScreen = () => {
     const [openImModal, setOpenImModal] = useState(false);
     const [openDelModal, setOpenDelModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
+    const [openViewModal, setOpenViewModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<Account | null>(null);
     const [teams, getTeams] = useState<any[]>([]);
@@ -62,7 +64,10 @@ const UserScreen = () => {
                     role: row.employee_type != 'offship' ? row.role : 'Candidate',
                     type: translate[row.employee_type],
                     plan: row.plan_type,
+                    verified_at: row.verified_at,
+                    rejected_at: row.rejected_at,
                     actions: {
+                        docView: () => viewHandler(row),
                         onDelete: () => deleteHandler(row),
                         onUpdate: () => updateHandler(row)
                     }
@@ -115,6 +120,11 @@ const UserScreen = () => {
     const updateHandler = (row: Account) => {
         setSelectedItem(row);
         setOpenEditModal(true);
+    }
+
+    const viewHandler = (row: Account) => {
+        setSelectedItem(row);
+        setOpenViewModal(true);
     }
 
     useEffect(() => {
@@ -229,6 +239,12 @@ const UserScreen = () => {
                         visible={openEditModal}
                         onCloseClick={() => setOpenEditModal(!openEditModal)}
                         onStateChange={() => setHookSignature(v4())} />
+                    <DialogView
+                        key={selectedItem.id}
+                        selectedItem={selectedItem}
+                        visible={openViewModal}
+                        onCloseClick={() => setOpenViewModal(!openViewModal)}
+                        onStateChange={() => setHookSignature(v4())}/>
                 </>
             )}
         </>
