@@ -324,7 +324,7 @@ const DialogAdd = (props: DialogProps) => {
               )}
               {disabled == true && (
                 <>
-                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                  <Grid item md={2} xs={12} sx={{ mb: 1 }}>
                     <Autocomplete
                       disablePortal
                       id='combo-box-level'
@@ -348,7 +348,7 @@ const DialogAdd = (props: DialogProps) => {
 
               {disabled == true && (
                 <>
-                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                  <Grid item md={3} xs={12} sx={{ mb: 1 }}>
                     <Autocomplete
                       disablePortal
                       id='combo-box-demo'
@@ -380,7 +380,7 @@ const DialogAdd = (props: DialogProps) => {
               )}
               {disabled == false && (
                 <>
-                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                  <Grid item md={3} xs={12} sx={{ mb: 1 }}>
                     <Autocomplete
                       disablePortal
                       id='city'
@@ -396,7 +396,7 @@ const DialogAdd = (props: DialogProps) => {
               )}
               {disabled == true && (
                 <>
-                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                  <Grid item md={3} xs={12} sx={{ mb: 1 }}>
                     <Autocomplete
                       disablePortal
                       id='city'
@@ -413,7 +413,7 @@ const DialogAdd = (props: DialogProps) => {
 
               {disabled == false && (
                 <>
-                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                  <Grid item md={3} xs={12} sx={{ mb: 1 }}>
                     <Autocomplete
                       disablePortal
                       id='combo-box-demo'
@@ -425,7 +425,7 @@ const DialogAdd = (props: DialogProps) => {
                       }
                     />
                   </Grid>
-                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                  <Grid item md={3} xs={12} sx={{ mb: 1 }}>
                     <DatePickerWrapper>
                       <DatePicker
                         minDate={new Date()}
@@ -460,15 +460,33 @@ const DialogAdd = (props: DialogProps) => {
                 </>
               )}
 
-              <Grid item md={6} xs={12} sx={{ mb: 1 }}>
-                <TextField
-                  id='experience'
-                  label='Experience'
-                  variant='outlined'
-                  fullWidth
-                  {...register('experience')}
-                />
-              </Grid>
+              {disabled == true && (
+                <>
+                  <Grid item md={6} xs={12} sx={{ mb: 1 }}>
+                    <TextField
+                      id='experience'
+                      label='Experience'
+                      variant='outlined'
+                      fullWidth
+                      {...register('experience')}
+                    />
+                  </Grid>
+                </>
+              )}
+              {disabled == false && (
+                <>
+                  <Grid item md={3} xs={12} sx={{ mb: 1 }}>
+                    <TextField
+                      id='experience'
+                      label='Experience'
+                      variant='outlined'
+                      fullWidth
+                      {...register('experience')}
+                    />
+                  </Grid>
+                </>
+              )}
+
               <Grid item md={12} xs={12} sx={{ mb: 1 }}>
                 <Autocomplete
                   multiple
