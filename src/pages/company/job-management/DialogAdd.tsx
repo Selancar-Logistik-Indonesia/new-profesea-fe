@@ -39,11 +39,54 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import VesselType from 'src/contract/models/vessel_type'
 
 const licenseData = [
-    { title: 'Certificate of Competency', docType: 'COC' },
-    { title: 'Certificate of Profeciency', docType: 'COP' },
-    { title: 'Certificate of Recognition', docType: 'COR' },
-    { title: 'Certificate of Endorsement', docType: 'COE' },
-    { title: 'MCU Certificates', docType: 'MCU' }
+  {
+    title: 'Ahli Nautika Tingkat Dasar (ANTD), Teknika',
+    doctype: 'COC1'
+  },
+  {
+    title: 'Ahli Nautika Tingkat V (ANT V), Teknika',
+    doctype: 'COC2'
+  },
+  {
+    title: 'Ahli Nautika Tingkat IV (ANT IV), Teknika',
+    doctype: 'COC3'
+  },
+  {
+    title: 'Ahli Nautika Tingkat III (ANT III), Teknika',
+    doctype: 'COC4'
+  },
+  {
+    title: 'Ahli Nautika Tingkat II (ANT II), Teknika',
+    doctype: 'COC5'
+  },
+  {
+    title: 'Ahli Nautika Tingkat I (ANT I), Teknika',
+    doctype: 'COC6'
+  },
+  {
+    title: 'Ahli Teknika Tingkat Dasar (ATTD), Nautika',
+    doctype: 'COC7'
+  },
+  {
+    title: 'Ahli Teknika Tingkat V (ATT V), Nautika',
+    doctype: 'COC8'
+  },
+  {
+    title: 'Ahli Teknika Tingkat IV (ATT IV), Nautika',
+    doctype: 'COC9'
+  },
+  {
+    title: 'Ahli Teknika Tingkat III (ATT III), Nautika',
+    doctype: 'COC10'
+  },
+  {
+    title: 'Ahli Teknika Tingkat II (ATT II), Nautika',
+    doctype: 'COC11'
+  },
+  {
+    title: 'Ahli Teknika Tingkat I (ATT I), Nautika',
+    doctype: 'COC12'
+  }
 ]
 
 const SailRegion = [
@@ -207,7 +250,7 @@ const DialogAdd = (props: DialogProps) => {
       const handlecategory = (q: any) => {
         if (q !== '') {
           setCatId(q.id)
-          if (q.employee_type == 'onship') {
+          if (q.employee_type != 'onship') {
             setDisabled(true)
             searchcity(100)
           } else {
@@ -262,7 +305,7 @@ const DialogAdd = (props: DialogProps) => {
                   }
                 />
               </Grid>
-              {disabled == true && (
+              {disabled == false && (
                 <>
                   <Grid item md={4} xs={12} sx={{ mb: 1 }}>
                     <Autocomplete
@@ -279,27 +322,30 @@ const DialogAdd = (props: DialogProps) => {
                   </Grid>
                 </>
               )}
-
-              <Grid item md={4} xs={12} sx={{ mb: 1 }}>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-level'
-                  options={RoleLevel}
-                  getOptionLabel={(option: RoleLevel) => option.levelName}
-                  renderInput={params => (
-                    <TextField
-                      {...params}
-                      label='Role Level'
-                      {...register('rolelevel')}
-                      error={Boolean(errors.rolelevel)}
+              {disabled == true && (
+                <>
+                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-level'
+                      options={RoleLevel}
+                      getOptionLabel={(option: RoleLevel) => option.levelName}
+                      renderInput={params => (
+                        <TextField
+                          {...params}
+                          label='Role Level'
+                          {...register('rolelevel')}
+                          error={Boolean(errors.rolelevel)}
+                        />
+                      )}
+                      onChange={(event: any, newValue: RoleLevel | null) =>
+                        newValue?.id ? setLevelId(newValue.id) : setLevelId(0)
+                      }
                     />
-                  )}
-                  onChange={(event: any, newValue: RoleLevel | null) =>
-                    newValue?.id ? setLevelId(newValue.id) : setLevelId(0)
-                  }
-                />
-              </Grid>
-              
+                  </Grid>
+                </>
+              )}
+
               {disabled == true && (
                 <>
                   <Grid item md={4} xs={12} sx={{ mb: 1 }}>
@@ -332,21 +378,53 @@ const DialogAdd = (props: DialogProps) => {
                   </Grid>
                 </>
               )}
-
-              <Grid item md={4} xs={12} sx={{ mb: 1 }}>
-                <Autocomplete
-                  disablePortal
-                  id='city'
-                  options={combocity}
-                  getOptionLabel={(option: City) => option.city_name}
-                  renderInput={params => <TextField {...params} label='City' />}
-                  onChange={(event: any, newValue: City | null) =>
-                    newValue?.id ? setCitId(newValue?.id) : setCitId('')
-                  }
-                />
-              </Grid>
               {disabled == false && (
                 <>
+                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                    <Autocomplete
+                      disablePortal
+                      id='city'
+                      options={combocity}
+                      getOptionLabel={(option: City) => option.city_name}
+                      renderInput={params => <TextField {...params} label='Interview location ' />}
+                      onChange={(event: any, newValue: City | null) =>
+                        newValue?.id ? setCitId(newValue?.id) : setCitId('')
+                      }
+                    />
+                  </Grid>
+                </>
+              )}
+              {disabled == true && (
+                <>
+                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                    <Autocomplete
+                      disablePortal
+                      id='city'
+                      options={combocity}
+                      getOptionLabel={(option: City) => option.city_name}
+                      renderInput={params => <TextField {...params} label='City' />}
+                      onChange={(event: any, newValue: City | null) =>
+                        newValue?.id ? setCitId(newValue?.id) : setCitId('')
+                      }
+                    />
+                  </Grid>
+                </>
+              )}
+
+              {disabled == false && (
+                <>
+                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={VesselType}
+                      getOptionLabel={(option: VesselType) => option.name}
+                      renderInput={params => <TextField {...params} label='Vessel Type' />}
+                      onChange={(event: any, newValue: VesselType | null) =>
+                        newValue?.id ? setVesselId(newValue.id) : setVesselId(0)
+                      }
+                    />
+                  </Grid>
                   <Grid item md={4} xs={12} sx={{ mb: 1 }}>
                     <DatePickerWrapper>
                       <DatePicker
@@ -362,33 +440,26 @@ const DialogAdd = (props: DialogProps) => {
                       />
                     </DatePickerWrapper>
                   </Grid>
-                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                </>
+              )}
+              {disabled == true && (
+                <>
+                  <Grid item md={6} xs={12} sx={{ mb: 1 }}>
                     <Autocomplete
                       disablePortal
                       id='combo-box-demo'
-                      options={VesselType}
-                      getOptionLabel={(option: VesselType) => option.name}
-                      renderInput={params => <TextField {...params} label='Vessel Type' />}
-                      onChange={(event: any, newValue: VesselType | null) =>
-                        newValue?.id ? setVesselId(newValue.id) : setVesselId(0)
+                      options={Education}
+                      {...register('degree')}
+                      getOptionLabel={(option: Degree) => option.name}
+                      renderInput={params => <TextField {...params} label='Education' />}
+                      onChange={(event: any, newValue: Degree | null) =>
+                        newValue?.id ? setEduId(newValue.id) : setEduId(0)
                       }
                     />
                   </Grid>
                 </>
               )}
-              <Grid item md={6} xs={12} sx={{ mb: 1 }}>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  options={Education}
-                  {...register('degree')}
-                  getOptionLabel={(option: Degree) => option.name}
-                  renderInput={params => <TextField {...params} label='Education' />}
-                  onChange={(event: any, newValue: Degree | null) =>
-                    newValue?.id ? setEduId(newValue.id) : setEduId(0)
-                  }
-                />
-              </Grid>
+
               <Grid item md={6} xs={12} sx={{ mb: 1 }}>
                 <TextField
                   id='experience'
