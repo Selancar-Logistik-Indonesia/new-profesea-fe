@@ -248,6 +248,15 @@ const DialogAdd = (props: DialogProps) => {
         props.onStateChange();
     }
       const handlecategory = (q: any) => {
+         if (q !== '') {
+            HttpClient.get(`/public/data/role-type?search=&page=1&take=250&category_id=` + q.id).then(response => {
+              if (response.status != 200) {
+                throw response.data.message ?? 'Something went wrong!'
+              }
+              getRoleType(response.data.roleTypes.data)
+            })
+         }
+        
         if (q !== '') {
           setCatId(q.id)
           if (q.employee_type != 'onship') {
