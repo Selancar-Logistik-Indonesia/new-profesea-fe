@@ -604,14 +604,14 @@ const FindCandidate = () => {
                       input={<OutlinedInput id='select-multiple-chip' label='Chip' sx={{ fontSize: '8px' }} />}
                       renderValue={selected => (
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
-                          {selected.map(value => (
+                          {selected?.map(value => (
                             <Chip key={value} label={value} />
                           ))}
                         </Box>
                       )}
                       MenuProps={MenuProps}
                     >
-                      {names.map(name => (
+                      {names?.map(name => (
                         <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
                           {name}
                         </MenuItem>
@@ -679,14 +679,14 @@ const FindCandidate = () => {
                           input={<OutlinedInput id='select-multiple-chip' label='Chip' sx={{ fontSize: '8px' }} />}
                           renderValue={selected => (
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
-                              {selected.map(value => (
+                              {selected?.map(value => (
                                 <Chip key={value} label={value} />
                               ))}
                             </Box>
                           )}
                           MenuProps={MenuProps}
                         >
-                          {dokumen.map(name => (
+                          {dokumen?.map(name => (
                             <MenuItem
                               key={name.title}
                               value={name.title}
@@ -710,14 +710,14 @@ const FindCandidate = () => {
                           input={<OutlinedInput id='select-multiple-chip' label='Chip' sx={{ fontSize: '8px' }} />}
                           renderValue={selected => (
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
-                              {selected.map(value => (
+                              {selected?.map(value => (
                                 <Chip key={value} label={value} />
                               ))}
                             </Box>
                           )}
                           MenuProps={MenuProps}
                         >
-                          {certificate.map(name => (
+                          {certificate?.map(name => (
                             <MenuItem
                               key={name.title}
                               value={name.title}
@@ -731,7 +731,7 @@ const FindCandidate = () => {
                       <Typography>Including all these words</Typography>
                       <FormControl>
                         <div className={'container'}>
-                          {values.map((item, index) => (
+                          {values?.map((item, index) => (
                             <Chip
                               color='primary'
                               size='small'
@@ -754,7 +754,7 @@ const FindCandidate = () => {
                       <Typography>include one word</Typography>
                       <FormControl>
                         <div className={'container'}>
-                          {valuesoneword.map((item, index) => (
+                          {valuesoneword?.map((item, index) => (
                             <Chip
                               color='primary'
                               size='small'
@@ -777,7 +777,7 @@ const FindCandidate = () => {
                       <Typography>Excluding all these words</Typography>
                       <FormControl>
                         <div className={'container'}>
-                          {valuesexclude.map((item, index) => (
+                          {valuesexclude?.map((item, index) => (
                             <Chip
                               color='primary'
                               size='small'
@@ -797,7 +797,7 @@ const FindCandidate = () => {
                       <Typography>Including these words in the title</Typography>
                       <FormControl>
                         <div className={'container'}>
-                          {valueslitle.map((item, index) => (
+                          {valueslitle?.map((item, index) => (
                             <Chip
                               color='primary'
                               size='small'
