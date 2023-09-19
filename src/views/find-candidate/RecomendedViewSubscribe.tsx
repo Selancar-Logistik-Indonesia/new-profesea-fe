@@ -25,7 +25,7 @@ const renderList = (listCandidate: IUser[]) => {
 
   }
 
-  return listCandidate.map(item => {
+  return listCandidate?.map(item => {
     const userPhoto = item.photo ? item.photo : '/images/avatars/default-user.png'
     const names = item.field_preference?.spoken_langs ? item.field_preference?.spoken_langs : []
      const license: any[] = Object.values(item?.license)
@@ -78,7 +78,7 @@ const renderList = (listCandidate: IUser[]) => {
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
               <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}>
-                {license.map(e => e.name).join(', ')}
+                {license?.map(e => e.name).join(', ')}
               </Typography>
             </Box>
             {/* <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
