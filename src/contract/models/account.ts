@@ -11,6 +11,9 @@ import ITeam from "./team"
     email: string
     phone: string
     email_verified_at: string
+    verified_at: string
+    rejected_at: string
+    reason: string
     password?: string
     password_confirmation?: string
     website?: string
@@ -22,6 +25,7 @@ import ITeam from "./team"
     banner?: string
     role: string
     team: ITeam
+    documents: any
 }
 
 export default Account;
