@@ -512,20 +512,23 @@ const DialogAdd = (props: DialogProps) => {
                   </Grid>
                 </>
               )}
-
-              <Grid item md={12} xs={12} sx={{ mb: 1 }}>
-                <Autocomplete
-                  multiple
-                  options={licenseData}
-                  id='license'
-                  value={license}
-                  filterSelectedOptions
-                  getOptionLabel={option => option.title || ''}
-                  fullWidth
-                  onChange={(e, newValue: any) => (newValue ? setLicense(newValue) : setLicense([]))}
-                  renderInput={params => <TextField {...params} fullWidth label='License' />}
-                />
-              </Grid>
+              {disabled == false && (
+                <>
+                  <Grid item md={12} xs={12} sx={{ mb: 1 }}>
+                    <Autocomplete
+                      multiple
+                      options={licenseData}
+                      id='license'
+                      value={license}
+                      filterSelectedOptions
+                      getOptionLabel={option => option.title || ''}
+                      fullWidth
+                      onChange={(e, newValue: any) => (newValue ? setLicense(newValue) : setLicense([]))}
+                      renderInput={params => <TextField {...params} fullWidth label='License' />}
+                    />
+                  </Grid>
+                </>
+              )}
 
               <Grid item md={6} xs={12} sx={{ mb: 1 }}>
                 <TextField
