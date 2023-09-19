@@ -94,6 +94,10 @@ const SailRegion = [
   { id : 'iv', name : 'International Voyage'},
 ]
 
+const employmenttype = [{ name: 'Unpaid' }, { name: 'Contract' },
+  {  name: 'Part-Time' },
+  {  name: 'Full-Time' },
+  {  name: 'Freelance' },]
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
     ref: Ref<unknown>
@@ -117,6 +121,7 @@ const DialogAdd = (props: DialogProps) => {
     const [CouId, setCouId] = useState(0);
     const [CitId, setCitId] = useState('');
     const [Sail, setSail] = useState('');
+    const [Employmenttype, setEmploymenttype] = useState('')
 
     const [license, setLicense] = useState<any[]>([]);
     const [date, setDate] = useState<DateType>(new Date());
@@ -220,6 +225,7 @@ const DialogAdd = (props: DialogProps) => {
             "salary_end": salary_end,
             "experience": experience,
             "sailing_region": Sail,
+            "employment_type": Employmenttype,
             "vesseltype_id": VesselId,
             "description": draftToHtml(convertToRaw(desc?.getCurrentContent())),
             "onboard_at": date?.toLocaleDateString("en-GB", {
@@ -314,26 +320,25 @@ const DialogAdd = (props: DialogProps) => {
                   }
                 />
               </Grid>
-              {disabled == false && (
-                <>
-                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
-                    <Autocomplete
-                      disablePortal
-                      id='combo-box-level'
-                      options={RoleType}
-                      {...register('role_type')}
-                      getOptionLabel={(option: RoleType) => option.name}
-                      renderInput={params => <TextField {...params} label='Job Title' />}
-                      onChange={(event: any, newValue: RoleType | null) =>
-                        newValue?.id ? setTypeId(newValue.id) : setTypeId(0)
-                      }
-                    />
-                  </Grid>
-                </>
-              )}
+
+              <>
+                <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-level'
+                    options={RoleType}
+                    {...register('role_type')}
+                    getOptionLabel={(option: RoleType) => option.name}
+                    renderInput={params => <TextField {...params} label='Job Title' />}
+                    onChange={(event: any, newValue: RoleType | null) =>
+                      newValue?.id ? setTypeId(newValue.id) : setTypeId(0)
+                    }
+                  />
+                </Grid>
+              </>
               {disabled == true && (
                 <>
-                  <Grid item md={2} xs={12} sx={{ mb: 1 }}>
+                  <Grid item md={4} xs={12} sx={{ mb: 1 }}>
                     <Autocomplete
                       disablePortal
                       id='combo-box-level'
@@ -478,6 +483,18 @@ const DialogAdd = (props: DialogProps) => {
                       variant='outlined'
                       fullWidth
                       {...register('experience')}
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12} sx={{ mb: 1 }}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={employmenttype}
+                      getOptionLabel={(option: any) => option.name}
+                      renderInput={params => <TextField {...params} label='Employment type' />}
+                      onChange={(event: any, newValue: any | null) =>
+                        newValue?.id ? setEmploymenttype(newValue.id) : setEmploymenttype('')
+                      }
                     />
                   </Grid>
                 </>
