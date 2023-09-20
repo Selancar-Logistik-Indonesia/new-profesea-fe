@@ -26,7 +26,7 @@ const renderList = (listCandidate: IUser[]) => {
   }
 
   return listCandidate?.map(item => {
-    const userPhoto = item.photo ? item.photo : '/images/avatars/default-user.png'
+    const userPhoto = item.photo != '' ? item.photo : '/images/avatars/default-user.png'
     const names = item.field_preference?.spoken_langs ? item.field_preference?.spoken_langs : []
      const license: any[] = Object.values(item?.license)
 
