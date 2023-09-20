@@ -113,11 +113,11 @@ type DialogProps = {
 
 const DialogAdd = (props: DialogProps) => {
     const [onLoading, setOnLoading] = useState(false);
-    const [EduId, setEduId] = useState('');
-    const [LevelId, setLevelId] = useState('');
-    const [TypeId, setTypeId] = useState('');
-    const [VesselId, setVesselId] = useState('');
-    const [CatId, setCatId] = useState('');
+    const [EduId, setEduId] = useState(0);
+    const [LevelId, setLevelId] = useState(0);
+    const [TypeId, setTypeId] = useState(0);
+    const [VesselId, setVesselId] = useState(0);
+    const [CatId, setCatId] = useState(0);
     const [CouId, setCouId] = useState(100);
     const [CitId, setCitId] = useState('');
     const [Sail, setSail] = useState('');
@@ -215,16 +215,16 @@ const DialogAdd = (props: DialogProps) => {
 
     const onSubmit = async (formData: Job) => {
         const { salary_start, salary_end, experience } = formData
-        let type: any = ''
+        let type: any = null
         if (disabled == true) {
           type = TypeId
         }
-        const json = {
-            "rolelevel_id": LevelId,
+        const json = { 
+            "rolelevel_id": LevelId == 0 ? null: LevelId,
             "roletype_id": type,
-            "edugrade_id": EduId,
-            "category_id": CatId,
-            "country_id": CouId,
+            "edugrade_id": EduId == 0 ? null:EduId,
+            "category_id": CatId  == 0 ? null: CatId,
+            "country_id": CouId  == 0 ? null : CouId,
             "city_id": CitId,
             "license": license,
             "salary_start": salary_start,
