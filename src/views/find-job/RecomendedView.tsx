@@ -64,7 +64,7 @@ const renderList = (listJob: Job[]) => {
               </Typography>
             </Grid>
 
-            {item?.category?.name != 'offship' ? (
+            {item?.category?.employee_type != 'offship' ? (
               <>
                 <Grid xs={1}>
                   <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
@@ -95,17 +95,16 @@ const renderList = (listJob: Job[]) => {
                   </Typography>
                 </Grid>
               </>
-            ):(
+            ) : (
               <>
-              
-            <Grid xs={1}>
-              <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
-            </Grid>
-            <Grid xs={11}>
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                {item?.degree?.name}
-              </Typography>
-            </Grid>
+                <Grid xs={1}>
+                  <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
+                </Grid>
+                <Grid xs={11}>
+                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                    {item?.degree?.name}
+                  </Typography>
+                </Grid>
               </>
             )}
           </Grid>
