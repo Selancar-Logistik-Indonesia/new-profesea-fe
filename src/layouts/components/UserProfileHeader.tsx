@@ -151,7 +151,7 @@ const UserProfileHeader = (props: userProps) => {
             >
               <Icon icon={'mdi:location'} />{' '}
               <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
-                {props.address != null ? props.address.city.city_name + ', ' + props.address.country.name : '-'}
+                {props.address != null ? props.address?.city?.city_name + ', ' + props.address?.country?.name : '-'}
               </Typography>
             </Box>
           </Box>

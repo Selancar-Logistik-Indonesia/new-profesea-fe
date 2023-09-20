@@ -215,13 +215,13 @@ const DialogAdd = (props: DialogProps) => {
 
     const onSubmit = async (formData: Job) => {
         const { salary_start, salary_end, experience } = formData
-        let type: any = ''
-        if (disabled == true) {
-          type = TypeId
-        }
+        // let type: any = ''
+        // if (disabled == true) {
+          // type = TypeId
+        // }
         const json = { 
             "rolelevel_id": LevelId == 0 ? null: LevelId,
-            "roletype_id": type,
+            "roletype_id": TypeId,
             "edugrade_id": EduId == 0 ? null:EduId,
             "category_id": CatId  == 0 ? null: CatId,
             "country_id": CouId  == 0 ? null : CouId,
