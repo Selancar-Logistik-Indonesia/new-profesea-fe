@@ -33,6 +33,7 @@ const defineRulesFor = (role: string, subject: string) => {
             'master/training-categories',
             'master/role-level',
             'master/role-type',
+            'master/vessel-type',
             'master/forum',
             'feed-detail',
         ]);

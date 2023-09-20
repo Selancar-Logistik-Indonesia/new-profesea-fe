@@ -170,6 +170,12 @@ const navigation = (): VerticalNavItemsType => {
             path: '/admin/master/forum',
             subject: 'master/forum',
             action: 'read'
+          },
+          {
+            title: 'Vessel Type',
+            path: '/admin/master/vessel-type',
+            subject: 'master/vessel-type',
+            action: 'read'
           }
         ]
       }
