@@ -215,7 +215,7 @@ const DialogAdd = (props: DialogProps) => {
 
     const onSubmit = async (formData: Job) => {
         const { salary_start, salary_end, experience } = formData
-        let type: any = null
+        let type: any = ''
         if (disabled == true) {
           type = TypeId
         }
