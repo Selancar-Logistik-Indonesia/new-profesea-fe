@@ -31,7 +31,10 @@ const renderList = (listJob: Job[]) => {
 
     return (
       <Grid item xs={12} md={4} key={item?.id}>
-        <Paper sx={{ marginTop: '10px', border: '3px solid #eee',borderColor: 'warning.main', height: 185 }} elevation={0}>
+        <Paper
+          sx={{ marginTop: '10px', border: '3px solid #eee', borderColor: 'warning.main', height: 185 }}
+          elevation={0}
+        >
           <Link style={{ textDecoration: 'none' }} href={'/candidate/job/?id=' + item?.id}>
             <Box
               height={65}
@@ -44,10 +47,7 @@ const renderList = (listJob: Job[]) => {
               <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={2} ml={2} mr={3}>
                 <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50 }} />
               </Box>
-              <Box
-                sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }}
-                marginTop={2}
-              >
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={2}>
                 <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={14}>
                   {item?.role_type?.name ?? '-'}
                 </Typography>
@@ -67,45 +67,50 @@ const renderList = (listJob: Job[]) => {
               </Typography>
             </Grid>
 
-            <Grid xs={1}>
-              <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
-            </Grid>
-            <Grid xs={11}>
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                {item?.degree?.name}
-              </Typography>
-            </Grid>
-
-            <Grid xs={1}>
-              <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
-            </Grid>
-            <Grid xs={11} maxWidth={'90%'}>
-              <Typography
-                sx={{
-                  color: 'text.primary',
-                  display: '-webkit-box',
-                  overflow: 'hidden',
-                  WebkitBoxOrient: 'vertical',
-                  WebkitLineClamp: 2,
-                  maxWidth: '70%'
-                }}
-                ml='0.5rem'
-                mt='0.2rem'
-                fontSize={12}
-              >
-                {license.map(e => e.title).join(', ')}
-              </Typography>
-            </Grid>
-            <Grid xs={1}>
-              <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
-            </Grid>
-            <Grid xs={11} maxWidth={'90%'}>
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                {item?.vessel_type?.name}
-              </Typography>
-            </Grid>
+            {item?.category?.name == 'offship' ? (
+              <>
+                <Grid xs={1}>
+                  <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
+                </Grid>
+                <Grid xs={11} maxWidth={'90%'}>
+                  <Typography
+                    sx={{
+                      color: 'text.primary',
+                      display: '-webkit-box',
+                      overflow: 'hidden',
+                      WebkitBoxOrient: 'vertical',
+                      WebkitLineClamp: 2,
+                      maxWidth: '70%'
+                    }}
+                    ml='0.5rem'
+                    mt='0.2rem'
+                    fontSize={12}
+                  >
+                    {license.map(e => e.title).join(', ')}
+                  </Typography>
+                </Grid>
+                <Grid xs={1}>
+                  <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
+                </Grid>
+                <Grid xs={11} maxWidth={'90%'}>
+                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                    {item?.vessel_type?.name}
+                  </Typography>
+                </Grid>
+              </>
+            ) : (
+              <>
+                <Grid xs={1}>
+                  <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
+                </Grid>
+                <Grid xs={11}>
+                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                    {item?.degree?.name}
+                  </Typography>
+                </Grid>
+              </>
+            )}
           </Grid>
-           
         </Paper>
       </Grid>
     )

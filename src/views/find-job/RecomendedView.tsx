@@ -64,6 +64,40 @@ const renderList = (listJob: Job[]) => {
               </Typography>
             </Grid>
 
+            {item?.category?.name == 'offship' ? (
+              <>
+                <Grid xs={1}>
+                  <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
+                </Grid>
+                <Grid xs={11} maxWidth={'90%'}>
+                  <Typography
+                    sx={{
+                      color: 'text.primary',
+                      display: '-webkit-box',
+                      overflow: 'hidden',
+                      WebkitBoxOrient: 'vertical',
+                      WebkitLineClamp: 2,
+                      maxWidth: '70%'
+                    }}
+                    ml='0.5rem'
+                    mt='0.2rem'
+                    fontSize={12}
+                  >
+                    {license.map(e => e.title).join(', ')}
+                  </Typography>
+                </Grid>
+                <Grid xs={1}>
+                  <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
+                </Grid>
+                <Grid xs={11} maxWidth={'90%'}>
+                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                    {item?.vessel_type?.name}
+                  </Typography>
+                </Grid>
+              </>
+            ):(
+              <>
+              
             <Grid xs={1}>
               <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
             </Grid>
@@ -72,35 +106,8 @@ const renderList = (listJob: Job[]) => {
                 {item?.degree?.name}
               </Typography>
             </Grid>
-
-            <Grid xs={1}>
-              <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
-            </Grid>
-            <Grid xs={11} maxWidth={'90%'}>
-              <Typography
-                sx={{
-                  color: 'text.primary',
-                  display: '-webkit-box',
-                  overflow: 'hidden',
-                  WebkitBoxOrient: 'vertical',
-                  WebkitLineClamp: 2,
-                  maxWidth: '70%'
-                }}
-                ml='0.5rem'
-                mt='0.2rem'
-                fontSize={12}
-              >
-                {license.map(e => e.title).join(', ')}
-              </Typography>
-            </Grid>
-            <Grid xs={1}>
-              <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
-            </Grid>
-            <Grid xs={11} maxWidth={'90%'}>
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                {item?.vessel_type?.name}
-              </Typography>
-            </Grid>
+              </>
+            )}
           </Grid>
         </Paper>
       </Grid>
