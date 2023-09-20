@@ -406,7 +406,7 @@ const DialogAdd = (props: DialogProps) => {
                       id='city'
                       options={combocity}
                       getOptionLabel={(option: City) => option.city_name}
-                      renderInput={params => <TextField {...params} label='Interview location ' />}
+                      renderInput={params => <TextField {...params} label='Interview Location ' />}
                       onChange={(event: any, newValue: City | null) =>
                         newValue?.id ? setCitId(newValue?.id) : setCitId('')
                       }
@@ -497,7 +497,7 @@ const DialogAdd = (props: DialogProps) => {
                       id='combo-box-demo'
                       options={employmenttype}
                       getOptionLabel={(option: any) => option.name}
-                      renderInput={params => <TextField {...params} label='Employment type' />}
+                      renderInput={params => <TextField {...params} label='Employment Type' />}
                       onChange={(event: any, newValue: any | null) =>
                         newValue?.id ? setEmploymenttype(newValue.id) : setEmploymenttype('')
                       }
@@ -540,7 +540,7 @@ const DialogAdd = (props: DialogProps) => {
                 <TextField
                   defaultValue={0}
                   id='salary_start'
-                  label='Salary From'
+                  label='Salary Range From'
                   variant='outlined'
                   fullWidth
                   {...register('salary_start')}
