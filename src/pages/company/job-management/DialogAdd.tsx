@@ -175,6 +175,12 @@ const DialogAdd = (props: DialogProps) => {
           }
           getVesselType(response.data.vesselTypes.data)
       })
+       const resp = await HttpClient.get('/public/data/city?search=&country_id=' + 100)
+       if (resp.status != 200) {
+         throw resp.data.message ?? 'Something went wrong!'
+       }
+       const code = resp.data.cities
+       getComboCity(code)
     }
 
        
