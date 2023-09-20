@@ -94,6 +94,9 @@ const CompanyProfile = (props: compProps) => {
   const [instagram, setInstagram] = useState<any>('')
   const [linkedin, setLinkedin] = useState<any>('')
 
+  const [verified, setVerified] = useState<any>('')
+  const [reason, setReason] = useState<any>('')
+
   const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
   const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
   const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
@@ -153,6 +156,10 @@ const CompanyProfile = (props: compProps) => {
     })
     HttpClient.get(AppConfig.baseUrl + '/user/' + props.datauser.id).then(response => {
       const code = response.data.user
+      let reason = 'Please wait for admin to verify'
+      if(code.reason!= null ) reason = code.reason 
+      setReason (reason)
+      setVerified (code.verified_at)
       setPreview(code.photo)
       setPreviewBanner(code.banner)
     })
@@ -576,11 +583,16 @@ const CompanyProfile = (props: compProps) => {
         </BoxWrapper>
       </CardContent>
 
-      {itemData.length < 3 ? (
+      {verified == null ? (
         <>
           <Grid item container md={12} xs={12}>
             <Divider style={{ width: '100%' }} />
             <Grid item container xs={12}>
+              <Grid container item xs={12} justifyContent={'left'}>
+                  <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                    {reason}
+                  </Typography>
+                </Grid>
               <Grid xs={10} md={11}>
                 <Grid container item xs={12} justifyContent={'left'}>
                   <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
