@@ -113,7 +113,7 @@ type DialogProps = {
 
 const DialogAdd = (props: DialogProps) => {
     const [onLoading, setOnLoading] = useState(false);
-    const [EduId, setEduId] = useState(1);
+    const [EduId, setEduId] = useState(0);
     const [LevelId, setLevelId] = useState(0);
     const [TypeId, setTypeId] = useState(0);
     const [VesselId, setVesselId] = useState(0);
@@ -218,32 +218,27 @@ const DialogAdd = (props: DialogProps) => {
         let type: any = ''
         if (disabled == true) {
           type = TypeId
-          
         }
-        const json = {
-          rolelevel_id: LevelId == 0 ? null : LevelId,
-          roletype_id: type,
-          edugrade_id: EduId == 0 ? null : EduId,
-          category_id: CatId == 0 ? null : CatId,
-          country_id: CouId == 0 ? null : CouId,
-          city_id: CitId,
-          license: license,
-          salary_start: salary_start,
-          salary_end: salary_end,
-          experience: experience,
-          sailing_region: Sail,
-          employment_type: Employmenttype,
-          vesseltype_id: VesselId,
-          description: draftToHtml(convertToRaw(desc?.getCurrentContent())),
-          onboard_at: date
-            ?.toLocaleDateString('en-GB', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit'
-            })
-            .split('/')
-            .reverse()
-            .join('-')
+        const json = { 
+            "rolelevel_id": LevelId == 0 ? null: LevelId,
+            "roletype_id": type,
+            "edugrade_id": EduId == 0 ? null:EduId,
+            "category_id": CatId  == 0 ? null: CatId,
+            "country_id": CouId  == 0 ? null : CouId,
+            "city_id": CitId,
+            "license": license,
+            "salary_start": salary_start,
+            "salary_end": salary_end,
+            "experience": experience,
+            "sailing_region": Sail,
+            "employment_type": Employmenttype,
+            "vesseltype_id": VesselId,
+            "description": draftToHtml(convertToRaw(desc?.getCurrentContent())),
+            "onboard_at": date?.toLocaleDateString("en-GB", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
+            }).split('/').reverse().join('-')
         }
 
         setOnLoading(true);       

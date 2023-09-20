@@ -51,7 +51,7 @@ const renderList = (listCandidate: IUser[]) => {
                 </Typography>
                 <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
                   {item.field_preference?.role_level?.levelName ? item.field_preference?.role_level?.levelName : '-'}
-                  {' - '}
+                  {' | '}
                   {item.field_preference?.role_type?.name ? item.field_preference?.role_type?.name : '-'}
                 </Typography>
               </Box>
