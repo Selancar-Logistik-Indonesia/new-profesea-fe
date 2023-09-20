@@ -45,8 +45,8 @@ const renderList = (arr: ParamJobVacncy[]) => {
               {item.company.name.charAt(0).toUpperCase() + item.company.name.slice(1)}
             </Typography>
             <Typography sx={{ color: '#424242', fontWeight: 400 }}>
-              {item.company.address.country.name.charAt(0).toUpperCase() + item.company.address.country.name.slice(1)},
-              {item.company.address.city.city_name.charAt(0).toUpperCase() + item.company.address.city.city_name.slice(1)}
+              {item.company?.address?.country?.name.charAt(0).toUpperCase() + item.company?.address?.country?.name.slice(1)},
+              {item.company?.address?.city?.city_name.charAt(0).toUpperCase() + item.company?.address?.city?.city_name.slice(1)}
             </Typography>
             <Typography sx={{ color: '#424242', fontWeight: 400 }}>
               {item.h_created_at.charAt(0).toUpperCase() + item.h_created_at.slice(1)}
