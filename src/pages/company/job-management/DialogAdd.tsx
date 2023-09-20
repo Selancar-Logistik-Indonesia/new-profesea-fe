@@ -194,9 +194,9 @@ const DialogAdd = (props: DialogProps) => {
       }
 
 
-    const schema = yup.object().shape({
-        rolelevel: yup.string().required()
-    })
+    // const schema = yup.object().shape({
+    //     rolelevel: yup.string().required()
+    // })
 
     const {
         register,
@@ -204,7 +204,7 @@ const DialogAdd = (props: DialogProps) => {
         handleSubmit,
     } = useForm<Job>({
         mode: 'onBlur',
-        resolver: yupResolver(schema)
+        // resolver: yupResolver(schema)
     })
 
     const onSubmit = async (formData: Job) => {
