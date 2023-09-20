@@ -499,7 +499,7 @@ const DialogAdd = (props: DialogProps) => {
                       getOptionLabel={(option: any) => option.name}
                       renderInput={params => <TextField {...params} label='Employment Type' />}
                       onChange={(event: any, newValue: any | null) =>
-                        newValue?.id ? setEmploymenttype(newValue.id) : setEmploymenttype('')
+                        newValue?.id ? setEmploymenttype(newValue.name) : setEmploymenttype('')
                       }
                     />
                   </Grid>
