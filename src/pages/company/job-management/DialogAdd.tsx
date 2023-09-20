@@ -113,12 +113,12 @@ type DialogProps = {
 
 const DialogAdd = (props: DialogProps) => {
     const [onLoading, setOnLoading] = useState(false);
-    const [EduId, setEduId] = useState(0);
-    const [LevelId, setLevelId] = useState(0);
-    const [TypeId, setTypeId] = useState(0);
-    const [VesselId, setVesselId] = useState(0);
-    const [CatId, setCatId] = useState(0);
-    const [CouId, setCouId] = useState(0);
+    const [EduId, setEduId] = useState('');
+    const [LevelId, setLevelId] = useState('');
+    const [TypeId, setTypeId] = useState('');
+    const [VesselId, setVesselId] = useState('');
+    const [CatId, setCatId] = useState('');
+    const [CouId, setCouId] = useState(100);
     const [CitId, setCitId] = useState('');
     const [Sail, setSail] = useState('');
     const [Employmenttype, setEmploymenttype] = useState('')
