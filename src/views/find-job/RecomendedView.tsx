@@ -64,7 +64,7 @@ const renderList = (listJob: Job[]) => {
               </Typography>
             </Grid>
 
-            {item?.category?.name == 'offship' ? (
+            {item?.category?.name != 'offship' ? (
               <>
                 <Grid xs={1}>
                   <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
