@@ -193,51 +193,51 @@ const DialogAddDocument = (props: DialogProps) => {
    
     const dokumencoc= [
       {
-        title: 'Ahli Nautika Tingkat Dasar (ANTD), Teknika',
+        title: 'Ahli Nautika Tingkat Dasar (ANTD), Nautika',
         doctype: 'COC1'
       },
       {
-        title: 'Ahli Nautika Tingkat V (ANT V), Teknika',
+        title: 'Ahli Nautika Tingkat V (ANT V), Nautika',
         doctype: 'COC2'
       },
       {
-        title: 'Ahli Nautika Tingkat IV (ANT IV), Teknika',
+        title: 'Ahli Nautika Tingkat IV (ANT IV), Nautika',
         doctype: 'COC3'
       },
       {
-        title: 'Ahli Nautika Tingkat III (ANT III), Teknika',
+        title: 'Ahli Nautika Tingkat III (ANT III), Nautika',
         doctype: 'COC4'
       },
       {
-        title: 'Ahli Nautika Tingkat II (ANT II), Teknika',
+        title: 'Ahli Nautika Tingkat II (ANT II), Nautika',
         doctype: 'COC5'
       },
       {
-        title: 'Ahli Nautika Tingkat I (ANT I), Teknika',
+        title: 'Ahli Nautika Tingkat I (ANT I), Nautika',
         doctype: 'COC6'
       },
       {
-        title: 'Ahli Teknika Tingkat Dasar (ATTD), Nautika',
+        title: 'Ahli Teknika Tingkat Dasar (ATTD), Teknika',
         doctype: 'COC7'
       },
       {
-        title: 'Ahli Teknika Tingkat V (ATT V), Nautika',
+        title: 'Ahli Teknika Tingkat V (ATT V), Teknika',
         doctype: 'COC8'
       },
       {
-        title: 'Ahli Teknika Tingkat IV (ATT IV), Nautika',
+        title: 'Ahli Teknika Tingkat IV (ATT IV), Teknika',
         doctype: 'COC9'
       },
       {
-        title: 'Ahli Teknika Tingkat III (ATT III), Nautika',
+        title: 'Ahli Teknika Tingkat III (ATT III), Teknika',
         doctype: 'COC10'
       },
       {
-        title: 'Ahli Teknika Tingkat II (ATT II), Nautika',
+        title: 'Ahli Teknika Tingkat II (ATT II), Teknika',
         doctype: 'COC11'
       },
       {
-        title: 'Ahli Teknika Tingkat I (ATT I), Nautika',
+        title: 'Ahli Teknika Tingkat I (ATT I), Teknika',
         doctype: 'COC12'
       }, 
     ]

@@ -63,7 +63,7 @@ const renderList = (listJob: Job[]) => {
             </Grid>
             <Grid xs={11}>
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                {item?.rolelevel?.levelName} - {item?.category?.name}
+                {item?.rolelevel?.levelName} | {item?.category?.name}
               </Typography>
             </Grid>
 

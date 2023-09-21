@@ -5,7 +5,7 @@ import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import Box, { BoxProps } from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-import { Button, TextField, FormControl, Autocomplete, Divider, Card, InputAdornment } from '@mui/material'
+import { Button, TextField, FormControl, Autocomplete, Divider, Card, InputAdornment, Alert } from '@mui/material'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
@@ -109,14 +109,14 @@ const CompanyProfile = (props: compProps) => {
   const onChangePhoneNum = (input: string) => {
     setPhoneNum(removeFirstZeroChar(input))
   }
-    const deletework = async (id: any) => {
-      const resp = await HttpClient.del(`/user/document/` + id)
-      if (resp.status != 200) {
-        throw resp.data.message ?? 'Something went wrong!'
-      }
-      combobox()
-      toast.success(`  deleted successfully!`)
+  const deletework = async (id: any) => {
+    const resp = await HttpClient.del(`/user/document/` + id)
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
     }
+    combobox()
+    toast.success(`  deleted successfully!`)
+  }
   const combobox = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
@@ -157,9 +157,9 @@ const CompanyProfile = (props: compProps) => {
     HttpClient.get(AppConfig.baseUrl + '/user/' + props.datauser.id).then(response => {
       const code = response.data.user
       let reason = 'Please wait for admin to verify'
-      if(code.reason!= null ) reason = code.reason 
-      setReason (reason)
-      setVerified (code.verified_at)
+      if (code.reason != null) reason = code.reason
+      setReason(reason)
+      setVerified(code.verified_at)
       setPreview(code.photo)
       setPreviewBanner(code.banner)
     })
@@ -173,19 +173,19 @@ const CompanyProfile = (props: compProps) => {
         }
         getCombocode(code);
       })
-      HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
-        const itemData = response.data.documents
+    HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
+      const itemData = response.data.documents
 
-        const arr = []
-        for (let x = 0; x < itemData.length; x++) {
-          const element = itemData[x]
-          if (element.childs.length > 0) {
-            arr.push({ id: element.id, name: element.document_type })
-          }
+      const arr = []
+      for (let x = 0; x < itemData.length; x++) {
+        const element = itemData[x]
+        if (element.childs.length > 0) {
+          arr.push({ id: element.id, name: element.document_type })
         }
-        getArrayHead(arr)
-        getItemdata(itemData)
-      })
+      }
+      getArrayHead(arr)
+      getItemdata(itemData)
+    })
   }
   const searchcity = async (q: any) => {
     setCountry(q)
@@ -213,7 +213,7 @@ const CompanyProfile = (props: compProps) => {
     mode: 'onBlur'
   })
   const onSubmit = (data: FormData) => {
-    const { companyName, website,   address, about } = data
+    const { companyName, website, address, about } = data
     const json = {
       country_id: idcountry,
       industry_id: idindustry,
@@ -510,15 +510,13 @@ const CompanyProfile = (props: compProps) => {
             <Divider style={{ width: '100%' }} />
             <Grid item container xs={12}>
               <Grid container item xs={12} justifyContent={'left'}>
-                  <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
-                    {reason}
-                  </Typography>
-                </Grid>
+                <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2 }}>
+                  <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>{reason}</Typography>
+                </Alert>
+              </Grid>
               <Grid xs={10} md={11}>
                 <Grid container item xs={12} justifyContent={'left'}>
-                  <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
-                    Document Upload
-                  </Typography>
+                  <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}> Document Upload</Typography>
                 </Grid>
                 <Grid container item xs={12} justifyContent={'left'}>
                   <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
@@ -665,7 +663,7 @@ const CompanyProfile = (props: compProps) => {
                                       variant='outlined'
                                       color='primary'
                                       size='small'
-                                      // onClick={() => editDocument(item)}
+                                    // onClick={() => editDocument(item)}
                                     >
                                       <Icon
                                         fontSize='large'
