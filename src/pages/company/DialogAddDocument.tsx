@@ -31,7 +31,6 @@ type DialogProps = {
     onCloseClick: VoidFunction;
     onStateChange: VoidFunction;
     arrayhead: any
-    role: any
 }
 type dokumen = {
   title: string
@@ -55,7 +54,6 @@ const DialogAddDocument = (props: DialogProps) => {
     const [expiredDate, setExpiredDate] = useState<DateType>(new Date()) 
     const [document_name, setDocument] = useState<any>([])
     const [document_nameChild, setDocumentChild] = useState<any>([])
-    console.log(props.role)
  
      useEffect(() => {
       if (!selectedFile) {
@@ -200,11 +198,6 @@ const DialogAddDocument = (props: DialogProps) => {
       { title: 'SIUPAKK', docType: 'M3' },
        
     ]
-    const doc = [
-      { title: 'KTP', docType: 'M1' },
-      { title: 'License / Certificate', docType: 'M2'  },
-       
-    ]
 
     return (
       <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
@@ -238,7 +231,7 @@ const DialogAddDocument = (props: DialogProps) => {
                 <Autocomplete
                   disablePortal
                   id='dokumen'
-                  options={(props.role == 'Company' ) ? dokumen : doc}
+                  options={dokumen}
                   getOptionLabel={option => option.title || ''}
                   renderInput={params => <TextField {...params} label='Document' sx={{ mb: 2 }} variant='standard' />}
                   onChange={(e, newValue: any) => (newValue ? setDocument(newValue) : setDocument([]))}
