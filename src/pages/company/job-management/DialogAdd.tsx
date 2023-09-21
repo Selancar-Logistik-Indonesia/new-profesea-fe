@@ -184,9 +184,36 @@ const DialogAdd = (props: DialogProps) => {
   }
 
 
+ const clear = () => {
+   setEduId(0)
+    setLevelId(0)
+    setTypeId(0)
+    setVesselId(0)
+    setCatId(0)
+    setCouId(100)
+    setCitId('')
+    setSail('')
+    setEmploymenttype('')
+
+    setLicense([])
+    setDate(new Date())
+
+    getJobCategory([])
+    getEducation([])
+    getRoleType([])
+    getRoleLevel([])
+    getComboCountry([])
+    getComboCity([])
+    getVesselType([])
+
+    setDesc(EditorState.createEmpty())
+
+    setDisabled(true)
+ }
 
   useEffect(() => {
     combobox()
+    
   }, [])
 
   const searchcity = async (q: any) => {
@@ -252,6 +279,7 @@ const DialogAdd = (props: DialogProps) => {
 
       props.onCloseClick();
       toast.success(` Job submited successfully!`);
+      clear();
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`);
     }
@@ -482,7 +510,7 @@ const DialogAdd = (props: DialogProps) => {
 
             {disabled == true && (
               <>
-                <Grid item md={3} xs={12} sx={{ mb: 1 }}>
+                <Grid item md={6} xs={12} sx={{ mb: 1 }}>
                   <TextField
                     id='experience'
                     defaultValue={1}
@@ -501,7 +529,7 @@ const DialogAdd = (props: DialogProps) => {
                     getOptionLabel={(option: any) => option.name}
                     renderInput={params => <TextField {...params} label='Employment Type' />}
                     onChange={(event: any, newValue: any | null) =>
-                      newValue?.id ? setEmploymenttype(newValue.name) : setEmploymenttype('')
+                      newValue?.name ? setEmploymenttype(newValue.name) : setEmploymenttype('')
                     }
                   />
                 </Grid>

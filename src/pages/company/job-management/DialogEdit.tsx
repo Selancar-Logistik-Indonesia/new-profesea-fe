@@ -46,7 +46,13 @@ const SailRegion = [
   { id : 'ncv', name : 'Near Coastal Voyage (NCV)'},
   { id : 'iv', name : 'International Voyage'},
 ]
-
+const employmenttype = [
+  { name: 'Unpaid' },
+  { name: 'Contract' },
+  { name: 'Part-Time' },
+  { name: 'Full-Time' },
+  { name: 'Freelance' }
+]
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
@@ -68,13 +74,13 @@ const DialogEdit = (props: EditProps) => {
   const [onLoading, setOnLoading] = useState(false);
   const [Edu, setEdu] = useState(props.selectedItem?.degree);
   const [Level, setLevel] = useState(props.selectedItem?.rolelevel);
-  const [Type, setType] = useState(props.selectedItem?.role_type);
+  const [Type, setType] = useState<any>(props.selectedItem?.role_type);
   const [Cat, setCat] = useState(props.selectedItem?.category);
-  const [Cou, setCou] = useState(props.selectedItem?.country);
-  const [CouId, setCouId] = useState(100);
+  const [Cou, setCou] = useState(props.selectedItem?.country); 
   const [Cit, setCit] = useState<any>(props.selectedItem?.city);
   const [Vessel, setVessel] = useState(props.selectedItem?.vessel_type);
   const [Sail, setSail] = useState('');
+  const [Employmenttype, setEmploymenttype] = useState<any>({name:props.selectedItem?.employment_type})
 
   const [license, setLicense] = useState<any>(props.selectedItem?.license);
 
@@ -148,18 +154,8 @@ const DialogEdit = (props: EditProps) => {
     mode: 'onBlur'
   })
 
-  const searchcity = async (q: Countries) => {
+  const searchcity = async (q: any) => {
     setCou(q)
-    const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q.id)
-    if (resp.status != 200) {
-      throw resp.data.message ?? 'Something went wrong!'
-    }
-    const code = resp.data.cities
-    getComboCity(code)
-  }
-
-  const getCity = async (q: number) => {
-    setCouId(q)
     const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
     if (resp.status != 200) {
       throw resp.data.message ?? 'Something went wrong!'
@@ -168,33 +164,36 @@ const DialogEdit = (props: EditProps) => {
     getComboCity(code)
   }
 
+ 
 
 
   const onSubmit = async (formData: Job) => {
     const { salary_start, salary_end, experience } = formData
-    let type: any = ''
-    if (disabled == true) {
-      type = Type.id
-    }
+    
     const json = {
-      "rolelevel_id": Level.id,
-      "roletype_id":type,
-      "edugrade_id": Edu.id,
-      "category_id": Cat.id,
-      "country_id": (Cou.id) ? Cou.id : CouId,
-      "city_id": Cit.id,
-      "license": license,
-      "sailing_region": Sail,
-      "vesseltype_id": Vessel.id,
-      "salary_start": salary_start,
-      "salary_end": salary_end,
-      "experience": experience,
-      "description": draftToHtml(convertToRaw(desc?.getCurrentContent())),
-      "onboard_at": date?.toLocaleDateString("en-GB", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit"
-      }).split('/').reverse().join('-')
+      rolelevel_id: Level.id == 0 ? null : Level.id,
+      roletype_id: Type.id == 0 ? null : Type.id,
+      edugrade_id: Edu.id == 0 ? null : Edu.id,
+      category_id: Cat.id == 0 ? null : Cat.id,
+      country_id: Cou.id == 0?null : Cou.id,
+      city_id: Cit.id == 0 ? null : Cit.id,
+      license: license,
+      sailing_region: Sail,
+      vesseltype_id: Vessel == null ?null :Vessel.id,
+      salary_start: salary_start,
+      salary_end: salary_end,
+      experience: experience,
+      employment_type: Employmenttype,
+      description: draftToHtml(convertToRaw(desc?.getCurrentContent())),
+      onboard_at: date
+        ?.toLocaleDateString('en-GB', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit'
+        })
+        .split('/')
+        .reverse()
+        .join('-')
     }
 
     setOnLoading(true);
@@ -213,18 +212,29 @@ const DialogEdit = (props: EditProps) => {
     setOnLoading(false);
     props.onStateChange();
   }
-   const handlecategory = (q: any) => {
-     if (q !== '') {
-         setCat(q)
-       if (q.employee_type == 'onship') {
-         setDisabled(true)
-       } else {
-         setDisabled(false)
-       }
-     } else {
-      getCity(100)
-     }
-   }
+    const handlecategory = (q: any) => {
+      if (q !== '') {
+        HttpClient.get(`/public/data/role-type?search=&page=1&take=250&category_id=` + q.id).then(response => {
+          if (response.status != 200) {
+            throw response.data.message ?? 'Something went wrong!'
+          }
+          getRoleType(response.data.roleTypes.data)
+        })
+      }
+
+      if (q !== '') {
+        setCat(q)
+        if (q.employee_type != 'onship') {
+          setDisabled(true)
+          searchcity(100)
+        } else {
+          setDisabled(false)
+          setType(null)
+        }
+      } else {
+        setCat(q)
+      }
+    }
   // console.log(props)
 
   return (
@@ -277,43 +287,41 @@ const DialogEdit = (props: EditProps) => {
                 }
               />
             </Grid>
-
+            <Grid item md={4} xs={12}>
+              <Autocomplete
+                disablePortal
+                id='combo-box-type'
+                value={Type}
+                options={RoleType}
+                {...register('role_type')}
+                getOptionLabel={(option: RoleType) => option.name}
+                renderInput={params => <TextField {...params} label='Job Title' />}
+                onChange={(event: any, newValue: RoleType | null) =>
+                  newValue ? setType(newValue) : setType(props.selectedItem.role_type)
+                }
+              />
+            </Grid>
             {disabled == true && (
               <>
                 <Grid item md={4} xs={12}>
                   <Autocomplete
                     disablePortal
-                    id='combo-box-type'
-                    value={Type}
-                    options={RoleType}
-                    {...register('role_type')}
-                    getOptionLabel={(option: RoleType) => option.name}
-                    renderInput={params => <TextField {...params} label='Job Title' />}
-                    onChange={(event: any, newValue: RoleType | null) =>
-                      newValue ? setType(newValue) : setType(props.selectedItem.role_type)
+                    id='combo-box-level'
+                    value={Level}
+                    options={RoleLevel}
+                    getOptionLabel={(option: RoleLevel) => option.levelName}
+                    renderInput={params => <TextField {...params} label='Role Level' />}
+                    onChange={(event: any, newValue: RoleLevel | null) =>
+                      newValue ? setLevel(newValue) : setLevel(props.selectedItem.rolelevel)
                     }
                   />
                 </Grid>
               </>
             )}
-            <Grid item md={4} xs={12}>
-              <Autocomplete
-                disablePortal
-                id='combo-box-level'
-                value={Level}
-                options={RoleLevel}
-                getOptionLabel={(option: RoleLevel) => option.levelName}
-                renderInput={params => <TextField {...params} label='Role Level' />}
-                onChange={(event: any, newValue: RoleLevel | null) =>
-                  newValue ? setLevel(newValue) : setLevel(props.selectedItem.rolelevel)
-                }
-              />
-            </Grid>
-
 
             {disabled == true && (
               <>
-                <Grid item md={4} xs={12}>
+                <Grid item md={3} xs={12}>
                   <Autocomplete
                     disablePortal
                     id='combo-box-country'
@@ -338,31 +346,57 @@ const DialogEdit = (props: EditProps) => {
                     options={SailRegion}
                     getOptionLabel={(option: any) => option.name}
                     renderInput={params => <TextField {...params} label='Sail Region' />}
-                    onChange={(event: any, newValue: any | null) =>
-                      newValue?.id ? setSail(newValue.id) : setSail('')
-                    }
+                    onChange={(event: any, newValue: any | null) => (newValue?.id ? setSail(newValue.id) : setSail(''))}
                   />
                 </Grid>
               </>
             )}
-
-            <Grid item md={4} xs={12}>
-              <Autocomplete
-                disablePortal
-                id='combo-box-city'
-                options={combocity}
-                value={Cit}
-                getOptionLabel={(option: City) => option.city_name}
-                renderInput={params => <TextField {...params} label='City' />}
-                onChange={(event: any, newValue: City | null) =>
-                  newValue ? setCit(newValue) : setCit(props.selectedItem.city)
-                }
-              />
-            </Grid>
-
+            {disabled == false && (
+              <Grid item md={3} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-city'
+                  options={combocity}
+                  value={Cit}
+                  getOptionLabel={(option: City) => option.city_name}
+                  renderInput={params => <TextField {...params} label='Interview Location' />}
+                  onChange={(event: any, newValue: City | null) =>
+                    newValue ? setCit(newValue) : setCit(props.selectedItem.city)
+                  }
+                />
+              </Grid>
+            )}
+            {disabled == true && (
+              <Grid item md={3} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-city'
+                  options={combocity}
+                  value={Cit}
+                  getOptionLabel={(option: City) => option.city_name}
+                  renderInput={params => <TextField {...params} label='City' />}
+                  onChange={(event: any, newValue: City | null) =>
+                    newValue ? setCit(newValue) : setCit(props.selectedItem.city)
+                  }
+                />
+              </Grid>
+            )}
             {disabled == false && (
               <>
-                <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                <Grid item md={3} xs={12} sx={{ mb: 1 }}>
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-demo'
+                    options={VesselType}
+                    value={Vessel}
+                    getOptionLabel={(option: VesselType) => option.name}
+                    renderInput={params => <TextField {...params} label='Vessel Type' />}
+                    onChange={(event: any, newValue: VesselType | null) =>
+                      newValue?.id ? setVessel(newValue) : setVessel(props.selectedItem.vessel_type)
+                    }
+                  />
+                </Grid>
+                <Grid item md={3} xs={12} sx={{ mb: 1 }}>
                   <DatePickerWrapper>
                     <DatePicker
                       minDate={new Date()}
@@ -377,61 +411,78 @@ const DialogEdit = (props: EditProps) => {
                     />
                   </DatePickerWrapper>
                 </Grid>
+              </>
+            )}
+            {disabled == true && (
+              <>
+                <Grid item md={6} xs={12}>
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-degree'
+                    value={Edu}
+                    options={Education}
+                    {...register('degree')}
+                    getOptionLabel={(option: Degree) => option.name}
+                    renderInput={params => <TextField {...params} label='Education' />}
+                    onChange={(event: any, newValue: Degree | null) =>
+                      newValue ? setEdu(newValue) : setEdu(props.selectedItem.degree)
+                    }
+                  />
+                </Grid>
 
-                <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                <Grid item md={6} xs={12}>
+                  <TextField
+                    defaultValue={props.selectedItem.experience}
+                    id='experience'
+                    label='Experience'
+                    variant='outlined'
+                    fullWidth
+                    {...register('experience')}
+                  />
+                </Grid>
+                <Grid item md={6} xs={12} sx={{ mb: 1 }}>
                   <Autocomplete
                     disablePortal
                     id='combo-box-demo'
-                    options={VesselType}
-                    value={Vessel}
-                    getOptionLabel={(option: VesselType) => option.name}
-                    renderInput={params => <TextField {...params} label='Vessel Type' />}
-                    onChange={(event: any, newValue: VesselType | null) =>
-                      newValue?.id ? setVessel(newValue) : setVessel(props.selectedItem.vessel_type)
+                    value={Employmenttype}
+                    options={employmenttype}
+                    getOptionLabel={(option: any) => option.name}
+                    renderInput={params => <TextField {...params} label='Employment Type' />}
+                    onChange={(event: any, newValue: any | null) =>
+                      newValue?.name ? setEmploymenttype(newValue.name) : setEmploymenttype({ name: '' })
                     }
                   />
                 </Grid>
               </>
             )}
+            {disabled == false && (
+              <>
+                <Grid item md={3} xs={12}>
+                  <TextField
+                    defaultValue={props.selectedItem.experience}
+                    id='experience'
+                    label='Experience'
+                    variant='outlined'
+                    fullWidth
+                    {...register('experience')}
+                  />
+                </Grid> 
+                <Grid item md={12} xs={12}>
+                  <Autocomplete
+                    multiple
+                    options={licenseData}
+                    id='license'
+                    value={license}
+                    filterSelectedOptions
+                    getOptionLabel={option => option.title || ''}
+                    fullWidth
+                    onChange={(e, newValue: any) => (newValue ? setLicense(newValue) : setLicense([]))}
+                    renderInput={params => <TextField {...params} fullWidth label='License' />}
+                  />
+                </Grid>
+              </>
+            )}
 
-            <Grid item md={6} xs={12}>
-              <Autocomplete
-                disablePortal
-                id='combo-box-degree'
-                value={Edu}
-                options={Education}
-                {...register('degree')}
-                getOptionLabel={(option: Degree) => option.name}
-                renderInput={params => <TextField {...params} label='Education' />}
-                onChange={(event: any, newValue: Degree | null) =>
-                  newValue ? setEdu(newValue) : setEdu(props.selectedItem.degree)
-                }
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                defaultValue={props.selectedItem.experience}
-                id='experience'
-                label='Experience'
-                variant='outlined'
-                fullWidth
-                {...register('experience')}
-              />
-            </Grid>
-
-            <Grid item md={12} xs={12}>
-              <Autocomplete
-                multiple
-                options={licenseData}
-                id='license'
-                value={license}
-                filterSelectedOptions
-                getOptionLabel={option => option.title || ''}
-                fullWidth
-                onChange={(e, newValue: any) => (newValue ? setLicense(newValue) : setLicense([]))}
-                renderInput={params => <TextField {...params} fullWidth label='License' />}
-              />
-            </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 defaultValue={props.selectedItem.salary_start}
