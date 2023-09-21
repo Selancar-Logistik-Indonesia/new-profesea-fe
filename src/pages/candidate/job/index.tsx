@@ -148,8 +148,7 @@ const JobDetail = () => {
                             Detail Job
                           </Typography>
                           <Grid item container>
-
-                            {jobDetail?.employee_type != 'offship' ? (
+                            {jobDetail?.category?.employee_type != 'offship' ? (
                               <>
                                 <Grid xs={1}>
                                   <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
@@ -186,6 +185,7 @@ const JobDetail = () => {
                                   {jobDetail?.degree?.name}
                                   </Typography>
                                 </Grid>
+                               
                               </>
                             )}
 
@@ -241,6 +241,7 @@ const JobDetail = () => {
                               sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
                               ml='0.5rem'
                               mt={3}
+                              mb={3}
                               variant='body2'
                             >
                               Experience
@@ -253,7 +254,7 @@ const JobDetail = () => {
                                 fontWeight={500}
                                 fontFamily={'Barlow'}
                               >
-                                {jobDetail?.experience} <strong>Contract</strong>
+                                 <strong>{jobDetail?.experience}</strong> &nbsp; Contract
                               </Typography>
                             </Box>
                           </Box>
