@@ -193,51 +193,51 @@ const DialogEditDocument = (props: DialogProps) => {
   }
  const dokumencoc = [
    {
-     title: 'Ahli Nautika Tingkat Dasar (ANTD), Teknika',
+     title: 'Ahli Nautika Tingkat Dasar (ANTD), Nautika',
      docType: 'COC1'
    },
    {
-     title: 'Ahli Nautika Tingkat V (ANT V), Teknika',
+     title: 'Ahli Nautika Tingkat V (ANT V), Nautika',
      docType: 'COC2'
    },
    {
-     title: 'Ahli Nautika Tingkat IV (ANT IV), Teknika',
+     title: 'Ahli Nautika Tingkat IV (ANT IV), Nautika',
      docType: 'COC3'
    },
    {
-     title: 'Ahli Nautika Tingkat III (ANT III), Teknika',
+     title: 'Ahli Nautika Tingkat III (ANT III), Nautika',
      docType: 'COC4'
    },
    {
-     title: 'Ahli Nautika Tingkat II (ANT II), Teknika',
+     title: 'Ahli Nautika Tingkat II (ANT II), Nautika',
      docType: 'COC5'
    },
    {
-     title: 'Ahli Nautika Tingkat I (ANT I), Teknika',
+     title: 'Ahli Nautika Tingkat I (ANT I), Nautika',
      docType: 'COC6'
    },
    {
-     title: 'Ahli Teknika Tingkat Dasar (ATTD), Nautika',
+     title: 'Ahli Teknika Tingkat Dasar (ATTD), Teknika',
      docType: 'COC7'
    },
    {
-     title: 'Ahli Teknika Tingkat V (ATT V), Nautika',
+     title: 'Ahli Teknika Tingkat V (ATT V), Teknika',
      docType: 'COC8'
    },
    {
-     title: 'Ahli Teknika Tingkat IV (ATT IV), Nautika',
+     title: 'Ahli Teknika Tingkat IV (ATT IV), Teknika',
      docType: 'COC9'
    },
    {
-     title: 'Ahli Teknika Tingkat III (ATT III), Nautika',
+     title: 'Ahli Teknika Tingkat III (ATT III), Teknika',
      docType: 'COC10'
    },
    {
-     title: 'Ahli Teknika Tingkat II (ATT II), Nautika',
+     title: 'Ahli Teknika Tingkat II (ATT II), Teknika',
      docType: 'COC11'
    },
    {
-     title: 'Ahli Teknika Tingkat I (ATT I), Nautika',
+     title: 'Ahli Teknika Tingkat I (ATT I), Teknika',
      docType: 'COC12'
    }
  ]

@@ -59,55 +59,60 @@ const RelatedJobView = () => {
                                         mr={3}
                                         mt={2}
                                     >
-                                        <Box
-                                            sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
-                                            mb={0}
-                                        >
-                                            <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
-                                            <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                                                {item?.rolelevel?.levelName} -
-                                            </Typography>
-                                            <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                                                {item?.category?.name}
-                                            </Typography>
-                                        </Box>
+                                        <Grid item container ml={5} mr={5}>
+                                            <Grid xs={1}>
+                                                <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
+                                            </Grid>
+                                            <Grid xs={11}>
+                                                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                                                    {item?.rolelevel?.levelName} | {item?.category?.name}
+                                                </Typography>
+                                            </Grid>
 
-                                        <Box
-                                            sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
-                                            mb={2}
-                                        >
-                                            <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
-                                            <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                                                {item?.degree?.name}
-                                            </Typography>
-                                        </Box>
-
-                                        <Box
-                                            sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}
-                                            mb={2}
-                                        >
-                                            <Grid item container>
-                                                <Grid xs={1}>
-                                                    <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
-                                                </Grid>
-                                                <Grid xs={10}>
-                                                    <Typography
-                                                        sx={{
-                                                            color: 'text.primary',
-                                                            display: '-webkit-box',
-                                                            overflow: 'hidden',
-                                                            WebkitBoxOrient: 'vertical',
-                                                            WebkitLineClamp: 2,
-                                                        }}
-                                                        ml='0.5rem'
-                                                        mt='0.2rem'
-                                                        fontSize={12}
-                                                    >
-                                                        {license.map(e => e.title).join(', ')}
-                                                    </Typography>
-                                                </Grid>
-                                            </Grid>                                            
-                                        </Box>
+                                            {item?.category?.employee_type != 'offship' ? (
+                                                <>
+                                                    <Grid xs={1}>
+                                                        <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
+                                                    </Grid>
+                                                    <Grid xs={11} maxWidth={'90%'}>
+                                                        <Typography
+                                                            sx={{
+                                                                color: 'text.primary',
+                                                                display: '-webkit-box',
+                                                                overflow: 'hidden',
+                                                                WebkitBoxOrient: 'vertical',
+                                                                WebkitLineClamp: 2,
+                                                                maxWidth: '70%'
+                                                            }}
+                                                            ml='0.5rem'
+                                                            mt='0.2rem'
+                                                            fontSize={12}
+                                                        >
+                                                            {license.map(e => e.title).join(', ')}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid xs={1}>
+                                                        <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
+                                                    </Grid>
+                                                    <Grid xs={11} maxWidth={'90%'}>
+                                                        <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                                                            {item?.vessel_type?.name}
+                                                        </Typography>
+                                                    </Grid>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Grid xs={1}>
+                                                        <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
+                                                    </Grid>
+                                                    <Grid xs={11}>
+                                                        <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                                                            {item?.degree?.name}
+                                                        </Typography>
+                                                    </Grid>
+                                                </>
+                                            )}
+                                        </Grid>
                                     </Box>
                                 </Paper>
                             </Grid>

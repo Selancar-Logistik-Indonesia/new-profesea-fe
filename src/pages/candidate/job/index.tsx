@@ -123,17 +123,17 @@ const JobDetail = () => {
                           >
                             Job Name
                           </Typography>
-                          
+
                           <Grid item container>
                             <Grid xs={1}>
                               <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
                             </Grid>
                             <Grid xs={11}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>
-                                <strong>{jobDetail?.rolelevel?.levelName}</strong>
+                              <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={14}>
+                                <strong>{jobDetail?.role_type?.name}</strong>
                               </Typography>
                               <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>
-                                <strong>{jobDetail?.category?.name}</strong> - <strong>{jobDetail?.role_type?.name}</strong>
+                                {jobDetail?.category?.name} | {jobDetail?.rolelevel?.levelName}
                               </Typography>
                             </Grid>
                           </Grid>
@@ -148,41 +148,48 @@ const JobDetail = () => {
                             Detail Job
                           </Typography>
                           <Grid item container>
-                            <Grid xs={1} mt={1}>
-                              <Icon icon='solar:square-academic-cap-bold-duotone' fontSize={20} color='#32487A' />
-                            </Grid>
-                            <Grid xs={11} mt={1}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
-                                {jobDetail?.degree?.name}
-                              </Typography>
-                            </Grid>
 
-                            <Grid xs={1}>
-                              <Icon icon='icon-park-twotone:ship' fontSize={20} color='#32487A' />
-                            </Grid>
-                            <Grid xs={11}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
-                                Type of Vessel
-                              </Typography>
-                            </Grid>
-
-                            <Grid xs={1}>
+                            {jobDetail?.employee_type != 'offship' ? (
+                              <>
+                                <Grid xs={1}>
+                                  <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
+                                </Grid>
+                                <Grid xs={11} maxWidth={'90%'}>
+                                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                                    {license.map(e => e.title).join(' , ')}
+                                  </Typography>
+                                </Grid>
+                                <Grid xs={1}>
+                                  <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
+                                </Grid>
+                                <Grid xs={11} maxWidth={'90%'}>
+                                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                                  {jobDetail?.vessel_type?.name}
+                                  </Typography>
+                                </Grid>
+                                <Grid xs={1}>
                               <Icon icon='solar:calendar-bold-duotone' color='#32487A' fontSize={20} />
                             </Grid>
                             <Grid xs={11}>
                               <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
-                                Date on Board
+                                {jobDetail?.onboard_at}
                               </Typography>
                             </Grid>
+                              </>
+                            ) : (
+                              <>
+                                <Grid xs={1}>
+                                  <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
+                                </Grid>
+                                <Grid xs={11}>
+                                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                                  {jobDetail?.degree?.name}
+                                  </Typography>
+                                </Grid>
+                              </>
+                            )}
 
-                            <Grid xs={1}>
-                              <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={20} />
-                            </Grid>
-                            <Grid xs={11}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
-                                {license.map(e => e.title).join(', ')}
-                              </Typography>
-                            </Grid>
+                            
                           </Grid>
                         </Box>
                       </Box>
@@ -246,7 +253,7 @@ const JobDetail = () => {
                                 fontWeight={500}
                                 fontFamily={'Barlow'}
                               >
-                                {jobDetail?.experience}
+                                {jobDetail?.experience} <strong>Contract</strong>
                               </Typography>
                             </Box>
                           </Box>
