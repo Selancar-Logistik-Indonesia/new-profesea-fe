@@ -47,56 +47,96 @@ const JobDetail = () => {
         <Grid container>
           <StyledGrid item xs={12} sm={4}>
             <CardContent>
-              <Box
-                height={250}
-                sx={{
-                  display: 'flex',
-                  alignContent: 'center',
-                  '& svg': { color: 'text.secondary' }
-                }}
-              >
-                {/* <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-                  <Avatar src={jobDetail?.company?.photo} alt='profile-picture' sx={{ width: 100, height: 100 }} />
-                </Box> */}
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={3}>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
-                    <Icon icon='solar:case-minimalistic-bold-duotone' fontSize={20} color='#32487A' />
-                    <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                    <strong>{jobDetail?.category?.name} - {jobDetail?.role_type?.name} </strong> - {jobDetail?.rolelevel?.levelName}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
-                    <Icon icon='solar:money-bag-bold-duotone' fontSize={20} color='#32487A' />
-                    <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                      from Rp. {jobDetail?.salary_start} to Rp. {jobDetail?.salary_end}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
-                    <Icon icon='solar:square-academic-cap-bold-duotone' fontSize={20} color='#32487A' />
-                    <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                      {jobDetail?.degree?.name}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
-                    <Icon icon='icon-park-twotone:ship' fontSize={20} color='#32487A' />
-                    <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                      Type of Vessel
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
-                    <Icon icon='solar:calendar-bold-duotone' fontSize={20} color='#32487A' />
-                    <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                      Date on Board
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} ml={-1} mb={2}>
-                    <Icon icon='solar:medal-ribbons-star-bold-duotone' fontSize={35} color='#32487A' />
-                    <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                      {license.map(e => e.title).join(", ")}
-                    </Typography>
-                  </Box>
+              <Box sx={{
+                display: 'flex',
+                alignContent: 'center',
+                '& svg': { color: 'text.secondary' }
+              }}>
+
+                <Box
+                  sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }}
+                  ml={2}
+                  mr={3}
+                >
+                  <Typography
+                    sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
+                    ml='0.5rem'
+                    mt={3}
+                    mb={2}
+                    variant='body2'
+                  >
+                    Job Name
+                  </Typography>
+
+                  <Grid item container>
+                    <Grid xs={1}>
+                      <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
+                    </Grid>
+                    <Grid xs={11}>
+                      <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={14}>
+                        <strong>{jobDetail?.role_type?.name}</strong>
+                      </Typography>
+                      <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>
+                        {jobDetail?.category?.name} | {jobDetail?.rolelevel?.levelName}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+
+                  <Typography
+                    sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
+                    ml='0.5rem'
+                    mt={3}
+                    mb={2}
+                    variant='body2'
+                  >
+                    Detail Job
+                  </Typography>
+                  <Grid item container>
+                    {jobDetail?.category?.employee_type != 'offship' ? (
+                      <>
+                        <Grid xs={1}>
+                          <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
+                        </Grid>
+                        <Grid xs={11} maxWidth={'90%'}>
+                          <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                            {license.map(e => e.title).join(' , ')}
+                          </Typography>
+                        </Grid>
+                        <Grid xs={1}>
+                          <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
+                        </Grid>
+                        <Grid xs={11} maxWidth={'90%'}>
+                          <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                            {jobDetail?.vessel_type?.name}
+                          </Typography>
+                        </Grid>
+                        <Grid xs={1}>
+                          <Icon icon='solar:calendar-bold-duotone' color='#32487A' fontSize={20} />
+                        </Grid>
+                        <Grid xs={11}>
+                          <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
+                            {jobDetail?.onboard_at}
+                          </Typography>
+                        </Grid>
+                      </>
+                    ) : (
+                      <>
+                        <Grid xs={1}>
+                          <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
+                        </Grid>
+                        <Grid xs={11}>
+                          <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                            {jobDetail?.degree?.name}
+                          </Typography>
+                        </Grid>
+                      </>
+                    )}
+
+
+                  </Grid>
                 </Box>
               </Box>
+
 
             </CardContent>
           </StyledGrid>
@@ -114,12 +154,12 @@ const JobDetail = () => {
                   }}
                 >
                   <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }} ml={2} mr={3} mt={5} >
-                    <Typography sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }} ml="0.5rem" mt={3} variant='body2'>
+                    <Typography sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }} ml="0.5rem" mt={3} mb={3} variant='body2'>
                       Experience
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} >
                       <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
-                        {jobDetail?.experience}
+                        <strong>{jobDetail?.experience}</strong> &nbsp; Contract
                       </Typography>
                     </Box>
                   </Box>
@@ -172,12 +212,12 @@ const JobDetail = () => {
                   </CardContent>
                 </Card>
               </Grid>
-              
+
             </CardContent>
           </Grid>
         </Grid>
-      </Card>
-    </Grid>
+      </Card >
+    </Grid >
   )
 }
 
