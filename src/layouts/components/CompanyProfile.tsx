@@ -503,6 +503,85 @@ const CompanyProfile = (props: compProps) => {
 
   return (
     <Grid container padding={5}>
+      <Grid xs={12} sx={{ mt: 0, ml: 2, mb: 2 }}>
+        <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+          General Info
+        </Typography>
+        <Grid container item xs={12} justifyContent={'left'}>
+          <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+            Fulfill your General Info
+          </Typography>
+        </Grid>
+      </Grid>
+      <input
+        accept='image/*'
+        style={{ display: 'none', height: 250, width: '100%' }}
+        id='raised-button-file-banner'
+        onChange={onSelectFileBanner}
+        type='file'
+      ></input>
+      <Grid
+        item
+        container
+        sx={{
+          height: { xs: 150, md: 250 },
+          width: '100%',
+          justifyContent: { xs: 'center', md: 'flex-start' }
+        }}
+      >
+        <Box position={'relative'} width={'100%'}>
+          <Card>
+            <CardMedia
+              component='img'
+              alt='profile-header'
+              image={previewBanner ? previewBanner : '/images/avatars/headerprofile3.png'}
+              sx={{
+                height: { xs: 150, md: 250 },
+                width: '100%',
+                objectFit: 'cover'
+              }}
+            />
+          </Card>
+
+          <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '50%', md: '50%' } }}>
+            <label htmlFor='raised-button-file-banner'>
+              <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
+            </label>
+          </Box>
+        </Box>
+      </Grid>
+
+      <CardContent
+        sx={{
+          pt: 0,
+          mt: -8,
+          display: 'flex',
+          alignItems: 'flex-end',
+          flexWrap: { xs: 'wrap', md: 'nowrap' },
+          justifyContent: { xs: 'center', md: 'flex-start' },
+          marginLeft: { md: '10px' }
+          // marginTop:'125px'
+        }}
+      >
+        <BoxWrapper>
+          <label htmlFor='raised-button-file'>
+            <ProfilePicture
+              src={preview ? preview : '/images/avatars/profilepic.png'}
+              alt='profile-picture'
+            ></ProfilePicture>
+          </label>
+          <input
+            accept='image/*'
+            style={{ display: 'none', height: 250, width: '100%' }}
+            id='raised-button-file'
+            onChange={onSelectFile}
+            type='file'
+          ></input>
+          <Box position={'absolute'} right={'40%'} bottom={'40%'}>
+            <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
+          </Box>
+        </BoxWrapper>
+      </CardContent>
 
       {verified == null ? (
         <>
@@ -707,91 +786,11 @@ const CompanyProfile = (props: compProps) => {
               onStateChange={() => setHookSignature(v4())}
               onCloseClick={() => setOpenAddModalDoc(!openAddModalDoc)}
               arrayhead={arrayHead}
-              role={props.datauser.role}
             />
           </form>
         </>
       ) : (
         <>
-          <Grid xs={12} sx={{ mt: 0, ml: 2, mb: 2 }}>
-            <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
-              General Info
-            </Typography>
-            <Grid container item xs={12} justifyContent={'left'}>
-              <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
-                Fulfill your General Info
-              </Typography>
-            </Grid>
-          </Grid>
-          <input
-            accept='image/*'
-            style={{ display: 'none', height: 250, width: '100%' }}
-            id='raised-button-file-banner'
-            onChange={onSelectFileBanner}
-            type='file'
-          ></input>
-          <Grid
-            item
-            container
-            sx={{
-              height: { xs: 150, md: 250 },
-              width: '100%',
-              justifyContent: { xs: 'center', md: 'flex-start' }
-            }}
-          >
-            <Box position={'relative'} width={'100%'}>
-              <Card>
-                <CardMedia
-                  component='img'
-                  alt='profile-header'
-                  image={previewBanner ? previewBanner : '/images/avatars/headerprofile3.png'}
-                  sx={{
-                    height: { xs: 150, md: 250 },
-                    width: '100%',
-                    objectFit: 'cover'
-                  }}
-                />
-              </Card>
-
-              <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '50%', md: '50%' } }}>
-                <label htmlFor='raised-button-file-banner'>
-                  <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
-                </label>
-              </Box>
-            </Box>
-          </Grid>
-
-          <CardContent
-            sx={{
-              pt: 0,
-              mt: -8,
-              display: 'flex',
-              alignItems: 'flex-end',
-              flexWrap: { xs: 'wrap', md: 'nowrap' },
-              justifyContent: { xs: 'center', md: 'flex-start' },
-              marginLeft: { md: '10px' }
-              // marginTop:'125px'
-            }}
-          >
-            <BoxWrapper>
-              <label htmlFor='raised-button-file'>
-                <ProfilePicture
-                  src={preview ? preview : '/images/avatars/profilepic.png'}
-                  alt='profile-picture'
-                ></ProfilePicture>
-              </label>
-              <input
-                accept='image/*'
-                style={{ display: 'none', height: 250, width: '100%' }}
-                id='raised-button-file'
-                onChange={onSelectFile}
-                type='file'
-              ></input>
-              <Box position={'absolute'} right={'40%'} bottom={'40%'}>
-                <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
-              </Box>
-            </BoxWrapper>
-          </CardContent>
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
               <Grid item xs={12} container marginTop={'25px'}>
