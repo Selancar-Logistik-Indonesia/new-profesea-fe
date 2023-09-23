@@ -33,7 +33,7 @@ const FAQS = (props: { tosContent: string }) => {
 
             <Grid container>
               <Grid item xs={12}>
-                <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+              <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', padding: 5 }}>
                   <CardHeader
                     title={
                       <Typography variant='h6' color={'#32487A'} fontWeight='600'>

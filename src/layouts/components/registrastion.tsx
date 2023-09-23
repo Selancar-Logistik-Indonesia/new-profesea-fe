@@ -378,7 +378,9 @@ debugger
           </Alert>
           <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
             <Checkbox id='term' {...register('term')}></Checkbox>
-            <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>{t('register_text_11')},</Typography>
+            <LinkStyled href={'/term'} target='_blank'>
+              <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>{t('register_text_11')} ,</Typography>
+            </LinkStyled>
             <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; {t('register_text_13')} </Typography>
           </Box>
         </Grid>

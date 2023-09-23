@@ -33,11 +33,11 @@ const Term = (props: { tosContent: string }) => {
 
       <Grid container>
         <Grid item xs={12}>
-          <Card>
-            <CardHeader
+        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', padding: 5 }}>
+          <CardHeader
               title={
-                <Typography variant="h4" style={{ color: '#424242' }}>
-                  Term And Condition
+                <Typography variant='h6' color={'#32487A'} fontWeight='600'>
+                  Syarat & Ketentuan
                 </Typography>
               }
             />

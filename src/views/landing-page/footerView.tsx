@@ -47,9 +47,11 @@ const FooterView = () => {
               {' '}
               {t('landing_footer_menu_1')}
             </Typography>
-            <Typography mt={1.7} variant='body1' color={'#101820'}>
-              {t('landing_footer_menu_3')}
-            </Typography>
+            <LinkStyled href={'/term'}>
+              <Typography mt={1.7} variant='body1' color={'#101820'}>
+                {t('landing_footer_menu_3')}
+              </Typography>
+            </LinkStyled>
             <LinkStyled href={'/privacy'}>
               <Typography mt={1.7} variant='body1' color={'#101820'}>
                 {t('landing_footer_menu_4')}
