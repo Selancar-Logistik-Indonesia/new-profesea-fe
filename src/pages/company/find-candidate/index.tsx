@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Autocomplete, Button, Card, CardContent, CardHeader, Chip, SelectChangeEvent,  Collapse, FormControl, Grid, IconButton,  Input,   InputLabel,   MenuItem,   OutlinedInput,   Select,   TextField,  Typography, useMediaQuery, Alert } from '@mui/material'
+import { Autocomplete, Button, Card, CardContent, CardHeader, Chip, SelectChangeEvent,  Collapse, FormControl, Grid, IconButton,  Input,   InputLabel,   MenuItem,   OutlinedInput,   Select,   TextField,  Typography, useMediaQuery, Alert, CircularProgress } from '@mui/material'
 import { Icon } from '@iconify/react' 
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
 import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'  
 import JobCategory from 'src/contract/models/job_category'  
-import { AppConfig } from 'src/configs/api' 
 import { Theme, useTheme } from '@mui/material/styles'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import InfiniteScroll from 'react-infinite-scroll-component' 
 import RecomendedViewSubscribe from 'src/views/find-candidate/RecomendedViewSubscribe'
-// import secureLocalStorage from 'react-secure-storage'
-// import localStorageKeys from 'src/configs/localstorage_keys'
 import { subscribev } from 'src/utils/helpers'
+import CandidateContext, { CandidateProvider } from 'src/context/CandidateContext'
+import { useCandidate } from 'src/hooks/useCandidate'
 
 // type Dokumen = {
 //   title: string 
@@ -43,10 +42,18 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   }
 }
 
- 
 const FindCandidate = () => {
-  const [listCandidate, setListCandidate] = useState<IUser[]>([]) 
+  return (
+      <CandidateProvider>
+          <FindCandidateApp />
+      </CandidateProvider>
+  )
+}
+
+ 
+const FindCandidateApp = () => {
   const [listCandidateSubscribe, setListCandidateSubscribe] = useState<IUser[]>([]) 
+  const { fetchCandidates,  hasNextPage, totalCandidate } = useCandidate();
   const theme = useTheme()
   // const windowUrl = window.location.search
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -56,15 +63,11 @@ const FindCandidate = () => {
   const [JobCategory, getJobCategory] = useState<any[]>([])  
   const [JobTitle, getJobTitle] = useState<any[]>([])  
   const [VesselType, getVesselType] = useState<any[]>([])  
-  const [combocode, getCombocode] = useState<any[]>([]) 
+  // const [combocode, getCombocode] = useState<any[]>([]) 
   const [textCandidate, SetTextCandidate] = useState<any>('')   
   const [sJobCategory, setJobCategory] = useState<any>('')
   const [sJobTitle, setJobTitle] = useState<any>('')
-  const [sVesselType, setVesselType] = useState<any>('')  
-  const [hasNextPage, setHasNextPage] = useState(true)
-  const [total, setTotal] = useState(0)
-  const [perPage, setPerPage] = useState(12)
-  const [page, setPage] = useState(1)
+  const [sVesselType, setVesselType] = useState<any>('')
   const [personName, setPersonName] = React.useState<string[]>([])
   const [licenseList, setLicense] = React.useState<string[]>([])
   const [licenseCertificate, setCertificate] = React.useState<string[]>([])
@@ -109,13 +112,6 @@ const FindCandidate = () => {
     )
   }
   const getListCandidates = async () => {
-    // const response = await HttpClient.get('/candidate?page=1&take=25&search', {
-    //   page: 1,
-    //   take: 3,
-    //   search: ''
-    // }) 
-    // const candidates = response.data.candidates.data
-    // setListCandidate(candidates)
  
     const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`)
     if (res2.status != 200) {
@@ -134,17 +130,9 @@ const FindCandidate = () => {
       throw res4.data.message ?? 'Something went wrong!'
     }
     getVesselType(res4.data.vesselTypes.data)
-
-    HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
-      const code = response.data.countries
-      for (let x = 0; x < code.length; x++) {
-        const element = code[x]
-        element.label = element.name + '(' + element.phonecode + ')'
-      }
-      getCombocode(code)
-    })
-    console.log(   { combocode })    
+ 
   }
+
    const dokumen = [
      { title: 'Certificate of Competency', docType: 'COC' },
      { title: 'Certificate of Profeciency', docType: 'COP' },
@@ -329,6 +317,21 @@ const FindCandidate = () => {
     }
   ]
 
+
+  const getdatapencarianSubscribe = async () => {
+    
+    const response = await HttpClient.get(
+      '/candidate?search=' +  '&take=6&page=1'  
+    )
+
+    const candidates = response.data.candidates
+    
+    setListCandidateSubscribe(candidates.data)
+  }
+
+  useEffect(() => {
+     getdatapencarianSubscribe()
+  }, [])
  
   useEffect(() => {
     getListCandidates()
@@ -342,7 +345,8 @@ const FindCandidate = () => {
   }, [])
 
   const getdatapencarian = async () => {
-     let allword = ''
+
+    let allword = ''
     if (values.length > 0) allword = JSON.stringify(values)
     let oneword = ''
     if (valuesoneword.length > 0) oneword = JSON.stringify(valuesoneword)
@@ -351,43 +355,18 @@ const FindCandidate = () => {
     let valuelitle = ''
     if (valueslitle.length > 0) valuelitle = JSON.stringify(valueslitle)
     let spoken=''
-  debugger;
+  // debugger;
     if (personName.length > 0 ) spoken = JSON.stringify(personName)
-      const response = await HttpClient.get(
-        '/candidate?search=' +
-          textCandidate +
-          '&vesseltype_id=' +
-          sVesselType +
-          '&roletype_id=' +
-          sJobTitle +
-          '&rolelevel_id=' +
-          sJobCategory +
-          '&include_all_word=' +
-          allword +
-          '&page=' +
-          page +
-          '&take=' +
-          perPage +
-          '&include_one_word=' +
-          oneword +
-          '&exact_phrase=' +
-          valuelitle +
-          '&exclude_all_these=' +
-          exclude +
-          '&spoken=' +
-          spoken
-      ) 
-     
-    const candidates = response.data.candidates
-    if (candidates?.total == null) {
-      setTotal(candidates?.total)
+      fetchCandidates({ take: 9, search: textCandidate, 
+        vesseltype_id: sVesselType, 
+        roletype_id: sJobTitle , 
+        rolelevel_id: sJobCategory , 
+        include_all_word: allword, 
+        include_one_word: oneword , 
+        exact_phrase: valuelitle , 
+        exclude_all_these: exclude , 
+        spoken: spoken })
     }
-    if (candidates?.next_page_url == null) {
-      setHasNextPage(candidates?.next_page_url)
-    }
-    setListCandidate(candidates.data)
- 
-  }
   useEffect(() => {
     getdatapencarian()
     if(personName.length>2){
@@ -400,24 +379,15 @@ const FindCandidate = () => {
     sVesselType,
     sJobTitle,
     sJobCategory,
-    page,
-    perPage,
     values,
     valuesoneword,
     valuesexclude,
     valueslitle,
     personName
   ])
-   
-  const onPageChange = () => {
-    
-  const mPage = page + 1
-  setPage(mPage)
-  setPerPage(15)
-  }
 
   const handleKeyUp = (e: any) => {
-    console.log(e.keyCode)
+    // console.log(e.keyCode)
     if (e.keyCode == 32) {
        getdatapencarian()
      }
@@ -459,7 +429,6 @@ const FindCandidate = () => {
         
      }
   }
- 
 
   const handleChange = (e: any,x:any) => {
     if (x == 1) {
@@ -499,19 +468,7 @@ const FindCandidate = () => {
   //  await getdatapencarian()
 
   }
-  const getdatapencarianSubscribe = async () => {
-    
-    const response = await HttpClient.get(
-      '/candidate?search=' +  '&take=6&page=1'  
-    )
 
-    const candidates = response.data.candidates
-    
-    setListCandidateSubscribe(candidates.data)
-  }
-  useEffect(() => {
-     getdatapencarianSubscribe()
-  }, [ ])
 
   return (
     <Grid container spacing={2}>
@@ -854,23 +811,36 @@ const FindCandidate = () => {
                                 Based on <strong>your profile</strong> and <strong> search history</strong>
                               </Alert>
                               <RecomendedViewSubscribe listCandidate={listCandidateSubscribe} />
-                              <InfiniteScroll
-                                dataLength={total}
-                                next={onPageChange}
-                                hasMore={hasNextPage}
-                                loader={
-                                  <Typography mt={5} color={'text.secondary'}>
-                                    Loading..
-                                  </Typography>
-                                }
-                              >
-                                <RecomendedView listCandidate={listCandidate} />
-                              </InfiniteScroll>
+                                <CandidateContext.Consumer>
+                                  {({ listCandidates, onLoading }) => {
+                                      if (onLoading) {
+                                      
+                                          return (
+                                              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                  <CircularProgress sx={{ mt: 20 }} />
+                                              </Box>
+                                          );
+                                      }
+
+                                      return(
+                
+                                        <InfiniteScroll
+                                          dataLength={totalCandidate}
+                                          next={getdatapencarian}
+                                          hasMore={hasNextPage}
+                                          loader={(<CircularProgress sx={{ mt: 20 }} />)}
+                                        >
+                                          <RecomendedView listCandidate={listCandidates} />
+                                        </InfiniteScroll>
+                                      )                       
+                                  }}
+                                </CandidateContext.Consumer>
+                              </Grid>
                             </Grid>
                           </Grid>
                         </Grid>
-                      </Grid>
-                    </Box>
+                      </Box>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
@@ -878,33 +848,9 @@ const FindCandidate = () => {
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
-  )
+    )
 }
-// const useStyles = makeStyles(theme => ({
-//   formControlRoot: {
-//     display: 'flex',
-//     alignItems: 'center',
-//     gap: '8px',
-//     width: '300px',
-//     flexWrap: 'wrap',
-//     flexDirection: 'row',
-//     border: '2px solid lightgray',
-//     padding: 4,
-//     borderRadius: '4px',
-//     '&> div.container': {
-//       gap: '6px',
-//       display: 'flex',
-//       flexDirection: 'row',
-//       flexWrap: 'wrap'
-//     },
-//     '& > div.container > span': {
-//       backgroundColor: 'gray',
-//       padding: '1px 3px',
-//       borderRadius: '4px'
-//     }
-//   }
-// }))
+
 
 FindCandidate.acl = {
   action: 'read',
