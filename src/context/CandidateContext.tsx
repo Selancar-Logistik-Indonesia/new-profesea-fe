@@ -29,7 +29,7 @@ const CandidateProvider = (props: Props) => {
         // only trigger in page 1
 
         if (page == 1) setOnLoading(true);
-        if (listCandidates) setCandidates([])
+        if (listCandidates && page == 1) setCandidates([])
 
         try {
             const response = await HttpClient.get(AppConfig.baseUrl + '/candidate', {
@@ -49,7 +49,7 @@ const CandidateProvider = (props: Props) => {
 
                         return newItems;
                     });
-                    if(payload.take > 9){
+                    if(totalCandidate > 9){
                         setPage(page => page + 1);
                     }
                 }else{
