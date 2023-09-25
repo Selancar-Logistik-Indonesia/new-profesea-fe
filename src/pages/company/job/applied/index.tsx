@@ -94,7 +94,7 @@ const JobApplied = () => {
     
     useEffect(() => {
         getListCombo()
-        const a = subscribev(['A01', 'A02', 'A03', 'A12', 'A14'])
+        const a = subscribev([ 'A02', 'A03', 'A12', 'A14'])
          if (a == true) {
            setShowAdvance(true)
           //  setCollapsed2(true)

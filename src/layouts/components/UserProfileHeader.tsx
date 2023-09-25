@@ -15,6 +15,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import ProfileActionArea from 'src/views/profile/action_area'
 import ShareArea from './ShareArea'
 import {   getEmployeetypev2 } from 'src/utils/helpers'
+import TextOverImage from 'src/views/profile/photoprofile'
 
 const ProfilePicture = styled('img')(({ theme }) => ({
     width: 120,
@@ -88,11 +89,18 @@ const UserProfileHeader = (props: userProps) => {
             marginLeft: { md: '10px' }
           }}
         >
-          <ProfilePicture
-            src={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'}
-            alt='profile-picture'
-            sx={{ width: 100, height: 100, objectFit: 'cover' }}
-          />
+          <Box>
+            {/* <ProfilePicture
+              src={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'}
+              alt='profile-picture'
+              sx={{ width: 100, height: 100, objectFit: 'cover' }}
+            /> */}
+            <TextOverImage
+              imageUrl={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'}
+              text='Open To Work'
+            />
+          </Box>
+
           <Box
             sx={{
               width: ['100%'],
