@@ -94,7 +94,7 @@ const JobApplied = () => {
     
     useEffect(() => {
         getListCombo()
-        const a = subscribev([ 'A02', 'A03', 'A12', 'A14'])
+        const a = subscribev([ 'A19'])
          if (a == true) {
            setShowAdvance(true)
           //  setCollapsed2(true)
@@ -128,7 +128,7 @@ const JobApplied = () => {
 
             const rows = resp.data.applicants.data as Applicant[];
             const items = rows.map((row, index) => {
-
+            const a = subscribev(['A19'])
                 return {
                     no: index + 1,
                     id: row.id,
@@ -137,7 +137,7 @@ const JobApplied = () => {
                     email: row.user?.email,
                     phone: row.user?.phone,
                     status: status.find(e => e.id === row.status).title,
-                    subsribed: {showadvance},
+                    subsribed: a,
                     actions: {
                         onView: () => viewHandler(row),
                         onDownload: () => resumeHandler(row),
@@ -366,7 +366,7 @@ const JobApplied = () => {
                   }
                 />
                 <CardContent>
-                  {showadvance !== true ? (
+                  {showadvance != true ? (
                     <>
                       <Button href={'/account'} variant='contained' color='warning' sx={{ mr: 2 }} fullWidth>
                         Advance Filter
