@@ -129,6 +129,7 @@ const JobApplied = () => {
             const rows = resp.data.applicants.data as Applicant[];
             const items = rows.map((row, index) => {
             const a = subscribev(['A19'])
+            
                 return {
                     no: index + 1,
                     id: row.id,
