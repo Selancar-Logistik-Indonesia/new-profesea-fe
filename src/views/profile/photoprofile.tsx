@@ -1,6 +1,7 @@
 import React from 'react'
 import Typography from '@mui/material/Typography' 
-import { createStyles, makeStyles, styled, Theme, TypographyProps, BoxProps, Box } from '@mui/material'
+import { styled, TypographyProps, BoxProps, Box } from '@mui/material'
+
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
   height: 120,
@@ -10,7 +11,8 @@ const ProfilePicture = styled('img')(({ theme }) => ({
     marginBottom: theme.spacing(4)
   }
 })) 
-const MenuItemTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
+
+const MenuItemTitle = styled(Typography)<TypographyProps>(() => ({
   fontWeight: 600,
   position: 'absolute',
   top: '85%',
@@ -21,7 +23,7 @@ const MenuItemTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
     borderRadius: 5, // Customize border radius
   color: '#32487a'
 }))
-const BlankLayoutWithAppBarWrapper = styled(Box)<BoxProps>(({ theme }) => ({
+const BlankLayoutWithAppBarWrapper = styled(Box)<BoxProps>(() => ({
   position: 'relative'
 }))
  

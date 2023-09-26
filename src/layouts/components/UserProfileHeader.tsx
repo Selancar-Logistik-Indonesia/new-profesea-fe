@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import { styled } from '@mui/material/styles'
+// import { styled } from '@mui/material/styles'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
@@ -16,16 +16,6 @@ import ProfileActionArea from 'src/views/profile/action_area'
 import ShareArea from './ShareArea'
 import {   getEmployeetypev2 } from 'src/utils/helpers'
 import TextOverImage from 'src/views/profile/photoprofile'
-
-const ProfilePicture = styled('img')(({ theme }) => ({
-    width: 120,
-    height: 120,
-    borderRadius: theme.shape.borderRadius,
-    border: `5px solid ${theme.palette.common.white}`,
-    [theme.breakpoints.down('md')]: {
-        marginBottom: theme.spacing(4)
-    }
-}))
 
 type userProps = {
     datauser: IUser;
