@@ -841,13 +841,12 @@ const FindCandidateApp = () => {
                                           );
                                       }
 
-                                      return(
-                
+                                      return (
                                         <InfiniteScroll
                                           dataLength={totalCandidate}
                                           next={() => getdatapencarian()}
                                           hasMore={hasNextPage}
-                                          loader={(<CircularProgress sx={{ mt: 20 }} />)}
+                                          loader={(<Typography mt={5} color={'text.secondary'}>Loading..</Typography>)}
                                         >
                                           <RecomendedView listCandidate={listCandidates} />
                                         </InfiniteScroll>
