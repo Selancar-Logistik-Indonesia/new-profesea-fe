@@ -846,8 +846,7 @@ const FindCandidateApp = () => {
                                         <InfiniteScroll
                                           dataLength={totalCandidate}
                                           next={() => getdatapencarian()}
-                                          hasMore={hasNextPage}
-                                          loader={(<CircularProgress sx={{ mt: 20 }} />)}
+                                          hasMore={hasNextPage} 
                                         >
                                           <RecomendedView listCandidate={listCandidates} />
                                         </InfiniteScroll>
