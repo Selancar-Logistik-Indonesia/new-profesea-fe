@@ -94,6 +94,7 @@ const FindCandidateApp = () => {
       typeof value === 'string' ? value.split(',') : value
     )
   }
+
   const handleChangeLicense = (event: SelectChangeEvent<typeof licenseList>) => {
     setPage(1)
     const {
@@ -104,6 +105,7 @@ const FindCandidateApp = () => {
       typeof value === 'string' ? value.split(',') : value
     )
   }
+
   const handleChangeCertificate = (event: SelectChangeEvent<typeof licenseCertificate>) => {
     setPage(1)
     const {
@@ -114,6 +116,7 @@ const FindCandidateApp = () => {
       typeof value === 'string' ? value.split(',') : value
     )
   }
+
   const getListCandidates = async () => {
  
     const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`)
@@ -358,18 +361,21 @@ const FindCandidateApp = () => {
     let valuelitle = ''
     if (valueslitle.length > 0) valuelitle = JSON.stringify(valueslitle)
     let spoken=''
-  // debugger;
+  
     if (personName.length > 0 ) spoken = JSON.stringify(personName)
-      fetchCandidates({ take: 9, search: textCandidate, 
-        vesseltype_id: sVesselType, 
-        roletype_id: sJobTitle , 
-        rolelevel_id: sJobCategory , 
-        include_all_word: allword, 
-        include_one_word: oneword , 
-        exact_phrase: valuelitle , 
-        exclude_all_these: exclude , 
-        spoken: spoken })
-    }
+    
+    fetchCandidates({ take: 9, search: textCandidate, 
+    vesseltype_id: sVesselType, 
+    roletype_id: sJobTitle , 
+    rolelevel_id: sJobCategory , 
+    include_all_word: allword, 
+    include_one_word: oneword , 
+    exact_phrase: valuelitle , 
+    exclude_all_these: exclude , 
+    spoken: spoken })
+    
+  }
+
   useEffect(() => {
     getdatapencarian()
     if(personName.length>2){

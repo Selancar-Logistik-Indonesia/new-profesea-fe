@@ -45,7 +45,7 @@ const CandidateProvider = (props: Props) => {
             if (response.status == 200) {
                 const { candidates } = response.data as { candidates: { data: IUser[], next_page_url?: string, total: number } };
                 
-                console.log(totalCandidate)
+                console.log(candidates.total)
                 if (candidates.data.length && candidates.data.length > 0) {
                     setCandidates(old => {
                         const newItems = old;
@@ -54,6 +54,7 @@ const CandidateProvider = (props: Props) => {
 
                         return newItems;
                     });
+
                     if(candidates.total > 9){
                         setPage(page => page + 1);
                     }
