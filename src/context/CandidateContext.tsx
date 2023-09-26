@@ -28,9 +28,14 @@ const CandidateProvider = (props: Props) => {
     const fetchCandidates = async (payload: {take: number, search?:any, vesseltype_id?:any, roletype_id?:any, rolelevel_id?:any, include_all_word?:any, include_one_word?:any, exact_phrase?:any, exclude_all_these?:any, spoken?:any}) => {
         // only trigger in page 1
 
-        if (page == 1) setOnLoading(true);
-        if (listCandidates && page == 1) setCandidates([])
-
+        if (page == 1) { 
+            setOnLoading(true) 
+            setCandidates([])
+        }
+        // if (payload.search!= null || payload.vesseltype_id!= null || payload.roletype_id!= null || payload.rolelevel_id!= null || payload.include_all_word!= null || payload.include_one_word!= null || payload.exact_phrase!= null || payload.exclude_all_these!= null || payload.spoken!= null) {
+        //     setCandidates([])
+        //     setPage(1)
+        // }
         try {
             const response = await HttpClient.get(AppConfig.baseUrl + '/candidate', {
                 page: page,
@@ -40,7 +45,7 @@ const CandidateProvider = (props: Props) => {
             if (response.status == 200) {
                 const { candidates } = response.data as { candidates: { data: IUser[], next_page_url?: string, total: number } };
                 
-                console.log(candidates)
+                console.log(totalCandidate)
                 if (candidates.data.length && candidates.data.length > 0) {
                     setCandidates(old => {
                         const newItems = old;
@@ -49,7 +54,7 @@ const CandidateProvider = (props: Props) => {
 
                         return newItems;
                     });
-                    if(totalCandidate > 9){
+                    if(candidates.total > 9){
                         setPage(page => page + 1);
                     }
                 }else{

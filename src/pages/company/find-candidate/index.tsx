@@ -53,7 +53,7 @@ const FindCandidate = () => {
  
 const FindCandidateApp = () => {
   const [listCandidateSubscribe, setListCandidateSubscribe] = useState<IUser[]>([]) 
-  const { fetchCandidates,  hasNextPage, totalCandidate } = useCandidate();
+  const { fetchCandidates,  hasNextPage, totalCandidate, setPage } = useCandidate();
   const theme = useTheme()
   // const windowUrl = window.location.search
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -85,6 +85,7 @@ const FindCandidateApp = () => {
  
 
   const handleChange2 = (event: SelectChangeEvent<typeof personName>) => {
+    setPage(1)
     const {
       target: { value }
     } = event
@@ -94,6 +95,7 @@ const FindCandidateApp = () => {
     )
   }
   const handleChangeLicense = (event: SelectChangeEvent<typeof licenseList>) => {
+    setPage(1)
     const {
       target: { value }
     } = event
@@ -103,6 +105,7 @@ const FindCandidateApp = () => {
     )
   }
   const handleChangeCertificate = (event: SelectChangeEvent<typeof licenseCertificate>) => {
+    setPage(1)
     const {
       target: { value }
     } = event
@@ -388,12 +391,14 @@ const FindCandidateApp = () => {
 
   const handleKeyUp = (e: any) => {
     // console.log(e.keyCode)
+    setPage(1)
     if (e.keyCode == 32) {
        getdatapencarian()
      }
   }
   
   const handleKeyDown = (e: any,x:any) => {
+    setPage(1)
      if (e.keyCode == 32) { 
        if (x == 1) {
         if(values.length > 0){
@@ -431,6 +436,7 @@ const FindCandidateApp = () => {
   }
 
   const handleChange = (e: any,x:any) => {
+    setPage(1)
     if (x == 1) {
       setCurrValue(e.value)
     } else if (x == 2) {
@@ -443,6 +449,7 @@ const FindCandidateApp = () => {
   }
 
   const handleDelete = async (item:any, index:any,x:any) => {
+    setPage(1)
     if (x == 1) {
       const arr = [...values]
       arr.splice(index, 1)
@@ -484,7 +491,10 @@ const FindCandidateApp = () => {
                   variant='outlined'
                   fullWidth
                   sx={{ mb: 1 }}
-                  onChange={e => SetTextCandidate(e.target.value)}
+                  onChange={(e) => {
+                    setPage(1)
+                    SetTextCandidate(e.target.value)
+                  }}
                 />
               </CardContent>
             </Card>
@@ -519,10 +529,11 @@ const FindCandidateApp = () => {
                     id='combo-box-demo'
                     options={JobCategory}
                     getOptionLabel={(option: JobCategory) => option.name}
-                    renderInput={params => <TextField {...params} label='Role Level' />}
-                    onChange={(event: any, newValue: JobCategory | null) =>
+                    renderInput={params => <TextField {...params} label='Job Category' />}
+                    onChange={(event: any, newValue: JobCategory | null) => {
+                      setPage(1)
                       newValue?.id ? setJobCategory(newValue.id) : setJobCategory('')
-                    }
+                    }}
                     sx={{ marginBottom: 2 }}
                   />
                   <Autocomplete
@@ -531,9 +542,10 @@ const FindCandidateApp = () => {
                     options={JobTitle}
                     getOptionLabel={(option: RoleType) => option.name}
                     renderInput={params => <TextField {...params} label='Role Type' />}
-                    onChange={(event: any, newValue: RoleType | null) =>
+                    onChange={(event: any, newValue: RoleType | null) =>{
+                      setPage(1)
                       newValue?.id ? setJobTitle(newValue.id) : setJobTitle('')
-                    }
+                    }}
                     sx={{ marginBottom: 2 }}
                   />
                   <Autocomplete
@@ -542,9 +554,10 @@ const FindCandidateApp = () => {
                     options={VesselType}
                     getOptionLabel={(option: VesselType) => option.name}
                     renderInput={params => <TextField {...params} label='Type of Vessel' />}
-                    onChange={(event: any, newValue: VesselType | null) =>
+                    onChange={(event: any, newValue: VesselType | null) =>{
+                      setPage(1)
                       newValue?.id ? setVesselType(newValue.id) : setVesselType('')
-                    }
+                    }}
                     sx={{ marginBottom: 2 }}
                   />
 
