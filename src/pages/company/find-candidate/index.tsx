@@ -839,7 +839,7 @@ const FindCandidateApp = () => {
                 
                                         <InfiniteScroll
                                           dataLength={totalCandidate}
-                                          next={getdatapencarian}
+                                          next={() => getdatapencarian()}
                                           hasMore={hasNextPage}
                                           loader={(<CircularProgress sx={{ mt: 20 }} />)}
                                         >
