@@ -239,6 +239,15 @@ const DialogAddDocument = (props: DialogProps) => {
       {
         title: 'Ahli Teknika Tingkat I (ATT I), Teknika',
         doctype: 'COC12'
+      },
+      {
+        title: 'Rating Able',
+        doctype: 'COC13'
+      },
+      ,
+      {
+        title: 'Rating Forming',
+        doctype: 'COC14'
       }, 
     ]
     const dokumencop  = [
