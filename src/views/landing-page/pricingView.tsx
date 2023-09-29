@@ -151,7 +151,7 @@ const PricingView = () => {
                                             style={{ fontSize: '18px', marginRight: '5' }}
                                         />
 
-                                        <ListItemText primary={value.item.name} />
+                                        <ListItemText primary={value.item.fname} />
                                     </ListItem>
                                 )
                             })}
