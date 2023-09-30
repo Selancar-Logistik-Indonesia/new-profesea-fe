@@ -3,6 +3,7 @@ import IconButton from '@mui/material/IconButton'
 import Icon from 'src/@core/components/icon'
 import { Settings } from 'src/@core/context/settingsContext'
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
+import AppbarSearchUser from 'src/views/appbar/appbar-search-user'
 
 interface Props {
   hidden: boolean
@@ -24,6 +25,9 @@ const AppBarContent = (props: Props) => {
         ) : null}
 
         {/* <ModeToggler settings={settings} saveSettings={saveSettings} /> */}
+      </Box>
+      <Box>
+        <AppbarSearchUser />
       </Box>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
         <UserDropdown settings={settings} />
