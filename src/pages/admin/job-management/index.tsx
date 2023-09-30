@@ -45,7 +45,7 @@ const JobScreen = () => {
         try {
             const resp = await HttpClient.get(`/job?search=${search}&page=${page}&take=${perPage}&category_id=${filterJC}&rolelevel_id=${filterRL}&roletype_id=${filterJT}`);
             if (resp.status != 200) {
-                throw resp.data.message ?? "Something went wrong!1";
+                throw resp.data.message ?? "Something went wrong!";
             }
 
             const rows = resp.data.jobs.data as Job[];
@@ -56,12 +56,12 @@ const JobScreen = () => {
                     no: index + 1,
                     id: row.id,
                     role_type: row?.role_type?.name,
-                    company_name: row.company.name,
-                    category_name: row.category.name,
-                    level_name: row.rolelevel.levelName,
-                    degree: row.degree.name,
+                    company_name: row?.company?.name,
+                    category_name: row?.category?.name,
+                    level_name: row?.rolelevel?.levelName,
+                    degree: row?.degree?.name,
                     license:  license.map(e => e.title).join(", "),
-                    salary: `Rp. ${row.salary_start} - Rp. ${row.salary_end}`,
+                    salary: `Rp. ${row?.salary_start} - Rp. ${row?.salary_end}`,
                     actions: {
                         onDelete: () => deleteHandler(row),
                         onUpdate: () => updateHandler(row),
@@ -72,7 +72,7 @@ const JobScreen = () => {
             setRowCount(resp?.data?.jobs?.total ?? 0);
             setDataSheet(items);
         } catch (error) {
-            let errorMessage = "Something went wrong!2";
+            let errorMessage = "Something went wrong!";
 
             if (error instanceof AxiosError) {
                 errorMessage = error?.response?.data?.message ?? errorMessage;
