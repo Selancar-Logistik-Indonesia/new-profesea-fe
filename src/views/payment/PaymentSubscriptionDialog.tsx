@@ -134,7 +134,7 @@ const PaymentSubscriptionDialog = (props: Props) => {
                                             </ListItemAvatar>
                                             <ListItemText>
                                                 <Box>
-                                                    <Typography variant="body1">{e.item.name}</Typography>
+                                                    <Typography variant="body1">{e.item.fname}</Typography>
                                                     <Typography variant="caption">{formatIDR(e.price)}</Typography>
                                                 </Box>
                                             </ListItemText>

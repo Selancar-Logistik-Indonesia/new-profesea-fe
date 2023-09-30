@@ -2,6 +2,7 @@ export interface PricingItem {
     id: number
     code: string
     name: string
+    fname: string
     created_at: string
     updated_at: string
 }
