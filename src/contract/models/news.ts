@@ -5,6 +5,8 @@ interface INews {
   forum_id: number
   user_id: number
   title: string
+  imgnews: any
+  snap_content: any
   content: any
   type: any
   posting_at: any

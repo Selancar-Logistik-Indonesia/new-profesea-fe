@@ -8,6 +8,7 @@ import 'react-multi-carousel/lib/styles.css'
 import { HttpClient } from "src/services";
 import { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
+import Link from "next/link";
 
 const CarouselNewsView = () => {
   const [forumCode, setForumCode] = useState('') 
@@ -121,30 +122,38 @@ const CarouselNewsView = () => {
   )
   function Item(props: any) {
     return (
-      <Card sx={{ margin: 5, height:'400px' }}>
-        <Typography gutterBottom variant='h5' component='div'>
-          {props.item.type}
-        </Typography>
+      <Card sx={{ margin: 5, height: '400px', border: '3px solid #eee', borderColor: 'primary.main' }}>
+        <Grid item container>
+          <Grid xs={8}>
+            <Typography gutterBottom variant='h5' component='div' ml={3}>
+              {props.item.type}
+            </Typography>
+          </Grid>
+          <Grid xs={4}>
+            <Typography variant='body2' color='text.secondary'>
+              {props.item.posting_at}
+            </Typography>
+          </Grid>
+        </Grid>
+
         <CardMedia
           component='img'
           alt='green iguana'
           height='180'
-          image={props.item?.imgnews != null ? props.item.imgnews : null }
+          image={props.item?.imgnews != null ? props.item.imgnews : null}
         />
         <CardContent>
-          <Typography gutterBottom variant='h5' component='div'>
-            {props.item.title}
-          </Typography>
-          {/* <h2>{props.item.name}</h2>
-            <p>{props.item.description}</p> */}
+          <Link style={{ textDecoration: 'none' }} href={'/news/?id='+props.item.id}>
+            <Typography gutterBottom variant='h5' component='div'>
+              {props.item.title}
+            </Typography>
+          </Link>
+
           <Typography variant='body2' color='text.secondary'>
             {props.item.snap_content}
           </Typography>
         </CardContent>
-        <CardActions>
-          {/* <Button size='small'>Share</Button>
-          <Button size='small'>Learn More</Button> */}
-        </CardActions>
+        <CardActions></CardActions>
       </Card>
     )
   }
