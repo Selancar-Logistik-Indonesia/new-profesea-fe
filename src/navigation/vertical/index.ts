@@ -12,7 +12,7 @@ const navigation = (): VerticalNavItemsType => {
         subject: 'home'
       },
 
-       // non-admin section
+      // non-admin section
       {
         path: '/community',
         title: 'Community',
@@ -26,21 +26,21 @@ const navigation = (): VerticalNavItemsType => {
         icon: 'solar:boombox-bold-duotone',
         action: 'read',
         subject: 'seaferer-jobs'
-      }, 
+      },
       {
-    path: '/candidate/training',
-    title: 'My Training',
-    icon: 'solar:book-bookmark-bold-duotone',
-    action: 'read',
-    subject: 'seaferer-training'
-    },
-    // {
-    //   path: '/pricing',
-    //   title: 'Pricing',
-    //   icon: 'solar:tag-price-bold-duotone',
-    //   action: 'read',
-    //   subject: 'seaferer-training'
-    // },
+        path: '/candidate/training',
+        title: 'My Training',
+        icon: 'solar:book-bookmark-bold-duotone',
+        action: 'read',
+        subject: 'seaferer-training'
+      },
+      // {
+      //   path: '/pricing',
+      //   title: 'Pricing',
+      //   icon: 'solar:tag-price-bold-duotone',
+      //   action: 'read',
+      //   subject: 'seaferer-training'
+      // },
       {
         path: '/company',
         title: 'Home',
@@ -178,6 +178,13 @@ const navigation = (): VerticalNavItemsType => {
             action: 'read'
           }
         ]
+      },
+      {
+        path: '/admin/master-news/',
+        title: 'Master news',
+        icon: 'iconamoon:news-fill',
+        action: 'read',
+        subject: 'admin-master-news'
       }
     ]
 }

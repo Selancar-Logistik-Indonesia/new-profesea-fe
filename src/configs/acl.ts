@@ -21,22 +21,23 @@ const defineRulesFor = (role: string, subject: string) => {
     const { can, rules } = new AbilityBuilder(AppAbility)
     if (role === 'admin') {
         can('manage', [
-            'home',
-            'admin-accounts',
-            'admin-job-management',
-            'admin-training-management',
-            'admin-subcription-management',
-            'admin-ads-management',
-            'admin-community-management',
-            'admin-master-data',
-            'master/job-categories',
-            'master/training-categories',
-            'master/role-level',
-            'master/role-type',
-            'master/vessel-type',
-            'master/forum',
-            'feed-detail',
-        ]);
+          'home',
+          'admin-accounts',
+          'admin-job-management',
+          'admin-training-management',
+          'admin-subcription-management',
+          'admin-ads-management',
+          'admin-community-management',
+          'admin-master-data',
+          'master/job-categories',
+          'master/training-categories',
+          'master/role-level',
+          'master/role-type',
+          'master/vessel-type',
+          'master/forum',
+          'feed-detail',
+          'admin-master-news'
+        ])
     } else if (role === 'Seafarer') {
         can(['read'], ['home', 'user-community', 'seaferer-training', 'seaferer', 'seaferer-jobs', 'feed-detail', 'candidate/profile','PricingPage'])
     } else if (role === 'Company') {
