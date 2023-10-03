@@ -4,7 +4,7 @@ import ReactHtmlParser from 'react-html-parser';
 
 // ** MUI Components
 import Box  from '@mui/material/Box'  
-import {   Card, CardContent, Typography } from '@mui/material'
+import {   Card, CardContent, CardMedia, Typography } from '@mui/material'
 
 // ** Layout Import
 // import BlankLayout from 'src/@core/layouts/BlankLayout'
@@ -60,12 +60,12 @@ const firstload = () => {
  }, [searchParams.get('id')]) 
     
   return (
-    <Box sx={{mt:5}}>
+    <Box sx={{ mt: 5 }}>
       <Grid container spacing={2}>
         <Grid item md={9} xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+              <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardContent>
                   <Box sx={{ mb: 1 }}>
                     <Grid item container xs={12} justifyContent={'center'}>
@@ -76,11 +76,20 @@ const firstload = () => {
                         {threadDetail?.title}
                       </Typography>
                     </Grid>
+                    <Grid item container xs={12} justifyContent={'center'}>
+                      <CardMedia
+                        component='img'
+                        alt='green iguana'
+                        image={threadDetail?.imgnews != null ? threadDetail.imgnews : null}
+                      />
+                    </Grid>
                     <Grid item container xs={12} justifyContent={'flex'}>
-                      <Typography
-                        variant='body1'
-                        sx={{ p: 4, color: '#424242', fontWeight: 300 }}
-                      >
+                      <Typography variant='body1' sx={{ p: 4, color: '#424242', fontWeight: 300 }}>
+                        {threadDetail.posting_at}
+                      </Typography>
+                    </Grid>
+                    <Grid item container xs={12} justifyContent={'flex'}>
+                      <Typography variant='body1' sx={{ p: 4, color: '#424242', fontWeight: 300 }}>
                         {ReactHtmlParser(`${threadDetail?.content}`)}
                       </Typography>
                     </Grid>
@@ -97,7 +106,7 @@ const firstload = () => {
           </Grid>
         </Grid>
         <Grid item md={3} xs={12}>
-            <Recomended></Recomended>
+          <Recomended></Recomended>
         </Grid>
       </Grid>
     </Box>
