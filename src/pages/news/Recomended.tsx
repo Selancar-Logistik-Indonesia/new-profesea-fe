@@ -5,8 +5,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography' 
 import {   Card, CardContent, CardMedia, Link } from '@mui/material'
 import Moment from 'moment'
- import ShareArea from './ShareArea'
-import { useNews } from 'src/hooks/useNews'
+ import { useNews } from 'src/hooks/useNews'
 import INews from 'src/contract/models/news'
  
 const renderList = (arr: INews[]) => {
