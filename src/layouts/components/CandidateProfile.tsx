@@ -15,10 +15,9 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 // import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { Grid } from '@mui/material'
-
 import { useForm } from 'react-hook-form'
-
-// import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { IUser } from 'src/contract/models/user'
@@ -124,10 +123,17 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   }
 }
 
+
 let statusfb: any = ''
 let statusig: any = ''
 let statuslinkedin: any = ''
 const CandidateProfile = (props: compProps) => {
+  const schema = yup.object().shape({
+    address: yup.string().required(),
+    email: yup.string().email().required(),
+    phone: yup.string().required(),
+    genderr: yup.string().required()
+  })
   const theme = useTheme()
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   if (props.datauser?.employee_type == 'onship') {
@@ -467,7 +473,8 @@ const CandidateProfile = (props: compProps) => {
   }, [hookSignature])
 
   const { register, handleSubmit } = useForm<FormData>({
-    mode: 'onBlur'
+    mode: 'onBlur',
+    resolver: yupResolver(schema)
   })
   const editEducation = (item: any) => {
     setSelectedItem(item)
@@ -887,7 +894,9 @@ const CandidateProfile = (props: compProps) => {
                   options={!combokelamin ? [{ label: 'Loading...', title: 0 }] : combokelamin}
                   defaultValue={idcombokelamin}
                   getOptionLabel={(option: any) => option.label}
-                  renderInput={params => <TextField {...params} label='Gender *' variant='standard' />}
+                  renderInput={params => (
+                    <TextField {...params} label='Gender *' id='gender' variant='standard' {...register('genderr')} />
+                  )}
                   onChange={(event: any, newValue: any) =>
                     newValue?.title ? setCombokelamin(newValue) : setCombokelamin('')
                   }
@@ -1003,8 +1012,7 @@ const CandidateProfile = (props: compProps) => {
                   fullWidth
                   sx={{ mb: 1 }}
                   type='number'
-                  {...register('phone')}
-                  value={phoneNum} 
+                  value={phoneNum}
                   onChange={e => onChangePhoneNum(e.target.value)}
                   InputProps={{
                     // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
@@ -1015,7 +1023,7 @@ const CandidateProfile = (props: compProps) => {
                         options={combocode}
                         getOptionLabel={(option: Countries) => option.iso}
                         defaultValue={props.datauser?.country}
-                        renderInput={params => <TextField {...params} variant='standard' />}
+                        renderInput={params => <TextField {...params} variant='standard' {...register('phone')} />}
                         onChange={(event: any, newValue: Countries | null) =>
                           newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
                         }

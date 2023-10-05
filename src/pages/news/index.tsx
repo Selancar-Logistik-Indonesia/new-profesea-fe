@@ -68,7 +68,7 @@ const firstload = () => {
               <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardContent>
                   <Box sx={{ mb: 1 }}>
-                    <Grid item container xs={12} justifyContent={'center'}>
+                    <Grid item container xs={12} justifyContent={'left'}>
                       <Typography
                         fontSize={28}
                         style={{ color: '#000' }}

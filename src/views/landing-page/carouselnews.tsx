@@ -9,6 +9,7 @@ import { HttpClient } from "src/services";
 import { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import Moment from 'moment'
 
 const CarouselNewsView = () => {
   // const [forumCode, setForumCode] = useState('') 
@@ -76,7 +77,7 @@ const CarouselNewsView = () => {
       // mt={1}
       // mb={2}
       pb={2}
-      pt={10}
+      // pt={10}
     >
       <Grid container justifyContent='center'>
         {/* <Grid item>
@@ -107,7 +108,7 @@ const CarouselNewsView = () => {
             ssr={true} // means to render carousel on server-side.
             infinite={true}
             renderDotsOutside={true}
-            autoPlaySpeed={5000}
+            autoPlaySpeed={2000}
             keyBoardControl={true}
             customTransition='all .5'
             transitionDuration={500}
@@ -127,37 +128,73 @@ const CarouselNewsView = () => {
   )
   function Item(props: any) {
     return (
-      <Card sx={{ margin: 5, height: '500px' }}>
-        <Grid item container>
-          <Grid xs={8}>
-            <Typography gutterBottom variant='h6' component='div' ml={3}>
-              {props.item.type}
-            </Typography>
-          </Grid>
-          <Grid xs={4}>
-            <Typography variant='body2' color='text.primary' mt={2}>
-              {props.item.posting_at}
-            </Typography>
-          </Grid>
-        </Grid>
+      // <>
+      //   <Card sx={{ margin: 5, height: '500px' }}>
+      //     <Grid item container>
+      //       <Grid xs={8}>
+      //         <Typography gutterBottom variant='h6' component='div' ml={3}>
+      //           {props.item.type}
+      //         </Typography>
+      //       </Grid>
+      //       <Grid xs={4}>
+      //         <Typography variant='body2' color='text.primary' mt={2}>
+      //           {props.item.posting_at}
+      //         </Typography>
+      //       </Grid>
+      //     </Grid>
 
-        <CardMedia
-          component='img'
-          alt='green iguana'
-          height='180'
-          image={props.item?.imgnews != null ? props.item.imgnews : null}
-        />
+      //     <CardMedia
+      //       component='img'
+      //       alt='green iguana'
+      //       height='180'
+      //       image={props.item?.imgnews != null ? props.item.imgnews : null}
+      //     />
+      //     <CardContent>
+      //       <Link style={{ textDecoration: 'none' }} href={'/news/?id=' + props.item.id}>
+      //         <Typography fontSize={28} style={{ color: '#000' }} fontWeight='800' mt={0}>
+      //           {props.item.title}
+      //         </Typography>
+      //       </Link>
+      //       <Typography fontSize={18} style={{ color: '#000' }} mt={2} align={'justify'} maxWidth='85%'>
+      //         {props.item.snap_content}
+      //       </Typography>
+      //     </CardContent>
+      //     <CardActions></CardActions>
+      //   </Card>
+      <Card
+        sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', margin: 3, height: '450px' }}
+      >
         <CardContent>
           <Link style={{ textDecoration: 'none' }} href={'/news/?id=' + props.item.id}>
-            <Typography fontSize={28} style={{ color: '#000' }} fontWeight='800' mt={0}>
-              {props.item.title}
+
+          <Box height={350} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
+            <Grid container direction='row' alignItems='center' spacing={4}>
+              <Grid item>
+                <Typography sx={{ color: 'text.secondary', mb: 1, fontSize: 9 }}>
+                  {Moment(props.item.posting_at).format('DD/MM/YYYY HH:MM:SS')}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={18}>
+              {props.item.type}
             </Typography>
-          </Link>
-          <Typography fontSize={18} style={{ color: '#000' }} mt={2} align={'justify'} maxWidth='85%'>
-            {props.item.snap_content}
-          </Typography>
-         </CardContent>
-        <CardActions></CardActions>
+            <CardMedia
+              component='img'
+              alt='green iguana'
+              height='180'
+              image={props.item?.imgnews != null ? props.item.imgnews : null}
+            />
+            <Typography fontWeight={600} fontSize={16} mt={2}>
+              {props.item.snap_content
+                ? `${
+                    props.item.snap_content.toString().charAt(0).toUpperCase() +
+                    props.item.snap_content.toString().slice(1)
+                  }`
+                : ''}
+            </Typography>
+          </Box>
+        </Link>
+        </CardContent>
       </Card>
     )
   }
