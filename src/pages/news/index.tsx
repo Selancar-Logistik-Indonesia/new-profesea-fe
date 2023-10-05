@@ -60,7 +60,7 @@ const firstload = () => {
  }, [searchParams.get('id')]) 
     
   return (
-    <Box sx={{ mt: 5 }}>
+    <Box sx={{ mt: 5 , ml:3}}>
       <Grid container spacing={2}>
         <Grid item md={9} xs={12}>
           <Grid container spacing={2}>
@@ -105,7 +105,7 @@ const firstload = () => {
             </Grid> */}
           </Grid>
         </Grid>
-        <Grid item md={3} xs={12}>
+        <Grid item md={3} xs={12} paddingRight={3}>
           <Recomended></Recomended>
         </Grid>
       </Grid>

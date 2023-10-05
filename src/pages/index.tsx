@@ -158,9 +158,8 @@ const Main = () => {
 
         <DiscoverView />
         <FeatureView />
-        <LetsSailView />
-
         <CarouselNewsView />
+        <LetsSailView />
         <FooterView />
       </>
     )

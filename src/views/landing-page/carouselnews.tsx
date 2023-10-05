@@ -11,7 +11,7 @@ import { toast } from "react-hot-toast";
 import Link from "next/link";
 
 const CarouselNewsView = () => {
-  const [forumCode, setForumCode] = useState('') 
+  // const [forumCode, setForumCode] = useState('') 
   const [dataSheet, setDataSheet] = useState<[]>([])
   const responsive = {
     desktop: {
@@ -32,7 +32,8 @@ const CarouselNewsView = () => {
   }
   const getListNews = async () => {
     try {
-      const resp = await HttpClient.get(`/news?page=${1}&take=25&type=${forumCode}`)
+      // const resp = await HttpClient.get(`/news?page=${1}&take=25&type=${forumCode}`)
+      const resp = await HttpClient.get(`/news?page=${1}&take=25`)
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'
       }
@@ -58,8 +59,8 @@ const CarouselNewsView = () => {
   useEffect(() => { 
     getListNews().then(() => { 
     }) 
-  }, [forumCode])
-
+  }, [])
+//tambah forumCOde di useefect kalau mau filter
   return (
     <Grid
       container
@@ -67,15 +68,15 @@ const CarouselNewsView = () => {
       sx={{
         maxWidth: { xs: '100%' },
         px: { xs: 5, md: 5 },
-        background: 'linear-gradient(to right, #ececec, #eae6df)}'
+        background: '#f1ece5'
       }}
-      mt={1}
-      mb={2}
+      // mt={1}
+      // mb={2}
       pb={2}
       pt={10}
     >
       <Grid container justifyContent='center'>
-        <Grid item>
+        {/* <Grid item>
           <Autocomplete
             disablePortal
             size='medium'
@@ -90,7 +91,7 @@ const CarouselNewsView = () => {
               newValue?.title ? setForumCode(newValue.title) : setForumCode('')
             }
           />
-        </Grid>
+        </Grid> */}
       </Grid>
       <Grid item xs={12}>
         <Box>
@@ -98,10 +99,11 @@ const CarouselNewsView = () => {
             autoPlay={true}
             swipeable={true}
             draggable={true}
-            showDots={true}
+            showDots={false}
             responsive={responsive}
             ssr={true} // means to render carousel on server-side.
             infinite={true}
+            renderDotsOutside={true}
             autoPlaySpeed={5000}
             keyBoardControl={true}
             customTransition='all .5'
@@ -122,15 +124,15 @@ const CarouselNewsView = () => {
   )
   function Item(props: any) {
     return (
-      <Card sx={{ margin: 5, height: '400px', border: '3px solid #eee', borderColor: 'primary.main' }}>
+      <Card sx={{ margin: 5, height: '500px' }}>
         <Grid item container>
           <Grid xs={8}>
-            <Typography gutterBottom variant='h5' component='div' ml={3}>
+            <Typography gutterBottom variant='h6' component='div' ml={3}>
               {props.item.type}
             </Typography>
           </Grid>
           <Grid xs={4}>
-            <Typography variant='body2' color='text.secondary'>
+            <Typography variant='body2' color='text.primary' mt={2}>
               {props.item.posting_at}
             </Typography>
           </Grid>
@@ -143,16 +145,15 @@ const CarouselNewsView = () => {
           image={props.item?.imgnews != null ? props.item.imgnews : null}
         />
         <CardContent>
-          <Link style={{ textDecoration: 'none' }} href={'/news/?id='+props.item.id}>
-            <Typography gutterBottom variant='h5' component='div'>
+          <Link style={{ textDecoration: 'none' }} href={'/news/?id=' + props.item.id}>
+            <Typography fontSize={28} style={{ color: '#000' }} fontWeight='800' mt={0}>
               {props.item.title}
             </Typography>
           </Link>
-
-          <Typography variant='body2' color='text.secondary'>
+          <Typography fontSize={18} style={{ color: '#000' }} mt={2} align={'justify'} maxWidth='85%'>
             {props.item.snap_content}
           </Typography>
-        </CardContent>
+         </CardContent>
         <CardActions></CardActions>
       </Card>
     )

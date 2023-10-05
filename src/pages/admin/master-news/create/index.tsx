@@ -131,7 +131,7 @@ const onCreate = async (formData: any) => {
 }
 
   return (
-    <Box>
+    <Box padding={3}>
       <Grid
         container
         spacing={6}
@@ -200,9 +200,10 @@ const onCreate = async (formData: any) => {
                       dateFormat='dd/MM/yyyy'
                       selected={postingDate}
                       id='basic-input'
+                      disabled
                       onChange={(date: Date) => setPostingDate(date)}
                       placeholderText='Click to select a date'
-                      customInput={<TextField size='small' label='Schedule' variant='outlined' fullWidth />}
+                      customInput={<TextField size='small' label='Posting Date' variant='outlined' fullWidth />}
                     />
                   </DatePickerWrapper>
                 </Grid>
