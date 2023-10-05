@@ -1,5 +1,5 @@
 //import { faBriefcase, faChartLine, faUsers } from "@fortawesome/free-solid-svg-icons";
-import { Autocomplete, Box, Card, CardActions, CardContent, CardMedia, Grid, TextField, Typography } from "@mui/material";
+import {   Box, Card, CardActions, CardContent, CardMedia, Grid,   Typography } from "@mui/material";
 // import { useTranslation } from "react-i18next";
 //import discoverPageStyle from "src/@core/styles/discover/discover-page";
 import Carousel from 'react-multi-carousel'
@@ -55,12 +55,15 @@ const CarouselNewsView = () => {
       toast.error(`Opps ${errorMessage}`)
     }
   }
-  const type = [{ title: 'News' }, { title: 'Event' }]
+
+  // const type = [{ title: 'News' }, { title: 'Event' }]
+
   useEffect(() => { 
     getListNews().then(() => { 
     }) 
   }, [])
 //tambah forumCOde di useefect kalau mau filter
+
   return (
     <Grid
       container
