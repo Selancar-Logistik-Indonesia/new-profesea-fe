@@ -149,6 +149,11 @@ const SeafererJob = () => {
 
   }
   useEffect(() => {
+  if(hidden ==true){
+    setCollapsed(false)
+  }else{
+    setCollapsed(true)
+  }
     firstload()
   }, [JC])
 
