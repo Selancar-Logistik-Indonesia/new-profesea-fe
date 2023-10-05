@@ -189,20 +189,11 @@ const SeafererJob = () => {
     <Box>
       <Grid container spacing={2}>
         <Grid item lg={3} md={5} xs={12}>
-          <Box mb={3}>
+          {/* <Box mb={3}>
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-              <CardContent>
-                <TextField
-                  id='fullName'
-                  // defaultValue={props.datauser.name}
-                  label='Search Job'
-                  variant='outlined'
-                  fullWidth
-                  onChange={e => SetTextCompany(e.target.value)}
-                />
-              </CardContent>
+              <CardContent></CardContent>
             </Card>
-          </Box>
+          </Box> */}
           <Box mb={3}>
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardHeader
@@ -227,6 +218,15 @@ const SeafererJob = () => {
                   <Alert severity='info' sx={{ marginBottom: 2 }}>
                     Filter Job here
                   </Alert>
+                  <TextField
+                    id='fullName'
+                    // defaultValue={props.datauser.name}
+                    label='Search Job'
+                    variant='outlined'
+                    fullWidth
+                    sx={{mb:2}}
+                    onChange={e => SetTextCompany(e.target.value)}
+                  />
                   {/* Category */}
                   <Autocomplete
                     sx={{ marginBottom: 2 }}
@@ -309,7 +309,6 @@ const SeafererJob = () => {
                           newValue?.id ? setED(newValue?.id) : setED(0)
                         }
                       />
-
                     </>
                   ) : (
                     <>
@@ -394,12 +393,12 @@ const SeafererJob = () => {
           sx={
             !hidden
               ? {
-                direction: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'stretch',
-                alignContent: 'top',
-                marginBottom: '10px'
-              }
+                  direction: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'stretch',
+                  alignContent: 'top',
+                  marginBottom: '10px'
+                }
               : {}
           }
         >
@@ -422,16 +421,23 @@ const SeafererJob = () => {
                 aria-label='customized tabs example'
                 //sx={{ '& button.Mui-selected': { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }}
               >
-                <Tab label='Find Job' icon={<Icon icon='solar:boombox-bold-duotone' fontSize={18} />} {...a11yProps(0)} />
-                <Tab label='Job Applied' icon={<Icon icon='solar:widget-add-bold-duotone' fontSize={18} />} {...a11yProps(1)} />
+                <Tab
+                  label='Find Job'
+                  icon={<Icon icon='solar:boombox-bold-duotone' fontSize={18} />}
+                  {...a11yProps(0)}
+                />
+                <Tab
+                  label='Job Applied'
+                  icon={<Icon icon='solar:widget-add-bold-duotone' fontSize={18} />}
+                  {...a11yProps(1)}
+                />
               </Tabs>
             </Box>
             <Grid
               container
-              sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', background: color, }}
+              sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', background: color }}
             >
               <Grid item xs={12}>
-
                 <TabPanel value={value} index={0}>
                   <FindJob filter={vFilter} search={textCompany} aSearch={[]}></FindJob>
                 </TabPanel>
