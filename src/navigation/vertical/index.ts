@@ -135,6 +135,13 @@ const navigation = (): VerticalNavItemsType => {
         subject: 'admin-community-management'
       },
       {
+        path: '/admin/master-news/',
+        title: 'News Management',
+        icon: 'iconamoon:news-fill',
+        action: 'read',
+        subject: 'admin-master-news'
+      },
+      {
         path: '#',
         title: 'Master Data',
         icon: 'solar:notes-bold-duotone',
@@ -178,13 +185,6 @@ const navigation = (): VerticalNavItemsType => {
             action: 'read'
           }
         ]
-      },
-      {
-        path: '/admin/master-news/',
-        title: 'Master news',
-        icon: 'iconamoon:news-fill',
-        action: 'read',
-        subject: 'admin-master-news'
       }
     ]
 }
