@@ -31,6 +31,7 @@ type DialogProps = {
     onCloseClick: VoidFunction;
     onStateChange: VoidFunction;
     arrayhead: any
+    role:any
 }
 type dokumen = {
   title: string
@@ -43,6 +44,7 @@ type FormData = {
 }
  
 const DialogAddDocument = (props: DialogProps) => {
+  debugger;
     const [onLoading, setOnLoading] = useState(false); 
     const [preview, setPreview] = useState()
     const [selectedFile, setSelectedFile] = useState()
@@ -198,12 +200,15 @@ const DialogAddDocument = (props: DialogProps) => {
       { title: 'SIUPAKK', docType: 'M3' },
        
     ]
+    const trainer = [
+      { title: 'KTP', docType: 'M4' },
+      { title: 'Certificate', docType: 'M5' },
+     ]
 
     return (
       <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
           <DialogContent
-           
             sx={{
               position: 'relative',
               pb: theme => `${theme.spacing(8)} !important`,
@@ -228,14 +233,25 @@ const DialogAddDocument = (props: DialogProps) => {
 
             <Grid container columnSpacing={'1'} rowSpacing={'2'}>
               <Grid item md={12} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='dokumen'
-                  options={dokumen}
-                  getOptionLabel={option => option.title || ''}
-                  renderInput={params => <TextField {...params} label='Document' sx={{ mb: 2 }} variant='standard' />}
-                  onChange={(e, newValue: any) => (newValue ? setDocument(newValue) : setDocument([]))}
-                />
+                {props.role == 'Trainer' ? (
+                  <Autocomplete
+                    disablePortal
+                    id='dokumen'
+                    options={trainer}
+                    getOptionLabel={option => option.title || ''}
+                    renderInput={params => <TextField {...params} label='Document' sx={{ mb: 2 }} variant='standard' />}
+                    onChange={(e, newValue: any) => (newValue ? setDocument(newValue) : setDocument([]))}
+                  />
+                ) : (
+                  <Autocomplete
+                    disablePortal
+                    id='trainer'
+                    options={dokumen}
+                    getOptionLabel={option => option.title || ''}
+                    renderInput={params => <TextField {...params} label='Document' sx={{ mb: 2 }} variant='standard' />}
+                    onChange={(e, newValue: any) => (newValue ? setDocument(newValue) : setDocument([]))}
+                  />
+                )}
               </Grid>
               {showChild == true && (
                 <>
@@ -245,7 +261,9 @@ const DialogAddDocument = (props: DialogProps) => {
                       id='dokumen2'
                       options={combochild}
                       getOptionLabel={(option: dokumen) => option.title}
-                      renderInput={params => <TextField {...params} label='Document Child' sx={{ mb: 2 }} variant='standard' />}
+                      renderInput={params => (
+                        <TextField {...params} label='Document Child' sx={{ mb: 2 }} variant='standard' />
+                      )}
                       onChange={(e, newValue: any) => (newValue ? setDocumentChild(newValue) : setDocumentChild([]))}
                     />
                   </Grid>
@@ -259,9 +277,7 @@ const DialogAddDocument = (props: DialogProps) => {
                       showYearDropdown
                       showMonthDropdown
                       dropdownMode='select'
-                      customInput={
-                        <TextField label='Expired Date' variant='standard' fullWidth   />
-                      }
+                      customInput={<TextField label='Expired Date' variant='standard' fullWidth />}
                     />
                   </Grid>
                 </>
@@ -283,7 +299,7 @@ const DialogAddDocument = (props: DialogProps) => {
                     <label htmlFor='x'>
                       <img
                         alt='logo'
-                        src={preview ? preview : '/images/avatar.png'}
+                        src={preview ? preview : '/images/uploadimage.jpeg'}
                         style={{
                           maxWidth: '100%',
                           height: '120px',
@@ -293,7 +309,7 @@ const DialogAddDocument = (props: DialogProps) => {
                       />
                     </label>
                     <input
-                      accept='image/*'
+                      accept='application/pdf,,image/*'
                       style={{ display: 'none' }}
                       id='x'
                       onChange={onSelectFile}
@@ -301,9 +317,9 @@ const DialogAddDocument = (props: DialogProps) => {
                     ></input>
                   </Grid>
                   <Grid xs={6}>
-                  <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
+                    <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                      <strong>Click Image to upload Document.</strong>
+                        <strong>Click Image to upload Document.</strong>
                       </Typography>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
                         Allowed PDF.
@@ -324,19 +340,19 @@ const DialogAddDocument = (props: DialogProps) => {
               pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
             }}
           >
-            <Button variant='contained' size="small" sx={{ mr: 2 }} type='submit'>
-                        <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
-                        {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
-                    </Button>
-                    <Button variant='outlined' size="small" color='error' onClick={props.onCloseClick}>
-                        <Icon
-                            fontSize='large'
-                            icon={'material-symbols:cancel-outline'}
-                            color={'info'}
-                            style={{ fontSize: '18px' }}
-                        />
-                        Cancel
-                    </Button>
+            <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>
+              <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
+              {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
+            </Button>
+            <Button variant='outlined' size='small' color='error' onClick={props.onCloseClick}>
+              <Icon
+                fontSize='large'
+                icon={'material-symbols:cancel-outline'}
+                color={'info'}
+                style={{ fontSize: '18px' }}
+              />
+              Cancel
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

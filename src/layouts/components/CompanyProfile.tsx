@@ -595,11 +595,14 @@ const CompanyProfile = (props: compProps) => {
               </Grid>
               <Grid xs={10} md={11}>
                 <Grid container item xs={12} justifyContent={'left'}>
-                  <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}> Document Upload</Typography>
+                  <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
+                    {' '}
+                    Document Upload
+                  </Typography>
                 </Grid>
                 <Grid container item xs={12} justifyContent={'left'}>
                   <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
-                    Please upload 3 mandatory documents and wait for admin to verify
+                    Please upload mandatory documents and wait for admin to verify
                   </Typography>
                 </Grid>
               </Grid>
@@ -742,7 +745,7 @@ const CompanyProfile = (props: compProps) => {
                                       variant='outlined'
                                       color='primary'
                                       size='small'
-                                    // onClick={() => editDocument(item)}
+                                      // onClick={() => editDocument(item)}
                                     >
                                       <Icon
                                         fontSize='large'
@@ -786,6 +789,7 @@ const CompanyProfile = (props: compProps) => {
               onStateChange={() => setHookSignature(v4())}
               onCloseClick={() => setOpenAddModalDoc(!openAddModalDoc)}
               arrayhead={arrayHead}
+              role={props.datauser.role}
             />
           </form>
         </>
