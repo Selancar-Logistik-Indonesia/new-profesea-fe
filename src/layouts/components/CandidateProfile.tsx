@@ -66,6 +66,7 @@ type FormData = {
   facebook: string
   instagram: string
   linkedin: string
+  genderr: string
 }
 
 type compProps = {

@@ -1,5 +1,5 @@
 //import { faBriefcase, faChartLine, faUsers } from "@fortawesome/free-solid-svg-icons";
-import {   Box, Card, CardActions, CardContent, CardMedia, Grid,   Typography } from "@mui/material";
+import {   Box, Card,   CardContent, CardMedia, Grid,   Typography } from "@mui/material";
 // import { useTranslation } from "react-i18next";
 //import discoverPageStyle from "src/@core/styles/discover/discover-page";
 import Carousel from 'react-multi-carousel'
