@@ -20,8 +20,7 @@ import { Icon } from '@iconify/react';
 import ITeam from 'src/contract/models/team';
 import DialogImport from './DialogImport';
 import DialogView from './DialogView';
-import { AppConfig } from 'src/configs/api';
-
+ 
 const UserScreen = () => {
     const translate: any = {
         onship: 'On-Ship',
@@ -131,12 +130,10 @@ const UserScreen = () => {
     }
 
     const resendchat = async (row: Account) => {
-      const json = {
-        email: row.email
-      }
-      const resp = await HttpClient.get(`/user-management/resend-verification?email=`+row.email)
+   
+    const resp = await HttpClient.get(`/user-management/resend-verification?email=`+row.email)
      if (resp.status == 200) {
-       toast.success(data.name + ' Successfully Resend Email!')
+       toast.success('Successfully Resend Email!')
      }
     }
 
