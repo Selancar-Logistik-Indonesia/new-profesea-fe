@@ -13,6 +13,29 @@ const columns: GridColDef[] = [
   { field: 'type', headerName: 'Type', sortable: true, minWidth: 100 },
   { field: 'plan', headerName: 'Plan', sortable: true, minWidth: 100 },
   {
+    field: 'resend',
+    headerName: 'Resend',
+    sortable: false,
+    minWidth: 150,
+    renderCell: cell => {
+      const { row } = cell
+
+      return (
+        <>
+          <Button
+            variant='contained'
+            onClick={() => row.resend.onResend()}
+            aria-label='edit'
+            color='primary'
+            size='small'
+          >
+            Resend
+          </Button>
+        </>
+      )
+    }
+  },
+  {
     field: 'doc',
     headerName: 'Documents',
     sortable: false,
@@ -22,8 +45,20 @@ const columns: GridColDef[] = [
 
       return (
         <>
-          <Button variant='outlined' onClick={() => row.actions.docView()} aria-label='edit' color='secondary' size='small'>
-            {(row.verified_at == null) ? (row.rejected_at) ? 'Rejected' : 'Unverified' : (row.rejected_at) ? 'Rejected' : 'Verified'}
+          <Button
+            variant='outlined'
+            onClick={() => row.actions.docView()}
+            aria-label='edit'
+            color='secondary'
+            size='small'
+          >
+            {row.verified_at == null
+              ? row.rejected_at
+                ? 'Rejected'
+                : 'Unverified'
+              : row.rejected_at
+              ? 'Rejected'
+              : 'Verified'}
           </Button>
         </>
       )
@@ -60,17 +95,20 @@ type RoleGridProps = {
 }
 
 interface RowItem {
-    id:number,
-    name: string,
-    email: string,
-    phone: string,
-    role: string,
-    plan: string,
-    actions: {
-        onDelete: VoidFunction,
-        onUpdate: VoidFunction,
-        docView: VoidFunction,
-    };
+  id: number
+  name: string
+  email: string
+  phone: string
+  role: string
+  plan: string 
+  resend: {
+    resend: VoidFunction 
+  }
+  actions: {
+    onDelete: VoidFunction
+    onUpdate: VoidFunction
+    docView: VoidFunction
+  }
 }
 
 export {
