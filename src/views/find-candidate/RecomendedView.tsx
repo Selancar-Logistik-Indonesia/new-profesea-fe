@@ -97,7 +97,7 @@ const renderList = (listCandidate: IUser[]) => {
 
 const RecomendedView = (props: Props) => {
   const { listCandidate } = props
-
+ 
   return (
     <Grid container spacing={2}>
       {renderList(listCandidate)}

@@ -49,8 +49,7 @@ const LinkStyled = styled(Link)(() => ({
   textDecoration: 'none',
 }))
 const Registration = (props: any) => {
-
-  debugger;
+ 
   const { tipereg } = props
   const { type } = props
   const { vonchangeEmployee } = props
@@ -129,7 +128,7 @@ const Registration = (props: any) => {
       teamid = 4
       ship = ''
     }
-debugger
+ 
     const json = {
       'name': name,
       "email": email,
@@ -328,11 +327,11 @@ debugger
                 </InputAdornment>
               }
             />
-            {errors.password && (
+            {/* {errors.password && (
               <FormHelperText sx={{ color: 'error.main' }} id=''>
                 {(errors as any).password?.message}
               </FormHelperText>
-            )}
+            )} */}
           </FormControl>
         </Grid>
 
@@ -360,11 +359,11 @@ debugger
                 </InputAdornment>
               }
             />
-            {errors.password && (
+            {/* {errors.password && (
               <FormHelperText sx={{ color: 'error.main' }} id=''>
                 {(errors as any).password?.message}
               </FormHelperText>
-            )}
+            )} */}
           </FormControl>
         </Grid>
         <Grid item md={12} xs={12}>
