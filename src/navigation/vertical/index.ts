@@ -69,6 +69,7 @@ const navigation = (): VerticalNavItemsType => {
         action: 'read',
         subject: 'user-find-candidate'
       },
+      
       // {
       //   path: '/trainer/my-participant',
       //   title: 'List of Participant',
@@ -76,7 +77,13 @@ const navigation = (): VerticalNavItemsType => {
       //   action: 'read',
       //   subject: 'user-my-participant'
       // },
-
+      {
+        path: '/list-group',
+        title: 'Group',
+        icon: 'el:group',
+        action: 'read',
+        subject: 'home'
+      },
       // admin section
       {
         path: '/admin/accounts/',

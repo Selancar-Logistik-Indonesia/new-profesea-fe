@@ -58,8 +58,15 @@ const navigation = (): HorizontalNavItemsType => [
     action: 'read',
     subject: 'seaferer-training'
   },
+  {
+    path: '/list-group',
+    title: 'Group',
+    icon: 'el:group',
+    action: 'read',
+    subject: 'home'
+  }
   // {
-  //   path: '/pricing', 
+  //   path: '/pricing',
   //   title: 'Pricing',
   //   icon: 'solar:tag-price-bold-duotone',
   //   action: 'read',
