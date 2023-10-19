@@ -36,10 +36,10 @@ const ImageListPreview = (props: { urls: string[] }) => {
 
     return urls.length > 0 ? (
         <ImageList
-            sx={{ width: '60%', height: '100%', overflow: 'hidden', my: 2, borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', }}
+            sx={{width: '100%', height: '100%', overflow: 'hidden', my: 2, borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', }}
             variant="quilted"
             cols={cols}
-            rowHeight={350 / 3}
+            rowHeight='auto'
         >
             {urls.map((item, i) => (
                 <ImageListItem
