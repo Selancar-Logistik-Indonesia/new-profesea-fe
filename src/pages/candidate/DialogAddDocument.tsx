@@ -393,7 +393,6 @@ const DialogAddDocument = (props: DialogProps) => {
       <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
           <DialogContent
-           
             sx={{
               position: 'relative',
               pb: theme => `${theme.spacing(8)} !important`,
@@ -435,7 +434,9 @@ const DialogAddDocument = (props: DialogProps) => {
                       id='dokumen2'
                       options={combochild}
                       getOptionLabel={(option: dokumen) => option.title}
-                      renderInput={params => <TextField {...params} label='Document Child' sx={{ mb: 2 }} variant='standard' />}
+                      renderInput={params => (
+                        <TextField {...params} label='Document Child' sx={{ mb: 2 }} variant='standard' />
+                      )}
                       onChange={(e, newValue: any) => (newValue ? setDocumentChild(newValue) : setDocumentChild([]))}
                     />
                   </Grid>
@@ -449,9 +450,7 @@ const DialogAddDocument = (props: DialogProps) => {
                       showYearDropdown
                       showMonthDropdown
                       dropdownMode='select'
-                      customInput={
-                        <TextField label='Expired Date' variant='standard' fullWidth   />
-                      }
+                      customInput={<TextField label='Expired Date' variant='standard' fullWidth />}
                     />
                   </Grid>
                 </>
@@ -483,7 +482,7 @@ const DialogAddDocument = (props: DialogProps) => {
                       />
                     </label>
                     <input
-                      accept='image/*'
+                      accept='application/pdf,,image/*'
                       style={{ display: 'none' }}
                       id='x'
                       onChange={onSelectFile}
@@ -491,9 +490,9 @@ const DialogAddDocument = (props: DialogProps) => {
                     ></input>
                   </Grid>
                   <Grid xs={6}>
-                  <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
+                    <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                      <strong>Click Image to change Document Photo.</strong>
+                        <strong>Click Image to change Document Photo.</strong>
                       </Typography>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
                         Allowed JPG, GIF or PNG.
@@ -514,19 +513,19 @@ const DialogAddDocument = (props: DialogProps) => {
               pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
             }}
           >
-            <Button variant='contained' size="small" sx={{ mr: 2 }} type='submit'>
-                        <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
-                        {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
-                    </Button>
-                    <Button variant='outlined' size="small" color='error' onClick={props.onCloseClick}>
-                        <Icon
-                            fontSize='large'
-                            icon={'material-symbols:cancel-outline'}
-                            color={'info'}
-                            style={{ fontSize: '18px' }}
-                        />
-                        Cancel
-                    </Button>
+            <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>
+              <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
+              {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
+            </Button>
+            <Button variant='outlined' size='small' color='error' onClick={props.onCloseClick}>
+              <Icon
+                fontSize='large'
+                icon={'material-symbols:cancel-outline'}
+                color={'info'}
+                style={{ fontSize: '18px' }}
+              />
+              Cancel
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
