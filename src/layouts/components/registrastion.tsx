@@ -2,7 +2,7 @@
 import { ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Components
-import { Button, Divider, Checkbox, TextField, InputLabel, IconButton, Box, FormControl, OutlinedInput, InputAdornment, Typography, Alert } from '@mui/material'
+import { Button, Divider, Checkbox, TextField, InputLabel, IconButton, Box, FormControl, OutlinedInput, InputAdornment,tooltipClasses, Typography, Alert, Tooltip, TooltipProps } from '@mui/material'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -47,6 +47,16 @@ interface FormData {
 const LinkStyled = styled(Link)(() => ({
 
   textDecoration: 'none',
+}))
+const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11
+  }
 }))
 const Registration = (props: any) => {
  
@@ -306,59 +316,86 @@ const Registration = (props: any) => {
         <Grid item md={6} xs={12}>
           <FormControl fullWidth>
             <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-              Password
+              Kata Sandi
             </InputLabel>
-            <OutlinedInput
-              sx={{ mb: 1 }}
-              label='Password'
-              id='password1'
-              error={Boolean(errors.password)}
-              type={showPassword ? 'text' : 'password'}
-              {...register('password')}
-              endAdornment={
-                <InputAdornment position='end'>
-                  <IconButton
-                    edge='end'
-                    onMouseDown={e => e.preventDefault()}
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                  </IconButton>
-                </InputAdornment>
+            <LightTooltip
+              title={
+                <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2 }}>
+                  <Typography sx={{ fontWeight: 800, color: 'text.primary' }}>Ketentuan Kata Sandi:</Typography>
+                  <Box component='ul' sx={{ pl: 4, mb: 0, '& li': { mb: 1, color: 'text.primary' } }}>
+                    <li>Minimum 8 karakter</li>
+                    <li>Setidaknya satu karakter huruf kecil & satu karakter huruf besar</li>
+                    
+                  </Box>
+                </Alert>
               }
-            />
-            {/* {errors.password && (
+            >
+              <OutlinedInput
+                sx={{ mb: 1 }}
+                label='Password'
+                id='password1'
+                error={Boolean(errors.password)}
+                type={showPassword ? 'text' : 'password'}
+                {...register('password')}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    <IconButton
+                      edge='end'
+                      onMouseDown={e => e.preventDefault()}
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+              {/* {errors.password && (
               <FormHelperText sx={{ color: 'error.main' }} id=''>
                 {(errors as any).password?.message}
               </FormHelperText>
             )} */}
+            </LightTooltip>
           </FormControl>
         </Grid>
 
         <Grid item md={6} xs={12}>
           <FormControl fullWidth>
             <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-              Confirm Password
+              Konfirmasi Kata Sandi
             </InputLabel>
-            <OutlinedInput
-              sx={{ mb: 1 }}
-              label='Confirm Password'
-              id='password2'
-              error={Boolean(errors.password)}
-              type={showPassword ? 'text' : 'password'}
-              {...register('password2')}
-              endAdornment={
-                <InputAdornment position='end'>
-                  <IconButton
-                    edge='end'
-                    onMouseDown={e => e.preventDefault()}
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                  </IconButton>
-                </InputAdornment>
+            <LightTooltip
+              title={
+                <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2 }}>
+                  <Typography sx={{ fontWeight: 800, color: 'text.primary' }}>Ketentuan Kata Sandi:</Typography>
+                  <Box component='ul' sx={{ pl: 4, mb: 0, '& li': { mb: 1, color: 'text.primary' } }}>
+                    <li>Minimum 8 karakter</li>
+                    <li>Setidaknya satu karakter huruf kecil & satu karakter huruf besar</li>
+                    
+                  </Box>
+                </Alert>
               }
-            />
+            >
+              <OutlinedInput
+                sx={{ mb: 1 }}
+                label='Konfirmasi Kata Sandi'
+                id='password2'
+                error={Boolean(errors.password)}
+                type={showPassword ? 'text' : 'password'}
+                {...register('password2')}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    <IconButton
+                      edge='end'
+                      onMouseDown={e => e.preventDefault()}
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </LightTooltip>
+
             {/* {errors.password && (
               <FormHelperText sx={{ color: 'error.main' }} id=''>
                 {(errors as any).password?.message}
@@ -367,14 +404,6 @@ const Registration = (props: any) => {
           </FormControl>
         </Grid>
         <Grid item md={12} xs={12}>
-          <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2 }}>
-            <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>Password Requirements:</Typography>
-            <Box component='ul' sx={{ pl: 4, mb: 0, '& li': { mb: 1, color: 'text.primary' } }}>
-              <li>Minimum 8 characters long - the more, the better</li>
-              <li>At least one lowercase & one uppercase character</li>
-              <li>At least one number, symbol, or whitespace character</li>
-            </Box>
-          </Alert>
           <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
             <Checkbox id='term' {...register('term')}></Checkbox>
             <LinkStyled href={'/term'} target='_blank'>
