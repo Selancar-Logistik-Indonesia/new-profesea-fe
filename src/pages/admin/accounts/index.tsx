@@ -20,6 +20,7 @@ import { Icon } from '@iconify/react';
 import ITeam from 'src/contract/models/team';
 import DialogImport from './DialogImport';
 import DialogView from './DialogView';
+import { AppConfig } from 'src/configs/api';
 
 const UserScreen = () => {
     const translate: any = {
@@ -56,22 +57,24 @@ const UserScreen = () => {
             const rows = resp.data.users.data as Account[];
             const items = rows.map((row, index) => {
                 return {
-                    no: index + 1,
-                    id: row.id,
-                    name: row.name,
-                    email: row.email,
-                    phone: row.phone,
-                    role: row.employee_type != 'offship' ? row.role : 'Candidate',
-                    type: translate[row.employee_type],
-                    plan: row.plan_type,
-                    verified_at: row.verified_at,
-                    rejected_at: row.rejected_at,
-                    actions: {
-                        docView: () => viewHandler(row),
-                        onDelete: () => deleteHandler(row),
-                        onUpdate: () => updateHandler(row)
-                    }
-                } as RowItem
+                  no: index + 1,
+                  id: row.id,
+                  name: row.name,
+                  email: row.email,
+                  phone: row.phone,
+                  role: row.employee_type != 'offship' ? row.role : 'Candidate',
+                  type: translate[row.employee_type],
+                  plan: row.plan_type,
+                  verified_at: row.verified_at,
+                  resend: {
+                    onResend: () => resendchat(row)
+                  },
+                  actions: {
+                    docView: () => viewHandler(row),
+                    onDelete: () => deleteHandler(row),
+                    onUpdate: () => updateHandler(row)
+                  }
+                } as unknown as RowItem
 
             });
 
@@ -125,6 +128,16 @@ const UserScreen = () => {
     const viewHandler = (row: Account) => {
         setSelectedItem(row);
         setOpenViewModal(true);
+    }
+
+    const resendchat = async (row: Account) => {
+      const json = {
+        email: row.email
+      }
+      const resp = await HttpClient.get(`/user-management/resend-verification?email=`+row.email)
+     if (resp.status == 200) {
+       toast.success(data.name + ' Successfully Resend Email!')
+     }
     }
 
     useEffect(() => {
