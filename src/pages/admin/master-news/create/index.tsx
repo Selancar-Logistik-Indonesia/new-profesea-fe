@@ -147,7 +147,7 @@ const onCreate = async (formData: any) => {
           wrap: 'nowrap'
         }}
       >
-        <Grid item xs={10} spacing={6}>
+        <Grid item xs={12} spacing={6}>
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onCreate)}>
             <Grid
               item
@@ -250,9 +250,10 @@ const onCreate = async (formData: any) => {
                     />
                     <Button
                       variant='contained'
-                      sx={{ mr: 2 }}
+                      size='small'
+                      sx={{ mt: 2, mr: 2 }}
                       type='submit'
-                      startIcon={<Icon icon='ion:enter' fontSize={10} />}
+                      startIcon={<Icon icon='ion:enter' fontSize={12} />}
                     >
                       {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Save'}
                     </Button>
