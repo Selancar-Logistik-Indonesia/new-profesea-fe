@@ -8,6 +8,7 @@ import GroupContext, { GroupProvider } from 'src/context/GroupContext'
 import { useGroup } from 'src/hooks/useGroup'
 import LIstGroup from 'src/views/group/ListGroup'
  
+ 
 const FindCandidate = () => {
   return (
     <GroupProvider>
@@ -22,6 +23,7 @@ const ListGroup = () => {
   const [textCandidate, SetTextCandidate] = useState<any>('')    
   const [openAddModal, setOpenAddModal] = useState(false)
   const [hookSignature, setHookSignature] = useState(v4())
+
   const getdatapencarian = async () => {    
     fetchGroups({ take: 9, search: textCandidate})  
   }

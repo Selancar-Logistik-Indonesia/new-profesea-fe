@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react' 
-import { Box,  Grid, useMediaQuery } from '@mui/material'
+import { Box,  Grid, Typography, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
@@ -33,6 +33,7 @@ const UserFeedApp = () => {
   const iduser: any = user.id 
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null)
   const [status, setStatus] = useState<boolean>(false)
+  const [showFeed, setShowFeed] = useState<boolean>(false)
   const { id } = router.query as { id: any };
   // const [isLoading, setIsLoading] = useState(true)
 
@@ -49,6 +50,12 @@ const UserFeedApp = () => {
       }
       const grup = response.data.group as Group
       setSelectedGroup(grup) 
+      debugger;
+      if (grup.statusmember == 'Leave') {
+        setShowFeed(true)
+      }else{
+         setShowFeed(false)
+      }
  
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
@@ -64,6 +71,7 @@ const UserFeedApp = () => {
   useEffect(() => {
     firstload(); 
     fetchFeeds({ take: 7, group_id: id, mPage: 1 });
+    
   }, [id,status])
 
   return (
@@ -82,8 +90,9 @@ const UserFeedApp = () => {
               />
             </Grid>
             <Grid item lg={10} md={10} xs={12}>
-              <PostfeedGroup id={id} />
-              <ListFeedViewGroup username={id} />
+              {showFeed == true && <PostfeedGroup id={id} />}
+              {showFeed == true && <ListFeedViewGroup username={id} />}
+              {showFeed == false && <Typography>Please Join Group</Typography>}
             </Grid>
           </Grid>
         </Grid>

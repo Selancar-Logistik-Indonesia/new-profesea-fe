@@ -10,6 +10,7 @@ interface Group {
   description: string
   groupbanner: any
   member:Member
+  statusmember:any
 }
 
 export default Group;

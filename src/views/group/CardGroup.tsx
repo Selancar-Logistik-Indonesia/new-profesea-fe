@@ -105,7 +105,6 @@ const CardGroup = ( props:Props) => {
        toast.error(`Opps ${getCleanErrorMessage(error)}`)
      }
   }
-
  
   const buildConnectText = () => {
     return selectedGroup.statusmember
@@ -117,14 +116,31 @@ const CardGroup = ( props:Props) => {
         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             <Grid item lg={6} md={6} xs={12}>
-                {selectedGroup && (
-                <Button
-                   onClick={buildConnectText() == 'Join' ? () => joinGroup() : () => leaveGroup()}
-                   variant={'contained'}
-                   size='small'              
-                > 
-                  {isLoading ? <CircularProgress  /> : buildConnectText()}
-                </Button>
+              {selectedGroup && (
+                <>
+                  <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                    <Box sx={{ mr: 2 }}>
+                      <Button
+                        onClick={buildConnectText() == 'Join' ? () => joinGroup() : () => leaveGroup()}
+                        variant={'contained'}
+                        size='small'
+                      >
+                        {isLoading ? <CircularProgress /> : buildConnectText()}
+                      </Button>
+                    </Box>
+                    {/* <Box sx={{ mr: 2 }}>
+                      <Button onClick={() => leaveGroup()} variant={'contained'} size='small'>
+                        Edit
+                      </Button>
+                    </Box>
+
+                    <Box sx={{ mr: 2 }}>
+                      <Button onClick={() => leaveGroup()} variant={'contained'} size='small'>
+                        Delete
+                      </Button>
+                    </Box> */}
+                  </Box>
+                </>
               )}
             </Grid>
             <Box sx={{ mt: 3 }}>

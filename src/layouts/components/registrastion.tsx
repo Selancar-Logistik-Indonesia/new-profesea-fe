@@ -15,7 +15,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Hooks
 
 // ** Demo Imports
-import { Autocomplete, FormHelperText, Grid } from '@mui/material'
+import { Autocomplete,  Grid } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
 
