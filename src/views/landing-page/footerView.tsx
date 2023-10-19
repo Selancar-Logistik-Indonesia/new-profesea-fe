@@ -1,6 +1,6 @@
 import { Box, Grid, IconButton, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebook, faInstagram, faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faFacebook, faInstagram, faLinkedin, faTiktok, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useTranslation } from "react-i18next";
 import { styled } from '@mui/material/styles';
 import Link from "next/link";
@@ -91,17 +91,17 @@ const FooterView = () => {
             <Typography mt={2} fontSize={16} color={'#ef6c00'}>
               {t('landing_footer_menu_9')}
             </Typography>
-            <IconButton>
-              <FontAwesomeIcon icon={faFacebook} color='#101820' />
+            <IconButton href="https://www.facebook.com/profesea.id" target="_blank">
+              <FontAwesomeIcon icon={faFacebook} color='#101820'/>
             </IconButton>
-            <IconButton>
+            <IconButton href="https://www.instagram.com/profesea.indonesia" target="_blank">
               <FontAwesomeIcon icon={faInstagram} color='#101820' />
             </IconButton>
-            <IconButton>
+            <IconButton href="https://www.linkedin.com/company/profesea-indonesia/" target="_blank">
               <FontAwesomeIcon icon={faLinkedin} color='#101820' />
             </IconButton>
-            <IconButton>
-              <FontAwesomeIcon icon={faTwitter} color='#101820' />
+            <IconButton href="https://www.tiktok.com/@profesea.id" target="_blank">
+              <FontAwesomeIcon icon={faTiktok} color='#101820' />
             </IconButton>
           </Grid>
           {/* <Grid item xs={12} textAlign={'left'} justifyItems='flex-end'>
