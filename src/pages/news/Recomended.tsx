@@ -7,8 +7,7 @@ import {   Card, CardContent, CardMedia, Link } from '@mui/material'
 import Moment from 'moment'
  import { useNews } from 'src/hooks/useNews'
 import INews from 'src/contract/models/news'
-import { contains } from 'cheerio'
- 
+
 const renderList = (arr: INews[]) => {
   if (arr && arr.length) {
 
