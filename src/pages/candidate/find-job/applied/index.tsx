@@ -39,7 +39,7 @@ const AllJobApplied = () => {
                   category_name: row?.job?.category.name,
                   company_name: row?.job?.company?.name,
                   location: `${row?.job?.city?.city_name} - ${row?.job?.country?.name}`,
-                  degree: row?.job?.degree.name,
+                  degree: row?.job?.degree?.name,
                   salary: `Rp. ${row?.job?.salary_start} - Rp. ${row?.job?.salary_end}`,
                   status: status.find(e => e.id === row.status).title
                 } as unknown as RowItem
