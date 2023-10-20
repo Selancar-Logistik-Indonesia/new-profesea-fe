@@ -70,10 +70,10 @@ const firstload = () => {
                   <Box sx={{ mb: 1 }}>
                     <Grid item container xs={12} justifyContent={'left'}>
                       <Typography
-                        fontSize={28}
+                        fontSize={18}
                         style={{ color: '#000' }}
-                        fontWeight='800'
-                        sx={{ mb: 2, color: '#424242', textTransform: 'uppercase' }}
+                        fontWeight='600'
+                        sx={{ ml: 2, mb: 2, color: '#424242', textTransform: 'uppercase' }}
                       >
                         {threadDetail?.title}
                       </Typography>
@@ -81,8 +81,10 @@ const firstload = () => {
                     <Grid item container xs={12} justifyContent={'center'}>
                       <CardMedia
                         component='img'
-                        alt='green iguana'
+                        alt='Img of Profesea'
                         image={threadDetail?.imgnews != null ? threadDetail.imgnews : null}
+                        sx={{ ml: 2}}
+                        style={{objectFit: 'contain'}}
                       />
                     </Grid>
                     <Grid item container xs={12} justifyContent={'flex'}>

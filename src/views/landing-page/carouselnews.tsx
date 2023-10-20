@@ -72,7 +72,7 @@ const CarouselNewsView = () => {
       sx={{
         maxWidth: { xs: '100%' },
         px: { xs: 5, md: 5 },
-        background: '#f1ece5'
+        background: '#FFFFFF'
       }}
       // mt={1}
       // mb={2}
@@ -176,15 +176,16 @@ const CarouselNewsView = () => {
               </Grid>
             </Grid>
             <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={18}>
-              {props.item.type}
+              {props.item.title}
             </Typography>
             <CardMedia
               component='img'
-              alt='green iguana'
+              alt='Img of Profesea'
               height='180'
               image={props.item?.imgnews != null ? props.item.imgnews : null}
+              style={{objectFit: 'contain'}}
             />
-            <Typography fontWeight={600} fontSize={16} mt={2}>
+            <Typography fontWeight={400} fontSize={16} mt={2}>
               {props.item.snap_content
                 ? `${
                     props.item.snap_content.toString().charAt(0).toUpperCase() +
