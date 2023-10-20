@@ -156,15 +156,15 @@ const DialogAdd = (props: DialogProps) => {
                         sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}
                       >
                         <Typography
-                          variant='h5'
                           color='textSecondary'
+                          fontSize='16px'
                           sx={{ '& a': { color: 'primary.main', textDecoration: 'none' } }}
                         >
                           Click{' '}
                           <Link href='/' onClick={e => e.preventDefault()}>
                             browse / image
                           </Link>{' '}
-                          to upload Thumbnail
+                          to upload Profile Picture of Group
                         </Typography>
                       </Box>
                     </Box>
@@ -172,12 +172,12 @@ const DialogAdd = (props: DialogProps) => {
                 </Box>
               </Grid>
                  <Grid item md={12} xs={12}>
-                  <TextField id='title' label='Title' variant='outlined' fullWidth {...register('title')} />
+                  <TextField id='title' label='Title Group' variant='outlined' fullWidth {...register('title')} />
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextField
                     id='description'
-                    label='Description'
+                    label='Description Group'
                     variant='outlined'
                     multiline
                     maxRows={4}

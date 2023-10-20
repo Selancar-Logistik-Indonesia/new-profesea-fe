@@ -504,7 +504,7 @@ const CompanyProfile = (props: compProps) => {
   return (
     <Grid container padding={5}>
       <Grid xs={12} sx={{ mt: 0, ml: 2, mb: 2 }}>
-        <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+      <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '400' }}>
           General Info
         </Typography>
         <Grid container item xs={12} justifyContent={'left'}>
@@ -595,7 +595,7 @@ const CompanyProfile = (props: compProps) => {
               </Grid>
               <Grid xs={10} md={11}>
                 <Grid container item xs={12} justifyContent={'left'}>
-                  <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
+                <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '400' }}>
                     {' '}
                     Document Upload
                   </Typography>

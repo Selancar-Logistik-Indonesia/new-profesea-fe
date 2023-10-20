@@ -7,6 +7,7 @@ import {   Card, CardContent, CardMedia, Link } from '@mui/material'
 import Moment from 'moment'
  import { useNews } from 'src/hooks/useNews'
 import INews from 'src/contract/models/news'
+import { contains } from 'cheerio'
  
 const renderList = (arr: INews[]) => {
   if (arr && arr.length) {
@@ -36,9 +37,10 @@ const renderList = (arr: INews[]) => {
                   </Typography>
                   <CardMedia
                     component='img'
-                    alt='green iguana'
+                    alt='Img of Profesea'
                     height='180'
                     image={item?.imgnews != null ? item.imgnews : null}
+                    style={{objectFit: 'contain'}}
                   />
                   <Typography fontWeight={600} fontSize={14} mt={2}>
                     {item.snap_content

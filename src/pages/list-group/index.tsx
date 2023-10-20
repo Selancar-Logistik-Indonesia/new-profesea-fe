@@ -7,6 +7,8 @@ import { v4 } from 'uuid'
 import GroupContext, { GroupProvider } from 'src/context/GroupContext'
 import { useGroup } from 'src/hooks/useGroup'
 import LIstGroup from 'src/views/group/ListGroup'
+import { Icon } from '@iconify/react'
+
  
  
 const FindCandidate = () => {
@@ -69,12 +71,13 @@ const ListGroup = () => {
                                     List Group
                                   </Typography>
                                 </Grid>
-                                <Grid item lg={11} xs={10}>
+                                <Grid item lg={10} xs={10}>
                                   <TextField
                                     id='fullName'
                                     // defaultValue={props.datauser.name}
                                     label='Search Group'
                                     variant='outlined'
+                                    size='small'
                                     sx={{ mb: 1 }}
                                     onChange={e => {
                                       setPage(1)
@@ -82,14 +85,16 @@ const ListGroup = () => {
                                     }}
                                   />
                                 </Grid>
-                                <Grid item lg={1} xs={2}>
+                                <Grid item lg={2} xs={2}>
                                   <Button 
                                     variant='contained'
+                                    size='small' 
+                                    startIcon={<Icon icon='solar:add-circle-bold-duotone' fontSize={10} />}
                                     sx={{ mr: 2 }}
                                     fullWidth
                                     onClick={() => setOpenAddModal(!openAddModal)}
                                   >
-                                    New Group
+                                    Create a New Group
                                   </Button>
                                 </Grid>
                               </Grid>
