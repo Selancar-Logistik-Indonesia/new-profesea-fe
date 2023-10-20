@@ -28,10 +28,10 @@ import VesselType from 'src/contract/models/vessel_type'
 import Industry from 'src/contract/models/industry'
 import JobContext, { JobProvider } from 'src/context/JobContext'
 import { useJob } from 'src/hooks/useJob'
-import RecomendedViewSubscribe from 'src/views/find-job/RecomendedViewSubscribe'
+// import RecomendedViewSubscribe from 'src/views/find-job/RecomendedViewSubscribe'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import RecomendedView from 'src/views/find-job/RecomendedView'
-import Job from 'src/contract/models/job'
+// import Job from 'src/contract/models/job'
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -79,7 +79,7 @@ const SeafererJob = () => {
 const SeafererJobApp = () => {  
   const { setPage , fetchJobs, totalJob, hasNextPage} = useJob();
 
-  const [listJobSubscribe, setListJobSubscribe] = useState<Job[]>([])
+  // const [listJobSubscribe, setListJobSubscribe] = useState<Job[]>([])
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -173,14 +173,14 @@ const SeafererJobApp = () => {
       firstload()
   }, [JC])
   
-  const getListJobsSubscribe = async () => {
-    const response = await HttpClient.get(
-        `/job?search=${textCompany}&roletype_id=${JT}&category_id=${JC}&rolelevel_id=${RL}&edugrade_id=${ED}&page=1&take=6`
-    )
-    const jobs = response.data.jobs.data
+//   const getListJobsSubscribe = async () => {
+//     const response = await HttpClient.get(
+//         `/job?search=${textCompany}&roletype_id=${JT}&category_id=${JC}&rolelevel_id=${RL}&edugrade_id=${ED}&page=1&take=6`
+//     )
+//     const jobs = response.data.jobs.data
 
-    setListJobSubscribe(jobs)
-}
+//     setListJobSubscribe(jobs)
+// }
 
   const getdatapencarian = () => {
     fetchJobs( { take:9, search:textCompany, category_id:JC, edugrade_id: ED, rolelevel_id: RL, roletype_id: JT, vesseltype_id : idvessel, country_id: idcountry, city_id: idcity })
@@ -489,7 +489,7 @@ const SeafererJobApp = () => {
                                         <AlertTitle>Find & Apply Job</AlertTitle>
                                         Based on <strong>your profile</strong> and <strong> your experience</strong>
                                     </Alert>
-                                    <RecomendedViewSubscribe listJob={listJobSubscribe} />
+                                    {/* <RecomendedViewSubscribe listJob={listJobSubscribe} /> */}
                                     <JobContext.Consumer>
                                           {({ listJobs, onLoading }) => {
                                               if (onLoading) {
