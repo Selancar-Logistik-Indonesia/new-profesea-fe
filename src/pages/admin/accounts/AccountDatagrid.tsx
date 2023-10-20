@@ -14,7 +14,7 @@ const columns: GridColDef[] = [
   { field: 'plan', headerName: 'Plan', sortable: true, minWidth: 100 },
   {
     field: 'resend',
-    headerName: 'Resend',
+    headerName: 'Email Verify',
     sortable: false,
     minWidth: 150,
     renderCell: cell => {

@@ -707,7 +707,7 @@ const CandidateProfile = (props: compProps) => {
   return (
     <Grid container padding={5}>
       <Grid xs={12} sx={{ mt: 0, ml: 2, mb: 2 }}>
-        <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+      <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
           General Info
         </Typography>
         <Grid container item xs={12} justifyContent={'left'}>
@@ -1060,7 +1060,7 @@ const CandidateProfile = (props: compProps) => {
               {tampilkanship == 'PELAUT' && (
                 <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
                   <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
-                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                  <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
                       Preferences
                     </Typography>
                     <Grid container item xs={12} justifyContent={'left'}>
@@ -1211,7 +1211,7 @@ const CandidateProfile = (props: compProps) => {
               {tampilkanship != 'PELAUT' && (
                 <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
                   <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
-                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                  <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
                       Preferences
                     </Typography>
                     <Grid container item xs={12} justifyContent={'left'}>
@@ -1364,7 +1364,7 @@ const CandidateProfile = (props: compProps) => {
               <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
               <Grid item md={5} xs={12}>
                 <Grid container item xs={12} justifyContent={'left'}>
-                  <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
                     Social Media Info
                   </Typography>
                 </Grid>
@@ -1499,7 +1499,7 @@ const CandidateProfile = (props: compProps) => {
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
                   <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                  <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
                       Educational Info
                     </Typography>
                   </Grid>
@@ -1611,7 +1611,7 @@ const CandidateProfile = (props: compProps) => {
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
                   <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                    <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
                       Work Experience Info
                     </Typography>
                   </Grid>
@@ -1720,7 +1720,7 @@ const CandidateProfile = (props: compProps) => {
                 <Grid item container xs={12}>
                   <Grid xs={10} md={11}>
                     <Grid container item xs={12} justifyContent={'left'}>
-                      <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                    <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
                         Document Upload
                       </Typography>
                     </Grid>

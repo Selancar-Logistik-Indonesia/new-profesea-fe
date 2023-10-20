@@ -68,10 +68,10 @@ const firstload = () => {
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardContent>
                   <Box sx={{ mb: 1 }}>
-                    <Grid item container xs={12} justifyContent={'center'}>
+                    <Grid item container xs={12} justifyContent={'left'}>
                       <Typography
                         variant='body2'
-                        sx={{ mb: 2, color: '#424242', textTransform: 'uppercase', fontWeight: 600 }}
+                        sx={{ ml: 4, mb: 1, color: '#000000', textTransform: 'uppercase', fontSize: '18px', fontWeight: '600' }}
                       >
                         {threadDetail?.title}
                       </Typography>
@@ -79,7 +79,7 @@ const firstload = () => {
                     <Grid item container xs={12} justifyContent={'flex'}>
                       <Typography
                         variant='body1'
-                        sx={{ p: 4, color: '#424242', fontWeight: 300 }}
+                        sx={{ p: 4, color: '#000000', fontWeight: 400 }}
                       >
                         {ReactHtmlParser(`${threadDetail?.content}`)}
                       </Typography>

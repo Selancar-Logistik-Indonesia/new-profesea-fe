@@ -462,7 +462,7 @@ const DialogEditDocument = (props: DialogProps) => {
                   <label htmlFor='x'>
                     <img
                       alt='logo'
-                      src={preview ? preview : '/images/avatar.png'}
+                      src={preview ? preview : '/images/uploadimage.jpeg'}
                       style={{
                         maxWidth: '100%',
                         height: '120px',
@@ -482,13 +482,13 @@ const DialogEditDocument = (props: DialogProps) => {
                 <Grid xs={6}>
                 <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                    <strong>Click Image to change Document Photo.</strong>
+                    <strong>Click to change Document File.</strong>
                     </Typography>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                      Allowed JPG, GIF or PNG.
+                      Allowed PDF.
                     </Typography>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                      Max size of 800K. Aspect Ratio 1:1
+                      Max size of 800K.
                     </Typography>
                   </Box>
                 </Grid>

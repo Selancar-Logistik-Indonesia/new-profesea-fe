@@ -319,7 +319,7 @@ const DialogAddDocument = (props: DialogProps) => {
                   <Grid xs={6}>
                     <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
-                        <strong>Click Image to upload Document.</strong>
+                        <strong>Click to upload Document File.</strong>
                       </Typography>
                       <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
                         Allowed PDF.
