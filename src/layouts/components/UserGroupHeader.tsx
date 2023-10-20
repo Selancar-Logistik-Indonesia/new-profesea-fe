@@ -50,7 +50,7 @@ const UserProfileHeader = (props: userProps) => {
             }}
           >
             <Box sx={{ mb: [4, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
-              <Typography variant='h6' sx={{ mb: 0, color: '#424242', fontWeight: 900 }}>
+            <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '900' }}>
                 {datagroup.title}
               </Typography>
               <Box
