@@ -18,16 +18,16 @@ const SubCommentCardGroup = (props: { comment: ISocialFeedComment }) => {
                     <Avatar sx={{ width: 35, height: 35, mr: 3, mb: 3 }} src={getUserAvatar(comment.user)} alt='profile-picture' />
                 </Box>
                 <Box sx={{ mb: [6, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
-                    <Typography variant='body2' sx={{ color: "#424242", fontWeight: 500 }}>
+                    <Typography variant='body2' sx={{ color: "#262525", fontWeight: 500 }}>
                         {toTitleCase(comment.user.name)}
                     </Typography>
-                    <Typography sx={{ color: "#424242", fontWeight: 400 }}>
+                    <Typography sx={{ color: "#262525", fontWeight: 400 }}>
                         {comment.h_created_at}
                     </Typography>
                 </Box>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
-                <Typography variant="body1" sx={{ color: "#424242", fontWeight: 400, margin: "5px" }}>
+                <Typography variant="body1" sx={{ color: "#262525", fontWeight: 400, margin: "5px" }}>
                     {comment.content}
                 </Typography>
             </Box>

@@ -133,8 +133,8 @@ const FeatureView = () => {
                     }}>
                         <Grid container spacing={6}>
                             <Grid item xs={12} sm={12}>
-                                <Typography variant="h5" style={{ color: "#424242" }} fontWeight="600" mt={6}>Mengapa Memilih Profesea?</Typography>
-                                <Typography fontSize={16} style={{ color: "#424242" }} mt={2} align={"justify"}>Solusi Profesea dapat mendukung bisnis dan karir anda di Dunia Maritim </Typography>
+                                <Typography variant="h5" style={{ color: "#262525" }} fontWeight="600" mt={6}>Mengapa Memilih Profesea?</Typography>
+                                <Typography fontSize={16} style={{ color: "#262525" }} mt={2} align={"justify"}>Solusi Profesea dapat mendukung bisnis dan karir anda di Dunia Maritim </Typography>
                             </Grid>
                             <Grid item xs={12} sm={3}>
                                 <figure className="shape-box shape-box_half">

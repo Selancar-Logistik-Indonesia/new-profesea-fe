@@ -63,7 +63,7 @@ const ConnectButton = (props: ConnectButtonProps) => {
             size='small'
             sx={{ margin: '5px', fontSize: '10px' }}
             color='warning'
-            startIcon={!isLoading && <Icon icon={buildConnectIcon()} color={user.frienship_status ? '#42424242' : 'white'} />}
+            startIcon={!isLoading && <Icon icon={buildConnectIcon()} color={user.frienship_status ? '#26252542' : 'white'} />}
         >
             {
                 isLoading

@@ -44,7 +44,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
                 </Grid>
               </Grid>
               <Grid xs={12} md={10} container direction='row' alignItems='center' padding={1}>
-                <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
                   {item.document_name.charAt(0).toUpperCase() + item.document_name.slice(1)}
                 </Typography>
               </Grid>
@@ -69,7 +69,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
                       </Grid>
                     </Grid> */}
                     <Grid xs={12} md={12} container direction='row' alignItems='center' padding={1}>
-                      <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
                         {itemhead.document_name.charAt(0).toUpperCase() + itemhead.document_name.slice(1)}
                       </Typography>
                     </Grid>
@@ -98,7 +98,7 @@ const Ceritificate = (props: Props) => {
       <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: '#424242', textTransform: 'uppercase', fontWeight: 600 }}>
+              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 600 }}>
                 Certificate
               </Typography>
               {renderList(vacancy)}

@@ -90,8 +90,8 @@ const Register = () => {
                       src='/images/logosamudera.png'
                       sx={{ width: 125, mt: 5, mb: 5 }}></Box>
                   </Link>
-                  {/* <Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#424242" }}>Register</Typography> */}
-                  <Typography variant='body2' sx={{ textAlign: 'center', color: "#424242", mb: 8 }}> {t('register_text_1')} </Typography>
+                  {/* <Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#262525" }}>Register</Typography> */}
+                  <Typography variant='body2' sx={{ textAlign: 'center', color: "#262525", mb: 8 }}> {t('register_text_1')} </Typography>
                   
                 </Box>
 
@@ -106,7 +106,7 @@ const Register = () => {
                 </Link>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                  <Typography sx={{ mr: 2, color: "#424242" }}>{t('register_text_2')} </Typography>
+                  <Typography sx={{ mr: 2, color: "#262525" }}>{t('register_text_2')} </Typography>
                   <Typography href='/login' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold', }}>
                   {t('register_text_3')} 
                   </Typography>

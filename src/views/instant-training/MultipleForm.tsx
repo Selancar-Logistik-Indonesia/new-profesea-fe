@@ -47,7 +47,7 @@ const MultipleForm = (props : { training_id : any, answer:any}) => {
               />
             </Grid>
             <Grid item xs={4} md={1}>
-              <Typography variant='body2' style={{ fontSize: '12px', color: '#424242' }}>
+              <Typography variant='body2' style={{ fontSize: '12px', color: '#262525' }}>
                 Answer
               </Typography>
               <Radio

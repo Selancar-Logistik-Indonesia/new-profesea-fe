@@ -281,7 +281,7 @@ const JobApplied = () => {
               <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFFF' }}>
                 <CardHeader
                   title={
-                    <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
+                    <Typography variant='body2' style={{ fontSize: '14px', color: '#262525' }}>
                       Basic Search
                     </Typography>
                   }
@@ -289,7 +289,7 @@ const JobApplied = () => {
                     <IconButton
                       size='small'
                       aria-label='collapse'
-                      sx={{ color: '#424242' }}
+                      sx={{ color: '#262525' }}
                       onClick={() => setCollapsed(!collapsed)}
                     >
                       <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
@@ -361,7 +361,7 @@ const JobApplied = () => {
               <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardHeader
                   title={
-                    <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
+                    <Typography variant='body2' style={{ fontSize: '14px', color: '#262525' }}>
                       Advanced Filter
                     </Typography>
                   }

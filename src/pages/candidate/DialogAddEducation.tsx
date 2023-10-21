@@ -250,18 +250,18 @@ const DialogAddEducation = (props: DialogProps) => {
                   <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                     <Typography
                       variant='body2'
-                      sx={{ textAlign: 'left', color: '#424242', fontSize: '10px', mb: '5px' }}
+                      sx={{ textAlign: 'left', color: '#262525', fontSize: '10px', mb: '5px' }}
                     >
                       <strong>Click Image to change Institution Logo.</strong>
                     </Typography>
                     <Divider></Divider>
                     <Typography
                       variant='body2'
-                      sx={{ textAlign: 'left', color: '#424242', fontSize: '10px', mt: '5px' }}
+                      sx={{ textAlign: 'left', color: '#262525', fontSize: '10px', mt: '5px' }}
                     >
                       Allowed JPG, GIF or PNG.
                     </Typography>
-                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#424242', fontSize: '10px' }}>
+                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
                       Max size of 800K. Aspect Ratio 1:1
                     </Typography>
                   </Box>

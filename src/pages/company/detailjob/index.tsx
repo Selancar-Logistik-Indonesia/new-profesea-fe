@@ -103,27 +103,27 @@ const hidden = useMediaQuery(theme.breakpoints.down('md'))
             <Grid xs={12} sx={{marginLeft:'25px',marginTop:'10px'}}  >  
                <Typography  variant='h6'  >Detail</Typography> 
                 <Box  sx={ {  display: 'flex' ,margin:'3px'  }}>
-                  <Typography  variant='body1'  sx={{fontWeight: 'bold',  color: "#424242" }}  >.  Education : </Typography> 
+                  <Typography  variant='body1'  sx={{fontWeight: 'bold',  color: "#262525" }}  >.  Education : </Typography> 
                   <Typography  variant='body1'  ml="0.5rem"  > Diploma 3 (D3)</Typography>
                </Box> 
                 <Box  sx={ {  display: 'flex' ,margin:'3px'  }}>
-                  <Typography  variant='body1'  sx={{fontWeight: 'bold',  color: "#424242" }}  >.  Salary : </Typography> 
+                  <Typography  variant='body1'  sx={{fontWeight: 'bold',  color: "#262525" }}  >.  Salary : </Typography> 
                   <Typography  variant='body1'  ml="0.5rem"  > Rp7.000.000</Typography>
                </Box> 
                 <Box  sx={ {  display: 'flex' ,margin:'3px'  }}>
-                  <Typography  variant='body1'  sx={{fontWeight: 'bold',  color: "#424242" }}  >.  Employee type : </Typography> 
+                  <Typography  variant='body1'  sx={{fontWeight: 'bold',  color: "#262525" }}  >.  Employee type : </Typography> 
                   <Typography  variant='body1'  ml="0.5rem"  > Full Time </Typography>
                </Box> 
                 <Box  sx={ {  display: 'flex',margin:'3px'   }}>
-                  <Typography  variant='body1'  sx={{fontWeight: 'bold',  color: "#424242" }}  >.  Job Category : </Typography> 
+                  <Typography  variant='body1'  sx={{fontWeight: 'bold',  color: "#262525" }}  >.  Job Category : </Typography> 
                   <Typography  variant='body1'  ml="0.5rem"  > Engineering</Typography>
                </Box> 
                 <Box  sx={ {  display: 'flex' ,margin:'3px'  }}>
-                  <Typography  variant='body1'  sx={{fontWeight: 'bold',  color: "#424242" }}  >.  Licenses or Certifications : </Typography> 
+                  <Typography  variant='body1'  sx={{fontWeight: 'bold',  color: "#262525" }}  >.  Licenses or Certifications : </Typography> 
                   <Typography  variant='body1'  ml="0.5rem"  > Electrical Installation</Typography>
                </Box> 
                 <Box  sx={ {  display: 'flex' ,margin:'3px'  }}>
-                  <Typography  variant='body1'  sx={{fontWeight: 'bold',  color: "#424242" }}  >.  Work Experiences Needed : </Typography> 
+                  <Typography  variant='body1'  sx={{fontWeight: 'bold',  color: "#262525" }}  >.  Work Experiences Needed : </Typography> 
                   <Typography  variant='body1'  ml="0.5rem"  > Electrical Engineering</Typography>
                </Box> 
             </Grid>
@@ -160,17 +160,17 @@ const hidden = useMediaQuery(theme.breakpoints.down('md'))
                
              <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
                 <IconButton>
-                        <FontAwesomeIcon icon={faFacebook} />   <Typography variant='body1' sx={{ color: "#424242", fontWeight: 600 }}>PT.Samudera Indonesia Maritim</Typography>
+                        <FontAwesomeIcon icon={faFacebook} />   <Typography variant='body1' sx={{ color: "#262525", fontWeight: 600 }}>PT.Samudera Indonesia Maritim</Typography>
                 </IconButton>  
             </Box>
             <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
                 <IconButton>
-                        <FontAwesomeIcon icon={faInstagram} />   <Typography variant='body1' sx={{ color: "#424242", fontWeight: 600 }}>@Samudera Indonesia</Typography>
+                        <FontAwesomeIcon icon={faInstagram} />   <Typography variant='body1' sx={{ color: "#262525", fontWeight: 600 }}>@Samudera Indonesia</Typography>
                 </IconButton>  
             </Box> 
             <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: 'text.secondary' } }}>
                <IconButton>
-                        <FontAwesomeIcon icon={faTwitter} />   <Typography variant='body1' sx={{ color: "#424242", fontWeight: 600 }}>@Samudera Indonesia</Typography>
+                        <FontAwesomeIcon icon={faTwitter} />   <Typography variant='body1' sx={{ color: "#262525", fontWeight: 600 }}>@Samudera Indonesia</Typography>
                 </IconButton>  
             </Box>
                </Grid>

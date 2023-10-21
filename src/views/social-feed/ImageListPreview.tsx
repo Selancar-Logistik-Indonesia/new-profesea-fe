@@ -36,7 +36,7 @@ const ImageListPreview = (props: { urls: string[] }) => {
 
     return urls.length > 0 ? (
         <ImageList
-            sx={{ width: 750, height: 550, objectFit: 'contain', overflow: 'hidden', my: 2, borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', }}
+            sx={{ width: 550, height: 550, objectFit: 'contain', overflow: 'hidden', my: 2, borderRadius: '8px', boxShadow: '0 1px 1px rgba(0, 0, 0, 0.1)', }}
             variant="quilted"
             cols={cols}
             rowHeight={550 / 3}

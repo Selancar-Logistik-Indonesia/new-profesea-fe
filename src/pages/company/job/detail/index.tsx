@@ -202,7 +202,7 @@ const JobDetail = () => {
                           ml='0.5rem'
                           fontSize={12}
                           fontWeight={500}
-                          fontFamily={'Barlow'}
+                          fontFamily={'Outfit'}
                           textAlign={'justify'}
                         >
                           {ReactHtmlParser(`${jobDetail?.company?.about}`)}

@@ -141,20 +141,20 @@ const Register = () => {
                   }
                 >
                   {labelAtas == 0 ? (
-                    <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: '#424242' }}>
+                    <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: '#262525' }}>
                       {t('register_text_14')}
                     </Typography>
                   ) : (
-                    <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: '#424242' }}>
+                    <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: '#262525' }}>
                       {t('register_text_7')}
                     </Typography>
                   )}
                   {labelAtas == 0 ? (
-                    <Typography variant='body2' sx={{ mb: 1, textAlign: 'left', color: '#424242' }}>
+                    <Typography variant='body2' sx={{ mb: 1, textAlign: 'left', color: '#262525' }}>
                       {t('register_text_15')}
                     </Typography>
                   ) : (
-                    <Typography variant='body2' sx={{ mb: 1, textAlign: 'left', color: '#424242' }}>
+                    <Typography variant='body2' sx={{ mb: 1, textAlign: 'left', color: '#262525' }}>
                       {t('register_text_10')}
                     </Typography>
                   )}

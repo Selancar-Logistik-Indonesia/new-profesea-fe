@@ -61,7 +61,7 @@ const UserProfileHeader = (props: userProps) => {
                 }}
               >
                 <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
-                  <Typography sx={{ color: '#424242', fontWeight: 600 }}>{datagroup.description}</Typography>
+                  <Typography sx={{ color: '#262525', fontWeight: 600 }}>{datagroup.description}</Typography>
                 </Box>
               </Box>
             </Box>

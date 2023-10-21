@@ -81,7 +81,7 @@ const Candidate = () => {
                 borderColor: 'divider',
                 boxSizing: 'border-box', 
                 border: '1px solid rgba(76, 78, 100, 0.12)',
-                borderRadius: '20px',
+                borderRadius: '5px',
                 backgroundColor:'#FFFFFF',
                 marginTop: '10px',
                 direction: 'row',
@@ -95,7 +95,7 @@ const Candidate = () => {
                  
                   <Grid container item xs={12} marginBottom={'10px'}>
                     <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}> Resume Builder</Typography>
+                    <Typography variant="h3" color={"#32487A"} fontWeight="800" fontSize={18}> Resume Builder</Typography>
                     </Grid>
                   </Grid>
                   {selectedItem != null && (

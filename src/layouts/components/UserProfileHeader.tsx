@@ -102,7 +102,7 @@ const UserProfileHeader = (props: userProps) => {
             }}
           >
             <Box sx={{ mb: [4, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
-              <Typography variant='h6' sx={{ mb: 0, color: '#424242', fontWeight: 900 }}>
+              <Typography variant='h6' sx={{ mb: 0, color: '#262525', fontWeight: 900 }}>
                 {datauser.name}
               </Typography>
               <Box
@@ -114,11 +114,11 @@ const UserProfileHeader = (props: userProps) => {
               >
                 <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
                   {datauser.employee_type != null ? (
-                    <Typography sx={{ color: '#424242', fontWeight: 600 }}>
+                    <Typography sx={{ color: '#262525', fontWeight: 600 }}>
                       {getEmployeetypev2(datauser.employee_type)}
                     </Typography>
                   ) : (
-                    <Typography sx={{ color: '#424242', fontWeight: 600 }}>
+                    <Typography sx={{ color: '#262525', fontWeight: 600 }}>
                       {datauser.industry != null ? datauser.industry.name : datauser.role}
                     </Typography>
                   )}
@@ -130,7 +130,7 @@ const UserProfileHeader = (props: userProps) => {
         </CardContent>
         <Divider style={{ width: '100%' }} />
         <CardContent>
-          <Typography variant='body1' sx={{ color: '#424242', fontWeight: 500 }}>
+          <Typography variant='body1' sx={{ color: '#262525', fontWeight: 500 }}>
             {datauser.about ? datauser.about : '-'}
           </Typography>
           <Box
@@ -148,7 +148,7 @@ const UserProfileHeader = (props: userProps) => {
               }}
             >
               <Icon icon={'mdi:location'} />{' '}
-              <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
+              <Typography variant='body1' sx={{ color: '#262525', fontWeight: 400 }}>
                 {props.address != null ? props.address?.city?.city_name + ', ' + props.address?.country?.name : '-'}
               </Typography>
             </Box>
@@ -171,7 +171,7 @@ const UserProfileHeader = (props: userProps) => {
                   }}
                 >
                   <Icon icon='mdi:facebook' />
-                  <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
+                  <Typography variant='body1' sx={{ color: '#262525', fontWeight: 400 }}>
                     <a href={facebook} target='_blank' style={{ textDecoration: 'none' }}>
                       {facebook}
                     </a>
@@ -186,7 +186,7 @@ const UserProfileHeader = (props: userProps) => {
                   }}
                 >
                   <Icon icon='mdi:instagram' />
-                  <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
+                  <Typography variant='body1' sx={{ color: '#262525', fontWeight: 400 }}>
                     <a href={instagram} target='_blank' style={{ textDecoration: 'none' }}>
                       {instagram}
                     </a>
@@ -202,7 +202,7 @@ const UserProfileHeader = (props: userProps) => {
                   }}
                 >
                   <Icon icon='mdi:linkedin' />
-                  <Typography variant='body1' sx={{ color: '#424242', fontWeight: 400 }}>
+                  <Typography variant='body1' sx={{ color: '#262525', fontWeight: 400 }}>
                     <a href={linkedin} target='_blank' style={{ textDecoration: 'none' }}>
                       {linkedin}
                     </a>

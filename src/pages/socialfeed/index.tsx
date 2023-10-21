@@ -67,7 +67,7 @@ const SocialFeedApp = () => {
             <Grid item my={4} xs={12}>
               <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardContent>
-                  <Typography color={'#424242'} fontWeight='600' fontSize={'14px'} sx={{ mb: 4 }}>
+                  <Typography color={'#262525'} fontWeight='800' fontSize={'14px'} sx={{ mb: 4 }}>
                     Who See Your Profile
                   </Typography>
                   <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
@@ -85,47 +85,47 @@ const SocialFeedApp = () => {
                   </Box>
                 </CardContent>
                 <CardContent>
-                  <Typography color={'#424242'} fontWeight='600' fontSize={'14px'} sx={{ mb: 4 }}>
+                  <Typography color={'#262525'} fontWeight='800' fontSize={'14px'} sx={{ mb: 4 }}>
                     Your Activities
                   </Typography>
                   <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                    <Icon icon={'solar:user-speak-rounded-bold-duotone'} fontSize={20} color={'#424242'} />
-                    <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                    <Icon icon={'solar:user-speak-rounded-bold-duotone'} fontSize={20} color={'#262525'} />
+                    <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                       Total Connected : {activities?.total_connected}
                     </Typography>
                   </Box>
                   <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                    <Icon icon={'solar:to-pip-bold-duotone'} fontSize={20} color={'#424242'} />
-                    <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                    <Icon icon={'solar:to-pip-bold-duotone'} fontSize={20} color={'#262525'} />
+                    <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                       Total Visitor :{activities?.total_visitor}
                     </Typography>
                   </Box>
                   {user?.role == 'Company' ? (
                     <>
                       <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                        <Icon icon={'solar:case-minimalistic-bold-duotone'} fontSize={20} color={'#424242'} />
-                        <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                        <Icon icon={'solar:case-minimalistic-bold-duotone'} fontSize={20} color={'#262525'} />
+                        <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                           Total Post Job :{activities?.total_post_feed}
                         </Typography>
                       </Box>
                     </>
                   ) : (
                     <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                      <Icon icon={'solar:case-minimalistic-bold-duotone'} fontSize={20} color={'#424242'} />
-                      <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                      <Icon icon={'solar:case-minimalistic-bold-duotone'} fontSize={20} color={'#262525'} />
+                      <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                         Applied Job : {activities?.total_applied_job}
                       </Typography>
                     </Box>
                   )}
                   <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                    <Icon icon={'solar:clapperboard-text-bold-duotone'} fontSize={20} color={'#424242'} />
-                    <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                    <Icon icon={'solar:clapperboard-text-bold-duotone'} fontSize={20} color={'#262525'} />
+                    <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                       Total Post :{activities?.total_visitor}
                     </Typography>
                   </Box>
                   <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
-                    <Icon icon={'solar:plate-bold-duotone'} fontSize={20} color={'#424242'} />
-                    <Typography fontSize={12} sx={{ color: '#424242', fontWeight: 400 }}>
+                    <Icon icon={'solar:plate-bold-duotone'} fontSize={20} color={'#262525'} />
+                    <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                       Total Thread : {activities?.total_post_thread}
                     </Typography>
                   </Box>

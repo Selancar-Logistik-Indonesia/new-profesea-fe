@@ -504,11 +504,11 @@ const CompanyProfile = (props: compProps) => {
   return (
     <Grid container padding={5}>
       <Grid xs={12} sx={{ mt: 0, ml: 2, mb: 2 }}>
-      <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '400' }}>
+      <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
           General Info
         </Typography>
         <Grid container item xs={12} justifyContent={'left'}>
-          <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+          <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
             Fulfill your General Info
           </Typography>
         </Grid>
@@ -595,13 +595,13 @@ const CompanyProfile = (props: compProps) => {
               </Grid>
               <Grid xs={10} md={11}>
                 <Grid container item xs={12} justifyContent={'left'}>
-                <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '400' }}>
+                <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
                     {' '}
                     Document Upload
                   </Typography>
                 </Grid>
                 <Grid container item xs={12} justifyContent={'left'}>
-                  <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                  <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
                     Please upload mandatory documents and wait for admin to verify
                   </Typography>
                 </Grid>
@@ -631,7 +631,7 @@ const CompanyProfile = (props: compProps) => {
                               color={'info'}
                               style={{ fontSize: '18px', margin: '5px' }}
                             />
-                            <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
+                            <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
                               {itemhead.document_name}
                             </Typography>
                           </Grid>
@@ -711,7 +711,7 @@ const CompanyProfile = (props: compProps) => {
                                   color={'info'}
                                   style={{ fontSize: '18px', margin: '5px' }}
                                 />
-                                <Typography variant='body2' sx={{ color: '#424242', fontSize: '14px' }}>
+                                <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
                                   {item.document_name}
                                 </Typography>
                               </Grid>
@@ -952,12 +952,12 @@ const CompanyProfile = (props: compProps) => {
 
                   <Grid item md={5} xs={12}>
                     <Grid container item xs={12} justifyContent={'left'}>
-                      <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '18px' }}>
                         Social Media Info
                       </Typography>
                     </Grid>
                     <Grid container item xs={12} justifyContent={'left'}>
-                      <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
                         Fulfill your Social Media Info
                       </Typography>
                     </Grid>
@@ -969,7 +969,7 @@ const CompanyProfile = (props: compProps) => {
                         <Grid xs={12} item>
                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                              <Icon icon='mdi:facebook' fontSize={24} color={'#424242'} />
+                              <Icon icon='mdi:facebook' fontSize={24} color={'#262525'} />
                             </Box>
                             <TextField
                               id='facebook'
@@ -1008,7 +1008,7 @@ const CompanyProfile = (props: compProps) => {
                         <Grid xs={12} item>
                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                              <Icon icon='mdi:instagram' fontSize={24} color={'#424242'} />
+                              <Icon icon='mdi:instagram' fontSize={24} color={'#262525'} />
                             </Box>
                             <TextField
                               id='instagram'
@@ -1046,7 +1046,7 @@ const CompanyProfile = (props: compProps) => {
                         <Grid xs={12} item>
                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                              <Icon icon='mdi:linkedin' fontSize={24} color={'#424242'} />
+                              <Icon icon='mdi:linkedin' fontSize={24} color={'#262525'} />
                             </Box>
                             <TextField
                               id='linkedin'
@@ -1117,12 +1117,12 @@ const CompanyProfile = (props: compProps) => {
           </form>
           <Grid item md={7} xs={12}>
             <Grid container item xs={12} justifyContent={'left'}>
-              <Typography variant='body2' sx={{ color: '#424242', fontSize: '18px' }}>
+              <Typography variant='body2' sx={{ color: '#262525', fontSize: '18px' }}>
                 Gallery
               </Typography>
             </Grid>
             <Grid container item xs={12} justifyContent={'left'}>
-              <Typography variant='body2' sx={{ color: '#424242', fontSize: '12px' }}>
+              <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
                 Upload your Photo here
               </Typography>
             </Grid>

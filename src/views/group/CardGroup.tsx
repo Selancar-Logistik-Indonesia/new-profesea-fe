@@ -45,10 +45,10 @@ const renderList = (arr: ParamJobVacncy[]) => {
             <Avatar src={getUserAvatar(item.user)} alt='profile-picture' sx={{ height: 50, width: 50 }} />
           </Box>
           <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
-            <Typography sx={{ color: '#424242', fontWeight: 600 }}>
+            <Typography sx={{ color: '#262525', fontWeight: 600 }}>
               {`${item.user.name.charAt(0).toUpperCase() + item.user.name.slice(1)}`}
             </Typography>
-            <Typography sx={{ color: '#424242', fontWeight: 400 }}>
+            <Typography sx={{ color: '#262525', fontWeight: 400 }}>
               {item.user.name.charAt(0).toUpperCase() + item.user.name.slice(1)}
             </Typography>
           </Box>
@@ -144,7 +144,7 @@ const CardGroup = ( props:Props) => {
               )}
             </Grid>
             <Box sx={{ mt: 3 }}>
-              {/* <Typography variant='body2' sx={{ mb: 4, color: '#424242', textTransform: 'uppercase', fontWeight: 600 }}>
+              {/* <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 600 }}>
                 Job Vacancy
               </Typography> */}
               {renderList(selectedGroup?.member)}

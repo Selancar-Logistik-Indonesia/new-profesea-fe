@@ -137,8 +137,8 @@ const LoginPage = () => {
 										>
 										</Box>
 									</Link>
-									<Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#424242" }}>Login</Typography>
-									<Typography variant='body2' sx={{ textAlign: 'center', color: "#424242" }}> {t('login_text_1')} </Typography>
+									<Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#262525" }}>Login</Typography>
+									<Typography variant='body2' sx={{ textAlign: 'center', color: "#262525" }}> {t('login_text_1')} </Typography>
 								</Box>
 								<form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
 									<FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
@@ -207,7 +207,7 @@ const LoginPage = () => {
 										</Button>
 									</Box>
 									<Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-										<Typography sx={{ mr: 2, color: "#424242" }}>{t('login_text_2')}</Typography>
+										<Typography sx={{ mr: 2, color: "#262525" }}>{t('login_text_2')}</Typography>
 										<Typography href='/register' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold', textDecoration: 'none' }}>
 										{t('login_text_3')}
 										</Typography>
