@@ -62,7 +62,7 @@ const LIstGroupLeft = (props: Props) => {
  
  
   return (
-    <Grid container marginTop={'0px'}>
+    <Grid container marginTop={'10px'}>
       <Grid item xs={12}>
         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
