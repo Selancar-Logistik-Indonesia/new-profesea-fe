@@ -180,6 +180,7 @@ const SeafererJobApp = () => {
     const jobs = response.data.jobs.data
 
     setListJobSubscribe(jobs)
+    console.log(listJobSubscribe)
   }
 
   const getdatapencarian = () => {
