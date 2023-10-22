@@ -56,7 +56,7 @@ const ButtonUploadPhoto = () => {
         <>
             <Button onClick={openModalPhoto} size='small' variant='text' sx={{ textDecoration: 'none' }}>
                 <Icon color='#378fe9' fontSize={22} icon='solar:gallery-add-bold-duotone' />
-                <div style={{ marginLeft: 5 }}>Photo</div>
+                <div style={{ marginLeft: 5, fontWeight: 800 }}>Photo</div>
             </Button>
             <Dialog sx={{ minWidth: { md: 320 } }} open={open} onClose={() => setOpen(!open)}>
                 <DialogTitle>

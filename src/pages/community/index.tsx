@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Button, Grid, Box } from '@mui/material'
+import { Button, Grid, Box, Typography } from '@mui/material'
 import ListThreadView from '../../views/community/ListThreadView'
 import { ThreadProvider } from 'src/context/ThreadContext'
 import { useThread } from 'src/hooks/useThread'
@@ -35,9 +35,14 @@ const CommunityApp = () => {
               alignItems: 'stretch',
               justifyContent: 'center',
               wrap: 'nowrap'
-            }}>
+            }}> 
           <Grid item xs={12}>            
             <Grid container >
+            <Grid container item xs={12} marginBottom={'10px'}>
+                    <Grid container item xs={12} justifyContent={'left'}>
+                    <Typography variant="h3" color={"#32487A"} fontWeight="800" fontSize={18}> Community</Typography>
+                    </Grid>
+                  </Grid>
               <Grid item xs={12} display={'flex'} alignContent={'flex-end'} justifyContent={'flex-end'}>
                 <Button variant='contained' size='small' href='/thread/create' startIcon={<Icon icon='solar:add-circle-bold-duotone' fontSize={10} />}>
                   Create Thread

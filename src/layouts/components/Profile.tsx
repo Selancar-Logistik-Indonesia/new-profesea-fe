@@ -95,13 +95,16 @@ const Profile = (props: userProps) => {
               />
             </Box>
             <Box sx={{ mb: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <Typography variant='body2' sx={{ color: '#32487A', fontWeight: 500, fontSize: '14px' }}>
+              <Typography variant='body2' sx={{ color: '#32487A', fontWeight: 800, fontSize: '18px' }}>
                 {props.datauser?.name}
               </Typography>
             </Box>
             <Divider sx={{ mt: theme => `${theme.spacing(2)} !important`, mb: theme => `${theme.spacing(2)} !important` }} />
             <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
               <Icon icon={'solar:user-id-bold-duotone'} fontSize={20} color={'#262525'} />
+              <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
+                        User:
+                      </Typography>
               <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                 {getUserRoleName(props.datauser?.team)}
               </Typography>
@@ -110,6 +113,9 @@ const Profile = (props: userProps) => {
               {props.datauser?.role == 'Seafarer' && (
                 <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                   <Icon icon={'iconamoon:box-bold'} fontSize={20} color={'#262525'} />
+                  <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
+                        Type of User:
+                      </Typography>
                   <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                     {getEmployeetype(props.datauser?.employee_type)}
                   </Typography>
@@ -118,6 +124,9 @@ const Profile = (props: userProps) => {
 
               <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                 <Icon icon={'solar:mailbox-bold-duotone'} fontSize={20} color={'#262525'} />
+                <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
+                        Email:
+                      </Typography>
                 <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                   {props.datauser?.email}
                 </Typography>
@@ -165,7 +174,7 @@ const Profile = (props: userProps) => {
                     >
                       <Icon icon={'solar:routing-2-bold-duotone'} fontSize={20} color={'#262525'} />
                       <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
-                        Region Of Travel:
+                        Region of Travel:
                       </Typography>
                       <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                         {selectedItem?.region_travel?.name}
@@ -262,7 +271,7 @@ const Profile = (props: userProps) => {
                     style={{ fontSize: '24px' }}
                   />
                 </IconButton>
-                EDIT
+                <div style={{ marginLeft: 5, fontWeight: 800 }}>EDIT PROFILE</div>
               </Button>
             </Box>
           </CardContent>
