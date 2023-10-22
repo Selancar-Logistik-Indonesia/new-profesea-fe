@@ -85,6 +85,7 @@ const DialogAdd = (props: DialogProps) => {
     const onSelectFile = (e: any) => {
       if (!e.target.files || e.target.files.length === 0) {
         setSelectedFile(undefined) 
+        
         return
       }
 
@@ -108,7 +109,7 @@ const DialogAdd = (props: DialogProps) => {
     const {
       register,
       handleSubmit,
-      formState: { errors }
+      formState: {}
     } = useForm<Group>({
       mode: 'onBlur',
       resolver: yupResolver(schema)

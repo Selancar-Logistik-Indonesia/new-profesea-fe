@@ -20,7 +20,6 @@ import Recomended from './Recomended'
 // import Profile from 'src/layouts/components/Profile'
 // import Feed from 'src/layouts/components/Feed'
 import { HttpClient } from 'src/services'
- import { useSearchParams } from 'next/navigation';
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout';
 import { NewsProvider } from 'src/context/NewsContext';
 import { useNews } from 'src/hooks/useNews';
@@ -42,8 +41,8 @@ const ThreadApp = () => {
   // const params = new URLSearchParams(windowUrl)
    // const [userDetail, setUserDetail] = useState<IUser | null>(null)
   const [threadDetail, setthreadDetail] = useState<any>([])
-    const router = useRouter()
-   let { namanews } = router.query as { namanews: string }
+  const router = useRouter()
+  const { namanews } = router.query as { namanews: string }
 const firstload = () => {
    if (namanews != undefined) {
      HttpClient.get('/news/' + namanews[0]).then(response => {

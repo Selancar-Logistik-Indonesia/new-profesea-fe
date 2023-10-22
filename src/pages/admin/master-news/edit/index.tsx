@@ -93,6 +93,7 @@ const EditNewsScreen = () => {
   })  
    const type = [{ title: 'News' }, { title: 'Event' }]
   const firstload = () => {
+      setShow(false);
       HttpClient.get(AppConfig.baseUrl + '/news/id/' + params.get('id')).then(resp => {        
         const news:any  = resp.data.news 
         const contenDesc = convertFromHTML(news?.content).contentBlocks

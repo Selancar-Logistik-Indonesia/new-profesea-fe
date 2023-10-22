@@ -3,13 +3,9 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent' 
-import { Button, CircularProgress } from '@mui/material'
-import {  useState } from 'react'
-import { IUser } from 'src/contract/models/user'
-import { toast } from 'react-hot-toast'
-import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers'
-import { HttpClient } from 'src/services'
+import CardContent from '@mui/material/CardContent'  
+import { IUser } from 'src/contract/models/user' 
+import {  getUserAvatar } from 'src/utils/helpers' 
 import Avatar from 'src/@core/components/mui/avatar'
  
 
@@ -62,29 +58,8 @@ const renderList = (arr: ParamJobVacncy[]) => {
  
 
 const CardGroup = ( props:Props) => {
-  const { selectedGroup } = props
-  const { iduser } = props 
-  const { onMessage } = props 
-  const [isLoading, setIsLoading] = useState(false)
-  const leaveGroup = async () => {
-     const json = {
-       idgroup: selectedGroup.id,
-       iduser: iduser
-     }
-     setIsLoading(true)
-     try {
-       console.log(json)
-       onMessage('ganticuk')
-       const resp = await HttpClient.post('/group/leave', json)
-       if (resp.status != 200) {
-         throw resp.data.message ?? 'Something went wrong create group!'
-       }
-        setIsLoading(false)
-       toast.success(` Leave Group successfully!`)
-     } catch (error) {
-       toast.error(`Opps ${getCleanErrorMessage(error)}`)
-     }
-  }
+  const { selectedGroup } = props 
+ 
   
   return (
     <Grid container marginTop={'0px'}>

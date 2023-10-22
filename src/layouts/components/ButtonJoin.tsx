@@ -1,12 +1,9 @@
 // ** React Imports
 import React, { useState } from 'react'
 
-import { Button, Paper, ButtonGroup, Popper, ClickAwayListener, MenuList, MenuItem, Grow, CircularProgress, Box } from '@mui/material'
+import { Button,  CircularProgress, Box } from '@mui/material'
 // ** Layout Import
-
-import { Icon } from '@iconify/react'
-
-import Grid from '@mui/material/Grid'
+ 
 import { toast } from 'react-hot-toast'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
@@ -52,6 +49,7 @@ const ButtonJoinGroup = (props: { selectedGroup: any; iduser: any; onMessage: (m
    const deleteHandler = (row: Group) => {
      setSelectedItem(row)
      setOpenDelModal(true)
+      console.log(hookSignature)
    }
 
   return (
