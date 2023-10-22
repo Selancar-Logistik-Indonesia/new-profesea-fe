@@ -7,6 +7,7 @@ import CardContent from '@mui/material/CardContent'
 import { IUser } from 'src/contract/models/user'
 import { getUserAvatar } from 'src/utils/helpers'
 import Avatar from 'src/@core/components/mui/avatar'
+import Link from 'next/link'
 
 export type ParamJobVacncy = {
   judul: string
@@ -36,15 +37,19 @@ const renderList = (arr: ParamJobVacncy[]) => {
           }}
         >
           <Box mr={5} mt={2}>
-            <Avatar src={getUserAvatar(item.user)} alt='profile-picture' sx={{ height: 35, width: 35 }} />
+            <Link style={{ textDecoration: 'none' }} href={'/profile/' + item.user?.username}>
+              <Avatar src={getUserAvatar(item.user)} alt='profile-picture' sx={{ height: 35, width: 35 }} />
+            </Link>
           </Box>
           <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
-            <Typography sx={{ color: '#424242', fontWeight: 800 }}>
-              {`${item.user?.name.charAt(0).toUpperCase() + item.user?.name.slice(1)}`}
-            </Typography>
-            <Typography sx={{ color: '#424242', fontWeight: 400 }}>
-              {item.user?.name.charAt(0).toUpperCase() + item.user?.name.slice(1)}
-            </Typography>
+            <Link style={{ textDecoration: 'none' }} href={'/profile/' + item.user?.username}>
+              <Typography sx={{ color: '#424242', fontWeight: 800 }}>
+                {`${item.user?.name.charAt(0).toUpperCase() + item.user?.name.slice(1)}`}
+              </Typography>
+              <Typography sx={{ color: '#424242', fontWeight: 400 }}>
+                {item.user?.name.charAt(0).toUpperCase() + item.user?.name.slice(1)}
+              </Typography>
+            </Link>
           </Box>
         </Box>
       )
