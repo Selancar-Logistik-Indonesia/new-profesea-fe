@@ -43,13 +43,13 @@ const renderList = (listGroup: Group[]) => {
 
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={2}>
               <Link style={{ textDecoration: 'none' }} href={'/group?id=' + item?.id}>
-                <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={14}>
+                <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={18}>
                   {item.title ? item.title : '-'}
                 </Typography>
-                <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
+                <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={14}>
                   {item.description ? item.description : '-'}
                 </Typography>
-                <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
+                <Typography sx={{ color: 'text.secondary', mb: 1 }} fontSize={12}>
                   {item.count_member ? item.count_member : '-'} {' '} Member
                 </Typography>
               </Link>

@@ -35,11 +35,11 @@ const renderList = (arr: ParamJobVacncy[]) => {
             padding: '5px'
           }}
         >
-          <Box mr={3} mt={-1}>
-            <Avatar src={getUserAvatar(item.user)} alt='profile-picture' sx={{ height: 50, width: 50 }} />
+          <Box mr={5} mt={2}>
+            <Avatar src={getUserAvatar(item.user)} alt='profile-picture' sx={{ height: 35, width: 35 }} />
           </Box>
           <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
-            <Typography sx={{ color: '#424242', fontWeight: 600 }}>
+            <Typography sx={{ color: '#424242', fontWeight: 800 }}>
               {`${item.user?.name.charAt(0).toUpperCase() + item.user?.name.slice(1)}`}
             </Typography>
             <Typography sx={{ color: '#424242', fontWeight: 400 }}>

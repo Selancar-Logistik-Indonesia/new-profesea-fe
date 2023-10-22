@@ -67,9 +67,7 @@ const ListGroup = () => {
                             <Grid container spacing={6}>
                               <Grid item container xs={12}>
                                 <Grid item xs={12}>
-                                  <Typography variant='h6' color={'#32487A'} fontWeight='600'>
-                                    List Group
-                                  </Typography>
+                                <Typography variant="h3" color={"#32487A"} fontWeight="800" fontSize={18} mb={2}> Group</Typography>
                                 </Grid>
                                 <Grid item lg={10} xs={10}>
                                   <TextField
@@ -94,7 +92,7 @@ const ListGroup = () => {
                                     fullWidth
                                     onClick={() => setOpenAddModal(!openAddModal)}
                                   >
-                                    Create a New Group
+                                    Create a new Group
                                   </Button>
                                 </Grid>
                               </Grid>

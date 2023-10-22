@@ -117,7 +117,7 @@ const Thread = () => {
         <Grid item xs={12} spacing={6}>
           <Grid item xs={12}>
             <Typography variant='h6' color={'#32487A'} fontWeight='600' mb={5}>
-              Create Thread
+              Create a new Thread
             </Typography>
           </Grid>
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onCreate)} >
