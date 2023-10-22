@@ -45,7 +45,7 @@ const CommunityApp = () => {
                   </Grid>
               <Grid item xs={12} display={'flex'} alignContent={'flex-end'} justifyContent={'flex-end'}>
                 <Button variant='contained' size='small' href='/thread/create' startIcon={<Icon icon='solar:add-circle-bold-duotone' fontSize={10} />}>
-                  Create Thread
+                  Create a new Thread
                 </Button>
               </Grid>
             </Grid>
