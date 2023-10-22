@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react' 
-import { Box,  Card,  CircularProgress,  Grid, Typography, useMediaQuery } from '@mui/material'
+import { Box,  Card,    Grid, Typography, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'

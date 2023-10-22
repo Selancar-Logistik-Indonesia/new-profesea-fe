@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Avatar,  Card,  CardContent,  Paper } from '@mui/material' 
+import { Avatar,  Card,  CardContent} from '@mui/material' 
 import Link from 'next/link'
 import Group from 'src/contract/models/group' 
 
