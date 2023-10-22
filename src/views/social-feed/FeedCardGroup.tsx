@@ -32,13 +32,13 @@ const FeedCardGroup = (props: Prop) => {
                         {toTitleCase(item.user.name)}
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-                        <Icon color={'#42424242'} icon='mingcute:time-fill' fontSize={'18px'} /> &nbsp;
-                        <Typography sx={{ color: '#424242', fontWeight: 400, fontSize: '12px' }}>{moment(item.created_at).fromNow()}</Typography>
+                        <Icon color={'#26252542'} icon='mingcute:time-fill' fontSize={'18px'} /> &nbsp;
+                        <Typography sx={{ color: '#262525', fontWeight: 400, fontSize: '12px' }}>{moment(item.created_at).fromNow()}</Typography>
                     </Box>
                 </Box>
             </Box>
             <Box component={Link} href={`/feed/${item.id}`} sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px', p: 2, border: '1px solid #e4e4e4' }}>
-                <Typography variant='body1' sx={{ color: '#424242', fontSize: '14px', fontWeight: 500, my: 2 }}>
+                <Typography variant='body1' sx={{ color: '#262525', fontSize: '14px', fontWeight: 500, my: 2 }}>
                     {item.content}
                 </Typography> 
 

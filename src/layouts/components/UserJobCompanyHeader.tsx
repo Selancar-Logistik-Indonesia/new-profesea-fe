@@ -23,10 +23,10 @@ const UserJobCompanyHeader = () => {
         </Grid>
         <Grid xs={8} display="flex" justifyContent="center" alignItems="center">
           <Box    display="table-row"  justifyContent="left"  alignItems="left">
-             <Typography variant='h6' sx={{ mb: 0, color: "#424242", fontWeight: 900 }}>
+             <Typography variant='h6' sx={{ mb: 0, color: "#262525", fontWeight: 900 }}>
               JUNIOR ELECTRICAL
             </Typography>
-            <Typography sx={{ color: "#424242", fontWeight: 600 }}>PT Samudera Indonesia Maritim</Typography>
+            <Typography sx={{ color: "#262525", fontWeight: 600 }}>PT Samudera Indonesia Maritim</Typography>
             <Box  >
               <Button color='warning' size='small' variant='contained'   startIcon={<Icon icon='fa6-regular:pen-to-square' fontSize={20} />}>
                 Edit Job Posting

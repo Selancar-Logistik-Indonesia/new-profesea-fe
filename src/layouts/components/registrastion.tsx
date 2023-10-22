@@ -409,7 +409,7 @@ const Registration = (props: any) => {
             <LinkStyled href={'/term'} target='_blank'>
               <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>{t('register_text_11')} ,</Typography>
             </LinkStyled>
-            <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; {t('register_text_13')} </Typography>
+            <Typography sx={{ marginTop: '10px', color: '#262525' }}>&nbsp; {t('register_text_13')} </Typography>
           </Box>
         </Grid>
         <Grid item md={12} xs={12}>
@@ -419,7 +419,7 @@ const Registration = (props: any) => {
             <LinkStyled href={'/privacy'} target='_blank'>
               <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>{t('register_text_12')} ,</Typography>
             </LinkStyled>
-            <Typography sx={{ marginTop: '10px', color: '#424242' }}>&nbsp; {t('register_text_13')} </Typography>
+            <Typography sx={{ marginTop: '10px', color: '#262525' }}>&nbsp; {t('register_text_13')} </Typography>
           </Box>
         </Grid>
         <Grid item md={3} xs={12} mt={5}>

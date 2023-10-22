@@ -8,7 +8,7 @@ const bannerHero: SxProps<Theme> = {
         xs: "78% 40%",
         md: "60% 40%"
     },
-    height: 550
+    height: '100%'
 };
 
 const landingPageStyle = {

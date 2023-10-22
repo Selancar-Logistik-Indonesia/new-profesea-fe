@@ -73,7 +73,7 @@ const firstload = () => {
                         fontSize={18}
                         style={{ color: '#000' }}
                         fontWeight='600'
-                        sx={{ ml: 2, mb: 2, color: '#424242', textTransform: 'uppercase' }}
+                        sx={{ ml: 2, mb: 2, color: '#262525', textTransform: 'uppercase' }}
                       >
                         {threadDetail?.title}
                       </Typography>
@@ -88,7 +88,7 @@ const firstload = () => {
                       />
                     </Grid>
                     <Grid item container xs={12} justifyContent={'flex'}>
-                      <Typography variant='body1' sx={{ p: 4, color: '#424242', fontWeight: 300 }}>
+                      <Typography variant='body1' sx={{ p: 4, color: '#262525', fontWeight: 300 }}>
                         {threadDetail.posting_at}
                       </Typography>
                     </Grid>

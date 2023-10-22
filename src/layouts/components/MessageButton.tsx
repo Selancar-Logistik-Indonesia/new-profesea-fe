@@ -60,7 +60,7 @@ const MessageButton = (props: MessageButtonProps) => {
         sx={{ margin: '5px', fontSize: '10px' }}
         startIcon={
           !isLoading && (
-            <Icon icon={buildConnectIcon()} color={user.frienship_status || show == false ? 'white' : '#42424242'} />
+            <Icon icon={buildConnectIcon()} color={user.frienship_status || show == false ? 'white' : '#26252542'} />
           )
         }
       >

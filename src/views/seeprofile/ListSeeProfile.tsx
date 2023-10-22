@@ -54,8 +54,8 @@ const renderList = (listCandidate: IUser[]) => {
                     </Typography>
                   )}
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
-                    <Icon color={'#42424242'} icon='mingcute:time-fill' fontSize={'18px'} /> &nbsp;
-                    <Typography sx={{ color: '#424242', fontWeight: 400, fontSize: '12px' }}>
+                    <Icon color={'#26252542'} icon='mingcute:time-fill' fontSize={'18px'} /> &nbsp;
+                    <Typography sx={{ color: '#262525', fontWeight: 400, fontSize: '12px' }}>
                       {moment(item.created_at).fromNow()}
                     </Typography>
                   </Box>

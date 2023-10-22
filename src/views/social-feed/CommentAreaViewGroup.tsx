@@ -26,14 +26,14 @@ const CommentCard = (props: { comment: ISocialFeedComment }) => {
                         <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600 }}>
                             {toTitleCase(comment.user.name)}
                         </Typography>
-                        <Typography sx={{ color: "#424242", fontWeight: 400 }}>
+                        <Typography sx={{ color: "#262525", fontWeight: 400 }}>
                             {comment.h_created_at}
                         </Typography>
                     </Link>
                 </Box>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
-                <Typography variant="body1" sx={{ color: "#424242", fontWeight: 400, margin: "5px" }}>
+                <Typography variant="body1" sx={{ color: "#262525", fontWeight: 400, margin: "5px" }}>
                     {comment.content}
                 </Typography>
             </Box>

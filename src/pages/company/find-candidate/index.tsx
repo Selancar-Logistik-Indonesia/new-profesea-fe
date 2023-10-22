@@ -510,7 +510,7 @@ const FindCandidateApp = () => {
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardHeader
                 title={
-                  <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
+                  <Typography variant='body2' style={{ fontSize: '14px', color: '#262525' }}>
                     Basic Filter
                   </Typography>
                 }
@@ -518,7 +518,7 @@ const FindCandidateApp = () => {
                   <IconButton
                     size='small'
                     aria-label='collapse'
-                    sx={{ color: '#424242' }}
+                    sx={{ color: '#262525' }}
                     onClick={() => setCollapsed(!collapsed)}
                   >
                     <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
@@ -602,7 +602,7 @@ const FindCandidateApp = () => {
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardHeader
                 title={
-                  <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
+                  <Typography variant='body2' style={{ fontSize: '14px', color: '#262525' }}>
                     Advanced Filter
                   </Typography>
                 }
@@ -610,7 +610,7 @@ const FindCandidateApp = () => {
                   <IconButton
                     size='small'
                     aria-label='collapse'
-                    sx={{ color: '#424242' }}
+                    sx={{ color: '#262525' }}
                     onClick={() => setCollapsed2(!collapsed2)}
                   >
                     <Icon fontSize={20} icon={!collapsed2 ? 'mdi:chevron-down' : 'mdi:chevron-up'} />

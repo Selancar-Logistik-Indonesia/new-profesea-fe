@@ -221,7 +221,7 @@ const SeafererJobApp = () => {
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardHeader
                 title={
-                  <Typography variant='body2' style={{ fontSize: '14px', color: '#424242' }}>
+                  <Typography variant='body2' style={{ fontSize: '14px', color: '#262525' }}>
                     Basic Filter
                   </Typography>
                 }

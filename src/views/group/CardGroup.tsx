@@ -3,16 +3,14 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'  
-import { IUser } from 'src/contract/models/user' 
-import {  getUserAvatar } from 'src/utils/helpers' 
+import CardContent from '@mui/material/CardContent'
+import { IUser } from 'src/contract/models/user'
+import { getUserAvatar } from 'src/utils/helpers'
 import Avatar from 'src/@core/components/mui/avatar'
- 
 
 export type ParamJobVacncy = {
   judul: string
   user: IUser
- 
 }
 
 // export type ProfileTeamsType = ProfileTabCommonType & { color: ThemeColor }
@@ -34,9 +32,9 @@ const renderList = (arr: ParamJobVacncy[]) => {
             display: 'flex',
             '&:not(:last-of-type)': { mb: 4 },
             '& svg': { color: 'text.secondary' },
-             padding: '5px'
+            padding: '5px'
           }}
-        > 
+        >
           <Box mr={3} mt={-1}>
             <Avatar src={getUserAvatar(item.user)} alt='profile-picture' sx={{ height: 50, width: 50 }} />
           </Box>
@@ -55,12 +53,10 @@ const renderList = (arr: ParamJobVacncy[]) => {
     return null
   }
 }
- 
 
-const CardGroup = ( props:Props) => {
-  const { selectedGroup } = props 
- 
-  
+const CardGroup = (props: Props) => {
+  const { selectedGroup } = props
+
   return (
     <Grid container marginTop={'0px'}>
       <Grid item xs={12}>
@@ -71,17 +67,13 @@ const CardGroup = ( props:Props) => {
                 <>
                   <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Box sx={{ mr: 2 }}>
-                      <Typography>
-                        Total Member {selectedGroup.totalmember}
-                      </Typography>
-                    </Box> 
+                      <Typography>Total Member {selectedGroup.totalmember}</Typography>
+                    </Box>
                   </Box>
                 </>
               )}
             </Grid>
-            <Box sx={{ mt: 3 }}> 
-              {renderList(selectedGroup?.member)}
-            </Box>
+            <Box sx={{ mt: 3 }}>{renderList(selectedGroup?.member)}</Box>
           </CardContent>
         </Card>
       </Grid>

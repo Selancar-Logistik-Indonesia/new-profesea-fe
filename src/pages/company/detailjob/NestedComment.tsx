@@ -68,17 +68,17 @@ const renderList = (arr: ParamMain[]) => {
               <ProfilePicture src='/images/avatars/1.png' alt='profile-picture'/>
             </Box>
             <Box sx={{ mb: [6, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
-              <Typography variant='body2' sx={{ color: "#424242", fontWeight: 600, textTransform: 'uppercase' }}>
+              <Typography variant='body2' sx={{ color: "#262525", fontWeight: 600, textTransform: 'uppercase' }}>
                 {`${item.name.charAt(0).toUpperCase() + item.name.slice(1)}`}
               </Typography>
-              <Typography sx={{ color: "#424242", fontWeight: 500 }}>
+              <Typography sx={{ color: "#262525", fontWeight: 500 }}>
                 {`${item.waktu.charAt(0).toUpperCase() + item.waktu.slice(1)}`} 
               </Typography> 
             </Box>  
           </Box>
           <Divider style={{ width: '100%' }} />
           <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft:'10px'  }}>
-                <Typography variant="body1" sx={{ color: "#424242", fontWeight: 400, margin: "5px"}}>
+                <Typography variant="body1" sx={{ color: "#262525", fontWeight: 400, margin: "5px"}}>
                  {`${item.postcomment.charAt(0).toUpperCase() + item.postcomment.slice(1)}`} 
               </Typography>
            </Box>

@@ -81,7 +81,7 @@ const FriendSuggestionCard = () => {
                 <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                     <CardContent>
                         <Box sx={{ mb: 7 }}>
-                            <Typography color={"#424242"} fontWeight="600" fontSize={"14px"} sx={{ mb: 4 }}>
+                            <Typography color={"#262525"} fontWeight="800" fontSize={"14px"} sx={{ mb: 4 }}>
                                 Add to your feed
                             </Typography>
                             {isLoading

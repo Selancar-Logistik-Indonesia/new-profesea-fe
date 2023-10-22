@@ -124,7 +124,7 @@ const Company = () => {
 
                 <Grid container item xs={12} marginBottom={'10px'}>
                   <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}> Company Builder</Typography>
+                    <Typography variant="h3" color={"#32487A"} fontWeight="800" fontSize={18}> Company Builder</Typography>
                   </Grid>
                 </Grid>
                 {selectedItem != null && (
