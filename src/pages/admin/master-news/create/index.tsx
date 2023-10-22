@@ -3,7 +3,7 @@ import React , {  useState } from 'react'
 
 // ** MUI Components
 import Box  from '@mui/material/Box'  
-import {  Autocomplete, Button,    CircularProgress,    TextField, Typography    } from '@mui/material'
+import {  Autocomplete, Button,    CircularProgress,      TextField, Typography    } from '@mui/material'
 
 // import {  useTheme } from '@mui/material/styles'
 // ** Third Party Imports
@@ -65,7 +65,8 @@ interface FileProp {
   size: number
 } 
   const schema = yup.object().shape({
-    title: yup.string().min(1).required()
+    // desc: yup.string().min(1).required(),
+    title: yup.string().min(1).max(60).required() 
   })
  const {
    register,
@@ -76,6 +77,7 @@ interface FileProp {
    resolver: yupResolver(schema)
  })  
  const type = [{ title: 'News' }, { title: 'Event' }]
+const [show, setShow] = useState<boolean>(false)
 //  const combobox = () => {
 //   //  HttpClient.get(AppConfig.baseUrl + '/forum?page=1&take=10&search=').then(response => {
 //   //    const code = response.data.forums.data
@@ -105,14 +107,15 @@ function uploadCallback(file:any){
 }
 
 const onCreate = async (formData: any) => {
-  const { title } = formData
+  const { title,slug } = formData
 
   const json = {
-       "imgnews": files,
-      "title": title,
-      "content": draftToHtml(convertToRaw(desc?.getCurrentContent())),
-      "type": sforumCode,
-      "postingdate": postingDate
+    imgnews: files,
+    title: title,
+    content: draftToHtml(convertToRaw(desc?.getCurrentContent())),
+    type: sforumCode,
+    slug: slug,
+    postingdate: postingDate
   }
   setOnLoading(true);       
   try {
@@ -120,7 +123,7 @@ const onCreate = async (formData: any) => {
       if (resp.status != 200) {
           throw resp.data.message ?? "Something went wrong!";
       }
-
+      setShow(false)
       toast.success(` News/Event created successfully!`);
       window.location.replace('/admin/master-news/')
   } catch (error) {
@@ -170,7 +173,7 @@ const onCreate = async (formData: any) => {
                 Create{' '}
               </Typography>
               <Grid container xs={12} columnSpacing={'2'} rowSpacing={'2'} sx={{ mb: 2 }}>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={6}>
                   <Autocomplete
                     disablePortal
                     id='code'
@@ -182,7 +185,7 @@ const onCreate = async (formData: any) => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     id='title'
                     {...register('title')}
@@ -193,20 +196,42 @@ const onCreate = async (formData: any) => {
                     sx={{ mb: 1 }}
                   />
                 </Grid>
-                <Grid item xs={12} md={4}>
-                  <DatePickerWrapper>
-                    <DatePicker
-                      minDate={new Date()}
-                      dateFormat='dd/MM/yyyy'
-                      selected={postingDate}
-                      id='basic-input'
-                      disabled
-                      onChange={(date: Date) => setPostingDate(date)}
-                      placeholderText='Click to select a date'
-                      customInput={<TextField size='small' label='Posting Date' variant='outlined' fullWidth />}
-                    />
-                  </DatePickerWrapper>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    id='slug'
+                    {...register('slug')}
+                    error={Boolean(errors.slug)}
+                    label='Slug'
+                    variant='outlined'
+                    fullWidth
+                    sx={{ mb: 1 }}
+                  />
                 </Grid>
+                {show == true && (
+                  <Grid item xs={12} md={4}>
+                    <DatePickerWrapper>
+                      <DatePicker
+                        minDate={new Date()}
+                        dateFormat='dd/MM/yyyy'
+                        selected={postingDate}
+                        id='basic-input'
+                        disabled
+                        onChange={(date: Date) => setPostingDate(date)}
+                        placeholderText='Click to select a date'
+                        customInput={<TextField size='small' label='Posting Date' variant='outlined' fullWidth />}
+                      />
+                    </DatePickerWrapper>
+                    <TextField
+                      id='deskripsi'
+                      {...register('deskripsi')}
+                      error={Boolean(errors.deskripsi)}
+                      label='deskripsi'
+                      variant='outlined'
+                      fullWidth
+                      sx={{ mb: 1 }}
+                    />
+                  </Grid>
+                )}
                 <Grid item md={12} xs={12}>
                   <Box {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed' }}>
                     <input {...getInputProps()} />
@@ -248,6 +273,11 @@ const onCreate = async (formData: any) => {
                       }}
                       placeholder='Write a news/event'
                     />
+                    {/* {errors.desc && (
+                      <FormHelperText sx={{ color: 'error.main' }} id=''>
+                        {(errors as any).desc?.message}
+                      </FormHelperText>
+                    )} */}
                     <Button
                       variant='contained'
                       size='small'

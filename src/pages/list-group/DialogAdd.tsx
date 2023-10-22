@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement, useState} from 'react'
+import { Ref, forwardRef, ReactElement, useState, useEffect} from 'react'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
@@ -23,6 +23,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Link from 'next/link'
 import * as yup from 'yup'
  import Group from 'src/contract/models/group'
+import { BoxProps } from '@mui/system'
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -43,7 +44,18 @@ interface FileProp {
     type: string
     size: number
 }
-
+const BoxWrapper = styled(Box)<BoxProps>(() => ({
+  position: 'relative'
+}))
+const ProfilePictureStyled = styled('img')(({ theme }) => ({
+  width: 120,
+  height: 120,
+  borderRadius: theme.shape.borderRadius,
+  border: `5px solid ${theme.palette.common.white}`,
+  [theme.breakpoints.down('md')]: {
+    marginBottom: theme.spacing(4)
+  }
+}))
 const Img = styled('img')(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
       marginRight: theme.spacing(10)
@@ -59,6 +71,8 @@ const Img = styled('img')(({ theme }) => ({
 const DialogAdd = (props: DialogProps) => {
     const [onLoading, setOnLoading] = useState(false); 
     const [files, setFiles] = useState<File[]>([])
+    const [preview, setPreview] = useState()  
+    const [selectedFile, setSelectedFile] = useState()
     const { getRootProps, getInputProps } = useDropzone({
         multiple: false,
         accept: {
@@ -68,35 +82,66 @@ const DialogAdd = (props: DialogProps) => {
         setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
         }
     })
+    const onSelectFile = (e: any) => {
+      if (!e.target.files || e.target.files.length === 0) {
+        setSelectedFile(undefined) 
+        
+        return
+      }
 
+      // I've kept this example simple by using the first image instead of multiple
+      setSelectedFile(e.target.files[0])
+      // const selectedFiles = e.target.files as FileList
+      // setCurrentImage(selectedFiles?.[0])
+      // uploadPhoto(selectedFiles?.[0])
+    }
     const img = files.map((file: FileProp) => (
         <img key={file.name} alt={file.name} className='single-file-image' src={URL.createObjectURL(file as any)} width={450} />
     ))
-     
-    
- 
-    
+      
     
     const schema = yup.object().shape({
-        title: yup.string().required()
+      title: yup.string().required('Title is required'),
+      description: yup.string().required('Description  is required'),
+
     })
 
-    const { 
-        register, 
-        handleSubmit,
+    const {
+      register,
+      handleSubmit,
+      formState: {}
     } = useForm<Group>({
-        mode: 'onBlur',
-        resolver: yupResolver(schema)
+      mode: 'onBlur',
+      resolver: yupResolver(schema)
     }) 
 
+    useEffect(() => {
+      if (!selectedFile) {
+        setPreview(undefined)
 
+        return
+      }
+
+      const objectUrl: any = URL.createObjectURL(selectedFile)
+      setPreview(objectUrl)
+
+      // free memory when ever this component is unmounted
+      return () => URL.revokeObjectURL(objectUrl)
+    }, [selectedFile])
     const onSubmit = async (formData: Group) => {
         const { title, description} = formData
-        
+        debugger;
+        if(files.length == 0){
+          toast.error('Isi Banner')
+        }
+        if(selectedFile == undefined){
+          toast.error('Isi Photo Profile')
+        }
         const json = {
             "groupbanner": files,
             "title": title,
-            "description": description
+            "description": description,
+            "profilepicture":selectedFile
         }
         
         setOnLoading(true);
@@ -144,48 +189,74 @@ const DialogAdd = (props: DialogProps) => {
             </Box>
 
             <Grid container columnSpacing={'1'} rowSpacing={'4'}>
-              <Grid item md={12} xs={12}>
-                <Box {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed' }}>
-                  <input {...getInputProps()} />
-                  {files.length ? (
-                    img
-                  ) : (
-                    <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center' }}>
-                      <Img width={200} alt='Upload img' src='/images/upload.png' />
-                      <Box
-                        sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}
-                      >
-                        <Typography
-                          color='textSecondary'
-                          fontSize='16px'
-                          sx={{ '& a': { color: 'primary.main', textDecoration: 'none' } }}
-                        >
-                          Click{' '}
-                          <Link href='/' onClick={e => e.preventDefault()}>
-                            browse / image
-                          </Link>{' '}
-                          to upload Profile Picture of Group
-                        </Typography>
-                      </Box>
+              <Grid item container md={12} xs={12}>
+                <Grid item container md={3} xs={12}>
+                  {' '}
+                  <BoxWrapper>
+                    <ProfilePictureStyled
+                      src={preview ? preview : '/images/avatars/profilepic.png'}
+                      alt='profile-picture'
+                      sx={{ width: 100, height: 100, objectFit: 'cover' }}
+                    ></ProfilePictureStyled>
+
+                    <input
+                      accept='image/*'
+                      style={{ display: 'none', height: 250, width: '100%' }}
+                      id='raised-button-file'
+                      onChange={onSelectFile}
+                      type='file'
+                    ></input>
+                    <Box position={'absolute'} right={'40%'} bottom={'40%'} top={'25%'}>
+                      <label htmlFor='raised-button-file'>
+                        <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
+                      </label>
                     </Box>
-                  )}
-                </Box>
+                  </BoxWrapper>
+                  {/* <span>{errors?.title?.message}</span> */}
+                 </Grid>
+                <Grid item container md={9} xs={12}>
+                  <Box {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed' }}>
+                    <input {...getInputProps()} />
+                    {files.length ? (
+                      img
+                    ) : (
+                      <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center' }}>
+                        <Img width={200} alt='Upload img' src='/images/upload.png' />
+                        <Box
+                          sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}
+                        >
+                          <Typography
+                            color='textSecondary'
+                            fontSize='16px'
+                            sx={{ '& a': { color: 'primary.main', textDecoration: 'none' } }}
+                          >
+                            Click{' '}
+                            <Link href='/' onClick={e => e.preventDefault()}>
+                              browse / image
+                            </Link>{' '}
+                            to upload Profile Picture of Group
+                          </Typography>
+                        </Box>
+                      </Box>
+                    )}
+                  </Box>
+                </Grid>
               </Grid>
-                 <Grid item md={12} xs={12}>
-                  <TextField id='title' label='Title Group' variant='outlined' fullWidth {...register('title')} />
-                </Grid>
-                <Grid item md={12} xs={12}>
-                  <TextField
-                    id='description'
-                    label='Description Group'
-                    variant='outlined'
-                    multiline
-                    maxRows={4}
-                    fullWidth
-                    {...register('description')}
-                  />
-                </Grid>
-             </Grid>
+              <Grid item md={12} xs={12}>
+                <TextField id='title' label='Title Group' variant='outlined' fullWidth {...register('title')} />
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <TextField
+                  id='description'
+                  label='Description Group'
+                  variant='outlined'
+                  multiline
+                  maxRows={4}
+                  fullWidth
+                  {...register('description')}
+                />
+              </Grid>
+            </Grid>
           </DialogContent>
           <DialogActions
             sx={{

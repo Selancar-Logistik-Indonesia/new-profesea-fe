@@ -21,7 +21,7 @@ const defaultValue: NewsContextType = {
 
 const NewsContext = createContext(defaultValue);
 const NewsProvider = (props: Props) => {
-    debugger
+    // debugger
     const [page, setPage] = useState(1);
     const [newss, setNews] = useState<INews[]>([]);
     const [comments, setComments] = useState<any[]>([]);

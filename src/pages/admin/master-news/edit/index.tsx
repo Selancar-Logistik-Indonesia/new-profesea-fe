@@ -48,9 +48,10 @@ const EditNewsScreen = () => {
   const windowUrl = window.location.search 
   const params = new URLSearchParams(windowUrl)
   const [onLoading, setOnLoading] = useState(false); 
-  const [sforumCode, setForumCode] = useState(0)
+  const [sforumCode, setForumCode] = useState<any>([])
   const [sforum, setForum] = useState<any>([])
   const [sTitle, setTitle] = useState<any>([])
+  const [sSlug, setSlug] = useState<any>([])
   //const [newsDetail, setThreadDetail] = useState<Thread>()
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [files, setFiles] = useState<File[]>([])
@@ -67,6 +68,7 @@ const EditNewsScreen = () => {
     }
   })
 
+  const [show, setShow] = useState<boolean>(false)
   const img = files.map((file: FileProp) => (
     <img
       key={file.name}
@@ -78,7 +80,8 @@ const EditNewsScreen = () => {
   ))
 
   const schema = yup.object().shape({
-    title: yup.string().min(1).required()
+    // titlex: yup.string().min(1).required(),
+    // slugx: yup.string().min(1).required()
   })
   const {
     register,
@@ -90,17 +93,20 @@ const EditNewsScreen = () => {
   })  
    const type = [{ title: 'News' }, { title: 'Event' }]
   const firstload = () => {
-      HttpClient.get(AppConfig.baseUrl + '/news/' + params.get('id')).then(resp => {        
-        const news  = resp.data.news 
+      setShow(false);
+      HttpClient.get(AppConfig.baseUrl + '/news/id/' + params.get('id')).then(resp => {        
+        const news:any  = resp.data.news 
         const contenDesc = convertFromHTML(news?.content).contentBlocks
         const contentState = ContentState.createFromBlockArray(contenDesc)
         const editorState = EditorState.createWithContent(contentState)
         setDesc(editorState)
         setTitle(news?.title)
+        setSlug(news?.slug)
         debugger;
         setForum({ title: news?.type })
         getUrlFile(news?.imgnews)
-        setPostingDate(new Date(news?.posting_at))
+        setPostingDate(new Date(news?.posting_at)) 
+        setForumCode(news?.type)
       })
 
       
@@ -126,14 +132,15 @@ const EditNewsScreen = () => {
   }
 
   const onCreate = async (formData: any) => {
-    const { title } = formData
+    const { title,slug } = formData
 
     const json = {
       "imgnews": files,
       "title": title,
       "content": draftToHtml(convertToRaw(desc?.getCurrentContent())),
       "type": sforumCode,
-      "postingdate": postingDate
+      "postingdate": postingDate,
+      "slug": slug
     }
     setOnLoading(true);       
     try {
@@ -213,11 +220,24 @@ const EditNewsScreen = () => {
                     renderInput={params => <TextField {...params} label='Type' />}
                     getOptionLabel={(option: any) => option.title}
                     onChange={(event: any, newValue: any | null) =>
-                      newValue?.title ? setForumCode(newValue.title) : setForumCode(0)
+                      newValue?.title ? setForumCode(newValue.title) : setForumCode('')
                     }
                   />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                 <Grid item xs={12} md={4}>
+                  <TextField
+                    id='slug'
+                    {...register('slug')}
+                    error={Boolean(errors.slug)}
+                    value={sSlug}
+                    onChange={e => setSlug(e.target.value)}
+                    label='Slug'
+                    variant='outlined'
+                    fullWidth
+                    sx={{ mb: 1 }}
+                  />
+                </Grid>
+                 {show == true && <Grid item xs={12} md={4}>
                   <DatePickerWrapper>
                     <DatePicker
                       minDate={new Date()}
@@ -229,7 +249,8 @@ const EditNewsScreen = () => {
                       customInput={<TextField size='small' label='Schedule' variant='outlined' fullWidth />}
                     />
                   </DatePickerWrapper>
-                </Grid>
+                </Grid>}
+                
                 <Grid item md={12} xs={12}>
                   <Box
                     {...getRootProps({ className: 'dropzone' })}

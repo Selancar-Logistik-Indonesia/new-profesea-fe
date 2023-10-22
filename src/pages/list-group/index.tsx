@@ -27,7 +27,7 @@ const ListGroup = () => {
   const [hookSignature, setHookSignature] = useState(v4())
 
   const getdatapencarian = async () => {    
-    fetchGroups({ take: 9, search: textCandidate})  
+    fetchGroups({ take: 12, search: textCandidate})  
   }
 
   useEffect(() => {

@@ -4,9 +4,19 @@ import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import {   Divider } from '@mui/material' 
+import {   Divider, styled } from '@mui/material' 
  import Group from 'src/contract/models/group'
- 
+
+ const ProfilePicture = styled('img')(({ theme }) => ({
+   width: 120,
+   height: 120,
+   borderRadius: theme.shape.borderRadius,
+   border: `5px solid ${theme.palette.common.white}`,
+   [theme.breakpoints.down('md')]: {
+     marginBottom: theme.spacing(4)
+   }
+ }))
+
 type userProps = {
     datagroup: Group; 
 }
@@ -39,6 +49,10 @@ const UserProfileHeader = (props: userProps) => {
             marginLeft: { md: '10px' }
           }}
         >
+          <ProfilePicture
+            src={datagroup?.profilepicture ? datagroup?.profilepicture : '/images/avatars/1.png'}
+            alt='profile-picture'
+          />
           <Box
             sx={{
               width: ['100%'],
@@ -50,7 +64,7 @@ const UserProfileHeader = (props: userProps) => {
             }}
           >
             <Box sx={{ mb: [4, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
-            <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '900' }}>
+              <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '900' }}>
                 {datagroup.title}
               </Typography>
               <Box
@@ -66,7 +80,6 @@ const UserProfileHeader = (props: userProps) => {
               </Box>
             </Box>
           </Box>
-
         </CardContent>
         <Divider style={{ width: '100%' }} />
       </Card>
