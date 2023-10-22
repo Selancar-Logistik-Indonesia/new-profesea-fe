@@ -165,36 +165,36 @@ const CarouselNewsView = () => {
         sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', margin: 3, height: '450px' }}
       >
         <CardContent>
-          <Link style={{ textDecoration: 'none' }} href={'/news/?id=' + props.item.id}>
-
-          <Box height={350} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
-            <Grid container direction='row' alignItems='center' spacing={4}>
-              <Grid item>
-                <Typography sx={{ color: 'text.secondary', mb: 1, fontSize: 9 }}>
-                  {Moment(props.item.posting_at).format('DD/MM/YYYY HH:MM:SS')}
-                </Typography>
+          {/* <Link style={{ textDecoration: 'none' }} href={'/news/?id=' + props.item.id}> */}
+          <Link style={{ textDecoration: 'none' }} href={'/news/' + props.item.slug}>
+            <Box height={350} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
+              <Grid container direction='row' alignItems='center' spacing={4}>
+                <Grid item>
+                  <Typography sx={{ color: 'text.secondary', mb: 1, fontSize: 9 }}>
+                    {Moment(props.item.posting_at).format('DD/MM/YYYY HH:MM:SS')}
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-            <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={18}>
-              {props.item.title}
-            </Typography>
-            <CardMedia
-              component='img'
-              alt='Img of Profesea'
-              height='180'
-              image={props.item?.imgnews != null ? props.item.imgnews : null}
-              style={{objectFit: 'contain'}}
-            />
-            <Typography fontWeight={400} fontSize={16} mt={2}>
-              {props.item.snap_content
-                ? `${
-                    props.item.snap_content.toString().charAt(0).toUpperCase() +
-                    props.item.snap_content.toString().slice(1)
-                  }`
-                : ''}
-            </Typography>
-          </Box>
-        </Link>
+              <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={18}>
+                {props.item.title}
+              </Typography>
+              <CardMedia
+                component='img'
+                alt='Img of Profesea'
+                height='180'
+                image={props.item?.imgnews != null ? props.item.imgnews : null}
+                style={{ objectFit: 'contain' }}
+              />
+              <Typography fontWeight={400} fontSize={16} mt={2}>
+                {props.item.snap_content
+                  ? `${
+                      props.item.snap_content.toString().charAt(0).toUpperCase() +
+                      props.item.snap_content.toString().slice(1)
+                    }`
+                  : ''}
+              </Typography>
+            </Box>
+          </Link>
         </CardContent>
       </Card>
     )

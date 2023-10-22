@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react' 
-import { Box,  Grid, Typography, useMediaQuery } from '@mui/material'
+import { Box,  Card,  Grid, Typography, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
@@ -15,6 +15,8 @@ import { useGroupFeed } from 'src/hooks/useGroupFeed'
 import CardGroup from 'src/views/group/CardGroup'
 import PostfeedGroup from 'src/views/social-feed/PostfeedGroup'
 import ListFeedViewGroup from 'src/views/social-feed/ListFeedViewGroup'
+import ShareArea from 'src/layouts/components/ShareArea'
+import ButtonJoinGroup from 'src/layouts/components/ButtonJoin'
  
 const ProfileCompany = () => {
   return (
@@ -34,12 +36,13 @@ const UserFeedApp = () => {
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null)
   const [status, setStatus] = useState<boolean>(false)
   const [showFeed, setShowFeed] = useState<boolean>(false)
+  const [url2, setUrl2] = useState<string>('')
   const { id } = router.query as { id: any };
   // const [isLoading, setIsLoading] = useState(true)
 
   const firstload = async () => {
     let url = '';
-    url = '/group/detail/?id=' + id
+    url = '/group/navigasi/?id=' + id
  
     try {
       const response = await HttpClient.get(url);
@@ -50,11 +53,12 @@ const UserFeedApp = () => {
       }
       const grup = response.data.group as Group
       setSelectedGroup(grup) 
-      debugger;
       if (grup.statusmember == 'Leave') {
         setShowFeed(true)
+        setUrl2('/group/leave')
       }else{
-         setShowFeed(false)
+        setShowFeed(false)         
+        setUrl2('/group/join')
       }
  
     } catch (error) {
@@ -79,6 +83,41 @@ const UserFeedApp = () => {
       <Grid container spacing={1}>
         <Grid item xs={12} md={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
           <Grid container>{selectedGroup && <UserGroupHeader datagroup={selectedGroup} />}</Grid>
+
+          <Grid container>
+            <Card
+              sx={{
+                width: '100%',
+                border: 0,
+                boxShadow: 0,
+                color: 'common.white',
+                backgroundColor: '#FFFFFF',
+                pb: 2,
+                mt: -1
+              }}
+            >
+              <Grid item container xs={12} mt={2}>
+                <Grid xs={10} md={11.2}>
+                  <Box display='flex' justifyContent='flex-end'>
+                    {selectedGroup &&                     
+                    <ButtonJoinGroup
+                      onMessage={handleMassage}
+                      selectedGroup={selectedGroup}
+                      iduser={iduser}
+                      url={url2}
+                    ></ButtonJoinGroup>}
+
+                  </Box>
+                </Grid>
+                <Grid xs={2} md={0.8}>
+                  <ShareArea
+                    subject={`Group Shared ${selectedGroup?.title}.`}
+                    url={`/group/?id=${selectedGroup?.id}`}
+                  ></ShareArea>
+                </Grid>
+              </Grid>
+            </Card>
+          </Grid>
           <Grid container spacing={6} sx={{ marginTop: '1px' }}>
             <Grid item lg={2} md={2} xs={12}>
               <CardGroup

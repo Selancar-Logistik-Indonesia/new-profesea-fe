@@ -22,10 +22,10 @@ const renderList = (listGroup: Group[]) => {
   }
 
   return listGroup?.map(item => { 
-    const userPhoto = item.groupbanner != '' ? item.groupbanner : '/images/avatars/default-user.png' 
+    const userPhoto = item.profilepicture != '' ? item.profilepicture : '/images/avatars/default-user.png' 
 
     return (
-      <Grid item xs={12} md={4} key={item?.id}>
+      <Grid item xs={12} md={3} key={item?.id}>
         <Paper sx={{ marginTop: '10px', border: '1px solid #eee' }} elevation={0}>
           <Box
             height={95}
@@ -49,7 +49,10 @@ const renderList = (listGroup: Group[]) => {
                 <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
                   {item.description ? item.description : '-'}
                 </Typography>
-              </Link>  
+                <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
+                  {item.count_member ? item.count_member : '-'}
+                </Typography>
+              </Link>
             </Box>
           </Box>
         </Paper>

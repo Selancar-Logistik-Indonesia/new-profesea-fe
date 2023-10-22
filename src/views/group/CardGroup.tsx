@@ -46,10 +46,10 @@ const renderList = (arr: ParamJobVacncy[]) => {
           </Box>
           <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
             <Typography sx={{ color: '#424242', fontWeight: 600 }}>
-              {`${item.user.name.charAt(0).toUpperCase() + item.user.name.slice(1)}`}
+              {`${item.user?.name.charAt(0).toUpperCase() + item.user?.name.slice(1)}`}
             </Typography>
             <Typography sx={{ color: '#424242', fontWeight: 400 }}>
-              {item.user.name.charAt(0).toUpperCase() + item.user.name.slice(1)}
+              {item.user?.name.charAt(0).toUpperCase() + item.user?.name.slice(1)}
             </Typography>
           </Box>
         </Box>
@@ -85,31 +85,7 @@ const CardGroup = ( props:Props) => {
        toast.error(`Opps ${getCleanErrorMessage(error)}`)
      }
   }
-  const joinGroup = async () => {
-    const json = {
-      idgroup: selectedGroup.id,
-      iduser: iduser
-    } 
-    setIsLoading(true) 
-     try {
-    console.log(json) 
-    onMessage('ganticuk')
-    const resp = await HttpClient.post('/group/join', json)
-    setIsLoading(false)
-    if (resp.status != 200) {
-      throw resp.data.message ?? 'Something went wrong create group!'
-    }
-
-    toast.success(` Create Group successfully!`)
-     } catch (error) {
-       toast.error(`Opps ${getCleanErrorMessage(error)}`)
-     }
-  }
- 
-  const buildConnectText = () => {
-    return selectedGroup.statusmember
-  }
-
+  
   return (
     <Grid container marginTop={'0px'}>
       <Grid item xs={12}>
@@ -120,33 +96,15 @@ const CardGroup = ( props:Props) => {
                 <>
                   <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Box sx={{ mr: 2 }}>
-                      <Button
-                        onClick={buildConnectText() == 'Join' ? () => joinGroup() : () => leaveGroup()}
-                        variant={'contained'}
-                        size='small'
-                      >
-                        {isLoading ? <CircularProgress /> : buildConnectText()}
-                      </Button>
-                    </Box>
-                    {/* <Box sx={{ mr: 2 }}>
-                      <Button onClick={() => leaveGroup()} variant={'contained'} size='small'>
-                        Edit
-                      </Button>
-                    </Box>
-
-                    <Box sx={{ mr: 2 }}>
-                      <Button onClick={() => leaveGroup()} variant={'contained'} size='small'>
-                        Delete
-                      </Button>
-                    </Box> */}
+                      <Typography>
+                        Total Member {selectedGroup.totalmember}
+                      </Typography>
+                    </Box> 
                   </Box>
                 </>
               )}
             </Grid>
-            <Box sx={{ mt: 3 }}>
-              {/* <Typography variant='body2' sx={{ mb: 4, color: '#424242', textTransform: 'uppercase', fontWeight: 600 }}>
-                Job Vacancy
-              </Typography> */}
+            <Box sx={{ mt: 3 }}> 
               {renderList(selectedGroup?.member)}
             </Box>
           </CardContent>

@@ -46,8 +46,9 @@ const MasterNews = () => {
                 return {
                   no: index + 1,
                   id: row.id,
-                  title: row.title, 
+                  title: row.title,
                   type: row.type,
+                  slug: row.slug,
                   actions: {
                     onDelete: () => deleteHandler(row)
                   }
