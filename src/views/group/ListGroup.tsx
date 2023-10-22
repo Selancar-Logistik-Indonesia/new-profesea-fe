@@ -50,7 +50,7 @@ const renderList = (listGroup: Group[]) => {
                   {item.description ? item.description : '-'}
                 </Typography>
                 <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
-                  {item.count_member ? item.count_member : '-'}
+                  {item.count_member ? item.count_member : '-'} {' '} Member
                 </Typography>
               </Link>
             </Box>
