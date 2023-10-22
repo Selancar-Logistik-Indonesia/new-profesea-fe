@@ -64,6 +64,9 @@ const firstload = () => {
     
   return (
     <Box sx={{ mt: 5, ml: 3 }}>
+      <title>My Page Title</title>
+      <meta name={threadDetail?.title} content={threadDetail?.snap_content} />
+
       <Grid container spacing={2}>
         <Grid item md={9} xs={12}>
           <Grid container spacing={2}>
@@ -86,8 +89,8 @@ const firstload = () => {
                         component='img'
                         alt='Img of Profesea'
                         image={threadDetail?.imgnews != null ? threadDetail.imgnews : null}
-                        sx={{ ml: 2}}
-                        style={{objectFit: 'contain'}}
+                        sx={{ ml: 2 }}
+                        style={{ objectFit: 'contain' }}
                       />
                     </Grid>
                     <Grid item container xs={12} justifyContent={'flex'}>
@@ -96,12 +99,7 @@ const firstload = () => {
                       </Typography>
                     </Grid>
                     <Grid item container xs={12} justifyContent={'flex'}>
-                      <Typography
-                        variant='body1'
-                        sx={{ p: 4 }}
-                        fontSize={16}
-                        style={{ color: '#000' }}
-                      >
+                      <Typography variant='body1' sx={{ p: 4 }} fontSize={16} style={{ color: '#000' }}>
                         {ReactHtmlParser(`${threadDetail?.content}`)}
                       </Typography>
                     </Grid>
