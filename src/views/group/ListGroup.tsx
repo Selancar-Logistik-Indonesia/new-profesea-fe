@@ -1,15 +1,29 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Avatar,  Paper } from '@mui/material' 
+import { Avatar,  Button,  Paper } from '@mui/material' 
 import Link from 'next/link'
 import Group from 'src/contract/models/group' 
+import Card from '@mui/material/Card' 
+import CardMedia from '@mui/material/CardMedia'
+import { Divider, styled } from '@mui/material' 
+import CardContent from '@mui/material/CardContent'
 
 export type ParamMain = {
   name: string
   skill: string
   location: string
 }
+
+ const ProfilePicture = styled('img')(({ theme }) => ({
+   width: 120,
+   height: 120,
+   borderRadius: theme.shape.borderRadius,
+   border: `5px solid ${theme.palette.common.white}`,
+   [theme.breakpoints.down('md')]: {
+     marginBottom: theme.spacing(4)
+   }
+ }))
 
 interface Props {
   listGroup: Group[]
@@ -26,36 +40,74 @@ const renderList = (listGroup: Group[]) => {
 
     return (
       <Grid item xs={12} md={3} key={item?.id}>
-        <Paper sx={{ marginTop: '10px', border: '1px solid #eee' }} elevation={0}>
-          <Box
-            height={95}
+        <Card sx={{ width: '100%', border: 1, boxShadow: 1, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+          <CardMedia
+            component='img'
+            alt='profile-header'
+            image={item.groupbanner ? item.groupbanner : '/images/avatars/headerprofile3.png'}
             sx={{
+              height: { xs: 100, md: 100 },
+              width: '100%',
+              objectFit: 'cover'
+            }}
+          />
+          <CardContent
+            sx={{
+              pt: 0,
+              mt: 0,
               display: 'flex',
-              alignContent: 'center',
-              '& svg': { color: 'text.secondary' }
+              alignItems: 'flex-end',
+              flexWrap: { xs: 'wrap', md: 'nowrap' },
+              justifyContent: { xs: 'center', md: 'center' },
+              marginLeft: { md: '10px' }
             }}
           >
-            <Link style={{ textDecoration: 'none' }} href={'/group?id=' + item?.id}>
-              <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-                <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50 }} />
+            <Box
+              height={195}
+              sx={{
+                justifyContent: 'center',
+                alignContent: 'center',
+                '& svg': { color: 'text.secondary' }
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: ['center'],
+                  justifyContent: 'center'
+                }}
+                marginTop={-10}
+              >
+                <ProfilePicture src={userPhoto ? userPhoto : '//images/avatars/1.png'} alt='profile-picture' />
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: ['center'],
+                    justifyContent: 'center'
+                  }}
+                >
+                  <Link style={{ textDecoration: 'none' }} href={'/group?id=' + item?.id}>
+                    <Typography align='center' sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={18}>
+                      {item.title ? item.title : '-'}
+                    </Typography>
+                    <Typography align='center' sx={{ color: 'text.primary', mb: 1 }} fontSize={14}>
+                      {item.description ? item.description : '-'}
+                    </Typography>
+                    <Typography align='center' sx={{ color: 'text.secondary', mb: 1 }} fontSize={12}>
+                      {item.count_member ? item.count_member : '-'} Member
+                    </Typography>
+                  </Link>
+                  <Button href={'/group?id=' + item?.id} variant='outlined' color='primary'>
+                    Join
+                  </Button>
+                </Box>
               </Box>
-            </Link>
-
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={2}>
-              <Link style={{ textDecoration: 'none' }} href={'/group?id=' + item?.id}>
-                <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={18}>
-                  {item.title ? item.title : '-'}
-                </Typography>
-                <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={14}>
-                  {item.description ? item.description : '-'}
-                </Typography>
-                <Typography sx={{ color: 'text.secondary', mb: 1 }} fontSize={12}>
-                  {item.count_member ? item.count_member : '-'} {' '} Member
-                </Typography>
-              </Link>
             </Box>
-          </Box>
-        </Paper>
+          </CardContent>
+          <Divider style={{ width: '100%' }} />
+        </Card>
       </Grid>
     )
   })
