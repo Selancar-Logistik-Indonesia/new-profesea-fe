@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import {   Button  } from '@mui/material' 
+import {   Button, createTheme, makeStyles, ThemeProvider  } from '@mui/material' 
 import Link from 'next/link'
 import Group from 'src/contract/models/group' 
 import Card from '@mui/material/Card' 
@@ -24,11 +24,27 @@ export type ParamMain = {
      marginBottom: theme.spacing(4)
    }
  }))
-
+const theme = createTheme({
+  components: {
+    // Name of the component
+    MuiCard: {
+      styleOverrides: {
+        // Name of the slot
+        root: {
+          // Some CSS
+          borderColor: 'green',
+          borderRadius: 5,
+          position: 'relative',
+          zIndex: 0
+        }
+      }
+    }
+  }
+})
 interface Props {
   listGroup: Group[]
-}
-
+} 
+ 
 const renderList = (listGroup: Group[]) => {
   if (!listGroup || listGroup.length == 0) {
     return
@@ -39,47 +55,47 @@ const renderList = (listGroup: Group[]) => {
     const userPhoto = item.profilepicture != '' ? item.profilepicture : '/images/avatars/default-user.png' 
 
     return (
-      <Grid item xs={12} md={3} key={item?.id}>
-        <Card sx={{ width: '100%', border: 1, boxShadow: 1, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-          <CardMedia
-            component='img'
-            alt='profile-header'
-            image={item.groupbanner ? item.groupbanner : '/images/avatars/headerprofile3.png'}
+      <ThemeProvider theme={theme}>
+        <Grid item xs={12} md={3} key={item?.id} padding={5} mt={3}>
+          <Card
             sx={{
-              height: { xs: 100, md: 100 },
-              width: '100%',
-              objectFit: 'cover'
-            }}
-          />
-          <CardContent
-            sx={{
-              pt: 0,
-              mt: 0,
-              display: 'flex',
-              alignItems: 'flex-end',
-              flexWrap: { xs: 'wrap', md: 'nowrap' },
-              justifyContent: { xs: 'center', md: 'center' },
-              marginLeft: { md: '10px' }
+              // width: '100%', 
+              borderRadius: '16px',
+              color: 'common.white',
+              backgroundColor: '#FFFFFF'
             }}
           >
-            <Box
-              height={195}
+            <CardMedia
+              component='img'
+              alt='profile-header'
+              image='/images/avatars/headerprofile3.png'
               sx={{
-                justifyContent: 'center',
-                alignContent: 'center',
-                '& svg': { color: 'text.secondary' }
+                height: { xs: 100, md: 100 },
+                width: '100%',
+                objectFit: 'cover',
+
+                borderRadius: 2
+              }}
+            />
+            <CardContent
+              sx={{
+                pt: 0,
+                mt: 0,
+                display: 'flex',
+                alignItems: 'flex-end',
+                flexWrap: { xs: 'wrap', md: 'nowrap' },
+                justifyContent: { xs: 'center', md: 'center' },
+                marginLeft: { md: '10px' }
               }}
             >
               <Box
+                height={195}
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: ['center'],
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                  '& svg': { color: 'text.secondary' }
                 }}
-                marginTop={-10}
               >
-                <ProfilePicture src={userPhoto ? userPhoto : '//images/avatars/1.png'} alt='profile-picture' />
                 <Box
                   sx={{
                     display: 'flex',
@@ -87,28 +103,39 @@ const renderList = (listGroup: Group[]) => {
                     alignItems: ['center'],
                     justifyContent: 'center'
                   }}
+                  marginTop={-10}
                 >
-                  <Link style={{ textDecoration: 'none' }} href={'/group?id=' + item?.id}>
-                    <Typography align='center' sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={18}>
-                      {item.title ? item.title : '-'}
-                    </Typography>
-                    <Typography align='center' sx={{ color: 'text.primary', mb: 1 }} fontSize={14}>
-                      {item.description ? item.description : '-'}
-                    </Typography>
-                    <Typography align='center' sx={{ color: 'text.secondary', mb: 1 }} fontSize={12}>
-                      {item.count_member ? item.count_member : '-'} Member
-                    </Typography>
-                  </Link>
-                  <Button href={'/group?id=' + item?.id} variant='outlined' color='primary'>
-                    Join
-                  </Button>
+                  <ProfilePicture src='/images/avatars/1.png' />
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: ['center'],
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <Link style={{ textDecoration: 'none' }} href={'/group?id=' + item?.id}>
+                      <Typography align='center' sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={18}>
+                        {item.title ? item.title : '-'}
+                      </Typography>
+                      <Typography align='center' sx={{ color: 'text.primary', mb: 1 }} fontSize={14}>
+                        {item.description ? item.description : '-'}
+                      </Typography>
+                      <Typography align='center' sx={{ color: 'text.secondary', mb: 1 }} fontSize={12}>
+                        {item.count_member ? item.count_member : '-'} Member
+                      </Typography>
+                    </Link>
+                    <Button href={'/group?id=' + item?.id} variant='outlined' color='primary'>
+                      Join
+                    </Button>
+                  </Box>
                 </Box>
               </Box>
-            </Box>
-          </CardContent>
-          <Divider style={{ width: '100%' }} />
-        </Card>
-      </Grid>
+            </CardContent>
+            <Divider style={{ width: '100%' }} />
+          </Card>
+        </Grid>
+      </ThemeProvider>
     )
   })
 }
