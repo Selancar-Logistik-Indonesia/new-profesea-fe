@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import {   Button, createTheme, makeStyles, ThemeProvider  } from '@mui/material' 
+import {   Button, createTheme,   ThemeProvider  } from '@mui/material' 
 import Link from 'next/link'
 import Group from 'src/contract/models/group' 
 import Card from '@mui/material/Card' 
@@ -55,11 +55,11 @@ const renderList = (listGroup: Group[]) => {
     const userPhoto = item.profilepicture != '' ? item.profilepicture : '/images/avatars/default-user.png' 
 
     return (
-      <ThemeProvider theme={theme}>
-        <Grid item xs={12} md={3} key={item?.id} padding={5} mt={3}>
+      <ThemeProvider theme={theme} key={item?.id}>
+        <Grid item xs={12} md={3} padding={2} mt={3}>
           <Card
             sx={{
-              // width: '100%', 
+              // width: '100%',
               borderRadius: '16px',
               color: 'common.white',
               backgroundColor: '#FFFFFF'
