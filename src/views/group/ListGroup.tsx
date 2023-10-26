@@ -52,7 +52,7 @@ const renderList = (listGroup: Group[]) => {
   }
 
   return listGroup?.map(item => { 
-    const userPhoto = item.profilepicture != '' ? item.profilepicture : '/images/avatars/default-user.png' 
+    // const userPhoto = item.profilepicture != '' ? item.profilepicture : '/images/avatars/default-user.png' 
 
     return (
       <ThemeProvider theme={theme} key={item?.id}>
@@ -68,7 +68,7 @@ const renderList = (listGroup: Group[]) => {
             <CardMedia
               component='img'
               alt='profile-header'
-              image='/images/avatars/headerprofile3.png'
+              image={item.profilepicture != '' ? item.profilepicture : '/images/avatars/headerprofile3.png'}
               sx={{
                 height: { xs: 100, md: 100 },
                 width: '100%',
@@ -105,7 +105,7 @@ const renderList = (listGroup: Group[]) => {
                   }}
                   marginTop={-10}
                 >
-                  <ProfilePicture src='/images/avatars/1.png' />
+                  <ProfilePicture src={item.profilepicture != '' ? item.profilepicture : '/images/avatars/1.png'} />
                   <Box
                     sx={{
                       display: 'flex',
