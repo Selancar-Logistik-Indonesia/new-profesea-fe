@@ -101,11 +101,11 @@ const renderList = (listGroup: Group[]) => {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: ['center'],
-                    justifyContent: 'center'
+                    justifyContent: 'center',
                   }}
                   marginTop={-10}
                 >
-                  <ProfilePicture src={item.profilepicture != '' ? item.profilepicture : '/images/avatars/1.png'} />
+                  <ProfilePicture sx={{backgroundColor: 'white'}} src={item.profilepicture != '' ? item.profilepicture : '/images/avatars/1.png'} />
                   <Box
                     sx={{
                       display: 'flex',

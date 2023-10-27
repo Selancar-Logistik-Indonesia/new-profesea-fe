@@ -54,7 +54,7 @@ const Main = () => {
               style={{ color: '#000' }}
               fontWeight='500'
               mt={2}
-              sx={{ maxWidth: { xs: '80%' }, px: { xs: 2, md: 5 } }}
+              sx={{ maxWidth: { xs: '68%' }, px: { xs: 2, md: 5 } }}
             >
               {t('landing_hero_subtitle')}
             </Typography>
