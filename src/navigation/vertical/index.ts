@@ -69,14 +69,14 @@ const navigation = (): VerticalNavItemsType => {
         action: 'read',
         subject: 'user-find-candidate'
       },
-      
+
       // {
       //   path: '/trainer/my-participant',
       //   title: 'List of Participant',
       //   icon: 'solar:user-hand-up-bold-duotone',
       //   action: 'read',
       //   subject: 'user-my-participant'
-      // }, 
+      // },
       // admin section
       {
         path: '/admin/accounts/',
@@ -182,6 +182,24 @@ const navigation = (): VerticalNavItemsType => {
             title: 'Vessel Type',
             path: '/admin/master/vessel-type',
             subject: 'master/vessel-type',
+            action: 'read'
+          },
+          {
+            title: 'License',
+            path: '/admin/master/licensi',
+            subject: 'master/licensi',
+            action: 'read'
+          },
+          {
+            title: 'License Certificate',
+            path: '/admin/master/licensi-coc',
+            subject: 'master/licensi-coc',
+            action: 'read'
+          },
+          {
+            title: 'License Profesi',
+            path: '/admin/master/licensi-cop',
+            subject: 'master/licensi-cop',
             action: 'read'
           }
         ]

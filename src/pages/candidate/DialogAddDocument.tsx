@@ -18,6 +18,7 @@ import { Autocomplete, CircularProgress } from '@mui/material'
 
 import DatePicker from 'react-datepicker' 
 import { DateType } from 'src/contract/models/DatepickerTypes'
+import Licensi from 'src/contract/models/licensi'
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -34,7 +35,7 @@ type DialogProps = {
 }
 type dokumen = {
   title: string
-  docType:string
+  doctype:string
 }
  
 type FormData = {
@@ -49,12 +50,32 @@ const DialogAddDocument = (props: DialogProps) => {
     const [showTextName, setTextName] = useState<boolean>(false)
     const [showChild, setChild] = useState<boolean>(false)     
     const [combochild, setCombochild] = useState<any[]>([])
+    const [dokumen, setDokumen] = useState<Licensi[]>([]) 
      const parent = useRef()
     // const [parent, setParent] = useState()
     const [expiredDate, setExpiredDate] = useState<DateType>(new Date()) 
     const [document_name, setDocument] = useState<any>([])
     const [document_nameChild, setDocumentChild] = useState<any>([])
- 
+    const getListLicense = async () => {
+
+      try {
+              const resp = await HttpClient.get(`/licensi/all`);
+              if (resp.status != 200) {
+                  throw resp.data.message ?? "Something went wrong!";
+              }
+              setDokumen(resp.data.licensies) 
+          } catch (error) {
+                      const errorMessage = "Something went wrong!";
+                      toast.error(`Opps ${errorMessage}`);
+            }
+    }    
+    
+    useEffect(() => {
+      setOnLoading(true)
+      getListLicense().then(() => {
+        setOnLoading(false)
+      })
+    }, []) 
      useEffect(() => {
       if (!selectedFile) {
           setPreview(undefined)
@@ -63,13 +84,13 @@ const DialogAddDocument = (props: DialogProps) => {
       } 
       const objectUrl: any = URL.createObjectURL(selectedFile)
       setPreview(objectUrl) 
-
+      
       return () => URL.revokeObjectURL(objectUrl)
     }, [selectedFile])
 
 
      useEffect(() => { 
-      if(document_name.docType == 'OTH'){
+      if(document_name.doctype == 'OTH'){
         setTextName(true)
       }else{
         setTextName(false)
@@ -103,7 +124,7 @@ const DialogAddDocument = (props: DialogProps) => {
       let status= false;
        for (let x = 0; x < props.arrayhead.length; x++) {
          const element = props.arrayhead[x]
-         if (element.name == document_name.docType) {
+         if (element.name == document_name.doctype) {
            parent.current=element.id
            status =true
          }
@@ -128,7 +149,7 @@ const DialogAddDocument = (props: DialogProps) => {
       const json = {
         user_document: selectedFile,
         document_name: doc,
-        document_type: document_name.docType,
+        document_type: document_name.doctype,
         document_number: 123
       }
         setOnLoading(true)
@@ -191,203 +212,203 @@ const DialogAddDocument = (props: DialogProps) => {
       setSelectedFile(e.target.files[0]) 
     }
    
-    const dokumencoc= [
-      {
-        title: 'Ahli Nautika Tingkat Dasar (ANTD), Nautika',
-        doctype: 'COC1'
-      },
-      {
-        title: 'Ahli Nautika Tingkat V (ANT V), Nautika',
-        doctype: 'COC2'
-      },
-      {
-        title: 'Ahli Nautika Tingkat IV (ANT IV), Nautika',
-        doctype: 'COC3'
-      },
-      {
-        title: 'Ahli Nautika Tingkat III (ANT III), Nautika',
-        doctype: 'COC4'
-      },
-      {
-        title: 'Ahli Nautika Tingkat II (ANT II), Nautika',
-        doctype: 'COC5'
-      },
-      {
-        title: 'Ahli Nautika Tingkat I (ANT I), Nautika',
-        doctype: 'COC6'
-      },
-      {
-        title: 'Ahli Teknika Tingkat Dasar (ATTD), Teknika',
-        doctype: 'COC7'
-      },
-      {
-        title: 'Ahli Teknika Tingkat V (ATT V), Teknika',
-        doctype: 'COC8'
-      },
-      {
-        title: 'Ahli Teknika Tingkat IV (ATT IV), Teknika',
-        doctype: 'COC9'
-      },
-      {
-        title: 'Ahli Teknika Tingkat III (ATT III), Teknika',
-        doctype: 'COC10'
-      },
-      {
-        title: 'Ahli Teknika Tingkat II (ATT II), Teknika',
-        doctype: 'COC11'
-      },
-      {
-        title: 'Ahli Teknika Tingkat I (ATT I), Teknika',
-        doctype: 'COC12'
-      },
-      {
-        title: 'Rating Able',
-        doctype: 'COC13'
-      },
-      ,
-      {
-        title: 'Rating Forming',
-        doctype: 'COC14'
-      }, 
-    ]
-    const dokumencop  = [
-      {
-        title: 'Basic training for Oil and Chemical Tanker (BOCT)',
-        doctype: 'COP1'
-      },
-      {
-        title: 'Basic training for Liquefied Gas Tanker (BLGT)',
-        doctype: 'COP2'
-      },
-      {
-        title: 'Advance training for Oil Tanker (AOT)',
-        doctype: 'COP3'
-      },
-      {
-        title: 'Advance training for Chemical Tanker cargo operation (ACT)',
-        doctype: 'COP4'
-      },
-      {
-        title: 'Advance training for Liquefied Gas Tanker cargo operation (ALGT)',
-        doctype: 'COP5'
-      },
-      {
-        title: 'Crowd Management Training Certificate (CMT)',
-        doctype: 'COP6'
-      },
-      {
-        title: 'Crisis Management and Human Behaviour Training Certificate (CMHBT)',
-        doctype: 'COP7'
-      },
-      {
-        title: 'Ro-ro Passenger Safety, Cargo Safety and Hull Intergrity Training Certificate',
-        doctype: 'COP8'
-      },
-      {
-        title: 'Survical Craft and Rescue Boats other than fast rescue boat (SCRB)',
-        doctype: 'COP9'
-      },
-      {
-        title: 'Fast Rescue Boats (FRB)',
-        doctype: 'COP10'
-      },
-      {
-        title: 'Advanced Fire Fighting (AFF)',
-        doctype: 'COP11'
-      },
-      {
-        title: 'Medical First Aid (MFA)',
-        doctype: 'COP12'
-      },
-      {
-        title: 'Medical Care (MC)',
-        doctype: 'COP13'
-      },
-      {
-        title: 'Radar Observation (RADAR Simulator)',
-        doctype: 'COP14'
-      },
-      {
-        title: 'Automatic Radar Plotting Aid Simulator (ARPA Simulator)',
-        doctype: 'COP15'
-      },
-      {
-        title: 'Electronics Charts Display and Information System (ECDIS)',
-        doctype: 'COP16'
-      },
-      {
-        title: 'Bridge Resource Management (BRM)',
-        doctype: 'COP17'
-      },
-      {
-        title: 'Engine Room Resource Management (ERM)',
-        doctype: 'COP18'
-      },
-      {
-        title: 'Security Awareness Training (SAT)',
-        doctype: 'COP19'
-      },
-      {
-        title: 'Security for Seafarers with Designated Security Duties (SDSD)',
-        doctype: 'COP20'
-      },
-      {
-        title: 'Ship Security Officers (SSO)',
-        doctype: 'COP21'
-      },
-      {
-        title: 'International Maritime Dangerous Good Cargo (IMDG) Code',
-        doctype: 'COP22'
-      },
-      {
-        title: 'Able Seafarer Deck',
-        doctype: 'COP23'
-      },
-      {
-        title: 'Able Seafarer Engine',
-        doctype: 'COP24'
-      },
-      {
-        title: 'Cook Certificate',
-        doctype: 'COP25'
-      },
-      {
-        title: 'Basic Safety Training',
-        doctype: 'COP26'
-      },
-      {
-        title: 'GMDSS (Global Maritime Distress Safety System)',
-        doctype: 'COP27'
-      },
-      {
-        title: 'Rating Forming Part of Navigational Watch',
-        doctype: 'COP28'
-      },
-      {
-        title: 'Rating Forming Part of Engine Room Watch',
-        doctype: 'COP29'
-      },
-      {
-        title: 'Proficiency in Survival Craft and Rescue Boats other than Fast Rescue Boats (PSCRB)',
-        doctype: 'COP30'
-      },
-      {
-        title: 'International Safety Management (ISM) Code',
-        doctype: 'COP31'
-      }
-    ]
-    const dokumen = [
-      { title: 'Certificate of Competency', docType: 'COC', child: dokumencoc },
-      { title: 'Certificate of Profeciency', docType: 'COP', child: dokumencop },
-      { title: 'Certificate of Recognition', docType: 'COR' },
-      { title: 'Certificate of Endorsement', docType: 'COE' },
-      { title: 'Other Certificate', docType: 'OTH' },
-      { title: 'MCU Certificates', docType: 'MCU' },
-      { title: 'SIM', docType: 'SIM' },
-      { title: 'KTP', docType: 'KTP' },
-      { title: 'Passport', docType: 'PAS' },
-      { title: 'Visa', docType: 'VIS' }
-    ]
+    // const dokumencoc= [
+    //   {
+    //     title: 'Ahli Nautika Tingkat Dasar (ANTD), Nautika',
+    //     doctype: 'COC1'
+    //   },
+    //   {
+    //     title: 'Ahli Nautika Tingkat V (ANT V), Nautika',
+    //     doctype: 'COC2'
+    //   },
+    //   {
+    //     title: 'Ahli Nautika Tingkat IV (ANT IV), Nautika',
+    //     doctype: 'COC3'
+    //   },
+    //   {
+    //     title: 'Ahli Nautika Tingkat III (ANT III), Nautika',
+    //     doctype: 'COC4'
+    //   },
+    //   {
+    //     title: 'Ahli Nautika Tingkat II (ANT II), Nautika',
+    //     doctype: 'COC5'
+    //   },
+    //   {
+    //     title: 'Ahli Nautika Tingkat I (ANT I), Nautika',
+    //     doctype: 'COC6'
+    //   },
+    //   {
+    //     title: 'Ahli Teknika Tingkat Dasar (ATTD), Teknika',
+    //     doctype: 'COC7'
+    //   },
+    //   {
+    //     title: 'Ahli Teknika Tingkat V (ATT V), Teknika',
+    //     doctype: 'COC8'
+    //   },
+    //   {
+    //     title: 'Ahli Teknika Tingkat IV (ATT IV), Teknika',
+    //     doctype: 'COC9'
+    //   },
+    //   {
+    //     title: 'Ahli Teknika Tingkat III (ATT III), Teknika',
+    //     doctype: 'COC10'
+    //   },
+    //   {
+    //     title: 'Ahli Teknika Tingkat II (ATT II), Teknika',
+    //     doctype: 'COC11'
+    //   },
+    //   {
+    //     title: 'Ahli Teknika Tingkat I (ATT I), Teknika',
+    //     doctype: 'COC12'
+    //   },
+    //   {
+    //     title: 'Rating Able',
+    //     doctype: 'COC13'
+    //   },
+    //   ,
+    //   {
+    //     title: 'Rating Forming',
+    //     doctype: 'COC14'
+    //   }, 
+    // ]
+    // const dokumencop  = [
+    //   {
+    //     title: 'Basic training for Oil and Chemical Tanker (BOCT)',
+    //     doctype: 'COP1'
+    //   },
+    //   {
+    //     title: 'Basic training for Liquefied Gas Tanker (BLGT)',
+    //     doctype: 'COP2'
+    //   },
+    //   {
+    //     title: 'Advance training for Oil Tanker (AOT)',
+    //     doctype: 'COP3'
+    //   },
+    //   {
+    //     title: 'Advance training for Chemical Tanker cargo operation (ACT)',
+    //     doctype: 'COP4'
+    //   },
+    //   {
+    //     title: 'Advance training for Liquefied Gas Tanker cargo operation (ALGT)',
+    //     doctype: 'COP5'
+    //   },
+    //   {
+    //     title: 'Crowd Management Training Certificate (CMT)',
+    //     doctype: 'COP6'
+    //   },
+    //   {
+    //     title: 'Crisis Management and Human Behaviour Training Certificate (CMHBT)',
+    //     doctype: 'COP7'
+    //   },
+    //   {
+    //     title: 'Ro-ro Passenger Safety, Cargo Safety and Hull Intergrity Training Certificate',
+    //     doctype: 'COP8'
+    //   },
+    //   {
+    //     title: 'Survical Craft and Rescue Boats other than fast rescue boat (SCRB)',
+    //     doctype: 'COP9'
+    //   },
+    //   {
+    //     title: 'Fast Rescue Boats (FRB)',
+    //     doctype: 'COP10'
+    //   },
+    //   {
+    //     title: 'Advanced Fire Fighting (AFF)',
+    //     doctype: 'COP11'
+    //   },
+    //   {
+    //     title: 'Medical First Aid (MFA)',
+    //     doctype: 'COP12'
+    //   },
+    //   {
+    //     title: 'Medical Care (MC)',
+    //     doctype: 'COP13'
+    //   },
+    //   {
+    //     title: 'Radar Observation (RADAR Simulator)',
+    //     doctype: 'COP14'
+    //   },
+    //   {
+    //     title: 'Automatic Radar Plotting Aid Simulator (ARPA Simulator)',
+    //     doctype: 'COP15'
+    //   },
+    //   {
+    //     title: 'Electronics Charts Display and Information System (ECDIS)',
+    //     doctype: 'COP16'
+    //   },
+    //   {
+    //     title: 'Bridge Resource Management (BRM)',
+    //     doctype: 'COP17'
+    //   },
+    //   {
+    //     title: 'Engine Room Resource Management (ERM)',
+    //     doctype: 'COP18'
+    //   },
+    //   {
+    //     title: 'Security Awareness Training (SAT)',
+    //     doctype: 'COP19'
+    //   },
+    //   {
+    //     title: 'Security for Seafarers with Designated Security Duties (SDSD)',
+    //     doctype: 'COP20'
+    //   },
+    //   {
+    //     title: 'Ship Security Officers (SSO)',
+    //     doctype: 'COP21'
+    //   },
+    //   {
+    //     title: 'International Maritime Dangerous Good Cargo (IMDG) Code',
+    //     doctype: 'COP22'
+    //   },
+    //   {
+    //     title: 'Able Seafarer Deck',
+    //     doctype: 'COP23'
+    //   },
+    //   {
+    //     title: 'Able Seafarer Engine',
+    //     doctype: 'COP24'
+    //   },
+    //   {
+    //     title: 'Cook Certificate',
+    //     doctype: 'COP25'
+    //   },
+    //   {
+    //     title: 'Basic Safety Training',
+    //     doctype: 'COP26'
+    //   },
+    //   {
+    //     title: 'GMDSS (Global Maritime Distress Safety System)',
+    //     doctype: 'COP27'
+    //   },
+    //   {
+    //     title: 'Rating Forming Part of Navigational Watch',
+    //     doctype: 'COP28'
+    //   },
+    //   {
+    //     title: 'Rating Forming Part of Engine Room Watch',
+    //     doctype: 'COP29'
+    //   },
+    //   {
+    //     title: 'Proficiency in Survival Craft and Rescue Boats other than Fast Rescue Boats (PSCRB)',
+    //     doctype: 'COP30'
+    //   },
+    //   {
+    //     title: 'International Safety Management (ISM) Code',
+    //     doctype: 'COP31'
+    //   }
+    // ]
+    // const dokumen = [
+    //   { title: 'Certificate of Competency', doctype: 'COC', child: dokumencoc },
+    //   { title: 'Certificate of Profeciency', doctype: 'COP', child: dokumencop },
+    //   { title: 'Certificate of Recognition', doctype: 'COR' },
+    //   { title: 'Certificate of Endorsement', doctype: 'COE' },
+    //   { title: 'Other Certificate', doctype: 'OTH' },
+    //   { title: 'MCU Certificates', doctype: 'MCU' },
+    //   { title: 'SIM', doctype: 'SIM' },
+    //   { title: 'KTP', doctype: 'KTP' },
+    //   { title: 'Passport', doctype: 'PAS' },
+    //   { title: 'Visa', doctype: 'VIS' }
+    // ]
 
     return (
       <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
