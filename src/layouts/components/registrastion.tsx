@@ -68,7 +68,7 @@ const Registration = (props: any) => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [combocode, getCombocode] = useState<any>([])
-  const [idcombocode, setCombocode] = useState<any>(0)
+  const [idcombocode, setCombocode] = useState<any>({ label: 'Loading...', id: 0 })
 
   const [idposition, setPosition] = useState<any>(
     type == 'onship' ? { label: 'Pelaut', id: 0 } : type == 'offship' ? { label: 'Non Pelaut', id: 1 } : ''
@@ -166,6 +166,9 @@ const Registration = (props: any) => {
         for (let x = 0; x < code.length; x++) {
           const element = code[x];
           element.label = element.iso + ' (' + element.phonecode + ')'
+          if(element.id == 100){
+            setCombocode(element)
+          }
         }
 
         getCombocode(code);
@@ -236,6 +239,7 @@ const Registration = (props: any) => {
                       id='code'
                       options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
                       renderInput={params => <TextField {...params} variant='standard' />}
+                      value={idcombocode}
                       {...register('code')}
                       onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
                     />
@@ -325,7 +329,6 @@ const Registration = (props: any) => {
                   <Box component='ul' sx={{ pl: 4, mb: 0, '& li': { mb: 1, color: 'text.primary' } }}>
                     <li>Minimum 8 karakter</li>
                     <li>Setidaknya satu karakter huruf kecil & satu karakter huruf besar</li>
-                    
                   </Box>
                 </Alert>
               }
@@ -370,7 +373,6 @@ const Registration = (props: any) => {
                   <Box component='ul' sx={{ pl: 4, mb: 0, '& li': { mb: 1, color: 'text.primary' } }}>
                     <li>Minimum 8 karakter</li>
                     <li>Setidaknya satu karakter huruf kecil & satu karakter huruf besar</li>
-                    
                   </Box>
                 </Alert>
               }

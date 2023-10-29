@@ -37,66 +37,67 @@ import EditorArea from 'src/@core/components/react-draft-wysiwyg'
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import VesselType from 'src/contract/models/vessel_type'
+import Licensi from 'src/contract/models/licensi'
 
-const licenseData = [
-  {
-    title: 'Ahli Nautika Tingkat Dasar (ANTD) | Nautika',
-    doctype: 'COC1'
-  },
-  {
-    title: 'Ahli Nautika Tingkat V (ANT V) | Nautika',
-    doctype: 'COC2'
-  },
-  {
-    title: 'Ahli Nautika Tingkat IV (ANT IV) | Nautika',
-    doctype: 'COC3'
-  },
-  {
-    title: 'Ahli Nautika Tingkat III (ANT III) | Nautika',
-    doctype: 'COC4'
-  },
-  {
-    title: 'Ahli Nautika Tingkat II (ANT II) | Nautika',
-    doctype: 'COC5'
-  },
-  {
-    title: 'Ahli Nautika Tingkat I (ANT I) | Nautika',
-    doctype: 'COC6'
-  },
-  {
-    title: 'Ahli Teknika Tingkat Dasar (ATTD) | Teknika',
-    doctype: 'COC7'
-  },
-  {
-    title: 'Ahli Teknika Tingkat V (ATT V) | Teknika',
-    doctype: 'COC8'
-  },
-  {
-    title: 'Ahli Teknika Tingkat IV (ATT IV) | Teknika',
-    doctype: 'COC9'
-  },
-  {
-    title: 'Ahli Teknika Tingkat III (ATT III) | Teknika',
-    doctype: 'COC10'
-  },
-  {
-    title: 'Ahli Teknika Tingkat II (ATT II) | Teknika',
-    doctype: 'COC11'
-  },
-  {
-    title: 'Ahli Teknika Tingkat I (ATT I) | Teknika',
-    doctype: 'COC12'
-  },
-  {
-    title: 'Rating Able',
-    doctype: 'COC13'
-  },
-  ,
-  {
-    title: 'Rating Forming',
-    doctype: 'COC14'
-  }
-]
+// const licenseData = [
+//   {
+//     title: 'Ahli Nautika Tingkat Dasar (ANTD) | Nautika',
+//     doctype: 'COC1'
+//   },
+//   {
+//     title: 'Ahli Nautika Tingkat V (ANT V) | Nautika',
+//     doctype: 'COC2'
+//   },
+//   {
+//     title: 'Ahli Nautika Tingkat IV (ANT IV) | Nautika',
+//     doctype: 'COC3'
+//   },
+//   {
+//     title: 'Ahli Nautika Tingkat III (ANT III) | Nautika',
+//     doctype: 'COC4'
+//   },
+//   {
+//     title: 'Ahli Nautika Tingkat II (ANT II) | Nautika',
+//     doctype: 'COC5'
+//   },
+//   {
+//     title: 'Ahli Nautika Tingkat I (ANT I) | Nautika',
+//     doctype: 'COC6'
+//   },
+//   {
+//     title: 'Ahli Teknika Tingkat Dasar (ATTD) | Teknika',
+//     doctype: 'COC7'
+//   },
+//   {
+//     title: 'Ahli Teknika Tingkat V (ATT V) | Teknika',
+//     doctype: 'COC8'
+//   },
+//   {
+//     title: 'Ahli Teknika Tingkat IV (ATT IV) | Teknika',
+//     doctype: 'COC9'
+//   },
+//   {
+//     title: 'Ahli Teknika Tingkat III (ATT III) | Teknika',
+//     doctype: 'COC10'
+//   },
+//   {
+//     title: 'Ahli Teknika Tingkat II (ATT II) | Teknika',
+//     doctype: 'COC11'
+//   },
+//   {
+//     title: 'Ahli Teknika Tingkat I (ATT I) | Teknika',
+//     doctype: 'COC12'
+//   },
+//   {
+//     title: 'Rating Able',
+//     doctype: 'COC13'
+//   },
+//   ,
+//   {
+//     title: 'Rating Forming',
+//     doctype: 'COC14'
+//   }
+// ]
 
 const SailRegion = [
   { id: 'ncv', name: 'Near Coastal Voyage (NCV)' },
@@ -142,6 +143,7 @@ const DialogAdd = (props: DialogProps) => {
   const [combocountry, getComboCountry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
   const [VesselType, getVesselType] = useState<any[]>([]);
+  const [licenseData, getlicenseData] = useState<Licensi[]>([])
 
   const [desc, setDesc] = useState(EditorState.createEmpty())
 
@@ -190,6 +192,12 @@ const DialogAdd = (props: DialogProps) => {
     }
     const code = resp.data.cities
     getComboCity(code)
+
+    const resp2 = await HttpClient.get(`/licensi/all`)
+    if (resp2.status != 200) {
+      throw resp2.data.message ?? 'Something went wrong!'
+    }
+    getlicenseData(resp2.data.licensiescoc)
   }
 
 
