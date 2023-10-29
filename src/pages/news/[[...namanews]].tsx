@@ -43,13 +43,19 @@ const ThreadApp = () => {
   const [threadDetail, setthreadDetail] = useState<any>([])
   const router = useRouter()
   const { namanews } = router.query as { namanews: string }
-const firstload = () => {
-   if (namanews != undefined) {
-     HttpClient.get('/news/' + namanews[0]).then(response => {
+  const firstload = async () => {
+  //  if (namanews != undefined) {
+    
+      const response = await HttpClient.get('/news/testingnews')
        const detail = response.data.news
-       setthreadDetail(detail[0])
-     })
-   }
+
+       setthreadDetail(detail[0])      
+    //  await HttpClient.get('/news/testingnews').then(response => {
+    //    const detail = response.data.news
+
+    //    setthreadDetail(detail[0])
+    //  })
+  //  }
    
 
     fetchComments({ take: 5, replyable_id: 1, replyable_type: 'news' })
@@ -58,6 +64,8 @@ const firstload = () => {
    
 
 }
+firstload()
+ 
  useEffect(() => {
    firstload()
  }, [namanews]) 
@@ -65,8 +73,8 @@ const firstload = () => {
   return (
     <Box sx={{ mt: 5, ml: 3 }}>
       <title>My Page Title</title>
-      <meta name={threadDetail?.title} content={threadDetail?.snap_content} />
-
+      <meta name='description' content={`${namanews}`} />
+      <meta name='descriptionz' content={`${threadDetail?.title}`} />
       <Grid container spacing={2}>
         <Grid item md={9} xs={12}>
           <Grid container spacing={2}>
