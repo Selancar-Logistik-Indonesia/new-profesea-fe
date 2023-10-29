@@ -96,9 +96,9 @@ const DialogAdd = (props: DialogProps) => {
                     </IconButton>
                     <Box sx={{ mb: 6, textAlign: 'center' }}>
                     <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
-                            Add New Job Category
+                            Add New Profeciency License
                         </Typography>
-                        <Typography variant='body2'>Fulfill your Job Category Info here</Typography>
+                        {/* <Typography variant='body2'>Fulfill your Job Category Info here</Typography> */}
                     </Box>
                     <Grid container spacing={3}>
                         <Grid item sm={9} xs={12}>
