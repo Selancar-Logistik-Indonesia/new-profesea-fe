@@ -2,28 +2,23 @@
 import React , { ReactNode, useEffect, useState } from 'react'
 import ReactHtmlParser from 'react-html-parser';
 
-// ** MUI Components
 import Box  from '@mui/material/Box'  
 import {   Card, CardContent, CardMedia, Typography } from '@mui/material'
-
-// ** Layout Import
-// import BlankLayout from 'src/@core/layouts/BlankLayout'
-
-// ** Hooks 
-
-// ** Demo Imports
-// import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { Grid } from '@mui/material'  
  
 import Recomended from './Recomended'
-// import { Icon } from '@iconify/react'
-// import Profile from 'src/layouts/components/Profile'
-// import Feed from 'src/layouts/components/Feed'
 import { HttpClient } from 'src/services'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout';
 import { NewsProvider } from 'src/context/NewsContext';
 import { useNews } from 'src/hooks/useNews';
 import { useRouter } from 'next/router';
+// import DetailNews from 'src/views/news/detailnews';
+import secureLocalStorage from 'react-secure-storage';
+import localStorageKeys from 'src/configs/localstorage_keys';
+import INews from 'src/contract/models/news';
+import Head from 'next/head';
+  
+const newscache = secureLocalStorage.getItem(localStorageKeys.news) as INews
 
 const Thread = () => {
   return (
@@ -35,46 +30,47 @@ const Thread = () => {
 
 const ThreadApp = () => { 
   const { fetchComments, fetchNews } = useNews();
-  // const searchParams = useSearchParams()
-  // const params = searchsearchParams.get('id')
-  // const windowUrl = window.location.search
-  // const params = new URLSearchParams(windowUrl)
-   // const [userDetail, setUserDetail] = useState<IUser | null>(null)
   const [threadDetail, setthreadDetail] = useState<any>([])
   const router = useRouter()
+  // const x = newsca
   const { namanews } = router.query as { namanews: string }
   const firstload = async () => {
-  //  if (namanews != undefined) {
-    
-      const response = await HttpClient.get('/news/testingnews')
-       const detail = response.data.news
-
-       setthreadDetail(detail[0])      
-    //  await HttpClient.get('/news/testingnews').then(response => {
-    //    const detail = response.data.news
-
-    //    setthreadDetail(detail[0])
-    //  })
-  //  }
-   
-
+    if (namanews != undefined) {
+       
+      await HttpClient.get('/news/'+namanews).then(response => {
+        const detail = response.data.news  
+        setthreadDetail(detail[0])
+        if (newscache == undefined){
+          secureLocalStorage.setItem(localStorageKeys.news, response.data.news[0])
+          window.location.reload()
+        }else{
+          if (newscache.id != detail[0].id) {
+            secureLocalStorage.setItem(localStorageKeys.news, response.data.news[0])
+            window.location.reload()
+          }
+        } 
+          
+      
+      })
+    }    
     fetchComments({ take: 5, replyable_id: 1, replyable_type: 'news' })
     fetchNews({ take: 5 })
-  
-   
-
-}
-firstload()
+  }
  
  useEffect(() => {
    firstload()
  }, [namanews]) 
-    
+ 
   return (
     <Box sx={{ mt: 5, ml: 3 }}>
-      <title>My Page Title</title>
-      <meta name='description' content={`${namanews}`} />
-      <meta name='descriptionz' content={`${threadDetail?.title}`} />
+      {/* <title>My Page Title</title>  */}
+      <Head>
+        {/* <title>{`${themeConfig.templateName}`}</title> */}
+        <meta name='description' content={`${newscache?.id}`} />
+        <meta name='keywords' content='kintil' />
+        {/* <meta name='viewport' content='initial-scale=0.8, width=device-width' /> */}
+      </Head>
+      {/* <meta name='description' content={`${newscache.id}`} /> */}
       <Grid container spacing={2}>
         <Grid item md={9} xs={12}>
           <Grid container spacing={2}>
