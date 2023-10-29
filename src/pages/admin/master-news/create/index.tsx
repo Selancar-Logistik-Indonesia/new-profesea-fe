@@ -107,7 +107,7 @@ function uploadCallback(file:any){
 }
 
 const onCreate = async (formData: any) => {
-  const { title,slug } = formData
+  const { title,slug,meta } = formData
 
   const json = {
     imgnews: files,
@@ -115,6 +115,7 @@ const onCreate = async (formData: any) => {
     content: draftToHtml(convertToRaw(desc?.getCurrentContent())),
     type: sforumCode,
     slug: slug,
+    meta: meta,
     postingdate: postingDate
   }
   setOnLoading(true);       
@@ -202,6 +203,18 @@ const onCreate = async (formData: any) => {
                     {...register('slug')}
                     error={Boolean(errors.slug)}
                     label='Slug'
+                    variant='outlined'
+                    fullWidth
+                    sx={{ mb: 1 }}
+                  />
+                </Grid>
+                
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    id='slugmeta'
+                    {...register('meta')}
+                    error={Boolean(errors.meta)}
+                    label='Meta Description'
                     variant='outlined'
                     fullWidth
                     sx={{ mb: 1 }}
