@@ -33,14 +33,15 @@ import draftToHtml from 'draftjs-to-html';
 import EditorArea from 'src/@core/components/react-draft-wysiwyg'
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import Licensi from 'src/contract/models/licensi'
 
-const licenseData = [
-  { title: 'Certificate of Competency', docType: 'COC' },
-  { title: 'Certificate of Profeciency', docType: 'COP' },
-  { title: 'Certificate of Recognition', docType: 'COR' },
-  { title: 'Certificate of Endorsement', docType: 'COE' },
-  { title: 'MCU Certificates', docType: 'MCU' }
-]
+// const licenseData = [
+//   { title: 'Certificate of Competency', docType: 'COC' },
+//   { title: 'Certificate of Profeciency', docType: 'COP' },
+//   { title: 'Certificate of Recognition', docType: 'COR' },
+//   { title: 'Certificate of Endorsement', docType: 'COE' },
+//   { title: 'MCU Certificates', docType: 'MCU' }
+// ]
 
 const SailRegion = [
   { id : 'ncv', name : 'Near Coastal Voyage (NCV)'},
@@ -99,11 +100,17 @@ const DialogEdit = (props: EditProps) => {
   const contentState = ContentState.createFromBlockArray(contenDesc)
   const editorState = EditorState.createWithContent(contentState)
   
+  const [licenseData, getlicenseData] = useState<Licensi[]>([])
   const [disabled, setDisabled] = useState(true)  
   // console.log(editorState);
 
   const [desc, setDesc] = useState(editorState)
   const combobox = async () => {
+    const resp2 = await HttpClient.get(`/licensi/all`)
+    if (resp2.status != 200) {
+      throw resp2.data.message ?? 'Something went wrong!'
+    }
+    getlicenseData(resp2.data.licensiescoc)
     HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
       if (response.status != 200) {
         throw response.data.message ?? "Something went wrong!";
@@ -171,15 +178,15 @@ const DialogEdit = (props: EditProps) => {
     const { salary_start, salary_end, experience } = formData
     
     const json = {
-      rolelevel_id: Level.id == 0 ? null : Level.id,
-      roletype_id: Type.id == 0 ? null : Type.id,
-      edugrade_id: Edu.id == 0 ? null : Edu.id,
-      category_id: Cat.id == 0 ? null : Cat.id,
-      country_id: Cou.id == 0?null : Cou.id,
-      city_id: Cit.id == 0 ? null : Cit.id,
+      rolelevel_id: Level == null ? null : Level.id,
+      roletype_id: Type == null ? null : Type.id,
+      edugrade_id: Edu == null ? null : Edu.id,
+      category_id: Cat == null ? null : Cat.id,
+      country_id: Cou == null ? null : Cou.id,
+      city_id: Cit == null ? null : Cit.id,
       license: license,
       sailing_region: Sail,
-      vesseltype_id: Vessel == null ?null :Vessel.id,
+      vesseltype_id: Vessel == null ? null : Vessel.id,
       salary_start: salary_start,
       salary_end: salary_end,
       experience: experience,
