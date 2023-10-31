@@ -3,7 +3,7 @@ import React , {  useState } from 'react'
 
 // ** MUI Components
 import Box  from '@mui/material/Box'  
-import {  Autocomplete, Button,    CircularProgress,      TextField, Typography    } from '@mui/material'
+import {  Autocomplete, Button,    CircularProgress,      IconButton,      InputAdornment,      OutlinedInput,      TextField, Typography    } from '@mui/material'
 
 // import {  useTheme } from '@mui/material/styles'
 // ** Third Party Imports
@@ -197,57 +197,61 @@ const handleChangemeta = (event: { target: { value: any } }) => {
                   />
                 </Grid>
                 <Grid item container xs={12} md={6}>
-                  <Grid container md={10}>
-                    {' '}
-                    <TextField
+                  <Grid container md={12}>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      label='Title'
                       id='title'
                       {...register('title')}
                       error={Boolean(errors.title)}
-                      label='Title'
-                      variant='outlined'
-                      fullWidth
                       onChange={handleChangetitle}
-                      sx={{ mb: 1 }}
+                      fullWidth
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <Typography>{charType} character</Typography>
+                        </InputAdornment>
+                      }
                     />
-                  </Grid>
-                  <Grid container md={2} mt={8}>
-                    <Typography>{charType} character</Typography>
                   </Grid>
                 </Grid>
                 <Grid item container xs={12} md={6}>
-                  <Grid container md={10}>
-                    <TextField
+                  <Grid container md={12}>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
                       id='slug'
                       {...register('slug')}
                       error={Boolean(errors.slug)}
                       onChange={handleChangeslug}
                       label='Slug'
-                      variant='outlined'
                       fullWidth
-                      sx={{ mb: 1 }}
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <Typography>{charSlug} character</Typography>
+                        </InputAdornment>
+                      }
                     />
-                  </Grid>
-                  <Grid container md={2} mt={8}>
-                    <Typography>{charSlug} character</Typography>
                   </Grid>
                 </Grid>
 
                 <Grid item container xs={12} md={6}>
-                  <Grid container md={10}>
-                    <TextField
+                  <Grid container md={12}>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
                       id='slugmeta'
                       {...register('meta')}
                       error={Boolean(errors.meta)}
                       onChange={handleChangemeta}
-                      label='Meta Description'
-                      variant='outlined'
+                      label='Meta Description' 
                       fullWidth
-                      sx={{ mb: 1 }}
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <Typography>{charMeta} character</Typography>
+                        </InputAdornment>
+                      }
                     />
+                    
                   </Grid>
-                  <Grid container md={2} mt={8}>
-                    <Typography>{charMeta} character</Typography>
-                  </Grid>
+                   
                 </Grid>
 
                 {show == true && (
