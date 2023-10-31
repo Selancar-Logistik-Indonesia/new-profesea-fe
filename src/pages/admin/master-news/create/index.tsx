@@ -196,7 +196,7 @@ const handleChangemeta = (event: { target: { value: any } }) => {
                     }
                   />
                 </Grid>
-                <Grid item container xs={12} md={6}>
+                <Grid item container xs={12} md={6} mt={-2}>
                   <Grid container md={12}>
                     <InputLabel htmlFor='x' error={Boolean(errors.title)}>
                       Title
