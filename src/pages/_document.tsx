@@ -29,7 +29,7 @@ class CustomDocument extends Document {
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
               j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-WRGG3934');`,
+              })(window,document,'script','dataLayer','GTM-WRGG3934');`
             }}
           />
           <script
@@ -44,21 +44,22 @@ class CustomDocument extends Document {
               'https://connect.facebook.net/en_US/fbevents.js');
               fbq('init', '349290647597490');
               fbq('track', 'PageView');
-              `,
+              `
             }}
           />
+          <meta name='google-site-verification' content='googled080a761d616eb41' />
         </Head>
         <body>
           <Main />
           <NextScript />
           <noscript
             dangerouslySetInnerHTML={{
-              __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WRGG3934" height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
+              __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WRGG3934" height="0" width="0" style="display:none;visibility:hidden"></iframe>`
             }}
           />
           <noscript
             dangerouslySetInnerHTML={{
-              __html: `<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=349290647597490&ev=PageView&noscript=1" />`,
+              __html: `<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=349290647597490&ev=PageView&noscript=1" />`
             }}
           />
         </body>
