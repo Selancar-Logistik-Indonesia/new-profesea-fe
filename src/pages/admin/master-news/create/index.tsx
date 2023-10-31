@@ -3,7 +3,7 @@ import React , {  useState } from 'react'
 
 // ** MUI Components
 import Box  from '@mui/material/Box'  
-import {  Autocomplete, Button,    CircularProgress,           InputAdornment,      OutlinedInput,      TextField, Typography    } from '@mui/material'
+import {  Autocomplete, Button,    CircularProgress,           InputAdornment,      InputLabel,      OutlinedInput,      TextField, Typography    } from '@mui/material'
 
 // import {  useTheme } from '@mui/material/styles'
 // ** Third Party Imports
@@ -198,6 +198,9 @@ const handleChangemeta = (event: { target: { value: any } }) => {
                 </Grid>
                 <Grid item container xs={12} md={6}>
                   <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.title)}>
+                      Title
+                    </InputLabel>
                     <OutlinedInput
                       sx={{ mb: 1 }}
                       label='Title'
@@ -216,6 +219,9 @@ const handleChangemeta = (event: { target: { value: any } }) => {
                 </Grid>
                 <Grid item container xs={12} md={6}>
                   <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.slug)}>
+                      Slug
+                    </InputLabel>
                     <OutlinedInput
                       sx={{ mb: 1 }}
                       id='slug'
@@ -235,13 +241,16 @@ const handleChangemeta = (event: { target: { value: any } }) => {
 
                 <Grid item container xs={12} md={6}>
                   <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.meta)}>
+                      Meta Description
+                    </InputLabel>
                     <OutlinedInput
                       sx={{ mb: 1 }}
                       id='slugmeta'
                       {...register('meta')}
                       error={Boolean(errors.meta)}
                       onChange={handleChangemeta}
-                      label='Meta Description' 
+                      label='Meta Description'
                       fullWidth
                       endAdornment={
                         <InputAdornment position='end'>
@@ -249,9 +258,7 @@ const handleChangemeta = (event: { target: { value: any } }) => {
                         </InputAdornment>
                       }
                     />
-                    
                   </Grid>
-                   
                 </Grid>
 
                 {show == true && (
