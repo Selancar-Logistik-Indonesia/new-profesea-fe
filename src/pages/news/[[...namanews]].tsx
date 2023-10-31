@@ -83,7 +83,7 @@ const ThreadApp = () => {
                         fontSize={18}
                         style={{ color: '#000' }}
                         fontWeight='600'
-                        sx={{ ml: 2, mb: 2, color: '#424242', textTransform: 'uppercase' }}
+                        sx={{ ml: 2, mb: 5, color: '#000', textTransform: 'uppercase' }}
                       >
                         {threadDetail?.title}
                       </Typography>
@@ -94,7 +94,13 @@ const ThreadApp = () => {
                         alt='Img of Profesea'
                         image={threadDetail?.imgnews != null ? threadDetail.imgnews : null}
                         sx={{ ml: 2 }}
-                        style={{ objectFit: 'contain' }}
+                    style={{
+                      maxWidth: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      objectFit: 'contain' 
+                    }}
                       />
                     </Grid>
                     <Grid item container xs={12} justifyContent={'flex'}>
@@ -103,7 +109,7 @@ const ThreadApp = () => {
                       </Typography>
                     </Grid>
                     <Grid item container xs={12} justifyContent={'flex'}>
-                      <Typography variant='body1' sx={{ p: 4 }} fontSize={16} style={{ color: '#000' }}>
+                      <Typography variant='body2' sx={{ p: 4 }} fontSize={14} style={{ color: '#424242' }}>
                         {ReactHtmlParser(`${threadDetail?.content}`)}
                       </Typography>
                     </Grid>

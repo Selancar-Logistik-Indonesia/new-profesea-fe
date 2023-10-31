@@ -29,7 +29,7 @@ const renderList = (arr: INews[]) => {
                       </Typography>
                     </Grid>
                   </Grid>
-                  <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={14}>
+                  <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
                     {item.title
                       ? `${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`
                       : ''}
@@ -37,11 +37,16 @@ const renderList = (arr: INews[]) => {
                   <CardMedia
                     component='img'
                     alt='Img of Profesea'
-                    height='180'
                     image={item?.imgnews != null ? item.imgnews : null}
-                    style={{objectFit: 'contain'}}
+                    style={{
+                      maxWidth: '100%',
+                      height: '300px',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      objectFit: 'contain' 
+                    }}
                   />
-                  <Typography fontWeight={600} fontSize={14} mt={2}>
+                  <Typography fontWeight={400} fontSize={14} mt={2}>
                     {item.snap_content
                       ? `${
                           item.snap_content.toString().charAt(0).toUpperCase() + item.snap_content.toString().slice(1)
