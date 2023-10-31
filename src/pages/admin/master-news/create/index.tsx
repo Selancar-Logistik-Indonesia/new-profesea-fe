@@ -36,6 +36,9 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 const MasterNewsScreen = () => {  
   // const theme = useTheme()  
   const [onLoading, setOnLoading] = useState(false); 
+  const [charType, setType] = useState('0') 
+  const [charMeta, setMeta] = useState('0') 
+  const [charSlug, setSlug] = useState('0')  
   const [sforumCode, setForumCode] = useState(0)
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [files, setFiles] = useState<File[]>([])  
@@ -77,19 +80,8 @@ interface FileProp {
    resolver: yupResolver(schema)
  })  
  const type = [{ title: 'News' }, { title: 'Event' }]
-const [show, setShow] = useState<boolean>(false)
-//  const combobox = () => {
-//   //  HttpClient.get(AppConfig.baseUrl + '/forum?page=1&take=10&search=').then(response => {
-//   //    const code = response.data.forums.data
-//   //    getForumCode(code)
-//   //  })
-//   const type = [{ title: 'News' }, { title: 'Event' }]
-//    getForumCode(type)
-//  }
-// useEffect(() => {
-//   combobox()
-// }, [])
-
+const [show, setShow] = useState<boolean>(false) 
+ 
 function uploadCallback(file:any){
   console.log(file);
   
@@ -132,6 +124,24 @@ const onCreate = async (formData: any) => {
   }
   setOnLoading(false);       
 
+}
+const handleChangetitle = (event: { target: { value: any } }) => {
+  // Update the 'value' state when the input value changes.
+  debugger;
+  const newValue = event.target.value.length
+  setType(newValue)
+}
+const handleChangeslug = (event: { target: { value: any } }) => {
+  // Update the 'value' state when the input value changes.
+  debugger
+  const newValue = event.target.value.length
+  setSlug(newValue)
+}
+const handleChangemeta = (event: { target: { value: any } }) => {
+  // Update the 'value' state when the input value changes.
+  debugger
+  const newValue = event.target.value.length
+  setMeta(newValue)
 }
 
   return (
@@ -186,40 +196,60 @@ const onCreate = async (formData: any) => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    id='title'
-                    {...register('title')}
-                    error={Boolean(errors.title)}
-                    label='Title'
-                    variant='outlined'
-                    fullWidth
-                    sx={{ mb: 1 }}
-                  />
+                <Grid item container xs={12} md={6}>
+                  <Grid container md={10}>
+                    {' '}
+                    <TextField
+                      id='title'
+                      {...register('title')}
+                      error={Boolean(errors.title)}
+                      label='Title'
+                      variant='outlined'
+                      fullWidth
+                      onChange={handleChangetitle}
+                      sx={{ mb: 1 }}
+                    />
+                  </Grid>
+                  <Grid container md={2} mt={8}>
+                    <Typography>{charType} character</Typography>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    id='slug'
-                    {...register('slug')}
-                    error={Boolean(errors.slug)}
-                    label='Slug'
-                    variant='outlined'
-                    fullWidth
-                    sx={{ mb: 1 }}
-                  />
+                <Grid item container xs={12} md={6}>
+                  <Grid container md={10}>
+                    <TextField
+                      id='slug'
+                      {...register('slug')}
+                      error={Boolean(errors.slug)}
+                      onChange={handleChangeslug}
+                      label='Slug'
+                      variant='outlined'
+                      fullWidth
+                      sx={{ mb: 1 }}
+                    />
+                  </Grid>
+                  <Grid container md={2} mt={8}>
+                    <Typography>{charSlug} character</Typography>
+                  </Grid>
                 </Grid>
-                
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    id='slugmeta'
-                    {...register('meta')}
-                    error={Boolean(errors.meta)}
-                    label='Meta Description'
-                    variant='outlined'
-                    fullWidth
-                    sx={{ mb: 1 }}
-                  />
+
+                <Grid item container xs={12} md={6}>
+                  <Grid container md={10}>
+                    <TextField
+                      id='slugmeta'
+                      {...register('meta')}
+                      error={Boolean(errors.meta)}
+                      onChange={handleChangemeta}
+                      label='Meta Description'
+                      variant='outlined'
+                      fullWidth
+                      sx={{ mb: 1 }}
+                    />
+                  </Grid>
+                  <Grid container md={2} mt={8}>
+                    <Typography>{charMeta} character</Typography>
+                  </Grid>
                 </Grid>
+
                 {show == true && (
                   <Grid item xs={12} md={4}>
                     <DatePickerWrapper>
