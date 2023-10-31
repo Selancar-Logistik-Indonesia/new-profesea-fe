@@ -185,18 +185,21 @@ const handleChangemeta = (event: { target: { value: any } }) => {
               </Typography>
               <Grid container xs={12} columnSpacing={'2'} rowSpacing={'2'} sx={{ mb: 2 }}>
                 <Grid item xs={12} md={6}>
+                  <InputLabel htmlFor='x' error={Boolean(errors.type)}>
+                    Type
+                  </InputLabel>
                   <Autocomplete
                     disablePortal
                     id='code'
                     options={type}
-                    renderInput={params => <TextField {...params} label='Type' />}
+                    renderInput={params => <TextField {...params}  />}
                     getOptionLabel={(option: any) => option.title}
                     onChange={(event: any, newValue: any | null) =>
                       newValue?.title ? setForumCode(newValue.title) : setForumCode(0)
                     }
                   />
                 </Grid>
-                <Grid item container xs={12} md={6} mt={-2}>
+                <Grid item container xs={12} md={6}>
                   <Grid container md={12}>
                     <InputLabel htmlFor='x' error={Boolean(errors.title)}>
                       Title
