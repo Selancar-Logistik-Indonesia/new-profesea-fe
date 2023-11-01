@@ -39,7 +39,7 @@ const renderList = (arr: IUser[]) => {
                         </Typography>
                     </Link>
                     <Typography sx={{ color: 'text.primary', mt: 1, mb: 1, fontSize: 10 }}>
-                    {(item.employee_type != 'offship') ? item.role : 'Candidate' } | {item.email}
+                    {(item.employee_type != 'offship') ? item.role : 'Candidate' }
                     </Typography>
                     <Box>
                         <ConnectButton user={item} />
@@ -82,7 +82,7 @@ const FriendSuggestionCard = () => {
                     <CardContent>
                         <Box sx={{ mb: 7 }}>
                             <Typography color={"#262525"} fontWeight="800" fontSize={"14px"} sx={{ mb: 4 }}>
-                                Add to your feed
+                                Add to your network
                             </Typography>
                             {isLoading
                                 ? (<Box textAlign={'center'} mt={10}><CircularProgress /></Box>)

@@ -75,7 +75,7 @@ const ThreadApp = () => {
         <Grid item md={9} xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+              <Card sx={{ color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardContent>
                   <Box sx={{ mb: 1 }}>
                     <Grid item container xs={12} justifyContent={'left'}>
@@ -94,9 +94,10 @@ const ThreadApp = () => {
                         alt='Img of Profesea'
                         image={threadDetail?.imgnews != null ? threadDetail.imgnews : null}
                         sx={{ ml: 2 }}
+                        
                     style={{
                       maxWidth: '100%',
-                      height: '100%',
+                      height: '250',
                       alignItems: 'center',
                       justifyContent: 'center',
                       objectFit: 'contain' 

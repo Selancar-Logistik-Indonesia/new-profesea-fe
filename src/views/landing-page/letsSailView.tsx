@@ -8,7 +8,7 @@ const DiscoverView = () => {
 
     return (
 
-        <Grid container justifyContent="center" sx={landingPageStyle.bannerHero} mt={0} pb={2} pt={15}>
+        <Grid container justifyContent="center" sx={landingPageStyle.bannerHero} mt={2} pb={2} pt={15}>
             <Grid item xs={12}>
                 <Box>
                     <Grid container sx={{
