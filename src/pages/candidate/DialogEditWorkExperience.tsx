@@ -71,7 +71,7 @@ const DialogEditWorkExperience = (props: DialogProps) => {
     }, [])
      
     const handleSetURL = async () => {
-      debugger;
+      
       const imageUrl = preview
 
       if (imageUrl) {

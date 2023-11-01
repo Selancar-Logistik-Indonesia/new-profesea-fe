@@ -16,7 +16,7 @@ const PostfeedGroup = (id:any) => {
     const handleUpdateStatus = async () => {
         setIsLoading(true);
         try {
-            debugger;
+            
             await updateStatus({
               content_type: 'text',
               content: content,

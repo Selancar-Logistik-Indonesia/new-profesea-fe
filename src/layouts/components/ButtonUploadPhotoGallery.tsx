@@ -38,7 +38,7 @@ const ButtonUploadPhotoGallery = () => {
     const handleUpdateStatus = async () => {
         setIsLoading(true);
         try {
-            debugger;
+            
             const formData = new FormData()
             formData.append('content', content)
             formData.append('content_type', 'images')

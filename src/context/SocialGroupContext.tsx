@@ -37,7 +37,7 @@ const SocialGroupProvider = (props: Props) => {
     const [totalFeed, setTotalFeed] = useState(0);
 
     const updateStatus = async (payload: UpdateStatusPayload) => {
-        debugger;
+        
         const formData = new FormData();
         formData.append("content", payload.content);
         formData.append('content_type', payload.content_type)
@@ -70,7 +70,7 @@ const SocialGroupProvider = (props: Props) => {
         if (payload.mPage) {
             sPage = payload.mPage;
         }
-        debugger;
+        
         // only trigger in page 1
         if (sPage == 1) setOnLoading(true);
 

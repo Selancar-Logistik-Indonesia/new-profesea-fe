@@ -130,7 +130,7 @@ const DialogAdd = (props: DialogProps) => {
     }, [selectedFile])
     const onSubmit = async (formData: Group) => {
         const { title, description} = formData
-        debugger;
+        
         if(files.length == 0){
           toast.error('Isi Banner')
         }

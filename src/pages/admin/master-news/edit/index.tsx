@@ -102,7 +102,7 @@ const EditNewsScreen = () => {
         setDesc(editorState)
         setTitle(news?.title)
         setSlug(news?.slug)
-        debugger;
+        
         setForum({ title: news?.type })
         getUrlFile(news?.imgnews)
         setPostingDate(new Date(news?.posting_at)) 

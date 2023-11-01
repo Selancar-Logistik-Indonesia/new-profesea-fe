@@ -76,7 +76,7 @@ const ImageSlider = (props: any) => {
     setOpen(false);
   };
   const handledelete = async () => {
-    debugger;
+    
     const resp = await HttpClient.del(`/user/gallery/` + slides[currentIndex].id)
     if (resp.status != 200) {
       throw resp.data.message ?? 'Something went wrong!'

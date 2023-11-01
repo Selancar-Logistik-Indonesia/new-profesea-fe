@@ -44,7 +44,7 @@ type FormData = {
 }
  
 const DialogAddDocument = (props: DialogProps) => {
-  debugger;
+  
     const [onLoading, setOnLoading] = useState(false); 
     const [preview, setPreview] = useState()
     const [selectedFile, setSelectedFile] = useState()
@@ -101,7 +101,7 @@ const DialogAddDocument = (props: DialogProps) => {
      
         
       setOnLoading(true)
-      debugger;
+      
       let status= false;
        for (let x = 0; x < props.arrayhead.length; x++) {
          const element = props.arrayhead[x]
