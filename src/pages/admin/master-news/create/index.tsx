@@ -127,7 +127,7 @@ const onCreate = async (formData: any) => {
 }
 const handleChangetitle = (event: { target: { value: any } }) => {
   // Update the 'value' state when the input value changes.
-  debugger;
+  
   const newValue = event.target.value.length
   setType(newValue)
 }

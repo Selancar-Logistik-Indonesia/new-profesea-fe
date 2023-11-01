@@ -225,7 +225,7 @@ const CandidateProfile = (props: compProps) => {
     
     HttpClient.get(AppConfig.baseUrl + '/public/data/province?search=&country_id=100').then(response => {
       const code = response.data.provinces
-      debugger;
+      
       getComboProvince(code)
     })
 
@@ -482,7 +482,7 @@ const CandidateProfile = (props: compProps) => {
     setOpenEditModal(!openEditModal)
   }
   const editWorkExperience = (item: any) => {
-    debugger;
+    
     setSelectedItem(item)
     setOpenEditModalWE(!openEditModalWE)
   }

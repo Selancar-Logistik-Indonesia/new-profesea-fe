@@ -71,7 +71,7 @@ const AppChat = () => {
   const param = params.get('username')
   const status = params.get('status')
   const searchUsername = async () => {
-    debugger;
+    
     const resp = await HttpClient.get('/user?username=' + param)
     if (resp.status != 200) {
       throw resp.data.message ?? 'Something went wrong!'
