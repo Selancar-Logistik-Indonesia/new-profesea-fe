@@ -117,12 +117,12 @@ const App = (props: ExtendedAppProps) => {
     <>
       <Provider store={store}>
         <CacheProvider value={emotionCache}>
-          <Head>
+          {/* <Head>
             <title>{`${themeConfig.templateName}`}</title>
             <meta name='description' content={`${themeConfig.templateName}`} />
             <meta name='keywords' content='' />
             <meta name='viewport' content='initial-scale=0.8, width=device-width' />
-          </Head>
+          </Head> */}
 
           <AuthProvider>
             <I18nextProvider i18n={i18n}>
