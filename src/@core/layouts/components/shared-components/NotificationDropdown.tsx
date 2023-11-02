@@ -25,6 +25,7 @@ export type NotificationsType = {
     title: string
     subtitle: string
     type: string
+    read_at?: string
     payload?: any
 } & (
         | { avatarAlt: string; avatarImg: string; avatarText?: never; avatarColor?: never; avatarIcon?: never }
@@ -94,6 +95,7 @@ const buildNotifies = (e: INotification) => {
             avatarIcon: <Icon icon='ic:baseline-thumb-up-off-alt' />,
             subtitle: `${e.data.liker.name} like your feed`,
             type: e.type,
+            read_at: e.read_at,
         };
     }
 
@@ -107,6 +109,7 @@ const buildNotifies = (e: INotification) => {
             subtitle: `${e.data.friend.name} request to connect with You.`,
             type: e.type,
             payload: e.data.friend,
+            read_at: e.read_at,
         };
     }
 
@@ -119,6 +122,7 @@ const buildNotifies = (e: INotification) => {
             avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
             subtitle: `${e.data.candidate.name} applied to your job post "${e.data.job.role_type.name}".`,
             type: e.type,
+            read_at: e.read_at,
         };
     }
 
@@ -131,6 +135,7 @@ const buildNotifies = (e: INotification) => {
             avatarIcon: <Icon icon='ic:round-check-circle-outline' />,
             subtitle: `${e.data.friend.name} approved your connect request.`,
             type: e.type,
+            read_at: e.read_at,
         };
     }
 
@@ -143,6 +148,7 @@ const buildNotifies = (e: INotification) => {
             avatarIcon: <Icon icon='ic:baseline-remove-circle-outline' />,
             subtitle: `${e.data.friend.name} rejected your connect request.`,
             type: e.type,
+            read_at: e.read_at,
         };
     }
 
@@ -154,6 +160,7 @@ const buildNotifies = (e: INotification) => {
         avatarImg: '',
         subtitle: 'undefined',
         type: '',
+        read_at: '',
     };
 }
 
@@ -168,8 +175,14 @@ const NotificationDropdown = (props: Props) => {
         setAnchorEl(event.currentTarget)
     }
 
-    const handleDropdownClose = () => {
-        setAnchorEl(null)
+    const handleDropdownClose = async () => {
+        setAnchorEl(null);
+
+        if (notifies) {
+            await HttpClient.post("/user/notification/mark-as-read", {
+                notification_id: notifies.map(e => e.id)
+            });
+        }
     }
 
     const getNotifications = async () => {
@@ -199,7 +212,7 @@ const NotificationDropdown = (props: Props) => {
                 <Badge
                     color='error'
                     variant='dot'
-                    invisible={!notifies.length}
+                    invisible={!notifies.filter(e => !e.read_at).length}
                     sx={{
                         '& .MuiBadge-badge': { top: 4, right: 4, boxShadow: theme => `0 0 0 2px ${theme.palette.background.paper}` }
                     }}
@@ -225,7 +238,7 @@ const NotificationDropdown = (props: Props) => {
                             skin='light'
                             size='small'
                             color='primary'
-                            label={`${notifies.length} New`}
+                            label={`${notifies.filter(e => !e.read_at).length} New`}
                             sx={{ height: 20, fontSize: '0.75rem', fontWeight: 500, borderRadius: '10px' }}
                         />
                     </Box>

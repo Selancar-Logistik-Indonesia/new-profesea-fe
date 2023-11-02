@@ -27,7 +27,7 @@ const GroupProvider = (props: Props) => {
 
   const fetchGroups = async (payload: { take: number; search?: any }) => {
     // only trigger in page 1
-debugger;
+
     if (page == 1) {
       setOnLoading(true)
       setGroup([])

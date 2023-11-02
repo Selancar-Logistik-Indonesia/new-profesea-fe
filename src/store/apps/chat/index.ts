@@ -25,7 +25,7 @@ export const fetchChatsContacts = createAsyncThunk('appChat/fetchChatsContacts',
    // const response = await axios.get('/apps/chat/chats-and-contacts')
   const response = await axios.get('/messanger?page=1&take=25')  
   const response2 = await axios.get('/friendship/friends?page=1&take=25&search')
-  debugger;
+  
   for (let x = 0; x < response.data.messangers.data.length; x++) {
     const element = response.data.messangers.data[x]
     element.name = element.participants[0].name
@@ -74,7 +74,7 @@ export const selectChat = createAsyncThunk(
 export const headerChatFromContact = createAsyncThunk(
   'appChat/header',
   async (header: any ) => {
-    debugger;
+    
     if (header) {
       const arr: any = {
         name: header.friend?.name,
@@ -117,7 +117,7 @@ export const headerChatFromParam= createAsyncThunk('appChat/header', async (head
  })
 // ** Send Msg
 export const sendMsg = createAsyncThunk('appChat/sendMsg', async (obj: SendMsgParamsType, { dispatch }) => {
-  debugger;
+  
    const response = await HttpClient.post(AppConfig.baseUrl + '/messanger/send-message', {
        messanger_id: obj.data[0].messanger_id,
        content: obj.message     

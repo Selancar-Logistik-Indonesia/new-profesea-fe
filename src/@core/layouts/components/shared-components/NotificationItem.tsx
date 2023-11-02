@@ -142,8 +142,11 @@ const NotificationItem = (props: { item: NotificationsType }) => {
     const { item } = props;
     const [dialogOpen, setDialogOpen] = useState(false);
 
-    const handleClick = () => {
+    const handleClick = async () => {
         setDialogOpen(true);
+        await HttpClient.post("/user/notification/mark-as-read", {
+            notification_id: [item.id]
+        });
     }
 
     return (

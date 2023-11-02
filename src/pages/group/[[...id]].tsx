@@ -54,7 +54,7 @@ const UserFeedApp = () => {
          page: 1,
          take: 5
        })
-       debugger;
+       
        
       const fuck = listgroupkintil.data.groups.data as Group
       setListGroup(fuck)

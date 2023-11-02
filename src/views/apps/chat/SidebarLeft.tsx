@@ -117,7 +117,7 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
   }, [])
 
   const hasActiveId = (id: number | string) => {
-    debugger;
+    
     if (store.chats !== null) {
       const arr = store.chats.filter(i => i.friend_id === id)
 
@@ -341,7 +341,7 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
 
   const handleFilter = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
-    debugger;
+    
     if (store.chats !== null ) {
       const searchFilterFunction = (contact: ChatsArrType) =>
       contact.name.toLowerCase().includes(e.target.value.toLowerCase())
