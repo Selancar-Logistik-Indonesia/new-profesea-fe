@@ -21,11 +21,11 @@ class CustomDocument extends Document {
             rel='stylesheet'
             href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'
           />
-          <link rel='apple-touch-icon' sizes='180x180' href='/images/apple-touch-icon.png' />
+          <link rel='apple-touch-icon' sizes='180x180' href='/images/favicon.png' />
           <link rel='shortcut icon' href='/images/favicon.png' />
- 
-          <meta name="google-site-verification" content="kZE2N4B0Z9BwARL-mFj7YaeRdtUuhaLtBKsHONstBXo" />
- 
+
+          <meta name='google-site-verification' content='kZE2N4B0Z9BwARL-mFj7YaeRdtUuhaLtBKsHONstBXo' />
+
           <script
             dangerouslySetInnerHTML={{
               __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
