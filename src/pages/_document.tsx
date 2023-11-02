@@ -24,7 +24,7 @@ class CustomDocument extends Document {
           <link rel='apple-touch-icon' sizes='180x180' href='/images/favicon.png' />
           <link rel='shortcut icon' href='/images/favicon.png' />
 
-          {/* <meta name='google-site-verification' content='kZE2N4B0Z9BwARL-mFj7YaeRdtUuhaLtBKsHONstBXo' />
+          <meta name='google-site-verification' content='kZE2N4B0Z9BwARL-mFj7YaeRdtUuhaLtBKsHONstBXo' />
 
           <script
             dangerouslySetInnerHTML={{
@@ -50,7 +50,7 @@ class CustomDocument extends Document {
               `
             }}
           />
-          <meta name='google-site-verification' content='googled080a761d616eb41' /> */}
+          <meta name='google-site-verification' content='googled080a761d616eb41' />
         </Head>
         <body>
           <Main />
