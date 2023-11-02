@@ -2,7 +2,7 @@
 import { ReactNode } from 'react'
 
 // ** Next Imports
-import Head from 'next/head'
+// import Head from 'next/head'
 import { Router } from 'next/router'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
