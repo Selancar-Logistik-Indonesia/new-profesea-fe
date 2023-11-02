@@ -172,6 +172,7 @@ const CarouselNewsView = () => {
               <CardMedia sx={{ height: 201 }}  
               image={props.item?.imgnews != null ? props.item.imgnews : null}
                 //src='/images/img-whatis.png'
+                
                     style={{
                       maxWidth: '100%',
                       height: '250px',
