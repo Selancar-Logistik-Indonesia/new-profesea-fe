@@ -164,7 +164,7 @@ const CarouselNewsView = () => {
 
       
       <Card
-        sx={{ color: 'common.white', backgroundColor: '#FFFFFF', marginRight: 3, height: '100%', marginBottom: 5, marginTop: 5 }}
+        sx={{ color: 'common.white', backgroundColor: '#FFFFFF', marginRight: 3, height: '90%', marginBottom: 5, marginTop: 5 }}
       >
         <CardContent>
           {/* <Link style={{ textDecoration: 'none' }} href={'/news/?id=' + props.item.id}> */}
@@ -190,7 +190,7 @@ const CarouselNewsView = () => {
                 <Typography variant='h6' sx={{ color: '#0a66c2', textTransform: 'uppercase' }} mb={5} fontWeight={600} fontSize={18}>
                 {props.item.title}
                 </Typography>
-                <Typography fontWeight={300} fontSize={16} mt={2} maxWidth={'100%'}>
+                <Typography fontWeight={300} fontSize={16} maxWidth={'100%'}>
                 {props.item.snap_content
                   ? `${
                       props.item.snap_content.toString().charAt(0).toUpperCase() +
