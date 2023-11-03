@@ -9,11 +9,13 @@ import { HttpClient } from "src/services";
 import { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
-import Moment from 'moment'
+import { useTranslation } from "react-i18next";
+import Moment from 'moment';
 
 const CarouselNewsView = () => {
   // const [forumCode, setForumCode] = useState('') 
   const [dataSheet, setDataSheet] = useState<[]>([])
+  const { t } = useTranslation();
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -98,6 +100,9 @@ const CarouselNewsView = () => {
         </Grid> */}
       </Grid>
       <Grid item xs={12}>
+        <Grid item xs={12} sm={12} mb={2}>
+            <Typography fontSize={34} style={{ color: "#000" }} fontWeight="800" mt={6} mb={2} textAlign="center">{t("landing_news_title")}</Typography>
+        </Grid>
         <Box>
           <Carousel
             autoPlay={true}
@@ -190,7 +195,13 @@ const CarouselNewsView = () => {
                 <Typography variant='h6' sx={{ color: '#0a66c2', textTransform: 'uppercase' }} mb={5} fontWeight={600} fontSize={18}>
                 {props.item.title}
                 </Typography>
-                <Typography fontWeight={300} fontSize={16} maxWidth={'100%'}>
+                <Typography fontWeight={300} fontSize={16} sx={{ 
+                 lineClamp: 3, // Set the maximum number of lines you want to display
+                 WebkitLineClamp: 3, // For Webkit-based browsers like Safari
+                 display: '-webkit-box',
+                 WebkitBoxOrient: 'vertical',
+                 overflow: 'hidden',
+                 }}>
                 {props.item.snap_content
                   ? `${
                       props.item.snap_content.toString().charAt(0).toUpperCase() +
@@ -199,7 +210,6 @@ const CarouselNewsView = () => {
                   : ''}
               </Typography>
             
-
             {/* <Box height={400} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
               <Grid container direction='row' alignItems='center' spacing={4}>
                 <Grid item>

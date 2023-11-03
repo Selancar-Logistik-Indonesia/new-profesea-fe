@@ -15,7 +15,7 @@ const renderList = (arr: INews[]) => {
  
       return (
         <Grid item xs={12} key={index}>
-          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+          <Card sx={{ color: 'common.white', backgroundColor: '#FFFFFF' }}>
             <CardContent>
               <Link style={{ textDecoration: 'none' }}href={'/news/' + item.slug}>
                 <Box
