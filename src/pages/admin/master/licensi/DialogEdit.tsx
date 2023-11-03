@@ -94,7 +94,7 @@ const DialogEdit = (props: EditProps) => {
                     </IconButton>
                     <Box sx={{ mb: 6, textAlign: 'center' }}>
                     <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
-                            Edit Licensi
+                            Edit License
                         </Typography>
                         {/* <Typography variant='body2'>Fulfill your Job Categories Info here</Typography> */}
                     </Box>

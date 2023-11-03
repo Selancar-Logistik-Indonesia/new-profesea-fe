@@ -28,7 +28,7 @@ const FeedCard = (props: Prop) => {
                     <Avatar sx={{ width: 50, height: 50, mr: 3, mb: 3 }} src={getUserAvatar(item.user)} alt='profile-picture' />
                 </Box>
                 <Box sx={{ mb: 8, display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-                    <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 800, fontSize: '16px' }}>
+                    <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 800, fontSize: '16px',  textTransform: 'uppercase' }}>
                         {toTitleCase(item.user.name)}
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
@@ -38,7 +38,7 @@ const FeedCard = (props: Prop) => {
                 </Box>
             </Box>
             <Box component={Link} href={`/feed/${item.id}`} sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px', p: 2, border: '1px solid #e4e4e4' }}>
-                <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px', fontWeight: 600, my: 2 }}>
+                <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px', fontWeight: 400, my: 2 }}>
                     {item.content}
                 </Typography> 
 

@@ -234,7 +234,7 @@ const DialogAdd = (props: DialogProps) => {
                             <Link href='/' onClick={e => e.preventDefault()}>
                               browse / image
                             </Link>{' '}
-                            to upload Profile Picture of Group
+                            to upload Cover Picture of Group
                           </Typography>
                         </Box>
                       </Box>
