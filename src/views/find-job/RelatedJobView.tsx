@@ -17,7 +17,7 @@ const RelatedJobView = () => {
 
     return (
         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-            <Grid item xs={12} sm={12}>
+            {/* <Grid item xs={12} sm={12}> */}
                 <Grid sx={{ padding: 5 }} container style={{ maxHeight: '100vh', overflow: 'auto' }}>
                     {jobDetailSugestion.map(item => {
                         const license: any[] = Object.values((item?.license != undefined) ? item?.license : '');
@@ -59,11 +59,11 @@ const RelatedJobView = () => {
                                         mr={3}
                                         mt={2}
                                     >
-                                        <Grid item container ml={5} mr={5}>
-                                            <Grid xs={1}>
+                                        <Grid container ml={5} mr={5}>
+                                            <Grid item xs={1}>
                                                 <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
                                             </Grid>
-                                            <Grid xs={11}>
+                                            <Grid item xs={11}>
                                                 <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                                                     {item?.rolelevel?.levelName} | {item?.category?.name}
                                                 </Typography>
@@ -71,10 +71,10 @@ const RelatedJobView = () => {
 
                                             {item?.category?.employee_type != 'offship' ? (
                                                 <>
-                                                    <Grid xs={1}>
+                                                    <Grid item xs={1}>
                                                         <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
                                                     </Grid>
-                                                    <Grid xs={11} maxWidth={'90%'}>
+                                                    <Grid item xs={11} maxWidth={'90%'}>
                                                         <Typography
                                                             sx={{
                                                                 color: 'text.primary',
@@ -91,10 +91,10 @@ const RelatedJobView = () => {
                                                             {license.map(e => e.title).join(', ')}
                                                         </Typography>
                                                     </Grid>
-                                                    <Grid xs={1}>
+                                                    <Grid item xs={1}>
                                                         <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
                                                     </Grid>
-                                                    <Grid xs={11} maxWidth={'90%'}>
+                                                    <Grid item xs={11} maxWidth={'90%'}>
                                                         <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                                                             {item?.vessel_type?.name}
                                                         </Typography>
@@ -102,10 +102,10 @@ const RelatedJobView = () => {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <Grid xs={1}>
+                                                    <Grid item xs={1}>
                                                         <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
                                                     </Grid>
-                                                    <Grid xs={11}>
+                                                    <Grid item xs={11}>
                                                         <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                                                             {item?.degree?.name}
                                                         </Typography>
@@ -119,7 +119,7 @@ const RelatedJobView = () => {
                         )
                     })}
                 </Grid>
-            </Grid>
+            {/* </Grid> */}
         </Card>
     );
 }

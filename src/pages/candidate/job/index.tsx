@@ -10,15 +10,22 @@ import Grid, { GridProps } from '@mui/material/Grid'
 import { styled } from '@mui/material/styles'
 import { useSearchParams } from 'next/navigation';
 import RelatedJobView from 'src/views/find-job/RelatedJobView';
+import localStorageKeys from 'src/configs/localstorage_keys'
+import secureLocalStorage from 'react-secure-storage'
 // import ShareButton from 'src/views/find-job/ShareButton';
 import ShareArea from './ShareArea';
+import { IUser } from 'src/contract/models/user';
+import CompleteDialog from './CompleteDialog';
 
 const JobDetail = () => {
   // const url = window.location.href
   const [onApplied, setOnApplied] = useState(false);
-  const [jobDetail, setJobDetail] = useState<Job>()
+  const [jobDetail, setJobDetail] = useState<Job | null>(null)
   const license: any[] = Object.values((jobDetail?.license != undefined) ? jobDetail?.license : '')
   const [isLoading, setIsLoading] = useState(true)
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   // const [open, setOpen] = React.useState(false)
   // const anchorRef = React.useRef<HTMLDivElement>(null)
   // const [selectedIndex, setSelectedIndex] = React.useState(1)
@@ -52,7 +59,7 @@ const JobDetail = () => {
   }))
 
   const firstload = async (mJobId: string) => {
-    console.log("mJobId:", mJobId);
+    console.log("user:", user);
 
     setIsLoading(true)
     try {
@@ -76,18 +83,27 @@ const JobDetail = () => {
   }, [jobId])
 
   const handleApply = async () => {
-    try {
-      const resp = await HttpClient.get(`/job/${jobDetail?.id}/apply`);
-      if (resp.status != 200) {
-        throw resp.data.message ?? "Something went wrong!";
-      }
-
-      setOnApplied(true);
-      toast.success(`${jobDetail?.role_type?.name} applied successfully!`);
-    } catch (error) {
-      console.error(error)
+    if(user.banner != "" && user.license != null && user.photo != "" && user.address != null && user.about != null  && user.country_id != null){
+      setOpenDialog(!openDialog);
+    }else{
+      toast.error(`Please complete your resume !`);
     }
+
   }
+
+  // const handleApply = async () => {
+  //   try {
+  //     const resp = await HttpClient.get(`/job/${jobDetail?.id}/apply`);
+  //     if (resp.status != 200) {
+  //       throw resp.data.message ?? "Something went wrong!";
+  //     }
+
+  //     setOnApplied(true);
+  //     toast.success(`${jobDetail?.role_type?.name} applied successfully!`);
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
 
   return (
     <>
@@ -100,7 +116,7 @@ const JobDetail = () => {
                   <CircularProgress />
                 </Box>
               ) : (
-                <Grid container item>
+                <Grid container>
                   <StyledGrid item xs={12} sm={3}>
                     <CardContent>
                       <Box sx={{
@@ -362,6 +378,7 @@ const JobDetail = () => {
           <Grid item lg={3} md={3} xs={12}>
             <RelatedJobView />
           </Grid>
+          {openDialog && (<CompleteDialog onClose={() => setOpenDialog(!openDialog)} selectedItem={jobDetail} openDialog={openDialog} />)}
         </Grid>
       </Box>
     </>
