@@ -11,6 +11,7 @@ import FooterView from "src/views/landing-page/footerView";
 import Head from "next/head";
 import themeConfig from "src/configs/themeConfig";
 import CarouselNewsView from "src/views/landing-page/carouselnews";
+import CarouselEvent from "src/views/landing-page/carouselevent";
 // ** Icon Imports
 // import Icon from 'src/@core/components/icon'
 // ** Custom Components Imports
@@ -157,6 +158,7 @@ const Main = () => {
         <FindJobsView id='findJobSection' />
 
         <DiscoverView />
+        <CarouselEvent/>
         <FeatureView />
         <CarouselNewsView />
         <LetsSailView />

@@ -24,11 +24,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import { toast } from 'react-hot-toast'
-import { useRouter } from 'next/router'
+import { toast } from 'react-hot-toast' 
 import Link from 'next/link'
 import { removeFirstZeroChar } from 'src/utils/helpers'
 
+import { useRouter } from 'next/router'
 import { styled } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
 
@@ -58,13 +58,14 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
     fontSize: 11
   }
 }))
-const Registration = (props: any) => {
- 
+const RegistrationEvent = (props: any) => {
+  
   const { tipereg } = props
   const { type } = props
   const { vonchangeEmployee } = props
   const { disabledcombo } = props
-  const router = useRouter()
+  const { event } = props  
+  const router = useRouter() 
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [combocode, getCombocode] = useState<any>([])
@@ -99,7 +100,7 @@ const Registration = (props: any) => {
   const save = (json: any) => {
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(({ data }) => {
       console.log("here 1", data);
-      toast.success(  ' Successfully submited!');
+      toast.success( ' Successfully submited!');
       router.push('/registersuccess')
     }, error => {
       console.log("here 1", error);
@@ -138,7 +139,7 @@ const Registration = (props: any) => {
       teamid = 4
       ship = ''
     }
- 
+  
     const json = {
       'name': name,
       "email": email,
@@ -148,7 +149,8 @@ const Registration = (props: any) => {
       "employee_type": ship,
       "team_id": teamid,
       "country_id": idcombocode.id,
-      "phone": phoneNum
+      "phone": phoneNum,
+      "event": event
     };
 
     try {
@@ -457,6 +459,6 @@ const Registration = (props: any) => {
   )
 }
 
-Registration.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>;
-Registration.guestGuard = true;
-export default Registration
+RegistrationEvent.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+RegistrationEvent.guestGuard = true
+export default RegistrationEvent
