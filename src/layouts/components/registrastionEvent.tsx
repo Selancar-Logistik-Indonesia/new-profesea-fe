@@ -100,7 +100,7 @@ const RegistrationEvent = (props: any) => {
   const save = (json: any) => {
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(({ data }) => {
       console.log("here 1", data);
-      toast.success( ' Successfully submited!');
+      toast.success(' "data tersebut akan otomatis terdaftar sebagai user profesea')
       router.push('/registersuccess')
     }, error => {
       console.log("here 1", error);
