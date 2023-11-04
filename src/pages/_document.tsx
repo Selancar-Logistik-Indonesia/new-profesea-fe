@@ -15,6 +15,11 @@ class CustomDocument extends Document {
     return (
       <Html lang='en'>
         <Head>
+          <meta property="og:title" content="Profesea" />
+          <meta property="og:description" content="Platform Pekerjaan Maritim Terintegrasi, Jelajahi peluang tak terbatas dan temukan pekerjaan impian di industri maritim melalui platform profesional kami yang luas berbasis komunitas" />
+          <meta property="og:image" content="/images/favicon.png" />
+          <meta property="og:url" content="https://profesea.id/" />
+
           <link rel='preconnect' href='https://fonts.googleapis.com' />
           <link rel='preconnect' href='https://fonts.gstatic.com' />
           <link
@@ -79,12 +84,12 @@ CustomDocument.getInitialProps = async ctx => {
   ctx.renderPage = () =>
     originalRenderPage({
       enhanceApp: App => props =>
-        (
-          <App
-            {...props} // @ts-ignore
-            emotionCache={cache}
-          />
-        )
+      (
+        <App
+          {...props} // @ts-ignore
+          emotionCache={cache}
+        />
+      )
     })
 
   const initialProps = await Document.getInitialProps(ctx)
