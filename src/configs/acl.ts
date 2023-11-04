@@ -38,7 +38,9 @@ const defineRulesFor = (role: string, subject: string) => {
           'master/role-type',
           'master/vessel-type',
           'master/forum',
+          'master/event-register',
           'feed-detail',
+          'admin-list-eventregister',
           'admin-master-news'
         ])
     } else if (role === 'Seafarer') {
