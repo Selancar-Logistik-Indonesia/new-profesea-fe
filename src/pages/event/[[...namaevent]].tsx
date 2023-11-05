@@ -55,7 +55,7 @@ const EventApp = () => {
                   <Box sx={{ mb: 1 }}>
                     <Grid item container xs={12} justifyContent={'left'}>
                       <Typography
-                        fontSize={38}
+                        fontSize={28}
                         style={{ color: '#000' }}
                         fontWeight='600'
                         sx={{ ml: 2, mb: 5, color: '#000', textTransform: 'uppercase' }}
@@ -65,7 +65,7 @@ const EventApp = () => {
                     </Grid>
                     <Grid item container xs={12} justifyContent={'left'}>
                       <Typography
-                        fontSize={34}
+                        fontSize={24}
                         style={{ color: '#000' }}
                         fontWeight='600'
                         sx={{ ml: 2, mb: 5, color: '#000', textTransform: 'uppercase' }}
@@ -92,7 +92,7 @@ const EventApp = () => {
                     <Grid item container xs={12} justifyContent={'flex'}>
                       `
                       <Typography
-                        fontSize={28}
+                        fontSize={16}
                         fontWeight='400'
                         sx={{ ml: 2, mb: 5, color: '#000' }}
                         variant='body2'
@@ -104,7 +104,7 @@ const EventApp = () => {
                         kita menjawab pertanyaan!
                       </Typography>
                       <Typography
-                        fontSize={28}
+                        fontSize={16}
                         fontWeight='400'
                         sx={{ ml: 2, mb: 5, color: '#000' }}
                         variant='body2'
@@ -236,7 +236,7 @@ const EventApp = () => {
                                 style={{ textDecoration: 'none' }}
                                 href={'/event/Kaliancapek gagal interview terus?'}
                               >
-                                https://event.profesea.com/event/kalian-capek-gagal-interview-terus/
+                                https://profesea.id/event/Kalian%20capek%20gagal%20interview%20terus/
                               </Link>
                             </Typography>
                           </Box>
