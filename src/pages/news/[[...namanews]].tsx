@@ -67,14 +67,14 @@ const ThreadApp = () => {
       <Head>
         {/* <title>{`${themeConfig.templateName}`}</title> */}
         <meta name='description' content={`${newscache?.id}`} />
-        <meta name='keywords' content='kintil' />
+        <meta name='keywords' content='profesea' />
         {/* <meta name='viewport' content='initial-scale=0.8, width=device-width' /> */}
       </Head>
       {/* <meta name='description' content={`${newscache.id}`} /> */}
       <Grid container spacing={2}>
-        <Grid item md={9} xs={12}>
+        <Grid item md={9} xs={12} >
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={12} pr={3}>
               <Card sx={{ color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardContent>
                   <Box sx={{ mb: 1 }}>
@@ -115,17 +115,11 @@ const ThreadApp = () => {
                         {ReactHtmlParser(`${threadDetail?.content}`)}
                       </Typography>
                     </Grid>
-                    </Box>
-                    {/* <Grid item container xs={12} justifyContent={'flex'}>
-                      <CommentForm  user_id={user?.id} thread_id={threadDetail?.id} />
-                    </Grid> */}
+                    </Box>                     
                   </Box>
                 </CardContent>
               </Card>
-            </Grid>
-            {/* <Grid item xs={12}>
-              <Commented replyable_id={searchParams.get('id')}></Commented>
-            </Grid> */}
+            </Grid> 
           </Grid>
         </Grid>
         <Grid item md={3} xs={12} paddingRight={3}>
