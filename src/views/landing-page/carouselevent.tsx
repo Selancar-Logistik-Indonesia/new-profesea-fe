@@ -1,5 +1,5 @@
 //import { faBriefcase, faChartLine, faUsers } from "@fortawesome/free-solid-svg-icons";
-import {   Box, Card,   CardContent, CardMedia, Grid } from "@mui/material";
+import {   Box, Card,   CardContent, CardMedia, Grid, Typography } from "@mui/material";
 // import { useTranslation } from "react-i18next";
 //import discoverPageStyle from "src/@core/styles/discover/discover-page";
 import Carousel from 'react-multi-carousel'
@@ -9,20 +9,23 @@ import 'react-multi-carousel/lib/styles.css'
 // import { AxiosError } from "axios";
 // import { toast } from "react-hot-toast";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 // import Moment from 'moment'
+
 
 const CarouselEvent = () => {
   // const [forumCode, setForumCode] = useState('') 
   // const [dataSheet, setDataSheet] = useState<[]>([])
+  const { t } = useTranslation();
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 3,
+      items: 1,
       slidesToSlide: 1 // optional, default to 1.
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
-      items: 2,
+      items: 1,
       slidesToSlide: 1 // optional, default to 1.
     },
     mobile: {
@@ -72,7 +75,7 @@ const CarouselEvent = () => {
       sx={{
         maxWidth: { xs: '100%' },
         px: { xs: 5, md: 5 },
-        background: '#FFFFFF'
+        background: '#ececec'
       }}
       pb={2}
     >
@@ -118,10 +121,15 @@ const CarouselEvent = () => {
           marginTop: 5
         }}
       >
+
+      <Grid item xs={12} sm={12} mb={5} mt={5}>
+            <Typography fontSize={34} style={{ color: "#000" }} fontWeight="800" textAlign="center">{t("landing_event_title")}</Typography>
+        </Grid>
         <CardContent>
+
           {/* <Link style={{ textDecoration: 'none' }} href={'/news/' + props.item.slug}> */}
           <Link style={{ textDecoration: 'none' }} href={'/event//Kalian capek gagal interview terus?'}>
-            <CardMedia component='img' height='250' alt={'alt'} sx={{ objectFit: 'contain' }} image={props.item} />
+            <CardMedia component='img' height='100%' alt={'alt'} sx={{ objectFit: 'contain', marginBottom: '5' }} image={props.item} />
           </Link>
         </CardContent>
       </Card>

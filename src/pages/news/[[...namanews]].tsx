@@ -109,11 +109,13 @@ const ThreadApp = () => {
                         {threadDetail.posting_at}
                       </Typography>
                     </Grid>
+                    <Box sx={{ mb: 1 }}>
                     <Grid item container xs={12} justifyContent={'flex'}>
                       <Typography variant='body2' sx={{ p: 4 }} fontSize={14} style={{ color: '#424242' }}>
                         {ReactHtmlParser(`${threadDetail?.content}`)}
                       </Typography>
                     </Grid>
+                    </Box>
                     {/* <Grid item container xs={12} justifyContent={'flex'}>
                       <CommentForm  user_id={user?.id} thread_id={threadDetail?.id} />
                     </Grid> */}
