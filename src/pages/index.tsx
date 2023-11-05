@@ -3,15 +3,15 @@ import { ReactNode } from "react";
 import LandingPageLayout from "src/@core/layouts/LandingPageLayout";
 import landingPageStyle from "src/@core/styles/landing-page/landing-page";
 import { useTranslation } from "react-i18next";
-// import FindJobsView from "src/views/landing-page/findJobsView";
-// import DiscoverView from "src/views/landing-page/discoverView";
+import FindJobsView from "src/views/landing-page/findJobsView";
+import DiscoverView from "src/views/landing-page/discoverView";
 import FeatureView from "src/views/landing-page/featureView";
 import LetsSailView from "src/views/landing-page/letsSailView";
 import FooterView from "src/views/landing-page/footerView";
 import Head from "next/head";
 import themeConfig from "src/configs/themeConfig";
 import CarouselNewsView from "src/views/landing-page/carouselnews";
-import CarouselEvent from "src/views/landing-page/carouselevent";
+// import CarouselEvent from "src/views/landing-page/carouselevent";
 // ** Icon Imports
 // import Icon from 'src/@core/components/icon'
 // ** Custom Components Imports
@@ -154,11 +154,11 @@ const Main = () => {
             </Card>
           </Grid>
         </Grid>
+{/* 
+        <CarouselEvent/> */}
+        <FindJobsView id='findJobSection' />
 
-        <CarouselEvent/>
-        {/* <FindJobsView id='findJobSection' />
-
-        <DiscoverView /> */}
+        <DiscoverView />
         <FeatureView />
         <CarouselNewsView />
         <LetsSailView />
