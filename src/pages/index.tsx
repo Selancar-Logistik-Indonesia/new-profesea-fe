@@ -121,7 +121,7 @@ const Main = () => {
                   {t('b_to_seafarer')}
                 </Typography>
                 <Typography maxWidth={'70%'} variant='body2' sx={{ mb: 6.5, color: '#FFFFFF' }}>
-                  {t('b_to_seafarer_detail')}
+                  {t('b_to_seafarer_detail')} 
                 </Typography>
                 <Button
                   href='/register/seaferonship'
