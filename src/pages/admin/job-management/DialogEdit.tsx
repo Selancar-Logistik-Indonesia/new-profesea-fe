@@ -78,7 +78,7 @@ const DialogEdit = (props: EditProps) => {
     const [combocountry, getComboCountry] = useState<any>([])
     const [combocity, getComboCity] = useState<any[]>([])
 
-    const contenDesc = convertFromHTML(props.selectedItem.description).contentBlocks
+    const contenDesc = convertFromHTML(props.selectedItem?.description).contentBlocks
     const contentState = ContentState.createFromBlockArray(contenDesc)
     const editorState = EditorState.createWithContent(contentState)
     const [desc, setDesc] = useState(editorState)
@@ -292,7 +292,7 @@ const DialogEdit = (props: EditProps) => {
                   id='combo-box-level'
                   value={Level}
                   options={RoleLevel}
-                  getOptionLabel={(option: RoleLevel) => option.levelName}
+                  getOptionLabel={(option: RoleLevel) => option?.levelName}
                   renderInput={params => <TextField {...params} label='Role Level' />}
                   onChange={(event: any, newValue: RoleLevel | null) =>
                     newValue ? setLevel(newValue) : setLevel(props.selectedItem.rolelevel)
@@ -306,7 +306,7 @@ const DialogEdit = (props: EditProps) => {
                   id='combo-box-demo'
                   options={combocountry}
                   value={Cou}
-                  getOptionLabel={(option: any) => option.nicename}
+                  getOptionLabel={(option: any) => option?.nicename}
                   renderInput={params => <TextField {...params} label='Country' />}
                   onChange={(event: any, newValue: Countries | null) =>
                     newValue?.id ? searchcity(newValue) : searchcity(props.selectedItem.country)
