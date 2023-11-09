@@ -132,7 +132,7 @@ const CarouselEvent = () => {
 
           {/* <Link style={{ textDecoration: 'none' }} href={'/news/' + props.item.slug}> */}
           <Link style={{ textDecoration: 'none' }} href={'/event/' + props.item.title}>
-            <CardMedia component='img' height='100%' alt={'alt'} sx={{ objectFit: 'contain', marginBottom: '5' }} image={props.item} />
+            <CardMedia component='img' height='100%' alt={'alt'} sx={{ objectFit: 'contain', marginBottom: '5' }} image={props.item.imgnews} />
           </Link>
         </CardContent>
       </Card>
