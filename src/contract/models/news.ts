@@ -13,7 +13,15 @@ interface INews {
   created_at: string
   updated_at: string
   replies_count: string
+  date: string
+  time: string
   slug: string
+  cost: string
+  organizer: string
+  website: string
+  phone: string
+  venue: string
+  email: string
 }
 
 export default INews;

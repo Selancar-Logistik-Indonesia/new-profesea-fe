@@ -1,17 +1,24 @@
 // ** React Imports
-import React , { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
-import Box  from '@mui/material/Box'  
-import { Autocomplete, Button, CircularProgress, InputAdornment, InputLabel, OutlinedInput, Typography } from '@mui/material'
+import Box from '@mui/material/Box'
+import { 
+  Button,
+  CircularProgress,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Typography
+} from '@mui/material'
 import TextField from '@mui/material/TextField'
 
 // import {  useTheme } from '@mui/material/styles'
 // ** Third Party Imports
 
 // ** Component Import
-import { Grid } from '@mui/material'  
- 
+import { Grid } from '@mui/material'
+
 import EditorArea from 'src/@core/components/react-draft-wysiwyg'
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
@@ -25,9 +32,9 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { ContentState, EditorState, convertFromHTML, convertToRaw } from 'draft-js'
-import draftToHtml from 'draftjs-to-html';
+import draftToHtml from 'draftjs-to-html'
 
- //import Thread from 'src/contract/models/news'
+//import Thread from 'src/contract/models/news'
 import { toast } from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { Icon } from '@iconify/react'
@@ -36,34 +43,44 @@ import Link from 'next/link'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
- 
- interface FileProp {
-   name: string
-   type: string
-   size: number
- }
 
-const EditNewsScreen = () => {  
-  // const theme = useTheme()    
-  const windowUrl = window.location.search 
+interface FileProp {
+  name: string
+  type: string
+  size: number
+}
+
+const EditNewsScreen = () => {
+  // const theme = useTheme()
+  const windowUrl = window.location.search
   const params = new URLSearchParams(windowUrl)
-  const [onLoading, setOnLoading] = useState(false); 
-  const [sforumCode, setForumCode] = useState<any>([])
-  const [sforum, setForum] = useState<any>([])
+  const [onLoading, setOnLoading] = useState(false)
+  // const [sforumCode, setForumCode] = useState<any>([])
+  // const [sforum, setForum] = useState<any>([])
   const [sTitle, setTitle] = useState<any>([])
-  const [sSlug, setSlug] = useState<any>([])
-  const [sMeta, setMeta] = useState<any>([])
-  
-    const [charType, setType] = useState('0')
-    const [charMeta, setMeta2] = useState('0')
-    const [charSlug, setSlug2] = useState('0')  
+
+  const [sdate, setDate] = useState<any>([])
+  const [stime, setTime] = useState<any>([])
+  const [sCost, setCost] = useState<any>([])
+
+  const [sorganizer, setOrganizer] = useState<any>([])
+  const [swebsite, setWebsite] = useState<any>([])
+  const [sphone, setPhone] = useState<any>([])
+  const [semail, setEmail] = useState<any>([])
+  const [svenue, setVenue] = useState<any>([])
+
+  // const [sTitle, setTitle] = useState<any>([])
+  // const [sSlug, setSlug] = useState<any>([])
+  // const [sMeta, setMeta] = useState<any>([])
+
+  const [charType, setType] = useState('0')
   //const [newsDetail, setThreadDetail] = useState<Thread>()
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [files, setFiles] = useState<File[]>([])
-  const [postingDate, setPostingDate] = useState<DateType>(new Date()) 
+  const [postingDate, setPostingDate] = useState<DateType>(new Date())
   const [urlFile, getUrlFile] = useState<any>()
   // const [User, getUser] =useState<any[]>([])
-   const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
     accept: {
       'image/*': ['.png', '.jpg', '.jpeg', '.gif']
@@ -95,76 +112,81 @@ const EditNewsScreen = () => {
   } = useForm<any>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
-  })  
-   const type = [{ title: 'News' }, { title: 'Event' }]
+  })
+  // const type = [{ title: 'News' }, { title: 'Event' }]
   const firstload = () => {
-      setShow(false);
-      HttpClient.get(AppConfig.baseUrl + '/news/id/' + params.get('id')).then(resp => {        
-        const news:any  = resp.data.news 
-        const contenDesc = convertFromHTML(news?.content).contentBlocks
-        const contentState = ContentState.createFromBlockArray(contenDesc)
-        const editorState = EditorState.createWithContent(contentState)
-        setDesc(editorState)
-        setTitle(news?.title)
-        setType(news?.title?.length)
-        setSlug(news?.slug)
-        setSlug2(news?.slug?.length)
-        setMeta(news?.meta)
-        setMeta2(news?.meta.length)
-        
-        setForum({ title: news?.type })
-        getUrlFile(news?.imgnews)
-        setPostingDate(new Date(news?.posting_at)) 
-        setForumCode(news?.type)
-      })
+    setShow(false)
+    HttpClient.get(AppConfig.baseUrl + '/news/id/' + params.get('id')).then(resp => {
+      const news: any = resp.data.news
+      const contenDesc = convertFromHTML(news?.content).contentBlocks
+      const contentState = ContentState.createFromBlockArray(contenDesc)
+      const editorState = EditorState.createWithContent(contentState)
+      setDesc(editorState)
+      setTitle(news?.title)
+      setType(news?.title?.length)
 
-      
+      setDate(news?.date)
+      setTime(news?.time)
+      setCost(news?.cost)
+      setOrganizer(news?.organizer)
+      setWebsite(news?.website)
+      setPhone(news?.phone)
+      setEmail(news?.email)
+      setVenue(news?.venue)
+      getUrlFile(news?.imgnews)
+      setPostingDate(new Date(news?.posting_at)) 
+    })
   }
   useEffect(() => {
     firstload()
   }, [])
 
-  function uploadCallback(file:any){
-    console.log(file);
-    
+  function uploadCallback(file: any) {
+    console.log(file)
+
     return new Promise((resolve, reject) => {
-      const form_data = new FormData();
+      const form_data = new FormData()
       form_data.append('file', file)
-      HttpClient.postFile(`/user/filemanager` , form_data).then(response => {
+      HttpClient.postFile(`/user/filemanager`, form_data).then(response => {
         if (response.status != 200) {
-          const error = response.data.message;
-          reject(error);
+          const error = response.data.message
+          reject(error)
         }
         resolve({ data: { link: response.data.path } })
       })
-    });
+    })
   }
 
-  const onCreate = async () => { 
-
+  const onCreate = async () => {
+ 
     const json = {
-      "imgnews": files,
-      "title": sTitle,
-      "content": draftToHtml(convertToRaw(desc?.getCurrentContent())),
-      "type": sforumCode,
-      "postingdate": postingDate,
-      "slug": sSlug, 
-      "meta": sMeta
+      imgnews: files,
+      title: sTitle,
+      content: draftToHtml(convertToRaw(desc?.getCurrentContent())),
+      type: 'Event',
+      postingdate: postingDate,
+      date: sdate,
+      time: stime,
+      cost: sCost,
+      organizer: sorganizer,
+      website: swebsite,
+      phone: sphone,
+      email: semail,
+      venue: svenue
     }
-    setOnLoading(true);       
+    setOnLoading(true)
     try {
-        const resp = await HttpClient.patch(`/news/${params.get('id')}`, json);
-        if (resp.status != 200) {
-            throw resp.data.message ?? "Something went wrong!";
-        }
+      const resp = await HttpClient.patch(`/news/${params.get('id')}`, json)
+      if (resp.status != 200) {
+        throw resp.data.message ?? 'Something went wrong!'
+      }
 
-        toast.success(` News/Event update successfully!`);
-        window.location.replace('/admin/master-news/')
+      toast.success(` News/Event update successfully!`)
+      window.location.replace('/admin/master-event/')
     } catch (error) {
-        toast.error(`Opps ${getCleanErrorMessage(error)}`);
+      toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
-    setOnLoading(false);       
-
+    setOnLoading(false)
   }
   const handleChangetitle = (event: { target: { value: any } }) => {
     // Update the 'value' state when the input value changes.
@@ -172,20 +194,6 @@ const EditNewsScreen = () => {
     const newValue = event.target.value.length
     setType(newValue)
     setTitle(event.target.value)
-  }
-  const handleChangeslug = (event: { target: { value: any } }) => {
-    // Update the 'value' state when the input value changes.
-    debugger
-    const newValue = event.target.value.length
-    setSlug2(newValue)
-    setSlug(event.target.value)
-  }
-  const handleChangemeta = (event: { target: { value: any } }) => {
-    // Update the 'value' state when the input value changes.
-    debugger
-    const newValue = event.target.value.length
-    setMeta2(newValue)
-    setMeta(event.target.value)
   }
 
   return (
@@ -228,36 +236,6 @@ const EditNewsScreen = () => {
                 Edit News/Event
               </Typography>
               <Grid container xs={12} columnSpacing={'2'} rowSpacing={'2'} sx={{ mb: 2 }}>
-                {/* <Grid item xs={12} md={4}>
-                  <TextField
-                    id='title'
-                    {...register('title')}
-                    error={Boolean(errors.title)}
-                    value={sTitle}
-                    onChange={e => setTitle(e.target.value)}
-                    label='Title'
-                    variant='outlined'
-                    fullWidth
-                    sx={{ mb: 1 }}
-                  />
-                </Grid> */}
-                <Grid item xs={12} md={6}>
-                  <InputLabel htmlFor='x' error={Boolean(errors.type)}>
-                    Type
-                  </InputLabel>
-                  <Autocomplete
-                    disablePortal
-                    id='code'
-                    value={sforum}
-                    options={type}
-                    renderInput={params => <TextField {...params} />}
-                    getOptionLabel={(option: any) => option.title}
-                    onChange={(event: any, newValue: any | null) =>
-                      newValue?.title ? setForumCode(newValue.title) : setForumCode('')
-                    }
-                  />
-                </Grid>
-
                 <Grid item xs={12} md={6}>
                   <InputLabel htmlFor='x' error={Boolean(errors.title)}>
                     Title
@@ -278,49 +256,145 @@ const EditNewsScreen = () => {
                     }
                   />
                 </Grid>
-                <Grid item container xs={12} md={6}>
+                <Grid item container xs={12} md={3}>
                   <Grid container md={12}>
-                    <InputLabel htmlFor='x' error={Boolean(errors.slug)}>
-                      Slug
-                    </InputLabel>
-                    <OutlinedInput
-                      id='slug'
-                      {...register('slug')}
-                      error={Boolean(errors.slug)}
-                      value={sSlug}
-                      onChange={handleChangeslug}
-                      label='Slug'
-                      fullWidth
-                      endAdornment={
-                        <InputAdornment position='end'>
-                          <Typography>{charSlug} character</Typography>
-                        </InputAdornment>
-                      }
-                    />
-                  </Grid>
-                </Grid>
-                <Grid item container xs={12} md={6}>
-                  <Grid container md={12}>
-                    <InputLabel htmlFor='x' error={Boolean(errors.meta)}>
-                      Meta Description
+                    <InputLabel htmlFor='x' error={Boolean(errors.date)}>
+                      Date
                     </InputLabel>
                     <OutlinedInput
                       sx={{ mb: 1 }}
-                      id='slugmeta'
-                      {...register('meta')}
-                      error={Boolean(errors.meta)}
-                      value={sMeta}
-                      onChange={handleChangemeta}
-                      label='Meta Description'
+                      id='date'
+                      {...register('date')}
+                      error={Boolean(errors.date)}
+                      label='date'
                       fullWidth
-                      endAdornment={
-                        <InputAdornment position='end'>
-                          <Typography>{charMeta} character</Typography>
-                        </InputAdornment>
-                      }
+                      value={sdate}
+                      onChange={e => setDate(e.target.value)}
                     />
                   </Grid>
                 </Grid>
+
+                <Grid item container xs={12} md={3}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
+                      Time
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='time'
+                      {...register('time')}
+                      error={Boolean(errors.time)}
+                      label='time'
+                      fullWidth
+                      value={stime}
+                      onChange={e => setTime(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} md={2}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.cost)}>
+                      Cost
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='cost'
+                      {...register('cost')}
+                      error={Boolean(errors.cost)}
+                      label='Cost'
+                      fullWidth
+                      value={sCost}
+                      onChange={e => setCost(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} md={2}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
+                      Organizer
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='datetime'
+                      {...register('organizer')}
+                      error={Boolean(errors.time)}
+                      label='Organizer'
+                      fullWidth
+                      value={sorganizer}
+                      onChange={e => setOrganizer(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} md={3}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
+                      Website
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='datetime'
+                      {...register('website')}
+                      error={Boolean(errors.time)}
+                      label='Website'
+                      fullWidth
+                      value={swebsite}
+                      onChange={e => setWebsite(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid item container xs={12} md={2}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
+                      Phone
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='phone'
+                      {...register('phone')}
+                      error={Boolean(errors.phone)}
+                      label='phone'
+                      fullWidth
+                      value={sphone}
+                      onChange={e => setPhone(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} md={3}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
+                      Email
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='email'
+                      {...register('email')}
+                      error={Boolean(errors.email)}
+                      label='Email'
+                      fullWidth
+                      value={semail}
+                      onChange={e => setEmail(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} md={3}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.venue)}>
+                      Venue
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='Venue'
+                      {...register('venue')}
+                      error={Boolean(errors.venue)}
+                      label='Venue'
+                      fullWidth
+                      value={svenue}
+                      onChange={e => setVenue(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+
                 {show == true && (
                   <Grid item xs={12} md={4}>
                     <DatePickerWrapper>
@@ -413,10 +487,9 @@ const EditNewsScreen = () => {
     </Box>
   )
 }
- 
 
 EditNewsScreen.acl = {
   action: 'read',
   subject: 'admin-community-management'
-};
+}
 export default EditNewsScreen

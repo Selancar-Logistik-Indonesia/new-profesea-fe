@@ -3,7 +3,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
-import {   Box, Button, Typography } from '@mui/material'
+import {  Box, Button, Typography } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import MasterNewsDatagrid, { RowItem } from './MasterNewsDatagrid'
 import { HttpClient } from 'src/services';
@@ -35,7 +35,7 @@ const MasterNews = () => {
     const [perPage, setPerPage] = useState(10);
     const getListNews = async () => {
         try {
-            const resp = await HttpClient.get(`/news?search=${search}&page=${page}&take=${perPage}&type=News`)
+            const resp = await HttpClient.get(`/news?search=${search}&page=${page}&take=${perPage}&type=Event`)
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
@@ -46,8 +46,7 @@ const MasterNews = () => {
                   no: index + 1,
                   id: row.id,
                   title: row.title,
-                  type: row.type,
-                  slug: row.slug,
+                  organizer: row.organizer, 
                   actions: {
                     onDelete: () => deleteHandler(row)
                   }

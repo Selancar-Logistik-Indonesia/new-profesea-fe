@@ -1,147 +1,147 @@
 // ** React Imports
-import React , {  useState } from 'react'
+import React, { useState } from 'react'
 
 // ** MUI Components
-import Box  from '@mui/material/Box'  
-import {    Button,    CircularProgress,           InputAdornment,      InputLabel,      OutlinedInput,      TextField, Typography    } from '@mui/material'
+import Box from '@mui/material/Box'
+import {
+  Button,
+  CircularProgress,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+  Typography
+} from '@mui/material'
 
 // import {  useTheme } from '@mui/material/styles'
 // ** Third Party Imports
 
 // ** Component Import
-import {   Grid } from '@mui/material'  
- 
+import { Grid } from '@mui/material'
+
 import EditorArea from 'src/@core/components/react-draft-wysiwyg'
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 import { HttpClient } from 'src/services'
- import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 // import "../../node_modules/draft-js-image-plugin/lib/plugin.css"
 
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { EditorState, convertToRaw } from 'draft-js'
-import draftToHtml from 'draftjs-to-html'; 
+import draftToHtml from 'draftjs-to-html'
 import { toast } from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { Icon } from '@iconify/react'
 import { useDropzone } from 'react-dropzone'
-import Link from 'next/link'  
+import Link from 'next/link'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
-const MasterNewsScreen = () => {  
-  // const theme = useTheme()  
-  const [onLoading, setOnLoading] = useState(false); 
+const MasterNewsScreen = () => {
+  // const theme = useTheme()
+  const [onLoading, setOnLoading] = useState(false)
   const [charType, setType] = useState('0') 
-  const [charMeta, setMeta] = useState('0') 
-  const [charSlug, setSlug] = useState('0')   
   const [desc, setDesc] = useState(EditorState.createEmpty())
-  const [files, setFiles] = useState<File[]>([])  
-  const [postingDate, setPostingDate] = useState<DateType>(new Date()) 
-   const { getRootProps, getInputProps } = useDropzone({
-     multiple: false,
-     accept: {
-       'image/*': ['.png', '.jpg', '.jpeg', '.gif']
-     },
-     onDrop: (acceptedFiles: File[]) => {
-       setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
-     }
-   })
+  const [files, setFiles] = useState<File[]>([])
+  const [postingDate, setPostingDate] = useState<DateType>(new Date())
+  const { getRootProps, getInputProps } = useDropzone({
+    multiple: false,
+    accept: {
+      'image/*': ['.png', '.jpg', '.jpeg', '.gif']
+    },
+    onDrop: (acceptedFiles: File[]) => {
+      setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
+    }
+  })
 
-   const img = files.map((file: FileProp) => (
-     <img
-       key={file.name}
-       alt={file.name}
-       className='single-file-image'
-       src={URL.createObjectURL(file as any)}
-       width={450}
-     />
-   ))
-interface FileProp {
-  name: string
-  type: string
-  size: number
-} 
+  const img = files.map((file: FileProp) => (
+    <img
+      key={file.name}
+      alt={file.name}
+      className='single-file-image'
+      src={URL.createObjectURL(file as any)}
+      width={450}
+    />
+  ))
+  interface FileProp {
+    name: string
+    type: string
+    size: number
+  }
   const schema = yup.object().shape({
     // desc: yup.string().min(1).required(),
-    title: yup.string().min(1).max(60).required() 
+    title: yup.string().min(1).max(60).required()
   })
- const {
-   register,
-   formState: { errors },
-   handleSubmit
- } = useForm<any>({
-   mode: 'onBlur',
-   resolver: yupResolver(schema)
- })  
-//  const type = [{ title: 'News' }, { title: 'Event' }]
-const [show, setShow] = useState<boolean>(false) 
- 
-function uploadCallback(file:any){
-  console.log(file);
-  
-  return new Promise((resolve, reject) => {
-    const form_data = new FormData();
-    form_data.append('file', file)
-    HttpClient.postFile(`/user/filemanager` , form_data).then(response => {
-      if (response.status != 200) {
-        const error = response.data.message;
-        reject(error);
-      }
-      resolve({ data: { link: response.data.path } })
+  const {
+    register,
+    formState: { errors },
+    handleSubmit
+  } = useForm<any>({
+    mode: 'onBlur',
+    resolver: yupResolver(schema)
+  })
+  //  const type = [{ title: 'News' }, { title: 'Event' }]
+  const [show, setShow] = useState<boolean>(false)
+
+  function uploadCallback(file: any) {
+    console.log(file)
+
+    return new Promise((resolve, reject) => {
+      const form_data = new FormData()
+      form_data.append('file', file)
+      HttpClient.postFile(`/user/filemanager`, form_data).then(response => {
+        if (response.status != 200) {
+          const error = response.data.message
+          reject(error)
+        }
+        resolve({ data: { link: response.data.path } })
+      })
     })
-  });
-}
-
-const onCreate = async (formData: any) => {
-  const { title,slug,meta } = formData
-
-  const json = {
-    imgnews: files,
-    title: title,
-    content: draftToHtml(convertToRaw(desc?.getCurrentContent())),
-    type: 'News',
-    slug: slug,
-    meta: meta,
-    postingdate: postingDate
   }
-  setOnLoading(true);       
-  try {
+
+  const onCreate = async (formData: any) => {
+    const { title, date, time,cost,organizer,website,phone,email,venue } = formData
+ 
+    const json = {
+      imgnews: files,
+      title: title,
+      content: draftToHtml(convertToRaw(desc?.getCurrentContent())),
+      type: 'Event',
+      date: date,
+      time: time,
+      postingdate: postingDate,
+      cost: cost,
+      organizer: organizer,
+      website: website,
+      phone: phone,
+      email: email,
+      venue: venue
+    }
+    setOnLoading(true)
+    try {
       const resp = await HttpClient.postFile('/news', json)
       if (resp.status != 200) {
-          throw resp.data.message ?? "Something went wrong!";
+        throw resp.data.message ?? 'Something went wrong!'
       }
       setShow(false)
-      toast.success(` News/Event created successfully!`);
+      toast.success(` News/Event created successfully!`)
       window.location.replace('/admin/master-news/')
-  } catch (error) {
-      toast.error(`Opps ${getCleanErrorMessage(error)}`);
+    } catch (error) {
+      toast.error(`Opps ${getCleanErrorMessage(error)}`)
+    }
+    setOnLoading(false)
   }
-  setOnLoading(false);       
+  const handleChangetitle = (event: { target: { value: any } }) => {
+    // Update the 'value' state when the input value changes.
 
-}
-const handleChangetitle = (event: { target: { value: any } }) => {
-  // Update the 'value' state when the input value changes.
+    const newValue = event.target.value.length
+    setType(newValue)
+  }
   
-  const newValue = event.target.value.length
-  setType(newValue)
-}
-const handleChangeslug = (event: { target: { value: any } }) => {
-  // Update the 'value' state when the input value changes.
-  debugger
-  const newValue = event.target.value.length
-  setSlug(newValue)
-}
-const handleChangemeta = (event: { target: { value: any } }) => {
-  // Update the 'value' state when the input value changes.
-  debugger
-  const newValue = event.target.value.length
-  setMeta(newValue)
-}
 
   return (
     <Box padding={3}>
@@ -183,7 +183,6 @@ const handleChangemeta = (event: { target: { value: any } }) => {
                 Create{' '}
               </Typography>
               <Grid container xs={12} columnSpacing={'2'} rowSpacing={'2'} sx={{ mb: 2 }}>
-                
                 <Grid item container xs={12} md={6}>
                   <Grid container md={12}>
                     <InputLabel htmlFor='x' error={Boolean(errors.title)}>
@@ -205,46 +204,126 @@ const handleChangemeta = (event: { target: { value: any } }) => {
                     />
                   </Grid>
                 </Grid>
-                <Grid item container xs={12} md={6}>
+                <Grid item container xs={12} md={3}>
                   <Grid container md={12}>
-                    <InputLabel htmlFor='x' error={Boolean(errors.slug)}>
-                      Slug
+                    <InputLabel htmlFor='x' error={Boolean(errors.date)}>
+                      Date
                     </InputLabel>
                     <OutlinedInput
                       sx={{ mb: 1 }}
-                      id='slug'
-                      {...register('slug')}
-                      error={Boolean(errors.slug)}
-                      onChange={handleChangeslug}
-                      label='Slug'
+                      id='date'
+                      {...register('date')}
+                      error={Boolean(errors.date)}
+                      label='date'
                       fullWidth
-                      endAdornment={
-                        <InputAdornment position='end'>
-                          <Typography>{charSlug} character</Typography>
-                        </InputAdornment>
-                      }
+                      // onChange={e => setSlug(e.target.value)}
                     />
                   </Grid>
                 </Grid>
 
-                <Grid item container xs={12} md={6}>
+                <Grid item container xs={12} md={3}>
                   <Grid container md={12}>
-                    <InputLabel htmlFor='x' error={Boolean(errors.meta)}>
-                      Meta Description
+                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
+                      Time
                     </InputLabel>
                     <OutlinedInput
                       sx={{ mb: 1 }}
-                      id='slugmeta'
-                      {...register('meta')}
-                      error={Boolean(errors.meta)}
-                      onChange={handleChangemeta}
-                      label='Meta Description'
+                      id='time'
+                      {...register('time')}
+                      error={Boolean(errors.time)} 
+                      label='time'
                       fullWidth
-                      endAdornment={
-                        <InputAdornment position='end'>
-                          <Typography>{charMeta} character</Typography>
-                        </InputAdornment>
-                      }
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} md={3}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
+                      Cost
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='cost'
+                      {...register('cost')}
+                      error={Boolean(errors.time)}
+                      label='Cost'
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} md={3}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
+                      Organizer
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='datetime'
+                      {...register('organizer')}
+                      error={Boolean(errors.time)}
+                      label='Organizer'
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} md={3}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
+                      Website
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='datetime'
+                      {...register('website')}
+                      error={Boolean(errors.time)}
+                      label='Website'
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid item container xs={12} md={3}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
+                      Phone
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='phone'
+                      {...register('phone')}
+                      error={Boolean(errors.phone)}
+                      label='phone'
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} md={3}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
+                      Email
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='email'
+                      {...register('email')}
+                      error={Boolean(errors.email)}
+                      label='Email'
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} md={3}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
+                      Venue
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='venue'
+                      {...register('venue')}
+                      error={Boolean(errors.venue)}
+                      label='Venue'
+                      fullWidth
                     />
                   </Grid>
                 </Grid>
@@ -339,10 +418,9 @@ const handleChangemeta = (event: { target: { value: any } }) => {
     </Box>
   )
 }
- 
 
 MasterNewsScreen.acl = {
   action: 'read',
   subject: 'admin-community-management'
-};
+}
 export default MasterNewsScreen

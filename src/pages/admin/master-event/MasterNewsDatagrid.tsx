@@ -8,8 +8,7 @@ import Link from 'next/link';
 const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true, minWidth: 10 },
   { field: 'title', headerName: 'Title', sortable: true, minWidth: 200 },
-  { field: 'type', headerName: 'Type', sortable: true, minWidth: 150 },
-  { field: 'slug', headerName: 'Slug', sortable: true, minWidth: 150 },
+  { field: 'organizer', headerName: 'Organizer', sortable: true, minWidth: 200 },
   {
     field: 'action',
     headerName: 'Action',
@@ -19,7 +18,7 @@ const columns: GridColDef[] = [
 
       return (
         <>
-          <Link href={'/admin/master-news/edit/?id=' + row.id}>
+          <Link href={'/admin/master-event/edit/?id=' + row.id}>
             <IconButton aria-label='edit' color='warning' size='small'>
               <Icon icon='solar:pen-new-round-bold-duotone' />
             </IconButton>
@@ -34,22 +33,21 @@ const columns: GridColDef[] = [
 ]
 
 type RoleGridProps = {
-    rows: RowItem[];
-    loading: boolean;
-    pageSize: number;
-    page: number;
-    rowCount: number;
-    onPageChange: (model: GridPaginationModel, details: GridCallbackDetails) => void;
+  rows: RowItem[]
+  loading: boolean
+  pageSize: number 
+  page: number
+  rowCount: number
+  onPageChange: (model: GridPaginationModel, details: GridCallbackDetails) => void
 }
 
 interface RowItem {
-  id: number
-  title: string
-  type: string
-  slug: string
-  actions: {
-    onDelete: VoidFunction
-  }
+    id:number,
+    title: string, 
+    organizer: string,
+    actions: {
+        onDelete: VoidFunction,
+    };
 }
 
 export {

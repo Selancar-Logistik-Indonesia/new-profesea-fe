@@ -4,18 +4,18 @@ import {   Box, Card,   CardContent, CardMedia, Grid, Typography } from "@mui/ma
 //import discoverPageStyle from "src/@core/styles/discover/discover-page";
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
-//  import { useEffect, useState } from "react";
-// import { HttpClient } from "src/services";
-// import { AxiosError } from "axios";
-// import { toast } from "react-hot-toast";
+ import { useEffect, useState } from "react";
+import { HttpClient } from "src/services";
+import { AxiosError } from "axios";
+import { toast } from "react-hot-toast";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next"; 
 // import Moment from 'moment'
 
 
 const CarouselEvent = () => {
   // const [forumCode, setForumCode] = useState('') 
-  // const [dataSheet, setDataSheet] = useState<[]>([])
+  const [dataSheet, setDataSheet] = useState<[]>([])
   const { t } = useTranslation();
   const responsive = {
     desktop: {
@@ -34,38 +34,38 @@ const CarouselEvent = () => {
       slidesToSlide: 1 // optional, default to 1.
     }
   }
-  // const getListNews = async () => {
-  //   try {
-  //     // const resp = await HttpClient.get(`/news?page=${1}&take=25&type=${forumCode}`)
-  //     const resp = await HttpClient.get(`/news?page=${1}&take=25`)
-  //     if (resp.status != 200) {
-  //       throw resp.data.message ?? 'Something went wrong!'
-  //     }
+  const getListNews = async () => {
+    try {
+      // const resp = await HttpClient.get(`/news?page=${1}&take=25&type=${forumCode}`)
+      const resp = await HttpClient.get(`/news?page=${1}&take=25&type=Event`)
+      if (resp.status != 200) {
+        throw resp.data.message ?? 'Something went wrong!'
+      }
 
-  //     const rows = resp.data.news.data  
-  //     const items = rows 
-  //     setDataSheet(items)
-  //   } catch (error) {
-  //     let errorMessage = 'Something went wrong!'
+      const rows = resp.data.news.data  
+      const items = rows 
+      setDataSheet(items)
+    } catch (error) {
+      let errorMessage = 'Something went wrong!'
 
-  //     if (error instanceof AxiosError) {
-  //       errorMessage = error?.response?.data?.message ?? errorMessage
-  //     }
+      if (error instanceof AxiosError) {
+        errorMessage = error?.response?.data?.message ?? errorMessage
+      }
 
-  //     if (typeof error == 'string') {
-  //       errorMessage = error
-  //     }
+      if (typeof error == 'string') {
+        errorMessage = error
+      }
 
-  //     toast.error(`Opps ${errorMessage}`)
-  //   }
-  // }
+      toast.error(`Opps ${errorMessage}`)
+    }
+  }
 
   // const type = [{ title: 'News' }, { title: 'Event' }]
 
-  // useEffect(() => { 
-  //   getListNews().then(() => { 
-  //   }) 
-  // }, [])
+  useEffect(() => { 
+    getListNews().then(() => { 
+    }) 
+  }, [])
 //tambah forumCOde di useefect kalau mau filter
 
   return (
@@ -79,6 +79,7 @@ const CarouselEvent = () => {
       }}
       pb={2}
     >
+      {dataSheet &&
       <Grid item xs={12}>
         <Box>
           <Carousel
@@ -100,13 +101,15 @@ const CarouselEvent = () => {
             itemClass='carousel-item-padding-40-px'
             rewindWithAnimation={true}
           >
-            <Item item={'/images/bannerevent.jpg'}></Item>
-            {/* {dataSheet.map((item, i) => (
+            {/* <Item item={'/images/bannerevent.jpg'}></Item> */}
+            {dataSheet.map((item, i) => (
               <Item key={i} item={item}></Item>
-            ))} */}
+            ))}
           </Carousel>
         </Box>
       </Grid>
+      }
+      
     </Grid>
   )
   function Item(props: any) {
@@ -128,7 +131,7 @@ const CarouselEvent = () => {
         <CardContent>
 
           {/* <Link style={{ textDecoration: 'none' }} href={'/news/' + props.item.slug}> */}
-          <Link style={{ textDecoration: 'none' }} href={'/event//Kalian capek gagal interview terus?'}>
+          <Link style={{ textDecoration: 'none' }} href={'/event/' + props.item.title}>
             <CardMedia component='img' height='100%' alt={'alt'} sx={{ objectFit: 'contain', marginBottom: '5' }} image={props.item} />
           </Link>
         </CardContent>
