@@ -43,12 +43,13 @@ type RoleGridProps = {
 }
 
 interface RowItem {
-    id:number,
-    title: string, 
-    type: string,
-    actions: {
-        onDelete: VoidFunction,
-    };
+  id: number
+  title: string
+  type: string
+  slug: string
+  actions: {
+    onDelete: VoidFunction
+  }
 }
 
 export {

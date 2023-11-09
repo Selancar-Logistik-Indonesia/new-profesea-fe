@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 // ** MUI Components
 import Box from '@mui/material/Box'
 import {
-  Autocomplete,
   Button,
   CircularProgress,
   InputAdornment,
@@ -45,9 +44,7 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 const MasterNewsScreen = () => {
   // const theme = useTheme()
   const [onLoading, setOnLoading] = useState(false)
-  const [charType, setType] = useState('0')
-  const [chartime, settime] = useState('0')
-  const [chardate, setdate] = useState('0')
+  const [charType, setType] = useState('0') 
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [files, setFiles] = useState<File[]>([])
   const [postingDate, setPostingDate] = useState<DateType>(new Date())
@@ -144,18 +141,7 @@ const MasterNewsScreen = () => {
     const newValue = event.target.value.length
     setType(newValue)
   }
-  const handleChangedate = (event: { target: { value: any } }) => {
-    // Update the 'value' state when the input value changes.
-    debugger
-    const newValue = event.target.value.length
-    setdate(newValue)
-  }
-  const handleChangetime = (event: { target: { value: any } }) => {
-    // Update the 'value' state when the input value changes.
-    debugger
-    const newValue = event.target.value.length
-    settime(newValue)
-  }
+  
 
   return (
     <Box padding={3}>
@@ -244,8 +230,7 @@ const MasterNewsScreen = () => {
                       sx={{ mb: 1 }}
                       id='time'
                       {...register('time')}
-                      error={Boolean(errors.time)}
-                      onChange={handleChangetime}
+                      error={Boolean(errors.time)} 
                       label='time'
                       fullWidth
                     />

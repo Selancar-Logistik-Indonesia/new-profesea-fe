@@ -140,7 +140,7 @@ const EditNewsScreen = () => {
     });
   }
 
-  const onCreate = async (formData: any) => { 
+  const onCreate = async () => { 
 
     const json = {
       "imgnews": files,

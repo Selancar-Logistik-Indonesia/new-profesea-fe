@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import {
-  Autocomplete,
+import { 
   Button,
   CircularProgress,
   InputAdornment,
@@ -56,8 +55,8 @@ const EditNewsScreen = () => {
   const windowUrl = window.location.search
   const params = new URLSearchParams(windowUrl)
   const [onLoading, setOnLoading] = useState(false)
-  const [sforumCode, setForumCode] = useState<any>([])
-  const [sforum, setForum] = useState<any>([])
+  // const [sforumCode, setForumCode] = useState<any>([])
+  // const [sforum, setForum] = useState<any>([])
   const [sTitle, setTitle] = useState<any>([])
 
   const [sdate, setDate] = useState<any>([])
@@ -114,7 +113,7 @@ const EditNewsScreen = () => {
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
-  const type = [{ title: 'News' }, { title: 'Event' }]
+  // const type = [{ title: 'News' }, { title: 'Event' }]
   const firstload = () => {
     setShow(false)
     HttpClient.get(AppConfig.baseUrl + '/news/id/' + params.get('id')).then(resp => {
@@ -135,8 +134,7 @@ const EditNewsScreen = () => {
       setEmail(news?.email)
       setVenue(news?.venue)
       getUrlFile(news?.imgnews)
-      setPostingDate(new Date(news?.posting_at))
-      setForumCode(news?.type)
+      setPostingDate(new Date(news?.posting_at)) 
     })
   }
   useEffect(() => {
@@ -159,12 +157,8 @@ const EditNewsScreen = () => {
     })
   }
 
-  const onCreate = async (formData: any) => {
-    debugger;
-    // let poto = null
-    // if(files.length!=0){
-    //   poto = files
-    // }
+  const onCreate = async () => {
+ 
     const json = {
       imgnews: files,
       title: sTitle,

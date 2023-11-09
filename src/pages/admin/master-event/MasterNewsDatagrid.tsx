@@ -35,8 +35,7 @@ const columns: GridColDef[] = [
 type RoleGridProps = {
   rows: RowItem[]
   loading: boolean
-  pageSize: number
-  organizer: string
+  pageSize: number 
   page: number
   rowCount: number
   onPageChange: (model: GridPaginationModel, details: GridCallbackDetails) => void
@@ -45,7 +44,7 @@ type RoleGridProps = {
 interface RowItem {
     id:number,
     title: string, 
-    type: string,
+    organizer: string,
     actions: {
         onDelete: VoidFunction,
     };

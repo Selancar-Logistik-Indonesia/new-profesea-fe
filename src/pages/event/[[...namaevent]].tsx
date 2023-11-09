@@ -252,7 +252,7 @@ const EventApp = () => {
                           </Box>
                           <Box>
                             <Typography>
-                              <Link style={{ textDecoration: 'none' }} href={'/' + dataSheet?.website}>
+                              <Link style={{ textDecoration: 'none' }} href={''+ dataSheet?.website}>
                                 {dataSheet?.website}
                               </Link>
                             </Typography>

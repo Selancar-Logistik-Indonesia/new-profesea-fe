@@ -3,7 +3,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
-import { Autocomplete, Box, Button, Typography } from '@mui/material'
+import {  Box, Button, Typography } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import MasterNewsDatagrid, { RowItem } from './MasterNewsDatagrid'
 import { HttpClient } from 'src/services';
@@ -24,7 +24,7 @@ const MasterNews = () => {
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<News | null>(null);
 
-    const [forumCode, setForumCode] = useState(0)
+    // const [forumCode, setForumCode] = useState(0)
     // const [UserId, setUserId] = useState(0)
     // const [Forum, getForum] = useState<any[]>([]);
     // const [User, getUser] = useState<any[]>([]);
@@ -46,9 +46,7 @@ const MasterNews = () => {
                   no: index + 1,
                   id: row.id,
                   title: row.title,
-                  organizer: row.organizer,
-                  type: row.type,
-                  slug: row.slug,
+                  organizer: row.organizer, 
                   actions: {
                     onDelete: () => deleteHandler(row)
                   }
@@ -97,7 +95,7 @@ const MasterNews = () => {
         getListNews().then(() => {
             setOnLoading(false);
         }); 
-    }, [page, search, hookSignature, perPage, forumCode]);
+    }, [page, search, hookSignature, perPage]);
 
     return (
       <>
