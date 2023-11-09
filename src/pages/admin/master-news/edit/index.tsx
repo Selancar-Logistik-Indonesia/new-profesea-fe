@@ -3,7 +3,7 @@ import React , { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box  from '@mui/material/Box'  
-import { Autocomplete, Button, CircularProgress, Typography } from '@mui/material'
+import { Autocomplete, Button, CircularProgress, InputAdornment, InputLabel, OutlinedInput, Typography } from '@mui/material'
 import TextField from '@mui/material/TextField'
 
 // import {  useTheme } from '@mui/material/styles'
@@ -52,6 +52,11 @@ const EditNewsScreen = () => {
   const [sforum, setForum] = useState<any>([])
   const [sTitle, setTitle] = useState<any>([])
   const [sSlug, setSlug] = useState<any>([])
+  const [sMeta, setMeta] = useState<any>([])
+  
+    const [charType, setType] = useState('0')
+    const [charMeta, setMeta2] = useState('0')
+    const [charSlug, setSlug2] = useState('0')  
   //const [newsDetail, setThreadDetail] = useState<Thread>()
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [files, setFiles] = useState<File[]>([])
@@ -101,7 +106,11 @@ const EditNewsScreen = () => {
         const editorState = EditorState.createWithContent(contentState)
         setDesc(editorState)
         setTitle(news?.title)
+        setType(news?.title?.length)
         setSlug(news?.slug)
+        setSlug2(news?.slug?.length)
+        setMeta(news?.meta)
+        setMeta2(news?.meta.length)
         
         setForum({ title: news?.type })
         getUrlFile(news?.imgnews)
@@ -131,16 +140,16 @@ const EditNewsScreen = () => {
     });
   }
 
-  const onCreate = async (formData: any) => {
-    const { title,slug } = formData
+  const onCreate = async (formData: any) => { 
 
     const json = {
       "imgnews": files,
-      "title": title,
+      "title": sTitle,
       "content": draftToHtml(convertToRaw(desc?.getCurrentContent())),
       "type": sforumCode,
       "postingdate": postingDate,
-      "slug": slug
+      "slug": sSlug, 
+      "meta": sMeta
     }
     setOnLoading(true);       
     try {
@@ -156,6 +165,27 @@ const EditNewsScreen = () => {
     }
     setOnLoading(false);       
 
+  }
+  const handleChangetitle = (event: { target: { value: any } }) => {
+    // Update the 'value' state when the input value changes.
+
+    const newValue = event.target.value.length
+    setType(newValue)
+    setTitle(event.target.value)
+  }
+  const handleChangeslug = (event: { target: { value: any } }) => {
+    // Update the 'value' state when the input value changes.
+    debugger
+    const newValue = event.target.value.length
+    setSlug2(newValue)
+    setSlug(event.target.value)
+  }
+  const handleChangemeta = (event: { target: { value: any } }) => {
+    // Update the 'value' state when the input value changes.
+    debugger
+    const newValue = event.target.value.length
+    setMeta2(newValue)
+    setMeta(event.target.value)
   }
 
   return (
@@ -198,7 +228,7 @@ const EditNewsScreen = () => {
                 Edit News/Event
               </Typography>
               <Grid container xs={12} columnSpacing={'2'} rowSpacing={'2'} sx={{ mb: 2 }}>
-                <Grid item xs={12} md={4}>
+                {/* <Grid item xs={12} md={4}>
                   <TextField
                     id='title'
                     {...register('title')}
@@ -210,47 +240,103 @@ const EditNewsScreen = () => {
                     fullWidth
                     sx={{ mb: 1 }}
                   />
-                </Grid>
-                <Grid item xs={12} md={4}>
+                </Grid> */}
+                <Grid item xs={12} md={6}>
+                  <InputLabel htmlFor='x' error={Boolean(errors.type)}>
+                    Type
+                  </InputLabel>
                   <Autocomplete
                     disablePortal
                     id='code'
                     value={sforum}
                     options={type}
-                    renderInput={params => <TextField {...params} label='Type' />}
+                    renderInput={params => <TextField {...params} />}
                     getOptionLabel={(option: any) => option.title}
                     onChange={(event: any, newValue: any | null) =>
                       newValue?.title ? setForumCode(newValue.title) : setForumCode('')
                     }
                   />
                 </Grid>
-                 <Grid item xs={12} md={4}>
-                  <TextField
-                    id='slug'
-                    {...register('slug')}
-                    error={Boolean(errors.slug)}
-                    value={sSlug}
-                    onChange={e => setSlug(e.target.value)}
-                    label='Slug'
-                    variant='outlined'
+
+                <Grid item xs={12} md={6}>
+                  <InputLabel htmlFor='x' error={Boolean(errors.title)}>
+                    Title
+                  </InputLabel>
+                  <OutlinedInput
+                    id='title'
+                    {...register('title')}
+                    error={Boolean(errors.title)}
+                    value={sTitle}
+                    label='Title'
                     fullWidth
                     sx={{ mb: 1 }}
+                    onChange={handleChangetitle}
+                    endAdornment={
+                      <InputAdornment position='end'>
+                        <Typography>{charType} character</Typography>
+                      </InputAdornment>
+                    }
                   />
                 </Grid>
-                 {show == true && <Grid item xs={12} md={4}>
-                  <DatePickerWrapper>
-                    <DatePicker
-                      minDate={new Date()}
-                      dateFormat='dd/MM/yyyy'
-                      selected={postingDate}
-                      id='basic-input'
-                      onChange={(date: Date) => setPostingDate(date)}
-                      placeholderText='Click to select a date'
-                      customInput={<TextField size='small' label='Schedule' variant='outlined' fullWidth />}
+                <Grid item container xs={12} md={6}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.slug)}>
+                      Slug
+                    </InputLabel>
+                    <OutlinedInput
+                      id='slug'
+                      {...register('slug')}
+                      error={Boolean(errors.slug)}
+                      value={sSlug}
+                      onChange={handleChangeslug}
+                      label='Slug'
+                      fullWidth
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <Typography>{charSlug} character</Typography>
+                        </InputAdornment>
+                      }
                     />
-                  </DatePickerWrapper>
-                </Grid>}
-                
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} md={6}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.meta)}>
+                      Meta Description
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='slugmeta'
+                      {...register('meta')}
+                      error={Boolean(errors.meta)}
+                      value={sMeta}
+                      onChange={handleChangemeta}
+                      label='Meta Description'
+                      fullWidth
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <Typography>{charMeta} character</Typography>
+                        </InputAdornment>
+                      }
+                    />
+                  </Grid>
+                </Grid>
+                {show == true && (
+                  <Grid item xs={12} md={4}>
+                    <DatePickerWrapper>
+                      <DatePicker
+                        minDate={new Date()}
+                        dateFormat='dd/MM/yyyy'
+                        selected={postingDate}
+                        id='basic-input'
+                        onChange={(date: Date) => setPostingDate(date)}
+                        placeholderText='Click to select a date'
+                        customInput={<TextField size='small' label='Schedule' variant='outlined' fullWidth />}
+                      />
+                    </DatePickerWrapper>
+                  </Grid>
+                )}
+
                 <Grid item md={12} xs={12}>
                   <Box
                     {...getRootProps({ className: 'dropzone' })}

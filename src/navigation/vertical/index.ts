@@ -142,6 +142,13 @@ const navigation = (): VerticalNavItemsType => {
         subject: 'admin-master-news'
       },
       {
+        path: '/admin/master-event/',
+        title: 'Event Management',
+        icon: 'iconamoon:news-fill',
+        action: 'read',
+        subject: 'admin-master-event'
+      },
+      {
         path: '/admin/list-eventregister/',
         title: 'List Event',
         icon: 'material-symbols:event-note',

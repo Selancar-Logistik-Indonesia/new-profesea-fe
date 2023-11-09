@@ -1,6 +1,6 @@
 // ** React Imports
 import React , { ReactNode, useEffect, useState } from 'react'
-// import ReactHtmlParser from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 
 import Box  from '@mui/material/Box'  
 import {   Button, Card, CardContent, CardMedia, Divider, Typography, useMediaQuery, useTheme } from '@mui/material'
@@ -18,7 +18,11 @@ import LandingPageLayout from 'src/@core/layouts/LandingPageLayout';
 // import INews from 'src/contract/models/news';
 import { AddToCalendarButton } from 'add-to-calendar-button-react'
 import Link from 'next/link';
-  
+import { useRouter } from 'next/router';
+import { HttpClient } from 'src/services';
+import { AxiosError } from 'axios';
+import { toast } from 'react-hot-toast';
+import INews from 'src/contract/models/news'
 // const newscache = secureLocalStorage.getItem(localStorageKeys.news) as INews
 
 const Thread = () => {
@@ -28,13 +32,41 @@ const Thread = () => {
 }
 
 const EventApp = () => {   
-  // const router = useRouter() 
-  // const { namaevent } = router.query as { namaevent: string }
+  const router = useRouter() 
+  const { namaevent } = router.query as { namaevent: string }
    
+  const [dataSheet, setDataSheet] = useState<INews | null>(null)
   const [getPadding, setPadding] = useState(25)
   const theme = useTheme()
   const leutik = useMediaQuery(theme.breakpoints.down('md'))
-  
+  const getListNews = async () => {
+    try {
+      // const resp = await HttpClient.get(`/news?page=${1}&take=25&type=${forumCode}`)
+      if (namaevent){
+        const resp = await HttpClient.get(`/news/title/` + namaevent)
+
+        if (resp.status != 200) {
+          throw resp.data.message ?? 'Something went wrong!'
+        }
+
+        const items = resp.data.news[0] as INews
+
+        setDataSheet(items)
+      } 
+    } catch (error) {
+      let errorMessage = 'Something went wrong!'
+
+      if (error instanceof AxiosError) {
+        errorMessage = error?.response?.data?.message ?? errorMessage
+      }
+
+      if (typeof error == 'string') {
+        errorMessage = error
+      }
+
+      toast.error(`Opps ${errorMessage}`)
+    }
+  }
   useEffect(() => {
     if(leutik == false){
       setPadding(25)
@@ -42,7 +74,8 @@ const EventApp = () => {
       
       setPadding(0)
     }
-  })
+     getListNews().then(() => {}) 
+  },[])
 
   return (
     <Box sx={{ mt: 5, ml: 3, mr: 3 }}>
@@ -59,8 +92,8 @@ const EventApp = () => {
                         style={{ color: '#000' }}
                         fontWeight='600'
                         sx={{ ml: 2, mb: 5, color: '#000', textTransform: 'uppercase' }}
-                      > 
-                        Kalian capek gagal interview terus?
+                      >
+                        {namaevent}
                       </Typography>
                     </Grid>
                     <Grid item container xs={12} justifyContent={'left'}>
@@ -70,14 +103,17 @@ const EventApp = () => {
                         fontWeight='600'
                         sx={{ ml: 2, mb: 5, color: '#000', textTransform: 'uppercase' }}
                       >
-                        November 4 @ 10:00 am - 11:30 am FREE
+                        {dataSheet?.date}
+                        {'    '} {dataSheet?.time}
+                        {'    '} {dataSheet?.cost}
+                        {/* November 4 @ 10:00 am - 11:30 am FREE */}
                       </Typography>
                     </Grid>
                     <Grid item container xs={12} justifyContent={'center'}>
                       <CardMedia
                         component='img'
                         alt='Img of Profesea'
-                        image={'/images/bannerevent.jpg'}
+                        image={dataSheet?.imgnews}
                         sx={{ ml: 2 }}
                         style={{
                           maxWidth: '100%',
@@ -98,20 +134,7 @@ const EventApp = () => {
                         variant='body2'
                         style={{ color: '#424242' }}
                       >
-                        Setiap orang akan membentuk penilaiannya terhadap orang lain sejak detik pertama bertemu.
-                        Begitupun dengan rekruter. Kesan pertama yang kita berikan akan mempengaruhi penilaian
-                        selanjutnya terhadap kesesuaian kita sebagai kandidat pada posisi yang dicari, bahkan sebelum
-                        kita menjawab pertanyaan!
-                      </Typography>
-                      <Typography
-                        fontSize={16}
-                        fontWeight='400'
-                        sx={{ ml: 2, mb: 5, color: '#000' }}
-                        variant='body2'
-                        style={{ color: '#424242' }}
-                      >
-                        Bersama Profesea Dialog (Prolog), sesi kali ini akan membahas apa saja yang perlu diperhatikan
-                        dalam membangun kesan awal yang baik, sehingga mempermudah proses interview selanjutnya.
+                        {ReactHtmlParser(`${dataSheet?.content}`)}
                       </Typography>
                     </Grid>
                     <Divider />
@@ -143,7 +166,7 @@ const EventApp = () => {
                             variant='body2'
                             style={{ color: '#424242' }}
                           >
-                            3 people are attending Kalian capek gagal interview terus?
+                            {namaevent}
                           </Typography>
                         </Grid>
                       </Grid>
@@ -160,16 +183,13 @@ const EventApp = () => {
                                       </Typography>
                                     </Grid>
                                     <Grid item xs={12} md={12}>
-                                      <Typography>
-                                        Kita kupas tuntas apa saja tips gacor dan yang harus dihindari saat melakukan
-                                        interview!
-                                      </Typography>
+                                      <Typography>{dataSheet?.snap_content}</Typography>
                                     </Grid>
                                   </Grid>
 
                                   <Grid item xs={12} md={4} mt={5} ml={4}>
                                     <Button
-                                      href='/register/event/Kalian capek gagal interview terus?'
+                                      href={'/register/event/' + dataSheet?.title}
                                       // style={{ color: 'white', marginRight: 10 }}
                                       variant='contained'
                                     >
@@ -206,7 +226,7 @@ const EventApp = () => {
                           </Box>
                           <Box>
                             <Typography fontSize={16} style={{ fontWeight: '400' }}>
-                              November 4
+                              {dataSheet?.date}
                             </Typography>
                           </Box>
                           <Box>
@@ -215,7 +235,7 @@ const EventApp = () => {
                             </Typography>
                           </Box>
                           <Box>
-                            <Typography>10:00 am - 11:30 am</Typography>
+                            <Typography>{dataSheet?.time}</Typography>
                           </Box>
                           <Box>
                             <Typography fontSize={18} style={{ fontWeight: '600' }}>
@@ -223,7 +243,7 @@ const EventApp = () => {
                             </Typography>
                           </Box>
                           <Box>
-                            <Typography>Free</Typography>
+                            <Typography>{dataSheet?.cost}</Typography>
                           </Box>
                           <Box>
                             <Typography fontSize={18} style={{ fontWeight: '600' }}>
@@ -232,11 +252,8 @@ const EventApp = () => {
                           </Box>
                           <Box>
                             <Typography>
-                              <Link
-                                style={{ textDecoration: 'none' }}
-                                href={'/event/Kaliancapek gagal interview terus?'}
-                              >
-                                https://profesea.id/event/Kalian%20capek%20gagal%20interview%20terus/
+                              <Link style={{ textDecoration: 'none' }} href={'/' + dataSheet?.website}>
+                                {dataSheet?.website}
                               </Link>
                             </Typography>
                           </Box>
@@ -246,7 +263,7 @@ const EventApp = () => {
                             VENUE
                           </Typography>
                           <Box>
-                            <Typography>Online</Typography>
+                            <Typography> {dataSheet?.venue}</Typography>
                           </Box>
                         </Grid>
                         <Grid item xs={4}>
@@ -257,7 +274,7 @@ const EventApp = () => {
                           </Box>
 
                           <Box>
-                            <Typography>Profesea</Typography>
+                            <Typography>{dataSheet?.organizer}</Typography>
                           </Box>
                           <Box>
                             <Typography fontSize={18} style={{ fontWeight: '600' }}>
@@ -265,7 +282,7 @@ const EventApp = () => {
                             </Typography>
                           </Box>
                           <Box>
-                            <Typography> +6282328822292</Typography>
+                            <Typography> {dataSheet?.phone}</Typography>
                           </Box>
                           <Box>
                             <Typography fontSize={18} style={{ fontWeight: '600' }}>
@@ -274,7 +291,7 @@ const EventApp = () => {
                             </Typography>
                           </Box>
                           <Box>
-                            <Typography> hello@profesea.id</Typography>
+                            <Typography> {dataSheet?.email}</Typography>
                           </Box>
                           <Box>
                             <Link style={{ textDecoration: 'none' }} href={'/'}>

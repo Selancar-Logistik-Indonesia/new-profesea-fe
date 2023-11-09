@@ -38,8 +38,7 @@ const MasterNewsScreen = () => {
   const [onLoading, setOnLoading] = useState(false); 
   const [charType, setType] = useState('0') 
   const [charMeta, setMeta] = useState('0') 
-  const [charSlug, setSlug] = useState('0')  
-  const [sforumCode, setForumCode] = useState(0)
+  const [charSlug, setSlug] = useState('0')   
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [files, setFiles] = useState<File[]>([])  
   const [postingDate, setPostingDate] = useState<DateType>(new Date()) 
@@ -79,7 +78,7 @@ interface FileProp {
    mode: 'onBlur',
    resolver: yupResolver(schema)
  })  
- const type = [{ title: 'News' }, { title: 'Event' }]
+//  const type = [{ title: 'News' }, { title: 'Event' }]
 const [show, setShow] = useState<boolean>(false) 
  
 function uploadCallback(file:any){
@@ -105,7 +104,7 @@ const onCreate = async (formData: any) => {
     imgnews: files,
     title: title,
     content: draftToHtml(convertToRaw(desc?.getCurrentContent())),
-    type: sforumCode,
+    type: 'News',
     slug: slug,
     meta: meta,
     postingdate: postingDate
@@ -184,21 +183,7 @@ const handleChangemeta = (event: { target: { value: any } }) => {
                 Create{' '}
               </Typography>
               <Grid container xs={12} columnSpacing={'2'} rowSpacing={'2'} sx={{ mb: 2 }}>
-                <Grid item xs={12} md={6}>
-                  <InputLabel htmlFor='x' error={Boolean(errors.type)}>
-                    Type
-                  </InputLabel>
-                  <Autocomplete
-                    disablePortal
-                    id='code'
-                    options={type}
-                    renderInput={params => <TextField {...params}  />}
-                    getOptionLabel={(option: any) => option.title}
-                    onChange={(event: any, newValue: any | null) =>
-                      newValue?.title ? setForumCode(newValue.title) : setForumCode(0)
-                    }
-                  />
-                </Grid>
+                
                 <Grid item container xs={12} md={6}>
                   <Grid container md={12}>
                     <InputLabel htmlFor='x' error={Boolean(errors.title)}>

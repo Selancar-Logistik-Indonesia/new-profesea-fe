@@ -31,12 +31,11 @@ const MasterNews = () => {
 
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
-    const [search, setSearch] = useState("");
-    const type = [{ title: 'News' }, { title: 'Event' }]
+    const [search, setSearch] = useState(""); 
     const [perPage, setPerPage] = useState(10);
     const getListNews = async () => {
         try {
-            const resp = await HttpClient.get(`/news?search=${search}&page=${page}&take=${perPage}&type=${forumCode}`)
+            const resp = await HttpClient.get(`/news?search=${search}&page=${page}&take=${perPage}&type=News`)
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
@@ -112,22 +111,7 @@ const MasterNews = () => {
                 }
               />
               <CardContent>
-                <Grid container justifyContent='flex-start'>
-                  <Grid item>
-                    <Autocomplete
-                      disablePortal
-                      size='small'
-                      sx={{ mb: 2, width: '150px', mr: 2 }}
-                      id='combo-box-level'
-                      options={type}
-                      renderInput={params => <TextField {...params} label='Tipe' />}
-                      getOptionLabel={(option: any) => option.title}
-                      onChange={(event: any, newValue: any | null) =>
-                        newValue?.title ? setForumCode(newValue.title) : setForumCode(0)
-                      }
-                    />
-                  </Grid>
-                </Grid>
+                
                 <Grid container justifyContent='flex-end'>
                   <Grid item>
                     <TextField
