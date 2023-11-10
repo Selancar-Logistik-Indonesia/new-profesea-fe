@@ -1,5 +1,5 @@
  
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
  
 import { useState } from "react";
 import { useSocialFeed } from "src/hooks/useSocialFeed";
@@ -17,11 +17,7 @@ const ButtonDelete = (props: { item: ButtonLikeParam,  variant?: 'no-icon' }) =>
 
     const handleClick = () => {
         setOnLoading(true);
-        deleteFeed(item.id )
-          .then(() => {
-            
-          })
-          .finally(() => setOnLoading(false))
+        deleteFeed(item.id ) 
     }
 
     return (

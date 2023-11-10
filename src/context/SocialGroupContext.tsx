@@ -10,19 +10,21 @@ import { v4 } from "uuid";
 
 type Props = { children: ReactNode };
 const defaultValue: SocialFeedContextType = {
-    page: 1,
-    totalFeed: 0,
-    setPage: () => { },
-    feeds: [],
-    onLoading: false,
-    hasNextPage: false,
-    commentSignature: '',
-    subCommentSignature: '',
-    fetchFeeds: () => Promise.resolve(),
-    updateStatus: () => Promise.resolve(),
-    likeUnlikeFeed: () => Promise.resolve(),
-    postComment: () => Promise.resolve(),
-    getComments: () => Promise.resolve() as any
+  page: 1,
+  totalFeed: 0,
+
+  deleteFeed: () => Promise.resolve(),
+  setPage: () => {},
+  feeds: [],
+  onLoading: false,
+  hasNextPage: false,
+  commentSignature: '',
+  subCommentSignature: '',
+  fetchFeeds: () => Promise.resolve(),
+  updateStatus: () => Promise.resolve(),
+  likeUnlikeFeed: () => Promise.resolve(),
+  postComment: () => Promise.resolve(),
+  getComments: () => Promise.resolve() as any
 }
 
 const SocialGroupContext = createContext(defaultValue);
@@ -165,8 +167,17 @@ const SocialGroupProvider = (props: Props) => {
 
         return comments;
     }
+       const deleteFeed = async (feedId: number) => {
+         const response = await HttpClient.del('/social-feed/feed/' + feedId)
 
-    const values = useMemo(() => ({
+         if (response.status != 200) {
+           alert(response.data?.message ?? 'Something went wrong')
+         }
+         setCommentSignature(v4())
+       }
+
+    const values = useMemo(
+      () => ({
         feeds,
         totalFeed,
         onLoading,
@@ -180,7 +191,9 @@ const SocialGroupProvider = (props: Props) => {
         getComments,
         commentSignature,
         subCommentSignature,
-    }), [
+        deleteFeed
+      }),
+      [
         feeds,
         totalFeed,
         updateStatus,
@@ -194,7 +207,9 @@ const SocialGroupProvider = (props: Props) => {
         getComments,
         commentSignature,
         subCommentSignature,
-    ]);
+        deleteFeed
+      ]
+    )
 
     return <SocialGroupContext.Provider value={values}>{props.children}</SocialGroupContext.Provider>
 }
