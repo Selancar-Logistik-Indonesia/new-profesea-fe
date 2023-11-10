@@ -33,7 +33,7 @@ const renderList = (arr: ParamMain[]) => {
  
       return (
         <Grid item xs={12} key={index}>
-          <Card>
+          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
             <CardContent>
                 <Link style={{ textDecoration: 'none' }} href={'/profile/?username=' + item?.user?.username}>
                   <Box
@@ -61,8 +61,8 @@ const renderList = (arr: ParamMain[]) => {
                     </Box>
                   </Box>
                 </Link>
-                <Box height={35} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} >
-                    <Typography sx={{ fontWeight: '600', color: 'text.primary', mb: 1 }} fontSize={12}>
+                <Box height={45} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} >
+                    <Typography sx={{ fontWeight: '400', color: 'text.primary', mb: 1 }} fontSize={14}>
                         {item?.content}
                     </Typography>
                 </Box>
