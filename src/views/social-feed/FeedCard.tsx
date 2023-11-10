@@ -10,16 +10,21 @@ import { Icon } from '@iconify/react';
 import ImageListPreview from "./ImageListPreview";
 import FeedBottomActions from "./FeedBottomActions";
 import moment from "moment";
+import secureLocalStorage from "react-secure-storage";
+import localStorageKeys from "src/configs/localstorage_keys";
+import { IUser } from "src/contract/models/user";
 
 type Prop = {
     item: ISocialFeed,
     withBottomArea?: boolean,
+    user?: IUser
 }
 
 const FeedCard = (props: Prop) => {
     const { item, withBottomArea } = props;
     const [openComment, setOpenComment] = useState(false);
     const attachments = item.attachments;
+     const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
     return (
         <Paper sx={{ marginTop: '10px', padding: { xs: 3, md: 5 }, border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
@@ -56,7 +61,7 @@ const FeedCard = (props: Prop) => {
                 )}
 
                 {item.feed_repost && (
-                    <FeedCard item={item.feed_repost} withBottomArea={false} />
+                    <FeedCard item={item.feed_repost} withBottomArea={false}  user={user}/>
                 )}
             </Box>
 
