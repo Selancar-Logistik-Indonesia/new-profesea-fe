@@ -19,8 +19,8 @@ type Props = {
 
 const FeedBottomActions = (props: Props) => {
     const { item, openComment, setOpenComment } = props;
+    const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
-     const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
     return (
       <Box sx={{ mt: 4 }}>
         {user.id.toString() == item.user_id.toString() && (
