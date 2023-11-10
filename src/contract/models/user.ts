@@ -40,4 +40,5 @@ export interface IUser {
   jobcategory?: JobCategory
   license?: any
   vessel_type?: VesselType
+  verified_at: string
 }
