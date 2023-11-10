@@ -53,12 +53,27 @@ const renderList = (arr: IThread[]) => {
               </Link>
               <Link style={{ textDecoration: 'none' }} href={'/thread/?id=' + item.id}>
                 <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }} >
-                    <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={14}>
+                    <Typography fontWeight={600} fontSize={14} sx={{ 
+                      color: '#0a66c2', textTransform: 'uppercase',
+                      lineClamp: 2, // Set the maximum number of lines you want to display
+                      WebkitLineClamp: 2, // For Webkit-based browsers like Safari
+                      display: '-webkit-box',
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      }}>
                       {item.title
                         ? `${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`
                         : ''}
                     </Typography>
-                    <Typography sx={{ fontWeight: '400', color: 'text.primary', mb: 1 }} fontSize={12}>
+                    <Typography fontWeight={400} fontSize={12} sx={{ 
+                    lineClamp: 4, // Set the maximum number of lines you want to display
+                    WebkitLineClamp: 4, // For Webkit-based browsers like Safari
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    color: 'text.primary',
+                    mb: 1
+                    }}>
                       {ReactHtmlParser(`${item?.snap_content}`)}
                     </Typography>
                 </Box>

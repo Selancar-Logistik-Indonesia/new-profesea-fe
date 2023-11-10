@@ -47,7 +47,7 @@ const ThreadApp = () => {
 const firstload = () => {
 
   HttpClient.get('/thread/' + params.get('id')).then(response => {
-    const detail = response.data.thread  
+    const detail = response.data.thread
     setthreadDetail(detail)
   })
   
@@ -78,12 +78,16 @@ const firstload = () => {
                     </Grid>
                     <Grid item container xs={12} justifyContent={'flex'}>
                       <Typography
-                        variant='body1'
-                        sx={{ p: 4, color: '#000000', fontWeight: 400 }}
+                        variant='body2'
+                        sx={{ p: 4, color: '#000000', fontWeight: 300, fontSize: 14, fontFamily: 'Outfit', alignContent: 'justify' }}
                       >
+                        
+                        <div style={{ fontFamily: 'Outfit', fontSize: '14px', fontWeight: '300', color: '#0000000' }}>
                         {ReactHtmlParser(`${threadDetail?.content}`)}
+                        </div>
                       </Typography>
                     </Grid>
+                    
                     <Grid item container xs={12} justifyContent={'flex'}>
                       <CommentForm  user_id={user?.id} thread_id={threadDetail?.id} />
                     </Grid>

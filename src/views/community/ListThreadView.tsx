@@ -59,7 +59,15 @@ const renderList = (arr: IThread[]) => {
                           ? `${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`
                           : ''}
                       </Typography>
-                      <Typography sx={{ fontWeight: '450', color: 'text.primary', mb: 1 }} fontSize={12}>
+                      <Typography fontWeight={400} fontSize={12} sx={{ 
+                    lineClamp: 3, // Set the maximum number of lines you want to display
+                    WebkitLineClamp: 3, // For Webkit-based browsers like Safari
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    color: 'text.primary',
+                    mb: 1
+                    }}>
                         {ReactHtmlParser(`${item?.snap_content}`)}
                       </Typography>
                   </Box>

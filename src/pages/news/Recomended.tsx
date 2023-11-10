@@ -46,7 +46,15 @@ const renderList = (arr: INews[]) => {
                       objectFit: 'contain' 
                     }}
                   />
-                  <Typography fontWeight={400} fontSize={14} mt={2}>
+                  <Typography fontWeight={400} fontSize={12} sx={{ 
+                    lineClamp: 4, // Set the maximum number of lines you want to display
+                    WebkitLineClamp: 4, // For Webkit-based browsers like Safari
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    mt: 3,
+                    mb: 3
+                    }}>
                     {item.snap_content
                       ? `${
                           item.snap_content.toString().charAt(0).toUpperCase() + item.snap_content.toString().slice(1)
