@@ -35,6 +35,15 @@ const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 	}
 }))
 
+const LinkStyled = styled(Link)(({ theme }) => ({
+	display: 'flex',
+	'& svg': { mr: 1.5 },
+	alignItems: 'center',
+	textDecoration: 'none',
+	justifyContent: 'center',
+	color: theme.palette.primary.main
+  }))
+
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 	width: '100%',
 	[theme.breakpoints.down('md')]: {
@@ -206,6 +215,19 @@ const LoginPage = () => {
 											}
 										</Button>
 									</Box>
+									<Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+										<LinkStyled href='/forgot-password'>
+										<Icon icon='mdi:chevron-right' fontSize='2rem' />
+										<span>Forgot Password</span>
+										</LinkStyled>
+									</Typography>
+									<Divider
+										sx={{
+											'& .MuiDivider-wrapper': { px: 4 },
+											mt: theme => `${theme.spacing(5)} !important`,
+											mb: theme => `${theme.spacing(7.5)} !important`
+										}}
+									></Divider>
 									<Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
 										<Typography sx={{ mr: 2, color: "#262525" }}>{t('login_text_2')}</Typography>
 										<Typography href='/register' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold', textDecoration: 'none' }}>
@@ -221,6 +243,11 @@ const LoginPage = () => {
 									>
 
 									</Divider>
+									{/* <Box sx={{ marginTop: '10%' }}>
+										<Button fullWidth size='large' variant='contained' sx={{ mb: 7 }} href='http://localhost:8080/auth/google?team_id=2&type=onship'>
+											Login With Google
+										</Button>
+									</Box> */}
 
 								</form>
 							</BoxWrapper>
