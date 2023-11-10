@@ -7,10 +7,10 @@ import Link from 'next/link';
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , minWidth: 10},
-    { field: 'title', headerName: 'Title', sortable: true , minWidth: 200},
+    { field: 'title', headerName: 'Title', sortable: true , minWidth: 350},
     { field: 'forum_name', headerName: 'Forum', sortable: true, minWidth: 150 },
     { field: 'content', headerName: 'Content', sortable: true , minWidth: 300},
-    { field: 'username', headerName: 'User', sortable: true, minWidth: 250 },
+    { field: 'username', headerName: 'User', sortable: true, minWidth: 150 },
     {
         field: 'action',
         headerName: 'Action',

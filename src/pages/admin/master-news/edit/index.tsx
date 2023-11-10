@@ -158,7 +158,7 @@ const EditNewsScreen = () => {
             throw resp.data.message ?? "Something went wrong!";
         }
 
-        toast.success(` News/Event update successfully!`);
+        toast.success(` News update successfully!`);
         window.location.replace('/admin/master-news/')
     } catch (error) {
         toast.error(`Opps ${getCleanErrorMessage(error)}`);
@@ -189,7 +189,7 @@ const EditNewsScreen = () => {
   }
 
   return (
-    <Box>
+    <Box padding={3}>
       <Grid
         container
         spacing={6}
@@ -205,7 +205,7 @@ const EditNewsScreen = () => {
           wrap: 'nowrap'
         }}
       >
-        <Grid item xs={10} spacing={6}>
+        <Grid item xs={12} spacing={6}>
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onCreate)}>
             <Grid
               item
@@ -225,7 +225,7 @@ const EditNewsScreen = () => {
             >
               <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18} mb={3}>
                 {' '}
-                Edit News/Event
+                Edit News
               </Typography>
               <Grid container xs={12} columnSpacing={'2'} rowSpacing={'2'} sx={{ mb: 2 }}>
                 {/* <Grid item xs={12} md={4}>

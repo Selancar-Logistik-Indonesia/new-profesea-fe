@@ -116,7 +116,7 @@ const onCreate = async (formData: any) => {
           throw resp.data.message ?? "Something went wrong!";
       }
       setShow(false)
-      toast.success(` News/Event created successfully!`);
+      toast.success(` News created successfully!`);
       window.location.replace('/admin/master-news/')
   } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`);
