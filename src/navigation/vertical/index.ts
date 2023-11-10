@@ -137,23 +137,30 @@ const navigation = (): VerticalNavItemsType => {
       {
         path: '/admin/master-news/',
         title: 'News Management',
-        icon: 'iconamoon:news-fill',
+        icon: 'solar:card-2-bold-duotone',
         action: 'read',
         subject: 'admin-master-news'
       },
       {
-        path: '/admin/master-event/',
+        path: '#',
         title: 'Event Management',
-        icon: 'iconamoon:news-fill',
+        icon: 'solar:calendar-mark-bold-duotone',
         action: 'read',
-        subject: 'admin-master-event'
-      },
-      {
-        path: '/admin/list-eventregister/',
-        title: 'List Event',
-        icon: 'material-symbols:event-note',
-        action: 'read',
-        subject: 'admin-list-eventregister'
+        subject: 'admin-master-event',
+        children: [
+          {
+            path: '/admin/master-event/',
+            title: 'List Event',
+            action: 'read',
+            subject: 'admin-master-event'
+          },
+          {
+            path: '/admin/list-eventregister/',
+            title: 'Event Participant',
+            action: 'read',
+            subject: 'admin-list-eventregister'
+          }
+        ]
       },
       {
         path: '#',

@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true, minWidth: 10 },
-  { field: 'title', headerName: 'Title', sortable: true, minWidth: 200 },
+  { field: 'title', headerName: 'Title', sortable: true, minWidth: 300 },
   { field: 'organizer', headerName: 'Organizer', sortable: true, minWidth: 200 },
   {
     field: 'action',

@@ -197,7 +197,7 @@ const EditNewsScreen = () => {
   }
 
   return (
-    <Box>
+    <Box padding={3}>
       <Grid
         container
         spacing={6}
@@ -213,7 +213,7 @@ const EditNewsScreen = () => {
           wrap: 'nowrap'
         }}
       >
-        <Grid item xs={10} spacing={6}>
+        <Grid item xs={12} spacing={6}>
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onCreate)}>
             <Grid
               item
@@ -233,7 +233,7 @@ const EditNewsScreen = () => {
             >
               <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18} mb={3}>
                 {' '}
-                Edit News/Event
+                Edit Event
               </Typography>
               <Grid container xs={12} columnSpacing={'2'} rowSpacing={'2'} sx={{ mb: 2 }}>
                 <Grid item xs={12} md={6}>
@@ -291,7 +291,7 @@ const EditNewsScreen = () => {
                     />
                   </Grid>
                 </Grid>
-                <Grid item container xs={12} md={2}>
+                <Grid item container xs={12} md={3}>
                   <Grid container md={12}>
                     <InputLabel htmlFor='x' error={Boolean(errors.cost)}>
                       Cost
@@ -308,7 +308,7 @@ const EditNewsScreen = () => {
                     />
                   </Grid>
                 </Grid>
-                <Grid item container xs={12} md={2}>
+                <Grid item container xs={12} md={3}>
                   <Grid container md={12}>
                     <InputLabel htmlFor='x' error={Boolean(errors.time)}>
                       Organizer
@@ -341,25 +341,24 @@ const EditNewsScreen = () => {
                       onChange={e => setWebsite(e.target.value)}
                     />
                   </Grid>
-                </Grid>
-
-                <Grid item container xs={12} md={2}>
+                </Grid><Grid item container xs={12} md={3}>
                   <Grid container md={12}>
-                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
-                      Phone
+                    <InputLabel htmlFor='x' error={Boolean(errors.venue)}>
+                      Venue
                     </InputLabel>
                     <OutlinedInput
                       sx={{ mb: 1 }}
-                      id='phone'
-                      {...register('phone')}
-                      error={Boolean(errors.phone)}
-                      label='phone'
+                      id='Venue'
+                      {...register('venue')}
+                      error={Boolean(errors.venue)}
+                      label='Venue'
                       fullWidth
-                      value={sphone}
-                      onChange={e => setPhone(e.target.value)}
+                      value={svenue}
+                      onChange={e => setVenue(e.target.value)}
                     />
                   </Grid>
                 </Grid>
+
                 <Grid item container xs={12} md={3}>
                   <Grid container md={12}>
                     <InputLabel htmlFor='x' error={Boolean(errors.time)}>
@@ -379,21 +378,22 @@ const EditNewsScreen = () => {
                 </Grid>
                 <Grid item container xs={12} md={3}>
                   <Grid container md={12}>
-                    <InputLabel htmlFor='x' error={Boolean(errors.venue)}>
-                      Venue
+                    <InputLabel htmlFor='x' error={Boolean(errors.time)}>
+                      Phone
                     </InputLabel>
                     <OutlinedInput
                       sx={{ mb: 1 }}
-                      id='Venue'
-                      {...register('venue')}
-                      error={Boolean(errors.venue)}
-                      label='Venue'
+                      id='phone'
+                      {...register('phone')}
+                      error={Boolean(errors.phone)}
+                      label='phone'
                       fullWidth
-                      value={svenue}
-                      onChange={e => setVenue(e.target.value)}
+                      value={sphone}
+                      onChange={e => setPhone(e.target.value)}
                     />
                   </Grid>
                 </Grid>
+                
 
                 {show == true && (
                   <Grid item xs={12} md={4}>
@@ -448,7 +448,7 @@ const EditNewsScreen = () => {
                             <Link href='/' onClick={e => e.preventDefault()}>
                               browse / image
                             </Link>{' '}
-                            to upload News/Event
+                            to upload Thumbnail
                           </Typography>
                         </Box>
                       </Box>
@@ -467,7 +467,7 @@ const EditNewsScreen = () => {
                           alt: { present: true, mandatory: false }
                         }
                       }}
-                      placeholder='Write a news'
+                      placeholder='Write detail of Event'
                     />
                     <Button
                       variant='contained'

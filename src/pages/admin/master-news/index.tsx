@@ -106,7 +106,7 @@ const MasterNews = () => {
               <CardHeader
                 title={
                   <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
-                    List News/Event
+                    List News
                   </Typography>
                 }
               />
