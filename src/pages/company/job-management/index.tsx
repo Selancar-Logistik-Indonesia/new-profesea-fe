@@ -16,6 +16,9 @@ import DialogDelete from './DialogDelete';
 import DialogEdit from './DialogEdit';
 import { v4 } from "uuid";
 import { Icon } from '@iconify/react';
+import localStorageKeys from 'src/configs/localstorage_keys'
+import secureLocalStorage from 'react-secure-storage'
+import { IUser } from 'src/contract/models/user';
 
 const JobManagementScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
@@ -25,7 +28,9 @@ const JobManagementScreen = () => {
     const [openEditModal, setOpenEditModal] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<Job | null>(null);
+    const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
+    console.log(user)
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
     const [search, setSearch] = useState("");
@@ -82,7 +87,7 @@ const JobManagementScreen = () => {
           }
 
           const rows = resp.data.documents as any[];
-          if (rows.length < 1){
+          if (rows.length < 1 || user.verified_at === null){
             toast.error(`You can not post job yet, your account not verified`);
             setTimeout(
               function() {
