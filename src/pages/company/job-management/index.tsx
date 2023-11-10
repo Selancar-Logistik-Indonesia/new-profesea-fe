@@ -74,6 +74,36 @@ const JobManagementScreen = () => {
         }
     }
 
+    const cekDocument = async () => {
+      try {
+          const resp = await HttpClient.get(`/user/document?siup=1`);
+          if (resp.status != 200) {
+              throw resp.data.message ?? "Something went wrong!";
+          }
+
+          const rows = resp.data.documents as any[];
+          if (rows.length < 1){
+            toast.error(`You can not post job yet, your account not verified`);
+            setTimeout(
+              function() {
+                window.location.replace("/home");
+              }, 3000);
+          }
+      } catch (error) {
+          let errorMessage = "Something went wrong!";
+
+          if (error instanceof AxiosError) {
+              errorMessage = error?.response?.data?.message ?? errorMessage;
+          }
+
+          if (typeof error == 'string') {
+              errorMessage = error;
+          }
+
+          toast.error(`Opps ${errorMessage}`);
+      }
+  }
+
     const handleSearch = useCallback(
         debounce((value: string) => {
             setSearch(value);
@@ -98,6 +128,7 @@ const JobManagementScreen = () => {
 
     useEffect(() => {
         setOnLoading(true);
+        cekDocument()
         getListJob().then(() => {
             setOnLoading(false);
         });
