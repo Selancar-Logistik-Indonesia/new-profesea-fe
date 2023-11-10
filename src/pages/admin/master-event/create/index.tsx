@@ -129,7 +129,7 @@ const MasterNewsScreen = () => {
       }
       setShow(false)
       toast.success(` News/Event created successfully!`)
-      window.location.replace('/admin/master-news/')
+      window.location.replace('/admin/master-event/')
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
@@ -180,7 +180,7 @@ const MasterNewsScreen = () => {
             >
               <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18} mb={3}>
                 {' '}
-                Create{' '}
+                Create Event{' '}
               </Typography>
               <Grid container xs={12} columnSpacing={'2'} rowSpacing={'2'} sx={{ mb: 2 }}>
                 <Grid item container xs={12} md={6}>
@@ -285,18 +285,19 @@ const MasterNewsScreen = () => {
                 <Grid item container xs={12} md={3}>
                   <Grid container md={12}>
                     <InputLabel htmlFor='x' error={Boolean(errors.time)}>
-                      Phone
+                      Venue
                     </InputLabel>
                     <OutlinedInput
                       sx={{ mb: 1 }}
-                      id='phone'
-                      {...register('phone')}
-                      error={Boolean(errors.phone)}
-                      label='phone'
+                      id='venue'
+                      {...register('venue')}
+                      error={Boolean(errors.venue)}
+                      label='Venue'
                       fullWidth
                     />
                   </Grid>
                 </Grid>
+
                 <Grid item container xs={12} md={3}>
                   <Grid container md={12}>
                     <InputLabel htmlFor='x' error={Boolean(errors.time)}>
@@ -315,14 +316,14 @@ const MasterNewsScreen = () => {
                 <Grid item container xs={12} md={3}>
                   <Grid container md={12}>
                     <InputLabel htmlFor='x' error={Boolean(errors.time)}>
-                      Venue
+                      Phone
                     </InputLabel>
                     <OutlinedInput
                       sx={{ mb: 1 }}
-                      id='venue'
-                      {...register('venue')}
-                      error={Boolean(errors.venue)}
-                      label='Venue'
+                      id='phone'
+                      {...register('phone')}
+                      error={Boolean(errors.phone)}
+                      label='phone'
                       fullWidth
                     />
                   </Grid>
@@ -392,7 +393,7 @@ const MasterNewsScreen = () => {
                           alt: { present: true, mandatory: false }
                         }
                       }}
-                      placeholder='Write a news/event'
+                      placeholder='Write detail of Event'
                     />
                     {/* {errors.desc && (
                       <FormHelperText sx={{ color: 'error.main' }} id=''>

@@ -5,8 +5,8 @@ import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '
 
 const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true, minWidth: 10 },
-  { field: 'name', headerName: 'Nama', sortable: true, minWidth: 300 },
-  { field: 'event', headerName: 'Event', sortable: true, minWidth: 300 }
+  { field: 'name', headerName: 'Participant Name', sortable: true, minWidth: 300 },
+  { field: 'event', headerName: 'Event Name', sortable: true, minWidth: 300 }
 ]
 
 type RoleGridProps = {
