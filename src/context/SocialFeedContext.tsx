@@ -10,19 +10,20 @@ import { v4 } from "uuid";
 
 type Props = { children: ReactNode };
 const defaultValue: SocialFeedContextType = {
-    page: 1,
-    totalFeed: 0,
-    setPage: () => { },
-    feeds: [],
-    onLoading: false,
-    hasNextPage: false,
-    commentSignature: '',
-    subCommentSignature: '',
-    fetchFeeds: () => Promise.resolve(),
-    updateStatus: () => Promise.resolve(),
-    likeUnlikeFeed: () => Promise.resolve(),
-    postComment: () => Promise.resolve(),
-    getComments: () => Promise.resolve() as any
+  page: 1,
+  totalFeed: 0,
+  setPage: () => {},
+  feeds: [],
+  onLoading: false,
+  hasNextPage: false,
+  commentSignature: '',
+  subCommentSignature: '',
+  fetchFeeds: () => Promise.resolve(),
+  updateStatus: () => Promise.resolve(),
+  likeUnlikeFeed: () => Promise.resolve(),
+  postComment: () => Promise.resolve(),
+  deleteFeed: () => Promise.resolve(),
+  getComments: () => Promise.resolve() as any
 }
 
 const SocialFeedContext = createContext(defaultValue);
@@ -130,6 +131,14 @@ const SocialFeedProvider = (props: Props) => {
 
         setFeeds(newFeedList);
     }
+    const deleteFeed = async (feedId: number) => {
+          const response = await HttpClient.del('/social-feed/feed/' + feedId)
+
+            if (response.status != 200) {
+            alert(response.data?.message ?? 'Something went wrong')
+            }
+          setCommentSignature(v4())
+    }
 
     const postComment = async (feedId: number, replyable_type: 'feed' | 'comment', content: string) => {
         const response = await HttpClient.post("/social-feed/comment", {
@@ -162,7 +171,8 @@ const SocialFeedProvider = (props: Props) => {
         return comments;
     }
 
-    const values = useMemo(() => ({
+    const values = useMemo(
+      () => ({
         feeds,
         totalFeed,
         onLoading,
@@ -173,10 +183,12 @@ const SocialFeedProvider = (props: Props) => {
         setPage,
         likeUnlikeFeed,
         postComment,
+        deleteFeed,
         getComments,
         commentSignature,
-        subCommentSignature,
-    }), [
+        subCommentSignature
+      }),
+      [
         feeds,
         totalFeed,
         updateStatus,
@@ -187,10 +199,12 @@ const SocialFeedProvider = (props: Props) => {
         setPage,
         likeUnlikeFeed,
         postComment,
+        deleteFeed,
         getComments,
         commentSignature,
-        subCommentSignature,
-    ]);
+        subCommentSignature
+      ]
+    )
 
     return <SocialFeedContext.Provider value={values}>{props.children}</SocialFeedContext.Provider>
 }
