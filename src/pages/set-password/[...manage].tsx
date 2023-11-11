@@ -110,13 +110,12 @@ const ResetPassword = () => {
       };
 
       try {
-          const response = await HttpClient.post('/auth/reset-password', json);
+          const response = await HttpClient.post('/auth/set-password', json);
           if (response.status != 200) {
               alert(response.data?.message ?? "Something went wrong");
           }
 
-          toast.success("password changed successfully");
-
+          toast.success("Account has been registered successfully");
           router.push('/login')
       } catch (error) {
           toast.error(`Opps ${getCleanErrorMessage(error)}`);
