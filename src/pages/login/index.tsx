@@ -24,7 +24,9 @@ import { CircularProgress } from '@mui/material'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from "react-i18next";
+ 
 import DialogGoogleLogin from './DialogGoogleLogin' 
+ 
 import { useSearchParams } from 'next/navigation'
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
