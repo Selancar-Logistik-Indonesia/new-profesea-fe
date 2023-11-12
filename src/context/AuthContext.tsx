@@ -67,6 +67,7 @@ const AuthProvider = ({ children }: Props) => {
 
     const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
         setLoading(true);
+        debugger;
         HttpClient
             .post(authConfig.loginEndpoint, params)
             .then(async response => {
