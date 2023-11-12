@@ -24,6 +24,7 @@ import { CircularProgress } from '@mui/material'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from "react-i18next";
+import DialogGoogleLogin from './DialogGoogleLogin'
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 	width: '100%',
@@ -68,6 +69,7 @@ interface FormData {
 
 const LoginPage = () => {
 	const [showPassword, setShowPassword] = useState<boolean>(false);
+	const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false);
 	const auth = useAuth()
 	const theme = useTheme()
 	const { settings } = useSettings()
@@ -243,11 +245,11 @@ const LoginPage = () => {
 									>
 
 									</Divider>
-									{/* <Box sx={{ marginTop: '10%' }}>
-										<Button fullWidth size='large' variant='contained' sx={{ mb: 7 }} href='http://localhost:8080/auth/google?team_id=2&type=onship'>
-											Login With Google
+									<Box sx={{ marginTop: '10%' }}>
+										<Button fullWidth size='large' variant='outlined' sx={{ mb: 7 }} onClick={() => setOpenModalGoogle(true)}>
+										Login With Google <Icon icon={'devicon:google'} style={{ marginLeft:7 }}/>	
 										</Button>
-									</Box> */}
+									</Box>
 
 								</form>
 							</BoxWrapper>
@@ -255,6 +257,13 @@ const LoginPage = () => {
 					</RightWrapper>
 				</Box>
 			</Box>
+
+			<DialogGoogleLogin
+				visible={openModalGoogle}
+				onCloseClick={() => {
+					setOpenModalGoogle(!openModalGoogle)
+				}}
+			/>
 		</>
 	)
 }
