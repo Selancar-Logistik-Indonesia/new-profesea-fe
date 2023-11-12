@@ -208,8 +208,14 @@ const LoginPage = () => {
 											</FormHelperText>
 										)}
 									</FormControl>
-									<Box sx={{ marginTop: '10%' }}>
-										<Button disabled={auth.loading} fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
+									<Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', marginTop: '2%' }}>
+										<LinkStyled href='/forgot-password'>
+										<Icon icon='mdi:chevron-right' fontSize='2rem' />
+										<span>{t('login_text_4')}</span>
+										</LinkStyled>
+									</Typography>
+									<Box sx={{ marginTop: '5%' }}>
+										<Button disabled={auth.loading} fullWidth size='large' type='submit' variant='contained' sx={{ mb: 3 }}>
 											{
 												auth.loading ? (
 													<CircularProgress color='primary' />
@@ -217,12 +223,12 @@ const LoginPage = () => {
 											}
 										</Button>
 									</Box>
-									<Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-										<LinkStyled href='/forgot-password'>
-										<Icon icon='mdi:chevron-right' fontSize='2rem' />
-										<span>Forgot Password</span>
-										</LinkStyled>
-									</Typography>
+
+									<Box sx={{ marginTop: '3%' }}>
+										<Button fullWidth size='large' variant='outlined' sx={{ mb: 3 }} onClick={() => setOpenModalGoogle(true)}>
+										{t('register_text_3_G')} Google <Icon icon={'devicon:google'} style={{ marginLeft:7 }}/>	
+										</Button>
+									</Box>
 									<Divider
 										sx={{
 											'& .MuiDivider-wrapper': { px: 4 },
@@ -235,20 +241,6 @@ const LoginPage = () => {
 										<Typography href='/register' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold', textDecoration: 'none' }}>
 										{t('login_text_3')}
 										</Typography>
-									</Box>
-									<Divider
-										sx={{
-											'& .MuiDivider-wrapper': { px: 4 },
-											mt: theme => `${theme.spacing(5)} !important`,
-											mb: theme => `${theme.spacing(7.5)} !important`
-										}}
-									>
-
-									</Divider>
-									<Box sx={{ marginTop: '10%' }}>
-										<Button fullWidth size='large' variant='outlined' sx={{ mb: 7 }} onClick={() => setOpenModalGoogle(true)}>
-										Login With Google <Icon icon={'devicon:google'} style={{ marginLeft:7 }}/>	
-										</Button>
 									</Box>
 
 								</form>
