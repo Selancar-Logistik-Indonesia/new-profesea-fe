@@ -7,6 +7,7 @@ export type LoginParams = {
   email: string
   password: string
   rememberMe?: boolean
+  namaevent?: any
 }
 
 export type UserDataType = {

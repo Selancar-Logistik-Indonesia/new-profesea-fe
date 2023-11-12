@@ -146,7 +146,7 @@ const EventApp = () => {
                       ></AddToCalendarButton>
                     </Grid>
                     <Grid item container xs={12} md={12} mt={3} mb={3} justifyContent={'flex'}>
-                      <Grid item container xs={12} md={6} justifyContent={'flex'}>
+                      {/* <Grid item container xs={12} md={6} justifyContent={'flex'}>
                         <Grid item container xs={12} justifyContent={'flex'}>
                           <Typography
                             fontSize={28}
@@ -169,17 +169,17 @@ const EventApp = () => {
                             {namaevent}
                           </Typography>
                         </Grid>
-                      </Grid>
-                      <Grid item container xs={12} md={6}>
+                      </Grid> */}
+                      <Grid item container xs={12} md={12}>
                         <Grid item container xs={12} md={12}>
-                          <Grid item container xs={12} md={10}>
+                          <Grid item container xs={12} md={12}>
                             <Card sx={{ color: 'common.white', backgroundColor: '#FFFFFF' }}>
                               <CardContent>
                                 <Grid item container xs={12} md={12}>
                                   <Grid item container xs={12} md={7}>
                                     <Grid item xs={12} md={12}>
                                       <Typography variant='h5' style={{ fontWeight: 'bold' }}>
-                                        Online Webinar
+                                        { dataSheet?.title}
                                       </Typography>
                                     </Grid>
                                     <Grid item xs={12} md={12}>
@@ -189,11 +189,11 @@ const EventApp = () => {
 
                                   <Grid item xs={12} md={4} mt={5} ml={4}>
                                     <Button
-                                      href={'/register/event/' + dataSheet?.title}
+                                      href={'/login/?event=' + dataSheet?.title}
                                       // style={{ color: 'white', marginRight: 10 }}
                                       variant='contained'
                                     >
-                                      RSV Here
+                                      RSVP Here
                                     </Button>
                                   </Grid>
                                 </Grid>
