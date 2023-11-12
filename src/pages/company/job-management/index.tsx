@@ -19,13 +19,16 @@ import { Icon } from '@iconify/react';
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { IUser } from 'src/contract/models/user';
+import DialogBlock from './DialogBlock';
 
 const JobManagementScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
     const [onLoading, setOnLoading] = useState(false);
     const [openAddModal, setOpenAddModal] = useState(false);
     const [openDelModal, setOpenDelModal] = useState(false);
-    const [openEditModal, setOpenEditModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);    
+    const [openBlockModal, setOpenBlockModal] = useState(false);
+
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<Job | null>(null);
     const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -88,11 +91,8 @@ const JobManagementScreen = () => {
 
           const rows = resp.data.documents as any[];
           if (rows.length < 1 || user.verified_at === null){
-            toast.error(`You can not post job yet, your account not verified`);
-            setTimeout(
-              function() {
-                window.location.replace("/home");
-              }, 3000);
+            //toast.error(`You can not post job yet, your account not verified`);
+            setOpenBlockModal(true);
           }
       } catch (error) {
           let errorMessage = "Something went wrong!";
@@ -210,6 +210,14 @@ const JobManagementScreen = () => {
             />
           </>
         )}
+
+        <DialogBlock
+          visible={openBlockModal}
+          onCloseClick={() => {
+            setOpenBlockModal(!openBlockModal)
+            window.location.replace("/home")
+          }}
+        />
       </>
     )
 }
