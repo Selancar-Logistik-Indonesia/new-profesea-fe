@@ -1,4 +1,4 @@
-import { useState, ReactNode, useEffect } from 'react'
+import { useState, ReactNode } from 'react'
 import Link from 'next/link'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -24,8 +24,7 @@ import { CircularProgress } from '@mui/material'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from "react-i18next";
-import DialogGoogleLogin from './DialogGoogleLogin'
-import { useRouter } from 'next/router'
+import DialogGoogleLogin from './DialogGoogleLogin' 
 import { useSearchParams } from 'next/navigation'
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
