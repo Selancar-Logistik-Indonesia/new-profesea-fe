@@ -29,6 +29,11 @@ const UserScreen = () => {
         trainer: 'Trainer'
     }
 
+    const EmployeeType = [
+        { employee_type: 'onship', label: 'On-Ship' },
+        { employee_type: 'offship', label: 'Off-Ship' }
+    ]
+
     const [hookSignature, setHookSignature] = useState(v4())
     const [onLoading, setOnLoading] = useState(false);
     const [openAddModal, setOpenAddModal] = useState(false);
@@ -43,12 +48,13 @@ const UserScreen = () => {
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
     const [search, setSearch] = useState("");
-    const [filterTeam, setFilterTeam] = useState<any>(0);
+    const [filterTeam, setFilterTeam] = useState<any>(0); 
+    const [filterShip, setFilterShip] = useState<any>([])
 
     const [perPage, setPerPage] = useState(10);
     const getListAccount = async () => {
         try {
-            const resp = await HttpClient.get(`/user-management?search=${search}&page=${page}&take=${perPage}&team_id=${filterTeam}`);
+            const resp = await HttpClient.get(`/user-management?search=${search}&page=${page}&take=${perPage}&team_id=${filterTeam}&employee_type=${filterShip}`);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
@@ -143,7 +149,7 @@ const UserScreen = () => {
         getListAccount().then(() => {
             setOnLoading(false);
         });
-    }, [page, search, hookSignature, perPage, filterTeam]);
+    }, [page, search, hookSignature, perPage, filterTeam, filterShip]);
 
     return (
         <>
@@ -167,6 +173,18 @@ const UserScreen = () => {
                                         getOptionLabel={(option: ITeam) => option.teamName}
                                         renderInput={(params) => <TextField {...params} label="Role" size='small' sx={{ mb: 2, width: '150px' }} />}
                                         onChange={(event: any, newValue: ITeam | null) => (newValue?.id) ? setFilterTeam(newValue.id) : setFilterTeam(0)}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <Autocomplete
+                                        disablePortal
+                                        id='combo-box-demo'
+                                        options={EmployeeType}
+                                        getOptionLabel={(option: any) => option.label}
+                                        renderInput={params => <TextField {...params} label='Type' size='small' sx={{ ml:3, mb: 2, width: '150px' }}/>}
+                                        onChange={(event: any, newValue: any | null) =>
+                                            newValue?.employee_type ? setFilterShip(newValue?.employee_type) : setFilterShip('')
+                                        }
                                     />
                                 </Grid>
                             </Grid>
