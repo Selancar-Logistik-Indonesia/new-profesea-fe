@@ -170,7 +170,7 @@ const UserScreen = () => {
                                         disablePortal
                                         id="combo-box-demo"
                                         options={teams}
-                                        getOptionLabel={(option: ITeam) => option.teamName}
+                                        getOptionLabel={(option: ITeam) => (option.id == 2) ? 'Candidate' : option.teamName}
                                         renderInput={(params) => <TextField {...params} label="Role" size='small' sx={{ mb: 2, width: '150px' }} />}
                                         onChange={(event: any, newValue: ITeam | null) => (newValue?.id) ? setFilterTeam(newValue.id) : setFilterTeam(0)}
                                     />

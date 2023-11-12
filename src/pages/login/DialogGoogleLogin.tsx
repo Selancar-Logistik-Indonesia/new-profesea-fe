@@ -10,6 +10,7 @@ import DialogActions from '@mui/material/DialogActions'
 import Icon from 'src/@core/components/icon'
 import Link from 'next/link'
 import { Grid } from '@mui/material'
+import { useTranslation } from "react-i18next";
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -24,6 +25,8 @@ type BlockDialog = {
 };
 
 const DialogGoogleLogin = (props: BlockDialog) => {
+
+    const { t } = useTranslation();
 
     return (
         <Dialog
@@ -49,9 +52,9 @@ const DialogGoogleLogin = (props: BlockDialog) => {
                 </IconButton>
                 <Box sx={{ textAlign: 'center' }}>
                 <Typography variant='h6' color={'#32487A'} fontWeight='600'>
-                  Login With Google
+                {t('register_text_3_G')} Google
                 </Typography>
-                    <Typography variant='body2'>Petualanganmu dimulai di sini, Daftar Sekarang !</Typography>
+                    <Typography variant='body2'>{t('register_text_1')}</Typography>
                 </Box>
             </DialogContent>
             <DialogActions
@@ -69,22 +72,22 @@ const DialogGoogleLogin = (props: BlockDialog) => {
                 alignItems="center">
                     <Grid item>
                         <Link href={`https://apifix.profesea.id/auth/google?team_id=2&type=onship`} passHref legacyBehavior>
-                            <Button variant="contained" fullWidth sx={{ mb: 2, color: 'white' }} style={{ textTransform: 'none', width:'300px' }} startIcon={<Icon icon={'solar:user-hands-bold-duotone'} />} >Saya Pelaut</Button>
+                            <Button variant="contained" fullWidth sx={{ mb: 2, color: 'white' }} style={{ textTransform: 'none', width:'300px' }} startIcon={<Icon icon={'solar:user-hands-bold-duotone'} />} >{t('register_text_4_1')}</Button>
                         </Link>
                     </Grid>
                     <Grid item>
                         <Link href={`https://apifix.profesea.id/auth/google?team_id=2&type=offship`} passHref legacyBehavior >
-                            <Button variant="contained" fullWidth sx={{ mb: 2, color: 'white' }} style={{ textTransform: 'none', width:'300px' }} startIcon={<Icon icon={'solar:user-hands-bold-duotone'} />} >Saya Non-Pelaut</Button>
+                            <Button variant="contained" fullWidth sx={{ mb: 2, color: 'white' }} style={{ textTransform: 'none', width:'300px' }} startIcon={<Icon icon={'solar:user-hands-bold-duotone'} />} >{t('register_text_4_2')}</Button>
                         </Link>
                     </Grid>
                     <Grid item>
                         <Link href={`https://apifix.profesea.id/auth/google?team_id=3&type=null`} passHref legacyBehavior>
-                            <Button variant="contained" fullWidth sx={{ mb: 2, color: 'white' }} style={{ textTransform: 'none', width:'300px' }} startIcon={<Icon icon={'solar:buildings-3-bold-duotone'} />} >Saya Recruiter</Button>
+                            <Button variant="contained" fullWidth sx={{ mb: 2, color: 'white' }} style={{ textTransform: 'none', width:'300px' }} startIcon={<Icon icon={'solar:buildings-3-bold-duotone'} />} >{t('register_text_5')}</Button>
                         </Link>
                     </Grid>
                     <Grid item>
                         <Link href={`https://apifix.profesea.id/auth/google?team_id=4&type=null`} passHref legacyBehavior>
-                            <Button variant="contained" fullWidth sx={{ mb: 2, color: 'white' }} style={{ textTransform: 'none', width:'300px' }} startIcon={<Icon icon={'solar:user-hand-up-bold-duotone'} />} >Saya Trainer</Button>
+                            <Button variant="contained" fullWidth sx={{ mb: 2, color: 'white' }} style={{ textTransform: 'none', width:'300px' }} startIcon={<Icon icon={'solar:user-hand-up-bold-duotone'} />} >{t('register_text_6')}</Button>
                         </Link>
                     </Grid>
                 </Grid>
