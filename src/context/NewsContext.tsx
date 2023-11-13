@@ -68,32 +68,32 @@ const NewsProvider = (props: Props) => {
     const fetchComments = async (payload : { take: number, replyable_id:any, replyable_type?:'news' }) => {
         // only trigger in page 1
 
-        if (page == 1) setOnLoading(true);
+        // if (page == 1) setOnLoading(true);
 
-        try {
-            const response = await HttpClient.get(AppConfig.baseUrl + '/news/replies', {
-                page: page,
-                ...payload
-            })
+        // try {
+            // const response = await HttpClient.get(AppConfig.baseUrl + '/news/replies', {
+            //     page: page,
+            //     ...payload
+            // })
 
-            if (response.status == 200) {
-                const { replies } = response.data as { replies: { data: any[], next_page_url?: string, total: number } };
+            // if (response.status == 200) {
+            //     const { replies } = response.data as { replies: { data: any[], next_page_url?: string, total: number } };
                 
-                if (replies.data.length && replies.data.length > 0) {
-                    setComments(old => {
-                        const newItems = old;
-                        replies.data.forEach(e => newItems.push(e));
-                        setTotalComments(newItems.length); 
+            //     if (replies.data.length && replies.data.length > 0) {
+            //         setComments(old => {
+            //             const newItems = old;
+            //             replies.data.forEach(e => newItems.push(e));
+            //             setTotalComments(newItems.length); 
 
-                        return newItems;
-                    });
-                    setPage(page => page + 1);
-                }
-                setHasNextPage(replies.next_page_url != null);
-            }
-        } catch (error) {
-            console.error(error);
-        }
+            //             return newItems;
+            //         });
+            //         setPage(page => page + 1);
+            //     }
+            //     setHasNextPage(replies.next_page_url != null);
+            // }
+        // } catch (error) {
+        //     console.error(error);
+        // }
 
         setOnLoading(false);
     }

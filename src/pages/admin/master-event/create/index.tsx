@@ -104,7 +104,7 @@ const MasterNewsScreen = () => {
   }
 
   const onCreate = async (formData: any) => {
-    const { title, date, time,cost,organizer,website,phone,email,venue } = formData
+    const { title, date, time,cost,organizer,website,phone,email,venue,meet } = formData
  
     const json = {
       imgnews: files,
@@ -119,7 +119,8 @@ const MasterNewsScreen = () => {
       website: website,
       phone: phone,
       email: email,
-      venue: venue
+      venue: venue,
+      meet: meet
     }
     setOnLoading(true)
     try {
@@ -230,7 +231,7 @@ const MasterNewsScreen = () => {
                       sx={{ mb: 1 }}
                       id='time'
                       {...register('time')}
-                      error={Boolean(errors.time)} 
+                      error={Boolean(errors.time)}
                       label='time'
                       fullWidth
                     />
@@ -324,6 +325,21 @@ const MasterNewsScreen = () => {
                       {...register('phone')}
                       error={Boolean(errors.phone)}
                       label='phone'
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} md={3}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.meet)}>
+                      Link Meeting
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='meet'
+                      {...register('meet')}
+                      error={Boolean(errors.meet)}
+                      label='meet'
                       fullWidth
                     />
                   </Grid>

@@ -22,6 +22,7 @@ interface INews {
   phone: string
   venue: string
   email: string
+  meet?: string
 }
 
 export default INews;

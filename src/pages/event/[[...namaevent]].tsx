@@ -179,7 +179,7 @@ const EventApp = () => {
                                   <Grid item container xs={12} md={7}>
                                     <Grid item xs={12} md={12}>
                                       <Typography variant='h5' style={{ fontWeight: 'bold' }}>
-                                        { dataSheet?.title}
+                                        {dataSheet?.title}
                                       </Typography>
                                     </Grid>
                                     <Grid item xs={12} md={12}>
@@ -252,7 +252,7 @@ const EventApp = () => {
                           </Box>
                           <Box>
                             <Typography>
-                              <Link style={{ textDecoration: 'none' }} href={''+ dataSheet?.website}>
+                              <Link style={{ textDecoration: 'none' }} href={'' + dataSheet?.website}>
                                 {dataSheet?.website}
                               </Link>
                             </Typography>
@@ -264,6 +264,16 @@ const EventApp = () => {
                           </Typography>
                           <Box>
                             <Typography> {dataSheet?.venue}</Typography>
+                          </Box>
+
+                          <Box>
+                            <Typography>
+                              <Link legacyBehavior href={'' + dataSheet?.meet}>
+                                <a target='_blank' rel='noopener noreferrer'>
+                                  {dataSheet?.meet}
+                                </a>
+                              </Link>
+                            </Typography>
                           </Box>
                         </Grid>
                         <Grid item xs={4}>

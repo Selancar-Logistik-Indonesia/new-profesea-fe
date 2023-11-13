@@ -66,6 +66,7 @@ const EditNewsScreen = () => {
   const [sorganizer, setOrganizer] = useState<any>([])
   const [swebsite, setWebsite] = useState<any>([])
   const [sphone, setPhone] = useState<any>([])
+  const [smeet, setMeet] = useState<any>([])
   const [semail, setEmail] = useState<any>([])
   const [svenue, setVenue] = useState<any>([])
 
@@ -131,6 +132,7 @@ const EditNewsScreen = () => {
       setOrganizer(news?.organizer)
       setWebsite(news?.website)
       setPhone(news?.phone)
+      setMeet(news?.meet)
       setEmail(news?.email)
       setVenue(news?.venue)
       getUrlFile(news?.imgnews)
@@ -172,7 +174,8 @@ const EditNewsScreen = () => {
       website: swebsite,
       phone: sphone,
       email: semail,
-      venue: svenue
+      venue: svenue,
+    meet: smeet
     }
     setOnLoading(true)
     try {
@@ -341,7 +344,8 @@ const EditNewsScreen = () => {
                       onChange={e => setWebsite(e.target.value)}
                     />
                   </Grid>
-                </Grid><Grid item container xs={12} md={3}>
+                </Grid>
+                <Grid item container xs={12} md={3}>
                   <Grid container md={12}>
                     <InputLabel htmlFor='x' error={Boolean(errors.venue)}>
                       Venue
@@ -393,7 +397,23 @@ const EditNewsScreen = () => {
                     />
                   </Grid>
                 </Grid>
-                
+                <Grid item container xs={12} md={3}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.meet)}>
+                      Link Meeting
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='meet'
+                      {...register('meet')}
+                      error={Boolean(errors.meet)}
+                      label='meet'
+                      fullWidth
+                      value={smeet}
+                      onChange={e => setMeet(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
 
                 {show == true && (
                   <Grid item xs={12} md={4}>
