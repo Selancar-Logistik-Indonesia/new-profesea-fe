@@ -69,7 +69,8 @@ const NewsProvider = (props: Props) => {
         // only trigger in page 1
 
         // if (page == 1) setOnLoading(true);
-
+        setTotalComments(0)
+        console.log(payload)
         // try {
             // const response = await HttpClient.get(AppConfig.baseUrl + '/news/replies', {
             //     page: page,
