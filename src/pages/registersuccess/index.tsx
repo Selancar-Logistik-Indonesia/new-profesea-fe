@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import Link from 'next/link'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -8,6 +8,8 @@ import { styled, useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import { useSettings } from 'src/@core/hooks/useSettings'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
+import { useSearchParams } from 'next/navigation'
+import DialogSuccess from '../loginevent/DialogSuccess'
 
 const LoginIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
     padding: theme.spacing(20),
@@ -49,6 +51,20 @@ const LoginPage = () => {
     const { settings } = useSettings()
     const hidden = useMediaQuery(theme.breakpoints.down('md'))
     const { skin } = settings
+    const [openBlockModal, setOpenBlockModal] = useState(true)
+    const searchParams = useSearchParams()
+    const event = searchParams.get('event')
+	if (event != null) {
+       return (
+         <DialogSuccess
+           visible={openBlockModal}
+           onCloseClick={() => {
+             setOpenBlockModal(!openBlockModal)
+             window.location.replace('/registersuccess')
+           }}
+         />
+       )
+     }
 
     return (
         <Box className='content-right'>

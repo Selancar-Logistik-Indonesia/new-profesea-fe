@@ -28,6 +28,8 @@ import { useTranslation } from "react-i18next";
 import DialogGoogleLogin from './DialogGoogleLogin' 
  
 import { useSearchParams } from 'next/navigation'
+import { toast } from 'react-hot-toast'
+import DialogSuccess from '../loginevent/DialogSuccess'
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 	width: '100%',
@@ -78,6 +80,7 @@ const LoginPage = () => {
 	const { settings } = useSettings()
 	const hidden = useMediaQuery(theme.breakpoints.down('md'))
 	const { skin } = settings 
+  const [openBlockModal, setOpenBlockModal] = useState(false)
 	const searchParams = useSearchParams()
 
 	const namaevent = searchParams.get('event')
@@ -96,12 +99,13 @@ const LoginPage = () => {
 
 	const onSubmit = (data: FormData) => {
 		const { email, password } = data;
-		auth.login({ email, password, namaevent }, () => {
+   	auth.login({ email, password, namaevent }, () => {
       setError('email', {
         type: 'manual',
         message: 'Email or Password is invalid'
       })
     })
+     
 	}
     const { t } = useTranslation();
 
@@ -298,7 +302,13 @@ const LoginPage = () => {
           </RightWrapper>
         </Box>
       </Box>
-
+      <DialogSuccess
+        visible={openBlockModal}
+        onCloseClick={() => {
+          setOpenBlockModal(!openBlockModal)
+          // window.location.replace('/home')
+        }}
+      />
       <DialogGoogleLogin
         visible={openModalGoogle}
         onCloseClick={() => {
