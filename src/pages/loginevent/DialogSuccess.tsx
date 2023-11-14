@@ -52,7 +52,7 @@ const DialogSuccess = (props: BlockDialog) => {
           </IconButton>
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant='h6' color={'#32487A'} fontWeight='600'>
-              Registrasi anda berhasil silahkan cek email anda untuk linke webinar anda
+              Registrasi anda berhasil silahkan cek email anda untuk link ke webinar anda
             </Typography> 
           </Box>
         </DialogContent>
