@@ -1162,7 +1162,7 @@ const CompanyProfile = (props: compProps) => {
             onStateChange={() => setHookSignature(v4())}
           />  */}
         </>
-      )}
+      
     </Grid>
   )
 }
