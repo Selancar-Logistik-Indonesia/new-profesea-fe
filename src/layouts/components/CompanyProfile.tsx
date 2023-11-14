@@ -583,7 +583,7 @@ const CompanyProfile = (props: compProps) => {
         </BoxWrapper>
       </CardContent>
 
-      {verified == null ? (
+      
         <>
           <Grid item container md={12} xs={12}>
             <Divider style={{ width: '100%' }} />
@@ -793,7 +793,7 @@ const CompanyProfile = (props: compProps) => {
             />
           </form>
         </>
-      ) : (
+      
         <>
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
