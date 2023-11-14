@@ -94,7 +94,7 @@ const CompanyProfile = (props: compProps) => {
   const [instagram, setInstagram] = useState<any>('')
   const [linkedin, setLinkedin] = useState<any>('')
 
-  const [verified, setVerified] = useState<any>('')
+  // const [verified, setVerified] = useState<any>('')
   const [reason, setReason] = useState<any>('')
 
   const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
@@ -159,7 +159,7 @@ const CompanyProfile = (props: compProps) => {
       let reason = 'Please wait for admin to verify'
       if (code.reason != null) reason = code.reason
       setReason(reason)
-      setVerified(code.verified_at)
+      // setVerified(code.verified_at)
       setPreview(code.photo)
       setPreviewBanner(code.banner)
     })
