@@ -28,7 +28,7 @@ import { useTranslation } from "react-i18next";
 import DialogGoogleLogin from './DialogGoogleLogin' 
  
 import { useSearchParams } from 'next/navigation'
-import { toast } from 'react-hot-toast'
+// import { toast } from 'react-hot-toast'
 import DialogSuccess from '../loginevent/DialogSuccess'
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
