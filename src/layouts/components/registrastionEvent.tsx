@@ -101,7 +101,7 @@ const RegistrationEvent = (props: any) => {
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(({ data }) => {
       console.log("here 1", data);
       toast.success(' "data tersebut akan otomatis terdaftar sebagai user profesea')
-      router.push('/registersuccess')
+      router.push('/registersuccess/?event=true')
     }, error => {
       console.log("here 1", error);
       toast.error('Registrastion Failed ' + error.response.data.message)
@@ -157,6 +157,7 @@ const RegistrationEvent = (props: any) => {
       save(json);
     } catch (e) {
       alert(e)
+      toast.success(`Registrasi anda berhasil silahkan cek email anda untuk linke webinar anda`)
       console.log(e);
     }
   };
@@ -455,6 +456,7 @@ const RegistrationEvent = (props: any) => {
           </Button>
         </Grid>
       </Grid>
+      
     </form>
   )
 }

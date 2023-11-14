@@ -4,10 +4,28 @@ import SocialFeed from '../socialfeed'
 import Company from '../company'
 import AdminHomePage from '../admin/'
 import Candidate from '../candidate'
+import DialogSuccess from '../loginevent/DialogSuccess'
+import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 const Home = () => {
+  const [openBlockModal, setOpenBlockModal] = useState(true)
   const { user } = useAuth()
+  const searchParams = useSearchParams()
+  const event = searchParams.get('event')
+	 
+
   console.log(user?.role)
+  if (event != null) {
+    return <DialogSuccess
+      visible={openBlockModal}
+      onCloseClick={() => {
+        setOpenBlockModal(!openBlockModal)
+        window.location.replace('/home')
+      }}
+    />
+  }
+  else{
   if (user?.role == 'Company') {
     if (user?.build_profile_at == null) {
       return <Company />
@@ -33,6 +51,9 @@ const Home = () => {
   if (user?.role == 'admin') {
     return <AdminHomePage />
   }
+  }
+
+  
 
   return <></>
   // return (

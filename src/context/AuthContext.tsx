@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState, ReactNode } from 'react'
 import { useRouter } from 'next/router'
 import authConfig from 'src/configs/auth'
-import { AuthValuesType, LoginParams, ErrCallbackType } from './types'
+import { AuthValuesType, LoginParams, ErrCallbackType, munculdialog } from './types'
 import { HttpClient } from 'src/services'
 import secureLocalStorage from "react-secure-storage";
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -72,14 +72,19 @@ const AuthProvider = ({ children }: Props) => {
             .post(authConfig.loginEndpoint, params)
             .then(async response => {
                 setLoading(false);
-
+                
                 const returnUrl = router.query.returnUrl
                 setUser({ ...response.data.user })
                 localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken);
                 secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);                
                 secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
                 const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'  // console.log(`redirectURL: ${redirectURL}`);
-                await router.replace(redirectURL as string);
+                if (params.namaevent != null) {
+                    await router.replace('/home/?event=true' as string)
+                }else{
+                    await router.replace(redirectURL as string)
+                }
+
             }).catch(err => {
                 setLoading(false);
                 if (errorCallback) errorCallback(err)
