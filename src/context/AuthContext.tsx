@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState, ReactNode } from 'react'
 import { useRouter } from 'next/router'
 import authConfig from 'src/configs/auth'
-import { AuthValuesType, LoginParams, ErrCallbackType, munculdialog } from './types'
+import { AuthValuesType, LoginParams, ErrCallbackType } from './types'
 import { HttpClient } from 'src/services'
 import secureLocalStorage from "react-secure-storage";
 import localStorageKeys from 'src/configs/localstorage_keys'
