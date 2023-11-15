@@ -258,24 +258,7 @@ const EventApp = () => {
                             </Typography>
                           </Box>
                         </Grid>
-                        <Grid item xs={4}>
-                          <Typography variant='h6' style={{ fontWeight: 'bold' }}>
-                            VENUE
-                          </Typography>
-                          <Box>
-                            <Typography> {dataSheet?.venue}</Typography>
-                          </Box>
 
-                          <Box>
-                            <Typography>
-                              <Link legacyBehavior href={'' + dataSheet?.meet}>
-                                <a target='_blank' rel='noopener noreferrer'>
-                                  {dataSheet?.meet}
-                                </a>
-                              </Link>
-                            </Typography>
-                          </Box>
-                        </Grid>
                         <Grid item xs={4}>
                           <Box>
                             <Typography variant='h6' style={{ fontWeight: 'bold' }}>
@@ -308,6 +291,27 @@ const EventApp = () => {
                               <Typography> View Organizer Website</Typography>
                             </Link>
                           </Box>
+                        </Grid>
+                        <Grid item container xs={4}>
+                          <Grid item xs={12}>
+                            <Typography variant='h6' style={{ fontWeight: 'bold' }}>
+                              VENUE
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <Box>
+                              <Typography> {dataSheet?.venue}</Typography>
+                            </Box>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <Typography>
+                              <Link legacyBehavior href={'' + dataSheet?.meet}>
+                                <a target='_blank' rel='noopener noreferrer'>
+                                  {dataSheet?.meet}
+                                </a>
+                              </Link>
+                            </Typography>
+                          </Grid> 
                         </Grid>
                       </Grid>
                     </Grid>
