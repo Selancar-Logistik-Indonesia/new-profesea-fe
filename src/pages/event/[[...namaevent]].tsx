@@ -292,7 +292,7 @@ const EventApp = () => {
                             </Link>
                           </Box>
                         </Grid>
-                        <Grid item container xs={4}>
+                        <Grid item  xs={4}>
                           <Box>
                             <Typography variant='h6' style={{ fontWeight: 'bold' }}>
                               VENUE
