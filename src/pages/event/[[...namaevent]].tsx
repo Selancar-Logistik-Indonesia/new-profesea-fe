@@ -301,7 +301,7 @@ const EventApp = () => {
                           <Box>
                             <Typography> {dataSheet?.venue}</Typography>
                           </Box>
-                          <Box>
+                          {/* <Box>
                             <Typography>
                               <Link legacyBehavior href={'' + dataSheet?.meet}>
                                 <a target='_blank' rel='noopener noreferrer'>
@@ -309,7 +309,7 @@ const EventApp = () => {
                                 </a>
                               </Link>
                             </Typography>
-                          </Box>
+                          </Box> */}
                         </Grid>
                       </Grid>
                     </Grid>
