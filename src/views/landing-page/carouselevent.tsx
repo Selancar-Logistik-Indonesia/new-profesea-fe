@@ -119,20 +119,26 @@ const CarouselEvent = () => {
           color: 'common.white',
           backgroundColor: '#FFFFFF',
           marginRight: 3,
-          height: '80%',
+          height: '90%',
           marginBottom: 5,
           marginTop: 5
         }}
       >
-
-      <Grid item xs={12} sm={12} mb={5} mt={5}>
-            <Typography fontSize={34} style={{ color: "#000" }} fontWeight="800" textAlign="center">{t("landing_event_title")}</Typography>
+        <Grid item xs={12} sm={12} mb={5} mt={5}>
+          <Typography fontSize={34} style={{ color: '#000' }} fontWeight='800' textAlign='center'>
+            {t('landing_event_title')}
+          </Typography>
         </Grid>
         <CardContent>
-
           {/* <Link style={{ textDecoration: 'none' }} href={'/news/' + props.item.slug}> */}
           <Link style={{ textDecoration: 'none' }} href={'/event/' + props.item.title}>
-            <CardMedia component='img' height='100%' alt={'alt'} sx={{ objectFit: 'contain', marginBottom: '5' }} image={props.item.imgnews} />
+            <CardMedia
+              component='img'
+              height='450px' 
+              alt={'alt'}
+              sx={{ objectFit: 'contain', marginBottom: '5' }}
+              image={props.item.imgnews}
+            />
           </Link>
         </CardContent>
       </Card>
