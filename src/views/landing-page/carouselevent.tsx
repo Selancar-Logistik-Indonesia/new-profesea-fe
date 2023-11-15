@@ -119,7 +119,7 @@ const CarouselEvent = () => {
           color: 'common.white',
           backgroundColor: '#FFFFFF',
           marginRight: 3,
-          height: '70%',
+          height: '80%',
           marginBottom: 5,
           marginTop: 5
         }}
