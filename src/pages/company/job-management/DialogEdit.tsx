@@ -79,15 +79,15 @@ const DialogEdit = (props: EditProps) => {
   const [Cat, setCat] = useState(props.selectedItem?.category);
   const [Cou, setCou] = useState(props.selectedItem?.country); 
   const [Cit, setCit] = useState<any>(props.selectedItem?.city);
-  const [Vessel, setVessel] = useState(props.selectedItem?.vessel_type);
-  const [Sail, setSail] = useState('');
+  const [Vessel, setVessel] = useState(props.selectedItem?.vessel_type); 
+  const [Sail, setSail] = useState(props.selectedItem?.sailing_region == 'ncv' ? 
+   { id : 'ncv', name : 'Near Coastal Voyage (NCV)'}:props.selectedItem?.sailing_region == 'iv'
+   ?{ id : 'iv', name : 'International Voyage'} :
+    null);
   const [Employmenttype, setEmploymenttype] = useState<any>({name:props.selectedItem?.employment_type})
-
   const [license, setLicense] = useState<any>(props.selectedItem?.license);
-
   const onboard = (props.selectedItem?.onboard_at) ? new Date(props.selectedItem?.onboard_at) : new Date();
   const [date, setDate] = useState<DateType>(onboard);
-
   const [JobCategory, getJobCategory] = useState<any[]>([]);
   const [Education, getEducation] = useState<any[]>([]);
   const [RoleLevel, getRoleLevel] = useState<any[]>([]);
@@ -110,6 +110,7 @@ const DialogEdit = (props: EditProps) => {
     if (resp2.status != 200) {
       throw resp2.data.message ?? 'Something went wrong!'
     }
+    debugger;
     getlicenseData(resp2.data.licensiescoc)
     HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
       if (response.status != 200) {
@@ -147,6 +148,14 @@ const DialogEdit = (props: EditProps) => {
       }
       getVesselType(response.data.vesselTypes.data)
     })
+
+     if (props.selectedItem.sailing_region == null) {
+       setDisabled(true)
+       searchcity(100)
+     } else {
+       setDisabled(false)
+        
+     }
   }
 
   useEffect(() => {
@@ -176,7 +185,10 @@ const DialogEdit = (props: EditProps) => {
 
   const onSubmit = async (formData: Job) => {
     const { salary_start, salary_end, experience } = formData
-    
+    let sailfix = Sail
+    if(disabled == true){
+      sailfix = null
+    }
     const json = {
       rolelevel_id: Level == null ? null : Level.id,
       roletype_id: Type == null ? null : Type.id,
@@ -185,7 +197,7 @@ const DialogEdit = (props: EditProps) => {
       country_id: Cou == null ? null : Cou.id,
       city_id: Cit == null ? null : Cit.id,
       license: license,
-      sailing_region: Sail,
+      sailing_region: sailfix == null ? null : Sail,
       vesseltype_id: Vessel == null ? null : Vessel.id,
       salary_start: salary_start,
       salary_end: salary_end,
@@ -343,7 +355,6 @@ const DialogEdit = (props: EditProps) => {
                 </Grid>
               </>
             )}
-
             {disabled == false && (
               <>
                 <Grid item md={4} xs={12} sx={{ mb: 1 }}>
@@ -351,13 +362,15 @@ const DialogEdit = (props: EditProps) => {
                     disablePortal
                     id='combo-box-demo'
                     options={SailRegion}
+                    value={Sail}
                     getOptionLabel={(option: any) => option.name}
                     renderInput={params => <TextField {...params} label='Sail Region' />}
-                    onChange={(event: any, newValue: any | null) => (newValue?.id ? setSail(newValue.id) : setSail(''))}
+                    onChange={(event: any, newValue: any | null) => (newValue?.id ? setSail(newValue.id) : setSail(null))}
                   />
                 </Grid>
               </>
             )}
+
             {disabled == false && (
               <Grid item md={3} xs={12}>
                 <Autocomplete
@@ -473,7 +486,7 @@ const DialogEdit = (props: EditProps) => {
                     fullWidth
                     {...register('experience')}
                   />
-                </Grid> 
+                </Grid>
                 <Grid item md={12} xs={12}>
                   <Autocomplete
                     multiple

@@ -22,6 +22,7 @@ const defaultValue: SocialFeedContextType = {
   subCommentSignature: '',
   fetchFeeds: () => Promise.resolve(),
   updateStatus: () => Promise.resolve(),
+  EditupdateStatus: () => Promise.resolve(),
   likeUnlikeFeed: () => Promise.resolve(),
   postComment: () => Promise.resolve(),
   getComments: () => Promise.resolve() as any
@@ -66,6 +67,29 @@ const SocialGroupProvider = (props: Props) => {
             ...items
         ]);
     }
+      const EditupdateStatus = async (payload: UpdateStatusPayload) => {
+        const formData = new FormData()
+        formData.append('content', payload.content)
+        formData.append('content_type', payload.content_type)
+
+        if (payload.feed_repost) {
+          formData.append('feed_repost', payload.feed_repost)
+        }
+
+        if (payload.attachments) {
+          for (const item of payload.attachments) {
+            formData.append('attachments[]', item)
+          }
+        }
+
+        const response = await HttpClient.post('/social-group/' + payload.id, formData)
+        if (response.status != 200) {
+          throw response.data?.message ?? 'Something went wrong'
+        }
+        // fetchFeeds
+        // const { feed } = response.data as { feed: ISocialFeed }
+        // setFeeds(items => [feed, ...items])
+      }
 
     const fetchFeeds = async (payload: FetchFeedPayload) => {
         let sPage = page;
@@ -182,6 +206,7 @@ const SocialGroupProvider = (props: Props) => {
         totalFeed,
         onLoading,
         updateStatus,
+        EditupdateStatus,
         fetchFeeds,
         hasNextPage,
         page,
@@ -197,6 +222,7 @@ const SocialGroupProvider = (props: Props) => {
         feeds,
         totalFeed,
         updateStatus,
+        EditupdateStatus,
         fetchFeeds,
         onLoading,
         hasNextPage,

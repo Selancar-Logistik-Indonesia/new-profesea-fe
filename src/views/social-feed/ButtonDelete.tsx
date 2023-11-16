@@ -1,4 +1,5 @@
  
+import { Icon } from "@iconify/react";
 import { Button } from "@mui/material";
  
 import { useState } from "react";
@@ -15,25 +16,29 @@ const ButtonDelete = (props: { item: ButtonLikeParam,  variant?: 'no-icon' }) =>
     const { deleteFeed } = useSocialFeed();
     const [onLoading, setOnLoading] = useState(false); 
 
-    const handleClick = () => {
+    const handleClick = async() => {
         setOnLoading(true);
-        deleteFeed(item.id ) 
+        await deleteFeed(item.id )
+        window.location.reload() 
     }
 
     return (
-        <Button disabled={onLoading} sx={{
-            fontSize: props.variant == 'no-icon' ? 11 : '0.7rem',
-            // fontWeight: likedAt ? 'bold' : 'normal',
-            textTransform: 'none',
+      <Button
+        disabled={onLoading}
+        sx={{
+          fontSize: props.variant == 'no-icon' ? 11 : '0.7rem',
+          // fontWeight: likedAt ? 'bold' : 'normal',
+          textTransform: 'none'
         }}
-            onClick={handleClick} size='small' color='primary'
-            // startIcon={props.variant == 'no-icon' ? undefined : <Icon icon={likedAt ? 'solar:like-bold-duotone' : 'solar:like-line-duotone'} />}
-            variant={props.variant == 'no-icon' ? "text" : undefined}
-        >
- 
-            Delete
-        </Button>
-    );
+        onClick={handleClick}
+        size='small'
+        color='primary'
+        startIcon={<Icon icon='fluent:delete-48-filled' fontSize={10} />}
+        variant={props.variant == 'no-icon' ? 'text' : undefined}
+      >
+        Delete
+      </Button>
+    )
 }
 
 export default ButtonDelete;
