@@ -44,6 +44,22 @@ const post = (path: string, data?: any): Promise<AxiosResponse> => {
 const patch = (path: string, data?: any): Promise<AxiosResponse> => {
     return axios.patch(path, data)
 }
+const patchFormdata = (path: string, data?: any): Promise<AxiosResponse> => {
+     let option = {}
+     debugger;
+     if (data instanceof FormData) {
+       option = {
+         ...option,
+         method: 'PATCH',
+         headers: {
+           'Content-Type': 'multipart/form-data'
+         },
+         body: data
+       }
+     }
+
+     return axios.patch(path, data, option) 
+}
 
 const del = (path: string, data?: any): Promise<AxiosResponse> => {
     return axios.delete(path, data)
@@ -74,11 +90,4 @@ const downloadFile = (path: string, filename: string) => {
         });
 }
 
-export {
-    get,
-    post,
-    patch,
-    del,
-    postFile,
-    downloadFile
-}
+export { get, post, patch, del, postFile, downloadFile, patchFormdata }
