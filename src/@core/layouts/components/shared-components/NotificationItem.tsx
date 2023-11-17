@@ -10,6 +10,7 @@ import NotificationType from "src/contract/types/notification_type";
 import { getUserAvatar } from "src/utils/helpers";
 import { IUser } from "src/contract/models/user";
 import { HttpClient } from "src/services";
+import { useRouter } from "next/router";
 
 // ** Styled component for the subtitle in MenuItems
 const MenuItemSubtitle = styled(Typography)<TypographyProps>({
@@ -141,12 +142,28 @@ const FriendshipIssuingDialog = (props: { dialogOpen: boolean, setDialogOpen: (e
 const NotificationItem = (props: { item: NotificationsType }) => {
     const { item } = props;
     const [dialogOpen, setDialogOpen] = useState(false);
+    const router = useRouter();
 
     const handleClick = async () => {
         setDialogOpen(true);
         await HttpClient.post("/user/notification/mark-as-read", {
             notification_id: [item.id]
         });
+
+        switch (item.type) {
+            case "App\\Notifications\\NewApplicantNotification":
+                const jobId = item?.data?.job?.id;
+                if (!jobId) {
+                    return;
+                }
+
+                router.push(`/company/job/?id=${jobId}`);
+                break;
+
+            default:
+                console.log("No action required..");
+                break;
+        }
     }
 
     return (
