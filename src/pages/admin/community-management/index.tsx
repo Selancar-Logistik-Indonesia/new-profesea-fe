@@ -60,7 +60,7 @@ const CommunityScreen = () => {
             setRowCount(resp?.data?.threads?.total ?? 0);
             setDataSheet(items);
         } catch (error) {
-            let errorMessage = "Something went wrong!";
+            let errorMessage = "Something went wrong!!";
 
             if (error instanceof AxiosError) {
                 errorMessage = error?.response?.data?.message ?? errorMessage;
@@ -78,7 +78,7 @@ const CommunityScreen = () => {
 
         HttpClient.get(`/user-management?page=1&take=250&team_id=3`).then(response => {
             if (response.status != 200) {
-                throw response.data.message ?? "Something went wrong!";
+                throw response.data.message ?? "Something went wrong!!!";
             }
             getUser(response.data.users.data);
         })
