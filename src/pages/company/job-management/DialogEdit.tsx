@@ -150,10 +150,11 @@ const DialogEdit = (props: EditProps) => {
     })
 
      if (props.selectedItem.sailing_region == null) {
-       setDisabled(true)
-       searchcity(100)
+       setDisabled(true) 
      } else {
        setDisabled(false)
+       
+          searchcity({ id: 100 })
         
      }
   }
@@ -172,7 +173,7 @@ const DialogEdit = (props: EditProps) => {
 
   const searchcity = async (q: any) => {
     setCou(q)
-    const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
+    const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q.id)
     if (resp.status != 200) {
       throw resp.data.message ?? 'Something went wrong!'
     }
@@ -245,7 +246,7 @@ const DialogEdit = (props: EditProps) => {
         setCat(q)
         if (q.employee_type != 'onship') {
           setDisabled(true)
-          searchcity(100)
+          searchcity({id:100})
         } else {
           setDisabled(false)
           setType(null)
