@@ -98,8 +98,7 @@ const FeedCard = (props: Prop) => {
 
         {withBottomArea !== false && openUpdate && (
           <>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-              <Icon color={'#26252542'} icon='mingcute:time-fill' fontSize={'18px'} /> &nbsp;
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}  > 
               <Typography sx={{ color: '#262525', fontWeight: 600, fontSize: '12px' }}>
                 Update your Post here :
               </Typography>
