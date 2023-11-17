@@ -4,8 +4,8 @@ import { useAuth } from 'src/hooks/useAuth'
 import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers';
 import { useSocialFeed } from 'src/hooks/useSocialFeed';
 import { useState } from 'react';
-import ButtonUploadVideo from './ButtonUploadVideo';
-import ButtonUploadPhoto from './ButtonUploadPhoto';
+// import ButtonUploadVideo from './ButtonUploadVideo';
+// import ButtonUploadPhoto from './ButtonUploadPhoto';
 
 const PostFeedUpdate = (props: { feed: any }) => {
   const { user } = useAuth()
