@@ -197,7 +197,7 @@ const Registration = (props: any) => {
         {tipereg == 'seafer' ? (
           <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
             <Grid item md={12} xs={12}>
-              <TextField id='Name' label='Name' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
+              <TextField id='Name' label='Nama Kandidat' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
             </Grid>
 
             <Grid item md={6} xs={12}>
@@ -223,7 +223,7 @@ const Registration = (props: any) => {
               /> */}
               <TextField
                 id='Phone'
-                label='Phone'
+                label='No Telp'
                 variant='outlined'
                 type='number'
                 fullWidth
@@ -263,12 +263,12 @@ const Registration = (props: any) => {
         ) : (
           <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
             <Grid item md={6} xs={12}>
-              <TextField id='Name' label={ (tipereg == 'company') ? 'Company Name' : 'Name'} variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
+              <TextField id='Name' label={ (tipereg == 'company') ? 'Nama Perusahaan' : 'Nama Pusat Pelatihan'} variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 id='Phone'
-                label='Phone'
+                label='No Telp'
                 variant='outlined'
                 type='number'
                 fullWidth
