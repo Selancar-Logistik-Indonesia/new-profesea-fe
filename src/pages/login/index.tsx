@@ -240,7 +240,6 @@ const LoginPage = () => {
                   </FormControl>
                   <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', marginTop: '2%' }}>
                     <LinkStyled href='/forgot-password'>
-                      <Icon icon='mdi:chevron-right' fontSize='2rem' />
                       <span>{t('login_text_4')}</span>
                     </LinkStyled>
                   </Typography>
