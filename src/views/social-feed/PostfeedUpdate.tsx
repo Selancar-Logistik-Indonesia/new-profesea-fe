@@ -65,7 +65,7 @@ const PostFeedUpdate = (props: { feed: any }) => {
             color='primary'
             variant='contained'
           >
-            {isLoading ? <CircularProgress /> : 'Post'}
+            {isLoading ? <CircularProgress /> : 'Update Post'}
           </Button>
         </Box>
       </Box>
