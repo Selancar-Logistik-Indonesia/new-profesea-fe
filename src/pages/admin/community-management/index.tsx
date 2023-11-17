@@ -39,18 +39,18 @@ const CommunityScreen = () => {
         try {
             const resp = await HttpClient.get(`/thread?search=${search}&page=${page}&take=${perPage}&forum_id=${forumCode}&user_id=${UserId}`);
             if (resp.status != 200) {
-                throw resp.data.message ?? "Something went wrong!";
+                throw resp.data?.message ?? "Something went wrong!";
             }
 
-            const rows = resp.data.threads.data as Thread[];
+            const rows = resp.data?.threads?.data as Thread[];
             const items = rows.map((row, index) => {
                 return {
                     no: index + 1,
-                    id: row.id,
-                    title: row.title,
-                    content: row.snap_content,
-                    username: row.user.name,
-                    forum_name: row.forum.name,
+                    id: row?.id,
+                    title: row?.title,
+                    content: row?.snap_content,
+                    username: row?.user.name,
+                    forum_name: row?.forum.name,
                     actions: {
                         onDelete: () => deleteHandler(row),
                     }
