@@ -52,10 +52,10 @@ const PostFeedUpdate = (props: { feed: any }) => {
         </Box>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', mt: 3, alignItems: 'end' }}>
-        <Box>
+        {/* <Box>
           <ButtonUploadPhoto />
           <ButtonUploadVideo />
-        </Box>
+        </Box> */}
         <Box flexGrow={1} textAlign='right'>
           <Button
             sx={{ width: 45 }}
