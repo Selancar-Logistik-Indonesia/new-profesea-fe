@@ -48,9 +48,9 @@ const CommunityScreen = () => {
                     no: index + 1,
                     id: row.id,
                     title: row.title,
-                    content: row.snap_content,
-                    username: row.user.name,
-                    forum_name: row.forum.name,
+                    content: row?.snap_content,
+                    username: row.user?.name,
+                    forum_name: row.forum?.name,
                     actions: {
                         onDelete: () => deleteHandler(row),
                     }
@@ -60,7 +60,8 @@ const CommunityScreen = () => {
             setRowCount(resp?.data?.threads?.total ?? 0);
             setDataSheet(items);
         } catch (error) {
-            let errorMessage = "Something went wrong!";
+            let errorMessage = "Something went wrong! "+error;
+            ;
 
             if (error instanceof AxiosError) {
                 errorMessage = error?.response?.data?.message ?? errorMessage;
