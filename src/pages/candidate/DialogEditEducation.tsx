@@ -19,7 +19,6 @@ import { DateType } from 'src/contract/models/DatepickerTypes'
 import { Autocomplete } from '@mui/material'
 import DatePicker from 'react-datepicker'
 // import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'  
-import Degree from 'src/contract/models/degree'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },

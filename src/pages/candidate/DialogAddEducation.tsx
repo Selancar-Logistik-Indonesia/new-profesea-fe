@@ -63,7 +63,7 @@ const DialogAddEducation = (props: DialogProps) => {
     }, 500), []
   );
 
-  const getInstitutions = async (search: string = "") => {
+  const getInstitutions = async (search = "") => {
     const res4 = await HttpClient.get(`institutions?page=1&take=12&search=${search}`);
     setOnLoading('');
 
