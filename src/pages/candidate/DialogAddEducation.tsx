@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement, useState, useEffect } from 'react'
+import { Ref, forwardRef, ReactElement, useState, useEffect, useCallback } from 'react'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
@@ -18,8 +18,9 @@ import { CircularProgress, Divider } from '@mui/material'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import { Autocomplete } from '@mui/material'
 import DatePicker from 'react-datepicker'
-// import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'  
 import Degree from 'src/contract/models/degree'
+import Institution from 'src/contract/models/institution'
+import debounce from 'src/utils/debounce'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -46,38 +47,46 @@ type FormData = {
   enddate: string
 }
 
-type tInstitute = {
-  institution_name : string
-}
 const DialogAddEducation = (props: DialogProps) => {
-  const [onLoading, setOnLoading] = useState(false);
+  const [onLoading, setOnLoading] = useState<'form' | 'institution' | ''>('');
   const [dateAwal, setDateAwal] = useState<DateType>(new Date())
   const [dateAkhir, setDateAkhir] = useState<DateType>(new Date())
   const [preview, setPreview] = useState()
   const [Education, getEducation] = useState<any[]>([])
-  const [Instutite, getInstitute] = useState<any[]>([])
   const [selectedFile, setSelectedFile] = useState()
   const [EduId, setEduId] = useState('---')
-  const [ItId, setItId] = useState('---')
-  const [muncul, setMuncul] = useState<boolean>(false)
+  const [institutions, setInstitutions] = useState<Institution[]>([]);
+
+  const handleSearchInstitutions = useCallback(
+    debounce((value: string) => {
+      getInstitutions(value);
+    }, 500), []
+  );
+
+  const getInstitutions = async (search: string = "") => {
+    const res4 = await HttpClient.get(`institutions?page=1&take=12&search=${search}`);
+    setOnLoading('');
+
+    if (res4.status != 200) {
+      throw res4.data.message ?? 'Something went wrong!'
+    }
+
+    setInstitutions(res4.data.institutions);
+  }
+
   const combobox = async () => {
     const res3 = await HttpClient.get(`/public/data/degree`)
     if (res3.status != 200) {
       throw res3.data.message ?? 'Something went wrong!'
     }
-    getEducation(res3.data.degrees)
-    
-    const res4 = await HttpClient.get(`institutions?page=1&take=1000&search=`)
-    if (res4.status != 200) {
-      throw res3.data.message ?? 'Something went wrong!'
-    }
-    getInstitute(res4.data.institutions)
- 
+    getEducation(res3.data.degrees);
+    getInstitutions();
   }
 
   useEffect(() => {
     combobox()
-  }, [])
+  }, []);
+
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined)
@@ -88,32 +97,19 @@ const DialogAddEducation = (props: DialogProps) => {
     setPreview(objectUrl)
 
     return () => URL.revokeObjectURL(objectUrl)
-  }, [selectedFile])
-
-  // const schema = yup.object().shape({
-  //     user_id: yup.string().required()
-  // })
+  }, [selectedFile]);
 
   const {
     register,
-    // formState: { errors }, 
     handleSubmit,
   } = useForm<FormData>({
     mode: 'onBlur',
-    // resolver: yupResolver(schema)
-  })
-
+  });
 
   const onSubmit = async (data: FormData) => {
-    const {  major, titletext } = data
-    let titlefix =''
-    if(muncul == true){
-      titlefix = titletext
-    }else{
-      titlefix = ItId
-    }
+    const { major, title } = data;
     const json = {
-      title: titlefix,
+      title: title,
       major: major,
       degree: EduId,
       logo: selectedFile,
@@ -136,26 +132,26 @@ const DialogAddEducation = (props: DialogProps) => {
         .split('/')
         .reverse()
         .join('-'),
+    };
 
-    }
-    setOnLoading(true)
+    setOnLoading('form');
 
     try {
-      console.log(json)
-      const resp = await HttpClient.postFile('/user/education', json)
+      const resp = await HttpClient.postFile('/user/education', json);
       if (resp.status != 200) {
-        throw resp.data.message ?? 'Something went wrong!'
+        throw resp.data.message ?? 'Something went wrong!';
       }
 
-      props.onCloseClick()
-      toast.success(` Education submited successfully!`)
+      props.onCloseClick();
+      toast.success(` Education submited successfully!`);
     } catch (error) {
-      toast.error(`Opps ${getCleanErrorMessage(error)}`)
+      toast.error(`Opps ${getCleanErrorMessage(error)}`);
     }
 
-    setOnLoading(false)
-    props.onStateChange()
+    setOnLoading('');
+    props.onStateChange();
   }
+
   const onSelectFile = (e: any) => {
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined)
@@ -166,14 +162,6 @@ const DialogAddEducation = (props: DialogProps) => {
     // I've kept this example simple by using the first image instead of multiple
     setSelectedFile(e.target.files[0])
   }
-    const filter = (e: any) => {
-      setItId(e)
-      if(e == 'OTHER'){
-        setMuncul(true)
-      }else{
-        setMuncul(false)
-      }
-    }
 
   return (
     <Dialog fullWidth open={props.visible} maxWidth='md' scroll='body' TransitionComponent={Transition}>
@@ -203,25 +191,19 @@ const DialogAddEducation = (props: DialogProps) => {
           <Grid container columnSpacing={'1'} rowSpacing={'4'}>
             <Grid item md={6} xs={12}>
               <Autocomplete
-                disablePortal
+                freeSolo
                 id='combo-box-demo'
-                options={Instutite}
-                {...register('title')}
-                getOptionLabel={(option: tInstitute) => option.institution_name}
-                renderInput={params => <TextField {...params} label='Institution Name' variant='standard' />}
-                onChange={(event: any, newValue: tInstitute | null) =>
-                  newValue?.institution_name ? filter(newValue.institution_name) : filter('---')
-                }
-              />
-              {muncul && (
-                <TextField
-                  id='institutuin'
+                options={institutions.map(e => e.institution_name)}
+                loading={onLoading == 'institution'}
+                renderInput={params => <TextField {...register('title')} {...params}
                   label='Institution Name'
                   variant='standard'
-                  fullWidth
-                  {...register('titletext')}
-                />
-              )}
+                  onChange={(e) => {
+                    setOnLoading('institution');
+                    handleSearchInstitutions(e.target.value);
+                  }}
+                />}
+              />
             </Grid>
             <Grid item md={6} xs={12} mt={2}>
               <Grid item xs={6} md={8} container justifyContent={'left'}>
@@ -324,7 +306,7 @@ const DialogAddEducation = (props: DialogProps) => {
         >
           <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>
             <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
-            {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
+            {onLoading == 'form' ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
           </Button>
           <Button variant='outlined' size='small' color='error' onClick={props.onCloseClick}>
             <Icon
