@@ -4,8 +4,8 @@ import { useAuth } from 'src/hooks/useAuth'
 import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers';
 import { useSocialFeed } from 'src/hooks/useSocialFeed';
 import { useState } from 'react';
-import ButtonUploadVideo from './ButtonUploadVideo';
-import ButtonUploadPhoto from './ButtonUploadPhoto';
+// import ButtonUploadVideo from './ButtonUploadVideo';
+// import ButtonUploadPhoto from './ButtonUploadPhoto';
 
 const PostFeedUpdate = (props: { feed: any }) => {
   const { user } = useAuth()
@@ -52,10 +52,10 @@ const PostFeedUpdate = (props: { feed: any }) => {
         </Box>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', mt: 3, alignItems: 'end' }}>
-        <Box>
+        {/* <Box>
           <ButtonUploadPhoto />
           <ButtonUploadVideo />
-        </Box>
+        </Box> */}
         <Box flexGrow={1} textAlign='right'>
           <Button
             sx={{ width: 45 }}
@@ -65,7 +65,7 @@ const PostFeedUpdate = (props: { feed: any }) => {
             color='primary'
             variant='contained'
           >
-            {isLoading ? <CircularProgress /> : 'Post'}
+            {isLoading ? <CircularProgress /> : 'Update Post'}
           </Button>
         </Box>
       </Box>

@@ -39,10 +39,10 @@ const CommunityScreen = () => {
         try {
             const resp = await HttpClient.get(`/thread?search=${search}&page=${page}&take=${perPage}&forum_id=${forumCode}&user_id=${UserId}`);
             if (resp.status != 200) {
-                throw resp.data.message ?? "Something went wrong!";
+                throw resp.data?.message ?? "Something went wrong!";
             }
 
-            const rows = resp.data.threads.data as Thread[];
+            const rows = resp.data?.threads?.data as Thread[];
             const items = rows.map((row, index) => {
                 return {
                     no: index + 1,
@@ -60,8 +60,7 @@ const CommunityScreen = () => {
             setRowCount(resp?.data?.threads?.total ?? 0);
             setDataSheet(items);
         } catch (error) {
-            let errorMessage = "Something went wrong! "+error;
-            ;
+            let errorMessage = "Something went wrong!!";
 
             if (error instanceof AxiosError) {
                 errorMessage = error?.response?.data?.message ?? errorMessage;
@@ -79,7 +78,7 @@ const CommunityScreen = () => {
 
         HttpClient.get(`/user-management?page=1&take=250&team_id=3`).then(response => {
             if (response.status != 200) {
-                throw response.data.message ?? "Something went wrong!";
+                throw response.data.message ?? "Something went wrong!!!";
             }
             getUser(response.data.users.data);
         })

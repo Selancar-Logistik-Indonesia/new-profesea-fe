@@ -27,6 +27,7 @@ export type NotificationsType = {
     type: string
     read_at?: string
     payload?: any
+    data?: any
 } & (
         | { avatarAlt: string; avatarImg: string; avatarText?: never; avatarColor?: never; avatarIcon?: never }
         | {
@@ -96,6 +97,7 @@ const buildNotifies = (e: INotification) => {
             subtitle: `${e.data.liker.name} like your feed`,
             type: e.type,
             read_at: e.read_at,
+            data: e.data,
         };
     }
 
@@ -110,6 +112,7 @@ const buildNotifies = (e: INotification) => {
             type: e.type,
             payload: e.data.friend,
             read_at: e.read_at,
+            data: e.data,
         };
     }
 
@@ -123,6 +126,7 @@ const buildNotifies = (e: INotification) => {
             subtitle: `${e.data.candidate.name} applied to your job post "${e.data.job.role_type.name}".`,
             type: e.type,
             read_at: e.read_at,
+            data: e.data,
         };
     }
 
@@ -136,6 +140,7 @@ const buildNotifies = (e: INotification) => {
             subtitle: `${e.data.friend.name} approved your connect request.`,
             type: e.type,
             read_at: e.read_at,
+            data: e.data,
         };
     }
 
@@ -149,6 +154,7 @@ const buildNotifies = (e: INotification) => {
             subtitle: `${e.data.friend.name} rejected your connect request.`,
             type: e.type,
             read_at: e.read_at,
+            data: e.data,
         };
     }
 
@@ -161,6 +167,7 @@ const buildNotifies = (e: INotification) => {
         subtitle: 'undefined',
         type: '',
         read_at: '',
+        data: null,
     };
 }
 
