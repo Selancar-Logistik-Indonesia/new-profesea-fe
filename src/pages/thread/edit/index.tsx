@@ -58,7 +58,7 @@ const EditThreadScreen = () => {
         const contenDesc = convertFromHTML(thread?.content).contentBlocks
         const contentState = ContentState.createFromBlockArray(contenDesc)
         const editorState = EditorState.createWithContent(contentState)
-        // console.log(thread)
+        console.log(thread)
         setDesc(editorState)
         setTitle(thread?.title)
         setForum(thread?.forum)
@@ -104,7 +104,7 @@ const EditThreadScreen = () => {
         }
 
         toast.success(`Thread update successfully!`);
-        router.push('/admin/community-management')
+        router.push('/community')
     } catch (error) {
         toast.error(`Opps ${getCleanErrorMessage(error)}`);
     }
@@ -191,6 +191,6 @@ const EditThreadScreen = () => {
 
 EditThreadScreen.acl = {
   action: 'read',
-  subject: 'admin-community-management'
+  subject: 'home'
 };
 export default EditThreadScreen
