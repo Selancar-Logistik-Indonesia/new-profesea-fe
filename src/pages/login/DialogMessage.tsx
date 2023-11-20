@@ -53,7 +53,7 @@ const DialogMessage = (props: BlockDialog) => {
                 <Typography variant='h6' color={'#32487A'} fontWeight='600'>
                   Info
                 </Typography>
-                    <Typography variant='body2'>Your email has been registered, Please login! if you forgot password click button bellow!</Typography>
+                    <Typography variant='body2'>Your email has been registered, Please login! if you forgot password click button below!</Typography>
                 </Box>
             </DialogContent>
             <DialogActions
