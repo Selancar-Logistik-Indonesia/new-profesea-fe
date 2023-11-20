@@ -61,6 +61,7 @@ const DialogAddDocument = (props: DialogProps) => {
     if (!status) {
       setSelectedFiles(e => {
         const items = e.filter(i => i.document.docType != 'M3');
+
         return items;
       });
     }
@@ -81,14 +82,14 @@ const DialogAddDocument = (props: DialogProps) => {
     });
   }
 
-  const onSubmit = async (item: FormData) => {
+  const onSubmit = async () => {
     setOnLoading(true);
-    await saveparent(item);
+    await saveparent();
     setOnLoading(false);
     props.onStateChange();
   }
 
-  const saveparent = async (item: FormData) => {
+  const saveparent = async () => {
     setOnLoading(true);
 
     try {
@@ -151,6 +152,7 @@ const DialogAddDocument = (props: DialogProps) => {
 
           {documents.filter(e => e.role == props.role).map((item) => {
             if (item.docType == 'M3') {
+
               return <>
                 <Box sx={{ mt: 4, mb: 2 }}>
                   <FormControl>
