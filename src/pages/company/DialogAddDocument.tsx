@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement, useState } from 'react'
+import { Ref, forwardRef, ReactElement, useState, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import Button from '@mui/material/Button'
@@ -13,6 +13,9 @@ import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage, toMegaByte } from 'src/utils/helpers'
 import { CircularProgress, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import secureLocalStorage from 'react-secure-storage'
+import { IUser } from 'src/contract/models/user'
+import localStorageKeys from 'src/configs/localstorage_keys'
 
 
 const Transition = forwardRef(function Transition(
@@ -50,6 +53,14 @@ const DialogAddDocument = (props: DialogProps) => {
   const [onLoading, setOnLoading] = useState(false);
   const [isCrewing, setIsCrewing] = useState(true);
   const [selectedFiles, setSelectedFiles] = useState<ISelectedFile[]>([]);
+  const userSession = secureLocalStorage.getItem(localStorageKeys.userData) as IUser;
+
+  useEffect(() => {
+    setOnLoading(true);
+    HttpClient.patch("/user/crewing-status", { isCrewing: isCrewing ? "yes" : "no" })
+      .finally(() => setOnLoading(false))
+      .catch((err) => alert(err));
+  }, [isCrewing]);
 
   const {
     handleSubmit,
@@ -158,9 +169,9 @@ const DialogAddDocument = (props: DialogProps) => {
                   <FormControl>
                     <FormLabel id="demo-radio-buttons-group-label">Are you a Crewing company</FormLabel>
                     <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      defaultValue="yes"
                       name="radio-buttons-group"
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      defaultValue={userSession.is_crewing ? "yes" : "no"}
                       onChange={e => handleChangeCrewing(e.target.value == "yes")}
                     >
                       <FormControlLabel value="yes" control={<Radio sx={{ p: 1, ml: 1 }} />} label="Yes" />
