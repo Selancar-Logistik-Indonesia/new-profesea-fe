@@ -41,7 +41,7 @@ const renderList = (arr: any[]) => {
             mb: index !== arr.length - 1 ? 7.25 : undefined
           }}
         >
-          <img width={34} height={34} alt={item.name} src={item.photo} />
+          {/* <img width={34} height={34} alt={item.name} src={item.photo} /> */}
           <Box
             sx={{ ml: 3, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
           >
