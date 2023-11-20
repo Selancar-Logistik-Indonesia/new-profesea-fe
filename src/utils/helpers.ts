@@ -156,6 +156,15 @@ const translateTrxStatus = (s: string) => {
     return map.get(s) ?? "Undefined";
 }
 
+const toMegaByte = (size: number, stringify = false) => {
+    const n = ((size / 1024) / 1024).toFixed(2);
+    if (stringify) {
+        return `${n}Mb`;
+    }
+
+    return n;
+}
+
 export {
     getCleanErrorMessage,
     removeFirstZeroChar,
@@ -174,4 +183,5 @@ export {
     getUserAvatarByPath,
     subscribev,
     translateTrxStatus,
+    toMegaByte,
 }

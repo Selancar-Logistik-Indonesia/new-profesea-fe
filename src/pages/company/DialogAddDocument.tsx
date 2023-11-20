@@ -1,9 +1,7 @@
-import { Ref, forwardRef, ReactElement, useState, useEffect, useRef } from 'react'
+import { Ref, forwardRef, ReactElement, useState } from 'react'
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
 import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Fade, { FadeProps } from '@mui/material/Fade'
@@ -13,12 +11,9 @@ import toast from 'react-hot-toast'
 import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
-import { getCleanErrorMessage } from 'src/utils/helpers'
-import { Autocomplete, CircularProgress, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import { getCleanErrorMessage, toMegaByte } from 'src/utils/helpers'
+import { CircularProgress, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 
-import DatePicker from 'react-datepicker'
-import { DateType } from 'src/contract/models/DatepickerTypes'
-import Spacing from 'src/@core/theme/spacing'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -34,11 +29,17 @@ type DialogProps = {
   arrayhead: any
   role: any
 }
+
 type IDocument = {
   title: string
   docType: string
   role: string
 }
+
+type ISelectedFile = {
+  document: IDocument,
+  file: File,
+};
 
 type FormData = {
   nameOtherDocument: string
@@ -47,29 +48,38 @@ type FormData = {
 
 const DialogAddDocument = (props: DialogProps) => {
   const [onLoading, setOnLoading] = useState(false);
-  const [preview, setPreview] = useState()
-  const [selectedFile, setSelectedFile] = useState();
-  const [document_name, setDocument] = useState<any>([]);
   const [isCrewing, setIsCrewing] = useState(true);
-
-  useEffect(() => {
-    if (!selectedFile) {
-      setPreview(undefined)
-
-      return
-    }
-    const objectUrl: any = URL.createObjectURL(selectedFile)
-    setPreview(objectUrl)
-
-    return () => URL.revokeObjectURL(objectUrl)
-  }, [selectedFile])
+  const [selectedFiles, setSelectedFiles] = useState<ISelectedFile[]>([]);
 
   const {
-    register,
     handleSubmit,
   } = useForm<FormData>({
     mode: 'onBlur',
-  })
+  });
+
+  const handleChangeCrewing = (status: boolean) => {
+    if (!status) {
+      setSelectedFiles(e => {
+        const items = e.filter(i => i.document.docType != 'M3');
+        return items;
+      });
+    }
+
+    return setIsCrewing(status);
+  }
+
+  const handleSelectedFile = (file: File, document: IDocument) => {
+    setSelectedFiles(prevState => {
+      const items = prevState;
+      const newItems = items.filter(e => e.document.docType != document.docType);
+      newItems.push({
+        document: document,
+        file: file,
+      });
+
+      return newItems;
+    });
+  }
 
   const onSubmit = async (item: FormData) => {
     setOnLoading(true);
@@ -79,40 +89,30 @@ const DialogAddDocument = (props: DialogProps) => {
   }
 
   const saveparent = async (item: FormData) => {
-    const json = {
-      user_document: selectedFile,
-      document_name: document_name.title,
-      document_type: document_name.docType,
-      document_number: null
+    setOnLoading(true);
+
+    try {
+      for (const file of selectedFiles) {
+        const json = {
+          user_document: file?.file,
+          document_name: file?.document.title,
+          document_type: file?.document.docType,
+          document_number: null
+        };
+
+        console.log(json);
+        const resp = await HttpClient.postFile('/user/document', json)
+        if (resp.status != 200) {
+          throw resp.data.message ?? 'Something went wrong!'
+        }
+      }
+    } catch (error) {
+      toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
 
-    console.log(json);
-
-    // setOnLoading(true)
-    // try {
-    //   const resp = await HttpClient.postFile('/user/document', json)
-    //   if (resp.status != 200) {
-    //     throw resp.data.message ?? 'Something went wrong!'
-    //   }
-    // 
-    //   props.onCloseClick()
-    //   toast.success(` Document submited successfully!`)
-    // } catch (error) {
-    //   toast.error(`Opps ${getCleanErrorMessage(error)}`)
-    // }
-
-    // setOnLoading(true)
-  }
-
-  const onSelectFile = (e: any) => {
-    if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFile(undefined)
-
-      return
-    }
-
-    // I've kept this example simple by using the first image instead of multiple
-    setSelectedFile(e.target.files[0])
+    setOnLoading(false);
+    props.onCloseClick();
+    toast.success(`Document submited successfully!`);
   }
 
   const documents: IDocument[] = [
@@ -159,73 +159,19 @@ const DialogAddDocument = (props: DialogProps) => {
                       aria-labelledby="demo-radio-buttons-group-label"
                       defaultValue="yes"
                       name="radio-buttons-group"
-                      onChange={e => setIsCrewing(e.target.value == "yes")}
+                      onChange={e => handleChangeCrewing(e.target.value == "yes")}
                     >
                       <FormControlLabel value="yes" control={<Radio sx={{ p: 1, ml: 1 }} />} label="Yes" />
                       <FormControlLabel value="no" control={<Radio sx={{ p: 1, ml: 1 }} />} label="no" />
                     </RadioGroup>
                   </FormControl>
                 </Box>
-                {isCrewing && (<DocumentTile item={item} />)}
+                {isCrewing && (<DocumentTile key={item.docType} selectedFile={selectedFiles.find(e => e.document.docType == item.docType)} item={item} handleChange={handleSelectedFile} />)}
               </>;
             }
 
-            return <DocumentTile item={item} />;
+            return <DocumentTile key={item.docType} selectedFile={selectedFiles.find(e => e.document.docType == item.docType)} item={item} handleChange={handleSelectedFile} />;
           })}
-
-          {/* 
-          <Grid container columnSpacing={'1'} rowSpacing={'2'}>
-            <Grid item md={12} xs={12}>
-              <Autocomplete
-                disablePortal
-                id='dokumen'
-                options={dokumens.filter(e => e.role == props.role)}
-                getOptionLabel={option => option.title || ''}
-                renderInput={params => <TextField {...params} label='Document' sx={{ mb: 2 }} variant='standard' />}
-                onChange={(e, newValue: any) => (newValue ? setDocument(newValue) : setDocument([]))}
-              />
-            </Grid>
-            <Grid item md={12} xs={12} mt={2}>
-              <Grid item xs={12} md={12} container justifyContent={'left'}>
-                <Grid xs={6}>
-                  <label htmlFor='x'>
-                    <img
-                      alt='logo'
-                      src={preview ? preview : '/images/uploadimage.jpeg'}
-                      style={{
-                        maxWidth: '100%',
-                        height: '120px',
-                        padding: 0,
-                        margin: 0
-                      }}
-                    />
-                  </label>
-                  <input
-                    accept='application/pdf,,image/*'
-                    style={{ display: 'none' }}
-                    id='x'
-                    onChange={onSelectFile}
-                    type='file'
-                  ></input>
-                </Grid>
-                <Grid xs={6}>
-                  <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
-                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                      <strong>Click to upload Document File.</strong>
-                    </Typography>
-                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                      Allowed PDF.
-                    </Typography>
-                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                      Max size of 800K.
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-          */}
-
         </DialogContent>
         <DialogActions
           sx={{
@@ -253,17 +199,31 @@ const DialogAddDocument = (props: DialogProps) => {
   )
 }
 
-const DocumentTile = (props: { item: IDocument }) => {
-  const { item } = props;
+const DocumentTile = (props: { item: IDocument, selectedFile?: ISelectedFile, handleChange: (file: File, document: IDocument) => void }) => {
+  const { item, selectedFile, handleChange } = props;
 
   return (
     <Box sx={{ borderBottom: 1, borderColor: '#9e9e9e', paddingBottom: 2, paddingTop: 2 }}>
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <Typography sx={{ display: 'flex', flexGrow: 1 }}>{item.title}</Typography>
-        <IconButton sx={{ padding: 0 }}>
+        <IconButton sx={{ padding: 0 }} component="label">
           <Icon icon='mdi:add-circle' fontSize={32} color='#546e7a' />
+          <input
+            type='file'
+            style={{ display: 'none' }}
+            onChange={(e) => {
+              if (!e.target.files) {
+                return;
+              }
+
+              handleChange(e.target.files[0], item);
+            }}
+          />
         </IconButton>
       </Box>
+      {selectedFile && (
+        <Box component={Typography}>{selectedFile.file.name} ({toMegaByte(selectedFile.file.size, true)})</Box>
+      )}
     </Box>
   );
 }
