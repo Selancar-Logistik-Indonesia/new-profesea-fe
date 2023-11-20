@@ -9,6 +9,10 @@ const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true, minWidth: 10 },
   { field: 'title', headerName: 'Title', sortable: true, minWidth: 300 },
   { field: 'organizer', headerName: 'Organizer', sortable: true, minWidth: 200 },
+  { field: 'date', headerName: 'Date', sortable: true, minWidth: 200 },
+  { field: 'time', headerName: 'Time', sortable: true, minWidth: 200 },
+  { field: 'venue', headerName: 'Venue', sortable: true, minWidth: 200 },
+  { field: 'meet', headerName: 'Link', sortable: true, minWidth: 200 },
   {
     field: 'action',
     headerName: 'Action',
@@ -42,12 +46,16 @@ type RoleGridProps = {
 }
 
 interface RowItem {
-    id:number,
-    title: string, 
-    organizer: string,
-    actions: {
-        onDelete: VoidFunction,
-    };
+  id: number
+  title: string
+  organizer: string
+  date: string
+  time: string
+  venue: string
+  meet: string
+  actions: {
+    onDelete: VoidFunction
+  }
 }
 
 export {
