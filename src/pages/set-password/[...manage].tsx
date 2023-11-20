@@ -169,7 +169,7 @@ const ResetPassword = () => {
                 </Link>
               </Box>
               <Box sx={{ mb: 6 }}>
-                <TypographyStyled variant='h5'>Reset Password !</TypographyStyled>
+                <TypographyStyled variant='h5'>Set New Password !</TypographyStyled>
                 <Typography variant='body2'>
                   Enter your new password
                 </Typography>
