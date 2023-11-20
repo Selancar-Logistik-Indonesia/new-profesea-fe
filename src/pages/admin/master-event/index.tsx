@@ -46,7 +46,11 @@ const MasterNews = () => {
                   no: index + 1,
                   id: row.id,
                   title: row.title,
-                  organizer: row.organizer, 
+                  organizer: row.organizer,
+                  date: row.date,
+                  time: row.time,
+                  venue: row.venue,
+                  meet: row.meet,
                   actions: {
                     onDelete: () => deleteHandler(row)
                   }

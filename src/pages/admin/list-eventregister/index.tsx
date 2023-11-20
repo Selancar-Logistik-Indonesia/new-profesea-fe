@@ -16,6 +16,7 @@ type listEvent = {
   name: string
   id: number
   event: string
+  created_at: string
 }
 const ListEvent = () => { 
     const [onLoading, setOnLoading] = useState(false); 
@@ -39,7 +40,8 @@ const ListEvent = () => {
                       no: index + 1,
                       id: row?.id,
                       name: row?.name,
-                        event: row?.event, 
+                      event: row?.event,
+                        created_at: row?.created_at 
                     } as RowItem
                 });
 
