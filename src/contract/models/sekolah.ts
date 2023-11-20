@@ -2,7 +2,7 @@
 interface SekolahType {
     id: number
     sekolah: string
-    statusaktif: Boolean
+    statusaktif: boolean
  
 }
 

@@ -119,16 +119,7 @@ const DialogAdd = (props: DialogProps) => {
        // setCurrentImage(selectedFiles?.[0])
        // uploadPhoto(selectedFiles?.[0])
      }
-     const img2 = files.map((file: FileProp) => (
-       <img
-         key={file.name}
-         alt={file.name}
-         className='single-file-image'
-         src={URL.createObjectURL(file as any)}
-         width={450}
-       />
-     ))
-      
+       
     
     const schema = yup.object().shape({
       // title: yup.string().required('Title is required'),
