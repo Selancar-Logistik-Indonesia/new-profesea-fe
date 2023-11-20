@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import Link from 'next/link'
 import Button from '@mui/material/Button'
 import Box, { BoxProps } from '@mui/material/Box'
@@ -11,6 +11,7 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from "react-i18next";
+import DialogGoogleLogin from './DialogGoogleLogin'
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -57,6 +58,7 @@ const Register = () => {
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
+	const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false);
   const { skin } = settings
 
   const { t } = useTranslation();
@@ -105,6 +107,18 @@ const Register = () => {
                   <Button variant="contained" fullWidth sx={{ mb: 6, height: '70px', color: 'white' }} style={{ textTransform: 'none' }} startIcon={<Icon icon={'solar:user-hand-up-bold-duotone'} />} >{t('register_text_6')}</Button>
                 </Link>
 
+                <Box sx={{ marginTop: '2.5%' }}>
+                    <Button
+                      fullWidth
+                      size='medium'
+                      variant='outlined'
+                      sx={{ mb: 3 }}
+                      onClick={() => setOpenModalGoogle(true)}
+                    >
+                      {t('register_text_2A')} Google <Icon icon={'devicon:google'} style={{ marginLeft: 5 }} />
+                    </Button>
+                  </Box>
+
                 <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
                   <Typography sx={{ mr: 2, color: "#262525" }}>{t('register_text_2')} </Typography>
                   <Typography href='/login' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold', }}>
@@ -117,6 +131,12 @@ const Register = () => {
           </RightWrapper>
         </Box>
       </Box>
+      <DialogGoogleLogin
+        visible={openModalGoogle}
+        onCloseClick={() => {
+          setOpenModalGoogle(!openModalGoogle)
+        }}
+      />
     </>
   )
 }

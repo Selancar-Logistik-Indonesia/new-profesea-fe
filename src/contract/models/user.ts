@@ -41,4 +41,5 @@ export interface IUser {
   license?: any
   vessel_type?: VesselType
   verified_at: string
+  is_crewing: number
 }

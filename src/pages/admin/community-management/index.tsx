@@ -46,11 +46,11 @@ const CommunityScreen = () => {
             const items = rows.map((row, index) => {
                 return {
                     no: index + 1,
-                    id: row?.id,
-                    title: row?.title,
+                    id: row.id,
+                    title: row.title,
                     content: row?.snap_content,
-                    username: row?.user.name,
-                    forum_name: row?.forum.name,
+                    username: row.user?.name,
+                    forum_name: row.forum?.name,
                     actions: {
                         onDelete: () => deleteHandler(row),
                     }

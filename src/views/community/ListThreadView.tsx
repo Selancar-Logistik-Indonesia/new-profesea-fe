@@ -10,8 +10,13 @@ import { useEffect } from 'react'
 import ThreadContext from 'src/context/ThreadContext'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import ShareArea from 'src/pages/thread/ShareArea'
+import ActionArea from './ActionArea'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import secureLocalStorage from 'react-secure-storage'
+import { IUser } from 'src/contract/models/user'
 
-const renderList = (arr: IThread[]) => {
+const renderList = (arr: IThread[], user?:number) => {
+
   if (arr && arr.length) {
     
     return arr.map((item, index) => {
@@ -51,7 +56,16 @@ const renderList = (arr: IThread[]) => {
                         </Grid>
                     </Box>
                   </Box>
-                </Link> 
+                </Link>    
+                { user == item?.user_id && (          
+                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-end'], marginTop:'-7%' }} >
+                  <Grid container direction="row" justifyContent="flex-end" spacing={6} >
+                      <Grid item xs={6}> 
+                        <ActionArea url={`/thread/edit/?id=${item.id}`} item={item} ></ActionArea>
+                      </Grid>
+                  </Grid>
+                </Box>
+                )}
                 <Link style={{ textDecoration: 'none' }} href={'/thread/?id=' + item.id} >
                   <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} mt={5} ml={5} mr={5} >
                       <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
@@ -85,6 +99,7 @@ const renderList = (arr: IThread[]) => {
                 </Paper>
           </Grid>
       )
+
     })
   } else {
     return null
@@ -93,6 +108,7 @@ const renderList = (arr: IThread[]) => {
 
 const ListThreadView = () => {
   const { fetchThreads, hasNextPage, totalThread } = useThread();
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   useEffect(() => {
     
@@ -118,7 +134,7 @@ const ListThreadView = () => {
               hasMore={hasNextPage}
               loader={(<CircularProgress sx={{ mt: 20 }} />)}>
               <Grid container spacing={2} mt={3}>
-                {renderList(threads)}
+                {renderList(threads, user?.id)}
               </Grid>
           </InfiniteScroll>
         )
