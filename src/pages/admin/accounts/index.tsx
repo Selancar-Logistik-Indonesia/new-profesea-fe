@@ -20,7 +20,7 @@ import { Icon } from '@iconify/react';
 import ITeam from 'src/contract/models/team';
 import DialogImport from './DialogImport';
 import DialogView from './DialogView';
- 
+
 const UserScreen = () => {
     const translate: any = {
         onship: 'On-Ship',
@@ -48,13 +48,14 @@ const UserScreen = () => {
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
     const [search, setSearch] = useState("");
-    const [filterTeam, setFilterTeam] = useState<any>(0); 
-    const [filterShip, setFilterShip] = useState<any>([])
+    const [filterTeam, setFilterTeam] = useState<any>(0);
+    const [filterShip, setFilterShip] = useState<any>([]);
+    const [filterCrewing, setFilterCrewing] = useState('');
 
     const [perPage, setPerPage] = useState(10);
     const getListAccount = async () => {
         try {
-            const resp = await HttpClient.get(`/user-management?search=${search}&page=${page}&take=${perPage}&team_id=${filterTeam}&employee_type=${filterShip}`);
+            const resp = await HttpClient.get(`/user-management?search=${search}&page=${page}&take=${perPage}&team_id=${filterTeam}&employee_type=${filterShip}&is_crewing=${filterCrewing}`);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
@@ -62,23 +63,23 @@ const UserScreen = () => {
             const rows = resp.data.users.data as Account[];
             const items = rows.map((row, index) => {
                 return {
-                  no: index + 1,
-                  id: row.id,
-                  name: row.name,
-                  email: row.email,
-                  phone: row.phone,
-                  role: row.employee_type != 'offship' ? row.role : 'Candidate',
-                  type: translate[row.employee_type],
-                  plan: row.plan_type,
-                  verified_at: row.verified_at,
-                  resend: {
-                    onResend: () => resendchat(row)
-                  },
-                  actions: {
-                    docView: () => viewHandler(row),
-                    onDelete: () => deleteHandler(row),
-                    onUpdate: () => updateHandler(row)
-                  }
+                    no: index + 1,
+                    id: row.id,
+                    name: row.name,
+                    email: row.email,
+                    phone: row.phone,
+                    role: row.employee_type != 'offship' ? row.role : 'Candidate',
+                    type: translate[row.employee_type],
+                    plan: row.plan_type,
+                    verified_at: row.verified_at,
+                    resend: {
+                        onResend: () => resendchat(row)
+                    },
+                    actions: {
+                        docView: () => viewHandler(row),
+                        onDelete: () => deleteHandler(row),
+                        onUpdate: () => updateHandler(row)
+                    }
                 } as unknown as RowItem
 
             });
@@ -136,11 +137,10 @@ const UserScreen = () => {
     }
 
     const resendchat = async (row: Account) => {
-   
-    const resp = await HttpClient.get(`/user-management/resend-verification?email=`+row.email)
-     if (resp.status == 200) {
-       toast.success('Successfully Resend Email!')
-     }
+        const resp = await HttpClient.get(`/user-management/resend-verification?email=` + row.email)
+        if (resp.status == 200) {
+            toast.success('Successfully Resend Email!')
+        }
     }
 
     useEffect(() => {
@@ -149,7 +149,7 @@ const UserScreen = () => {
         getListAccount().then(() => {
             setOnLoading(false);
         });
-    }, [page, search, hookSignature, perPage, filterTeam, filterShip]);
+    }, [page, search, hookSignature, perPage, filterTeam, filterShip, filterCrewing]);
 
     return (
         <>
@@ -172,7 +172,13 @@ const UserScreen = () => {
                                         options={teams}
                                         getOptionLabel={(option: ITeam) => (option.id == 2) ? 'Candidate' : option.teamName}
                                         renderInput={(params) => <TextField {...params} label="Role" size='small' sx={{ mb: 2, width: '150px' }} />}
-                                        onChange={(event: any, newValue: ITeam | null) => (newValue?.id) ? setFilterTeam(newValue.id) : setFilterTeam(0)}
+                                        onChange={(event: any, newValue: ITeam | null) => {
+                                            if (newValue?.id != 3) {
+                                                setFilterCrewing('');
+                                            }
+
+                                            return (newValue?.id) ? setFilterTeam(newValue.id) : setFilterTeam(0)
+                                        }}
                                     />
                                 </Grid>
                                 <Grid item>
@@ -181,15 +187,28 @@ const UserScreen = () => {
                                         id='combo-box-demo'
                                         options={EmployeeType}
                                         getOptionLabel={(option: any) => option.label}
-                                        renderInput={params => <TextField {...params} label='Type' size='small' sx={{ ml:3, mb: 2, width: '150px' }}/>}
+                                        renderInput={params => <TextField {...params} label='Type' size='small' sx={{ ml: 3, mb: 2, width: '150px' }} />}
                                         onChange={(event: any, newValue: any | null) =>
                                             newValue?.employee_type ? setFilterShip(newValue?.employee_type) : setFilterShip('')
                                         }
                                     />
                                 </Grid>
+                                {filterTeam == 3 && (
+                                    <Grid item>
+                                        <Autocomplete
+                                            disablePortal
+                                            id='combo-box-demo'
+                                            options={['yes', 'no']}
+                                            getOptionLabel={(option: any) => option}
+                                            renderInput={params => <TextField {...params} label='Type' size='small' sx={{ ml: 3, mb: 2, width: '150px' }} />}
+                                            onChange={(event: any, newValue: any | null) => {
+                                                setFilterCrewing(newValue);
+                                            }}
+                                        />
+                                    </Grid>
+                                )}
                             </Grid>
                             <Grid container justifyContent="flex-end">
-
                                 <Grid item>
                                     <TextField
                                         size='small'
@@ -272,7 +291,7 @@ const UserScreen = () => {
                         selectedItem={selectedItem}
                         visible={openViewModal}
                         onCloseClick={() => setOpenViewModal(!openViewModal)}
-                        onStateChange={() => setHookSignature(v4())}/>
+                        onStateChange={() => setHookSignature(v4())} />
                 </>
             )}
         </>
