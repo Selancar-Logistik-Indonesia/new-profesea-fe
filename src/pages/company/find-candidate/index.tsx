@@ -10,7 +10,7 @@ import { Theme, useTheme } from '@mui/material/styles'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import InfiniteScroll from 'react-infinite-scroll-component' 
-import RecomendedViewSubscribe from 'src/views/find-candidate/RecomendedViewSubscribe'
+// import RecomendedViewSubscribe from 'src/views/find-candidate/RecomendedViewSubscribe'
 import { subscribev } from 'src/utils/helpers'
 import CandidateContext, { CandidateProvider } from 'src/context/CandidateContext'
 import { useCandidate } from 'src/hooks/useCandidate'
@@ -52,7 +52,7 @@ const FindCandidate = () => {
 
  
 const FindCandidateApp = () => {
-  const [listCandidateSubscribe, setListCandidateSubscribe] = useState<IUser[]>([]) 
+  // const [listCandidateSubscribe, setListCandidateSubscribe] = useState<IUser[]>([]) 
   const { fetchCandidates,  hasNextPage, totalCandidate, setPage } = useCandidate();
   const theme = useTheme()
   // const windowUrl = window.location.search
@@ -332,7 +332,7 @@ const FindCandidateApp = () => {
 
     const candidates = response.data.candidates
     
-    setListCandidateSubscribe(candidates.data)
+    // setListCandidateSubscribe(candidates.data)
   }
 
   useEffect(() => {
