@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import {   Button, createTheme,   ThemeProvider  } from '@mui/material' 
+import { Button, createTheme,   ThemeProvider  } from '@mui/material' 
 import Link from 'next/link'
 import Group from 'src/contract/models/group' 
 import Card from '@mui/material/Card' 
@@ -56,15 +56,10 @@ const renderList = (listGroup: Group[]) => {
 
     return (
       <ThemeProvider theme={theme} key={item?.id}>
-        <Grid item xs={12} md={3} padding={2} mt={3}>
-          <Card
-            sx={{
-              // width: '100%',
-              borderRadius: '16px',
-              color: 'common.white',
-              backgroundColor: '#FFFFFF'
-            }}
-          >
+        <Grid item xs={12} md={3} >
+        <Card
+        sx={{ color: 'common.white', backgroundColor: '#FFFFFF'}}
+      >
             <CardMedia
               component='img'
               alt='profile-header'
@@ -73,10 +68,10 @@ const renderList = (listGroup: Group[]) => {
                 height: { xs: 100, md: 100 },
                 width: '100%',
                 objectFit: 'cover',
-
-                borderRadius: 2
               }}
             />
+
+            
             <CardContent
               sx={{
                 pt: 0,
@@ -102,10 +97,12 @@ const renderList = (listGroup: Group[]) => {
                     flexDirection: 'column',
                     alignItems: ['center'],
                     justifyContent: 'center',
+                    
                   }}
                   marginTop={-10}
                 >
-                  <ProfilePicture sx={{backgroundColor: 'white'}} src={item.profilepicture != '' ? item.profilepicture : '/images/avatars/1.png'} />
+                  <ProfilePicture src={item.profilepicture != '' ? item.profilepicture : '/images/avatars/1.png'} sx={{ mb: 1, width: 100, height: 100 }} />
+                   
                   <Box
                     sx={{
                       display: 'flex',
@@ -114,18 +111,18 @@ const renderList = (listGroup: Group[]) => {
                       justifyContent: 'center'
                     }}
                   >
-                    <Link style={{ textDecoration: 'none' }} href={'/group?id=' + item?.id}>
-                      <Typography align='center' sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={18}>
+                    <Link href={'/group?id=' + item?.id}>
+                      <Typography align='center' sx={{ fontFamily: 'Outfit', fontWeight: '600', color: '#0a66c2', mb: 1 }} fontSize={18}>
                         {item.title ? item.title : '-'}
                       </Typography>
-                      <Typography align='center' sx={{ color: 'text.primary', mb: 1 }} fontSize={14}>
+                      <Typography align='center' sx={{ fontFamily: 'Outfit', fontWeight: '400', color: 'text.primary', mb: 1 }} fontSize={14}>
                         {item.description ? item.description : '-'}
                       </Typography>
-                      <Typography align='center' sx={{ color: 'text.secondary', mb: 1 }} fontSize={12}>
+                      <Typography align='center' sx={{  fontFamily: 'Outfit', fontWeight: '600', color: '#ff9601', mb: 1 }} fontSize={12}>
                         {item.count_member ? item.count_member : '-'} Member
                       </Typography>
                     </Link>
-                    <Button href={'/group?id=' + item?.id} variant='outlined' color='primary'>
+                    <Button href={'/group?id=' + item?.id} variant='outlined' color='primary' sx={{ fontFamily: 'Outfit', fontWeight: '600', color: '#0a66c2'}}>
                       Join
                     </Button>
                   </Box>

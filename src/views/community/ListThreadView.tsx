@@ -68,7 +68,17 @@ const renderList = (arr: IThread[], user?:number) => {
                 )}
                 <Link style={{ textDecoration: 'none' }} href={'/thread/?id=' + item.id} >
                   <Box   height={120} sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} mt={5} ml={5} mr={5} >
-                      <Typography sx={{ color: '#0a66c2', textTransform: 'uppercase' }} fontWeight={600} fontSize={16}>
+                      <Typography fontWeight={600} fontSize={16} sx={{ 
+                        color: '#0a66c2', 
+                      textTransform: 'uppercase',
+                        lineClamp: 2, // Set the maximum number of lines you want to display
+                        WebkitLineClamp: 2, // For Webkit-based browsers like Safari
+                        display: '-webkit-box',
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        mb: 1
+                        }}>
+                      
                         {item.title
                           ? `${item.title.toString().charAt(0).toUpperCase() + item.title.toString().slice(1)}`
                           : ''}
