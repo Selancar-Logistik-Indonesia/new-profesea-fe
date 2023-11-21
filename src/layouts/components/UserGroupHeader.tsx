@@ -4,7 +4,7 @@ import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import {   Avatar, Divider, styled } from '@mui/material' 
+import { Divider, styled } from '@mui/material' 
  import Group from 'src/contract/models/group'
 
  const ProfilePicture = styled('img')(({ theme }) => ({
