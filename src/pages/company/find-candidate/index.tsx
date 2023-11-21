@@ -829,7 +829,7 @@ const FindCandidateApp = () => {
                               <Alert severity='info'>
                                 Based on <strong>your profile</strong> and <strong> search history</strong>
                               </Alert>
-                              <RecomendedViewSubscribe listCandidate={listCandidateSubscribe} />
+                              {/* <RecomendedViewSubscribe listCandidate={listCandidateSubscribe} /> */}
                                 <CandidateContext.Consumer>
                                   {({ listCandidates, onLoading }) => {
                                       if (onLoading) {

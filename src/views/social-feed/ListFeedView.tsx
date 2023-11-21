@@ -21,7 +21,7 @@ const ListFeedView = (props: Props) => {
         // let itemCount = 0;
         const components: JSX.Element[] = [];
 
-        if (feeds.length == 0) {
+        if (feeds?.length == 0) {
             return (
                 <Typography>No feed</Typography>
             )
