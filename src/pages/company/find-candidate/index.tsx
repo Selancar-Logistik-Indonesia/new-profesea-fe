@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import { Autocomplete, Button, Card, CardContent, CardHeader, Chip, SelectChangeEvent,  Collapse, FormControl, Grid, IconButton,  Input,   InputLabel,   MenuItem,   OutlinedInput,   Select,   TextField,  Typography, useMediaQuery, Alert, CircularProgress } from '@mui/material'
 import { Icon } from '@iconify/react' 
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
-import { IUser } from 'src/contract/models/user'
+// import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'  
 import JobCategory from 'src/contract/models/job_category'  
 import { Theme, useTheme } from '@mui/material/styles'
@@ -330,7 +330,7 @@ const FindCandidateApp = () => {
       '/candidate?search=' +  '&take=6&page=1'  
     )
 
-    const candidates = response.data.candidates
+    // const candidates = response.data.candidates
     
     // setListCandidateSubscribe(candidates.data)
   }
