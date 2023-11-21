@@ -132,8 +132,8 @@ const CandidateProfile = (props: compProps) => {
   const schema = yup.object().shape({
     address: yup.string().required(),
     email: yup.string().email().required(),
-    phone: yup.string().required(),
-    genderr: yup.string().required()
+    // phone: yup.string().required(),
+    // idcombokelamin: yup.string().required()
   })
   const theme = useTheme()
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -164,6 +164,7 @@ const CandidateProfile = (props: compProps) => {
   const [idcombokelamin, setCombokelamin] = useState<any>(
     props.datauser?.gender == 'f' ? { title: 'f', label: 'Female' } : { title: 'm', label: 'Male' }
   )
+ 
   const [idcombocode, setCombocode] = useState<any>(props.datauser?.country_id)
   const [idcity, setCombocity] = useState<any>(props.datauser.address?.city_id)
   const [idship, setShip] = useState<any>(
@@ -340,7 +341,7 @@ const CandidateProfile = (props: compProps) => {
     getCombokelamin(jeniskelamin)
   }
   useEffect(() => {
-    combobox()
+    combobox()  
   }, [JC])
   const addbuttonfacebook = () => {
     let user = ''
