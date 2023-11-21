@@ -204,6 +204,7 @@ const CandidateProfile = (props: compProps) => {
   const [arrayHead, getArrayHead] = useState<any[]>([])
   const [JobCategory, getJobCategory] = useState<any[]>([])   
   const [JC, setJC] = useState(props.datauser?.field_preference?.job_category? props.datauser?.field_preference?.category_id: 0)
+  
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value }
