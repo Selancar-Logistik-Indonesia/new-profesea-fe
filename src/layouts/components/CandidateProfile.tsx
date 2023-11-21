@@ -527,13 +527,13 @@ const CandidateProfile = (props: compProps) => {
     console.log('here 1', idcombokelamin)
     availabledate = date
     const json = {
-      country_id: idcountry,
+      country_id: idcombocode,
       employee_type: idship,
       name: fullName,
       phone: phoneNum,
       website: website,
       about: about,
-      address_country_id: idcombocode,
+      address_country_id: idcountry,
       address_city_id: idcity,
       address_address: address,
       gender: idcombokelamin.title,
