@@ -22,7 +22,8 @@ interface FieldPreference {
   city: City
   province: Province
   spoken_langs: any
-  open_to_opp:any
+  open_to_opp: any
+  category_id: any
   job_category?: JobCategory
 }
 
