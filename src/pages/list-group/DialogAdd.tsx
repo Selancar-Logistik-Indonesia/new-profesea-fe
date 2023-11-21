@@ -196,8 +196,8 @@ const DialogAdd = (props: DialogProps) => {
                     <ProfilePictureStyled
                       src={preview ? preview : '/images/avatars/profilepic.png'}
                       alt='profile-picture'
-                      sx={{ width: 100, height: 100, objectFit: 'cover' }}
-                    ></ProfilePictureStyled>
+                      sx={{ width: 100, height: 100, objectFit: 'cover' }}>
+                    </ProfilePictureStyled>
 
                     <input
                       accept='image/*'
@@ -206,11 +206,14 @@ const DialogAdd = (props: DialogProps) => {
                       onChange={onSelectFile}
                       type='file'
                     ></input>
+
                     <Box position={'absolute'} right={'40%'} bottom={'40%'} top={'25%'}>
                       <label htmlFor='raised-button-file'>
                         <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
                       </label>
+
                     </Box>
+
                   </BoxWrapper>
                   {/* <span>{errors?.title?.message}</span> */}
                  </Grid>

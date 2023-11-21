@@ -4,7 +4,7 @@ import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import {   Divider, styled } from '@mui/material' 
+import {   Avatar, Divider, styled } from '@mui/material' 
  import Group from 'src/contract/models/group'
 
  const ProfilePicture = styled('img')(({ theme }) => ({
@@ -38,6 +38,18 @@ const UserProfileHeader = (props: userProps) => {
             objectFit: 'cover'
           }}
         />
+        <ProfilePicture
+          src={datagroup?.profilepicture ? datagroup?.profilepicture : '/images/avatars/1.png'}
+          alt='profile-picture'
+          sx={{
+            top: 300,
+            left: 50,
+            width: 100,
+            height: 100,
+            position: 'absolute',
+            border: theme => `5px solid ${theme.palette.common.white}`
+          }}
+        />
         <CardContent
           sx={{
             pt: 0,
@@ -49,40 +61,29 @@ const UserProfileHeader = (props: userProps) => {
             marginLeft: { md: '10px' }
           }}
         >
-          <ProfilePicture
-            src={datagroup?.profilepicture ? datagroup?.profilepicture : '/images/avatars/1.png'}
-            alt='profile-picture'
-          />
           <Box
-            sx={{
-              width: ['100%'],
-              display: 'flex',
-              ml: { xs: 0, md: 0 },
-              alignItems: 'flex-end',
-              flexWrap: ['wrap', 'nowrap'],
-              justifyContent: ['center', 'space-between']
-            }}
-          >
-            <Box sx={{ mb: [4, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
-              <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '900' }}>
+          sx={{
+            mt: 15.75,
+            mb: 5.25,
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+        >
+          <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
+          <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '900' }}>
                 {datagroup.title}
               </Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  justifyContent: ['center', 'flex-start']
-                }}
-              >
-                <Box sx={{ mr: 4, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
-                  <Typography sx={{ color: '#262525', fontWeight: 600 }}>{datagroup.description}</Typography>
-                </Box>
-              </Box>
-            </Box>
+              <Typography sx={{ color: '#262525', fontWeight: 600 }}>{datagroup.description}</Typography>
           </Box>
+        </Box>
+          
         </CardContent>
         <Divider style={{ width: '100%' }} />
       </Card>
+
+      
     )
 }
 

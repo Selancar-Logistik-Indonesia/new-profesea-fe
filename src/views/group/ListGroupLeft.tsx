@@ -43,10 +43,10 @@ const renderList = (listGroup: Group[]) => {
 
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={2}>
               <Link style={{ textDecoration: 'none' }} href={'/group?id=' + item?.id}>
-                 <Typography sx={{ color: '#424242', fontWeight: 800 }}>
+                 <Typography sx={{ color: '#FFFFFF', fontWeight: 600 }}>
                   {item.title ? item.title : '-'}
                 </Typography> 
-                 <Typography sx={{ color: '#424242', fontWeight: 400 }}>
+                 <Typography sx={{ color: '#FFFFFF', fontWeight: 400 }}>
                   {item.count_member ? item.count_member : '-'} {' '} Member
                 </Typography>
               </Link>
@@ -64,14 +64,16 @@ const LIstGroupLeft = (props: Props) => {
   return (
     <Grid container marginTop={'10px'}>
       <Grid item xs={12}>
-        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+      <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#1D9BF0' }}>
           <CardContent>
             <Grid item lg={6} md={6} xs={12}>
               {listGroup && (
                 <>
                   <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Box sx={{ mr: 2 }}>
-                      <Typography>Group Recommendations</Typography>
+                    <Typography align='left' sx={{  fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF', mb: 1 }} fontSize={14}>
+                      Group Recommendations
+                      </Typography>
                     </Box>
                   </Box>
                 </>
