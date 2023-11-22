@@ -4,6 +4,7 @@ interface FetchFeedPayload {
   username?: string
   user_id?: any
   group_id?: string
+  alumni_id?: string
   mPage?: number
 }
 

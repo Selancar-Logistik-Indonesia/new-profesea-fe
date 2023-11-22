@@ -27,7 +27,7 @@ const ListAlumni = () => {
   const [hookSignature, setHookSignature] = useState(v4())
 
   const getdatapencarian = async () => {    
-    fetchAlumnis({ take: 12, search: textCandidate})  
+    fetchAlumnis({ take: 12, search: textCandidate,status:true})  
   }
 
   useEffect(() => {

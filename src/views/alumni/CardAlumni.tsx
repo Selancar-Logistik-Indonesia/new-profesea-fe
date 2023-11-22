@@ -16,7 +16,7 @@ export type ParamJobVacncy = {
 
 // export type ProfileTeamsType = ProfileTabCommonType & { color: ThemeColor }
 interface Props {
-  selectedGroup: any
+  selectedAlumni: any
   iduser: string
   label: string
   statusbutton: any
@@ -43,7 +43,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
           </Box>
           <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
             <Link style={{ textDecoration: 'none' }} href={'/profile/' + item.user?.username}>
-              <Typography sx={{ color: '#424242', fontWeight: 800 }}>
+              <Typography sx={{ color: '#424242', fontWeight: 600 }}>
                 {`${item.user?.name.charAt(0).toUpperCase() + item.user?.name.slice(1)}`}
               </Typography>
               <Typography sx={{ color: '#424242', fontWeight: 400 }}>
@@ -52,6 +52,8 @@ const renderList = (arr: ParamJobVacncy[]) => {
             </Link>
           </Box>
         </Box>
+
+        
       )
     })
   } else {
@@ -59,26 +61,68 @@ const renderList = (arr: ParamJobVacncy[]) => {
   }
 }
 
-const CardGroup = (props: Props) => {
-  const { selectedGroup } = props
+const CardAlumni = (props: Props) => {
+  const { selectedAlumni } = props
 
   return (
     <Grid container marginTop={'0px'}>
       <Grid item xs={12}>
         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
-            <Grid item lg={6} md={6} xs={12}>
-              {selectedGroup && (
+            <Grid item lg={12} md={12} xs={12}>
+              {selectedAlumni && (
                 <>
                   <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <Box sx={{ mr: 2 }}>
-                      <Typography>Total Member {selectedGroup.totalmember}</Typography>
+                    <Box
+                      sx={{
+                        mb: 3.5,
+                        borderRadius: 1,
+                        color: 'text.primary',
+                        p: theme => theme.spacing(2.75, 3.5),
+                        backgroundColor: '#0a66c2'
+                      }}
+                    >
+                      <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+                        <Avatar
+                          variant='rounded'
+                          sx={{
+                            mr: 2,
+                            width: 30,
+                            height: 30,
+                            color: 'white',
+                            backgroundColor: 'transparent',
+                            border: '2px solid white'
+                          }}
+                        ></Avatar>
+
+                        <Box
+                          sx={{
+                            width: '100%',
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                          }}
+                        >
+                          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Typography
+                              sx={{ fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF' }}
+                              fontSize={14}
+                            >
+                              Total Member
+                            </Typography>
+                            <Typography variant='h5' sx={{ fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF' }}>
+                              {selectedAlumni.totalmember}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </Box>
                     </Box>
                   </Box>
                 </>
               )}
             </Grid>
-            <Box sx={{ mt: 3 }}>{renderList(selectedGroup?.member)}</Box>
+            <Box sx={{ mt: 3 }}>{renderList(selectedAlumni?.member)}</Box>
           </CardContent>
         </Card>
       </Grid>
@@ -86,4 +130,4 @@ const CardGroup = (props: Props) => {
   )
 }
 
-export default CardGroup
+export default CardAlumni

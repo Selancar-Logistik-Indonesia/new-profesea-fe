@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Avatar, Button, Card, CardContent } from '@mui/material'
+import { Avatar, Card, CardContent } from '@mui/material'
 import Link from 'next/link'
 import Alumni from 'src/contract/models/alumni'
 
@@ -42,30 +42,10 @@ const renderList = (listAlumni: Alumni[]) => {
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={2}>
             <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item?.id}>
               <Typography sx={{ color: '#FFFFFF', fontWeight: 600 }}>{item.title ? item.title : '-'}</Typography>
+              <Typography sx={{ color: '#FFFFFF', fontWeight: 400 }}>
+                {item.count_member ? item.count_member : '-'} Post
+              </Typography>
             </Link>
-            <Grid item container xs={12} spacing={4}>
-              <Grid item xs={12} md={6}>
-                <Button variant='contained' color='warning' size='small' type='submit'>
-                  <div style={{ marginLeft: 5 }}>Accept</div>
-                </Button>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Button variant='contained' color='error' size='small' type='submit'>
-                  <div style={{ marginLeft: 5 }}>reject</div>
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-          <Box
-            sx={{ display: 'flex', flexDirection: 'column', ml: 2, alignItems: ['left', 'flex-start'] }}
-            marginTop={2}
-          ></Box>
-
-          <Box
-            sx={{ display: 'flex', flexDirection: 'column', ml: 2, alignItems: ['left', 'flex-start'] }}
-            marginTop={2}
-          >
-            {/* <Button>Reject</Button> */}
           </Box>
         </Box>
       </Grid>
@@ -73,7 +53,7 @@ const renderList = (listAlumni: Alumni[]) => {
   })
 }
 
-const LIstAlumniLeft = (props: Props) => {
+const ListAlumniLeftContributor = (props: Props) => {
   const { listAlumni } = props
 
   return (
@@ -91,7 +71,7 @@ const LIstAlumniLeft = (props: Props) => {
                         sx={{ fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF', mb: 1 }}
                         fontSize={14}
                       >
-                        Pending Request
+                        Top 10 Contributor
                       </Typography>
                     </Box>
                   </Box>
@@ -106,4 +86,4 @@ const LIstAlumniLeft = (props: Props) => {
   )
 }
 
-export default LIstAlumniLeft
+export default ListAlumniLeftContributor
