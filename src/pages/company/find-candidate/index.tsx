@@ -324,20 +324,20 @@ const FindCandidateApp = () => {
   ]
 
 
-  const getdatapencarianSubscribe = async () => {
+  // const getdatapencarianSubscribe = async () => {
     
-    const response = await HttpClient.get(
-      '/candidate?search=' +  '&take=6&page=1'  
-    )
+  //   const response = await HttpClient.get(
+  //     '/candidate?search=' +  '&take=6&page=1'  
+  //   )
 
-    // const candidates = response.data.candidates
+  //   // const candidates = response.data.candidates
     
-    // setListCandidateSubscribe(candidates.data)
-  }
+  //   // setListCandidateSubscribe(candidates.data)
+  // }
 
-  useEffect(() => {
-     getdatapencarianSubscribe()
-  }, [])
+  // useEffect(() => {
+  //    getdatapencarianSubscribe()
+  // }, [])
  
   useEffect(() => {
     getListCandidates()

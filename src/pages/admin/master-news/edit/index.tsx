@@ -85,8 +85,8 @@ const EditNewsScreen = () => {
   ))
 
   const schema = yup.object().shape({
-    // titlex: yup.string().min(1).required(),
-    // slugx: yup.string().min(1).required()
+    title: yup.string().min(1).max(60).required('maximum 60 character'),
+    meta: yup.string().min(1).max(160).required('maximum 160 character')
   })
   const {
     register,
@@ -273,7 +273,7 @@ const EditNewsScreen = () => {
                     onChange={handleChangetitle}
                     endAdornment={
                       <InputAdornment position='end'>
-                        <Typography>{charType} character</Typography>
+                        <Typography>{charType} character / 60</Typography>
                       </InputAdornment>
                     }
                   />
@@ -315,7 +315,7 @@ const EditNewsScreen = () => {
                       fullWidth
                       endAdornment={
                         <InputAdornment position='end'>
-                          <Typography>{charMeta} character</Typography>
+                          <Typography>{charMeta} character / 160</Typography>
                         </InputAdornment>
                       }
                     />

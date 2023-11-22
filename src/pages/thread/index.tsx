@@ -27,6 +27,7 @@ import CommentForm from './CommentForm'
 import Commented from './Commented';
 import { ThreadProvider } from 'src/context/ThreadContext';
 import { useThread } from 'src/hooks/useThread';
+import moment from 'moment';
 
 const Thread = () => {
   return (
@@ -65,31 +66,76 @@ const firstload = () => {
         <Grid item md={9} xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+              <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardContent>
                   <Box sx={{ mb: 1 }}>
                     <Grid item container xs={12} justifyContent={'left'}>
                       <Typography
                         variant='body2'
-                        sx={{ ml: 4, mb: 1, color: '#000000', textTransform: 'uppercase', fontSize: '18px', fontWeight: '600' }}
+                        sx={{
+                          ml: 4,
+                          mb: 1,
+                          color: '#000000',
+                          textTransform: 'uppercase',
+                          fontSize: '12px',
+                          fontWeight: '400'
+                        }}
+                      >
+                        {threadDetail?.user?.name}
+                      </Typography>
+                    </Grid>
+                    <Grid item container xs={12} justifyContent={'left'}>
+                      <Typography
+                        variant='body2'
+                        sx={{
+                          ml: 4,
+                          mb: 1,
+                          color: '#000000',
+                          textTransform: 'uppercase',
+                          fontSize: '12px',
+                          fontWeight: '600'
+                        }}
+                      >
+                        {threadDetail?.forum?.name} {'-'}{' '}
+                        {moment(threadDetail?.forum?.updated_at).format('DD/MM/YYYY HH:MM:SS')} 
+                      </Typography>
+                    </Grid>
+                    <Grid item container xs={12} justifyContent={'left'}>
+                      <Typography
+                        variant='body2'
+                        sx={{
+                          ml: 4,
+                          mb: 1,
+                          color: '#000000',
+                          textTransform: 'uppercase',
+                          fontSize: '18px',
+                          fontWeight: '600'
+                        }}
                       >
                         {threadDetail?.title}
                       </Typography>
                     </Grid>
+
                     <Grid item container xs={12} justifyContent={'flex'}>
                       <Typography
                         variant='body2'
-                        sx={{ p: 4, color: '#000000', fontWeight: 300, fontSize: 14, fontFamily: 'Outfit', alignContent: 'justify' }}
+                        sx={{
+                          p: 4,
+                          color: '#000000',
+                          fontWeight: 300,
+                          fontSize: 14,
+                          fontFamily: 'Outfit',
+                          alignContent: 'justify'
+                        }}
                       >
-                        
                         <div style={{ fontFamily: 'Outfit', fontSize: '14px', fontWeight: '300', color: '#0000000' }}>
-                        {ReactHtmlParser(`${threadDetail?.content}`)}
+                          {ReactHtmlParser(`${threadDetail?.content}`)}
                         </div>
                       </Typography>
                     </Grid>
-                    
+
                     <Grid item container xs={12} justifyContent={'flex'}>
-                      <CommentForm  user_id={user?.id} thread_id={threadDetail?.id} />
+                      <CommentForm user_id={user?.id} thread_id={threadDetail?.id} />
                     </Grid>
                   </Box>
                 </CardContent>
@@ -101,7 +147,7 @@ const firstload = () => {
           </Grid>
         </Grid>
         <Grid item md={3} xs={12}>
-            <Recomended></Recomended>
+          <Recomended></Recomended>
         </Grid>
       </Grid>
     </Box>
