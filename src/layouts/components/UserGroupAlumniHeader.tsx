@@ -5,8 +5,7 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { Divider, styled } from '@mui/material' 
- import alumni from 'src/contract/models/alumni'
-import Alumni from 'src/contract/models/alumni'
+ import Alumni from 'src/contract/models/alumni'
 
  const ProfilePicture = styled('img')(({ theme }) => ({
    width: 120,

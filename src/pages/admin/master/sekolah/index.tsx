@@ -19,7 +19,7 @@ import { v4 } from "uuid";
 import { Icon } from '@iconify/react';
 import SekolahType from 'src/contract/models/sekolah';
 
-const sekolahcreen = () => {
+const SekolahScreen = () => {
     const [hookSignature, setHookSignature] = useState(v4())
     const [onLoading, setOnLoading] = useState(false);
     const [openAddModal, setOpenAddModal] = useState(false);
@@ -166,9 +166,9 @@ const sekolahcreen = () => {
     )
 }
 
-sekolahcreen.acl = {
+SekolahScreen.acl = {
     action: 'read',
     subject: 'master/sekolah'
 };
 
-export default sekolahcreen
+export default SekolahScreen
