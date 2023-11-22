@@ -28,9 +28,9 @@ const defaultValue: SocialFeedContextType = {
   getComments: () => Promise.resolve() as any
 }
 
-const SocialGroupContext = createContext(defaultValue);
+const SocialAlumniContext = createContext(defaultValue);
 
-const SocialGroupProvider = (props: Props) => {
+const SocialAlumniProvider = (props: Props) => {
     const [feeds, setFeeds] = useState<ISocialFeed[]>([]);
     const [onLoading, setOnLoading] = useState(false);
     const [hasNextPage, setHasNextPage] = useState(true);
@@ -44,7 +44,7 @@ const SocialGroupProvider = (props: Props) => {
         const formData = new FormData();
         formData.append("content", payload.content);
         formData.append('content_type', payload.content_type)
-        formData.append('group_id', payload.group_id)
+        formData.append('alumni_id', payload.alumni_id)
 
         if (payload.feed_repost) {
             formData.append("feed_repost", payload.feed_repost);
@@ -56,7 +56,7 @@ const SocialGroupProvider = (props: Props) => {
             }
         }
 
-        const response = await HttpClient.post('/groupfeeds/feed', formData);
+        const response = await HttpClient.post('/alumnifeeds/feed', formData);
         if (response.status != 200) {
             throw response.data?.message ?? "Something went wrong";
         }
@@ -82,7 +82,7 @@ const SocialGroupProvider = (props: Props) => {
           }
         }
 
-        const response = await HttpClient.post('/social-group/' + payload.id, formData)
+        const response = await HttpClient.post('/social-alumni/' + payload.id, formData)
         if (response.status != 200) {
           throw response.data?.message ?? 'Something went wrong'
         }
@@ -101,7 +101,7 @@ const SocialGroupProvider = (props: Props) => {
         if (sPage == 1) setOnLoading(true);
 
         try {
-            const url = '/groupfeeds/feed/'
+            const url = '/alumnifeeds/feed/'
             const response = await HttpClient.get(url, {
                 page: sPage,
                 ...payload
@@ -136,7 +136,7 @@ const SocialGroupProvider = (props: Props) => {
     }
 
     const likeUnlikeFeed = async (feedId: number, likeableType: string) => {
-        const response = await HttpClient.get(`/groupfeeds/like/${feedId}?likeable_type=${likeableType}`)
+        const response = await HttpClient.get(`/alumnifeeds/like/${feedId}?likeable_type=${likeableType}`)
         if (response.status != 200) {
             return;
         }
@@ -160,7 +160,7 @@ const SocialGroupProvider = (props: Props) => {
     }
 
     const postComment = async (feedId: number, replyable_type: 'feed' | 'comment', content: string) => {
-        const response = await HttpClient.post('/groupfeeds/comment', {
+        const response = await HttpClient.post('/alumnifeeds/comment', {
           content: content,
           replyable_id: feedId,
           replyable_type: replyable_type
@@ -178,7 +178,7 @@ const SocialGroupProvider = (props: Props) => {
     }
 
     const getComments = async (feedId: number, page: number, take: number, replyable_type: 'feed' | 'comment') => {
-        const response = await HttpClient.get(`/groupfeeds/comment/${feedId}`, {
+        const response = await HttpClient.get(`/alumnifeeds/comment/${feedId}`, {
           page: page,
           take: take,
           replyable_type: replyable_type
@@ -237,11 +237,11 @@ const SocialGroupProvider = (props: Props) => {
       ]
     )
 
-    return <SocialGroupContext.Provider value={values}>{props.children}</SocialGroupContext.Provider>
+    return <SocialAlumniContext.Provider value={values}>{props.children}</SocialAlumniContext.Provider>
 }
 
 export {
-    SocialGroupProvider,
+    SocialAlumniProvider,
 }
 
-export default SocialGroupContext;
+export default SocialAlumniContext;

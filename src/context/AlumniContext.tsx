@@ -24,7 +24,7 @@ const AlumniProvider = (props: Props) => {
   const [hasNextPage, setHasNextPage] = useState(true)
   const [totalAlumni, setTotalAlumni] = useState(0)
 
-  const fetchAlumnis = async (payload: { take: number; search?: any }) => {
+  const fetchAlumnis = async (payload: { take: number; search?: any ;status?:any}) => {
     // only trigger in page 1
 
     if (page == 1) {

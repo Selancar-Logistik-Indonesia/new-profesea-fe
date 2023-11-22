@@ -1,4 +1,4 @@
 import { useContext } from 'react'
- import SocialGroupContext from 'src/context/SocialGroupContext'
+import SocialAlumniContext from 'src/context/SocialAlumniContext' 
 
-export const useGroupFeed = () => useContext(SocialGroupContext)
+export const useAlumniFeed = () => useContext(SocialAlumniContext)

@@ -114,7 +114,7 @@ const renderList = (listAlumni: Alumni[]) => {
                       justifyContent: 'center'
                     }}
                   >
-                    <Link style={{ textDecoration: 'none' }} href={'/group?id=' + item?.id}>
+                    <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item?.id}>
                       <Typography align='center' sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={18}>
                         {item.title ? item.title : '-'}
                       </Typography>
@@ -125,7 +125,7 @@ const renderList = (listAlumni: Alumni[]) => {
                         {item.count_member ? item.count_member : '-'} Member
                       </Typography>
                     </Link>
-                    <Button href={'/group?id=' + item?.id} variant='outlined' color='primary'>
+                    <Button href={'/alumni?id=' + item?.id} variant='outlined' color='primary'>
                       Join
                     </Button>
                   </Box>

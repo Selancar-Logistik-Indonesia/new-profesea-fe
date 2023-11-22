@@ -4,6 +4,7 @@ interface UpdateStatusPayload {
   attachments?: any
   feed_repost?: string
   group_id?: any
+  alumni_id?: any
   id?:any
 }
 
