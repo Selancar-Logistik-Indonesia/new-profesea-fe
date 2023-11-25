@@ -9,8 +9,8 @@ import toast from 'react-hot-toast'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import Icon from 'src/@core/components/icon'
-import { HttpClient } from 'src/services' 
-import Alumni from 'src/contract/models/alumni'
+import { HttpClient } from 'src/services'
+import Account from 'src/contract/models/account'
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -20,7 +20,7 @@ const Transition = forwardRef(function Transition(
 })
 
 type DeleteDialogProps = {
-    selectedItem: Alumni;
+    selectedItem: Account;
     visible: boolean;
     onCloseClick: VoidFunction;
     onStateChange: VoidFunction;
@@ -30,14 +30,13 @@ const DialogDelete = (props: DeleteDialogProps) => {
 
     const handleDelete = async () => {
         try {
-            const resp = await HttpClient.del(`/alumni/${props.selectedItem.id}`);
+            const resp = await HttpClient.del(`/user-management/${props.selectedItem.id}`);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
 
             props.onCloseClick();
-            toast.success(`${props.selectedItem.title} deleted successfully!`);
-            window.location.replace('/list-alumni/')
+            toast.success(`${props.selectedItem.name} deleted successfully!`);
         } catch (error) {
             console.error(error)
         }
@@ -71,7 +70,7 @@ const DialogDelete = (props: DeleteDialogProps) => {
                     <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
                         Confirm Delete
                     </Typography>
-                    <Typography variant='body2'>Are you sure delete {props.selectedItem.title} ?</Typography>
+                    <Typography variant='body2'>Are you sure delete {props.selectedItem.name}?</Typography>
                 </Box>
             </DialogContent>
             <DialogActions

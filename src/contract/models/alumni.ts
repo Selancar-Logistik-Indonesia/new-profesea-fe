@@ -14,7 +14,10 @@ interface Alumni {
   profilepicture: string
   files: File | null
   count_member: any
-  sekolah:any
+  sekolah: any
+  user: any
+  statusaktif: any
+  suratpenugasan: any
 }
 
 export default Alumni

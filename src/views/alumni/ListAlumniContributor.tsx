@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { Avatar, Card, CardContent } from '@mui/material'
 import Link from 'next/link'
-import Alumni from 'src/contract/models/alumni'
+// import Alumni from 'src/contract/models/alumni'
 
 export type ParamMain = {
   name: string
@@ -12,16 +12,16 @@ export type ParamMain = {
 }
 
 interface Props {
-  listAlumni: Alumni[]
+  listAlumni: any[]
 }
 
-const renderList = (listAlumni: Alumni[]) => {
+const renderList = (listAlumni: any[]) => {
   if (!listAlumni || listAlumni.length == 0) {
     return
   }
-
+  
   return listAlumni?.map(item => {
-    const userPhoto = item.profilepicture != '' ? item.profilepicture : '/images/avatars/default-user.png'
+    const userPhoto = item.photo != '' ? item.photo : '/images/avatars/default-user.png'
 
     return (
       <Grid item xs={12} md={12} key={item?.id}>
@@ -35,16 +35,14 @@ const renderList = (listAlumni: Alumni[]) => {
         >
           <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item?.id}>
             <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-              <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 35, height: 35 }} />
+              <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 55, height: 55 }} />
             </Box>
           </Link>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={2}>
             <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item?.id}>
-              <Typography sx={{ color: '#FFFFFF', fontWeight: 600 }}>{item.title ? item.title : '-'}</Typography>
-              <Typography sx={{ color: '#FFFFFF', fontWeight: 400 }}>
-                {item.count_member ? item.count_member : '-'} Post
-              </Typography>
+              <Typography sx={{ color: '#FFFFFF', fontWeight: 400 }}>{item.name} </Typography>
+              <Typography sx={{ color: '#FFFFFF', fontWeight: 400 }}>{item.total ? item.total : '-'} Feed</Typography>
             </Link>
           </Box>
         </Box>

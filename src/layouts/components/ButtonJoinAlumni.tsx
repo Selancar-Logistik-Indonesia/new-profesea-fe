@@ -7,9 +7,9 @@ import { Button,  CircularProgress, Box } from '@mui/material'
 import { toast } from 'react-hot-toast'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import Group from 'src/contract/models/group'
+import Alumni from 'src/contract/models/alumni'
 import { v4 } from 'uuid'
-import DialogDelete from 'src/pages/group/DialogDelete'
+import DialogDelete from 'src/pages/alumni/DialogDelete'
 // import Link from 'next/link'
   
 
@@ -20,14 +20,14 @@ const ButtonJoinAlumni = (props: { selectedAlumni: any; iduser: any; onMessage: 
   const {url} =props
   const [isLoading, setIsLoading] = useState(false) 
   const [hookSignature, setHookSignature] = useState(v4())
-  const [selectedItem, setSelectedItem] = useState<Group | null>(null) 
+  const [selectedItem, setSelectedItem] = useState<Alumni | null>(null) 
   const [openDelModal, setOpenDelModal] = useState(false)
   const buildConnectText = () => {
     return selectedAlumni.statusmember
   }
-  const joinGroup = async () => {
+  const joinAlumni = async () => {
     const json = {
-      idgroup: selectedAlumni.id,
+      idalumni: selectedAlumni.id,
       iduser: iduser
     }
     setIsLoading(true)
@@ -37,16 +37,16 @@ const ButtonJoinAlumni = (props: { selectedAlumni: any; iduser: any; onMessage: 
       const resp = await HttpClient.post(url, json)
       setIsLoading(false)
       if (resp.status != 200) {
-        throw resp.data.message ?? 'Something went wrong create group!'
+        throw resp.data.message ?? 'Something went wrong create alumni!'
       }
 
-      // toast.success(` Create Group successfully!`)
+      // toast.success(` Create Alumni successfully!`)
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
   }
 
-   const deleteHandler = (row: Group) => {
+   const deleteHandler = (row: Alumni) => {
      setSelectedItem(row)
      setOpenDelModal(true)
       console.log(hookSignature)
@@ -61,7 +61,7 @@ const ButtonJoinAlumni = (props: { selectedAlumni: any; iduser: any; onMessage: 
           </Button>
         </Box>
       )}
-      <Button onClick={() => joinGroup()} variant={'contained'} size='small'>
+      <Button onClick={() => joinAlumni()} variant={'contained'} size='small'>
         {isLoading ? <CircularProgress /> : buildConnectText()}
       </Button>
          {selectedItem && (
