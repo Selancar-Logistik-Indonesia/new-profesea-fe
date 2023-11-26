@@ -50,14 +50,14 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
     return (
       <Grid item xs={12} md={12} key={item?.id}>
         <Box
-          height={65}
+          height={85}
           sx={{
             display: 'flex',
             alignContent: 'center',
             '& svg': { color: 'text.secondary' }
           }}
         >
-          <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item?.id}>
+          <Link style={{ textDecoration: 'none' }} href={'/profile/' + item?.user.username}>
             <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
               <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 35, height: 35 }} />
             </Box>
@@ -69,7 +69,14 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
                 {item.user.name ? item.user.name : '-'}
               </Typography>
             </Link>
+
             <Grid item container xs={12} spacing={4}>
+              <Grid item xs={12} md={6}>
+                <Typography sx={{ color: '#FFFFFF', fontWeight: 600 }}>{item.nim ? item.nim : '-'}</Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography sx={{ color: '#FFFFFF', fontWeight: 600 }}>{item.lulusan ?  ' - ' + item.lulusan : '-'}</Typography>
+              </Grid>
               <Grid item xs={12} md={6}>
                 <Button
                   variant='contained'

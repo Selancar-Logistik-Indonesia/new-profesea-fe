@@ -125,9 +125,9 @@ const renderList = (listAlumni: Alumni[]) => {
                         {item.count_member ? item.count_member : '-'} Member
                       </Typography>
                     </Link>
-                    <Button href={'/alumni?id=' + item?.id} variant='outlined' color='primary'>
+                    {/* <Button href={'/alumni?id=' + item?.id} variant='outlined' color='primary'>
                       Join
-                    </Button>
+                    </Button> */}
                   </Box>
                 </Box>
               </Box>

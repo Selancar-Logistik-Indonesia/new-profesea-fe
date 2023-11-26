@@ -24,6 +24,7 @@ import CardAlumni from 'src/views/alumni/CardAlumni'
 import CardAlumniLogo from 'src/views/alumni/CardAlumniLogo'
 import ListAlumniLeft from 'src/views/alumni/ListAlumniLeft'
 import ListAlumniLeftContributor from 'src/views/alumni/ListAlumniContributor'
+import ListMemberView from 'src/views/alumni/ListMember'
    
 const ProfileCompany = () => {
   return (
@@ -41,9 +42,10 @@ const UserFeedApp = () => {
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser 
   const iduser: any = user.id 
-  const [selectedAlumni, setSelectedAlumni] = useState<Alumni | null>(null) 
+  const [selectedAlumni, setSelectedAlumni] = useState<Alumni>() 
   const [status, setStatus] = useState<boolean>(false)
   const [showFeed, setShowFeed] = useState<boolean>(false)
+  const [showAllMember, setShowMember] = useState<boolean>(false)
   const [url2, setUrl2] = useState<string>('')
   const { id } = router.query as { id: any }; 
   const [listContributor, setListContributor] = useState<any>(null)
@@ -59,7 +61,7 @@ const UserFeedApp = () => {
         page: 1,
         take: 5
       })
-     
+     debugger;
       setListContributor(listalumnikintil)
       const response = await HttpClient.get(url)
       if (response.data.alumni.length == 0) {
@@ -72,6 +74,9 @@ const UserFeedApp = () => {
       if (grup.statusmember == 'Leave') {
         setShowFeed(true)
         setUrl2('/alumni/leave')
+      } else if (grup.statusmember == 'Waiting') {
+          setShowFeed(false)
+          setUrl2('/')
       } else {
         setShowFeed(false)
         setUrl2('/alumni/join')
@@ -84,6 +89,12 @@ const UserFeedApp = () => {
   const buildConnectText = () => { 
     return 'Join'
   }
+   const seeAllMember = () => {
+    if (showFeed==true){
+      setShowFeed(!showFeed)
+    } 
+     setShowMember(!showAllMember)
+   }
  const handleMassage = () => {
  
      setStatus(!status)
@@ -161,8 +172,8 @@ const UserFeedApp = () => {
                 </Grid>
               )}
 
-              <Grid item xs={12}>
-                <Button variant='contained' color='warning' type='button' fullWidth>
+              <Grid item xs={12} sx={{ mt: 1 }}>
+                <Button variant='contained' color='warning' type='button' fullWidth onClick={() => seeAllMember()}>
                   See All Member
                 </Button>
               </Grid>
@@ -181,6 +192,11 @@ const UserFeedApp = () => {
               {showFeed == true && <PostfeedAlumni id={id} />}
               {showFeed == true && <ListFeedViewAlumni username={id} />}
               {showFeed == false && <Typography>Please Join Alumni</Typography>}
+              {showAllMember && (
+                <>
+                  <ListMemberView listMember={selectedAlumni?.member}></ListMemberView>
+                </>
+              )}
             </Grid>
           </Grid>
         </Grid>

@@ -10,6 +10,7 @@ import { getCleanErrorMessage } from 'src/utils/helpers'
 import Alumni from 'src/contract/models/alumni'
 import { v4 } from 'uuid'
 import DialogDelete from 'src/pages/alumni/DialogDelete'
+import DialogJoin from 'src/pages/alumni/DialogJoin'
 // import Link from 'next/link'
   
 
@@ -21,29 +22,17 @@ const ButtonJoinAlumni = (props: { selectedAlumni: any; iduser: any; onMessage: 
   const [isLoading, setIsLoading] = useState(false) 
   const [hookSignature, setHookSignature] = useState(v4())
   const [selectedItem, setSelectedItem] = useState<Alumni | null>(null) 
+  const [selectedItem2, setSelectedItem2] = useState<Alumni | null>(null) 
   const [openDelModal, setOpenDelModal] = useState(false)
+  const [openJoinModal2, setOpenDelModal2] = useState(false)
   const buildConnectText = () => {
     return selectedAlumni.statusmember
   }
   const joinAlumni = async () => {
-    const json = {
-      idalumni: selectedAlumni.id,
-      iduser: iduser
-    }
-    setIsLoading(true)
-    try {
-      console.log(json)
-      onMessage('ganticuk')
-      const resp = await HttpClient.post(url, json)
-      setIsLoading(false)
-      if (resp.status != 200) {
-        throw resp.data.message ?? 'Something went wrong create alumni!'
-      }
-
-      // toast.success(` Create Alumni successfully!`)
-    } catch (error) {
-      toast.error(`Opps ${getCleanErrorMessage(error)}`)
-    }
+    debugger;
+    JoinHandler(selectedAlumni);
+     
+   
   }
 
    const deleteHandler = (row: Alumni) => {
@@ -51,30 +40,51 @@ const ButtonJoinAlumni = (props: { selectedAlumni: any; iduser: any; onMessage: 
      setOpenDelModal(true)
       console.log(hookSignature)
    }
+   const JoinHandler = (row: Alumni) => {
+     setSelectedItem2(row)
+     setOpenDelModal2(true)
+     console.log(hookSignature)
+   }
 
   return (
     <>
-      {selectedAlumni.user_id == iduser && (
+      {selectedAlumni.user_id == iduser ? (
         <Box mr={2}>
           <Button onClick={() => deleteHandler(selectedAlumni)} variant={'contained'} size='small' color='error'>
             DELETE
           </Button>
         </Box>
+      ) : (
+        <Button onClick={() => JoinHandler(selectedAlumni)} variant={'contained'} size='small'>
+          {isLoading ? <CircularProgress /> : buildConnectText()}
+        </Button>
       )}
-      <Button onClick={() => joinAlumni()} variant={'contained'} size='small'>
-        {isLoading ? <CircularProgress /> : buildConnectText()}
-      </Button>
-         {selectedItem && (
-          <>
-            <DialogDelete
-              selectedItem={selectedItem}
-              visible={openDelModal}
-              onStateChange={() => setHookSignature(v4())}
-              onCloseClick={() => setOpenDelModal(!openDelModal)}
-            />
-          </>
-        )}
-      </> 
+
+      {selectedItem2 && (
+        <>
+          <DialogJoin
+            selectedItem={selectedItem2}
+            iduser={iduser}
+            visible={openJoinModal2}
+            onMessage={onMessage}
+            setIsLoading={setIsLoading}
+            url={url}
+            onStateChange={() => setHookSignature(v4())}
+            onCloseClick={() => setOpenDelModal2(!openJoinModal2)}
+          />
+        </>
+      )}
+      {selectedItem && (
+        <>
+          <DialogDelete
+            selectedItem={selectedItem} 
+            visible={openDelModal} 
+            onStateChange={() => setHookSignature(v4())}
+            onCloseClick={() => setOpenDelModal(!openDelModal)}
+          />
+        </>
+      )}
+    </>
   )
 }
 
