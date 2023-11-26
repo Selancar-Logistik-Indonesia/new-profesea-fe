@@ -303,7 +303,7 @@ const DialogAdd = (props: DialogProps) => {
                   ></input>
                   <Box position={'absolute'} right={'49%'} bottom={'40%'} top={'25%'}>
                     <label htmlFor='raised-button-file-2'>
-                      <Icon fontSize='large' icon={'bi:camera'} color={'blue'} style={{ fontSize: '26px' }} />
+                      <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
                     </label>
                   </Box>
                 </BoxWrapper>

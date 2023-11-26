@@ -5,9 +5,9 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { IUser } from 'src/contract/models/user'
-import { getUserAvatar } from 'src/utils/helpers'
+// import { getUserAvatar } from 'src/utils/helpers'
 import Avatar from 'src/@core/components/mui/avatar'
-import Link from 'next/link'
+// import Link from 'next/link'
 
 export type ParamJobVacncy = {
   judul: string
@@ -22,44 +22,7 @@ interface Props {
   statusbutton: any
   onMessage: (message: string) => void
 }
-
-const renderList = (arr: ParamJobVacncy[]) => {
-  if (arr && arr.length) {
-    return arr.map((item, index) => {
-      return (
-        <Box
-          key={index}
-          sx={{
-            display: 'flex',
-            '&:not(:last-of-type)': { mb: 4 },
-            '& svg': { color: 'text.secondary' },
-            padding: '5px'
-          }}
-        >
-          <Box mr={5} mt={2}>
-            <Link style={{ textDecoration: 'none' }} href={'/profile/' + item.user?.username}>
-              <Avatar src={getUserAvatar(item.user)} alt='profile-picture' sx={{ height: 35, width: 35 }} />
-            </Link>
-          </Box>
-          <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
-            <Link style={{ textDecoration: 'none' }} href={'/profile/' + item.user?.username}>
-              <Typography sx={{ color: '#424242', fontWeight: 600 }}>
-                {`${item.user?.name.charAt(0).toUpperCase() + item.user?.name.slice(1)}`}
-              </Typography>
-              <Typography sx={{ color: '#424242', fontWeight: 400 }}>
-                {item.user?.name.charAt(0).toUpperCase() + item.user?.name.slice(1)}
-              </Typography>
-            </Link>
-          </Box>
-        </Box>
-
-        
-      )
-    })
-  } else {
-    return null
-  }
-}
+ 
 
 const CardAlumni = (props: Props) => {
   const { selectedAlumni } = props
@@ -122,7 +85,7 @@ const CardAlumni = (props: Props) => {
                 </>
               )}
             </Grid>
-            <Box sx={{ mt: 3 }}>{renderList(selectedAlumni?.member)}</Box>
+            {/* <Box sx={{ mt: 3 }}>{renderList(selectedAlumni?.member)}</Box> */}
           </CardContent>
         </Card>
       </Grid>

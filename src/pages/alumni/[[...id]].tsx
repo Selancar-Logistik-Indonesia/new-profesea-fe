@@ -24,6 +24,7 @@ import CardAlumni from 'src/views/alumni/CardAlumni'
 import CardAlumniLogo from 'src/views/alumni/CardAlumniLogo'
 import ListAlumniLeft from 'src/views/alumni/ListAlumniLeft'
 import ListAlumniLeftContributor from 'src/views/alumni/ListAlumniContributor'
+import ListMemberView from 'src/views/alumni/ListMember'
    
 const ProfileCompany = () => {
   return (
@@ -41,45 +42,45 @@ const UserFeedApp = () => {
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser 
   const iduser: any = user.id 
-  const [selectedAlumni, setSelectedAlumni] = useState<Alumni | null>(null)
-  const [listAlumni, setListAlumni] = useState<any>(null)
+  const [selectedAlumni, setSelectedAlumni] = useState<Alumni>() 
   const [status, setStatus] = useState<boolean>(false)
   const [showFeed, setShowFeed] = useState<boolean>(false)
+  const [showAllMember, setShowMember] = useState<boolean>(false)
   const [url2, setUrl2] = useState<string>('')
-  const { id } = router.query as { id: any };
-  // const [isLoading, setIsLoading] = useState(true)
+  const { id } = router.query as { id: any }; 
+  const [listContributor, setListContributor] = useState<any>(null)
 
   const firstload = async () => {
     let url = '';
     url = '/alumni/navigasi/?id=' + id
  
     try {
-      
-      // const listalumni = await HttpClient.get(url) 
-       const listalumnikintil = await HttpClient.get('/alumni', {
-         page: 1,
-         take: 5
-       })
-       
-       
-      const fuck = listalumnikintil.data.alumnis.data as Alumni
-      setListAlumni(fuck)
-      const response = await HttpClient.get(url); 
+      // const listalumni = await HttpClient.get(url)
+      const listalumnikintil = await HttpClient.get('/alumni/top-contributor', {
+        alumni_id: id,
+        page: 1,
+        take: 5
+      })
+     debugger;
+      setListContributor(listalumnikintil)
+      const response = await HttpClient.get(url)
       if (response.data.alumni.length == 0) {
-        toast.error(`Opps data tidak ditemukan`);
+        toast.error(`Opps data tidak ditemukan`)
 
-        return;
+        return
       }
       const grup = response.data.alumni as Alumni
-      setSelectedAlumni(grup) 
+      setSelectedAlumni(grup)
       if (grup.statusmember == 'Leave') {
         setShowFeed(true)
         setUrl2('/alumni/leave')
-      }else{
-        setShowFeed(false)         
+      } else if (grup.statusmember == 'Waiting') {
+          setShowFeed(false)
+          setUrl2('/')
+      } else {
+        setShowFeed(false)
         setUrl2('/alumni/join')
       }
- 
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
@@ -88,14 +89,20 @@ const UserFeedApp = () => {
   const buildConnectText = () => { 
     return 'Join'
   }
+   const seeAllMember = () => {
+    if (showFeed==true){
+      setShowFeed(!showFeed)
+    } 
+     setShowMember(!showAllMember)
+   }
  const handleMassage = () => {
+ 
      setStatus(!status)
  }
   useEffect(() => {
-    firstload(); 
-    fetchFeeds({ take: 7, alumni_id: id, mPage: 1 });
-    
-  }, [id,status])
+    firstload()
+    fetchFeeds({ take: 7, alumni_id: id, mPage: 1 })
+  }, [id, status])
 
   return (
     <Box>
@@ -159,16 +166,19 @@ const UserFeedApp = () => {
                   statusbutton={status}
                 />
               </Grid>
-              <Grid item xs={12}>
-                {listAlumni != null && <ListAlumniLeft listAlumni={listAlumni} />}
-              </Grid>
-              <Grid item xs={12}>
-                <Button variant='contained' color='warning' sx={{ ml: 5 }} type='button'>
+              {selectedAlumni?.user_id == iduser && (
+                <Grid item xs={12}>
+                  <ListAlumniLeft idalumni={id} reload={firstload} />
+                </Grid>
+              )}
+
+              <Grid item xs={12} sx={{ mt: 1 }}>
+                <Button variant='contained' color='warning' type='button' fullWidth onClick={() => seeAllMember()}>
                   See All Member
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                {listAlumni != null && <ListAlumniLeftContributor listAlumni={listAlumni} />}
+                <ListAlumniLeftContributor listAlumni={listContributor?.data?.alumnis} />
               </Grid>
 
               <Grid item xs={12}>
@@ -182,6 +192,11 @@ const UserFeedApp = () => {
               {showFeed == true && <PostfeedAlumni id={id} />}
               {showFeed == true && <ListFeedViewAlumni username={id} />}
               {showFeed == false && <Typography>Please Join Alumni</Typography>}
+              {showAllMember && (
+                <>
+                  <ListMemberView listMember={selectedAlumni?.member}></ListMemberView>
+                </>
+              )}
             </Grid>
           </Grid>
         </Grid>

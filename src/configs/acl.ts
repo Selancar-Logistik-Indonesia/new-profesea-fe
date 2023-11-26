@@ -43,7 +43,8 @@ const defineRulesFor = (role: string, subject: string) => {
           'feed-detail',
           'admin-list-eventregister',
           'admin-master-news',
-          'admin-master-event'
+          'admin-master-event',
+          'admin-list-alumni'
         ])
     } else if (role === 'Seafarer') {
         can(['read'], ['home', 'user-community', 'seaferer-training', 'seaferer', 'seaferer-jobs', 'feed-detail', 'candidate/profile','PricingPage'])
