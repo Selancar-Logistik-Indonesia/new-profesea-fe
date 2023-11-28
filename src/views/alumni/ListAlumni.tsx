@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import {   Button, createTheme,   ThemeProvider  } from '@mui/material' 
 import Link from 'next/link'
-import Alumni from 'src/contract/models/group' 
+import Alumni from 'src/contract/models/alumni' 
 import Card from '@mui/material/Card' 
 import CardMedia from '@mui/material/CardMedia'
 import { Divider, styled } from '@mui/material' 
@@ -68,7 +68,7 @@ const renderList = (listAlumni: Alumni[]) => {
             <CardMedia
               component='img'
               alt='profile-header'
-              image={item.profilepicture != '' ? item.profilepicture : '/images/avatars/headerprofile3.png'}
+              image={item.alumnibanner != '' ? item.alumnibanner : '/images/avatars/headerprofile3.png'}
               sx={{
                 height: { xs: 100, md: 100 },
                 width: '100%',
@@ -101,11 +101,14 @@ const renderList = (listAlumni: Alumni[]) => {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: ['center'],
-                    justifyContent: 'center',
+                    justifyContent: 'center'
                   }}
                   marginTop={-10}
                 >
-                  <ProfilePicture sx={{backgroundColor: 'white'}} src={item.profilepicture != '' ? item.profilepicture : '/images/avatars/1.png'} />
+                  <ProfilePicture
+                    sx={{ backgroundColor: 'white' }}
+                    src={item.profilepicture != '' ? item.profilepicture : '/images/avatars/1.png'}
+                  />
                   <Box
                     sx={{
                       display: 'flex',

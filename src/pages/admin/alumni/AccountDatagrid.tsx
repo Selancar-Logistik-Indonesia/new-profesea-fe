@@ -5,7 +5,7 @@ import { Button  } from '@mui/material';
 
 const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true },
-  { field: 'sekolah', headerName: 'sekolah', sortable: true, minWidth: 300 },
+  { field: 'sekolah', headerName: 'Institution', sortable: true, minWidth: 300 },
   { field: 'user', headerName: 'user', sortable: true, minWidth: 250 }, 
 
   {
@@ -26,8 +26,8 @@ const columns: GridColDef[] = [
             size='small'
           >
             {row.statusaktif == false
-              ?  'Belum'    
-              : 'Verifikasi'}
+              ?  'UNVERIFIED'    
+              : 'VERIFY'}
           </Button>
         </>
       )
