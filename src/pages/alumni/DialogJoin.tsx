@@ -42,8 +42,10 @@ const DialogJoin = (props: DeleteDialogProps) => {
             // const resp = await HttpClient.del(`/alumni/${props.selectedItem.id}`);
     
            if (props.url == '/') {
-             toast.error(`Please Wait For Aproval Join`)
+             toast.error(`Please wait until you get approval from admin`)
+             
              return
+
            }
            const json = {
              idalumni: props.selectedItem.id,

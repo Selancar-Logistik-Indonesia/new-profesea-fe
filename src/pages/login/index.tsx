@@ -75,7 +75,7 @@ interface FormData {
 
 const LoginPage = () => {
 	const [showPassword, setShowPassword] = useState<boolean>(false);
-	const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false);
+	// const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false);
 	const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false);
 	const auth = useAuth()
 	const theme = useTheme()

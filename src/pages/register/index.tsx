@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 import Link from 'next/link'
 import Button from '@mui/material/Button'
 import Box, { BoxProps } from '@mui/material/Box'
@@ -58,7 +58,7 @@ const Register = () => {
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
-	const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false);
+	// const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false);
   const { skin } = settings
 
   const { t } = useTranslation();
