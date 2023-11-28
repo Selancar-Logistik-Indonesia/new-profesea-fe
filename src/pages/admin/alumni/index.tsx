@@ -25,8 +25,8 @@ import Alumni from 'src/contract/models/alumni';
 const UserScreen = () => {
  
     const EmployeeType = [
-        { status: 'true', label: 'Verifikasi' },
-        { status: 'false', label: 'Belum Verifikasi' }
+        { status: 'true', label: 'VERIFY' },
+        { status: 'false', label: 'UNVERIFIED' }
     ]
 
     const [hookSignature, setHookSignature] = useState(v4())

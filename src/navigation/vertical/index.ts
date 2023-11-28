@@ -142,6 +142,13 @@ const navigation = (): VerticalNavItemsType => {
         subject: 'admin-master-news'
       },
       {
+        path: '/admin/alumni/',
+        title: 'Alumni Management',
+        icon: 'ic:twotone-school',
+        action: 'read',
+        subject: 'admin-master-news'
+      },
+      {
         path: '#',
         title: 'Event Management',
         icon: 'solar:calendar-mark-bold-duotone',
@@ -220,6 +227,12 @@ const navigation = (): VerticalNavItemsType => {
           {
             title: 'License Profesi',
             path: '/admin/master/licensi-cop',
+            subject: 'master/licensi-cop',
+            action: 'read'
+          },
+          {
+            title: 'School',
+            path: '/admin/master/sekolah',
             subject: 'master/licensi-cop',
             action: 'read'
           }

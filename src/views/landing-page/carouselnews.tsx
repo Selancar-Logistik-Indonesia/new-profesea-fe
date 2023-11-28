@@ -36,7 +36,7 @@ const CarouselNewsView = () => {
   const getListNews = async () => {
     try {
       // const resp = await HttpClient.get(`/news?page=${1}&take=25&type=${forumCode}`)
-      const resp = await HttpClient.get(`/news?page=${1}&take=25`)
+      const resp = await HttpClient.get(`/news?page=${1}&take=25&type=News`)
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'
       }

@@ -25,7 +25,7 @@ import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from "react-i18next";
  
-import DialogGoogleLogin from './DialogGoogleLogin' 
+// import DialogGoogleLogin from './DialogGoogleLogin' 
  
 import { useSearchParams } from 'next/navigation'
 // import { toast } from 'react-hot-toast'
@@ -75,7 +75,7 @@ interface FormData {
 
 const LoginPage = () => {
 	const [showPassword, setShowPassword] = useState<boolean>(false);
-	const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false);
+	// const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false);
 	const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false);
 	const auth = useAuth()
 	const theme = useTheme()
@@ -266,7 +266,7 @@ const LoginPage = () => {
                     </Button>
                   </Box>
 
-                  <Box sx={{ marginTop: '3%' }}>
+                  {/* <Box sx={{ marginTop: '3%' }}>
                     <Button
                       fullWidth
                       size='large'
@@ -276,7 +276,7 @@ const LoginPage = () => {
                     >
                       {t('register_text_3_G')} Google <Icon icon={'devicon:google'} style={{ marginLeft: 7 }} />
                     </Button>
-                  </Box>
+                  </Box> */}
                   <Divider
                     sx={{
                       '& .MuiDivider-wrapper': { px: 4 },
@@ -318,12 +318,12 @@ const LoginPage = () => {
           // window.location.replace('/home')
         }}
       />
-      <DialogGoogleLogin
+      {/* <DialogGoogleLogin
         visible={openModalGoogle}
         onCloseClick={() => {
           setOpenModalGoogle(!openModalGoogle)
         }}
-      />
+      /> */}
       <DialogMessage
         visible={openDialogMessage}
         onCloseClick={() => {

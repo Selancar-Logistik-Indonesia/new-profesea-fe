@@ -1,11 +1,8 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import Icon from 'src/@core/components/icon'
-import { Avatar, Paper } from '@mui/material'
-import Job from 'src/contract/models/job'
-import Link from 'next/link'
-import { IUser } from 'src/contract/models/user'
+import Typography from '@mui/material/Typography' 
+import { Avatar, Paper } from '@mui/material' 
+import Link from 'next/link' 
 
  
 export type ParamMain = {

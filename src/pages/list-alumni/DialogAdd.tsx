@@ -295,7 +295,7 @@ const DialogAdd = (props: DialogProps) => {
                   ></ProfilePictureStyled>
 
                   <input
-                    accept='image/*'
+                    accept='application/pdf'
                     style={{ display: 'none', height: 250, width: '100%' }}
                     id='raised-button-file-2'
                     onChange={onSelectFile2}

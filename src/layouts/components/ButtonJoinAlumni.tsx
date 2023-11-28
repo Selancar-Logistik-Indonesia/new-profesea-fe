@@ -3,10 +3,7 @@ import React, { useState } from 'react'
 
 import { Button,  CircularProgress, Box } from '@mui/material'
 // ** Layout Import
- 
-import { toast } from 'react-hot-toast'
-import { HttpClient } from 'src/services'
-import { getCleanErrorMessage } from 'src/utils/helpers'
+  
 import Alumni from 'src/contract/models/alumni'
 import { v4 } from 'uuid'
 import DialogDelete from 'src/pages/alumni/DialogDelete'
@@ -28,12 +25,7 @@ const ButtonJoinAlumni = (props: { selectedAlumni: any; iduser: any; onMessage: 
   const buildConnectText = () => {
     return selectedAlumni.statusmember
   }
-  const joinAlumni = async () => {
-    debugger;
-    JoinHandler(selectedAlumni);
-     
-   
-  }
+  
 
    const deleteHandler = (row: Alumni) => {
      setSelectedItem(row)

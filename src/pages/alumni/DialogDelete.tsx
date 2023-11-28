@@ -34,9 +34,9 @@ const DialogDelete = (props: DeleteDialogProps) => {
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }
-
+ debugger;
             props.onCloseClick();
-            toast.success(`${props.selectedItem.title} deleted successfully!`);
+            toast.success(`${props.selectedItem.sekolah.sekolah} deleted successfully!`);
             window.location.replace('/list-alumni/')
         } catch (error) {
             console.error(error)
