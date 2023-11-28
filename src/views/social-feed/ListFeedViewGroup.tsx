@@ -62,7 +62,7 @@ const ListFeedViewGroup = (props: Props) => {
           return (
             <InfiniteScroll
               dataLength={totalFeed}
-              next={() => fetchFeeds({ take: 7, group_id: props.username })}
+              next={() => fetchFeeds({ take: 7, group_id: props?.username })}
               hasMore={hasNextPage}
               loader={
                 <Typography mt={5} color={'text.secondary'}>
