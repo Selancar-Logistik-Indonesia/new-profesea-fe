@@ -14,6 +14,7 @@ const defaultProvider: AuthValuesType = {
     loading: true,
     setUser: () => null,
     setLoading: () => Boolean,
+    glogin: () => Promise.resolve(),
     login: () => Promise.resolve(),
     logout: () => Promise.resolve()
 }
@@ -67,7 +68,7 @@ const AuthProvider = ({ children }: Props) => {
 
     const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
         setLoading(true);
-        debugger;
+        
         HttpClient
             .post(authConfig.loginEndpoint, params)
             .then(async response => {
@@ -77,6 +78,33 @@ const AuthProvider = ({ children }: Props) => {
                 setUser({ ...response.data.user })
                 localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken);
                 secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);                
+                secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+                const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'  // console.log(`redirectURL: ${redirectURL}`);
+                if (params.namaevent != null) {
+                    await router.replace('/home/?event=true' as string)
+                }else{
+                    router.replace(redirectURL as string)
+                }
+
+            }).catch(err => {
+                setLoading(false);
+                if (errorCallback) errorCallback(err)
+            })
+    }
+
+    const handleGoogleLogin = async (params: { accessToken : string , namaevent:any}, errorCallback?: ErrCallbackType) => {
+        
+        // console.log(params.accessToken)
+        localStorage.setItem(authConfig.storageTokenKeyName, params.accessToken);
+        HttpClient
+            .get(authConfig.meEndpoint)
+            .then(async response => {
+                setLoading(false);
+                
+                const returnUrl = router.query.returnUrl
+                setUser({ ...response.data.user })
+                setAbilities(response.data.abilities);
+                secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);                    
                 secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
                 const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'  // console.log(`redirectURL: ${redirectURL}`);
                 if (params.namaevent != null) {
@@ -104,6 +132,7 @@ const AuthProvider = ({ children }: Props) => {
         loading,
         setUser,
         setLoading,
+        glogin: handleGoogleLogin,
         login: handleLogin,
         logout: handleLogout
     }
