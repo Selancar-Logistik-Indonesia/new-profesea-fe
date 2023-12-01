@@ -10,18 +10,25 @@ const navigation = (): HorizontalNavItemsType => [
     subject: 'home'
   },
   {
-    path: '/company',
-    title: 'Home',
-    icon: 'solar:home-smile-bold-duotone',
-    action: 'read',
-    subject: 'user-company'
-  },
-  {
     path: '/community',
     title: 'Community',
     icon: 'solar:users-group-two-rounded-bold-duotone',
     action: 'read',
     subject: 'user-community'
+  },
+  {
+    path: '/list-alumni',
+    title: 'Alumni',
+    icon: 'ic:twotone-school',
+    action: 'read',
+    subject: 'user-alumni'
+  },
+  {
+    path: '/company',
+    title: 'Home',
+    icon: 'solar:home-smile-bold-duotone',
+    action: 'read',
+    subject: 'user-company'
   },
   {
     path: '/company/job-management',
