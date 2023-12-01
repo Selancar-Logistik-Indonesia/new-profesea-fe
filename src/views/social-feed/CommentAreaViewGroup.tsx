@@ -22,7 +22,7 @@ const CommentCard = (props: { comment: ISocialFeedComment }) => {
                     <Avatar sx={{ width: 35, height: 35, mr: 3, mb: 3 }} src={getUserAvatar(comment.user)} alt='profile-picture' />
                 </Box>
                 <Box sx={{ mb: [6, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
-                    <Link style={{ textDecoration: 'none' }} href={`/profile/${comment.user.username}`}>
+                    <Link style={{ textDecoration: 'none' }} href={`/profile/${comment.user?.username}`}>
                         <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600 }}>
                             {toTitleCase(comment.user.name)}
                         </Typography>

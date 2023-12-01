@@ -245,7 +245,7 @@ const navigation = (): VerticalNavItemsType => {
             action: 'read'
           },
           {
-            title: 'School',
+            title: 'Institution',
             path: '/admin/master/sekolah',
             subject: 'master/licensi-cop',
             action: 'read'
