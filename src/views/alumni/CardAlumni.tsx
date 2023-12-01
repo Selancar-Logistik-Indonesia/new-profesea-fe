@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { IUser } from 'src/contract/models/user'
 // import { getUserAvatar } from 'src/utils/helpers'
-import Avatar from 'src/@core/components/mui/avatar'
+// import Avatar from 'src/@core/components/mui/avatar'
 // import Link from 'next/link'
 
 export type ParamJobVacncy = {
@@ -46,17 +46,6 @@ const CardAlumni = (props: Props) => {
                       }}
                     >
                       <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-                        <Avatar
-                          variant='rounded'
-                          sx={{
-                            mr: 2,
-                            width: 30,
-                            height: 30,
-                            color: 'white',
-                            backgroundColor: 'transparent',
-                            border: '2px solid white'
-                          }}
-                        ></Avatar>
 
                         <Box
                           sx={{

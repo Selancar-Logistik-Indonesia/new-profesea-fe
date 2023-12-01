@@ -252,7 +252,7 @@ const DialogAdd = (props: DialogProps) => {
                             <Link href='/' onClick={e => e.preventDefault()}>
                               browse / image
                             </Link>{' '}
-                            to upload Cover Picture of Institution
+                            to upload Cover Picture of Alumni
                           </Typography>
                         </Box>
                       </Box>
@@ -309,12 +309,12 @@ const DialogAdd = (props: DialogProps) => {
                 <Grid xs={12} md={11}>
                   <Grid container item xs={12} justifyContent={'left'}>
                     <Typography variant='body2' sx={{ color: '#32487A', fontSize: '16px', fontWeight: '600' }}>
-                      Institution Detail
+                      Alumni Detail
                     </Typography>
                   </Grid>
                   <Grid container item xs={12} justifyContent={'left'}>
                     <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                    Fulfill your Institution Info
+                    Fulfill your Alumni Info
                     </Typography>
                   </Grid>
                 </Grid>

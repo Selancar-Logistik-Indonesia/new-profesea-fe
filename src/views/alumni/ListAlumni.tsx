@@ -118,13 +118,10 @@ const renderList = (listAlumni: Alumni[]) => {
                     }}
                   >
                     <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item?.id}>
-                      <Typography align='center' sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={18}>
-                        {item.title ? item.title : '-'}
-                      </Typography>
-                      <Typography align='center' sx={{ color: 'text.primary', mb: 1 }} fontSize={14}>
+                    <Typography align='center' sx={{ fontFamily: 'Outfit', fontWeight: '600', color: '#0a66c2', mb: 1 }} fontSize={18}>
                         {item.description ? item.description : '-'}
                       </Typography>
-                      <Typography align='center' sx={{ color: 'text.secondary', mb: 1 }} fontSize={12}>
+                      <Typography align='center' sx={{  fontFamily: 'Outfit', fontWeight: '600', color: '#ff9601', mb: 1 }} fontSize={12}>
                         {item.count_member ? item.count_member : '-'} Member
                       </Typography>
                     </Link>

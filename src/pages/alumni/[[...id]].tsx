@@ -21,7 +21,7 @@ import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 import SideAdAlumni from 'src/views/banner-ad/sideadAlumni'
 import CardAlumni from 'src/views/alumni/CardAlumni'
 // import CardAlumniLogi from 'src/views/alumni/CardAlumniLogo'
-import CardAlumniLogo from 'src/views/alumni/CardAlumniLogo'
+// import CardAlumniLogo from 'src/views/alumni/CardAlumniLogo'
 import ListAlumniLeft from 'src/views/alumni/ListAlumniLeft'
 import ListAlumniLeftContributor from 'src/views/alumni/ListAlumniContributor'
 import ListMemberView from 'src/views/alumni/ListMember'
@@ -148,13 +148,13 @@ const UserFeedApp = () => {
             <Grid item lg={2} md={2} xs={12}>
               <Grid item xs={12}>
                 {/* logo */}
-                <CardAlumniLogo
+                {/* <CardAlumniLogo
                   onMessage={handleMassage}
                   selectedAlumni={selectedAlumni}
                   iduser={iduser}
                   label={buildConnectText()}
                   statusbutton={status}
-                />
+                /> */}
               </Grid>
 
               <Grid item xs={12}>
@@ -166,17 +166,21 @@ const UserFeedApp = () => {
                   statusbutton={status}
                 />
               </Grid>
+
+              <Grid item xs={12} sx={{ mt: 1 }}>
+                
+                <Button variant='contained' color='primary' type='button' fullWidth onClick={() => seeAllMember()}>
+                  See All Member
+                </Button>
+              </Grid>
               {selectedAlumni?.user_id == iduser && (
                 <Grid item xs={12}>
                   <ListAlumniLeft idalumni={id} reload={firstload} />
                 </Grid>
               )}
 
-              <Grid item xs={12} sx={{ mt: 1 }}>
-                <Button variant='contained' color='warning' type='button' fullWidth onClick={() => seeAllMember()}>
-                  See All Member
-                </Button>
-              </Grid>
+              
+
               <Grid item xs={12}>
                 <ListAlumniLeftContributor listAlumni={listContributor?.data?.alumnis} />
               </Grid>
