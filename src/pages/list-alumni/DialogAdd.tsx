@@ -244,7 +244,7 @@ const DialogAdd = (props: DialogProps) => {
 
                     <input
                       accept='image/*'
-                      style={{ display: 'none', height: 250, width: '100%' }}
+                      style={{ display: 'none', height: 250, width: 400 }}
                       id='raised-button-file'
                       onChange={onSelectFile}
                       type='file'
@@ -286,7 +286,7 @@ const DialogAdd = (props: DialogProps) => {
                 </Grid>
               </Grid>
               <Grid item md={3} xs={12}>
-                <Typography>Surat Penugasan</Typography>
+                <Typography>Letter of Assignment</Typography>
                 <BoxWrapper>
                   <ProfilePictureStyled
                     src={preview2 ? preview2 : '/images/avatars/profilepic.png'}
@@ -316,7 +316,7 @@ const DialogAdd = (props: DialogProps) => {
                   options={comboSekolah}
                   getOptionLabel={(option: any) => option.sekolah}
                   // defaultValue={props.datauser?.field_preference?.vessel_type}
-                  renderInput={params => <TextField {...params} label='Sekolah *' variant='standard' />}
+                  renderInput={params => <TextField {...params} label='Institution Name *' variant='standard' />}
                   onChange={(event: any, newValue: SekolahType | null) =>
                     newValue?.id ? setComboSekolah(newValue.id) : setComboSekolah(null)
                   }
@@ -326,7 +326,7 @@ const DialogAdd = (props: DialogProps) => {
               <Grid item md={12} xs={12}>
                 <TextField
                   id='description'
-                  label='deskripsi Alumni'
+                  label='Alumni Description'
                   variant='outlined'
                   multiline
                   maxRows={4}
