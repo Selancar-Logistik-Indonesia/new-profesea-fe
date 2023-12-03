@@ -10,7 +10,7 @@ const columns: GridColDef[] = [
   { field: 'user', headerName: 'user', sortable: true, minWidth: 250 },
   {
     field: 'member',
-    headerName: 'Status',
+    headerName: 'Member',
     sortable: false,
     minWidth: 150,
     renderCell: cell => {
