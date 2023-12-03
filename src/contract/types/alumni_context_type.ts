@@ -6,7 +6,8 @@ type AlumniContextType = {
   onLoading: boolean
   listAlumni: any
   hasNextPage: boolean
-  fetchAlumnis: (payload: { take: number; search?: any ,status?:any}) => Promise<void>
+  fetchAlumnis: (payload: { take: number; search?: any; status?: any }) => Promise<void>
+  fetchMember: (payload: { take: number; search?: any; status?: any ;id?:any}) => Promise<void>
 }
 
 export default AlumniContextType;

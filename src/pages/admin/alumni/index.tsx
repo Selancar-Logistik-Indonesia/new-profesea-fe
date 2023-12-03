@@ -21,6 +21,7 @@ import { v4 } from "uuid";
 import DialogImport from './DialogImport';
 import DialogView from './DialogView';
 import Alumni from 'src/contract/models/alumni';
+import DialogDetail from './DialogDetail';
 
 const UserScreen = () => {
  
@@ -35,11 +36,11 @@ const UserScreen = () => {
     const [openImModal, setOpenImModal] = useState(false);
     // const [openDelModal, setOpenDelModal] = useState(false);
     // const [openEditModal, setOpenEditModal] = useState(false);
-    const [openViewModal, setOpenViewModal] = useState(false);
+    const [openViewModal, setOpenViewModal] = useState(false)
+    const [openViewModal2, setOpenViewModal2] = useState(false)
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
-    const [selectedItem, setSelectedItem] = useState<Alumni | null>(null);
-    // const [teams, getTeams] = useState<any[]>([]);
-
+    const [selectedItem, setSelectedItem] = useState<Alumni | null>(null) 
+ 
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
     const [search, setSearch] = useState("");
@@ -65,15 +66,17 @@ const UserScreen = () => {
                   no: index + 1,
                   id: row.id,
                   sekolah: row.sekolah.sekolah,
+                  description: row.description,
                   user: row.user.name,
+                  member: row.count_member,
                   statusaktif: row.statusaktif,
-                  
-                //   resend: {
-                //     onResend: () => resendchat(row)
-                //   },
+
+                  //   resend: {
+                  //     onResend: () => resendchat(row)
+                  //   },
                   actions: {
                     docView: () => viewHandler(row),
-                    // onDelete: () => deleteHandler(row),
+                    view: () => detailHandler(row)
                     // onUpdate: () => updateHandler(row)
                   }
                 } as unknown as RowItem
@@ -128,8 +131,12 @@ const UserScreen = () => {
     // }
 
     const viewHandler = (row: Alumni) => {
-        setSelectedItem(row);
-        setOpenViewModal(true);
+      setSelectedItem(row)
+      setOpenViewModal(true)
+    }
+    const detailHandler = (row: Alumni) => {
+      setSelectedItem(row)
+      setOpenViewModal2(true)
     }
 
    
@@ -178,8 +185,7 @@ const UserScreen = () => {
                       onChange={e => handleSearch(e.target.value)}
                     />
                   </Grid>
-
-                 </Grid>
+                </Grid>
 
                 <AccountDatagrid
                   page={page - 1} // di MUI page pertama = 0
@@ -224,6 +230,13 @@ const UserScreen = () => {
               selectedItem={selectedItem}
               visible={openViewModal}
               onCloseClick={() => setOpenViewModal(!openViewModal)}
+              onStateChange={() => setHookSignature(v4())}
+            />
+            <DialogDetail
+              key={selectedItem.id}
+              selectedItem={selectedItem}
+              visible={openViewModal2}
+              onCloseClick={() => setOpenViewModal2(!openViewModal2)}
               onStateChange={() => setHookSignature(v4())}
             />
           </>

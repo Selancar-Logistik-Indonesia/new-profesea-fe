@@ -111,13 +111,16 @@ const DialogView = (props: ViewProps) => {
                 <Typography lineHeight={1.4} variant='body1' fontSize={16}>
                   {props.selectedItem?.sekolah.sekolah}
                 </Typography>
-                <Typography lineHeight={1.4} variant='caption' fontSize={12}>
+                {/* <Typography lineHeight={1.4} variant='caption' fontSize={12}>
                   {props.selectedItem?.description}
-                </Typography>
+                </Typography> */}
               </Box>
             </Box>
             <Grid container columnSpacing={'1'} rowSpacing={'2'} mt={5} alignItems={'end'}>
               <Box sx={{ display: 'flex', flexDirection: 'row', width: '90%', mb: 1, justifyContent: 'center' }} ml={5}>
+                <Box mr={3}>
+                  <Icon fontSize='large' icon={'vscode-icons:file-type-pdf2'} style={{ fontSize: '36px' }} />
+                </Box>
                 <Box
                   sx={{
                     display: 'flex',
@@ -126,7 +129,8 @@ const DialogView = (props: ViewProps) => {
                     justifyContent: 'center'
                   }}
                 >
-                  <Avatar src={props.selectedItem?.suratpenugasan} />
+                  <Typography>{props.selectedItem?.description}</Typography>
+                  {/* <Avatar src={props.selectedItem?.suratpenugasan} /> */}
                 </Box>
 
                 {/* <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'}>
@@ -153,14 +157,11 @@ const DialogView = (props: ViewProps) => {
               <Icon fontSize='large' icon={'material-symbols:recommend'} color={'info'} style={{ margin: 3 }} />
               Verify
             </Button>
- 
-              <Button variant='contained' color='error' onClick={handleReject}>
-                <Icon fontSize='large' icon={'carbon:close-outline'} color={'info'} style={{ margin: 3 }} />
-                Reject
-              </Button>
-           
 
-             
+            <Button variant='contained' color='error' onClick={handleReject}>
+              <Icon fontSize='large' icon={'carbon:close-outline'} color={'info'} style={{ margin: 3 }} />
+              Reject
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
