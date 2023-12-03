@@ -5,9 +5,26 @@ import { Button  } from '@mui/material';
 
 const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true },
-  { field: 'sekolah', headerName: 'Institution', sortable: true, minWidth: 300 },
-  { field: 'user', headerName: 'user', sortable: true, minWidth: 250 }, 
+  { field: 'sekolah', headerName: 'Institution', sortable: true, minWidth: 200 },
+  { field: 'description', headerName: 'Description', sortable: true, minWidth: 300 },
+  { field: 'user', headerName: 'user', sortable: true, minWidth: 250 },
+  {
+    field: 'member',
+    headerName: 'Status',
+    sortable: false,
+    minWidth: 150,
+    renderCell: cell => {
+      const { row } = cell
 
+      return (
+        <>
+          <Button variant='contained' onClick={() => row.actions.view()} aria-label='edit' color='primary' size='small'>
+            {row.member}
+          </Button>
+        </>
+      )
+    }
+  },
   {
     field: 'statusaktif',
     headerName: 'Status',
@@ -25,9 +42,7 @@ const columns: GridColDef[] = [
             color='secondary'
             size='small'
           >
-            {row.statusaktif == false
-              ?  'UNVERIFIED'    
-              : 'VERIFY'}
+            {row.statusaktif == false ? 'UNVERIFIED' : 'VERIFY'}
           </Button>
         </>
       )
@@ -67,10 +82,10 @@ interface RowItem {
   id: number
   sekolah: string
   user: string
+  member: string
   statusaktif: string
-   
+
   actions: {
-    
     docView: VoidFunction
   }
 }
