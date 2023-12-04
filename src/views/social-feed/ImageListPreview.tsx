@@ -8,13 +8,13 @@ const ImageListPreview = (props: { urls: string[] }) => {
         defaultRows = 1,
         defaultCols = 1;
 
-    if (urls.length == 1) {
+    if (urls?.length == 1) {
         cols = 4;
         itemRows = 3;
         itemCols = 4;
     }
 
-    if (urls.length == 2) {
+    if (urls?.length == 2) {
         cols = 4;
         itemRows = 3;
         itemCols = 2;
@@ -22,19 +22,19 @@ const ImageListPreview = (props: { urls: string[] }) => {
         defaultCols = 2;
     }
 
-    if (urls.length == 3) {
+    if (urls?.length == 3) {
         cols = 2;
         itemRows = 2;
         itemCols = 2;
     }
 
-    if (urls.length == 4) {
+    if (urls?.length == 4) {
         cols = 4;
         itemRows = 3;
         itemCols = 3;
     } 
 
-    return urls.length > 0 ? (
+    return urls?.length > 0 ? (
         <ImageList
             sx={{ width: '100%', height: 580, objectFit: 'contain', overflow: 'hidden', my: 2, borderRadius: '8px', boxShadow: '0 1px 1px rgba(0, 0, 0, 0.1)', }}
             variant="quilted"
