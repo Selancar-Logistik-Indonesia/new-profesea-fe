@@ -19,7 +19,7 @@ import ButtonJoinAlumni from 'src/layouts/components/ButtonJoinAlumni'
 // import LIstAlumniLeft from 'src/views/alumni/ListAlumniLeft'
 import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 import SideAdAlumni from 'src/views/banner-ad/sideadAlumni'
-import CardAlumni from 'src/views/alumni/CardAlumni'
+//import CardAlumni from 'src/views/alumni/CardAlumni'
 // import CardAlumniLogi from 'src/views/alumni/CardAlumniLogo'
 // import CardAlumniLogo from 'src/views/alumni/CardAlumniLogo'
 import ListAlumniLeft from 'src/views/alumni/ListAlumniLeft'
@@ -92,9 +92,9 @@ const UserFeedApp = () => {
     }
   }
   
-  const buildConnectText = () => { 
-    return 'Join'
-  }
+  // const buildConnectText = () => { 
+  //   return 'Join'
+  // }
    const seeAllMember = () => {
     if (showFeed==true){
       setShowFeed(!showFeed)
@@ -163,7 +163,7 @@ const UserFeedApp = () => {
                 /> */}
               </Grid>
 
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <CardAlumni
                   onMessage={handleMassage}
                   selectedAlumni={selectedAlumni}
@@ -171,7 +171,7 @@ const UserFeedApp = () => {
                   label={buildConnectText()}
                   statusbutton={status}
                 />
-              </Grid>
+              </Grid> */}
               {selectedAlumni?.user_id == iduser && (
                 <Grid item xs={12}>
                   <ListAlumniLeft idalumni={id} reload={firstload} />
@@ -182,7 +182,7 @@ const UserFeedApp = () => {
                 <ListAlumniTop listAlumni={listTop} />
               </Grid>
               <Grid item xs={12} sx={{ mt: 1 }}>
-                <Button variant='contained' color='warning' type='button' fullWidth onClick={() => seeAllMember()}>
+                <Button variant='contained' color='primary' type='button' fullWidth onClick={() => seeAllMember()}>
                   See All Member
                 </Button>
               </Grid>
