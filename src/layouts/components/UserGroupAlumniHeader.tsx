@@ -73,9 +73,9 @@ const UserProfileHeader = (props: userProps) => {
           >
             <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
               <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '900' }}>
-                {dataalumni.sekolah?.sekolah}
+              {dataalumni.description}
               </Typography>
-              <Typography sx={{ color: '#262525', fontWeight: 600 }}>{dataalumni.description}</Typography>
+              <Typography sx={{ color: '#262525', fontWeight: 600 }}>Institution :  {dataalumni.sekolah?.sekolah}</Typography>
             </Box>
           </Box>
         </CardContent>

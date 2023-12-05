@@ -15,7 +15,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { Autocomplete, CircularProgress, Divider } from '@mui/material' 
+import { Autocomplete, CircularProgress } from '@mui/material' 
 import { useDropzone } from 'react-dropzone'
 import { yupResolver } from '@hookform/resolvers/yup'
 
@@ -231,7 +231,7 @@ const DialogAdd = (props: DialogProps) => {
               </Typography>
             </Box>
 
-            <Grid container columnSpacing={'1'} rowSpacing={'4'}>
+            <Grid container columnSpacing={'1'} rowSpacing={'2'}>
               <Grid item container md={12} xs={12}>
                 <Grid item container md={3} xs={12}>
                   {' '}
@@ -270,7 +270,7 @@ const DialogAdd = (props: DialogProps) => {
                         >
                           <Typography
                             color='textSecondary'
-                            fontSize='14px'
+                            fontSize='16px'
                             sx={{ '& a': { color: 'primary.main', textDecoration: 'none' } }}
                           >
                             Click{' '}
@@ -293,51 +293,22 @@ const DialogAdd = (props: DialogProps) => {
                     alt='profile-picture'
                     sx={{ width: 100, height: 100, objectFit: 'cover' }}
                   ></ProfilePictureStyled>
+
                   <input
-                    accept='image/*'
-                    style={{ display: 'none' }}
-                    id='x'
-                    onChange={onSelectFile}
+                    accept='application/pdf'
+                    style={{ display: 'none', height: 250, width: '100%' }}
+                    id='raised-button-file-2'
+                    onChange={onSelectFile2}
                     type='file'
                   ></input>
-                </Grid>
-                <Grid xs={8}>
-                  <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
-                    <Typography
-                      variant='body2'
-                      sx={{ textAlign: 'left', color: '#262525', fontSize: '10px', mb: '5px' }}
-                    >
-                      <strong>Click Image to change Institution Logo.</strong>
-                    </Typography>
-                    <Divider></Divider>
-                    <Typography
-                      variant='body2'
-                      sx={{ textAlign: 'left', color: '#262525', fontSize: '10px', mt: '5px' }}
-                    >
-                      Allowed JPG, GIF or PNG.
-                    </Typography>
-                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                      Max size of 800K. Aspect Ratio 1:1
-                    </Typography>
+                  <Box position={'absolute'} right={'49%'} bottom={'40%'} top={'25%'}>
+                    <label htmlFor='raised-button-file-2'>
+                      <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
+                    </label>
                   </Box>
-                </Grid>
+                </BoxWrapper>
               </Grid>
-            </Grid>
-            <Grid item container xs={12}>
-                <Grid xs={12} md={11}>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#32487A', fontSize: '16px', fontWeight: '600' }}>
-                      Alumni Detail
-                    </Typography>
-                  </Grid>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                    Fulfill your Alumni Info
-                    </Typography>
-                  </Grid>
-                </Grid>
-                </Grid>
-              <Grid item md={12} xs={12}>
+              <Grid item md={8} xs={12}>
                 {/* <TextField id='title' label='Title Alumni' variant='outlined' fullWidth {...register('title')} /> */}
                 <Autocomplete
                   disablePortal
@@ -363,67 +334,6 @@ const DialogAdd = (props: DialogProps) => {
                   {...register('description')}
                 />
               </Grid>
-
-              <Grid item container xs={12}>
-                <Grid xs={10} md={11}>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#32487A', fontSize: '16px', fontWeight: '600' }}>
-                      Letter of Assignment
-                    </Typography>
-                  </Grid>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                    Allowed PDF File
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
-                <BoxWrapper>
-                  <ProfilePictureStyled
-                    src={preview2 ? preview2 : '/images/avatars/profilepic.png'}
-                    alt='profile-picture'
-                    sx={{ width: 50, height: 50, objectFit: 'cover' }}
-                  ></ProfilePictureStyled>
-
-                  <input
-                    accept='application/pdf'
-                    style={{ display: 'none', height: 250, width: '100%' }}
-                    id='raised-button-file-2'
-                    onChange={onSelectFile2}
-                    type='file'
-                  ></input>
-                  <Box position={'absolute'} right={'20%'} bottom={'40%'} top={'25%'}>
-                    <label htmlFor='raised-button-file-2'>
-                      <Icon fontSize='large' icon={'bi:filetype-pdf'} color={'white'} style={{ fontSize: '26px' }} />
-                    </label>
-                  </Box>
-                </BoxWrapper>
-                </Grid>
-                </Grid>
-
-              {/* <Grid item md={12} xs={12}>
-                <Typography>Letter of Assignment</Typography>
-                <BoxWrapper>
-                  <ProfilePictureStyled
-                    src={preview2 ? preview2 : '/images/avatars/profilepic.png'}
-                    alt='profile-picture'
-                    sx={{ width: 100, height: 100, objectFit: 'cover' }}
-                  ></ProfilePictureStyled>
-
-                  <input
-                    accept='application/pdf'
-                    style={{ display: 'none', height: 250, width: '100%' }}
-                    id='raised-button-file-2'
-                    onChange={onSelectFile2}
-                    type='file'
-                  ></input>
-                  <Box position={'absolute'} right={'49%'} bottom={'40%'} top={'25%'}>
-                    <label htmlFor='raised-button-file-2'>
-                      <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
-                    </label>
-                  </Box>
-                </BoxWrapper>
-              </Grid> */}
             </Grid>
           </DialogContent>
           <DialogActions

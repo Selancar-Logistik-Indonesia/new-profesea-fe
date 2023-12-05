@@ -45,7 +45,10 @@ const renderList = (listMember: any[]) => {
                   {item?.user?.name ?? '-'}
                 </Typography>
                 <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
-                  NIM : {item?.nim ?? '-'}{' Lulusan: '} {item?.lulusan }
+                  NIM : {item?.nim ?? '-'}
+                </Typography>
+                <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
+                  Graduate : {item?.lulusan ?? '-' }
                 </Typography>
                
               </Box>
