@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { Divider, Grid, styled } from '@mui/material' 
 import Alumni from 'src/contract/models/alumni'
-import CardAlumni from 'src/views/alumni/CardAlumni'
 import { Icon } from '@iconify/react'
  
  const ProfilePicture = styled('img')(({ theme }) => ({
