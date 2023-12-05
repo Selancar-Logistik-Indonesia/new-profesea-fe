@@ -233,6 +233,31 @@ const DialogAdd = (props: DialogProps) => {
 
             <Grid container columnSpacing={'1'} rowSpacing={'4'}>
               <Grid item container md={12} xs={12}>
+                <Grid item container md={3} xs={12}>
+                  {' '}
+                  <BoxWrapper>
+                    <ProfilePictureStyled
+                      src={preview ? preview : '/images/avatars/profilepic.png'}
+                      alt='profile-picture'
+                      sx={{ width: 100, height: 100, objectFit: 'cover' }}
+                    ></ProfilePictureStyled>
+
+                    <input
+                      accept='image/*'
+                      style={{ display: 'none', height: 250, width: 400 }}
+                      id='raised-button-file'
+                      onChange={onSelectFile}
+                      type='file'
+                    ></input>
+                    <Box position={'absolute'} right={'40%'} bottom={'40%'} top={'25%'}>
+                      <label htmlFor='raised-button-file'>
+                        <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
+                      </label>
+                    </Box>
+                  </BoxWrapper>
+                  {/* <span>{errors?.title?.message}</span> */}
+                </Grid>
+                <Grid item container md={9} xs={12}>
                   <Box {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed' }}>
                     <input {...getInputProps()} />
                     {files.length ? (
@@ -259,22 +284,15 @@ const DialogAdd = (props: DialogProps) => {
                     )}
                   </Box>
                 </Grid>
-              
-              <Grid item md={12} xs={12} mt={2}>
-              <Grid item xs={6} md={8} container justifyContent={'left'}>
-                <Grid xs={4}>
-                  <label htmlFor='x'>
-                    <img
-                      alt='logo'
-                      src={preview ? preview : '/images/avatar.png'}
-                      style={{
-                        maxWidth: '100%',
-                        height: '100px',
-                        padding: 0,
-                        margin: 0
-                      }}
-                    />
-                  </label>
+              </Grid>
+              <Grid item md={3} xs={12}>
+                <Typography>Letter of Assignment</Typography>
+                <BoxWrapper>
+                  <ProfilePictureStyled
+                    src={preview2 ? preview2 : '/images/avatars/profilepic.png'}
+                    alt='profile-picture'
+                    sx={{ width: 100, height: 100, objectFit: 'cover' }}
+                  ></ProfilePictureStyled>
                   <input
                     accept='image/*'
                     style={{ display: 'none' }}
