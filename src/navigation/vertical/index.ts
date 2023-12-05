@@ -21,6 +21,13 @@ const navigation = (): VerticalNavItemsType => {
         subject: 'user-community'
       },
       {
+        path: '/list-alumni',
+        title: 'Alumni',
+        icon: 'ic:twotone-school',
+        action: 'read',
+        subject: 'user-alumni'
+      },
+      {
         path: '/candidate/find-job',
         title: 'Find Job',
         icon: 'solar:boombox-bold-duotone',
@@ -33,6 +40,13 @@ const navigation = (): VerticalNavItemsType => {
         icon: 'solar:book-bookmark-bold-duotone',
         action: 'read',
         subject: 'seaferer-training'
+      },
+      {
+        path: '/list-group',
+        title: 'Group',
+        icon: 'el:group',
+        action: 'read',
+        subject: 'home'
       },
       // {
       //   path: '/pricing',
