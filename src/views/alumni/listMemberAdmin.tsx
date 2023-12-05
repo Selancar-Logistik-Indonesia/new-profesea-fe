@@ -60,7 +60,7 @@ const renderList = (listAlumni: any[]) => {
               }}
             >
               <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item?.id}>
-                <Typography align='left' sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={18}>
+                <Typography align='left' sx={{ fontWeight: '400', color: 'text.primary', mb: 1 }} fontSize={14}>
                   {item.user.name ? item.user.name : '-'}
                 </Typography>
               </Link>

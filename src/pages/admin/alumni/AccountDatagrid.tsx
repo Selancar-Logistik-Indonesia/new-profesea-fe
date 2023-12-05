@@ -5,12 +5,12 @@ import { Button  } from '@mui/material';
 
 const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true },
+  { field: 'description', headerName: 'Name Group of Alumni', sortable: true, minWidth: 300 },
   { field: 'sekolah', headerName: 'Institution', sortable: true, minWidth: 200 },
-  { field: 'description', headerName: 'Description', sortable: true, minWidth: 300 },
-  { field: 'user', headerName: 'user', sortable: true, minWidth: 250 },
+  { field: 'user', headerName: 'Admin Alumni', sortable: true, minWidth: 250 },
   {
     field: 'member',
-    headerName: 'Member',
+    headerName: 'Alumni',
     sortable: false,
     minWidth: 150,
     renderCell: cell => {
