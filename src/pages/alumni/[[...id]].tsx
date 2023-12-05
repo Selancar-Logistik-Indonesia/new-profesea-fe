@@ -19,13 +19,14 @@ import ButtonJoinAlumni from 'src/layouts/components/ButtonJoinAlumni'
 // import LIstAlumniLeft from 'src/views/alumni/ListAlumniLeft'
 import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 import SideAdAlumni from 'src/views/banner-ad/sideadAlumni'
-//import CardAlumni from 'src/views/alumni/CardAlumni'
+// import CardAlumni from 'src/views/alumni/CardAlumni'
 // import CardAlumniLogi from 'src/views/alumni/CardAlumniLogo'
 // import CardAlumniLogo from 'src/views/alumni/CardAlumniLogo'
 import ListAlumniLeft from 'src/views/alumni/ListAlumniLeft'
 import ListAlumniLeftContributor from 'src/views/alumni/ListAlumniContributor'
 import ListMemberView from 'src/views/alumni/ListMember'
 import ListAlumniTop from 'src/views/alumni/ListAlumniTop'
+import ListAlumniLatter from 'src/views/alumni/ListAlumniLatter'
    
 const ProfileCompany = () => {
   return (
@@ -96,9 +97,9 @@ const UserFeedApp = () => {
   //   return 'Join'
   // }
    const seeAllMember = () => {
-    if (showFeed==true){
+    // if (showFeed==true){
       setShowFeed(!showFeed)
-    } 
+    // } 
      setShowMember(!showAllMember)
    }
  const handleMassage = () => {
@@ -168,14 +169,19 @@ const UserFeedApp = () => {
                   onMessage={handleMassage}
                   selectedAlumni={selectedAlumni}
                   iduser={iduser}
-                  label={buildConnectText()}
+                  label={'tes'}
                   statusbutton={status}
                 />
               </Grid> */}
               {selectedAlumni?.user_id == iduser && (
-                <Grid item xs={12}>
-                  <ListAlumniLeft idalumni={id} reload={firstload} />
-                </Grid>
+                <>
+                  <Grid item xs={12}>
+                    <ListAlumniLatter alumni={selectedAlumni} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <ListAlumniLeft idalumni={id} reload={firstload} />
+                  </Grid>
+                </>
               )}
 
               <Grid item xs={12}>
@@ -200,7 +206,6 @@ const UserFeedApp = () => {
             <Grid item lg={10} md={10} xs={12}>
               {showFeed == true && <PostfeedAlumni id={id} />}
               {showFeed == true && <ListFeedViewAlumni username={id} />}
-              {showFeed == false && <Typography>Please Join Alumni</Typography>}
               {showAllMember && (
                 <>
                   <ListMemberView listMember={selectedAlumni?.member}></ListMemberView>

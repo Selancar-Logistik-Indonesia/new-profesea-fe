@@ -72,7 +72,7 @@ const Img = styled('img')(({ theme }) => ({
 
 const DialogAdd = (props: DialogProps) => {
     const [onLoading, setOnLoading] = useState(false); 
-    const [files, setFiles] = useState<File[]>([])
+    // const [files, setFiles] = useState<File[]>([])
     const [preview, setPreview] = useState()
     const [selectedFile, setSelectedFile] = useState()
     const [preview2, setPreview2] = useState()
@@ -80,15 +80,15 @@ const DialogAdd = (props: DialogProps) => {
     const [comboSekolah, getComboSekolah] = useState<any>([])
     const [idcomboSekolah, setComboSekolah] = useState<any>()
   
-    const { getRootProps, getInputProps } = useDropzone({
-        multiple: false,
-        accept: {
-        'image/*': ['.png', '.jpg', '.jpeg', '.gif']
-        },
-        onDrop: (acceptedFiles: File[]) => {
-        setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
-        }
-    })
+    // const { getRootProps, getInputProps } = useDropzone({
+    //     multiple: false,
+    //     accept: {
+    //     'image/*': ['.png', '.jpg', '.jpeg', '.gif']
+    //     },
+    //     onDrop: (acceptedFiles: File[]) => {
+    //     setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
+    //     }
+    // })
     const onSelectFile = (e: any) => {
       if (!e.target.files || e.target.files.length === 0) {
         setSelectedFile(undefined) 
@@ -102,9 +102,9 @@ const DialogAdd = (props: DialogProps) => {
       // setCurrentImage(selectedFiles?.[0])
       // uploadPhoto(selectedFiles?.[0])
     }
-    const img = files.map((file: FileProp) => (
-        <img key={file.name} alt={file.name} className='single-file-image' src={URL.createObjectURL(file as any)} width={450} />
-    ))
+    // const img = files.map((file: FileProp) => (
+    //     <img key={file.name} alt={file.name} className='single-file-image' src={URL.createObjectURL(file as any)} width={450} />
+    // ))
       
      const onSelectFile2 = (e: any) => {
        if (!e.target.files || e.target.files.length === 0) {
@@ -172,14 +172,14 @@ const DialogAdd = (props: DialogProps) => {
     const onSubmit = async (formData: Alumni) => {
         const { title, description} = formData
         
-        if(files.length == 0){
-          toast.error('Isi Banner')
-        }
+        // if(files.length == 0){
+        //   toast.error('Isi Banner')
+        // }
         if(selectedFile == undefined){
           toast.error('Isi Photo Profile')
         }
         const json = {
-            "alumnibanner": files,
+            // "alumnibanner": files,
             "title": title,
             "description": description,
             "profilepicture":selectedFile,
@@ -233,8 +233,8 @@ const DialogAdd = (props: DialogProps) => {
 
             <Grid container columnSpacing={'1'} rowSpacing={'2'}>
               <Grid item container md={12} xs={12}>
-              <Grid item container md={12} xs={12}>
-                  <Box {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed' }}>
+                <Grid item container md={12} xs={12}>
+                  {/* <Box {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed' }}>
                     <input {...getInputProps()} />
                     {files.length ? (
                       img
@@ -258,10 +258,10 @@ const DialogAdd = (props: DialogProps) => {
                         </Box>
                       </Box>
                     )}
-                  </Box>
+                  </Box> */}
                 </Grid>
                 <Grid item xs={6} md={12} mt={2} container justifyContent={'left'}>
-                <Grid xs={9}>
+                  <Grid xs={9}>
                     <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                       <Typography
                         variant='body2'
@@ -282,7 +282,7 @@ const DialogAdd = (props: DialogProps) => {
                     </Box>
                   </Grid>
                   <Grid xs={3}>
-                  {' '}
+                    {' '}
                     <BoxWrapper>
                       <ProfilePictureStyled
                         src={preview ? preview : '/images/avatars/profilepic.png'}
@@ -304,10 +304,9 @@ const DialogAdd = (props: DialogProps) => {
                       </Box>
                     </BoxWrapper>
                   </Grid>
-                  
                 </Grid>
               </Grid>
-              
+
               <Grid item md={12} xs={12}>
                 <TextField
                   id='description'
@@ -334,31 +333,30 @@ const DialogAdd = (props: DialogProps) => {
                   }
                 />
               </Grid>
-              
+
               <Grid item xs={6} md={12} mt={2} container justifyContent={'left'}>
                 <Grid xs={9}>
-                    <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
-                      <Typography
-                        variant='body2'
-                        sx={{ textAlign: 'left', color: '#262525', fontSize: '10px', mb: '5px' }}
-                      >
-                        <strong>Letter of Assignment</strong>
-                      </Typography>
-                      <Divider></Divider>
-                      <Typography
-                        variant='body2'
-                        sx={{ textAlign: 'left', color: '#262525', fontSize: '10px', mt: '5px' }}
-                      >
-                        Allowed PDF.
-                      </Typography>
-                      <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                        Max size of 800K.
-                      </Typography>
-                    </Box>
-                  </Grid>
-                  <Grid xs={3}>
+                  <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
+                    <Typography
+                      variant='body2'
+                      sx={{ textAlign: 'left', color: '#262525', fontSize: '10px', mb: '5px' }}
+                    >
+                      <strong>Letter of Assignment</strong>
+                    </Typography>
+
+                    <Divider></Divider>
+                    <Typography variant='body2' sx={{ textAlign: 'left', color: 'red', fontSize: '10px', mt: '5px' }}>
+                      {' '}
+                      <strong>Optional</strong>
+                    </Typography>
+                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
+                      Allowed PDF. Max size of 800K.
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid xs={3}>
                   {' '}
-                    <BoxWrapper>
+                  <BoxWrapper>
                     <ProfilePictureStyled
                       src={preview2 ? preview2 : '/images/avatars/profilepic.png'}
                       alt='profile-picture'
@@ -378,10 +376,8 @@ const DialogAdd = (props: DialogProps) => {
                       </label>
                     </Box>
                   </BoxWrapper>
-                  </Grid>
-                  
                 </Grid>
-
+              </Grid>
             </Grid>
           </DialogContent>
           <DialogActions

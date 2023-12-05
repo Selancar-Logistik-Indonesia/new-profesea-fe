@@ -19,6 +19,7 @@ interface Alumni {
   statusaktif: any
   suratpenugasan: any
   membelimitr: any
+  totalmember: any
 }
 
 export default Alumni

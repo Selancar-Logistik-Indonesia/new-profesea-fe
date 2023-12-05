@@ -68,7 +68,7 @@ const renderList = (listAlumni: Alumni[]) => {
             <CardMedia
               component='img'
               alt='profile-header'
-              image={item.alumnibanner != '' ? item.alumnibanner : '/images/avatars/headerprofile3.png'}
+              image={'/images/banner.jpeg'}
               sx={{
                 height: { xs: 100, md: 100 },
                 width: '100%',
