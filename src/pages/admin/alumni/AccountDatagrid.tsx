@@ -5,7 +5,7 @@ import { Button  } from '@mui/material';
 
 const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true },
-  { field: 'description', headerName: 'Name Group of Alumni', sortable: true, minWidth: 300 },
+  { field: 'description', headerName: 'Group Name of Alumni', sortable: true, minWidth: 300 },
   { field: 'sekolah', headerName: 'Institution', sortable: true, minWidth: 200 },
   { field: 'user', headerName: 'Admin Alumni', sortable: true, minWidth: 250 },
   {

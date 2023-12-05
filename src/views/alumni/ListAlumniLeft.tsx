@@ -63,14 +63,14 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
             </Box>
           </Link> */}
 
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={2}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={1}>
             <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item?.id}>
-              <Typography sx={{ color: '#32487A', fontWeight: 600 }}>
+              <Typography sx={{ color: '#0a66c2', fontWeight: 600 }}>
                 {item.user.name ? item.user.name : '-'}
               </Typography>
             </Link>
 
-              <Grid item container xs={12} spacing={0}>
+              <Grid item container xs={12} spacing={0.5} mb={1}>
                 <Grid item xs={12} md={12}>
                   <Typography sx={{ color: '#32487A', fontWeight: 400 }}>NIM : {item.nim ? item.nim : ' - '}</Typography>
                 </Grid>
@@ -79,7 +79,7 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
                 </Grid>
               </Grid>
               <Grid item container xs={12} spacing={4}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={6} >
                 <Button
                   variant='contained'
                   color='info'
