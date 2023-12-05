@@ -41,8 +41,8 @@ const renderList = (listAlumni: any[]) => {
 
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={2}>
             <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item?.id}>
-              <Typography sx={{ color: '#32487A', fontWeight: 600 }}>{item.name} </Typography>
-              <Typography sx={{ color: '#32487A', fontWeight: 400 }}>{item.total ? item.total : '-'} Feed</Typography>
+              <Typography sx={{ color: '#FFFFFF', fontWeight: 400 }}>{item.name} </Typography>
+              <Typography sx={{ color: '#FFFFFF', fontWeight: 400 }}>{item.total ? item.total : '-'} Feed</Typography>
             </Link>
           </Box>
         </Box>
@@ -64,7 +64,7 @@ const ListAlumniLeftContributor = (props: Props) => {
                 <>
                   <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Box sx={{ mr: 2 }}>
-                    <Typography
+                      <Typography
                         align='left'
                         sx={{ fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF', mb: 1 }}
                         fontSize={14}
