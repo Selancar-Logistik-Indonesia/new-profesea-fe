@@ -3,8 +3,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import {Button, Card, CardContent } from '@mui/material'
 import { HttpClient } from 'src/services' 
-import { useEffect, useState } from 'react'
-import Alumni from 'src/contract/models/alumni'
+ 
 import { Icon } from '@iconify/react'
 import { toast } from 'react-hot-toast'
  

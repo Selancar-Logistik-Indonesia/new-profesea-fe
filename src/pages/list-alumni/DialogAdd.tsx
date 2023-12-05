@@ -16,11 +16,11 @@ import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { Autocomplete, CircularProgress, Divider } from '@mui/material' 
-import { useDropzone } from 'react-dropzone'
+// import { useDropzone } from 'react-dropzone'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 
-import Link from 'next/link'
+// import Link from 'next/link'
 import * as yup from 'yup'
  import Alumni from 'src/contract/models/alumni'
 import { BoxProps } from '@mui/system'
@@ -41,11 +41,7 @@ type DialogProps = {
     onStateChange: VoidFunction;
 }
 
-interface FileProp {
-    name: string
-    type: string
-    size: number
-}
+ 
 const BoxWrapper = styled(Box)<BoxProps>(() => ({
   position: 'relative'
 }))
@@ -58,18 +54,7 @@ const ProfilePictureStyled = styled('img')(({ theme }) => ({
     marginBottom: theme.spacing(4)
   }
 }))
-const Img = styled('img')(({ theme }) => ({
-    [theme.breakpoints.up('md')]: {
-      marginRight: theme.spacing(10)
-    },
-    [theme.breakpoints.down('md')]: {
-      marginBottom: theme.spacing(4)
-    },
-    [theme.breakpoints.down('sm')]: {
-      width: 250
-    }
-}))
-
+ 
 const DialogAdd = (props: DialogProps) => {
     const [onLoading, setOnLoading] = useState(false); 
     // const [files, setFiles] = useState<File[]>([])
