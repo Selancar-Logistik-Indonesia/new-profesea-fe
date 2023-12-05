@@ -21,10 +21,11 @@ import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 import SideAdAlumni from 'src/views/banner-ad/sideadAlumni'
 import CardAlumni from 'src/views/alumni/CardAlumni'
 // import CardAlumniLogi from 'src/views/alumni/CardAlumniLogo'
-// import CardAlumniLogo from 'src/views/alumni/CardAlumniLogo'
+import CardAlumniLogo from 'src/views/alumni/CardAlumniLogo'
 import ListAlumniLeft from 'src/views/alumni/ListAlumniLeft'
 import ListAlumniLeftContributor from 'src/views/alumni/ListAlumniContributor'
 import ListMemberView from 'src/views/alumni/ListMember'
+import ListAlumniTop from 'src/views/alumni/ListAlumniTop'
    
 const ProfileCompany = () => {
   return (
@@ -49,6 +50,7 @@ const UserFeedApp = () => {
   const [url2, setUrl2] = useState<string>('')
   const { id } = router.query as { id: any }; 
   const [listContributor, setListContributor] = useState<any>(null)
+  const [listTop, setListTop] = useState<any>(null)
 
   const firstload = async () => {
     let url = '';
@@ -70,6 +72,7 @@ const UserFeedApp = () => {
         return
       }
       const grup = response.data.alumni as Alumni
+      setListTop(grup.membelimitr)
       setSelectedAlumni(grup)
       if (grup.statusmember == 'Leave') {
         setShowFeed(true)
@@ -81,6 +84,9 @@ const UserFeedApp = () => {
         setShowFeed(false)
         setUrl2('/alumni/join')
       }
+
+       
+ 
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
@@ -179,8 +185,11 @@ const UserFeedApp = () => {
                 </Grid>
               )}
 
-              
-
+              <Grid item xs={12} sx={{ mt: 1 }}>
+                <Button variant='contained' color='warning' type='button' fullWidth onClick={() => seeAllMember()}>
+                  See All Member
+                </Button>
+              </Grid>
               <Grid item xs={12}>
                 <ListAlumniLeftContributor listAlumni={listContributor?.data?.alumnis} />
               </Grid>

@@ -12,7 +12,7 @@ import Icon from 'src/@core/components/icon'
 import { HttpClient } from 'src/services' 
 import Alumni from 'src/contract/models/alumni'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { TextField } from '@mui/material'
+import { Autocomplete, Grid, TextField } from '@mui/material'
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -33,7 +33,32 @@ type DeleteDialogProps = {
 }
 
 const DialogJoin = (props: DeleteDialogProps) => {
-
+    const tahunlulusan = [
+      { tahun: '2000', label: '2000' },
+      { tahun: '2001', label: '2001' },
+      { tahun: '2002', label: '2002' },
+      { tahun: '2003', label: '2003' },
+      { tahun: '2004', label: '2004' },
+      { tahun: '2005', label: '2005' },
+      { tahun: '2006', label: '2006' },
+      { tahun: '2007', label: '2007' },
+      { tahun: '2008', label: '2008' },
+      { tahun: '2009', label: '2009' },
+      { tahun: '2010', label: '2010' },
+      { tahun: '2011', label: '2011' },
+      { tahun: '2012', label: '2012' },
+      { tahun: '2013', label: '2013' },
+      { tahun: '2014', label: '2014' },
+      { tahun: '2015', label: '2015' },
+      { tahun: '2016', label: '2016' },
+      { tahun: '2017', label: '2017' },
+      { tahun: '2018', label: '2018' },
+      { tahun: '2019', label: '2019' },
+      { tahun: '2020', label: '2020' },
+      { tahun: '2021', label: '2021' },
+      { tahun: '2022', label: '2022' },
+      { tahun: '2023', label: '2023' }
+    ]
     const [nim, setNIM] = useState('')
     const [tahun, setTahun] = useState('')
     const { onMessage, setIsLoading } = props
@@ -107,17 +132,31 @@ const DialogJoin = (props: DeleteDialogProps) => {
             </Typography>
             {/* <Typography variant='body2'>Are you sure delete {props.selectedItem.title} ?</Typography> */}
           </Box>
-          <Box>
-            <TextField
-              id='NIM'
-              label='NIM'
-              value={nim}
-              variant='outlined'
-              fullWidth
-              onChange={e => setNIM(e.target.value)}
-            />
-          </Box>
-          <Box sx={{mt:2}}>
+          <Grid item container mt={2}>
+            <Grid xs={12}>
+              <Autocomplete
+                disablePortal
+                id='combo-box-demo'
+                options={tahunlulusan}
+                getOptionLabel={(option: any) => option.label}
+                renderInput={params => <TextField {...params} label='Tahun Lulusan' fullWidth />}
+                onChange={(event: any, newValue: any | null) =>
+                  newValue?.tahun ? setTahun(newValue?.tahun) : setTahun('')
+                }
+              />
+            </Grid>
+            <Grid xs={12} mt={3}>
+              <TextField
+                id='NIM'
+                label='NIM'
+                value={nim}
+                variant='outlined'
+                fullWidth
+                onChange={e => setNIM(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+          {/* <Box sx={{ mt: 2 }}>
             <TextField
               id='Tahun'
               label='Tahun Lulusan'
@@ -127,7 +166,7 @@ const DialogJoin = (props: DeleteDialogProps) => {
               fullWidth
               onChange={e => setTahun(e.target.value)}
             />
-          </Box>
+          </Box> */}
         </DialogContent>
         <DialogActions
           sx={{
