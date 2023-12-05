@@ -41,7 +41,7 @@ const renderList = (listAlumni: any[]) => {
 
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={6}>
             <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item.id}>
-              <Typography sx={{ color: '#FFFFFF', fontWeight: 400 }}>{item?.user?.name} </Typography>
+              <Typography sx={{ color: '#32487A', fontWeight: 600 }}>{item?.user?.name} </Typography>
               {/* <Typography sx={{ color: '#FFFFFF', fontWeight: 400 }}>{item?.user?.total ? item?.user?.total : '-'} Feed</Typography> */}
             </Link>
           </Box>
@@ -57,7 +57,7 @@ const ListAlumniTop = (props: Props) => {
   return (
     <Grid container marginTop={'10px'}>
       <Grid item xs={12}>
-        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#1D9BF0' }}>
+        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             {listAlumni && (
               <>
@@ -66,9 +66,11 @@ const ListAlumniTop = (props: Props) => {
                     <Box sx={{ mr: 2 }}>
                       <Typography
                         align='left'
-                        sx={{ fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF', mb: 1 }}
-                        fontSize={14}
-                      >Member</Typography>
+                        variant='body2'
+                        sx={{ color: '#32487A', fontFamily: 'Outfit', fontWeight: '600', mb: 1 }}
+                        fontSize={16}>
+                        Member
+                      </Typography>
                     </Box>
                   </Box>
                 </Grid>

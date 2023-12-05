@@ -57,16 +57,16 @@ const ListAlumniLeftContributor = (props: Props) => {
   return (
     <Grid container marginTop={'10px'}>
       <Grid item xs={12}>
-        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white' }}>
+        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#1D9BF0' }}>
           <CardContent>
             <Grid item lg={12} md={12} xs={12}>
               {listAlumni && (
                 <>
                   <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Box sx={{ mr: 2 }}>
-                      <Typography
+                    <Typography
                         align='left'
-                        sx={{ fontFamily: 'Outfit', fontWeight: '800', color: '#32487A', mb: 1 }}
+                        sx={{ fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF', mb: 1 }}
                         fontSize={14}
                       >
                         Top 10 Contributor
