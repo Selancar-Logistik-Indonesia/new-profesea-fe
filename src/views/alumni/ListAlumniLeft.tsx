@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Avatar, Button, Card, CardContent } from '@mui/material'
+import { Button, Card, CardContent } from '@mui/material'
 import Link from 'next/link'
 import { HttpClient } from 'src/services'
 import { toast } from 'react-hot-toast'
@@ -45,7 +45,7 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
   }
 
   return listAlumni?.map(item => {
-    const userPhoto = item.profilepicture != '' ? item.profilepicture : '/images/avatars/default-user.png'
+    // const userPhoto = item.profilepicture != '' ? item.profilepicture : '/images/avatars/default-user.png'
 
     return (
       <Grid item xs={12} md={12} key={item?.id}>
@@ -57,30 +57,32 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
             '& svg': { color: 'text.secondary' }
           }}
         >
-          <Link style={{ textDecoration: 'none' }} href={'/profile/' + item?.user.username}>
+          {/* <Link style={{ textDecoration: 'none' }} href={'/profile/' + item?.user.username}>
             <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
               <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 35, height: 35 }} />
             </Box>
-          </Link>
+          </Link> */}
 
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={2}>
             <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item?.id}>
-              <Typography sx={{ color: '#FFFFFF', fontWeight: 600 }}>
+              <Typography sx={{ color: '#32487A', fontWeight: 600 }}>
                 {item.user.name ? item.user.name : '-'}
               </Typography>
             </Link>
 
-            <Grid item container xs={12} spacing={4}>
-              <Grid item xs={12} md={6}>
-                <Typography sx={{ color: '#FFFFFF', fontWeight: 600 }}>{item.nim ? item.nim : '-'}</Typography>
+              <Grid item container xs={12} spacing={0}>
+                <Grid item xs={12} md={12}>
+                  <Typography sx={{ color: '#32487A', fontWeight: 400 }}>NIM : {item.nim ? item.nim : ' - '}</Typography>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <Typography sx={{ color: '#32487A', fontWeight: 400 }}>Graduate : {item.lulusan ? item.lulusan : '-'}</Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography sx={{ color: '#FFFFFF', fontWeight: 600 }}>{item.lulusan ?  ' - ' + item.lulusan : '-'}</Typography>
-              </Grid>
+              <Grid item container xs={12} spacing={4}>
               <Grid item xs={12} md={6}>
                 <Button
                   variant='contained'
-                  color='warning'
+                  color='info'
                   size='small'
                   type='submit'
                   onClick={() => joinAlumni(item.user.id, '/alumni/accjoin')}
@@ -139,18 +141,18 @@ const LIstAlumniLeft = (props: Props) => {
   return (
     <Grid container marginTop={'10px'}>
       <Grid item xs={12}>
-        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#1D9BF0' }}>
+        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             <Grid item lg={12} md={12} xs={12}>
               {listAlumni && (
                 <>
                   <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Box sx={{ mr: 2 }}>
-                      <Typography
+                    <Typography
                         align='left'
-                        sx={{ fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF', mb: 1 }}
-                        fontSize={14}
-                      >
+                        variant='body2'
+                        sx={{ color: '#32487A', fontFamily: 'Outfit', fontWeight: '600', mb: 1 }}
+                        fontSize={16}>
                         Pending Request
                       </Typography>
                     </Box>

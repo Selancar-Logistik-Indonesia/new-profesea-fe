@@ -95,7 +95,7 @@ const ListAlumni = () => {
                                     Create a new Alumni
                                   </Button>
                                 </Grid>
-                              </Grid>
+                              </Grid> 
                               <Grid item xs={12}>
                                 <AlumniContext.Consumer>
                                   {({ listAlumni, onLoading }) => {
