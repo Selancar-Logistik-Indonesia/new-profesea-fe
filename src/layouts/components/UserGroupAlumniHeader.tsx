@@ -4,9 +4,11 @@ import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Divider, styled } from '@mui/material' 
- import Alumni from 'src/contract/models/alumni'
-
+import { Divider, Grid, styled } from '@mui/material' 
+import Alumni from 'src/contract/models/alumni'
+import CardAlumni from 'src/views/alumni/CardAlumni'
+import { Icon } from '@iconify/react'
+ 
  const ProfilePicture = styled('img')(({ theme }) => ({
    width: 120,
    height: 120,
@@ -31,7 +33,7 @@ const UserProfileHeader = (props: userProps) => {
         <CardMedia
           component='img'
           alt='profile-header'
-          image={dataalumni.alumnibanner ? dataalumni.alumnibanner : '/images/avatars/headerprofile3.png'}
+          image={'/images/banner.jpeg'}
           sx={{
             height: { xs: 150, md: 250 },
             width: '100%',
@@ -72,10 +74,30 @@ const UserProfileHeader = (props: userProps) => {
             }}
           >
             <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
-              <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '900' }}>
-              {dataalumni.description}
+              <Grid container direction='row' alignItems='center'>
+                <Grid item>
+                  <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '900' }}>
+                    {dataalumni.description}
+                  </Typography>
+                </Grid>
+                {dataalumni.statusaktif == true && (
+                  <Grid item ml={2}>
+                    <Typography sx={{ color: '#262525', fontWeight: 600 }}>
+                      <Icon
+                        fontSize='large'
+                        icon={'solar:verified-check-bold'}
+                        color={'info'}
+                        style={{ fontSize: '22px', color: 'green' }}
+                      />
+                    </Typography>
+                  </Grid>
+                )}
+              </Grid>
+              <Typography sx={{ color: '#262525', fontWeight: 600 }}>
+                Institution : {dataalumni.sekolah?.sekolah}
               </Typography>
-              <Typography sx={{ color: '#262525', fontWeight: 600 }}>Institution :  {dataalumni.sekolah?.sekolah}</Typography>
+
+              <Typography sx={{ color: '#262525', fontWeight: 600 }}>{dataalumni.totalmember} Member</Typography>
             </Box>
           </Box>
         </CardContent>

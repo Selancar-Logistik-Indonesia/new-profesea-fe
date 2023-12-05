@@ -27,7 +27,7 @@ const ListAlumni = () => {
   const [hookSignature, setHookSignature] = useState(v4())
 
   const getdatapencarian = async () => {    
-    fetchAlumnis({ take: 12, search: textCandidate,status:true})  
+    fetchAlumnis({ take: 12, search: textCandidate,status:null})  
   }
 
   useEffect(() => {
@@ -69,13 +69,14 @@ const ListAlumni = () => {
                                 <Grid item xs={12}>
                                 <Typography variant="h3" color={"#32487A"} fontWeight="800" fontSize={18} mb={2}> Alumni</Typography>
                                 </Grid>
-                                <Grid item lg={10} xs={10}>
+                                <Grid item lg={2} xs={12}>
                                   <TextField
                                     id='fullName'
                                     // defaultValue={props.datauser.name}
                                     label='Search Alumni'
                                     variant='outlined'
-                                    size='small'
+                                    size='small'                                    
+                                    fullWidth
                                     sx={{ mb: 1 }}
                                     onChange={e => {
                                       setPage(1)
@@ -83,7 +84,9 @@ const ListAlumni = () => {
                                     }}
                                   />
                                 </Grid>
-                                <Grid item lg={2} xs={2}>
+                                <Grid item lg={8} xs={12}>
+                                </Grid>
+                                <Grid item lg={2} xs={12}  mt={5} >
                                   <Button 
                                     variant='contained'
                                     size='small' 
