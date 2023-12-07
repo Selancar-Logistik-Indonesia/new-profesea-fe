@@ -257,7 +257,7 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
   }
 
   const renderContacts = () => {
-    if (store && store.chats && store.chats.length) {
+    if (store && store.contacts && store.contacts.length) {
       if (query.length && !filteredContacts.length) {
         return (
           <ListItem>
