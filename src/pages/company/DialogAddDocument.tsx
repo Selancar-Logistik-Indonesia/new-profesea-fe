@@ -158,7 +158,7 @@ const DialogAddDocument = (props: DialogProps) => {
             <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
               Add New Document
             </Typography>
-            <Typography variant='body2'>Fulfill your Document Info here</Typography>
+            <Typography variant='body2'>Upload Document to get verify by our team</Typography>
           </Box>
 
           {documents.filter(e => e.role == props.role).map((item) => {
