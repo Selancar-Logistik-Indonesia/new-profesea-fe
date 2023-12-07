@@ -96,7 +96,7 @@ const SidebarLeft = (props: ChatSidebarLeftType) => {
   useEffect(() => {
     if (store && store.chats) {
       if (active !== null) {
-        if (active.type === 'contact' && active.id === store.chats[0].id) {
+        if (active.type === 'contact' && active.id === store.chats[0]?.id) {
           setActive({ type: 'chat', id: active.id })
         }
       }
