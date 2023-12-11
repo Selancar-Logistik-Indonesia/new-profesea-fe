@@ -32,8 +32,8 @@ const renderList = (listCandidate: IUser[]) => {
 
     return (
       <Grid item xs={12} md={4} key={item?.id}>
-        <Paper sx={{ marginTop: '10px', border: '1px solid #eee' }} elevation={0}>
-          <Link style={{ textDecoration: 'none' }} href={'/profile/?username=' + item?.username}>
+        <Link style={{ textDecoration: 'none' }} href={'/profile/?username=' + item?.username}>
+          <Paper sx={{ marginTop: '10px', border: '1px solid #eee' }} elevation={0}>
             <Box
               height={65}
               sx={{
@@ -56,40 +56,39 @@ const renderList = (listCandidate: IUser[]) => {
                 </Typography>
               </Box>
             </Box>
-          </Link>
+            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={2}>
+              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
+                <Icon icon='clarity:language-solid' color='#32487A' fontSize={'20px'} />
 
-          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={2}>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-              <Icon icon='clarity:language-solid' color='#32487A' fontSize={'20px'} />
+                {names?.map((name: string) => (
+                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12} key={name}>
+                    {name}
+                  </Typography>
+                ))}
+              </Box>
 
-              {names?.map((name: string) => (
-                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12} key={name}>
-                  {name}
+              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
+                <Icon icon='icon-park-twotone:ship' color='#32487A' fontSize={'20px'} />
+                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}>
+                  {item.field_preference?.vessel_type?.name ? item.field_preference?.vessel_type?.name : '-'}
                 </Typography>
-              ))}
-            </Box>
-
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-              <Icon icon='icon-park-twotone:ship' color='#32487A' fontSize={'20px'} />
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}>
-                {item.field_preference?.vessel_type?.name ? item.field_preference?.vessel_type?.name : '-'}
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-              <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}>
-                {license?.map(e => e.name).join(', ')}
-              </Typography>
-            </Box>
-            {/* <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
+                <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
+                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}>
+                  {license?.map(e => e.name).join(', ')}
+                </Typography>
+              </Box>
+              {/* <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
               <Icon icon='mdi:currency-usd' color='#32487A' />
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={13}>
                 from Rp. {item.field_preference?.role_type?.name ? item.field_preference?.salary_start : '0'} To Rp.
                 {item.field_preference?.role_type?.name ? item.field_preference?.salary_end : '0'}
               </Typography>
             </Box> */}
-          </Box>
-        </Paper>
+            </Box>
+          </Paper>
+        </Link>
       </Grid>
     )
   })

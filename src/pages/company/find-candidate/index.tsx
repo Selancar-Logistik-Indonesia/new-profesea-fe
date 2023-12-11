@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Autocomplete, Button, Card, CardContent, CardHeader, Chip, SelectChangeEvent,  Collapse, FormControl, Grid, IconButton,  Input,   InputLabel,   MenuItem,   OutlinedInput,   Select,   TextField,  Typography, useMediaQuery, Alert, CircularProgress } from '@mui/material'
-import { Icon } from '@iconify/react' 
+import { Autocomplete, Button, Card, CardContent, CardHeader, Chip, SelectChangeEvent, Collapse, FormControl, Grid, IconButton, Input, InputLabel, MenuItem, OutlinedInput, Select, TextField, Typography, useMediaQuery, Alert, CircularProgress } from '@mui/material'
+import { Icon } from '@iconify/react'
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
 // import { IUser } from 'src/contract/models/user'
-import { HttpClient } from 'src/services'  
-import JobCategory from 'src/contract/models/job_category'  
+import { HttpClient } from 'src/services'
+import JobCategory from 'src/contract/models/job_category'
 import { Theme, useTheme } from '@mui/material/styles'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
-import InfiniteScroll from 'react-infinite-scroll-component' 
+import InfiniteScroll from 'react-infinite-scroll-component'
 // import RecomendedViewSubscribe from 'src/views/find-candidate/RecomendedViewSubscribe'
 import { subscribev } from 'src/utils/helpers'
 import CandidateContext, { CandidateProvider } from 'src/context/CandidateContext'
 import { useCandidate } from 'src/hooks/useCandidate'
+import debounce from 'src/utils/debounce'
 
 // type Dokumen = {
 //   title: string 
@@ -44,34 +45,34 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 
 const FindCandidate = () => {
   return (
-      <CandidateProvider>
-          <FindCandidateApp />
-      </CandidateProvider>
+    <CandidateProvider>
+      <FindCandidateApp />
+    </CandidateProvider>
   )
 }
 
- 
+
 const FindCandidateApp = () => {
   // const [listCandidateSubscribe, setListCandidateSubscribe] = useState<IUser[]>([]) 
-  const { fetchCandidates,  hasNextPage, totalCandidate, setPage } = useCandidate();
+  const { fetchCandidates, hasNextPage, totalCandidate, setPage } = useCandidate();
   const theme = useTheme()
   // const windowUrl = window.location.search
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const [collapsed, setCollapsed] = useState<boolean>(true)
   const [collapsed2, setCollapsed2] = useState<boolean>(true)
   const [showadvance, setShowAdvance] = useState<boolean>(false)
-  const [JobCategory, getJobCategory] = useState<any[]>([])  
-  const [JobTitle, getJobTitle] = useState<any[]>([])  
-  const [VesselType, getVesselType] = useState<any[]>([])  
+  const [JobCategory, getJobCategory] = useState<any[]>([])
+  const [JobTitle, getJobTitle] = useState<any[]>([])
+  const [VesselType, getVesselType] = useState<any[]>([])
   // const [combocode, getCombocode] = useState<any[]>([]) 
-  const [textCandidate, SetTextCandidate] = useState<any>('')   
+  const [textCandidate, SetTextCandidate] = useState<any>('')
   const [sJobCategory, setJobCategory] = useState<any>('')
   const [sJobTitle, setJobTitle] = useState<any>('')
   const [sVesselType, setVesselType] = useState<any>('')
   const [personName, setPersonName] = React.useState<string[]>([])
   const [licenseList, setLicense] = React.useState<string[]>([])
   const [licenseCertificate, setCertificate] = React.useState<string[]>([])
- 
+
   const [values, setValues] = useState<any[]>([])
   const [currValue, setCurrValue] = useState('')
   const [valuesoneword, setValuesOneWord] = useState<any[]>([])
@@ -82,7 +83,7 @@ const FindCandidateApp = () => {
   const [currValuelitle, setCurrValueLitle] = useState('')
   const [heightSpoken, setHeightSpoken] = useState('50')
 
- 
+
 
   const handleChange2 = (event: SelectChangeEvent<typeof personName>) => {
     setPage(1)
@@ -118,7 +119,7 @@ const FindCandidateApp = () => {
   }
 
   const getListCandidates = async () => {
- 
+
     const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`)
     if (res2.status != 200) {
       throw res2.data.message ?? 'Something went wrong!'
@@ -136,18 +137,18 @@ const FindCandidateApp = () => {
       throw res4.data.message ?? 'Something went wrong!'
     }
     getVesselType(res4.data.vesselTypes.data)
- 
+
   }
 
-   const dokumen = [
-     { title: 'Certificate of Competency', docType: 'COC' },
-     { title: 'Certificate of Profeciency', docType: 'COP' },
-     { title: 'Certificate of Recognition', docType: 'COR' },
-     { title: 'Certificate of Endorsement', docType: 'COE' },
-     { title: 'Other Certificate', docType: 'OTH' },
-     { title: 'MCU Certificates', docType: 'MCU' }, 
-   ]
-        
+  const dokumen = [
+    { title: 'Certificate of Competency', docType: 'COC' },
+    { title: 'Certificate of Profeciency', docType: 'COP' },
+    { title: 'Certificate of Recognition', docType: 'COR' },
+    { title: 'Certificate of Endorsement', docType: 'COE' },
+    { title: 'Other Certificate', docType: 'OTH' },
+    { title: 'MCU Certificates', docType: 'MCU' },
+  ]
+
   const certificate = [
     {
       title: 'Ahli Nautika Tingkat Dasar (ANTD), Nautika',
@@ -325,20 +326,20 @@ const FindCandidateApp = () => {
 
 
   // const getdatapencarianSubscribe = async () => {
-    
+
   //   const response = await HttpClient.get(
   //     '/candidate?search=' +  '&take=6&page=1'  
   //   )
 
   //   // const candidates = response.data.candidates
-    
+
   //   // setListCandidateSubscribe(candidates.data)
   // }
 
   // useEffect(() => {
   //    getdatapencarianSubscribe()
   // }, [])
- 
+
   useEffect(() => {
     getListCandidates()
     const a = subscribev(['A16'])
@@ -347,7 +348,7 @@ const FindCandidateApp = () => {
       setCollapsed2(true)
       setCollapsed(true)
     }
-      
+
   }, [])
 
   const getdatapencarian = async () => {
@@ -360,27 +361,29 @@ const FindCandidateApp = () => {
     if (valuesexclude.length > 0) exclude = JSON.stringify(valuesexclude)
     let valuelitle = ''
     if (valueslitle.length > 0) valuelitle = JSON.stringify(valueslitle)
-    let spoken=''
-  
-    if (personName.length > 0 ) spoken = JSON.stringify(personName)
-    
-    fetchCandidates({ take: 9, search: textCandidate, 
-    vesseltype_id: sVesselType, 
-    roletype_id: sJobTitle , 
-    rolelevel_id: sJobCategory , 
-    include_all_word: allword, 
-    include_one_word: oneword , 
-    exact_phrase: valuelitle , 
-    exclude_all_these: exclude , 
-    spoken: spoken })
-    
+    let spoken = ''
+
+    if (personName.length > 0) spoken = JSON.stringify(personName)
+
+    fetchCandidates({
+      take: 9, search: textCandidate,
+      vesseltype_id: sVesselType,
+      roletype_id: sJobTitle,
+      rolelevel_id: sJobCategory,
+      include_all_word: allword,
+      include_one_word: oneword,
+      exact_phrase: valuelitle,
+      exclude_all_these: exclude,
+      spoken: spoken
+    })
+
   }
 
   useEffect(() => {
     getdatapencarian()
-    if(personName.length>2){
+    if (personName.length > 2) {
       setHeightSpoken('100')
-    }else{
+    } else {
       setHeightSpoken('50')
     }
   }, [
@@ -399,49 +402,49 @@ const FindCandidateApp = () => {
     // console.log(e.keyCode)
     setPage(1)
     if (e.keyCode == 32) {
-       getdatapencarian()
-     }
+      getdatapencarian()
+    }
   }
-  
-  const handleKeyDown = (e: any,x:any) => {
+
+  const handleKeyDown = (e: any, x: any) => {
     setPage(1)
-     if (e.keyCode == 32) { 
-       if (x == 1) {
-        if(values.length > 0){
+    if (e.keyCode == 32) {
+      if (x == 1) {
+        if (values.length > 0) {
           setValues(oldState => [...oldState, e.target.value.substr(1)])
-        }else{
-          setValues(() => [e.target.value])
-        } 
-         setCurrValue('')
-       } else if (x == 2) {
-         if (valuesoneword.length > 0) {
-             setValuesOneWord(oldState => [...oldState, e.target.value.substr(1)])
-         } else {
-             setValuesOneWord(() => [ e.target.value])
-         }  
-         setCurrValueOneWord('')
-       } else if (x == 3) {
-        if (valuesexclude.length > 0) {
-            setValuesExclude(oldState => [...oldState, e.target.value.substr(1)])
         } else {
-           setValuesExclude(() => [ e.target.value])
-        }  
-         setCurrValueExclude('')
-       } else if (x == 4) {
+          setValues(() => [e.target.value])
+        }
+        setCurrValue('')
+      } else if (x == 2) {
+        if (valuesoneword.length > 0) {
+          setValuesOneWord(oldState => [...oldState, e.target.value.substr(1)])
+        } else {
+          setValuesOneWord(() => [e.target.value])
+        }
+        setCurrValueOneWord('')
+      } else if (x == 3) {
+        if (valuesexclude.length > 0) {
+          setValuesExclude(oldState => [...oldState, e.target.value.substr(1)])
+        } else {
+          setValuesExclude(() => [e.target.value])
+        }
+        setCurrValueExclude('')
+      } else if (x == 4) {
         if (valueslitle.length > 0) {
           setValuesLitle(oldState => [...oldState, e.target.value.substr(1)])
         } else {
           setValuesLitle(() => [e.target.value])
-          
-        } 
-         
-         setCurrValueLitle('')
-       }
-        
-     }
+
+        }
+
+        setCurrValueLitle('')
+      }
+
+    }
   }
 
-  const handleChange = (e: any,x:any) => {
+  const handleChange = (e: any, x: any) => {
     setPage(1)
     if (x == 1) {
       setCurrValue(e.value)
@@ -454,34 +457,40 @@ const FindCandidateApp = () => {
     }
   }
 
-  const handleDelete = async (item:any, index:any,x:any) => {
+  const handleDelete = async (item: any, index: any, x: any) => {
     setPage(1)
     if (x == 1) {
       const arr = [...values]
       arr.splice(index, 1)
-    await setValues(arr)
+      await setValues(arr)
       setCurrValue('')
     } else if (x == 2) {
-       setCurrValueOneWord('')
+      setCurrValueOneWord('')
       const arr = [...valuesoneword]
       arr.splice(index, 1)
-    await   setValuesOneWord(() => arr) 
-     
+      await setValuesOneWord(() => arr)
+
     } else if (x == 3) {
       const arr = [...valuesexclude]
       arr.splice(index, 1)
-     await setValuesExclude(arr)
+      await setValuesExclude(arr)
       setCurrValueExclude('')
     } else if (x == 4) {
       const arr = [...valueslitle]
       arr.splice(index, 1)
-    await setValuesLitle(arr)
+      await setValuesLitle(arr)
       setCurrValueLitle('')
     }
-  //  await getdatapencarian()
+    //  await getdatapencarian()
 
   }
 
+  const handleSearch = useCallback(
+    debounce((value: string) => {
+      setPage(1);
+      SetTextCandidate(value);
+    }, 500), []
+  );
 
   return (
     <Grid container spacing={2}>
@@ -497,10 +506,7 @@ const FindCandidateApp = () => {
                   variant='outlined'
                   fullWidth
                   sx={{ mb: 1 }}
-                  onChange={(e) => {
-                    setPage(1)
-                    SetTextCandidate(e.target.value)
-                  }}
+                  onChange={(e) => handleSearch(e.target.value)}
                 />
               </CardContent>
             </Card>
@@ -548,7 +554,7 @@ const FindCandidateApp = () => {
                     options={JobTitle}
                     getOptionLabel={(option: RoleType) => option.name}
                     renderInput={params => <TextField {...params} label='Role Type' />}
-                    onChange={(event: any, newValue: RoleType | null) =>{
+                    onChange={(event: any, newValue: RoleType | null) => {
                       setPage(1)
                       newValue?.id ? setJobTitle(newValue.id) : setJobTitle('')
                     }}
@@ -560,7 +566,7 @@ const FindCandidateApp = () => {
                     options={VesselType}
                     getOptionLabel={(option: VesselType) => option.name}
                     renderInput={params => <TextField {...params} label='Type of Vessel' />}
-                    onChange={(event: any, newValue: VesselType | null) =>{
+                    onChange={(event: any, newValue: VesselType | null) => {
                       setPage(1)
                       newValue?.id ? setVesselType(newValue.id) : setVesselType('')
                     }}
@@ -642,7 +648,7 @@ const FindCandidateApp = () => {
                         sx={{ marginBottom: 2 }}
                       /> */}
 
-                      <FormControl fullWidth sx={{mb:2}}>
+                      <FormControl fullWidth sx={{ mb: 2 }}>
                         <InputLabel id='demo-multiple-chip-label2'>License</InputLabel>
                         <Select
                           labelId='demo-multiple-chip-label2'
@@ -830,35 +836,34 @@ const FindCandidateApp = () => {
                                 Based on <strong>your profile</strong> and <strong> search history</strong>
                               </Alert>
                               {/* <RecomendedViewSubscribe listCandidate={listCandidateSubscribe} /> */}
-                                <CandidateContext.Consumer>
-                                  {({ listCandidates, onLoading }) => {
-                                      if (onLoading) {
-                                      
-                                          return (
-                                              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                                  <CircularProgress sx={{ mt: 20 }} />
-                                              </Box>
-                                          );
-                                      }
+                              <CandidateContext.Consumer>
+                                {({ listCandidates, onLoading }) => {
+                                  if (onLoading) {
 
-                                      return (
-                                        <InfiniteScroll
-                                          dataLength={totalCandidate}
-                                          next={() => getdatapencarian()}
-                                          hasMore={hasNextPage}
-                                          loader={(<Typography mt={5} color={'text.secondary'}>Loading..</Typography>)}
-                                        >
-                                          <RecomendedView listCandidate={listCandidates} />
-                                        </InfiniteScroll>
-                                      )                       
-                                  }}
-                                </CandidateContext.Consumer>
-                              </Grid>
+                                    return (
+                                      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                        <CircularProgress sx={{ mt: 20 }} />
+                                      </Box>
+                                    );
+                                  }
+
+                                  return (
+                                    <InfiniteScroll
+                                      dataLength={totalCandidate}
+                                      next={() => getdatapencarian()}
+                                      hasMore={hasNextPage}
+                                      loader={(<Typography mt={5} color={'text.secondary'}>Loading..</Typography>)}
+                                    >
+                                      <RecomendedView listCandidate={listCandidates} />
+                                    </InfiniteScroll>
+                                  )
+                                }}
+                              </CandidateContext.Consumer>
                             </Grid>
                           </Grid>
                         </Grid>
-                      </Box>
-                    </Grid>
+                      </Grid>
+                    </Box>
                   </Grid>
                 </Grid>
               </Grid>
@@ -866,7 +871,8 @@ const FindCandidateApp = () => {
           </Grid>
         </Grid>
       </Grid>
-    )
+    </Grid>
+  )
 }
 
 
