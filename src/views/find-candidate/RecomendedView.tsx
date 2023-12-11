@@ -26,7 +26,7 @@ const renderList = (listCandidate: IUser[]) => {
   }
 
   return listCandidate?.map(item => {
-    const userPhoto = item.photo!='' ? item.photo : '/images/avatars/default-user.png'
+    const userPhoto = item.photo != '' ? item.photo : '/images/avatars/default-user.png'
     const names = item.field_preference?.spoken_langs ? item.field_preference?.spoken_langs : []
     const license: any[] = Object.values(item?.license)
 
@@ -50,7 +50,7 @@ const renderList = (listCandidate: IUser[]) => {
                   {item.name ? item.name : '-'}
                 </Typography>
                 <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
-                  {item.field_preference?.role_level?.levelName ? item.field_preference?.role_level?.levelName : '-'}
+                  {item.field_preference?.job_category?.name ?? '-'}
                   {' | '}
                   {item.field_preference?.role_type?.name ? item.field_preference?.role_type?.name : '-'}
                 </Typography>
@@ -97,7 +97,7 @@ const renderList = (listCandidate: IUser[]) => {
 
 const RecomendedView = (props: Props) => {
   const { listCandidate } = props
- 
+
   return (
     <Grid container spacing={2}>
       {renderList(listCandidate)}
