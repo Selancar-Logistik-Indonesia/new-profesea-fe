@@ -369,7 +369,7 @@ const FindCandidateApp = () => {
       take: 9, search: textCandidate,
       vesseltype_id: sVesselType,
       roletype_id: sJobTitle,
-      rolelevel_id: sJobCategory,
+      category_id: sJobCategory,
       include_all_word: allword,
       include_one_word: oneword,
       exact_phrase: valuelitle,
