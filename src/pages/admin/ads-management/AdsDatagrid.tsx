@@ -6,8 +6,9 @@ import Icon from 'src/@core/components/icon'
 
 const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true , width: 50},
-    { field: 'image', headerName: 'Location Storage', sortable: false, minWidth: 500 },
-    { field: 'description', headerName: 'Description', sortable: false, minWidth: 150 },
+    { field: 'image', headerName: 'Location Storage', sortable: false, minWidth: 250 },
+    { field: 'description', headerName: 'Description', sortable: false, minWidth: 200 },
+    { field: 'cta', headerName: 'CTA', sortable: false, minWidth: 200 },
     { field: 'expired_at', headerName: 'Expired At', sortable: false, minWidth: 150 },
     {
         field: 'action',
@@ -46,6 +47,7 @@ type RoleGridProps = {
 interface RowItem {
     id:number,
     description: string,
+    cta: string,
     expired_at: string,
     image: string,
     actions: {

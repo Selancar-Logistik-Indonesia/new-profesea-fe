@@ -8,6 +8,7 @@ import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import { Divider, styled } from '@mui/material' 
 import CardContent from '@mui/material/CardContent'
+import { Icon } from '@iconify/react'
 
 export type ParamMain = {
   name: string
@@ -121,12 +122,42 @@ const renderList = (listAlumni: Alumni[]) => {
                       {/* <Typography align='center' sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={18}>
                         {item.title ? item.title : '-'}
                       </Typography> */}
-                      <Typography align='center' sx={{ fontFamily: 'Outfit', fontWeight: '600', color: '#0a66c2', mt: 2, mb: 1 }} fontSize={18}>
-                        {item.description ? item.description : '-'}
-                      </Typography>
-                      <Typography align='center' sx={{  fontFamily: 'Outfit', fontWeight: '600', color: '#ff9601', mb: 1 }} fontSize={12}>
-                        {item.count_member ? item.count_member : '-'} Alumni
-                      </Typography>
+                      
+
+                      <Grid container direction='row' alignItems='center' >
+                        
+                        
+                        {item?.statusaktif == true ? (
+                          <>
+                          <Grid item xs={12} >
+                            <Typography align='center' sx={{ fontFamily: 'Outfit', fontWeight: '600', color: '#0a66c2', mt: 2, mb: 1 }} fontSize={18}>
+                              {item.description ? item.description : '-'}                                          
+                                <Icon
+                                  fontSize='large'
+                                  icon={'solar:verified-check-bold'}
+                                  color={'info'}
+                                  style={{ fontSize: '22px', color: 'green',marginTop:9 }}
+                                />
+
+                            </Typography>
+                                                      
+                          </Grid>
+ 
+                          </>
+
+                        ):(
+                          <Grid item xs={12}>
+                            <Typography align='center' sx={{ fontFamily: 'Outfit', fontWeight: '600', color: '#0a66c2', mt: 2, mb: 1 }} fontSize={18}>
+                              {item.description ? item.description : '-'}                                          
+                            </Typography>
+                          </Grid>
+                        )}
+                        <Grid item xs={12}>
+                          <Typography align='center' sx={{  fontFamily: 'Outfit', fontWeight: '600', color: '#ff9601', mb: 1 }} fontSize={12}>
+                            {item.count_member ? item.count_member : '-'} Alumni
+                          </Typography>
+                        </Grid>
+                      </Grid>
                     </Link>
                     {/* <Button href={'/alumni?id=' + item?.id} variant='outlined' color='primary'>
                       Join

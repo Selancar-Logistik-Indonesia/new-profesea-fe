@@ -152,7 +152,7 @@ const UserFeedApp = () => {
             </Card>
           </Grid>
           <Grid container spacing={6} sx={{ marginTop: '1px' }}>
-            <Grid item lg={2} md={2} xs={12}>
+            <Grid item lg={2.5} md={2.5} xs={12}>
               <Grid item xs={12}>
                 {/* logo */}
                 {/* <CardAlumniLogo
@@ -203,7 +203,7 @@ const UserFeedApp = () => {
               </Grid>
             </Grid>
 
-            <Grid item lg={10} md={10} xs={12}>
+            <Grid item lg={9.5} md={9.5} xs={12}>
               {showFeed == true && <PostfeedAlumni id={id} />}
               {showFeed == true && <ListFeedViewAlumni username={id} />}
               {showAllMember && (

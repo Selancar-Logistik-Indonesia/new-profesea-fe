@@ -30,7 +30,7 @@ const ListAlumniLatter = (props: Props) => {
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong create alumni!'
       } 
-      toast.success(` Create Alumni successfully!`)
+      toast.success(` Update latter of assigment successfully!`)
       window.location.reload()
     } catch (error) {
       toast.error(`Opps ${error}`)
@@ -55,7 +55,29 @@ const ListAlumniLatter = (props: Props) => {
                   </Typography>
                 </Box>
               </Box>
-              <Box sx={{ display: 'flex', flexDirection: 'row', width: '90%', mb: 1, justifyContent: 'center' }} ml={5}>
+             
+              {alumni?.suratpenugasan == null?
+               <Box sx={{ display: 'flex', flexDirection: 'row', width: '90%', mb: 1, justifyContent: 'center' }} ml={5}>
+                <Box mr={3}>
+                  <Icon fontSize='large' icon={'vscode-icons:file-type-pdf2'} style={{ fontSize: '36px' }} />
+                </Box>
+
+                <Box flexGrow={1} display={'flex'} flexDirection={'column'} >
+                  <Button component='label'>
+                    Upload
+                    <input
+                      accept='application/pdf'
+                      style={{ display: 'none', height: 50, width: '100%' }}
+                      id='raised-button-file-2'
+                      onChange={onSelectFile2}
+                      type='file'
+                    ></input>
+                  </Button>
+                </Box>
+ 
+              </Box>
+              :(
+                 <Box sx={{ display: 'flex', flexDirection: 'row', width: '90%', mb: 1, justifyContent: 'center' }} ml={5}>
                 <Box mr={3}>
                   <Icon fontSize='large' icon={'vscode-icons:file-type-pdf2'} style={{ fontSize: '36px' }} />
                 </Box>
@@ -78,6 +100,7 @@ const ListAlumniLatter = (props: Props) => {
                   </Button>
                 </Box>
               </Box>
+              )}
             </Grid>
             {/* <Box sx={{ mt: 3 }}>{renderList(listAlumni, idalumni, props, firstload)}</Box> */}
           </CardContent>
