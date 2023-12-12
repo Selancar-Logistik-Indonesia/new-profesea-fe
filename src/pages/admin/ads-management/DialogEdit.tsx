@@ -197,7 +197,7 @@ const DialogEdit = (props: EditProps) => {
                         </Grid>  
 
                         <Grid item md={12} xs={12} >
-                            <TextField defaultValue={props.selectedItem.description} id="description" label="Description" variant="outlined" multiline  maxRows={4} fullWidth {...register("cta")}/>                  
+                            <TextField defaultValue={props.selectedItem.cta} id="cta" label="CTA" variant="outlined" multiline  maxRows={4} fullWidth {...register("cta")}/>                  
                         </Grid>  
                         <Grid item md={12} xs={12} >
                         <Box  {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed ', borderRadius: '10px', borderColor: 'grey.400' , '&:hover': { borderColor: 'grey.500' }}} >
