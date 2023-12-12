@@ -14,6 +14,7 @@ import { useKeenSlider } from 'keen-slider/react'
 import { HttpClient } from 'src/services'
 import Link from 'next/link'
 import { styled } from '@mui/material/styles'
+
 const LinkStyled = styled(Link)(() => ({
   textDecoration: 'none'
 }))
