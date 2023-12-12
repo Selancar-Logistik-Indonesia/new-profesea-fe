@@ -100,8 +100,10 @@ const DialogAdd = (props: DialogProps) => {
     }) 
 
 
-    const onSubmit = async (formData: { description : string }) => {
+    const onSubmit = async (formData: { description : string , cta: string }) => {
         const { description } = formData
+        const { cta } = formData
+        
         const json = {
             // "user_id": UserId,
             "attachments": files,
@@ -111,7 +113,9 @@ const DialogAdd = (props: DialogProps) => {
                 day: "2-digit"
             }).split('/').reverse().join('-')+" "
             +date?.toTimeString().split(' ')[0],
-            "description" : description
+            "description" : description,
+            "cta" : cta,
+            
         }
         
         setOnLoading(true);
@@ -191,6 +195,10 @@ const DialogAdd = (props: DialogProps) => {
                         </Grid> 
                         <Grid item md={12} xs={12} >
                             <TextField id="description" label="Description" variant="outlined" multiline  maxRows={4} fullWidth {...register("description")} />                  
+                        </Grid>
+                        
+                        <Grid item md={12} xs={12} >
+                            <TextField id="cta" label="CTA" variant="outlined" multiline  maxRows={4} fullWidth {...register("cta")} />                  
                         </Grid>
                         <Grid item md={12} xs={12} >
                         <Box  {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed' }}>

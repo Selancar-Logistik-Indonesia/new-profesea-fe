@@ -12,25 +12,33 @@ import CardContent from '@mui/material/CardContent'
 import clsx from 'clsx'
 import { useKeenSlider } from 'keen-slider/react'
 import { HttpClient } from 'src/services'
-
+import Link from 'next/link'
+import { styled } from '@mui/material/styles'
+const LinkStyled = styled(Link)(() => ({
+  textDecoration: 'none'
+}))
 
 const SlidesAlumni = (Ads: any[]) => {
     const components: JSX.Element[] = [];
     
     Ads.forEach((arr, index: number) => {
         components.push(
+        <LinkStyled style={{ textDecoration: 'none' }} href={arr.cta}
+                    target='_blank' >
           <Box key={index} className='keen-slider__slide' mt={3}>
-                  <Box component='img' 
-                  src={arr} 
+              <Box component='img' 
+                  src={arr.attachments[0]} 
                   style={{
-                    width: '231px',
-                    height: '211px',
+                    width: '301px',
+                    height: '281px',
                     objectFit: 'cover',
                     borderRadius: '8px',
                     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                   }} >                    
                   </Box>
           </Box>
+        </LinkStyled>
+
         )
     })
 
@@ -47,10 +55,11 @@ const SideAdAlumni = () => {
   }, [])
 
   const loadAds = () => {
-    HttpClient.get('/public/data/ads?take=9').then(response => {
+    HttpClient.get('/public/data/adsDetail?take=9').then(response => {
       if (response.status != 200) {
         throw response.data.message ?? 'Something went wrong!'
       }
+      debugger;
       getAds(response.data.show_case)
     })
   }
