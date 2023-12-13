@@ -130,7 +130,7 @@ const UserFeedApp = () => {
               }}
             >
               <Grid item container xs={12} mt={2}>
-                <Grid xs={10} md={11.2}>
+                <Grid xs={9} md={11.2}>
                   <Box display='flex' justifyContent='flex-end'>
                     {selectedAlumni && (
                       <ButtonJoinAlumni
@@ -142,7 +142,7 @@ const UserFeedApp = () => {
                     )}
                   </Box>
                 </Grid>
-                <Grid xs={2} md={0.8}>
+                <Grid xs={3} md={0.8}>
                   <ShareArea
                     subject={`Alumni Shared ${selectedAlumni?.title}.`}
                     url={`/alumni/?id=${selectedAlumni?.id}`}
@@ -152,27 +152,7 @@ const UserFeedApp = () => {
             </Card>
           </Grid>
           <Grid container spacing={6} sx={{ marginTop: '1px' }}>
-            <Grid item lg={2.5} md={2.5} xs={12}>
-              <Grid item xs={12}>
-                {/* logo */}
-                {/* <CardAlumniLogo
-                  onMessage={handleMassage}
-                  selectedAlumni={selectedAlumni}
-                  iduser={iduser}
-                  label={buildConnectText()}
-                  statusbutton={status}
-                /> */}
-              </Grid>
-
-              {/* <Grid item xs={12}>
-                <CardAlumni
-                  onMessage={handleMassage}
-                  selectedAlumni={selectedAlumni}
-                  iduser={iduser}
-                  label={'tes'}
-                  statusbutton={status}
-                />
-              </Grid> */}
+            <Grid item lg={2.5} md={2.5} xs={12} mt={-2}>             
               {selectedAlumni?.user_id == iduser && (
                 <>
                   <Grid item xs={12}>
