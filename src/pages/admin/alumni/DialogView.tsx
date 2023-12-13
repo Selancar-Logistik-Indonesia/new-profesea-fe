@@ -40,7 +40,7 @@ const DialogView = (props: ViewProps) => {
             }
 
             props.onCloseClick();
-            toast.success(`${props.selectedItem.sekolah.sekolah} verified successfully!`);
+            toast.success(`${props.selectedItem.description} verified successfully!`);
         } catch (error) {
             console.error(error)
         }
@@ -57,7 +57,7 @@ const DialogView = (props: ViewProps) => {
           }
 
           props.onCloseClick()
-          toast.success(`${props.selectedItem.sekolah.sekolah} rejected successfully!`)
+          toast.success(`${props.selectedItem.description} rejected successfully!`)
         } catch (error) {
             console.error(error)
         }
@@ -109,7 +109,7 @@ const DialogView = (props: ViewProps) => {
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
                 <Typography lineHeight={1.4} variant='body1' fontSize={16}>
-                  {props.selectedItem?.sekolah.sekolah}
+                  {props.selectedItem?.description}
                 </Typography>
                 {/* <Typography lineHeight={1.4} variant='caption' fontSize={12}>
                   {props.selectedItem?.description}
