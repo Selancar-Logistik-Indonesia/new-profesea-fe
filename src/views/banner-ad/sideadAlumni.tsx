@@ -30,8 +30,8 @@ const SlidesAlumni = (Ads: any[]) => {
               <Box component='img' 
                   src={arr.attachments[0]} 
                   style={{
-                    width: '301px',
-                    height: '281px',
+                    width: '291px',
+                    height: '271px',
                     objectFit: 'cover',
                     borderRadius: '8px',
                     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
