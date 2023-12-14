@@ -23,7 +23,17 @@ const ListFeedView = (props: Props) => {
 
         if (feeds?.length == 0) {
             return (
-                <Typography>No feed</Typography>
+               <Grid xs={12} >
+                        <img
+                          alt='logo'
+                          src={ '/images/nofeed.jpg'}
+                          style={{
+                            maxWidth: '100%', 
+                            padding: 10,
+                            margin: 0
+                          }}
+                        />
+                      </Grid>
             )
         }
 

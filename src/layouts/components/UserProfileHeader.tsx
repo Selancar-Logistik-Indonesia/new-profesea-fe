@@ -225,7 +225,7 @@ const UserProfileHeader = (props: userProps) => {
                           <div style={{ marginLeft: 5 }}>EDIT</div>
                         </Button>
                       )}
-                      {datauser.role == 'Seafarer' && (
+                      {datauser.role == 'Seafarer' || datauser.role == 'Trainer' && (
                         <Button size='small' LinkComponent={Link} href='/candidate'>
                           <Icon
                             fontSize='large'

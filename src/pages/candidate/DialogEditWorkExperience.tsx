@@ -58,7 +58,7 @@ const DialogEditWorkExperience = (props: DialogProps) => {
     const [selectedFile, setSelectedFile] = useState()   
     
     const [comboVessel, getComborVessel] = useState<any>([])
-    const [idcomboVessel, setComboVessel] = useState<any>()
+    const [idcomboVessel, setComboVessel] = useState<any>(props.selectedItem?.vessel_type?.id)
     const combobox = () => {
       HttpClient.get(AppConfig.baseUrl + '/public/data/vessel-type?page=1&take=25&search').then(response => {
         const code = response.data.vesselTypes.data
@@ -141,7 +141,7 @@ const DialogEditWorkExperience = (props: DialogProps) => {
         position: position,
         still_here: 0,
         logo: selectedFile,
-        vesse: idcomboVessel,
+        vessel: idcomboVessel,
         start_date: dateAwal
           ?.toLocaleDateString('en-GB', {
             year: 'numeric',
@@ -323,7 +323,7 @@ const onSelectFile = (e: any) => {
                     id='combo-box-demo'
                     options={comboVessel}
                     getOptionLabel={(option: any) => option.name}
-                    // defaultValue={props.datauser?.field_preference?.vessel_type}
+                    defaultValue={props.selectedItem?.vessel_type}
                     renderInput={params => <TextField {...params} label='Type of Vessel' variant='standard'/>}
                     onChange={(event: any, newValue: VesselType | null) =>
                       newValue?.id ? setComboVessel(newValue.id) : setComboVessel(0)

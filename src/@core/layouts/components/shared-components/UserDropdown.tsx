@@ -137,7 +137,7 @@ const UserDropdown = (props: Props) => {
                 <Box sx={styles}>
                   <Icon icon='solar:leaf-bold-duotone' />
                   <LinkStyled href='/account'>
-                    <Typography>Subscribe</Typography>
+                    <Typography>Subscribes</Typography>
                   </LinkStyled>
                 </Box>
               </MenuItem>

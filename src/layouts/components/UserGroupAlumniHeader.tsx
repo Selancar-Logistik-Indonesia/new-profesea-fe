@@ -4,9 +4,11 @@ import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Divider, Grid, styled } from '@mui/material' 
+import { Button, Divider, Grid, styled } from '@mui/material' 
 import Alumni from 'src/contract/models/alumni'
 import { Icon } from '@iconify/react'
+import { toast } from 'react-hot-toast'
+import { HttpClient } from 'src/services'
  
  const ProfilePicture = styled('img')(({ theme }) => ({
    width: 120,
@@ -20,12 +22,29 @@ import { Icon } from '@iconify/react'
 
 type userProps = {
     dataalumni: Alumni; 
+    iduser: string
 }
 
 const UserProfileHeader = (props: userProps) => { 
  
     const { dataalumni } = props
-      
+    const onSelectFile2 = async (e: any) => {
+    debugger;
+      const json = {
+        profilepicture: e.target.files[0]
+      }
+      try {
+        console.log(json)
+        const resp = await HttpClient.postFile('/alumni/updatephoto/'+dataalumni.id, json)
+        if (resp.status != 200) {
+          throw resp.data.message ?? 'Something went wrong create alumni!'
+        } 
+        toast.success(` Update Poto successfully!`)
+        window.location.reload()
+      } catch (error) {
+        toast.error(`Opps ${error}`)
+      }
+    }
 
     return (
       <Card sx={{ width: '100%', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
@@ -43,14 +62,15 @@ const UserProfileHeader = (props: userProps) => {
           src={dataalumni?.profilepicture ? dataalumni?.profilepicture : '/images/avatars/1.png'}
           alt='profile-picture'
           sx={{
-            top: 300,
-            left: 50,
-            width: 100,
-            height: 100,
+            top:{ xs: 280, md: 300 } ,
+            left:{ xs: 30, md: 50 } ,
+            width: { xs: 100, md: 100 },
+            height: { xs: 100, md: 100 },
             position: 'absolute',
             border: theme => `5px solid ${theme.palette.common.white}`
           }}
         />
+       
         <CardContent
           sx={{
             pt: 0,
@@ -59,7 +79,7 @@ const UserProfileHeader = (props: userProps) => {
             alignItems: 'flex-end',
             flexWrap: { xs: 'wrap', md: 'nowrap' },
             justifyContent: { xs: 'center', md: 'flex-start' },
-            marginLeft: { md: '10px' }
+            marginLeft: {xs:'60px', md: '10px' }
           }}
         >
           <Box
@@ -73,7 +93,20 @@ const UserProfileHeader = (props: userProps) => {
             }}
           >
             <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
+               <Button component='label'>
+                    Change Photo
+                    <input
+                      accept="image/png, image/gif, image/jpeg" 
+                      style={{ display: 'none', height: 50, width: '100%' }}
+                      id='raised-button-file-2'
+                      onChange={onSelectFile2}
+                      type='file'
+                    ></input>
+                  </Button>
               <Grid container direction='row' alignItems='center'>
+                <Grid>
+                   
+                </Grid>
                 <Grid item>
                   <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '900' }}>
                     {dataalumni.description}

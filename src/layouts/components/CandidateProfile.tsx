@@ -1053,7 +1053,7 @@ const CandidateProfile = (props: compProps) => {
                   fullWidth
                   sx={{ mb: 1 }}
                   id='outlined-multiline-static'
-                  label='About'
+                  label='About me'
                   variant='standard'
                   required
                   multiline
@@ -1658,7 +1658,10 @@ const CandidateProfile = (props: compProps) => {
                             {item.position} (-)
                           </Typography>
                           <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                            {item.institution}
+                            {item.institution}  
+                          </Typography>
+                           <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                              {item.vessel_type?.name} 
                           </Typography>
                           <Grid xs={12} display='flex'>
                             <Box>
