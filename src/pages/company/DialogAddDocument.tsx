@@ -59,7 +59,7 @@ const DialogAddDocument = (props: DialogProps) => {
     setOnLoading(true);
     HttpClient.patch("/user/crewing-status", { isCrewing: isCrewing ? "yes" : "no" })
       .finally(() => setOnLoading(false))
-      .catch((err) => alert(err));
+      // .catch((err) => alert(err));
   }, [isCrewing]);
 
   const {

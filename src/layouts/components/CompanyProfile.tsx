@@ -940,7 +940,7 @@ const CompanyProfile = (props: compProps) => {
                       fullWidth
                       sx={{ mb: 1 }}
                       id='outlined-multiline-static'
-                      label='About'
+                      label='About me'
                       required
                       multiline
                       variant='standard'

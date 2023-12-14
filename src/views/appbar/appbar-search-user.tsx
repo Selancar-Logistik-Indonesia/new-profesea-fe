@@ -51,7 +51,7 @@ const AppbarSearchUser = () => {
         <Autocomplete
             freeSolo
             autoHighlight
-            sx={{ width: 300, ml: 5 }}
+            sx={{ width:200, ml: 3 }}
             options={listFriends}
             getOptionLabel={(option) => (option as ISearchContent).title}
             size='small'

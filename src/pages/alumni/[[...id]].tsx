@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react' 
-import { Box,  Button,  Card,    Grid,   useMediaQuery } from '@mui/material'
+import { Box,  Button,  Card,    CardHeader,    Collapse,    Grid,   IconButton,      useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
@@ -27,6 +27,7 @@ import ListAlumniLeftContributor from 'src/views/alumni/ListAlumniContributor'
 import ListMemberView from 'src/views/alumni/ListMember'
 import ListAlumniTop from 'src/views/alumni/ListAlumniTop'
 import ListAlumniLatter from 'src/views/alumni/ListAlumniLatter'
+import { Icon } from '@iconify/react'
    
 const ProfileCompany = () => {
   return (
@@ -51,8 +52,8 @@ const UserFeedApp = () => {
   const [url2, setUrl2] = useState<string>('')
   const { id } = router.query as { id: any }; 
   const [listContributor, setListContributor] = useState<any>(null)
-  const [listTop, setListTop] = useState<any>(null)
-
+  const [listTop, setListTop] = useState<any>(null) 
+  const [collapsed, setCollapsed] = useState<boolean>(false) 
   const firstload = async () => {
     let url = '';
     url = '/alumni/navigasi/?id=' + id
@@ -107,6 +108,11 @@ const UserFeedApp = () => {
      setStatus(!status)
  }
   useEffect(() => {
+     if(hidden ==true){
+      setCollapsed(false)
+    }else{
+      setCollapsed(true)
+    }
     firstload()
     fetchFeeds({ take: 7, alumni_id: id, mPage: 1 })
   }, [id, status])
@@ -115,8 +121,10 @@ const UserFeedApp = () => {
     <Box>
       <Grid container spacing={1}>
         <Grid item xs={12} md={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
-          <Grid container>{selectedAlumni && <UserAlumniHeader dataalumni={selectedAlumni} />}</Grid>
+          <Grid container>{selectedAlumni && <UserAlumniHeader dataalumni={selectedAlumni}  iduser={iduser}/>}</Grid>
+ 
 
+ 
           <Grid container>
             <Card
               sx={{
@@ -151,11 +159,30 @@ const UserFeedApp = () => {
               </Grid>
             </Card>
           </Grid>
-          <Grid container spacing={6} sx={{ marginTop: '1px' }}>
-            <Grid item lg={2.5} md={2.5} xs={12} mt={-2}>             
+         
+          <Grid container spacing={6} sx={{ marginTop: '1px' }}> 
+              <Grid item lg={2.5} md={2.5} xs={12 }  >
+                {hidden ==true &&
+                 <CardHeader
+                  sx={{ color: 'common.white', backgroundColor: '#FFFFFF'}}
+                 
+                  action={
+                    <IconButton
+                      size='small'
+                      aria-label='collapse'
+                      sx={{ color: 'text.secondary' }}
+                      onClick={() => setCollapsed(!collapsed)}
+                    >
+                      <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                    </IconButton>
+                  }
+                />
+                }
+               
+             <Collapse in={collapsed}>
               {selectedAlumni?.user_id == iduser && (
                 <>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} mt={-2}>
                     <ListAlumniLatter alumni={selectedAlumni} />
                   </Grid>
                   <Grid item xs={12}>
@@ -181,8 +208,11 @@ const UserFeedApp = () => {
                   <SideAdAlumni />
                 </KeenSliderWrapper>
               </Grid>
+                </Collapse>
             </Grid>
 
+           
+           
             <Grid item lg={9.5} md={9.5} xs={12}>
               {showFeed == true && <PostfeedAlumni id={id} />}
               {showFeed == true && <ListFeedViewAlumni username={id} />}
