@@ -27,7 +27,7 @@ type userProps = {
 
 const UserProfileHeader = (props: userProps) => { 
  
-    const { dataalumni } = props
+    const { dataalumni,iduser } = props
     const onSelectFile2 = async (e: any) => {
     debugger;
       const json = {
@@ -63,7 +63,7 @@ const UserProfileHeader = (props: userProps) => {
           alt='profile-picture'
           sx={{
             top:{ xs: 280, md: 300 } ,
-            left:{ xs: 30, md: 50 } ,
+            left:{ xs: 25, md: 50 } ,
             width: { xs: 100, md: 100 },
             height: { xs: 100, md: 100 },
             position: 'absolute',
@@ -93,21 +93,35 @@ const UserProfileHeader = (props: userProps) => {
             }}
           >
             <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
-               <Button component='label'>
-                    Change Photo
-                    <input
+              {iduser == String(dataalumni.id) &&
+              <>
+                 <input
                       accept="image/png, image/gif, image/jpeg" 
                       style={{ display: 'none', height: 50, width: '100%' }}
-                      id='raised-button-file-2'
+                      id='raised-button-file-banner'
                       onChange={onSelectFile2}
                       type='file'
-                    ></input>
-                  </Button>
-              <Grid container direction='row' alignItems='center'>
-                <Grid>
-                   
-                </Grid>
-                <Grid item>
+                    ></input> 
+               <Box  sx={{
+                      top:{ xs: 280, md: 370 } ,
+                      left:{ xs: 130, md: 150 } ,
+                      width: { xs: 100, md: 100 },
+                      height: { xs: 100, md: 30 },
+                      position: 'absolute', 
+                    }}>
+                <label htmlFor='raised-button-file-banner'>
+                <Icon fontSize='large' icon={'bi:camera'} color={'black'} style={{ fontSize: '26px' }} />
+              </label>
+              </Box>
+               
+                 
+              </>
+              
+              }
+              
+              <Grid container direction='row' alignItems='center'  >
+                
+                <Grid item  >
                   <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '900' }}>
                     {dataalumni.description}
                   </Typography>
