@@ -103,14 +103,14 @@ const UserProfileHeader = (props: userProps) => {
                       type='file'
                     ></input> 
                <Box  sx={{
-                      top:{ xs: 280, md: 370 } ,
-                      left:{ xs: 130, md: 150 } ,
+                      top:{ xs: 355, md: 370 } ,
+                      left:{ xs: 100, md: 127 } ,
                       width: { xs: 100, md: 100 },
                       height: { xs: 100, md: 30 },
                       position: 'absolute', 
                     }}>
                 <label htmlFor='raised-button-file-banner'>
-                <Icon fontSize='large' icon={'bi:camera'} color={'black'} style={{ fontSize: '26px' }} />
+                <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
               </label>
               </Box>
                
