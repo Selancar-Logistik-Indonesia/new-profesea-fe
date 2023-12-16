@@ -690,7 +690,7 @@ const CandidateProfile = (props: compProps) => {
     HttpClient.post(AppConfig.baseUrl + '/user/update-banner', json).then(
       ({ data }) => {
         console.log('here 1', data)
-        toast.success(' Successfully submited!')
+        // toast.success(' Successfully submited!')
       },
       error => {
         console.log('here 1', error)
@@ -1177,14 +1177,14 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                   <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
                     <FormControl>
-                      <InputLabel id='demo-multiple-chip-label'>Spoken</InputLabel>
+                      <InputLabel id='demo-multiple-chip-label'>LANGUANGE</InputLabel>
                       <Select
                         labelId='demo-multiple-chip-label'
                         id='demo-multiple-chip'
                         multiple
                         value={personName}
                         onChange={handleChange}
-                        label='Spoken'
+                        label='LANGUANGE'
                         sx={{ fontSize: '18px', height: 50.2 }}
                         input={
                           <OutlinedInput

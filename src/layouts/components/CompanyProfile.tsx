@@ -436,7 +436,7 @@ const CompanyProfile = (props: compProps) => {
     HttpClient.post(AppConfig.baseUrl + '/user/update-banner', json).then(
       ({ data }) => {
         console.log('here 1', data)
-        toast.success(' Successfully submited!')
+        // toast.success(' Successfully submited!')
       },
       error => {
         console.log('here 1', error)

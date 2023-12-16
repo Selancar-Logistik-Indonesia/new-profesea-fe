@@ -215,7 +215,7 @@ const UserProfileHeader = (props: userProps) => {
                 <>
                   <Grid container direction='row' justifyContent='flex-end' alignItems='flex-end'>
                     <Grid item>
-                      {datauser.role == 'Company' && (
+                      {datauser.role == 'Company'  && (
                         <Button size='small' LinkComponent={Link} href='/company'>
                           <Icon
                             fontSize='large'
@@ -225,8 +225,18 @@ const UserProfileHeader = (props: userProps) => {
                           <div style={{ marginLeft: 5 }}>EDIT</div>
                         </Button>
                       )}
-                      {datauser.role == 'Seafarer' || datauser.role == 'Trainer' && (
+                      {datauser.role == 'Seafarer' && (
                         <Button size='small' LinkComponent={Link} href='/candidate'>
+                          <Icon
+                            fontSize='large'
+                            icon={'solar:pen-new-round-bold-duotone'}
+                            style={{ fontSize: '18px' }}
+                          />
+                          <div style={{ marginLeft: 5 }}>EDIT</div>
+                        </Button>
+                      )}
+                        {datauser.role == 'Trainer' && (
+                        <Button size='small' LinkComponent={Link} href='/trainer'>
                           <Icon
                             fontSize='large'
                             icon={'solar:pen-new-round-bold-duotone'}
