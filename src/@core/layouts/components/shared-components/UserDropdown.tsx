@@ -133,14 +133,17 @@ const UserDropdown = (props: Props) => {
                 </Box>
               </MenuItem>
               <Divider />
-              <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-                <Box sx={styles}>
-                  <Icon icon='solar:leaf-bold-duotone' />
-                  <LinkStyled href='/account'>
-                    <Typography>Subscriptions</Typography>
-                  </LinkStyled>
-                </Box>
-              </MenuItem>
+                {userData?.role != 'Trainer' && (
+                  <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+                  <Box sx={styles}>
+                    <Icon icon='solar:leaf-bold-duotone' />
+                    <LinkStyled href='/account'>
+                      <Typography>Subscriptions</Typography>
+                    </LinkStyled>
+                  </Box>
+                </MenuItem>
+                )}
+             
             </div>
           )}
 
