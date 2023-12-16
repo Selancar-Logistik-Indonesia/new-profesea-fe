@@ -584,7 +584,9 @@ const CompanyProfile = (props: compProps) => {
       </CardContent>
 
       
-        <>
+       
+        {props.datauser.role == 'Company' && (
+  <>
           <Grid item container md={12} xs={12}>
             <Divider style={{ width: '100%' }} />
             <Grid item container xs={12}>
@@ -792,7 +794,11 @@ const CompanyProfile = (props: compProps) => {
               role={props.datauser.role}
             />
           </form>
-        </>
+            </>
+        )
+       
+        }
+      
       
         <>
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
