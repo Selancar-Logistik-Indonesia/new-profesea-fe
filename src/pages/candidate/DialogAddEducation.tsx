@@ -14,7 +14,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress, Divider } from '@mui/material'
+import { Alert, CircularProgress, Divider } from '@mui/material'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import { Autocomplete } from '@mui/material'
 import DatePicker from 'react-datepicker'
@@ -145,7 +145,10 @@ const DialogAddEducation = (props: DialogProps) => {
       props.onCloseClick();
       toast.success(` Education submited successfully!`);
     } catch (error) {
-      toast.error(`Opps ${getCleanErrorMessage(error)}`);
+      // throw   'Something went wrong!';
+   
+       alert( `Opps ${getCleanErrorMessage(error)}`);
+      // toast.error(`Opps ${getCleanErrorMessage(error)}`);
     }
 
     setOnLoading('');

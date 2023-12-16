@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import { CircularProgress } from '@mui/material'
+import { Card, CircularProgress } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import ISocialFeed from 'src/contract/models/social_feed'
 import SocialFeedContext from 'src/context/SocialFeedContext'
@@ -22,18 +22,24 @@ const ListFeedView = (props: Props) => {
         const components: JSX.Element[] = [];
 
         if (feeds?.length == 0) {
-            return (
-               <Grid xs={12} >
-                        <img
-                          alt='logo'
-                          src={ '/images/nofeed.jpg'}
-                          style={{
-                            maxWidth: '100%', 
-                            padding: 10,
-                            margin: 0
-                          }}
-                        />
-                      </Grid>
+            return ( 
+                   <Card sx={{ mt:2, border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' ,alignItems:'center',justifyContent:'center',direction:"column"}}>
+                        <Grid xs={12} item  container
+                            spacing={0}
+                            direction="column"
+                            alignItems="center"
+                            justifyContent="center">
+                                <img
+                                alt='logo'
+                                src={ '/images/nofeed.jpg'}
+                                style={{
+                                    width: '35%', 
+                                    padding: 10,
+                                    margin: 0
+                                }}
+                                />
+                        </Grid> 
+                    </Card> 
             )
         }
 

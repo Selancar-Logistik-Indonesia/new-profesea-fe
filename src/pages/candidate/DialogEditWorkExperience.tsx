@@ -174,7 +174,7 @@ const DialogEditWorkExperience = (props: DialogProps) => {
         props.onCloseClick()
         toast.success(` Work Experience submited successfully!`)
       } catch (error) {
-        toast.error(`Opps ${getCleanErrorMessage(error)}`)
+         alert( `Opps ${getCleanErrorMessage(error)}`);
       }
 
       setOnLoading(false)

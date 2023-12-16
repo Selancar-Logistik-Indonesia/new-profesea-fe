@@ -183,7 +183,7 @@ const PricingView = () => {
                         {/* <Button variant='contained'>Start 14-day FREE trial</Button> */}
                     </Grid>
                     <GridStyled item xs={12} md={4}>
-                        <Img alt='pricing-cta-avatar' src='/images/pages/pricing-cta-illustration.png' />
+                        <Img alt='pricing-cta-avatar' src='/images/Subscriber.png'   />
                     </GridStyled>
                 </Grid>
             </BoxWrapper>

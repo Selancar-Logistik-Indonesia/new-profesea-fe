@@ -133,7 +133,7 @@ const DialogEditEducation = (props: DialogProps) => {
       props.onCloseClick()
       toast.success(` Education submited successfully!`)
     } catch (error) {
-      toast.error(`Opps ${getCleanErrorMessage(error)}`)
+       alert( `Opps ${getCleanErrorMessage(error)}`);
     }
 
     setOnLoading(false)
