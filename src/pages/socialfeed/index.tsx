@@ -13,6 +13,7 @@ import { HttpClient } from 'src/services'
 import Link from 'next/link'
 import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
 import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
+import { subscribev } from 'src/utils/helpers'
 
 const SocialFeed = () => {
   return (
@@ -35,10 +36,16 @@ const SocialFeedApp = () => {
   const { user } = useAuth();
   const { fetchFeeds } = useSocialFeed();
   const [activities, getActivities] = useState<activities>()
+  const [show, setShowDM] = useState('/pricing')
+  const a = subscribev(['A05','A05','A12','A14']);
 
   useEffect(() => {
     fetchFeeds({ take: 7 });
     loadActivitis();
+    debugger;
+    if (a == true){
+      setShowDM('/seeprofile')
+    }
   }, []);
 
   const loadActivitis = async () => {
@@ -72,7 +79,7 @@ const SocialFeedApp = () => {
                   </Typography>
                   <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                     {/* 0\;uy \a p,\]'[p/* <Link href='/account'> */}
-                    <Link href='/seeprofile'>
+                    <Link href={show}>
                       <AvatarGroup className='pull-up' max={4}>
                         <Avatar src='/images/avatars/avatar-3.png' alt='1' />
                         <Avatar src='/images/avatars/avatar-4.png' alt='2' />

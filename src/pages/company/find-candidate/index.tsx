@@ -10,11 +10,12 @@ import { Theme, useTheme } from '@mui/material/styles'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import InfiniteScroll from 'react-infinite-scroll-component'
-// import RecomendedViewSubscribe from 'src/views/find-candidate/RecomendedViewSubscribe'
+import RecomendedViewSubscribe from 'src/views/find-candidate/RecomendedViewSubscribe'
 import { subscribev } from 'src/utils/helpers'
 import CandidateContext, { CandidateProvider } from 'src/context/CandidateContext'
 import { useCandidate } from 'src/hooks/useCandidate'
 import debounce from 'src/utils/debounce'
+import { IUser } from 'src/contract/models/user'
 
 // type Dokumen = {
 //   title: string 
@@ -53,7 +54,7 @@ const FindCandidate = () => {
 
 
 const FindCandidateApp = () => {
-  // const [listCandidateSubscribe, setListCandidateSubscribe] = useState<IUser[]>([]) 
+  const [listCandidateSubscribe, setListCandidateSubscribe] = useState<IUser[]>([]) 
   const { fetchCandidates, hasNextPage, totalCandidate, setPage } = useCandidate();
   const theme = useTheme()
   // const windowUrl = window.location.search
@@ -325,20 +326,20 @@ const FindCandidateApp = () => {
   ]
 
 
-  // const getdatapencarianSubscribe = async () => {
+  const getdatapencarianSubscribe = async () => {
 
-  //   const response = await HttpClient.get(
-  //     '/candidate?search=' +  '&take=6&page=1'  
-  //   )
+    const response = await HttpClient.get(
+      '/candidate?search=' +  '&take=6&page=1&status=bayar'  
+    )
 
-  //   // const candidates = response.data.candidates
+    const candidates = response.data.candidates
 
-  //   // setListCandidateSubscribe(candidates.data)
-  // }
+    setListCandidateSubscribe(candidates.data)
+  }
 
-  // useEffect(() => {
-  //    getdatapencarianSubscribe()
-  // }, [])
+  useEffect(() => {
+     getdatapencarianSubscribe()
+  }, [])
 
   useEffect(() => {
     getListCandidates()
@@ -835,7 +836,7 @@ const FindCandidateApp = () => {
                               <Alert severity='info'>
                                 Based on <strong>your profile</strong> and <strong> search history</strong>
                               </Alert>
-                              {/* <RecomendedViewSubscribe listCandidate={listCandidateSubscribe} /> */}
+                              <RecomendedViewSubscribe listCandidate={listCandidateSubscribe} />
                               <CandidateContext.Consumer>
                                 {({ listCandidates, onLoading }) => {
                                   if (onLoading) {

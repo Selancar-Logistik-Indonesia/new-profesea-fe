@@ -44,7 +44,7 @@ import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
-import { refreshsession, removeFirstZeroChar } from 'src/utils/helpers'
+import { refreshsession, removeFirstZeroChar, subscribev } from 'src/utils/helpers'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import JobCategory from 'src/contract/models/job_category'
@@ -201,11 +201,15 @@ const CandidateProfile = (props: compProps) => {
   const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
   const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
   const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
+  const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
   const [arrayHead, getArrayHead] = useState<any[]>([])
   const [JobCategory, getJobCategory] = useState<any[]>([])   
   const [JC, setJC] = useState(
     props.datauser?.field_preference?.category_id ? props.datauser?.field_preference?.category_id : 0
   )
+  
+  const kintil = subscribev(['A09']);
+  
 
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
@@ -610,8 +614,12 @@ const CandidateProfile = (props: compProps) => {
     if (props.datauser?.employee_type == undefined || props.datauser?.employee_type == null){
       setShowShip(false)
     }
-      const b = props.datauser.field_preference?.open_to_opp == 0 ? '0' : '1'
+    const b = props.datauser.field_preference?.open_to_opp == 0 ? '0' : '1'
     setOpp(b)
+
+    if(kintil == true){
+      setDisabledOpen(false)
+    }
   }, [])
   useEffect(() => {
     if (!selectedFile) {
@@ -1078,12 +1086,14 @@ const CandidateProfile = (props: compProps) => {
                   <Grid item md={4} xs={12}>
                     <Autocomplete
                       disablePortal
+                      disabled={disabledOpen}
                       id='combo-box-demo'
                       options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
                       defaultValue={opp}
                       getOptionLabel={(option: any) => option.label}
-                      renderInput={params => <TextField {...params} label='Status *' variant='standard' />}
+                      renderInput={params => <TextField {...params} label='Status *' variant='standard'/>}
                       onChange={(event: any, newValue: any | null) => displayopp(newValue)}
+                      
                     />
                   </Grid>
                   {/* <Grid item md={6} xs={12}>
@@ -1228,6 +1238,7 @@ const CandidateProfile = (props: compProps) => {
                   <Grid item md={6} xs={12}>
                     <Autocomplete
                       disablePortal
+                      disabled={disabledOpen}
                       id='combo-box-demo'
                       options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
                       defaultValue={opp}

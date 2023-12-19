@@ -79,6 +79,7 @@ const AuthProvider = ({ children }: Props) => {
                 localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken);
                 secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);                
                 secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+                initAuth()
                 const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'  // console.log(`redirectURL: ${redirectURL}`);
                 if (params.namaevent != null) {
                     await router.replace('/home/?event=true' as string)
@@ -106,6 +107,7 @@ const AuthProvider = ({ children }: Props) => {
                 setAbilities(response.data.abilities);
                 secureLocalStorage.setItem(localStorageKeys.userData, response.data.user);                    
                 secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+                initAuth()
                 const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'  // console.log(`redirectURL: ${redirectURL}`);
                 if (params.namaevent != null) {
                     await router.replace('/home/?event=true' as string)
