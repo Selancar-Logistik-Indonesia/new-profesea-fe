@@ -54,12 +54,12 @@ const SocialFeedApp = () => {
   const getdatapencarian = async () => {
  
     const response = await HttpClient.get(
-      '/candidate?search=&page=1&take=25'      
+      '/user/profile-viewer?search=&page=1&take=25'      
     )
 
-    const candidates = response.data.candidates
+    const candidates = response.data.viewers
      
-    setListCandidate(candidates.data)
+    setListCandidate(candidates)
   }
 
   return (
