@@ -198,9 +198,9 @@ const CandidateProfile = (props: compProps) => {
   const [facebook, setFacebook] = useState<any>('')
   const [instagram, setInstagram] = useState<any>('')
   const [linkedin, setLinkedin] = useState<any>('')
-  const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
-  const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
-  const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
+  // const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
+  // const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
+  // const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
   const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
   const [arrayHead, getArrayHead] = useState<any[]>([])
   const [JobCategory, getJobCategory] = useState<any[]>([])   
@@ -382,7 +382,7 @@ const CandidateProfile = (props: compProps) => {
         }
       )
     }
-    setDisabledFacebook(true)
+    // setDisabledFacebook(true)
   }
 
   const addbuttoninstagram = () => {
@@ -419,7 +419,7 @@ const CandidateProfile = (props: compProps) => {
         }
       )
     }
-    setDisabledInstagram(true)
+    // setDisabledInstagram(true)
   }
   const addbuttonlinkedin = () => {
     let user = ''
@@ -455,13 +455,13 @@ const CandidateProfile = (props: compProps) => {
         }
       )
     }
-    setDisabledLinkedin(true)
+    // setDisabledLinkedin(true)
   }
-  const enabledtextfield = (x: any) => {
-    if (x == 'fb') setDisabledFacebook(false)
-    if (x == 'ig') setDisabledInstagram(false)
-    if (x == 'li') setDisabledLinkedin(false)
-  }
+  // const enabledtextfield = (x: any) => {
+    // if (x == 'fb') setDisabledFacebook(false)
+    // if (x == 'ig') setDisabledInstagram(false)
+    // if (x == 'li') setDisabledLinkedin(false)
+  // }
   const searchcity = async (q: any) => {
     setCountry(q)
     const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
@@ -1408,14 +1408,14 @@ const CandidateProfile = (props: compProps) => {
                           sx={{ mb: 1 }}
                           value={facebook}
                           {...register('facebook')}
-                          disabled={disabledFacebook}
+                          // disabled={disabledFacebook}
                           onChange={e => setFacebook(e.target.value)}
                           onBlur={handleSubmit(addbuttonfacebook)}
                           InputProps={{
                             startAdornment: <InputAdornment position='start'>/</InputAdornment>
                           }}
                         />
-                        <Button
+                        {/* <Button
                           onClick={() => enabledtextfield('fb')}
                           sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
                         >
@@ -1425,7 +1425,7 @@ const CandidateProfile = (props: compProps) => {
                             color={'primary'}
                             style={{ fontSize: '24px' }}
                           />
-                        </Button>
+                        </Button> */}
                       </Box>
                     </Grid>
                   </Grid>
@@ -1446,14 +1446,14 @@ const CandidateProfile = (props: compProps) => {
                           value={instagram}
                           sx={{ mb: 1 }}
                           {...register('instagram')}
-                          disabled={disabledInstagram}
+                          // disabled={disabledInstagram}
                           onChange={e => setInstagram(e.target.value)}
                           onBlur={handleSubmit(addbuttoninstagram)}
                           InputProps={{
                             startAdornment: <InputAdornment position='start'>/</InputAdornment>
                           }}
                         />
-                        <Button
+                        {/* <Button
                           onClick={() => enabledtextfield('ig')}
                           sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
                         >
@@ -1463,7 +1463,7 @@ const CandidateProfile = (props: compProps) => {
                             color={'primary'}
                             style={{ fontSize: '24px' }}
                           />
-                        </Button>
+                        </Button> */}
                       </Box>
                     </Grid>
                   </Grid>
@@ -1484,7 +1484,7 @@ const CandidateProfile = (props: compProps) => {
                           fullWidth
                           sx={{ mb: 1 }}
                           {...register('linkedin')}
-                          disabled={disabledLinkedn}
+                          // disabled={disabledLinkedn}
                           value={linkedin}
                           onChange={e => setLinkedin(e.target.value)}
                           onBlur={handleSubmit(addbuttonlinkedin)}
@@ -1492,7 +1492,7 @@ const CandidateProfile = (props: compProps) => {
                             startAdornment: <InputAdornment position='start'>/</InputAdornment>
                           }}
                         />
-                        <Button
+                        {/* <Button
                           onClick={() => enabledtextfield('li')}
                           sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
                         >
@@ -1502,7 +1502,7 @@ const CandidateProfile = (props: compProps) => {
                             color={'primary'}
                             style={{ fontSize: '24px' }}
                           />
-                        </Button>
+                        </Button> */}
                       </Box>
                     </Grid>
                   </Grid>
