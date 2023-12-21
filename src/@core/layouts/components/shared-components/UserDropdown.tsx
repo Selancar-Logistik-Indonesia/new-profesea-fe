@@ -133,7 +133,7 @@ const UserDropdown = (props: Props) => {
                 </Box>
               </MenuItem>
               <Divider />
-                {userData?.role != 'Trainer' && (
+                {userData?.role == 'Trainerhide' && (
                   <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
                   <Box sx={styles}>
                     <Icon icon='solar:leaf-bold-duotone' />

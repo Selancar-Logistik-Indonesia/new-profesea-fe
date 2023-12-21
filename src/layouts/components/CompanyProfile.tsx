@@ -97,9 +97,9 @@ const CompanyProfile = (props: compProps) => {
   // const [verified, setVerified] = useState<any>('')
   const [reason, setReason] = useState<any>('')
 
-  const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
-  const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
-  const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
+  // const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
+  // const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
+  // const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
   const [itemData, getItemdata] = useState<any[]>([])
   const [arrayHead, getArrayHead] = useState<any[]>([])
   const [openAddModalDoc, setOpenAddModalDoc] = useState(false)
@@ -272,7 +272,7 @@ const CompanyProfile = (props: compProps) => {
       )
 
     }
-    setDisabledFacebook(true)
+    // setDisabledFacebook(true)
   }
 
   const addbuttoninstagram = () => {
@@ -311,7 +311,7 @@ const CompanyProfile = (props: compProps) => {
       )
 
     }
-    setDisabledInstagram(true)
+    // setDisabledInstagram(true)
 
   }
   const addbuttonlinkedin = () => {
@@ -350,7 +350,7 @@ const CompanyProfile = (props: compProps) => {
       )
 
     }
-    setDisabledLinkedin(true)
+    // setDisabledLinkedin(true)
 
   }
   const [selectedFile, setSelectedFile] = useState()
@@ -472,12 +472,12 @@ const CompanyProfile = (props: compProps) => {
       }
     )
   }
-  const enabledtextfield = (x: any) => {
+  // const enabledtextfield = (x: any) => {
 
-    if (x == 'fb') setDisabledFacebook(false)
-    if (x == 'ig') setDisabledInstagram(false)
-    if (x == 'li') setDisabledLinkedin(false)
-  }
+    // if (x == 'fb') setDisabledFacebook(false)
+    // if (x == 'ig') setDisabledInstagram(false)
+    // if (x == 'li') setDisabledLinkedin(false)
+  // }
   const getimage = async () => {
     const resp = await HttpClient.get('/user/gallery?page=1&take=25')
     if (resp.status != 200) {
@@ -986,14 +986,14 @@ const CompanyProfile = (props: compProps) => {
                               sx={{ mb: 1 }}
                               value={facebook}
                               {...register('facebook')}
-                              disabled={disabledFacebook}
+                              // disabled={disabledFacebook}
                               onChange={e => setFacebook(e.target.value)}
                               onBlur={handleSubmit(addbuttonfacebook)}
                               InputProps={{
                                 startAdornment: <InputAdornment position='start'>/</InputAdornment>
                               }}
                             />
-                            <Button
+                            {/* <Button
                               onClick={() => enabledtextfield('fb')}
                               sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
                             >
@@ -1003,7 +1003,7 @@ const CompanyProfile = (props: compProps) => {
                                 color={'primary'}
                                 style={{ fontSize: '24px' }}
                               />
-                            </Button>
+                            </Button> */}
                           </Box>
                         </Grid>
                       </Grid>
@@ -1024,14 +1024,14 @@ const CompanyProfile = (props: compProps) => {
                               value={instagram}
                               sx={{ mb: 1 }}
                               {...register('instagram')}
-                              disabled={disabledInstagram}
+                              // disabled={disabledInstagram}
                               onChange={e => setInstagram(e.target.value)}
                               onBlur={handleSubmit(addbuttoninstagram)}
                               InputProps={{
                                 startAdornment: <InputAdornment position='start'>/</InputAdornment>
                               }}
                             />
-                            <Button
+                            {/* <Button
                               onClick={() => enabledtextfield('ig')}
                               sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
                             >
@@ -1041,7 +1041,7 @@ const CompanyProfile = (props: compProps) => {
                                 color={'primary'}
                                 style={{ fontSize: '24px' }}
                               />
-                            </Button>
+                            </Button> */}
                           </Box>
                         </Grid>
                       </Grid>
@@ -1062,7 +1062,7 @@ const CompanyProfile = (props: compProps) => {
                               fullWidth
                               sx={{ mb: 1 }}
                               {...register('linkedin')}
-                              disabled={disabledLinkedn}
+                              // disabled={disabledLinkedn}
                               value={linkedin}
                               onChange={e => setLinkedin(e.target.value)}
                               onBlur={handleSubmit(addbuttonlinkedin)}
@@ -1070,7 +1070,7 @@ const CompanyProfile = (props: compProps) => {
                                 startAdornment: <InputAdornment position='start'>/</InputAdornment>
                               }}
                             />
-                            <Button
+                            {/* <Button
                               onClick={() => enabledtextfield('li')}
                               sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
                             >
@@ -1080,7 +1080,7 @@ const CompanyProfile = (props: compProps) => {
                                 color={'primary'}
                                 style={{ fontSize: '24px' }}
                               />
-                            </Button>
+                            </Button> */}
                           </Box>
                         </Grid>
                       </Grid>
@@ -1121,6 +1121,8 @@ const CompanyProfile = (props: compProps) => {
               </Grid>
             </FormControl>
           </form>
+          {props.datauser.role=='hide'&&
+          <>        
           <Grid item md={7} xs={12}>
             <Grid container item xs={12} justifyContent={'left'}>
               <Typography variant='body2' sx={{ color: '#262525', fontSize: '18px' }}>
@@ -1139,11 +1141,6 @@ const CompanyProfile = (props: compProps) => {
 
           <Grid item md={1} xs={12} marginBottom={'5px'}>
             <Box marginBottom={2}>
-              {/* <Button variant='contained' size='small' onClick={handleClick}>
-            {' '}
-            <Icon fontSize='large' icon={'material-symbols:drive-folder-upload'} color={'info'} style={{ fontSize: '24px' }} />
-
-          </Button> */}
               <ButtonUploadPhotoGallery />
             </Box>
             <input
@@ -1154,12 +1151,14 @@ const CompanyProfile = (props: compProps) => {
               type='file'
               ref={inputRef}
             ></input>
-          </Grid>
-          {slides.length > 0 && (
-            <Grid item md={12} xs={12}>
-              <ImageSlider slide={slides} />
             </Grid>
-          )}
+            {slides.length > 0 && (
+              <Grid item md={12} xs={12}>
+                <ImageSlider slide={slides} />
+              </Grid>
+            )}
+            </>
+          }
           {/* <DialogEditDocument
             key={selectedItem?.id}
             selectedItem={selectedItem}
