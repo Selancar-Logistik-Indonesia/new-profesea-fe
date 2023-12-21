@@ -221,7 +221,7 @@ const navigation = (): VerticalNavItemsType => {
             action: 'read'
           },
           {
-            title: 'Vessel Type',
+            title: 'Type of Vessel',
             path: '/admin/master/vessel-type',
             subject: 'master/vessel-type',
             action: 'read'
