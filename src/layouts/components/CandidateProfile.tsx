@@ -670,7 +670,7 @@ const CandidateProfile = (props: compProps) => {
     HttpClient.post(AppConfig.baseUrl + '/user/update-photo', json).then(
       ({ data }) => {
         console.log('here 1', data)
-        toast.success(' Successfully submited!')
+        // toast.success(' Successfully submited!')
       },
       error => {
         console.log('here 1', error)
