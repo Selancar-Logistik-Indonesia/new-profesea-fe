@@ -54,12 +54,14 @@ const DialogAddDocument = (props: DialogProps) => {
   const [isCrewing, setIsCrewing] = useState(true);
   const [selectedFiles, setSelectedFiles] = useState<ISelectedFile[]>([]);
   const userSession = secureLocalStorage.getItem(localStorageKeys.userData) as IUser;
-
+ 
+  
   useEffect(() => {
     setOnLoading(true);
     HttpClient.patch("/user/crewing-status", { isCrewing: isCrewing ? "yes" : "no" })
       .finally(() => setOnLoading(false))
       // .catch((err) => alert(err));
+     
   }, [isCrewing]);
 
   const {
@@ -102,8 +104,31 @@ const DialogAddDocument = (props: DialogProps) => {
 
   const saveparent = async () => {
     setOnLoading(true);
-
     try {
+      let tidakada = true
+      let mandatorySiupak = true  
+      debugger;
+      for (let x = 0; x < props.arrayhead.length; x++) {
+        const element = props.arrayhead[x]
+        if(element.document_name == 'SIUPAKK'){
+          mandatorySiupak=false
+        }
+
+      }
+      if(mandatorySiupak == true){
+        for (const file of selectedFiles) {
+          if(file?.document.title == 'SIUPAKK'){
+            tidakada = false
+          }
+        }
+        if(tidakada ==true){
+          alert('Please Upload SIUPAKK')
+          
+          return;
+
+        }
+      }
+      
       for (const file of selectedFiles) {
         const json = {
           user_document: file?.file,

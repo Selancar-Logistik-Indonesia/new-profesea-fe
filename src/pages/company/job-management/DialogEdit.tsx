@@ -34,6 +34,8 @@ import EditorArea from 'src/@core/components/react-draft-wysiwyg'
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import Licensi from 'src/contract/models/licensi'
+import DialogAddRole from './DialogAddRole'
+import { v4 } from 'uuid'
 
 // const licenseData = [
 //   { title: 'Certificate of Competency', docType: 'COC' },
@@ -72,6 +74,7 @@ type EditProps = {
 
 
 const DialogEdit = (props: EditProps) => {
+  const [hookSignature, setHookSignature] = useState(v4())
   const [onLoading, setOnLoading] = useState(false);
   const [Edu, setEdu] = useState(props.selectedItem?.degree);
   const [Level, setLevel] = useState(props.selectedItem?.rolelevel);
@@ -95,6 +98,8 @@ const DialogEdit = (props: EditProps) => {
   const [combocountry, getComboCountry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
   const [VesselType, getVesselType] = useState<any[]>([]);
+  
+  const [openAddModal, setOpenAddModal] = useState(false);
 
   const contenDesc = convertFromHTML(props.selectedItem.description).contentBlocks
   const contentState = ContentState.createFromBlockArray(contenDesc)
@@ -161,7 +166,7 @@ const DialogEdit = (props: EditProps) => {
 
   useEffect(() => {
     combobox()
-  }, [])
+  }, [hookSignature])
 
 
   const {
@@ -307,7 +312,7 @@ const DialogEdit = (props: EditProps) => {
                 }
               />
             </Grid>
-            <Grid item md={4} xs={12}>
+            <Grid item md={3.4} xs={10}>
               <Autocomplete
                 disablePortal
                 id='combo-box-type'
@@ -321,6 +326,15 @@ const DialogEdit = (props: EditProps) => {
                 }
               />
             </Grid>
+             <Grid item md={0.6} xs={2} sx={{ mt: 2   }}>
+                <IconButton sx={{ padding: 0 }} component="label" onClick={() => setOpenAddModal(!openAddModal)}>
+                  <Icon icon='mdi:add-circle' fontSize={32} color='#546e7a' />
+                </IconButton>    
+              </Grid>
+                <DialogAddRole visible={openAddModal}
+                onStateChange={() => setHookSignature(v4())}
+                onCloseClick={() => setOpenAddModal(!openAddModal)} />
+             
             {disabled == true && (
               <>
                 <Grid item md={4} xs={12}>

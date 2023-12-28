@@ -62,6 +62,7 @@ const FindCandidateApp = () => {
   const [collapsed, setCollapsed] = useState<boolean>(true)
   const [collapsed2, setCollapsed2] = useState<boolean>(true)
   const [showadvance, setShowAdvance] = useState<boolean>(false)
+  const [showadvance2, setShowAdvance2] = useState<boolean>(false)
   const [JobCategory, getJobCategory] = useState<any[]>([])
   const [JobTitle, getJobTitle] = useState<any[]>([])
   const [VesselType, getVesselType] = useState<any[]>([])
@@ -339,6 +340,7 @@ const FindCandidateApp = () => {
 
   useEffect(() => {
      getdatapencarianSubscribe()
+     setShowAdvance2(false)
   }, [])
 
   useEffect(() => {
@@ -605,7 +607,8 @@ const FindCandidateApp = () => {
               </Collapse>
             </Card>
           </Box>
-          <Box mb={3}>
+          { showadvance2 == true &&
+          <Box mb={3} >
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardHeader
                 title={
@@ -803,6 +806,7 @@ const FindCandidateApp = () => {
               </Collapse>
             </Card>
           </Box>
+          }
         </Grid>
         <Grid item lg={9} md={7} xs={12}>
           <Grid container spacing={6}>
