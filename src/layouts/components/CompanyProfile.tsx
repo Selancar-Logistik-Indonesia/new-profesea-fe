@@ -101,7 +101,7 @@ const CompanyProfile = (props: compProps) => {
   // const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
   // const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
   const [itemData, getItemdata] = useState<any[]>([])
-  const [arrayHead, getArrayHead] = useState<any[]>([])
+  // const [arrayHead, getArrayHead] = useState<any[]>([])
   const [openAddModalDoc, setOpenAddModalDoc] = useState(false)
   const [hookSignature, setHookSignature] = useState(v4())
   const [slides, setSlides] = useState<any>([])
@@ -109,6 +109,7 @@ const CompanyProfile = (props: compProps) => {
   const onChangePhoneNum = (input: string) => {
     setPhoneNum(removeFirstZeroChar(input))
   }
+  
   const deletework = async (id: any) => {
     const resp = await HttpClient.del(`/user/document/` + id)
     if (resp.status != 200) {
@@ -177,13 +178,14 @@ const CompanyProfile = (props: compProps) => {
       const itemData = response.data.documents
 
       const arr = []
+
       for (let x = 0; x < itemData.length; x++) {
         const element = itemData[x]
         if (element.childs.length > 0) {
           arr.push({ id: element.id, name: element.document_type })
         }
       }
-      getArrayHead(arr)
+      // getArrayHead(arr)
       getItemdata(itemData)
     })
   }
@@ -587,6 +589,7 @@ const CompanyProfile = (props: compProps) => {
        
         {props.datauser.role == 'Company' && (
   <>
+   {props.datauser.verified_at == null && (
           <Grid item container md={12} xs={12}>
             <Divider style={{ width: '100%' }} />
             <Grid item container xs={12}>
@@ -784,13 +787,13 @@ const CompanyProfile = (props: compProps) => {
                 ))}
               </Grid>
             </Grid>
-          </Grid>
+          </Grid>)}
           <form>
             <DialogAddDocument
               visible={openAddModalDoc}
               onStateChange={() => setHookSignature(v4())}
               onCloseClick={() => setOpenAddModalDoc(!openAddModalDoc)}
-              arrayhead={arrayHead}
+              arrayhead={itemData}
               role={props.datauser.role}
             />
           </form>

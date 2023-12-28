@@ -11,14 +11,14 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import toast from 'react-hot-toast'
 import Icon from 'src/@core/components/icon'
-import { useForm } from 'react-hook-form'
-import * as Yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
+// import { useForm } from 'react-hook-form'
+// import * as Yup from 'yup'
+// import { yupResolver } from '@hookform/resolvers/yup'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { Autocomplete, CircularProgress } from '@mui/material'
 import JobCategory from 'src/contract/models/job_category'
-import RoleType from 'src/contract/models/role_type'
+// import RoleType from 'src/contract/models/role_type'
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -27,9 +27,9 @@ const Transition = forwardRef(function Transition(
     return <Fade ref={ref} {...props} />
 })
 
-const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-})
+// const validationSchema = Yup.object().shape({
+//     name: Yup.string().required('Name is required'),
+// })
 
 type DialogProps = {
     visible: boolean;
@@ -41,7 +41,7 @@ const DialogAddRole = (props: DialogProps) => {
     const [onLoading, setOnLoading] = useState(false);
     const [CatId, setCatId] = useState(0);
     const [JobCategory, getJobCategory] = useState<any[]>([]);
-
+    const [Name, setSetName] = useState('');
     const combobox = async () => {
 
         HttpClient.get(`/job-category?search=&page=1&take=250`).then(response => {
@@ -56,15 +56,37 @@ const DialogAddRole = (props: DialogProps) => {
         combobox()
     }, [])
 
-    const { handleSubmit, register } = useForm<RoleType>({
-        mode: 'onBlur',
-        resolver: yupResolver(validationSchema)
-    })
+    // const { handleSubmit, register } = useForm<RoleType>({
+    //     mode: 'onBlur',
+    //     resolver: yupResolver(validationSchema)
+    // })
 
-    const onSubmit = async (formData: RoleType) => {
-        const { name } = formData
-        const json = {
-            "name": name,
+    // const onSubmit = async (formData: RoleType) => {
+    //     const { name } = formData
+    //     const json = {
+    //         "name": name,
+    //         "category_id": CatId
+    //     }
+        
+    //     setOnLoading(true);
+    //     try {
+    //         const resp = await HttpClient.post('/role-type', json);
+    //         if (resp.status != 200) {
+    //             throw resp.data.message ?? "Something went wrong!";
+    //         }
+
+    //         props.onCloseClick();
+    //         toast.success(`${json.name} submited successfully!`);
+    //     } catch (error) {
+    //         toast.error(`Opps ${getCleanErrorMessage(error)}`);
+    //     }
+
+    //     setOnLoading(false);
+    //     props.onStateChange();
+    // }
+    const simpan = async () => {
+         const json = {
+            "name": Name,
             "category_id": CatId
         }
         
@@ -93,7 +115,7 @@ const DialogAddRole = (props: DialogProps) => {
             scroll='body'
             TransitionComponent={Transition}
         >
-            <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}  >
+            <form noValidate autoComplete='off'   >
                 <DialogContent
                     sx={{
                         position: 'relative',
@@ -129,7 +151,10 @@ const DialogAddRole = (props: DialogProps) => {
                         <Grid item sm={12} xs={12}>
                             <TextField label='Job Title Name'
                                 placeholder='Job Title Name'
-                                fullWidth sx={{ mb: 6 }} {...register("name")} />
+                                fullWidth sx={{ mb: 6 }}
+                                onChange={e => setSetName(e.target.value)} 
+                                value={Name}
+                                 />
                         </Grid>
                     </Grid>
                 </DialogContent>
@@ -140,7 +165,7 @@ const DialogAddRole = (props: DialogProps) => {
                         pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
                     }}
                 >
-                    <Button variant='contained' sx={{ mr: 2 }} type='submit'>
+                    <Button variant='contained' sx={{ mr: 2 }} onClick={() => simpan()}>
                         {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
                     </Button>
                     <Button variant='outlined' color='secondary' onClick={props.onCloseClick}>
