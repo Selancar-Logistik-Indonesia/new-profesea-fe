@@ -102,7 +102,9 @@ const SideAd = () => {
   )
 
   return (
-    <Card sx={{ position: 'relative', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+    <>
+      {Ads?.length > 0 && (
+      <Card sx={{ position: 'relative', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
       <CardContent>
         {loaded && instanceRef.current && (
           <Box className='swiper-dots' sx={{ top: 7, right: 13, position: 'absolute' }}>
@@ -141,7 +143,7 @@ const SideAd = () => {
             {Slides(Ads)}
         </Box>
         )}
-        {(Ads.length == 0) && (
+        {/* {(Ads.length == 0) && (
           <Box component='img' 
             mt={3}
             src="images/backgrounds/ads-here.png"
@@ -153,9 +155,12 @@ const SideAd = () => {
               boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
             }} >                    
           </Box>
-        )}
+        )} */}
       </CardContent>
-    </Card>
+      </Card>
+      )}
+    </>
+   
   )
 }
 
