@@ -107,9 +107,7 @@ const SailRegion = [
 ]
 
 const employmenttype = [{ name: 'Unpaid' }, { name: 'Contract' },
-{ name: 'Part-Time' },
-{ name: 'Full-Time' },
-{ name: 'Freelance' },]
+{ name: 'Full-Time' }]
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>

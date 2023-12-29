@@ -116,22 +116,26 @@ const UserDropdown = (props: Props) => {
 
           {userData?.role != 'admin' && (
             <div>
+              <Link href='/profile'> 
               <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
                 <Box sx={styles}>
                   <Icon icon='solar:user-circle-bold-duotone' />
-                  <LinkStyled href='/profile'>
+                  
                     <Typography>Profile</Typography>
-                  </LinkStyled>
+                  
                 </Box>
               </MenuItem>
+              </Link>
+              <Link href='/chat'>
               <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
                 <Box sx={styles}>
                   <Icon icon='solar:chat-round-dots-bold-duotone' />
-                  <LinkStyled href='/chat'>
+                  
                     <Typography>Chat</Typography>
-                  </LinkStyled>
+                  
                 </Box>
               </MenuItem>
+              </Link>
               <Divider />
                 {userData?.role == 'Trainerhide' && (
                   <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
@@ -146,15 +150,14 @@ const UserDropdown = (props: Props) => {
              
             </div>
           )}
-
-          <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-            <Box sx={styles}>
-              <Icon icon='solar:password-bold-duotone' />
-              <LinkStyled href='/manage'>
-                <Typography>Change Password</Typography>
-              </LinkStyled>
-            </Box>
-          </MenuItem>
+          <Link href='/manage'>
+            <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+              <Box sx={styles}>
+                <Icon icon='solar:password-bold-duotone' />
+                  <Typography>Change Password</Typography>
+              </Box>
+            </MenuItem>
+          </Link>
           <Divider />
           <MenuItem
             onClick={handleLogout}
