@@ -62,6 +62,7 @@ const JobApplied = () => {
     const [valueslitle, setValuesLitle] = useState<any[]>([])
     const [currValuelitle, setCurrValueLitle] = useState('')
     const [showadvance, setShowAdvance] = useState<boolean>(false)
+    const [showadvance2, setShowAdvance2] = useState<boolean>(false)
 
     const getListCombo = async () => {
         const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`)
@@ -89,7 +90,8 @@ const JobApplied = () => {
         }
         getCombocode(code)
         })
-        console.log(   { combocode })    
+        console.log(   { combocode })
+        setShowAdvance2(false)      
     }
     
     useEffect(() => {
@@ -357,6 +359,7 @@ const JobApplied = () => {
                 </Collapse>
               </Card>
             </Box>
+            {showadvance2 == true && 
             <Box mb={3}>
               <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardHeader
@@ -478,6 +481,7 @@ const JobApplied = () => {
                 </CardContent>
               </Card>
             </Box>
+            }
           </Grid>
           <Grid item lg={9} md={7} xs={12}>
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
