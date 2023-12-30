@@ -158,6 +158,20 @@ const buildNotifies = (e: INotification) => {
         };
     }
 
+    if (e.type == NotificationType.completeProfileEncouragement) {
+        return {
+            id: e.id,
+            meta: hDiff,
+            avatarAlt: e.data.user.name,
+            title: 'Please complete your profile',
+            avatarIcon: <Icon icon='ic:baseline-remove-circle-outline' />,
+            subtitle: `Hey ${e.data.user.name}, a warm welcome to Profesea! To boost your profile visibility and help recruiters find your resume effortlessly, we suggest filling out your profile. It's a great way to showcase your talents!`,
+            type: e.type,
+            read_at: e.read_at,
+            data: e.data,
+        };
+    }
+
     return {
         id: "0",
         meta: hDiff,
