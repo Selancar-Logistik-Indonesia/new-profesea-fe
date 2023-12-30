@@ -151,13 +151,17 @@ const NotificationItem = (props: { item: NotificationsType }) => {
         });
 
         switch (item.type) {
-            case "App\\Notifications\\NewApplicantNotification":
+            case NotificationType.newApplicant:
                 const jobId = item?.data?.job?.id;
                 if (!jobId) {
                     return;
                 }
 
                 router.push(`/company/job/?id=${jobId}`);
+                break;
+
+            case NotificationType.completeProfileEncouragement:
+                router.push(`/profile`);
                 break;
 
             default:
