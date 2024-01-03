@@ -82,7 +82,7 @@ const FindJobsView = (props: { id: string }) => {
                     <Box sx={{ maxWidth: 880 }}>
                          {planItems && (
  
-                            planItems.map((item, i) => (
+                            planItems.map((item ) => (
                                 // i == 9
                                 //     ? <Link key={item?.name} href="/">
                                 //         <Chip clickable label={item?.name} onDelete={() => null} deleteIcon={(<FontAwesomeIcon color="#fff" icon={faChevronDown} />)} sx={{ marginRight: 2, marginBottom: 3 }} variant="filled" color="primary" />
