@@ -591,7 +591,7 @@ const CompanyProfile = (props: compProps) => {
        
         {props.datauser.role == 'Company' && (
   <>
-   {props.datauser.verified_at == null && (
+   {/* {props.datauser.verified_at == null && ( */}
           <Grid item container md={12} xs={12}>
             <Divider style={{ width: '100%' }} />
             <Grid item container xs={12}>
@@ -789,7 +789,8 @@ const CompanyProfile = (props: compProps) => {
                 ))}
               </Grid>
             </Grid>
-          </Grid>)}
+          </Grid>
+          {/* )} */}
           <form>
             <DialogAddDocument
               visible={openAddModalDoc}

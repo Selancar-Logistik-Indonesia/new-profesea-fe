@@ -84,10 +84,10 @@ const FindJobsView = (props: { id: string }) => {
  
                             planItems.map((item, i) => (
                                 i == 9
-                                    ? <Link key={item} href="/">
-                                        <Chip clickable label={item} onDelete={() => null} deleteIcon={(<FontAwesomeIcon color="#fff" icon={faChevronDown} />)} sx={{ marginRight: 2, marginBottom: 3 }} variant="filled" color="primary" />
+                                    ? <Link key={item?.name} href="/">
+                                        <Chip clickable label={item?.name} onDelete={() => null} deleteIcon={(<FontAwesomeIcon color="#fff" icon={faChevronDown} />)} sx={{ marginRight: 2, marginBottom: 3 }} variant="filled" color="primary" />
                                     </Link>
-                                    : <Chip sx={{ marginRight: 2, marginBottom: 3 }} key={item} label={item.name} variant="outlined" />
+                                    : <Chip sx={{ marginRight: 2, marginBottom: 3 }} key={item?.name} label={item?.name} variant="outlined" />
                             ))
                          
                          )}
