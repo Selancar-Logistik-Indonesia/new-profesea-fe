@@ -38,8 +38,8 @@ import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import VesselType from 'src/contract/models/vessel_type'
 import Licensi from 'src/contract/models/licensi'
-import { v4 } from 'uuid'
-import DialogAddRole from './DialogAddRole'
+// import { v4 } from 'uuid'
+// import DialogAddRole from './DialogAddRole'
 
 // const licenseData = [
 //   {
@@ -119,10 +119,9 @@ type DialogProps = {
   visible: boolean;
   onCloseClick: VoidFunction;
   onStateChange: VoidFunction;
-}
-
+} 
 const DialogAdd = (props: DialogProps) => {  
-  const [hookSignature, setHookSignature] = useState(v4())
+  // const [hookSignature, setHookSignature] = useState(v4())
   const [onLoading, setOnLoading] = useState(false);
   const [EduId, setEduId] = useState(0);
   const [LevelId, setLevelId] = useState(0);
@@ -133,7 +132,7 @@ const DialogAdd = (props: DialogProps) => {
   const [CitId, setCitId] = useState('');
   const [Sail, setSail] = useState('');
   const [Employmenttype, setEmploymenttype] = useState('')
-  const [openAddModal, setOpenAddModal] = useState(false);
+  // const [openAddModal, setOpenAddModal] = useState(false);
   const [license, setLicense] = useState<any[]>([]);
   const [date, setDate] = useState<DateType>(new Date());
 
@@ -232,7 +231,7 @@ const DialogAdd = (props: DialogProps) => {
   useEffect(() => {
     combobox()
     
-  }, [hookSignature])
+  }, [])
 
   const searchcity = async (q: any) => {
     setCouId(q)
@@ -258,15 +257,38 @@ const DialogAdd = (props: DialogProps) => {
     // resolver: yupResolver(schema)
   })
 
-  const onSubmit = async (formData: Job) => {
-    const { salary_start, salary_end, experience } = formData
+  const onSubmit = async (formData: any) => {
+    const { salary_start, salary_end, experience,text_role } = formData
     // let type: any = ''
     // if (disabled == true) {
     // type = TypeId
     // }
+    let type = TypeId
+    if(TypeId == 0 && text_role!=''){
+       const json1 = {
+            "name": text_role,
+            "category_id": CatId
+        }
+        
+        setOnLoading(true);
+        try {
+            const resp = await HttpClient.post('/role-type', json1);
+     
+            type = resp.data.roleType.id
+            if (resp.status != 200) {
+                throw resp.data.message ?? "Something went wrong!";
+            }
+
+          
+            toast.success(`${json1.name} submited successfully!`);
+        } catch (error) {
+            toast.error(`Opps ${getCleanErrorMessage(error)}`);
+        }
+    }
+      
     const json = {
       "rolelevel_id": LevelId == 0 ? null : LevelId,
-      "roletype_id": TypeId,
+      "roletype_id": type,
       "edugrade_id": EduId == 0 ? null : EduId,
       "category_id": CatId == 0 ? null : CatId,
       "country_id": CouId == 0 ? null : CouId,
@@ -328,7 +350,8 @@ const DialogAdd = (props: DialogProps) => {
       setCatId(0)
     }
   }
-
+  
+  
 
   return (
     <Dialog fullWidth open={props.visible} maxWidth='md' scroll='body' TransitionComponent={Transition}>
@@ -374,27 +397,30 @@ const DialogAdd = (props: DialogProps) => {
             </Grid>
 
             <>
-              <Grid item md={3.4} xs={10} sx={{ mb: 1 }}>
+              <Grid item md={4} xs={10} sx={{ mb: 1 }}>
                 <Autocomplete
-                  disablePortal
+                 freeSolo
                   id='combo-box-level'
                   options={RoleType}
-                  {...register('role_type')}
-                  getOptionLabel={(option: RoleType) => option.name}
-                  renderInput={params => <TextField {...params} label='Job Title' />}
-                  onChange={(event: any, newValue: RoleType | null) =>
-                    newValue?.id ? setTypeId(newValue.id) : setTypeId(0)
+                
+                  // getOptionLabel={(option:  RoleType | string) => option.name}
+                  getOptionLabel={(option:  RoleType | string) => (typeof option === 'string' ? option : option.name)}
+                    //  options={RoleType.map((option) => option.name)}
+                  renderInput={params => <TextField {...params} label='Job Title'   {...register('text_role')}/>}  
+                  onChange={(event: any, newValue: RoleType | null |string) =>
+                    typeof newValue === 'string' ?setTypeId(0) : newValue?.id ? setTypeId(newValue.id) : setTypeId(0)
                   }
+                
                 />
               </Grid>
-              <Grid item md={0.6} xs={2} sx={{ mt: 2   }}>
+              {/* <Grid item md={0.6} xs={2} sx={{ mt: 2   }}>
                 <IconButton sx={{ padding: 0 }} component="label" onClick={() => setOpenAddModal(!openAddModal)}>
                   <Icon icon='mdi:add-circle' fontSize={32} color='#546e7a' />
                 </IconButton>    
               </Grid>
                 <DialogAddRole visible={openAddModal}
                 onStateChange={() => setHookSignature(v4())}
-                onCloseClick={() => setOpenAddModal(!openAddModal)} />
+                onCloseClick={() => setOpenAddModal(!openAddModal)} /> */}
             </>
             {disabled == true && (
               <>

@@ -38,6 +38,7 @@ interface Job {
   country: Country
   vessel_type: VesselType
   employment_type: string
+  text_role:string
 }
 
 export default Job;
