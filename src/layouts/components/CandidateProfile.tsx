@@ -365,7 +365,7 @@ const CandidateProfile = (props: compProps) => {
     if (statusfb == '') {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
         ({ data }) => {
-          toast.success(' Successfully submited!')
+          // toast.success(' Successfully submited!')
           statusfb = data.sosmed.id
         },
         error => {
@@ -375,7 +375,7 @@ const CandidateProfile = (props: compProps) => {
     } else {
       HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statusfb, json).then(
         () => {
-          toast.success(' Successfully submited!')
+          // toast.success(' Successfully submited!')
         },
         error => {
           toast.error('Registrastion Failed ' + error.response.data.message)
@@ -399,7 +399,7 @@ const CandidateProfile = (props: compProps) => {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
         ({ data }) => {
           console.log('here 1', data)
-          toast.success(' Successfully submited!')
+          // toast.success(' Successfully submited!')
           statusig = data.sosmed.id
         },
         error => {
@@ -411,7 +411,7 @@ const CandidateProfile = (props: compProps) => {
       HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statusig, json).then(
         ({ data }) => {
           console.log('here 1', data)
-          toast.success(' Successfully submited!')
+          // toast.success(' Successfully submited!')
         },
         error => {
           console.log('here 1', error)
@@ -435,7 +435,7 @@ const CandidateProfile = (props: compProps) => {
     if (statuslinkedin == '') {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
         ({ data }) => {
-          toast.success(' Successfully submited!')
+          // toast.success(' Successfully submited!')
           statuslinkedin = data.sosmed.id
         },
         error => {
@@ -447,7 +447,7 @@ const CandidateProfile = (props: compProps) => {
       HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statuslinkedin, json).then(
         ({ data }) => {
           console.log('here 1', data)
-          toast.success(' Successfully submited!')
+          // toast.success(' Successfully submited!')
         },
         error => {
           console.log('here 1', error)

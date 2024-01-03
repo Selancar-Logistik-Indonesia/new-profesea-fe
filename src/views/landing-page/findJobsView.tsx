@@ -83,15 +83,18 @@ const FindJobsView = (props: { id: string }) => {
                          {planItems && (
  
                             planItems.map((item, i) => (
-                                i == 9
-                                    ? <Link key={item?.name} href="/">
-                                        <Chip clickable label={item?.name} onDelete={() => null} deleteIcon={(<FontAwesomeIcon color="#fff" icon={faChevronDown} />)} sx={{ marginRight: 2, marginBottom: 3 }} variant="filled" color="primary" />
-                                    </Link>
-                                    : <Chip sx={{ marginRight: 2, marginBottom: 3 }} key={item?.name} label={item?.name} variant="outlined" />
+                                // i == 9
+                                //     ? <Link key={item?.name} href="/">
+                                //         <Chip clickable label={item?.name} onDelete={() => null} deleteIcon={(<FontAwesomeIcon color="#fff" icon={faChevronDown} />)} sx={{ marginRight: 2, marginBottom: 3 }} variant="filled" color="primary" />
+                                //     </Link>
+                                    // :
+                                     <Chip sx={{ marginRight: 2, marginBottom: 3 }} key={item?.name} label={item?.name} variant="outlined" />
                             ))
                          
                          )}
-                       
+                       <Link  href="/candidate/find-job/">
+                                        <Chip clickable label='Other' onDelete={() => null} deleteIcon={(<FontAwesomeIcon color="#fff" icon={faChevronDown} />)} sx={{ marginRight: 2, marginBottom: 3 }} variant="filled" color="primary" />
+                                    </Link>
                     </Box>
                 </Box>
             </Box>

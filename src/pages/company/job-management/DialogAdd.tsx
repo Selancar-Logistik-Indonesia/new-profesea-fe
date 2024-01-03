@@ -659,6 +659,9 @@ const DialogAdd = (props: DialogProps) => {
                   placeholder='Description'
                 />
               </EditorWrapper>
+              <Typography color={'blue'}>
+                *Job title can be filled in with free text
+              </Typography>
             </Grid>
           </Grid>
         </DialogContent>
