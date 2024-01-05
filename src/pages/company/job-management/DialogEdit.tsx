@@ -188,14 +188,36 @@ const DialogEdit = (props: EditProps) => {
 
 
   const onSubmit = async (formData: Job) => {
-    const { salary_start, salary_end, experience } = formData
+    const { salary_start, salary_end, experience,text_role } = formData
+    let type = Type == null ? null : Type.id
+    if(Type?.name != text_role ){
+       const json1 = {
+            "name": text_role,
+            "category_id": Cat.id
+        }
+        
+        setOnLoading(true);
+        try {
+            const resp = await HttpClient.post('/role-type', json1);
+     
+            type = resp.data.roleType.id
+            if (resp.status != 200) {
+                throw resp.data.message ?? "Something went wrong!";
+            }
+
+          
+            toast.success(`${json1.name} submited successfully!`);
+        } catch (error) {
+            toast.error(`Opps ${getCleanErrorMessage(error)}`);
+        }
+    }
     let sailfix = Sail
     if(disabled == true){
       sailfix = null
     }
     const json = {
       rolelevel_id: Level == null ? null : Level.id,
-      roletype_id: Type == null ? null : Type.id,
+      roletype_id: type == null ? null : type,
       edugrade_id: Edu == null ? null : Edu.id,
       category_id: Cat == null ? null : Cat.id,
       country_id: Cou == null ? null : Cou.id,
@@ -312,16 +334,16 @@ const DialogEdit = (props: EditProps) => {
             </Grid>
             <Grid item md={3.4} xs={10}>
               <Autocomplete
-                disablePortal
+                  freeSolo
                 id='combo-box-type'
                 value={Type}
                 options={RoleType}
                 {...register('role_type')}
-                getOptionLabel={(option: RoleType) => option.name}
-                renderInput={params => <TextField {...params} label='Job Title' />}
-                onChange={(event: any, newValue: RoleType | null) =>
-                  newValue ? setType(newValue) : setType(props.selectedItem.role_type)
-                }
+                getOptionLabel={(option:  RoleType | string) => (typeof option === 'string' ? option : option.name)}
+                renderInput={params => <TextField {...params} label='Job Title'   {...register('text_role')}/>}  
+                onChange={(event: any, newValue: RoleType | null |string) =>
+                  typeof newValue === 'string' ?setType(0) :   newValue ? setType(newValue) : setType(props.selectedItem.role_type)
+                } 
               />
             </Grid>
              <Grid item md={0.6} xs={2} sx={{ mt: 2   }}>

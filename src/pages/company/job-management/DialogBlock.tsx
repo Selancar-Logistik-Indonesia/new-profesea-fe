@@ -53,7 +53,7 @@ const DialogBlock = (props: BlockDialog) => {
                 <Typography variant='h6' color={'#32487A'} fontWeight='600'>
                   Warning Alert
                 </Typography>
-                    <Typography variant='body2'>You not eligable to add new post after your account verified!</Typography>
+                    <Typography variant='body2'>You are not eligible to add a new post until your account is verified by the administrator</Typography>
                 </Box>
             </DialogContent>
             <DialogActions

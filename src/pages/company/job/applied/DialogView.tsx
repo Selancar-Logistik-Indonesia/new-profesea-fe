@@ -37,7 +37,7 @@ const DialogView = (props: ViewProps) => {
             }
 
             props.onCloseClick();
-            toast.success(`${props.selectedItem.user.name} recomended successfully!`);
+            toast.success(`${props.selectedItem.user?.name} recomended successfully!`);
         } catch (error) {
             console.error(error)
         }
@@ -53,7 +53,7 @@ const DialogView = (props: ViewProps) => {
             }
 
             props.onCloseClick();
-            toast.success(`${props.selectedItem.user.name} saved successfully!`);
+            toast.success(`${props.selectedItem.user?.name} saved successfully!`);
         } catch (error) {
             console.error(error)
         }
@@ -69,7 +69,7 @@ const DialogView = (props: ViewProps) => {
             }
 
             props.onCloseClick();
-            toast.success(`${props.selectedItem.user.name} rejected successfully!`);
+            toast.success(`${props.selectedItem.user?.name} rejected successfully!`);
         } catch (error) {
             console.error(error)
         }
@@ -78,7 +78,7 @@ const DialogView = (props: ViewProps) => {
     }
 
     const firstload = () => {
-        HttpClient.get(`/user/document?user_id=${props.selectedItem.user.id}`).then(response => {
+        HttpClient.get(`/user/document?user_id=${props.selectedItem.user?.id}`).then(response => {
         if (response.status != 200) {
             throw response.data.message ?? "Something went wrong!";
         }
@@ -117,18 +117,18 @@ const DialogView = (props: ViewProps) => {
             </IconButton>
             <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', mb: 3 }}>
               <Box mr={2}>
-                <Avatar src={props.selectedItem?.user.photo} />
+                <Avatar src={props.selectedItem?.user?.photo} />
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
                 <Typography lineHeight={1.4} variant='body1' fontSize={16}>
-                  {props.selectedItem?.user.name}
+                  {props.selectedItem?.user?.name}
                 </Typography>
                 <Typography lineHeight={1.4} variant='caption' fontSize={12}>
-                  {props.selectedItem?.user.email}
+                  {props.selectedItem?.user?.email}
                 </Typography>
               </Box>
               <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'} mt={1}>
-                <Button target='blank' href={'/profile/?username=' + props.selectedItem?.user.username} size='small'>
+                <Button target='blank' href={'/profile/?username=' + props.selectedItem?.user?.username} size='small'>
                   Open Profile
                 </Button>
               </Box>
