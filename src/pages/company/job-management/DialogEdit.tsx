@@ -332,7 +332,7 @@ const DialogEdit = (props: EditProps) => {
                 }
               />
             </Grid>
-            <Grid item md={3.4} xs={10}>
+            <Grid item md={4} xs={12}>
               <Autocomplete
                   freeSolo
                 id='combo-box-type'
@@ -346,11 +346,7 @@ const DialogEdit = (props: EditProps) => {
                 } 
               />
             </Grid>
-             <Grid item md={0.6} xs={2} sx={{ mt: 2   }}>
-                <IconButton sx={{ padding: 0 }} component="label" onClick={() => setOpenAddModal(!openAddModal)}>
-                  <Icon icon='mdi:add-circle' fontSize={32} color='#546e7a' />
-                </IconButton>    
-              </Grid>
+            
                 <DialogAddRole visible={openAddModal}
                 onStateChange={() => setHookSignature(v4())}
                 onCloseClick={() => setOpenAddModal(!openAddModal)} />
