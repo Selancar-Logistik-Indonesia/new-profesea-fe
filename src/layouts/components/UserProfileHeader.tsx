@@ -79,17 +79,32 @@ const UserProfileHeader = (props: userProps) => {
             marginLeft: { md: '10px' }
           }}
         >
-          <Box>
-            {/* <ProfilePicture
-              src={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'}
-              alt='profile-picture'
-              sx={{ width: 100, height: 100, objectFit: 'cover' }}
-            /> */}
-            <TextOverImage
-              imageUrl={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'}
-              text='Open To Work'
-            />
-          </Box>
+          {datauser.team_id ==2 ?(
+            <Box>
+              {/* <ProfilePicture
+                src={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'}
+                alt='profile-picture'
+                sx={{ width: 100, height: 100, objectFit: 'cover' }}
+              /> */}
+              <TextOverImage
+                imageUrl={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'}
+                text='Open To Work'
+              />
+            </Box>
+          ):(
+             <Box>
+              {/* <ProfilePicture
+                src={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'}
+                alt='profile-picture'
+                sx={{ width: 100, height: 100, objectFit: 'cover' }}
+              /> */}
+              <TextOverImage
+                imageUrl={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'} 
+                 text=''
+              />
+            </Box>
+          )}
+         
 
           <Box
             sx={{
