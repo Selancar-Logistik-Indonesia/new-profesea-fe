@@ -37,6 +37,7 @@
     "@mui/material": "5.11.13",
     "@mui/system": "5.11.13",
     "@mui/x-data-grid": "6.0.1",
+    "@mui/x-data-grid-generator": "^6.18.7",
     "@popperjs/core": "2.11.6",
     "@reduxjs/toolkit": "1.9.3",
     "add-to-calendar-button-react": "^2.4.3",
