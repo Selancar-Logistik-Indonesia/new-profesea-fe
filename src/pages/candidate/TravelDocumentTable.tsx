@@ -20,43 +20,41 @@ import {
   GridRowEditStopReasons
 } from '@mui/x-data-grid'
 
-import { Container, Grid, Card, CardContent } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 
 const initialRows: GridRowsProp = [
   {
     id: 1,
-    name: 'Aries Dimas',
-    age: 25,
-    joinDate: new Date(),
-    role: 'Admin'
+    document: 'Seaman Book / ID Card',
+    no: '12345678',
+    date_of_issue: new Date(),
+    country_issue: 'Indonesia',
+    valid_date: new Date()
   },
   {
     id: 2,
-    name: 'Aries Dimas',
-    age: 25,
-    joinDate: new Date(),
-    role: 'Admin'
+    document: 'Passport',
+    no: '12345678',
+    date_of_issue: new Date(),
+    country_issue: 'Indonesia',
+    valid_date: new Date()
   },
   {
     id: 3,
-    name: 'Aries Dimas',
-    age: 25,
-    joinDate: new Date(),
-    role: 'Admin'
+    document: 'USA Visa',
+    no: '12345678',
+    date_of_issue: new Date(),
+    country_issue: 'Indonesia',
+    valid_date: new Date()
   },
+
   {
     id: 4,
-    name: 'Aries Dimas',
-    age: 25,
-    joinDate: new Date(),
-    role: 'Admin'
-  },
-  {
-    id: 5,
-    name: 'Aries Dimas',
-    age: 25,
-    joinDate: new Date(),
-    role: 'Admin'
+    document: 'Schengen Visa',
+    no: '12345678',
+    date_of_issue: new Date(),
+    country_issue: 'Indonesia',
+    valid_date: new Date()
   }
 ]
 
@@ -70,10 +68,10 @@ function EditToolbar(props: EditToolbarProps) {
 
   const handleClick = () => {
     const id = 1
-    setRows(oldRows => [...oldRows, { id, name: '', age: '', isNew: true }])
+    setRows(oldRows => [...oldRows, { id, document: '', no: '', isNew: true }])
     setRowModesModel(oldModel => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' }
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'document' }
     }))
   }
 
@@ -131,30 +129,37 @@ function TravelDocumentTable() {
   }
 
   const columns: GridColDef[] = [
-    { field: 'name', headerName: 'Name', width: 180, editable: true },
+    { field: 'document', headerName: 'Document', width: 220, editable: true },
     {
-      field: 'age',
-      headerName: 'Age',
-      type: 'number',
-      width: 80,
+      field: 'no',
+      headerName: 'No',
+      type: 'string',
+      width: 200,
       align: 'left',
       headerAlign: 'left',
       editable: true
     },
     {
-      field: 'joinDate',
-      headerName: 'Join date',
+      field: 'date_of_issue',
+      headerName: 'Date of Issue',
       type: 'date',
       width: 180,
       editable: true
     },
     {
-      field: 'role',
-      headerName: 'Department',
+      field: 'country_issue',
+      headerName: 'Country Issue',
       width: 220,
       editable: true,
       type: 'singleSelect',
-      valueOptions: ['Market', 'Finance', 'Development']
+      valueOptions: ['Indonesia', 'United Kingdom', 'United State of America']
+    },
+    {
+      field: 'valid_date',
+      headerName: 'Valid Date',
+      type: 'date',
+      width: 180,
+      editable: true
     },
     {
       field: 'actions',
@@ -201,6 +206,13 @@ function TravelDocumentTable() {
 
   return (
     <>
+      <Grid xs={10} md={11}>
+        <Grid container item xs={12} justifyContent={'left'}>
+          <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
+            Travel Document
+          </Typography>
+        </Grid>
+      </Grid>
       <Box
         sx={{
           height: 400,

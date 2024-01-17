@@ -1956,6 +1956,7 @@ const CandidateProfile = (props: compProps) => {
 
               <TravelDocumentTable />
 
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
               <Grid item container direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
                 <Button variant='contained' color='success' size='small' type='submit' sx={{ mt: 7, mb: 7 }}>
                   <Icon
