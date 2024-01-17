@@ -10,7 +10,7 @@ import UserProfileHeader from 'src/layouts/components/UserProfileHeader'
 import JobVacancy from './JobVacancy'
 import { IUser } from 'src/contract/models/user'
 import { toast } from 'react-hot-toast'
-import WorkeExperience from './Workexperinece'
+import WorkeExperience from './Workexperience'
 import ListFeedView from 'src/views/social-feed/ListFeedView'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
@@ -30,7 +30,7 @@ const ProfileCompany = () => {
 
 const UserFeedApp = () => {
   const { fetchFeeds } = useSocialFeed()
-  const router = useRouter();
+  const router = useRouter()
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -39,36 +39,36 @@ const UserFeedApp = () => {
   const [arrVacany2, setArrVacancy2] = useState<any>([])
   const [itemData, getItemdata] = useState<any[]>([])
   const iduser: any = user.id
-  let { username } = router.query as { username: string };
+  let { username } = router.query as { username: string }
 
   const firstload = async () => {
-    let url = '';
+    let url = ''
     let filter = ''
     let filterdoc = ''
     if (!username) {
-      url = '/user/' + iduser;
-      username = user.username;
+      url = '/user/' + iduser
+      username = user.username
     } else {
-      url = '/user/?username=' + username;
+      url = '/user/?username=' + username
       filter = '&username=' + username
       filterdoc = '?username=' + username
     }
 
     try {
-      const response = await HttpClient.get(url);
+      const response = await HttpClient.get(url)
       if (response.data.user.length == 0) {
-        toast.error(`Opps data tidak ditemukan`);
+        toast.error(`Opps data tidak ditemukan`)
 
-        return;
+        return
       }
 
-      const user = response.data.user as IUser;
-      setSelectedUser(user);
+      const user = response.data.user as IUser
+      setSelectedUser(user)
 
       if (user.role == 'Company') {
-        HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=250'+filter).then(response => {
-          const code = response.data.jobs.data;
-          setArrVacancy(code);
+        HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=250' + filter).then(response => {
+          const code = response.data.jobs.data
+          setArrVacancy(code)
         })
       } else if (user.role == 'Trainer') {
         HttpClient.get(AppConfig.baseUrl + '/training?search=&page=1&take=250' + filter).then(response => {
@@ -96,8 +96,8 @@ const UserFeedApp = () => {
   }
 
   useEffect(() => {
-    firstload();
-    fetchFeeds({ take: 7, username: username, mPage: 1 });
+    firstload()
+    fetchFeeds({ take: 7, username: username, mPage: 1 })
   }, [username])
 
   return (
@@ -132,6 +132,6 @@ const UserFeedApp = () => {
 ProfileCompany.acl = {
   action: 'read',
   subject: 'home'
-};
+}
 
 export default ProfileCompany

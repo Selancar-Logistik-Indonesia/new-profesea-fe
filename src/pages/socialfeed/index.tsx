@@ -33,20 +33,19 @@ type activities = {
 }
 
 const SocialFeedApp = () => {
-  const { user } = useAuth();
-  const { fetchFeeds } = useSocialFeed();
+  const { user } = useAuth()
+  const { fetchFeeds } = useSocialFeed()
   const [activities, getActivities] = useState<activities>()
   const [show, setShowDM] = useState('/pricing')
-  const a = subscribev(['A05','A05','A12','A14']);
+  const a = subscribev(['A05', 'A05', 'A12', 'A14'])
 
   useEffect(() => {
-    fetchFeeds({ take: 7 });
-    loadActivitis();
-    debugger;
-    if (a == true){
+    fetchFeeds({ take: 7 })
+    loadActivitis()
+    if (a == true) {
       setShowDM('/seeprofile')
     }
-  }, []);
+  }, [])
 
   const loadActivitis = async () => {
     const resp = await HttpClient.get('/user/statistics?user_id=' + user?.id)
@@ -154,6 +153,6 @@ const SocialFeedApp = () => {
 SocialFeed.acl = {
   action: 'read',
   subject: 'home'
-};
+}
 
 export default SocialFeed
