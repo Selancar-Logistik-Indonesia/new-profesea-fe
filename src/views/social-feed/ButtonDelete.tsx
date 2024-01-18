@@ -9,17 +9,25 @@ type ButtonLikeParam = {
     id: number,
     liked_at?: string,
     count_likes: number,
+    deleteComment? : boolean
 }
 
 const ButtonDelete = (props: { item: ButtonLikeParam,  variant?: 'no-icon' }) => {
     const { item } = props;
-    const { deleteFeed } = useSocialFeed();
+    const { deleteFeed, deleteComment } = useSocialFeed();
     const [onLoading, setOnLoading] = useState(false); 
 
-    const handleClick = async() => {
-        setOnLoading(true);
-        await deleteFeed(item.id )
-        window.location.reload() 
+    const handleClick = async () => {
+      if (item.deleteComment) {
+        setOnLoading(true)
+        await deleteComment(item.id)
+        window.location.reload()
+        return
+      }
+
+      setOnLoading(true)
+      await deleteFeed(item.id)
+      window.location.reload()
     }
 
     return (

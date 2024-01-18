@@ -142,6 +142,13 @@ const navigation = (): VerticalNavItemsType => {
         subject: 'admin-ads-management'
       },
       {
+        path: '/admin/feeds-management/',
+        title: 'Feeds Management',
+        icon: 'solar:feed-bold-duotone',
+        action: 'read',
+        subject: 'admin-feeds-management'
+      },
+      {
         path: '/admin/community-management/',
         title: 'Community Management',
         icon: 'solar:users-group-two-rounded-bold-duotone',
@@ -185,7 +192,7 @@ const navigation = (): VerticalNavItemsType => {
       },
       {
         path: '#',
-        title: 'Master Data',
+        title: 'Master Dataa',
         icon: 'solar:notes-bold-duotone',
         action: 'read',
         subject: 'admin-master-data',
