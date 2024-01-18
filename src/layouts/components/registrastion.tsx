@@ -65,20 +65,32 @@ const Registration = (props: any) => {
   const { vonchangeEmployee } = props
   const { disabledcombo } = props
   const router = useRouter()
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [combocode, getCombocode] = useState<any>([])
   const [idcombocode, setCombocode] = useState<any>({ label: 'Loading...', id: 0 })
-
   const [idposition, setPosition] = useState<any>(
     type == 'onship' ? { label: 'Pelaut', id: 0 } : type == 'offship' ? { label: 'Non Pelaut', id: 1 } : ''
   )
-  const schema = yup.object().shape({
+
+  const schemaSeafer = yup.object().shape({
+    name: yup.string().required(),
     email: yup.string().email().required(),
-    password: yup.string().min(5).required()
+    password: yup.string().min(5).required(),
+    username: yup.string().required(),
+    position: yup.object().nullable().required(),
+    phone: yup.string().required()
   })
-   const [phoneNum, setPhoneNum] = useState('');
-  // const [teks, setTeks] = useState('')
+
+  const schema = yup.object().shape({
+    name: yup.string().required(),
+    email: yup.string().email().required(),
+    password: yup.string().min(5).required(),
+    username: yup.string().required(),
+    phone: yup.string().required()
+  })
+
+  const [phoneNum, setPhoneNum] = useState('');
   const onChangePhoneNum = (input: string) => {
     setPhoneNum(removeFirstZeroChar(input));
   }
@@ -87,14 +99,16 @@ const Registration = (props: any) => {
     // setTeks(e.toLowerCase())
     register('email', e.toLowerCase())
   }
+
   const {
     register,
     formState: { errors },
     handleSubmit,
+    setValue
   } = useForm<FormData>({
     mode: 'onBlur',
-    resolver: yupResolver(schema)
-  });
+    resolver: yupResolver(tipereg == 'seafer' ? schemaSeafer : schema)
+  })
 
   const save = (json: any) => {
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(({ data }) => {
@@ -108,17 +122,17 @@ const Registration = (props: any) => {
   };
 
   const onSubmit = (data: FormData) => {
-    const { password, password2, username, name, email, term, privacy } = data
+    const { password, password2, username, name, email, term, privacy, position } = data
     if (term == '') {
-      toast.error(data.name + ' Please checklist term!');
+      toast.error(data.name + ' Please checklist term!')
 
-      return;
+      return
     }
 
     if (privacy == '') {
-      toast.error(data.name + ' Please checklist privacy');
+      toast.error(data.name + ' Please checklist privacy')
 
-      return;
+      return
     }
 
     let ship = ''
@@ -128,7 +142,7 @@ const Registration = (props: any) => {
       ship = 'offship'
     }
 
-    let teamid: number;
+    let teamid: number
     if (tipereg == 'seafer') {
       teamid = 2
     } else if (tipereg == 'company') {
@@ -138,26 +152,26 @@ const Registration = (props: any) => {
       teamid = 4
       ship = ''
     }
- 
+
     const json = {
-      'name': name,
-      "email": email,
-      "username": username,
-      "password": password,
-      "password_confirmation": password2,
-      "employee_type": ship,
-      "team_id": teamid,
-      "country_id": idcombocode.id,
-      "phone": phoneNum
-    };
+      name: name,
+      email: email,
+      username: username,
+      password: password,
+      password_confirmation: password2,
+      employee_type: ship,
+      team_id: teamid,
+      country_id: idcombocode.id,
+      phone: phoneNum
+    }
 
     try {
-      save(json);
+      save(json)
     } catch (e) {
       alert(e)
-      console.log(e);
+      console.log(e)
     }
-  };
+  }
 
   const combobox = () => {
     HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
@@ -186,9 +200,13 @@ const Registration = (props: any) => {
     { label: 'Non Pelaut', id: 1 },
   ]
   const onChangeEmployee = (newValue: any) => {
-    setPosition(newValue)
-    vonchangeEmployee(newValue.id)
-
+    if(newValue){
+      setValue("position", newValue)
+      setPosition(newValue)
+      vonchangeEmployee(newValue.id)
+    } else {
+      setPosition("")
+    }
   }
 
   return (
@@ -197,7 +215,7 @@ const Registration = (props: any) => {
         {tipereg == 'seafer' ? (
           <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
             <Grid item md={12} xs={12}>
-              <TextField id='Name' label='Nama Kandidat' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
+              <TextField id='Name' label='Nama Kandidat' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} error={Boolean(errors.name)} />
             </Grid>
 
             <Grid item md={6} xs={12}>
@@ -207,7 +225,7 @@ const Registration = (props: any) => {
                 options={!position ? [{ label: 'Loading...', id: 0 }] : position}
                 defaultValue={idposition}
                 disabled={disabledcombo}
-                renderInput={params => <TextField {...params} label='Ship' sx={{ mb: 2 }} />}
+                renderInput={params => <TextField {...params} label='Ship' sx={{ mb: 2 }} error={Boolean(errors.position)}/>}
                 {...register('position')}
                 onChange={(event: any, newValue: any | null) => onChangeEmployee(newValue)}
               />
@@ -222,16 +240,17 @@ const Registration = (props: any) => {
                 onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
               /> */}
               <TextField
-                id='Phone'
+                id='phone'
                 label='No Telp'
                 variant='outlined'
                 type='number'
                 fullWidth
                 sx={{ mb: 2 }}
                 value={phoneNum}
+                {...register("phone")}
                 onChange={e => onChangePhoneNum(e.target.value)}
+                error={Boolean(errors.phone)}
                 InputProps={{
-                  // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
                   startAdornment: (
                     <Autocomplete
                       style={{ width: '160px' }}
@@ -263,20 +282,21 @@ const Registration = (props: any) => {
         ) : (
           <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
             <Grid item md={6} xs={12}>
-              <TextField id='Name' label={ (tipereg == 'company') ? 'Nama Perusahaan' : 'Nama Pusat Pelatihan'} variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
+              <TextField id='Name' label={ (tipereg == 'company') ? 'Nama Perusahaan' : 'Nama Pusat Pelatihan'} variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} error={Boolean(errors.name)} />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
-                id='Phone'
+                id='phone'
                 label='No Telp'
                 variant='outlined'
                 type='number'
                 fullWidth
                 sx={{ mb: 2 }}
                 value={phoneNum}
+                {...register("phone")}
                 onChange={e => onChangePhoneNum(e.target.value)}
+                error={Boolean(errors.phone)}
                 InputProps={{
-                  // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
                   startAdornment: (
                     <Autocomplete
                       style={{ width: '160px' }}
@@ -303,6 +323,7 @@ const Registration = (props: any) => {
             fullWidth
             sx={{ mb: 2 }}
             {...register('username')}
+            error={Boolean(errors.username)}
           />
         </Grid>
         <Grid item md={6} xs={12}>
@@ -315,6 +336,7 @@ const Registration = (props: any) => {
             sx={{ mb: 2 }}
             {...register('email')}
             onChange={e => handleInputChange(e.target.value)}
+            error={Boolean(errors.email)}
           />
         </Grid>
         <Grid item md={6} xs={12}>

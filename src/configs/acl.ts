@@ -48,11 +48,13 @@ const defineRulesFor = (role: string, subject: string) => {
           'admin-feeds-management'
         ])
     } else if (role === 'Seafarer') {
-        can(['read'], ['home', 'user-community', 'user-alumni', 'seaferer-training', 'seaferer', 'seaferer-jobs', 'feed-detail', 'candidate/profile','PricingPage'])
+        can(['read'], ['home', 'user-community', 'user-alumni', 'seaferer-training', 'seaferer', 'seaferer-jobs', 'feed-detail', 'candidate/profile', 'PricingPage', "test"])
     } else if (role === 'Company') {
-        can(['read'], ['home', 'company', 'user-community', 'user-job-management', 'user-find-candidate', 'company/profile', 'user-job-detail', 'find-candidate', 'feed-detail', 'company-job-applied','PricingPage']);
+        can(['read'], ['home', 'company', 'user-community', 'user-job-management', 'user-find-candidate', 'company/profile', 'user-job-detail', 'find-candidate', 'feed-detail', 'company-job-applied', 'PricingPage']);
     } else if (role === 'Trainer') {
         can(['read'], ['home', 'user-community', 'user-training-management', 'feed-detail', 'user-my-participant']);
+    } else {
+        can(['read'], ['test']);
     }
 
     return rules
