@@ -76,6 +76,8 @@ const ListFeedView = (props: Props) => {
                     );
                 }
 
+                console.log(feeds)
+
                 return (
                     <InfiniteScroll
                         dataLength={totalFeed}

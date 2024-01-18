@@ -7,9 +7,14 @@ import { useSocialFeed } from "src/hooks/useSocialFeed";
 import { getUserAvatar, toTitleCase } from "src/utils/helpers";
 import CommentForm from "./CommentForm";
 import ButtonLike from "./ButtonLike";
+import secureLocalStorage from "react-secure-storage";
+import localStorageKeys from "src/configs/localstorage_keys";
+import { IUser } from "src/contract/models/user";
+import ButtonDelete from "./ButtonDelete";
 
 const SubCommentCard = (props: { comment: ISocialFeedComment }) => {
     const { comment } = props;
+    const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
     return (
         <Box key={comment.id} sx={{ display: 'flex', flexDirection: 'column', mt: 5 }}>
@@ -32,7 +37,12 @@ const SubCommentCard = (props: { comment: ISocialFeedComment }) => {
                 </Typography>
             </Box>
             <Box>
-                <ButtonLike variant="no-icon" item={{ id: comment.id, liked_at: comment.liked_at, count_likes: comment.count_likes }} likeableType="comment" />
+                {
+                    user.team_id !== 1 && <ButtonLike variant="no-icon" item={{ id: comment.id, liked_at: comment.liked_at, count_likes: comment.count_likes }} likeableType="comment" />
+                }
+                {
+                    user.team_id == 1 && <ButtonDelete item={{id : comment.id, count_likes : comment.count_likes, deleteComment : true}} />
+                }
             </Box>
         </Box>
     );
@@ -43,6 +53,7 @@ const SubCommentAreaView = (props: { item: ISocialFeedComment }) => {
     const [onLoading, setOnLoading] = useState(true);
     const { getComments, subCommentSignature } = useSocialFeed();
     const [commentObj, setCommentObj] = useState<CommentResponseType>();
+    const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
     const loadComments = async () => {
         setOnLoading(true);
@@ -68,8 +79,7 @@ const SubCommentAreaView = (props: { item: ISocialFeedComment }) => {
                     <CircularProgress />
                 </Box>
             )}
-
-            <CommentForm feedId={item.id} replyable_type='comment' />
+            { user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='comment' /> }
         </Box>
     );
 }

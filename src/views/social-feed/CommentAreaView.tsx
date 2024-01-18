@@ -10,10 +10,15 @@ import CommentForm from "./CommentForm";
 import SubCommentAreaView from "./SubCommentAreaView";
 import ButtonLike from "./ButtonLike";
 import Link from "next/link";
+import secureLocalStorage from "react-secure-storage";
+import localStorageKeys from "src/configs/localstorage_keys";
+import { IUser } from "src/contract/models/user";
+import ButtonDelete from "./ButtonDelete";
 
 const CommentCard = (props: { comment: ISocialFeedComment }) => {
     const { comment } = props;
     const [openReply, setOpenReply] = useState(false);
+    const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
     return (
         <Box key={comment.id} sx={{ display: 'flex', flexDirection: 'column', mt: 5 }}>
@@ -38,10 +43,14 @@ const CommentCard = (props: { comment: ISocialFeedComment }) => {
                 </Typography>
             </Box>
             <Box>
-                <ButtonLike variant="no-icon" item={{ id: comment.id, liked_at: comment.liked_at, count_likes: comment.count_likes }} likeableType="comment" />
+                {user.team_id !== 1 && <ButtonLike variant="no-icon" item={{ id: comment.id, liked_at: comment.liked_at, count_likes: comment.count_likes }} likeableType="comment" />}
+                {/* <ButtonLike variant="no-icon" item={{ id: comment.id, liked_at: comment.liked_at, count_likes: comment.count_likes }} likeableType="comment" /> */}
                 <Button onClick={() => setOpenReply(!openReply)} sx={{ textTransform: 'none', fontSize: 11 }} variant='text' size="small">
                     {comment.count_replies > 0 && comment.count_replies} Reply
                 </Button>
+                {
+                    user.team_id == 1 && <ButtonDelete item={{id : comment.id, count_likes : comment.count_likes, deleteComment : true}} />
+                }
             </Box>
 
             {openReply && <SubCommentAreaView key={comment.id} item={comment} />}
@@ -54,6 +63,7 @@ const CommentAreaView = (props: { item: ISocialFeed }) => {
     const [onLoading, setOnLoading] = useState(true);
     const { getComments, commentSignature } = useSocialFeed();
     const [commentObj, setCommentObj] = useState<CommentResponseType>();
+    const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
     const loadComments = async () => {
         setOnLoading(true);
@@ -67,22 +77,25 @@ const CommentAreaView = (props: { item: ISocialFeed }) => {
     }, [commentSignature]);
 
     return (
-        <>
-            <CommentForm feedId={item.id} replyable_type='feed' />
-            {onLoading && (
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 10 }}>
-                    <CircularProgress />
-                </Box>
-            )}
+      <>
+        {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' />}
+        {/* <CommentForm feedId={item.id} replyable_type='feed' /> */}
+        {onLoading && (
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 10 }}>
+            <CircularProgress />
+          </Box>
+        )}
 
-            {!onLoading && commentObj?.data && commentObj?.data.length > 0 && (
-                <Box>
-                    <Divider sx={{ mt: 3 }} />
-                    {commentObj?.data.map(comment => (<CommentCard key={comment.id} comment={comment} />))}
-                </Box>
-            )}
-        </>
-    );
+        {!onLoading && commentObj?.data && commentObj?.data.length > 0 && (
+          <Box>
+            <Divider sx={{ mt: 3 }} />
+            {commentObj?.data.map(comment => (
+              <CommentCard key={comment.id} comment={comment} />
+            ))}
+          </Box>
+        )}
+      </>
+    )
 }
 
 export default CommentAreaView;
