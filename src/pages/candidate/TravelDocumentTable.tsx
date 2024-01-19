@@ -63,7 +63,7 @@ interface EditToolbarProps {
   setRowModesModel: (newModel: (oldModel: GridRowModesModel) => GridRowModesModel) => void
 }
 
-function EditToolbar(props: EditToolbarProps) {
+function AddRecord(props: EditToolbarProps) {
   const { setRows, setRowModesModel } = props
 
   const handleClick = () => {
@@ -76,11 +76,9 @@ function EditToolbar(props: EditToolbarProps) {
   }
 
   return (
-    <GridToolbarContainer>
-      <Button color='primary' startIcon={<AddIcon />} onClick={handleClick}>
-        Add record
-      </Button>
-    </GridToolbarContainer>
+    <Button color='primary' startIcon={<AddIcon />} onClick={handleClick}>
+      Add record
+    </Button>
   )
 }
 
@@ -233,9 +231,6 @@ function TravelDocumentTable() {
           onRowModesModelChange={handleRowModesModelChange}
           onRowEditStop={handleRowEditStop}
           processRowUpdate={processRowUpdate}
-          slots={{
-            toolbar: EditToolbar
-          }}
           slotProps={{
             toolbar: { setRows, setRowModesModel }
           }}

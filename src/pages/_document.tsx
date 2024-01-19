@@ -15,10 +15,13 @@ class CustomDocument extends Document {
     return (
       <Html lang='en'>
         <Head>
-          <meta property="og:title" content="Profesea" />
-          <meta property="og:description" content="Platform Pekerjaan Maritim Terintegrasi, Jelajahi peluang tak terbatas dan temukan pekerjaan impian di industri maritim melalui platform profesional kami yang luas berbasis komunitas" />
-          <meta property="og:image" content="/images/favicon.png" />
-          <meta property="og:url" content="https://profesea.id/" />
+          <meta property='og:title' content='Profesea' />
+          <meta
+            property='og:description'
+            content='Platform Pekerjaan Maritim Terintegrasi, Jelajahi peluang tak terbatas dan temukan pekerjaan impian di industri maritim melalui platform profesional kami yang luas berbasis komunitas'
+          />
+          <meta property='og:image' content='/images/favicon.png' />
+          <meta property='og:url' content='https://profesea.id/' />
 
           <link rel='preconnect' href='https://fonts.googleapis.com' />
           <link rel='preconnect' href='https://fonts.gstatic.com' />
@@ -70,6 +73,20 @@ class CustomDocument extends Document {
               __html: `<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=349290647597490&ev=PageView&noscript=1" />`
             }}
           />
+          <script
+            type='text/javascript'
+            dangerouslySetInnerHTML={{
+              __html: `var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+            (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/65a8d6a60ff6374032c1a511/1hkdocv4i';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+            })();`
+            }}
+          ></script>
         </body>
       </Html>
     )
@@ -84,12 +101,12 @@ CustomDocument.getInitialProps = async ctx => {
   ctx.renderPage = () =>
     originalRenderPage({
       enhanceApp: App => props =>
-      (
-        <App
-          {...props} // @ts-ignore
-          emotionCache={cache}
-        />
-      )
+        (
+          <App
+            {...props} // @ts-ignore
+            emotionCache={cache}
+          />
+        )
     })
 
   const initialProps = await Document.getInitialProps(ctx)
