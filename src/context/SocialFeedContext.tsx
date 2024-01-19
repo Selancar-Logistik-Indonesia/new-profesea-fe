@@ -24,6 +24,7 @@ const defaultValue: SocialFeedContextType = {
   likeUnlikeFeed: () => Promise.resolve(),
   postComment: () => Promise.resolve(),
   deleteFeed: () => Promise.resolve(),
+  deleteComment : () => Promise.resolve(),
   getComments: () => Promise.resolve() as any
 }
 
@@ -88,6 +89,7 @@ const SocialFeedProvider = (props: Props) => {
         // setFeeds(items => [feed, ...items])
     }
     const fetchFeeds = async (payload: FetchFeedPayload) => {
+        console.log("fetching feeds")
         let sPage = page;
         if (payload.mPage) {
             sPage = payload.mPage;
@@ -163,6 +165,16 @@ const SocialFeedProvider = (props: Props) => {
           setCommentSignature(v4())
     }
 
+    const deleteComment = async (commentId: number) => {
+      const response = await HttpClient.del('/social-feed/comment/' + commentId)
+
+      if (response.status != 200) {
+        alert(response.data?.message ?? 'Something went wrong')
+      }
+
+      setCommentSignature(v4())
+    }
+
     const postComment = async (feedId: number, replyable_type: 'feed' | 'comment', content: string) => {
         const response = await HttpClient.post("/social-feed/comment", {
             content: content,
@@ -208,6 +220,7 @@ const SocialFeedProvider = (props: Props) => {
         likeUnlikeFeed,
         postComment,
         deleteFeed,
+        deleteComment,
         getComments,
         commentSignature,
         subCommentSignature
@@ -225,6 +238,7 @@ const SocialFeedProvider = (props: Props) => {
         likeUnlikeFeed,
         postComment,
         deleteFeed,
+        deleteComment,
         getComments,
         commentSignature,
         subCommentSignature
