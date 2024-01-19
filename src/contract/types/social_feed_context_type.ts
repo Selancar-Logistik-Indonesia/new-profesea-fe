@@ -18,7 +18,7 @@ type SocialFeedContextType = {
   likeUnlikeFeed: (likeableId: number, likeableType: string) => Promise<void>
   postComment: (feedId: number, replyable_type: 'feed' | 'comment', content: string) => Promise<void>
   deleteFeed: (feedId: number) => Promise<void>
-  deleteComment: (commentId: number) => Promise<void>
+  deleteComment?: (commentId: number) => Promise<void>
   getComments: (
     feedId: number,
     page: number,

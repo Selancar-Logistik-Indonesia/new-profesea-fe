@@ -122,7 +122,7 @@ const Registration = (props: any) => {
   };
 
   const onSubmit = (data: FormData) => {
-    const { password, password2, username, name, email, term, privacy, position } = data
+    const { password, password2, username, name, email, term, privacy } = data
     if (term == '') {
       toast.error(data.name + ' Please checklist term!')
 

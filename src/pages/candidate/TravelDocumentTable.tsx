@@ -1,7 +1,5 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import SaveIcon from '@mui/icons-material/Save'
@@ -12,7 +10,6 @@ import {
   GridRowModes,
   DataGrid,
   GridColDef,
-  GridToolbarContainer,
   GridActionsCellItem,
   GridEventListener,
   GridRowId,
@@ -58,29 +55,29 @@ const initialRows: GridRowsProp = [
   }
 ]
 
-interface EditToolbarProps {
-  setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void
-  setRowModesModel: (newModel: (oldModel: GridRowModesModel) => GridRowModesModel) => void
-}
+// interface EditToolbarProps {
+//   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void
+//   setRowModesModel: (newModel: (oldModel: GridRowModesModel) => GridRowModesModel) => void
+// }
 
-function AddRecord(props: EditToolbarProps) {
-  const { setRows, setRowModesModel } = props
+// function AddRecord(props: EditToolbarProps) {
+//   const { setRows, setRowModesModel } = props
 
-  const handleClick = () => {
-    const id = 1
-    setRows(oldRows => [...oldRows, { id, document: '', no: '', isNew: true }])
-    setRowModesModel(oldModel => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'document' }
-    }))
-  }
+//   const handleClick = () => {
+//     const id = 1
+//     setRows(oldRows => [...oldRows, { id, document: '', no: '', isNew: true }])
+//     setRowModesModel(oldModel => ({
+//       ...oldModel,
+//       [id]: { mode: GridRowModes.Edit, fieldToFocus: 'document' }
+//     }))
+//   }
 
-  return (
-    <Button color='primary' startIcon={<AddIcon />} onClick={handleClick}>
-      Add record
-    </Button>
-  )
-}
+//   return (
+//     <Button color='primary' startIcon={<AddIcon />} onClick={handleClick}>
+//       Add record
+//     </Button>
+//   )
+// }
 
 function TravelDocumentTable() {
   const [rows, setRows] = React.useState(initialRows)
@@ -119,6 +116,7 @@ function TravelDocumentTable() {
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false }
     setRows(rows.map(row => (row.id === newRow.id ? updatedRow : row)))
+    
     return updatedRow
   }
 
@@ -170,7 +168,7 @@ function TravelDocumentTable() {
 
         if (isInEditMode) {
           return [
-            <GridActionsCellItem
+            <GridActionsCellItem  // eslint-disable-line
               icon={<SaveIcon />}
               label='Save'
               sx={{
@@ -178,7 +176,7 @@ function TravelDocumentTable() {
               }}
               onClick={handleSaveClick(id)}
             />,
-            <GridActionsCellItem
+            <GridActionsCellItem  // eslint-disable-line
               icon={<CancelIcon />}
               label='Cancel'
               className='textPrimary'
@@ -189,14 +187,14 @@ function TravelDocumentTable() {
         }
 
         return [
-          <GridActionsCellItem
+          <GridActionsCellItem  // eslint-disable-line
             icon={<EditIcon />}
             label='Edit'
             className='textPrimary'
             onClick={handleEditClick(id)}
             color='inherit'
           />,
-          <GridActionsCellItem icon={<DeleteIcon />} label='Delete' onClick={handleDeleteClick(id)} color='inherit' />
+          <GridActionsCellItem icon={<DeleteIcon />} label='Delete' onClick={handleDeleteClick(id)} color='inherit' />  // eslint-disable-line
         ]
       }
     }

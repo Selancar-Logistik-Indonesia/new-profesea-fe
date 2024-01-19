@@ -20,8 +20,11 @@ const ButtonDelete = (props: { item: ButtonLikeParam,  variant?: 'no-icon' }) =>
     const handleClick = async () => {
       if (item.deleteComment) {
         setOnLoading(true)
-        await deleteComment(item.id)
+        if(deleteComment !== undefined) {
+          await deleteComment(item.id)
+        }
         window.location.reload()
+        
         return
       }
 
