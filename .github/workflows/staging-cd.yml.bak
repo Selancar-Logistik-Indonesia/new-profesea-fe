@@ -1,0 +1,61 @@
+# # This is a basic workflow to help you get started with Actions
+
+# name: FE Profesea Staging
+
+# # Controls when the action will run. 
+# on:
+#   # Triggers the workflow on push or pull request events but only for the master branch
+#   push:
+#     branches: [ main ]
+
+# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# jobs:
+#   pull_update:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Pull changes to server
+#       uses: appleboy/ssh-action@master
+#       with:
+#         host: ${{ secrets.HOST }}
+#         username: ${{ secrets.USERNAME }}
+#         key: ${{ secrets.PRIVATE_KEY }}
+#         port: 22
+#         script: |
+#           source ~/.bashrc
+#           cd ~/www/fe-selancar/
+#           git add . && git stash
+#           git pull origin main
+#   instal_dependency:
+#     needs:
+#       - pull_update
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Install dependency
+#       uses: appleboy/ssh-action@master
+#       with:
+#         command_timeout: 25m
+#         host: ${{ secrets.HOST }}
+#         username: ${{ secrets.USERNAME }}
+#         key: ${{ secrets.PRIVATE_KEY }}
+#         port: 22
+#         script: |
+#           source ~/.bashrc
+#           cd ~/www/fe-selancar/
+#           /root/n/bin/npm i
+#   build:
+#     needs:
+#       - instal_dependency
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Build and deploy
+#       uses: appleboy/ssh-action@master
+#       with:
+#         host: ${{ secrets.HOST }}
+#         username: ${{ secrets.USERNAME }}
+#         key: ${{ secrets.PRIVATE_KEY }}
+#         port: 22
+#         script: |
+#           source ~/.bashrc
+#           cd ~/www/fe-selancar/
+#           /root/n/bin/npm run build || false
+#           /root/n/bin/pm2 restart fe_selancar_stg

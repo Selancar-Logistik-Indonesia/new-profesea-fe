@@ -1,0 +1,162 @@
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+import CardContent from '@mui/material/CardContent'
+import Grid from '@mui/material/Grid'
+import TextField from '@mui/material/TextField';
+import { Autocomplete,   Typography } from '@mui/material'
+import { useCallback, useEffect, useState } from 'react' 
+import JobDatagrid, { RowItem } from './JobDatagrid';
+import { HttpClient } from 'src/services';
+import { AxiosError } from 'axios';
+import { toast } from 'react-hot-toast'; 
+import debounce from 'src/utils/debounce';
+import { GridPaginationModel } from '@mui/x-data-grid';  
+
+type listEvent = {
+  name: string
+  id: number
+  event: string
+  created_at: string
+}
+const ListEvent = () => { 
+    const [onLoading, setOnLoading] = useState(false); 
+    const [dataSheet, setDataSheet] = useState<RowItem[]>([]);  
+    const [Event, getEvent] = useState<any[]>([]); 
+    const [page, setPage] = useState(1);
+    const [rowCount, setRowCount] = useState(0);
+    const [search, setSearch] = useState('')
+    const [search2, setSearch2] = useState('') 
+    const [perPage, setPerPage] = useState(10);
+    const getListJob = async () => {
+        try {
+            const resp = await HttpClient.get(`/event?search=${search}&search2=${search2}&page=1&take=250`)
+            if (resp.status != 200) {
+                throw resp.data.message ?? "Something went wrong!";
+            }
+
+                const rows = resp.data.data as listEvent[]
+                const items = rows.map((row, index) => { 
+                    return {
+                      no: index + 1,
+                      id: row?.id,
+                      name: row?.name,
+                      event: row?.event,
+                        created_at: row?.created_at 
+                    } as RowItem
+                });
+
+            setRowCount(resp?.data?.jobs?.total ?? 0);
+            setDataSheet(items);
+        } catch (error) {
+            let errorMessage = "Something went wrong!";
+
+            if (error instanceof AxiosError) {
+                errorMessage = error?.response?.data?.message ?? errorMessage;
+            }
+
+            if (typeof error == 'string') {
+                errorMessage = error;
+            }
+
+            toast.error(`Opps ${errorMessage}`);
+        }
+    }
+
+    const combobox = async () => {
+        HttpClient.get(`/event/master?search=&page=1&take=250`).then(response => {
+            debugger;
+          if (response.status != 200) {
+            throw response.data.message ?? 'Something went wrong!'
+          } 
+          getEvent(response.data.listdata)
+        })
+       
+    }
+
+    const handleSearch = useCallback(
+        debounce((value: string) => {
+            setSearch(value);
+        }, 500), []
+    );
+
+    const onPageChange = (model: GridPaginationModel) => {
+        const mPage = model.page + 1;
+        setPage(mPage);
+        setPerPage(model.pageSize);
+    }
+
+    
+ useEffect(() => {
+   
+   combobox()
+ }, [])
+    useEffect(() => {
+        
+        if(search2 !=''){
+            setOnLoading(true)
+            getListJob().then(() => {
+            setOnLoading(false)
+            }) 
+        }
+       
+    }, [ search,search2]);
+
+    return (
+      <>
+        <Grid container spacing={6} className='match-height'>
+          <Grid item xs={12} sm={6} md={12}>
+            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+              <CardHeader
+                title={
+                  <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
+                    Event Participant
+                  </Typography>
+                }
+              />
+              <CardContent>
+                <Grid container justifyContent='flex-start'>
+                  <Grid item>
+                    <Autocomplete
+                      options={Event}
+                      id='Event'
+                      sx={{ mb: 2, width: '150px', mr: 2 }}
+                      fullWidth
+                      getOptionLabel={option => option.event || ''}
+                      onChange={(e, newValue: any) => (newValue ? setSearch2(newValue.event) : setSearch2(''))}
+                      renderInput={params => <TextField {...params} fullWidth label='Event' />}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container justifyContent='flex-end'>
+                  <Grid item>
+                    <TextField
+                      size='small'
+                      sx={{ mr: 6, mb: 2 }}
+                      placeholder='Search'
+                      onChange={e => handleSearch(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+
+                <JobDatagrid
+                  page={page - 1} // di MUI page pertama = 0
+                  rowCount={rowCount}
+                  pageSize={perPage}
+                  loading={onLoading}
+                  onPageChange={model => onPageChange(model)}
+                  rows={dataSheet}
+                />
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </>
+    )
+}
+
+ListEvent.acl = {
+    action: 'read',
+    subject: 'admin-job-management'
+};
+
+export default ListEvent
