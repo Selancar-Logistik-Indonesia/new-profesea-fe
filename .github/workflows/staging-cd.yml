@@ -22,7 +22,7 @@ jobs:
         port: 22
         script: |
           source ~/.bashrc
-          cd ~/home/adminprofesea/repository/staging-fe/
+          cd /home/adminprofesea/repository/staging-fe/
           git add . && git stash
           git pull origin master
   instal_dependency:
@@ -40,7 +40,7 @@ jobs:
         port: 22
         script: |
           source ~/.bashrc
-          cd ~/home/adminprofesea/repository/staging-fe/
+          cd /home/adminprofesea/repository/staging-fe/
           /root/n/bin/npm i
   build:
     needs:
@@ -56,6 +56,6 @@ jobs:
         port: 22
         script: |
           source ~/.bashrc
-          cd ~/home/adminprofesea/repository/staging-fe/
+          cd /home/adminprofesea/repository/staging-fe/
           /root/n/bin/npm run build || false
           /root/n/bin/pm2 restart staging-app
