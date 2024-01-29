@@ -16,7 +16,7 @@ jobs:
     - name: Pull changes to server
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.HOST }}
+        host: 103.84.206.204
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.PRIVATE_KEY }}
         port: 22
