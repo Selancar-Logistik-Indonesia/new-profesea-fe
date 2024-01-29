@@ -58,4 +58,4 @@ jobs:
           source ~/.bashrc
           cd ~/home/adminprofesea/repository/staging-fe/
           /root/n/bin/npm run build || false
-          /root/n/bin/pm2 restart fe_selancar_stg
+          /root/n/bin/pm2 restart staging-app
