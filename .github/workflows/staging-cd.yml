@@ -41,7 +41,7 @@ jobs:
         script: |
           source ~/.bashrc
           cd /home/adminprofesea/repository/staging-fe/
-          /root/n/bin/npm i
+          npm i
   build:
     needs:
       - instal_dependency
@@ -57,5 +57,5 @@ jobs:
         script: |
           source ~/.bashrc
           cd /home/adminprofesea/repository/staging-fe/
-          /root/n/bin/npm run build || false
-          /root/n/bin/pm2 restart staging-app
+          npm run build || false
+          pm2 restart staging-app
