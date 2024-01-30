@@ -30,12 +30,11 @@ import * as Yup from 'yup'
 
 const ProficiencySchema = Yup.object().shape({
   user_id: Yup.number().required(),
-  country_id: Yup.number().required(),
-  cop_id: Yup.number().required(),
+  country_id: Yup.number().required().min(1, 'Country must selected'),
+  cop_id: Yup.number().required().min(1, 'Certificate of proficiency must be selected'),
   certificate_number: Yup.string().required(),
-  valid_date: Yup.date(),
-  is_lifetime: Yup.boolean().required(),
-  filename: Yup.string()
+  is_lifetime: Yup.boolean().nullable(),
+  filename: Yup.string().nullable()
 })
 
 const Transition = forwardRef(function Transition(
@@ -46,8 +45,12 @@ const Transition = forwardRef(function Transition(
 })
 
 const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
-  const { type, seafarerProficiency, showModal, user_id } = props
+  const { type, seafarerProficiency, showModal, user_id, loadProficiency, handleModalForm } = props
   const id = seafarerProficiency?.id
+
+  const [validDateState, setValidDateState] = useState<any>(
+    seafarerProficiency?.valid_until == null ? null : new Date(seafarerProficiency?.valid_until)
+  )
 
   const [countries, setCountries] = useState<{ id?: number; name: string }[]>([])
   const [proficiencies, setProficiencies] = useState([])
@@ -58,15 +61,16 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
       country_id: 0,
       cop_id: 0,
       certificate_number: '',
-      valid_date: new Date(),
+      valid_date: null,
       is_lifetime: false,
       filename: ''
     },
     enableReinitialize: true,
     validationSchema: ProficiencySchema,
     onSubmit: values => {
-      alert(JSON.stringify(values))
-      //onSubmit(values)
+      handleSubmit(values)
+      handleModalForm()
+      loadProficiency()
     }
   })
 
@@ -121,6 +125,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   }
 
   const updateProficiency = (id?: number, values?: any) => {
+    console.log(' --> ', values)
     HttpClient.patch(AppConfig.baseUrl + '/seafarer-proficiencies/' + id, {
       user_id: values.user_id,
       country_id: values.country_id,
@@ -144,20 +149,36 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   }, [])
 
   useEffect(() => {
-    if (seafarerProficiency) {
+    formik.setValues({
+      user_id: user_id,
+      country_id: 0,
+      cop_id: 0,
+      certificate_number: '',
+      valid_date: null,
+      is_lifetime: false,
+      filename: ''
+    })
+    if (seafarerProficiency && type == 'edit') {
       formik.setValues({
         user_id: user_id,
         country_id: type == 'edit' ? seafarerProficiency?.country_id : 0,
         cop_id: type == 'edit' ? seafarerProficiency?.cop_id : 0,
         certificate_number: type == 'edit' ? seafarerProficiency?.certificate_number : '',
-        valid_date: type == 'edit' ? new Date(String(seafarerProficiency?.valid_until)) : new Date(),
+        valid_date: type == 'edit' ? validDateState : null,
         is_lifetime: type == 'edit' ? seafarerProficiency?.is_lifetime : false,
         filename: type == 'edit' ? seafarerProficiency?.filename : ''
       })
     }
   }, [seafarerProficiency])
 
-  const onSubmit = (values: any) => {
+  useEffect(() => {
+    formik.setValues({
+      ...formik.values,
+      valid_date: formik.values.is_lifetime == false ? validDateState : null
+    })
+  }, [formik.values.is_lifetime, validDateState])
+
+  const handleSubmit = (values: any) => {
     if (type == 'edit') {
       updateProficiency(id, values)
     } else {
@@ -195,13 +216,43 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         >
           <Grid container md={12} xs={12}>
             <Grid item md={12} xs={12} mb={5}>
-              <Select fullWidth label='Required Document' name='requiredDocument' variant={'standard'}>
-                <MenuItem value={'seaman_book'}>Seaman Book</MenuItem>
-                <MenuItem value={'usa_visa'}>USA Visa</MenuItem>
-                <MenuItem value={'schengen_visa'}>Schengen Visa</MenuItem>
-                <MenuItem value={'passport'}>Passport</MenuItem>
-                <MenuItem value={'other'}>Other</MenuItem>
-              </Select>
+              <FormControlLabel
+                sx={{ width: '100%', marginLeft: 0 }}
+                labelPlacement='top'
+                label='Certificate of Proficiency'
+                control={
+                  <Select
+                    label='Certificate of Proficiency'
+                    fullWidth
+                    name='cop_id'
+                    value={formik.values.cop_id}
+                    onChange={formik.handleChange}
+                    variant={'standard'}
+                  >
+                    {proficiencies.map((item: any) => (
+                      <MenuItem value={item.id}>{item.title}</MenuItem>
+                    ))}
+                  </Select>
+                }
+              ></FormControlLabel>
+              {/* <Autocomplete
+                disablePortal
+                options={proficiencies}
+                getOptionLabel={(option: any) => option.title}
+                defaultValue={copId}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    label='Certificate of Proficiency'
+                    variant='standard'
+                    name='cop_id'
+                    id='cop_id'
+                  />
+                )}
+                onChange={(event: any, newValue: any) =>
+                  newValue?.id ? setCopId(newValue.id) : setCopId(seafarerProficiency?.cop_id)
+                }
+              /> */}
               {formik.errors.cop_id && <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.cop_id}</span>}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
@@ -220,35 +271,44 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
               )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
-              <Autocomplete
-                disablePortal
-                id='combo-box-demo'
-                options={countries.map((e: any) => e.name)}
-                defaultValue={countries.find((item: any) => item.id == seafarerProficiency?.country_id)?.name}
-                getOptionLabel={(option: string) => option}
-                renderInput={(params: any) => <TextField {...params} label='Country of Issue' variant='standard' />}
-                onChange={(event: any, newValue: string | null) =>
-                  newValue
-                    ? formik.handleChange(() => countries.find((item: any) => item.name == newValue)?.id)
-                    : formik.handleChange(() => undefined)
+              <FormControlLabel
+                sx={{ width: '100%', marginLeft: 0 }}
+                labelPlacement='top'
+                label='Country of Issue'
+                control={
+                  <Select
+                    label='Country of Issue'
+                    fullWidth
+                    name='country_id'
+                    id='country_id'
+                    value={formik.values.country_id}
+                    onChange={formik.handleChange}
+                    variant={'standard'}
+                  >
+                    {countries.map((item: any) => (
+                      <MenuItem value={item.id}>{item.name}</MenuItem>
+                    ))}
+                  </Select>
                 }
-              />
+              ></FormControlLabel>
+              {formik.errors.country_id && (
+                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.country_id}</span>
+              )}
             </Grid>
-            {formik.errors.country_id && (
-              <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.country_id}</span>
-            )}
+
             <Grid item md={12} xs={12} mb={5}>
               <DatePicker
                 disabled={formik.values.is_lifetime ? true : false}
                 dateFormat='dd/MM/yyyy'
-                //selected={formik.values.valid_date}
-                id='basic-input'
-                onChange={(dateAwal: Date) => formik.handleChange(() => dateAwal)}
+                selected={validDateState}
+                onChange={(date: Date) => setValidDateState(date)}
                 placeholderText='Click to select a date'
                 showYearDropdown
                 showMonthDropdown
                 dropdownMode='select'
-                customInput={<TextField label='Valid Date' variant='standard' fullWidth />}
+                customInput={
+                  <TextField label='Valid Date' variant='standard' fullWidth id='valid_date' name='valid_date' />
+                }
               />
               {formik.errors.valid_date && (
                 <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.valid_date)}</span>
@@ -256,7 +316,16 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <FormControlLabel
-                control={<Checkbox onChange={formik.handleChange} value={formik.values.is_lifetime} />}
+                sx={{ width: '100%' }}
+                control={
+                  <Checkbox
+                    name='is_lifetime'
+                    id='is_lifetime'
+                    onClick={formik.handleChange}
+                    value={formik.values.is_lifetime}
+                    checked={formik.values.is_lifetime}
+                  />
+                }
                 label='Lifetime'
               />
               {formik.errors.is_lifetime && (

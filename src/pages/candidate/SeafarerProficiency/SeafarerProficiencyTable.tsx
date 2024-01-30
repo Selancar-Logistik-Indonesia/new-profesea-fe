@@ -41,7 +41,12 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
 
   const handleModalForm = (type: string, data: any = undefined) => {
     setModalFormType(type)
-    setSeafarerProficiency(type == 'edit' ? data : undefined)
+    if (type == 'edit') {
+      setSeafarerProficiency(data)
+    } else {
+      setSeafarerProficiency(undefined)
+    }
+
     setModalFormOpen(modalFormOpen ? false : true)
   }
 
