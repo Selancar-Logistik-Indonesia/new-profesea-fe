@@ -40,6 +40,7 @@ interface Job {
   employment_type: string
   text_role: string
   contractDuration?: string
+  job_title? : string
 }
 
 export default Job

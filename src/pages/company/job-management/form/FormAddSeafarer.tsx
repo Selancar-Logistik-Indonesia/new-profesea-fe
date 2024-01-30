@@ -142,7 +142,7 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
   })
 
   const onSubmit = async (formData: Job) => {
-    const { contractDuration, experience, salary_end, salary_start, text_role } = formData
+    const { contractDuration, experience, salary_end, salary_start, text_role, job_title } = formData
 
     let type = TypeId
     if (TypeId == 0 && text_role != '') {
@@ -195,7 +195,8 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
         .join('-'),
       contract_duration: contractDuration, // value => string number (baru)
       rotational: rotational, // value => yer or no (baru)
-      hide_salary: checked
+      hide_salary: checked,
+      job_title: job_title
     }
 
     setOnLoading(true)
@@ -310,6 +311,16 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
         </Box>
 
         <Grid container columnSpacing={'1'} rowSpacing={'2'}>
+          <Grid item md={12} xs={12} sx={{ mb: 1 }}>
+            <TextField
+              id='job_title'
+              label='Job Title'
+              variant='outlined'
+              fullWidth
+              {...register('job_title')}
+              sx={{ flex: 1 }}
+            />
+          </Grid>
           <Grid item md={3} xs={12} sx={{ mb: 1 }}>
             <Autocomplete
               disablePortal
@@ -329,7 +340,7 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
               id='combo-box-level'
               options={RoleType}
               getOptionLabel={(option: RoleType | string) => (typeof option === 'string' ? option : option.name)}
-              renderInput={params => <TextField {...params} label='Job Title' {...register('text_role')} />}
+              renderInput={params => <TextField {...params} label='Job Rank' {...register('text_role')} />}
               onChange={(event: any, newValue: RoleType | null | string) =>
                 typeof newValue === 'string' ? setTypeId(0) : newValue?.id ? setTypeId(newValue.id) : setTypeId(0)
               }
