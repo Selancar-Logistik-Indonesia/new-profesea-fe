@@ -1,6 +1,7 @@
 import { Ref, forwardRef, ReactElement, useState, useEffect, useRef } from 'react'
 
 import {
+  Autocomplete,
   Button,
   Box,
   Checkbox,
@@ -194,14 +195,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         >
           <Grid container md={12} xs={12}>
             <Grid item md={12} xs={12} mb={5}>
-              <Select
-                fullWidth
-                value={requiredDocument}
-                label='Required Document'
-                onChange={e => setRequiredDocument(e.target.value)}
-                name='requiredDocument'
-                variant={'standard'}
-              >
+              <Select fullWidth label='Required Document' name='requiredDocument' variant={'standard'}>
                 <MenuItem value={'seaman_book'}>Seaman Book</MenuItem>
                 <MenuItem value={'usa_visa'}>USA Visa</MenuItem>
                 <MenuItem value={'schengen_visa'}>Schengen Visa</MenuItem>

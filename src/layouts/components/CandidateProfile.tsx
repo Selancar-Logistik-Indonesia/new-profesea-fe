@@ -62,7 +62,11 @@ import { refreshsession, removeFirstZeroChar, subscribev } from 'src/utils/helpe
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import JobCategory from 'src/contract/models/job_category'
-import TravelDocumentTable from 'src/pages/candidate/TravelDocumentTable'
+
+import SeafarerTravelDocumentTable from 'src/pages/candidate/SeafarerTravelDocument/SeafarerTravelDocumentTable'
+import SeafarerExperienceTable from 'src/pages/candidate/SeafarerExperience/SeafarerExperienceTable'
+import SeafarerCompetencyTable from 'src/pages/candidate/SeafarerCompetency/SeafarerCompetencyTable'
+import SeafarerProficiencyTable from 'src/pages/candidate/SeafarerProficiency/SeafarerProficiencyTable'
 
 type FormData = {
   fullName: string
@@ -74,6 +78,7 @@ type FormData = {
   code: string
   website: string
   phone: string
+  dateOfBirth: string
   address: string
   about: string
   usernamesosmed: string
@@ -94,6 +99,7 @@ let ship: any = []
 let opp: any = []
 let tampilkanship: any = ''
 let availabledate: any = ''
+
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
   height: 120,
@@ -103,6 +109,7 @@ const ProfilePicture = styled('img')(({ theme }) => ({
     marginBottom: theme.spacing(4)
   }
 }))
+
 const BoxWrapper = styled(Box)<BoxProps>(() => ({
   position: 'relative'
 }))
@@ -124,6 +131,7 @@ const jeniskelamin = [
   { title: 'm', label: 'Male' },
   { title: 'f', label: 'Female' }
 ]
+
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
   return {
     fontWeight:
@@ -228,6 +236,10 @@ const CandidateProfile = (props: compProps) => {
     )
   }
   const [phoneNum, setPhoneNum] = useState(props.datauser?.phone)
+  const [dateOfBirth, setDateOfBirth] = useState(props.datauser?.date_of_birth)
+  const onChangeDateOfBirth = (input: string) => {
+    setDateOfBirth(input)
+  }
   const onChangePhoneNum = (input: string) => {
     setPhoneNum(removeFirstZeroChar(input))
   }
@@ -357,9 +369,10 @@ const CandidateProfile = (props: compProps) => {
   useEffect(() => {
     combobox()
   }, [JC])
+
   const addbuttonfacebook = () => {
     let user = ''
-    if (facebook.length < 25) {
+    if (facebook.length < 20) {
       user = 'https://facebook.com/' + facebook
     } else {
       user = facebook
@@ -394,7 +407,7 @@ const CandidateProfile = (props: compProps) => {
 
   const addbuttoninstagram = () => {
     let user = ''
-    if (instagram.length < 25) {
+    if (instagram.length < 20) {
       user = 'https://instagram.com/' + instagram
     } else {
       user = instagram
@@ -428,9 +441,10 @@ const CandidateProfile = (props: compProps) => {
     }
     // setDisabledInstagram(true)
   }
+
   const addbuttonlinkedin = () => {
     let user = ''
-    if (linkedin.length < 25) {
+    if (linkedin.length < 20) {
       user = 'https://linkedin.com/' + linkedin
     } else {
       user = linkedin
@@ -538,6 +552,7 @@ const CandidateProfile = (props: compProps) => {
       employee_type: idship,
       name: fullName,
       phone: phoneNum,
+      date_of_birth: dateOfBirth,
       website: website,
       about: about,
       address_country_id: idcountry,
@@ -1052,6 +1067,21 @@ const CandidateProfile = (props: compProps) => {
                 />
               </Grid>
 
+              <Grid item md={3} xs={12}>
+                <TextField
+                  id='date_of_birth'
+                  label='Date of Birth'
+                  defaultValue={'0000-01-01'}
+                  variant='standard'
+                  required={true}
+                  fullWidth={true}
+                  sx={{ mb: 1 }}
+                  type='date'
+                  value={dateOfBirth}
+                  onChange={e => onChangeDateOfBirth(e.target.value)}
+                ></TextField>
+              </Grid>
+
               <Grid item md={12} xs={12}>
                 <TextField
                   fullWidth
@@ -1197,6 +1227,7 @@ const CandidateProfile = (props: compProps) => {
                     </Grid>
                   </Grid>
                 </Grid>
+
                 <Grid
                   item
                   direction='row'
@@ -1208,6 +1239,7 @@ const CandidateProfile = (props: compProps) => {
                 ></Grid>
                 <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
               </>
+
               {tampilkanship == 'PELAUT' && (
                 <>
                   <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
@@ -1527,6 +1559,7 @@ const CandidateProfile = (props: compProps) => {
               <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
 
               <Box sx={{ marginTop: '20px' }}></Box>
+
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
                   <Grid container item xs={12} justifyContent={'left'}>
@@ -1952,11 +1985,19 @@ const CandidateProfile = (props: compProps) => {
                 </Grid>
               )}
 
+              <SeafarerTravelDocumentTable user_id={props?.datauser.id} />
+              <Divider style={{ width: '100%', margin: '20px 0' }} />
+
+              <SeafarerExperienceTable user_id={props?.datauser.id} />
+              <Divider style={{ width: '100%', margin: '20px 0' }} />
+
+              <SeafarerCompetencyTable user_id={props?.datauser.id} />
+              <Divider style={{ width: '100%', margin: '20px 0' }} />
+
+              <SeafarerProficiencyTable user_id={props?.datauser.id} />
+
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
 
-              <TravelDocumentTable />
-
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
               <Grid item container direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
                 <Button variant='contained' color='success' size='small' type='submit' sx={{ mt: 7, mb: 7 }}>
                   <Icon
