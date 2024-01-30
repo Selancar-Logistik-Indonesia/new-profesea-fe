@@ -62,7 +62,7 @@ import { refreshsession, removeFirstZeroChar, subscribev } from 'src/utils/helpe
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import JobCategory from 'src/contract/models/job_category'
-import TravelDocumentTable from 'src/pages/candidate/TravelDocumentTable'
+// import TravelDocumentTable from 'src/pages/candidate/TravelDocumentTable'
 
 type FormData = {
   fullName: string
@@ -1954,7 +1954,7 @@ const CandidateProfile = (props: compProps) => {
 
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
 
-              <TravelDocumentTable />
+              {/* <TravelDocumentTable /> */}
 
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
               <Grid item container direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
