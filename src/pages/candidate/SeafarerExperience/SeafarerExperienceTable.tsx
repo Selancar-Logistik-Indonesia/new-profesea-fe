@@ -1,0 +1,201 @@
+import { useEffect, useState } from 'react'
+
+import { HttpClient } from 'src/services'
+import { AppConfig } from 'src/configs/api'
+import { Box, Grid, Typography, Button, Paper, TableContainer, Checkbox, IconButton } from '@mui/material'
+import { Icon } from '@iconify/react'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { toast } from 'react-hot-toast'
+import { ISeafarerExperienceProps } from './SeafarerExperienceInterface'
+import ISeafarerExperienceData from './../../../contract/models/seafarer_experience'
+import SeafarerExperienceForm from './SeafarerExperienceForm'
+import SeafarerExperienceDeleteConfirm from './SeafarerExperienceDeleteConfirm'
+
+const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
+  const [rows, setRows] = useState([])
+  const [seafarerExperience, setSeafarerExperience] = useState(undefined)
+  const [modalFormType, setModalFormType] = useState('create')
+  const [modalFormOpen, setModalFormOpen] = useState(false)
+  const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
+
+  const { user_id } = props
+
+  const thisGray = 'rgba(66, 66, 66, 1)'
+
+  const loadExperience = () => {
+    HttpClient.get(AppConfig.baseUrl + '/seafarer-experiences/user-id/' + user_id).then(response => {
+      const result = response.data.data.map((item: ISeafarerExperienceData) => {
+        return {
+          ...item,
+          sign_in: new Date(item.sign_in),
+          sign_off: new Date(item.sign_off),
+          rank: item.rank.name,
+          vessel_type: item.vessel_type.name,
+          country: item.country.name
+        }
+      })
+
+      setRows(result)
+    })
+  }
+
+  const handleModalForm = (type: string, data: any = undefined) => {
+    setModalFormOpen(modalFormOpen ? false : true)
+    setModalFormType(type)
+    setSeafarerExperience(type == 'edit' ? data : undefined)
+  }
+
+  const handleModalDelete = (data: any = undefined) => {
+    setModalDeleteOpen(modalDeleteOpen ? false : true)
+    setSeafarerExperience(data)
+  }
+
+  useEffect(() => {
+    loadExperience()
+  }, [])
+
+  const columns: GridColDef[] = [
+    { field: 'vessel_name', headerName: 'Vessel Name', type: 'string', width: 220, editable: false },
+    {
+      field: 'vessel_type',
+      headerName: 'Vessel Type',
+      type: 'string',
+      width: 200,
+      align: 'left',
+      headerAlign: 'left'
+    },
+    {
+      field: 'rank',
+      headerName: 'Rank / Position',
+      type: 'string',
+      width: 180
+    },
+    {
+      field: 'grt',
+      headerName: 'GRT',
+      width: 100,
+      type: 'number'
+    },
+    {
+      field: 'dwt',
+      headerName: 'DWT',
+      width: 100,
+      type: 'number'
+    },
+    {
+      field: 'me_power',
+      headerName: 'ME Power',
+      width: 100,
+      type: 'number'
+    },
+    {
+      field: 'sign_in',
+      headerName: 'Sign In',
+      width: 150,
+      type: 'date'
+    },
+    {
+      field: 'sign_off',
+      headerName: 'Sign Off',
+      width: 150,
+      type: 'date'
+    },
+    {
+      field: 'company',
+      headerName: 'Company / Flag',
+      width: 200,
+      type: 'string'
+    },
+    {
+      field: 'action',
+      headerName: 'Action',
+      width: 180,
+      renderCell(params: any) {
+        return (
+          <>
+            <IconButton
+              size='small'
+              title={`Update this Experience Id = ${params.row.id} `}
+              onClick={() => handleModalForm('edit', params.row)}
+            >
+              <Icon icon='material-symbols:edit-square-outline' width='24' height='24' color={thisGray} />
+            </IconButton>
+            <IconButton
+              size='small'
+              title={`Update this Experience Id = ${params.row.id} `}
+              onClick={() => handleModalDelete(params.row)}
+            >
+              <Icon icon='material-symbols:delete-outline' width='24' height='24' color={thisGray} />
+            </IconButton>
+          </>
+        )
+      }
+    }
+  ]
+
+  return (
+    <>
+      <SeafarerExperienceForm
+        seafarerExperience={seafarerExperience}
+        type={modalFormType}
+        handleModalForm={handleModalForm}
+        loadExperience={loadExperience}
+        showModal={modalFormOpen}
+      />
+      <SeafarerExperienceDeleteConfirm
+        seafarerExperience={seafarerExperience}
+        handleModalDelete={handleModalDelete}
+        loadExperience={loadExperience}
+        showModal={modalDeleteOpen}
+      />
+      <Grid container xs={12} md={12} lg={12}>
+        <Grid item xs={12} md={6} justifyContent={'left'}>
+          <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
+            Experience
+          </Typography>
+        </Grid>
+        <Grid item md={6}>
+          <Grid container justifyContent={'right'}>
+            <label style={{ marginRight: 20, marginTop: -5 }}>
+              <Checkbox /> I have no experience{' '}
+            </label>
+            <Button
+              variant='contained'
+              style={{ marginBottom: 10 }}
+              size='small'
+              onClick={() => handleModalForm('create')}
+            >
+              <Icon
+                fontSize='small'
+                icon={'solar:add-circle-bold-duotone'}
+                color={'success'}
+                style={{ fontSize: '18px' }}
+              />
+              <div> Add Experience </div>
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid md={12} sm={12} xs={12}>
+        <Paper style={{ overflow: 'auto' }} sx={{ overflow: 'auto', width: '100%' }}>
+          <TableContainer>
+            <DataGrid
+              autoHeight={true}
+              rows={rows}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 5 }
+                }
+              }}
+              pageSizeOptions={[5, 10]}
+              getRowClassName={params => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
+            />
+          </TableContainer>
+        </Paper>
+      </Grid>
+    </>
+  )
+}
+
+export default SeafarerExperienceTable
