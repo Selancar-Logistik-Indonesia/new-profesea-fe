@@ -114,7 +114,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
       country_id: values.country_id,
       cop_id: values.cop_id,
       certificate_number: values.certificate_number,
-      valid_date: values.valid_date,
+      valid_until: !values.is_lifetime ? values.valid_date : null,
       is_lifetime: values.is_lifetime,
       filename: values.filename
     })
@@ -131,12 +131,12 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
       country_id: values.country_id,
       cop_id: values.cop_id,
       certificate_number: values.certificate_number,
-      valid_date: values.valid_date,
+      valid_until: !values.is_lifetime ? values.valid_date : null,
       is_lifetime: values.is_lifetime,
       filename: values.filename
     })
       .then(res => {
-        toast('create proficiency success', { icon: 'success' })
+        toast('update proficiency success', { icon: 'success' })
       })
       .catch(err => {
         toast(JSON.stringify(err), { icon: 'danger' })
@@ -164,7 +164,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         country_id: type == 'edit' ? seafarerProficiency?.country_id : 0,
         cop_id: type == 'edit' ? seafarerProficiency?.cop_id : 0,
         certificate_number: type == 'edit' ? seafarerProficiency?.certificate_number : '',
-        valid_date: type == 'edit' ? validDateState : null,
+        valid_date: type == 'edit' ? (validDateState ? new Date(validDateState) : null) : null,
         is_lifetime: type == 'edit' ? seafarerProficiency?.is_lifetime : false,
         filename: type == 'edit' ? seafarerProficiency?.filename : ''
       })
@@ -174,7 +174,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   useEffect(() => {
     formik.setValues({
       ...formik.values,
-      valid_date: formik.values.is_lifetime == false ? validDateState : null
+      valid_date: validDateState ? new Date(validDateState) : null
     })
   }, [formik.values.is_lifetime, validDateState])
 
