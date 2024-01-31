@@ -62,6 +62,7 @@ import { refreshsession, removeFirstZeroChar, subscribev } from 'src/utils/helpe
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import JobCategory from 'src/contract/models/job_category'
+// import TravelDocumentTable from 'src/pages/candidate/TravelDocumentTable'
 
 type FormData = {
   fullName: string
@@ -73,7 +74,6 @@ type FormData = {
   code: string
   website: string
   phone: string
-  dateOfBirth: string
   address: string
   about: string
   usernamesosmed: string
@@ -231,12 +231,6 @@ const CandidateProfile = (props: compProps) => {
   const onChangePhoneNum = (input: string) => {
     setPhoneNum(removeFirstZeroChar(input))
   }
-
-  const [dateOfBirth, setDateOfBirth] = useState(props.datauser?.date_of_birth)
-  const onChangeDateOfBirth = (input: string) => {
-    setDateOfBirth(input)
-  }
-
   const combobox = () => {
     // HttpClient.get(AppConfig.baseUrl + '/public/data/role-level?search=&page=1&take=100').then(response => {
     //   const code = response.data.roleLevels.data
@@ -365,7 +359,7 @@ const CandidateProfile = (props: compProps) => {
   }, [JC])
   const addbuttonfacebook = () => {
     let user = ''
-    if (facebook.length < 20) {
+    if (facebook.length < 25) {
       user = 'https://facebook.com/' + facebook
     } else {
       user = facebook
@@ -400,7 +394,7 @@ const CandidateProfile = (props: compProps) => {
 
   const addbuttoninstagram = () => {
     let user = ''
-    if (instagram.length < 20) {
+    if (instagram.length < 25) {
       user = 'https://instagram.com/' + instagram
     } else {
       user = instagram
@@ -436,7 +430,7 @@ const CandidateProfile = (props: compProps) => {
   }
   const addbuttonlinkedin = () => {
     let user = ''
-    if (linkedin.length < 20) {
+    if (linkedin.length < 25) {
       user = 'https://linkedin.com/' + linkedin
     } else {
       user = linkedin
@@ -544,7 +538,6 @@ const CandidateProfile = (props: compProps) => {
       employee_type: idship,
       name: fullName,
       phone: phoneNum,
-      date_of_birth: dateOfBirth,
       website: website,
       about: about,
       address_country_id: idcountry,
@@ -1057,21 +1050,6 @@ const CandidateProfile = (props: compProps) => {
                     )
                   }}
                 />
-              </Grid>
-
-              <Grid item md={3} xs={12}>
-                <TextField
-                  id='date_of_birth'
-                  label='Date of Birth'
-                  defaultValue={'0000-01-01'}
-                  variant='standard'
-                  required={true}
-                  fullWidth={true}
-                  sx={{ mb: 1 }}
-                  type='date'
-                  value={dateOfBirth}
-                  onChange={e => onChangeDateOfBirth(e.target.value)}
-                ></TextField>
               </Grid>
 
               <Grid item md={12} xs={12}>
@@ -1973,6 +1951,10 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </Grid>
               )}
+
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
+
+              {/* <TravelDocumentTable /> */}
 
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
               <Grid item container direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
