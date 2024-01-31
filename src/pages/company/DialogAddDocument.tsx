@@ -195,7 +195,7 @@ const DialogAddDocument = (props: DialogProps) => {
                           onChange={e => handleChangeCrewing(e.target.value == 'yes')}
                         >
                           <FormControlLabel value='yes' control={<Radio sx={{ p: 1, ml: 1 }} />} label='Yes' />
-                          <FormControlLabel value='no' control={<Radio sx={{ p: 1, ml: 1 }} />} label='no' />
+                          <FormControlLabel value='no' control={<Radio sx={{ p: 1, ml: 1 }} />} label='No' />
                         </RadioGroup>
                       </FormControl>
                     </Box>
