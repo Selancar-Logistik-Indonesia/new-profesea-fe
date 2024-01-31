@@ -57,5 +57,5 @@ jobs:
         script: |
           source ~/.bashrc
           cd /home/adminprofesea/repository/staging-fe/
-          npm run build
+          npm run build || false
           pm2 restart staging-app
