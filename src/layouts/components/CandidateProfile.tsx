@@ -58,7 +58,8 @@ import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
-import { refreshsession, removeFirstZeroChar, subscribev } from 'src/utils/helpers'
+// import { refreshsession, removeFirstZeroChar, subscribev } from 'src/utils/helpers'
+import { refreshsession, removeFirstZeroChar } from 'src/utils/helpers'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import JobCategory from 'src/contract/models/job_category'
@@ -208,7 +209,7 @@ const CandidateProfile = (props: compProps) => {
   // const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
   // const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
   // const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
-  const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
+  // const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
   const [arrayHead, getArrayHead] = useState<any[]>([])
   const [JobCategory, getJobCategory] = useState<any[]>([])
   const [JC, setJC] = useState(
