@@ -224,7 +224,7 @@ const CandidateProfile = (props: compProps) => {
     props.datauser?.field_preference?.category_id ? props.datauser?.field_preference?.category_id : 0
   )
 
-  const kintil = subscribev(['A09'])
+  // const kintil = subscribev(['A09'])
 
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
@@ -632,9 +632,9 @@ const CandidateProfile = (props: compProps) => {
     const b = props.datauser.field_preference?.open_to_opp == 0 ? '0' : '1'
     setOpp(b)
 
-    if (kintil == true) {
-      setDisabledOpen(false)
-    }
+    // if (kintil == true) {
+    //   setDisabledOpen(false)
+    // }
   }, [])
   useEffect(() => {
     if (!selectedFile) {
@@ -927,6 +927,7 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid>
+
               <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -943,6 +944,7 @@ const CandidateProfile = (props: compProps) => {
                   // }
                 />
               </Grid>
+
               <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -970,6 +972,7 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid>
+
               <Grid item md={6} xs={12}>
                 <TextField
                   id='address'
@@ -982,6 +985,7 @@ const CandidateProfile = (props: compProps) => {
                   {...register('address')}
                 />
               </Grid>
+
               <Grid item md={3} xs={12}>
                 <TextField
                   id='Email'
@@ -994,6 +998,7 @@ const CandidateProfile = (props: compProps) => {
                   {...register('email')}
                 />
               </Grid>
+
               {props.datauser.role == 'Company' && (
                 <>
                   <Grid item md={6} xs={12}>
@@ -1096,6 +1101,8 @@ const CandidateProfile = (props: compProps) => {
                   {...register('about')}
                 />
               </Grid>
+
+              {/* ----- Social Media Info ---- */}
               <>
                 <Grid item md={5} xs={12}>
                   <Grid container item xs={12} justifyContent={'left'}>
@@ -1239,6 +1246,7 @@ const CandidateProfile = (props: compProps) => {
                 ></Grid>
                 <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
               </>
+              {/* ----- END Social Media Info ---- */}
 
               {tampilkanship == 'PELAUT' && (
                 <>
@@ -1256,8 +1264,6 @@ const CandidateProfile = (props: compProps) => {
 
                     <Grid item md={4} xs={12}>
                       <Autocomplete
-                        disablePortal
-                        disabled={disabledOpen}
                         id='combo-box-demo'
                         options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
                         defaultValue={opp}
@@ -1416,7 +1422,6 @@ const CandidateProfile = (props: compProps) => {
                     <Grid item md={6} xs={12}>
                       <Autocomplete
                         disablePortal
-                        disabled={disabledOpen}
                         id='combo-box-demo'
                         options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
                         defaultValue={opp}
@@ -1519,14 +1524,14 @@ const CandidateProfile = (props: compProps) => {
                   </Grid> */}
                     <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
                       <FormControl>
-                        <InputLabel id='demo-multiple-chip-label'>Spoken</InputLabel>
+                        <InputLabel id='demo-multiple-chip-label'>LANGUAGE</InputLabel>
                         <Select
                           labelId='demo-multiple-chip-label'
                           id='demo-multiple-chip'
                           multiple
                           value={personName}
                           onChange={handleChange}
-                          label='Spoken'
+                          label='LANGUAGE'
                           sx={{ fontSize: '18px', height: 50.2 }}
                           input={
                             <OutlinedInput
@@ -1672,126 +1677,121 @@ const CandidateProfile = (props: compProps) => {
                 </Grid>
               </Grid>
 
-              {
-                (tampilkanship = !'PELAUT' && (
-                  <Grid item container xs={12}>
-                    <Grid xs={10} md={11}>
-                      <Grid container item xs={12} justifyContent={'left'}>
-                        <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-                          Work Experience Info
-                        </Typography>
-                      </Grid>
-                      <Grid container item xs={12} justifyContent={'left'}>
-                        <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                          Fulfill your Work Experience Info
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                    <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
-                      <Button variant='contained' size='small' onClick={() => setOpenAddModalWE(!openAddModalWE)}>
-                        <Icon
-                          fontSize='small'
-                          icon={'solar:add-circle-bold-duotone'}
-                          color={'success'}
-                          style={{ fontSize: '18px' }}
-                        />
-                        <div style={{ marginLeft: 5 }}>ADD</div>
-                      </Button>
-                    </Grid>
-                    <Grid item container xs={12}>
-                      {itemDataWE.map(item => (
-                        <Grid item container xs={12} marginTop={2} key={item.id}>
-                          <Grid xs={4} md={1}>
-                            <img
-                              alt='logo'
-                              src={item.logo ? item.logo : '/images/workexperienceinfo.png'}
-                              style={{
-                                maxWidth: '100%',
-                                height: '100px',
-                                padding: 10,
-                                margin: 0
-                              }}
-                            />
-                          </Grid>
-                          <Grid xs={8} md={11} item container>
-                            <Grid xs={10} marginTop={2}>
-                              <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
-                                {item.position} (-)
-                              </Typography>
-                              <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                                {item.institution}
-                              </Typography>
-                              <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                                {item.vessel_type?.name}
-                              </Typography>
-                              <Grid xs={12} display='flex'>
-                                <Box>
-                                  <Typography variant='body1'>{item.start_date}</Typography>
-                                </Box>
-                                <Box>
-                                  <Typography variant='body1'> &nbsp; - &nbsp; </Typography>
-                                </Box>
-                                <Box>
-                                  <Typography variant='body1'>{item.end_date}</Typography>
-                                </Box>
-                              </Grid>
-                            </Grid>
-                            <Grid xs={12} md={2} marginTop={2} display='flex' item container>
-                              <Grid xs={12} display='flex' item container>
-                                <Grid
-                                  xs={12}
-                                  md={12}
-                                  container
-                                  direction='row'
-                                  justifyContent='flex-end'
-                                  alignItems='center'
-                                >
-                                  <Box margin={1}>
-                                    <Button
-                                      variant='outlined'
-                                      color='primary'
-                                      size='small'
-                                      onClick={() => editWorkExperience(item)}
-                                    >
-                                      <Icon
-                                        fontSize='large'
-                                        icon={'solar:pen-new-round-bold-duotone'}
-                                        color={'primary'}
-                                        style={{ fontSize: '18px' }}
-                                      />
-                                    </Button>
-                                  </Box>
-                                  <Box margin={1}>
-                                    <Button
-                                      variant='outlined'
-                                      color='error'
-                                      size='small'
-                                      onClick={() => deletewe(item.id)}
-                                    >
-                                      <Icon
-                                        fontSize='large'
-                                        icon={'solar:trash-bin-trash-bold-duotone'}
-                                        color={'error'}
-                                        style={{ fontSize: '18px' }}
-                                      />
-                                    </Button>
-                                  </Box>
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid xs={12}>
-                            <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                              {item.description}
-                            </Typography>
-                          </Grid>
-                          <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
-                        </Grid>
-                      ))}
-                    </Grid>
+              {/* Work Experience */}
+
+              <Grid item container xs={12}>
+                <Grid xs={10} md={11}>
+                  <Grid container item xs={12} justifyContent={'left'}>
+                    <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
+                      Work Experience Info
+                    </Typography>
                   </Grid>
-                ))
-              }
+                  <Grid container item xs={12} justifyContent={'left'}>
+                    <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                      Fulfill your Work Experience Info
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
+                  <Button variant='contained' size='small' onClick={() => setOpenAddModalWE(!openAddModalWE)}>
+                    <Icon
+                      fontSize='small'
+                      icon={'solar:add-circle-bold-duotone'}
+                      color={'success'}
+                      style={{ fontSize: '18px' }}
+                    />
+                    <div style={{ marginLeft: 5 }}>ADD</div>
+                  </Button>
+                </Grid>
+                <Grid item container xs={12}>
+                  {itemDataWE.map(item => (
+                    <Grid item container xs={12} marginTop={2} key={item.id}>
+                      <Grid xs={4} md={1}>
+                        <img
+                          alt='logo'
+                          src={item.logo ? item.logo : '/images/workexperienceinfo.png'}
+                          style={{
+                            maxWidth: '100%',
+                            height: '100px',
+                            padding: 10,
+                            margin: 0
+                          }}
+                        />
+                      </Grid>
+                      <Grid xs={8} md={11} item container>
+                        <Grid xs={10} marginTop={2}>
+                          <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
+                            {item.position} (-)
+                          </Typography>
+                          <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                            {item.institution}
+                          </Typography>
+                          <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                            {item.vessel_type?.name}
+                          </Typography>
+                          <Grid xs={12} display='flex'>
+                            <Box>
+                              <Typography variant='body1'>{item.start_date}</Typography>
+                            </Box>
+                            <Box>
+                              <Typography variant='body1'> &nbsp; - &nbsp; </Typography>
+                            </Box>
+                            <Box>
+                              <Typography variant='body1'>{item.end_date}</Typography>
+                            </Box>
+                          </Grid>
+                        </Grid>
+                        <Grid xs={12} md={2} marginTop={2} display='flex' item container>
+                          <Grid xs={12} display='flex' item container>
+                            <Grid
+                              xs={12}
+                              md={12}
+                              container
+                              direction='row'
+                              justifyContent='flex-end'
+                              alignItems='center'
+                            >
+                              <Box margin={1}>
+                                <Button
+                                  variant='outlined'
+                                  color='primary'
+                                  size='small'
+                                  onClick={() => editWorkExperience(item)}
+                                >
+                                  <Icon
+                                    fontSize='large'
+                                    icon={'solar:pen-new-round-bold-duotone'}
+                                    color={'primary'}
+                                    style={{ fontSize: '18px' }}
+                                  />
+                                </Button>
+                              </Box>
+                              <Box margin={1}>
+                                <Button variant='outlined' color='error' size='small' onClick={() => deletewe(item.id)}>
+                                  <Icon
+                                    fontSize='large'
+                                    icon={'solar:trash-bin-trash-bold-duotone'}
+                                    color={'error'}
+                                    style={{ fontSize: '18px' }}
+                                  />
+                                </Button>
+                              </Box>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid xs={12}>
+                        <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                          {item.description}
+                        </Typography>
+                      </Grid>
+                      <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Grid>
+
+              {/* End Work Experience */}
 
               {tampilkanship == 'PELAUT' && (
                 <Grid item container xs={12}>
@@ -2013,6 +2013,7 @@ const CandidateProfile = (props: compProps) => {
           </Grid>
         </FormControl>
       </form>
+
       <Grid>
         {/* <form> */}
         <DialogEditEducation

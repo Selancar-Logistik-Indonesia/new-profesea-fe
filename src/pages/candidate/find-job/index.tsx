@@ -110,7 +110,6 @@ const SeafererJobApp = () => {
   // const [idcompany, setCompany] = useState<any>() 
   const [idvessel, setVesel] = useState<any>()
   const [idindustry, setIndustry] = useState<any>()
-  const [idemployment, setEmployment] = useState<any>()
   // const [VT, setVT] = useState(0);
 
   const [textCompany, SetTextCompany] = useState<any>('')
@@ -120,8 +119,6 @@ const SeafererJobApp = () => {
     setValue(newValue)
     getColor('#FFFFFF')
   }
-  const employmenttype = [{ name: 'Unpaid' }, { name: 'Contract' },
-        { name: 'Full-Time' }]
   const firstload = () => {
 
     HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
@@ -187,7 +184,7 @@ const SeafererJobApp = () => {
   }
 
   const getdatapencarian = () => {
-    fetchJobs( { take:9, search:textCompany, category_id:JC, edugrade_id: ED, rolelevel_id: RL, roletype_id: JT, vesseltype_id : idvessel, country_id: idcountry, city_id: idcity,employment_type:idemployment })
+    fetchJobs( { take:9, search:textCompany, category_id:JC, edugrade_id: ED, rolelevel_id: RL, roletype_id: JT, vesseltype_id : idvessel, country_id: idcountry, city_id: idcity })
 
     // DB?.toLocaleDateString("en-GB", {
     //   year: "numeric",
@@ -198,7 +195,7 @@ const SeafererJobApp = () => {
   useEffect(() => {
     getdatapencarian();
     getListJobsSubscribe();
-  }, [JC, textCompany, JT, RL, ED, idcountry, idcity, idvessel, idindustry, DB,idemployment])
+  }, [JC, textCompany, JT, RL, ED, idcountry, idcity, idvessel, idindustry, DB])
 
   const searchcity = async (q: any) => {
     setCountry(q)
@@ -412,31 +409,16 @@ const SeafererJobApp = () => {
                           newValue?.id ? setED(newValue?.id) : setED(0)
                         }}
                       />
-                        {user.employee_type === 'hide' && (
-                          <Autocomplete
-                            sx={{ marginBottom: 2 }}
-                            disablePortal
-                            id='combo-box-demo'
-                            options={comboindustri}
-                            getOptionLabel={(option: Industry) => option.name}
-                            renderInput={params => <TextField {...params} label='Industry Type' />}
-                            onChange={(event: any, newValue: Industry | null) =>{
-                              setPage(1)
-                              newValue?.id ? setIndustry(newValue?.id) : setIndustry('')
-                            }}
-                          />
-                        )}
-                     
-                        <Autocomplete
+                      <Autocomplete
                         sx={{ marginBottom: 2 }}
                         disablePortal
                         id='combo-box-demo'
-                        options={employmenttype}
-                        getOptionLabel={(option: any) => option.name}
+                        options={comboindustri}
+                        getOptionLabel={(option: Industry) => option.name}
                         renderInput={params => <TextField {...params} label='Employment Type' />}
-                        onChange={(event: any, newValue: any | null) =>{
+                        onChange={(event: any, newValue: Industry | null) =>{
                           setPage(1)
-                          newValue?.name ? setEmployment(newValue?.name) : setEmployment('')
+                          newValue?.id ? setIndustry(newValue?.id) : setIndustry('')
                         }}
                       />
                     </>
