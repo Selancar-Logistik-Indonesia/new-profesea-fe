@@ -1,7 +1,6 @@
 import { Ref, forwardRef, ReactElement, useState, useEffect, useRef } from 'react'
 
 import {
-  Autocomplete,
   Button,
   Box,
   Checkbox,
@@ -17,6 +16,8 @@ import {
   TextField,
   Select,
   MenuItem,
+  FormControl,
+  InputLabel,
   FormControlLabel
 } from '@mui/material'
 import { Icon } from '@iconify/react'
@@ -271,26 +272,22 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
               )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
-              <FormControlLabel
-                sx={{ width: '100%', marginLeft: 0 }}
-                labelPlacement='top'
-                label='Country of Issue'
-                control={
-                  <Select
-                    label='Country of Issue'
-                    fullWidth
-                    name='country_id'
-                    id='country_id'
-                    value={formik.values.country_id}
-                    onChange={formik.handleChange}
-                    variant={'standard'}
-                  >
-                    {countries.map((item: any) => (
-                      <MenuItem value={item.id}>{item.name}</MenuItem>
-                    ))}
-                  </Select>
-                }
-              ></FormControlLabel>
+              <FormControl fullWidth>
+                <InputLabel sx={{ marginLeft: -4 }}> Country Of Issue </InputLabel>
+                <Select
+                  label='Country of Issue'
+                  fullWidth
+                  name='country_id'
+                  id='country_id'
+                  value={formik.values.country_id}
+                  onChange={formik.handleChange}
+                  variant={'standard'}
+                >
+                  {countries.map((item: any) => (
+                    <MenuItem value={item.id}>{item.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               {formik.errors.country_id && (
                 <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.country_id}</span>
               )}

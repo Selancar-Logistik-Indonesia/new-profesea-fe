@@ -1,6 +1,18 @@
 import { Ref, forwardRef, ReactElement, useState, useEffect, useRef } from 'react'
 
-import { Box, Grid, Dialog, DialogContent, DialogTitle, IconButton, Fade, FadeProps, Typography } from '@mui/material'
+import {
+  Box,
+  Grid,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Fade,
+  FadeProps,
+  Typography,
+  FormControl,
+  InputLabel
+} from '@mui/material'
 import { Icon } from '@iconify/react'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
@@ -138,7 +150,40 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
           height: '500px'
         }}
       >
-        <div>{JSON.stringify(seafarerExperience)}</div>
+        <Grid container>
+          <Grid item md={12} xs={12} mb={5}>
+            <FormControl>
+              <InputLabel> Vessel Name </InputLabel>
+            </FormControl>
+          </Grid>
+          <Grid item md={12} xs={12} mb={5}>
+            <FormControl>
+              <InputLabel> Vessel Type </InputLabel>
+            </FormControl>
+          </Grid>
+          <Grid item md={12} xs={12} mb={5}>
+            <FormControl>
+              <InputLabel> Rank / Position </InputLabel>
+            </FormControl>
+          </Grid>
+          <Grid item container md={12} xs={12} mb={5}>
+            <Grid item md={4} xs={12}>
+              <FormControl>
+                <InputLabel> GRT </InputLabel>
+              </FormControl>
+            </Grid>
+            <Grid item md={4}>
+              <FormControl>
+                <InputLabel> DWT </InputLabel>
+              </FormControl>
+            </Grid>
+            <Grid item md={4}>
+              <FormControl>
+                <InputLabel> ME POWER </InputLabel>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Grid>
       </DialogContent>
     </Dialog>
   )
