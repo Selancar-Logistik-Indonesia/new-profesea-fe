@@ -25,7 +25,7 @@ const JobProvider = (props: Props) => {
     const [hasNextPage, setHasNextPage] = useState(true);
     const [totalJob, setTotalJob] = useState(0);
 
-    const fetchJobs = async (payload: {take: number, search?:any, roletype_id?: any, category_id?: any, rolelevel_id?: any, edugrade_id?: any, city_id?: any, country_id?: any, vesseltype_id?: any, sailing_region?: any, onboard_at?: any }) => {
+    const fetchJobs = async (payload: {take: number, search?:any, roletype_id?: any, category_id?: any, rolelevel_id?: any, edugrade_id?: any, city_id?: any, country_id?: any, vesseltype_id?: any, sailing_region?: any, onboard_at?: any,employment_type?:any }) => {
         // only trigger in page 1
 
         if (page == 1) { 

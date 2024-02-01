@@ -59,7 +59,7 @@ const Profile = (props: userProps) => {
         if (element.sosmed_type == 'Instagram') {
           setInstagram(element.sosmed_address)
         }
-        if (element.sosmed_type == 'Linkedin') {
+        if (element.sosmed_type == 'LinkedIn') {
           setLinkedin(element.sosmed_address)
         }
       }
@@ -232,7 +232,7 @@ const Profile = (props: userProps) => {
                     <Box width={22} textAlign='center'>
                       <Icon icon='mdi:instagram' fontSize={20} color={'#262525'} />
                     </Box>
-                    <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
+                    <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                       {instagram}
                     </Typography>
                   </Box>
@@ -253,7 +253,7 @@ const Profile = (props: userProps) => {
                     <Box width={22} textAlign='center'>
                       <Icon icon='mdi:linkedin' fontSize={20} color={'#262525'} />
                     </Box>
-                    <Typography fontSize={12} sx={{ color: '#FFFFFF', fontWeight: 400 }}>
+                    <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                       {linkedin}
                     </Typography>
                   </LinkStyled>

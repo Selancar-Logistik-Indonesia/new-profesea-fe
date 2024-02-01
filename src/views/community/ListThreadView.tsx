@@ -123,6 +123,10 @@ const ListThreadView = () => {
   useEffect(() => {
     
   }, [hasNextPage]);
+  const getdatapencarian = () => {
+    fetchThreads( { take:9})
+ 
+  }
 
   return (
 
@@ -138,15 +142,26 @@ const ListThreadView = () => {
         }
         
         return(
-          <InfiniteScroll
-              dataLength={totalThread}
-              next={() => fetchThreads({ take: 9 })}
-              hasMore={hasNextPage}
-              loader={(<CircularProgress sx={{ mt: 20 }} />)}>
-              <Grid container spacing={2} mt={3}>
-                {renderList(threads, user?.id)}
-              </Grid>
-          </InfiniteScroll>
+           <InfiniteScroll
+                                                  dataLength={totalThread}
+                                                  next={() => getdatapencarian()}
+                                                  hasMore={hasNextPage}
+                                                  loader={(<Typography mt={5} color={'text.secondary'}>Loading..</Typography>)}
+                                                >
+                                                  <Grid container spacing={2} mt={3}>
+                                                    {renderList(threads, user?.id)}
+                                                  </Grid>
+                                                
+                                                </InfiniteScroll>
+          // <InfiniteScroll
+          //     dataLength={totalThread}
+          //     next={() => fetchThreads({ take: 9 })}
+          //     hasMore={hasNextPage}
+          //     loader={(<CircularProgress sx={{ mt: 20 }} />)}>
+          //     <Grid container spacing={2} mt={3}>
+          //       {renderList(threads, user?.id)}
+          //     </Grid>
+          // </InfiniteScroll>
         )
       }}
     </ThreadContext.Consumer>
