@@ -64,7 +64,7 @@ const DialogBlock = (props: BlockDialog) => {
                 }}
             >
                 <Button onClick={handleConfirm} variant='contained' color='info' sx={{ mr: 2 }} type='button' size='small'>
-                    Oke
+                    OK
                 </Button>
             </DialogActions>
         </Dialog>

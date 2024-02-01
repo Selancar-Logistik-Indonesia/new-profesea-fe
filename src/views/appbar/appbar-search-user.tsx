@@ -37,7 +37,7 @@ const AppbarSearchUser = () => {
         return router.push(`/profile/${option.content.username}`);
     }
 
-    const handleSearch = useCallback(
+    const handleSearch = useCallback (
         debounce((value: string) => {
             setSearch(value);
         }, 500), []
@@ -46,7 +46,31 @@ const AppbarSearchUser = () => {
     useEffect(() => {
         fetchListFriends();
     }, [search]);
+    const handleOptionSelect = (option:any) => {
+        // Implement your logic when an option is selected
+        console.log('Option selected:', option.title);
+        handleClick(option);
+    };
+    const handleKeyDown = (event:any, value:any) => {
+        if (event.key === 'Enter') {
+            debugger;
+        // Handle "Enter" key press
+        console.log('Enter key pressed');
+        // You can perform any additional action here
 
+        // If there's a value, you can also handle selecting the first option
+        if (value && value.length > 0) {
+            const firstOption = listFriends.find((friend) =>
+            friend.title.toLowerCase().startsWith(value.toLowerCase())
+            );
+
+            if (firstOption) {
+            handleOptionSelect(firstOption);
+            }
+        }
+        }
+    };
+    
     return (
         <Autocomplete
             freeSolo
@@ -93,6 +117,7 @@ const AppbarSearchUser = () => {
                         ...params.inputProps,
                         autoComplete: 'new-password', // disable autocomplete and autofill
                     }}
+                    onKeyDown={(e) => handleKeyDown(e, params.inputProps.value)}
                     onChange={(e) => handleSearch(e.target.value)}
                 />
             )}

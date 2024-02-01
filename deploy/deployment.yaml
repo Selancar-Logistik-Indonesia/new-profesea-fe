@@ -1,0 +1,55 @@
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: staging-profesea-fe
+#spec:
+#  selector:
+#    matchLabels:
+#      app: staging-profesea-fe
+#  replicas: 1
+#  template:
+#    metadata:
+#      labels:
+#        app: staging-profesea-fe
+#    spec:
+#      nodeName: staging-profesea-fe
+#      containers:
+#        - name: staging-profesea-fe
+#          image: antonpraweda/staging-profesea-fe
+#          imagePullPolicy: Always
+#          ports:
+#           - containerPort: 3300
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staging-profesea-fe
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staging-profesea-fe
+  template:
+    metadata:
+      labels:
+        app: staging-profesea-fe
+    spec:
+      containers:
+      - name: staging-profesea-fe
+        image: antonpraweda/staging-profesea-fe:latest
+        ports:
+        - containerPort: 3300
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-staging-profesea-fe
+spec:
+  selector:
+    app: staging-profesea-fe
+  type: LoadBalancer
+  ports:
+  - port: 3300
+    targetPort: 3300

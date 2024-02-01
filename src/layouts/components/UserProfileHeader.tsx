@@ -16,6 +16,7 @@ import ProfileActionArea from 'src/views/profile/action_area'
 import ShareArea from './ShareArea'
 import {   getEmployeetypev2 } from 'src/utils/helpers'
 import TextOverImage from 'src/views/profile/photoprofile'
+import TextOverImagebiru from 'src/views/profile/photoprofilebiru'
 
 type userProps = {
     datauser: IUser;
@@ -98,9 +99,10 @@ const UserProfileHeader = (props: userProps) => {
                 alt='profile-picture'
                 sx={{ width: 100, height: 100, objectFit: 'cover' }}
               /> */}
-              <TextOverImage
+              <TextOverImagebiru
                 imageUrl={datauser.photo ? datauser.photo : '/images/avatars/profilepic.png'} 
-                 text=''
+                 text='Hiring'
+                 
               />
             </Box>
           )}

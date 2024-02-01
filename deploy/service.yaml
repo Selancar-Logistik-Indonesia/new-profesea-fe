@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: selancarprofesea
+spec:
+  selector:
+    app: staging-profesea-fe
+  ports:
+    - port: 3300
+      targetPort: 3300
+  type: LoadBalancer
