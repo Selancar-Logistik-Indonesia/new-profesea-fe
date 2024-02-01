@@ -1,6 +1,7 @@
 import { Ref, forwardRef, ReactElement, useState, useEffect, useRef } from 'react'
 
 import {
+  Autocomplete,
   Button,
   Box,
   Checkbox,
@@ -31,8 +32,8 @@ import * as Yup from 'yup'
 
 const ProficiencySchema = Yup.object().shape({
   user_id: Yup.number().required(),
-  country_id: Yup.number().required().min(1, 'Country must selected'),
-  cop_id: Yup.number().required().min(1, 'Certificate of proficiency must be selected'),
+  country_id: Yup.object().required(),
+  cop_id: Yup.object().required(),
   certificate_number: Yup.string().required(),
   is_lifetime: Yup.boolean().nullable(),
   filename: Yup.string().nullable()
@@ -49,9 +50,16 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   const { type, seafarerProficiency, showModal, user_id, loadProficiency, handleModalForm } = props
   const id = seafarerProficiency?.id
 
-  const [validDateState, setValidDateState] = useState<any>(
-    seafarerProficiency?.valid_until == null ? null : new Date(seafarerProficiency?.valid_until)
-  )
+  const [validDateState, setValidDateState] = useState<any>()
+
+  const [cop, setCop] = useState<any>({
+    id: seafarerProficiency?.proficiency?.id,
+    title: seafarerProficiency?.proficiency?.title
+  })
+  const [countryOfIssue, setCountryOfIssue] = useState<any>({
+    id: seafarerProficiency?.country_id,
+    name: seafarerProficiency?.country
+  })
 
   const [countries, setCountries] = useState<{ id?: number; name: string }[]>([])
   const [proficiencies, setProficiencies] = useState([])
@@ -59,12 +67,12 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   const formik = useFormik({
     initialValues: {
       user_id: user_id,
-      country_id: 0,
-      cop_id: 0,
-      certificate_number: '',
-      valid_date: null,
-      is_lifetime: false,
-      filename: ''
+      country_id: type == 'edit' ? countryOfIssue : {},
+      cop_id: type == 'edit' ? cop : {},
+      certificate_number: type == 'edit' ? seafarerProficiency?.certificate_number : '',
+      valid_date: type == 'edit' ? validDateState : null,
+      is_lifetime: type == 'edit' ? seafarerProficiency?.is_lifetime : false,
+      filename: type == 'edit' ? seafarerProficiency?.filename : ''
     },
     enableReinitialize: true,
     validationSchema: ProficiencySchema,
@@ -93,9 +101,9 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   }
 
   const loadCertificateProficiencies = () => {
-    HttpClient.get(AppConfig.baseUrl + '/licensi/all')
+    HttpClient.get(AppConfig.baseUrl + '/licensi/all/')
       .then(response => {
-        const certificates = response?.data?.licensiescop.map((item: any) => {
+        const certificates = response.data.licensiescop.map((item: any) => {
           return {
             id: item.id,
             title: item.title
@@ -112,8 +120,8 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   const createProficiency = (values: any) => {
     HttpClient.post(AppConfig.baseUrl + '/seafarer-proficiencies/', {
       user_id: values.user_id,
-      country_id: values.country_id,
-      cop_id: values.cop_id,
+      country_id: values.country_id.id,
+      cop_id: values.cop_id.id,
       certificate_number: values.certificate_number,
       valid_until: !values.is_lifetime ? values.valid_date : null,
       is_lifetime: values.is_lifetime,
@@ -126,11 +134,10 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   }
 
   const updateProficiency = (id?: number, values?: any) => {
-    console.log(' --> ', values)
     HttpClient.patch(AppConfig.baseUrl + '/seafarer-proficiencies/' + id, {
       user_id: values.user_id,
-      country_id: values.country_id,
-      cop_id: values.cop_id,
+      country_id: values.country_id.id,
+      cop_id: values.cop_id.id,
       certificate_number: values.certificate_number,
       valid_until: !values.is_lifetime ? values.valid_date : null,
       is_lifetime: values.is_lifetime,
@@ -145,32 +152,19 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   }
 
   useEffect(() => {
+    setValidDateState(
+      seafarerProficiency?.valid_until
+        ? seafarerProficiency?.valid_until == 'lifetime'
+          ? null
+          : new Date(seafarerProficiency?.valid_until)
+        : null
+    )
+  }, [seafarerProficiency])
+
+  useEffect(() => {
     loadCountries()
     loadCertificateProficiencies()
   }, [])
-
-  useEffect(() => {
-    formik.setValues({
-      user_id: user_id,
-      country_id: 0,
-      cop_id: 0,
-      certificate_number: '',
-      valid_date: null,
-      is_lifetime: false,
-      filename: ''
-    })
-    if (seafarerProficiency && type == 'edit') {
-      formik.setValues({
-        user_id: user_id,
-        country_id: type == 'edit' ? seafarerProficiency?.country_id : 0,
-        cop_id: type == 'edit' ? seafarerProficiency?.cop_id : 0,
-        certificate_number: type == 'edit' ? seafarerProficiency?.certificate_number : '',
-        valid_date: type == 'edit' ? (validDateState ? new Date(validDateState) : null) : null,
-        is_lifetime: type == 'edit' ? seafarerProficiency?.is_lifetime : false,
-        filename: type == 'edit' ? seafarerProficiency?.filename : ''
-      })
-    }
-  }, [seafarerProficiency])
 
   useEffect(() => {
     formik.setValues({
@@ -217,44 +211,18 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         >
           <Grid container md={12} xs={12}>
             <Grid item md={12} xs={12} mb={5}>
-              <FormControlLabel
-                sx={{ width: '100%', marginLeft: 0 }}
-                labelPlacement='top'
-                label='Certificate of Proficiency'
-                control={
-                  <Select
-                    label='Certificate of Proficiency'
-                    fullWidth
-                    name='cop_id'
-                    value={formik.values.cop_id}
-                    onChange={formik.handleChange}
-                    variant={'standard'}
-                  >
-                    {proficiencies.map((item: any) => (
-                      <MenuItem value={item.id}>{item.title}</MenuItem>
-                    ))}
-                  </Select>
-                }
-              ></FormControlLabel>
-              {/* <Autocomplete
+              <Autocomplete
+                id='autocomplete-proficiency'
                 disablePortal
                 options={proficiencies}
                 getOptionLabel={(option: any) => option.title}
-                defaultValue={copId}
-                renderInput={params => (
-                  <TextField
-                    {...params}
-                    label='Certificate of Proficiency'
-                    variant='standard'
-                    name='cop_id'
-                    id='cop_id'
-                  />
-                )}
-                onChange={(event: any, newValue: any) =>
-                  newValue?.id ? setCopId(newValue.id) : setCopId(seafarerProficiency?.cop_id)
-                }
-              /> */}
-              {formik.errors.cop_id && <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.cop_id}</span>}
+                defaultValue={cop?.id ? cop : ''}
+                renderInput={params => <TextField {...params} label='Certificate of Proficiency' variant='standard' />}
+                onChange={(event: any, newValue: any) => (newValue?.id ? setCop(newValue) : setCop(null))}
+              />
+              {formik.errors.cop_id && (
+                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.cop_id)}</span>
+              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <TextField
@@ -272,24 +240,19 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
               )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
-              <FormControl fullWidth>
-                <InputLabel sx={{ marginLeft: -4 }}> Country Of Issue </InputLabel>
-                <Select
-                  label='Country of Issue'
-                  fullWidth
-                  name='country_id'
-                  id='country_id'
-                  value={formik.values.country_id}
-                  onChange={formik.handleChange}
-                  variant={'standard'}
-                >
-                  {countries.map((item: any) => (
-                    <MenuItem value={item.id}>{item.name}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <Autocomplete
+                disablePortal
+                id='combo-box-countries'
+                options={countries}
+                defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
+                getOptionLabel={option => option.name}
+                renderInput={(params: any) => <TextField {...params} label='Country of Issue' variant='standard' />}
+                onChange={(event: any, newValue: string | null) =>
+                  newValue ? setCountryOfIssue(newValue) : setCountryOfIssue(null)
+                }
+              />
               {formik.errors.country_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.country_id}</span>
+                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.country_id)}</span>
               )}
             </Grid>
 
@@ -303,9 +266,9 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 showYearDropdown
                 showMonthDropdown
                 dropdownMode='select'
-                customInput={
-                  <TextField label='Valid Date' variant='standard' fullWidth id='valid_date' name='valid_date' />
-                }
+                id='valid_date'
+                name='valid_date'
+                customInput={<TextField label='Valid Date' variant='standard' fullWidth />}
               />
               {formik.errors.valid_date && (
                 <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.valid_date)}</span>
@@ -326,7 +289,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 label='Lifetime'
               />
               {formik.errors.is_lifetime && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.is_lifetime}</span>
+                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.is_lifetime)}</span>
               )}
             </Grid>
           </Grid>

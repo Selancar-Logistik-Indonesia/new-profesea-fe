@@ -40,7 +40,7 @@ const TravelDocumentSchema = Yup.object().shape({
   document: Yup.string().required(),
   no: Yup.string().required(),
   date_of_issue: Yup.string().required(),
-  country_of_issue: Yup.number().required(),
+  country_of_issue: Yup.object().required(),
   user_id: Yup.number().required(),
   valid_date: Yup.date().nullable(),
   is_lifetime: Yup.boolean().nullable(),
@@ -53,7 +53,10 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
 
   const [countries, setCountries] = useState<{ id?: number; name: string }[]>([])
 
-  const [countryOfIssue, setCountryOfIssue] = useState<any>()
+  const [countryOfIssue, setCountryOfIssue] = useState<any>({
+    id: seafarerTravelDocument?.country?.id,
+    name: seafarerTravelDocument?.country?.name
+  })
   const [validDateState, setValidDateState] = useState<any>()
   const [dateOfIssue, setDateOfIssue] = useState<any>()
 
@@ -69,7 +72,8 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
       document: type == 'edit' ? seafarerTravelDocument?.document : '',
       no: type == 'edit' ? seafarerTravelDocument?.no : '',
       date_of_issue: type == 'edit' ? dateOfIssue : null,
-      country_of_issue: type == 'edit' ? countries.find(item => item.name.toUpperCase() == countryOfIssue)?.id : '',
+      country_of_issue:
+        type == 'edit' ? { id: seafarerTravelDocument?.country_of_issue, name: seafarerTravelDocument?.country } : '',
       user_id: user_id,
       valid_date: type == 'edit' ? validDateState : null,
       is_lifetime: type == 'edit' ? seafarerTravelDocument?.is_lifetime : false,
@@ -106,7 +110,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
       document: values.document,
       no: values.no,
       date_of_issue: values.date_of_issue,
-      country_of_issue: values.country_of_issue,
+      country_of_issue: values.country_of_issue.id,
       user_id: values.user_id,
       valid_date: values.valid_date,
       is_lifetime: values.is_lifetime,
@@ -127,14 +131,14 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
       document: values.document,
       no: values.no,
       date_of_issue: values.date_of_issue,
-      country_of_issue: values.country_of_issue,
+      country_of_issue: values.country_of_issue.id,
       user_id: values.user_id,
       valid_date: values.valid_date,
       is_lifetime: values.is_lifetime,
       required_document: values.required_document
     })
       .then(res => {
-        toast('create travel document success', { icon: 'success' })
+        toast('update travel document success', { icon: 'success' })
       })
       .catch(err => {
         toast(JSON.stringify(err), { icon: 'danger' })
@@ -142,14 +146,13 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
   }
 
   useEffect(() => {
-    formik.setErrors(null)
+    formik.setErrors({})
     loadCountries()
   }, [])
 
   useEffect(() => {
     setValidDateState(seafarerTravelDocument?.valid_date ? new Date(seafarerTravelDocument?.valid_date) : null)
     setDateOfIssue(seafarerTravelDocument?.date_of_issue ? new Date(seafarerTravelDocument?.date_of_issue) : null)
-    setCountryOfIssue(countries.find(item => item.id == seafarerTravelDocument?.country_of_issue)?.name)
   }, [seafarerTravelDocument, countries])
 
   useEffect(() => {
@@ -159,13 +162,6 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
       valid_date: validDateState
     })
   }, [dateOfIssue, validDateState])
-
-  useEffect(() => {
-    formik.setValues({
-      ...formik.values,
-      country_of_issue: countries.find(item => countryOfIssue == item.name)?.id
-    })
-  }, [countryOfIssue])
 
   useEffect(() => {
     formik.setValues({
@@ -296,14 +292,13 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
             <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
                 disablePortal
-                id='combo-box-demo'
-                options={countries.map(e => e.name)}
-                defaultValue={countryOfIssue}
-                value={countryOfIssue}
-                getOptionLabel={(option: string) => option}
+                id='combo-box-countries'
+                options={countries}
+                defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
+                getOptionLabel={option => option.name}
                 renderInput={(params: any) => <TextField {...params} label='Country of Issue' variant='standard' />}
                 onChange={(event: any, newValue: string | null) =>
-                  newValue ? setCountryOfIssue(newValue) : setCountryOfIssue(undefined)
+                  newValue ? setCountryOfIssue(newValue) : setCountryOfIssue(null)
                 }
               />
               {formik.errors.country_of_issue && (

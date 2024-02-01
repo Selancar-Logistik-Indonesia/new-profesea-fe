@@ -15,7 +15,7 @@ import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
 
 const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
   const [rows, setRows] = useState([])
-  const [seafarerProficiency, setSeafarerProficiency] = useState(undefined)
+  const [seafarerProficiency, setSeafarerProficiency] = useState()
   const [modalFormType, setModalFormType] = useState('create')
   const [modalFormOpen, setModalFormOpen] = useState(false)
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
@@ -52,7 +52,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
 
   const handleModalDelete = (data: any = undefined) => {
     setSeafarerProficiency(data)
-    setModalFormOpen(modalFormOpen ? false : true)
+    setModalDeleteOpen(modalDeleteOpen ? false : true)
   }
 
   useEffect(() => {
@@ -127,6 +127,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
     <>
       <SeafarerProficiencyForm
         user_id={user_id}
+        key={seafarerProficiency?.id}
         seafarerProficiency={seafarerProficiency}
         type={modalFormType}
         handleModalForm={handleModalForm}

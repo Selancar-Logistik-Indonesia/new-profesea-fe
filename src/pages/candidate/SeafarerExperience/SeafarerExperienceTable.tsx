@@ -13,7 +13,7 @@ import SeafarerExperienceDeleteConfirm from './SeafarerExperienceDeleteConfirm'
 
 const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
   const [rows, setRows] = useState([])
-  const [seafarerExperience, setSeafarerExperience] = useState(undefined)
+  const [seafarerExperience, setSeafarerExperience] = useState()
   const [modalFormType, setModalFormType] = useState('create')
   const [modalFormOpen, setModalFormOpen] = useState(false)
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
@@ -40,14 +40,14 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
   }
 
   const handleModalForm = (type: string, data: any = undefined) => {
+    setSeafarerExperience(type == 'edit' ? data : {})
     setModalFormOpen(modalFormOpen ? false : true)
     setModalFormType(type)
-    setSeafarerExperience(type == 'edit' ? data : undefined)
   }
 
   const handleModalDelete = (data: any = undefined) => {
-    setModalDeleteOpen(modalDeleteOpen ? false : true)
     setSeafarerExperience(data)
+    setModalDeleteOpen(modalDeleteOpen ? false : true)
   }
 
   useEffect(() => {
@@ -136,11 +136,13 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
   return (
     <>
       <SeafarerExperienceForm
+        key={seafarerExperience?.id}
         seafarerExperience={seafarerExperience}
         type={modalFormType}
         handleModalForm={handleModalForm}
         loadExperience={loadExperience}
         showModal={modalFormOpen}
+        user_id={user_id}
       />
       <SeafarerExperienceDeleteConfirm
         seafarerExperience={seafarerExperience}

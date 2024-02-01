@@ -5,17 +5,16 @@ import { AppConfig } from 'src/configs/api'
 import { Grid, Typography, Button, Paper, TableContainer, IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { toast } from 'react-hot-toast'
+
 import { ISeafarerTravelDocumentProps } from './SeafarerTravelDocumentInterface'
 import ISeafarerTravelDocumentData from './../../../contract/models/seafarer_travel_document'
 
 import SeafarerTravelDocumentForm from './SeafarerTravelDocumentForm'
 import SeafarerTravelDocumentDeleteConfirm from './SeafarerTravelDocumentDeleteConfirm'
-import { validate } from 'uuid'
 
 const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
   const [rows, setRows] = useState([])
-  const [seafarerTravelDocument, setSeafarerTravelDocument] = useState(undefined)
+  const [seafarerTravelDocument, setSeafarerTravelDocument] = useState()
   const [modalFormType, setModalFormType] = useState('create')
   const [modalFormOpen, setModalFormOpen] = useState(false)
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
@@ -40,15 +39,14 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
   }
 
   const handleModalForm = (type: string, data: any = undefined) => {
-    setModalFormOpen(modalFormOpen ? false : true)
+    setSeafarerTravelDocument(type == 'edit' ? data : {})
     setModalFormType(type)
-
-    setSeafarerTravelDocument(type == 'edit' ? data : undefined)
+    setModalFormOpen(modalFormOpen ? false : true)
   }
 
   const handleModalDelete = (data: any = undefined) => {
-    setModalDeleteOpen(modalDeleteOpen ? false : true)
     setSeafarerTravelDocument(data)
+    setModalDeleteOpen(modalDeleteOpen ? false : true)
   }
 
   useEffect(() => {
@@ -131,6 +129,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
   return (
     <>
       <SeafarerTravelDocumentForm
+        key={seafarerTravelDocument?.id}
         seafarerTravelDocument={seafarerTravelDocument}
         user_id={user_id}
         type={modalFormType}

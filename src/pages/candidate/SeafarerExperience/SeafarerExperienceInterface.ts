@@ -5,6 +5,7 @@ export interface ISeafarerExperienceProps {
 }
 
 export interface ISeafarerExperienceForm {
+    user_id: number
     type: string
     showModal: boolean
     handleModalForm: Function
