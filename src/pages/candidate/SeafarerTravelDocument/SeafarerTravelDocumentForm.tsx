@@ -53,10 +53,14 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
 
   const [countries, setCountries] = useState<{ id?: number; name: string }[]>([])
 
-  const [countryOfIssue, setCountryOfIssue] = useState<any>({
-    id: seafarerTravelDocument?.country?.id,
-    name: seafarerTravelDocument?.country?.name
-  })
+  const [countryOfIssue, setCountryOfIssue] = useState<any>(
+    type == 'edit'
+      ? {
+          id: seafarerTravelDocument?.country?.id,
+          name: seafarerTravelDocument?.country?.name
+        }
+      : {}
+  )
   const [validDateState, setValidDateState] = useState<any>()
   const [dateOfIssue, setDateOfIssue] = useState<any>()
 
@@ -72,8 +76,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
       document: type == 'edit' ? seafarerTravelDocument?.document : '',
       no: type == 'edit' ? seafarerTravelDocument?.no : '',
       date_of_issue: type == 'edit' ? dateOfIssue : null,
-      country_of_issue:
-        type == 'edit' ? { id: seafarerTravelDocument?.country_of_issue, name: seafarerTravelDocument?.country } : '',
+      country_of_issue: countryOfIssue,
       user_id: user_id,
       valid_date: type == 'edit' ? validDateState : null,
       is_lifetime: type == 'edit' ? seafarerTravelDocument?.is_lifetime : false,
@@ -210,6 +213,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
           }}
         >
           <Grid container>
+            {JSON.stringify(formik.values)}
             <Grid item md={12} xs={12} mb={5}>
               <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }} fullWidth>
                 <InputLabel>Required Document</InputLabel>
@@ -292,7 +296,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
             <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
                 disablePortal
-                id='combo-box-countries'
+                id='country_of_issue'
                 options={countries}
                 defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
                 getOptionLabel={option => option.name}

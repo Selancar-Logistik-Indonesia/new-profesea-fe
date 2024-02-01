@@ -52,14 +52,22 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
 
   const [validDateState, setValidDateState] = useState<any>()
 
-  const [cop, setCop] = useState<any>({
-    id: seafarerProficiency?.proficiency?.id,
-    title: seafarerProficiency?.proficiency?.title
-  })
-  const [countryOfIssue, setCountryOfIssue] = useState<any>({
-    id: seafarerProficiency?.country_id,
-    name: seafarerProficiency?.country
-  })
+  const [cop, setCop] = useState<any>(
+    type == 'edit'
+      ? {
+          id: seafarerProficiency?.proficiency?.id,
+          title: seafarerProficiency?.proficiency?.title
+        }
+      : {}
+  )
+  const [countryOfIssue, setCountryOfIssue] = useState<any>(
+    type == 'edit'
+      ? {
+          id: seafarerProficiency?.country_id,
+          name: seafarerProficiency?.country
+        }
+      : {}
+  )
 
   const [countries, setCountries] = useState<{ id?: number; name: string }[]>([])
   const [proficiencies, setProficiencies] = useState([])
@@ -67,8 +75,8 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   const formik = useFormik({
     initialValues: {
       user_id: user_id,
-      country_id: type == 'edit' ? countryOfIssue : {},
-      cop_id: type == 'edit' ? cop : {},
+      country_id: countryOfIssue,
+      cop_id: cop,
       certificate_number: type == 'edit' ? seafarerProficiency?.certificate_number : '',
       valid_date: type == 'edit' ? validDateState : null,
       is_lifetime: type == 'edit' ? seafarerProficiency?.is_lifetime : false,
@@ -183,7 +191,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
 
   return (
     <Dialog fullWidth open={showModal} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
-      <form onSubmit={formik.handleSubmit}>
+      <form noValidate onSubmit={formik.handleSubmit}>
         <DialogTitle>
           <IconButton
             size='small'
