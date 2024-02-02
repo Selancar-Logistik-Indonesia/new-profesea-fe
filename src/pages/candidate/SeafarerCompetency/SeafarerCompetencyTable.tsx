@@ -118,6 +118,7 @@ const SeafarerCompetencyTable = (props: ISeafarerCompetencyProps) => {
     <>
       <SeafarerCompetencyForm
         key={seafarerCompetency?.id}
+        user_id={user_id}
         seafarerCompetency={seafarerCompetency}
         type={modalFormType}
         handleModalForm={handleModalForm}

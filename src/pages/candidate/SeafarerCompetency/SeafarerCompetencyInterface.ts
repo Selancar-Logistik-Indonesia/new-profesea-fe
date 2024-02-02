@@ -6,6 +6,7 @@ export interface ISeafarerCompetencyProps {
 
 export interface ISeafarerCompetencyForm {
     type: string
+    user_id: number
     showModal: boolean
     handleModalForm: Function
     loadCompetency: Function
