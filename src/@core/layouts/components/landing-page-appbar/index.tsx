@@ -49,15 +49,17 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
 
     useEffect(() => {
 
-        let baseAddress1 = "/landingpage-recruiter";
-        let baseAddress2 = "/landingpage-trainer";
-        if (isStaging()) {
-            baseAddress1 = "https://staging.recruiter.profesea.id";
-            baseAddress2 = "https://staging.trainer.profesea.id";
-        } else if (isProduction()) {
-            baseAddress1 = "https://recruiter.profesea.id";
-            baseAddress2 = "https://trainer.profesea.id";
-        }
+        // let baseAddress1 = "/landingpage-recruiter";
+        // let baseAddress2 = "/landingpage-trainer";
+        let baseAddress1 = "https://recruiter.profesea.id";
+        let baseAddress2 = "https://trainer.profesea.id"
+        // if (isStaging()) {
+        //     baseAddress1 = "https://staging.recruiter.profesea.id";
+        //     baseAddress2 = "https://staging.trainer.profesea.id";
+        // } else if (isProduction()) {
+        //     baseAddress1 = "https://recruiter.profesea.id";
+        //     baseAddress2 = "https://trainer.profesea.id";
+        // }
 
         setHomeNavItems([
             { title: t('landing_menu_1'), path: "/#findJobSection" },
