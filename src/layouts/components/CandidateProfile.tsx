@@ -1998,7 +1998,7 @@ const CandidateProfile = (props: compProps) => {
 
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
 
-              <Grid item container direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
+              <Grid item container direction='row' justifyContent='flex-end' alignItems='right' md={12} lg={12} xs={12}>
                 <Button variant='contained' color='success' size='small' type='submit' sx={{ mt: 7, mb: 7 }}>
                   <Icon
                     fontSize='large'
@@ -2006,7 +2006,7 @@ const CandidateProfile = (props: compProps) => {
                     color={'success'}
                     style={{ fontSize: '18px' }}
                   />
-                  <div style={{ marginLeft: 5 }}>SAVE</div>
+                  <div style={{ marginLeft: 5 }}>SAVE AND PUBLISH CV</div>
                 </Button>
               </Grid>
             </Grid>
