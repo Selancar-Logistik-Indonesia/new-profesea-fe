@@ -49,8 +49,8 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
 
     useEffect(() => {
 
-        let baseAddress1 = "/landingpage-recruiter";
-        let baseAddress2 = "/landingpage-trainer";
+        const baseAddress1 = "/landingpage-recruiter";
+        const baseAddress2 = "/landingpage-trainer";
        
         // if (isStaging()) {
         //     baseAddress1 = "https://staging.recruiter.profesea.id";
