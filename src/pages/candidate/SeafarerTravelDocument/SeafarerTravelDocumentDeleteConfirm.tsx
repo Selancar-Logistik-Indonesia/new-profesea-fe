@@ -15,12 +15,11 @@ export default function SeafarerTravelDocumentDeleteConfirm(props: ISeafarerTrav
     try {
       await HttpClient.del(AppConfig.baseUrl + '/seafarer-travel-documents/' + id)
 
-      toast('delete travel document success')
+      toast.success('delete travel document success')
       loadTravelDocument()
       handleModalDelete()
     } catch (err) {
-      handleModalDelete()
-      toast(JSON.stringify(err), { icon: 'danger' })
+      toast.error(JSON.stringify(err), { icon: 'danger' })
     }
   }
 

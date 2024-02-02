@@ -30,8 +30,7 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
           sign_in: new Date(item.sign_in),
           sign_off: new Date(item.sign_off),
           rank: item.rank.name,
-          vessel_type: item.vessel_type.name,
-          country: item.country.name
+          vessel_type: item.vessel_type.name
         }
       })
 

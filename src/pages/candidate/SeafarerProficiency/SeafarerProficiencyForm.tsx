@@ -86,8 +86,6 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
     validationSchema: ProficiencySchema,
     onSubmit: values => {
       handleSubmit(values)
-      handleModalForm()
-      loadProficiency()
     }
   })
 
@@ -104,7 +102,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         setCountries(countries)
       })
       .catch(err => {
-        toast(' err ' + JSON.stringify(err))
+        toast.error(' err load countries ' + JSON.stringify(err))
       })
   }
 
@@ -121,7 +119,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         setProficiencies(certificates)
       })
       .catch(err => {
-        toast(' err ' + JSON.stringify(err))
+        toast.error(' err load Certificate ' + JSON.stringify(err))
       })
   }
 
@@ -136,9 +134,13 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
       filename: values.filename
     })
       .then(res => {
-        toast('create proficiency success', { icon: 'success' })
+        toast.success('create proficiency success')
+        loadProficiency()
+        handleModalForm()
       })
-      .catch(err => {})
+      .catch(err => {
+        toast.error(JSON.stringify(err))
+      })
   }
 
   const updateProficiency = (id?: number, values?: any) => {
@@ -152,10 +154,12 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
       filename: values.filename
     })
       .then(res => {
-        toast('update proficiency success', { icon: 'success' })
+        toast.success('update proficiency success')
+        loadProficiency()
+        handleModalForm()
       })
       .catch(err => {
-        toast(JSON.stringify(err), { icon: 'danger' })
+        toast.error(JSON.stringify(err))
       })
   }
 

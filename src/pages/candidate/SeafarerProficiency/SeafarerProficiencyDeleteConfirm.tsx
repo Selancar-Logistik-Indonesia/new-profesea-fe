@@ -15,12 +15,11 @@ export default function SeafarerProficiencyDeleteConfirm(props: ISeafarerProfici
     try {
       await HttpClient.del(AppConfig.baseUrl + '/seafarer-proficiencies/' + id)
 
-      toast('delete proficiency success')
+      toast.success('delete proficiency success')
       loadProficiency()
       handleModalDelete()
     } catch (err) {
-      handleModalDelete()
-      toast(JSON.stringify(err), { icon: 'danger' })
+      toast.error(JSON.stringify(err), { icon: 'danger' })
     }
   }
 

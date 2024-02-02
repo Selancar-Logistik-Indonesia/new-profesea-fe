@@ -86,8 +86,6 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     validationSchema: TravelDocumentSchema,
     onSubmit: values => {
       handleSubmit(values)
-      handleModalForm()
-      loadTravelDocument()
     }
   })
 
@@ -104,7 +102,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
         setCountries(countries)
       })
       .catch(err => {
-        toast(' err ' + JSON.stringify(err))
+        toast.error(' err ' + JSON.stringify(err))
       })
   }
 
@@ -120,12 +118,12 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
       required_document: values.required_document
     })
       .then(res => {
+        toast.success('create travel document success')
         handleModalForm()
-        toast('create travel document success', { icon: 'success' })
+        loadTravelDocument()
       })
       .catch(err => {
-        handleModalForm()
-        toast(JSON.stringify(err), { icon: 'danger' })
+        toast.error(JSON.stringify(err))
       })
   }
 
@@ -141,10 +139,12 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
       required_document: values.required_document
     })
       .then(res => {
-        toast('update travel document success', { icon: 'success' })
+        toast.success('update travel document success')
+        handleModalForm()
+        loadTravelDocument()
       })
       .catch(err => {
-        toast(JSON.stringify(err), { icon: 'danger' })
+        toast.error(JSON.stringify(err))
       })
   }
 
@@ -171,8 +171,8 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
       ...formik.values,
       document:
         formik.values.required_document != 'other'
-          ? requiredDocumentType.find((item: any) => formik.values.required_document == item.id)?.name
-          : ''
+          ? requiredDocumentType.find(item => item.id == formik.values.required_document)?.name
+          : formik.values.document
     })
   }, [formik.values.required_document])
 
@@ -213,13 +213,12 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
           }}
         >
           <Grid container>
-            {JSON.stringify(formik.values)}
             <Grid item md={12} xs={12} mb={5}>
               <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }} fullWidth>
                 <InputLabel>Required Document</InputLabel>
                 <Select
                   fullWidth
-                  value={formik.values.required_document}
+                  value={formik.values.required_document == 'other' ? 'other' : formik.values.required_document}
                   label='Required Document'
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -244,7 +243,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 value={formik.values.document}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                disabled={formik.values.required_document != 'other'}
+                disabled={formik.values.required_document != 'other' ? true : false}
                 id='document'
                 label='Document'
                 variant='standard'

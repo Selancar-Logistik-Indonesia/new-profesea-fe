@@ -41,7 +41,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
         setCountries(countries)
       })
       .catch(err => {
-        toast(' err ' + JSON.stringify(err))
+        toast.error(' err ' + JSON.stringify(err))
       })
   }
 
@@ -56,7 +56,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
       filename: filename
     })
       .then(res => {
-        toast('create competency success', { icon: 'success' })
+        toast.success('create competency success')
         callback()
       })
       .catch(err => {})
@@ -73,29 +73,17 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
       filename: filename
     })
       .then(res => {
-        toast('create competency success', { icon: 'success' })
+        toast.success('create competency success')
         callback()
       })
       .catch(err => {
-        toast(JSON.stringify(err), { icon: 'danger' })
+        toast.error(JSON.stringify(err))
       })
   }
 
   useEffect(() => {
     loadCountries()
   }, [])
-
-  const handleCreateCompetency = () => {
-    createCompetency(() => {})
-  }
-
-  const handleUpdateCompetency = () => {
-    if (typeof id == 'number') {
-      updateCompetency(id, () => {})
-    } else {
-      toast(' competency ID is required', { icon: 'danger' })
-    }
-  }
 
   return (
     <Dialog fullWidth open={showModal} maxWidth='sm' scroll='body' TransitionComponent={Transition}>

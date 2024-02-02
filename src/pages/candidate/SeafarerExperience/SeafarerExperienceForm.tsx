@@ -27,13 +27,12 @@ import * as Yup from 'yup'
 
 const ExperienceSchema = Yup.object().shape({
   user_id: Yup.number().required(),
-  country_id: Yup.object().required(),
   rank_id: Yup.object().required(),
   vessel_type_id: Yup.object().required(),
   vessel_name: Yup.string().required(),
-  grt: Yup.number().required(),
-  dwt: Yup.number().required(),
-  me_power: Yup.number().required(),
+  grt: Yup.number().nullable(),
+  dwt: Yup.number().nullable(),
+  me_power: Yup.number().nullable(),
   sign_in: Yup.string().required(),
   sign_off: Yup.string().required(),
   company: Yup.string().required(),
@@ -52,32 +51,35 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
   const id = seafarerExperience?.id
 
   const [userId, setUserId] = useState()
-  const [countryId, setCountryId] = useState({
-    id: seafarerExperience?.country_id,
-    name: seafarerExperience?.country
-  })
-  const [rankId, setRankId] = useState({
-    id: seafarerExperience?.rank?.id,
-    name: seafarerExperience?.rank?.name
-  })
-  const [vesselTypeId, setVesselTypeId] = useState({
-    id: seafarerExperience?.vessel_type?.id,
-    name: seafarerExperience?.vessel_type?.name
-  })
+
+  const [rankId, setRankId] = useState(
+    type == 'edit'
+      ? {
+          id: seafarerExperience?.rank_id,
+          name: seafarerExperience?.rank
+        }
+      : ''
+  )
+  const [vesselTypeId, setVesselTypeId] = useState(
+    type == 'edit'
+      ? {
+          id: seafarerExperience?.vessel_type_id,
+          name: seafarerExperience?.vessel_type
+        }
+      : ''
+  )
 
   const [signIn, setSignIn] = useState<any>()
   const [signOff, setSignOff] = useState<any>()
 
-  const [countries, setCountries] = useState([])
   const [vesselTypes, setVesselTypes] = useState([])
   const [ranks, setRanks] = useState([])
 
   const formik = useFormik({
     initialValues: {
       user_id: user_id,
-      rank_id: type == 'edit' ? rankId : '',
-      country_id: type == 'edit' ? countryId : '',
-      vessel_type_id: type == 'edit' ? vesselTypeId : '',
+      rank_id: rankId,
+      vessel_type_id: vesselTypeId,
       vessel_name: type == 'edit' ? seafarerExperience?.vessel_name : '',
       grt: type == 'edit' ? seafarerExperience?.grt : '',
       dwt: type == 'edit' ? seafarerExperience?.dwt : '',
@@ -90,42 +92,23 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
     validationSchema: ExperienceSchema,
     onSubmit: values => {
       handleSubmit(values)
-      handleModalForm()
-      loadExperience()
     }
   })
-
-  const loadCountries = () => {
-    HttpClient.get(AppConfig.baseUrl + '/public/data/country?page=1&take=100')
-      .then(response => {
-        const countries = response?.data?.countries.map((item: any) => {
-          return {
-            id: item.id,
-            name: item.name
-          }
-        })
-
-        setCountries(countries)
-      })
-      .catch(err => {
-        toast(' err ' + JSON.stringify(err))
-      })
-  }
 
   const loadVesselTypes = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/vessel-type?page=1&take=100')
       .then(response => {
-        const vesselTypes = response?.data?.vesselTypes.data.map((item: any) => {
+        const vesselTypes = response?.data?.vesselTypes?.data.map((item: any) => {
           return {
             id: item.id,
             name: item.name
           }
         })
 
-        setCountries(vesselTypes)
+        setVesselTypes(vesselTypes)
       })
       .catch(err => {
-        toast(' err ' + JSON.stringify(err))
+        toast.error(' err ' + JSON.stringify(err))
       })
   }
 
@@ -139,52 +122,56 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
           }
         })
 
-        setCountries(roleTypes)
+        setRanks(roleTypes)
       })
       .catch(err => {
-        toast(' err ' + JSON.stringify(err))
+        toast.error(' err ' + JSON.stringify(err))
       })
   }
 
   const createExperience = (values: any) => {
     HttpClient.post(AppConfig.baseUrl + '/seafarer-experiences/', {
-      user_id: userId,
-      rank_id: rankId,
-      country_id: countryId,
-      vessel_type_id: vesselTypeId,
-      vessel_name: values.vesselName,
+      user_id: values.user_id,
+      rank_id: values.rank_id.id,
+      vessel_type_id: values.vessel_type_id.id,
+      vessel_name: values.vessel_name,
       grt: values.grt,
       dwt: values.dwt,
-      me_power: values.mePower,
-      sign_in: values.signIn,
-      sign_off: values.signOff,
+      me_power: values.me_power,
+      sign_in: values.sign_in,
+      sign_off: values.sign_off,
       company: values.company
     })
       .then(res => {
-        toast('create experience success', { icon: 'success' })
+        toast.create('create experience success')
+        handleModalForm()
+        loadExperience()
       })
-      .catch(err => {})
+      .catch(err => {
+        toast.error(JSON.stringify(err))
+      })
   }
 
   const updateExperience = (id: number, values: any) => {
     HttpClient.patch(AppConfig.baseUrl + '/seafarer-experiences/' + id, {
-      user_id: userId,
-      rank_id: rankId,
-      country_id: countryId,
-      vessel_type_id: vesselTypeId,
-      vessel_name: values.vesselName,
+      user_id: values.user_id,
+      rank_id: values.rank_id.id,
+      vessel_type_id: values.vessel_type_id.id,
+      vessel_name: values.vessel_name,
       grt: values.grt,
       dwt: values.dwt,
-      me_power: values.mePower,
-      sign_in: values.signIn,
-      sign_off: values.signOff,
+      me_power: values.me_power,
+      sign_in: values.sign_in,
+      sign_off: values.sign_off,
       company: values.company
     })
       .then(res => {
-        toast('create experience success', { icon: 'success' })
+        toast.success('update experience success')
+        handleModalForm()
+        loadExperience()
       })
       .catch(err => {
-        toast(JSON.stringify(err), { icon: 'danger' })
+        toast.error(JSON.stringify(err))
       })
   }
 
@@ -202,7 +189,6 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
   }, [signIn, signOff])
 
   useEffect(() => {
-    loadCountries()
     loadRanks()
     loadVesselTypes()
   }, [])
@@ -262,13 +248,14 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
             <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
                 id='autocomplete-vessel-type'
+                name='autocomplete-vessel-type'
                 disablePortal
                 options={vesselTypes}
                 getOptionLabel={(option: any) => option.name}
-                defaultValue={vesselTypes?.id ? vesselTypes : ''}
+                defaultValue={vesselTypeId?.id ? vesselTypeId : ''}
                 renderInput={params => <TextField {...params} label='Vessel Type' variant='standard' />}
                 onChange={(event: any, newValue: any) =>
-                  newValue?.id ? setVesselTypeId(newValue) : setVesselTypeId(null)
+                  newValue?.id ? setVesselTypeId(newValue) : setVesselTypeId('')
                 }
               />
               {formik.errors.vessel_type_id && (
@@ -278,21 +265,21 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
             <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
                 id='autocomplete-rank'
+                name='autocomplete-rank'
                 disablePortal
                 options={ranks}
                 getOptionLabel={(option: any) => option.name}
                 defaultValue={rankId?.id ? rankId : ''}
                 renderInput={params => <TextField {...params} label='Rank / Position' variant='standard' />}
-                onChange={(event: any, newValue: any) => (newValue?.id ? setRankId(newValue) : setRankId(null))}
+                onChange={(event: any, newValue: any) => (newValue?.id ? setRankId(newValue) : setRankId(''))}
               />
-              {formik.errors.vessel_type_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.vessel_type_id)}</span>
+              {formik.errors.rank_id && (
+                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.rank_id)}</span>
               )}
             </Grid>
             <Grid item container md={12} xs={12} mb={5}>
               <Grid item md={4} xs={12}>
                 <TextField
-                  value={formik.values.grt}
                   defaultValue={type == 'edit' ? seafarerExperience?.grt : ''}
                   id='grt'
                   name={'grt'}
@@ -304,7 +291,6 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
               </Grid>
               <Grid item md={4}>
                 <TextField
-                  value={formik.values.grt}
                   defaultValue={type == 'edit' ? seafarerExperience?.dwt : ''}
                   id='dwt'
                   name={'dwt'}
@@ -316,7 +302,6 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
               </Grid>
               <Grid item md={4}>
                 <TextField
-                  value={formik.values.grt}
                   defaultValue={type == 'edit' ? seafarerExperience?.me_power : ''}
                   id='me_power'
                   name={'me_power'}
