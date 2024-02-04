@@ -45,20 +45,20 @@ const patch = (path: string, data?: any): Promise<AxiosResponse> => {
     return axios.patch(path, data)
 }
 const patchFormdata = (path: string, data?: any): Promise<AxiosResponse> => {
-     let option = {}
-     debugger;
-     if (data instanceof FormData) {
-       option = {
-         ...option,
-         method: 'PATCH',
-         headers: {
-           'Content-Type': 'multipart/form-data'
-         },
-         body: data
-       }
-     }
+    let option = {}
+    //  debugger;
+    if (data instanceof FormData) {
+        option = {
+            ...option,
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            body: data
+        }
+    }
 
-     return axios.patch(path, data, option) 
+    return axios.patch(path, data, option)
 }
 
 const del = (path: string, data?: any): Promise<AxiosResponse> => {

@@ -31,8 +31,7 @@ const CompetencySchema = Yup.object().shape({
   country_id: Yup.object().required(),
   coc_id: Yup.object().required(),
   certificate_number: Yup.string().required(),
-  is_lifetime: Yup.boolean().nullable(),
-  filename: Yup.string().nullable()
+  is_lifetime: Yup.boolean().nullable()
 })
 
 const Transition = forwardRef(function Transition(
@@ -47,6 +46,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
   const id = seafarerCompetency?.id
 
   const [validDateState, setValidDateState] = useState<any>()
+  const [attachment, setAttachment] = useState(null)
 
   const [coc, setCoc] = useState<any>(
     type == 'edit'
@@ -75,8 +75,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
       coc_id: coc,
       certificate_number: type == 'edit' ? seafarerCompetency?.certificate_number : '',
       valid_date: type == 'edit' ? validDateState : null,
-      is_lifetime: type == 'edit' ? (seafarerCompetency?.is_lifetime ? true : false) : false,
-      filename: type == 'edit' ? seafarerCompetency?.filename : ''
+      is_lifetime: type == 'edit' ? (seafarerCompetency?.is_lifetime ? true : false) : false
     },
     enableReinitialize: true,
     validationSchema: CompetencySchema,
@@ -120,15 +119,18 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
   }
 
   const createCompetency = (values: any) => {
-    HttpClient.post(AppConfig.baseUrl + '/seafarer-competencies/', {
-      user_id: values.user_id,
-      country_id: values.country_id.id,
-      coc_id: values.coc_id.id,
-      certificate_number: values.certificate_number,
-      valid_until: !values.is_lifetime ? values.valid_date : null,
-      is_lifetime: values.is_lifetime,
-      filename: values.filename
-    })
+    const formData = new FormData()
+    formData.append('user_id', values.user_id)
+    formData.append('country_id', values.country_id.id)
+    formData.append('coc_id', values.coc_id.id)
+    formData.append('certificate_number', values.certificate_number)
+    if (values.valid_date) {
+      formData.append('valid_until', !values.is_lifetime ? values.valid_date : null)
+    }
+    formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
+    formData.append('attachment', attachment)
+
+    HttpClient.post(AppConfig.baseUrl + '/seafarer-competencies/', formData)
       .then(res => {
         toast.success('create competency success')
         loadCompetency()
@@ -140,15 +142,18 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
   }
 
   const updateCompetency = (id?: number, values?: any) => {
-    HttpClient.patch(AppConfig.baseUrl + '/seafarer-competencies/' + id, {
-      user_id: values.user_id,
-      country_id: values.country_id.id,
-      coc_id: values.coc_id.id,
-      certificate_number: values.certificate_number,
-      valid_until: !values.is_lifetime ? values.valid_date : null,
-      is_lifetime: values.is_lifetime,
-      filename: values.filename
-    })
+    const formData = new FormData()
+    formData.append('user_id', values.user_id)
+    formData.append('country_id', values.country_id.id)
+    formData.append('coc_id', values.coc_id.id)
+    formData.append('certificate_number', values.certificate_number)
+    if (values.valid_date) {
+      formData.append('valid_until', !values.is_lifetime ? values.valid_date : null)
+    }
+    formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
+    formData.append('attachment', attachment)
+
+    HttpClient.post(AppConfig.baseUrl + '/seafarer-competencies/' + id, formData)
       .then(res => {
         toast.success('update competency success')
         loadCompetency()
@@ -298,6 +303,25 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
               {formik.errors.is_lifetime && (
                 <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.is_lifetime)}</span>
               )}
+            </Grid>
+            <Grid>
+              <Button
+                component='label'
+                variant='contained'
+                size='small'
+                fullWidth
+                startIcon={
+                  <Icon icon='material-symbols:cloud-upload' width='16' height='16' style={{ color: 'white' }} />
+                }
+              >
+                Upload file <span>{attachment ? ' : ' + attachment?.name : ''}</span>
+                <input
+                  style={{ visibility: 'hidden' }}
+                  type='file'
+                  name='attachment'
+                  onChange={e => setAttachment(e.target?.files[0])}
+                />
+              </Button>
             </Grid>
           </Grid>
         </DialogContent>
