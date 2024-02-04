@@ -10,19 +10,23 @@ import { ISeafarerExperienceProps } from './SeafarerExperienceInterface'
 import ISeafarerExperienceData from './../../../contract/models/seafarer_experience'
 import SeafarerExperienceForm from './SeafarerExperienceForm'
 import SeafarerExperienceDeleteConfirm from './SeafarerExperienceDeleteConfirm'
+import LoadingIcon from 'src/layouts/components/LoadingIcon'
+import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
 
 const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
   const [rows, setRows] = useState([])
+  const [loading, setLoading] = useState(false)
   const [seafarerExperience, setSeafarerExperience] = useState()
   const [modalFormType, setModalFormType] = useState('create')
   const [modalFormOpen, setModalFormOpen] = useState(false)
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
 
-  const { user_id } = props
+  const { user_id, no_experience, setNoExperience } = props
 
   const thisGray = 'rgba(66, 66, 66, 1)'
 
   const loadExperience = () => {
+    setLoading(true)
     HttpClient.get(AppConfig.baseUrl + '/seafarer-experiences/user-id/' + user_id).then(response => {
       const result = response.data.data.map((item: ISeafarerExperienceData) => {
         return {
@@ -35,6 +39,7 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
       })
 
       setRows(result)
+      setLoading(false)
     })
   }
 
@@ -158,7 +163,12 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
         <Grid item md={6}>
           <Grid container justifyContent={'right'}>
             <label style={{ marginRight: 20, marginTop: -5 }}>
-              <Checkbox /> I have no experience{' '}
+              <Checkbox
+                value={'no_experience'}
+                checked={no_experience}
+                onClick={() => setNoExperience(!no_experience)}
+              />{' '}
+              I have no experience{' '}
             </label>
             <Button
               variant='contained'
@@ -190,6 +200,7 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
                 }
               }}
               pageSizeOptions={[5, 10]}
+              slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
               getRowClassName={params => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
             />
           </TableContainer>

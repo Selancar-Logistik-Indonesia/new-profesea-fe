@@ -87,6 +87,7 @@ type FormData = {
   instagram: string
   linkedin: string
   genderr: string
+  noExperience: boolean
 }
 
 type compProps = {
@@ -235,6 +236,7 @@ const CandidateProfile = (props: compProps) => {
       typeof value === 'string' ? value.split(',') : value
     )
   }
+  const [noExperience, setNoExperience] = useState<boolean>(props.datauser?.no_experience ? true : false)
   const [phoneNum, setPhoneNum] = useState(props.datauser?.phone)
   const [dateOfBirth, setDateOfBirth] = useState(props.datauser?.date_of_birth)
   const onChangeDateOfBirth = (input: string) => {
@@ -389,7 +391,7 @@ const CandidateProfile = (props: compProps) => {
           statusfb = data.sosmed.id
         },
         error => {
-          toast.error('Registrastion Failed ' + error.response.data.message)
+          toast.error('Registrastion Failed : ' + error.response.data.message)
         }
       )
     } else {
@@ -398,7 +400,7 @@ const CandidateProfile = (props: compProps) => {
           // toast.success(' Successfully submited!')
         },
         error => {
-          toast.error('Registrastion Failed ' + error.response.data.message)
+          toast.error('Registrastion Failed : ' + error.response.data.message)
         }
       )
     }
@@ -418,23 +420,23 @@ const CandidateProfile = (props: compProps) => {
     if (statusig == '') {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
         ({ data }) => {
-          console.log('here 1', data)
+          console.log('registration success', data)
           // toast.success(' Successfully submited!')
           statusig = data.sosmed.id
         },
         error => {
-          console.log('here 1', error)
+          console.log('Registrastion Failed : ', error)
           toast.error('Registrastion Failed ' + error.response.data.message)
         }
       )
     } else {
       HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statusig, json).then(
         ({ data }) => {
-          console.log('here 1', data)
+          console.log('Registrastion Failed : ', data)
           // toast.success(' Successfully submited!')
         },
         error => {
-          console.log('here 1', error)
+          console.log('Registrastion Failed : ', error)
           toast.error('Registrastion Failed ' + error.response.data.message)
         }
       )
@@ -460,7 +462,7 @@ const CandidateProfile = (props: compProps) => {
           statuslinkedin = data.sosmed.id
         },
         error => {
-          console.log('here 1', error)
+          console.log('Registrastion Failed : ', error)
           toast.error('Registrastion Failed ' + error.response.data.message)
         }
       )
@@ -471,7 +473,7 @@ const CandidateProfile = (props: compProps) => {
           // toast.success(' Successfully submited!')
         },
         error => {
-          console.log('here 1', error)
+          console.log('Registrastion Failed : ', error)
           toast.error('Registrastion Failed ' + error.response.data.message)
         }
       )
@@ -545,7 +547,6 @@ const CandidateProfile = (props: compProps) => {
 
   const onSubmit = (data: FormData) => {
     const { fullName, website, address, about } = data
-    console.log('here 1', idcombokelamin)
     availabledate = date
     const json = {
       country_id: idcombocode,
@@ -559,8 +560,12 @@ const CandidateProfile = (props: compProps) => {
       address_city_id: idcity,
       address_address: address,
       gender: idcombokelamin.title,
-      location_province_id: idcomboProvince
+      location_province_id: idcomboProvince,
+      no_experience: noExperience
     }
+
+    console.log(' json submit = > ', json)
+
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
       () => {
         if (tampilkanship == 'PELAUT') {
@@ -576,14 +581,14 @@ const CandidateProfile = (props: compProps) => {
           }
           HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(
             ({ data }) => {
-              console.log('here 1', data)
+              console.log('field preference success ', data)
               toast.success(' Successfully submited!')
               refreshsession()
               window.location.replace('/home')
             },
             error => {
-              console.log('here 1', error)
-              toast.error(' Failed ' + error.response.data.message)
+              console.log('field preference failed', error)
+              toast.error('Field Preference Failed ' + error.response.data.message)
             }
           )
         } else {
@@ -600,20 +605,20 @@ const CandidateProfile = (props: compProps) => {
           HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(
             ({ data }) => {
               console.log('here 1', data)
-              toast.success(' Successfully submited!')
+              toast.success('Successfully submited!')
               refreshsession()
               window.location.replace('/home')
             },
             error => {
               console.log('here 1', error)
-              toast.error(' Failed ' + error.response.data.message)
+              toast.error(' Failed Field Preference : ' + error.response.data.message)
             }
           )
         }
       },
       error => {
-        console.log('here 1', error)
-        toast.error(' Failed ' + error.response.data.message)
+        console.log('Failed Update Profile : ', error)
+        toast.error(' Failed Update Profile : ' + error.response.data.message)
       }
     )
   }
@@ -686,7 +691,7 @@ const CandidateProfile = (props: compProps) => {
       },
       error => {
         console.log('here 1', error)
-        toast.error(' Failed ' + error.response.data.message)
+        toast.error(' Failed Upload Photo' + error.response.data.message)
       }
     )
   }
@@ -714,7 +719,7 @@ const CandidateProfile = (props: compProps) => {
       },
       error => {
         console.log('here 1', error)
-        toast.error(' Failed ' + error.response.data.message)
+        toast.error(' Failed Photo Banner' + error.response.data.message)
       }
     )
   }
@@ -1988,7 +1993,11 @@ const CandidateProfile = (props: compProps) => {
               <SeafarerTravelDocumentTable user_id={props?.datauser.id} />
               <Divider style={{ width: '100%', margin: '20px 0' }} />
 
-              <SeafarerExperienceTable user_id={props?.datauser.id} />
+              <SeafarerExperienceTable
+                user_id={props?.datauser.id}
+                no_experience={noExperience}
+                setNoExperience={setNoExperience}
+              />
               <Divider style={{ width: '100%', margin: '20px 0' }} />
 
               <SeafarerCompetencyTable user_id={props?.datauser.id} />

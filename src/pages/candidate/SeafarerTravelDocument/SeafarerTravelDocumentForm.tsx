@@ -102,7 +102,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
         setCountries(countries)
       })
       .catch(err => {
-        toast.error(' err ' + JSON.stringify(err))
+        toast.error(' err ' + JSON.stringify(err.message))
       })
   }
 
@@ -123,7 +123,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
         loadTravelDocument()
       })
       .catch(err => {
-        toast.error(JSON.stringify(err))
+        toast.error(JSON.stringify(err.message))
       })
   }
 
@@ -144,7 +144,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
         loadTravelDocument()
       })
       .catch(err => {
-        toast.error(JSON.stringify(err))
+        toast.error(JSON.stringify(err.message))
       })
   }
 
@@ -213,6 +213,24 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
           }}
         >
           <Grid container>
+            <Grid item md={12} xs={12} mb={5}>
+              <Autocomplete
+                disablePortal
+                id='country_of_issue'
+                options={countries}
+                defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
+                getOptionLabel={option => option.name}
+                renderInput={(params: any) => <TextField {...params} label='Country of Issue' variant='standard' />}
+                onChange={(event: any, newValue: string | null) =>
+                  newValue ? setCountryOfIssue(newValue) : setCountryOfIssue(null)
+                }
+              />
+              {formik.errors.country_of_issue && (
+                <span style={{ color: 'red', textAlign: 'left' }}>
+                  {JSON.stringify(formik.errors.country_of_issue)}
+                </span>
+              )}
+            </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }} fullWidth>
                 <InputLabel>Required Document</InputLabel>
@@ -290,24 +308,6 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
 
               {formik.errors.date_of_issue && (
                 <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.date_of_issue)}</span>
-              )}
-            </Grid>
-            <Grid item md={12} xs={12} mb={5}>
-              <Autocomplete
-                disablePortal
-                id='country_of_issue'
-                options={countries}
-                defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
-                getOptionLabel={option => option.name}
-                renderInput={(params: any) => <TextField {...params} label='Country of Issue' variant='standard' />}
-                onChange={(event: any, newValue: string | null) =>
-                  newValue ? setCountryOfIssue(newValue) : setCountryOfIssue(null)
-                }
-              />
-              {formik.errors.country_of_issue && (
-                <span style={{ color: 'red', textAlign: 'left' }}>
-                  {JSON.stringify(formik.errors.country_of_issue)}
-                </span>
               )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>

@@ -10,9 +10,12 @@ import { ISeafarerCompetencyProps } from './SeafarerCompetencyInterface'
 import ISeafarerCompetencyData from '../../../contract/models/seafarer_competency'
 import SeafarerCompetencyForm from './SeafarerCompetencyForm'
 import SeafarerCompetencyDeleteConfirm from './SeafarerCompetencyDeleteConfirm'
+import LoadingIcon from 'src/layouts/components/LoadingIcon'
+import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
 
 const SeafarerCompetencyTable = (props: ISeafarerCompetencyProps) => {
   const [rows, setRows] = useState([])
+  const [loading, setLoading] = useState(false)
   const [seafarerCompetency, setSeafarerCompetency] = useState(undefined)
   const [modalFormType, setModalFormType] = useState('create')
   const [modalFormOpen, setModalFormOpen] = useState(false)
@@ -23,6 +26,7 @@ const SeafarerCompetencyTable = (props: ISeafarerCompetencyProps) => {
   const thisGray = 'rgba(66, 66, 66, 1)'
 
   const loadCompetency = () => {
+    setLoading(true)
     HttpClient.get(AppConfig.baseUrl + '/seafarer-competencies/user-id/' + user_id).then(response => {
       const result = response.data.data.map((item: ISeafarerCompetencyData) => {
         return {
@@ -34,6 +38,7 @@ const SeafarerCompetencyTable = (props: ISeafarerCompetencyProps) => {
       })
 
       setRows(result)
+      setLoading(false)
     })
   }
 
@@ -169,6 +174,7 @@ const SeafarerCompetencyTable = (props: ISeafarerCompetencyProps) => {
                 }
               }}
               pageSizeOptions={[5, 10]}
+              slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
               getRowClassName={params => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
             />
           </TableContainer>

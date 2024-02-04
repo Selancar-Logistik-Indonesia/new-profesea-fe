@@ -11,9 +11,12 @@ import ISeafarerTravelDocumentData from './../../../contract/models/seafarer_tra
 
 import SeafarerTravelDocumentForm from './SeafarerTravelDocumentForm'
 import SeafarerTravelDocumentDeleteConfirm from './SeafarerTravelDocumentDeleteConfirm'
+import LoadingIcon from 'src/layouts/components/LoadingIcon'
+import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
 
 const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
   const [rows, setRows] = useState([])
+  const [loading, setLoading] = useState(false)
   const [seafarerTravelDocument, setSeafarerTravelDocument] = useState()
   const [modalFormType, setModalFormType] = useState('create')
   const [modalFormOpen, setModalFormOpen] = useState(false)
@@ -24,6 +27,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
   const thisGray = 'rgba(66, 66, 66, 1)'
 
   const loadTravelDocument = () => {
+    setLoading(true)
     HttpClient.get(AppConfig.baseUrl + '/seafarer-travel-documents/user-id/' + user_id).then(response => {
       const result = response.data.data.map((item: ISeafarerTravelDocumentData) => {
         return {
@@ -35,6 +39,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
       })
 
       setRows(result)
+      setLoading(false)
     })
   }
 
@@ -88,7 +93,15 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
       width: 180,
       renderCell(params: any) {
         return (
-          <a href={process.env.NEXT_PUBLIC_BASE_API + `/seafarer-travel-documents/download/${params.row.id}`}>
+          <a
+            href='#'
+            onClick={() =>
+              HttpClient.downloadFile(
+                process.env.NEXT_PUBLIC_BASE_API + `/seafarer-travel-documents/download/${params.row.id}/`,
+                'code.png'
+              )
+            }
+          >
             {' '}
             <Icon icon='bi:file-earmark-arrow-down-fill' width='24' height='24' color={thisGray} />{' '}
           </a>
@@ -181,6 +194,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
                 }
               }}
               pageSizeOptions={[5, 10]}
+              slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
               getRowClassName={params => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
             />
           </TableContainer>

@@ -231,21 +231,6 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
         >
           <Grid container md={12} xs={12}>
             <Grid item md={12} xs={12} mb={5}>
-              <TextField
-                value={formik.values.vessel_name}
-                defaultValue={type == 'edit' ? seafarerExperience?.vessel_name : ''}
-                id='vessel_name'
-                name={'vessel_name'}
-                label='Vessel Name'
-                variant='standard'
-                onChange={formik.handleChange}
-                fullWidth
-              />
-              {formik.errors.vessel_name && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.vessel_name)}</span>
-              )}
-            </Grid>
-            <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
                 id='autocomplete-vessel-type'
                 name='autocomplete-vessel-type'
@@ -275,6 +260,21 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
               />
               {formik.errors.rank_id && (
                 <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.rank_id)}</span>
+              )}
+            </Grid>
+            <Grid item md={12} xs={12} mb={5}>
+              <TextField
+                value={formik.values.vessel_name}
+                defaultValue={type == 'edit' ? seafarerExperience?.vessel_name : ''}
+                id='vessel_name'
+                name={'vessel_name'}
+                label='Vessel Name'
+                variant='standard'
+                onChange={formik.handleChange}
+                fullWidth
+              />
+              {formik.errors.vessel_name && (
+                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.vessel_name)}</span>
               )}
             </Grid>
             <Grid item container md={12} xs={12} mb={5}>

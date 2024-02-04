@@ -102,7 +102,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         setCountries(countries)
       })
       .catch(err => {
-        toast.error(' err load countries ' + JSON.stringify(err))
+        toast.error(' err load countries ' + JSON.stringify(err.message))
       })
   }
 
@@ -119,7 +119,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         setProficiencies(certificates)
       })
       .catch(err => {
-        toast.error(' err load Certificate ' + JSON.stringify(err))
+        toast.error(' err load Certificate ' + JSON.stringify(err.message))
       })
   }
 
@@ -139,7 +139,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         handleModalForm()
       })
       .catch(err => {
-        toast.error(JSON.stringify(err))
+        toast.error(JSON.stringify(err.message))
       })
   }
 
@@ -159,7 +159,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         handleModalForm()
       })
       .catch(err => {
-        toast.error(JSON.stringify(err))
+        toast.error(JSON.stringify(err.message))
       })
   }
 
@@ -237,21 +237,6 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
               )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
-              <TextField
-                value={formik.values.certificate_number}
-                defaultValue={type == 'edit' ? seafarerProficiency?.certificate_number : ''}
-                id='certificateNumber'
-                name={'certificate_number'}
-                label='Certificate Number'
-                variant='standard'
-                onChange={formik.handleChange}
-                fullWidth
-              />
-              {formik.errors.certificate_number && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.certificate_number}</span>
-              )}
-            </Grid>
-            <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
                 disablePortal
                 id='combo-box-countries'
@@ -267,7 +252,21 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.country_id)}</span>
               )}
             </Grid>
-
+            <Grid item md={12} xs={12} mb={5}>
+              <TextField
+                value={formik.values.certificate_number}
+                defaultValue={type == 'edit' ? seafarerProficiency?.certificate_number : ''}
+                id='certificateNumber'
+                name={'certificate_number'}
+                label='Certificate Number'
+                variant='standard'
+                onChange={formik.handleChange}
+                fullWidth
+              />
+              {formik.errors.certificate_number && (
+                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.certificate_number}</span>
+              )}
+            </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <DatePicker
                 disabled={formik.values.is_lifetime ? true : false}

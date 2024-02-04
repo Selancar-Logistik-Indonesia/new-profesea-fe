@@ -5,16 +5,16 @@ import { AppConfig } from 'src/configs/api'
 import { Grid, Typography, Button, Paper, TableContainer, IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { toast } from 'react-hot-toast'
 import { ISeafarerProficiencyProps } from './SeafarerProficiencyInterface'
 import ISeafarerProficiencyData from '../../../contract/models/seafarer_proficiency'
 import SeafarerProficiencyForm from './SeafarerProficiencyForm'
 import SeafarerProficiencyDeleteConfirm from './SeafarerProficiencyDeleteConfirm'
-
+import LoadingIcon from 'src/layouts/components/LoadingIcon'
 import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
 
 const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
   const [rows, setRows] = useState([])
+  const [loading, setLoading] = useState(false)
   const [seafarerProficiency, setSeafarerProficiency] = useState()
   const [modalFormType, setModalFormType] = useState('create')
   const [modalFormOpen, setModalFormOpen] = useState(false)
@@ -25,6 +25,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
   const thisGray = 'rgba(66, 66, 66, 1)'
 
   const loadProficiency = () => {
+    setLoading(true)
     HttpClient.get(AppConfig.baseUrl + '/seafarer-proficiencies/user-id/' + user_id).then(response => {
       const result = response.data.data.map((item: ISeafarerProficiencyData) => {
         return {
@@ -36,6 +37,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
       })
 
       setRows(result)
+      setLoading(false)
     })
   }
 
@@ -177,7 +179,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
                   paginationModel: { page: 0, pageSize: 5 }
                 }
               }}
-              slots={{ noRowsOverlay: CustomNoRowsOverlay }}
+              slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
               pageSizeOptions={[5, 10]}
               getRowClassName={params => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
             />
