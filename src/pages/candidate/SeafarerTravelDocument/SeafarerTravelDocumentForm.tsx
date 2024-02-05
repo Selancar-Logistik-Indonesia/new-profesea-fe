@@ -40,7 +40,10 @@ const TravelDocumentSchema = Yup.object().shape({
   document: Yup.string().required(),
   no: Yup.string().required(),
   date_of_issue: Yup.string().required(),
-  country_of_issue: Yup.object().required(),
+  country_of_issue: Yup.object().shape({
+    id: Yup.number().required('country id is required'),
+    name: Yup.string().required('')
+  }),
   user_id: Yup.number().required(),
   valid_date: Yup.date().nullable(),
   is_lifetime: Yup.boolean().nullable(),
@@ -63,6 +66,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
   )
   const [validDateState, setValidDateState] = useState<any>()
   const [dateOfIssue, setDateOfIssue] = useState<any>()
+  const [attachment, setAttachment] = useState(null)
 
   const requiredDocumentType = [
     { id: 'passport', name: 'Passport' },
@@ -107,16 +111,21 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
   }
 
   const createTravelDocument = (values: any) => {
-    HttpClient.post(AppConfig.baseUrl + '/seafarer-travel-documents/', {
-      document: values.document,
-      no: values.no,
-      date_of_issue: values.date_of_issue,
-      country_of_issue: values.country_of_issue.id,
-      user_id: values.user_id,
-      valid_date: values.valid_date,
-      is_lifetime: values.is_lifetime,
-      required_document: values.required_document
-    })
+    const formData = new FormData()
+    formData.append('required_document', values.required_document)
+    formData.append('document', values.document)
+    formData.append('no', values.no)
+    formData.append('user_id', values.user_id)
+    formData.append('country_of_issue', values.country_of_issue.id)
+    if (values.date_of_issue) {
+      formData.append('date_of_issue', values.date_of_issue.toISOString().split('T')[0])
+    }
+    if (values.valid_date) {
+      formData.append('valid_date', !values.is_lifetime ? values.valid_date.toISOString().split('T')[0] : null)
+    }
+    formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
+    formData.append('attachment', attachment)
+    HttpClient.post(AppConfig.baseUrl + '/seafarer-travel-documents/', formData)
       .then(res => {
         toast.success('create travel document success')
         handleModalForm()
@@ -128,16 +137,21 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
   }
 
   const updateTravelDocument = (id?: number, values: any) => {
-    HttpClient.patch(AppConfig.baseUrl + '/seafarer-travel-documents/' + id, {
-      document: values.document,
-      no: values.no,
-      date_of_issue: values.date_of_issue,
-      country_of_issue: values.country_of_issue.id,
-      user_id: values.user_id,
-      valid_date: values.valid_date,
-      is_lifetime: values.is_lifetime,
-      required_document: values.required_document
-    })
+    const formData = new FormData()
+    formData.append('required_document', values.required_document)
+    formData.append('document', values.document)
+    formData.append('no', values.no)
+    formData.append('user_id', values.user_id)
+    formData.append('country_of_issue', values.country_of_issue.id)
+    if (values.date_of_issue) {
+      formData.append('date_of_issue', values.date_of_issue.toISOString().split('T')[0])
+    }
+    if (values.valid_date) {
+      formData.append('valid_date', !values.is_lifetime ? values.valid_date.toISOString().split('T')[0] : null)
+    }
+    formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
+    formData.append('attachment', attachment)
+    HttpClient.post(AppConfig.baseUrl + '/seafarer-travel-documents/' + id, formData)
       .then(res => {
         toast.success('update travel document success')
         handleModalForm()
@@ -219,10 +233,10 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 id='country_of_issue'
                 options={countries}
                 defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
-                getOptionLabel={option => option.name}
+                getOptionLabel={option => option.name || ''}
                 renderInput={(params: any) => <TextField {...params} label='Country of Issue' variant='standard' />}
                 onChange={(event: any, newValue: string | null) =>
-                  newValue ? setCountryOfIssue(newValue) : setCountryOfIssue(null)
+                  newValue ? setCountryOfIssue(newValue) : setCountryOfIssue('')
                 }
               />
               {formik.errors.country_of_issue && (
@@ -345,6 +359,25 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
               {formik.errors.is_lifetime && (
                 <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.is_lifetime}</span>
               )}
+            </Grid>
+            <Grid>
+              <Button
+                component='label'
+                variant='contained'
+                size='small'
+                fullWidth
+                startIcon={
+                  <Icon icon='material-symbols:cloud-upload' width='16' height='16' style={{ color: 'white' }} />
+                }
+              >
+                Upload file <span>{attachment ? ' : ' + attachment?.name : ''}</span>
+                <input
+                  style={{ visibility: 'hidden' }}
+                  type='file'
+                  name='attachment'
+                  onChange={e => setAttachment(e.target?.files[0])}
+                />
+              </Button>
             </Grid>
           </Grid>
         </DialogContent>

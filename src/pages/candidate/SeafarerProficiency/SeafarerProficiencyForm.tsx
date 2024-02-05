@@ -32,8 +32,11 @@ import * as Yup from 'yup'
 
 const ProficiencySchema = Yup.object().shape({
   user_id: Yup.number().required(),
-  country_id: Yup.object().required(),
-  cop_id: Yup.object().required(),
+  country_id: Yup.object().shape({
+    id: Yup.number().required('country id is required'),
+    name: Yup.string().required('')
+  }),
+  cop_id: Yup.object().shape({ id: Yup.number().required('cop id is required'), title: Yup.string().required('') }),
   certificate_number: Yup.string().required(),
   is_lifetime: Yup.boolean().nullable(),
   filename: Yup.string().nullable()
@@ -51,6 +54,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   const id = seafarerProficiency?.id
 
   const [validDateState, setValidDateState] = useState<any>()
+  const [attachment, setAttachment] = useState(null)
 
   const [cop, setCop] = useState<any>(
     type == 'edit'
@@ -124,15 +128,17 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   }
 
   const createProficiency = (values: any) => {
-    HttpClient.post(AppConfig.baseUrl + '/seafarer-proficiencies/', {
-      user_id: values.user_id,
-      country_id: values.country_id.id,
-      cop_id: values.cop_id.id,
-      certificate_number: values.certificate_number,
-      valid_until: !values.is_lifetime ? values.valid_date : null,
-      is_lifetime: values.is_lifetime,
-      filename: values.filename
-    })
+    const formData = new FormData()
+    formData.append('user_id', values.user_id)
+    formData.append('country_id', values.country_id.id)
+    formData.append('cop_id', values.cop_id.id)
+    formData.append('certificate_number', values.certificate_number)
+    if (values.valid_date) {
+      formData.append('valid_until', !values.is_lifetime ? values.valid_date.toISOString().split('T')[0] : null)
+    }
+    formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
+    formData.append('attachment', attachment)
+    HttpClient.post(AppConfig.baseUrl + '/seafarer-proficiencies/', formData)
       .then(res => {
         toast.success('create proficiency success')
         loadProficiency()
@@ -144,15 +150,17 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   }
 
   const updateProficiency = (id?: number, values?: any) => {
-    HttpClient.patch(AppConfig.baseUrl + '/seafarer-proficiencies/' + id, {
-      user_id: values.user_id,
-      country_id: values.country_id.id,
-      cop_id: values.cop_id.id,
-      certificate_number: values.certificate_number,
-      valid_until: !values.is_lifetime ? values.valid_date : null,
-      is_lifetime: values.is_lifetime,
-      filename: values.filename
-    })
+    const formData = new FormData()
+    formData.append('user_id', values.user_id)
+    formData.append('country_id', values.country_id.id)
+    formData.append('cop_id', values.cop_id.id)
+    formData.append('certificate_number', values.certificate_number)
+    if (values.valid_date) {
+      formData.append('valid_until', !values.is_lifetime ? values.valid_date.toISOString().split('T')[0] : null)
+    }
+    formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
+    formData.append('attachment', attachment)
+    HttpClient.post(AppConfig.baseUrl + '/seafarer-proficiencies/' + id, formData)
       .then(res => {
         toast.success('update proficiency success')
         loadProficiency()
@@ -227,10 +235,10 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 id='autocomplete-proficiency'
                 disablePortal
                 options={proficiencies}
-                getOptionLabel={(option: any) => option.title}
+                getOptionLabel={(option: any) => option.title || ''}
                 defaultValue={cop?.id ? cop : ''}
                 renderInput={params => <TextField {...params} label='Certificate of Proficiency' variant='standard' />}
-                onChange={(event: any, newValue: any) => (newValue?.id ? setCop(newValue) : setCop(null))}
+                onChange={(event: any, newValue: any) => (newValue?.id ? setCop(newValue) : setCop(''))}
               />
               {formik.errors.cop_id && (
                 <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.cop_id)}</span>
@@ -242,10 +250,10 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 id='combo-box-countries'
                 options={countries}
                 defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
-                getOptionLabel={option => option.name}
+                getOptionLabel={option => option.name || ''}
                 renderInput={(params: any) => <TextField {...params} label='Country of Issue' variant='standard' />}
                 onChange={(event: any, newValue: string | null) =>
-                  newValue ? setCountryOfIssue(newValue) : setCountryOfIssue(null)
+                  newValue ? setCountryOfIssue(newValue) : setCountryOfIssue('')
                 }
               />
               {formik.errors.country_id && (
@@ -302,6 +310,25 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
               {formik.errors.is_lifetime && (
                 <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.is_lifetime)}</span>
               )}
+            </Grid>
+            <Grid>
+              <Button
+                component='label'
+                variant='contained'
+                size='small'
+                fullWidth
+                startIcon={
+                  <Icon icon='material-symbols:cloud-upload' width='16' height='16' style={{ color: 'white' }} />
+                }
+              >
+                Upload file <span>{attachment ? ' : ' + attachment?.name : ''}</span>
+                <input
+                  style={{ visibility: 'hidden' }}
+                  type='file'
+                  name='attachment'
+                  onChange={e => setAttachment(e.target?.files[0])}
+                />
+              </Button>
             </Grid>
           </Grid>
         </DialogContent>

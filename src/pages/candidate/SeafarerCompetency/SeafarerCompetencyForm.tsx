@@ -28,8 +28,11 @@ import * as Yup from 'yup'
 
 const CompetencySchema = Yup.object().shape({
   user_id: Yup.number().required(),
-  country_id: Yup.object().required(),
-  coc_id: Yup.object().required(),
+  country_id: Yup.object().shape({
+    id: Yup.number().required('country id is required'),
+    name: Yup.string().required('')
+  }),
+  coc_id: Yup.object().shape({ id: Yup.number().required('coc id is required'), title: Yup.string().required('') }),
   certificate_number: Yup.string().required(),
   is_lifetime: Yup.boolean().nullable()
 })
@@ -125,7 +128,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
     formData.append('coc_id', values.coc_id.id)
     formData.append('certificate_number', values.certificate_number)
     if (values.valid_date) {
-      formData.append('valid_until', !values.is_lifetime ? values.valid_date : null)
+      formData.append('valid_until', !values.is_lifetime ? values.valid_date.toISOString().split('T')[0] : null)
     }
     formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
     formData.append('attachment', attachment)
@@ -148,7 +151,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
     formData.append('coc_id', values.coc_id.id)
     formData.append('certificate_number', values.certificate_number)
     if (values.valid_date) {
-      formData.append('valid_until', !values.is_lifetime ? values.valid_date : null)
+      formData.append('valid_until', !values.is_lifetime ? values.valid_date.toISOString().split('T')[0] : null)
     }
     formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
     formData.append('attachment', attachment)
@@ -228,7 +231,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                 id='autocomplete-competency'
                 disablePortal
                 options={proficiencies}
-                getOptionLabel={(option: any) => option.title}
+                getOptionLabel={(option: any) => option.title || ''}
                 defaultValue={coc?.id ? coc : ''}
                 renderInput={params => <TextField {...params} label='Certificate of competency' variant='standard' />}
                 onChange={(event: any, newValue: any) => (newValue?.id ? setCoc(newValue) : setCoc(''))}
@@ -243,7 +246,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                 id='combo-box-countries-competency'
                 options={countries}
                 defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
-                getOptionLabel={option => option.name}
+                getOptionLabel={option => option.name || ''}
                 renderInput={(params: any) => <TextField {...params} label='Country of Issue' variant='standard' />}
                 onChange={(event: any, newValue: string | null) =>
                   newValue ? setCountryOfIssue(newValue) : setCountryOfIssue('')

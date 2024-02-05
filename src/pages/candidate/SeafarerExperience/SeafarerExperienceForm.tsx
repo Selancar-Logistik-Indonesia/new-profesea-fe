@@ -27,16 +27,21 @@ import * as Yup from 'yup'
 
 const ExperienceSchema = Yup.object().shape({
   user_id: Yup.number().required(),
-  rank_id: Yup.object().required(),
-  vessel_type_id: Yup.object().required(),
+  rank_id: Yup.object().shape({
+    id: Yup.number().required('rank id is required'),
+    name: Yup.string().required('')
+  }),
+  vessel_type_id: Yup.object().shape({
+    id: Yup.number().required('vessel type id is required'),
+    name: Yup.string().required('')
+  }),
   vessel_name: Yup.string().required(),
   grt: Yup.number().nullable(),
   dwt: Yup.number().nullable(),
   me_power: Yup.number().nullable(),
   sign_in: Yup.string().required(),
   sign_off: Yup.string().required(),
-  company: Yup.string().required(),
-  filename: Yup.string().nullable()
+  company: Yup.string().required()
 })
 
 const Transition = forwardRef(function Transition(

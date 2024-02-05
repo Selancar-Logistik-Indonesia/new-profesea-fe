@@ -92,19 +92,21 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
 
       width: 180,
       renderCell(params: any) {
-        return (
+        return params.row.filename ? (
           <a
             href='#'
             onClick={() =>
               HttpClient.downloadFile(
                 process.env.NEXT_PUBLIC_BASE_API + `/seafarer-travel-documents/download/${params.row.id}/`,
-                'code.png'
+                params.row.filename
               )
             }
           >
             {' '}
             <Icon icon='bi:file-earmark-arrow-down-fill' width='24' height='24' color={thisGray} />{' '}
           </a>
+        ) : (
+          ''
         )
       }
     },

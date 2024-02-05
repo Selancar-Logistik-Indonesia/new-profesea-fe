@@ -88,11 +88,21 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
 
       width: 180,
       renderCell(params: any) {
-        return (
-          <a href={process.env.NEXT_PUBLIC_BASE_API + `/seafarer-proficiencies/download/${params.row.id}`}>
+        return params.row.filename ? (
+          <a
+            href='#'
+            onClick={() =>
+              HttpClient.downloadFile(
+                process.env.NEXT_PUBLIC_BASE_API + `/seafarer-competencies/download/${params.row.id}/`,
+                params.row.certificate_number
+              )
+            }
+          >
             {' '}
             <Icon icon='bi:file-earmark-arrow-down-fill' width='24' height='24' color={thisGray} />{' '}
           </a>
+        ) : (
+          ''
         )
       }
     },
