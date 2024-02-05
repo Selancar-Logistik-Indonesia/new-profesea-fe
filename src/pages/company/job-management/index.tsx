@@ -84,15 +84,28 @@ const JobManagementScreen = () => {
 
   const cekDocument = async () => {
     try {
-      const resp = await HttpClient.get(`/user/document`)
+      const resp = await HttpClient.get(`/user/document?siup=1`)
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'
       }
 
       const rows = resp.data.documents as any[]
-      if (rows.length < 1 || user.verified_at === null) {
-        //toast.error(`You can not post job yet, your account not verified`);
-        setOpenBlockModal(true)
+      if (user.is_crewing == 1) {
+        if (rows.length < 1 || user.verified_at === null) {
+          setOpenBlockModal(true)
+        }
+      }
+
+      const resp2 = await HttpClient.get(`/user/document`)
+      if (resp2.status != 200) {
+        throw resp2.data.message ?? 'Something went wrong!'
+      }
+
+      const rows2 = resp2.data.documents as any[]
+      if (user.is_crewing == 0) {
+        if (rows2.length < 1 || user.verified_at === null) {
+          setOpenBlockModal(true)
+        }
       }
     } catch (error) {
       let errorMessage = 'Something went wrong!'
@@ -215,7 +228,7 @@ const JobManagementScreen = () => {
         visible={openBlockModal}
         onCloseClick={() => {
           setOpenBlockModal(!openBlockModal)
-          //window.location.replace("/home")
+          window.location.replace('/home')
         }}
       />
     </>
