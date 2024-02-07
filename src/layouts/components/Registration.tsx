@@ -76,8 +76,7 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
 const Registration = (props: any) => {
   const { tipereg } = props
   const { type } = props
-  const { vonchangeEmployee } = props
-  const { disabledcombo } = props
+  // const { vonchangeEmployee } = props
   const router = useRouter()
   const { t } = useTranslation()
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -114,8 +113,8 @@ const Registration = (props: any) => {
   const {
     register,
     formState: { errors },
-    handleSubmit,
-    setValue
+    handleSubmit
+    // setValue
   } = useForm<FormData>({
     mode: 'onBlur',
     resolver: yupResolver(tipereg == 'seafarer' ? schemaSeafarer : schema)
@@ -197,12 +196,12 @@ const Registration = (props: any) => {
     combobox()
   }, [])
 
-  const onChangeEmployee = (newValue: any) => {
-    if (newValue) {
-      setValue('position', newValue)
-      vonchangeEmployee(newValue.id)
-    }
-  }
+  // const onChangeEmployee = (newValue: any) => {
+  //   if (newValue) {
+  //     setValue('position', newValue)
+  //     vonchangeEmployee(newValue.id)
+  //   }
+  // }
 
   return (
     <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
