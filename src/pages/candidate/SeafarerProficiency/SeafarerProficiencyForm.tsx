@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement, useState, useEffect, useRef } from 'react'
+import { Ref, forwardRef, ReactElement, useState, useEffect } from 'react'
 
 import {
   Autocomplete,
@@ -15,10 +15,6 @@ import {
   Typography,
   DialogActions,
   TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
   FormControlLabel
 } from '@mui/material'
 import { Icon } from '@iconify/react'
@@ -139,7 +135,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
     formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
     formData.append('attachment', attachment)
     HttpClient.post(AppConfig.baseUrl + '/seafarer-proficiencies/', formData)
-      .then(res => {
+      .then(() => {
         toast.success('create proficiency success')
         loadProficiency()
         handleModalForm()
@@ -161,7 +157,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
     formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
     formData.append('attachment', attachment)
     HttpClient.post(AppConfig.baseUrl + '/seafarer-proficiencies/' + id, formData)
-      .then(res => {
+      .then(() => {
         toast.success('update proficiency success')
         loadProficiency()
         handleModalForm()

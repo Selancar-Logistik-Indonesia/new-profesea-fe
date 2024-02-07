@@ -8,14 +8,14 @@ export interface ISeafarerCompetencyForm {
     type: string
     user_id: number
     showModal: boolean
-    handleModalForm: Function
-    loadCompetency: Function
+    handleModalForm: () => void
+    loadCompetency: () => void
     seafarerCompetency?: ISeafarerCompetencyData
 }
 
 export interface ISeafarerCompetencyDelete {
     showModal: boolean
-    handleModalDelete: Function
-    loadCompetency: Function
+    handleModalDelete: () => void
+    loadCompetency: () => void
     seafarerCompetency?: ISeafarerCompetencyData
 }

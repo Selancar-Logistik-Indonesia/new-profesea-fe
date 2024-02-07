@@ -8,14 +8,14 @@ export interface ISeafarerTravelDocumentForm {
     type: string
     user_id: number
     showModal: boolean
-    handleModalForm: Function
-    loadTravelDocument: Function
+    handleModalForm: () => void
+    loadTravelDocument: () => void
     seafarerTravelDocument?: ISeafarerTravelDocumentData
 }
 
 export interface ISeafarerTravelDocumentDelete {
     showModal: boolean
-    handleModalDelete: Function
-    loadTravelDocument: Function
+    handleModalDelete: () => void
+    loadTravelDocument: () => void
     seafarerTravelDocument?: ISeafarerTravelDocumentData
 }

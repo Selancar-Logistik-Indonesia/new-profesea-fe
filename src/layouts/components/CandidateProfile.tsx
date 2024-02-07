@@ -58,7 +58,7 @@ import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
-import { refreshsession, removeFirstZeroChar, subscribev } from 'src/utils/helpers'
+import { refreshsession, removeFirstZeroChar } from 'src/utils/helpers'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import JobCategory from 'src/contract/models/job_category'
@@ -67,6 +67,7 @@ import SeafarerTravelDocumentTable from 'src/pages/candidate/SeafarerTravelDocum
 import SeafarerExperienceTable from 'src/pages/candidate/SeafarerExperience/SeafarerExperienceTable'
 import SeafarerCompetencyTable from 'src/pages/candidate/SeafarerCompetency/SeafarerCompetencyTable'
 import SeafarerProficiencyTable from 'src/pages/candidate/SeafarerProficiency/SeafarerProficiencyTable'
+// import SeafarerRecommendationForm from 'src/pages/candidate/SeafarerRecommendation/SeafarerRecommendationForm'
 
 type FormData = {
   fullName: string
@@ -218,7 +219,7 @@ const CandidateProfile = (props: compProps) => {
   // const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
   // const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
   // const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
-  const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
+  // const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
   const [arrayHead, getArrayHead] = useState<any[]>([])
   const [JobCategory, getJobCategory] = useState<any[]>([])
   const [JC, setJC] = useState(
@@ -916,7 +917,6 @@ const CandidateProfile = (props: compProps) => {
                   {...register('fullName')}
                 />
               </Grid>
-
               <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -932,7 +932,6 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid>
-
               <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -949,7 +948,6 @@ const CandidateProfile = (props: compProps) => {
                   // }
                 />
               </Grid>
-
               <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -963,7 +961,6 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid>
-
               <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -977,7 +974,6 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid>
-
               <Grid item md={6} xs={12}>
                 <TextField
                   id='address'
@@ -990,7 +986,6 @@ const CandidateProfile = (props: compProps) => {
                   {...register('address')}
                 />
               </Grid>
-
               <Grid item md={3} xs={12}>
                 <TextField
                   id='Email'
@@ -1003,7 +998,6 @@ const CandidateProfile = (props: compProps) => {
                   {...register('email')}
                 />
               </Grid>
-
               {props.datauser.role == 'Company' && (
                 <>
                   <Grid item md={6} xs={12}>
@@ -1020,7 +1014,6 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </>
               )}
-
               {/* <Grid item md={1} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -1036,7 +1029,6 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid> */}
-
               <Grid item md={3} xs={12}>
                 <TextField
                   id='phone'
@@ -1076,7 +1068,6 @@ const CandidateProfile = (props: compProps) => {
                   }}
                 />
               </Grid>
-
               <Grid item md={3} xs={12}>
                 <TextField
                   id='date_of_birth'
@@ -1091,7 +1082,6 @@ const CandidateProfile = (props: compProps) => {
                   onChange={e => onChangeDateOfBirth(e.target.value)}
                 ></TextField>
               </Grid>
-
               <Grid item md={12} xs={12}>
                 <TextField
                   fullWidth
@@ -1106,7 +1096,6 @@ const CandidateProfile = (props: compProps) => {
                   {...register('about')}
                 />
               </Grid>
-
               {/* ----- Social Media Info ---- */}
               <>
                 <Grid item md={5} xs={12}>
@@ -1252,7 +1241,6 @@ const CandidateProfile = (props: compProps) => {
                 <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
               </>
               {/* ----- END Social Media Info ---- */}
-
               {tampilkanship == 'PELAUT' && (
                 <>
                   <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
@@ -1410,7 +1398,6 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </>
               )}
-
               {tampilkanship != 'PELAUT' && (
                 <>
                   <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
@@ -1567,9 +1554,7 @@ const CandidateProfile = (props: compProps) => {
                 </>
               )}
               <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
-
               <Box sx={{ marginTop: '20px' }}></Box>
-
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
                   <Grid container item xs={12} justifyContent={'left'}>
@@ -1681,9 +1666,7 @@ const CandidateProfile = (props: compProps) => {
                   ))}
                 </Grid>
               </Grid>
-
               {/* Work Experience */}
-
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
                   <Grid container item xs={12} justifyContent={'left'}>
@@ -1795,9 +1778,7 @@ const CandidateProfile = (props: compProps) => {
                   ))}
                 </Grid>
               </Grid>
-
               {/* End Work Experience */}
-
               {tampilkanship == 'PELAUT' && (
                 <Grid item container xs={12}>
                   <Grid xs={10} md={11}>
@@ -1989,24 +1970,21 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </Grid>
               )}
-
               <SeafarerTravelDocumentTable user_id={props?.datauser.id} />
               <Divider style={{ width: '100%', margin: '20px 0' }} />
-
               <SeafarerExperienceTable
                 user_id={props?.datauser.id}
                 no_experience={noExperience}
                 setNoExperience={setNoExperience}
               />
               <Divider style={{ width: '100%', margin: '20px 0' }} />
-
               <SeafarerCompetencyTable user_id={props?.datauser.id} />
               <Divider style={{ width: '100%', margin: '20px 0' }} />
-
               <SeafarerProficiencyTable user_id={props?.datauser.id} />
-
+              <Divider style={{ width: '100%', margin: '20px 0' }} />
+              {/* {JSON.stringify(secureLocalStorage.getItem(localStorageKeys.userData))} */}
+              {/* <SeafarerRecommendationForm user_id={props?.datauser.id} /> */}
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
-
               <Grid item container direction='row' justifyContent='flex-end' alignItems='right' md={12} lg={12} xs={12}>
                 <Button variant='contained' color='success' size='small' type='submit' sx={{ mt: 7, mb: 7 }}>
                   <Icon

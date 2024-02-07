@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement, useState, useEffect, useRef } from 'react'
+import { Ref, forwardRef, ReactElement, useState, useEffect } from 'react'
 
 import {
   Autocomplete,
@@ -54,8 +54,6 @@ const Transition = forwardRef(function Transition(
 const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
   const { type, seafarerExperience, showModal, user_id, handleModalForm, loadExperience } = props
   const id = seafarerExperience?.id
-
-  const [userId, setUserId] = useState()
 
   const [rankId, setRankId] = useState(
     type == 'edit'
@@ -147,8 +145,8 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
       sign_off: values.sign_off,
       company: values.company
     })
-      .then(res => {
-        toast.create('create experience success')
+      .then(() => {
+        toast.success('create experience success')
         handleModalForm()
         loadExperience()
       })
@@ -170,7 +168,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
       sign_off: values.sign_off,
       company: values.company
     })
-      .then(res => {
+      .then(() => {
         toast.success('update experience success')
         handleModalForm()
         loadExperience()

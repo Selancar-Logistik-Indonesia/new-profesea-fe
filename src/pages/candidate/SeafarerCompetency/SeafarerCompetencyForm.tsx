@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement, useState, useEffect, useRef } from 'react'
+import { Ref, forwardRef, ReactElement, useState, useEffect } from 'react'
 
 import {
   Autocomplete,
@@ -134,7 +134,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
     formData.append('attachment', attachment)
 
     HttpClient.post(AppConfig.baseUrl + '/seafarer-competencies/', formData)
-      .then(res => {
+      .then(() => {
         toast.success('create competency success')
         loadCompetency()
         handleModalForm()
@@ -157,7 +157,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
     formData.append('attachment', attachment)
 
     HttpClient.post(AppConfig.baseUrl + '/seafarer-competencies/' + id, formData)
-      .then(res => {
+      .then(() => {
         toast.success('update competency success')
         loadCompetency()
         handleModalForm()

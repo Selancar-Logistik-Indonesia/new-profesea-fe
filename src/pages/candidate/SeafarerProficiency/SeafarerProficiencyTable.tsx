@@ -6,6 +6,10 @@ import { Grid, Typography, Button, Paper, TableContainer, IconButton } from '@mu
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { ISeafarerProficiencyProps } from './SeafarerProficiencyInterface'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import { IUser } from 'src/contract/models/user'
+
 import ISeafarerProficiencyData from '../../../contract/models/seafarer_proficiency'
 import SeafarerProficiencyForm from './SeafarerProficiencyForm'
 import SeafarerProficiencyDeleteConfirm from './SeafarerProficiencyDeleteConfirm'
@@ -23,6 +27,8 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
   const { user_id } = props
 
   const thisGray = 'rgba(66, 66, 66, 1)'
+
+  const userSession = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   const loadProficiency = () => {
     setLoading(true)
@@ -88,7 +94,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
 
       width: 180,
       renderCell(params: any) {
-        return params.row.filename ? (
+        return userSession.id == user_id && params.row.filename ? (
           <a
             href='#'
             onClick={() =>
@@ -111,7 +117,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
       headerName: 'Action',
       width: 180,
       renderCell(params: any) {
-        return (
+        return userSession.id == user_id ? (
           <>
             <IconButton
               size='small'
@@ -130,6 +136,8 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
               <Icon icon='material-symbols:delete-outline' width='24' height='24' color={thisGray} />
             </IconButton>
           </>
+        ) : (
+          ''
         )
       }
     }
@@ -137,21 +145,26 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
 
   return (
     <>
-      <SeafarerProficiencyForm
-        user_id={user_id}
-        key={seafarerProficiency?.id}
-        seafarerProficiency={seafarerProficiency}
-        type={modalFormType}
-        handleModalForm={handleModalForm}
-        loadProficiency={loadProficiency}
-        showModal={modalFormOpen}
-      />
-      <SeafarerProficiencyDeleteConfirm
-        seafarerProficiency={seafarerProficiency}
-        handleModalDelete={handleModalDelete}
-        loadProficiency={loadProficiency}
-        showModal={modalDeleteOpen}
-      />
+      {userSession.id == user_id && (
+        <SeafarerProficiencyForm
+          user_id={user_id}
+          key={seafarerProficiency?.id}
+          seafarerProficiency={seafarerProficiency}
+          type={modalFormType}
+          handleModalForm={handleModalForm}
+          loadProficiency={loadProficiency}
+          showModal={modalFormOpen}
+        />
+      )}
+
+      {userSession.id == user_id && (
+        <SeafarerProficiencyDeleteConfirm
+          seafarerProficiency={seafarerProficiency}
+          handleModalDelete={handleModalDelete}
+          loadProficiency={loadProficiency}
+          showModal={modalDeleteOpen}
+        />
+      )}
       <Grid container xs={12} md={12} lg={12}>
         <Grid item xs={12} md={6} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
@@ -160,20 +173,22 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
         </Grid>
         <Grid item md={6}>
           <Grid container md={12} justifyContent={'right'}>
-            <Button
-              variant='contained'
-              style={{ marginBottom: 10 }}
-              size='small'
-              onClick={() => handleModalForm('create')}
-            >
-              <Icon
-                fontSize='small'
-                icon={'solar:add-circle-bold-duotone'}
-                color={'success'}
-                style={{ fontSize: '18px' }}
-              />
-              <div> Add Proficiency </div>
-            </Button>
+            {userSession.id == user_id && (
+              <Button
+                variant='contained'
+                style={{ marginBottom: 10 }}
+                size='small'
+                onClick={() => handleModalForm('create')}
+              >
+                <Icon
+                  fontSize='small'
+                  icon={'solar:add-circle-bold-duotone'}
+                  color={'success'}
+                  style={{ fontSize: '18px' }}
+                />
+                <div> Add Proficiency </div>
+              </Button>
+            )}
           </Grid>
         </Grid>
       </Grid>

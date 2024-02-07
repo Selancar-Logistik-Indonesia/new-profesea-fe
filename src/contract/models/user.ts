@@ -43,4 +43,5 @@ export interface IUser {
   verified_at: string
   is_crewing: number
   no_experience: boolean
+  date_of_birth: string
 }

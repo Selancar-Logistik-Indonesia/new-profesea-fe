@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement, useState, useEffect, useRef } from 'react'
+import { Ref, forwardRef, ReactElement, useState, useEffect } from 'react'
 
 import {
   Box,
@@ -29,6 +29,7 @@ import { ISeafarerTravelDocumentForm } from './SeafarerTravelDocumentInterface'
 import DatePicker from 'react-datepicker'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
@@ -126,7 +127,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
     formData.append('attachment', attachment)
     HttpClient.post(AppConfig.baseUrl + '/seafarer-travel-documents/', formData)
-      .then(res => {
+      .then(() => {
         toast.success('create travel document success')
         handleModalForm()
         loadTravelDocument()
@@ -152,7 +153,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
     formData.append('attachment', attachment)
     HttpClient.post(AppConfig.baseUrl + '/seafarer-travel-documents/' + id, formData)
-      .then(res => {
+      .then(() => {
         toast.success('update travel document success')
         handleModalForm()
         loadTravelDocument()

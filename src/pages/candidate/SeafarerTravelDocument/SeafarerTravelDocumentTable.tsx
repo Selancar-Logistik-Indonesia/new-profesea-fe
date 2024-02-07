@@ -5,6 +5,8 @@ import { AppConfig } from 'src/configs/api'
 import { Grid, Typography, Button, Paper, TableContainer, IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
 
 import { ISeafarerTravelDocumentProps } from './SeafarerTravelDocumentInterface'
 import ISeafarerTravelDocumentData from './../../../contract/models/seafarer_travel_document'
@@ -13,6 +15,7 @@ import SeafarerTravelDocumentForm from './SeafarerTravelDocumentForm'
 import SeafarerTravelDocumentDeleteConfirm from './SeafarerTravelDocumentDeleteConfirm'
 import LoadingIcon from 'src/layouts/components/LoadingIcon'
 import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
+import { IUser } from 'src/contract/models/user'
 
 const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
   const [rows, setRows] = useState([])
@@ -25,6 +28,8 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
   const { user_id } = props
 
   const thisGray = 'rgba(66, 66, 66, 1)'
+
+  const userSession = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   const loadTravelDocument = () => {
     setLoading(true)
@@ -92,7 +97,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
 
       width: 180,
       renderCell(params: any) {
-        return params.row.filename ? (
+        return user_id == userSession?.id && params.row.filename ? (
           <a
             href='#'
             onClick={() =>
@@ -115,7 +120,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
       headerName: 'Action',
       width: 180,
       renderCell(params: any) {
-        return (
+        return user_id == userSession?.id ? (
           <>
             <IconButton
               size='small'
@@ -136,6 +141,8 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
               <Icon icon='material-symbols:delete-outline' width='24' height='24' color={thisGray} />
             </IconButton>
           </>
+        ) : (
+          ''
         )
       }
     }
@@ -143,21 +150,25 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
 
   return (
     <>
-      <SeafarerTravelDocumentForm
-        key={seafarerTravelDocument?.id}
-        seafarerTravelDocument={seafarerTravelDocument}
-        user_id={user_id}
-        type={modalFormType}
-        handleModalForm={handleModalForm}
-        loadTravelDocument={loadTravelDocument}
-        showModal={modalFormOpen}
-      />
-      <SeafarerTravelDocumentDeleteConfirm
-        seafarerTravelDocument={seafarerTravelDocument}
-        handleModalDelete={handleModalDelete}
-        loadTravelDocument={loadTravelDocument}
-        showModal={modalDeleteOpen}
-      />
+      {userSession.id == user_id && (
+        <SeafarerTravelDocumentForm
+          key={seafarerTravelDocument?.id}
+          seafarerTravelDocument={seafarerTravelDocument}
+          user_id={user_id}
+          type={modalFormType}
+          handleModalForm={handleModalForm}
+          loadTravelDocument={loadTravelDocument}
+          showModal={modalFormOpen}
+        />
+      )}
+      {userSession.id == user_id && (
+        <SeafarerTravelDocumentDeleteConfirm
+          seafarerTravelDocument={seafarerTravelDocument}
+          handleModalDelete={handleModalDelete}
+          loadTravelDocument={loadTravelDocument}
+          showModal={modalDeleteOpen}
+        />
+      )}
       <Grid container xs={12} md={12} lg={12}>
         <Grid item xs={12} md={6} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
@@ -166,20 +177,22 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
         </Grid>
         <Grid item md={6}>
           <Grid container md={12} justifyContent={'right'}>
-            <Button
-              variant='contained'
-              style={{ marginBottom: 10 }}
-              size='small'
-              onClick={() => handleModalForm('create')}
-            >
-              <Icon
-                fontSize='small'
-                icon={'solar:add-circle-bold-duotone'}
-                color={'success'}
-                style={{ fontSize: '18px' }}
-              />
-              <div> Add Travel Document </div>
-            </Button>
+            {userSession.id == user_id && (
+              <Button
+                variant='contained'
+                style={{ marginBottom: 10 }}
+                size='small'
+                onClick={() => handleModalForm('create')}
+              >
+                <Icon
+                  fontSize='small'
+                  icon={'solar:add-circle-bold-duotone'}
+                  color={'success'}
+                  style={{ fontSize: '18px' }}
+                />
+                <div> Add Travel Document </div>
+              </Button>
+            )}
           </Grid>
         </Grid>
       </Grid>

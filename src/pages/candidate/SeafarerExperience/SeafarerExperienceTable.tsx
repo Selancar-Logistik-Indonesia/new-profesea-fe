@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import { Box, Grid, Typography, Button, Paper, TableContainer, Checkbox, IconButton } from '@mui/material'
+import { Grid, Typography, Button, Paper, TableContainer, Checkbox, IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { toast } from 'react-hot-toast'
+
 import { ISeafarerExperienceProps } from './SeafarerExperienceInterface'
 import ISeafarerExperienceData from './../../../contract/models/seafarer_experience'
 import SeafarerExperienceForm from './SeafarerExperienceForm'
