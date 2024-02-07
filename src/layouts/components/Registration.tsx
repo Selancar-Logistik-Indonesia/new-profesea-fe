@@ -2,7 +2,23 @@
 import { ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Components
-import { Button, Divider, Checkbox, TextField, InputLabel, IconButton, Box, FormControl, OutlinedInput, InputAdornment,tooltipClasses, Typography, Alert, Tooltip, TooltipProps } from '@mui/material'
+import {
+  Button,
+  Divider,
+  Checkbox,
+  TextField,
+  InputLabel,
+  IconButton,
+  Box,
+  FormControl,
+  OutlinedInput,
+  InputAdornment,
+  tooltipClasses,
+  Typography,
+  Alert,
+  Tooltip,
+  TooltipProps
+} from '@mui/material'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -15,7 +31,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Hooks
 
 // ** Demo Imports
-import { Autocomplete,  Grid } from '@mui/material'
+import { Autocomplete, Grid } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
 
@@ -45,8 +61,7 @@ interface FormData {
   privacy: string
 }
 const LinkStyled = styled(Link)(() => ({
-
-  textDecoration: 'none',
+  textDecoration: 'none'
 }))
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -59,7 +74,6 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   }
 }))
 const Registration = (props: any) => {
- 
   const { tipereg } = props
   const { type } = props
   const { vonchangeEmployee } = props
@@ -69,16 +83,13 @@ const Registration = (props: any) => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [combocode, getCombocode] = useState<any>([])
   const [idcombocode, setCombocode] = useState<any>({ label: 'Loading...', id: 0 })
-  const [idposition, setPosition] = useState<any>(
-    type == 'onship' ? { label: 'Pelaut', id: 0 } : type == 'offship' ? { label: 'Non Pelaut', id: 1 } : ''
-  )
 
-  const schemaSeafer = yup.object().shape({
+  const schemaSeafarer = yup.object().shape({
     name: yup.string().required(),
     email: yup.string().email().required(),
     password: yup.string().min(5).required(),
     username: yup.string().required(),
-    position: yup.object().nullable().required(),
+
     phone: yup.string().required()
   })
 
@@ -90,9 +101,9 @@ const Registration = (props: any) => {
     phone: yup.string().required()
   })
 
-  const [phoneNum, setPhoneNum] = useState('');
+  const [phoneNum, setPhoneNum] = useState('')
   const onChangePhoneNum = (input: string) => {
-    setPhoneNum(removeFirstZeroChar(input));
+    setPhoneNum(removeFirstZeroChar(input))
   }
   const handleInputChange = (e: any) => {
     // Mengubah teks menjadi huruf kecil dan menyimpannya dalam state
@@ -107,19 +118,22 @@ const Registration = (props: any) => {
     setValue
   } = useForm<FormData>({
     mode: 'onBlur',
-    resolver: yupResolver(tipereg == 'seafer' ? schemaSeafer : schema)
+    resolver: yupResolver(tipereg == 'seafarer' ? schemaSeafarer : schema)
   })
 
   const save = (json: any) => {
-    HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(({ data }) => {
-      console.log("here 1", data);
-      toast.success(  ' Successfully submited!');
-      router.push('/registersuccess')
-    }, error => {
-      console.log("here 1", error);
-      toast.error('Registrastion Failed ' + error.response.data.message)
-    });
-  };
+    HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(
+      ({ data }) => {
+        console.log('here 1', data)
+        toast.success(' Successfully submited!')
+        router.push('/registersuccess')
+      },
+      error => {
+        console.log('here 1', error)
+        toast.error('Registrastion Failed ' + error.response.data.message)
+      }
+    )
+  }
 
   const onSubmit = (data: FormData) => {
     const { password, password2, username, name, email, term, privacy } = data
@@ -135,22 +149,13 @@ const Registration = (props: any) => {
       return
     }
 
-    let ship = ''
-    if (idposition.id == 0) {
-      ship = 'onship'
-    } else {
-      ship = 'offship'
-    }
-
     let teamid: number
-    if (tipereg == 'seafer') {
+    if (tipereg == 'seafarer') {
       teamid = 2
     } else if (tipereg == 'company') {
       teamid = 3
-      ship = ''
     } else {
       teamid = 4
-      ship = ''
     }
 
     const json = {
@@ -159,7 +164,7 @@ const Registration = (props: any) => {
       username: username,
       password: password,
       password_confirmation: password2,
-      employee_type: ship,
+      employee_type: type,
       team_id: teamid,
       country_id: idcombocode.id,
       phone: phoneNum
@@ -174,60 +179,45 @@ const Registration = (props: any) => {
   }
 
   const combobox = () => {
-    HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
-      .then((response) => {
-        const code = response.data.countries;
-        for (let x = 0; x < code.length; x++) {
-          const element = code[x];
-          element.label = element.iso + ' (' + element.phonecode + ')'
-          if(element.id == 100){
-            setCombocode(element)
-          }
+    HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
+      const code = response.data.countries
+      for (let x = 0; x < code.length; x++) {
+        const element = code[x]
+        element.label = element.iso + ' (' + element.phonecode + ')'
+        if (element.id == 100) {
+          setCombocode(element)
         }
+      }
 
-        getCombocode(code);
-      })
-
+      getCombocode(code)
+    })
   }
-
 
   useEffect(() => {
     combobox()
-  }, []);
+  }, [])
 
-  const position = [
-    { label: 'Pelaut', id: 0 },
-    { label: 'Non Pelaut', id: 1 },
-  ]
   const onChangeEmployee = (newValue: any) => {
-    if(newValue){
-      setValue("position", newValue)
-      setPosition(newValue)
+    if (newValue) {
+      setValue('position', newValue)
       vonchangeEmployee(newValue.id)
-    } else {
-      setPosition("")
     }
   }
 
   return (
     <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
       <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
-        {tipereg == 'seafer' ? (
+        {tipereg == 'seafarer' ? (
           <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
-            <Grid item md={12} xs={12}>
-              <TextField id='Name' label='Nama Kandidat' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} error={Boolean(errors.name)} />
-            </Grid>
-
             <Grid item md={6} xs={12}>
-              <Autocomplete
-                disablePortal
-                id='position'
-                options={!position ? [{ label: 'Loading...', id: 0 }] : position}
-                defaultValue={idposition}
-                disabled={disabledcombo}
-                renderInput={params => <TextField {...params} label='Ship' sx={{ mb: 2 }} error={Boolean(errors.position)}/>}
-                {...register('position')}
-                onChange={(event: any, newValue: any | null) => onChangeEmployee(newValue)}
+              <TextField
+                id='Name'
+                label='Nama Kandidat'
+                variant='outlined'
+                fullWidth
+                sx={{ mb: 2 }}
+                {...register('name')}
+                error={Boolean(errors.name)}
               />
             </Grid>
             <Grid item md={6} xs={12}>
@@ -247,7 +237,7 @@ const Registration = (props: any) => {
                 fullWidth
                 sx={{ mb: 2 }}
                 value={phoneNum}
-                {...register("phone")}
+                {...register('phone')}
                 onChange={e => onChangePhoneNum(e.target.value)}
                 error={Boolean(errors.phone)}
                 InputProps={{
@@ -282,7 +272,15 @@ const Registration = (props: any) => {
         ) : (
           <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
             <Grid item md={6} xs={12}>
-              <TextField id='Name' label={ (tipereg == 'company') ? 'Nama Perusahaan' : 'Nama Pusat Pelatihan'} variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} error={Boolean(errors.name)} />
+              <TextField
+                id='Name'
+                label={tipereg == 'company' ? 'Nama Perusahaan' : 'Nama Pusat Pelatihan'}
+                variant='outlined'
+                fullWidth
+                sx={{ mb: 2 }}
+                {...register('name')}
+                error={Boolean(errors.name)}
+              />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
@@ -293,7 +291,7 @@ const Registration = (props: any) => {
                 fullWidth
                 sx={{ mb: 2 }}
                 value={phoneNum}
-                {...register("phone")}
+                {...register('phone')}
                 onChange={e => onChangePhoneNum(e.target.value)}
                 error={Boolean(errors.phone)}
                 InputProps={{
@@ -479,6 +477,6 @@ const Registration = (props: any) => {
   )
 }
 
-Registration.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>;
-Registration.guestGuard = true;
+Registration.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+Registration.guestGuard = true
 export default Registration

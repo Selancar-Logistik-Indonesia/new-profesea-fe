@@ -2,7 +2,23 @@
 import { ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Components
-import { Button, Divider, Checkbox, TextField, InputLabel, IconButton, Box, FormControl, OutlinedInput, InputAdornment,tooltipClasses, Typography, Alert, Tooltip, TooltipProps } from '@mui/material'
+import {
+  Button,
+  Divider,
+  Checkbox,
+  TextField,
+  InputLabel,
+  IconButton,
+  Box,
+  FormControl,
+  OutlinedInput,
+  InputAdornment,
+  tooltipClasses,
+  Typography,
+  Alert,
+  Tooltip,
+  TooltipProps
+} from '@mui/material'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -15,7 +31,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Hooks
 
 // ** Demo Imports
-import { Autocomplete,  Grid } from '@mui/material'
+import { Autocomplete, Grid } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
 
@@ -24,7 +40,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import { toast } from 'react-hot-toast' 
+import { toast } from 'react-hot-toast'
 import Link from 'next/link'
 import { removeFirstZeroChar } from 'src/utils/helpers'
 
@@ -45,8 +61,7 @@ interface FormData {
   privacy: string
 }
 const LinkStyled = styled(Link)(() => ({
-
-  textDecoration: 'none',
+  textDecoration: 'none'
 }))
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -59,14 +74,13 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   }
 }))
 const RegistrationEvent = (props: any) => {
-  
   const { tipereg } = props
   const { type } = props
   const { vonchangeEmployee } = props
   const { disabledcombo } = props
-  const { event } = props  
-  const router = useRouter() 
-  const { t } = useTranslation();
+  const { event } = props
+  const router = useRouter()
+  const { t } = useTranslation()
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [combocode, getCombocode] = useState<any>([])
   const [idcombocode, setCombocode] = useState<any>({ label: 'Loading...', id: 0 })
@@ -78,10 +92,10 @@ const RegistrationEvent = (props: any) => {
     email: yup.string().email().required(),
     password: yup.string().min(5).required()
   })
-   const [phoneNum, setPhoneNum] = useState('');
+  const [phoneNum, setPhoneNum] = useState('')
   // const [teks, setTeks] = useState('')
   const onChangePhoneNum = (input: string) => {
-    setPhoneNum(removeFirstZeroChar(input));
+    setPhoneNum(removeFirstZeroChar(input))
   }
   const handleInputChange = (e: any) => {
     // Mengubah teks menjadi huruf kecil dan menyimpannya dalam state
@@ -91,35 +105,38 @@ const RegistrationEvent = (props: any) => {
   const {
     register,
     formState: { errors },
-    handleSubmit,
+    handleSubmit
   } = useForm<FormData>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
-  });
+  })
 
   const save = (json: any) => {
-    HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(({ data }) => {
-      console.log("here 1", data);
-      toast.success(' "data tersebut akan otomatis terdaftar sebagai user profesea')
-      router.push('/registersuccess/?event=true')
-    }, error => {
-      console.log("here 1", error);
-      toast.error('Registrastion Failed ' + error.response.data.message)
-    });
-  };
+    HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(
+      ({ data }) => {
+        console.log('here 1', data)
+        toast.success(' "data tersebut akan otomatis terdaftar sebagai user profesea')
+        router.push('/registersuccess/?event=true')
+      },
+      error => {
+        console.log('here 1', error)
+        toast.error('Registrastion Failed ' + error.response.data.message)
+      }
+    )
+  }
 
   const onSubmit = (data: FormData) => {
     const { password, password2, username, name, email, term, privacy } = data
     if (term == '') {
-      toast.error(data.name + ' Please checklist term!');
+      toast.error(data.name + ' Please checklist term!')
 
-      return;
+      return
     }
 
     if (privacy == '') {
-      toast.error(data.name + ' Please checklist privacy');
+      toast.error(data.name + ' Please checklist privacy')
 
-      return;
+      return
     }
 
     let ship = ''
@@ -129,8 +146,8 @@ const RegistrationEvent = (props: any) => {
       ship = 'offship'
     }
 
-    let teamid: number;
-    if (tipereg == 'seafer') {
+    let teamid: number
+    if (tipereg == 'seafarer') {
       teamid = 2
     } else if (tipereg == 'company') {
       teamid = 3
@@ -139,65 +156,61 @@ const RegistrationEvent = (props: any) => {
       teamid = 4
       ship = ''
     }
-  
+
     const json = {
-      'name': name,
-      "email": email,
-      "username": username,
-      "password": password,
-      "password_confirmation": password2,
-      "employee_type": ship,
-      "team_id": teamid,
-      "country_id": idcombocode.id,
-      "phone": phoneNum,
-      "event": event
-    };
+      name: name,
+      email: email,
+      username: username,
+      password: password,
+      password_confirmation: password2,
+      employee_type: ship,
+      team_id: teamid,
+      country_id: idcombocode.id,
+      phone: phoneNum,
+      event: event
+    }
 
     try {
-      save(json);
+      save(json)
     } catch (e) {
       alert(e)
       toast.success(`Registrasi anda berhasil silahkan cek email anda untuk linke webinar anda`)
-      console.log(e);
+      console.log(e)
     }
-  };
-
-  const combobox = () => {
-    HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
-      .then((response) => {
-        const code = response.data.countries;
-        for (let x = 0; x < code.length; x++) {
-          const element = code[x];
-          element.label = element.iso + ' (' + element.phonecode + ')'
-          if(element.id == 100){
-            setCombocode(element)
-          }
-        }
-
-        getCombocode(code);
-      })
-
   }
 
+  const combobox = () => {
+    HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
+      const code = response.data.countries
+      for (let x = 0; x < code.length; x++) {
+        const element = code[x]
+        element.label = element.iso + ' (' + element.phonecode + ')'
+        if (element.id == 100) {
+          setCombocode(element)
+        }
+      }
+
+      getCombocode(code)
+    })
+  }
 
   useEffect(() => {
     combobox()
-  }, []);
+  }, [])
 
   const position = [
     { label: 'Pelaut', id: 0 },
-    { label: 'Non Pelaut', id: 1 },
+    { label: 'Non Pelaut', id: 1 }
   ]
   const onChangeEmployee = (newValue: any) => {
     setPosition(newValue)
     vonchangeEmployee(newValue.id)
-
   }
 
   return (
     <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
       <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
-        {tipereg == 'seafer' ? (
+        {tipereg == 'seafarer' ? (
           <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
             <Grid item md={12} xs={12}>
               <TextField id='Name' label='Name' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
@@ -456,7 +469,6 @@ const RegistrationEvent = (props: any) => {
           </Button>
         </Grid>
       </Grid>
-      
     </form>
   )
 }
