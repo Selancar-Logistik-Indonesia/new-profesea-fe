@@ -25,10 +25,11 @@ import { Icon } from '@iconify/react'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
-import { ISeafarerTravelDocumentForm } from './SeafarerTravelDocumentInterface'
 import DatePicker from 'react-datepicker'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+
+import { ISeafarerTravelDocumentForm } from '../../../contract/types/seafarer_travel_document_type'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -67,7 +68,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
   )
   const [validDateState, setValidDateState] = useState<any>()
   const [dateOfIssue, setDateOfIssue] = useState<any>()
-  const [attachment, setAttachment] = useState(null)
+  const [attachment, setAttachment] = useState<any>(null)
 
   const requiredDocumentType = [
     { id: 'passport', name: 'Passport' },
@@ -124,12 +125,12 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     if (values.valid_date) {
       formData.append('valid_date', !values.is_lifetime ? values.valid_date.toISOString().split('T')[0] : null)
     }
-    formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
-    formData.append('attachment', attachment)
+    formData.append('is_lifetime', values.is_lifetime ? String(1) : String(0))
+    formData.append('attachment', attachment ? attachment : '')
     HttpClient.post(AppConfig.baseUrl + '/seafarer-travel-documents/', formData)
       .then(() => {
         toast.success('create travel document success')
-        handleModalForm()
+        handleModalForm(type, undefined)
         loadTravelDocument()
       })
       .catch(err => {
@@ -137,7 +138,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
       })
   }
 
-  const updateTravelDocument = (id?: number, values: any) => {
+  const updateTravelDocument = (id?: number, values?: any) => {
     const formData = new FormData()
     formData.append('required_document', values.required_document)
     formData.append('document', values.document)
@@ -150,12 +151,12 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     if (values.valid_date) {
       formData.append('valid_date', !values.is_lifetime ? values.valid_date.toISOString().split('T')[0] : null)
     }
-    formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
-    formData.append('attachment', attachment)
+    formData.append('is_lifetime', values.is_lifetime ? String(1) : String(0))
+    formData.append('attachment', attachment ? attachment : '')
     HttpClient.post(AppConfig.baseUrl + '/seafarer-travel-documents/' + id, formData)
       .then(() => {
         toast.success('update travel document success')
-        handleModalForm()
+        handleModalForm(type, undefined)
         loadTravelDocument()
       })
       .catch(err => {
@@ -206,7 +207,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
           <IconButton
             size='small'
             sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-            onClick={e => props.handleModalForm(e)}
+            onClick={() => props.handleModalForm(type, undefined)}
           >
             <Icon width='24' height='24' icon='mdi:close' />
           </IconButton>
@@ -376,7 +377,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                   style={{ visibility: 'hidden' }}
                   type='file'
                   name='attachment'
-                  onChange={e => setAttachment(e.target?.files[0])}
+                  onChange={e => setAttachment(e.target?.files ? e.target?.files[0] : null)}
                 />
               </Button>
             </Grid>

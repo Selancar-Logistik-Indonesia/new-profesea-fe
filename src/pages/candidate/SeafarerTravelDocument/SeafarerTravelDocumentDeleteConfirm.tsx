@@ -5,7 +5,7 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
 
-import { ISeafarerTravelDocumentDelete } from './SeafarerTravelDocumentInterface'
+import { ISeafarerTravelDocumentDelete } from '../../../contract/types/seafarer_travel_document_type'
 
 export default function SeafarerTravelDocumentDeleteConfirm(props: ISeafarerTravelDocumentDelete) {
   const { seafarerTravelDocument, showModal, handleModalDelete, loadTravelDocument } = props

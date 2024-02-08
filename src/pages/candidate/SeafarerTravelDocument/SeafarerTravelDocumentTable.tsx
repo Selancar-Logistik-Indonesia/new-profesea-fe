@@ -8,7 +8,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 
-import { ISeafarerTravelDocumentProps } from './SeafarerTravelDocumentInterface'
+import { ISeafarerTravelDocumentProps } from './../../../contract/types/seafarer_travel_document_type'
 import ISeafarerTravelDocumentData from './../../../contract/models/seafarer_travel_document'
 
 import SeafarerTravelDocumentForm from './SeafarerTravelDocumentForm'
@@ -152,7 +152,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
     <>
       {userSession.id == user_id && (
         <SeafarerTravelDocumentForm
-          key={seafarerTravelDocument?.id}
+          key={seafarerTravelDocument ? seafarerTravelDocument['id'] : 0}
           seafarerTravelDocument={seafarerTravelDocument}
           user_id={user_id}
           type={modalFormType}

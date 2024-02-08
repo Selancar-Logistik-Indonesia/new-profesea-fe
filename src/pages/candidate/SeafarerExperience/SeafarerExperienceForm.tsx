@@ -19,11 +19,11 @@ import { Icon } from '@iconify/react'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
-import { ISeafarerExperienceForm } from './SeafarerExperienceInterface'
 import DatePicker from 'react-datepicker'
-
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+
+import { ISeafarerExperienceForm } from './../../../contract/types/seafarer_experience_type'
 
 const ExperienceSchema = Yup.object().shape({
   user_id: Yup.number().required(),
@@ -55,7 +55,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
   const { type, seafarerExperience, showModal, user_id, handleModalForm, loadExperience } = props
   const id = seafarerExperience?.id
 
-  const [rankId, setRankId] = useState(
+  const [rankId, setRankId] = useState<any>(
     type == 'edit'
       ? {
           id: seafarerExperience?.rank_id,
@@ -63,7 +63,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
         }
       : ''
   )
-  const [vesselTypeId, setVesselTypeId] = useState(
+  const [vesselTypeId, setVesselTypeId] = useState<any>(
     type == 'edit'
       ? {
           id: seafarerExperience?.vessel_type_id,
@@ -147,7 +147,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
     })
       .then(() => {
         toast.success('create experience success')
-        handleModalForm()
+        handleModalForm(type, undefined)
         loadExperience()
       })
       .catch(err => {
@@ -170,7 +170,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
     })
       .then(() => {
         toast.success('update experience success')
-        handleModalForm()
+        handleModalForm(type, undefined)
         loadExperience()
       })
       .catch(err => {
@@ -198,7 +198,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
 
   const handleSubmit = (values: any) => {
     if (type == 'edit') {
-      updateExperience(id, values)
+      updateExperience(id ? id : 0, values)
     } else {
       createExperience(values)
     }
@@ -211,7 +211,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
           <IconButton
             size='small'
             sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-            onClick={e => props.handleModalForm(e)}
+            onClick={() => props.handleModalForm(type, undefined)}
           >
             <Icon width='24' height='24' icon='mdi:close' />
           </IconButton>
@@ -236,7 +236,6 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
             <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
                 id='autocomplete-vessel-type'
-                name='autocomplete-vessel-type'
                 disablePortal
                 options={vesselTypes}
                 getOptionLabel={(option: any) => option.name}
@@ -253,11 +252,10 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
             <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
                 id='autocomplete-rank'
-                name='autocomplete-rank'
                 disablePortal
                 options={ranks}
                 getOptionLabel={(option: any) => option.name}
-                defaultValue={rankId?.id ? rankId : ''}
+                defaultValue={rankId['id'] ? rankId : ''}
                 renderInput={params => <TextField {...params} label='Rank / Position' variant='standard' />}
                 onChange={(event: any, newValue: any) => (newValue?.id ? setRankId(newValue) : setRankId(''))}
               />

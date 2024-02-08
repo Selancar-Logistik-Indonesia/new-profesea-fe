@@ -98,7 +98,7 @@ const SeafarerProficiencyForm = (props: any) => {
               <IconButton
                 size='small'
                 sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-                onClick={e => setModalFormOpen(false)}
+                onClick={() => setModalFormOpen(false)}
               >
                 <Icon width='24' height='24' icon='mdi:close' />
               </IconButton>

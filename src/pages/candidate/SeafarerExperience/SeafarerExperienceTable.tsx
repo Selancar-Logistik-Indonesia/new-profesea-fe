@@ -6,7 +6,7 @@ import { Grid, Typography, Button, Paper, TableContainer, Checkbox, IconButton }
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
-import { ISeafarerExperienceProps } from './SeafarerExperienceInterface'
+import { ISeafarerExperienceProps } from '../../../contract/types/seafarer_experience_type'
 import ISeafarerExperienceData from './../../../contract/models/seafarer_experience'
 import SeafarerExperienceForm from './SeafarerExperienceForm'
 import SeafarerExperienceDeleteConfirm from './SeafarerExperienceDeleteConfirm'
@@ -140,7 +140,7 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
   return (
     <>
       <SeafarerExperienceForm
-        key={seafarerExperience?.id}
+        key={seafarerExperience ? seafarerExperience['id'] : 0}
         seafarerExperience={seafarerExperience}
         type={modalFormType}
         handleModalForm={handleModalForm}

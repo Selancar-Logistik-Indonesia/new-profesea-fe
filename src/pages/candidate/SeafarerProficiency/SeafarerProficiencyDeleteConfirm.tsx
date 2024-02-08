@@ -5,7 +5,7 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
 
-import { ISeafarerProficiencyDelete } from './SeafarerProficiencyInterface'
+import { ISeafarerProficiencyDelete } from '../../../contract/types/seafarer_proficiency_type'
 
 export default function SeafarerProficiencyDeleteConfirm(props: ISeafarerProficiencyDelete) {
   const { seafarerProficiency, showModal, handleModalDelete, loadProficiency } = props

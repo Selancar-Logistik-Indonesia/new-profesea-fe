@@ -1,4 +1,4 @@
-import ISeafarerCompetencyData from "./../../../contract/models/seafarer_competency"
+import ISeafarerCompetencyData from "./../../contract/models/seafarer_competency"
 
 export interface ISeafarerCompetencyProps {
     user_id: number
@@ -8,7 +8,7 @@ export interface ISeafarerCompetencyForm {
     type: string
     user_id: number
     showModal: boolean
-    handleModalForm: () => void
+    handleModalForm: (type: string, data?: any) => void
     loadCompetency: () => void
     seafarerCompetency?: ISeafarerCompetencyData
 }

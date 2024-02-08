@@ -5,7 +5,7 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
 
-import { ISeafarerCompetencyDelete } from './SeafarerCompetencyInterface'
+import { ISeafarerCompetencyDelete } from './../../../contract/types/seafarer_competency_type'
 
 export default function SeafarerCompetencyDeleteConfirm(props: ISeafarerCompetencyDelete) {
   const { seafarerCompetency, showModal, handleModalDelete, loadCompetency } = props

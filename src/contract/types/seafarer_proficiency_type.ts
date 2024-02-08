@@ -1,4 +1,4 @@
-import ISeafarerProficiencyData from "./../../../contract/models/seafarer_proficiency"
+import ISeafarerProficiencyData from "./../../contract/models/seafarer_proficiency"
 
 export interface ISeafarerProficiencyProps {
     user_id: number
@@ -8,7 +8,7 @@ export interface ISeafarerProficiencyForm {
     type: string
     user_id: number
     showModal: boolean
-    handleModalForm: () => void
+    handleModalForm: (type: string, data?: any) => void
     loadProficiency: () => void
     seafarerProficiency?: ISeafarerProficiencyData
 }

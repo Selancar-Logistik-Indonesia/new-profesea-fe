@@ -5,7 +5,7 @@ import { AppConfig } from 'src/configs/api'
 import { Grid, Typography, Button, Paper, TableContainer, IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { ISeafarerCompetencyProps } from './SeafarerCompetencyInterface'
+import { ISeafarerCompetencyProps } from '../../../contract/types/seafarer_competency_type'
 import ISeafarerCompetencyData from '../../../contract/models/seafarer_competency'
 import SeafarerCompetencyForm from './SeafarerCompetencyForm'
 import SeafarerCompetencyDeleteConfirm from './SeafarerCompetencyDeleteConfirm'
@@ -31,8 +31,7 @@ const SeafarerCompetencyTable = (props: ISeafarerCompetencyProps) => {
         return {
           ...item,
           certificate_name: item.competency.title,
-          country: item.country.name,
-          valid_until: item.valid_until ? new Date(item.valid_until) : 'lifetime'
+          country: item.country.name
         }
       })
 
@@ -75,7 +74,10 @@ const SeafarerCompetencyTable = (props: ISeafarerCompetencyProps) => {
     {
       field: 'valid_until',
       headerName: 'Valid Up',
-      width: 220
+      width: 220,
+      renderCell: (params: any) => {
+        return params.row.valid_until ? <>{params.row.valid_until}</> : 'lifetime'
+      }
     },
     {
       field: 'download',
@@ -131,7 +133,7 @@ const SeafarerCompetencyTable = (props: ISeafarerCompetencyProps) => {
   return (
     <>
       <SeafarerCompetencyForm
-        key={seafarerCompetency?.id}
+        key={seafarerCompetency ? seafarerCompetency['id'] : 0}
         user_id={user_id}
         seafarerCompetency={seafarerCompetency}
         type={modalFormType}

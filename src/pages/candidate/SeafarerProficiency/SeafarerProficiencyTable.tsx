@@ -5,13 +5,14 @@ import { AppConfig } from 'src/configs/api'
 import { Grid, Typography, Button, Paper, TableContainer, IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { ISeafarerProficiencyProps } from './SeafarerProficiencyInterface'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
-import { IUser } from 'src/contract/models/user'
 
+import { IUser } from 'src/contract/models/user'
+import { ISeafarerProficiencyProps } from '../../../contract/types/seafarer_proficiency_type'
 import ISeafarerProficiencyData from '../../../contract/models/seafarer_proficiency'
 import SeafarerProficiencyForm from './SeafarerProficiencyForm'
+
 import SeafarerProficiencyDeleteConfirm from './SeafarerProficiencyDeleteConfirm'
 import LoadingIcon from 'src/layouts/components/LoadingIcon'
 import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
@@ -37,8 +38,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
         return {
           ...item,
           certificate_name: item.proficiency.title,
-          country: item.country.name,
-          valid_until: item.valid_until ? new Date(item.valid_until) : 'lifetime'
+          country: item.country.name
         }
       })
 
@@ -86,7 +86,10 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
     {
       field: 'valid_until',
       headerName: 'Valid Up',
-      width: 220
+      width: 220,
+      renderCell: (params: any) => {
+        return params.row.valid_until ? <>{params.row.valid_until}</> : 'lifetime'
+      }
     },
     {
       field: 'download',
@@ -148,7 +151,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
       {userSession.id == user_id && (
         <SeafarerProficiencyForm
           user_id={user_id}
-          key={seafarerProficiency?.id}
+          key={seafarerProficiency ? seafarerProficiency['id'] : 0}
           seafarerProficiency={seafarerProficiency}
           type={modalFormType}
           handleModalForm={handleModalForm}

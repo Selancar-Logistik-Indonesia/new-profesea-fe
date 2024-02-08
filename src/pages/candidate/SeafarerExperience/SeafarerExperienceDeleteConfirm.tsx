@@ -5,7 +5,7 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
 
-import { ISeafarerExperienceDelete } from './SeafarerExperienceInterface'
+import { ISeafarerExperienceDelete } from './../../../contract/types/seafarer_experience_type'
 
 export default function SeafarerExperienceDeleteConfirm(props: ISeafarerExperienceDelete) {
   const { seafarerExperience, showModal, handleModalDelete, loadExperience } = props

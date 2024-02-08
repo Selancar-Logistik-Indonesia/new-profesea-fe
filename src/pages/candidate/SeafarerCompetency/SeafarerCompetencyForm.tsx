@@ -22,7 +22,7 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
 import { useFormik } from 'formik'
-import { ISeafarerCompetencyForm } from './SeafarerCompetencyInterface'
+import { ISeafarerCompetencyForm } from './../../../contract/types/seafarer_competency_type'
 import DatePicker from 'react-datepicker'
 import * as Yup from 'yup'
 
@@ -49,7 +49,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
   const id = seafarerCompetency?.id
 
   const [validDateState, setValidDateState] = useState<any>()
-  const [attachment, setAttachment] = useState(null)
+  const [attachment, setAttachment] = useState<any>(null)
 
   const [coc, setCoc] = useState<any>(
     type == 'edit'
@@ -130,14 +130,14 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
     if (values.valid_date) {
       formData.append('valid_until', !values.is_lifetime ? values.valid_date.toISOString().split('T')[0] : null)
     }
-    formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
-    formData.append('attachment', attachment)
+    formData.append('is_lifetime', values.is_lifetime ? String(1) : String(0))
+    formData.append('attachment', attachment ? attachment : '')
 
     HttpClient.post(AppConfig.baseUrl + '/seafarer-competencies/', formData)
       .then(() => {
         toast.success('create competency success')
         loadCompetency()
-        handleModalForm()
+        handleModalForm(type, undefined)
       })
       .catch(err => {
         toast.error(JSON.stringify(err.message))
@@ -153,29 +153,29 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
     if (values.valid_date) {
       formData.append('valid_until', !values.is_lifetime ? values.valid_date.toISOString().split('T')[0] : null)
     }
-    formData.append('is_lifetime', values.is_lifetime ? 1 : 0)
-    formData.append('attachment', attachment)
+    formData.append('is_lifetime', values.is_lifetime ? String(1) : String(0))
+    formData.append('attachment', attachment ? attachment : '')
 
     HttpClient.post(AppConfig.baseUrl + '/seafarer-competencies/' + id, formData)
       .then(() => {
         toast.success('update competency success')
         loadCompetency()
-        handleModalForm()
+        handleModalForm(type, undefined)
       })
       .catch(err => {
         toast.error(JSON.stringify(err.message))
       })
   }
 
+  /* eslint-disable */
   useEffect(() => {
-    setValidDateState(
-      seafarerCompetency?.valid_until
-        ? seafarerCompetency?.valid_until == 'lifetime'
-          ? null
-          : new Date(seafarerCompetency?.valid_until)
-        : null
-    )
+    if (seafarerCompetency?.is_lifetime) {
+      setValidDateState(null)
+    } else {
+      setValidDateState(seafarerCompetency?.valid_until ? new Date(seafarerCompetency?.valid_until) : null)
+    }
   }, [seafarerCompetency])
+  /* eslint-enable */
 
   useEffect(() => {
     loadCountries()
@@ -204,7 +204,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
           <IconButton
             size='small'
             sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-            onClick={e => props.handleModalForm(e)}
+            onClick={() => props.handleModalForm(type, undefined)}
           >
             <Icon width='24' height='24' icon='mdi:close' />
           </IconButton>
@@ -317,12 +317,12 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                   <Icon icon='material-symbols:cloud-upload' width='16' height='16' style={{ color: 'white' }} />
                 }
               >
-                Upload file <span>{attachment ? ' : ' + attachment?.name : ''}</span>
+                Upload file <span>{attachment ? ' : ' + attachment['name'] : ''}</span>
                 <input
                   style={{ visibility: 'hidden' }}
                   type='file'
                   name='attachment'
-                  onChange={e => setAttachment(e.target?.files[0])}
+                  onChange={e => setAttachment(e.target?.files ? e.target?.files[0] : null)}
                 />
               </Button>
             </Grid>
