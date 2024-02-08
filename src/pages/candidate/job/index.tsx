@@ -1,36 +1,36 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import { Avatar, Button, Card, CardContent, Typography, Divider, CircularProgress } from '@mui/material'
-import ReactHtmlParser from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser'
 import { Icon } from '@iconify/react'
 import { HttpClient } from 'src/services'
 import Job from 'src/contract/models/job'
 import { toast } from 'react-hot-toast'
 import Grid, { GridProps } from '@mui/material/Grid'
 import { styled } from '@mui/material/styles'
-import { useSearchParams } from 'next/navigation';
-import RelatedJobView from 'src/views/find-job/RelatedJobView';
+import { useSearchParams } from 'next/navigation'
+import RelatedJobView from 'src/views/find-job/RelatedJobView'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 // import ShareButton from 'src/views/find-job/ShareButton';
-import ShareArea from './ShareArea';
-import { IUser } from 'src/contract/models/user';
-import CompleteDialog from './CompleteDialog';
+import ShareArea from './ShareArea'
+import { IUser } from 'src/contract/models/user'
+import CompleteDialog from './CompleteDialog'
 
 const JobDetail = () => {
   // const url = window.location.href
-  const [onApplied, setOnApplied] = useState(false);
+  const [onApplied, setOnApplied] = useState(false)
   const [jobDetail, setJobDetail] = useState<Job | null>(null)
-  const license: any[] = Object.values((jobDetail?.license != undefined) ? jobDetail?.license : '')
+  const license: any[] = Object.values(jobDetail?.license != undefined ? jobDetail?.license : '')
   const [isLoading, setIsLoading] = useState(true)
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false)
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   // const [open, setOpen] = React.useState(false)
   // const anchorRef = React.useRef<HTMLDivElement>(null)
   // const [selectedIndex, setSelectedIndex] = React.useState(1)
-  const searchParams = useSearchParams();
-  const jobId = searchParams.get("id");
+  const searchParams = useSearchParams()
+  const jobId = searchParams.get('id')
 
   // const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => {
   //   setSelectedIndex(index)
@@ -59,12 +59,12 @@ const JobDetail = () => {
   }))
 
   const firstload = async (mJobId: string) => {
-    console.log("user:", user);
+    console.log('user:', user)
 
     setIsLoading(true)
     try {
-      const resp = await HttpClient.get('/job/' + mJobId);
-      const job = resp.data.job;
+      const resp = await HttpClient.get('/job/' + mJobId)
+      const job = resp.data.job
 
       setIsLoading(false)
       if (job?.applied_at != null) {
@@ -79,16 +79,22 @@ const JobDetail = () => {
   }
 
   useEffect(() => {
-    firstload(jobId!);
+    firstload(jobId!)
   }, [jobId])
 
   const handleApply = async () => {
-    if(user.banner != "" && user.license != null && user.photo != "" && user.address != null && user.about != null  && user.country_id != null){
-      setOpenDialog(!openDialog);
-    }else{
-      toast.error(`Please complete your resume !`);
+    if (
+      user.banner != '' &&
+      user.license != null &&
+      user.photo != '' &&
+      user.address != null &&
+      user.about != null &&
+      user.country_id != null
+    ) {
+      setOpenDialog(!openDialog)
+    } else {
+      toast.error(`Please complete your resume !`)
     }
-
   }
 
   // const handleApply = async () => {
@@ -119,12 +125,13 @@ const JobDetail = () => {
                 <Grid container>
                   <StyledGrid item xs={12} sm={3}>
                     <CardContent>
-                      <Box sx={{
-                        display: 'flex',
-                        alignContent: 'center',
-                        '& svg': { color: 'text.secondary' }
-                      }}>
-
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignContent: 'center',
+                          '& svg': { color: 'text.secondary' }
+                        }}
+                      >
                         <Box
                           sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }}
                           ml={2}
@@ -145,7 +152,12 @@ const JobDetail = () => {
                               <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
                             </Grid>
                             <Grid xs={11}>
-                              <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={14}>
+                              <Typography
+                                ml='0.7rem'
+                                mt='0.2rem'
+                                sx={{ fontWeight: 'bold', color: '#0a66c2' }}
+                                fontSize={14}
+                              >
                                 <strong>{jobDetail?.role_type?.name}</strong>
                               </Typography>
                               <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>
@@ -167,10 +179,14 @@ const JobDetail = () => {
                             {jobDetail?.category?.employee_type != 'offship' ? (
                               <>
                                 <Grid xs={1}>
-                                  <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
+                                  <Icon
+                                    icon='solar:medal-ribbons-star-bold-duotone'
+                                    color='#32487A'
+                                    fontSize={'20px'}
+                                  />
                                 </Grid>
                                 <Grid xs={11} maxWidth={'90%'}>
-                                <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                                     {license.map(e => e.title).join(' , ')}
                                   </Typography>
                                 </Grid>
@@ -179,33 +195,34 @@ const JobDetail = () => {
                                 </Grid>
                                 <Grid xs={11} maxWidth={'90%'}>
                                   <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                                  {jobDetail?.vessel_type?.name}
+                                    {jobDetail?.vessel_type?.name}
                                   </Typography>
                                 </Grid>
                                 <Grid xs={1}>
-                              <Icon icon='solar:calendar-bold-duotone' color='#32487A' fontSize={20} />
-                            </Grid>
-                            <Grid xs={11}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
-                                {jobDetail?.onboard_at}
-                              </Typography>
-                            </Grid>
+                                  <Icon icon='solar:calendar-bold-duotone' color='#32487A' fontSize={20} />
+                                </Grid>
+                                <Grid xs={11}>
+                                  <Typography sx={{ color: 'text.primary' }} ml='0.7rem' fontSize={12}>
+                                    {jobDetail?.onboard_at}
+                                  </Typography>
+                                </Grid>
                               </>
                             ) : (
                               <>
                                 <Grid xs={1}>
-                                  <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
+                                  <Icon
+                                    icon='solar:square-academic-cap-bold-duotone'
+                                    color='#32487A'
+                                    fontSize={'20px'}
+                                  />
                                 </Grid>
                                 <Grid xs={11}>
                                   <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                                  {jobDetail?.degree?.name}
+                                    {jobDetail?.degree?.name}
                                   </Typography>
                                 </Grid>
-                               
                               </>
                             )}
-
-                            
                           </Grid>
                         </Box>
                       </Box>
@@ -220,19 +237,34 @@ const JobDetail = () => {
                             <Grid item>
                               {onApplied == false ? (
                                 <>
-                                  <Button onClick={handleApply} variant='contained' color='primary' size='small' startIcon={<Icon icon='iconoir:submit-document' fontSize={10} />}>Apply Job
+                                  <Button
+                                    onClick={handleApply}
+                                    variant='contained'
+                                    color='primary'
+                                    size='small'
+                                    startIcon={<Icon icon='iconoir:submit-document' fontSize={10} />}
+                                  >
+                                    Apply Job
                                   </Button>
                                 </>
                               ) : (
                                 <>
-                                  <Button variant='contained' color='primary' size='small' startIcon={<Icon icon='iconoir:submit-document' fontSize={10} />}>
+                                  <Button
+                                    variant='contained'
+                                    color='primary'
+                                    size='small'
+                                    startIcon={<Icon icon='iconoir:submit-document' fontSize={10} />}
+                                  >
                                     Applied
                                   </Button>
                                 </>
                               )}
                             </Grid>
                             <Grid item>
-                              <ShareArea subject={`Job For ${jobDetail?.role_type?.name}.`} url={`/candidate/job/?id=${jobDetail?.id}`} ></ShareArea>
+                              <ShareArea
+                                subject={`Job For ${jobDetail?.role_type?.name}.`}
+                                url={`/candidate/job/?id=${jobDetail?.id}`}
+                              ></ShareArea>
                             </Grid>
                           </Grid>
                         </Grid>
@@ -270,7 +302,7 @@ const JobDetail = () => {
                                 fontWeight={500}
                                 fontFamily={'Outfit'}
                               >
-                                 <strong>{jobDetail?.experience}</strong> &nbsp; Contract
+                                <strong>{jobDetail?.experience}</strong> &nbsp; Contract
                               </Typography>
                             </Box>
                           </Box>
@@ -317,7 +349,8 @@ const JobDetail = () => {
                       <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column' }}>
                         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#32487A' }}>
                           <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
-                            <Box height={65}
+                            <Box
+                              height={65}
                               sx={{
                                 display: 'flex',
                                 alignContent: 'center',
@@ -378,7 +411,13 @@ const JobDetail = () => {
           <Grid item lg={3} md={3} xs={12}>
             <RelatedJobView />
           </Grid>
-          {openDialog && (<CompleteDialog onClose={() => setOpenDialog(!openDialog)} selectedItem={jobDetail} openDialog={openDialog} />)}
+          {openDialog && (
+            <CompleteDialog
+              onClose={() => setOpenDialog(!openDialog)}
+              selectedItem={jobDetail}
+              openDialog={openDialog}
+            />
+          )}
         </Grid>
       </Box>
     </>
@@ -387,7 +426,7 @@ const JobDetail = () => {
 
 JobDetail.acl = {
   action: 'read',
-  subject: 'seaferer-jobs'
-};
+  subject: 'seafarer-jobs'
+}
 
 export default JobDetail
