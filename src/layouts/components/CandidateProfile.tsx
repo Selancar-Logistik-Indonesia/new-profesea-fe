@@ -67,7 +67,7 @@ import SeafarerTravelDocumentTable from 'src/pages/candidate/SeafarerTravelDocum
 import SeafarerExperienceTable from 'src/pages/candidate/SeafarerExperience/SeafarerExperienceTable'
 import SeafarerCompetencyTable from 'src/pages/candidate/SeafarerCompetency/SeafarerCompetencyTable'
 import SeafarerProficiencyTable from 'src/pages/candidate/SeafarerProficiency/SeafarerProficiencyTable'
-// import SeafarerRecommendationForm from 'src/pages/candidate/SeafarerRecommendation/SeafarerRecommendationForm'
+import SeafarerRecommendationForm from 'src/pages/candidate/SeafarerRecommendation/SeafarerRecommendationForm'
 
 type FormData = {
   fullName: string
@@ -1983,7 +1983,7 @@ const CandidateProfile = (props: compProps) => {
               <SeafarerProficiencyTable user_id={props?.datauser.id} />
               <Divider style={{ width: '100%', margin: '20px 0' }} />
               {/* {JSON.stringify(secureLocalStorage.getItem(localStorageKeys.userData))} */}
-              {/* <SeafarerRecommendationForm user_id={props?.datauser.id} /> */}
+              {!noExperience ? <SeafarerRecommendationForm user_id={props?.datauser.id} /> : ''}
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
               <Grid item container direction='row' justifyContent='flex-end' alignItems='right' md={12} lg={12} xs={12}>
                 <Button variant='contained' color='success' size='small' type='submit' sx={{ mt: 7, mb: 7 }}>

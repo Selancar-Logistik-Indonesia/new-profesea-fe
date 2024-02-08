@@ -3,7 +3,7 @@ import ISeafarerExperieceData from "../../../contract/models/seafarer_experience
 export interface ISeafarerExperienceProps {
     user_id: number
     no_experience: boolean
-    setNoExperience: () => void
+    setNoExperience: (value: boolean) => void
 }
 
 export interface ISeafarerExperienceForm {

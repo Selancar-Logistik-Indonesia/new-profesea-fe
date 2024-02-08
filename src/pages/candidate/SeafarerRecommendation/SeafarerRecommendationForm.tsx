@@ -1,4 +1,16 @@
-import { Button, Box, Grid, DialogTitle, Typography, TextField, Card, CardContent } from '@mui/material'
+import { useState } from 'react'
+import {
+  Button,
+  Box,
+  Grid,
+  DialogTitle,
+  Typography,
+  TextField,
+  Dialog,
+  DialogContent,
+  DialogActions,
+  IconButton
+} from '@mui/material'
 import { Icon } from '@iconify/react'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
@@ -13,6 +25,9 @@ const ProficiencySchema = Yup.object().shape({
 
 const SeafarerProficiencyForm = (props: any) => {
   const { user_id } = props
+
+  const [modalFormOpen, setModalFormOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const formik = useFormik({
     initialValues: {
@@ -30,7 +45,8 @@ const SeafarerProficiencyForm = (props: any) => {
   })
 
   const createRecommendation = (values: any) => {
-    HttpClient.post(AppConfig.baseUrl + '/seafarer-recommendation/', {
+    setLoading(true)
+    HttpClient.post(AppConfig.baseUrl + '/seafarer-recommendations/', {
       user_id: values.user_id,
       company: values.company,
       email: values.email,
@@ -39,23 +55,53 @@ const SeafarerProficiencyForm = (props: any) => {
     })
       .then(() => {
         toast.success('create recommendation success')
+        setModalFormOpen(false)
+        setLoading(false)
       })
       .catch(err => {
         toast.error(JSON.stringify(err.message))
+        setLoading(false)
       })
   }
 
   return (
     <Grid md={12}>
-      <Grid xs={12} md={12} justifyContent={'left'}>
-        <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-          Recommendation
-        </Typography>
+      <Grid container xs={12} md={12} justifyContent={'left'}>
+        <Grid item md={6}>
+          <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
+            Recommendation
+          </Typography>
+        </Grid>
+        <Grid item md={6}>
+          <Grid container md={12} justifyContent={'right'}>
+            <Button
+              variant='contained'
+              style={{ marginBottom: 10 }}
+              size='small'
+              onClick={() => setModalFormOpen(true)}
+            >
+              <Icon
+                fontSize='small'
+                icon={'solar:add-circle-bold-duotone'}
+                color={'success'}
+                style={{ fontSize: '18px' }}
+              />
+              <div> Add Recommendation </div>
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid container xs={12} md={6} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-        <Card>
+        <Dialog open={modalFormOpen}>
           <form onSubmit={formik.handleSubmit} method='post'>
             <DialogTitle>
+              <IconButton
+                size='small'
+                sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
+                onClick={e => setModalFormOpen(false)}
+              >
+                <Icon width='24' height='24' icon='mdi:close' />
+              </IconButton>
               <Box sx={{ mb: 2, textAlign: 'center' }}>
                 <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
                   Previous Company
@@ -63,7 +109,7 @@ const SeafarerProficiencyForm = (props: any) => {
                 <Typography variant='body2'>For Getting references</Typography>
               </Box>
             </DialogTitle>
-            <CardContent>
+            <DialogContent>
               <Grid container md={12} xs={12}>
                 <Grid item container md={12} xs={12} style={{ marginBottom: 10 }}>
                   <Grid item md={6} xs={12}>
@@ -120,9 +166,9 @@ const SeafarerProficiencyForm = (props: any) => {
                   </Grid>
                 </Grid>
               </Grid>
-            </CardContent>
-            <CardContent style={{ textAlign: 'center' }}>
-              <Button type='submit' variant='contained' style={{ margin: '10px 0' }} size='small'>
+            </DialogContent>
+            <DialogActions style={{ textAlign: 'center' }}>
+              <Button disabled={loading} type='submit' variant='contained' style={{ margin: '10px 0' }} size='small'>
                 <Icon
                   fontSize='small'
                   icon={'solar:add-circle-bold-duotone'}
@@ -131,9 +177,9 @@ const SeafarerProficiencyForm = (props: any) => {
                 />
                 <div> Save</div>
               </Button>
-            </CardContent>
+            </DialogActions>
           </form>
-        </Card>
+        </Dialog>
       </Grid>
     </Grid>
   )
