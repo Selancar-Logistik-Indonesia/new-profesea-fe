@@ -72,6 +72,7 @@ const UserScreen = () => {
                     type: translate[row.employee_type],
                     plan: row.plan_type,
                     verified_at: row.verified_at,
+                    registered_at : row.created_at,
                     resend: {
                         onResend: () => resendchat(row)
                     },

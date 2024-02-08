@@ -1,11 +1,11 @@
-import JobCategory from "./job_category"
-import Degree from "./degree"
-import Company from "./company"
-import RoleLevel from "./role_level"
-import RoleType from "./role_type"
-import Country from "./country"
-import City from "./city"
-import VesselType from "./vessel_type"
+import JobCategory from './job_category'
+import Degree from './degree'
+import Company from './company'
+import RoleLevel from './role_level'
+import RoleType from './role_type'
+import Country from './country'
+import City from './city'
+import VesselType from './vessel_type'
 
 interface Job {
   id: number
@@ -38,7 +38,9 @@ interface Job {
   country: Country
   vessel_type: VesselType
   employment_type: string
-  text_role:string
+  text_role: string
+  contractDuration?: string
+  job_title? : string
 }
 
-export default Job;
+export default Job
