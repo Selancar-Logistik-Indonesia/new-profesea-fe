@@ -56,6 +56,6 @@ jobs:
         port: 22
         script: |
           source ~/.bashrc
-          cd /home/adminprofesea/repository/selancar-fe/
+          cd /home/adminprofesea/repository/fe-selancar/
           npm run build || false
           pm2 restart frontend

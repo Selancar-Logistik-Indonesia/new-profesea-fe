@@ -333,7 +333,7 @@ const SeafererJobApp = () => {
                           }
                         />
                       </DatePickerWrapper>
-                      <Autocomplete
+                      {/* <Autocomplete
                         sx={{ marginBottom: 2 }}
                         disablePortal
                         id='combo-box-demo'
@@ -345,7 +345,7 @@ const SeafererJobApp = () => {
                           setPage(1)
                           newValue?.id ? setED(newValue?.id) : setED(0)
                         }}
-                      />
+                      /> */}
                     </>
                   ) : (
                     <>
@@ -396,7 +396,7 @@ const SeafererJobApp = () => {
                           newValue?.id ? setCombocity(newValue.id) : setCombocity('')
                         }}
                       />
-                      <Autocomplete
+                      {/* <Autocomplete
                         sx={{ marginBottom: 2 }}
                         disablePortal
                         id='combo-box-demo'
@@ -408,7 +408,7 @@ const SeafererJobApp = () => {
                           setPage(1)
                           newValue?.id ? setED(newValue?.id) : setED(0)
                         }}
-                      />
+                      /> */}
                       <Autocomplete
                         sx={{ marginBottom: 2 }}
                         disablePortal

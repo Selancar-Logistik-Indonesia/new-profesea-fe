@@ -220,6 +220,7 @@ const CandidateProfile = (props: compProps) => {
   // const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
   // const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
   // const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
+  // const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
   const [arrayHead, getArrayHead] = useState<any[]>([])
   const [JobCategory, getJobCategory] = useState<any[]>([])
   const [JC, setJC] = useState(
