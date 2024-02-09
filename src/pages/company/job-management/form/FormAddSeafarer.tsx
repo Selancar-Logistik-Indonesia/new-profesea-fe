@@ -68,22 +68,22 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
   const [checked, setChecked] = React.useState(false)
 
   const [jobCategories, setJobCategories] = useState<JobCategory[]>([])
-  const [Education, getEducation] = useState<any[]>([])
+
   const [RoleType, getRoleType] = useState<any[]>([])
-  const [RoleLevel, getRoleLevel] = useState<any[]>([])
-  const [combocountry, getComboCountry] = useState<any>([])
+  // const [RoleLevel, getRoleLevel] = useState<any[]>([])
+  // const [combocountry, getComboCountry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
   const [VesselType, getVesselType] = useState<any[]>([])
   const [licenseData, getlicenseData] = useState<Licensi[]>([])
   const [licenseDataCOP, getlicenseDataCOP] = useState<Licensi[]>([])
 
   const combobox = async () => {
-    HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
-      if (response.status != 200) {
-        throw response.data.message ?? 'Something went wrong!'
-      }
-      getRoleLevel(response.data.roleLevels.data)
-    })
+    // HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
+    //   if (response.status != 200) {
+    //     throw response.data.message ?? 'Something went wrong!'
+    //   }
+    //   getRoleLevel(response.data.roleLevels.data)
+    // })
     HttpClient.get(`/public/data/role-type?search=&page=1&take=250`).then(response => {
       if (response.status != 200) {
         throw response.data.message ?? 'Something went wrong!'
@@ -100,18 +100,13 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
 
       setJobCategories(filterOnshipCategories)
     })
-    HttpClient.get(`/public/data/degree`).then(response => {
-      if (response.status != 200) {
-        throw response.data.message ?? 'Something went wrong!'
-      }
-      getEducation(response.data.degrees)
-    })
-    HttpClient.get('/public/data/country?search=').then(response => {
-      if (response.status != 200) {
-        throw response.data.message ?? 'Something went wrong!'
-      }
-      getComboCountry(response.data.countries)
-    })
+
+    // HttpClient.get('/public/data/country?search=').then(response => {
+    //   if (response.status != 200) {
+    //     throw response.data.message ?? 'Something went wrong!'
+    //   }
+    //   getComboCountry(response.data.countries)
+    // })
     HttpClient.get('/public/data/vessel-type?page=1&take=250&search=').then(response => {
       if (response.status != 200) {
         throw response.data.message ?? 'Something went wrong!'
@@ -133,11 +128,7 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
     getlicenseDataCOP(resp2.data.licensiescop || [])
   }
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit
-  } = useForm<Job>({
+  const { register, handleSubmit } = useForm<Job>({
     mode: 'onBlur'
   })
 
@@ -254,10 +245,10 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
     setDate(new Date())
 
     setJobCategories([])
-    getEducation([])
+
     getRoleType([])
-    getRoleLevel([])
-    getComboCountry([])
+    // getRoleLevel([])
+    // getComboCountry([])
     getComboCity([])
     getVesselType([])
 
