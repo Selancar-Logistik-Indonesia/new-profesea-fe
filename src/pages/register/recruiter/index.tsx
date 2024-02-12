@@ -22,7 +22,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import * as yup from 'yup'
-import Registration from 'src/layouts/components/registrastion'
+import Registration from 'src/layouts/components/Registration'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from 'react-i18next'
@@ -64,7 +64,6 @@ const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 const Register = () => {
-  
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -77,30 +76,32 @@ const Register = () => {
     password: yup.string().min(5).required()
   })
 
-  const {
-  } = useForm({
+  const {} = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
-  const { t } = useTranslation();
-  
+  const { t } = useTranslation()
+
   return (
     <>
       <Head>
         <title>{`${themeConfig.templateName} - Recruiter Registration`}</title>
       </Head>
       <Box className='content-right'>
-
         {!hidden ? (
-
-          <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center', backgroundImage: "url(/images/recruiter-00.jpeg)", backgroundSize: 'cover' }}>
+          <Box
+            sx={{
+              flex: 1,
+              display: 'flex',
+              position: 'relative',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundImage: 'url(/images/recruiter-00.jpeg)',
+              backgroundSize: 'cover'
+            }}
+          >
             <Container fixed>
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                minHeight="100vh"
-              >
+              <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
                 {/* <Grid container justifyContent={'center'} alignContent={'center'}>
                   <Box
                     display="flex"
@@ -141,38 +142,54 @@ const Register = () => {
 
         <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
           <Box
-            sx={!hidden ? {
-              p: 7,
-              height: '100%',
-              weight: '100%',
-              display: 'flex',
-              justifyContent: 'flex-start',
-              backgroundColor: 'background.paper'
-            } : {
-              p: 7,
-              height: '100%',
-              weight: '100%',
-              display: 'flex',
-              justifyContent: 'flex-start',
-              backgroundColor: 'background.paper'
-            }}
+            sx={
+              !hidden
+                ? {
+                    p: 7,
+                    height: '100%',
+                    weight: '100%',
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    backgroundColor: 'background.paper'
+                  }
+                : {
+                    p: 7,
+                    height: '100%',
+                    weight: '100%',
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    backgroundColor: 'background.paper'
+                  }
+            }
           >
-            <Container sx={{
-              marginTop: '40px', mr: 6, ml: 6,
-            }}>
+            <Container
+              sx={{
+                marginTop: '40px',
+                mr: 6,
+                ml: 6
+              }}
+            >
               <BoxWrapper>
-                <Box sx={!hidden ? { mb: 6, marginLeft: '5%', width: '80%', alignItems: 'center', justifyContent: 'center' } :
-                  { mb: 6, alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: "#262525" }}>{t('register_text_8')}</Typography>
-                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: "#262525" }}> {t('register_text_10')}</Typography>
-                  <Registration tipereg="company"></Registration>
+                <Box
+                  sx={
+                    !hidden
+                      ? { mb: 6, marginLeft: '5%', width: '80%', alignItems: 'center', justifyContent: 'center' }
+                      : { mb: 6, alignItems: 'center', justifyContent: 'center' }
+                  }
+                >
+                  <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: '#262525' }}>
+                    {t('register_text_8')}
+                  </Typography>
+                  <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: '#262525' }}>
+                    {' '}
+                    {t('register_text_10')}
+                  </Typography>
+                  <Registration tipereg='company'></Registration>
                 </Box>
-
               </BoxWrapper>
             </Container>
           </Box>
         </RightWrapper>
-
       </Box>
     </>
   )
