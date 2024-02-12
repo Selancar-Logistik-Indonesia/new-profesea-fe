@@ -31,7 +31,17 @@ const Main = () => {
       </Head>
 
       <Grid container sx={landingPageStyle.bannerHero}>
-        <Grid item md={12} lg={6} pt={5} mt={20} mb={10} sx={{ maxWidth: { xs: '80%' }, px: { xs: 5, md: 10 } }}>
+        <Grid
+          item
+          md={12}
+          lg={8}
+          xl={6}
+          pt={5}
+          mt={20}
+          mb={10}
+          // sx={{ maxWidth: { xs: '80%' }, px: { xs: 5, md: 10 } }}
+          sx={{ px: { xs: 5, md: 10 } }}
+        >
           <Typography
             variant='h3'
             style={{ color: '#000' }}
@@ -52,7 +62,7 @@ const Main = () => {
           </Typography>
 
           <Container style={{ marginTop: 60, lineHeight: 3.5 }} sx={{ display: { xs: 'none', md: 'block' } }}>
-            <Grid container justifyContent='left' sx={{ backgroundColor: 'none' }} spacing={9} mt={0} mb={10} ml={5}>
+            <Grid container justifyContent='left' sx={{ backgroundColor: 'none' }} spacing={9} mt={0} mb={10} ml={1}>
               <Card sx={{ width: 320, height: 200, backgroundColor: '#101820', mr: 5 }} elevation={10}>
                 <CardContent
                   sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}
@@ -98,7 +108,14 @@ const Main = () => {
             </Grid>
           </Container>
         </Grid>
-        <Grid item md={12} lg={6} pt={5} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'end' }}>
+        <Grid
+          item
+          md={12}
+          lg={4}
+          xl={6}
+          pt={5}
+          sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'end' }}
+        >
           <Box sx={landingPageStyle.bannerAsset} />
         </Grid>
       </Grid>
