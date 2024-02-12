@@ -9,6 +9,11 @@ const ImageListPreview = (props: { urls: string[] }) => {
         setError(true);
         }
     };
+   const onError = (e:any) => {
+        e.target.onerror = null; // Prevent infinite loop
+        e.target.src = `/images/no-image.jpg`; // Set fallback image
+    };
+
     let cols = 1,
         itemRows = 1,
         itemCols = 1,
@@ -55,7 +60,7 @@ const ImageListPreview = (props: { urls: string[] }) => {
                     rows={i == 0 ? itemRows : defaultRows}
                     cols={i == 0 ? itemCols : defaultCols}
                 >
-                    <img onError={handleError} src={error ? item : `/images/no-image.jpg` }   alt={item} loading="lazy" style={{ objectFit: 'contain', width: '100%', height: '100%' }}/>
+                    <img onError={onError} src={item}   alt={item} loading="lazy" style={{ objectFit: 'contain', width: '100%', height: '100%' }}/>
                 </ImageListItem>
             ))}
         </ImageList>
