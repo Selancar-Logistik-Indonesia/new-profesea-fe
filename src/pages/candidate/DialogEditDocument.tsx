@@ -15,9 +15,9 @@ import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { Autocomplete, CircularProgress } from '@mui/material'
-// import { Autocomplete } from '@mui/material' 
+// import { Autocomplete } from '@mui/material'
 
-import DatePicker from 'react-datepicker' 
+import DatePicker from 'react-datepicker'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import Licensi from 'src/contract/models/licensi'
 
@@ -37,7 +37,7 @@ type DialogProps = {
 
 type dokumen = {
   title: string
-  doctype:string
+  doctype: string
 }
 
 type FormData = {
@@ -46,26 +46,24 @@ type FormData = {
   nameOtherDocument: string
 }
 
-
 const DialogEditDocument = (props: DialogProps) => {
-  const [onLoading, setOnLoading] = useState(false);
+  const [onLoading, setOnLoading] = useState(false)
   const [preview, setPreview] = useState(props.selectedItem?.path)
   const [selectedFile, setSelectedFile] = useState()
   const iddokumen = props.selectedItem?.childs?.length > 0 ? props.selectedItem?.childs[0].id : props.selectedItem?.id
-  
 
   const [showTextName, setTextName] = useState<boolean>(false)
-  const [showChild, setChild] = useState<boolean>(true)     
+  const [showChild, setChild] = useState<boolean>(true)
   const [combochild, setCombochild] = useState<any[]>([])
-    
-  const [expiredDate, setExpiredDate] = useState<DateType>(new Date()) 
+
+  const [expiredDate, setExpiredDate] = useState<DateType>(new Date())
   const [document_name, setDocument] = useState<any>({
     title: props.selectedItem?.document_name,
     doctype: props.selectedItem?.document_type
-  })  
-  const [dokumen, setDokumen] = useState<Licensi[]>([]) 
+  })
+  const [dokumen, setDokumen] = useState<Licensi[]>([])
   const [document_nameChild, setDocumentChild] = useState<any>(
-    props.selectedItem?.childs?.length>0
+    props.selectedItem?.childs?.length > 0
       ? {
           title: props.selectedItem?.childs[0].document_name,
           doctype: props.selectedItem?.childs[0].document_type
@@ -76,26 +74,25 @@ const DialogEditDocument = (props: DialogProps) => {
         }
   )
 
-   const getListLicense = async () => {
-     try {
-       const resp = await HttpClient.get(`/licensi/all`)
-       if (resp.status != 200) {
-         throw resp.data.message ?? 'Something went wrong!'
-       }
-       setDokumen(resp.data.licensies)
-     } catch (error) {
-       const errorMessage = 'Something went wrong!'
-       toast.error(`Opps ${errorMessage}`)
-     }
-   }
+  const getListLicense = async () => {
+    try {
+      const resp = await HttpClient.get(`/licensi/all`)
+      if (resp.status != 200) {
+        throw resp.data.message ?? 'Something went wrong!'
+      }
+      setDokumen(resp.data.licensies)
+    } catch (error) {
+      const errorMessage = 'Something went wrong!'
+      toast.error(`Opps ${errorMessage}`)
+    }
+  }
 
-   useEffect(() => {
-     setOnLoading(true)
-     getListLicense().then(() => {
-       setOnLoading(false)
-     })
-   }, []) 
-
+  useEffect(() => {
+    setOnLoading(true)
+    getListLicense().then(() => {
+      setOnLoading(false)
+    })
+  }, [])
 
   // const [document_name, setDocument] = useState<any>(0)
   useEffect(() => {
@@ -110,7 +107,7 @@ const DialogEditDocument = (props: DialogProps) => {
 
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
- 
+
   useEffect(() => {
     if (document_name.doctype == 'OTH') {
       setTextName(true)
@@ -127,80 +124,76 @@ const DialogEditDocument = (props: DialogProps) => {
 
   const {
     register,
-    // formState: { errors }, 
-    handleSubmit,
+    // formState: { errors },
+    handleSubmit
   } = useForm<FormData>({
-    mode: 'onBlur',
+    mode: 'onBlur'
     // resolver: yupResolver(schema)
   })
 
-
   const onSubmit = async (item: FormData) => {
-     const { nameOtherDocument } = item
-     let doc = ''
-     if (showTextName == true) {
-       doc = nameOtherDocument
-     } else {
-       doc = document_name.title
-     }
-     let childname = ''
-     let childtype = ''
-     let savechild = false
-     if (showChild == true) {
-       childname = document_nameChild.title
-       childtype = document_nameChild.doctype
-       savechild = true
-     }  
-     if(savechild == true){
-        const json = {
-          user_document: selectedFile,
-          document_name: childname,
-          document_type: childtype,
-          document_number: 456,
-          expired_at: expiredDate
-            ?.toLocaleDateString('en-GB', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit'
-            })
-            .split('/')
-            .reverse()
-            .join('-')
+    const { nameOtherDocument } = item
+    let doc = ''
+    if (showTextName == true) {
+      doc = nameOtherDocument
+    } else {
+      doc = document_name.title
+    }
+    let childname = ''
+    let childtype = ''
+    let savechild = false
+    if (showChild == true) {
+      childname = document_nameChild.title
+      childtype = document_nameChild.doctype
+      savechild = true
+    }
+    if (savechild == true) {
+      const json = {
+        user_document: selectedFile,
+        document_name: childname,
+        document_type: childtype,
+        document_number: 456,
+        expired_at: expiredDate
+          ?.toLocaleDateString('en-GB', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          })
+          .split('/')
+          .reverse()
+          .join('-')
+      }
+      try {
+        const resp = await HttpClient.postFile('/user/document/' + iddokumen, json)
+        if (resp.status != 200) {
+          throw resp.data.message ?? 'Something went wrong!'
         }
-         try {
-           const resp = await HttpClient.postFile('/user/document/' + iddokumen, json)
-           if (resp.status != 200) {
-             throw resp.data.message ?? 'Something went wrong!'
-           }
 
-           props.onCloseClick()
-           toast.success(` Document submited successfully!`)
-         } catch (error) {
-           toast.error(`Opps ${getCleanErrorMessage(error)}`)
-         }
-     }else{
-        const json = {
-          user_document: selectedFile,
-          document_name: doc,
-          document_number: 123
+        props.onCloseClick()
+        toast.success(` Document submited successfully!`)
+      } catch (error) {
+        toast.error(`Opps ${getCleanErrorMessage(error)}`)
+      }
+    } else {
+      const json = {
+        user_document: selectedFile,
+        document_name: doc,
+        document_number: 123
+      }
+      try {
+        const resp = await HttpClient.postFile('/user/document/' + iddokumen, json)
+        if (resp.status != 200) {
+          throw resp.data.message ?? 'Something went wrong!'
         }
-         try {
-           const resp = await HttpClient.postFile('/user/document/' + iddokumen, json)
-           if (resp.status != 200) {
-             throw resp.data.message ?? 'Something went wrong!'
-           }
 
-           props.onCloseClick()
-           toast.success(` Document submited successfully!`)
-         } catch (error) {
-           toast.error(`Opps ${getCleanErrorMessage(error)}`)
-         }
-     }
-   
+        props.onCloseClick()
+        toast.success(` Document submited successfully!`)
+      } catch (error) {
+        toast.error(`Opps ${getCleanErrorMessage(error)}`)
+      }
+    }
 
     setOnLoading(true)
-
-   
 
     setOnLoading(false)
     props.onStateChange()
@@ -215,194 +208,6 @@ const DialogEditDocument = (props: DialogProps) => {
     // I've kept this example simple by using the first image instead of multiple
     setSelectedFile(e.target.files[0])
   }
-//  const dokumencoc = [
-//    {
-//      title: 'Ahli Nautika Tingkat Dasar (ANTD), Nautika',
-//      doctype: 'COC1'
-//    },
-//    {
-//      title: 'Ahli Nautika Tingkat V (ANT V), Nautika',
-//      doctype: 'COC2'
-//    },
-//    {
-//      title: 'Ahli Nautika Tingkat IV (ANT IV), Nautika',
-//      doctype: 'COC3'
-//    },
-//    {
-//      title: 'Ahli Nautika Tingkat III (ANT III), Nautika',
-//      doctype: 'COC4'
-//    },
-//    {
-//      title: 'Ahli Nautika Tingkat II (ANT II), Nautika',
-//      doctype: 'COC5'
-//    },
-//    {
-//      title: 'Ahli Nautika Tingkat I (ANT I), Nautika',
-//      doctype: 'COC6'
-//    },
-//    {
-//      title: 'Ahli Teknika Tingkat Dasar (ATTD), Teknika',
-//      doctype: 'COC7'
-//    },
-//    {
-//      title: 'Ahli Teknika Tingkat V (ATT V), Teknika',
-//      doctype: 'COC8'
-//    },
-//    {
-//      title: 'Ahli Teknika Tingkat IV (ATT IV), Teknika',
-//      doctype: 'COC9'
-//    },
-//    {
-//      title: 'Ahli Teknika Tingkat III (ATT III), Teknika',
-//      doctype: 'COC10'
-//    },
-//    {
-//      title: 'Ahli Teknika Tingkat II (ATT II), Teknika',
-//      doctype: 'COC11'
-//    },
-//    {
-//      title: 'Ahli Teknika Tingkat I (ATT I), Teknika',
-//      doctype: 'COC12'
-//    }
-//  ]
-//  const dokumencop = [
-//    {
-//      title: 'Basic training for Oil and Chemical Tanker (BOCT)',
-//      doctype: 'COP1'
-//    },
-//    {
-//      title: 'Basic training for Liquefied Gas Tanker (BLGT)',
-//      doctype: 'COP2'
-//    },
-//    {
-//      title: 'Advance training for Oil Tanker (AOT)',
-//      doctype: 'COP3'
-//    },
-//    {
-//      title: 'Advance training for Chemical Tanker cargo operation (ACT)',
-//      doctype: 'COP4'
-//    },
-//    {
-//      title: 'Advance training for Liquefied Gas Tanker cargo operation (ALGT)',
-//      doctype: 'COP5'
-//    },
-//    {
-//      title: 'Crowd Management Training Certificate (CMT)',
-//      doctype: 'COP6'
-//    },
-//    {
-//      title: 'Crisis Management and Human Behaviour Training Certificate (CMHBT)',
-//      doctype: 'COP7'
-//    },
-//    {
-//      title: 'Ro-ro Passenger Safety, Cargo Safety and Hull Intergrity Training Certificate',
-//      doctype: 'COP8'
-//    },
-//    {
-//      title: 'Survical Craft and Rescue Boats other than fast rescue boat (SCRB)',
-//      doctype: 'COP9'
-//    },
-//    {
-//      title: 'Fast Rescue Boats (FRB)',
-//      doctype: 'COP10'
-//    },
-//    {
-//      title: 'Advanced Fire Fighting (AFF)',
-//      doctype: 'COP11'
-//    },
-//    {
-//      title: 'Medical First Aid (MFA)',
-//      doctype: 'COP12'
-//    },
-//    {
-//      title: 'Medical Care (MC)',
-//      doctype: 'COP13'
-//    },
-//    {
-//      title: 'Radar Observation (RADAR Simulator)',
-//      doctype: 'COP14'
-//    },
-//    {
-//      title: 'Automatic Radar Plotting Aid Simulator (ARPA Simulator)',
-//      doctype: 'COP15'
-//    },
-//    {
-//      title: 'Electronics Charts Display and Information System (ECDIS)',
-//      doctype: 'COP16'
-//    },
-//    {
-//      title: 'Bridge Resource Management (BRM)',
-//      doctype: 'COP17'
-//    },
-//    {
-//      title: 'Engine Room Resource Management (ERM)',
-//      doctype: 'COP18'
-//    },
-//    {
-//      title: 'Security Awareness Training (SAT)',
-//      doctype: 'COP19'
-//    },
-//    {
-//      title: 'Security for Seafarers with Designated Security Duties (SDSD)',
-//      doctype: 'COP20'
-//    },
-//    {
-//      title: 'Ship Security Officers (SSO)',
-//      doctype: 'COP21'
-//    },
-//    {
-//      title: 'International Maritime Dangerous Good Cargo (IMDG) Code',
-//      doctype: 'COP22'
-//    },
-//    {
-//      title: 'Able Seafarer Deck',
-//      doctype: 'COP23'
-//    },
-//    {
-//      title: 'Able Seafarer Engine',
-//      doctype: 'COP24'
-//    },
-//    {
-//      title: 'Cook Certificate',
-//      doctype: 'COP25'
-//    },
-//    {
-//      title: 'Basic Safety Training',
-//      doctype: 'COP26'
-//    },
-//    {
-//      title: 'GMDSS (Global Maritime Distress Safety System)',
-//      doctype: 'COP27'
-//    },
-//    {
-//      title: 'Rating Forming Part of Navigational Watch',
-//      doctype: 'COP28'
-//    },
-//    {
-//      title: 'Rating Forming Part of Engine Room Watch',
-//      doctype: 'COP29'
-//    },
-//    {
-//      title: 'Proficiency in Survival Craft and Rescue Boats other than Fast Rescue Boats (PSCRB)',
-//      doctype: 'COP30'
-//    },
-//    {
-//      title: 'International Safety Management (ISM) Code',
-//      doctype: 'COP31'
-//    }
-//  ]
-//  const dokumen = [
-//    { title: 'Certificate of Competency', doctype: 'COC', child: dokumencoc },
-//    { title: 'Certificate of Profeciency', doctype: 'COP', child: dokumencop },
-//    { title: 'Certificate of Recognition', doctype: 'COR' },
-//    { title: 'Certificate of Endorsement', doctype: 'COE' },
-//    { title: 'Other Certificate', doctype: 'OTH' },
-//    { title: 'MCU Certificates', doctype: 'MCU' },
-//    { title: 'SIM', doctype: 'SIM' },
-//    { title: 'KTP', doctype: 'KTP' },
-//    { title: 'Passport', doctype: 'PAS' },
-//    { title: 'Visa', doctype: 'VIS' }
-//  ]
 
   return (
     <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
@@ -451,7 +256,9 @@ const DialogEditDocument = (props: DialogProps) => {
                     options={combochild}
                     defaultValue={document_nameChild}
                     getOptionLabel={(option: dokumen) => option.title}
-                    renderInput={params => <TextField {...params} label='Document Child' sx={{ mb: 2 }} variant='standard' />}
+                    renderInput={params => (
+                      <TextField {...params} label='Document Child' sx={{ mb: 2 }} variant='standard' />
+                    )}
                     onChange={(e, newValue: any) => (newValue ? setDocumentChild(newValue) : setDocumentChild([]))}
                   />
                 </Grid>
@@ -504,9 +311,9 @@ const DialogEditDocument = (props: DialogProps) => {
                   ></input>
                 </Grid>
                 <Grid xs={6}>
-                <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
+                  <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                    <strong>Click to change Document File.</strong>
+                      <strong>Click to change Document File.</strong>
                     </Typography>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
                       Allowed PDF.

@@ -58,11 +58,16 @@ import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
-// import { refreshsession, removeFirstZeroChar, subscribev } from 'src/utils/helpers'
 import { refreshsession, removeFirstZeroChar } from 'src/utils/helpers'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import JobCategory from 'src/contract/models/job_category'
+
+import SeafarerTravelDocumentTable from 'src/pages/candidate/SeafarerTravelDocument/SeafarerTravelDocumentTable'
+import SeafarerExperienceTable from 'src/pages/candidate/SeafarerExperience/SeafarerExperienceTable'
+import SeafarerCompetencyTable from 'src/pages/candidate/SeafarerCompetency/SeafarerCompetencyTable'
+import SeafarerProficiencyTable from 'src/pages/candidate/SeafarerProficiency/SeafarerProficiencyTable'
+import SeafarerRecommendationForm from 'src/pages/candidate/SeafarerRecommendation/SeafarerRecommendationForm'
 
 type FormData = {
   fullName: string
@@ -74,6 +79,7 @@ type FormData = {
   code: string
   website: string
   phone: string
+  dateOfBirth: string
   address: string
   about: string
   usernamesosmed: string
@@ -82,6 +88,7 @@ type FormData = {
   instagram: string
   linkedin: string
   genderr: string
+  noExperience: boolean
 }
 
 type compProps = {
@@ -94,6 +101,7 @@ let ship: any = []
 let opp: any = []
 let tampilkanship: any = ''
 let availabledate: any = ''
+
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
   height: 120,
@@ -103,6 +111,7 @@ const ProfilePicture = styled('img')(({ theme }) => ({
     marginBottom: theme.spacing(4)
   }
 }))
+
 const BoxWrapper = styled(Box)<BoxProps>(() => ({
   position: 'relative'
 }))
@@ -124,6 +133,7 @@ const jeniskelamin = [
   { title: 'm', label: 'Male' },
   { title: 'f', label: 'Female' }
 ]
+
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
   return {
     fontWeight:
@@ -210,6 +220,7 @@ const CandidateProfile = (props: compProps) => {
   // const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
   // const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
   // const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
+  // const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
   const [arrayHead, getArrayHead] = useState<any[]>([])
   const [JobCategory, getJobCategory] = useState<any[]>([])
   const [JC, setJC] = useState(
@@ -227,7 +238,12 @@ const CandidateProfile = (props: compProps) => {
       typeof value === 'string' ? value.split(',') : value
     )
   }
+  const [noExperience, setNoExperience] = useState<boolean>(props.datauser?.no_experience ? true : false)
   const [phoneNum, setPhoneNum] = useState(props.datauser?.phone)
+  const [dateOfBirth, setDateOfBirth] = useState(props.datauser?.date_of_birth)
+  const onChangeDateOfBirth = (input: string) => {
+    setDateOfBirth(input)
+  }
   const onChangePhoneNum = (input: string) => {
     setPhoneNum(removeFirstZeroChar(input))
   }
@@ -357,9 +373,10 @@ const CandidateProfile = (props: compProps) => {
   useEffect(() => {
     combobox()
   }, [JC])
+
   const addbuttonfacebook = () => {
     let user = ''
-    if (facebook.length < 25) {
+    if (facebook.length < 20) {
       user = 'https://facebook.com/' + facebook
     } else {
       user = facebook
@@ -376,7 +393,7 @@ const CandidateProfile = (props: compProps) => {
           statusfb = data.sosmed.id
         },
         error => {
-          toast.error('Registrastion Failed ' + error.response.data.message)
+          toast.error('Registrastion Failed : ' + error.response.data.message)
         }
       )
     } else {
@@ -385,7 +402,7 @@ const CandidateProfile = (props: compProps) => {
           // toast.success(' Successfully submited!')
         },
         error => {
-          toast.error('Registrastion Failed ' + error.response.data.message)
+          toast.error('Registrastion Failed : ' + error.response.data.message)
         }
       )
     }
@@ -394,7 +411,7 @@ const CandidateProfile = (props: compProps) => {
 
   const addbuttoninstagram = () => {
     let user = ''
-    if (instagram.length < 25) {
+    if (instagram.length < 20) {
       user = 'https://instagram.com/' + instagram
     } else {
       user = instagram
@@ -405,32 +422,33 @@ const CandidateProfile = (props: compProps) => {
     if (statusig == '') {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
         ({ data }) => {
-          console.log('here 1', data)
+          console.log('registration success', data)
           // toast.success(' Successfully submited!')
           statusig = data.sosmed.id
         },
         error => {
-          console.log('here 1', error)
+          console.log('Registrastion Failed : ', error)
           toast.error('Registrastion Failed ' + error.response.data.message)
         }
       )
     } else {
       HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statusig, json).then(
         ({ data }) => {
-          console.log('here 1', data)
+          console.log('Registrastion Failed : ', data)
           // toast.success(' Successfully submited!')
         },
         error => {
-          console.log('here 1', error)
+          console.log('Registrastion Failed : ', error)
           toast.error('Registrastion Failed ' + error.response.data.message)
         }
       )
     }
     // setDisabledInstagram(true)
   }
+
   const addbuttonlinkedin = () => {
     let user = ''
-    if (linkedin.length < 25) {
+    if (linkedin.length < 20) {
       user = 'https://linkedin.com/' + linkedin
     } else {
       user = linkedin
@@ -446,7 +464,7 @@ const CandidateProfile = (props: compProps) => {
           statuslinkedin = data.sosmed.id
         },
         error => {
-          console.log('here 1', error)
+          console.log('Registrastion Failed : ', error)
           toast.error('Registrastion Failed ' + error.response.data.message)
         }
       )
@@ -457,7 +475,7 @@ const CandidateProfile = (props: compProps) => {
           // toast.success(' Successfully submited!')
         },
         error => {
-          console.log('here 1', error)
+          console.log('Registrastion Failed : ', error)
           toast.error('Registrastion Failed ' + error.response.data.message)
         }
       )
@@ -531,21 +549,25 @@ const CandidateProfile = (props: compProps) => {
 
   const onSubmit = (data: FormData) => {
     const { fullName, website, address, about } = data
-    console.log('here 1', idcombokelamin)
     availabledate = date
     const json = {
       country_id: idcombocode,
       employee_type: idship,
       name: fullName,
       phone: phoneNum,
+      date_of_birth: dateOfBirth,
       website: website,
       about: about,
       address_country_id: idcountry,
       address_city_id: idcity,
       address_address: address,
       gender: idcombokelamin.title,
-      location_province_id: idcomboProvince
+      location_province_id: idcomboProvince,
+      no_experience: noExperience
     }
+
+    console.log(' json submit = > ', json)
+
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
       () => {
         if (tampilkanship == 'PELAUT') {
@@ -561,14 +583,14 @@ const CandidateProfile = (props: compProps) => {
           }
           HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(
             ({ data }) => {
-              console.log('here 1', data)
+              console.log('field preference success ', data)
               toast.success(' Successfully submited!')
               refreshsession()
               window.location.replace('/home')
             },
             error => {
-              console.log('here 1', error)
-              toast.error(' Failed ' + error.response.data.message)
+              console.log('field preference failed', error)
+              toast.error('Field Preference Failed ' + error.response.data.message)
             }
           )
         } else {
@@ -585,20 +607,20 @@ const CandidateProfile = (props: compProps) => {
           HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(
             ({ data }) => {
               console.log('here 1', data)
-              toast.success(' Successfully submited!')
+              toast.success('Successfully submited!')
               refreshsession()
               window.location.replace('/home')
             },
             error => {
               console.log('here 1', error)
-              toast.error(' Failed ' + error.response.data.message)
+              toast.error(' Failed Field Preference : ' + error.response.data.message)
             }
           )
         }
       },
       error => {
-        console.log('here 1', error)
-        toast.error(' Failed ' + error.response.data.message)
+        console.log('Failed Update Profile : ', error)
+        toast.error(' Failed Update Profile : ' + error.response.data.message)
       }
     )
   }
@@ -671,7 +693,7 @@ const CandidateProfile = (props: compProps) => {
       },
       error => {
         console.log('here 1', error)
-        toast.error(' Failed ' + error.response.data.message)
+        toast.error(' Failed Upload Photo' + error.response.data.message)
       }
     )
   }
@@ -699,7 +721,7 @@ const CandidateProfile = (props: compProps) => {
       },
       error => {
         console.log('here 1', error)
-        toast.error(' Failed ' + error.response.data.message)
+        toast.error(' Failed Photo Banner' + error.response.data.message)
       }
     )
   }
@@ -896,7 +918,6 @@ const CandidateProfile = (props: compProps) => {
                   {...register('fullName')}
                 />
               </Grid>
-
               <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -912,7 +933,6 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid>
-
               <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -929,7 +949,6 @@ const CandidateProfile = (props: compProps) => {
                   // }
                 />
               </Grid>
-
               <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -943,7 +962,6 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid>
-
               <Grid item md={3} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -957,7 +975,6 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid>
-
               <Grid item md={6} xs={12}>
                 <TextField
                   id='address'
@@ -970,7 +987,6 @@ const CandidateProfile = (props: compProps) => {
                   {...register('address')}
                 />
               </Grid>
-
               <Grid item md={3} xs={12}>
                 <TextField
                   id='Email'
@@ -983,7 +999,6 @@ const CandidateProfile = (props: compProps) => {
                   {...register('email')}
                 />
               </Grid>
-
               {props.datauser.role == 'Company' && (
                 <>
                   <Grid item md={6} xs={12}>
@@ -1000,7 +1015,6 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </>
               )}
-
               {/* <Grid item md={1} xs={12}>
                 <Autocomplete
                   disablePortal
@@ -1016,7 +1030,6 @@ const CandidateProfile = (props: compProps) => {
                   }
                 />
               </Grid> */}
-
               <Grid item md={3} xs={12}>
                 <TextField
                   id='phone'
@@ -1056,7 +1069,20 @@ const CandidateProfile = (props: compProps) => {
                   }}
                 />
               </Grid>
-
+              <Grid item md={3} xs={12}>
+                <TextField
+                  id='date_of_birth'
+                  label='Date of Birth'
+                  defaultValue={'0000-01-01'}
+                  variant='standard'
+                  required={true}
+                  fullWidth={true}
+                  sx={{ mb: 1 }}
+                  type='date'
+                  value={dateOfBirth}
+                  onChange={e => onChangeDateOfBirth(e.target.value)}
+                ></TextField>
+              </Grid>
               <Grid item md={12} xs={12}>
                 <TextField
                   fullWidth
@@ -1071,7 +1097,6 @@ const CandidateProfile = (props: compProps) => {
                   {...register('about')}
                 />
               </Grid>
-
               {/* ----- Social Media Info ---- */}
               <>
                 <Grid item md={5} xs={12}>
@@ -1217,7 +1242,6 @@ const CandidateProfile = (props: compProps) => {
                 <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
               </>
               {/* ----- END Social Media Info ---- */}
-
               {tampilkanship == 'PELAUT' && (
                 <>
                   <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
@@ -1375,7 +1399,6 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </>
               )}
-
               {tampilkanship != 'PELAUT' && (
                 <>
                   <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
@@ -1532,7 +1555,6 @@ const CandidateProfile = (props: compProps) => {
                 </>
               )}
               <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
-
               <Box sx={{ marginTop: '20px' }}></Box>
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
@@ -1645,9 +1667,7 @@ const CandidateProfile = (props: compProps) => {
                   ))}
                 </Grid>
               </Grid>
-
               {/* Work Experience */}
-
               <Grid item container xs={12}>
                 <Grid xs={10} md={11}>
                   <Grid container item xs={12} justifyContent={'left'}>
@@ -1759,9 +1779,7 @@ const CandidateProfile = (props: compProps) => {
                   ))}
                 </Grid>
               </Grid>
-
               {/* End Work Experience */}
-
               {tampilkanship == 'PELAUT' && (
                 <Grid item container xs={12}>
                   <Grid xs={10} md={11}>
@@ -1953,11 +1971,22 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </Grid>
               )}
-
+              <SeafarerTravelDocumentTable user_id={props?.datauser.id} />
+              <Divider style={{ width: '100%', margin: '20px 0' }} />
+              <SeafarerExperienceTable
+                user_id={props?.datauser.id}
+                no_experience={noExperience}
+                setNoExperience={setNoExperience}
+              />
+              <Divider style={{ width: '100%', margin: '20px 0' }} />
+              <SeafarerCompetencyTable user_id={props?.datauser.id} />
+              <Divider style={{ width: '100%', margin: '20px 0' }} />
+              <SeafarerProficiencyTable user_id={props?.datauser.id} />
+              <Divider style={{ width: '100%', margin: '20px 0' }} />
+              {/* {JSON.stringify(secureLocalStorage.getItem(localStorageKeys.userData))} */}
+              {!noExperience ? <SeafarerRecommendationForm user_id={props?.datauser.id} /> : ''}
               <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
-
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
-              <Grid item container direction='row' justifyContent='flex-end' alignItems='center' md={1} lg={1} xs={12}>
+              <Grid item container direction='row' justifyContent='flex-end' alignItems='right' md={12} lg={12} xs={12}>
                 <Button variant='contained' color='success' size='small' type='submit' sx={{ mt: 7, mb: 7 }}>
                   <Icon
                     fontSize='large'
@@ -1965,7 +1994,7 @@ const CandidateProfile = (props: compProps) => {
                     color={'success'}
                     style={{ fontSize: '18px' }}
                   />
-                  <div style={{ marginLeft: 5 }}>SAVE</div>
+                  <div style={{ marginLeft: 5 }}>SAVE AND PUBLISH CV</div>
                 </Button>
               </Grid>
             </Grid>
