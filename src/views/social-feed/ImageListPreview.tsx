@@ -1,15 +1,8 @@
-import { ImageList, ImageListItem } from "@mui/material";
-import { useState } from "react"; 
+import { ImageList, ImageListItem } from "@mui/material"; 
 
 const ImageListPreview = (props: { urls: string[] }) => {
-    const { urls } = props;
-    const [error, setError] = useState(false);
-     const handleError = () => {
-        if (!error) {
-        setError(true);
-        }
-    };
-   const onError = (e:any) => {
+    const { urls } = props;     
+    const onError = (e:any) => {
         e.target.onerror = null; // Prevent infinite loop
         e.target.src = `/images/no-image.jpg`; // Set fallback image
     };
