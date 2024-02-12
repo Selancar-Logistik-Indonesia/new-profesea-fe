@@ -1,7 +1,14 @@
 import { ImageList, ImageListItem } from "@mui/material";
+import { useState } from "react"; 
 
 const ImageListPreview = (props: { urls: string[] }) => {
     const { urls } = props;
+    const [error, setError] = useState(false);
+     const handleError = () => {
+        if (!error) {
+        setError(true);
+        }
+    };
     let cols = 1,
         itemRows = 1,
         itemCols = 1,
@@ -48,11 +55,12 @@ const ImageListPreview = (props: { urls: string[] }) => {
                     rows={i == 0 ? itemRows : defaultRows}
                     cols={i == 0 ? itemCols : defaultCols}
                 >
-                    <img src={item} alt={item} loading="lazy" style={{ objectFit: 'contain', width: '100%', height: '100%' }}/>
+                    <img onError={handleError} src={error ? item : `/images/no-image.jpg` }   alt={item} loading="lazy" style={{ objectFit: 'contain', width: '100%', height: '100%' }}/>
                 </ImageListItem>
             ))}
         </ImageList>
     ) : <></>;
 }
+
 
 export default ImageListPreview;
