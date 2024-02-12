@@ -72,7 +72,6 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ dialogProps, a
   const [RoleLevel, getRoleLevel] = useState<any[]>([])
   const [combocountry, getComboCountry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
-  const [VesselType, getVesselType] = useState<any[]>([])
 
   const combobox = async () => {
     HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
@@ -243,6 +242,7 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ dialogProps, a
     setEmploymenttype('')
 
     setLicense([])
+    setLicenseCop([])
     setDate(new Date())
 
     setJobCategories([])
@@ -251,7 +251,8 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ dialogProps, a
     getRoleLevel([])
     getComboCountry([])
     getComboCity([])
-    getVesselType([])
+
+    setRotational('')
 
     setDesc(EditorState.createEmpty())
   }
