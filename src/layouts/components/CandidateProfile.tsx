@@ -819,93 +819,10 @@ const CandidateProfile = (props: compProps) => {
         </BoxWrapper>
       </CardContent>
 
-      {/* <Grid item xs={12} md={6} container>
-        <Grid item xs={6} md={4} container justifyContent={'center'}>
-          <label htmlFor='raised-button-file'>
-            <img
-              alt='logo'
-              src={preview ? preview : '/images/avatar.png'}
-              style={{
-                maxWidth: '120px',
-                minWidth: '120px',
-                maxHeight: '120px',
-                minHeight: '120px',
-                height: '120px',
-                width: '120px',
-                padding: 0,
-                margin: 0
-              }}
-            />
-          </label>
-        </Grid>
-        <Grid item xs={6} md={8} justifyContent={'center'} alignContent={'center'} marginTop={'20px'}>
-          <input
-            accept='image/*'
-            style={{ display: 'none' }}
-            id='raised-button-file'
-            onChange={onSelectFile}
-            type='file'
-          ></input>
-
-          <Box sx={{ marginTop: '20px' }}>
-            <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-              Click Photo to change photo profile.
-            </Typography>
-            <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-              Allowed JPG, GIF or PNG.
-            </Typography>
-            <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-              Max size of 800K. Aspect Ratio 1:1
-            </Typography>
-          </Box>
-        </Grid>
-      </Grid> */}
-      {/* <Grid item xs={12} md={6} container>
-        <Grid item xs={6} md={4} container justifyContent={'center'}>
-          <label htmlFor='raised-button-file-banner'>
-            <img
-              alt='logo'
-              src={previewBanner ? previewBanner : '/images/avatar.png'}
-              style={{
-                maxWidth: '120px',
-                minWidth: '120px',
-                maxHeight: '120px',
-                minHeight: '120px',
-                height: '120px',
-                width: '120px',
-                padding: 0,
-                margin: 0
-              }}
-            />
-          </label>
-        </Grid>
-        <Grid item xs={6} md={8} justifyContent={'center'} alignContent={'center'} marginTop={'20px'}>
-          <input
-            accept='image/*'
-            style={{ display: 'none' }}
-            id='raised-button-file-banner'
-            onChange={onSelectFileBanner}
-            type='file'
-          ></input>
-
-          <Box sx={{ marginTop: '20px' }}>
-            <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-              Click Photo to change photo Banner.
-            </Typography>
-            <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-              Allowed JPG, GIF or PNG.
-            </Typography>
-            <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-              Max size of 800K. Aspect Ratio 1:1
-            </Typography>
-          </Box>
-        </Grid>
-      </Grid> */}
-
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
-          <Grid item xs={12} container marginTop={'25px'}>
-            <Grid item container spacing={3} sx={{ mb: 2 }}>
+          <Grid lg={12} md={12} xs={12} container marginTop={'25px'}>
+            <Grid item container md={12} spacing={3} sx={{ mb: 2 }}>
               <Grid item md={6} xs={12}>
                 <TextField
                   id='fullName'
@@ -1971,31 +1888,42 @@ const CandidateProfile = (props: compProps) => {
                   </Grid>
                 </Grid>
               )}
-              <SeafarerTravelDocumentTable user_id={props?.datauser.id} />
-              <Divider style={{ width: '100%', margin: '20px 0' }} />
-              <SeafarerExperienceTable
-                user_id={props?.datauser.id}
-                no_experience={noExperience}
-                setNoExperience={setNoExperience}
-              />
-              <Divider style={{ width: '100%', margin: '20px 0' }} />
-              <SeafarerCompetencyTable user_id={props?.datauser.id} />
-              <Divider style={{ width: '100%', margin: '20px 0' }} />
-              <SeafarerProficiencyTable user_id={props?.datauser.id} />
-              <Divider style={{ width: '100%', margin: '20px 0' }} />
-              {/* {JSON.stringify(secureLocalStorage.getItem(localStorageKeys.userData))} */}
-              {!noExperience ? <SeafarerRecommendationForm user_id={props?.datauser.id} /> : ''}
-              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
-              <Grid item container direction='row' justifyContent='flex-end' alignItems='right' md={12} lg={12} xs={12}>
-                <Button variant='contained' color='success' size='small' type='submit' sx={{ mt: 7, mb: 7 }}>
-                  <Icon
-                    fontSize='large'
-                    icon={'solar:diskette-bold-duotone'}
-                    color={'success'}
-                    style={{ fontSize: '18px' }}
-                  />
-                  <div style={{ marginLeft: 5 }}>SAVE AND PUBLISH CV</div>
-                </Button>
+              <Grid item container lg={12} md={12} xs={12}>
+                <SeafarerTravelDocumentTable user_id={props?.datauser.id} />
+                {/* <Divider style={{ width: '100%', margin: '20px 0' }} />
+                <SeafarerExperienceTable
+                  user_id={props?.datauser.id}
+                  no_experience={noExperience}
+                  setNoExperience={setNoExperience}
+                />
+                <Divider style={{ width: '100%', margin: '20px 0' }} />
+                <SeafarerCompetencyTable user_id={props?.datauser.id} />
+                <Divider style={{ width: '100%', margin: '20px 0' }} />
+                <SeafarerProficiencyTable user_id={props?.datauser.id} />
+                <Divider style={{ width: '100%', margin: '20px 0' }} />
+
+                {!noExperience ? <SeafarerRecommendationForm user_id={props?.datauser.id} /> : ''}
+                <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid> */}
+                <Grid
+                  item
+                  container
+                  direction='row'
+                  justifyContent='flex-end'
+                  alignItems='right'
+                  md={12}
+                  lg={12}
+                  xs={12}
+                >
+                  <Button variant='contained' color='success' size='small' type='submit' sx={{ mt: 7, mb: 7 }}>
+                    <Icon
+                      fontSize='large'
+                      icon={'solar:diskette-bold-duotone'}
+                      color={'success'}
+                      style={{ fontSize: '18px' }}
+                    />
+                    <div style={{ marginLeft: 5 }}>SAVE AND PUBLISH CV</div>
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
