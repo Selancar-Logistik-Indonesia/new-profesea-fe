@@ -16,14 +16,15 @@ const bannerAsset: SxProps<Theme> = {
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: {
-    md: 'center 40px',
-    lg: 'center 50px'
+    // md: 'center 40px',
+    lg: 'center 30px',
+    xl: 'center 50px'
   },
   height: {
-    md: '50%',
+    lg: '65%',
     xl: '100%'
   },
-  width: '100%'
+  width: '95%'
 }
 
 const landingPageStyle = {
