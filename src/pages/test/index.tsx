@@ -140,9 +140,7 @@ function Test() {
                     </Typography>
                   </Grid>
                 </Grid>
-              </Grid>
-              <div>
-                <DataGrid
+                 <DataGrid
                   disableRowSelectionOnClick
                   disableColumnMenu
                   autoHeight={true}
@@ -163,7 +161,7 @@ function Test() {
                   onPageChange={model => onPageChange(model)}
                   rows={dataSheet}
                 />
-              </div>
+              </Grid>              
             </Grid>
           </Grid>
         </Grid>
