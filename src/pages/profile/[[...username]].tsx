@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Grid, useMediaQuery } from '@mui/material'
+import { Card, CardContent, Grid, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
@@ -19,6 +19,10 @@ import { useRouter } from 'next/router'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import EducationalInfo from './Educational'
 import Ceritificate from './Certificate'
+import ProfileViewerCard from 'src/layouts/components/ProfileViewerCard'
+import SeafarerTravelDocument from '../candidate/SeafarerTravelDocument/SeafarerTravelDocumentTable'
+import AboutMe from './AboutMe'
+import ProfileFeedCard from './ProfileFeedCard'
 
 const ProfileCompany = () => {
   return (
@@ -100,27 +104,51 @@ const UserFeedApp = () => {
     fetchFeeds({ take: 7, username: username, mPage: 1 })
   }, [username])
 
+  const TableWrapper = (props: any) => {
+    return (
+      <Grid item marginTop={'10px'} md={12} xs={12}>
+        <Card>
+          <CardContent sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+            {props.children}
+          </CardContent>
+        </Card>
+      </Grid>
+    )
+  }
+
   return (
     <Box>
       <Grid container spacing={1}>
         <Grid item xs={12} md={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
-          <Grid container>
-            {selectedUser && <UserProfileHeader datauser={selectedUser} address={selectedUser.address} />}
-          </Grid>
           <Grid container spacing={6} sx={{ marginTop: '1px' }}>
-            <Grid item lg={3} md={5} xs={12}>
+            <Grid item lg={2} md={2} xs={12}>
               {selectedUser?.role == 'Company' && <JobVacancy vacancy={arrVacany} />}
-              {selectedUser?.role == 'Seafarer' && (
-                <Box>
-                  <EducationalInfo vacancy={arrVacany2} />
-                  <WorkeExperience vacancy={arrVacany} />
-                  <Ceritificate vacancy={itemData} />
-                </Box>
-              )}
+              {selectedUser?.role == 'Seafarer' && <Box></Box>}
               {selectedUser?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
             </Grid>
-            <Grid item lg={9} md={7} xs={12}>
-              <ListFeedView username={username} />
+            <Grid item container lg={7} md={7} xs={12}>
+              <Grid item md={12} xs={12}>
+                {selectedUser && <UserProfileHeader datauser={selectedUser} address={selectedUser.address} />}
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <AboutMe dataUser={selectedUser}></AboutMe>
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <ProfileFeedCard></ProfileFeedCard>
+              </Grid>
+              <Grid item md={12} xs={12}>
+                {/* <ListFeedView username={username} /> */}
+                <Box></Box>
+              </Grid>
+              <EducationalInfo vacancy={arrVacany2} />
+              <WorkeExperience vacancy={arrVacany} />
+              <Ceritificate vacancy={itemData} />
+              <TableWrapper>
+                <SeafarerTravelDocument user_id={selectedUser?.id} />
+              </TableWrapper>
+            </Grid>
+            <Grid item lg={3} md={3} xs={12}>
+              <ProfileViewerCard />
             </Grid>
           </Grid>
         </Grid>
