@@ -820,7 +820,7 @@ const CandidateProfile = (props: compProps) => {
         </BoxWrapper>
       </CardContent>
 
-      <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+      <form id='profile-form' noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <Grid className='profile-form' item container xs={12} spacing={3} sx={{ mb: 2 }} marginTop={'25px'}>
           <Grid item md={6} xs={12}>
             <TextField
@@ -1840,20 +1840,6 @@ const CandidateProfile = (props: compProps) => {
               </Grid>
             </Grid>
           )}
-
-          <Grid item container lg={12} md={12} xs={12}>
-            <Grid item container direction='row' justifyContent='flex-end' alignItems='right' md={12} lg={12} xs={12}>
-              <Button variant='contained' color='success' size='small' type='submit' sx={{ mt: 7, mb: 7 }}>
-                <Icon
-                  fontSize='large'
-                  icon={'solar:diskette-bold-duotone'}
-                  color={'success'}
-                  style={{ fontSize: '18px' }}
-                />
-                <div style={{ marginLeft: 5 }}>SAVE AND PUBLISH CV</div>
-              </Button>
-            </Grid>
-          </Grid>
         </Grid>
       </form>
 
@@ -1873,6 +1859,27 @@ const CandidateProfile = (props: compProps) => {
 
         {!noExperience ? <SeafarerRecommendationForm user_id={props?.datauser.id} /> : ''}
         <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
+      </Grid>
+
+      <Grid item container lg={12} md={12} xs={12}>
+        <Grid item container direction='row' justifyContent='flex-end' alignItems='right' md={12} lg={12} xs={12}>
+          <Button
+            form='profile-form'
+            variant='contained'
+            color='success'
+            size='small'
+            type='submit'
+            sx={{ mt: 7, mb: 7 }}
+          >
+            <Icon
+              fontSize='large'
+              icon={'solar:diskette-bold-duotone'}
+              color={'success'}
+              style={{ fontSize: '18px' }}
+            />
+            <div style={{ marginLeft: 5 }}>SAVE AND PUBLISH CV</div>
+          </Button>
+        </Grid>
       </Grid>
 
       <Grid className='modals'>
