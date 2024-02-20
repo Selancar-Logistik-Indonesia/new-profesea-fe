@@ -736,8 +736,8 @@ const CandidateProfile = (props: compProps) => {
   }
 
   return (
-    <Grid container padding={5}>
-      <Grid xs={12} sx={{ mt: 0, ml: 2, mb: 2 }}>
+    <Grid container md={12} xs={12} padding={5}>
+      <Grid className='heading-title' xs={12} sx={{ mt: 0, ml: 2, mb: 2 }}>
         <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
           General Info
         </Typography>
@@ -786,6 +786,7 @@ const CandidateProfile = (props: compProps) => {
       </Grid>
 
       <CardContent
+        className='profile-image'
         sx={{
           pt: 0,
           mt: -8,
@@ -820,720 +821,878 @@ const CandidateProfile = (props: compProps) => {
       </CardContent>
 
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-        <FormControl>
-          <Grid lg={12} md={12} xs={12} container marginTop={'25px'}>
-            <Grid item container md={12} spacing={3} sx={{ mb: 2 }}>
-              <Grid item md={6} xs={12}>
-                <TextField
-                  id='fullName'
-                  required
-                  defaultValue={props.datauser.name}
-                  label='Full Name'
-                  variant='standard'
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  {...register('fullName')}
-                />
-              </Grid>
-              <Grid item md={3} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  options={!combokelamin ? [{ label: 'Loading...', title: 0 }] : combokelamin}
-                  defaultValue={idcombokelamin}
-                  getOptionLabel={(option: any) => option.label}
-                  renderInput={params => (
-                    <TextField {...params} label='Gender *' id='gender' variant='standard' {...register('genderr')} />
-                  )}
-                  onChange={(event: any, newValue: any) =>
-                    newValue?.title ? setCombokelamin(newValue) : setCombokelamin('')
-                  }
-                />
-              </Grid>
-              <Grid item md={3} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  // options={comboShip}
-                  options={!comboShip ? [{ label: 'Loading...', id: 0 }] : comboShip}
-                  defaultValue={ship}
-                  getOptionLabel={(option: any) => option.label}
-                  renderInput={params => <TextField {...params} label='Ship *' variant='standard' />}
-                  onChange={(event: any, newValue: any | null) => displayship(newValue)}
-                  disabled={showShip}
-                  // onChange={(event: any, newValue: Employee ) =>
-                  //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
-                  // }
-                />
-              </Grid>
-              <Grid item md={3} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  options={combocountry}
-                  getOptionLabel={(option: any) => option.nicename}
-                  defaultValue={props.address?.country}
-                  renderInput={params => <TextField {...params} label='Country *' variant='standard' />}
-                  onChange={(event: any, newValue: Countries | null) =>
-                    newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
-                  }
-                />
-              </Grid>
-              <Grid item md={3} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='city'
-                  value={props.datauser.address?.city}
-                  options={combocity}
-                  getOptionLabel={(option: City) => option.city_name}
-                  renderInput={params => <TextField {...params} label='City *' sx={{ mb: 2 }} variant='standard' />}
-                  onChange={(event: any, newValue: City | null) =>
-                    newValue?.id ? setCombocity(newValue.id) : setCombocity(props.address?.city_id)
-                  }
-                />
-              </Grid>
-              <Grid item md={6} xs={12}>
-                <TextField
-                  id='address'
-                  label='Address'
-                  required
-                  defaultValue={props.datauser.address?.address}
-                  variant='standard'
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  {...register('address')}
-                />
-              </Grid>
-              <Grid item md={3} xs={12}>
-                <TextField
-                  id='Email'
-                  label='Email'
-                  required
-                  defaultValue={props.datauser.email}
-                  variant='standard'
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  {...register('email')}
-                />
-              </Grid>
-              {props.datauser.role == 'Company' && (
-                <>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      id='website'
-                      label='Website'
-                      required
-                      defaultValue={props.datauser.website}
-                      variant='standard'
-                      fullWidth
-                      sx={{ mb: 1 }}
-                      {...register('website')}
-                    />
-                  </Grid>
-                </>
+        <Grid className='profile-form' item container xs={12} spacing={3} sx={{ mb: 2 }} marginTop={'25px'}>
+          <Grid item md={6} xs={12}>
+            <TextField
+              id='fullName'
+              required
+              defaultValue={props.datauser.name}
+              label='Full Name'
+              variant='standard'
+              fullWidth
+              sx={{ mb: 1 }}
+              {...register('fullName')}
+            />
+          </Grid>
+          <Grid item md={3} xs={12}>
+            <Autocomplete
+              disablePortal
+              id='combo-box-demo'
+              options={!combokelamin ? [{ label: 'Loading...', title: 0 }] : combokelamin}
+              defaultValue={idcombokelamin}
+              getOptionLabel={(option: any) => option.label}
+              renderInput={params => (
+                <TextField {...params} label='Gender *' id='gender' variant='standard' {...register('genderr')} />
               )}
-              {/* <Grid item md={1} xs={12}>
+              onChange={(event: any, newValue: any) =>
+                newValue?.title ? setCombokelamin(newValue) : setCombokelamin('')
+              }
+            />
+          </Grid>
+          <Grid item md={3} xs={12}>
+            <Autocomplete
+              disablePortal
+              id='combo-box-demo'
+              // options={comboShip}
+              options={!comboShip ? [{ label: 'Loading...', id: 0 }] : comboShip}
+              defaultValue={ship}
+              getOptionLabel={(option: any) => option.label}
+              renderInput={params => <TextField {...params} label='Ship *' variant='standard' />}
+              onChange={(event: any, newValue: any | null) => displayship(newValue)}
+              disabled={showShip}
+              // onChange={(event: any, newValue: Employee ) =>
+              //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
+              // }
+            />
+          </Grid>
+          <Grid item md={3} xs={12}>
+            <Autocomplete
+              disablePortal
+              id='combo-box-demo'
+              options={combocountry}
+              getOptionLabel={(option: any) => option.nicename}
+              defaultValue={props.address?.country}
+              renderInput={params => <TextField {...params} label='Country *' variant='standard' />}
+              onChange={(event: any, newValue: Countries | null) =>
+                newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
+              }
+            />
+          </Grid>
+          <Grid item md={3} xs={12}>
+            <Autocomplete
+              disablePortal
+              id='city'
+              value={props.datauser.address?.city}
+              options={combocity}
+              getOptionLabel={(option: City) => option.city_name}
+              renderInput={params => <TextField {...params} label='City *' sx={{ mb: 2 }} variant='standard' />}
+              onChange={(event: any, newValue: City | null) =>
+                newValue?.id ? setCombocity(newValue.id) : setCombocity(props.address?.city_id)
+              }
+            />
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <TextField
+              id='address'
+              label='Address'
+              required
+              defaultValue={props.datauser.address?.address}
+              variant='standard'
+              fullWidth
+              sx={{ mb: 1 }}
+              {...register('address')}
+            />
+          </Grid>
+          <Grid item md={3} xs={12}>
+            <TextField
+              id='Email'
+              label='Email'
+              required
+              defaultValue={props.datauser.email}
+              variant='standard'
+              fullWidth
+              sx={{ mb: 1 }}
+              {...register('email')}
+            />
+          </Grid>
+          {props.datauser.role == 'Company' && (
+            <>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  id='website'
+                  label='Website'
+                  required
+                  defaultValue={props.datauser.website}
+                  variant='standard'
+                  fullWidth
+                  sx={{ mb: 1 }}
+                  {...register('website')}
+                />
+              </Grid>
+            </>
+          )}
+          <Grid item md={3} xs={12}>
+            <TextField
+              id='phone'
+              label='Phone'
+              required
+              defaultValue={props.datauser.phone}
+              variant='standard'
+              fullWidth
+              sx={{ mb: 1 }}
+              type='number'
+              value={phoneNum}
+              onChange={e => onChangePhoneNum(e.target.value)}
+              InputProps={{
+                // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
+                startAdornment: (
+                  <Autocomplete
+                    disablePortal
+                    id='code'
+                    options={combocode}
+                    getOptionLabel={(option: Countries) => option.iso}
+                    defaultValue={props.datauser?.country}
+                    renderInput={params => <TextField {...params} variant='standard' {...register('phone')} />}
+                    onChange={(event: any, newValue: Countries | null) =>
+                      newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
+                    }
+                  />
+                  // <Autocomplete
+                  //   style={{ width: '160px' }}
+                  //   disablePortal
+                  //   id='code'
+                  //   options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
+                  //   renderInput={params => <TextField {...params} variant='standard' />}
+                  //   {...register('code')}
+                  //   onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
+                  // />
+                )
+              }}
+            />
+          </Grid>
+          <Grid item md={3} xs={12}>
+            <TextField
+              id='date_of_birth'
+              label='Date of Birth'
+              defaultValue={'0000-01-01'}
+              variant='standard'
+              required={true}
+              fullWidth={true}
+              sx={{ mb: 1 }}
+              type='date'
+              value={dateOfBirth}
+              onChange={e => onChangeDateOfBirth(e.target.value)}
+            ></TextField>
+          </Grid>
+          <Grid item md={12} xs={12}>
+            <TextField
+              fullWidth
+              sx={{ mb: 1 }}
+              id='outlined-multiline-static'
+              label='About me'
+              variant='standard'
+              required
+              multiline
+              rows={4}
+              defaultValue={props.datauser.about}
+              {...register('about')}
+            />
+          </Grid>
+          {/* ----- Social Media Info ---- */}
+          <>
+            <Grid item md={5} xs={12}>
+              <Grid container item xs={12} justifyContent={'left'}>
+                <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
+                  Social Media Info
+                </Typography>
+              </Grid>
+              <Grid container item xs={12} justifyContent={'left'}>
+                <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                  Fulfill your Social Media Info
+                </Typography>
+              </Grid>
+            </Grid>
+
+            <Grid container item md={12} xs={12} marginTop={'20px'}>
+              <Grid container item xs={12} md={4} marginBottom={2}>
+                <Grid container item xs={12} md={12}>
+                  <Grid xs={12} item>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                        <Icon icon='mdi:facebook' fontSize={24} color={'#262525'} />
+                      </Box>
+                      <TextField
+                        id='facebook'
+                        defaultValue={facebook}
+                        label='Facebook'
+                        variant='standard'
+                        fullWidth
+                        sx={{ mb: 1 }}
+                        value={facebook}
+                        {...register('facebook')}
+                        // disabled={disabledFacebook}
+                        onChange={e => setFacebook(e.target.value)}
+                        onBlur={handleSubmit(addbuttonfacebook)}
+                        InputProps={{
+                          startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                        }}
+                      />
+                      {/* <Button
+                    onClick={() => enabledtextfield('fb')}
+                    sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                  >
+                    <Icon
+                      fontSize='large'
+                      icon={'solar:pen-new-round-bold-duotone'}
+                      color={'primary'}
+                      style={{ fontSize: '24px' }}
+                    />
+                  </Button> */}
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Grid>
+
+              <Grid container item xs={12} marginBottom={2} md={4}>
+                <Grid container item xs={12} md={12}>
+                  <Grid xs={12} item>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                        <Icon icon='mdi:instagram' fontSize={24} color={'#262525'} />
+                      </Box>
+                      <TextField
+                        id='instagram'
+                        label='Instagram'
+                        variant='standard'
+                        fullWidth
+                        value={instagram}
+                        sx={{ mb: 1 }}
+                        {...register('instagram')}
+                        // disabled={disabledInstagram}
+                        onChange={e => setInstagram(e.target.value)}
+                        onBlur={handleSubmit(addbuttoninstagram)}
+                        InputProps={{
+                          startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                        }}
+                      />
+                      {/* <Button
+                    onClick={() => enabledtextfield('ig')}
+                    sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                  >
+                    <Icon
+                      fontSize='large'
+                      icon={'solar:pen-new-round-bold-duotone'}
+                      color={'primary'}
+                      style={{ fontSize: '24px' }}
+                    />
+                  </Button> */}
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Grid>
+
+              <Grid container item xs={12} marginBottom={2} md={4}>
+                <Grid container item xs={12} md={12}>
+                  <Grid xs={12} item>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                        <Icon icon='mdi:linkedin' fontSize={24} color={'#262525'} />
+                      </Box>
+                      <TextField
+                        id='linkedin'
+                        defaultValue={linkedin}
+                        label='Linkedin'
+                        variant='standard'
+                        fullWidth
+                        sx={{ mb: 1 }}
+                        {...register('linkedin')}
+                        // disabled={disabledLinkedn}
+                        value={linkedin}
+                        onChange={e => setLinkedin(e.target.value)}
+                        onBlur={handleSubmit(addbuttonlinkedin)}
+                        InputProps={{
+                          startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                        }}
+                      />
+                      {/* <Button
+                    onClick={() => enabledtextfield('li')}
+                    sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
+                  >
+                    <Icon
+                      fontSize='large'
+                      icon={'solar:pen-new-round-bold-duotone'}
+                      color={'primary'}
+                      style={{ fontSize: '24px' }}
+                    />
+                  </Button> */}
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+
+            <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.2} lg={0.2} xs={12}></Grid>
+            <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
+          </>
+          {/* ----- END Social Media Info ---- */}
+          {tampilkanship == 'PELAUT' && (
+            <>
+              <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
+                <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
+                  <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
+                    Preferences
+                  </Typography>
+                  <Grid container item xs={12} justifyContent={'left'}>
+                    <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                      Fulfill your Preferences Info
+                    </Typography>
+                  </Grid>
+                </Grid>
+
+                <Grid item md={4} xs={12}>
+                  <Autocomplete
+                    id='combo-box-demo'
+                    options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
+                    defaultValue={opp}
+                    getOptionLabel={(option: any) => option.label}
+                    renderInput={params => <TextField {...params} label='Status *' variant='standard' />}
+                    onChange={(event: any, newValue: any | null) => displayopp(newValue)}
+                  />
+                </Grid>
+                {/* <Grid item md={6} xs={12}>
                 <Autocomplete
                   disablePortal
-                  id='code'
-                  options={combocode}
-                  getOptionLabel={(option: Countries) => option.iso}
-                  defaultValue={props.datauser?.country}
-                  renderInput={params => (
-                    <TextField {...params} label='Code Phone *' sx={{ mb: 2 }} variant='standard' />
-                  )}
-                  onChange={(event: any, newValue: Countries | null) =>
-                    newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
+                  id='combo-box-demo'
+                  options={comboroleLevel}
+                  getOptionLabel={(option: any) => option.levelName}
+                  defaultValue={props.datauser?.field_preference?.role_level}
+                  renderInput={params => <TextField {...params} label='Role Level' />}
+                  onChange={(event: any, newValue: RoleLevel | null) =>
+                    newValue?.id
+                      ? setComboRolLevel(newValue.id)
+                      : setComboRolLevel(props.datauser?.field_preference?.role_level?.id)
                   }
                 />
               </Grid> */}
-              <Grid item md={3} xs={12}>
-                <TextField
-                  id='phone'
-                  label='Phone'
-                  required
-                  defaultValue={props.datauser.phone}
-                  variant='standard'
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  type='number'
-                  value={phoneNum}
-                  onChange={e => onChangePhoneNum(e.target.value)}
-                  InputProps={{
-                    // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
-                    startAdornment: (
-                      <Autocomplete
-                        disablePortal
-                        id='code'
-                        options={combocode}
-                        getOptionLabel={(option: Countries) => option.iso}
-                        defaultValue={props.datauser?.country}
-                        renderInput={params => <TextField {...params} variant='standard' {...register('phone')} />}
-                        onChange={(event: any, newValue: Countries | null) =>
-                          newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
-                        }
-                      />
-                      // <Autocomplete
-                      //   style={{ width: '160px' }}
-                      //   disablePortal
-                      //   id='code'
-                      //   options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
-                      //   renderInput={params => <TextField {...params} variant='standard' />}
-                      //   {...register('code')}
-                      //   onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
-                      // />
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid item md={3} xs={12}>
-                <TextField
-                  id='date_of_birth'
-                  label='Date of Birth'
-                  defaultValue={'0000-01-01'}
-                  variant='standard'
-                  required={true}
-                  fullWidth={true}
-                  sx={{ mb: 1 }}
-                  type='date'
-                  value={dateOfBirth}
-                  onChange={e => onChangeDateOfBirth(e.target.value)}
-                ></TextField>
-              </Grid>
-              <Grid item md={12} xs={12}>
-                <TextField
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  id='outlined-multiline-static'
-                  label='About me'
-                  variant='standard'
-                  required
-                  multiline
-                  rows={4}
-                  defaultValue={props.datauser.about}
-                  {...register('about')}
-                />
-              </Grid>
-              {/* ----- Social Media Info ---- */}
-              <>
-                <Grid item md={5} xs={12}>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-                      Social Media Info
-                    </Typography>
-                  </Grid>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                      Fulfill your Social Media Info
-                    </Typography>
-                  </Grid>
+                <Grid item md={4} xs={12}>
+                  <Autocomplete
+                    sx={{ marginBottom: 2 }}
+                    disablePortal
+                    id='combo-box-level'
+                    options={JobCategory}
+                    defaultValue={props.datauser?.field_preference?.job_category}
+                    getOptionLabel={(option: JobCategory) => option.name}
+                    renderInput={params => <TextField {...params} label='Job Category *' variant='standard' />}
+                    onChange={(event: any, newValue: JobCategory | null) =>
+                      newValue?.id ? setJC(newValue?.id) : setJC(0)
+                    }
+                  />
                 </Grid>
-
-                <Grid container item md={12} xs={12} marginTop={'20px'}>
-                  <Grid container item xs={12} md={4} marginBottom={2}>
-                    <Grid container item xs={12} md={12}>
-                      <Grid xs={12} item>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                            <Icon icon='mdi:facebook' fontSize={24} color={'#262525'} />
-                          </Box>
-                          <TextField
-                            id='facebook'
-                            defaultValue={facebook}
-                            label='Facebook'
-                            variant='standard'
-                            fullWidth
-                            sx={{ mb: 1 }}
-                            value={facebook}
-                            {...register('facebook')}
-                            // disabled={disabledFacebook}
-                            onChange={e => setFacebook(e.target.value)}
-                            onBlur={handleSubmit(addbuttonfacebook)}
-                            InputProps={{
-                              startAdornment: <InputAdornment position='start'>/</InputAdornment>
-                            }}
-                          />
-                          {/* <Button
-                          onClick={() => enabledtextfield('fb')}
-                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
-                        >
-                          <Icon
-                            fontSize='large'
-                            icon={'solar:pen-new-round-bold-duotone'}
-                            color={'primary'}
-                            style={{ fontSize: '24px' }}
-                          />
-                        </Button> */}
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-
-                  <Grid container item xs={12} marginBottom={2} md={4}>
-                    <Grid container item xs={12} md={12}>
-                      <Grid xs={12} item>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                            <Icon icon='mdi:instagram' fontSize={24} color={'#262525'} />
-                          </Box>
-                          <TextField
-                            id='instagram'
-                            label='Instagram'
-                            variant='standard'
-                            fullWidth
-                            value={instagram}
-                            sx={{ mb: 1 }}
-                            {...register('instagram')}
-                            // disabled={disabledInstagram}
-                            onChange={e => setInstagram(e.target.value)}
-                            onBlur={handleSubmit(addbuttoninstagram)}
-                            InputProps={{
-                              startAdornment: <InputAdornment position='start'>/</InputAdornment>
-                            }}
-                          />
-                          {/* <Button
-                          onClick={() => enabledtextfield('ig')}
-                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
-                        >
-                          <Icon
-                            fontSize='large'
-                            icon={'solar:pen-new-round-bold-duotone'}
-                            color={'primary'}
-                            style={{ fontSize: '24px' }}
-                          />
-                        </Button> */}
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-
-                  <Grid container item xs={12} marginBottom={2} md={4}>
-                    <Grid container item xs={12} md={12}>
-                      <Grid xs={12} item>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                            <Icon icon='mdi:linkedin' fontSize={24} color={'#262525'} />
-                          </Box>
-                          <TextField
-                            id='linkedin'
-                            defaultValue={linkedin}
-                            label='Linkedin'
-                            variant='standard'
-                            fullWidth
-                            sx={{ mb: 1 }}
-                            {...register('linkedin')}
-                            // disabled={disabledLinkedn}
-                            value={linkedin}
-                            onChange={e => setLinkedin(e.target.value)}
-                            onBlur={handleSubmit(addbuttonlinkedin)}
-                            InputProps={{
-                              startAdornment: <InputAdornment position='start'>/</InputAdornment>
-                            }}
-                          />
-                          {/* <Button
-                          onClick={() => enabledtextfield('li')}
-                          sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
-                        >
-                          <Icon
-                            fontSize='large'
-                            icon={'solar:pen-new-round-bold-duotone'}
-                            color={'primary'}
-                            style={{ fontSize: '24px' }}
-                          />
-                        </Button> */}
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  </Grid>
+                <Grid item md={4} xs={12}>
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-demo'
+                    options={comboroleType}
+                    getOptionLabel={(option: any) => option.name}
+                    defaultValue={props.datauser?.field_preference?.role_type}
+                    renderInput={params => <TextField {...params} label='Job Title *' variant='standard' />}
+                    onChange={(event: any, newValue: RoleType | null) =>
+                      newValue?.id
+                        ? setComboRolType(newValue.id)
+                        : setComboRolType(props.datauser?.field_preference?.role_type?.id)
+                    }
+                  />
                 </Grid>
-
-                <Grid
-                  item
-                  direction='row'
-                  justifyContent='flex-end'
-                  alignItems='center'
-                  md={0.2}
-                  lg={0.2}
-                  xs={12}
-                ></Grid>
-                <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
-              </>
-              {/* ----- END Social Media Info ---- */}
-              {tampilkanship == 'PELAUT' && (
-                <>
-                  <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
-                    <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
-                      <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-                        Preferences
-                      </Typography>
-                      <Grid container item xs={12} justifyContent={'left'}>
-                        <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                          Fulfill your Preferences Info
-                        </Typography>
-                      </Grid>
-                    </Grid>
-
-                    <Grid item md={4} xs={12}>
-                      <Autocomplete
-                        id='combo-box-demo'
-                        options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
-                        defaultValue={opp}
-                        getOptionLabel={(option: any) => option.label}
-                        renderInput={params => <TextField {...params} label='Status *' variant='standard' />}
-                        onChange={(event: any, newValue: any | null) => displayopp(newValue)}
-                      />
-                    </Grid>
-                    {/* <Grid item md={6} xs={12}>
-                      <Autocomplete
-                        disablePortal
-                        id='combo-box-demo'
-                        options={comboroleLevel}
-                        getOptionLabel={(option: any) => option.levelName}
-                        defaultValue={props.datauser?.field_preference?.role_level}
-                        renderInput={params => <TextField {...params} label='Role Level' />}
-                        onChange={(event: any, newValue: RoleLevel | null) =>
-                          newValue?.id
-                            ? setComboRolLevel(newValue.id)
-                            : setComboRolLevel(props.datauser?.field_preference?.role_level?.id)
-                        }
-                      />
-                    </Grid> */}
-                    <Grid item md={4} xs={12}>
-                      <Autocomplete
-                        sx={{ marginBottom: 2 }}
-                        disablePortal
-                        id='combo-box-level'
-                        options={JobCategory}
-                        defaultValue={props.datauser?.field_preference?.job_category}
-                        getOptionLabel={(option: JobCategory) => option.name}
-                        renderInput={params => <TextField {...params} label='Job Category *' variant='standard' />}
-                        onChange={(event: any, newValue: JobCategory | null) =>
-                          newValue?.id ? setJC(newValue?.id) : setJC(0)
-                        }
-                      />
-                    </Grid>
-                    <Grid item md={4} xs={12}>
-                      <Autocomplete
-                        disablePortal
-                        id='combo-box-demo'
-                        options={comboroleType}
-                        getOptionLabel={(option: any) => option.name}
-                        defaultValue={props.datauser?.field_preference?.role_type}
-                        renderInput={params => <TextField {...params} label='Job Title *' variant='standard' />}
-                        onChange={(event: any, newValue: RoleType | null) =>
-                          newValue?.id
-                            ? setComboRolType(newValue.id)
-                            : setComboRolType(props.datauser?.field_preference?.role_type?.id)
-                        }
-                      />
-                    </Grid>
-                    <Grid item md={4} xs={12}>
-                      <Autocomplete
-                        disablePortal
-                        id='combo-box-demo'
-                        options={comboVessel}
-                        getOptionLabel={(option: any) => option.name}
-                        defaultValue={props.datauser?.field_preference?.vessel_type}
-                        renderInput={params => <TextField {...params} label='Type of Vessel *' variant='standard' />}
-                        onChange={(event: any, newValue: VesselType | null) =>
-                          newValue?.id
-                            ? setComboVessel(newValue.id)
-                            : setComboVessel(props.datauser?.field_preference?.vessel_type?.id)
-                        }
-                      />
-                    </Grid>
-                    <Grid item md={4} xs={12}>
-                      <Autocomplete
-                        disablePortal
-                        id='combo-box-demo'
-                        options={comboRegion}
-                        getOptionLabel={(option: any) => option.name}
-                        defaultValue={props.datauser?.field_preference?.region_travel}
-                        renderInput={params => <TextField {...params} label='Region of Travel *' variant='standard' />}
-                        onChange={(event: any, newValue: RegionTravel | null) =>
-                          newValue?.id
-                            ? setComboRegion(newValue.id)
-                            : setComboRegion(props.datauser?.field_preference?.region_travel?.id)
-                        }
-                      />
-                    </Grid>
-                    <Grid item md={4} xs={12}>
-                      <DatePickerWrapper>
-                        <DatePicker
-                          minDate={new Date()}
-                          dateFormat='dd/MM/yyyy'
-                          selected={date}
-                          id='basic-input'
-                          onChange={(date: Date) => setDate(date)}
-                          placeholderText='Click to select a date'
-                          customInput={
-                            <TextField
-                              label='Available Date *'
-                              variant='standard'
-                              fullWidth
-                              {...register('available')}
-                            />
-                          }
-                        />
-                      </DatePickerWrapper>
-                    </Grid>
-                    <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
-                      <FormControl>
-                        <InputLabel id='demo-multiple-chip-label'>LANGUANGE</InputLabel>
-                        <Select
-                          labelId='demo-multiple-chip-label'
-                          id='demo-multiple-chip'
-                          multiple
-                          value={personName}
-                          onChange={handleChange}
-                          label='LANGUANGE'
-                          sx={{ fontSize: '18px', height: 50.2 }}
-                          input={
-                            <OutlinedInput
-                              id='select-multiple-chip'
-                              label='Chip'
-                              defaultValue={props.datauser?.field_preference?.spoken_langs}
-                              sx={{ fontSize: '8px' }}
-                            />
-                          }
-                          renderValue={selected => (
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
-                              {selected.map(value => (
-                                <Chip key={value} label={value} />
-                              ))}
-                            </Box>
-                          )}
-                          MenuProps={MenuProps}
-                        >
-                          {names.map(name => (
-                            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-                              {name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                  </Grid>
-                </>
-              )}
-              {tampilkanship != 'PELAUT' && (
-                <>
-                  <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
-                    <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
-                      <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-                        Preferences
-                      </Typography>
-                      <Grid container item xs={12} justifyContent={'left'}>
-                        <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                          Fulfill your Preferences Info
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                    <Grid item md={6} xs={12}>
-                      <Autocomplete
-                        disablePortal
-                        id='combo-box-demo'
-                        options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
-                        defaultValue={opp}
-                        getOptionLabel={(option: any) => option.label}
-                        renderInput={params => <TextField {...params} label='Status *' variant='standard' />}
-                        onChange={(event: any, newValue: any | null) => displayopp(newValue)}
-                      />
-                    </Grid>
-                    {/* <Grid item md={6} xs={12}>
-                    <Autocomplete
-                      disablePortal
-                      id='combo-box-demo'
-                      options={comboroleLevel}
-                      getOptionLabel={(option: any) => option.levelName}
-                      defaultValue={props.datauser?.field_preference?.role_level}
-                      renderInput={params => <TextField {...params} label='Role Level' />}
-                      onChange={(event: any, newValue: RoleLevel | null) =>
-                        newValue?.id
-                          ? setComboRolLevel(newValue.id)
-                          : setComboRolLevel(props.datauser?.field_preference?.role_level?.id)
+                <Grid item md={4} xs={12}>
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-demo'
+                    options={comboVessel}
+                    getOptionLabel={(option: any) => option.name}
+                    defaultValue={props.datauser?.field_preference?.vessel_type}
+                    renderInput={params => <TextField {...params} label='Type of Vessel *' variant='standard' />}
+                    onChange={(event: any, newValue: VesselType | null) =>
+                      newValue?.id
+                        ? setComboVessel(newValue.id)
+                        : setComboVessel(props.datauser?.field_preference?.vessel_type?.id)
+                    }
+                  />
+                </Grid>
+                <Grid item md={4} xs={12}>
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-demo'
+                    options={comboRegion}
+                    getOptionLabel={(option: any) => option.name}
+                    defaultValue={props.datauser?.field_preference?.region_travel}
+                    renderInput={params => <TextField {...params} label='Region of Travel *' variant='standard' />}
+                    onChange={(event: any, newValue: RegionTravel | null) =>
+                      newValue?.id
+                        ? setComboRegion(newValue.id)
+                        : setComboRegion(props.datauser?.field_preference?.region_travel?.id)
+                    }
+                  />
+                </Grid>
+                <Grid item md={4} xs={12}>
+                  <DatePickerWrapper>
+                    <DatePicker
+                      minDate={new Date()}
+                      dateFormat='dd/MM/yyyy'
+                      selected={date}
+                      id='basic-input'
+                      onChange={(date: Date) => setDate(date)}
+                      placeholderText='Click to select a date'
+                      customInput={
+                        <TextField label='Available Date *' variant='standard' fullWidth {...register('available')} />
                       }
                     />
-                  </Grid> */}
-                    <Grid item md={6} xs={12}>
-                      <Autocomplete
-                        sx={{ marginBottom: 2 }}
-                        disablePortal
-                        id='combo-box-level'
-                        options={JobCategory}
-                        defaultValue={props.datauser?.field_preference?.job_category}
-                        getOptionLabel={(option: JobCategory) => option.name}
-                        renderInput={params => <TextField {...params} label='Job Category *' variant='standard' />}
-                        onChange={(event: any, newValue: JobCategory | null) =>
-                          newValue?.id ? setJC(newValue?.id) : setJC(0)
-                        }
-                      />
-                    </Grid>
-                    {/* <Grid item md={6} xs={12}>
+                  </DatePickerWrapper>
+                </Grid>
+                <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
+                  <FormControl>
+                    <InputLabel id='demo-multiple-chip-label'>LANGUANGE</InputLabel>
+                    <Select
+                      labelId='demo-multiple-chip-label'
+                      id='demo-multiple-chip'
+                      multiple
+                      value={personName}
+                      onChange={handleChange}
+                      label='LANGUANGE'
+                      sx={{ fontSize: '18px', height: 50.2 }}
+                      input={
+                        <OutlinedInput
+                          id='select-multiple-chip'
+                          label='Chip'
+                          defaultValue={props.datauser?.field_preference?.spoken_langs}
+                          sx={{ fontSize: '8px' }}
+                        />
+                      }
+                      renderValue={selected => (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                          {selected.map(value => (
+                            <Chip key={value} label={value} />
+                          ))}
+                        </Box>
+                      )}
+                      MenuProps={MenuProps}
+                    >
+                      {names.map(name => (
+                        <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </>
+          )}
+          {tampilkanship != 'PELAUT' && (
+            <>
+              <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
+                <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
+                  <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
+                    Preferences
+                  </Typography>
+                  <Grid container item xs={12} justifyContent={'left'}>
+                    <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                      Fulfill your Preferences Info
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid item md={6} xs={12}>
+                  <Autocomplete
+                    disablePortal
+                    id='combo-box-demo'
+                    options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
+                    defaultValue={opp}
+                    getOptionLabel={(option: any) => option.label}
+                    renderInput={params => <TextField {...params} label='Status *' variant='standard' />}
+                    onChange={(event: any, newValue: any | null) => displayopp(newValue)}
+                  />
+                </Grid>
+                {/* <Grid item md={6} xs={12}>
+              <Autocomplete
+                disablePortal
+                id='combo-box-demo'
+                options={comboroleLevel}
+                getOptionLabel={(option: any) => option.levelName}
+                defaultValue={props.datauser?.field_preference?.role_level}
+                renderInput={params => <TextField {...params} label='Role Level' />}
+                onChange={(event: any, newValue: RoleLevel | null) =>
+                  newValue?.id
+                    ? setComboRolLevel(newValue.id)
+                    : setComboRolLevel(props.datauser?.field_preference?.role_level?.id)
+                }
+              />
+            </Grid> */}
+                <Grid item md={6} xs={12}>
+                  <Autocomplete
+                    sx={{ marginBottom: 2 }}
+                    disablePortal
+                    id='combo-box-level'
+                    options={JobCategory}
+                    defaultValue={props.datauser?.field_preference?.job_category}
+                    getOptionLabel={(option: JobCategory) => option.name}
+                    renderInput={params => <TextField {...params} label='Job Category *' variant='standard' />}
+                    onChange={(event: any, newValue: JobCategory | null) =>
+                      newValue?.id ? setJC(newValue?.id) : setJC(0)
+                    }
+                  />
+                </Grid>
+                {/* <Grid item md={6} xs={12}>
+              <Autocomplete
+                disablePortal
+                id='combo-box-demo'
+                options={comboroleType}
+                getOptionLabel={(option: any) => option.name}
+                defaultValue={props.datauser?.field_preference?.role_type}
+                renderInput={params => <TextField {...params} label='Job Title' />}
+                onChange={(event: any, newValue: RoleType | null) =>
+                  newValue?.id
+                    ? setComboRolType(newValue.id)
+                    : setComboRolType(props.datauser?.field_preference?.role_type?.id)
+                }
+              />
+            </Grid> */}
+                {tampilkanship == 'PELAUT' ? (
+                  <Grid item md={6} xs={12}>
                     <Autocomplete
                       disablePortal
                       id='combo-box-demo'
-                      options={comboroleType}
+                      options={comboRegion}
                       getOptionLabel={(option: any) => option.name}
-                      defaultValue={props.datauser?.field_preference?.role_type}
-                      renderInput={params => <TextField {...params} label='Job Title' />}
-                      onChange={(event: any, newValue: RoleType | null) =>
+                      defaultValue={props.datauser?.field_preference?.region_travel}
+                      renderInput={params => <TextField {...params} label='Location *' variant='standard' />}
+                      onChange={(event: any, newValue: RegionTravel | null) =>
                         newValue?.id
-                          ? setComboRolType(newValue.id)
-                          : setComboRolType(props.datauser?.field_preference?.role_type?.id)
+                          ? setComboRegion(newValue.id)
+                          : setComboRegion(props.datauser?.field_preference?.region_travel?.id)
                       }
                     />
-                  </Grid> */}
-                    {tampilkanship == 'PELAUT' ? (
-                      <Grid item md={6} xs={12}>
-                        <Autocomplete
-                          disablePortal
-                          id='combo-box-demo'
-                          options={comboRegion}
-                          getOptionLabel={(option: any) => option.name}
-                          defaultValue={props.datauser?.field_preference?.region_travel}
-                          renderInput={params => <TextField {...params} label='Location *' variant='standard' />}
-                          onChange={(event: any, newValue: RegionTravel | null) =>
-                            newValue?.id
-                              ? setComboRegion(newValue.id)
-                              : setComboRegion(props.datauser?.field_preference?.region_travel?.id)
-                          }
-                        />
-                      </Grid>
-                    ) : (
-                      <Grid item md={6} xs={12}>
-                        <Autocomplete
-                          disablePortal
-                          id='combo-box-demo'
-                          options={comboProvince}
-                          getOptionLabel={(option: any) => option.province_name}
-                          defaultValue={props.datauser?.location_province}
-                          renderInput={params => <TextField {...params} label='Location *' variant='standard' />}
-                          onChange={(event: any, newValue: Province | null) =>
-                            newValue?.id
-                              ? setComboProvince(newValue.id)
-                              : setComboProvince(props.datauser?.location_province?.id)
-                          }
-                        />
-                      </Grid>
-                    )}
+                  </Grid>
+                ) : (
+                  <Grid item md={6} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-demo'
+                      options={comboProvince}
+                      getOptionLabel={(option: any) => option.province_name}
+                      defaultValue={props.datauser?.location_province}
+                      renderInput={params => <TextField {...params} label='Location *' variant='standard' />}
+                      onChange={(event: any, newValue: Province | null) =>
+                        newValue?.id
+                          ? setComboProvince(newValue.id)
+                          : setComboProvince(props.datauser?.location_province?.id)
+                      }
+                    />
+                  </Grid>
+                )}
 
-                    {/* <Grid item md={6} xs={12}>
-                    <DatePickerWrapper>
-                      <DatePicker
-                        dateFormat='dd/MM/yyyy'
-                        selected={date}
-                        id='basic-input'
-                        onChange={(date: Date) => setDate(date)}
-                        placeholderText='Click to select a date'
-                        customInput={
-                          <TextField label='Available Date' variant='outlined' fullWidth {...register('available')} />
-                        }
-                      />
-                    </DatePickerWrapper>
-                  </Grid> */}
-                    <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
-                      <FormControl>
-                        <InputLabel id='demo-multiple-chip-label'>LANGUAGE</InputLabel>
-                        <Select
-                          labelId='demo-multiple-chip-label'
-                          id='demo-multiple-chip'
-                          multiple
-                          value={personName}
-                          onChange={handleChange}
-                          label='LANGUAGE'
-                          sx={{ fontSize: '18px', height: 50.2 }}
-                          input={
-                            <OutlinedInput
-                              id='select-multiple-chip'
-                              label='Chip'
-                              defaultValue={props.datauser?.field_preference?.spoken_langs}
-                              sx={{ fontSize: '8px' }}
-                            />
-                          }
-                          renderValue={selected => (
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
-                              {selected.map(value => (
-                                <Chip key={value} label={value} />
-                              ))}
-                            </Box>
-                          )}
-                          MenuProps={MenuProps}
-                        >
-                          {names.map(name => (
-                            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-                              {name}
-                            </MenuItem>
+                {/* <Grid item md={6} xs={12}>
+              <DatePickerWrapper>
+                <DatePicker
+                  dateFormat='dd/MM/yyyy'
+                  selected={date}
+                  id='basic-input'
+                  onChange={(date: Date) => setDate(date)}
+                  placeholderText='Click to select a date'
+                  customInput={
+                    <TextField label='Available Date' variant='outlined' fullWidth {...register('available')} />
+                  }
+                />
+              </DatePickerWrapper>
+            </Grid> */}
+                <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
+                  <FormControl>
+                    <InputLabel id='demo-multiple-chip-label'>LANGUAGE</InputLabel>
+                    <Select
+                      labelId='demo-multiple-chip-label'
+                      id='demo-multiple-chip'
+                      multiple
+                      value={personName}
+                      onChange={handleChange}
+                      label='LANGUAGE'
+                      sx={{ fontSize: '18px', height: 50.2 }}
+                      input={
+                        <OutlinedInput
+                          id='select-multiple-chip'
+                          label='Chip'
+                          defaultValue={props.datauser?.field_preference?.spoken_langs}
+                          sx={{ fontSize: '8px' }}
+                        />
+                      }
+                      renderValue={selected => (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                          {selected.map(value => (
+                            <Chip key={value} label={value} />
                           ))}
-                        </Select>
-                      </FormControl>
+                        </Box>
+                      )}
+                      MenuProps={MenuProps}
+                    >
+                      {names.map(name => (
+                        <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </>
+          )}
+          <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
+          <Box sx={{ marginTop: '20px' }}></Box>
+          <Grid item container xs={12}>
+            <Grid xs={10} md={11}>
+              <Grid container item xs={12} justifyContent={'left'}>
+                <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
+                  Educational Info
+                </Typography>
+              </Grid>
+              <Grid container item xs={12} justifyContent={'left'}>
+                <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                  Fulfill your Educational Info
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
+              <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
+                <Icon
+                  fontSize='small'
+                  icon={'solar:add-circle-bold-duotone'}
+                  color={'success'}
+                  style={{ fontSize: '18px' }}
+                />
+                <div style={{ marginLeft: 5 }}>ADD</div>
+              </Button>
+            </Grid>
+            <Grid item container xs={12}>
+              {itemDataED.map(item => (
+                <Grid item container xs={12} marginTop={2} key={item.id}>
+                  <Grid xs={4} md={1}>
+                    <img
+                      alt='logo'
+                      src={item.logo ? item.logo : '/images/educationalinfo.png'}
+                      style={{
+                        maxWidth: '100%',
+                        height: '100px',
+                        padding: 10,
+                        margin: 0
+                      }}
+                    />
+                  </Grid>
+                  <Grid xs={8} md={11} item container>
+                    <Grid xs={10} marginTop={2}>
+                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
+                        {item.title}
+                      </Typography>
+                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                        {item.major}
+                      </Typography>
+                      <Grid xs={12} display='flex'>
+                        <Box>
+                          <Typography variant='body1'>{item.start_date}</Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant='body1'> &nbsp; - &nbsp;</Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant='body1'>{item.end_date}</Typography>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                    <Grid xs={12} md={2} marginTop={2} display='flex' item container>
+                      <Grid xs={12} display='flex' item container>
+                        <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
+                          <Box margin={1}>
+                            <Button variant='outlined' color='primary' size='small' onClick={() => editEducation(item)}>
+                              <Icon
+                                fontSize='small'
+                                icon={'solar:pen-new-round-bold-duotone'}
+                                color={'primary'}
+                                style={{ fontSize: '18px' }}
+                              />
+                            </Button>
+                          </Box>
+                          <Box margin={1}>
+                            <Button
+                              variant='outlined'
+                              color='error'
+                              size='small'
+                              onClick={() => deleteeducation(item.id)}
+                            >
+                              <Icon
+                                fontSize='small'
+                                icon={'solar:trash-bin-trash-bold-duotone'}
+                                color={'error'}
+                                style={{ fontSize: '18px' }}
+                              />
+                            </Button>
+                          </Box>
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </Grid>
-                </>
-              )}
-              <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
-              <Box sx={{ marginTop: '20px' }}></Box>
-              <Grid item container xs={12}>
-                <Grid xs={10} md={11}>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-                      Educational Info
-                    </Typography>
-                  </Grid>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                      Fulfill your Educational Info
-                    </Typography>
-                  </Grid>
+                  {/* <Grid xs={12}>
+                  <Typography variant='body1'>{item.description}</Typography>
+                </Grid> */}
+                  <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
                 </Grid>
-                <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
-                  <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
-                    <Icon
-                      fontSize='small'
-                      icon={'solar:add-circle-bold-duotone'}
-                      color={'success'}
-                      style={{ fontSize: '18px' }}
+              ))}
+            </Grid>
+          </Grid>
+          {/* Work Experience */}
+          <Grid item container xs={12}>
+            <Grid xs={10} md={11}>
+              <Grid container item xs={12} justifyContent={'left'}>
+                <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
+                  Work Experience Info
+                </Typography>
+              </Grid>
+              <Grid container item xs={12} justifyContent={'left'}>
+                <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                  Fulfill your Work Experience Info
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
+              <Button variant='contained' size='small' onClick={() => setOpenAddModalWE(!openAddModalWE)}>
+                <Icon
+                  fontSize='small'
+                  icon={'solar:add-circle-bold-duotone'}
+                  color={'success'}
+                  style={{ fontSize: '18px' }}
+                />
+                <div style={{ marginLeft: 5 }}>ADD</div>
+              </Button>
+            </Grid>
+            <Grid item container xs={12}>
+              {itemDataWE.map(item => (
+                <Grid item container xs={12} marginTop={2} key={item.id}>
+                  <Grid xs={4} md={1}>
+                    <img
+                      alt='logo'
+                      src={item.logo ? item.logo : '/images/workexperienceinfo.png'}
+                      style={{
+                        maxWidth: '100%',
+                        height: '100px',
+                        padding: 10,
+                        margin: 0
+                      }}
                     />
-                    <div style={{ marginLeft: 5 }}>ADD</div>
-                  </Button>
-                </Grid>
-                <Grid item container xs={12}>
-                  {itemDataED.map(item => (
-                    <Grid item container xs={12} marginTop={2} key={item.id}>
-                      <Grid xs={4} md={1}>
-                        <img
-                          alt='logo'
-                          src={item.logo ? item.logo : '/images/educationalinfo.png'}
-                          style={{
-                            maxWidth: '100%',
-                            height: '100px',
-                            padding: 10,
-                            margin: 0
-                          }}
-                        />
+                  </Grid>
+                  <Grid xs={8} md={11} item container>
+                    <Grid xs={10} marginTop={2}>
+                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
+                        {item.position} (-)
+                      </Typography>
+                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                        {item.institution}
+                      </Typography>
+                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                        {item.vessel_type?.name}
+                      </Typography>
+                      <Grid xs={12} display='flex'>
+                        <Box>
+                          <Typography variant='body1'>{item.start_date}</Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant='body1'> &nbsp; - &nbsp; </Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant='body1'>{item.end_date}</Typography>
+                        </Box>
                       </Grid>
-                      <Grid xs={8} md={11} item container>
-                        <Grid xs={10} marginTop={2}>
-                          <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
-                            {item.title}
-                          </Typography>
-                          <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                            {item.major}
-                          </Typography>
-                          <Grid xs={12} display='flex'>
-                            <Box>
-                              <Typography variant='body1'>{item.start_date}</Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant='body1'> &nbsp; - &nbsp;</Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant='body1'>{item.end_date}</Typography>
-                            </Box>
-                          </Grid>
+                    </Grid>
+                    <Grid xs={12} md={2} marginTop={2} display='flex' item container>
+                      <Grid xs={12} display='flex' item container>
+                        <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
+                          <Box margin={1}>
+                            <Button
+                              variant='outlined'
+                              color='primary'
+                              size='small'
+                              onClick={() => editWorkExperience(item)}
+                            >
+                              <Icon
+                                fontSize='large'
+                                icon={'solar:pen-new-round-bold-duotone'}
+                                color={'primary'}
+                                style={{ fontSize: '18px' }}
+                              />
+                            </Button>
+                          </Box>
+                          <Box margin={1}>
+                            <Button variant='outlined' color='error' size='small' onClick={() => deletewe(item.id)}>
+                              <Icon
+                                fontSize='large'
+                                icon={'solar:trash-bin-trash-bold-duotone'}
+                                color={'error'}
+                                style={{ fontSize: '18px' }}
+                              />
+                            </Button>
+                          </Box>
                         </Grid>
-                        <Grid xs={12} md={2} marginTop={2} display='flex' item container>
-                          <Grid xs={12} display='flex' item container>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid xs={12}>
+                    <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                      {item.description}
+                    </Typography>
+                  </Grid>
+                  <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+          {/* End Work Experience */}
+          {tampilkanship == 'PELAUT' && (
+            <Grid item container xs={12}>
+              <Grid xs={10} md={11}>
+                <Grid container item xs={12} justifyContent={'left'}>
+                  <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
+                    Document Upload
+                  </Typography>
+                </Grid>
+                <Grid container item xs={12} justifyContent={'left'}>
+                  <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                    Upload your Document Info
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid display='flex' justifyContent='flex-end' alignItems='flex-end' xs={2} md={1}>
+                <Button variant='contained' size='small' onClick={() => setOpenAddModalDoc(!openAddModalDoc)}>
+                  <Icon
+                    fontSize='small'
+                    icon={'solar:add-circle-bold-duotone'}
+                    color={'success'}
+                    style={{ fontSize: '18px' }}
+                  />
+                  <div style={{ marginLeft: 5 }}>ADD</div>
+                </Button>
+              </Grid>
+              <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
+              <Grid item container xs={12}>
+                {itemData.map(itemhead => (
+                  <>
+                    {itemhead.childs?.length <= 0 ? (
+                      <>
+                        <Grid item container xs={12} marginTop={2} key={itemhead.id} alignItems='center'>
+                          <Grid xs={12} md={9} container direction='row' alignItems='center'>
+                            <Icon
+                              fontSize='large'
+                              icon={'solar:document-bold'}
+                              color={'info'}
+                              style={{ fontSize: '18px', margin: '5px' }}
+                            />
+                            <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
+                              {itemhead.document_name}
+                            </Typography>
+                          </Grid>
+                          <Grid xs={12} md={3} display='flex' item container>
                             <Grid
                               xs={12}
                               md={12}
@@ -1545,12 +1704,28 @@ const CandidateProfile = (props: compProps) => {
                               <Box margin={1}>
                                 <Button
                                   variant='outlined'
-                                  color='primary'
+                                  color='info'
                                   size='small'
-                                  onClick={() => editEducation(item)}
+                                  href={itemhead.path}
+                                  target='_blank'
                                 >
                                   <Icon
-                                    fontSize='small'
+                                    fontSize='large'
+                                    icon={'icon-park-outline:preview-open'}
+                                    color={'info'}
+                                    style={{ fontSize: '18px' }}
+                                  />
+                                </Button>
+                              </Box>
+                              <Box margin={1}>
+                                <Button
+                                  variant='outlined'
+                                  color='primary'
+                                  size='small'
+                                  onClick={() => editDocument(itemhead)}
+                                >
+                                  <Icon
+                                    fontSize='large'
                                     icon={'solar:pen-new-round-bold-duotone'}
                                     color={'primary'}
                                     style={{ fontSize: '18px' }}
@@ -1562,118 +1737,8 @@ const CandidateProfile = (props: compProps) => {
                                   variant='outlined'
                                   color='error'
                                   size='small'
-                                  onClick={() => deleteeducation(item.id)}
+                                  onClick={() => deletework(itemhead.id)}
                                 >
-                                  <Icon
-                                    fontSize='small'
-                                    icon={'solar:trash-bin-trash-bold-duotone'}
-                                    color={'error'}
-                                    style={{ fontSize: '18px' }}
-                                  />
-                                </Button>
-                              </Box>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      {/* <Grid xs={12}>
-                        <Typography variant='body1'>{item.description}</Typography>
-                      </Grid> */}
-                      <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
-                    </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-              {/* Work Experience */}
-              <Grid item container xs={12}>
-                <Grid xs={10} md={11}>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-                      Work Experience Info
-                    </Typography>
-                  </Grid>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                      Fulfill your Work Experience Info
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
-                  <Button variant='contained' size='small' onClick={() => setOpenAddModalWE(!openAddModalWE)}>
-                    <Icon
-                      fontSize='small'
-                      icon={'solar:add-circle-bold-duotone'}
-                      color={'success'}
-                      style={{ fontSize: '18px' }}
-                    />
-                    <div style={{ marginLeft: 5 }}>ADD</div>
-                  </Button>
-                </Grid>
-                <Grid item container xs={12}>
-                  {itemDataWE.map(item => (
-                    <Grid item container xs={12} marginTop={2} key={item.id}>
-                      <Grid xs={4} md={1}>
-                        <img
-                          alt='logo'
-                          src={item.logo ? item.logo : '/images/workexperienceinfo.png'}
-                          style={{
-                            maxWidth: '100%',
-                            height: '100px',
-                            padding: 10,
-                            margin: 0
-                          }}
-                        />
-                      </Grid>
-                      <Grid xs={8} md={11} item container>
-                        <Grid xs={10} marginTop={2}>
-                          <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
-                            {item.position} (-)
-                          </Typography>
-                          <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                            {item.institution}
-                          </Typography>
-                          <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                            {item.vessel_type?.name}
-                          </Typography>
-                          <Grid xs={12} display='flex'>
-                            <Box>
-                              <Typography variant='body1'>{item.start_date}</Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant='body1'> &nbsp; - &nbsp; </Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant='body1'>{item.end_date}</Typography>
-                            </Box>
-                          </Grid>
-                        </Grid>
-                        <Grid xs={12} md={2} marginTop={2} display='flex' item container>
-                          <Grid xs={12} display='flex' item container>
-                            <Grid
-                              xs={12}
-                              md={12}
-                              container
-                              direction='row'
-                              justifyContent='flex-end'
-                              alignItems='center'
-                            >
-                              <Box margin={1}>
-                                <Button
-                                  variant='outlined'
-                                  color='primary'
-                                  size='small'
-                                  onClick={() => editWorkExperience(item)}
-                                >
-                                  <Icon
-                                    fontSize='large'
-                                    icon={'solar:pen-new-round-bold-duotone'}
-                                    color={'primary'}
-                                    style={{ fontSize: '18px' }}
-                                  />
-                                </Button>
-                              </Box>
-                              <Box margin={1}>
-                                <Button variant='outlined' color='error' size='small' onClick={() => deletewe(item.id)}>
                                   <Icon
                                     fontSize='large'
                                     icon={'solar:trash-bin-trash-bold-duotone'}
@@ -1685,50 +1750,17 @@ const CandidateProfile = (props: compProps) => {
                             </Grid>
                           </Grid>
                         </Grid>
-                      </Grid>
-                      <Grid xs={12}>
-                        <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                          {item.description}
-                        </Typography>
-                      </Grid>
-                      <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
-                    </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-              {/* End Work Experience */}
-              {tampilkanship == 'PELAUT' && (
-                <Grid item container xs={12}>
-                  <Grid xs={10} md={11}>
-                    <Grid container item xs={12} justifyContent={'left'}>
-                      <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-                        Document Upload
-                      </Typography>
-                    </Grid>
-                    <Grid container item xs={12} justifyContent={'left'}>
-                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                        Upload your Document Info
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid display='flex' justifyContent='flex-end' alignItems='flex-end' xs={2} md={1}>
-                    <Button variant='contained' size='small' onClick={() => setOpenAddModalDoc(!openAddModalDoc)}>
-                      <Icon
-                        fontSize='small'
-                        icon={'solar:add-circle-bold-duotone'}
-                        color={'success'}
-                        style={{ fontSize: '18px' }}
-                      />
-                      <div style={{ marginLeft: 5 }}>ADD</div>
-                    </Button>
-                  </Grid>
-                  <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
-                  <Grid item container xs={12}>
-                    {itemData.map(itemhead => (
+                      </>
+                    ) : (
                       <>
-                        {itemhead.childs?.length <= 0 ? (
-                          <>
-                            <Grid item container xs={12} marginTop={2} key={itemhead.id} alignItems='center'>
+                        <Typography> {itemhead.document_name}</Typography>
+                        {itemhead.childs.map(
+                          (item: {
+                            id: React.Key | null | undefined
+                            document_name: string | null | undefined
+                            path: string
+                          }) => (
+                            <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
                               <Grid xs={12} md={9} container direction='row' alignItems='center'>
                                 <Icon
                                   fontSize='large'
@@ -1737,7 +1769,7 @@ const CandidateProfile = (props: compProps) => {
                                   style={{ fontSize: '18px', margin: '5px' }}
                                 />
                                 <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
-                                  {itemhead.document_name}
+                                  {item.document_name}
                                 </Typography>
                               </Grid>
                               <Grid xs={12} md={3} display='flex' item container>
@@ -1754,7 +1786,7 @@ const CandidateProfile = (props: compProps) => {
                                       variant='outlined'
                                       color='info'
                                       size='small'
-                                      href={itemhead.path}
+                                      href={item.path}
                                       target='_blank'
                                     >
                                       <Icon
@@ -1770,7 +1802,7 @@ const CandidateProfile = (props: compProps) => {
                                       variant='outlined'
                                       color='primary'
                                       size='small'
-                                      onClick={() => editDocument(itemhead)}
+                                      onClick={() => editDocument(item)}
                                     >
                                       <Icon
                                         fontSize='large'
@@ -1785,7 +1817,7 @@ const CandidateProfile = (props: compProps) => {
                                       variant='outlined'
                                       color='error'
                                       size='small'
-                                      onClick={() => deletework(itemhead.id)}
+                                      onClick={() => deletework(item.id)}
                                     >
                                       <Icon
                                         fontSize='large'
@@ -1798,139 +1830,52 @@ const CandidateProfile = (props: compProps) => {
                                 </Grid>
                               </Grid>
                             </Grid>
-                          </>
-                        ) : (
-                          <>
-                            <Typography> {itemhead.document_name}</Typography>
-                            {itemhead.childs.map(
-                              (item: {
-                                id: React.Key | null | undefined
-                                document_name: string | null | undefined
-                                path: string
-                              }) => (
-                                <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
-                                  <Grid xs={12} md={9} container direction='row' alignItems='center'>
-                                    <Icon
-                                      fontSize='large'
-                                      icon={'solar:document-bold'}
-                                      color={'info'}
-                                      style={{ fontSize: '18px', margin: '5px' }}
-                                    />
-                                    <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
-                                      {item.document_name}
-                                    </Typography>
-                                  </Grid>
-                                  <Grid xs={12} md={3} display='flex' item container>
-                                    <Grid
-                                      xs={12}
-                                      md={12}
-                                      container
-                                      direction='row'
-                                      justifyContent='flex-end'
-                                      alignItems='center'
-                                    >
-                                      <Box margin={1}>
-                                        <Button
-                                          variant='outlined'
-                                          color='info'
-                                          size='small'
-                                          href={item.path}
-                                          target='_blank'
-                                        >
-                                          <Icon
-                                            fontSize='large'
-                                            icon={'icon-park-outline:preview-open'}
-                                            color={'info'}
-                                            style={{ fontSize: '18px' }}
-                                          />
-                                        </Button>
-                                      </Box>
-                                      <Box margin={1}>
-                                        <Button
-                                          variant='outlined'
-                                          color='primary'
-                                          size='small'
-                                          onClick={() => editDocument(item)}
-                                        >
-                                          <Icon
-                                            fontSize='large'
-                                            icon={'solar:pen-new-round-bold-duotone'}
-                                            color={'primary'}
-                                            style={{ fontSize: '18px' }}
-                                          />
-                                        </Button>
-                                      </Box>
-                                      <Box margin={1}>
-                                        <Button
-                                          variant='outlined'
-                                          color='error'
-                                          size='small'
-                                          onClick={() => deletework(item.id)}
-                                        >
-                                          <Icon
-                                            fontSize='large'
-                                            icon={'solar:trash-bin-trash-bold-duotone'}
-                                            color={'error'}
-                                            style={{ fontSize: '18px' }}
-                                          />
-                                        </Button>
-                                      </Box>
-                                    </Grid>
-                                  </Grid>
-                                </Grid>
-                              )
-                            )}
-                          </>
+                          )
                         )}
-                        <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
                       </>
-                    ))}
-                  </Grid>
-                </Grid>
-              )}
-              <Grid item container lg={12} md={12} xs={12}>
-                <SeafarerTravelDocumentTable user_id={props?.datauser.id} />
-                {/* <Divider style={{ width: '100%', margin: '20px 0' }} />
-                <SeafarerExperienceTable
-                  user_id={props?.datauser.id}
-                  no_experience={noExperience}
-                  setNoExperience={setNoExperience}
-                />
-                <Divider style={{ width: '100%', margin: '20px 0' }} />
-                <SeafarerCompetencyTable user_id={props?.datauser.id} />
-                <Divider style={{ width: '100%', margin: '20px 0' }} />
-                <SeafarerProficiencyTable user_id={props?.datauser.id} />
-                <Divider style={{ width: '100%', margin: '20px 0' }} />
-
-                {!noExperience ? <SeafarerRecommendationForm user_id={props?.datauser.id} /> : ''}
-                <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid> */}
-                <Grid
-                  item
-                  container
-                  direction='row'
-                  justifyContent='flex-end'
-                  alignItems='right'
-                  md={12}
-                  lg={12}
-                  xs={12}
-                >
-                  <Button variant='contained' color='success' size='small' type='submit' sx={{ mt: 7, mb: 7 }}>
-                    <Icon
-                      fontSize='large'
-                      icon={'solar:diskette-bold-duotone'}
-                      color={'success'}
-                      style={{ fontSize: '18px' }}
-                    />
-                    <div style={{ marginLeft: 5 }}>SAVE AND PUBLISH CV</div>
-                  </Button>
-                </Grid>
+                    )}
+                    <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
+                  </>
+                ))}
               </Grid>
             </Grid>
+          )}
+
+          <Grid item container lg={12} md={12} xs={12}>
+            <Grid item container direction='row' justifyContent='flex-end' alignItems='right' md={12} lg={12} xs={12}>
+              <Button variant='contained' color='success' size='small' type='submit' sx={{ mt: 7, mb: 7 }}>
+                <Icon
+                  fontSize='large'
+                  icon={'solar:diskette-bold-duotone'}
+                  color={'success'}
+                  style={{ fontSize: '18px' }}
+                />
+                <div style={{ marginLeft: 5 }}>SAVE AND PUBLISH CV</div>
+              </Button>
+            </Grid>
           </Grid>
-        </FormControl>
+        </Grid>
       </form>
 
-      <Grid>
+      <Grid className='seaman-table' xs={12} item container>
+        <SeafarerTravelDocumentTable user_id={props?.datauser.id} />
+        <Divider style={{ width: '100%', margin: '20px 0' }} />
+        <SeafarerExperienceTable
+          user_id={props?.datauser.id}
+          no_experience={noExperience}
+          setNoExperience={setNoExperience}
+        />
+        <Divider style={{ width: '100%', margin: '20px 0' }} />
+        <SeafarerCompetencyTable user_id={props?.datauser.id} />
+        <Divider style={{ width: '100%', margin: '20px 0' }} />
+        <SeafarerProficiencyTable user_id={props?.datauser.id} />
+        <Divider style={{ width: '100%', margin: '20px 0' }} />
+
+        {!noExperience ? <SeafarerRecommendationForm user_id={props?.datauser.id} /> : ''}
+        <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
+      </Grid>
+
+      <Grid className='modals'>
         {/* <form> */}
         <DialogEditEducation
           key={selectedItem?.id}

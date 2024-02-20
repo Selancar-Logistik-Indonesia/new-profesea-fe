@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import { Box, Card, CardContent, Paper, Grid, Typography, Button, IconButton, Hidden } from '@mui/material'
+import { Paper, Grid, Typography, Button, IconButton, TableContainer } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid'
@@ -19,7 +19,7 @@ import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
 import { IUser } from 'src/contract/models/user'
 
 const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
-  // const [rows, setRows] = useState([])
+  const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(false)
   const [seafarerTravelDocument, setSeafarerTravelDocument] = useState()
   const [modalFormType, setModalFormType] = useState('create')
@@ -44,7 +44,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
         }
       })
 
-      //setRows(result)
+      setRows(result)
       setLoading(false)
     })
   }
@@ -80,109 +80,105 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
     }
   }))
 
-  // const columns: GridColDef[] = [
-  //   { field: 'document', headerName: 'Document', flex: 1 },
-  //   {
-  //     field: 'no',
-  //     headerName: 'No',
-  //     type: 'string',
-
-  //     align: 'left',
-  //     headerAlign: 'left',
-  //     flex: 1
-  //   },
-  //   {
-  //     field: 'date_of_issue',
-  //     headerName: 'Date of Issue',
-  //     type: 'date',
-
-  //     flex: 1
-  //   },
-  //   {
-  //     field: 'country_issue',
-  //     headerName: 'Country Issue',
-  //     type: 'number',
-
-  //     flex: 1
-  //   },
-  //   {
-  //     field: 'valid_date_column',
-  //     headerName: 'Valid Date',
-  //     type: 'string',
-
-  //     flex: 1
-  //   },
-  //   {
-  //     field: 'download',
-  //     headerName: 'Download',
-
-  //     flex: 1,
-  //     renderCell(params: any) {
-  //       return user_id == userSession?.id && params.row.filename ? (
-  //         <a
-  //           href='#'
-  //           onClick={() =>
-  //             HttpClient.downloadFile(
-  //               process.env.NEXT_PUBLIC_BASE_API + `/seafarer-travel-documents/download/${params.row.id}/`,
-  //               params.row.filename
-  //             )
-  //           }
-  //         >
-  //           {' '}
-  //           <Icon icon='bi:file-earmark-arrow-down-fill' width='24' height='24' color={thisGray} />{' '}
-  //         </a>
-  //       ) : (
-  //         ''
-  //       )
-  //     }
-  //   },
-  //   {
-  //     field: 'action',
-  //     headerName: 'Action',
-
-  //     flex: 1,
-  //     renderCell(params: any) {
-  //       return user_id == userSession?.id ? (
-  //         <>
-  //           <IconButton
-  //             size='small'
-  //             title={`Update this Travel Document Id = ${params.row.id} `}
-  //             onClick={() => {
-  //               handleModalForm('edit', params.row)
-  //             }}
-  //           >
-  //             <Icon icon='material-symbols:edit-square-outline' width='24' height='24' color={thisGray} />
-  //           </IconButton>
-  //           <IconButton
-  //             size='small'
-  //             title={`Update this Travel Document Id = ${params.row.id} `}
-  //             onClick={() => {
-  //               handleModalDelete(params.row)
-  //             }}
-  //           >
-  //             <Icon icon='material-symbols:delete-outline' width='24' height='24' color={thisGray} />
-  //           </IconButton>
-  //         </>
-  //       ) : (
-  //         ''
-  //       )
-  //     }
-  //   }
-  // ]
-
-  const rows: GridRowsProp = [
-    { id: 1, col1: 'Hello', col2: 'World' },
-    { id: 2, col1: 'MUI X', col2: 'is awesome' },
-    { id: 3, col1: 'Material UI', col2: 'is amazing' },
-    { id: 4, col1: 'MUI', col2: '' },
-    { id: 5, col1: 'Joy UI', col2: 'is awesome' },
-    { id: 6, col1: 'MUI Base', col2: 'is amazing' }
-  ]
-
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'Column 1', width: 150 },
-    { field: 'col1', headerName: 'Column 1', width: 150 },
-    { field: 'col2', headerName: 'Column 2', width: 150 }
+    { field: 'document', headerName: 'Document', flex: 1, minWidth: 80, width: 80 },
+    {
+      field: 'no',
+      headerName: 'No',
+      type: 'string',
+
+      align: 'left',
+      headerAlign: 'left',
+      flex: 1,
+      minWidth: 100,
+      width: 100
+    },
+    {
+      field: 'date_of_issue',
+      headerName: 'Date of Issue',
+      type: 'date',
+
+      flex: 1,
+      minWidth: 100,
+      width: 100
+    },
+    {
+      field: 'country_issue',
+      headerName: 'Country Issue',
+      type: 'number',
+
+      flex: 1,
+      minWidth: 100,
+      width: 100
+    },
+    {
+      field: 'valid_date_column',
+      headerName: 'Valid Date',
+      type: 'string',
+
+      flex: 1,
+      minWidth: 100,
+      width: 100
+    },
+    {
+      field: 'download',
+      headerName: 'Download',
+
+      flex: 1,
+      minWidth: 100,
+      width: 100,
+      renderCell(params: any) {
+        return user_id == userSession?.id && params.row.filename ? (
+          <a
+            href='#'
+            onClick={() =>
+              HttpClient.downloadFile(
+                process.env.NEXT_PUBLIC_BASE_API + `/seafarer-travel-documents/download/${params.row.id}/`,
+                params.row.filename
+              )
+            }
+          >
+            {' '}
+            <Icon icon='bi:file-earmark-arrow-down-fill' width='24' height='24' color={thisGray} />{' '}
+          </a>
+        ) : (
+          ''
+        )
+      }
+    },
+    {
+      field: 'action',
+      headerName: 'Action',
+      flex: 1,
+      minWidth: 100,
+      width: 100,
+      renderCell(params: any) {
+        return user_id == userSession?.id ? (
+          <>
+            <IconButton
+              size='small'
+              title={`Update this Travel Document Id = ${params.row.id} `}
+              onClick={() => {
+                handleModalForm('edit', params.row)
+              }}
+            >
+              <Icon icon='material-symbols:edit-square-outline' width='24' height='24' color={thisGray} />
+            </IconButton>
+            <IconButton
+              size='small'
+              title={`Update this Travel Document Id = ${params.row.id} `}
+              onClick={() => {
+                handleModalDelete(params.row)
+              }}
+            >
+              <Icon icon='material-symbols:delete-outline' width='24' height='24' color={thisGray} />
+            </IconButton>
+          </>
+        ) : (
+          ''
+        )
+      }
+    }
   ]
 
   return (
@@ -206,14 +202,14 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
           showModal={modalDeleteOpen}
         />
       )}
-      <Grid container direction='column' spacing={1} item xs={12} md={6} lg={12}>
+      <Grid item container xs={12} md={12} lg={12}>
         <Grid item xs={12} md={6} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
             Travel Document
           </Typography>
         </Grid>
-        <Grid item md={6} xs={12}>
-          <Grid container md={12} xs={12} justifyContent={'right'}>
+        <Grid item md={6}>
+          <Grid container md={12} justifyContent={'right'}>
             {userSession.id == user_id && (
               <Button
                 variant='contained'
@@ -233,10 +229,10 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item spacing={6} className='match-height'>
-        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-          <CardContent>
-            <Box style={{ width: '100%' }}>
+      <Grid md={12} xs={12} item spacing={6} className='match-height'>
+        <Grid item md={12} sm={12} xs={12}>
+          <Paper>
+            <TableContainer>
               <StyledDataGrid
                 disableRowSelectionOnClick
                 disableColumnMenu
@@ -251,9 +247,9 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
                 pageSizeOptions={[5, 10]}
                 slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
               />
-            </Box>
-          </CardContent>
-        </Card>
+            </TableContainer>
+          </Paper>
+        </Grid>
       </Grid>
     </>
   )
