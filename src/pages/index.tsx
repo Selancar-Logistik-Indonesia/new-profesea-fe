@@ -154,7 +154,7 @@ const Main = () => {
                 {t('b_to_professional_detail')}
               </Typography>
               <Button
-                href='/register/seafareronship'
+                href='/register/seafareroffship'
                 style={{ backgroundColor: '#ef6c00', color: 'white', marginRight: 10 }}
                 variant='contained'
               >
