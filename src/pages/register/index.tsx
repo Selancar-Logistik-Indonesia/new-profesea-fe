@@ -114,9 +114,20 @@ const Register = () => {
                     fullWidth
                     sx={{ mb: 6, height: '70px', color: 'white' }}
                     style={{ textTransform: 'none' }}
+                    startIcon={<Icon icon={'solar:shield-user-broken'} />}
+                  >
+                    {t('register_text_4_1')}
+                  </Button>
+                </Link>
+                <Link href='/register/seafareroffship' passHref legacyBehavior>
+                  <Button
+                    variant='contained'
+                    fullWidth
+                    sx={{ mb: 6, height: '70px', color: 'white' }}
+                    style={{ textTransform: 'none' }}
                     startIcon={<Icon icon={'solar:user-hands-bold-duotone'} />}
                   >
-                    {t('register_text_4')}
+                    {t('register_text_4_2')}
                   </Button>
                 </Link>
                 <Link href='/register/recruiter' passHref legacyBehavior>
