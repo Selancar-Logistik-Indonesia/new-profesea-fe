@@ -12,7 +12,7 @@ import SeafarerCompetencyDeleteConfirm from './SeafarerCompetencyDeleteConfirm'
 import LoadingIcon from 'src/layouts/components/LoadingIcon'
 import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
 
-const SeafarerCompetencyTable = (props: ISeafarerCompetencyProps) => {
+const SeafarerCompetencyContainer = (props: ISeafarerCompetencyProps) => {
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(false)
   const [seafarerCompetency, setSeafarerCompetency] = useState(undefined)
@@ -195,4 +195,4 @@ const SeafarerCompetencyTable = (props: ISeafarerCompetencyProps) => {
   )
 }
 
-export default SeafarerCompetencyTable
+export default SeafarerCompetencyContainer

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Card, CardContent, Grid, useMediaQuery } from '@mui/material'
+import { Card, CardContent, Grid, useMediaQuery, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
@@ -11,7 +11,7 @@ import JobVacancy from './JobVacancy'
 import { IUser } from 'src/contract/models/user'
 import { toast } from 'react-hot-toast'
 import WorkeExperience from './Workexperience'
-import ListFeedView from 'src/views/social-feed/ListFeedView'
+// import ListFeedView from 'src/views/social-feed/ListFeedView'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import ListTraining from './Training'
@@ -20,9 +20,9 @@ import { getCleanErrorMessage } from 'src/utils/helpers'
 import EducationalInfo from './Educational'
 import Ceritificate from './Certificate'
 import ProfileViewerCard from 'src/layouts/components/ProfileViewerCard'
-import SeafarerTravelDocument from '../candidate/SeafarerTravelDocument/SeafarerTravelDocumentTable'
 import AboutMe from './AboutMe'
 import ProfileFeedCard from './ProfileFeedCard'
+import SeafarerTravelDocumentTable from 'src/layouts/components/SeafarerTravelDocumentTable'
 
 const ProfileCompany = () => {
   return (
@@ -104,12 +104,17 @@ const UserFeedApp = () => {
     fetchFeeds({ take: 7, username: username, mPage: 1 })
   }, [username])
 
-  const TableWrapper = (props: any) => {
+  const TableWrapper = (Table: any, title: string) => {
     return (
       <Grid item marginTop={'10px'} md={12} xs={12}>
         <Card>
           <CardContent sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-            {props.children}
+            <Box sx={{ mb: 7 }}>
+              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 600 }}>
+                {title}
+              </Typography>
+              {Table}
+            </Box>
           </CardContent>
         </Card>
       </Grid>
@@ -143,9 +148,16 @@ const UserFeedApp = () => {
               <EducationalInfo vacancy={arrVacany2} />
               <WorkeExperience vacancy={arrVacany} />
               <Ceritificate vacancy={itemData} />
-              <TableWrapper>
-                <SeafarerTravelDocument user_id={selectedUser?.id} />
-              </TableWrapper>
+              {TableWrapper(
+                <SeafarerTravelDocumentTable
+                  user_id={selectedUser?.id}
+                  isEditable={false}
+                  isDataHidden={true}
+                  handleModalDelete={undefined}
+                  handleModalForm={undefined}
+                />,
+                'Travel Document Table'
+              )}
             </Grid>
             <Grid item lg={3} md={3} xs={12}>
               <ProfileViewerCard />

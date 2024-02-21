@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import { Grid, Typography, Button, Paper, TableContainer, IconButton } from '@mui/material'
+import { Grid, Typography, Button, Paper, IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 
-import { ISeafarerTravelDocumentProps } from './../../../contract/types/seafarer_travel_document_type'
-import ISeafarerTravelDocumentData from './../../../contract/models/seafarer_travel_document'
+import { ISeafarerTravelDocumentProps } from '../../../contract/types/seafarer_travel_document_type'
+import ISeafarerTravelDocumentData from '../../../contract/models/seafarer_travel_document'
 
 import SeafarerTravelDocumentForm from './SeafarerTravelDocumentForm'
 import SeafarerTravelDocumentDeleteConfirm from './SeafarerTravelDocumentDeleteConfirm'
@@ -198,21 +198,19 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
       </Grid>
       <Grid md={12} sm={12} xs={12}>
         <Paper style={{ overflow: 'auto' }} sx={{ overflow: 'auto', width: '100%' }}>
-          <TableContainer>
-            <DataGrid
-              autoHeight={true}
-              rows={rows}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: { page: 0, pageSize: 5 }
-                }
-              }}
-              pageSizeOptions={[5, 10]}
-              slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
-              getRowClassName={params => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
-            />
-          </TableContainer>
+          <DataGrid
+            autoHeight={true}
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 }
+              }
+            }}
+            pageSizeOptions={[5, 10]}
+            slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
+            getRowClassName={params => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
+          />
         </Paper>
       </Grid>
     </>
