@@ -3,9 +3,8 @@ import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { Paper, Grid, Typography, Button, IconButton, TableContainer } from '@mui/material'
-import { styled } from '@mui/material/styles'
 import { Icon } from '@iconify/react'
-import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 
@@ -63,22 +62,6 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
   useEffect(() => {
     loadTravelDocument()
   }, [])
-
-  const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
-    '.MuiDataGrid-grid-scrollContainer': {
-      overflow: 'scroll !important',
-      '&::-webkit-scrollbar-track': {
-        width: '6px',
-        backgroundColor: '#f5f5f5',
-        borderRadius: '10px'
-      },
-      '&::-webkit-scrollbar-thumb': {
-        borderRadius: '10px',
-        '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,.3)',
-        backgroundColor: '#f5f5f5'
-      }
-    }
-  }))
 
   const columns: GridColDef[] = [
     { field: 'document', headerName: 'Document', flex: 1, minWidth: 80, width: 80 },
@@ -233,7 +216,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
         <Grid item md={12} sm={12} xs={12}>
           <Paper>
             <TableContainer>
-              <StyledDataGrid
+              <DataGrid
                 disableRowSelectionOnClick
                 disableColumnMenu
                 autoHeight={true}
