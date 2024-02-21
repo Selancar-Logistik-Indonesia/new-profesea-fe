@@ -77,7 +77,7 @@ const SectionOneJobDetail: React.FC<ISectionOneJobDetailProps> = ({ jobDetail })
           </Grid>
           <Grid container>
             <Grid item>
-              <Icon icon='mdi:timer-sand' color='#32487A' fontSize={'20px'} />
+              <Icon icon='mdi:timer-sand-full' color='#32487A' fontSize={'20px'} />
             </Grid>
             <Grid item xs={11}>
               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
@@ -112,8 +112,8 @@ const SectionOneJobDetail: React.FC<ISectionOneJobDetailProps> = ({ jobDetail })
       )}
       {!jobDetail?.hide_salary && (
         <Grid container>
-          <Grid item>
-            <Icon icon='clarity:dollar-line' color='#32487A' fontSize={'20px'} />
+          <Grid item ml={'5px'}>
+            <Icon icon='fa:dollar' color='#32487A' fontSize={'20px'} />
           </Grid>
           <Grid item xs={11}>
             <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>

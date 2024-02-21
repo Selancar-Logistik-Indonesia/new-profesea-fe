@@ -25,7 +25,8 @@ const SectionTwoJobDetail: React.FC<ISectionTwoJobDetailProps> = ({ jobDetail })
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
         <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12} fontWeight={500} fontFamily={'Outfit'}>
-          <strong>{jobDetail?.experience}</strong> &nbsp; Contract
+          <strong>{jobDetail?.experience}</strong> &nbsp;
+          {jobDetail?.category.employee_type == 'onship' ? 'Contract' : 'Years'}
         </Typography>
       </Box>
       <Box>

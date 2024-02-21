@@ -19,6 +19,7 @@ import CompleteDialog from './CompleteDialog'
 import HeaderJobDetail from 'src/views/job-detail/HeaderJobDetail'
 import SectionOneJobDetail from 'src/views/job-detail/SectionOneJobDetail'
 import SectionTwoJobDetail from 'src/views/job-detail/SectionTwoJobDetail'
+import SectionThreeJobDetail from 'src/views/job-detail/SectionThreeJobDetal'
 
 const JobDetail = () => {
   // const url = window.location.href
@@ -117,7 +118,15 @@ const JobDetail = () => {
   return (
     <>
       <Box>
-        <Grid container spacing={2}>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            px: {
+              md: '5rem'
+            }
+          }}
+        >
           <Grid item xs={12} md={9} lg={9} style={{ maxHeight: '100vh', overflow: 'auto' }}>
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               {isLoading ? (
@@ -126,11 +135,14 @@ const JobDetail = () => {
                 </Box>
               ) : (
                 <Grid container>
-                  <StyledGrid item xs={12}>
+                  <StyledGrid item xs={12} sx={{ py: '20px' }}>
                     <CardContent>
                       <HeaderJobDetail jobDetail={jobDetail} onApplied={onApplied} handleApply={handleApply} />
                       <SectionOneJobDetail jobDetail={jobDetail} />
                       <SectionTwoJobDetail jobDetail={jobDetail} />
+                      {jobDetail?.category?.employee_type == 'onship' && (
+                        <SectionThreeJobDetail jobDetail={jobDetail} />
+                      )}
                     </CardContent>
                     <Grid
                       item
@@ -193,182 +205,6 @@ const JobDetail = () => {
                       </Card>
                     </Grid>
                   </StyledGrid>
-                  {/* <Grid item xs={12}>
-                    <CardContent sx={{ pt: theme => `${theme.spacing(6)} !important` }}>
-                      <Grid container marginTop={5}>
-                        <Grid item xs={6} mt={2}></Grid>
-                        <Grid item xs={6} mt={2}>
-                          <Grid container spacing={1} alignItems='right' justifyContent='center'>
-                            <Grid item>
-                              {onApplied == false ? (
-                                <>
-                                  <Button
-                                    onClick={handleApply}
-                                    variant='contained'
-                                    color='primary'
-                                    size='small'
-                                    startIcon={<Icon icon='iconoir:submit-document' fontSize={10} />}
-                                  >
-                                    Apply Job
-                                  </Button>
-                                </>
-                              ) : (
-                                <>
-                                  <Button
-                                    variant='contained'
-                                    color='primary'
-                                    size='small'
-                                    startIcon={<Icon icon='iconoir:submit-document' fontSize={10} />}
-                                  >
-                                    Applied
-                                  </Button>
-                                </>
-                              )}
-                            </Grid>
-                            <Grid item>
-                              <ShareArea
-                                subject={`Job For ${jobDetail?.role_type?.name}.`}
-                                url={`/candidate/job/?id=${jobDetail?.id}`}
-                              ></ShareArea>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-
-                        <Grid
-                          item
-                          xs={6}
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'left',
-                            flexDirection: 'column',
-                            borderRight: theme => `1px solid ${theme.palette.divider}`
-                          }}
-                        >
-                          <Box
-                            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
-                            ml={2}
-                            mr={3}
-                            mt={5}
-                          >
-                            <Typography
-                              sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
-                              ml='0.5rem'
-                              mt={3}
-                              mb={3}
-                              variant='body2'
-                            >
-                              Experience
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
-                              <Typography
-                                sx={{ color: 'text.primary' }}
-                                ml='0.5rem'
-                                fontSize={12}
-                                fontWeight={500}
-                                fontFamily={'Outfit'}
-                              >
-                                <strong>{jobDetail?.experience}</strong> &nbsp; Contract
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </Grid>
-
-                        <Grid item xs={6} sx={{ display: 'flex', flexDirection: 'column' }}>
-                          <Box
-                            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }}
-                            ml={2}
-                            mr={3}
-                            mt={5}
-                          >
-                            <Typography
-                              sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
-                              ml='0.5rem'
-                              mt={3}
-                              variant='body2'
-                            >
-                              Description
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
-                              <Typography
-                                sx={{ color: 'text.primary' }}
-                                ml='0.5rem'
-                                fontSize={12}
-                                fontWeight={500}
-                                fontFamily={'Outfit'}
-                                textAlign={'justify'}
-                              >
-                                {ReactHtmlParser(`${jobDetail?.description}`)}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </Grid>
-                      </Grid>
-
-                      <Divider
-                        sx={{
-                          mt: theme => `${theme.spacing(6)} !important`,
-                          mb: theme => `${theme.spacing(7.5)} !important`
-                        }}
-                      />
-
-                      <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column' }}>
-                        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#32487A' }}>
-                          <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
-                            <Box
-                              height={65}
-                              sx={{
-                                display: 'flex',
-                                alignContent: 'center',
-                                '& svg': { color: 'text.secondary' }
-                              }}
-                            >
-                              <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={2} ml={2} mr={3}>
-                                <Avatar
-                                  src={jobDetail?.company?.photo}
-                                  alt='profile-picture'
-                                  sx={{ width: 50, height: 50 }}
-                                />
-                              </Box>
-                              <Box
-                                sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
-                                marginTop={2}
-                              >
-                                <Typography sx={{ color: 'common.white', mb: 1 }} fontSize={14}>
-                                  <strong>{jobDetail?.company?.name ?? '-'}</strong>
-                                </Typography>
-                              </Box>
-                            </Box>
-                            <Box
-                              sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }}
-                              ml={2}
-                              mr={3}
-                              mt={5}
-                            >
-                              <Typography
-                                sx={{ color: 'common.white', fontSize: '16px', fontWeight: '600' }}
-                                ml='0.5rem'
-                                variant='body2'
-                              >
-                                About Recruiter
-                              </Typography>
-                              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
-                                <Typography
-                                  sx={{ color: 'common.white' }}
-                                  ml='0.5rem'
-                                  fontSize={12}
-                                  fontWeight={400}
-                                  fontFamily={'Outfit'}
-                                  textAlign={'justify'}
-                                >
-                                  {jobDetail?.company?.about}
-                                </Typography>
-                              </Box>
-                            </Box>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    </CardContent>
-                  </Grid> */}
                 </Grid>
               )}
             </Card>
