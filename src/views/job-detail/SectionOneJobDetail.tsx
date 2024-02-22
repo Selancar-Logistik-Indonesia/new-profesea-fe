@@ -118,7 +118,11 @@ const SectionOneJobDetail: React.FC<ISectionOneJobDetailProps> = ({ jobDetail })
           <Grid item xs={11}>
             <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
               {jobDetail?.salary_start && jobDetail?.salary_end
-                ? `${jobDetail?.salary_start + ' - ' + jobDetail?.salary_end} (${jobDetail?.currency})`
+                ? `${
+                    jobDetail?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
+                    ' - ' +
+                    jobDetail?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                  } (${jobDetail?.currency})`
                 : '-'}
             </Typography>
           </Grid>

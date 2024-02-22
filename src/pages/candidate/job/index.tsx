@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Avatar, Button, Card, CardContent, Typography, Divider, CircularProgress } from '@mui/material'
-import ReactHtmlParser from 'react-html-parser'
-import { Icon } from '@iconify/react'
+import { Avatar, Card, CardContent, Typography, CircularProgress } from '@mui/material'
 import { HttpClient } from 'src/services'
 import Job from 'src/contract/models/job'
 import { toast } from 'react-hot-toast'
@@ -13,7 +11,6 @@ import RelatedJobView from 'src/views/find-job/RelatedJobView'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 // import ShareButton from 'src/views/find-job/ShareButton';
-import ShareArea from './ShareArea'
 import { IUser } from 'src/contract/models/user'
 import CompleteDialog from './CompleteDialog'
 import HeaderJobDetail from 'src/views/job-detail/HeaderJobDetail'
@@ -25,7 +22,7 @@ const JobDetail = () => {
   // const url = window.location.href
   const [onApplied, setOnApplied] = useState(false)
   const [jobDetail, setJobDetail] = useState<Job | null>(null)
-  const license: any[] = Object.values(jobDetail?.license != undefined ? jobDetail?.license : '')
+  // const license: any[] = Object.values(jobDetail?.license != undefined ? jobDetail?.license : '')
   const [isLoading, setIsLoading] = useState(true)
   const [openDialog, setOpenDialog] = useState(false)
 
@@ -35,6 +32,8 @@ const JobDetail = () => {
   // const [selectedIndex, setSelectedIndex] = React.useState(1)
   const searchParams = useSearchParams()
   const jobId = searchParams.get('id')
+
+  const [jobDetailSugestion, setJobDetailSugestion] = useState<Job[]>([])
 
   // const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => {
   //   setSelectedIndex(index)
@@ -63,8 +62,6 @@ const JobDetail = () => {
   }))
 
   const firstload = async (mJobId: string) => {
-    console.log('user:', user)
-
     setIsLoading(true)
     try {
       const resp = await HttpClient.get('/job/' + mJobId)
@@ -81,6 +78,13 @@ const JobDetail = () => {
       alert(error)
     }
   }
+
+  useEffect(() => {
+    HttpClient.get('/job?take=4&page=1').then(response => {
+      const jobs = response.data.jobs.data
+      setJobDetailSugestion(jobs)
+    })
+  }, [])
 
   useEffect(() => {
     firstload(jobId!)
@@ -127,7 +131,13 @@ const JobDetail = () => {
             }
           }}
         >
-          <Grid item xs={12} md={9} lg={9} style={{ maxHeight: '100vh', overflow: 'auto' }}>
+          <Grid
+            item
+            xs={12}
+            md={jobDetailSugestion.length !== 0 ? 9 : 12}
+            lg={jobDetailSugestion.length !== 0 ? 9 : 12}
+            style={{ maxHeight: '100vh', overflow: 'auto' }}
+          >
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               {isLoading ? (
                 <Box textAlign={'center'} mt={10}>
@@ -209,9 +219,25 @@ const JobDetail = () => {
               )}
             </Card>
           </Grid>
-          <Grid item xs={12} md={3} lg={3}>
-            <RelatedJobView />
-          </Grid>
+          {jobDetailSugestion.length !== 0 && (
+            <Grid item xs={12} md={3} lg={3}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'left',
+                  alignItems: 'center',
+                  padding: '10px',
+                  width: '100&',
+                  bgcolor: '#d5e7f7',
+                  color: '#5ea1e2'
+                }}
+              >
+                Jobs post by the company
+              </Box>
+              <RelatedJobView jobDetailSugestion={jobDetailSugestion} />
+            </Grid>
+          )}
+
           {openDialog && (
             <CompleteDialog
               onClose={() => setOpenDialog(!openDialog)}
