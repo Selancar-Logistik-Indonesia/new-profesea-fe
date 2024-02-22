@@ -90,9 +90,9 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
               {companyLicenses.length} Certificates required by the company
             </Typography>
             <Box sx={{ display: 'flex' }}>
-              {companyLicenses.map(c => {
+              {companyLicenses.map((c, i) => {
                 return (
-                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={10}>
+                  <Typography key={i} sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={10}>
                     {c?.title} |
                   </Typography>
                 )
@@ -109,9 +109,9 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
               {findLicensesFromUser(userLicenses, companyLicenses).missing.length} Certificates missing on your profile
             </Typography>
             <Box sx={{ display: 'flex' }}>
-              {findLicensesFromUser(userLicenses, companyLicenses).missing.map(license => {
+              {findLicensesFromUser(userLicenses, companyLicenses).missing.map((license, i) => {
                 return (
-                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={10}>
+                  <Typography key={i} sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={10}>
                     {license?.title} |
                   </Typography>
                 )

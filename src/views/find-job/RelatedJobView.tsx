@@ -14,7 +14,7 @@ const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) 
       {/* <Grid item xs={12} sm={12}> */}
       <Grid sx={{ padding: 3 }} container style={{ maxHeight: '100vh', overflow: 'auto' }}>
         {jobDetailSugestion.map(item => {
-          const license: any[] = Object.values(item?.license != undefined ? item?.license : '')
+          //   const license: any[] = Object.values(item?.license != undefined ? item?.license : '')
 
           return (
             <Grid item xs={12} md={12} key={item?.id}>
