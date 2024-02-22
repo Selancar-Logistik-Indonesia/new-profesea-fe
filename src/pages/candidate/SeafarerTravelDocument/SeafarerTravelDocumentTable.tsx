@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import { Grid, Typography, Button, Paper, TableContainer, IconButton } from '@mui/material'
+import { Paper, Grid, Typography, Button, IconButton, TableContainer } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import secureLocalStorage from 'react-secure-storage'
@@ -64,38 +64,52 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
   }, [])
 
   const columns: GridColDef[] = [
-    { field: 'document', headerName: 'Document', width: 220 },
+    { field: 'document', headerName: 'Document', flex: 1, minWidth: 80, width: 80 },
     {
       field: 'no',
       headerName: 'No',
       type: 'string',
-      width: 200,
+
       align: 'left',
-      headerAlign: 'left'
+      headerAlign: 'left',
+      flex: 1,
+      minWidth: 100,
+      width: 100
     },
     {
       field: 'date_of_issue',
       headerName: 'Date of Issue',
       type: 'date',
-      width: 180
+
+      flex: 1,
+      minWidth: 100,
+      width: 100
     },
     {
       field: 'country_issue',
       headerName: 'Country Issue',
-      width: 220,
-      type: 'number'
+      type: 'number',
+
+      flex: 1,
+      minWidth: 100,
+      width: 100
     },
     {
       field: 'valid_date_column',
       headerName: 'Valid Date',
       type: 'string',
-      width: 180
+
+      flex: 1,
+      minWidth: 100,
+      width: 100
     },
     {
       field: 'download',
       headerName: 'Download',
 
-      width: 180,
+      flex: 1,
+      minWidth: 100,
+      width: 100,
       renderCell(params: any) {
         return user_id == userSession?.id && params.row.filename ? (
           <a
@@ -118,7 +132,9 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
     {
       field: 'action',
       headerName: 'Action',
-      width: 180,
+      flex: 1,
+      minWidth: 100,
+      width: 100,
       renderCell(params: any) {
         return user_id == userSession?.id ? (
           <>
@@ -169,7 +185,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
           showModal={modalDeleteOpen}
         />
       )}
-      <Grid container xs={12} md={12} lg={12}>
+      <Grid item container xs={12} md={12} lg={12}>
         <Grid item xs={12} md={6} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
             Travel Document
@@ -196,24 +212,27 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid md={12} sm={12} xs={12}>
-        <Paper style={{ overflow: 'auto' }} sx={{ overflow: 'auto', width: '100%' }}>
-          <TableContainer>
-            <DataGrid
-              autoHeight={true}
-              rows={rows}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: { page: 0, pageSize: 5 }
-                }
-              }}
-              pageSizeOptions={[5, 10]}
-              slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
-              getRowClassName={params => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
-            />
-          </TableContainer>
-        </Paper>
+      <Grid md={12} xs={12} item spacing={6} className='match-height'>
+        <Grid item md={12} sm={12} xs={12}>
+          <Paper>
+            <TableContainer>
+              <DataGrid
+                disableRowSelectionOnClick
+                disableColumnMenu
+                autoHeight={true}
+                rows={rows}
+                columns={columns}
+                initialState={{
+                  pagination: {
+                    paginationModel: { page: 0, pageSize: 5 }
+                  }
+                }}
+                pageSizeOptions={[5, 10]}
+                slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
+              />
+            </TableContainer>
+          </Paper>
+        </Grid>
       </Grid>
     </>
   )

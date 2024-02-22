@@ -154,7 +154,7 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
         loadExperience={loadExperience}
         showModal={modalDeleteOpen}
       />
-      <Grid container xs={12} md={12} lg={12}>
+      <Grid item container xs={12} md={12} lg={12}>
         <Grid item xs={12} md={6} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
             Experience
@@ -187,8 +187,8 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid md={12} sm={12} xs={12}>
-        <Paper style={{ overflow: 'auto' }} sx={{ overflow: 'auto', width: '100%' }}>
+      <Grid item md={12} sm={12} xs={12}>
+        <Paper>
           <TableContainer>
             <DataGrid
               autoHeight={true}
