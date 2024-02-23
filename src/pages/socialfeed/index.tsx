@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import { Grid } from '@mui/material'
 import Profile from 'src/layouts/components/Profile'
@@ -17,15 +16,6 @@ const SocialFeed = () => {
       <SocialFeedApp />
     </SocialFeedProvider>
   )
-}
-
-type activities = {
-  total_connected: string
-  total_visitor: string
-  total_post_feed: string
-  total_post_job: string
-  total_applied_job: string
-  total_post_thread: string
 }
 
 const SocialFeedApp = () => {

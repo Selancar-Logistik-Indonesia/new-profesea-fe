@@ -65,8 +65,8 @@ const SeafarerProficiencyForm = (props: any) => {
   }
 
   return (
-    <Grid md={12}>
-      <Grid container xs={12} md={12} justifyContent={'left'}>
+    <Grid item container md={12}>
+      <Grid container item xs={12} md={12} justifyContent={'left'}>
         <Grid item md={6}>
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
             Recommendation
@@ -91,7 +91,7 @@ const SeafarerProficiencyForm = (props: any) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid container xs={12} md={6} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+      <Grid item container xs={12} md={6} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
         <Dialog open={modalFormOpen}>
           <form onSubmit={formik.handleSubmit} method='post'>
             <DialogTitle>
