@@ -2,45 +2,43 @@ import { useState, useEffect } from 'react'
 import { IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import secureLocalStorage from 'react-secure-storage'
-import localStorageKeys from 'src/configs/localstorage_keys'
 import LoadingIcon from 'src/layouts/components/LoadingIcon'
 import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import secureLocalStorage from 'react-secure-storage'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 
+import ISeafarerProficiencyData from '../../contract/models/seafarer_proficiency'
 import { IUser } from 'src/contract/models/user'
-import ISeafarerTravelDocumentData from '../../contract/models/seafarer_travel_document'
 
-interface ISeafarerTravelDocumentTable {
+interface ISeafarerProficiencyTable {
   user_id: number | null | undefined
   selectedUser: IUser | null
+  isHiddenData: boolean
   isEditable: boolean
-  isDataHidden: boolean
   handleModalForm: any
   handleModalDelete: any
 }
 
-export default function SeafarerTravelDocumentTable(props: ISeafarerTravelDocumentTable) {
+export default function SeafarerProficiencyTable(props: ISeafarerProficiencyTable) {
+  const { user_id, isEditable, isHiddenData, handleModalForm, handleModalDelete } = props
+  const thisGray = 'rgba(66, 66, 66, 1)'
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(false)
 
-  const { user_id, isEditable, isDataHidden, handleModalForm, handleModalDelete } = props
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
-  const thisGray = 'rgba(66, 66, 66, 1)'
-
-  const userSession = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-
-  const loadTravelDocument = () => {
+  const loadProficiency = () => {
     setLoading(true)
-    HttpClient.get(AppConfig.baseUrl + '/seafarer-travel-documents/user-id/' + user_id).then(response => {
-      const result = response.data.data.map((item: ISeafarerTravelDocumentData) => {
+    HttpClient.get(AppConfig.baseUrl + '/seafarer-proficiencies/user-id/' + user_id).then(response => {
+      const result = response.data.data.map((item: ISeafarerProficiencyData) => {
         return {
           ...item,
-          country_issue: item.country.name,
-          date_of_issue: new Date(item.date_of_issue),
-          valid_date_column: item.valid_date ? new Date(item?.valid_date) : 'lifetime'
+          certificate_number: item.certificate_number,
+          certificate_name: item.proficiency.title,
+          country: item.country.name
         }
       })
 
@@ -51,40 +49,36 @@ export default function SeafarerTravelDocumentTable(props: ISeafarerTravelDocume
 
   useEffect(() => {
     if (user_id) {
-      loadTravelDocument()
+      loadProficiency()
     }
   }, [user_id])
 
   const columns: GridColDef[] = [
-    { field: 'document', headerName: 'Document', width: 220 },
+    { field: 'certificate_name', headerName: 'Certificate Name', type: 'string', width: 220, editable: false },
     {
-      field: 'no',
-      headerName: 'No',
+      field: 'certificate_number',
+      headerName: 'Certificate Number',
       type: 'string',
       width: 200,
       align: 'left',
       headerAlign: 'left',
-      renderCell(params: any) {
-        return isDataHidden == true ? '***** ***** *****' : params.row.no
+      renderCell: (params: any) => {
+        return isHiddenData ? '***** ****** ******' : params.certificate_number
       }
     },
     {
-      field: 'date_of_issue',
-      headerName: 'Date of Issue',
-      type: 'date',
-      width: 180
-    },
-    {
-      field: 'country_issue',
-      headerName: 'Country Issue',
-      width: 220,
-      type: 'number'
-    },
-    {
-      field: 'valid_date_column',
-      headerName: 'Valid Date',
+      field: 'country',
+      headerName: 'Country',
       type: 'string',
       width: 180
+    },
+    {
+      field: 'valid_until',
+      headerName: 'Valid Up',
+      width: 220,
+      renderCell: (params: any) => {
+        return params.row.valid_until ? <>{params.row.valid_until}</> : 'lifetime'
+      }
     }
   ]
 
@@ -95,13 +89,13 @@ export default function SeafarerTravelDocumentTable(props: ISeafarerTravelDocume
 
       width: 180,
       renderCell(params: any) {
-        return user_id == userSession?.id && params.row.filename ? (
+        return params.row.filename ? (
           <a
             href='#'
             onClick={() =>
               HttpClient.downloadFile(
-                process.env.NEXT_PUBLIC_BASE_API + `/seafarer-travel-documents/download/${params.row.id}/`,
-                params.row.filename
+                process.env.NEXT_PUBLIC_BASE_API + `/seafarer-proficiencies/download/${params.row.id}/`,
+                params.row.certificate_number
               )
             }
           >
@@ -121,35 +115,29 @@ export default function SeafarerTravelDocumentTable(props: ISeafarerTravelDocume
       headerName: 'Action',
       width: 180,
       renderCell(params: any) {
-        return user_id == userSession?.id ? (
+        return (
           <>
             <IconButton
               size='small'
-              title={`Update this Travel Document Id = ${params.row.id} `}
-              onClick={() => {
-                handleModalForm('edit', params.row)
-              }}
+              title={`Update this Proficiency Id = ${params.row.id} `}
+              onClick={() => handleModalForm('edit', params.row)}
             >
               <Icon icon='material-symbols:edit-square-outline' width='24' height='24' color={thisGray} />
             </IconButton>
             <IconButton
               size='small'
-              title={`Update this Travel Document Id = ${params.row.id} `}
-              onClick={() => {
-                handleModalDelete(params.row)
-              }}
+              title={`Update this Comptency Id = ${params.row.id} `}
+              onClick={() => handleModalDelete(params.row)}
             >
               <Icon icon='material-symbols:delete-outline' width='24' height='24' color={thisGray} />
             </IconButton>
           </>
-        ) : (
-          ''
         )
       }
     }
   ]
 
-  const settingColumn = userSession?.is_crewing == 1 ? [...columnDownload] : []
+  const settingColumn = user?.is_crewing == 1 ? [...columnDownload] : []
 
   const finalColumn = isEditable ? [...columns, ...settingColumn, ...columnAction] : [...columns, ...settingColumn]
 

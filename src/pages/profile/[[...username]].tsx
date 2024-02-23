@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Card, CardContent, Grid, useMediaQuery, Typography } from '@mui/material'
+import { Grid, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
@@ -23,6 +23,11 @@ import ProfileViewerCard from 'src/layouts/components/ProfileViewerCard'
 import AboutMe from './AboutMe'
 import ProfileFeedCard from './ProfileFeedCard'
 import SeafarerTravelDocumentTable from 'src/layouts/components/SeafarerTravelDocumentTable'
+import SeafarerExperienceTable from 'src/layouts/components/SeafarerExperienceTable'
+import SeafarerCompetencyTable from 'src/layouts/components/SeafarerCompetencyTable'
+import SeafarerProficiencyTable from 'src/layouts/components/SeafarerProficiencyTable'
+import NewsListCard from 'src/layouts/components/NewsListCard'
+import TableCard from './TableCard'
 
 const ProfileCompany = () => {
   return (
@@ -104,23 +109,6 @@ const UserFeedApp = () => {
     fetchFeeds({ take: 7, username: username, mPage: 1 })
   }, [username])
 
-  const TableWrapper = (Table: any, title: string) => {
-    return (
-      <Grid item marginTop={'10px'} md={12} xs={12}>
-        <Card>
-          <CardContent sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-            <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 600 }}>
-                {title}
-              </Typography>
-              {Table}
-            </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-    )
-  }
-
   return (
     <Box>
       <Grid container spacing={1}>
@@ -130,8 +118,9 @@ const UserFeedApp = () => {
               {selectedUser?.role == 'Company' && <JobVacancy vacancy={arrVacany} />}
               {selectedUser?.role == 'Seafarer' && <Box></Box>}
               {selectedUser?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
+              <NewsListCard />
             </Grid>
-            <Grid item container lg={7} md={7} xs={12}>
+            <Grid item container lg={8} md={8} xs={12}>
               <Grid item md={12} xs={12}>
                 {selectedUser && <UserProfileHeader datauser={selectedUser} address={selectedUser.address} />}
               </Grid>
@@ -146,20 +135,69 @@ const UserFeedApp = () => {
                 <Box></Box>
               </Grid>
               <EducationalInfo vacancy={arrVacany2} />
-              <WorkeExperience vacancy={arrVacany} />
-              <Ceritificate vacancy={itemData} />
-              {TableWrapper(
-                <SeafarerTravelDocumentTable
-                  user_id={selectedUser?.id}
-                  isEditable={false}
-                  isDataHidden={true}
-                  handleModalDelete={undefined}
-                  handleModalForm={undefined}
-                />,
-                'Travel Document Table'
+              {selectedUser?.team_id !== 2 && <WorkeExperience vacancy={arrVacany} />}
+              {selectedUser?.team_id !== 2 && <Ceritificate vacancy={itemData} />}
+
+              {selectedUser?.team_id == 2 && (
+                <Grid item marginTop={'10px'} md={12} xs={12}>
+                  <TableCard title='Travel Document'>
+                    <SeafarerTravelDocumentTable
+                      user_id={selectedUser?.id}
+                      selectedUser={selectedUser}
+                      isEditable={false}
+                      isDataHidden={true}
+                      handleModalDelete={undefined}
+                      handleModalForm={undefined}
+                    />
+                  </TableCard>
+                </Grid>
+              )}
+
+              {selectedUser?.team_id == 2 && (
+                <Grid item marginTop={'10px'} md={12} xs={12}>
+                  <TableCard title='Experience'>
+                    <SeafarerExperienceTable
+                      user_id={selectedUser?.id}
+                      selectedUser={selectedUser}
+                      isEditable={false}
+                      handleModalDelete={undefined}
+                      handleModalForm={undefined}
+                    />
+                  </TableCard>
+                </Grid>
+              )}
+
+              {selectedUser?.team_id == 2 && (
+                <Grid item marginTop={'10px'} md={12} xs={12}>
+                  <TableCard title='Certificate of Competency'>
+                    <SeafarerCompetencyTable
+                      user_id={selectedUser?.id}
+                      selectedUser={selectedUser}
+                      isHiddenData={true}
+                      isEditable={false}
+                      handleModalDelete={undefined}
+                      handleModalForm={undefined}
+                    />
+                  </TableCard>
+                </Grid>
+              )}
+
+              {selectedUser?.team_id == 2 && (
+                <Grid item marginTop={'10px'} md={12} xs={12}>
+                  <TableCard title='Certificate Of Proficiency'>
+                    <SeafarerProficiencyTable
+                      user_id={selectedUser?.id}
+                      selectedUser={selectedUser}
+                      isHiddenData={true}
+                      isEditable={false}
+                      handleModalDelete={undefined}
+                      handleModalForm={undefined}
+                    />
+                  </TableCard>
+                </Grid>
               )}
             </Grid>
-            <Grid item lg={3} md={3} xs={12}>
+            <Grid item lg={2} md={2} xs={12}>
               <ProfileViewerCard />
             </Grid>
           </Grid>
