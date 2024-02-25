@@ -163,6 +163,14 @@ const renderList = (listJob: Job[]) => {
                     {item?.degree?.name}
                   </Typography>
                 </Grid>
+                <Grid xs={1}>
+                  <Icon icon='mdi:location' color='#32487A' fontSize={'20px'} />
+                </Grid>
+                <Grid xs={11}>
+                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                    {item?.city?.city_name} | {item?.employment_type ? item?.employment_type : ''}
+                  </Typography>
+                </Grid>
                 {!item?.hide_salary && (
                   <>
                     <Grid xs={1}>
@@ -189,14 +197,6 @@ const renderList = (listJob: Job[]) => {
                     </Grid>
                   </>
                 )}
-                <Grid xs={1}>
-                  <Icon icon='mdi:location' color='#32487A' fontSize={'20px'} />
-                </Grid>
-                <Grid xs={11}>
-                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                    {item?.city?.city_name} | {item?.employment_type ? item?.employment_type : ''}
-                  </Typography>
-                </Grid>
               </>
             )}
           </Grid>
