@@ -11,7 +11,7 @@ import JobVacancy from './JobVacancy'
 import { IUser } from 'src/contract/models/user'
 import { toast } from 'react-hot-toast'
 import WorkeExperience from './Workexperience'
-import ListFeedView from 'src/views/social-feed/ListFeedView'
+// import ListFeedView from 'src/views/social-feed/ListFeedView'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import ListTraining from './Training'
@@ -19,6 +19,15 @@ import { useRouter } from 'next/router'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import EducationalInfo from './Educational'
 import Ceritificate from './Certificate'
+import ProfileViewerCard from 'src/layouts/components/ProfileViewerCard'
+import AboutMe from './AboutMe'
+import ProfileFeedCard from './ProfileFeedCard'
+import SeafarerTravelDocumentTable from 'src/layouts/components/SeafarerTravelDocumentTable'
+import SeafarerExperienceTable from 'src/layouts/components/SeafarerExperienceTable'
+import SeafarerCompetencyTable from 'src/layouts/components/SeafarerCompetencyTable'
+import SeafarerProficiencyTable from 'src/layouts/components/SeafarerProficiencyTable'
+import NewsListCard from 'src/layouts/components/NewsListCard'
+import TableCard from './TableCard'
 
 const ProfileCompany = () => {
   return (
@@ -104,23 +113,92 @@ const UserFeedApp = () => {
     <Box>
       <Grid container spacing={1}>
         <Grid item xs={12} md={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
-          <Grid container>
-            {selectedUser && <UserProfileHeader datauser={selectedUser} address={selectedUser.address} />}
-          </Grid>
           <Grid container spacing={6} sx={{ marginTop: '1px' }}>
-            <Grid item lg={3} md={5} xs={12}>
+            <Grid item lg={2} md={2} xs={12}>
               {selectedUser?.role == 'Company' && <JobVacancy vacancy={arrVacany} />}
-              {selectedUser?.role == 'Seafarer' && (
-                <Box>
-                  <EducationalInfo vacancy={arrVacany2} />
-                  <WorkeExperience vacancy={arrVacany} />
-                  <Ceritificate vacancy={itemData} />
-                </Box>
-              )}
+              {selectedUser?.role == 'Seafarer' && <Box></Box>}
               {selectedUser?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
+              <NewsListCard />
             </Grid>
-            <Grid item lg={9} md={7} xs={12}>
-              <ListFeedView username={username} />
+            <Grid item container lg={8} md={8} xs={12}>
+              <Grid item md={12} xs={12}>
+                {selectedUser && <UserProfileHeader datauser={selectedUser} address={selectedUser.address} />}
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <AboutMe dataUser={selectedUser}></AboutMe>
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <ProfileFeedCard></ProfileFeedCard>
+              </Grid>
+              <Grid item md={12} xs={12}>
+                {/* <ListFeedView username={username} /> */}
+                <Box></Box>
+              </Grid>
+              <EducationalInfo vacancy={arrVacany2} />
+              {selectedUser?.team_id !== 2 && <WorkeExperience vacancy={arrVacany} />}
+              {selectedUser?.team_id !== 2 && <Ceritificate vacancy={itemData} />}
+
+              {selectedUser?.team_id == 2 && (
+                <Grid item marginTop={'10px'} md={12} xs={12}>
+                  <TableCard title='Travel Document'>
+                    <SeafarerTravelDocumentTable
+                      user_id={selectedUser?.id}
+                      selectedUser={selectedUser}
+                      isEditable={false}
+                      isDataHidden={true}
+                      handleModalDelete={undefined}
+                      handleModalForm={undefined}
+                    />
+                  </TableCard>
+                </Grid>
+              )}
+
+              {selectedUser?.team_id == 2 && (
+                <Grid item marginTop={'10px'} md={12} xs={12}>
+                  <TableCard title='Experience'>
+                    <SeafarerExperienceTable
+                      user_id={selectedUser?.id}
+                      selectedUser={selectedUser}
+                      isEditable={false}
+                      handleModalDelete={undefined}
+                      handleModalForm={undefined}
+                    />
+                  </TableCard>
+                </Grid>
+              )}
+
+              {selectedUser?.team_id == 2 && (
+                <Grid item marginTop={'10px'} md={12} xs={12}>
+                  <TableCard title='Certificate of Competency'>
+                    <SeafarerCompetencyTable
+                      user_id={selectedUser?.id}
+                      selectedUser={selectedUser}
+                      isHiddenData={true}
+                      isEditable={false}
+                      handleModalDelete={undefined}
+                      handleModalForm={undefined}
+                    />
+                  </TableCard>
+                </Grid>
+              )}
+
+              {selectedUser?.team_id == 2 && (
+                <Grid item marginTop={'10px'} md={12} xs={12}>
+                  <TableCard title='Certificate Of Proficiency'>
+                    <SeafarerProficiencyTable
+                      user_id={selectedUser?.id}
+                      selectedUser={selectedUser}
+                      isHiddenData={true}
+                      isEditable={false}
+                      handleModalDelete={undefined}
+                      handleModalForm={undefined}
+                    />
+                  </TableCard>
+                </Grid>
+              )}
+            </Grid>
+            <Grid item lg={2} md={2} xs={12}>
+              <ProfileViewerCard />
             </Grid>
           </Grid>
         </Grid>
