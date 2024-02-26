@@ -13,7 +13,7 @@ import IconifyIcon from 'src/@core/components/icon'
 import themeConfig from 'src/configs/themeConfig'
 import Navigation from '../vertical/landing-navigation'
 import { useAuth } from 'src/hooks/useAuth'
-import { isProduction, isStaging } from 'src/utils/helpers'
+// import { isProduction, isStaging } from 'src/utils/helpers'
 import { useTranslation } from 'react-i18next'
 
 const LandingPageAppBar = (props: { appBarElevation?: number }) => {
@@ -49,15 +49,16 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
 
     useEffect(() => {
 
-        let baseAddress1 = "/landingpage-recruiter";
-        let baseAddress2 = "/landingpage-trainer";
-        if (isStaging()) {
-            baseAddress1 = "https://staging.recruiter.profesea.id";
-            baseAddress2 = "https://staging.trainer.profesea.id";
-        } else if (isProduction()) {
-            baseAddress1 = "https://recruiter.profesea.id";
-            baseAddress2 = "https://trainer.profesea.id";
-        }
+        const baseAddress1 = "/landingpage-recruiter";
+        const baseAddress2 = "/landingpage-trainer";
+       
+        // if (isStaging()) {
+        //     baseAddress1 = "https://staging.recruiter.profesea.id";
+        //     baseAddress2 = "https://staging.trainer.profesea.id";
+        // } else if (isProduction()) {
+        //     baseAddress1 = "https://recruiter.profesea.id";
+        //     baseAddress2 = "https://trainer.profesea.id";
+        // }
 
         setHomeNavItems([
             { title: t('landing_menu_1'), path: "/#findJobSection" },

@@ -1,7 +1,7 @@
 
 import { Box } from "@mui/material"
 import { IUser } from "src/contract/models/user"
-import BlockButton from "src/layouts/components/BlockButton"
+// import BlockButton from "src/layouts/components/BlockButton"
 import ConnectButton from "src/layouts/components/ConnectButton"
 import MessageButton from "src/layouts/components/MessageButton"
 
@@ -22,7 +22,7 @@ const ProfileActionArea = (props: Props) => {
        
         <MessageButton user={props.user} />
         <ConnectButton user={props.user} />
-        <BlockButton user={props.user} />
+        {/* <BlockButton user={props.user} /> */}
       </Box>
     )
 }
