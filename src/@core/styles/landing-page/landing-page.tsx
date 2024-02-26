@@ -1,5 +1,5 @@
-import { Theme } from "@mui/material";
-import { SxProps } from "@mui/system";
+import { Theme } from '@mui/material'
+import { SxProps } from '@mui/system'
 
 const bannerHero: SxProps<Theme> = {
   backgroundImage: 'url(/images/banner-website.png)',
@@ -29,7 +29,7 @@ const bannerAsset: SxProps<Theme> = {
 
 const landingPageStyle = {
     bannerHero,
-    bannerAsset
+    bannerAsset 
 }
 
-export default landingPageStyle;
+export default landingPageStyle
