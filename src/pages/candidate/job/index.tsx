@@ -62,6 +62,7 @@ const JobDetail = () => {
   }))
 
   const firstload = async (mJobId: string) => {
+
     setIsLoading(true)
     try {
       const resp = await HttpClient.get('/job/' + mJobId)
@@ -87,6 +88,7 @@ const JobDetail = () => {
   }, [])
 
   useEffect(() => {
+
     firstload(jobId!)
   }, [jobId])
 
@@ -147,7 +149,7 @@ const JobDetail = () => {
                 <Grid container>
                   <StyledGrid item xs={12} sx={{ py: '20px' }}>
                     <CardContent>
-                      <HeaderJobDetail jobDetail={jobDetail} onApplied={onApplied} handleApply={handleApply} />
+                       <HeaderJobDetail jobDetail={jobDetail} onApplied={onApplied} handleApply={handleApply} />
                       <SectionOneJobDetail jobDetail={jobDetail} />
                       <SectionTwoJobDetail jobDetail={jobDetail} />
                       {jobDetail?.category?.employee_type == 'onship' && (
@@ -161,7 +163,7 @@ const JobDetail = () => {
                     >
                       <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#32487A' }}>
                         <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
-                          <Box
+                           <Box
                             height={65}
                             sx={{
                               display: 'flex',
@@ -180,9 +182,9 @@ const JobDetail = () => {
                               sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
                               marginTop={2}
                             >
-                              <Typography sx={{ color: 'common.white', mb: 1 }} fontSize={14}>
+                               <Typography sx={{ color: 'common.white', mb: 1 }} fontSize={14}>
                                 <strong>{jobDetail?.company?.name ?? '-'}</strong>
-                              </Typography>
+                               </Typography>
                             </Box>
                           </Box>
                           <Box
@@ -211,15 +213,16 @@ const JobDetail = () => {
                               </Typography>
                             </Box>
                           </Box>
-                        </CardContent>
+                         </CardContent>
                       </Card>
                     </Grid>
                   </StyledGrid>
+ 
                 </Grid>
               )}
             </Card>
           </Grid>
-          {jobDetailSugestion.length !== 0 && (
+           {jobDetailSugestion.length !== 0 && (
             <Grid item xs={12} md={3} lg={3}>
               <Box
                 sx={{
@@ -237,7 +240,6 @@ const JobDetail = () => {
               <RelatedJobView jobDetailSugestion={jobDetailSugestion} />
             </Grid>
           )}
-
           {openDialog && (
             <CompleteDialog
               onClose={() => setOpenDialog(!openDialog)}
