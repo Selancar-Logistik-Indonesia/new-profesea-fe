@@ -40,7 +40,10 @@ interface Job {
   employment_type: string
   text_role: string
   contractDuration?: string
+  contract_duration? : string
   job_title? : string
+  hide_salary? : string
+  currency? : string
 }
 
 export default Job

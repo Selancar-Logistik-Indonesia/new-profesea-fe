@@ -2,18 +2,18 @@ import { useEffect, useState } from 'react'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import { Grid, Typography, Button, Paper, TableContainer, Checkbox, IconButton } from '@mui/material'
+import { Grid, Typography, Button, Paper, Checkbox, IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
 import { ISeafarerExperienceProps } from '../../../contract/types/seafarer_experience_type'
-import ISeafarerExperienceData from './../../../contract/models/seafarer_experience'
+import ISeafarerExperienceData from '../../../contract/models/seafarer_experience'
 import SeafarerExperienceForm from './SeafarerExperienceForm'
 import SeafarerExperienceDeleteConfirm from './SeafarerExperienceDeleteConfirm'
 import LoadingIcon from 'src/layouts/components/LoadingIcon'
 import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
 
-const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
+const SeafarerExperienceContainer = (props: ISeafarerExperienceProps) => {
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(false)
   const [seafarerExperience, setSeafarerExperience] = useState()
@@ -154,7 +154,7 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
         loadExperience={loadExperience}
         showModal={modalDeleteOpen}
       />
-      <Grid item container xs={12} md={12} lg={12}>
+      <Grid container xs={12} md={12} lg={12}>
         <Grid item xs={12} md={6} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
             Experience
@@ -187,27 +187,25 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item md={12} sm={12} xs={12}>
-        <Paper>
-          <TableContainer>
-            <DataGrid
-              autoHeight={true}
-              rows={rows}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: { page: 0, pageSize: 5 }
-                }
-              }}
-              pageSizeOptions={[5, 10]}
-              slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
-              getRowClassName={params => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
-            />
-          </TableContainer>
+      <Grid md={12} sm={12} xs={12}>
+        <Paper style={{ overflow: 'auto' }} sx={{ overflow: 'auto', width: '100%' }}>
+          <DataGrid
+            autoHeight={true}
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 }
+              }
+            }}
+            pageSizeOptions={[5, 10]}
+            slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
+            getRowClassName={params => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
+          />
         </Paper>
       </Grid>
     </>
   )
 }
 
-export default SeafarerExperienceTable
+export default SeafarerExperienceContainer

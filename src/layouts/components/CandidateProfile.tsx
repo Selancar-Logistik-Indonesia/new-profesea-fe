@@ -63,10 +63,10 @@ import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import JobCategory from 'src/contract/models/job_category'
 
-import SeafarerTravelDocumentTable from 'src/pages/candidate/SeafarerTravelDocument/SeafarerTravelDocumentTable'
-import SeafarerExperienceTable from 'src/pages/candidate/SeafarerExperience/SeafarerExperienceTable'
-import SeafarerCompetencyTable from 'src/pages/candidate/SeafarerCompetency/SeafarerCompetencyTable'
-import SeafarerProficiencyTable from 'src/pages/candidate/SeafarerProficiency/SeafarerProficiencyTable'
+import SeafarerTravelDocumentTable from 'src/pages/candidate/SeafarerTravelDocument/SeafarerTravelDocumentContainer'
+import SeafarerExperienceTable from 'src/pages/candidate/SeafarerExperience/SeafarerExperienceContainer'
+import SeafarerCompetencyTable from 'src/pages/candidate/SeafarerCompetency/SeafarerCompetencyContainer'
+import SeafarerProficiencyTable from 'src/pages/candidate/SeafarerProficiency/SeafarerProficiencyContainer'
 import SeafarerRecommendationForm from 'src/pages/candidate/SeafarerRecommendation/SeafarerRecommendationForm'
 
 type FormData = {
