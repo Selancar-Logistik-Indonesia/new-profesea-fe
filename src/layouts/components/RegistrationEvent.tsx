@@ -2,7 +2,23 @@
 import { ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Components
-import { Button, Divider, Checkbox, TextField, InputLabel, IconButton, Box, FormControl, OutlinedInput, InputAdornment,tooltipClasses, Typography, Alert, Tooltip, TooltipProps } from '@mui/material'
+import {
+  Button,
+  Divider,
+  Checkbox,
+  TextField,
+  InputLabel,
+  IconButton,
+  Box,
+  FormControl,
+  OutlinedInput,
+  InputAdornment,
+  tooltipClasses,
+  Typography,
+  Alert,
+  Tooltip,
+  TooltipProps
+} from '@mui/material'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -15,7 +31,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Hooks
 
 // ** Demo Imports
-import { Autocomplete,  Grid } from '@mui/material'
+import { Autocomplete, Grid } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
 
@@ -25,10 +41,10 @@ import * as yup from 'yup'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { removeFirstZeroChar } from 'src/utils/helpers'
 
+import { useRouter } from 'next/router'
 import { styled } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
 
@@ -45,8 +61,7 @@ interface FormData {
   privacy: string
 }
 const LinkStyled = styled(Link)(() => ({
-
-  textDecoration: 'none',
+  textDecoration: 'none'
 }))
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -58,68 +73,57 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
     fontSize: 11
   }
 }))
-const Registration = (props: any) => {
- 
+const RegistrationEvent = (props: any) => {
   const { tipereg } = props
   const { type } = props
   const { vonchangeEmployee } = props
   const { disabledcombo } = props
+  const { event } = props
   const router = useRouter()
   const { t } = useTranslation()
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [combocode, getCombocode] = useState<any>([])
   const [idcombocode, setCombocode] = useState<any>({ label: 'Loading...', id: 0 })
+
   const [idposition, setPosition] = useState<any>(
     type == 'onship' ? { label: 'Pelaut', id: 0 } : type == 'offship' ? { label: 'Non Pelaut', id: 1 } : ''
   )
-
-  const schemaSeafer = yup.object().shape({
-    name: yup.string().required(),
-    email: yup.string().email().required(),
-    password: yup.string().min(5).required(),
-    username: yup.string().required(),
-    position: yup.object().nullable().required(),
-    phone: yup.string().required()
-  })
-
   const schema = yup.object().shape({
-    name: yup.string().required(),
     email: yup.string().email().required(),
-    password: yup.string().min(5).required(),
-    username: yup.string().required(),
-    phone: yup.string().required()
+    password: yup.string().min(5).required()
   })
-
-  const [phoneNum, setPhoneNum] = useState('');
+  const [phoneNum, setPhoneNum] = useState('')
+  // const [teks, setTeks] = useState('')
   const onChangePhoneNum = (input: string) => {
-    setPhoneNum(removeFirstZeroChar(input));
+    setPhoneNum(removeFirstZeroChar(input))
   }
   const handleInputChange = (e: any) => {
     // Mengubah teks menjadi huruf kecil dan menyimpannya dalam state
     // setTeks(e.toLowerCase())
     register('email', e.toLowerCase())
   }
-
   const {
     register,
     formState: { errors },
-    handleSubmit,
-    setValue
+    handleSubmit
   } = useForm<FormData>({
     mode: 'onBlur',
-    resolver: yupResolver(tipereg == 'seafer' ? schemaSeafer : schema)
+    resolver: yupResolver(schema)
   })
 
   const save = (json: any) => {
-    HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(({ data }) => {
-      console.log("here 1", data);
-      toast.success(  ' Successfully submited!');
-      router.push('/registersuccess')
-    }, error => {
-      console.log("here 1", error);
-      toast.error('Registrastion Failed ' + error.response.data.message)
-    });
-  };
+    HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(
+      ({ data }) => {
+        console.log('here 1', data)
+        toast.success(' "data tersebut akan otomatis terdaftar sebagai user profesea')
+        router.push('/registersuccess/?event=true')
+      },
+      error => {
+        console.log('here 1', error)
+        toast.error('Registrastion Failed ' + error.response.data.message)
+      }
+    )
+  }
 
   const onSubmit = (data: FormData) => {
     const { password, password2, username, name, email, term, privacy } = data
@@ -143,7 +147,7 @@ const Registration = (props: any) => {
     }
 
     let teamid: number
-    if (tipereg == 'seafer') {
+    if (tipereg == 'seafarer') {
       teamid = 2
     } else if (tipereg == 'company') {
       teamid = 3
@@ -162,60 +166,54 @@ const Registration = (props: any) => {
       employee_type: ship,
       team_id: teamid,
       country_id: idcombocode.id,
-      phone: phoneNum
+      phone: phoneNum,
+      event: event
     }
 
     try {
       save(json)
     } catch (e) {
       alert(e)
+      toast.success(`Registrasi anda berhasil silahkan cek email anda untuk linke webinar anda`)
       console.log(e)
     }
   }
 
   const combobox = () => {
-    HttpClient.get(AppConfig.baseUrl + "/public/data/country?search=")
-      .then((response) => {
-        const code = response.data.countries;
-        for (let x = 0; x < code.length; x++) {
-          const element = code[x];
-          element.label = element.iso + ' (' + element.phonecode + ')'
-          if(element.id == 100){
-            setCombocode(element)
-          }
+    HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
+      const code = response.data.countries
+      for (let x = 0; x < code.length; x++) {
+        const element = code[x]
+        element.label = element.iso + ' (' + element.phonecode + ')'
+        if (element.id == 100) {
+          setCombocode(element)
         }
+      }
 
-        getCombocode(code);
-      })
-
+      getCombocode(code)
+    })
   }
-
 
   useEffect(() => {
     combobox()
-  }, []);
+  }, [])
 
   const position = [
     { label: 'Pelaut', id: 0 },
-    { label: 'Non Pelaut', id: 1 },
+    { label: 'Non Pelaut', id: 1 }
   ]
   const onChangeEmployee = (newValue: any) => {
-    if(newValue){
-      setValue("position", newValue)
-      setPosition(newValue)
-      vonchangeEmployee(newValue.id)
-    } else {
-      setPosition("")
-    }
+    setPosition(newValue)
+    vonchangeEmployee(newValue.id)
   }
 
   return (
     <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
       <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
-        {tipereg == 'seafer' ? (
+        {tipereg == 'seafarer' ? (
           <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
             <Grid item md={12} xs={12}>
-              <TextField id='Name' label='Nama Kandidat' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} error={Boolean(errors.name)} />
+              <TextField id='Name' label='Name' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
             </Grid>
 
             <Grid item md={6} xs={12}>
@@ -225,7 +223,7 @@ const Registration = (props: any) => {
                 options={!position ? [{ label: 'Loading...', id: 0 }] : position}
                 defaultValue={idposition}
                 disabled={disabledcombo}
-                renderInput={params => <TextField {...params} label='Ship' sx={{ mb: 2 }} error={Boolean(errors.position)}/>}
+                renderInput={params => <TextField {...params} label='Ship' sx={{ mb: 2 }} />}
                 {...register('position')}
                 onChange={(event: any, newValue: any | null) => onChangeEmployee(newValue)}
               />
@@ -240,17 +238,16 @@ const Registration = (props: any) => {
                 onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
               /> */}
               <TextField
-                id='phone'
-                label='No Telp'
+                id='Phone'
+                label='Phone'
                 variant='outlined'
                 type='number'
                 fullWidth
                 sx={{ mb: 2 }}
                 value={phoneNum}
-                {...register("phone")}
                 onChange={e => onChangePhoneNum(e.target.value)}
-                error={Boolean(errors.phone)}
                 InputProps={{
+                  // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
                   startAdornment: (
                     <Autocomplete
                       style={{ width: '160px' }}
@@ -282,21 +279,20 @@ const Registration = (props: any) => {
         ) : (
           <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
             <Grid item md={6} xs={12}>
-              <TextField id='Name' label={ (tipereg == 'company') ? 'Nama Perusahaan' : 'Nama Pusat Pelatihan'} variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} error={Boolean(errors.name)} />
+              <TextField id='Name' label='Name' variant='outlined' fullWidth sx={{ mb: 2 }} {...register('name')} />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
-                id='phone'
-                label='No Telp'
+                id='Phone'
+                label='Phone'
                 variant='outlined'
                 type='number'
                 fullWidth
                 sx={{ mb: 2 }}
                 value={phoneNum}
-                {...register("phone")}
                 onChange={e => onChangePhoneNum(e.target.value)}
-                error={Boolean(errors.phone)}
                 InputProps={{
+                  // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
                   startAdornment: (
                     <Autocomplete
                       style={{ width: '160px' }}
@@ -323,7 +319,6 @@ const Registration = (props: any) => {
             fullWidth
             sx={{ mb: 2 }}
             {...register('username')}
-            error={Boolean(errors.username)}
           />
         </Grid>
         <Grid item md={6} xs={12}>
@@ -336,7 +331,6 @@ const Registration = (props: any) => {
             sx={{ mb: 2 }}
             {...register('email')}
             onChange={e => handleInputChange(e.target.value)}
-            error={Boolean(errors.email)}
           />
         </Grid>
         <Grid item md={6} xs={12}>
@@ -479,6 +473,6 @@ const Registration = (props: any) => {
   )
 }
 
-Registration.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>;
-Registration.guestGuard = true;
-export default Registration
+RegistrationEvent.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+RegistrationEvent.guestGuard = true
+export default RegistrationEvent

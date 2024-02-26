@@ -28,8 +28,8 @@ const bannerAsset: SxProps<Theme> = {
 }
 
 const landingPageStyle = {
-  bannerHero,
-  bannerAsset
+    bannerHero,
+    bannerAsset 
 }
 
 export default landingPageStyle
