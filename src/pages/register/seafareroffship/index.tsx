@@ -22,29 +22,10 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import * as yup from 'yup'
-import Registration from 'src/layouts/components/registrastion'
+import Registration from 'src/layouts/components/Registration'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from 'react-i18next'
-
-// ** Styled Components
-// const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-//   padding: theme.spacing(20),
-//   paddingRight: '0 !important',
-//   [theme.breakpoints.down('lg')]: {
-//     padding: theme.spacing(10)
-//   }
-// }))
-
-// const RegisterIllustration = styled('img')(({ theme }) => ({
-//   maxWidth: '100%',
-//   [theme.breakpoints.down('xl')]: {
-//     maxWidth: '10%'
-//   },
-//   [theme.breakpoints.down('lg')]: {
-//     maxWidth: '10%'
-//   }
-// }))
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -67,28 +48,29 @@ const Register = () => {
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
-  const [gambar, setGambar] = useState('url(/images/candidate-00.jpg)')
-  const [labelAtas, setLabelAtas] = useState(1)
   // ** Vars
   const { skin } = settings
+  // const gambar = useRef('url(/images/candidate-00.jpg)')
 
+  const [gambar, setGambar] = useState('url(/images/candidate-01.jpg)')
+  const [labelAtas, setLabelAtas] = useState(1)
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(5).required()
   })
 
-  const {
-  } = useForm({
+  const {} = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
-  const { t } = useTranslation();
+
+  const { t } = useTranslation()
   const onchangeEmployee = (src: string) => {
     if (src == '0') {
       setGambar('url(/images/candidate-00.jpg)')
       setLabelAtas(1)
     } else {
-      setGambar('url(/images/candidate-01.jpg)')
+      setGambar('url(/images/training-02.jpeg)')
 
       setLabelAtas(0)
     }
@@ -113,41 +95,7 @@ const Register = () => {
             }}
           >
             <Container fixed>
-              <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
-                {/* <Grid container justifyContent={'center'} alignContent={'center'}>
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    marginTop={'50px'}
-                  >
-                    <Grid item md={12} xs={12}  >
-                      <img alt="logo" src='/images/logosamudera.png' style={{
-                        maxWidth: '100%',
-                        height: '30px',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }} />
-                    </Grid>
-                  </Box>
-                  <Grid item md={12} xs={12} >
-                    <Box
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center"
-                      minHeight="100vh"
-                    >
-                      <img alt="sailor" src='/images/sailor.png' style={{
-                        maxWidth: '100%',
-                        height: '450px',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: '40%'
-                      }} />
-                    </Box>
-                  </Grid>
-                </Grid> */}
-              </Box>
+              <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'></Box>
             </Container>
           </Box>
         ) : null}
@@ -191,23 +139,28 @@ const Register = () => {
                 >
                   {labelAtas == 0 ? (
                     <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: '#262525' }}>
-                      {t('register_text_14')}
+                      {t('register_text_7')}
                     </Typography>
                   ) : (
                     <Typography variant='h4' sx={{ mb: 1, textAlign: 'left', fontWeight: 'bold', color: '#262525' }}>
-                      {t('register_text_7')}
+                      {t('register_text_14')}
                     </Typography>
-                  )} 
+                  )}
                   {labelAtas == 0 ? (
-                    <Typography variant='body2' sx={{ mb: 1, textAlign: 'left', color: '#262525' }}>
-                      {t('register_text_15')}
-                    </Typography>
-                  ) : (
                     <Typography variant='body2' sx={{ mb: 1, textAlign: 'left', color: '#262525' }}>
                       {t('register_text_10')}
                     </Typography>
+                  ) : (
+                    <Typography variant='body2' sx={{ mb: 1, textAlign: 'left', color: '#262525' }}>
+                      {t('register_text_15')}
+                    </Typography>
                   )}
-                  <Registration tipereg='seafer' type='onship' vonchangeEmployee={onchangeEmployee} disabledcombo={true}></Registration>
+                  <Registration
+                    tipereg='seafarer'
+                    type='offship'
+                    vonchangeEmployee={onchangeEmployee}
+                    disabledcombo={true}
+                  ></Registration>
                 </Box>
               </BoxWrapper>
             </Container>

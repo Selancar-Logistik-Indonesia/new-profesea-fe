@@ -13,6 +13,7 @@ import themeConfig from 'src/configs/themeConfig'
 import CarouselNewsView from 'src/views/landing-page/carouselnews'
 import CarouselEvent from 'src/views/landing-page/carouselevent'
 
+
 // ** Icon Imports
 // import Icon from 'src/@core/components/icon'
 // ** Custom Components Imports
@@ -47,7 +48,8 @@ const Main = () => {
             style={{ color: '#000' }}
             mt={1}
             fontWeight='800'
-            sx={{ maxWidth: { xs: '100%', lg: '80%', color: '#32487A' }, px: { xs: 2, md: 5, whiteSpace: 'null' } }}
+
+            sx={{ maxWidth: { xs: '80%', color: '#32487A' }, px: { xs: 2, md: 5, whiteSpace: 'null' } }}
           >
             {t('landing_hero_title')}
           </Typography>
@@ -58,7 +60,7 @@ const Main = () => {
             mt={2}
             sx={{ maxWidth: { xs: '68%' }, px: { xs: 2, md: 5 } }}
           >
-            {t('landing_hero_subtitle')}
+           {t('landing_hero_subtitle')}
           </Typography>
 
           <Container style={{ marginTop: 60, lineHeight: 3.5 }} sx={{ display: { xs: 'none', md: 'block' } }}>
@@ -75,7 +77,7 @@ const Main = () => {
                   </Typography>
                   <Box>
                     <Button
-                      href='/register/seaferonship'
+                      href='/register/seafareronship'
                       style={{ backgroundColor: '#ef6c00', color: 'white', marginRight: 10 }}
                       variant='contained'
                     >
@@ -96,7 +98,7 @@ const Main = () => {
                   </Typography>
                   <Box>
                     <Button
-                      href='/register/seaferoffship'
+                      href='/register/seafareroffship'
                       style={{ backgroundColor: '#ef6c00', color: 'white', marginRight: 10 }}
                       variant='contained'
                     >
@@ -135,7 +137,7 @@ const Main = () => {
                 {t('b_to_seafarer_detail')}
               </Typography>
               <Button
-                href='/register/seaferonship'
+                href='/register/seafareronship'
                 style={{ backgroundColor: '#ef6c00', color: 'white', marginRight: 10 }}
                 variant='contained'
               >
@@ -155,7 +157,7 @@ const Main = () => {
                 {t('b_to_professional_detail')}
               </Typography>
               <Button
-                href='/register/seaferoffship'
+                href='/register/seafareroffship'
                 style={{ backgroundColor: '#ef6c00', color: 'white', marginRight: 10 }}
                 variant='contained'
               >

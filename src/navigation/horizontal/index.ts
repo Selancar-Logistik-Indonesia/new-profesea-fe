@@ -56,14 +56,14 @@ const navigation = (): HorizontalNavItemsType => [
     title: 'Find Job',
     icon: 'solar:boombox-bold-duotone',
     action: 'read',
-    subject: 'seaferer-jobs'
+    subject: 'seafarer-jobs'
   },
   {
     path: '/candidate/training',
     title: 'My Training',
     icon: 'solar:notebook-bookmark-bold-duotone',
     action: 'read',
-    subject: 'seaferer-training'
+    subject: 'seafarer-training'
   },
   {
     path: '/list-group',

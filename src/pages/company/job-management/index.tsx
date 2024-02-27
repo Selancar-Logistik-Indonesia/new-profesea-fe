@@ -11,7 +11,7 @@ import { AxiosError } from 'axios'
 import { toast } from 'react-hot-toast'
 import Job from 'src/contract/models/job'
 import debounce from 'src/utils/debounce'
-import { GridCallbackDetails, GridPaginationModel, GridRowParams, MuiEvent } from '@mui/x-data-grid'
+import { GridPaginationModel, GridRowParams } from '@mui/x-data-grid'
 import DialogDelete from './DialogDelete'
 import DialogEdit from './DialogEdit'
 import { v4 } from 'uuid'
@@ -35,6 +35,7 @@ const JobManagementScreen = () => {
   const [selectedItem, setSelectedItem] = useState<Job | null>(null)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
+ 
   const [page, setPage] = useState(1)
   const [rowCount, setRowCount] = useState(0)
   const [search, setSearch] = useState('')

@@ -253,7 +253,7 @@ const JobDetail = () => {
 
 JobDetail.acl = {
   action: 'read',
-  subject: 'seaferer-jobs'
+  subject: 'seafarer-jobs'
 }
 
 export default JobDetail
