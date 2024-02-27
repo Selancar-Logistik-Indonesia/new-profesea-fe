@@ -31,7 +31,7 @@ const LinkStyled = styled(Link)(() => ({
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 85,
   height: 85,
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: '50%',
   border: `5px solid ${theme.palette.common.white}`,
   [theme.breakpoints.down('md')]: {
     marginBottom: theme.spacing(4)
@@ -46,9 +46,9 @@ const Profile = (props: userProps) => {
 
   useEffect(() => {
     HttpClient.get('/user/field-preference', { user_id: props.datauser?.id }).then(response => {
-      const { fieldPreference } = response.data as { fieldPreference: FieldPreference };
+      const { fieldPreference } = response.data as { fieldPreference: FieldPreference }
       setSelectedItem(fieldPreference)
-    });
+    })
 
     HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
       const code = response.data.sosmeds.data
@@ -63,23 +63,23 @@ const Profile = (props: userProps) => {
           setLinkedin(element.sosmed_address)
         }
       }
-    });
+    })
   }, [])
 
   const resolveEditHref = (role?: string) => {
-    if (role == "Seafarer") {
-      return "/candidate";
+    if (role == 'Seafarer') {
+      return '/candidate'
     }
 
-    if (role == "Company") {
-      return "/company";
+    if (role == 'Company') {
+      return '/company'
     }
 
-    if (role == "Trainer") {
-      return "/trainer";
+    if (role == 'Trainer') {
+      return '/trainer'
     }
 
-    return "/";
+    return '/'
   }
 
   return (
@@ -99,34 +99,94 @@ const Profile = (props: userProps) => {
                 {props.datauser?.name}
               </Typography>
             </Box>
-            <Divider sx={{ mt: theme => `${theme.spacing(2)} !important`, mb: theme => `${theme.spacing(2)} !important` }} />
+            <Divider
+              sx={{ mt: theme => `${theme.spacing(2)} !important`, mb: theme => `${theme.spacing(2)} !important` }}
+            />
             <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
               <Icon icon={'solar:user-id-bold-duotone'} fontSize={20} color={'#262525'} />
               <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
-                        User:
-                      </Typography>
+                User:
+              </Typography>
               <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                 {getUserRoleName(props.datauser?.team)}
               </Typography>
             </Box>
-            <Box sx={{ pt: 2, pb: 1 }}>
+            {/* <Box
+              sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', mb: 2.7 }}
+              display={'flex'}
+            >
+              <Box sx={{ display: 'flex', gap: 2 }}>
+                <Icon icon={'solar:user-id-bold-duotone'} fontSize={20} color={'#262525'} />
+                <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
+                  User
+                </Typography>
+              </Box>
+              <Typography
+                fontSize={12}
+                sx={{
+                  width: '30%',
+                  color: '#262525',
+                  fontWeight: 400,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 2
+                }}
+              >
+                <Box>:</Box>
+                <Box>{getUserRoleName(props.datauser?.team)}</Box>
+              </Typography>
+            </Box> */}
+            <Box>
               {props.datauser?.role == 'Seafarer' && (
                 <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                   <Icon icon={'iconamoon:box-bold'} fontSize={20} color={'#262525'} />
                   <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
-                        Type of User:
-                      </Typography>
+                    Type of User:
+                  </Typography>
                   <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                     {getEmployeetype(props.datauser?.employee_type)}
                   </Typography>
                 </Box>
+                // <Box
+                //   sx={{
+                //     columnGap: 2,
+                //     flexWrap: 'wrap',
+                //     alignItems: 'center',
+                //     justifyContent: 'space-between',
+                //     mb: 2.7
+                //   }}
+                //   display={'flex'}
+                // >
+                //   <Box sx={{ display: 'flex', gap: 2 }}>
+                //     <Icon icon={'iconamoon:box-bold'} fontSize={20} color={'#262525'} />
+                //     <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
+                //       Type of User
+                //     </Typography>
+                //   </Box>
+                //   <Typography
+                //     fontSize={12}
+                //     sx={{
+                //       width: '30%',
+                //       color: '#262525',
+                //       fontWeight: 400,
+                //       display: 'flex',
+                //       alignItems: 'center',
+                //       justifyContent: 'space-between',
+                //       gap: 2
+                //     }}
+                //   >
+                //     <Box>:</Box>
+                //     <Box>{getEmployeetype(props.datauser?.employee_type)}</Box>
+                //   </Typography>
+                // </Box>
               )}
 
               <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
                 <Icon icon={'solar:mailbox-bold-duotone'} fontSize={20} color={'#262525'} />
                 <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
-                        Email:
-                      </Typography>
+                  Email:
+                </Typography>
                 <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
                   {props.datauser?.email}
                 </Typography>
@@ -141,7 +201,9 @@ const Profile = (props: userProps) => {
                 </Typography>
               </Box>
             )}
-             <Divider sx={{ mt: theme => `${theme.spacing(2)} !important`, mb: theme => `${theme.spacing(2)} !important` }} />
+            <Divider
+              sx={{ mt: theme => `${theme.spacing(2)} !important`, mb: theme => `${theme.spacing(2)} !important` }}
+            />
 
             {props.datauser?.role == 'Seafarer' && (
               <Box>
@@ -185,7 +247,9 @@ const Profile = (props: userProps) => {
               </Box>
             )}
 
-            <Divider sx={{ mt: theme => `${theme.spacing(2)} !important`, mb: theme => `${theme.spacing(2)} !important` }} />
+            <Divider
+              sx={{ mt: theme => `${theme.spacing(2)} !important`, mb: theme => `${theme.spacing(2)} !important` }}
+            />
 
             {props.datauser?.role != 'Trainer' && (
               <Box>
@@ -268,10 +332,10 @@ const Profile = (props: userProps) => {
                     fontSize='large'
                     icon={'solar:pen-new-round-bold-duotone'}
                     color={'#32487A'}
-                    style={{ fontSize: '24px' }}
+                    style={{ fontSize: '20px' }}
                   />
                 </IconButton>
-                <div style={{ marginLeft: 5, fontWeight: 800 }}>EDIT PROFILE</div>
+                <div style={{ marginLeft: 5, fontWeight: 800, fontSize: '12px' }}>EDIT PROFILE</div>
               </Button>
             </Box>
           </CardContent>
