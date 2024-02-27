@@ -102,7 +102,16 @@ const Profile = (props: userProps) => {
             <Divider
               sx={{ mt: theme => `${theme.spacing(2)} !important`, mb: theme => `${theme.spacing(2)} !important` }}
             />
-            <Box
+            <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+              <Icon icon={'solar:user-id-bold-duotone'} fontSize={20} color={'#262525'} />
+              <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
+                User:
+              </Typography>
+              <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
+                {getUserRoleName(props.datauser?.team)}
+              </Typography>
+            </Box>
+            {/* <Box
               sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', mb: 2.7 }}
               display={'flex'}
             >
@@ -127,41 +136,50 @@ const Profile = (props: userProps) => {
                 <Box>:</Box>
                 <Box>{getUserRoleName(props.datauser?.team)}</Box>
               </Typography>
-            </Box>
-            <Box sx={{ pt: 2, pb: 1 }}>
+            </Box> */}
+            <Box>
               {props.datauser?.role == 'Seafarer' && (
-                <Box
-                  sx={{
-                    columnGap: 2,
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    mb: 2.7
-                  }}
-                  display={'flex'}
-                >
-                  <Box sx={{ display: 'flex', gap: 2 }}>
-                    <Icon icon={'iconamoon:box-bold'} fontSize={20} color={'#262525'} />
-                    <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
-                      Type of User
-                    </Typography>
-                  </Box>
-                  <Typography
-                    fontSize={12}
-                    sx={{
-                      width: '30%',
-                      color: '#262525',
-                      fontWeight: 400,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      gap: 2
-                    }}
-                  >
-                    <Box>:</Box>
-                    <Box>{getEmployeetype(props.datauser?.employee_type)}</Box>
+                <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
+                  <Icon icon={'iconamoon:box-bold'} fontSize={20} color={'#262525'} />
+                  <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
+                    Type of User:
+                  </Typography>
+                  <Typography fontSize={12} sx={{ color: '#262525', fontWeight: 400 }}>
+                    {getEmployeetype(props.datauser?.employee_type)}
                   </Typography>
                 </Box>
+                // <Box
+                //   sx={{
+                //     columnGap: 2,
+                //     flexWrap: 'wrap',
+                //     alignItems: 'center',
+                //     justifyContent: 'space-between',
+                //     mb: 2.7
+                //   }}
+                //   display={'flex'}
+                // >
+                //   <Box sx={{ display: 'flex', gap: 2 }}>
+                //     <Icon icon={'iconamoon:box-bold'} fontSize={20} color={'#262525'} />
+                //     <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
+                //       Type of User
+                //     </Typography>
+                //   </Box>
+                //   <Typography
+                //     fontSize={12}
+                //     sx={{
+                //       width: '30%',
+                //       color: '#262525',
+                //       fontWeight: 400,
+                //       display: 'flex',
+                //       alignItems: 'center',
+                //       justifyContent: 'space-between',
+                //       gap: 2
+                //     }}
+                //   >
+                //     <Box>:</Box>
+                //     <Box>{getEmployeetype(props.datauser?.employee_type)}</Box>
+                //   </Typography>
+                // </Box>
               )}
 
               <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
@@ -314,10 +332,10 @@ const Profile = (props: userProps) => {
                     fontSize='large'
                     icon={'solar:pen-new-round-bold-duotone'}
                     color={'#32487A'}
-                    style={{ fontSize: '24px' }}
+                    style={{ fontSize: '20px' }}
                   />
                 </IconButton>
-                <div style={{ marginLeft: 5, fontWeight: 800 }}>EDIT PROFILE</div>
+                <div style={{ marginLeft: 5, fontWeight: 800, fontSize: '12px' }}>EDIT PROFILE</div>
               </Button>
             </Box>
           </CardContent>
