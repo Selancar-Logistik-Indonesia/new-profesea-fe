@@ -52,7 +52,7 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
         }}
       >
         <Box>
-          <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: 'text.primary' }} fontSize={16}>
+          <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
             <strong>How You match</strong>
           </Typography>
         </Box>
@@ -77,7 +77,7 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
         }}
       >
         <Box>
-          <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: 'text.primary' }} fontSize={16}>
+          <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
             <strong>Mandatory Certificates</strong>
           </Typography>
         </Box>
@@ -119,32 +119,34 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
             </Box>
           </Grid>
         </Grid>
-        <Grid ml='0.7rem' container>
-          <Grid
-            item
-            xs={12}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: '#d5e7f7',
-              padding: '10px',
-              gap: '5px'
-            }}
-          >
-            <Box>
-              <Icon icon='lets-icons:lamp' color='#32487A' fontSize={'20px'} />
-            </Box>
-            <Typography sx={{ color: 'text.primary' }} fontSize={12}>
-              Add certificates you have to your profile to meets the criteria required by the company.
-            </Typography>
-            <Button variant='text' LinkComponent={Link} href='/candidate' sx={{ px: 0 }}>
-              <Typography sx={{ color: '#0a66c2', textTransform: 'capitalize' }} fontSize={12}>
-                Add certificates
+        {userLicenses.length == 0 && (
+          <Grid ml='0.7rem' container>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: '#d5e7f7',
+                padding: '10px',
+                gap: '5px'
+              }}
+            >
+              <Box>
+                <Icon icon='lets-icons:lamp' color='#32487A' fontSize={'20px'} />
+              </Box>
+              <Typography sx={{ color: 'text.primary' }} fontSize={12}>
+                Add certificates you have to your profile to meets the criteria required by the company.
               </Typography>
-            </Button>
+              <Button variant='text' LinkComponent={Link} href='/candidate' sx={{ px: 0 }}>
+                <Typography sx={{ color: '#0a66c2', textTransform: 'capitalize' }} fontSize={12}>
+                  Add certificates
+                </Typography>
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
+        )}
       </Box>
     </>
   )

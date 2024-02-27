@@ -17,6 +17,7 @@ import HeaderJobDetail from 'src/views/job-detail/HeaderJobDetail'
 import SectionOneJobDetail from 'src/views/job-detail/SectionOneJobDetail'
 import SectionTwoJobDetail from 'src/views/job-detail/SectionTwoJobDetail'
 import SectionThreeJobDetail from 'src/views/job-detail/SectionThreeJobDetal'
+import CertificateDialog from './CertificateDialog'
 
 const JobDetail = () => {
   // const url = window.location.href
@@ -25,6 +26,7 @@ const JobDetail = () => {
   // const license: any[] = Object.values(jobDetail?.license != undefined ? jobDetail?.license : '')
   const [isLoading, setIsLoading] = useState(true)
   const [openDialog, setOpenDialog] = useState(false)
+  const [openCertificateDialog, setOpenCertificateDialog] = useState(false)
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   // const [open, setOpen] = React.useState(false)
@@ -99,7 +101,11 @@ const JobDetail = () => {
       user.about != null &&
       user.country_id != null
     ) {
-      setOpenDialog(!openDialog)
+      if (user.license.length == 0 && jobDetail?.category.employee_type == 'onship') {
+        setOpenCertificateDialog(!openCertificateDialog)
+      } else {
+        setOpenDialog(!openDialog)
+      }
     } else {
       toast.error(`Please complete your resume !`)
     }
@@ -243,6 +249,13 @@ const JobDetail = () => {
               onClose={() => setOpenDialog(!openDialog)}
               selectedItem={jobDetail}
               openDialog={openDialog}
+            />
+          )}
+
+          {openCertificateDialog && (
+            <CertificateDialog
+              onClose={() => setOpenCertificateDialog(!openCertificateDialog)}
+              openDialog={openCertificateDialog}
             />
           )}
         </Grid>
