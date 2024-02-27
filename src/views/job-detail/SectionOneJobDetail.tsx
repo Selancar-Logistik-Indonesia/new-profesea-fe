@@ -28,7 +28,7 @@ const SectionOneJobDetail: React.FC<ISectionOneJobDetailProps> = ({ jobDetail })
         </Grid>
         <Grid xs={11}>
           <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-            {jobDetail?.rolelevel?.levelName} | {jobDetail?.category?.name}
+            {jobDetail?.job_title} | {jobDetail?.category?.name}
           </Typography>
         </Grid>
       </Grid>
