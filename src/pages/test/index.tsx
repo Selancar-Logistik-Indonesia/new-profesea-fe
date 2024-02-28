@@ -1,10 +1,11 @@
 import { Box, Grid, Typography } from '@mui/material'
 import { DataGrid, GridColDef, GridRowsProp, GridPaginationModel } from '@mui/x-data-grid'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 import { AxiosError } from 'axios'
 import { toast } from 'react-hot-toast'
 import AccountDatagrid, { RowItem } from '../admin/accounts/AccountDatagrid'
+import SeafarerTravelDocumentTable from '../candidate/SeafarerTravelDocument/SeafarerTravelDocumentTable'
 
 import Account from 'src/contract/models/account'
 
@@ -161,6 +162,7 @@ function Test() {
                   onPageChange={model => onPageChange(model)}
                   rows={dataSheet}
                 />
+                <SeafarerTravelDocumentTable user_id={4793} />
               </Grid>              
             </Grid>
           </Grid>
