@@ -19,7 +19,7 @@ interface Props {
 
 const renderList = (arr: ParamJobVacncy[]) => {
   if (arr && arr.length) {
-    return arr.map((item, index) => {
+    return arr.map((item: any, index) => {
       return (
         <Box
           key={index}
