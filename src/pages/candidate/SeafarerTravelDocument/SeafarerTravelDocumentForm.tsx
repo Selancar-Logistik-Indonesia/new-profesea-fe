@@ -40,10 +40,10 @@ const Transition = forwardRef(function Transition(
 
 const TravelDocumentSchema = Yup.object().shape({
   document: Yup.string().required(),
-  no: Yup.string().required(),
+  no: Yup.string().required('Document Number'),
   date_of_issue: Yup.string().required(),
   country_of_issue: Yup.object().shape({
-    id: Yup.number().required('country id is required'),
+    id: Yup.number().required('country is required'),
     name: Yup.string().required('')
   }),
   user_id: Yup.number().required(),
@@ -236,24 +236,27 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 options={countries}
                 defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
                 getOptionLabel={option => option.name || ''}
-                renderInput={(params: any) => <TextField {...params} label='Country of Issue' variant='standard' />}
+                renderInput={(params: any) => (
+                  <TextField
+                    {...params}
+                    error={formik.errors.country_of_issue ? true : false}
+                    label='Country of Issue * '
+                    variant='standard'
+                  />
+                )}
                 onChange={(event: any, newValue: string | null) =>
                   newValue ? setCountryOfIssue(newValue) : setCountryOfIssue('')
                 }
               />
-              {formik.errors.country_of_issue && (
-                <span style={{ color: 'red', textAlign: 'left' }}>
-                  {JSON.stringify(formik.errors.country_of_issue)}
-                </span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }} fullWidth>
                 <InputLabel>Required Document</InputLabel>
                 <Select
+                  error={formik.errors.required_document ? true : false}
                   fullWidth
                   value={formik.values.required_document == 'other' ? 'other' : formik.values.required_document}
-                  label='Required Document'
+                  label='Required Document * '
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   name='required_document'
@@ -267,38 +270,33 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                   <MenuItem value={'other'}>Other</MenuItem>
                 </Select>
               </FormControl>
-              {formik.errors.required_document && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.required_document}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <TextField
+                error={formik.errors.document ? true : false}
                 name='document'
                 value={formik.values.document}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 disabled={formik.values.required_document != 'other' ? true : false}
                 id='document'
-                label='Document'
+                label='Document * '
                 variant='standard'
                 fullWidth
               />
-              {formik.errors.document && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.document}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <TextField
+                error={formik.errors.no ? true : false}
                 name='no'
                 value={formik.values.no}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 id='no'
-                label='No Document'
+                label='Document Number * '
                 variant='standard'
                 fullWidth
               />
-              {formik.errors.no && <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.no}</span>}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <DatePicker
@@ -312,8 +310,9 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 dropdownMode='select'
                 customInput={
                   <TextField
+                    error={formik.errors.date_of_issue ? true : false}
                     placeholder='Click to select a date'
-                    label='Date Of Issue'
+                    label='Date Of Issue * '
                     variant='standard'
                     id='date_of_issue'
                     name='date_of_issue'
@@ -321,10 +320,6 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                   ></TextField>
                 }
               />
-
-              {formik.errors.date_of_issue && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.date_of_issue)}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <DatePicker
@@ -384,7 +379,13 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button type='submit' variant='contained' style={{ margin: '10px 0' }} size='small'>
+          <Button
+            disabled={Object.keys(formik.errors).length > 0 ? true : false}
+            type='submit'
+            variant='contained'
+            style={{ margin: '10px 0' }}
+            size='small'
+          >
             <Icon
               fontSize='small'
               icon={'solar:add-circle-bold-duotone'}

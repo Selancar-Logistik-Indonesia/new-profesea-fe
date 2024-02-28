@@ -233,12 +233,16 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 options={proficiencies}
                 getOptionLabel={(option: any) => option.title || ''}
                 defaultValue={cop?.id ? cop : ''}
-                renderInput={params => <TextField {...params} label='Certificate of Proficiency' variant='standard' />}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    error={formik.errors.cop_id ? true : false}
+                    label='Certificate of Proficiency * '
+                    variant='standard'
+                  />
+                )}
                 onChange={(event: any, newValue: any) => (newValue?.id ? setCop(newValue) : setCop(''))}
               />
-              {formik.errors.cop_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.cop_id)}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
@@ -247,29 +251,31 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 options={countries}
                 defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
                 getOptionLabel={option => option.name || ''}
-                renderInput={(params: any) => <TextField {...params} label='Country of Issue' variant='standard' />}
+                renderInput={(params: any) => (
+                  <TextField
+                    {...params}
+                    error={formik.errors.country_id ? true : false}
+                    label='Country of Issue * '
+                    variant='standard'
+                  />
+                )}
                 onChange={(event: any, newValue: string | null) =>
                   newValue ? setCountryOfIssue(newValue) : setCountryOfIssue('')
                 }
               />
-              {formik.errors.country_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.country_id)}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <TextField
+                error={formik.errors.certificate_number ? true : false}
                 value={formik.values.certificate_number}
                 defaultValue={type == 'edit' ? seafarerProficiency?.certificate_number : ''}
                 id='certificateNumber'
                 name={'certificate_number'}
-                label='Certificate Number'
+                label='Certificate Number * '
                 variant='standard'
                 onChange={formik.handleChange}
                 fullWidth
               />
-              {formik.errors.certificate_number && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.certificate_number}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <DatePicker
@@ -329,7 +335,13 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button type='submit' variant='contained' style={{ margin: '10px 0' }} size='small'>
+          <Button
+            disabled={Object.keys(formik.errors).length > 0 ? true : false}
+            type='submit'
+            variant='contained'
+            style={{ margin: '10px 0' }}
+            size='small'
+          >
             <Icon
               fontSize='small'
               icon={'solar:add-circle-bold-duotone'}
