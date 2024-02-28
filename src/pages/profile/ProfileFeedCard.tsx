@@ -9,7 +9,13 @@ import { AppConfig } from 'src/configs/api'
 import { HttpClient } from 'src/services'
 import { getUserAvatar, toTitleCase } from 'src/utils/helpers'
 
-export default function ProfileFeedCard() {
+interface IProfileFeedCard {
+  user_id: number | undefined | null
+}
+
+export default function ProfileFeedCard(props: IProfileFeedCard) {
+  const { user_id } = props
+
   const [feeds, setFeeds] = useState<ISocialFeed[]>([])
   const [onLoading, setOnLoading] = useState(false)
 
@@ -19,6 +25,8 @@ export default function ProfileFeedCard() {
     if (payload.mPage) {
       sPage = payload.mPage
     }
+
+    payload.user_id = user_id
 
     // only trigger in page 1
     if (sPage == 1) setOnLoading(true)

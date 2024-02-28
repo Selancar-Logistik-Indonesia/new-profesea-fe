@@ -128,7 +128,7 @@ const UserFeedApp = () => {
                 <AboutMe dataUser={selectedUser}></AboutMe>
               </Grid>
               <Grid item md={12} xs={12}>
-                <ProfileFeedCard></ProfileFeedCard>
+                <ProfileFeedCard user_id={selectedUser?.id}></ProfileFeedCard>
               </Grid>
               <Grid item md={12} xs={12}>
                 {/* <ListFeedView username={username} /> */}
