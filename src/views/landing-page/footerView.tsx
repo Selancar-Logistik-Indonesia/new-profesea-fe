@@ -93,7 +93,7 @@ const FooterView = () => {
             <IconButton href='https://www.facebook.com/profesea.id' target='_blank'>
               <FontAwesomeIcon icon={faFacebook} color='#101820' />
             </IconButton>
-            <IconButton href='https://www.instagram.com/profesea_indonesia' target='_blank'>
+            <IconButton href='https://www.instagram.com/profesea_id' target='_blank'>
               <FontAwesomeIcon icon={faInstagram} color='#101820' />
             </IconButton>
             <IconButton href='https://www.linkedin.com/company/profesea-indonesia/' target='_blank'>
