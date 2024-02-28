@@ -237,7 +237,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 onChange={(event: any, newValue: any) => (newValue?.id ? setCop(newValue) : setCop(''))}
               />
               {formik.errors.cop_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.cop_id)}</span>
+                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.cop_id.id}</span>
               )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
@@ -253,7 +253,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 }
               />
               {formik.errors.country_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.country_id)}</span>
+                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.country_id.id}</span>
               )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>

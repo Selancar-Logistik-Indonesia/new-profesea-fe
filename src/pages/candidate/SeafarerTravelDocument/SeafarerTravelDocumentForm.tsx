@@ -40,10 +40,10 @@ const Transition = forwardRef(function Transition(
 
 const TravelDocumentSchema = Yup.object().shape({
   document: Yup.string().required(),
-  no: Yup.string().required(),
+  no: Yup.string().required('Document Number'),
   date_of_issue: Yup.string().required(),
   country_of_issue: Yup.object().shape({
-    id: Yup.number().required('country id is required'),
+    id: Yup.number().required('country is required'),
     name: Yup.string().required('')
   }),
   user_id: Yup.number().required(),
@@ -242,9 +242,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 }
               />
               {formik.errors.country_of_issue && (
-                <span style={{ color: 'red', textAlign: 'left' }}>
-                  {JSON.stringify(formik.errors.country_of_issue)}
-                </span>
+                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.country_of_issue?.id}</span>
               )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
@@ -323,7 +321,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
               />
 
               {formik.errors.date_of_issue && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.date_of_issue)}</span>
+                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.date_of_issue}</span>
               )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>

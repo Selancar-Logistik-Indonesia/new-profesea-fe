@@ -237,7 +237,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                 onChange={(event: any, newValue: any) => (newValue?.id ? setCoc(newValue) : setCoc(''))}
               />
               {formik.errors.coc_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.coc_id)}</span>
+                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.coc_id?.id}</span>
               )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
@@ -253,7 +253,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                 }
               />
               {formik.errors.country_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.country_id)}</span>
+                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.country_id?.id}</span>
               )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
