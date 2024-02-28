@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { Button, IconButton } from '@mui/material';
 import Icon from 'src/@core/components/icon'
+import {format} from "date-fns"
 
 const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true },
@@ -12,6 +13,15 @@ const columns: GridColDef[] = [
   { field: 'role', headerName: 'Role', sortable: true, minWidth: 100 },
   { field: 'type', headerName: 'Type', sortable: true, minWidth: 100 },
   { field: 'plan', headerName: 'Plan', sortable: true, minWidth: 100 },
+  { field: 'registered_at', headerName: 'Registered At', sortable: true, minWidth: 200, renderCell : cell => {
+    const {row} = cell
+
+    return (
+      <>
+        <p>{format(new Date(row.registered_at), 'dd-MM-yyyy hh:mm a')}</p>
+      </>
+    )
+  } },
   {
     field: 'resend',
     headerName: 'Email Verify',

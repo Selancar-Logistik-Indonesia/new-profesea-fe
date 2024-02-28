@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
+import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel, GridRowParams, MuiEvent } from '@mui/x-data-grid';
 import { IconButton, Tooltip } from '@mui/material';
 import Icon from 'src/@core/components/icon'
 import Link from 'next/link';
@@ -50,12 +50,17 @@ const columns: GridColDef[] = [
 ]
 
 type RoleGridProps = {
-    rows: RowItem[];
-    loading: boolean;
-    pageSize: number;
-    page: number;
-    rowCount: number;
-    onPageChange: (model: GridPaginationModel, details: GridCallbackDetails) => void;
+  rows: RowItem[]
+  loading: boolean
+  pageSize: number
+  page: number
+  rowCount: number
+  onPageChange: (model: GridPaginationModel, details: GridCallbackDetails) => void
+  onRowClick: (
+    params: GridRowParams,
+    events: MuiEvent<React.MouseEvent<HTMLElement>>,
+    details: GridCallbackDetails
+  ) => void
 }
 
 interface RowItem {
@@ -95,6 +100,7 @@ export default function AccountDatagrid(props: RoleGridProps) {
                     },
                 }}
                 disableRowSelectionOnClick
+                onRowClick={props.onRowClick}
                 getRowId={(row) => row.id}
             />
         </Box>

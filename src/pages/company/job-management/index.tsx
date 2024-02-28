@@ -11,7 +11,7 @@ import { AxiosError } from 'axios'
 import { toast } from 'react-hot-toast'
 import Job from 'src/contract/models/job'
 import debounce from 'src/utils/debounce'
-import { GridPaginationModel } from '@mui/x-data-grid'
+import { GridPaginationModel, GridRowParams } from '@mui/x-data-grid'
 import DialogDelete from './DialogDelete'
 import DialogEdit from './DialogEdit'
 import { v4 } from 'uuid'
@@ -20,8 +20,10 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { IUser } from 'src/contract/models/user'
 import DialogBlock from './DialogBlock'
+import { useRouter } from 'next/navigation'
 
 const JobManagementScreen = () => {
+  const router = useRouter()
   const [hookSignature, setHookSignature] = useState(v4())
   const [onLoading, setOnLoading] = useState(false)
   const [openAddModal, setOpenAddModal] = useState(false)
@@ -33,7 +35,7 @@ const JobManagementScreen = () => {
   const [selectedItem, setSelectedItem] = useState<Job | null>(null)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
-  console.log(user)
+ 
   const [page, setPage] = useState(1)
   const [rowCount, setRowCount] = useState(0)
   const [search, setSearch] = useState('')
@@ -146,6 +148,11 @@ const JobManagementScreen = () => {
     setOpenEditModal(true)
   }
 
+  const handleOnRowClick = (params: GridRowParams) => {
+    const jobId = params.row?.id
+    router.push(`/company/job/?id=${jobId}`)
+  }
+
   useEffect(() => {
     setOnLoading(true)
     cekDocument()
@@ -196,6 +203,7 @@ const JobManagementScreen = () => {
                 loading={onLoading}
                 onPageChange={model => onPageChange(model)}
                 rows={dataSheet}
+                onRowClick={params => handleOnRowClick(params)}
               />
             </CardContent>
           </Card>

@@ -38,7 +38,7 @@ import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import Countries from 'src/contract/models/country'
 import City from 'src/contract/models/city'
-import Company from 'src/contract/models/company'
+// import Company from 'src/contract/models/company'
 import VesselType from 'src/contract/models/vessel_type'
 import Industry from 'src/contract/models/industry'
 import JobContext, { JobProvider } from 'src/context/JobContext'
@@ -351,7 +351,7 @@ const SeafarerJobApp = () => {
                           }
                         />
                       </DatePickerWrapper>
-                      <Autocomplete
+                      {/* <Autocomplete
                         sx={{ marginBottom: 2 }}
                         disablePortal
                         id='combo-box-demo'
@@ -363,7 +363,7 @@ const SeafarerJobApp = () => {
                           setPage(1)
                           newValue?.id ? setED(newValue?.id) : setED(0)
                         }}
-                      />
+                      /> */}
                     </>
                   ) : (
                     <>
@@ -414,7 +414,7 @@ const SeafarerJobApp = () => {
                           newValue?.id ? setCombocity(newValue.id) : setCombocity('')
                         }}
                       />
-                      <Autocomplete
+                      {/* <Autocomplete
                         sx={{ marginBottom: 2 }}
                         disablePortal
                         id='combo-box-demo'
@@ -426,7 +426,7 @@ const SeafarerJobApp = () => {
                           setPage(1)
                           newValue?.id ? setED(newValue?.id) : setED(0)
                         }}
-                      />
+                      /> */}
                       <Autocomplete
                         sx={{ marginBottom: 2 }}
                         disablePortal

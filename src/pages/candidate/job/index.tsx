@@ -59,7 +59,10 @@ const JobDetail = () => {
   }))
 
   const firstload = async (mJobId: string) => {
+<<<<<<< HEAD
+=======
     console.log('user:', user)
+>>>>>>> 76bca9bc5746864d9944a98a14326c968b89443a
 
     setIsLoading(true)
     try {
@@ -79,6 +82,17 @@ const JobDetail = () => {
   }
 
   useEffect(() => {
+<<<<<<< HEAD
+    HttpClient.get('/job?take=4&page=1').then(response => {
+      const jobs = response.data.jobs.data
+      setJobDetailSugestion(jobs)
+    })
+  }, [])
+
+  useEffect(() => {
+
+=======
+>>>>>>> 76bca9bc5746864d9944a98a14326c968b89443a
     firstload(jobId!)
   }, [jobId])
 
@@ -125,6 +139,29 @@ const JobDetail = () => {
                 <Grid container>
                   <StyledGrid item xs={12} sm={3}>
                     <CardContent>
+<<<<<<< HEAD
+                       <HeaderJobDetail jobDetail={jobDetail} onApplied={onApplied} handleApply={handleApply} />
+                      <SectionOneJobDetail jobDetail={jobDetail} />
+                      <SectionTwoJobDetail jobDetail={jobDetail} />
+                      {jobDetail?.category?.employee_type == 'onship' && (
+                        <SectionThreeJobDetail jobDetail={jobDetail} />
+                      )}
+                    </CardContent>
+                    <Grid
+                      item
+                      xs={12}
+                      sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column', px: '20px' }}
+                    >
+                      <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#32487A' }}>
+                        <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
+                           <Box
+                            height={65}
+                            sx={{
+                              display: 'flex',
+                              alignContent: 'center',
+                              '& svg': { color: 'text.secondary' }
+                            }}
+=======
                       <Box
                         sx={{
                           display: 'flex',
@@ -284,6 +321,7 @@ const JobDetail = () => {
                             ml={2}
                             mr={3}
                             mt={5}
+>>>>>>> 76bca9bc5746864d9944a98a14326c968b89443a
                           >
                             <Typography
                               sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
@@ -292,6 +330,11 @@ const JobDetail = () => {
                               mb={3}
                               variant='body2'
                             >
+<<<<<<< HEAD
+                               <Typography sx={{ color: 'common.white', mb: 1 }} fontSize={14}>
+                                <strong>{jobDetail?.company?.name ?? '-'}</strong>
+                               </Typography>
+=======
                               Experience
                             </Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
@@ -304,6 +347,7 @@ const JobDetail = () => {
                               >
                                 <strong>{jobDetail?.experience}</strong> &nbsp; Contract
                               </Typography>
+>>>>>>> 76bca9bc5746864d9944a98a14326c968b89443a
                             </Box>
                           </Box>
                         </Grid>
@@ -336,6 +380,13 @@ const JobDetail = () => {
                               </Typography>
                             </Box>
                           </Box>
+<<<<<<< HEAD
+                         </CardContent>
+                      </Card>
+                    </Grid>
+                  </StyledGrid>
+ 
+=======
                         </Grid>
                       </Grid>
 
@@ -404,13 +455,35 @@ const JobDetail = () => {
                       </Grid>
                     </CardContent>
                   </Grid>
+>>>>>>> 76bca9bc5746864d9944a98a14326c968b89443a
                 </Grid>
               )}
             </Card>
           </Grid>
+<<<<<<< HEAD
+           {jobDetailSugestion.length !== 0 && (
+            <Grid item xs={12} md={3} lg={3}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'left',
+                  alignItems: 'center',
+                  padding: '10px',
+                  width: '100&',
+                  bgcolor: '#d5e7f7',
+                  color: '#5ea1e2'
+                }}
+              >
+                Jobs post by the company
+              </Box>
+              <RelatedJobView jobDetailSugestion={jobDetailSugestion} />
+            </Grid>
+          )}
+=======
           <Grid item lg={3} md={3} xs={12}>
             <RelatedJobView />
           </Grid>
+>>>>>>> 76bca9bc5746864d9944a98a14326c968b89443a
           {openDialog && (
             <CompleteDialog
               onClose={() => setOpenDialog(!openDialog)}
