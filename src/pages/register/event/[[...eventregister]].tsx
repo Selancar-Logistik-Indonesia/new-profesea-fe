@@ -21,12 +21,12 @@ import { useForm } from 'react-hook-form'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import * as yup from 'yup' 
+import * as yup from 'yup'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
-import RegistrationEvent from 'src/layouts/components/registrastionEvent'
+import RegistrationEvent from 'src/layouts/components/RegistrationEvent'
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -54,7 +54,7 @@ const Register = () => {
   // const gambar = useRef('url(/images/candidate-00.jpg)')
   const router = useRouter()
   const { eventregister } = router.query as { eventregister: string }
- 
+
   const [gambar, setGambar] = useState('url(/images/candidate-00.jpg)')
   const [param, setParam] = useState('')
   const [labelAtas, setLabelAtas] = useState(1)
@@ -81,10 +81,10 @@ const Register = () => {
   }
   useEffect(() => {
     console.log(eventregister)
-    if(eventregister?.length>0){
-        setParam(eventregister[0])
-      }
-  }, [eventregister]) 
+    if (eventregister?.length > 0) {
+      setParam(eventregister[0])
+    }
+  }, [eventregister])
 
   return (
     <>
@@ -167,7 +167,7 @@ const Register = () => {
                     </Typography>
                   )}
                   <RegistrationEvent
-                    tipereg='seafer'
+                    tipereg='seafarer'
                     vonchangeEmployee={onchangeEmployee}
                     disabledcombo={false}
                     event={param}

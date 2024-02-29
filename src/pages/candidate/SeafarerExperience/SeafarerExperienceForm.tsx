@@ -26,22 +26,22 @@ import * as Yup from 'yup'
 import { ISeafarerExperienceForm } from './../../../contract/types/seafarer_experience_type'
 
 const ExperienceSchema = Yup.object().shape({
-  user_id: Yup.number().required(),
+  user_id: Yup.number().required("User Data is required"),
   rank_id: Yup.object().shape({
-    id: Yup.number().required('rank id is required'),
+    id: Yup.number().required('Rank is required'),
     name: Yup.string().required('')
   }),
   vessel_type_id: Yup.object().shape({
-    id: Yup.number().required('vessel type id is required'),
+    id: Yup.number().required('Vessel type is required'),
     name: Yup.string().required('')
   }),
-  vessel_name: Yup.string().required(),
+  vessel_name: Yup.string().required("Vessel Name is reqiured"),
   grt: Yup.number().nullable(),
   dwt: Yup.number().nullable(),
   me_power: Yup.number().nullable(),
-  sign_in: Yup.string().required(),
-  sign_off: Yup.string().required(),
-  company: Yup.string().required()
+  sign_in: Yup.string().required("Sign in is required"),
+  sign_off: Yup.string().required("Sign off is required"),
+  company: Yup.string().required("Company is required")
 })
 
 const Transition = forwardRef(function Transition(
@@ -240,14 +240,18 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                 options={vesselTypes}
                 getOptionLabel={(option: any) => option.name}
                 defaultValue={vesselTypeId?.id ? vesselTypeId : ''}
-                renderInput={params => <TextField {...params} label='Vessel Type' variant='standard' />}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    error={formik.errors.vessel_type_id ? true : false}
+                    label='Vessel Type * '
+                    variant='standard'
+                  />
+                )}
                 onChange={(event: any, newValue: any) =>
                   newValue?.id ? setVesselTypeId(newValue) : setVesselTypeId('')
                 }
               />
-              {formik.errors.vessel_type_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.vessel_type_id)}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
@@ -256,27 +260,29 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                 options={ranks}
                 getOptionLabel={(option: any) => option.name}
                 defaultValue={rankId['id'] ? rankId : ''}
-                renderInput={params => <TextField {...params} label='Rank / Position' variant='standard' />}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    error={formik.errors.rank_id ? true : false}
+                    label='Rank / Position * '
+                    variant='standard'
+                  />
+                )}
                 onChange={(event: any, newValue: any) => (newValue?.id ? setRankId(newValue) : setRankId(''))}
               />
-              {formik.errors.rank_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.rank_id)}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <TextField
+                error={formik.errors.vessel_name ? true : false}
                 value={formik.values.vessel_name}
                 defaultValue={type == 'edit' ? seafarerExperience?.vessel_name : ''}
                 id='vessel_name'
                 name={'vessel_name'}
-                label='Vessel Name'
+                label='Vessel Name * '
                 variant='standard'
                 onChange={formik.handleChange}
                 fullWidth
               />
-              {formik.errors.vessel_name && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.vessel_name)}</span>
-              )}
             </Grid>
             <Grid item container md={12} xs={12} mb={5}>
               <Grid item md={4} xs={12}>
@@ -324,11 +330,15 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                 dropdownMode='select'
                 id='sign_in'
                 name='sign_in'
-                customInput={<TextField label='Sign In Date' variant='standard' fullWidth />}
+                customInput={
+                  <TextField
+                    error={formik.errors.sign_in ? true : false}
+                    label='Sign In Date * '
+                    variant='standard'
+                    fullWidth
+                  />
+                }
               />
-              {formik.errors.sign_in && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.sign_in)}</span>
-              )}
             </Grid>
             <Grid item container md={12} xs={12} mb={5}>
               <DatePicker
@@ -341,28 +351,46 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                 dropdownMode='select'
                 id='sign_off'
                 name='sign_off'
-                customInput={<TextField label='Sign Off Date' variant='standard' fullWidth />}
+                customInput={
+                  <TextField
+                    error={formik.errors.sign_off ? true : false}
+                    label='Sign Off Date * '
+                    variant='standard'
+                    fullWidth
+                  />
+                }
               />
-              {formik.errors.sign_off && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.sign_off)}</span>
-              )}
             </Grid>
             <Grid item container md={12} xs={12} mb={5}>
               <TextField
+                error={formik.errors.company ? true : false}
                 value={formik.values.company}
                 defaultValue={type == 'edit' ? seafarerExperience?.company : ''}
                 id='company'
                 name={'company'}
-                label='Company'
+                label='Company * '
                 variant='standard'
                 onChange={formik.handleChange}
                 fullWidth
               />
             </Grid>
+            <Grid item md={12} xs={12} mb={5} sx={{ color:'red', margin:"-10px -25px"}}>
+              <ul>
+                {formik.isSubmitting && Object.entries(formik.errors).map((item:any) => {
+                  return (<li key={item[0]}>{JSON.stringify(item[1])}</li>)
+                })}
+              </ul>
+            </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button type='submit' variant='contained' style={{ margin: '10px 0' }} size='small'>
+          <Button
+            disabled={Object.keys(formik.errors).length > 0 ? true : false}
+            type='submit'
+            variant='contained'
+            style={{ margin: '10px 0' }}
+            size='small'
+          >
             <Icon
               fontSize='small'
               icon={'solar:add-circle-bold-duotone'}

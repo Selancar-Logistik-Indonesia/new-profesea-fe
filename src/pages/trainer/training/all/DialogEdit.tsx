@@ -15,7 +15,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
 import Training from 'src/contract/models/training'
 import TrainingCategory from 'src/contract/models/training_category'
 import { DateType } from 'src/contract/models/DatepickerTypes'
@@ -100,7 +100,8 @@ const DialogEdit = (props: EditProps) => {
     
     
     const schema = yup.object().shape({
-        short_description: yup.string().required()
+        short_description: yup.string().required(),
+        price: yup.string().required()
     })
 
     const { 
@@ -113,7 +114,7 @@ const DialogEdit = (props: EditProps) => {
     }) 
 
     const onSubmit = async (formData: Training) => {
-        const { title, short_description} = formData
+        const { title, short_description,price} = formData
         
         const json = {
             "category_id": CatId,
@@ -126,7 +127,8 @@ const DialogEdit = (props: EditProps) => {
             +date?.toTimeString().split(' ')[0],
             "thumbnail" : files[0],
             "instant" : 0,
-            "short_description": short_description
+            "short_description": short_description,
+            "price":price
         }
 
         setOnLoading(true);
@@ -209,6 +211,15 @@ const DialogEdit = (props: EditProps) => {
                         </Grid>
                         <Grid item md={12} xs={12} >
                             <TextField defaultValue={props.selectedItem?.short_description} id="short_description" label="Description" variant="outlined" multiline  maxRows={4} fullWidth {...register("short_description")} error={Boolean(errors.short_description)}/>                  
+                        </Grid>  
+                         <Grid item md={12} xs={12}  >
+                            <InputLabel htmlFor="outlined-adornment-amount">Price</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-amount"
+                                startAdornment={<InputAdornment position="start">Rp.</InputAdornment>}
+                                label="Price"
+                                {...register("price")}
+                            />
                         </Grid>  
                         <Grid item md={12} xs={12} >
                         <Box  {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed ', borderRadius: '10px', borderColor: 'grey.400' , '&:hover': { borderColor: 'grey.500' }}} >

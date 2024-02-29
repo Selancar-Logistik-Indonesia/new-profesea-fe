@@ -2,39 +2,36 @@ import { useEffect, useState } from 'react'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import { Grid, Typography, Button, Paper, TableContainer, Checkbox, IconButton } from '@mui/material'
+import { Divider, Grid, Typography, Button, Paper, TableContainer, IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-
-import { ISeafarerExperienceProps } from '../../../contract/types/seafarer_experience_type'
-import ISeafarerExperienceData from './../../../contract/models/seafarer_experience'
-import SeafarerExperienceForm from './SeafarerExperienceForm'
-import SeafarerExperienceDeleteConfirm from './SeafarerExperienceDeleteConfirm'
+import { ISeafarerCompetencyProps } from '../../../contract/types/seafarer_competency_type'
+import ISeafarerCompetencyData from '../../../contract/models/seafarer_competency'
+import SeafarerCompetencyForm from './SeafarerCompetencyForm'
+import SeafarerCompetencyDeleteConfirm from './SeafarerCompetencyDeleteConfirm'
 import LoadingIcon from 'src/layouts/components/LoadingIcon'
 import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
 
-const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
+const SeafarerCompetencyContainer = (props: ISeafarerCompetencyProps) => {
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(false)
-  const [seafarerExperience, setSeafarerExperience] = useState()
+  const [seafarerCompetency, setSeafarerCompetency] = useState(undefined)
   const [modalFormType, setModalFormType] = useState('create')
   const [modalFormOpen, setModalFormOpen] = useState(false)
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
 
-  const { user_id, no_experience, setNoExperience } = props
+  const { user_id } = props
 
   const thisGray = 'rgba(66, 66, 66, 1)'
 
-  const loadExperience = () => {
+  const loadCompetency = () => {
     setLoading(true)
-    HttpClient.get(AppConfig.baseUrl + '/seafarer-experiences/user-id/' + user_id).then(response => {
-      const result = response.data.data.map((item: ISeafarerExperienceData) => {
+    HttpClient.get(AppConfig.baseUrl + '/seafarer-competencies/user-id/' + user_id).then(response => {
+      const result = response.data.data.map((item: ISeafarerCompetencyData) => {
         return {
           ...item,
-          sign_in: new Date(item.sign_in),
-          sign_off: new Date(item.sign_off),
-          rank: item.rank.name,
-          vessel_type: item.vessel_type.name
+          certificate_name: item.competency.title,
+          country: item.country.name
         }
       })
 
@@ -44,71 +41,67 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
   }
 
   const handleModalForm = (type: string, data: any = undefined) => {
-    setSeafarerExperience(type == 'edit' ? data : {})
     setModalFormOpen(modalFormOpen ? false : true)
     setModalFormType(type)
+    setSeafarerCompetency(type == 'edit' ? data : undefined)
   }
 
   const handleModalDelete = (data: any = undefined) => {
-    setSeafarerExperience(data)
     setModalDeleteOpen(modalDeleteOpen ? false : true)
+    setSeafarerCompetency(data)
   }
 
   useEffect(() => {
-    loadExperience()
+    loadCompetency()
   }, [])
 
   const columns: GridColDef[] = [
-    { field: 'vessel_name', headerName: 'Vessel Name', type: 'string', width: 220, editable: false },
+    { field: 'certificate_name', headerName: 'Certificate Name', type: 'string', width: 220, editable: false },
     {
-      field: 'vessel_type',
-      headerName: 'Vessel Type',
+      field: 'certificate_number',
+      headerName: 'Certificate Number',
       type: 'string',
       width: 200,
       align: 'left',
       headerAlign: 'left'
     },
     {
-      field: 'rank',
-      headerName: 'Rank / Position',
+      field: 'country',
+      headerName: 'Country',
       type: 'string',
       width: 180
     },
     {
-      field: 'grt',
-      headerName: 'GRT',
-      width: 100,
-      type: 'number'
+      field: 'valid_until',
+      headerName: 'Valid Up',
+      width: 220,
+      renderCell: (params: any) => {
+        return params.row.valid_until ? <>{params.row.valid_until}</> : 'lifetime'
+      }
     },
     {
-      field: 'dwt',
-      headerName: 'DWT',
-      width: 100,
-      type: 'number'
-    },
-    {
-      field: 'me_power',
-      headerName: 'ME Power',
-      width: 100,
-      type: 'number'
-    },
-    {
-      field: 'sign_in',
-      headerName: 'Sign In',
-      width: 150,
-      type: 'date'
-    },
-    {
-      field: 'sign_off',
-      headerName: 'Sign Off',
-      width: 150,
-      type: 'date'
-    },
-    {
-      field: 'company',
-      headerName: 'Company / Flag',
-      width: 200,
-      type: 'string'
+      field: 'download',
+      headerName: 'Download',
+
+      width: 180,
+      renderCell(params: any) {
+        return params.row.filename ? (
+          <a
+            href='#'
+            onClick={() =>
+              HttpClient.downloadFile(
+                process.env.NEXT_PUBLIC_BASE_API + `/seafarer-competencies/download/${params.row.id}/`,
+                params.row.certificate_number
+              )
+            }
+          >
+            {' '}
+            <Icon icon='bi:file-earmark-arrow-down-fill' width='24' height='24' color={thisGray} />{' '}
+          </a>
+        ) : (
+          ''
+        )
+      }
     },
     {
       field: 'action',
@@ -119,14 +112,14 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
           <>
             <IconButton
               size='small'
-              title={`Update this Experience Id = ${params.row.id} `}
+              title={`Update this Competency Id = ${params.row.id} `}
               onClick={() => handleModalForm('edit', params.row)}
             >
               <Icon icon='material-symbols:edit-square-outline' width='24' height='24' color={thisGray} />
             </IconButton>
             <IconButton
               size='small'
-              title={`Update this Experience Id = ${params.row.id} `}
+              title={`Update this Comptency Id = ${params.row.id} `}
               onClick={() => handleModalDelete(params.row)}
             >
               <Icon icon='material-symbols:delete-outline' width='24' height='24' color={thisGray} />
@@ -139,37 +132,29 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
 
   return (
     <>
-      <SeafarerExperienceForm
-        key={seafarerExperience ? seafarerExperience['id'] : 0}
-        seafarerExperience={seafarerExperience}
+      <SeafarerCompetencyForm
+        key={seafarerCompetency ? seafarerCompetency['id'] : 0}
+        user_id={user_id}
+        seafarerCompetency={seafarerCompetency}
         type={modalFormType}
         handleModalForm={handleModalForm}
-        loadExperience={loadExperience}
+        loadCompetency={loadCompetency}
         showModal={modalFormOpen}
-        user_id={user_id}
       />
-      <SeafarerExperienceDeleteConfirm
-        seafarerExperience={seafarerExperience}
+      <SeafarerCompetencyDeleteConfirm
+        seafarerCompetency={seafarerCompetency}
         handleModalDelete={handleModalDelete}
-        loadExperience={loadExperience}
+        loadCompetency={loadCompetency}
         showModal={modalDeleteOpen}
       />
       <Grid item container xs={12} md={12} lg={12}>
         <Grid item xs={12} md={6} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-            Experience
+            Competency
           </Typography>
         </Grid>
         <Grid item md={6}>
-          <Grid container justifyContent={'right'}>
-            <label style={{ marginRight: 20, marginTop: -5 }}>
-              <Checkbox
-                value={'no_experience'}
-                checked={no_experience}
-                onClick={() => setNoExperience(!no_experience)}
-              />{' '}
-              I have no experience{' '}
-            </label>
+          <Grid container md={12} justifyContent={'right'}>
             <Button
               variant='contained'
               style={{ marginBottom: 10 }}
@@ -182,7 +167,7 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
                 color={'success'}
                 style={{ fontSize: '18px' }}
               />
-              <div> Add Experience </div>
+              <div> Add Competency </div>
             </Button>
           </Grid>
         </Grid>
@@ -206,8 +191,9 @@ const SeafarerExperienceTable = (props: ISeafarerExperienceProps) => {
           </TableContainer>
         </Paper>
       </Grid>
+      <Divider style={{ width: '100%', margin: '20px 0' }} />
     </>
   )
 }
 
-export default SeafarerExperienceTable
+export default SeafarerCompetencyContainer

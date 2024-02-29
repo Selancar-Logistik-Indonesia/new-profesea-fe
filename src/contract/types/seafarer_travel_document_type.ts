@@ -1,7 +1,7 @@
 import ISeafarerTravelDocumentData from "./../../contract/models/seafarer_travel_document"
 
 export interface ISeafarerTravelDocumentProps {
-    user_id: number
+    user_id: number | undefined
 }
 
 export interface ISeafarerTravelDocumentForm {

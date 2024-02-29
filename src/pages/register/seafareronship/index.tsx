@@ -22,10 +22,29 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import * as yup from 'yup'
-import Registration from 'src/layouts/components/registrastion'
+import Registration from 'src/layouts/components/Registration'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from 'react-i18next'
+
+// ** Styled Components
+// const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
+//   padding: theme.spacing(20),
+//   paddingRight: '0 !important',
+//   [theme.breakpoints.down('lg')]: {
+//     padding: theme.spacing(10)
+//   }
+// }))
+
+// const RegisterIllustration = styled('img')(({ theme }) => ({
+//   maxWidth: '100%',
+//   [theme.breakpoints.down('xl')]: {
+//     maxWidth: '10%'
+//   },
+//   [theme.breakpoints.down('lg')]: {
+//     maxWidth: '10%'
+//   }
+// }))
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -45,29 +64,24 @@ const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 const Register = () => {
-
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
-  // ** Vars
-  const { skin } = settings
-  // const gambar = useRef('url(/images/candidate-00.jpg)')
-
-
   const [gambar, setGambar] = useState('url(/images/candidate-00.jpg)')
   const [labelAtas, setLabelAtas] = useState(1)
+  // ** Vars
+  const { skin } = settings
+
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(5).required()
   })
 
-  const {
-  } = useForm({
+  const {} = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
-
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const onchangeEmployee = (src: string) => {
     if (src == '0') {
       setGambar('url(/images/candidate-00.jpg)')
@@ -98,7 +112,41 @@ const Register = () => {
             }}
           >
             <Container fixed>
-              <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'></Box>
+              <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
+                {/* <Grid container justifyContent={'center'} alignContent={'center'}>
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    marginTop={'50px'}
+                  >
+                    <Grid item md={12} xs={12}  >
+                      <img alt="logo" src='/images/logosamudera.png' style={{
+                        maxWidth: '100%',
+                        height: '30px',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }} />
+                    </Grid>
+                  </Box>
+                  <Grid item md={12} xs={12} >
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      minHeight="100vh"
+                    >
+                      <img alt="sailor" src='/images/sailor.png' style={{
+                        maxWidth: '100%',
+                        height: '450px',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: '40%'
+                      }} />
+                    </Box>
+                  </Grid>
+                </Grid> */}
+              </Box>
             </Container>
           </Box>
         ) : null}
@@ -158,7 +206,12 @@ const Register = () => {
                       {t('register_text_10')}
                     </Typography>
                   )}
-                  <Registration tipereg='seafer' vonchangeEmployee={onchangeEmployee} disabledcombo={false}></Registration>
+                  <Registration
+                    tipereg='seafarer'
+                    type='onship'
+                    vonchangeEmployee={onchangeEmployee}
+                    disabledcombo={true}
+                  ></Registration>
                 </Box>
               </BoxWrapper>
             </Container>

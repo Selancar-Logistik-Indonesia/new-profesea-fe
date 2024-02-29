@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import { Grid, Typography, Button, IconButton } from '@mui/material'
+import { Divider, Grid, Typography, Button, Paper, IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 
-import { ISeafarerTravelDocumentProps } from './../../../contract/types/seafarer_travel_document_type'
-import ISeafarerTravelDocumentData from './../../../contract/models/seafarer_travel_document'
+import { ISeafarerTravelDocumentProps } from '../../../contract/types/seafarer_travel_document_type'
+import ISeafarerTravelDocumentData from '../../../contract/models/seafarer_travel_document'
 
 import SeafarerTravelDocumentForm from './SeafarerTravelDocumentForm'
 import SeafarerTravelDocumentDeleteConfirm from './SeafarerTravelDocumentDeleteConfirm'
@@ -64,42 +64,38 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
   }, [])
 
   const columns: GridColDef[] = [
-    { field: 'document', headerName: 'Document', flex: 1 },
+    { field: 'document', headerName: 'Document', width: 220 },
     {
       field: 'no',
       headerName: 'No',
       type: 'string',
-
+      width: 200,
       align: 'left',
-      headerAlign: 'left',
-      flex: 1
+      headerAlign: 'left'
     },
     {
       field: 'date_of_issue',
       headerName: 'Date of Issue',
       type: 'date',
-
-      flex: 1
+      width: 180
     },
     {
       field: 'country_issue',
       headerName: 'Country Issue',
-      type: 'number',
-
-      flex: 1
+      width: 220,
+      type: 'number'
     },
     {
       field: 'valid_date_column',
       headerName: 'Valid Date',
       type: 'string',
-
-      flex: 1
+      width: 180
     },
     {
       field: 'download',
       headerName: 'Download',
 
-      flex: 1,
+      width: 180,
       renderCell(params: any) {
         return user_id == userSession?.id && params.row.filename ? (
           <a
@@ -122,8 +118,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
     {
       field: 'action',
       headerName: 'Action',
-
-      flex: 1,
+      width: 180,
       renderCell(params: any) {
         return user_id == userSession?.id ? (
           <>
@@ -153,7 +148,6 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
     }
   ]
 
-  
   return (
     <>
       {userSession.id == user_id && (
@@ -175,14 +169,14 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
           showModal={modalDeleteOpen}
         />
       )}
-      <Grid container direction='column' spacing={1} item xs={12} md={6} lg={12}>
+      <Grid container xs={12} md={12} lg={12}>
         <Grid item xs={12} md={6} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
             Travel Document
           </Typography>
         </Grid>
-        <Grid item md={6} xs={12}>
-          <Grid container md={12} xs={12} justifyContent={'right'}>
+        <Grid item md={6}>
+          <Grid container md={12} justifyContent={'right'}>
             {userSession.id == user_id && (
               <Button
                 variant='contained'
@@ -202,22 +196,24 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
           </Grid>
         </Grid>
       </Grid>
-     
-        <DataGrid
-          disableRowSelectionOnClick
-          disableColumnMenu
-          autoHeight={true}
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 }
-            }
-          }}
-          pageSizeOptions={[5, 10]}
-          slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
-        />
-      
+      <Grid md={12} sm={12} xs={12}>
+        <Paper style={{ overflow: 'auto' }} sx={{ overflow: 'auto', width: '100%' }}>
+          <DataGrid
+            autoHeight={true}
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 }
+              }
+            }}
+            pageSizeOptions={[5, 10]}
+            slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
+            getRowClassName={params => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
+          />
+        </Paper>
+      </Grid>
+      <Divider style={{ width: '100%', margin: '20px 0' }} />
     </>
   )
 }

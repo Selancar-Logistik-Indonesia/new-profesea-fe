@@ -3,9 +3,24 @@ import React, { useState, useEffect } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import { Card, CardContent, Tabs, Tab, useMediaQuery, Collapse, CardHeader, IconButton, Autocomplete, TextField, Typography, Alert, AlertTitle, CircularProgress } from '@mui/material'
+import {
+  Card,
+  CardContent,
+  Tabs,
+  Tab,
+  useMediaQuery,
+  Collapse,
+  CardHeader,
+  IconButton,
+  Autocomplete,
+  TextField,
+  Typography,
+  Alert,
+  AlertTitle,
+  CircularProgress
+} from '@mui/material'
 import { Grid } from '@mui/material'
-// import Icon from 'src/@core/components/icon' 
+// import Icon from 'src/@core/components/icon'
 import { useTheme } from '@mui/material/styles'
 
 import { HttpClient } from 'src/services'
@@ -23,7 +38,7 @@ import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import Countries from 'src/contract/models/country'
 import City from 'src/contract/models/city'
-import Company from 'src/contract/models/company'
+// import Company from 'src/contract/models/company'
 import VesselType from 'src/contract/models/vessel_type'
 import Industry from 'src/contract/models/industry'
 import JobContext, { JobProvider } from 'src/context/JobContext'
@@ -34,17 +49,17 @@ import RecomendedView from 'src/views/find-job/RecomendedView'
 import Job from 'src/contract/models/job'
 
 interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
+  children?: React.ReactNode
+  index: number
+  value: number
 }
 
 function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index, ...other } = props
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -57,46 +72,43 @@ function TabPanel(props: TabPanelProps) {
         </Box>
       )}
     </div>
-  );
+  )
 }
 
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
+    'aria-controls': `simple-tabpanel-${index}`
+  }
 }
 
-const SeafererJob = () => {
-
+const SeafarerJob = () => {
   return (
-      <JobProvider>
-          <SeafererJobApp />
-      </JobProvider>
+    <JobProvider>
+      <SeafarerJobApp />
+    </JobProvider>
   )
 }
 
-const SeafererJobApp = () => {  
-  const { setPage , fetchJobs, totalJob, hasNextPage} = useJob();
+const SeafarerJobApp = () => {
+  const { setPage, fetchJobs, totalJob, hasNextPage } = useJob()
 
   const [listJobSubscribe, setListJobSubscribe] = useState<Job[]>([])
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const [collapsed, setCollapsed] = useState<boolean>(true)
-  // const [collapsed2, setCollapsed2] = useState<boolean>(false) 
-  const [JobCategory, getJobCategory] = useState<any[]>([]);
-  const [Education, getEducation] = useState<any[]>([]);
-  const [RoleLevel, getRoleLevel] = useState<any[]>([]);
+  // const [collapsed2, setCollapsed2] = useState<boolean>(false)
+  const [JobCategory, getJobCategory] = useState<any[]>([])
+  const [Education, getEducation] = useState<any[]>([])
+  const [RoleLevel, getRoleLevel] = useState<any[]>([])
   const [RoleType, getRoleType] = useState<any[]>([])
 
-  const [JT, setJT] = useState(0);
-  const [JC, setJC] = useState(0);
-  const [RL, setRL] = useState(0);
-  const [ED, setED] = useState(0);
-  const [DB, setDB] = useState<DateType>(null);
-
-
+  const [JT, setJT] = useState(0)
+  const [JC, setJC] = useState(0)
+  const [RL, setRL] = useState(0)
+  const [ED, setED] = useState(0)
+  const [DB, setDB] = useState<DateType>(null)
 
   const [combocountry, getComboCountry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
@@ -107,7 +119,7 @@ const SeafererJobApp = () => {
   const [idcity, setCombocity] = useState<any>()
 
   const [idcountry, setCountry] = useState<any>()
-  // const [idcompany, setCompany] = useState<any>() 
+  // const [idcompany, setCompany] = useState<any>()
   const [idvessel, setVesel] = useState<any>()
   const [idindustry, setIndustry] = useState<any>()
   // const [VT, setVT] = useState(0);
@@ -120,33 +132,32 @@ const SeafererJobApp = () => {
     getColor('#FFFFFF')
   }
   const firstload = () => {
-
     HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
       if (response.status != 200) {
-        throw response.data.message ?? "Something went wrong!";
+        throw response.data.message ?? 'Something went wrong!'
       }
-      getRoleLevel(response.data.roleLevels.data);
+      getRoleLevel(response.data.roleLevels.data)
     })
 
     if (JC != 0) {
       HttpClient.get(`/public/data/role-type?search=&page=1&take=250&category_id=${JC}`).then(response => {
         if (response.status != 200) {
-          throw response.data.message ?? "Something went wrong!";
+          throw response.data.message ?? 'Something went wrong!'
         }
-        getRoleType(response.data.roleTypes.data);
+        getRoleType(response.data.roleTypes.data)
       })
     }
     HttpClient.get(`/job-category?search=&page=1&take=250&employee_type=${user?.employee_type}`).then(response => {
       if (response.status != 200) {
-        throw response.data.message ?? "Something went wrong!";
+        throw response.data.message ?? 'Something went wrong!'
       }
-      getJobCategory(response.data.categories.data);
+      getJobCategory(response.data.categories.data)
     })
     HttpClient.get(`/public/data/degree`).then(response => {
       if (response.status != 200) {
-        throw response.data.message ?? "Something went wrong!";
+        throw response.data.message ?? 'Something went wrong!'
       }
-      getEducation(response.data.degrees);
+      getEducation(response.data.degrees)
     })
     HttpClient.get('/public/data/country?search=').then(response => {
       const code = response.data.countries
@@ -161,21 +172,19 @@ const SeafererJobApp = () => {
       const code = response.data.industries
       getComboIndustry(code)
     })
-
-
   }
   useEffect(() => {
-    if(hidden ==true){
+    if (hidden == true) {
       setCollapsed(false)
-    }else{
+    } else {
       setCollapsed(true)
     }
-      firstload()
+    firstload()
   }, [JC])
-  
+
   const getListJobsSubscribe = async () => {
     const response = await HttpClient.get(
-        `/job?search=${textCompany}&roletype_id=${JT}&category_id=${JC}&rolelevel_id=${RL}&edugrade_id=${ED}&subcription=1&page=1&take=6`
+      `/job?search=${textCompany}&roletype_id=${JT}&category_id=${JC}&rolelevel_id=${RL}&edugrade_id=${ED}&subcription=1&page=1&take=6`
     )
     const jobs = response.data.jobs.data
 
@@ -184,7 +193,17 @@ const SeafererJobApp = () => {
   }
 
   const getdatapencarian = () => {
-    fetchJobs( { take:9, search:textCompany, category_id:JC, edugrade_id: ED, rolelevel_id: RL, roletype_id: JT, vesseltype_id : idvessel, country_id: idcountry, city_id: idcity })
+    fetchJobs({
+      take: 9,
+      search: textCompany,
+      category_id: JC,
+      edugrade_id: ED,
+      rolelevel_id: RL,
+      roletype_id: JT,
+      vesseltype_id: idvessel,
+      country_id: idcountry,
+      city_id: idcity
+    })
 
     // DB?.toLocaleDateString("en-GB", {
     //   year: "numeric",
@@ -193,13 +212,13 @@ const SeafererJobApp = () => {
     // }).split('/').reverse().join('-')
   }
   useEffect(() => {
-    getdatapencarian();
-    getListJobsSubscribe();
+    getdatapencarian()
+    getListJobsSubscribe()
   }, [JC, textCompany, JT, RL, ED, idcountry, idcity, idvessel, idindustry, DB])
 
   const searchcity = async (q: any) => {
     setCountry(q)
-    if(q){
+    if (q) {
       const resp = await HttpClient.get('/public/data/city?search=&country_id=' + q)
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'
@@ -207,7 +226,6 @@ const SeafererJobApp = () => {
       const code = resp.data.cities
       getComboCity(code)
     }
-    
   }
 
   return (
@@ -249,8 +267,8 @@ const SeafererJobApp = () => {
                     label='Search Job'
                     variant='outlined'
                     fullWidth
-                    sx={{mb:2}}
-                    onChange={(e) => {
+                    sx={{ mb: 2 }}
+                    onChange={e => {
                       setPage(1)
                       SetTextCompany(e.target.value)
                     }}
@@ -263,7 +281,7 @@ const SeafererJobApp = () => {
                     options={JobCategory}
                     getOptionLabel={(option: JobCategory) => option.name}
                     renderInput={params => <TextField {...params} label='Job Category' />}
-                    onChange={(event: any, newValue: JobCategory | null) =>{
+                    onChange={(event: any, newValue: JobCategory | null) => {
                       setPage(1)
                       newValue?.id ? setJC(newValue?.id) : setJC(0)
                     }}
@@ -277,7 +295,7 @@ const SeafererJobApp = () => {
                         options={RoleType}
                         getOptionLabel={(option: RoleType) => option.name}
                         renderInput={params => <TextField {...params} label='Job Title' />}
-                        onChange={(event: any, newValue: RoleType | null) =>{
+                        onChange={(event: any, newValue: RoleType | null) => {
                           setPage(1)
                           newValue?.id ? setJT(newValue?.id) : setJT(0)
                         }}
@@ -289,7 +307,7 @@ const SeafererJobApp = () => {
                         options={RoleLevel}
                         getOptionLabel={(option: RoleLevel) => option.levelName}
                         renderInput={params => <TextField {...params} label='Role Level' />}
-                        onChange={(event: any, newValue: RoleLevel | null) =>{
+                        onChange={(event: any, newValue: RoleLevel | null) => {
                           setPage(1)
                           newValue?.id ? setRL(newValue?.id) : setRL(0)
                         }}
@@ -301,7 +319,7 @@ const SeafererJobApp = () => {
                         options={Education}
                         getOptionLabel={(option: Degree) => option.name}
                         renderInput={params => <TextField {...params} label='Education' />}
-                        onChange={(event: any, newValue: Degree | null) =>{
+                        onChange={(event: any, newValue: Degree | null) => {
                           setPage(1)
                           newValue?.id ? setED(newValue?.id) : setED(0)
                         }}
@@ -313,7 +331,7 @@ const SeafererJobApp = () => {
                         options={combovessel}
                         getOptionLabel={(option: VesselType) => option.name}
                         renderInput={params => <TextField {...params} label='Type Of Vessel' />}
-                        onChange={(event: any, newValue: VesselType | null) =>{
+                        onChange={(event: any, newValue: VesselType | null) => {
                           setPage(1)
                           newValue?.id ? setVesel(newValue?.id) : setVesel('')
                         }}
@@ -341,7 +359,7 @@ const SeafererJobApp = () => {
                         options={Education}
                         getOptionLabel={(option: Company) => option.name}
                         renderInput={params => <TextField {...params} label='Company' />}
-                        onChange={(event: any, newValue: Company | null) =>{
+                        onChange={(event: any, newValue: Company | null) => {
                           setPage(1)
                           newValue?.id ? setED(newValue?.id) : setED(0)
                         }}
@@ -356,7 +374,7 @@ const SeafererJobApp = () => {
                         options={RoleLevel}
                         getOptionLabel={(option: RoleLevel) => option.levelName}
                         renderInput={params => <TextField {...params} label='Role Level' />}
-                        onChange={(event: any, newValue: RoleLevel | null) =>{
+                        onChange={(event: any, newValue: RoleLevel | null) => {
                           setPage(1)
                           newValue?.id ? setRL(newValue?.id) : setRL(0)
                         }}
@@ -368,7 +386,7 @@ const SeafererJobApp = () => {
                         options={Education}
                         getOptionLabel={(option: Degree) => option.name}
                         renderInput={params => <TextField {...params} label='Education' />}
-                        onChange={(event: any, newValue: Degree | null) =>{
+                        onChange={(event: any, newValue: Degree | null) => {
                           setPage(1)
                           newValue?.id ? setED(newValue?.id) : setED(0)
                         }}
@@ -379,7 +397,7 @@ const SeafererJobApp = () => {
                         options={combocountry}
                         getOptionLabel={(option: any) => option.nicename}
                         renderInput={params => <TextField {...params} label='Country' />}
-                        onChange={(event: any, newValue: Countries | null) =>{
+                        onChange={(event: any, newValue: Countries | null) => {
                           setPage(1)
                           newValue?.id ? searchcity(newValue.id) : searchcity('')
                         }}
@@ -391,7 +409,7 @@ const SeafererJobApp = () => {
                         options={combocity}
                         getOptionLabel={(option: City) => option.city_name}
                         renderInput={params => <TextField {...params} label='City' sx={{ mb: 2 }} />}
-                        onChange={(event: any, newValue: City | null) =>{
+                        onChange={(event: any, newValue: City | null) => {
                           setPage(1)
                           newValue?.id ? setCombocity(newValue.id) : setCombocity('')
                         }}
@@ -404,7 +422,7 @@ const SeafererJobApp = () => {
                         options={Education}
                         getOptionLabel={(option: Company) => option.name}
                         renderInput={params => <TextField {...params} label='Company' />}
-                        onChange={(event: any, newValue: Company | null) =>{
+                        onChange={(event: any, newValue: Company | null) => {
                           setPage(1)
                           newValue?.id ? setED(newValue?.id) : setED(0)
                         }}
@@ -416,7 +434,7 @@ const SeafererJobApp = () => {
                         options={comboindustri}
                         getOptionLabel={(option: Industry) => option.name}
                         renderInput={params => <TextField {...params} label='Employment Type' />}
-                        onChange={(event: any, newValue: Industry | null) =>{
+                        onChange={(event: any, newValue: Industry | null) => {
                           setPage(1)
                           newValue?.id ? setIndustry(newValue?.id) : setIndustry('')
                         }}
@@ -482,44 +500,47 @@ const SeafererJobApp = () => {
             >
               <Grid item xs={12}>
                 <TabPanel value={value} index={0}>
-                <Box padding={5}>
+                  <Box padding={5}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sx={!hidden ? { alignItems: "stretch" } : {}}>
-                            <Grid container spacing={6} >
-                                <Grid item xs={12}>
-                                    <Alert severity='info'>
-                                        <AlertTitle>Find & Apply Job</AlertTitle>
-                                        Based on <strong>your profile</strong> and <strong> your experience</strong>
-                                    </Alert>
-                                    {/* <RecomendedViewSubscribe listJob={listJobSubscribe} /> */}
-                                    <JobContext.Consumer>
-                                          {({ listJobs, onLoading }) => {
-                                              if (onLoading) {
-                                              
-                                                  return (
-                                                      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                                          <CircularProgress sx={{ mt: 20 }} />
-                                                      </Box>
-                                                  );
-                                              }
+                      <Grid item xs={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
+                        <Grid container spacing={6}>
+                          <Grid item xs={12}>
+                            <Alert severity='info'>
+                              <AlertTitle>Find & Apply Job</AlertTitle>
+                              Based on <strong>your profile</strong> and <strong> your experience</strong>
+                            </Alert>
+                            {/* <RecomendedViewSubscribe listJob={listJobSubscribe} /> */}
+                            <JobContext.Consumer>
+                              {({ listJobs, onLoading }) => {
+                                if (onLoading) {
+                                  return (
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                      <CircularProgress sx={{ mt: 20 }} />
+                                    </Box>
+                                  )
+                                }
 
-                                              return (
-                                                <InfiniteScroll
-                                                  dataLength={totalJob}
-                                                  next={() => getdatapencarian()}
-                                                  hasMore={hasNextPage}
-                                                  loader={(<Typography mt={5} color={'text.secondary'}>Loading..</Typography>)}
-                                                >
-                                                <RecomendedView listJob={listJobs} />
-                                                </InfiniteScroll>
-                                              )                       
-                                          }}
-                                        </JobContext.Consumer>
-                                </Grid>
-                            </Grid>
+                                return (
+                                  <InfiniteScroll
+                                    dataLength={totalJob}
+                                    next={() => getdatapencarian()}
+                                    hasMore={hasNextPage}
+                                    loader={
+                                      <Typography mt={5} color={'text.secondary'}>
+                                        Loading..
+                                      </Typography>
+                                    }
+                                  >
+                                    <RecomendedView listJob={listJobs} />
+                                  </InfiniteScroll>
+                                )
+                              }}
+                            </JobContext.Consumer>
+                          </Grid>
                         </Grid>
+                      </Grid>
                     </Grid>
-                </Box>
+                  </Box>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                   <AllJobApplied></AllJobApplied>
@@ -537,8 +558,8 @@ const SeafererJobApp = () => {
 
 // OngoingTraining.guestGuard = true
 
-SeafererJob.acl = {
+SeafarerJob.acl = {
   action: 'read',
-  subject: 'seaferer-jobs'
-};
-export default SeafererJob
+  subject: 'seafarer-jobs'
+}
+export default SeafarerJob
