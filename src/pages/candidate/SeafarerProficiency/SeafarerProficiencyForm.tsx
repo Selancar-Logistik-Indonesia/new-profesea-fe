@@ -313,12 +313,12 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 component='label'
                 variant='contained'
                 size='small'
-                fullWidth
+                sx={{ width:200 }}
                 startIcon={
                   <Icon icon='material-symbols:cloud-upload' width='16' height='16' style={{ color: 'white' }} />
                 }
               >
-                Upload file <span>{attachment ? ' : ' + attachment['name'] : ''}</span>
+                <span style={{ width:'500px'}}>Upload file <span>{attachment ? ' : ' + attachment['name'] : ''}</span></span>
                 <input
                   style={{ visibility: 'hidden' }}
                   type='file'

@@ -359,12 +359,12 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 component='label'
                 variant='contained'
                 size='small'
-                fullWidth
+                sx={{ width:200 }}
                 startIcon={
                   <Icon icon='material-symbols:cloud-upload' width='16' height='16' style={{ color: 'white' }} />
                 }
               >
-                Upload file <span>{attachment ? ' : ' + attachment?.name : ''}</span>
+                <span style={{ display:'inline', width:'600px', textAlign:'center'}}>Upload file {attachment ? ' : ' + attachment['name'] : ''} </span>
                 <input
                   style={{ visibility: 'hidden' }}
                   type='file'
