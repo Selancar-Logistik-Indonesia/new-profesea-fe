@@ -25,7 +25,7 @@ const renderList = (arr: Training[]) => {
   if (arr && arr.length) {
     return arr.map(item => {
       return (
-        <Grid item xs={12} md={4} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
+        <Grid item xs={12} md={3} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
           <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
             <Grid item xs={12}>
               <CardContent>
@@ -35,8 +35,8 @@ const renderList = (arr: Training[]) => {
                       alt='logo'
                       src={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
                       style={{
-                        width: '450px',
-                        height: '250px',
+                        width: '265px',
+                        height: '200px',
                         objectFit: 'cover',
                         borderRadius: '8px',
                         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
@@ -52,10 +52,16 @@ const renderList = (arr: Training[]) => {
                         {item.title}
                       </Typography>
                     </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={1}>
                       <Icon icon='solar:tag-horizontal-bold-duotone' color='#32487A' />
                       <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                         {item.category?.category}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
+                      <Icon icon='solar:tag-price-bold-duotone' color='#32487A' />
+                      <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                        {item?.price ? `Rp. ${item.price},-` : 'Free'}
                       </Typography>
                     </Box>
                   </Grid>
@@ -132,7 +138,7 @@ const OngoingTrainingApp = () => {
             hasMore={hasNextPage}
             loader={<CircularProgress sx={{ mt: 20 }} />}
           >
-            <Grid container spacing={2} mt={1}>
+            <Grid container spacing={8} mt={1}>
               {renderList(listTrainings)}
             </Grid>
           </InfiniteScroll>
