@@ -6,7 +6,7 @@ import { Box, Button, CircularProgress, Divider } from '@mui/material'
 import { useEffect } from 'react'
 import Training from 'src/contract/models/training'
 import Avatar from 'src/@core/components/mui/avatar'
-import { getUserAvatar } from 'src/utils/helpers'
+import { formatIDR, getUserAvatar } from 'src/utils/helpers'
 import Icon from 'src/@core/components/icon'
 import Link from 'next/link'
 import TrainingContext, { TrainingProvider } from 'src/context/TrainingContext'
@@ -61,7 +61,7 @@ const renderList = (arr: Training[]) => {
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
                       <Icon icon='solar:tag-price-bold-duotone' color='#32487A' />
                       <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                        {item?.price ? `Rp. ${item.price},-` : 'Free'}
+                        {formatIDR(item.price)}
                       </Typography>
                     </Box>
                   </Grid>
