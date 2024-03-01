@@ -26,22 +26,22 @@ import * as Yup from 'yup'
 import { ISeafarerExperienceForm } from './../../../contract/types/seafarer_experience_type'
 
 const ExperienceSchema = Yup.object().shape({
-  user_id: Yup.number().required(),
+  user_id: Yup.number().required("User Data is required"),
   rank_id: Yup.object().shape({
-    id: Yup.number().required('rank id is required'),
+    id: Yup.number().required('Rank is required'),
     name: Yup.string().required('')
   }),
   vessel_type_id: Yup.object().shape({
-    id: Yup.number().required('vessel type id is required'),
+    id: Yup.number().required('Vessel type is required'),
     name: Yup.string().required('')
   }),
-  vessel_name: Yup.string().required(),
+  vessel_name: Yup.string().required("Vessel Name is reqiured"),
   grt: Yup.number().nullable(),
   dwt: Yup.number().nullable(),
   me_power: Yup.number().nullable(),
-  sign_in: Yup.string().required(),
-  sign_off: Yup.string().required(),
-  company: Yup.string().required()
+  sign_in: Yup.string().required("Sign in is required"),
+  sign_off: Yup.string().required("Sign off is required"),
+  company: Yup.string().required("Company is required")
 })
 
 const Transition = forwardRef(function Transition(
@@ -373,6 +373,13 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                 onChange={formik.handleChange}
                 fullWidth
               />
+            </Grid>
+            <Grid item md={12} xs={12} mb={5} sx={{ color:'red', margin:"-10px -25px"}}>
+              <ul>
+                {formik.isSubmitting && Object.entries(formik.errors).map((item:any) => {
+                  return (<li key={item[0]}>{JSON.stringify(item[1])}</li>)
+                })}
+              </ul>
             </Grid>
           </Grid>
         </DialogContent>

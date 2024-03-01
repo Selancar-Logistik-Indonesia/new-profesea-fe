@@ -39,17 +39,17 @@ const Transition = forwardRef(function Transition(
 })
 
 const TravelDocumentSchema = Yup.object().shape({
-  document: Yup.string().required(),
-  no: Yup.string().required('Document Number'),
-  date_of_issue: Yup.string().required(),
+  document: Yup.string().required("Document is required"),
+  no: Yup.string().required('Document Number is required'),
+  date_of_issue: Yup.string().required("Date of Issue is required"),
   country_of_issue: Yup.object().shape({
-    id: Yup.number().required('country is required'),
+    id: Yup.number().required('Country is required'),
     name: Yup.string().required('')
   }),
   user_id: Yup.number().required(),
   valid_date: Yup.date().nullable(),
   is_lifetime: Yup.boolean().nullable(),
-  required_document: Yup.string().required()
+  required_document: Yup.string().required("Document Required Type is required")
 })
 
 const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
@@ -336,9 +336,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                   <TextField label='Valid Date' variant='standard' fullWidth id='valid_date' name='valid_date' />
                 }
               />
-              {formik.errors.valid_date && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.valid_date)}</span>
-              )}
+             
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <FormControlLabel
@@ -353,21 +351,20 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 }
                 label='Lifetime'
               />
-              {formik.errors.is_lifetime && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.is_lifetime}</span>
-              )}
+            
             </Grid>
-            <Grid>
+           
+            <Grid mb={5}>
               <Button
                 component='label'
                 variant='contained'
                 size='small'
-                fullWidth
+                sx={{ width:200 }}
                 startIcon={
                   <Icon icon='material-symbols:cloud-upload' width='16' height='16' style={{ color: 'white' }} />
                 }
               >
-                Upload file <span>{attachment ? ' : ' + attachment?.name : ''}</span>
+                <span style={{ display:'inline', width:'600px', textAlign:'center'}}>Upload file {attachment ? ' : ' + attachment['name'] : ''} </span>
                 <input
                   style={{ visibility: 'hidden' }}
                   type='file'
@@ -375,6 +372,13 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                   onChange={e => setAttachment(e.target?.files ? e.target?.files[0] : null)}
                 />
               </Button>
+            </Grid>
+            <Grid item md={12} xs={12} mb={5} sx={{ color:'red', margin:"-10px -25px"}}>
+              <ul>
+                {formik.isSubmitting && Object.entries(formik.errors).map((item:any) => {
+                  return (<li key={item[0]}>{JSON.stringify(item[1])}</li>)
+                })}
+              </ul>
             </Grid>
           </Grid>
         </DialogContent>
