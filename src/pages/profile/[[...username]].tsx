@@ -26,6 +26,8 @@ import SeafarerTravelDocumentTable from 'src/layouts/components/SeafarerTravelDo
 import SeafarerExperienceTable from 'src/layouts/components/SeafarerExperienceTable'
 import SeafarerCompetencyTable from 'src/layouts/components/SeafarerCompetencyTable'
 import SeafarerProficiencyTable from 'src/layouts/components/SeafarerProficiencyTable'
+import SeafarerRecommendationTable from 'src/layouts/components/SeafarerRecommendationTable'
+
 import NewsListCard from 'src/layouts/components/NewsListCard'
 import TableCard from './TableCard'
 
@@ -192,6 +194,20 @@ const UserFeedApp = () => {
                       isEditable={false}
                       handleModalDelete={undefined}
                       handleModalForm={undefined}
+                    />
+                  </TableCard>
+                </Grid>
+              )}
+
+              {selectedUser?.team_id == 2 && (
+                <Grid item marginTop={'10px'} md={12} xs={12}>
+                  <TableCard title='Recommendation'>
+                    <SeafarerRecommendationTable
+                      user_id={selectedUser?.id}
+                      selectedUser={selectedUser}
+                      isHiddenData={true}
+                      isEditable={false}
+                      handleModalDelete={undefined}
                     />
                   </TableCard>
                 </Grid>

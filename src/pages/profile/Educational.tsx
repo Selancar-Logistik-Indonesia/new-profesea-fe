@@ -36,7 +36,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
             alt='logo'
             src={item.logo ? item.logo : '/images/educationalinfo.png'}
             style={{
-              maxWidth: '100%',
+              width: '100px',
               height: '100px',
               padding: 10,
               margin: 0
