@@ -59,7 +59,7 @@ import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
-import { refreshsession, removeFirstZeroChar } from 'src/utils/helpers'
+import { removeFirstZeroChar } from 'src/utils/helpers'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import JobCategory from 'src/contract/models/job_category'
@@ -589,8 +589,8 @@ const CandidateProfile = (props: compProps) => {
             ({ data }) => {
               console.log('field preference success ', data)
               toast.success(' Successfully submited!')
-              refreshsession()
-              window.location.replace('/home')
+              //refreshsession()
+              //window.location.replace('/home')
             },
             error => {
               console.log('field preference failed', error)
@@ -612,8 +612,8 @@ const CandidateProfile = (props: compProps) => {
             ({ data }) => {
               console.log('here 1', data)
               toast.success('Successfully submited!')
-              refreshsession()
-              window.location.replace('/home')
+              //refreshsession()
+              //window.location.replace('/home')
             },
             error => {
               console.log('here 1', error)
@@ -738,6 +738,8 @@ const CandidateProfile = (props: compProps) => {
   const displayopp = (type: any) => {
     setOpp(type?.id)
   }
+
+  console.log(' idComboProvince => ', idcomboProvince)
 
   return (
     <Grid container md={12} xs={12} padding={5}>
