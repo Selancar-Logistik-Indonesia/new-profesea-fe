@@ -35,7 +35,6 @@ const JobManagementScreen = () => {
   const [selectedItem, setSelectedItem] = useState<Job | null>(null)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
- 
   const [page, setPage] = useState(1)
   const [rowCount, setRowCount] = useState(0)
   const [search, setSearch] = useState('')
@@ -143,14 +142,15 @@ const JobManagementScreen = () => {
   }
 
   const updateHandler = (row: Job) => {
+    console.log(row)
     setSelectedItem(row)
     setOpenEditModal(true)
   }
 
-  const handleOnRowClick = (params: GridRowParams) => {
-    const jobId = params.row?.id
-    router.push(`/company/job/?id=${jobId}`)
-  }
+  // const handleOnRowClick = (params: GridRowParams) => {
+  //   const jobId = params.row?.id
+  //   router.push(`/company/job/?id=${jobId}`)
+  // }
 
   useEffect(() => {
     setOnLoading(true)
@@ -202,7 +202,7 @@ const JobManagementScreen = () => {
                 loading={onLoading}
                 onPageChange={model => onPageChange(model)}
                 rows={dataSheet}
-                onRowClick={params => handleOnRowClick(params)}
+                // onRowClick={params => handleOnRowClick(params)}
               />
             </CardContent>
           </Card>
