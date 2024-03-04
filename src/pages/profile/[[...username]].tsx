@@ -135,10 +135,10 @@ const UserFeedApp = () => {
                 <Box></Box>
               </Grid>
               <EducationalInfo vacancy={arrVacany2} />
-              {selectedUser?.team_id !== 2 && <WorkeExperience vacancy={arrVacany} />}
-              {selectedUser?.team_id !== 2 && <Ceritificate vacancy={itemData} />}
+              {selectedUser?.employee_type == 'offship' && <WorkeExperience vacancy={arrVacany} />}
+              {selectedUser?.employee_type == 'offship' && <Ceritificate vacancy={itemData} />}
 
-              {selectedUser?.team_id == 2 && (
+              {selectedUser?.employee_type == 'onship' && (
                 <Grid item marginTop={'10px'} md={12} xs={12}>
                   <TableCard title='Travel Document'>
                     <SeafarerTravelDocumentTable
@@ -153,7 +153,7 @@ const UserFeedApp = () => {
                 </Grid>
               )}
 
-              {selectedUser?.team_id == 2 && (
+              {selectedUser?.employee_type == 'onship' && (
                 <Grid item marginTop={'10px'} md={12} xs={12}>
                   <TableCard title='Experience'>
                     <SeafarerExperienceTable
@@ -167,7 +167,7 @@ const UserFeedApp = () => {
                 </Grid>
               )}
 
-              {selectedUser?.team_id == 2 && (
+              {selectedUser?.employee_type == 'onship' && (
                 <Grid item marginTop={'10px'} md={12} xs={12}>
                   <TableCard title='Certificate of Competency'>
                     <SeafarerCompetencyTable
@@ -182,7 +182,7 @@ const UserFeedApp = () => {
                 </Grid>
               )}
 
-              {selectedUser?.team_id == 2 && (
+              {selectedUser?.employee_type == 'onship' && (
                 <Grid item marginTop={'10px'} md={12} xs={12}>
                   <TableCard title='Certificate Of Proficiency'>
                     <SeafarerProficiencyTable
