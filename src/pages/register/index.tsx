@@ -103,8 +103,7 @@ const Register = () => {
                   </Link>
                   {/* <Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#262525" }}>Register</Typography> */}
                   <Typography variant='body2' sx={{ textAlign: 'center', color: '#262525', mb: 8 }}>
-                    {' '}
-                    {t('register_text_1')}{' '}
+                    {`${t('register_text_1_1')} \n ${t('register_text_1_2')}`}
                   </Typography>
                 </Box>
 
