@@ -12,6 +12,7 @@ import { HttpClient } from 'src/services'
 import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers'
 import ITrainingParticipant from 'src/contract/models/training_participant'
 import debounce from 'src/utils/debounce'
+import Link from 'next/link'
 
 const Transition = forwardRef(function Transition(
     props: FadeProps & { children?: ReactElement<any, any> },
@@ -125,7 +126,9 @@ const DialogViewParticipant = (props: ViewProps) => {
                             </Box>
 
                             <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'}>
-                                <Button size='small'>Open Profile</Button>
+                                 <Link style={{ textDecoration: 'none' }} target="_blank" href={`/profile/${e.user.username}`}>
+                                    <Button size='small'>Open Profile</Button>
+                                 </Link>
                             </Box>
                         </Box>
                     ))}

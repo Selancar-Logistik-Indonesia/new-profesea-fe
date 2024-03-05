@@ -72,6 +72,7 @@ const SubscriptionScreen = () => {
                     status: row.status,
                     amount: row.amount,
                     measure: row.subscription?.measure,
+                    ref_id: row.trx_id,
                     end_date: row.subscription?.end_date,
                     actions: {
                         onDelete: () => deleteHandler(row)
