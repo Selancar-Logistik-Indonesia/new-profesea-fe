@@ -44,6 +44,11 @@ const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   }
 }))
 
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().min(5).required()
+})
+
 const Register = () => {
   const theme = useTheme()
   const { settings } = useSettings()
@@ -54,10 +59,6 @@ const Register = () => {
 
   const [gambar, setGambar] = useState('url(/images/candidate-00.jpg)')
   const [labelAtas, setLabelAtas] = useState(1)
-  const schema = yup.object().shape({
-    email: yup.string().email().required(),
-    password: yup.string().min(5).required()
-  })
 
   const {} = useForm({
     mode: 'onBlur',
@@ -147,11 +148,11 @@ const Register = () => {
                     </Typography>
                   )}
                   {labelAtas == 0 ? (
-                    <Typography variant='body2' sx={{ mb: 1, textAlign: 'left', color: '#262525' }}>
+                    <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: '#262525' }}>
                       {t('register_text_15')}
                     </Typography>
                   ) : (
-                    <Typography variant='body2' sx={{ mb: 1, textAlign: 'left', color: '#262525' }}>
+                    <Typography variant='body2' sx={{ mb: 6, textAlign: 'left', color: '#262525' }}>
                       {t('register_text_10')}
                     </Typography>
                   )}
