@@ -19,8 +19,8 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 const ProficiencySchema = Yup.object().shape({
-  company: Yup.string().required(),
-  email: Yup.string().email().required()
+  company: Yup.string().required("Company is required"),
+  email: Yup.string().email().required("Email is required")
 })
 
 const SeafarerProficiencyForm = (props: any) => {
@@ -111,22 +111,21 @@ const SeafarerProficiencyForm = (props: any) => {
             </DialogTitle>
             <DialogContent>
               <Grid container md={12} xs={12}>
-                <Grid item container md={12} xs={12} style={{ marginBottom: 10 }}>
-                  <Grid item md={6} xs={12}>
+                <Grid gap={8} item container md={12} xs={12} style={{ marginBottom: 10 }}>
+                  <Grid item md={5} xs={12}>
                     <TextField
+                      error={formik.errors.company ? true : false}
                       fullWidth
                       id='company'
                       name='company'
-                      label='Company'
+                      label='Company * '
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       variant='standard'
                     />
-                    {formik.errors.company && (
-                      <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.company)}</span>
-                    )}
+                  
                   </Grid>
-                  <Grid item md={6} xs={12}>
+                  <Grid item md={5} xs={12}>
                     <TextField
                       fullWidth
                       id='position'
@@ -138,22 +137,21 @@ const SeafarerProficiencyForm = (props: any) => {
                     />
                   </Grid>
                 </Grid>
-                <Grid item container md={12} xs={12}>
-                  <Grid item md={6} xs={12}>
+                <Grid gap={8} item container md={12} xs={12}>
+                  <Grid item md={5} xs={12}>
                     <TextField
+                      error={formik.errors.email ? true : false}
                       fullWidth
                       id='email'
                       name='email'
-                      label='Email'
+                      label='Email * '
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       variant='standard'
                     />
-                    {formik.errors.email && (
-                      <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.email)}</span>
-                    )}
+                  
                   </Grid>
-                  <Grid item md={6} xs={12}>
+                  <Grid item md={5} xs={12}>
                     <TextField
                       fullWidth
                       id='phone_number'
@@ -166,6 +164,13 @@ const SeafarerProficiencyForm = (props: any) => {
                   </Grid>
                 </Grid>
               </Grid>
+              <Grid item md={12} xs={12} mb={5} sx={{ color:'red', margin:"10px -25px"}}>
+              <ul>
+                {formik.errors && Object.entries(formik.errors).map((item:any) => {
+                  return (<li key={item[0]}>{JSON.stringify(item[1])}</li>)
+                })}
+              </ul>
+            </Grid>
             </DialogContent>
             <DialogActions style={{ textAlign: 'center' }}>
               <Button disabled={loading} type='submit' variant='contained' style={{ margin: '10px 0' }} size='small'>

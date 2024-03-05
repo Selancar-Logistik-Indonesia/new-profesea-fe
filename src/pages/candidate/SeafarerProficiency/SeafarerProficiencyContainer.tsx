@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import { Grid, Typography, Button, Paper, TableContainer, IconButton } from '@mui/material'
+import { Divider, Grid, Typography, Button, Paper, TableContainer, IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import secureLocalStorage from 'react-secure-storage'
@@ -214,6 +214,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
           </TableContainer>
         </Paper>
       </Grid>
+      <Divider style={{ width: '100%', margin: '20px 0' }} />
     </>
   )
 }

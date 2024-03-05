@@ -78,6 +78,7 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ dialogProps, a
       if (response.status != 200) {
         throw response.data.message ?? 'Something went wrong!'
       }
+
       getRoleLevel(response.data.roleLevels.data)
     })
     HttpClient.get(`/public/data/role-type?search=&page=1&take=250`).then(response => {

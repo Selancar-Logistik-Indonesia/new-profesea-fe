@@ -8,7 +8,7 @@ import {
   GridRowParams,
   MuiEvent
 } from '@mui/x-data-grid'
-import { IconButton, Tooltip, Typography } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import Icon from 'src/@core/components/icon'
 import Link from 'next/link'
 
@@ -21,6 +21,7 @@ const columns: GridColDef[] = [
     minWidth: 250,
     renderCell: cell => {
       const { row } = cell
+
       return <Link href={`/company/job/?id=${row.id}`}>{row.category_name}</Link>
     }
   },

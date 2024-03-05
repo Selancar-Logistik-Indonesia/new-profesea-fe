@@ -327,7 +327,6 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
           </Grid>
           <Grid item md={3} xs={12} sx={{ mb: 1 }}>
             <Autocomplete
-              freeSolo
               id='combo-box-level'
               options={RoleType}
               getOptionLabel={(option: RoleType | string) => (typeof option === 'string' ? option : option.name)}

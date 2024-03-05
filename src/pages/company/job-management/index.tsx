@@ -11,7 +11,7 @@ import { AxiosError } from 'axios'
 import { toast } from 'react-hot-toast'
 import Job from 'src/contract/models/job'
 import debounce from 'src/utils/debounce'
-import { GridPaginationModel, GridRowParams } from '@mui/x-data-grid'
+import { GridPaginationModel } from '@mui/x-data-grid'
 import DialogDelete from './DialogDelete'
 import DialogEdit from './DialogEdit'
 import { v4 } from 'uuid'
@@ -20,10 +20,8 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { IUser } from 'src/contract/models/user'
 import DialogBlock from './DialogBlock'
-import { useRouter } from 'next/navigation'
 
 const JobManagementScreen = () => {
-  const router = useRouter()
   const [hookSignature, setHookSignature] = useState(v4())
   const [onLoading, setOnLoading] = useState(false)
   const [openAddModal, setOpenAddModal] = useState(false)
