@@ -142,7 +142,6 @@ const JobManagementScreen = () => {
   }
 
   const updateHandler = (row: Job) => {
-    console.log(row)
     setSelectedItem(row)
     setOpenEditModal(true)
   }

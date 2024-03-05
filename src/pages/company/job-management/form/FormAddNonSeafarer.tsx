@@ -91,9 +91,9 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ dialogProps, a
         throw response.data.message ?? 'Something went wrong!'
       }
       const rawData: JobCategory[] = response?.data?.categories?.data
-      const filterOnshipCategories = rawData.filter(d => d.employee_type == 'offship')
+      const filterOffshipCategories = rawData.filter(d => d.employee_type == 'offship')
 
-      setJobCategories(filterOnshipCategories)
+      setJobCategories(filterOffshipCategories)
     })
     HttpClient.get(`/public/data/degree`).then(response => {
       if (response.status != 200) {
