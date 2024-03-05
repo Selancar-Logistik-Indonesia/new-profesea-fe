@@ -61,7 +61,7 @@ const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 const getSchema = (t: any) => {
   return yup.object().shape({
     email: yup.string().email(t('input_label_error_3')).required(t('input_label_error_1')),
-    password: yup.string().min(8, t('input_label_error_2')).required(t('input_label_error_1'))
+    password: yup.string().min(7, t('input_label_error_2')).required(t('input_label_error_1'))
   })
 }
 
