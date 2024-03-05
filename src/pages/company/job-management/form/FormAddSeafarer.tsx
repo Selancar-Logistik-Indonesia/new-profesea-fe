@@ -398,7 +398,7 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
           <Grid item md={3} xs={12} sx={{ mb: 1 }}>
             <TextField
               id='contractDuration'
-              label='Contract Duration ( month )'
+              label='Contract Duration (Month)'
               variant='outlined'
               fullWidth
               type='number'
