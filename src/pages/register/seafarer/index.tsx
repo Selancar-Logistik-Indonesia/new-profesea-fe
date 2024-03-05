@@ -44,11 +44,6 @@ const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   }
 }))
 
-const schema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().min(5).required()
-})
-
 const Register = () => {
   const theme = useTheme()
   const { settings } = useSettings()
@@ -59,6 +54,10 @@ const Register = () => {
 
   const [gambar, setGambar] = useState('url(/images/candidate-00.jpg)')
   const [labelAtas, setLabelAtas] = useState(1)
+  const schema = yup.object().shape({
+    email: yup.string().email().required(),
+    password: yup.string().min(5).required()
+  })
 
   const {} = useForm({
     mode: 'onBlur',
