@@ -237,6 +237,7 @@ const Registration = (props: any) => {
                 {...register('phone')}
                 onChange={e => onChangePhoneNum(e.target.value)}
                 error={Boolean(errors.phone)}
+                placeholder={'85234567'}
                 InputProps={{
                   startAdornment: (
                     <Autocomplete
@@ -291,6 +292,7 @@ const Registration = (props: any) => {
                 {...register('phone')}
                 onChange={e => onChangePhoneNum(e.target.value)}
                 error={Boolean(errors.phone)}
+                placeholder={'85234567'}
                 InputProps={{
                   startAdornment: (
                     <Autocomplete
@@ -299,6 +301,7 @@ const Registration = (props: any) => {
                       id='code'
                       options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
                       renderInput={params => <TextField {...params} variant='standard' />}
+                      value={idcombocode}
                       {...register('code')}
                       onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
                     />
