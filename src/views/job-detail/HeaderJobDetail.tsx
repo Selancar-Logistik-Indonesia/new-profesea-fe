@@ -25,7 +25,7 @@ const HeaderJobDetail: React.FC<IHeaderJobDetailProps> = ({ jobDetail, onApplied
       <Box sx={{ width: '70%' }}>
         <Grid container>
           <Grid xs={12}>
-            <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={20}>
+            <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={25}>
               <strong>{jobDetail?.role_type?.name}</strong>
             </Typography>
             <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>

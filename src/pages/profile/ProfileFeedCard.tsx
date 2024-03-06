@@ -9,7 +9,13 @@ import { AppConfig } from 'src/configs/api'
 import { HttpClient } from 'src/services'
 import { getUserAvatar, toTitleCase } from 'src/utils/helpers'
 
-export default function ProfileFeedCard() {
+interface IProfileFeedCard {
+  user_id: number | undefined | null
+}
+
+export default function ProfileFeedCard(props: IProfileFeedCard) {
+  const { user_id } = props
+
   const [feeds, setFeeds] = useState<ISocialFeed[]>([])
   const [onLoading, setOnLoading] = useState(false)
 
@@ -26,8 +32,9 @@ export default function ProfileFeedCard() {
     try {
       const url = '/social-feed/feed/'
       const response = await HttpClient.get(url, {
+        
+        ...payload,
         page: sPage,
-        ...payload
       })
 
       if (response.status == 200) {
@@ -53,7 +60,7 @@ export default function ProfileFeedCard() {
   }
 
   useEffect(() => {
-    fetchFeeds({ mPage: 1, take: 2 })
+    fetchFeeds({ mPage: 1, take: 2, user_id:user_id  })
   }, [])
 
   return (

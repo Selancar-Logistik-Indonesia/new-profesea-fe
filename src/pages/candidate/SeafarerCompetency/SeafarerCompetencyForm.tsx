@@ -27,13 +27,13 @@ import DatePicker from 'react-datepicker'
 import * as Yup from 'yup'
 
 const CompetencySchema = Yup.object().shape({
-  user_id: Yup.number().required(),
+  user_id: Yup.number().required("User Data is required"),
   country_id: Yup.object().shape({
-    id: Yup.number().required('country id is required'),
+    id: Yup.number().required('Country is required'),
     name: Yup.string().required('')
   }),
-  coc_id: Yup.object().shape({ id: Yup.number().required('coc id is required'), title: Yup.string().required('') }),
-  certificate_number: Yup.string().required(),
+  coc_id: Yup.object().shape({ id: Yup.number().required('Certificate of Competency is required'), title: Yup.string().required('') }),
+  certificate_number: Yup.string().required("Certificate Number is required"),
   is_lifetime: Yup.boolean().nullable()
 })
 
@@ -233,12 +233,16 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                 options={proficiencies}
                 getOptionLabel={(option: any) => option.title || ''}
                 defaultValue={coc?.id ? coc : ''}
-                renderInput={params => <TextField {...params} label='Certificate of competency' variant='standard' />}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    error={formik.errors.coc_id ? true : false}
+                    label='Certificate of competency * '
+                    variant='standard'
+                  />
+                )}
                 onChange={(event: any, newValue: any) => (newValue?.id ? setCoc(newValue) : setCoc(''))}
               />
-              {formik.errors.coc_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.coc_id)}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
@@ -247,14 +251,18 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                 options={countries}
                 defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
                 getOptionLabel={option => option.name || ''}
-                renderInput={(params: any) => <TextField {...params} label='Country of Issue' variant='standard' />}
+                renderInput={(params: any) => (
+                  <TextField
+                    {...params}
+                    error={formik.errors.country_id ? true : false}
+                    label='Country of Issue * '
+                    variant='standard'
+                  />
+                )}
                 onChange={(event: any, newValue: string | null) =>
                   newValue ? setCountryOfIssue(newValue) : setCountryOfIssue('')
                 }
               />
-              {formik.errors.country_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.country_id)}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <TextField
@@ -262,14 +270,12 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                 defaultValue={type == 'edit' ? seafarerCompetency?.certificate_number : ''}
                 id='certificateNumber'
                 name={'certificate_number'}
-                label='Certificate Number'
+                label='Certificate Number * '
                 variant='standard'
                 onChange={formik.handleChange}
                 fullWidth
+                error={formik.errors.certificate_number ? true : false}
               />
-              {formik.errors.certificate_number && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.certificate_number}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <DatePicker
@@ -312,12 +318,12 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                 component='label'
                 variant='contained'
                 size='small'
-                fullWidth
+                sx={{ width:200}}
                 startIcon={
-                  <Icon icon='material-symbols:cloud-upload' width='16' height='16' style={{ color: 'white' }} />
+                  <Icon icon='material-symbols:cloud-upload' style={{ color:'white'}} width='15' height='15'  />
                 }
               >
-                Upload file <span>{attachment ? ' : ' + attachment['name'] : ''}</span>
+                <span style={{ width:'500px'}}>Upload file <span>{attachment ? ' : ' + attachment['name'] : ''}</span></span>
                 <input
                   style={{ visibility: 'hidden' }}
                   type='file'
@@ -326,10 +332,23 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                 />
               </Button>
             </Grid>
+            <Grid item md={12} xs={12} mb={5} sx={{ color:'red', margin:"-10px -25px"}}>
+              <ul>
+                {formik.isSubmitting && Object.entries(formik.errors).map((item:any) => {
+                  return (<li key={item[0]}>{JSON.stringify(item[1])}</li>)
+                })}
+              </ul>
+            </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button type='submit' variant='contained' style={{ margin: '10px 0' }} size='small'>
+          <Button
+            disabled={Object.keys(formik.errors).length > 0 ? true : false}
+            type='submit'
+            variant='contained'
+            style={{ margin: '10px 0' }}
+            size='small'
+          >
             <Icon
               fontSize='small'
               icon={'solar:add-circle-bold-duotone'}

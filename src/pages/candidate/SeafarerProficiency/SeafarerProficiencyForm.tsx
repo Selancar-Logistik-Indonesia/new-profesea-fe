@@ -27,13 +27,13 @@ import DatePicker from 'react-datepicker'
 import * as Yup from 'yup'
 
 const ProficiencySchema = Yup.object().shape({
-  user_id: Yup.number().required(),
+  user_id: Yup.number().required("User Data is required"),
   country_id: Yup.object().shape({
-    id: Yup.number().required('country id is required'),
+    id: Yup.number().required('Country is required'),
     name: Yup.string().required('')
   }),
-  cop_id: Yup.object().shape({ id: Yup.number().required('cop id is required'), title: Yup.string().required('') }),
-  certificate_number: Yup.string().required(),
+  cop_id: Yup.object().shape({ id: Yup.number().required('Certificate of Proficiency is required'), title: Yup.string().required('') }),
+  certificate_number: Yup.string().required("Certificate Number is required"),
   is_lifetime: Yup.boolean().nullable(),
   filename: Yup.string().nullable()
 })
@@ -233,12 +233,16 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 options={proficiencies}
                 getOptionLabel={(option: any) => option.title || ''}
                 defaultValue={cop?.id ? cop : ''}
-                renderInput={params => <TextField {...params} label='Certificate of Proficiency' variant='standard' />}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    error={formik.errors.cop_id ? true : false}
+                    label='Certificate of Proficiency * '
+                    variant='standard'
+                  />
+                )}
                 onChange={(event: any, newValue: any) => (newValue?.id ? setCop(newValue) : setCop(''))}
               />
-              {formik.errors.cop_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.cop_id)}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
@@ -247,29 +251,31 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 options={countries}
                 defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
                 getOptionLabel={option => option.name || ''}
-                renderInput={(params: any) => <TextField {...params} label='Country of Issue' variant='standard' />}
+                renderInput={(params: any) => (
+                  <TextField
+                    {...params}
+                    error={formik.errors.country_id ? true : false}
+                    label='Country of Issue * '
+                    variant='standard'
+                  />
+                )}
                 onChange={(event: any, newValue: string | null) =>
                   newValue ? setCountryOfIssue(newValue) : setCountryOfIssue('')
                 }
               />
-              {formik.errors.country_id && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.country_id)}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <TextField
+                error={formik.errors.certificate_number ? true : false}
                 value={formik.values.certificate_number}
                 defaultValue={type == 'edit' ? seafarerProficiency?.certificate_number : ''}
                 id='certificateNumber'
                 name={'certificate_number'}
-                label='Certificate Number'
+                label='Certificate Number * '
                 variant='standard'
                 onChange={formik.handleChange}
                 fullWidth
               />
-              {formik.errors.certificate_number && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{formik.errors.certificate_number}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <DatePicker
@@ -285,9 +291,6 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 name='valid_date'
                 customInput={<TextField label='Valid Date' variant='standard' fullWidth />}
               />
-              {formik.errors.valid_date && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.valid_date)}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <FormControlLabel
@@ -303,21 +306,19 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 }
                 label='Lifetime'
               />
-              {formik.errors.is_lifetime && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.is_lifetime)}</span>
-              )}
+             
             </Grid>
             <Grid>
               <Button
                 component='label'
                 variant='contained'
                 size='small'
-                fullWidth
+                sx={{ width:200 }}
                 startIcon={
                   <Icon icon='material-symbols:cloud-upload' width='16' height='16' style={{ color: 'white' }} />
                 }
               >
-                Upload file <span>{attachment ? ' : ' + attachment['name'] : ''}</span>
+                <span style={{ width:'500px'}}>Upload file <span>{attachment ? ' : ' + attachment['name'] : ''}</span></span>
                 <input
                   style={{ visibility: 'hidden' }}
                   type='file'
@@ -326,10 +327,23 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 />
               </Button>
             </Grid>
+            <Grid item md={12} xs={12} mb={5} sx={{ color:'red', margin:"-10px -25px"}}>
+              <ul>
+                {formik.isSubmitting && Object.entries(formik.errors).map((item:any) => {
+                  return (<li key={item[0]}>{JSON.stringify(item[1])}</li>)
+                })}
+              </ul>
+            </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button type='submit' variant='contained' style={{ margin: '10px 0' }} size='small'>
+          <Button
+            disabled={Object.keys(formik.errors).length > 0 ? true : false}
+            type='submit'
+            variant='contained'
+            style={{ margin: '10px 0' }}
+            size='small'
+          >
             <Icon
               fontSize='small'
               icon={'solar:add-circle-bold-duotone'}

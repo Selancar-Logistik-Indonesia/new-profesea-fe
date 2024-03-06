@@ -147,9 +147,7 @@ const UserProfileHeader = (props: userProps) => {
         </CardContent>
         <Divider style={{ width: '100%' }} />
         <CardContent>
-          <Typography variant='body1' sx={{ color: '#262525', fontWeight: 500 }}>
-            {datauser.about ? datauser.about : '-'}
-          </Typography>
+         
           <Box
             sx={{
               display: 'flex',

@@ -37,11 +37,11 @@ const renderList = (arr: IUser[]) => {
         </Box>
         <Box sx={{ flexGrow: 1, ml: 3, display: 'flex', flexDirection: 'column' }}>
           <Link style={{ textDecoration: 'none' }} href={`/profile/${item.username}`}>
-            <Typography sx={{ color: '#0a66c2', fontWeight: 'bold', mt: 1, fontSize: 12 }}>
+            <Typography sx={{ color: '#0a66c2', fontWeight: 'bold', mt: 1, fontSize: 14 }}>
               {toTitleCase(item.name)}
             </Typography>
           </Link>
-          <Typography sx={{ color: 'text.primary', mt: 1, mb: 1, fontSize: 10 }}>
+          <Typography sx={{ color: 'text.primary', mt: 1, mb: 1, fontSize: 14 }}>
             {item.employee_type != 'offship' ? item.role : 'Candidate'}
           </Typography>
           <Box>

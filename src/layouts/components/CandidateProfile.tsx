@@ -2,10 +2,11 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import { Theme, useTheme } from '@mui/material/styles'
 // ** MUI Components
-import Box, { BoxProps } from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import {
+  Box,
+  BoxProps,
   Button,
+  Grid,
   TextField,
   FormControl,
   Autocomplete,
@@ -17,7 +18,8 @@ import {
   MenuItem,
   Card,
   InputLabel,
-  InputAdornment
+  InputAdornment,
+  Typography
 } from '@mui/material'
 
 import DatePicker from 'react-datepicker'
@@ -28,7 +30,6 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 // import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import { Grid } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -58,7 +59,7 @@ import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
-import { refreshsession, removeFirstZeroChar } from 'src/utils/helpers'
+import { removeFirstZeroChar, refreshsession } from 'src/utils/helpers'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import JobCategory from 'src/contract/models/job_category'
@@ -68,6 +69,9 @@ import SeafarerExperienceTable from 'src/pages/candidate/SeafarerExperience/Seaf
 import SeafarerCompetencyTable from 'src/pages/candidate/SeafarerCompetency/SeafarerCompetencyContainer'
 import SeafarerProficiencyTable from 'src/pages/candidate/SeafarerProficiency/SeafarerProficiencyContainer'
 import SeafarerRecommendationForm from 'src/pages/candidate/SeafarerRecommendation/SeafarerRecommendationForm'
+import DocumentUpload from './DocumentUploadSection'
+import WorkExperienceSection from './WorkExperienceSection'
+import EducationalInfoSection from './EducationalInfoSection'
 
 type FormData = {
   fullName: string
@@ -555,7 +559,7 @@ const CandidateProfile = (props: compProps) => {
       employee_type: idship,
       name: fullName,
       phone: phoneNum,
-      date_of_birth: dateOfBirth,
+      date_of_birth: dateOfBirth ? dateOfBirth : null,
       website: website,
       about: about,
       address_country_id: idcountry,
@@ -565,8 +569,6 @@ const CandidateProfile = (props: compProps) => {
       location_province_id: idcomboProvince,
       no_experience: noExperience
     }
-
-    console.log(' json submit = > ', json)
 
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
       () => {
@@ -605,14 +607,12 @@ const CandidateProfile = (props: compProps) => {
             category_id: JC
           }
           HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(
-            ({ data }) => {
-              console.log('here 1', data)
+            () => {
               toast.success('Successfully submited!')
               refreshsession()
               window.location.replace('/home')
             },
             error => {
-              console.log('here 1', error)
               toast.error(' Failed Field Preference : ' + error.response.data.message)
             }
           )
@@ -734,6 +734,8 @@ const CandidateProfile = (props: compProps) => {
   const displayopp = (type: any) => {
     setOpp(type?.id)
   }
+
+  console.log(' idComboProvince => ', idcomboProvince)
 
   return (
     <Grid container md={12} xs={12} padding={5}>
@@ -1444,422 +1446,49 @@ const CandidateProfile = (props: compProps) => {
           )}
           <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
           <Box sx={{ marginTop: '20px' }}></Box>
-          <Grid item container xs={12}>
-            <Grid xs={10} md={11}>
-              <Grid container item xs={12} justifyContent={'left'}>
-                <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-                  Educational Info
-                </Typography>
-              </Grid>
-              <Grid container item xs={12} justifyContent={'left'}>
-                <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                  Fulfill your Educational Info
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
-              <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
-                <Icon
-                  fontSize='small'
-                  icon={'solar:add-circle-bold-duotone'}
-                  color={'success'}
-                  style={{ fontSize: '18px' }}
-                />
-                <div style={{ marginLeft: 5 }}>ADD</div>
-              </Button>
-            </Grid>
-            <Grid item container xs={12}>
-              {itemDataED.map(item => (
-                <Grid item container xs={12} marginTop={2} key={item.id}>
-                  <Grid xs={4} md={1}>
-                    <img
-                      alt='logo'
-                      src={item.logo ? item.logo : '/images/educationalinfo.png'}
-                      style={{
-                        maxWidth: '100%',
-                        height: '100px',
-                        padding: 10,
-                        margin: 0
-                      }}
-                    />
-                  </Grid>
-                  <Grid xs={8} md={11} item container>
-                    <Grid xs={10} marginTop={2}>
-                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
-                        {item.title}
-                      </Typography>
-                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                        {item.major}
-                      </Typography>
-                      <Grid xs={12} display='flex'>
-                        <Box>
-                          <Typography variant='body1'>{item.start_date}</Typography>
-                        </Box>
-                        <Box>
-                          <Typography variant='body1'> &nbsp; - &nbsp;</Typography>
-                        </Box>
-                        <Box>
-                          <Typography variant='body1'>{item.end_date}</Typography>
-                        </Box>
-                      </Grid>
-                    </Grid>
-                    <Grid xs={12} md={2} marginTop={2} display='flex' item container>
-                      <Grid xs={12} display='flex' item container>
-                        <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
-                          <Box margin={1}>
-                            <Button variant='outlined' color='primary' size='small' onClick={() => editEducation(item)}>
-                              <Icon
-                                fontSize='small'
-                                icon={'solar:pen-new-round-bold-duotone'}
-                                color={'primary'}
-                                style={{ fontSize: '18px' }}
-                              />
-                            </Button>
-                          </Box>
-                          <Box margin={1}>
-                            <Button
-                              variant='outlined'
-                              color='error'
-                              size='small'
-                              onClick={() => deleteeducation(item.id)}
-                            >
-                              <Icon
-                                fontSize='small'
-                                icon={'solar:trash-bin-trash-bold-duotone'}
-                                color={'error'}
-                                style={{ fontSize: '18px' }}
-                              />
-                            </Button>
-                          </Box>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  {/* <Grid xs={12}>
-                  <Typography variant='body1'>{item.description}</Typography>
-                </Grid> */}
-                  <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-          {/* Work Experience */}
-          <Grid item container xs={12}>
-            <Grid xs={10} md={11}>
-              <Grid container item xs={12} justifyContent={'left'}>
-                <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-                  Work Experience Info
-                </Typography>
-              </Grid>
-              <Grid container item xs={12} justifyContent={'left'}>
-                <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                  Fulfill your Work Experience Info
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid xs={2} md={1} display='flex' justifyContent='flex-end' alignItems='flex-end'>
-              <Button variant='contained' size='small' onClick={() => setOpenAddModalWE(!openAddModalWE)}>
-                <Icon
-                  fontSize='small'
-                  icon={'solar:add-circle-bold-duotone'}
-                  color={'success'}
-                  style={{ fontSize: '18px' }}
-                />
-                <div style={{ marginLeft: 5 }}>ADD</div>
-              </Button>
-            </Grid>
-            <Grid item container xs={12}>
-              {itemDataWE.map(item => (
-                <Grid item container xs={12} marginTop={2} key={item.id}>
-                  <Grid xs={4} md={1}>
-                    <img
-                      alt='logo'
-                      src={item.logo ? item.logo : '/images/workexperienceinfo.png'}
-                      style={{
-                        maxWidth: '100%',
-                        height: '100px',
-                        padding: 10,
-                        margin: 0
-                      }}
-                    />
-                  </Grid>
-                  <Grid xs={8} md={11} item container>
-                    <Grid xs={10} marginTop={2}>
-                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
-                        {item.position} (-)
-                      </Typography>
-                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                        {item.institution}
-                      </Typography>
-                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                        {item.vessel_type?.name}
-                      </Typography>
-                      <Grid xs={12} display='flex'>
-                        <Box>
-                          <Typography variant='body1'>{item.start_date}</Typography>
-                        </Box>
-                        <Box>
-                          <Typography variant='body1'> &nbsp; - &nbsp; </Typography>
-                        </Box>
-                        <Box>
-                          <Typography variant='body1'>{item.end_date}</Typography>
-                        </Box>
-                      </Grid>
-                    </Grid>
-                    <Grid xs={12} md={2} marginTop={2} display='flex' item container>
-                      <Grid xs={12} display='flex' item container>
-                        <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
-                          <Box margin={1}>
-                            <Button
-                              variant='outlined'
-                              color='primary'
-                              size='small'
-                              onClick={() => editWorkExperience(item)}
-                            >
-                              <Icon
-                                fontSize='large'
-                                icon={'solar:pen-new-round-bold-duotone'}
-                                color={'primary'}
-                                style={{ fontSize: '18px' }}
-                              />
-                            </Button>
-                          </Box>
-                          <Box margin={1}>
-                            <Button variant='outlined' color='error' size='small' onClick={() => deletewe(item.id)}>
-                              <Icon
-                                fontSize='large'
-                                icon={'solar:trash-bin-trash-bold-duotone'}
-                                color={'error'}
-                                style={{ fontSize: '18px' }}
-                              />
-                            </Button>
-                          </Box>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid xs={12}>
-                    <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                      {item.description}
-                    </Typography>
-                  </Grid>
-                  <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-          {/* End Work Experience */}
-          {tampilkanship == 'PELAUT' && (
-            <Grid item container xs={12}>
-              <Grid xs={10} md={11}>
-                <Grid container item xs={12} justifyContent={'left'}>
-                  <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-                    Document Upload
-                  </Typography>
-                </Grid>
-                <Grid container item xs={12} justifyContent={'left'}>
-                  <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                    Upload your Document Info
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid display='flex' justifyContent='flex-end' alignItems='flex-end' xs={2} md={1}>
-                <Button variant='contained' size='small' onClick={() => setOpenAddModalDoc(!openAddModalDoc)}>
-                  <Icon
-                    fontSize='small'
-                    icon={'solar:add-circle-bold-duotone'}
-                    color={'success'}
-                    style={{ fontSize: '18px' }}
-                  />
-                  <div style={{ marginLeft: 5 }}>ADD</div>
-                </Button>
-              </Grid>
-              <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
-              <Grid item container xs={12}>
-                {itemData.map(itemhead => (
-                  <>
-                    {itemhead.childs?.length <= 0 ? (
-                      <>
-                        <Grid item container xs={12} marginTop={2} key={itemhead.id} alignItems='center'>
-                          <Grid xs={12} md={9} container direction='row' alignItems='center'>
-                            <Icon
-                              fontSize='large'
-                              icon={'solar:document-bold'}
-                              color={'info'}
-                              style={{ fontSize: '18px', margin: '5px' }}
-                            />
-                            <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
-                              {itemhead.document_name}
-                            </Typography>
-                          </Grid>
-                          <Grid xs={12} md={3} display='flex' item container>
-                            <Grid
-                              xs={12}
-                              md={12}
-                              container
-                              direction='row'
-                              justifyContent='flex-end'
-                              alignItems='center'
-                            >
-                              <Box margin={1}>
-                                <Button
-                                  variant='outlined'
-                                  color='info'
-                                  size='small'
-                                  href={itemhead.path}
-                                  target='_blank'
-                                >
-                                  <Icon
-                                    fontSize='large'
-                                    icon={'icon-park-outline:preview-open'}
-                                    color={'info'}
-                                    style={{ fontSize: '18px' }}
-                                  />
-                                </Button>
-                              </Box>
-                              <Box margin={1}>
-                                <Button
-                                  variant='outlined'
-                                  color='primary'
-                                  size='small'
-                                  onClick={() => editDocument(itemhead)}
-                                >
-                                  <Icon
-                                    fontSize='large'
-                                    icon={'solar:pen-new-round-bold-duotone'}
-                                    color={'primary'}
-                                    style={{ fontSize: '18px' }}
-                                  />
-                                </Button>
-                              </Box>
-                              <Box margin={1}>
-                                <Button
-                                  variant='outlined'
-                                  color='error'
-                                  size='small'
-                                  onClick={() => deletework(itemhead.id)}
-                                >
-                                  <Icon
-                                    fontSize='large'
-                                    icon={'solar:trash-bin-trash-bold-duotone'}
-                                    color={'error'}
-                                    style={{ fontSize: '18px' }}
-                                  />
-                                </Button>
-                              </Box>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </>
-                    ) : (
-                      <>
-                        <Typography> {itemhead.document_name}</Typography>
-                        {itemhead.childs.map(
-                          (item: {
-                            id: React.Key | null | undefined
-                            document_name: string | null | undefined
-                            path: string
-                          }) => (
-                            <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
-                              <Grid xs={12} md={9} container direction='row' alignItems='center'>
-                                <Icon
-                                  fontSize='large'
-                                  icon={'solar:document-bold'}
-                                  color={'info'}
-                                  style={{ fontSize: '18px', margin: '5px' }}
-                                />
-                                <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
-                                  {item.document_name}
-                                </Typography>
-                              </Grid>
-                              <Grid xs={12} md={3} display='flex' item container>
-                                <Grid
-                                  xs={12}
-                                  md={12}
-                                  container
-                                  direction='row'
-                                  justifyContent='flex-end'
-                                  alignItems='center'
-                                >
-                                  <Box margin={1}>
-                                    <Button
-                                      variant='outlined'
-                                      color='info'
-                                      size='small'
-                                      href={item.path}
-                                      target='_blank'
-                                    >
-                                      <Icon
-                                        fontSize='large'
-                                        icon={'icon-park-outline:preview-open'}
-                                        color={'info'}
-                                        style={{ fontSize: '18px' }}
-                                      />
-                                    </Button>
-                                  </Box>
-                                  <Box margin={1}>
-                                    <Button
-                                      variant='outlined'
-                                      color='primary'
-                                      size='small'
-                                      onClick={() => editDocument(item)}
-                                    >
-                                      <Icon
-                                        fontSize='large'
-                                        icon={'solar:pen-new-round-bold-duotone'}
-                                        color={'primary'}
-                                        style={{ fontSize: '18px' }}
-                                      />
-                                    </Button>
-                                  </Box>
-                                  <Box margin={1}>
-                                    <Button
-                                      variant='outlined'
-                                      color='error'
-                                      size='small'
-                                      onClick={() => deletework(item.id)}
-                                    >
-                                      <Icon
-                                        fontSize='large'
-                                        icon={'solar:trash-bin-trash-bold-duotone'}
-                                        color={'error'}
-                                        style={{ fontSize: '18px' }}
-                                      />
-                                    </Button>
-                                  </Box>
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                          )
-                        )}
-                      </>
-                    )}
-                    <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
-                  </>
-                ))}
-              </Grid>
-            </Grid>
+          <EducationalInfoSection
+            setOpenAddModal={setOpenAddModal}
+            editEducation={editEducation}
+            deleteeducation={deleteeducation}
+            openAddModal={openAddModal}
+            itemDataED={itemDataED}
+          />
+
+          {tampilkanship != 'PELAUT' && (
+            <WorkExperienceSection
+              setOpenAddModalWE={setOpenAddModalWE}
+              deletewe={deletewe}
+              editWorkExperience={editWorkExperience}
+              openAddModalWE={openAddModalWE}
+              itemDataWE={itemDataWE}
+            />
+          )}
+
+          {tampilkanship != 'PELAUT' && (
+            <DocumentUpload
+              setOpenAddModalDoc={setOpenAddModalDoc}
+              editDocument={editDocument}
+              deletework={deletework}
+              itemData={itemData}
+              openAddModalDoc={openAddModalDoc}
+            />
           )}
         </Grid>
       </form>
 
-      <Grid className='seaman-table' xs={12} item container>
-        <SeafarerTravelDocumentTable user_id={props?.datauser.id} />
-        <Divider style={{ width: '100%', margin: '20px 0' }} />
-        <SeafarerExperienceTable
-          user_id={props?.datauser.id}
-          no_experience={noExperience}
-          setNoExperience={setNoExperience}
-        />
-        <Divider style={{ width: '100%', margin: '20px 0' }} />
-        <SeafarerCompetencyTable user_id={props?.datauser.id} />
-        <Divider style={{ width: '100%', margin: '20px 0' }} />
-        <SeafarerProficiencyTable user_id={props?.datauser.id} />
-        <Divider style={{ width: '100%', margin: '20px 0' }} />
-
-        {!noExperience ? <SeafarerRecommendationForm user_id={props?.datauser.id} /> : ''}
-        <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={11} lg={11} xs={12}></Grid>
-      </Grid>
+      {tampilkanship == 'PELAUT' && (
+        <Grid className='seaman-table' xs={12} item container>
+          <SeafarerTravelDocumentTable user_id={props?.datauser.id} />
+          <SeafarerExperienceTable
+            user_id={props?.datauser.id}
+            no_experience={noExperience}
+            setNoExperience={setNoExperience}
+          />
+          <SeafarerCompetencyTable user_id={props?.datauser.id} />
+          <SeafarerProficiencyTable user_id={props?.datauser.id} />
+          {!noExperience ? <SeafarerRecommendationForm user_id={props?.datauser.id} /> : ''}
+        </Grid>
+      )}
 
       <Grid item container lg={12} md={12} xs={12}>
         <Grid item container direction='row' justifyContent='flex-end' alignItems='right' md={12} lg={12} xs={12}>
