@@ -81,6 +81,7 @@
     "input_label_error_3": "Email must be a valid email",
     "input_label_error_4": "Email or Password is invalid",
     "input_label_error_5": "Please agree to the applicable Terms & Conditions and Privacy Policy",
+    "input_label_error_6": "Registrastion failed the password confirmation does not match",
     "login_text_1": "Login",
     "login_text_1_G": "Log in With",
     "login_text_2": "Don't have an account?",
@@ -110,7 +111,7 @@
     "register_text_16": "and",
     "register_text_17": "",
     "register_rule_1": "Password Terms:",
-    "register_rule_2": "Minimum 8 characters.",
+    "register_rule_2": "Minimum 7 characters.",
     "register_rule_3": "Use a combination of numbers, letters, symbols, as well as uppercase and lowercase letters.",
 
     "features": {

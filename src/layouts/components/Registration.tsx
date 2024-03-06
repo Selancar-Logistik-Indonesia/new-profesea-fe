@@ -140,6 +140,12 @@ const Registration = (props: any) => {
       return
     }
 
+    if (password !== password2) {
+      toast.error(`${t('input_label_error_6')}`)
+
+      return
+    }
+
     let teamid: number
     if (tipereg == 'seafarer') {
       teamid = 2
