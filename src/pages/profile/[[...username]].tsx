@@ -200,7 +200,7 @@ const UserFeedApp = () => {
                 </Grid>
               )}
 
-              {selectedUser?.team_id == 2 && (
+              {selectedUser?.employee_type == 'onship' && (
                 <Grid item marginTop={'10px'} md={12} xs={12}>
                   <TableCard title='Recommendation'>
                     <SeafarerRecommendationTable
