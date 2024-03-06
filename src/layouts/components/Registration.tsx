@@ -57,8 +57,7 @@ interface FormData {
   phone: string
   username: string
   email: string
-  term: string
-  privacy: string
+  tos: string
 }
 const LinkStyled = styled(Link)(() => ({
   textDecoration: 'none'
@@ -88,7 +87,6 @@ const Registration = (props: any) => {
     email: yup.string().email().required(),
     password: yup.string().min(5).required(),
     username: yup.string().required(),
-
     phone: yup.string().required()
   })
 
@@ -135,15 +133,9 @@ const Registration = (props: any) => {
   }
 
   const onSubmit = (data: FormData) => {
-    const { password, password2, username, name, email, term, privacy } = data
-    if (term == '') {
-      toast.error(data.name + ' Please checklist term!')
-
-      return
-    }
-
-    if (privacy == '') {
-      toast.error(data.name + ' Please checklist privacy')
+    const { password, password2, username, name, email, tos } = data
+    if (tos == '') {
+      toast.error(`${t('input_label_error_5')}`)
 
       return
     }
@@ -211,7 +203,7 @@ const Registration = (props: any) => {
             <Grid item md={6} xs={12}>
               <TextField
                 id='Name'
-                label='Nama Kandidat'
+                label={t('input_label_3_1')}
                 variant='outlined'
                 fullWidth
                 sx={{ mb: 2 }}
@@ -230,7 +222,7 @@ const Registration = (props: any) => {
               /> */}
               <TextField
                 id='phone'
-                label='No Telp'
+                label={t('input_label_4')}
                 variant='outlined'
                 type='number'
                 fullWidth
@@ -273,7 +265,7 @@ const Registration = (props: any) => {
             <Grid item md={6} xs={12}>
               <TextField
                 id='Name'
-                label={tipereg == 'company' ? 'Nama Perusahaan' : 'Nama Pusat Pelatihan'}
+                label={tipereg == 'company' ? `${t('input_label_3_2')}` : `${t('input_label_3_3')}`}
                 variant='outlined'
                 fullWidth
                 sx={{ mb: 2 }}
@@ -284,7 +276,7 @@ const Registration = (props: any) => {
             <Grid item md={6} xs={12}>
               <TextField
                 id='phone'
-                label='No Telp'
+                label={t('input_label_4')}
                 variant='outlined'
                 type='number'
                 fullWidth
@@ -315,7 +307,7 @@ const Registration = (props: any) => {
         <Grid item md={6} xs={12}>
           <TextField
             id='Username'
-            label='Username'
+            label={t('input_label_5')}
             variant='outlined'
             fullWidth
             sx={{ mb: 2 }}
@@ -326,7 +318,7 @@ const Registration = (props: any) => {
         <Grid item md={6} xs={12}>
           <TextField
             id='Email'
-            label='Email'
+            label={t('input_label_1')}
             variant='outlined'
             fullWidth
             // value={teks}
@@ -339,22 +331,22 @@ const Registration = (props: any) => {
         <Grid item md={6} xs={12}>
           <FormControl fullWidth>
             <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-              Kata Sandi
+              {t('input_label_2')}
             </InputLabel>
             <LightTooltip
               title={
                 <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2 }}>
-                  <Typography sx={{ fontWeight: 800, color: 'text.primary' }}>Ketentuan Kata Sandi:</Typography>
+                  <Typography sx={{ fontWeight: 800, color: 'text.primary' }}>{t('register_rule_1')}</Typography>
                   <Box component='ul' sx={{ pl: 4, mb: 0, '& li': { mb: 1, color: 'text.primary' } }}>
-                    <li>Minimum 8 karakter</li>
-                    <li>Setidaknya satu karakter huruf kecil & satu karakter huruf besar</li>
+                    <li>{t('register_rule_2')}</li>
+                    <li>{t('register_rule_3')}</li>
                   </Box>
                 </Alert>
               }
             >
               <OutlinedInput
                 sx={{ mb: 1 }}
-                label='Password'
+                label={t('input_label_2')}
                 id='password1'
                 error={Boolean(errors.password)}
                 type={showPassword ? 'text' : 'password'}
@@ -383,22 +375,22 @@ const Registration = (props: any) => {
         <Grid item md={6} xs={12}>
           <FormControl fullWidth>
             <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-              Konfirmasi Kata Sandi
+              {t('input_label_6')}
             </InputLabel>
             <LightTooltip
               title={
                 <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2 }}>
-                  <Typography sx={{ fontWeight: 800, color: 'text.primary' }}>Ketentuan Kata Sandi:</Typography>
+                  <Typography sx={{ fontWeight: 800, color: 'text.primary' }}>{t('register_rule_1')}</Typography>
                   <Box component='ul' sx={{ pl: 4, mb: 0, '& li': { mb: 1, color: 'text.primary' } }}>
-                    <li>Minimum 8 karakter</li>
-                    <li>Setidaknya satu karakter huruf kecil & satu karakter huruf besar</li>
+                    <li>{t('register_rule_2')}</li>
+                    <li>{t('register_rule_3')}</li>
                   </Box>
                 </Alert>
               }
             >
               <OutlinedInput
                 sx={{ mb: 1 }}
-                label='Konfirmasi Kata Sandi'
+                label={t('input_label_6')}
                 id='password2'
                 error={Boolean(errors.password)}
                 type={showPassword ? 'text' : 'password'}
@@ -426,21 +418,16 @@ const Registration = (props: any) => {
         </Grid>
         <Grid item md={12} xs={12}>
           <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
-            <Checkbox id='term' {...register('term')}></Checkbox>
+            <Checkbox id='tos' {...register('tos')}></Checkbox>
+            <Typography sx={{ marginTop: '10px', color: '#262525' }}>{t('register_text_13')}&nbsp; </Typography>
             <LinkStyled href={'/term'} target='_blank'>
-              <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>{t('register_text_11')} ,</Typography>
+              <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>{t('register_text_11')}</Typography>
             </LinkStyled>
-            <Typography sx={{ marginTop: '10px', color: '#262525' }}>&nbsp; {t('register_text_13')} </Typography>
-          </Box>
-        </Grid>
-        <Grid item md={12} xs={12}>
-          <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
-            <Checkbox id='privacy' {...register('privacy')}></Checkbox>
-
+            <Typography sx={{ marginTop: '10px', color: '#262525' }}>&nbsp;{t('register_text_16')}&nbsp; </Typography>
             <LinkStyled href={'/privacy'} target='_blank'>
-              <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>{t('register_text_12')} ,</Typography>
+              <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>{t('register_text_12')}</Typography>
             </LinkStyled>
-            <Typography sx={{ marginTop: '10px', color: '#262525' }}>&nbsp; {t('register_text_13')} </Typography>
+            <Typography sx={{ marginTop: '10px', color: '#262525' }}>&nbsp;{t('register_text_17')} </Typography>
           </Box>
         </Grid>
         <Grid item md={3} xs={12} mt={5}>
@@ -453,7 +440,7 @@ const Registration = (props: any) => {
               sx={{ mb: 7 }}
               startIcon={<Icon icon={'solar:double-alt-arrow-left-bold-duotone'} />}
             >
-              BACK
+              {t('button_5')}
             </Button>
           </Link>
         </Grid>
@@ -468,7 +455,7 @@ const Registration = (props: any) => {
             sx={{ mb: 7 }}
             endIcon={<Icon icon={'solar:double-alt-arrow-right-bold-duotone'} />}
           >
-            REGISTER
+            {t('button_4')}
           </Button>
         </Grid>
       </Grid>

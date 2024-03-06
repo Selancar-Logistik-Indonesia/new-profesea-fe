@@ -78,6 +78,7 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ dialogProps, a
       if (response.status != 200) {
         throw response.data.message ?? 'Something went wrong!'
       }
+
       getRoleLevel(response.data.roleLevels.data)
     })
     HttpClient.get(`/public/data/role-type?search=&page=1&take=250`).then(response => {
@@ -91,9 +92,9 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ dialogProps, a
         throw response.data.message ?? 'Something went wrong!'
       }
       const rawData: JobCategory[] = response?.data?.categories?.data
-      const filterOnshipCategories = rawData.filter(d => d.employee_type == 'offship')
+      const filterOffshipCategories = rawData.filter(d => d.employee_type == 'offship')
 
-      setJobCategories(filterOnshipCategories)
+      setJobCategories(filterOffshipCategories)
     })
     HttpClient.get(`/public/data/degree`).then(response => {
       if (response.status != 200) {

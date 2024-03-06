@@ -27,13 +27,13 @@ import DatePicker from 'react-datepicker'
 import * as Yup from 'yup'
 
 const CompetencySchema = Yup.object().shape({
-  user_id: Yup.number().required(),
+  user_id: Yup.number().required("User Data is required"),
   country_id: Yup.object().shape({
-    id: Yup.number().required('country id is required'),
+    id: Yup.number().required('Country is required'),
     name: Yup.string().required('')
   }),
-  coc_id: Yup.object().shape({ id: Yup.number().required('coc id is required'), title: Yup.string().required('') }),
-  certificate_number: Yup.string().required(),
+  coc_id: Yup.object().shape({ id: Yup.number().required('Certificate of Competency is required'), title: Yup.string().required('') }),
+  certificate_number: Yup.string().required("Certificate Number is required"),
   is_lifetime: Yup.boolean().nullable()
 })
 
@@ -318,12 +318,12 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                 component='label'
                 variant='contained'
                 size='small'
-                fullWidth
+                sx={{ width:200}}
                 startIcon={
-                  <Icon icon='material-symbols:cloud-upload' width='16' height='16' style={{ color: 'white' }} />
+                  <Icon icon='material-symbols:cloud-upload' style={{ color:'white'}} width='15' height='15'  />
                 }
               >
-                Upload file <span>{attachment ? ' : ' + attachment['name'] : ''}</span>
+                <span style={{ width:'500px'}}>Upload file <span>{attachment ? ' : ' + attachment['name'] : ''}</span></span>
                 <input
                   style={{ visibility: 'hidden' }}
                   type='file'
@@ -331,6 +331,13 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                   onChange={e => setAttachment(e.target?.files ? e.target?.files[0] : null)}
                 />
               </Button>
+            </Grid>
+            <Grid item md={12} xs={12} mb={5} sx={{ color:'red', margin:"-10px -25px"}}>
+              <ul>
+                {formik.isSubmitting && Object.entries(formik.errors).map((item:any) => {
+                  return (<li key={item[0]}>{JSON.stringify(item[1])}</li>)
+                })}
+              </ul>
             </Grid>
           </Grid>
         </DialogContent>

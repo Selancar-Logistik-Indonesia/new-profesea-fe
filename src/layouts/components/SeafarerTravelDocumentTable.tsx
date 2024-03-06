@@ -38,7 +38,7 @@ export default function SeafarerTravelDocumentTable(props: ISeafarerTravelDocume
       const result = response.data.data.map((item: ISeafarerTravelDocumentData) => {
         return {
           ...item,
-          country_issue: item.country.name,
+          country_issue: item.country?.name,
           date_of_issue: new Date(item.date_of_issue),
           valid_date_column: item.valid_date ? new Date(item?.valid_date) : 'lifetime'
         }

@@ -59,7 +59,7 @@ import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
-import { refreshsession, removeFirstZeroChar } from 'src/utils/helpers'
+import { removeFirstZeroChar, refreshsession } from 'src/utils/helpers'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import JobCategory from 'src/contract/models/job_category'
@@ -570,8 +570,6 @@ const CandidateProfile = (props: compProps) => {
       no_experience: noExperience
     }
 
-    console.log(' json submit = > ', json)
-
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
       () => {
         if (tampilkanship == 'PELAUT') {
@@ -609,14 +607,12 @@ const CandidateProfile = (props: compProps) => {
             category_id: JC
           }
           HttpClient.post(AppConfig.baseUrl + '/user/field-preference', x).then(
-            ({ data }) => {
-              console.log('here 1', data)
+            () => {
               toast.success('Successfully submited!')
               refreshsession()
               window.location.replace('/home')
             },
             error => {
-              console.log('here 1', error)
               toast.error(' Failed Field Preference : ' + error.response.data.message)
             }
           )
@@ -738,6 +734,8 @@ const CandidateProfile = (props: compProps) => {
   const displayopp = (type: any) => {
     setOpp(type?.id)
   }
+
+  console.log(' idComboProvince => ', idcomboProvince)
 
   return (
     <Grid container md={12} xs={12} padding={5}>

@@ -37,7 +37,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
       const result = response.data.data.map((item: ISeafarerTravelDocumentData) => {
         return {
           ...item,
-          country_issue: item.country.name,
+          country_issue: item?.country?.name,
           date_of_issue: new Date(item.date_of_issue),
           valid_date_column: item.valid_date ? new Date(item?.valid_date) : 'lifetime'
         }
@@ -93,7 +93,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
     },
     {
       field: 'download',
-      headerName: 'Download',
+      headerName: 'Credentials',
 
       width: 180,
       renderCell(params: any) {
@@ -190,7 +190,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
                   color={'success'}
                   style={{ fontSize: '18px' }}
                 />
-                <div> Add Travel Document </div>
+                <div> Add more Travel Document </div>
               </Button>
             )}
           </Grid>

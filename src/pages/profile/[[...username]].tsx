@@ -26,6 +26,8 @@ import SeafarerTravelDocumentTable from 'src/layouts/components/SeafarerTravelDo
 import SeafarerExperienceTable from 'src/layouts/components/SeafarerExperienceTable'
 import SeafarerCompetencyTable from 'src/layouts/components/SeafarerCompetencyTable'
 import SeafarerProficiencyTable from 'src/layouts/components/SeafarerProficiencyTable'
+import SeafarerRecommendationTable from 'src/layouts/components/SeafarerRecommendationTable'
+
 import NewsListCard from 'src/layouts/components/NewsListCard'
 import TableCard from './TableCard'
 
@@ -128,17 +130,17 @@ const UserFeedApp = () => {
                 <AboutMe dataUser={selectedUser}></AboutMe>
               </Grid>
               <Grid item md={12} xs={12}>
-                <ProfileFeedCard></ProfileFeedCard>
+                <ProfileFeedCard user_id={selectedUser?.id}></ProfileFeedCard>
               </Grid>
               <Grid item md={12} xs={12}>
                 {/* <ListFeedView username={username} /> */}
                 <Box></Box>
               </Grid>
               <EducationalInfo vacancy={arrVacany2} />
-              {selectedUser?.team_id !== 2 && <WorkeExperience vacancy={arrVacany} />}
-              {selectedUser?.team_id !== 2 && <Ceritificate vacancy={itemData} />}
+              {selectedUser?.employee_type == 'offship' && <WorkeExperience vacancy={arrVacany} />}
+              {selectedUser?.employee_type == 'offship' && <Ceritificate vacancy={itemData} />}
 
-              {selectedUser?.team_id == 2 && (
+              {selectedUser?.employee_type == 'onship' && (
                 <Grid item marginTop={'10px'} md={12} xs={12}>
                   <TableCard title='Travel Document'>
                     <SeafarerTravelDocumentTable
@@ -153,10 +155,11 @@ const UserFeedApp = () => {
                 </Grid>
               )}
 
-              {selectedUser?.team_id == 2 && (
+              {selectedUser?.employee_type == 'onship' && (
                 <Grid item marginTop={'10px'} md={12} xs={12}>
-                  <TableCard title='Experience'>
+                  <TableCard title='Sea Experience'>
                     <SeafarerExperienceTable
+                      isHiddenData={true}
                       user_id={selectedUser?.id}
                       selectedUser={selectedUser}
                       isEditable={false}
@@ -167,7 +170,7 @@ const UserFeedApp = () => {
                 </Grid>
               )}
 
-              {selectedUser?.team_id == 2 && (
+              {selectedUser?.employee_type == 'onship' && (
                 <Grid item marginTop={'10px'} md={12} xs={12}>
                   <TableCard title='Certificate of Competency'>
                     <SeafarerCompetencyTable
@@ -182,7 +185,7 @@ const UserFeedApp = () => {
                 </Grid>
               )}
 
-              {selectedUser?.team_id == 2 && (
+              {selectedUser?.employee_type == 'onship' && (
                 <Grid item marginTop={'10px'} md={12} xs={12}>
                   <TableCard title='Certificate Of Proficiency'>
                     <SeafarerProficiencyTable
@@ -192,6 +195,20 @@ const UserFeedApp = () => {
                       isEditable={false}
                       handleModalDelete={undefined}
                       handleModalForm={undefined}
+                    />
+                  </TableCard>
+                </Grid>
+              )}
+
+              {selectedUser?.team_id == 2 && (
+                <Grid item marginTop={'10px'} md={12} xs={12}>
+                  <TableCard title='Recommendation'>
+                    <SeafarerRecommendationTable
+                      user_id={selectedUser?.id}
+                      selectedUser={selectedUser}
+                      isHiddenData={true}
+                      isEditable={false}
+                      handleModalDelete={undefined}
                     />
                   </TableCard>
                 </Grid>
