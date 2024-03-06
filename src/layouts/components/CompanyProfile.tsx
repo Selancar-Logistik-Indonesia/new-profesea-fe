@@ -225,7 +225,8 @@ const CompanyProfile = (props: compProps) => {
       about: about,
       address_country_id: idcombocode,
       address_city_id: idcity,
-      address_address: address
+      address_address: address,
+      data_of_birth:null
     }
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
       ({ data }) => {
