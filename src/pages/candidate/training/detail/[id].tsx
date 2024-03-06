@@ -113,7 +113,7 @@ const TrainingDetailPage = () => {
           <Divider sx={{ my: 6, borderBottomWidth: 2 }} />
           <Box sx={{ mb: 4 }}>
             <Typography color={'#32487A'} fontWeight='600' fontSize='18px' mb={2}>
-              {training.trainer.username}
+              Description
             </Typography>
             <Box
               sx={{ maxWidth: 720 }}
@@ -123,7 +123,7 @@ const TrainingDetailPage = () => {
           </Box>
           <Box>
             <Typography color={'#32487A'} fontWeight='600' fontSize='18px' mb={2}>
-              {training.trainer.username}
+              Requirement
             </Typography>
             <Box
               sx={{ maxWidth: 720 }}
