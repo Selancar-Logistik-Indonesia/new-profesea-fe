@@ -147,7 +147,7 @@ const UserFeedApp = () => {
                       user_id={selectedUser?.id}
                       selectedUser={selectedUser}
                       isEditable={false}
-                      isDataHidden={true}
+                      isDataHidden={selectedUser?.id == user?.id || user.team_id == 3 ? false : true }
                       handleModalDelete={undefined}
                       handleModalForm={undefined}
                     />
@@ -159,7 +159,7 @@ const UserFeedApp = () => {
                 <Grid item marginTop={'10px'} md={12} xs={12}>
                   <TableCard title='Sea Experience'>
                     <SeafarerExperienceTable
-                      isHiddenData={true}
+                      isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true }
                       user_id={selectedUser?.id}
                       selectedUser={selectedUser}
                       isEditable={false}
@@ -176,7 +176,7 @@ const UserFeedApp = () => {
                     <SeafarerCompetencyTable
                       user_id={selectedUser?.id}
                       selectedUser={selectedUser}
-                      isHiddenData={true}
+                      isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true }
                       isEditable={false}
                       handleModalDelete={undefined}
                       handleModalForm={undefined}
@@ -191,7 +191,7 @@ const UserFeedApp = () => {
                     <SeafarerProficiencyTable
                       user_id={selectedUser?.id}
                       selectedUser={selectedUser}
-                      isHiddenData={true}
+                      isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true }
                       isEditable={false}
                       handleModalDelete={undefined}
                       handleModalForm={undefined}
@@ -200,7 +200,7 @@ const UserFeedApp = () => {
                 </Grid>
               )}
 
-              {selectedUser?.team_id == 2 && (
+              {(selectedUser?.employee_type == 'onship' || user.team_id == 3) && (
                 <Grid item marginTop={'10px'} md={12} xs={12}>
                   <TableCard title='Recommendation'>
                     <SeafarerRecommendationTable
