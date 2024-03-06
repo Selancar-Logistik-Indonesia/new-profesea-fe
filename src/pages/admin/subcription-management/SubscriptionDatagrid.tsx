@@ -53,6 +53,7 @@ const columns: GridColDef[] = [
       ) 
     }
   },
+  { field: 'ref_id', headerName: 'Reference ID', sortable: true, minWidth: 160 },
   { field: 'end_date', headerName: 'End Date', sortable: true, minWidth: 150 ,
     renderCell: cell => {
       const { row } = cell 

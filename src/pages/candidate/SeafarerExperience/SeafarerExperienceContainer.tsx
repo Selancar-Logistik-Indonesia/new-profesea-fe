@@ -157,7 +157,7 @@ const SeafarerExperienceContainer = (props: ISeafarerExperienceProps) => {
       <Grid container xs={12} md={12} lg={12}>
         <Grid item xs={12} md={6} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-            Experience
+            Sea Experience
           </Typography>
         </Grid>
         <Grid item md={6}>
@@ -182,7 +182,7 @@ const SeafarerExperienceContainer = (props: ISeafarerExperienceProps) => {
                 color={'success'}
                 style={{ fontSize: '18px' }}
               />
-              <div> Add Experience </div>
+              <div> Add more Experience </div>
             </Button>
           </Grid>
         </Grid>

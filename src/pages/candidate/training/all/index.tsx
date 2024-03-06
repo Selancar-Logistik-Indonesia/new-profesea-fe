@@ -12,12 +12,15 @@ import debounce from 'src/utils/debounce';
 import { GridPaginationModel } from '@mui/x-data-grid';
 import { Typography } from '@mui/material';
 import { useRouter } from 'next/router';
+import secureLocalStorage from 'react-secure-storage';
+import { IUser } from 'src/contract/models/user';
+import localStorageKeys from 'src/configs/localstorage_keys';
 
 const AllTrainingScreen = () => {
     const [onLoading, setOnLoading] = useState(false);
     const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
     const router = useRouter();
-
+    const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
     const [page, setPage] = useState(1);
     const [rowCount, setRowCount] = useState(0);
     const [search, setSearch] = useState("");
@@ -25,7 +28,7 @@ const AllTrainingScreen = () => {
     const [perPage, setPerPage] = useState(10);
     const getListTraining = async () => {
         try {
-            const resp = await HttpClient.get(`/training?search=${search}&page=${page}&take=${perPage}`);
+            const resp = await HttpClient.get(`/training?id_participant=${user.id}&search=${search}&page=${page}&take=${perPage}`);
             if (resp.status != 200) {
                 throw resp.data.message ?? "Something went wrong!";
             }

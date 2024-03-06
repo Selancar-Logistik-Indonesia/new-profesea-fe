@@ -17,12 +17,13 @@ interface ISeafarerExperienceTable {
   user_id: number | null | undefined
   selectedUser: IUser | null
   isEditable: boolean
+  isHiddenData: boolean
   handleModalForm: any
   handleModalDelete: any
 }
 
 export default function SeafarerExperienceTable(props: ISeafarerExperienceTable) {
-  const { user_id, isEditable, handleModalForm, handleModalDelete } = props
+  const { user_id, isEditable, isHiddenData, handleModalForm, handleModalDelete } = props
 
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(false)
@@ -55,7 +56,16 @@ export default function SeafarerExperienceTable(props: ISeafarerExperienceTable)
   }, [user_id])
 
   const columns: GridColDef[] = [
-    { field: 'vessel_name', headerName: 'Vessel Name', type: 'string', width: 220, editable: false },
+    {
+      field: 'vessel_name',
+      headerName: 'Vessel Name',
+      type: 'string',
+      width: 220,
+      editable: false,
+      renderCell(params: any) {
+        return isHiddenData ? '***** ****** ******' : params.row.vessel_name
+      }
+    },
     {
       field: 'vessel_type',
       headerName: 'Vessel Type',
@@ -104,7 +114,10 @@ export default function SeafarerExperienceTable(props: ISeafarerExperienceTable)
       field: 'company',
       headerName: 'Company / Flag',
       width: 200,
-      type: 'string'
+      type: 'string',
+      renderCell(params: any) {
+        return isHiddenData ? params.row.company.split(' ')[0] + ' ' + '*****' : params.row.company
+      }
     }
   ]
 
