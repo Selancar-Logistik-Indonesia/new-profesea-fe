@@ -81,7 +81,7 @@ const SeafarerCompetencyContainer = (props: ISeafarerCompetencyProps) => {
     },
     {
       field: 'download',
-      headerName: 'Download',
+      headerName: 'Credentials',
 
       width: 180,
       renderCell(params: any) {
@@ -150,7 +150,7 @@ const SeafarerCompetencyContainer = (props: ISeafarerCompetencyProps) => {
       <Grid item container xs={12} md={12} lg={12}>
         <Grid item xs={12} md={6} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-            Competency
+            Certificate of Competency
           </Typography>
         </Grid>
         <Grid item md={6}>
@@ -167,7 +167,7 @@ const SeafarerCompetencyContainer = (props: ISeafarerCompetencyProps) => {
                 color={'success'}
                 style={{ fontSize: '18px' }}
               />
-              <div> Add Competency </div>
+              <div> Add more Competency </div>
             </Button>
           </Grid>
         </Grid>

@@ -93,7 +93,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
     },
     {
       field: 'download',
-      headerName: 'Download',
+      headerName: 'Credentials',
 
       width: 180,
       renderCell(params: any) {
@@ -171,7 +171,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
       <Grid item container xs={12} md={12} lg={12}>
         <Grid item xs={12} md={6} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-            Proficiency
+            Certificate of Proficiency
           </Typography>
         </Grid>
         <Grid item md={6}>
@@ -189,7 +189,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
                   color={'success'}
                   style={{ fontSize: '18px' }}
                 />
-                <div> Add Proficiency </div>
+                <div> Add more Proficiency </div>
               </Button>
             )}
           </Grid>

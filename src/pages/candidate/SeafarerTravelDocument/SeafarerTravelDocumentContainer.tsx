@@ -93,7 +93,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
     },
     {
       field: 'download',
-      headerName: 'Download',
+      headerName: 'Credentials',
 
       width: 180,
       renderCell(params: any) {
@@ -190,7 +190,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
                   color={'success'}
                   style={{ fontSize: '18px' }}
                 />
-                <div> Add Travel Document </div>
+                <div> Add more Travel Document </div>
               </Button>
             )}
           </Grid>
