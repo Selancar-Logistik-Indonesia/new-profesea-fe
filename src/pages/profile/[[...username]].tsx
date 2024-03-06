@@ -157,8 +157,9 @@ const UserFeedApp = () => {
 
               {selectedUser?.employee_type == 'onship' && (
                 <Grid item marginTop={'10px'} md={12} xs={12}>
-                  <TableCard title='Experience'>
+                  <TableCard title='Sea Experience'>
                     <SeafarerExperienceTable
+                      isHiddenData={true}
                       user_id={selectedUser?.id}
                       selectedUser={selectedUser}
                       isEditable={false}
