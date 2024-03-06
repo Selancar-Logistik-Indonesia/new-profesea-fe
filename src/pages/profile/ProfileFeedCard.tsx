@@ -34,8 +34,9 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
     try {
       const url = '/social-feed/feed/'
       const response = await HttpClient.get(url, {
+        
+        ...payload,
         page: sPage,
-        ...payload
       })
 
       if (response.status == 200) {
