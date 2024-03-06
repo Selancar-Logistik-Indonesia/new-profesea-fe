@@ -559,7 +559,7 @@ const CandidateProfile = (props: compProps) => {
       employee_type: idship,
       name: fullName,
       phone: phoneNum,
-      date_of_birth: dateOfBirth,
+      date_of_birth: dateOfBirth ? dateOfBirth : null,
       website: website,
       about: about,
       address_country_id: idcountry,
