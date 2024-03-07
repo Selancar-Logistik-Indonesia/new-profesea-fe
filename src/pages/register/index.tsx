@@ -107,7 +107,7 @@ const Register = () => {
                   </Typography>
                 </Box>
 
-                <Link href='/register/seafarer' passHref legacyBehavior>
+                <Link href='/register/seafareronship' passHref legacyBehavior>
                   <Button
                     variant='contained'
                     fullWidth

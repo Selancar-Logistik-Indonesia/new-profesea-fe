@@ -26,16 +26,15 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
       sPage = payload.mPage
     }
 
-    payload.user_id = user_id
-
     // only trigger in page 1
     if (sPage == 1) setOnLoading(true)
 
     try {
       const url = '/social-feed/feed/'
       const response = await HttpClient.get(url, {
+        
+        ...payload,
         page: sPage,
-        ...payload
       })
 
       if (response.status == 200) {
@@ -61,7 +60,7 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
   }
 
   useEffect(() => {
-    fetchFeeds({ mPage: 1, take: 2 })
+    fetchFeeds({ mPage: 1, take: 2, user_id:user_id  })
   }, [])
 
   return (
