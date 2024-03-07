@@ -7,8 +7,10 @@ import Training from 'src/contract/models/training'
 import Avatar from 'src/@core/components/mui/avatar'
 import { formatIDR, getUserAvatar } from 'src/utils/helpers'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { HttpClient } from 'src/services'
 
-const otherTraining = (arr: Training[]) => {
+const renderList = (arr: Training[]) => {
   if (arr && arr.length) {
     return arr.map(item => {
       return (
@@ -78,4 +80,26 @@ const otherTraining = (arr: Training[]) => {
   }
 }
 
-export default otherTraining
+const OtherTraining = ({ userId }: { userId: number }) => {
+  const [training, setTraining] = useState<Training | null>(null)
+
+  const getTrainingList = async () => {
+    const resp = await HttpClient.get(`/training/trainer/${userId}`)
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
+    }
+
+    const rows = resp.data.training
+    setTraining(rows)
+  }
+
+  useEffect(() => {
+    getTrainingList()
+  }, [])
+
+  console.log({ training })
+
+  return <Grid>{renderList(training)}</Grid>
+}
+
+export default OtherTraining

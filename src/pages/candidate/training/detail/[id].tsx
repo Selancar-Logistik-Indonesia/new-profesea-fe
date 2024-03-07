@@ -9,7 +9,7 @@ import { formatIDR } from 'src/utils/helpers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import PaymentDialog from 'src/views/payment/PaymentDialog'
-import otherTraining from './OtherTraining'
+import OtherTraining from './OtherTraining'
 
 const TrainingDetailPage = () => {
   const router = useRouter()
@@ -129,8 +129,7 @@ const TrainingDetailPage = () => {
               sx={{ maxWidth: 720 }}
               component='div'
               dangerouslySetInnerHTML={{
-                __html:
-                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                __html: training.requirement ? training.requirement : 'No requirement'
               }}
             />
           </Box>
@@ -177,7 +176,9 @@ const TrainingDetailPage = () => {
           <Typography sx={{ fontWeight: 'bold', color: 'text.primary' }} fontSize={18}>
             Training post by the Trainer
           </Typography>
-          <Stack>{otherTraining([training, training, training])}</Stack>
+          <Stack>
+            <OtherTraining userId={training.user_id} />
+          </Stack>
           <Button variant='outlined' size='small'>
             See All
           </Button>
