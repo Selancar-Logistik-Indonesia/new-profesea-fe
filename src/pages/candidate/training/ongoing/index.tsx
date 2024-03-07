@@ -138,7 +138,7 @@ const OngoingTrainingApp = () => {
             hasMore={hasNextPage}
             loader={<CircularProgress sx={{ mt: 20 }} />}
           >
-            <Grid container spacing={8} mt={1}>
+            <Grid container spacing={3} mt={1}>
               {renderList(listTrainings)}
             </Grid>
           </InfiniteScroll>

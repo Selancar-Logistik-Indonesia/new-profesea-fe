@@ -84,7 +84,7 @@ const SeafarerTraining = () => {
             overflow: 'hidden'
           }}
         >
-          <Typography sx={{ fontWeight: 'bold', color: 'text.primary' }} mt='0.2rem' mb='0.5rem' fontSize={18}>
+          <Typography sx={{ fontWeight: 'bold', color: 'text.primary', my: 4 }} fontSize={18}>
             Training Partners
           </Typography>
           <Stack>
@@ -102,19 +102,6 @@ const SeafarerTraining = () => {
               />
             </Grid>
             <Grid item sx={{ alignItems: 'center', justifyContent: 'center', marginBottom: '10px' }}>
-              <img
-                alt='logo'
-                src={'/images/icon-trainer.png'}
-                style={{
-                  width: '250px',
-                  height: '250px',
-                  objectFit: 'cover',
-                  borderRadius: '8px',
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                }}
-              />
-            </Grid>
-            <Grid item sx={{ alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
               <img
                 alt='logo'
                 src={'/images/icon-trainer.png'}
