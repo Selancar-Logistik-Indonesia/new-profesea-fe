@@ -6,7 +6,7 @@ import { Box, Button, CircularProgress, Divider } from '@mui/material'
 import { useEffect } from 'react'
 import Training from 'src/contract/models/training'
 import Avatar from 'src/@core/components/mui/avatar'
-import { getUserAvatar } from 'src/utils/helpers'
+import { formatIDR, getUserAvatar } from 'src/utils/helpers'
 import Icon from 'src/@core/components/icon'
 import Link from 'next/link'
 import TrainingContext, { TrainingProvider } from 'src/context/TrainingContext'
@@ -25,7 +25,7 @@ const renderList = (arr: Training[]) => {
   if (arr && arr.length) {
     return arr.map(item => {
       return (
-        <Grid item xs={12} md={4} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
+        <Grid item xs={12} md={3} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
           <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
             <Grid item xs={12}>
               <CardContent>
@@ -35,8 +35,8 @@ const renderList = (arr: Training[]) => {
                       alt='logo'
                       src={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
                       style={{
-                        width: '450px',
-                        height: '250px',
+                        width: '265px',
+                        height: '200px',
                         objectFit: 'cover',
                         borderRadius: '8px',
                         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
@@ -46,22 +46,28 @@ const renderList = (arr: Training[]) => {
                 </Grid>
                 <Grid container direction='row' justifyContent='space-between' alignItems='center'>
                   <Grid item component={Link} href={`/candidate/training/detail/${item.id}`}>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={1}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'center'] }} mb={1}>
                       <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' />
-                      <Typography sx={{ fontWeight: 'bold', color: '#0a66c2' }} ml='0.5rem' mt='0.2rem' fontSize={14}>
+                      <Typography sx={{ fontWeight: 'bold', color: '#0a66c2' }} ml='0.5rem' mt='0.2rem' fontSize={16}>
                         {item.title}
                       </Typography>
                     </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={1}>
                       <Icon icon='solar:tag-horizontal-bold-duotone' color='#32487A' />
                       <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                         {item.category?.category}
                       </Typography>
                     </Box>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
+                      <Icon icon='solar:tag-price-bold-duotone' color='#32487A' />
+                      <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                        {formatIDR(item.price)}
+                      </Typography>
+                    </Box>
                   </Grid>
                 </Grid>
-                <Grid container sx={{ alignItems: 'right', justifyContent: 'right' }}>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
+                <Grid container sx={{ alignItems: 'left', justifyContent: 'left' }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} my={3}>
                     <Button
                       size='small'
                       LinkComponent={Link}
@@ -69,20 +75,20 @@ const renderList = (arr: Training[]) => {
                       color='primary'
                       href={`/candidate/training/detail/${item.id}`}
                     >
-                      Buy
+                      See Details
                     </Button>
                   </Box>
                 </Grid>
                 <Divider sx={{ my: '0 !important' }} />
                 <Box
-                  height={65}
+                  height={35}
                   sx={{
                     display: 'flex',
                     alignContent: 'center'
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-                    <Avatar src={getUserAvatar(item.trainer)} alt='profile-picture' sx={{ width: 50, height: 50 }} />
+                    <Avatar src={getUserAvatar(item.trainer)} alt='profile-picture' sx={{ width: 25, height: 25 }} />
                   </Box>
                   <Box
                     sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
@@ -90,9 +96,6 @@ const renderList = (arr: Training[]) => {
                   >
                     <Typography sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={14}>
                       {item?.trainer?.name}
-                    </Typography>
-                    <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
-                      {item?.trainer?.username ?? '-'}
                     </Typography>
                   </Box>
                 </Box>
@@ -132,7 +135,7 @@ const OngoingTrainingApp = () => {
             hasMore={hasNextPage}
             loader={<CircularProgress sx={{ mt: 20 }} />}
           >
-            <Grid container spacing={2} mt={1}>
+            <Grid container spacing={3} mt={1}>
               {renderList(listTrainings)}
             </Grid>
           </InfiniteScroll>
