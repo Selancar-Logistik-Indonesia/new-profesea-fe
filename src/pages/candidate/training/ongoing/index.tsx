@@ -46,9 +46,9 @@ const renderList = (arr: Training[]) => {
                 </Grid>
                 <Grid container direction='row' justifyContent='space-between' alignItems='center'>
                   <Grid item component={Link} href={`/candidate/training/detail/${item.id}`}>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={1}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'center'] }} mb={1}>
                       <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' />
-                      <Typography sx={{ fontWeight: 'bold', color: '#0a66c2' }} ml='0.5rem' mt='0.2rem' fontSize={14}>
+                      <Typography sx={{ fontWeight: 'bold', color: '#0a66c2' }} ml='0.5rem' mt='0.2rem' fontSize={16}>
                         {item.title}
                       </Typography>
                     </Box>
@@ -66,8 +66,8 @@ const renderList = (arr: Training[]) => {
                     </Box>
                   </Grid>
                 </Grid>
-                <Grid container sx={{ alignItems: 'right', justifyContent: 'right' }}>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
+                <Grid container sx={{ alignItems: 'left', justifyContent: 'left' }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} my={3}>
                     <Button
                       size='small'
                       LinkComponent={Link}
@@ -75,20 +75,20 @@ const renderList = (arr: Training[]) => {
                       color='primary'
                       href={`/candidate/training/detail/${item.id}`}
                     >
-                      Buy
+                      See Details
                     </Button>
                   </Box>
                 </Grid>
                 <Divider sx={{ my: '0 !important' }} />
                 <Box
-                  height={65}
+                  height={35}
                   sx={{
                     display: 'flex',
                     alignContent: 'center'
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-                    <Avatar src={getUserAvatar(item.trainer)} alt='profile-picture' sx={{ width: 50, height: 50 }} />
+                    <Avatar src={getUserAvatar(item.trainer)} alt='profile-picture' sx={{ width: 25, height: 25 }} />
                   </Box>
                   <Box
                     sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
@@ -96,9 +96,6 @@ const renderList = (arr: Training[]) => {
                   >
                     <Typography sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={14}>
                       {item?.trainer?.name}
-                    </Typography>
-                    <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
-                      {item?.trainer?.username ?? '-'}
                     </Typography>
                   </Box>
                 </Box>

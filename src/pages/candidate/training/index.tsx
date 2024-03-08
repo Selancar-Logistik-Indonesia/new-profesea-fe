@@ -64,57 +64,67 @@ const SeafarerTraining = () => {
           justifyContent: 'center'
         }}
       >
-        <Grid
-          container
-          xs={12}
-          md={2}
-          sx={{
-            border: 0,
-            boxShadow: 0,
-            borderBottom: 1,
-            margin: '12px',
-            borderColor: 'divider',
-            boxSizing: 'border-box',
-            color: 'common.white',
-            backgroundColor: '#FFFFFF',
-            borderRadius: '2px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            overflow: 'hidden'
-          }}
-        >
-          <Typography sx={{ fontWeight: 'bold', color: 'text.primary', my: 4 }} fontSize={18}>
-            Training Partners
-          </Typography>
-          <Stack>
-            <Grid item sx={{ alignItems: 'center', justifyContent: 'center', marginBottom: '10px' }}>
-              <img
-                alt='logo'
-                src={'/images/icon-trainer.png'}
-                style={{
-                  width: '250px',
-                  height: '250px',
-                  objectFit: 'cover',
-                  borderRadius: '8px',
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                }}
-              />
-            </Grid>
-            <Grid item sx={{ alignItems: 'center', justifyContent: 'center', marginBottom: '10px' }}>
-              <img
-                alt='logo'
-                src={'/images/icon-trainer.png'}
-                style={{
-                  width: '250px',
-                  height: '250px',
-                  objectFit: 'cover',
-                  borderRadius: '8px',
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                }}
-              />
-            </Grid>
-          </Stack>
+        <Grid item xs={12} md={2}>
+          <Box
+            sx={{
+              p: 4,
+              border: 0,
+              boxShadow: 0,
+              borderColor: 'divider',
+              boxSizing: 'border-box',
+              backgroundColor: '#FFFFFF',
+              borderRadius: '2px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              overflow: 'hidden'
+            }}
+          >
+            <Typography sx={{ fontWeight: 'bold', color: 'text.primary' }} fontSize={18}>
+              Training Partners
+            </Typography>
+            <Stack spacing={2} mt={2}>
+              <Grid item sx={{ alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  alt='logo'
+                  src={'/images/icon-trainer.png'}
+                  style={{
+                    width: '250px',
+                    height: '250px',
+                    objectFit: 'cover',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                  }}
+                />
+              </Grid>
+              <Grid item sx={{ alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  alt='logo'
+                  src={'/images/icon-trainer.png'}
+                  style={{
+                    width: '250px',
+                    height: '250px',
+                    objectFit: 'cover',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                  }}
+                />
+              </Grid>
+              <Grid item sx={{ alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  alt='logo'
+                  src={'/images/icon-trainer.png'}
+                  style={{
+                    width: '250px',
+                    height: '250px',
+                    objectFit: 'cover',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                  }}
+                />
+              </Grid>
+            </Stack>
+          </Box>
         </Grid>
         <Grid
           item
@@ -160,11 +170,11 @@ const SeafarerTraining = () => {
                 icon={<Icon icon='solar:notebook-bookmark-bold-duotone' fontSize={18} />}
                 {...a11yProps(1)}
               />
-              <Tab
+              {/* <Tab
                 label='In House Training'
                 icon={<Icon icon='solar:bookmark-square-bold-duotone' fontSize={18} />}
                 {...a11yProps(2)}
-              />
+              /> */}
             </Tabs>
           </Box>
           <Grid

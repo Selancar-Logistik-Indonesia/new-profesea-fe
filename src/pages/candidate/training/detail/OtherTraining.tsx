@@ -2,7 +2,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Box, Divider } from '@mui/material'
+import { Box, CircularProgress, Divider } from '@mui/material'
 import Training from 'src/contract/models/training'
 import Avatar from 'src/@core/components/mui/avatar'
 import { formatIDR, getUserAvatar } from 'src/utils/helpers'
@@ -10,9 +10,11 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 
-const renderList = (arr: Training[]) => {
+const renderList = (arr: Training[] | null) => {
   if (arr && arr.length) {
-    return arr.map(item => {
+    const showList = arr.slice(0, 3)
+
+    return showList.map(item => {
       return (
         <Grid item xs={12} sx={{ marginTop: '10px', marginBottom: '10px' }} key={item.id}>
           <Card sx={{ border: 0, boxShadow: 0.5, color: 'common.white', backgroundColor: '#FFFFFF' }}>
@@ -24,7 +26,8 @@ const renderList = (arr: Training[]) => {
                     sx={{
                       display: 'flex',
                       flexDirection: 'row',
-                      gap: 2
+                      alignItems: 'center',
+                      gap: 3
                     }}
                   >
                     <Box>
@@ -41,11 +44,11 @@ const renderList = (arr: Training[]) => {
                       />
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <Typography color='#32487A' fontWeight='bold' fontSize='16px'>
+                      <Typography color='#32487A' fontWeight='bold' fontSize={16}>
                         {item.title}
                       </Typography>
-                      <Typography>{item.category.category}</Typography>
-                      <Typography>{formatIDR(item.price)}</Typography>
+                      <Typography fontSize={12}>{item.category.category}</Typography>
+                      <Typography fontSize={12}>{formatIDR(item.price)}</Typography>
                     </Box>
                   </Grid>
                 </Box>
@@ -81,23 +84,36 @@ const renderList = (arr: Training[]) => {
 }
 
 const OtherTraining = ({ userId }: { userId: number }) => {
-  const [training, setTraining] = useState<Training | null>(null)
+  const [training, setTraining] = useState<Training[] | null>(null)
+  const [onLoading, setOnLoading] = useState(false)
 
-  const getTrainingList = async () => {
-    const resp = await HttpClient.get(`/training/trainer/${userId}`)
-    if (resp.status != 200) {
-      throw resp.data.message ?? 'Something went wrong!'
+  const fetchTrainings = async () => {
+    try {
+      setOnLoading(true)
+      const resp = await HttpClient.get(`/training/trainer/${userId}`)
+
+      if (resp.status == 200) {
+        const data = resp.data.training
+        setTraining(data)
+      }
+    } catch (error) {
+      console.error(error)
     }
 
-    const rows = resp.data.training
-    setTraining(rows)
+    setOnLoading(false)
   }
 
   useEffect(() => {
-    getTrainingList()
+    fetchTrainings()
   }, [])
 
-  console.log({ training })
+  if (onLoading) {
+    return (
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <CircularProgress sx={{ my: 20 }} />
+      </Box>
+    )
+  }
 
   return <Grid>{renderList(training)}</Grid>
 }
