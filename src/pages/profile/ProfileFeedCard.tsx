@@ -8,19 +8,19 @@ import FetchFeedPayload from 'src/contract/params/fetch_feed_payload'
 import { AppConfig } from 'src/configs/api'
 import { HttpClient } from 'src/services'
 import { getUserAvatar, toTitleCase } from 'src/utils/helpers'
+import { IUser } from 'src/contract/models/user'
 
 interface IProfileFeedCard {
-  user_id: number | undefined | null
+  selectedUser: IUser
 }
 
 export default function ProfileFeedCard(props: IProfileFeedCard) {
-  const { user_id } = props
+  const { selectedUser } = props
 
   const [feeds, setFeeds] = useState<ISocialFeed[]>([])
   const [onLoading, setOnLoading] = useState(false)
 
   const fetchFeeds = async (payload: FetchFeedPayload) => {
-    console.log('fetching feeds')
     let sPage = 1
     if (payload.mPage) {
       sPage = payload.mPage
@@ -32,9 +32,8 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
     try {
       const url = '/social-feed/feed/'
       const response = await HttpClient.get(url, {
-        
         ...payload,
-        page: sPage,
+        page: sPage
       })
 
       if (response.status == 200) {
@@ -60,8 +59,8 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
   }
 
   useEffect(() => {
-    fetchFeeds({ mPage: 1, take: 2, user_id:user_id  })
-  }, [])
+    fetchFeeds({ mPage: 1, take: 2, user_id: selectedUser?.id })
+  }, [selectedUser])
 
   return (
     <Grid container marginTop={'10px'}>
