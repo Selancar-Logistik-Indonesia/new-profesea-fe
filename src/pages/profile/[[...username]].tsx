@@ -21,7 +21,7 @@ import EducationalInfo from './Educational'
 import Ceritificate from './Certificate'
 import ProfileViewerCard from 'src/layouts/components/ProfileViewerCard'
 import AboutMe from './AboutMe'
-// import ProfileFeedCard from './ProfileFeedCard'
+import ProfileFeedCard from './ProfileFeedCard'
 import SeafarerTravelDocumentTable from 'src/layouts/components/SeafarerTravelDocumentTable'
 import SeafarerExperienceTable from 'src/layouts/components/SeafarerExperienceTable'
 import SeafarerCompetencyTable from 'src/layouts/components/SeafarerCompetencyTable'
@@ -40,7 +40,6 @@ const ProfileCompany = () => {
 }
 
 const UserFeedApp = () => {
-  const { fetchFeeds } = useSocialFeed()
   const router = useRouter()
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -108,7 +107,6 @@ const UserFeedApp = () => {
 
   useEffect(() => {
     firstload()
-    fetchFeeds({ take: 7, username: username, mPage: 1 })
   }, [username])
 
   return (
@@ -129,9 +127,9 @@ const UserFeedApp = () => {
               <Grid item md={12} xs={12}>
                 <AboutMe dataUser={selectedUser}></AboutMe>
               </Grid>
-              {/* <Grid item md={12} xs={12}>
-                <ProfileFeedCard user_id={selectedUser?.id}></ProfileFeedCard>
-              </Grid> */}
+              <Grid item md={12} xs={12}>
+                <ProfileFeedCard selectedUser={selectedUser}></ProfileFeedCard>
+              </Grid>
               <Grid item md={12} xs={12}>
                 {/* <ListFeedView username={username} /> */}
                 <Box></Box>
@@ -147,7 +145,7 @@ const UserFeedApp = () => {
                       user_id={selectedUser?.id}
                       selectedUser={selectedUser}
                       isEditable={false}
-                      isDataHidden={selectedUser?.id == user?.id || user.team_id == 3 ? false : true }
+                      isDataHidden={selectedUser?.id == user?.id || user.team_id == 3 ? false : true}
                       handleModalDelete={undefined}
                       handleModalForm={undefined}
                     />
@@ -159,7 +157,7 @@ const UserFeedApp = () => {
                 <Grid item marginTop={'10px'} md={12} xs={12}>
                   <TableCard title='Sea Experience'>
                     <SeafarerExperienceTable
-                      isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true }
+                      isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true}
                       user_id={selectedUser?.id}
                       selectedUser={selectedUser}
                       isEditable={false}
@@ -176,7 +174,7 @@ const UserFeedApp = () => {
                     <SeafarerCompetencyTable
                       user_id={selectedUser?.id}
                       selectedUser={selectedUser}
-                      isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true }
+                      isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true}
                       isEditable={false}
                       handleModalDelete={undefined}
                       handleModalForm={undefined}
@@ -191,7 +189,7 @@ const UserFeedApp = () => {
                     <SeafarerProficiencyTable
                       user_id={selectedUser?.id}
                       selectedUser={selectedUser}
-                      isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true }
+                      isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true}
                       isEditable={false}
                       handleModalDelete={undefined}
                       handleModalForm={undefined}
@@ -200,7 +198,7 @@ const UserFeedApp = () => {
                 </Grid>
               )}
 
-              {(selectedUser?.employee_type == 'onship' || user.team_id == 3) && (
+              {selectedUser?.employee_type == 'onship' && (
                 <Grid item marginTop={'10px'} md={12} xs={12}>
                   <TableCard title='Recommendation'>
                     <SeafarerRecommendationTable
