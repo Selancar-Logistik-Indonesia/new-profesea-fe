@@ -11,7 +11,7 @@ import { getUserAvatar, toTitleCase } from 'src/utils/helpers'
 import { IUser } from 'src/contract/models/user'
 
 interface IProfileFeedCard {
-  selectedUser: IUser
+  selectedUser: null | IUser
 }
 
 export default function ProfileFeedCard(props: IProfileFeedCard) {
