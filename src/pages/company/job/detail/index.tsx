@@ -1,11 +1,11 @@
 // ** React Imports
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
 import { Card, CardContent, Typography, Divider } from '@mui/material'
 
-import ReactHtmlParser from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser'
 
 import Grid, { GridProps } from '@mui/material/Grid'
 import { styled } from '@mui/material/styles'
@@ -15,11 +15,14 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import Job from 'src/contract/models/job'
 
-const JobDetail = () => {
-  const windowUrl = window.location.search
-  const params = new URLSearchParams(windowUrl)
-  const [jobDetail, setJobDetail] = useState<Job>()
-  const license: any[] = Object.values((jobDetail?.license != undefined) ? jobDetail?.license : '')
+interface IJobDetailProps {
+  jobDetail: Job | undefined
+}
+
+const JobDetail = (props: IJobDetailProps) => {
+  const jobDetail = props.jobDetail
+  // const [jobDetail, setJobDetail] = useState<Job>(props.jobDetail)
+  const license: any[] = Object.values(jobDetail?.license != undefined ? jobDetail?.license : '')
   // Styled Grid component
   const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -30,15 +33,14 @@ const JobDetail = () => {
     }
   }))
 
-
-  const firstload = () => {
-    HttpClient.get(AppConfig.baseUrl + '/job/' + params.get('id')).then(response => {
-      const job = response.data.job
-      setJobDetail(job)
-    })
-  }
+  // const firstload = () => {
+  //   HttpClient.get(AppConfig.baseUrl + '/job/' + params.get('id')).then(response => {
+  //     const job = response.data.job
+  //     setJobDetail(job)
+  //   })
+  // }
   useEffect(() => {
-    firstload()
+    // firstload()
   }, [])
 
   return (
@@ -47,12 +49,13 @@ const JobDetail = () => {
         <Grid container>
           <StyledGrid item xs={12} sm={4}>
             <CardContent>
-              <Box sx={{
-                display: 'flex',
-                alignContent: 'center',
-                '& svg': { color: 'text.secondary' }
-              }}>
-
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignContent: 'center',
+                  '& svg': { color: 'text.secondary' }
+                }}
+              >
                 <Box
                   sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }}
                   ml={2}
@@ -131,13 +134,9 @@ const JobDetail = () => {
                         </Grid>
                       </>
                     )}
-
-
                   </Grid>
                 </Box>
               </Box>
-
-
             </CardContent>
           </StyledGrid>
           <Grid item xs={12} sm={8}>
@@ -153,24 +152,34 @@ const JobDetail = () => {
                     borderRight: theme => `1px solid ${theme.palette.divider}`
                   }}
                 >
-                  <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }} ml={2} mr={3} mt={5} >
-                    <Typography sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }} ml="0.5rem" mt={3} mb={3} variant='body2'>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }} ml={2} mr={3} mt={5}>
+                    <Typography
+                      sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
+                      ml='0.5rem'
+                      mt={3}
+                      mb={3}
+                      variant='body2'
+                    >
                       Experience
                     </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} >
-                      <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
+                      <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
                         <strong>{jobDetail?.experience}</strong> &nbsp; Contract
                       </Typography>
                     </Box>
                   </Box>
                 </Grid>
                 <Grid item xs={6} sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column' }}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={5} >
-                    <Typography sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }} ml="0.5rem" variant='body2'>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={5}>
+                    <Typography
+                      sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '600' }}
+                      ml='0.5rem'
+                      variant='body2'
+                    >
                       Description
                     </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }} >
-                      <Typography sx={{ color: 'text.primary' }} ml="0.5rem" fontSize={12}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
+                      <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
                         {ReactHtmlParser(`${jobDetail?.description}`)}
                       </Typography>
                     </Box>
@@ -183,12 +192,7 @@ const JobDetail = () => {
               <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column' }}>
                 <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#32487A' }}>
                   <CardContent sx={{ p: theme => `${theme.spacing(3.25, 3, 4.5)} !important` }}>
-                    <Box
-                      sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }}
-                      ml={2}
-                      mr={3}
-                      mt={2}
-                    >
+                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mr={3} mt={2}>
                       <Typography
                         sx={{ color: 'common.white', fontSize: '16px', fontWeight: '600' }}
                         ml='0.5rem'
@@ -212,18 +216,16 @@ const JobDetail = () => {
                   </CardContent>
                 </Card>
               </Grid>
-
             </CardContent>
           </Grid>
         </Grid>
-      </Card >
-    </Grid >
+      </Card>
+    </Grid>
   )
 }
-
 
 JobDetail.acl = {
   action: 'read',
   subject: 'home'
-};
+}
 export default JobDetail
