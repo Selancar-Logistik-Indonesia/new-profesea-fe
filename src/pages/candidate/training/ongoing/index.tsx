@@ -56,7 +56,7 @@ const renderList = (arr: Training[]) => {
                           sx={{
                             fontWeight: 'bold',
                             color: '#0a66c2',
-                            width: '160px',
+                            width: '220px',
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis'
