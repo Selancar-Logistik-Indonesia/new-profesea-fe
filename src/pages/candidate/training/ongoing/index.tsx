@@ -44,8 +44,11 @@ const renderList = (arr: Training[]) => {
                     />
                   </Grid>
                 </Grid>
-                <Grid container>
-                  <Grid item component={Link} href={`/candidate/training/detail/${item.id}`}>
+                <Grid container component={Link} href={`/candidate/training/detail/${item.id}`}>
+                  <Grid
+                    item
+                    sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100px' }}
+                  >
                     <Tooltip title={item.title} enterDelay={500} leaveDelay={200}>
                       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'center'] }} mb={1}>
                         <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' />
@@ -53,7 +56,7 @@ const renderList = (arr: Training[]) => {
                           sx={{
                             fontWeight: 'bold',
                             color: '#0a66c2',
-                            width: '220px',
+                            width: '160px',
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis'
