@@ -250,6 +250,7 @@ const DialogEdit = (props: EditProps) => {
                 label='Requirement'
                 variant='outlined'
                 multiline
+                maxRows={4}
                 fullWidth
                 {...register('requirement')}
                 error={Boolean(errors.requirement)}
@@ -258,6 +259,7 @@ const DialogEdit = (props: EditProps) => {
             <Grid item md={12} xs={12}>
               <InputLabel htmlFor='outlined-adornment-amount'>Price</InputLabel>
               <OutlinedInput
+                defaultValue={props.selectedItem?.price}
                 placeholder='10000'
                 id='outlined-adornment-amount'
                 startAdornment={<InputAdornment position='start'>Rp.</InputAdornment>}

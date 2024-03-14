@@ -83,17 +83,18 @@ const renderList = (arr: Training[] | null) => {
   }
 }
 
-const OtherTraining = ({ userId }: { userId: number }) => {
+const OtherTraining = ({ user_id, id }: { user_id: number; id: number }) => {
   const [training, setTraining] = useState<Training[] | null>(null)
   const [onLoading, setOnLoading] = useState(false)
+  const payload = { page: 1, take: 3, user_id, id }
 
   const fetchTrainings = async () => {
     try {
       setOnLoading(true)
-      const resp = await HttpClient.get(`/training/trainer/${userId}`)
+      const resp = await HttpClient.get(`/training`, { ...payload })
 
       if (resp.status == 200) {
-        const data = resp.data.training
+        const data = resp.data.trainings.data
         setTraining(data)
       }
     } catch (error) {
