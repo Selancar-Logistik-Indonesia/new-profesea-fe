@@ -180,7 +180,7 @@ const TrainingDetailPage = () => {
               Training post by the Trainer
             </Typography>
             <Stack>
-              <OtherTraining userId={training.user_id} />
+              <OtherTraining user_id={training.user_id} id={training.id} />
             </Stack>
           </Box>
         </Grid>
