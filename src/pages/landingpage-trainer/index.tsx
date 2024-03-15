@@ -8,13 +8,7 @@ import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 import { Stack } from '@mui/system'
-// import OngoingTrainingScreen from '../candidate/training/ongoing'
 import OngoingTrainingScreen from './OngoingTraining'
-
-// ** Icon Imports
-//import Icon from 'src/@core/components/icon'
-// ** Custom Components Imports
-//import CustomAvatar from 'src/@core/components/mui/avatar'
 
 const Main = () => {
   const { t } = useTranslation()

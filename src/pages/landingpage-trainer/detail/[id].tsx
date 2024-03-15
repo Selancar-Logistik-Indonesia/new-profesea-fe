@@ -11,6 +11,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import PaymentDialog from 'src/views/payment/PaymentDialog'
 import OtherTraining from './OtherTraining'
 import { useAuth } from 'src/hooks/useAuth'
+import DialogLogin from 'src/@core/components/login-modal'
 
 const TrainingDetailPage = () => {
   const { user } = useAuth()
@@ -189,6 +190,14 @@ const TrainingDetailPage = () => {
       </Grid>
       {openDialog && user && (
         <PaymentDialog onClose={() => setOpenDialog(!openDialog)} training={training} openDialog={openDialog} />
+      )}
+      {openDialog && !user && (
+        <DialogLogin
+          visible={openDialog}
+          onCloseClick={() => {
+            setOpenDialog(!openDialog)
+          }}
+        />
       )}
     </Box>
   )
