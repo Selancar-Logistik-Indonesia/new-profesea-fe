@@ -188,10 +188,10 @@ const TrainingDetailPage = () => {
           </Box>
         </Grid>
       </Grid>
-      {openDialog && user && (
+      {openDialog && !user && (
         <PaymentDialog onClose={() => setOpenDialog(!openDialog)} training={training} openDialog={openDialog} />
       )}
-      {openDialog && !user && (
+      {openDialog && user && (
         <DialogLogin
           visible={openDialog}
           onCloseClick={() => {

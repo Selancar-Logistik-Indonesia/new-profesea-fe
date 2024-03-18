@@ -25,6 +25,9 @@ import { styled } from '@mui/material/styles'
 import { useAuth } from 'src/hooks/useAuth'
 import { useSearchParams } from 'next/navigation'
 import { yupResolver } from '@hookform/resolvers/yup'
+import DialogSuccess from 'src/pages/loginevent/DialogSuccess'
+import DialogGoogleLogin from './DialogGoogleLogin'
+import DialogMessage from './DialogMessage'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -68,6 +71,7 @@ const DialogLogin = (props: BlockDialog) => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false)
   const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
+  const [openBlockModal, setOpenBlockModal] = useState(false)
   const auth = useAuth()
   const searchParams = useSearchParams()
 
@@ -105,7 +109,14 @@ const DialogLogin = (props: BlockDialog) => {
   }
 
   return (
-    <Dialog fullWidth open={props.visible} maxWidth='sm' onClose={props.onCloseClick} TransitionComponent={Transition}>
+    <Dialog
+      fullWidth
+      open={props.visible}
+      maxWidth='sm'
+      onClose={props.onCloseClick}
+      TransitionComponent={Transition}
+      sx={{ opacity: openModalGoogle ? '0%' : '100%' }}
+    >
       <DialogContent
         sx={{
           position: 'relative',
@@ -239,6 +250,25 @@ const DialogLogin = (props: BlockDialog) => {
           </Box>
         </form>
       </DialogContent>
+      <DialogSuccess
+        visible={openBlockModal}
+        onCloseClick={() => {
+          setOpenBlockModal(!openBlockModal)
+          // window.location.replace('/home')
+        }}
+      />
+      <DialogGoogleLogin
+        visible={openModalGoogle}
+        onCloseClick={() => {
+          setOpenModalGoogle(!openModalGoogle)
+        }}
+      />
+      <DialogMessage
+        visible={openDialogMessage}
+        onCloseClick={() => {
+          setOpenDialogMessage(!openDialogMessage)
+        }}
+      />
     </Dialog>
   )
 }
