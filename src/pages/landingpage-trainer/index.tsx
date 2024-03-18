@@ -46,21 +46,21 @@ const Main = () => {
           >
             <Typography
               // variant='h1'
-              style={{ color: '#000' }}
+              style={{ color: '#FFFFFF' }}
               mt={1}
               fontWeight='800'
-              fontSize={42}
-              sx={{ maxWidth: { xs: '80%', md: '80%' }, px: { xs: 2, md: 5, whiteSpace: 'null' } }}
+              fontSize={28}
+              sx={{ maxWidth: { xs: '80%', md: '60%' }, px: { xs: 2, md: 5, whiteSpace: 'null' } }}
             >
               {t('landing_trainer_title')}
             </Typography>
             <Typography
               // variant='h2'
-              style={{ color: '#000' }}
+              style={{ color: '#FFFFFF' }}
               fontWeight='500'
-              fontSize={32}
+              fontSize={28}
               mt={4}
-              sx={{ maxWidth: { xs: '68%', md: '80%' }, px: { xs: 2, md: 5 } }}
+              sx={{ maxWidth: { xs: '68%', md: '60%' }, px: { xs: 2, md: 5 } }}
             >
               {t('landing_trainer_subtitle')}
             </Typography>

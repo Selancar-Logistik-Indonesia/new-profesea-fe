@@ -30,7 +30,7 @@ const renderList = (arr: Training[]) => {
             <Grid item xs={12}>
               <CardContent>
                 <Grid container sx={{ alignItems: 'center', justifyContent: 'center', marginBottom: '5px' }}>
-                  <Grid item component={Link} href={`/candidate/training/detail/${item.id}`}>
+                  <Grid item component={Link} href={`/landingpage-trainer/detail/${item.id}`}>
                     <img
                       alt='logo'
                       src={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
@@ -44,7 +44,7 @@ const renderList = (arr: Training[]) => {
                     />
                   </Grid>
                 </Grid>
-                <Grid container component={Link} href={`/candidate/training/detail/${item.id}`}>
+                <Grid container component={Link} href={`/landingpage-trainer/detail/${item.id}`}>
                   <Grid
                     item
                     sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '85px' }}
@@ -56,14 +56,14 @@ const renderList = (arr: Training[]) => {
                           sx={{
                             fontWeight: 'bold',
                             color: '#0a66c2',
-                            width: '280px',
+                            width: '260px',
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis'
                           }}
                           ml='0.5rem'
                           mt='0.2rem'
-                          fontSize={16}
+                          fontSize={18}
                         >
                           {item.title}
                         </Typography>
@@ -71,13 +71,13 @@ const renderList = (arr: Training[]) => {
                     </Tooltip>
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={1}>
                       <Icon icon='solar:tag-horizontal-bold-duotone' color='#32487A' />
-                      <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                      <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={14} fontWeight={700}>
                         {item.category?.category}
                       </Typography>
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
                       <Icon icon='solar:tag-price-bold-duotone' color='#32487A' />
-                      <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                      <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={14} fontWeight={700}>
                         {formatIDR(item.price)}
                       </Typography>
                     </Box>
@@ -90,7 +90,7 @@ const renderList = (arr: Training[]) => {
                       LinkComponent={Link}
                       variant='contained'
                       color='primary'
-                      href={`/candidate/training/detail/${item.id}`}
+                      href={`/landingpage-trainer/detail/${item.id}`}
                     >
                       See Details
                     </Button>
