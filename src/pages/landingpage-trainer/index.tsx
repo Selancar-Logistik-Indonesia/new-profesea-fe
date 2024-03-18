@@ -45,23 +45,24 @@ const Main = () => {
             }}
           >
             <Typography
-              variant='h3'
-              style={{ color: '#FFFFFF' }}
+              // variant='h1'
+              style={{ color: '#000' }}
               mt={1}
               fontWeight='800'
-              sx={{ maxWidth: { xs: '80%', md: '40%' }, px: { xs: 2, md: 5, whiteSpace: 'null' } }}
+              fontSize={42}
+              sx={{ maxWidth: { xs: '80%', md: '80%' }, px: { xs: 2, md: 5, whiteSpace: 'null' } }}
             >
-              Platform Pekerjaan Maritim Terintegrasi
+              {t('landing_trainer_title')}
             </Typography>
             <Typography
-              fontSize={18}
-              style={{ color: '#FFFFFF' }}
+              // variant='h2'
+              style={{ color: '#000' }}
               fontWeight='500'
+              fontSize={32}
               mt={4}
-              sx={{ maxWidth: { xs: '68%', md: '50%' }, px: { xs: 2, md: 5 } }}
+              sx={{ maxWidth: { xs: '68%', md: '80%' }, px: { xs: 2, md: 5 } }}
             >
-              Jelajahi peluang tak terbatas dan temukan pekerjaan impian di industri maritim melalui platform
-              profesional kami yang luas berbasis komunitas
+              {t('landing_trainer_subtitle')}
             </Typography>
           </Grid>
           <Grid
