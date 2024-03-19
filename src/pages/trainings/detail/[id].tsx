@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react'
 import { Box, Button, CircularProgress, Divider, Grid, IconButton, Stack, Typography } from '@mui/material'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 import Training from 'src/contract/models/training'
 import { formatIDR } from 'src/utils/helpers'
@@ -10,8 +10,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import PaymentDialog from 'src/views/payment/PaymentDialog'
 import OtherTraining from './OtherTraining'
+import { useAuth } from 'src/hooks/useAuth'
+import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 
 const TrainingDetailPage = () => {
+  const { user } = useAuth()
   const router = useRouter()
   const trainingId = router.query.id
   const [training, setTraining] = useState<Training | null>(null)
@@ -39,9 +42,9 @@ const TrainingDetailPage = () => {
   return !training ? (
     <CircularProgress />
   ) : (
-    <Box>
+    <Box p={4}>
       <Grid container sx={{ position: 'fixed' }}>
-        <IconButton onClick={() => router.push(`/candidate/training`)}>
+        <IconButton onClick={() => router.push('/trainings')}>
           <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
         </IconButton>
       </Grid>
@@ -153,8 +156,8 @@ const TrainingDetailPage = () => {
                   Joined
                 </Button>
               ) : (
-                <Button onClick={handleClickBuy} variant='contained' size='small'>
-                  Checkout
+                <Button onClick={handleClickBuy} variant='contained' size='small' sx={{ color: 'white' }}>
+                  {user ? 'Checkout' : 'Login to enroll the class'}
                 </Button>
               )}
             </Box>
@@ -185,16 +188,15 @@ const TrainingDetailPage = () => {
           </Box>
         </Grid>
       </Grid>
-      {openDialog && (
+      {openDialog && user && (
         <PaymentDialog onClose={() => setOpenDialog(!openDialog)} training={training} openDialog={openDialog} />
       )}
     </Box>
   )
 }
 
-TrainingDetailPage.acl = {
-  action: 'read',
-  subject: 'home'
-}
+TrainingDetailPage.guestGuard = false
+TrainingDetailPage.authGuard = false
+TrainingDetailPage.getLayout = (page: ReactNode) => <OuterPageLayout>{page}</OuterPageLayout>
 
 export default TrainingDetailPage
