@@ -20,7 +20,7 @@ const renderList = (arr: Training[] | null) => {
             <Grid item xs={12}>
               <CardContent>
                 <Grid container sx={{ alignItems: 'center', justifyContent: 'center', marginBottom: '5px' }}>
-                  <Grid item component={Link} href={`/landingpage-trainer/detail/${item.id}`}>
+                  <Grid item component={Link} href={`/trainings/detail/${item.id}`}>
                     <img
                       alt='logo'
                       src={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
@@ -34,7 +34,7 @@ const renderList = (arr: Training[] | null) => {
                     />
                   </Grid>
                 </Grid>
-                <Grid container component={Link} href={`/landingpage-trainer/detail/${item.id}`}>
+                <Grid container component={Link} href={`/trainings/detail/${item.id}`}>
                   <Grid
                     item
                     sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '85px' }}
@@ -80,7 +80,7 @@ const renderList = (arr: Training[] | null) => {
                       LinkComponent={Link}
                       variant='contained'
                       color='primary'
-                      href={`/landingpage-trainer/detail/${item.id}`}
+                      href={`/trainings/detail/${item.id}`}
                     >
                       See Details
                     </Button>
