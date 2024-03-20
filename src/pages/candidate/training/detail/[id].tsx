@@ -154,7 +154,7 @@ const TrainingDetailPage = () => {
                 </Button>
               ) : (
                 <Button onClick={handleClickBuy} variant='contained' size='small'>
-                  Checkout
+                  Enroll
                 </Button>
               )}
             </Box>
