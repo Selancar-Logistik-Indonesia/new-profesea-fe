@@ -335,6 +335,7 @@ const CandidateProfile = (props: compProps) => {
       getArrayHead(arr)
       getItemdata(itemData)
     })
+
     HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100').then(response => {
       const itemData = response.data.experiences
 
