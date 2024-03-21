@@ -14,6 +14,7 @@ import {
   Divider,
   FormControl,
   FormHelperText,
+  Grid,
   InputAdornment,
   InputLabel,
   OutlinedInput,
@@ -100,155 +101,208 @@ const DialogLogin = (props: BlockDialog) => {
 
   const onSubmit = (data: FormData) => {
     const { email, password } = data
-    auth.login({ email, password, namaevent }, () => {
-      setError('email', {
-        type: 'manual',
-        message: `${t('input_label_error_4')}`
-      })
-    })
+    const noReturn = true
+    auth.login(
+      { email, password, namaevent },
+      () => {
+        setError('email', {
+          type: 'manual',
+          message: `${t('input_label_error_4')}`
+        })
+      },
+      noReturn
+    )
   }
 
   return (
     <Dialog
       fullWidth
       open={props.visible}
-      maxWidth='sm'
       onClose={props.onCloseClick}
       TransitionComponent={Transition}
+      maxWidth='md'
       sx={{ opacity: openModalGoogle ? '0%' : '100%' }}
     >
       <DialogContent
         sx={{
-          position: 'relative',
-          pb: theme => `${theme.spacing(8)} !important`,
-          px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-          pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+          position: 'relative'
         }}
       >
         <IconButton size='small' onClick={props.onCloseClick} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
           <Icon icon='mdi:close' />
         </IconButton>
-        <Box
-          sx={{
-            mb: 3,
-            maxWidth: '100%',
-            justifyContent: 'center',
-            alignContent: 'center',
-            textAlign: 'center'
-          }}
-        >
-          <Link href='/'>
-            <Box component='img' src='/images/logosamudera.png' sx={{ width: 125 }}></Box>
-          </Link>
-          <Typography
-            variant='h5'
-            sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: '#262525' }}
-          >
-            {t('login_text_1')}
-          </Typography>
-        </Box>
-        <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-          <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
-            <Controller
-              name='email'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange, onBlur } }) => (
-                <TextField
-                  autoFocus
-                  label={t('input_label_1')}
-                  value={value}
-                  onBlur={onBlur}
-                  onChange={onChange}
-                  error={Boolean(errors.email)}
-                  placeholder='Email'
-                />
-              )}
-            />
-            {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
-          </FormControl>
-          <FormControl fullWidth>
-            <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-              {t('input_label_2')}
-            </InputLabel>
-            <Controller
-              name='password'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange, onBlur } }) => (
-                <OutlinedInput
-                  value={value}
-                  onBlur={onBlur}
-                  label={t('input_label_2')}
-                  onChange={onChange}
-                  id='auth-login-v2-password'
-                  error={Boolean(errors.password)}
-                  type={showPassword ? 'text' : 'password'}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      <IconButton
-                        edge='end'
-                        onMouseDown={e => e.preventDefault()}
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              )}
-            />
-            {errors.password && (
-              <FormHelperText sx={{ color: 'error.main' }} id=''>
-                {errors.password.message}
-              </FormHelperText>
-            )}
-          </FormControl>
-          <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', marginTop: '2%' }}>
-            <LinkStyled href='/forgot-password'>
-              <span>{t('login_text_4')}</span>
-            </LinkStyled>
-          </Typography>
-          <Box sx={{ marginTop: '5%' }}>
-            <Button disabled={auth.loading} fullWidth size='large' type='submit' variant='contained' sx={{ mb: 4 }}>
-              {auth.loading ? <CircularProgress color='primary' /> : `${t('button_1')}`}
-            </Button>
-          </Box>
-          <Divider sx={{ textAlign: 'center', fontSize: '16px' }}>{t('login_text_5')}</Divider>
-          <Box sx={{ marginTop: '5%' }}>
-            <Button fullWidth size='large' variant='outlined' sx={{ mb: 3 }} onClick={() => setOpenModalGoogle(true)}>
-              {t('login_text_1_G')} Google <Icon icon={'devicon:google'} style={{ marginLeft: 7 }} />
-            </Button>
-          </Box>
-          <Divider
+        <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Grid
+            item
+            xs={12}
+            md={6}
             sx={{
-              '& .MuiDivider-wrapper': { px: 4 },
-              mt: theme => `${theme.spacing(5)} !important`,
-              mb: theme => `${theme.spacing(7.5)} !important`
+              backgroundImage: 'url(/images/bg-login-dialog.jpg)',
+              display: 'flex',
+              p: 4,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'
             }}
-          ></Divider>
-          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <Typography sx={{ mr: 2, color: '#262525' }}>{t('login_text_2')}</Typography>
+          >
+            <Typography
+              style={{ color: '#FFFFFF' }}
+              mt={1}
+              fontWeight='800'
+              fontSize={28}
+              sx={{ maxWidth: '80%', textAlign: 'center' }}
+            >
+              You're about to enroll this training
+            </Typography>
+            <Typography
+              style={{ color: '#FFFFFF' }}
+              fontWeight='500'
+              fontSize={16}
+              mt={4}
+              sx={{ maxWidth: '80%', textAlign: 'center' }}
+            >
+              Log in or create a new account to continue your training enrollment
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Box p={4}>
+              <Box
+                sx={{
+                  mb: 3,
+                  maxWidth: '100%',
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                  textAlign: 'center'
+                }}
+              >
+                <Link href='/'>
+                  <Box component='img' src='/images/logosamudera.png' sx={{ width: 125 }}></Box>
+                </Link>
+                <Typography
+                  variant='h5'
+                  sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: '#262525' }}
+                >
+                  {t('login_text_1')}
+                </Typography>
+              </Box>
+              <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+                <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
+                  <Controller
+                    name='email'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <TextField
+                        autoFocus
+                        label={t('input_label_1')}
+                        value={value}
+                        onBlur={onBlur}
+                        onChange={onChange}
+                        error={Boolean(errors.email)}
+                        placeholder='Email'
+                      />
+                    )}
+                  />
+                  {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+                </FormControl>
+                <FormControl fullWidth>
+                  <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
+                    {t('input_label_2')}
+                  </InputLabel>
+                  <Controller
+                    name='password'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <OutlinedInput
+                        value={value}
+                        onBlur={onBlur}
+                        label={t('input_label_2')}
+                        onChange={onChange}
+                        id='auth-login-v2-password'
+                        error={Boolean(errors.password)}
+                        type={showPassword ? 'text' : 'password'}
+                        endAdornment={
+                          <InputAdornment position='end'>
+                            <IconButton
+                              edge='end'
+                              onMouseDown={e => e.preventDefault()}
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                    )}
+                  />
+                  {errors.password && (
+                    <FormHelperText sx={{ color: 'error.main' }} id=''>
+                      {errors.password.message}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+                <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', marginTop: '2%' }}>
+                  <LinkStyled href='/forgot-password'>
+                    <span>{t('login_text_4')}</span>
+                  </LinkStyled>
+                </Typography>
+                <Box sx={{ marginTop: '5%' }}>
+                  <Button
+                    disabled={auth.loading}
+                    fullWidth
+                    size='large'
+                    type='submit'
+                    variant='contained'
+                    sx={{ mb: 4 }}
+                  >
+                    {auth.loading ? <CircularProgress color='primary' /> : `${t('button_1')}`}
+                  </Button>
+                </Box>
+                <Divider sx={{ textAlign: 'center', fontSize: '16px' }}>{t('login_text_5')}</Divider>
+                <Box sx={{ marginTop: '5%' }}>
+                  <Button
+                    fullWidth
+                    size='large'
+                    variant='outlined'
+                    sx={{ mb: 3 }}
+                    onClick={() => setOpenModalGoogle(true)}
+                  >
+                    {t('login_text_1_G')} Google <Icon icon={'devicon:google'} style={{ marginLeft: 7 }} />
+                  </Button>
+                </Box>
+                <Divider
+                  sx={{
+                    '& .MuiDivider-wrapper': { px: 4 },
+                    mt: theme => `${theme.spacing(5)} !important`,
+                    mb: theme => `${theme.spacing(7.5)} !important`
+                  }}
+                ></Divider>
+                <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+                  <Typography sx={{ mr: 2, color: '#262525' }}>{t('login_text_2')}</Typography>
 
-            {namaevent ? (
-              <Typography
-                href={'/register/event/' + namaevent}
-                component={Link}
-                sx={{ color: 'primary.main', fontWeight: 'bold', textDecoration: 'none' }}
-              >
-                {t('login_text_3')}
-              </Typography>
-            ) : (
-              <Typography
-                href='/register'
-                component={Link}
-                sx={{ color: 'primary.main', fontWeight: 'bold', textDecoration: 'none' }}
-              >
-                {t('login_text_3')}
-              </Typography>
-            )}
-          </Box>
-        </form>
+                  {namaevent ? (
+                    <Typography
+                      href={'/register/event/' + namaevent}
+                      component={Link}
+                      sx={{ color: 'primary.main', fontWeight: 'bold', textDecoration: 'none' }}
+                    >
+                      {t('login_text_3')}
+                    </Typography>
+                  ) : (
+                    <Typography
+                      href='/register'
+                      component={Link}
+                      sx={{ color: 'primary.main', fontWeight: 'bold', textDecoration: 'none' }}
+                    >
+                      {t('login_text_3')}
+                    </Typography>
+                  )}
+                </Box>
+              </form>
+            </Box>
+          </Grid>
+        </Grid>
       </DialogContent>
       <DialogSuccess
         visible={openBlockModal}
