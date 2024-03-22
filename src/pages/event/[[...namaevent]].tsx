@@ -100,9 +100,7 @@ const EventApp = () => {
                         fontWeight='600'
                         sx={{ ml: 2, mb: 5, color: '#000', textTransform: 'uppercase' }}
                       >
-                        {dataSheet?.date}
-                        {'    '} {dataSheet?.time}
-                        {'    '} {dataSheet?.cost}
+                        {`${dataSheet?.date} | ${dataSheet?.time} | ${dataSheet?.cost}`}
                         {/* November 4 @ 10:00 am - 11:30 am FREE */}
                       </Typography>
                     </Grid>
