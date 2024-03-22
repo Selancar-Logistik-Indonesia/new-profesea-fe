@@ -15,10 +15,12 @@ import {
   FormControl,
   FormHelperText,
   Grid,
+  Hidden,
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  TextField
+  TextField,
+  useMediaQuery
 } from '@mui/material'
 import * as yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
@@ -29,6 +31,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import DialogSuccess from 'src/pages/loginevent/DialogSuccess'
 import DialogGoogleLogin from './DialogGoogleLogin'
 import DialogMessage from './DialogMessage'
+import { useTheme } from '@mui/material'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -69,6 +72,9 @@ interface FormData {
 }
 
 const DialogLogin = (props: BlockDialog) => {
+  const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.down('md'))
+  const isMd = useMediaQuery(theme.breakpoints.down('lg'))
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false)
   const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
@@ -116,7 +122,8 @@ const DialogLogin = (props: BlockDialog) => {
 
   return (
     <Dialog
-      fullWidth
+      fullScreen={isXs}
+      fullWidth={isMd}
       open={props.visible}
       onClose={props.onCloseClick}
       TransitionComponent={Transition}
@@ -132,37 +139,42 @@ const DialogLogin = (props: BlockDialog) => {
           <Icon icon='mdi:close' />
         </IconButton>
         <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{
-              backgroundImage: 'url(/images/bg-login-dialog.jpg)',
-              borderRadius: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
-            <Typography
-              style={{ color: '#FFFFFF' }}
-              fontWeight='800'
-              fontSize={28}
-              sx={{ maxWidth: '70%', textAlign: 'center' }}
+          <Hidden mdDown>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{
+                backgroundImage: 'url(/images/bg-login-dialog.jpg)',
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                borderRadius: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
             >
-              You're about to enroll this training
-            </Typography>
-            <Divider sx={{ my: 4, bgcolor: 'white', width: '60%' }} />
-            <Typography
-              style={{ color: '#FFFFFF' }}
-              fontWeight='500'
-              fontSize={16}
-              sx={{ maxWidth: '75%', textAlign: 'center' }}
-            >
-              Log in or create a new account to continue your training enrollment
-            </Typography>
-          </Grid>
+              <Typography
+                style={{ color: '#FFFFFF' }}
+                fontWeight='800'
+                fontSize={28}
+                sx={{ maxWidth: '70%', textAlign: 'center' }}
+              >
+                {t('login_modal_title_1')}
+              </Typography>
+              <Divider sx={{ my: 4, bgcolor: 'white', width: '60%' }} />
+              <Typography
+                style={{ color: '#FFFFFF' }}
+                fontWeight='500'
+                fontSize={16}
+                sx={{ maxWidth: '75%', textAlign: 'center' }}
+              >
+                {t('login_modal_subtitle_1')}
+              </Typography>
+            </Grid>
+          </Hidden>
           <Grid item xs={12} md={6}>
             <Box py={4} pl={6} pr={4}>
               <Box
