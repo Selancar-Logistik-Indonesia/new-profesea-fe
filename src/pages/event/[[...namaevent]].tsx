@@ -1,14 +1,14 @@
 // ** React Imports
-import React , { ReactNode, useEffect, useState } from 'react'
-import ReactHtmlParser from 'react-html-parser';
+import React, { ReactNode, useEffect, useState } from 'react'
+import ReactHtmlParser from 'react-html-parser'
 
-import Box  from '@mui/material/Box'  
-import {   Button, Card, CardContent, CardMedia, Divider, Typography, useMediaQuery, useTheme } from '@mui/material'
-import { Grid } from '@mui/material'  
- 
+import Box from '@mui/material/Box'
+import { Button, Card, CardContent, CardMedia, Divider, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Grid } from '@mui/material'
+
 // import Recomended from '../news/Recomended'
 // import { HttpClient } from 'src/services'
-import LandingPageLayout from 'src/@core/layouts/LandingPageLayout';
+import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 // import { NewsProvider } from 'src/context/NewsContext';
 // import { useNews } from 'src/hooks/useNews';
 // import { useRouter } from 'next/router';
@@ -17,24 +17,22 @@ import LandingPageLayout from 'src/@core/layouts/LandingPageLayout';
 // import localStorageKeys from 'src/configs/localstorage_keys';
 // import INews from 'src/contract/models/news';
 import { AddToCalendarButton } from 'add-to-calendar-button-react'
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { HttpClient } from 'src/services';
-import { AxiosError } from 'axios';
-import { toast } from 'react-hot-toast';
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { HttpClient } from 'src/services'
+import { AxiosError } from 'axios'
+import { toast } from 'react-hot-toast'
 import INews from 'src/contract/models/news'
 // const newscache = secureLocalStorage.getItem(localStorageKeys.news) as INews
 
 const Thread = () => {
-  return ( 
-      <EventApp /> 
-  )
+  return <EventApp />
 }
 
-const EventApp = () => {   
-  const router = useRouter() 
+const EventApp = () => {
+  const router = useRouter()
   const { namaevent } = router.query as { namaevent: string }
-   
+
   const [dataSheet, setDataSheet] = useState<INews | null>(null)
   const [getPadding, setPadding] = useState(25)
   const theme = useTheme()
@@ -42,7 +40,7 @@ const EventApp = () => {
   const getListNews = async () => {
     try {
       // const resp = await HttpClient.get(`/news?page=${1}&take=25&type=${forumCode}`)
-      if (namaevent){
+      if (namaevent) {
         const resp = await HttpClient.get(`/news/title/` + namaevent)
 
         if (resp.status != 200) {
@@ -52,7 +50,7 @@ const EventApp = () => {
         const items = resp.data.news[0] as INews
 
         setDataSheet(items)
-      } 
+      }
     } catch (error) {
       let errorMessage = 'Something went wrong!'
 
@@ -68,14 +66,13 @@ const EventApp = () => {
     }
   }
   useEffect(() => {
-    if(leutik == false){
+    if (leutik == false) {
       setPadding(25)
-    }else{
-      
+    } else {
       setPadding(0)
     }
-     getListNews().then(() => {}) 
-  },[])
+    getListNews()
+  }, [namaevent])
 
   return (
     <Box sx={{ mt: 5, ml: 3, mr: 3 }}>
@@ -292,12 +289,12 @@ const EventApp = () => {
                             </Link>
                           </Box>
                         </Grid>
-                        <Grid item  xs={4}>
+                        <Grid item xs={4}>
                           <Box>
                             <Typography variant='h6' style={{ fontWeight: 'bold' }}>
                               VENUE
                             </Typography>
-                          </Box> 
+                          </Box>
                           <Box>
                             <Typography> {dataSheet?.venue}</Typography>
                           </Box>
@@ -323,11 +320,9 @@ const EventApp = () => {
     </Box>
   )
 }
- 
+
 Thread.guestGuard = false
 Thread.authGuard = false
 Thread.getLayout = (page: ReactNode) => <LandingPageLayout>{page}</LandingPageLayout>
- 
-export default Thread
 
- 
+export default Thread
