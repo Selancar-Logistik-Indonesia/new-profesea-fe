@@ -131,15 +131,15 @@ const DialogLogin = (props: BlockDialog) => {
         <IconButton size='small' onClick={props.onCloseClick} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
           <Icon icon='mdi:close' />
         </IconButton>
-        <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
           <Grid
             item
             xs={12}
             md={6}
             sx={{
               backgroundImage: 'url(/images/bg-login-dialog.jpg)',
+              borderRadius: 1,
               display: 'flex',
-              p: 4,
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center'
@@ -147,25 +147,24 @@ const DialogLogin = (props: BlockDialog) => {
           >
             <Typography
               style={{ color: '#FFFFFF' }}
-              mt={1}
               fontWeight='800'
               fontSize={28}
-              sx={{ maxWidth: '80%', textAlign: 'center' }}
+              sx={{ maxWidth: '70%', textAlign: 'center' }}
             >
               You're about to enroll this training
             </Typography>
+            <Divider sx={{ my: 4, bgcolor: 'white', width: '60%' }} />
             <Typography
               style={{ color: '#FFFFFF' }}
               fontWeight='500'
               fontSize={16}
-              mt={4}
-              sx={{ maxWidth: '80%', textAlign: 'center' }}
+              sx={{ maxWidth: '75%', textAlign: 'center' }}
             >
               Log in or create a new account to continue your training enrollment
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Box p={4}>
+            <Box py={4} pl={6} pr={4}>
               <Box
                 sx={{
                   mb: 3,
