@@ -136,7 +136,7 @@ const EventApp = () => {
                     <Grid item container xs={12} justifyContent={'flex'}>
                       <Grid item xs={12} md={4} mt={5} ml={4}>
                         <Button
-                          href={'/login/?event=' + dataSheet?.title}
+                          href={'https://forms.gle/dndAEuZq9MhE4jjn6'}
                           // style={{ color: 'white', marginRight: 10 }}
                           variant='contained'
                         >
