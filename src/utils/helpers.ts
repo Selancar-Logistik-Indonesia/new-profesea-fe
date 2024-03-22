@@ -49,6 +49,16 @@ function toTitleCase(text: string) {
     return result;
 }
 
+function linkToTitleCase(text: string | undefined) {
+    if (text) {
+        const title = text.replace(/-/g, " ");
+
+        return title
+    }
+
+    return null;
+}
+
 function getUserAvatar(userData: IUser) {
     return (userData?.photo) ? userData.photo : "/images/avatars/default-user.png";
 }
@@ -169,6 +179,7 @@ export {
     getCleanErrorMessage,
     removeFirstZeroChar,
     toTitleCase,
+    linkToTitleCase,
     getUserAvatar,
     getUserRoleName,
     formatIDR,

@@ -16,13 +16,13 @@ import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 // import secureLocalStorage from 'react-secure-storage';
 // import localStorageKeys from 'src/configs/localstorage_keys';
 // import INews from 'src/contract/models/news';
-import { AddToCalendarButton } from 'add-to-calendar-button-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { HttpClient } from 'src/services'
 import { AxiosError } from 'axios'
 import { toast } from 'react-hot-toast'
 import INews from 'src/contract/models/news'
+import { linkToTitleCase } from 'src/utils/helpers'
 // const newscache = secureLocalStorage.getItem(localStorageKeys.news) as INews
 
 const Thread = () => {
@@ -90,7 +90,7 @@ const EventApp = () => {
                         fontWeight='600'
                         sx={{ ml: 2, mb: 5, color: '#000', textTransform: 'uppercase' }}
                       >
-                        {namaevent}
+                        {linkToTitleCase(dataSheet?.title)}
                       </Typography>
                     </Grid>
                     <Grid item container xs={12} justifyContent={'left'}>
@@ -136,11 +136,15 @@ const EventApp = () => {
                     </Grid>
                     <Divider />
                     <Grid item container xs={12} justifyContent={'flex'}>
-                      <AddToCalendarButton
-                        name='Test-Event'
-                        startDate='2023-05-22'
-                        options={['Apple', 'Google', 'Yahoo', 'iCal']}
-                      ></AddToCalendarButton>
+                      <Grid item xs={12} md={4} mt={5} ml={4}>
+                        <Button
+                          href={'/login/?event=' + dataSheet?.title}
+                          // style={{ color: 'white', marginRight: 10 }}
+                          variant='contained'
+                        >
+                          Pendaftaran disini
+                        </Button>
+                      </Grid>
                     </Grid>
                     <Grid item container xs={12} md={12} mt={3} mb={3} justifyContent={'flex'}>
                       {/* <Grid item container xs={12} md={6} justifyContent={'flex'}>
@@ -167,38 +171,6 @@ const EventApp = () => {
                           </Typography>
                         </Grid>
                       </Grid> */}
-                      <Grid item container xs={12} md={12}>
-                        <Grid item container xs={12} md={12}>
-                          <Grid item container xs={12} md={12}>
-                            <Card sx={{ color: 'common.white', backgroundColor: '#FFFFFF' }}>
-                              <CardContent>
-                                <Grid item container xs={12} md={12}>
-                                  <Grid item container xs={12} md={7}>
-                                    <Grid item xs={12} md={12}>
-                                      <Typography variant='h5' style={{ fontWeight: 'bold' }}>
-                                        {dataSheet?.title}
-                                      </Typography>
-                                    </Grid>
-                                    <Grid item xs={12} md={12}>
-                                      <Typography>{dataSheet?.snap_content}</Typography>
-                                    </Grid>
-                                  </Grid>
-
-                                  <Grid item xs={12} md={4} mt={5} ml={4}>
-                                    <Button
-                                      href={'/login/?event=' + dataSheet?.title}
-                                      // style={{ color: 'white', marginRight: 10 }}
-                                      variant='contained'
-                                    >
-                                      RSVP Here
-                                    </Button>
-                                  </Grid>
-                                </Grid>
-                              </CardContent>
-                            </Card>
-                          </Grid>
-                        </Grid>
-                      </Grid>
                     </Grid>
 
                     <Divider />
@@ -276,7 +248,6 @@ const EventApp = () => {
                           </Box>
                           <Box>
                             <Typography fontSize={18} style={{ fontWeight: '600' }}>
-                              {' '}
                               Email
                             </Typography>
                           </Box>
