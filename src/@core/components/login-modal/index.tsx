@@ -15,7 +15,6 @@ import {
   FormControl,
   FormHelperText,
   Grid,
-  Hidden,
   InputAdornment,
   InputLabel,
   OutlinedInput,
@@ -52,6 +51,7 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 type BlockDialog = {
   visible: boolean
   onCloseClick: VoidFunction
+  isBanner?: boolean
 }
 
 const getSchema = (t: any) => {
@@ -75,6 +75,7 @@ const DialogLogin = (props: BlockDialog) => {
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.down('md'))
   const isMd = useMediaQuery(theme.breakpoints.down('lg'))
+  const isBanner = props?.isBanner ?? true
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false)
   const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
@@ -139,7 +140,7 @@ const DialogLogin = (props: BlockDialog) => {
           <Icon icon='mdi:close' />
         </IconButton>
         <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-          <Hidden mdDown>
+          {!isXs && isBanner && (
             <Grid
               item
               xs={12}
@@ -160,7 +161,7 @@ const DialogLogin = (props: BlockDialog) => {
                 style={{ color: '#FFFFFF' }}
                 fontWeight='800'
                 fontSize={28}
-                sx={{ maxWidth: '70%', textAlign: 'center' }}
+                sx={{ maxWidth: '75%', textAlign: 'center' }}
               >
                 {t('login_modal_title_1')}
               </Typography>
@@ -169,14 +170,14 @@ const DialogLogin = (props: BlockDialog) => {
                 style={{ color: '#FFFFFF' }}
                 fontWeight='500'
                 fontSize={16}
-                sx={{ maxWidth: '75%', textAlign: 'center' }}
+                sx={{ maxWidth: '80%', textAlign: 'center' }}
               >
                 {t('login_modal_subtitle_1')}
               </Typography>
             </Grid>
-          </Hidden>
-          <Grid item xs={12} md={6}>
-            <Box py={4} pl={6} pr={4}>
+          )}
+          <Grid item xs={12} md={isBanner ? 6 : 12}>
+            <Box sx={isBanner && !isXs ? { py: 4, pl: 6, pr: 4 } : { p: 4 }}>
               <Box
                 sx={{
                   mb: 3,
@@ -191,10 +192,20 @@ const DialogLogin = (props: BlockDialog) => {
                 </Link>
                 <Typography
                   variant='h5'
-                  sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: '#262525' }}
+                  sx={{ textAlign: 'center', marginTop: '10px', fontWeight: 'bold', color: '#262525' }}
                 >
                   {t('login_text_1')}
                 </Typography>
+                {(!isBanner || isXs) && (
+                  <>
+                    <Typography variant='body2' sx={{ textAlign: 'center', color: '#262525', marginTop: '10px' }}>
+                      {t('login_modal_subtitle_1')}
+                    </Typography>
+                    <Typography variant='body2' sx={{ textAlign: 'center', color: '#262525' }}>
+                      {t('login_modal_title_1')}
+                    </Typography>
+                  </>
+                )}
               </Box>
               <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
                 <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
