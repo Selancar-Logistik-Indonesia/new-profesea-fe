@@ -232,6 +232,7 @@ const DialogAdd = (props: DialogProps) => {
                 label='Requirement'
                 variant='outlined'
                 multiline
+                maxRows={4}
                 fullWidth
                 {...register('requirement')}
                 error={Boolean(errors.short_description)}

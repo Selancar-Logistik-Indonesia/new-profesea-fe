@@ -10,12 +10,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import PaymentDialog from 'src/views/payment/PaymentDialog'
 import OtherTraining from './OtherTraining'
+import { useAuth } from 'src/hooks/useAuth'
 
 const TrainingDetailPage = () => {
+  const { user } = useAuth()
   const router = useRouter()
   const trainingId = router.query.id
   const [training, setTraining] = useState<Training | null>(null)
   const [openDialog, setOpenDialog] = useState(false)
+
   const handleClickBuy = async () => {
     setOpenDialog(!openDialog)
   }
@@ -27,21 +30,20 @@ const TrainingDetailPage = () => {
 
       return
     }
+
     setTraining(resp.data.training)
   }
 
   useEffect(() => {
-    if (trainingId) {
-      getDetailTraining()
-    }
-  }, [trainingId])
+    getDetailTraining()
+  }, [])
 
   return !training ? (
     <CircularProgress />
   ) : (
     <Box>
       <Grid container sx={{ position: 'fixed' }}>
-        <IconButton onClick={() => router.push(`/candidate/training`)}>
+        <IconButton onClick={() => router.back()}>
           <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
         </IconButton>
       </Grid>
@@ -153,8 +155,8 @@ const TrainingDetailPage = () => {
                   Joined
                 </Button>
               ) : (
-                <Button onClick={handleClickBuy} variant='contained' size='small'>
-                  Enroll
+                <Button disabled={!user} onClick={handleClickBuy} variant='contained' size='small'>
+                  Buy It
                 </Button>
               )}
             </Box>
@@ -185,7 +187,7 @@ const TrainingDetailPage = () => {
           </Box>
         </Grid>
       </Grid>
-      {openDialog && (
+      {openDialog && user && (
         <PaymentDialog onClose={() => setOpenDialog(!openDialog)} training={training} openDialog={openDialog} />
       )}
     </Box>

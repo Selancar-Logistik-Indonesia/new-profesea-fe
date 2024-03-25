@@ -18,7 +18,7 @@ const renderList = (arr: Training[] | null) => {
       return (
         <Grid item xs={12} sx={{ marginTop: '10px', marginBottom: '10px' }} key={item.id}>
           <Card sx={{ border: 0, boxShadow: 0.5, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-            <Grid item component={Link} href={`/candidate/training/detail/${item.id}`}>
+            <Grid item component={Link} href={`/landingpage-trainer/detail/${item.id}`}>
               <CardContent>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   <Grid
@@ -81,14 +81,14 @@ const renderList = (arr: Training[] | null) => {
 }
 
 const OtherTraining = ({ user_id, id }: { user_id: number; id: number }) => {
-  const [training, setTraining] = useState<Training[] | null>(null)
+  const [listTrainings, setTraining] = useState<Training[] | null>(null)
   const [onLoading, setOnLoading] = useState(false)
   const payload = { page: 1, take: 3, user_id, id }
 
   const fetchTrainings = async () => {
     try {
       setOnLoading(true)
-      const resp = await HttpClient.get(`/training`, { ...payload })
+      const resp = await HttpClient.get(`/public/data/training`, { ...payload })
 
       if (resp.status == 200) {
         const data = resp.data.trainings.data
@@ -113,7 +113,7 @@ const OtherTraining = ({ user_id, id }: { user_id: number; id: number }) => {
     )
   }
 
-  return <Grid>{renderList(training)}</Grid>
+  return <Grid>{renderList(listTrainings)}</Grid>
 }
 
 export default OtherTraining

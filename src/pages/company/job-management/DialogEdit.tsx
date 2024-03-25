@@ -49,7 +49,9 @@ const SailRegion = [
   { id: 'ncv', name: 'Near Coastal Voyage (NCV)' },
   { id: 'iv', name: 'International Voyage' }
 ]
-const employmenttype = [{ name: 'Unpaid' }, { name: 'Contract' }, { name: 'Full-Time' }]
+
+const EMPLOYMENT_TYPE_OPTIONS = [{ name: 'Unpaid' }, { name: 'Contract' }, { name: 'Full-Time' }]
+
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
@@ -167,7 +169,7 @@ const DialogEdit = (props: EditProps) => {
       getVesselType(response.data.vesselTypes.data)
     })
 
-    if (props.selectedItem.sailing_region == null) {
+    if (props.selectedItem.sailing_region == null && props.selectedItem.category.employee_type == 'offship') {
       setDisabled(true)
     } else {
       setDisabled(false)
@@ -178,7 +180,7 @@ const DialogEdit = (props: EditProps) => {
 
   useEffect(() => {
     combobox()
-  }, [hookSignature])
+  }, [hookSignature, props.visible])
 
   const { register, handleSubmit } = useForm<Job>({
     mode: 'onBlur'
@@ -232,14 +234,14 @@ const DialogEdit = (props: EditProps) => {
       country_id: Cou == null ? null : Cou.id,
       city_id: Cit == null ? null : Cit.id,
       license: [...license, ...licenseCop],
-      sailing_region: sailfix == null ? null : Sail,
+      sailing_region: sailfix == null ? null : Sail?.id,
       vesseltype_id: Vessel == null ? null : Vessel.id,
       salary_start: salary_start,
       salary_end: salary_end,
       currency: currency?.value,
       experience: experience,
       experience_type: categoryEmployeeType == 'onship' ? 'contract' : 'year',
-      employment_type: Employmenttype,
+      employment_type: Employmenttype?.name,
       description: draftToHtml(convertToRaw(desc?.getCurrentContent())),
       onboard_at: date
         ?.toLocaleDateString('en-GB', {
@@ -459,15 +461,13 @@ const DialogEdit = (props: EditProps) => {
                     value={Sail}
                     getOptionLabel={(option: any) => option.name}
                     renderInput={params => <TextField {...params} label='Sail Region' />}
-                    onChange={(event: any, newValue: any | null) =>
-                      newValue?.id ? setSail(newValue.id) : setSail(null)
-                    }
+                    onChange={(event: any, newValue: any | null) => (newValue ? setSail(newValue) : setSail(null))}
                   />
                 </Grid>
                 <Grid item md={3} xs={12} sx={{ mb: 1 }}>
                   <TextField
                     id='experience'
-                    defaultValue={1}
+                    defaultValue={props.selectedItem.experience}
                     label='Experience (Contract)'
                     variant='outlined'
                     fullWidth
@@ -573,11 +573,11 @@ const DialogEdit = (props: EditProps) => {
                     disablePortal
                     id='combo-box-demo'
                     value={Employmenttype}
-                    options={employmenttype}
+                    options={EMPLOYMENT_TYPE_OPTIONS}
                     getOptionLabel={(option: any) => option.name}
                     renderInput={params => <TextField {...params} label='Employment Type' />}
                     onChange={(event: any, newValue: any | null) =>
-                      newValue?.name ? setEmploymenttype(newValue.name) : setEmploymenttype({ name: '' })
+                      newValue ? setEmploymenttype(newValue) : setEmploymenttype(null)
                     }
                   />
                 </Grid>
@@ -586,14 +586,6 @@ const DialogEdit = (props: EditProps) => {
             {disabled == false && (
               <>
                 <Grid item md={3} xs={12}>
-                  {/* <TextField
-                    defaultValue={props.selectedItem.experience}
-                    id='experience'
-                    label='Experience'
-                    variant='outlined'
-                    fullWidth
-                    {...register('experience')}
-                  /> */}
                   <TextField
                     id='contractDuration'
                     label='Contract Duration (Month)'
@@ -604,19 +596,6 @@ const DialogEdit = (props: EditProps) => {
                     {...register('contractDuration')}
                   />
                 </Grid>
-                {/* <Grid item md={12} xs={12}>
-                  <Autocomplete
-                    multiple
-                    options={licenseData}
-                    id='license'
-                    value={license}
-                    filterSelectedOptions
-                    getOptionLabel={option => option.title || ''}
-                    fullWidth
-                    onChange={(e, newValue: any) => (newValue ? setLicense(newValue) : setLicense([]))}
-                    renderInput={params => <TextField {...params} fullWidth label='License' />}
-                  />
-                </Grid> */}
               </>
             )}
 

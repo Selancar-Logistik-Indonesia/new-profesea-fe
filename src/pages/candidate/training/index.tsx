@@ -87,33 +87,7 @@ const SeafarerTraining = () => {
               <Grid item sx={{ alignItems: 'center', justifyContent: 'center' }}>
                 <img
                   alt='logo'
-                  src={'/images/icon-trainer.png'}
-                  style={{
-                    width: '250px',
-                    height: '250px',
-                    objectFit: 'cover',
-                    borderRadius: '8px',
-                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                  }}
-                />
-              </Grid>
-              <Grid item sx={{ alignItems: 'center', justifyContent: 'center' }}>
-                <img
-                  alt='logo'
-                  src={'/images/icon-trainer.png'}
-                  style={{
-                    width: '250px',
-                    height: '250px',
-                    objectFit: 'cover',
-                    borderRadius: '8px',
-                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                  }}
-                />
-              </Grid>
-              <Grid item sx={{ alignItems: 'center', justifyContent: 'center' }}>
-                <img
-                  alt='logo'
-                  src={'/images/icon-trainer.png'}
+                  src={'/images/training-partner1.jpg'}
                   style={{
                     width: '250px',
                     height: '250px',
