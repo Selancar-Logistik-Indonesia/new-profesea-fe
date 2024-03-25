@@ -22,6 +22,7 @@ const Transition = forwardRef(function Transition(
 
 type ViewProps = {
   openDialog: boolean
+  selectedItem: any | undefined
   onClose: () => void
 }
 
