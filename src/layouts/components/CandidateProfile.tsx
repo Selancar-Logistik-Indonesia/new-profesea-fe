@@ -325,14 +325,6 @@ const CandidateProfile = (props: compProps) => {
     HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
       const itemData = response.data.documents
 
-      const arr = []
-      for (let x = 0; x < itemData.length; x++) {
-        const element = itemData[x]
-        if (element.childs.length > 0) {
-          arr.push({ id: element.id, name: element.document_type })
-        }
-      }
-      getArrayHead(arr)
       getItemdata(itemData)
     })
 
@@ -1536,28 +1528,21 @@ const CandidateProfile = (props: compProps) => {
           onCloseClick={() => setOpenEditModalDoc(!openEditModalDoc)}
           onStateChange={() => setHookSignature(v4())}
         />
-        <form>
-          <DialogAddEducation
-            visible={openAddModal}
-            onStateChange={() => setHookSignature(v4())}
-            onCloseClick={() => setOpenAddModal(!openAddModal)}
-          />
-        </form>
-        <form>
-          <DialogAddWorkExperience
-            visible={openAddModalWE}
-            onStateChange={() => setHookSignature(v4())}
-            onCloseClick={() => setOpenAddModalWE(!openAddModalWE)}
-          />
-        </form>
-        <form>
-          <DialogAddDocument
-            visible={openAddModalDoc}
-            onStateChange={() => setHookSignature(v4())}
-            onCloseClick={() => setOpenAddModalDoc(!openAddModalDoc)}
-            arrayhead={arrayHead}
-          />
-        </form>
+        <DialogAddEducation
+          visible={openAddModal}
+          onStateChange={() => setHookSignature(v4())}
+          onCloseClick={() => setOpenAddModal(!openAddModal)}
+        />
+        <DialogAddWorkExperience
+          visible={openAddModalWE}
+          onStateChange={() => setHookSignature(v4())}
+          onCloseClick={() => setOpenAddModalWE(!openAddModalWE)}
+        />
+        <DialogAddDocument
+          visible={openAddModalDoc}
+          onStateChange={() => setHookSignature(v4())}
+          onCloseClick={() => setOpenAddModalDoc(!openAddModalDoc)}
+        />
       </Grid>
     </Grid>
   )
