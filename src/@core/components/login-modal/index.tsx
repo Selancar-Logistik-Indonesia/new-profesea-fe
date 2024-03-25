@@ -197,14 +197,9 @@ const DialogLogin = (props: BlockDialog) => {
                   {t('login_text_1')}
                 </Typography>
                 {(!isBanner || isXs) && (
-                  <>
-                    <Typography variant='body2' sx={{ textAlign: 'center', color: '#262525', marginTop: '10px' }}>
-                      {t('login_modal_subtitle_1')}
-                    </Typography>
-                    <Typography variant='body2' sx={{ textAlign: 'center', color: '#262525' }}>
-                      {t('login_modal_title_1')}
-                    </Typography>
-                  </>
+                  <Typography variant='body2' sx={{ textAlign: 'center', color: '#262525', marginTop: '10px' }}>
+                    {t('login_modal_subtitle_1')}
+                  </Typography>
                 )}
               </Box>
               <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
