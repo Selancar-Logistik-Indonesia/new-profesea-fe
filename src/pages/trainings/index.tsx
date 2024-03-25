@@ -39,12 +39,10 @@ const Main = () => {
             }}
           >
             <Typography
-              // variant='h1'
+              variant='h1'
               style={{ color: '#FFFFFF' }}
-              mt={1}
-              fontWeight='800'
-              fontSize={28}
-              sx={{ maxWidth: { xs: '80%', md: '60%' }, px: { xs: 2, md: 5, whiteSpace: 'null' } }}
+              fontWeight='700'
+              sx={{ maxWidth: { xs: '70%' }, px: { xs: 2, md: 4, whiteSpace: 'null' } }}
             >
               {t('landing_trainer_title')}
             </Typography>
@@ -53,8 +51,7 @@ const Main = () => {
               style={{ color: '#FFFFFF' }}
               fontWeight='500'
               fontSize={28}
-              mt={4}
-              sx={{ maxWidth: { xs: '68%', md: '60%' }, px: { xs: 2, md: 5 } }}
+              sx={{ maxWidth: { xs: '68%' }, px: { xs: 2, md: 4 }, mt: 2 }}
             >
               {t('landing_trainer_subtitle')}
             </Typography>
