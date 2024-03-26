@@ -467,7 +467,7 @@ const DialogEdit = (props: EditProps) => {
                 <Grid item md={3} xs={12} sx={{ mb: 1 }}>
                   <TextField
                     id='experience'
-                    defaultValue={1}
+                    defaultValue={props.selectedItem.experience}
                     label='Experience (Contract)'
                     variant='outlined'
                     fullWidth
@@ -586,14 +586,6 @@ const DialogEdit = (props: EditProps) => {
             {disabled == false && (
               <>
                 <Grid item md={3} xs={12}>
-                  {/* <TextField
-                    defaultValue={props.selectedItem.experience}
-                    id='experience'
-                    label='Experience'
-                    variant='outlined'
-                    fullWidth
-                    {...register('experience')}
-                  /> */}
                   <TextField
                     id='contractDuration'
                     label='Contract Duration (Month)'
@@ -604,19 +596,6 @@ const DialogEdit = (props: EditProps) => {
                     {...register('contractDuration')}
                   />
                 </Grid>
-                {/* <Grid item md={12} xs={12}>
-                  <Autocomplete
-                    multiple
-                    options={licenseData}
-                    id='license'
-                    value={license}
-                    filterSelectedOptions
-                    getOptionLabel={option => option.title || ''}
-                    fullWidth
-                    onChange={(e, newValue: any) => (newValue ? setLicense(newValue) : setLicense([]))}
-                    renderInput={params => <TextField {...params} fullWidth label='License' />}
-                  />
-                </Grid> */}
               </>
             )}
 

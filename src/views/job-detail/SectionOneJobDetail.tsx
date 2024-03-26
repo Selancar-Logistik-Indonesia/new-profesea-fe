@@ -9,7 +9,7 @@ interface ISectionOneJobDetailProps {
 }
 
 const SectionOneJobDetail: React.FC<ISectionOneJobDetailProps> = ({ jobDetail }) => {
-  const license: any[] = Object.values(jobDetail?.license)
+  const license: any[] = Object.values(jobDetail?.license ? jobDetail?.license : {})
 
   return (
     <Box

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'
 import { Avatar, Card, CardContent, Typography, CircularProgress } from '@mui/material'
 import { HttpClient } from 'src/services'
@@ -6,18 +7,18 @@ import Job from 'src/contract/models/job'
 import { toast } from 'react-hot-toast'
 import Grid, { GridProps } from '@mui/material/Grid'
 import { styled } from '@mui/material/styles'
-import { useSearchParams } from 'next/navigation'
+
 import RelatedJobView from 'src/views/find-job/RelatedJobView'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 // import ShareButton from 'src/views/find-job/ShareButton';
 import { IUser } from 'src/contract/models/user'
-import CompleteDialog from './CompleteDialog'
+import CompleteDialog from 'src/pages/candidate/job/CertificateDialog'
 import HeaderJobDetail from 'src/views/job-detail/HeaderJobDetail'
 import SectionOneJobDetail from 'src/views/job-detail/SectionOneJobDetail'
 import SectionTwoJobDetail from 'src/views/job-detail/SectionTwoJobDetail'
 import SectionThreeJobDetail from 'src/views/job-detail/SectionThreeJobDetal'
-import CertificateDialog from './CertificateDialog'
+import CertificateDialog from 'src/pages/candidate/job/CertificateDialog'
 
 const JobDetail = () => {
   // const url = window.location.href
@@ -32,8 +33,11 @@ const JobDetail = () => {
   // const [open, setOpen] = React.useState(false)
   // const anchorRef = React.useRef<HTMLDivElement>(null)
   // const [selectedIndex, setSelectedIndex] = React.useState(1)
-  const searchParams = useSearchParams()
-  const jobId = searchParams.get('id')
+
+  const router = useRouter()
+  const jobId = router.query?.id
+  const companyname = router.query?.companyname
+  const jobtitle = router.query?.jobtitle
 
   const [jobDetailSugestion, setJobDetailSugestion] = useState<Job[]>([])
 
@@ -63,10 +67,11 @@ const JobDetail = () => {
     }
   }))
 
-  const firstload = async (mJobId: string) => {
+  const firstload = async (companyname: any, jobId: any, jobTitle: any) => {
     setIsLoading(true)
     try {
-      const resp = await HttpClient.get('/job/' + mJobId)
+      //const resp = await HttpClient.get('/job/' + mJobId)
+      const resp = await HttpClient.get(`/job/${companyname}/${jobId}/${jobTitle}`)
       const job = resp.data.job
 
       setIsLoading(false)
@@ -89,8 +94,8 @@ const JobDetail = () => {
   }, [])
 
   useEffect(() => {
-    firstload(jobId!)
-  }, [jobId])
+    firstload(companyname, jobId, jobtitle)
+  }, [companyname, jobId, jobtitle])
 
   const handleApply = async () => {
     if (

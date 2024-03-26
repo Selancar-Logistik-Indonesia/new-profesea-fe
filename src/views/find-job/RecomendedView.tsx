@@ -29,10 +29,13 @@ const renderList = (listJob: Job[]) => {
     const userPhoto = item?.company?.photo ? item?.company?.photo : '/images/avatars/default-user.png'
     // const license: any[] = Object.values(item?.license)
 
+    const companyNameUrl = item.company.name.toLowerCase().split(' ').join('-')
+    const jobTitleUrl = item.job_title ? item.job_title?.toLowerCase().split(' ').join('-') : ''
+
     return (
       <Grid item xs={12} md={4} key={item?.id}>
         <Paper sx={{ marginTop: '10px', border: '1px solid #eee', height: '250px' }} elevation={0}>
-          <Link style={{ textDecoration: 'none' }} href={'/candidate/job/?id=' + item?.id}>
+          <Link style={{ textDecoration: 'none' }} href={`/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`}>
             <Box
               height={65}
               sx={{
