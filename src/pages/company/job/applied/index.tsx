@@ -12,22 +12,11 @@ import debounce from 'src/utils/debounce'
 import { GridPaginationModel } from '@mui/x-data-grid'
 import { v4 } from 'uuid'
 import DialogView from './DialogView'
-import {
-  Autocomplete,
-  Box,
-  Button,
-  CardHeader,
-  Chip,
-  Collapse,
-  FormControl,
-  IconButton,
-  Input,
-  Typography
-} from '@mui/material'
-import JobCategory from 'src/contract/models/job_category'
-import RoleType from 'src/contract/models/role_type'
-import VesselType from 'src/contract/models/vessel_type'
-import { Icon } from '@iconify/react'
+import { Typography } from '@mui/material'
+// import JobCategory from 'src/contract/models/job_category'
+// import RoleType from 'src/contract/models/role_type'
+// import VesselType from 'src/contract/models/vessel_type'
+// import { Icon } from '@iconify/react'
 import { subscribev } from 'src/utils/helpers'
 import BasicFilter from './BasicFilter'
 import Job from 'src/contract/models/job'
@@ -39,19 +28,14 @@ const status: any[] = [
   { id: 'WR', title: 'Waiting Review' }
 ]
 
-const dokumen = [
-  { title: 'Certificate of Competency', docType: 'COC' },
-  { title: 'Certificate of Profeciency', docType: 'COP' },
-  { title: 'Certificate of Recognition', docType: 'COR' },
-  { title: 'Certificate of Endorsement', docType: 'COE' },
-  { title: 'Other Certificate', docType: 'OTH' },
-  { title: 'MCU Certificates', docType: 'MCU' }
-]
-
-const EmployeeType = [
-  { employee_type: 'onship', label: 'On-Ship' },
-  { employee_type: 'offship', label: 'Off-Ship' }
-]
+// const dokumen = [
+//   { title: 'Certificate of Competency', docType: 'COC' },
+//   { title: 'Certificate of Profeciency', docType: 'COP' },
+//   { title: 'Certificate of Recognition', docType: 'COR' },
+//   { title: 'Certificate of Endorsement', docType: 'COE' },
+//   { title: 'Other Certificate', docType: 'OTH' },
+//   { title: 'MCU Certificates', docType: 'MCU' }
+// ]
 
 interface IJobAppliedProps {
   jobDetail: Job | undefined
@@ -62,62 +46,38 @@ const JobApplied = (props: IJobAppliedProps) => {
   const windowUrl = window.location.search
   const params = new URLSearchParams(windowUrl)
   const [collapsed, setCollapsed] = useState<boolean>(params.get('plan') === 'advance' ? false : true)
-  const [collapsedAdvanced, setCollapsedAdvanced] = useState<boolean>(false)
-  const [JobCategory, getJobCategory] = useState<any[]>([])
-  const [JobTitle, getJobTitle] = useState<any[]>([])
-  const [VesselType, getVesselType] = useState<any[]>([])
-  const [combocode, getCombocode] = useState<any[]>([])
+  const [collapsedAdvanced, setCollapsedAdvanced] = useState<boolean>(true)
+  // const [JobCategory, getJobCategory] = useState<any[]>([])
+  // const [JobTitle, getJobTitle] = useState<any[]>([])
+  // const [VesselType, getVesselType] = useState<any[]>([])
+  // const [combocode, getCombocode] = useState<any[]>([])
   //   const [textCandidate, SetTextCandidate] = useState<any>('')
-  const [sJobCategory, setJobCategory] = useState<any>('')
-  const [sJobTitle, setJobTitle] = useState<any>('')
-  const [sVesselType, setVesselType] = useState<any>('')
-  const [comboShip, getShip] = useState<any>([])
+  // const [sJobCategory, setJobCategory] = useState<any>('')
+  // const [sJobTitle, setJobTitle] = useState<any>('')
+  // const [sVesselType, setVesselType] = useState<any>('')
+  // const [comboShip, getShip] = useState<any>([])
   const [comboStatus, getStatus] = useState<any>([])
   const [statusOnBoard, setStatusOnBoard] = useState<any>('')
-  const [values, setValues] = useState<any[]>([])
-  const [currValue, setCurrValue] = useState('')
-  const [valuesoneword, setValuesOneWord] = useState<any[]>([])
-  const [currValueoneword, setCurrValueOneWord] = useState('')
-  const [valuesexclude, setValuesExclude] = useState<any[]>([])
-  const [currValueexclude, setCurrValueExclude] = useState('')
-  const [valueslitle, setValuesLitle] = useState<any[]>([])
-  const [currValuelitle, setCurrValueLitle] = useState('')
+  // const [values, setValues] = useState<any[]>([])
+  // const [currValue, setCurrValue] = useState('')
+  // const [valuesoneword, setValuesOneWord] = useState<any[]>([])
+  // const [currValueoneword, setCurrValueOneWord] = useState('')
+  // const [valuesexclude, setValuesExclude] = useState<any[]>([])
+  // const [currValueexclude, setCurrValueExclude] = useState('')
+  // const [valueslitle, setValuesLitle] = useState<any[]>([])
+  // const [currValuelitle, setCurrValueLitle] = useState('')
   const [showadvance, setShowAdvance] = useState<boolean>(true)
-  const [showadvance2, setShowAdvance2] = useState<boolean>(true)
+  // const [showadvance2, setShowAdvance2] = useState<boolean>(true)
   const [experience, setExperience] = useState<any>('')
   const [education, setEducation] = useState<any>('')
-
-  const getListCombo = async () => {
-    const res2 = await HttpClient.get(`/job-category?search=&page=1&take=250`)
-    if (res2.status != 200) {
-      throw res2.data.message ?? 'Something went wrong!'
-    }
-    getJobCategory(res2.data.categories.data)
-    const res3 = await HttpClient.get(`/public/data/role-type?search=&page=1&take=250`)
-    if (res3.status != 200) {
-      throw res2.data.message ?? 'Something went wrong!'
-    }
-    getJobTitle(res3.data.roleTypes.data)
-
-    const res4 = await HttpClient.get(`/public/data/vessel-type?search=&page=1&take=250`)
-    if (res4.status != 200) {
-      throw res4.data.message ?? 'Something went wrong!'
-    }
-    getVesselType(res4.data.vesselTypes.data)
-
-    HttpClient.get('/public/data/country?search=').then(response => {
-      const code = response.data.countries
-      for (let x = 0; x < code.length; x++) {
-        const element = code[x]
-        element.label = element.name + '(' + element.phonecode + ')'
-      }
-      getCombocode(code)
-    })
-    console.log({ combocode })
-  }
+  const [licenseCOC, setLicenseCOC] = useState<any>([])
+  const [licenseCOP, setLicenseCOP] = useState<any>([])
+  const [language, setLanguage] = useState<any>(null)
+  const [citizenship, setCitizenship] = useState<any>(null)
+  const [isVisaUSA, setIsVisaUSA] = useState<boolean>(false)
+  const [isVisaSchengen, setIsVisaSchengen] = useState<boolean>(false)
 
   useEffect(() => {
-    getListCombo()
     const a = subscribev(['A19'])
     if (a == true) {
       setShowAdvance(true)
@@ -137,25 +97,36 @@ const JobApplied = (props: IJobAppliedProps) => {
   const [perPage, setPerPage] = useState(10)
 
   const getListApplicant = async () => {
+    console.log('coc =>', licenseCOC) // nanti bakal ada filter by license COC
+    console.log('cop =>', licenseCOP) // nanti bakal ada filter by license COP
+    console.log('language =>', language)
+    console.log('citizenship =>', citizenship)
+    console.log('is visa usa =>', isVisaUSA)
+    console.log('is bisa schengen =>', isVisaSchengen)
     try {
+      // const resp = await HttpClient.get(
+      //   `/job/${params.get('id')}/appllicants?` +
+      //     'vesseltype_id=' +
+      //     sVesselType +
+      //     '&roletype_id=' +
+      //     sJobTitle +
+      //     '&rolelevel_id=' +
+      //     sJobCategory +
+      //     '&employee_type=' +
+      //     comboShip +
+      //     '&status=' +
+      //     comboStatus +
+      //     `&experience=${experience}&status_onboard=${statusOnBoard}&education=${education}&search=${search}&page=${page}&take=${perPage}`
+      // )
+
       const resp = await HttpClient.get(
         `/job/${params.get('id')}/appllicants?` +
-          'vesseltype_id=' +
-          sVesselType +
-          '&roletype_id=' +
-          sJobTitle +
-          '&rolelevel_id=' +
-          sJobCategory +
-          '&employee_type=' +
-          comboShip +
-          '&status=' +
-          comboStatus +
-          `&experience=${experience}&status_onboard=${statusOnBoard}&education=${education}&search=${search}&page=${page}&take=${perPage}`
+          `experience=${experience}&status_onboard=${statusOnBoard}&education=${education}&search=${search}&page=${page}&take=${perPage}`
       )
+
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'
       }
-      console.log(resp.data.applicants)
 
       const rows = resp.data.applicants.data as Applicant[]
       const items = rows.map((row, index) => {
@@ -221,63 +192,63 @@ const JobApplied = (props: IJobAppliedProps) => {
     })
   }
 
-  const handleKeyUp = (e: any) => {
-    console.log(e.keyCode)
-    if (e.keyCode == 32) {
-      //    getdatapencarian()
-    }
-  }
+  // const handleKeyUp = (e: any) => {
+  //   console.log(e.keyCode)
+  //   if (e.keyCode == 32) {
+  //     //    getdatapencarian()
+  //   }
+  // }
 
-  const handleKeyDown = (e: any, x: any) => {
-    if (e.keyCode == 32) {
-      if (x == 1) {
-        setValues(oldState => [...oldState, e.target.value])
-        setCurrValue('')
-      } else if (x == 2) {
-        setValuesOneWord(oldState => [...oldState, e.target.value])
-        setCurrValueOneWord('')
-      } else if (x == 3) {
-        setValuesExclude(oldState => [...oldState, e.target.value])
-        setCurrValueExclude('')
-      } else if (x == 4) {
-        setValuesLitle(oldState => [...oldState, e.target.value])
-        setCurrValueLitle('')
-      }
-    }
-  }
+  // const handleKeyDown = (e: any, x: any) => {
+  //   if (e.keyCode == 32) {
+  //     if (x == 1) {
+  //       setValues(oldState => [...oldState, e.target.value])
+  //       setCurrValue('')
+  //     } else if (x == 2) {
+  //       setValuesOneWord(oldState => [...oldState, e.target.value])
+  //       setCurrValueOneWord('')
+  //     } else if (x == 3) {
+  //       setValuesExclude(oldState => [...oldState, e.target.value])
+  //       setCurrValueExclude('')
+  //     } else if (x == 4) {
+  //       setValuesLitle(oldState => [...oldState, e.target.value])
+  //       setCurrValueLitle('')
+  //     }
+  //   }
+  // }
 
-  const handleChange = (e: any, x: any) => {
-    if (x == 1) {
-      setCurrValue(e.value)
-    } else if (x == 2) {
-      setCurrValueOneWord(e.value)
-    } else if (x == 3) {
-      setCurrValueExclude(e.value)
-    } else if (x == 4) {
-      setCurrValueLitle(e.value)
-    }
-  }
+  // const handleChange = (e: any, x: any) => {
+  //   if (x == 1) {
+  //     setCurrValue(e.value)
+  //   } else if (x == 2) {
+  //     setCurrValueOneWord(e.value)
+  //   } else if (x == 3) {
+  //     setCurrValueExclude(e.value)
+  //   } else if (x == 4) {
+  //     setCurrValueLitle(e.value)
+  //   }
+  // }
 
-  const handleDelete = (item: any, index: any, x: any) => {
-    if (x == 1) {
-      const arr = [...values]
-      arr.splice(index, 1)
-      setValues(arr)
-    } else if (x == 2) {
-      const arr = [...valuesoneword]
-      arr.splice(index, 1)
-      setValuesOneWord(arr)
-    } else if (x == 3) {
-      const arr = [...valuesexclude]
-      arr.splice(index, 1)
-      setValuesExclude(arr)
-    } else if (x == 4) {
-      const arr = [...valueslitle]
-      arr.splice(index, 1)
-      setValuesLitle(arr)
-    }
-    // getdatapencarian();
-  }
+  // const handleDelete = (item: any, index: any, x: any) => {
+  //   if (x == 1) {
+  //     const arr = [...values]
+  //     arr.splice(index, 1)
+  //     setValues(arr)
+  //   } else if (x == 2) {
+  //     const arr = [...valuesoneword]
+  //     arr.splice(index, 1)
+  //     setValuesOneWord(arr)
+  //   } else if (x == 3) {
+  //     const arr = [...valuesexclude]
+  //     arr.splice(index, 1)
+  //     setValuesExclude(arr)
+  //   } else if (x == 4) {
+  //     const arr = [...valueslitle]
+  //     arr.splice(index, 1)
+  //     setValuesLitle(arr)
+  //   }
+  //   // getdatapencarian();
+  // }
 
   useEffect(() => {
     setOnLoading(true)
@@ -287,15 +258,17 @@ const JobApplied = (props: IJobAppliedProps) => {
   }, [
     page,
     search,
-    sVesselType,
-    sJobTitle,
-    sJobCategory,
-    comboShip,
     comboStatus,
     hookSignature,
     perPage,
     experience,
-    statusOnBoard
+    statusOnBoard,
+    licenseCOC,
+    licenseCOP,
+    language,
+    citizenship,
+    isVisaUSA,
+    isVisaSchengen
   ])
 
   return (
@@ -311,77 +284,20 @@ const JobApplied = (props: IJobAppliedProps) => {
             setStatusOnBoard={setStatusOnBoard}
             setEducation={setEducation}
           />
-          {/* <Box mb={3}>
-            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFFF' }}>
-              <CardHeader
-                title={
-                  <Typography variant='body2' style={{ fontSize: '14px', color: '#262525' }}>
-                    Basic Search
-                  </Typography>
-                }
-                action={
-                  <IconButton
-                    size='small'
-                    aria-label='collapse'
-                    sx={{ color: '#262525' }}
-                    onClick={() => setCollapsed(!collapsed)}
-                  >
-                    <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                  </IconButton>
-                }
-              />
-              <Collapse in={collapsed}>
-                <CardContent>
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={JobCategory}
-                    getOptionLabel={(option: JobCategory) => option.name}
-                    renderInput={params => <TextField {...params} label='Role Level' />}
-                    onChange={(event: any, newValue: JobCategory | null) =>
-                      newValue?.id ? setJobCategory(newValue.id) : setJobCategory('')
-                    }
-                    sx={{ marginBottom: 2 }}
-                  />
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={JobTitle}
-                    getOptionLabel={(option: RoleType) => option.name}
-                    renderInput={params => <TextField {...params} label='Job Title' />}
-                    onChange={(event: any, newValue: RoleType | null) =>
-                      newValue?.id ? setJobTitle(newValue.id) : setJobTitle('')
-                    }
-                    sx={{ marginBottom: 2 }}
-                  />
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={VesselType}
-                    getOptionLabel={(option: VesselType) => option.name}
-                    renderInput={params => <TextField {...params} label='Type of Vessel' />}
-                    onChange={(event: any, newValue: VesselType | null) =>
-                      newValue?.id ? setVesselType(newValue.id) : setVesselType('')
-                    }
-                    sx={{ marginBottom: 2 }}
-                  />
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={EmployeeType}
-                    getOptionLabel={(option: any) => option.label}
-                    renderInput={params => <TextField {...params} label='Category' />}
-                    onChange={(event: any, newValue: any | null) =>
-                      newValue?.employee_type ? getShip(newValue?.employee_type) : getShip('')
-                    }
-                    sx={{ marginBottom: 2 }}
-                  />
-                </CardContent>
-              </Collapse>
-            </Card>
-          </Box> */}
-          <AdvancedFilter collapsedAdvanced={collapsedAdvanced} setCollapsedAdvanced={setCollapsedAdvanced} />
-          {showadvance2 == true && (
+          <AdvancedFilter
+            collapsedAdvanced={collapsedAdvanced}
+            isVisaUSA={isVisaUSA}
+            isVisaSchengen={isVisaSchengen}
+            showadvance={showadvance}
+            setCollapsedAdvanced={setCollapsedAdvanced}
+            setLicenseCOC={setLicenseCOC}
+            setLicenseCOP={setLicenseCOP}
+            setLanguage={setLanguage}
+            setCitizenship={setCitizenship}
+            setIsVisaUSA={setIsVisaUSA}
+            setIsVisaSchengen={setIsVisaSchengen}
+          />
+          {/* {showadvance2 == true && (
             <Box mb={3}>
               <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardHeader
@@ -503,7 +419,7 @@ const JobApplied = (props: IJobAppliedProps) => {
                 </CardContent>
               </Card>
             </Box>
-          )}
+          )} */}
         </Grid>
         <Grid item lg={9} md={7} xs={12}>
           <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>

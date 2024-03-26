@@ -1,15 +1,4 @@
-import { Icon } from '@iconify/react'
-import {
-  Box,
-  Card,
-  CardHeader,
-  IconButton,
-  Typography,
-  Collapse,
-  CardContent,
-  Autocomplete,
-  TextField
-} from '@mui/material'
+import { Box, Card, CardHeader, Typography, CardContent, Autocomplete, TextField } from '@mui/material'
 import React, { SetStateAction, useEffect, useState } from 'react'
 import Degree from 'src/contract/models/degree'
 import { HttpClient } from 'src/services'
@@ -88,8 +77,6 @@ const STATUS_ONBOARD = [
 ]
 
 const BasicFilter: React.FC<IBasicFilterProps> = ({
-  collapsed,
-  setCollapsed,
   jobCategory,
   setExperience,
   getStatus,
@@ -118,68 +105,56 @@ const BasicFilter: React.FC<IBasicFilterProps> = ({
         <CardHeader
           title={
             <Typography variant='body2' style={{ fontSize: '14px', color: '#262525' }}>
-              Basic Filter
+              Filter
             </Typography>
           }
-          action={
-            <IconButton
-              size='small'
-              aria-label='collapse'
-              sx={{ color: '#262525' }}
-              onClick={() => setCollapsed(!collapsed)}
-            >
-              <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-            </IconButton>
-          }
         />
-        <Collapse in={collapsed}>
-          <CardContent>
+        <CardContent>
+          <Autocomplete
+            disablePortal
+            id='combo-box-experience'
+            options={experienceOptions}
+            getOptionLabel={option => option.label}
+            renderInput={params => <TextField {...params} label='Experience (years / contract)' />}
+            onChange={(event, newValue) => (newValue ? setExperience(newValue?.value) : setExperience(''))}
+            sx={{ marginBottom: 2 }}
+          />
+          <Autocomplete
+            disablePortal
+            id='combo-box-status'
+            options={status}
+            getOptionLabel={(option: any) => option.title}
+            renderInput={params => <TextField {...params} label='Application Status' />}
+            onChange={(event: any, newValue: any | null) => (newValue?.id ? getStatus(newValue.id) : getStatus(''))}
+            sx={{ marginBottom: 2 }}
+          />
+          {jobCategory == 'onship' && (
             <Autocomplete
               disablePortal
-              id='combo-box-experience'
-              options={experienceOptions}
+              id='combo-box-status-onboard'
+              options={STATUS_ONBOARD}
               getOptionLabel={option => option.label}
-              renderInput={params => <TextField {...params} label='Experience (years / contract)' />}
-              onChange={(event, newValue) => (newValue ? setExperience(newValue?.value) : setExperience(''))}
+              renderInput={params => <TextField {...params} label='Status On Board' />}
+              onChange={(event: any, newValue: any | null) =>
+                newValue ? setStatusOnBoard(newValue.value) : setStatusOnBoard('')
+              }
               sx={{ marginBottom: 2 }}
             />
+          )}
+          {jobCategory == 'offship' && (
             <Autocomplete
               disablePortal
-              id='combo-box-status'
-              options={status}
-              getOptionLabel={(option: any) => option.title}
-              renderInput={params => <TextField {...params} label='Application Status' />}
-              onChange={(event: any, newValue: any | null) => (newValue?.id ? getStatus(newValue.id) : getStatus(''))}
+              id='combo-box-education'
+              options={educationOptions}
+              getOptionLabel={(option: Degree) => option.name}
+              renderInput={params => <TextField {...params} label='Education' />}
+              onChange={(event: any, newValue: any | null) =>
+                newValue ? setEducation(newValue?.id) : setEducation('')
+              }
               sx={{ marginBottom: 2 }}
             />
-            {jobCategory == 'onship' && (
-              <Autocomplete
-                disablePortal
-                id='combo-box-status-onboard'
-                options={STATUS_ONBOARD}
-                getOptionLabel={option => option.label}
-                renderInput={params => <TextField {...params} label='Status On Board' />}
-                onChange={(event: any, newValue: any | null) =>
-                  newValue ? setStatusOnBoard(newValue.value) : setStatusOnBoard('')
-                }
-                sx={{ marginBottom: 2 }}
-              />
-            )}
-            {jobCategory == 'offship' && (
-              <Autocomplete
-                disablePortal
-                id='combo-box-education'
-                options={educationOptions}
-                getOptionLabel={(option: Degree) => option.name}
-                renderInput={params => <TextField {...params} label='Education' />}
-                onChange={(event: any, newValue: any | null) =>
-                  newValue ? setEducation(newValue?.id) : setEducation('')
-                }
-                sx={{ marginBottom: 2 }}
-              />
-            )}
-          </CardContent>
-        </Collapse>
+          )}
+        </CardContent>
       </Card>
     </Box>
   )
