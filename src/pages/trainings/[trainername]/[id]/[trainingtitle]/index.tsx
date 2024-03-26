@@ -11,10 +11,13 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import PaymentDialog from 'src/views/payment/PaymentDialog'
 import OtherTraining from './OtherTraining'
 import { useAuth } from 'src/hooks/useAuth'
+import DialogLogin from 'src/@core/components/login-modal'
+import { useTranslation } from 'react-i18next'
 import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 
 const TrainingDetailPage = () => {
   const { user } = useAuth()
+  const { t } = useTranslation()
   const router = useRouter()
   const trainingId = router.query.id
   const [training, setTraining] = useState<Training | null>(null)
@@ -153,11 +156,11 @@ const TrainingDetailPage = () => {
 
               {training.joined_at ? (
                 <Button disabled={true} variant='contained' size='small'>
-                  Joined
+                  {t('login_modal_button_1')}
                 </Button>
               ) : (
                 <Button onClick={handleClickBuy} variant='contained' size='small'>
-                  Enroll
+                  {t('login_modal_button_2')}
                 </Button>
               )}
             </Box>
@@ -194,6 +197,14 @@ const TrainingDetailPage = () => {
       </Grid>
       {openDialog && user && (
         <PaymentDialog onClose={() => setOpenDialog(!openDialog)} training={training} openDialog={openDialog} />
+      )}
+      {openDialog && !user && (
+        <DialogLogin
+          visible={openDialog}
+          onCloseClick={() => {
+            setOpenDialog(!openDialog)
+          }}
+        />
       )}
     </Box>
   )
