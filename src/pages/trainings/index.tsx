@@ -32,7 +32,8 @@ const Main = () => {
             sx={{
               ...landingPageStyle.bannerHero,
               my: 2,
-              p: 8,
+              py: 6,
+              pl: { xs: 8, md: 16, lg: 32 },
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center'
@@ -40,18 +41,15 @@ const Main = () => {
           >
             <Typography
               variant='h1'
-              style={{ color: '#FFFFFF' }}
-              fontWeight='700'
-              sx={{ maxWidth: { xs: '70%' }, px: { xs: 2, md: 4, whiteSpace: 'null' } }}
+              style={{ color: '#FFFFFF', fontSize: '54px', fontWeight: '800' }}
+              sx={{ maxWidth: { xs: '60%' }, px: { xs: 2, md: 4, whiteSpace: 'null' } }}
             >
               {t('landing_trainer_title')}
             </Typography>
             <Typography
-              // variant='h2'
-              style={{ color: '#FFFFFF' }}
-              fontWeight='500'
-              fontSize={28}
-              sx={{ maxWidth: { xs: '68%' }, px: { xs: 2, md: 4 }, mt: 2 }}
+              variant='h2'
+              style={{ color: '#FFFFFF', fontSize: '32px', fontWeight: '500' }}
+              sx={{ maxWidth: { xs: '60%' }, px: { xs: 2, md: 4 }, mt: 2 }}
             >
               {t('landing_trainer_subtitle')}
             </Typography>
@@ -67,20 +65,18 @@ const Main = () => {
                 lg: 'row'
               },
               justifyContent: 'center',
-              gap: 3
+              gap: 2
             }}
           >
-            <Grid item xs={12} md={2}>
+            <Grid item xs={12} md={2.5}>
               <Box
                 sx={{
                   p: 4,
                   my: 2,
-                  border: 0,
-                  boxShadow: 0,
                   borderColor: 'divider',
                   boxSizing: 'border-box',
                   backgroundColor: '#FFFFFF',
-                  borderRadius: '2px',
+                  borderRadius: '4px',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -96,8 +92,8 @@ const Main = () => {
                       alt='logo'
                       src={'/images/training-partner1.jpg'}
                       style={{
-                        width: '250px',
-                        height: '250px',
+                        width: '100%',
+                        aspectRatio: '1',
                         objectFit: 'cover',
                         borderRadius: '8px',
                         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
@@ -110,7 +106,7 @@ const Main = () => {
             <Grid
               item
               xs={12}
-              md={10}
+              md={9.5}
               sx={
                 !hidden
                   ? {

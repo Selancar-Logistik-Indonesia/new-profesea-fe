@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react'
-import { Box, Button, CircularProgress, Divider, Grid, IconButton, Stack, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, Divider, Grid, IconButton, Typography } from '@mui/material'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
@@ -56,7 +56,7 @@ const TrainingDetailPage = () => {
           gap: 3
         }}
       >
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={7} lg={6}>
           <Box sx={{ p: 10, backgroundColor: '#FFFFFF' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Grid
@@ -156,35 +156,39 @@ const TrainingDetailPage = () => {
                   Joined
                 </Button>
               ) : (
-                <Button onClick={handleClickBuy} variant='contained' size='small' sx={{ color: 'white' }}>
-                  {user ? 'Enroll' : 'Login to enroll the class'}
+                <Button onClick={handleClickBuy} variant='contained' size='small'>
+                  Enroll
                 </Button>
               )}
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} md={3} lg={2}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '10px',
+              width: '100%',
+              bgcolor: '#d5e7f7'
+            }}
+          >
+            <Typography sx={{ fontWeight: '600', color: '#5ea1e2' }} fontSize={18}>
+              Training post by the Trainer
+            </Typography>
+          </Box>
           <Box
             sx={{
               p: 4,
-              border: 0,
-              boxShadow: 0,
               borderColor: 'divider',
               boxSizing: 'border-box',
               backgroundColor: '#FFFFFF',
               borderRadius: '2px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
               overflow: 'hidden'
             }}
           >
-            <Typography sx={{ fontWeight: 'bold', color: 'text.primary' }} fontSize={20}>
-              Training post by the Trainer
-            </Typography>
-            <Stack>
-              <OtherTraining user_id={training.user_id} id={training.id} />
-            </Stack>
+            <OtherTraining user_id={training.user_id} id={training.id} />
           </Box>
         </Grid>
       </Grid>

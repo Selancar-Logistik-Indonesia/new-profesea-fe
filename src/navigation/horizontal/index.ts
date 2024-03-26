@@ -59,7 +59,7 @@ const navigation = (): HorizontalNavItemsType => [
     subject: 'seafarer-jobs'
   },
   {
-    path: '/candidate/training',
+    path: '/candidate/trainings',
     title: 'My Training',
     icon: 'solar:notebook-bookmark-bold-duotone',
     action: 'read',
