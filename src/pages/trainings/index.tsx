@@ -33,23 +33,24 @@ const Main = () => {
               ...landingPageStyle.bannerHero,
               my: 2,
               py: 6,
-              pl: { xs: 4, md: 8, lg: 12 },
+              pl: { xs: 4, md: 6 },
               display: 'flex',
+              gap: 2,
               flexDirection: 'column',
               justifyContent: 'center'
             }}
           >
             <Typography
               variant='h1'
-              style={{ color: '#FFFFFF', fontSize: '48px', fontWeight: '800' }}
-              sx={{ maxWidth: { xs: '60%' }, px: { xs: 2, md: 4, whiteSpace: 'null' } }}
+              style={{ color: '#FFFFFF', fontSize: '46px', fontWeight: '800' }}
+              sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4, whiteSpace: 'null' } }}
             >
               {t('landing_trainer_title')}
             </Typography>
             <Typography
               variant='h2'
-              style={{ color: '#FFFFFF', fontSize: '28px', fontWeight: '500' }}
-              sx={{ maxWidth: { xs: '60%' }, px: { xs: 2, md: 4 }, mt: 2 }}
+              style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: '500' }}
+              sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 }, mt: 2 }}
             >
               {t('landing_trainer_subtitle')}
             </Typography>
