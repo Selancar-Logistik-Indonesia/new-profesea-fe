@@ -41,7 +41,7 @@ const Main = () => {
             }}
           >
             <Typography
-              variant='h3'
+              variant='h1'
               style={{ color: '#FFFFFF', fontSize: '46px', fontWeight: '800' }}
               sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4, whiteSpace: 'null' } }}
             >
