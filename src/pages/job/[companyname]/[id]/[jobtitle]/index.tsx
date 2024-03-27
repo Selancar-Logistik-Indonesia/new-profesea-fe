@@ -13,7 +13,7 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 // import ShareButton from 'src/views/find-job/ShareButton';
 import { IUser } from 'src/contract/models/user'
-import CompleteDialog from 'src/pages/candidate/job/CertificateDialog'
+import CompleteDialog from 'src/pages/candidate/job/CompleteDialog'
 import HeaderJobDetail from 'src/views/job-detail/HeaderJobDetail'
 import SectionOneJobDetail from 'src/views/job-detail/SectionOneJobDetail'
 import SectionTwoJobDetail from 'src/views/job-detail/SectionTwoJobDetail'
