@@ -10,12 +10,18 @@ import { formatIDR, getUserAvatar } from 'src/utils/helpers'
 import Icon from 'src/@core/components/icon'
 import { HttpClient } from 'src/services'
 import Link from 'next/link'
+import { useAuth } from 'src/hooks/useAuth'
 
 const renderList = (arr: Training[] | null) => {
   if (arr && arr.length) {
     return arr.map(item => {
+      const { user } = useAuth()
+
       const trainerNameUrl = item.trainer.name.toLowerCase().split(' ').join('-')
       const trainingTitleUrl = item.title ? item.title?.toLowerCase().split(' ').join('-') : ''
+      const link = user
+        ? `/candidate/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`
+        : `/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`
 
       return (
         <Grid item xs={12} md={4} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
@@ -23,7 +29,7 @@ const renderList = (arr: Training[] | null) => {
             <Grid item xs={12}>
               <CardContent>
                 <Grid container sx={{ alignItems: 'center', justifyContent: 'center', marginBottom: '5px' }}>
-                  <Grid item component={Link} href={`/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}>
+                  <Grid item component={Link} href={link}>
                     <img
                       alt='logo'
                       src={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
@@ -37,7 +43,7 @@ const renderList = (arr: Training[] | null) => {
                     />
                   </Grid>
                 </Grid>
-                <Grid container component={Link} href={`/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}>
+                <Grid container component={Link} href={link}>
                   <Grid
                     item
                     sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '85px' }}
@@ -78,13 +84,7 @@ const renderList = (arr: Training[] | null) => {
                 </Grid>
                 <Grid container sx={{ alignItems: 'left', justifyContent: 'left' }}>
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} my={3}>
-                    <Button
-                      size='small'
-                      LinkComponent={Link}
-                      variant='contained'
-                      color='primary'
-                      href={`/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}
-                    >
+                    <Button size='small' LinkComponent={Link} variant='contained' color='primary' href={link}>
                       See Details
                     </Button>
                   </Box>

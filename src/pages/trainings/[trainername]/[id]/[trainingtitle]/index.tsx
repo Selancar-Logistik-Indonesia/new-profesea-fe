@@ -8,17 +8,18 @@ import Training from 'src/contract/models/training'
 import { formatIDR } from 'src/utils/helpers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import PaymentDialog from 'src/views/payment/PaymentDialog'
 import OtherTraining from './OtherTraining'
 import { useAuth } from 'src/hooks/useAuth'
 import DialogLogin from 'src/@core/components/login-modal'
 import { useTranslation } from 'react-i18next'
 import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
+import { usePathname } from 'next/navigation'
 
 const TrainingDetailPage = () => {
+  const router = useRouter()
+  const pathname = usePathname()
   const { user } = useAuth()
   const { t } = useTranslation()
-  const router = useRouter()
   const trainingId = router.query.id
   const [training, setTraining] = useState<Training | null>(null)
   const [openDialog, setOpenDialog] = useState(false)
@@ -34,6 +35,10 @@ const TrainingDetailPage = () => {
       return
     }
     setTraining(resp.data.training)
+  }
+
+  if (user) {
+    router.push(`/candidate/${pathname}`)
   }
 
   useEffect(() => {
@@ -154,15 +159,9 @@ const TrainingDetailPage = () => {
                 {formatIDR(training.price)}
               </Typography>
 
-              {training.joined_at ? (
-                <Button disabled={true} variant='contained' size='small'>
-                  {t('login_modal_button_1')}
-                </Button>
-              ) : (
-                <Button onClick={handleClickBuy} variant='contained' size='small'>
-                  {t('login_modal_button_2')}
-                </Button>
-              )}
+              <Button onClick={handleClickBuy} variant='contained' size='small'>
+                {t('login_modal_button_2')}
+              </Button>
             </Box>
           </Box>
         </Grid>
@@ -195,10 +194,7 @@ const TrainingDetailPage = () => {
           </Box>
         </Grid>
       </Grid>
-      {openDialog && user && (
-        <PaymentDialog onClose={() => setOpenDialog(!openDialog)} training={training} openDialog={openDialog} />
-      )}
-      {openDialog && !user && (
+      {openDialog && (
         <DialogLogin
           visible={openDialog}
           onCloseClick={() => {

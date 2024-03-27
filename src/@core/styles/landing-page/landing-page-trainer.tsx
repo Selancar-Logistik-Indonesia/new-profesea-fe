@@ -6,9 +6,10 @@ const bannerHero: SxProps<Theme> = {
   backgroundSize: 'cover',
   backgroundPosition: {
     xs: '80% center',
-    lg: 'center center'
+    md: '80% center',
+    lg: '80% center'
   },
-  minHeight: '350px'
+  minHeight: '300px'
 }
 
 const landingPageStyle = {
