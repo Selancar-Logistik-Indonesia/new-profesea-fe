@@ -5,11 +5,11 @@ const bannerHero: SxProps<Theme> = {
   backgroundImage: 'url(/images/banner-landing-trainer2.jpg)',
   backgroundSize: 'cover',
   backgroundPosition: {
-    xs: '80% center',
-    md: '80% center',
-    lg: '80% center'
+    xs: '0% center',
+    md: '85% center',
+    lg: '85% center'
   },
-  minHeight: '300px'
+  minHeight: '350px'
 }
 
 const landingPageStyle = {
