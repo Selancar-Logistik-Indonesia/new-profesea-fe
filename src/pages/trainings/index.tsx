@@ -50,7 +50,7 @@ const Main = () => {
             </Typography>
             <Typography
               variant='h2'
-              style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: '500', letterSpacing: 0.4 }}
+              style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: '500', letterSpacing: 0.6 }}
               sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 }, mt: 2 }}
             >
               {t('landing_trainer_subtitle')}
