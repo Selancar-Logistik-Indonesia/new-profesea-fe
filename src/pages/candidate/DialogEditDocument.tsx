@@ -14,12 +14,11 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { Autocomplete, CircularProgress } from '@mui/material'
+import { CircularProgress } from '@mui/material'
 // import { Autocomplete } from '@mui/material'
 
 import DatePicker from 'react-datepicker'
 import { DateType } from 'src/contract/models/DatepickerTypes'
-import Licensi from 'src/contract/models/licensi'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -35,15 +34,13 @@ type DialogProps = {
   onStateChange: VoidFunction
 }
 
-type dokumen = {
-  title: string
-  doctype: string
-}
-
 type FormData = {
-  document_name: string
   user_document: string
-  nameOtherDocument: string
+  document_name: string
+  organization: string
+  document_number: string
+  issue_at: string
+  expired_at: string
 }
 
 const DialogEditDocument = (props: DialogProps) => {
@@ -52,47 +49,8 @@ const DialogEditDocument = (props: DialogProps) => {
   const [selectedFile, setSelectedFile] = useState()
   const iddokumen = props.selectedItem?.childs?.length > 0 ? props.selectedItem?.childs[0].id : props.selectedItem?.id
 
-  const [showTextName, setTextName] = useState<boolean>(false)
-  const [showChild, setChild] = useState<boolean>(true)
-  const [combochild, setCombochild] = useState<any[]>([])
-
+  const [issueDate, setIssueDate] = useState<DateType>(new Date())
   const [expiredDate, setExpiredDate] = useState<DateType>(new Date())
-  const [document_name, setDocument] = useState<any>({
-    title: props.selectedItem?.document_name,
-    doctype: props.selectedItem?.document_type
-  })
-  const [dokumen, setDokumen] = useState<Licensi[]>([])
-  const [document_nameChild, setDocumentChild] = useState<any>(
-    props.selectedItem?.childs?.length > 0
-      ? {
-          title: props.selectedItem?.childs[0].document_name,
-          doctype: props.selectedItem?.childs[0].document_type
-        }
-      : {
-          title: '',
-          doctype: ''
-        }
-  )
-
-  const getListLicense = async () => {
-    try {
-      const resp = await HttpClient.get(`/licensi/all`)
-      if (resp.status != 200) {
-        throw resp.data.message ?? 'Something went wrong!'
-      }
-      setDokumen(resp.data.licensies)
-    } catch (error) {
-      const errorMessage = 'Something went wrong!'
-      toast.error(`Opps ${errorMessage}`)
-    }
-  }
-
-  useEffect(() => {
-    setOnLoading(true)
-    getListLicense().then(() => {
-      setOnLoading(false)
-    })
-  }, [])
 
   // const [document_name, setDocument] = useState<any>(0)
   useEffect(() => {
@@ -108,20 +66,6 @@ const DialogEditDocument = (props: DialogProps) => {
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
 
-  useEffect(() => {
-    if (document_name.doctype == 'OTH') {
-      setTextName(true)
-    } else {
-      setTextName(false)
-    }
-    if (document_name.child) {
-      setChild(true)
-      setCombochild(document_name.child)
-    } else {
-      setChild(false)
-    }
-  }, [document_name])
-
   const {
     register,
     // formState: { errors },
@@ -132,69 +76,27 @@ const DialogEditDocument = (props: DialogProps) => {
   })
 
   const onSubmit = async (item: FormData) => {
-    const { nameOtherDocument } = item
-    let doc = ''
-    if (showTextName == true) {
-      doc = nameOtherDocument
-    } else {
-      doc = document_name.title
+    const json = {
+      user_document: selectedFile,
+      document_name: item.document_name,
+      document_number: item.document_number,
+      organization: item.organization,
+      issue_at: issueDate,
+      expired_at: expiredDate
     }
-    let childname = ''
-    let childtype = ''
-    let savechild = false
-    if (showChild == true) {
-      childname = document_nameChild.title
-      childtype = document_nameChild.doctype
-      savechild = true
-    }
-    if (savechild == true) {
-      const json = {
-        user_document: selectedFile,
-        document_name: childname,
-        document_type: childtype,
-        document_number: 456,
-        expired_at: expiredDate
-          ?.toLocaleDateString('en-GB', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit'
-          })
-          .split('/')
-          .reverse()
-          .join('-')
-      }
-      try {
-        const resp = await HttpClient.postFile('/user/document/' + iddokumen, json)
-        if (resp.status != 200) {
-          throw resp.data.message ?? 'Something went wrong!'
-        }
-
-        props.onCloseClick()
-        toast.success(` Document submited successfully!`)
-      } catch (error) {
-        toast.error(`Opps ${getCleanErrorMessage(error)}`)
-      }
-    } else {
-      const json = {
-        user_document: selectedFile,
-        document_name: doc,
-        document_number: 123
-      }
-      try {
-        const resp = await HttpClient.postFile('/user/document/' + iddokumen, json)
-        if (resp.status != 200) {
-          throw resp.data.message ?? 'Something went wrong!'
-        }
-
-        props.onCloseClick()
-        toast.success(` Document submited successfully!`)
-      } catch (error) {
-        toast.error(`Opps ${getCleanErrorMessage(error)}`)
-      }
-    }
-
     setOnLoading(true)
 
+    try {
+      const resp = await HttpClient.postFile('/user/candidate-document/' + iddokumen, json)
+      if (resp.status != 200) {
+        throw resp.data.message ?? 'Something went wrong!'
+      }
+
+      props.onCloseClick()
+      toast.success(` Document submited successfully!`)
+    } catch (error) {
+      toast.error(`Opps ${getCleanErrorMessage(error)}`)
+    }
     setOnLoading(false)
     props.onStateChange()
   }
@@ -208,6 +110,11 @@ const DialogEditDocument = (props: DialogProps) => {
     // I've kept this example simple by using the first image instead of multiple
     setSelectedFile(e.target.files[0])
   }
+
+  useEffect(() => {
+    setIssueDate(props.selectedItem?.issue_at ? new Date(props.selectedItem?.issue_at) : null)
+    setExpiredDate(props.selectedItem?.expired_at ? new Date(props.selectedItem?.expired_at) : null)
+  }, [props.selectedItem])
 
   return (
     <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
@@ -230,63 +137,84 @@ const DialogEditDocument = (props: DialogProps) => {
           </IconButton>
           <Box sx={{ mb: 6, textAlign: 'center' }}>
             <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
-              Edit Document
+              Edit Candidate Document
             </Typography>
-            <Typography variant='body2'>Fulfill your Document Info here</Typography>
+            <Typography variant='body2'> Edit your Document Info here</Typography>
           </Box>
 
-          <Grid item md={12} xs={12}>
-            <Autocomplete
-              disablePortal
-              id='dokumen'
-              options={dokumen}
-              defaultValue={document_name}
-              getOptionLabel={option => option.title || ''}
-              renderInput={params => <TextField {...params} label='Document' sx={{ mb: 2 }} variant='standard' />}
-              onChange={(e, newValue: any) => (newValue ? setDocument(newValue) : setDocument([]))}
-            />
-          </Grid>
-          <Grid item md={12} xs={12}>
-            {showChild == true && (
-              <>
-                <Grid item md={12} xs={12}>
-                  <Autocomplete
-                    disablePortal
-                    id='dokumen2'
-                    options={combochild}
-                    defaultValue={document_nameChild}
-                    getOptionLabel={(option: dokumen) => option.title}
-                    renderInput={params => (
-                      <TextField {...params} label='Document Child' sx={{ mb: 2 }} variant='standard' />
-                    )}
-                    onChange={(e, newValue: any) => (newValue ? setDocumentChild(newValue) : setDocumentChild([]))}
-                  />
-                </Grid>
-                <Grid item md={12} xs={12}>
-                  <DatePicker
-                    dateFormat='dd/MM/yyyy'
-                    selected={expiredDate}
-                    id='basic-input'
-                    onChange={(dateAwal: Date) => setExpiredDate(dateAwal)}
-                    placeholderText='Click to select a date'
-                    showYearDropdown
-                    showMonthDropdown
-                    dropdownMode='select'
-                    customInput={<TextField label='Expired Date' variant='standard' fullWidth />}
-                  />
-                </Grid>
-              </>
-            )}
-
-            {showTextName == true && (
+          <Grid container columnSpacing={'1'} rowSpacing={'2'}>
+            <Grid item md={12} xs={12}>
               <TextField
                 id='document_name'
                 label='Document Name'
                 variant='standard'
                 fullWidth
-                {...register('nameOtherDocument')}
+                {...register('document_name')}
+                defaultValue={props.selectedItem?.document_name}
               />
-            )}
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <TextField
+                id='organization'
+                label='Organization'
+                variant='standard'
+                fullWidth
+                {...register('organization')}
+                defaultValue={props.selectedItem?.organization}
+              />
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <DatePicker
+                dateFormat='dd/MM/yyyy'
+                selected={issueDate}
+                id='basic-input'
+                onChange={(dateAwal: Date) => setIssueDate(dateAwal)}
+                placeholderText='Click to select a date'
+                showYearDropdown
+                showMonthDropdown
+                dropdownMode='select'
+                customInput={
+                  <TextField
+                    label='Issue Date'
+                    variant='standard'
+                    fullWidth
+                    {...register('issue_at')}
+                    defaultValue={props.selectedItem?.issue_at}
+                  />
+                }
+              />
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <DatePicker
+                dateFormat='dd/MM/yyyy'
+                id='basic-input'
+                selected={expiredDate}
+                onChange={(dateAwal: Date) => setExpiredDate(dateAwal)}
+                placeholderText='Click to select a date'
+                showYearDropdown
+                showMonthDropdown
+                dropdownMode='select'
+                customInput={
+                  <TextField
+                    label='Expired Date'
+                    variant='standard'
+                    fullWidth
+                    {...register('expired_at')}
+                    defaultValue={props.selectedItem?.expired_at}
+                  />
+                }
+              />
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <TextField
+                id='document_number'
+                label='Credentials ID'
+                variant='standard'
+                fullWidth
+                {...register('document_number')}
+                defaultValue={props.selectedItem?.document_number}
+              />
+            </Grid>
             <Grid item md={12} xs={12} mt={2}>
               <Grid item xs={12} md={12} container justifyContent={'left'}>
                 <Grid xs={6}>
@@ -303,7 +231,7 @@ const DialogEditDocument = (props: DialogProps) => {
                     />
                   </label>
                   <input
-                    accept='image/*'
+                    accept='application/pdf,,image/*'
                     style={{ display: 'none' }}
                     id='x'
                     onChange={onSelectFile}
@@ -319,7 +247,7 @@ const DialogEditDocument = (props: DialogProps) => {
                       Allowed PDF.
                     </Typography>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                      Max size of 800K.
+                      Max size of 800K. Aspect Ratio 1:1
                     </Typography>
                   </Box>
                 </Grid>

@@ -225,7 +225,6 @@ const CandidateProfile = (props: compProps) => {
   // const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
   // const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
   // const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
-  const [arrayHead, getArrayHead] = useState<any[]>([])
   const [JobCategory, getJobCategory] = useState<any[]>([])
   const [JC, setJC] = useState(
     props.datauser?.field_preference?.category_id ? props.datauser?.field_preference?.category_id : 0
@@ -252,11 +251,6 @@ const CandidateProfile = (props: compProps) => {
     setPhoneNum(removeFirstZeroChar(input))
   }
   const combobox = () => {
-    // HttpClient.get(AppConfig.baseUrl + '/public/data/role-level?search=&page=1&take=100').then(response => {
-    //   const code = response.data.roleLevels.data
-    //   getComborolLevel(code)
-    // })
-
     HttpClient.get(AppConfig.baseUrl + '/public/data/province?search=&country_id=100').then(response => {
       const code = response.data.provinces
 
@@ -281,11 +275,6 @@ const CandidateProfile = (props: compProps) => {
       }
     )
 
-    HttpClient.get(AppConfig.baseUrl + '/public/data/vessel-type?page=1&take=100&search').then(response => {
-      const code = response.data.vesselTypes.data
-      getComborVessel(code)
-    })
-
     HttpClient.get(AppConfig.baseUrl + '/public/data/region-travel?page=1&take=100&search').then(response => {
       const code = response.data.regionTravels.data
       getComboroRegion(code)
@@ -307,46 +296,12 @@ const CandidateProfile = (props: compProps) => {
     ]
     getOpp(codeopp)
 
-    HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
-      const code = response.data.countries
-      for (let x = 0; x < code.length; x++) {
-        const element = code[x]
-        element.label = element.name + '(' + element.phonecode + ')'
-      }
-      getCombocode(code)
-    })
-
     HttpClient.get(AppConfig.baseUrl + '/user/' + props.datauser.id).then(response => {
       const code = response.data.user
       setPreview(code.photo)
       setPreviewBanner(code.banner)
     })
 
-    HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
-      const itemData = response.data.documents
-
-      const arr = []
-      for (let x = 0; x < itemData.length; x++) {
-        const element = itemData[x]
-        if (element.childs.length > 0) {
-          arr.push({ id: element.id, name: element.document_type })
-        }
-      }
-      getArrayHead(arr)
-      getItemdata(itemData)
-    })
-
-    HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100').then(response => {
-      const itemData = response.data.experiences
-
-      getItemdataWE(itemData)
-    })
-
-    HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100').then(response => {
-      const itemData = response.data.educations
-
-      getItemdataED(itemData)
-    })
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
       for (let x = 0; x < code.length; x++) {
@@ -355,6 +310,7 @@ const CandidateProfile = (props: compProps) => {
       }
       getCombocode(code)
     })
+
     HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
       const code = response.data.sosmeds.data
       for (let x = 0; x < code.length; x++) {
@@ -373,8 +329,45 @@ const CandidateProfile = (props: compProps) => {
         }
       }
     })
+
     getCombokelamin(jeniskelamin)
+    getVesselType()
+    getCandidateDocument()
+    getUserExperience()
+    getUserEducation()
   }
+
+  const getVesselType = () => {
+    HttpClient.get(AppConfig.baseUrl + '/public/data/vessel-type?page=1&take=100&search').then(response => {
+      const code = response.data.vesselTypes.data
+      getComborVessel(code)
+    })
+  }
+
+  const getCandidateDocument = () => {
+    HttpClient.get(AppConfig.baseUrl + '/user/candidate-document').then(response => {
+      const itemData = response.data.documents
+
+      getItemdata(itemData)
+    })
+  }
+
+  const getUserExperience = () => {
+    HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100').then(response => {
+      const itemData = response.data.experiences
+
+      getItemdataWE(itemData)
+    })
+  }
+
+  const getUserEducation = () => {
+    HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100').then(response => {
+      const itemData = response.data.educations
+
+      getItemdataED(itemData)
+    })
+  }
+
   useEffect(() => {
     combobox()
   }, [JC])
@@ -527,12 +520,12 @@ const CandidateProfile = (props: compProps) => {
     setSelectedItem(item)
     setOpenEditModalDoc(!openEditModalDoc)
   }
-  const deletework = async (id: any) => {
-    const resp = await HttpClient.del(`/user/document/` + id)
+  const deleteDocument = async (id: any) => {
+    const resp = await HttpClient.del(`/user/candidate-document/` + id)
     if (resp.status != 200) {
       throw resp.data.message ?? 'Something went wrong!'
     }
-    combobox()
+    getCandidateDocument()
     toast.success(`  deleted successfully!`)
   }
   const deleteeducation = async (id: any) => {
@@ -540,7 +533,7 @@ const CandidateProfile = (props: compProps) => {
     if (resp.status != 200) {
       throw resp.data.message ?? 'Something went wrong!'
     }
-    combobox()
+    getUserEducation()
     toast.success(`  deleted successfully!`)
   }
   const deletewe = async (id: any) => {
@@ -548,7 +541,7 @@ const CandidateProfile = (props: compProps) => {
     if (resp.status != 200) {
       throw resp.data.message ?? 'Something went wrong!'
     }
-    combobox()
+    getUserExperience()
     toast.success(`  deleted successfully!`)
   }
 
@@ -1469,7 +1462,7 @@ const CandidateProfile = (props: compProps) => {
             <DocumentUpload
               setOpenAddModalDoc={setOpenAddModalDoc}
               editDocument={editDocument}
-              deletework={deletework}
+              deleteDocument={deleteDocument}
               itemData={itemData}
               openAddModalDoc={openAddModalDoc}
             />
@@ -1536,28 +1529,24 @@ const CandidateProfile = (props: compProps) => {
           onCloseClick={() => setOpenEditModalDoc(!openEditModalDoc)}
           onStateChange={() => setHookSignature(v4())}
         />
-        <form>
-          <DialogAddEducation
-            visible={openAddModal}
-            onStateChange={() => setHookSignature(v4())}
-            onCloseClick={() => setOpenAddModal(!openAddModal)}
-          />
-        </form>
-        <form>
-          <DialogAddWorkExperience
-            visible={openAddModalWE}
-            onStateChange={() => setHookSignature(v4())}
-            onCloseClick={() => setOpenAddModalWE(!openAddModalWE)}
-          />
-        </form>
-        <form>
-          <DialogAddDocument
-            visible={openAddModalDoc}
-            onStateChange={() => setHookSignature(v4())}
-            onCloseClick={() => setOpenAddModalDoc(!openAddModalDoc)}
-            arrayhead={arrayHead}
-          />
-        </form>
+        <DialogAddEducation
+          visible={openAddModal}
+          getUserEducation={getUserEducation}
+          onStateChange={() => setHookSignature(v4())}
+          onCloseClick={() => setOpenAddModal(!openAddModal)}
+        />
+        <DialogAddWorkExperience
+          visible={openAddModalWE}
+          getUserExperience={getUserExperience}
+          onStateChange={() => setHookSignature(v4())}
+          onCloseClick={() => setOpenAddModalWE(!openAddModalWE)}
+        />
+        <DialogAddDocument
+          visible={openAddModalDoc}
+          getCandidateDocument={getCandidateDocument}
+          onStateChange={() => setHookSignature(v4())}
+          onCloseClick={() => setOpenAddModalDoc(!openAddModalDoc)}
+        />
       </Grid>
     </Grid>
   )
