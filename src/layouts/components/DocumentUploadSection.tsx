@@ -11,11 +11,11 @@ interface IDocumentUpload {
     path: string
   }) => void
   itemData: any
-  deletework: (itemheadId: Key | null | undefined) => void
+  deleteDocument: (itemheadId: Key | null | undefined) => void
 }
 
 export default function DocumentUploadSection(props: IDocumentUpload) {
-  const { setOpenAddModalDoc, editDocument, deletework, itemData, openAddModalDoc } = props
+  const { setOpenAddModalDoc, editDocument, deleteDocument, itemData, openAddModalDoc } = props
 
   return (
     <>
@@ -83,7 +83,7 @@ export default function DocumentUploadSection(props: IDocumentUpload) {
                       </Button>
                     </Box>
                     <Box margin={1}>
-                      <Button variant='outlined' color='error' size='small' onClick={() => deletework(itemhead.id)}>
+                      <Button variant='outlined' color='error' size='small' onClick={() => deleteDocument(itemhead.id)}>
                         <Icon
                           fontSize='large'
                           icon={'solar:trash-bin-trash-bold-duotone'}

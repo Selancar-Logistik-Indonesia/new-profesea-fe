@@ -66,17 +66,8 @@ const Profile = (props: userProps) => {
       }
     })
 
-    HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
+    HttpClient.get(AppConfig.baseUrl + '/user/candidate-document').then(response => {
       const itemData = response.data.documents
-
-      const arr = []
-
-      for (let x = 0; x < itemData.length; x++) {
-        const element = itemData[x]
-        if (element.childs.length > 0) {
-          arr.push({ id: element.id, name: element.document_type })
-        }
-      }
 
       setDocuments(itemData)
     })

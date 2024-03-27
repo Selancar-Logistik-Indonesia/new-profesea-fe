@@ -30,6 +30,7 @@ type DialogProps = {
   visible: boolean
   onCloseClick: VoidFunction
   onStateChange: VoidFunction
+  getCandidateDocument: VoidFunction
 }
 
 type FormData = {
@@ -69,32 +70,32 @@ const DialogAddDocument = (props: DialogProps) => {
   })
 
   const onSubmit = async (item: FormData) => {
-    setOnLoading(true)
     saveparent(item)
     props.onStateChange()
-    setOnLoading(false)
   }
   const saveparent = async (item: FormData) => {
     const json = {
       user_document: selectedFile,
-      document_type: 'Other Document',
       document_name: item.document_name,
       document_number: item.document_number,
+      organization: item.organization,
       issue_at: issueDate,
-      expired_at: expiredDate,
-      organization: item.organization
+      expired_at: expiredDate
     }
     setOnLoading(true)
 
     try {
-      const resp = await HttpClient.postFile('/user/document', json)
+      const resp = await HttpClient.postFile('/user/candidate-document', json)
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'
       }
       props.onCloseClick()
       toast.success(` Document submited successfully!`)
+      props.getCandidateDocument()
+      setOnLoading(false)
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
+      setOnLoading(false)
     }
   }
 
@@ -130,26 +131,30 @@ const DialogAddDocument = (props: DialogProps) => {
           </IconButton>
           <Box sx={{ mb: 6, textAlign: 'center' }}>
             <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
-              Add New Document
+              Add New Candidate Document
             </Typography>
-            <Typography variant='body2'> Fulfill your Document Info here</Typography>
+            <Typography variant='body2'> Fulfill your Candidate Document Info here</Typography>
           </Box>
 
           <Grid container columnSpacing={'1'} rowSpacing={'2'}>
-            <TextField
-              id='document_name'
-              label='Document Name'
-              variant='standard'
-              fullWidth
-              {...register('document_name')}
-            />
-            <TextField
-              id='organization'
-              label='Organization'
-              variant='standard'
-              fullWidth
-              {...register('organization')}
-            />
+            <Grid item md={12} xs={12}>
+              <TextField
+                id='document_name'
+                label='Document Name'
+                variant='standard'
+                fullWidth
+                {...register('document_name')}
+              />
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <TextField
+                id='organization'
+                label='Organization'
+                variant='standard'
+                fullWidth
+                {...register('organization')}
+              />
+            </Grid>
             <Grid item md={12} xs={12}>
               <DatePicker
                 dateFormat='dd/MM/yyyy'
@@ -176,13 +181,15 @@ const DialogAddDocument = (props: DialogProps) => {
                 customInput={<TextField label='Expired Date' variant='standard' fullWidth />}
               />
             </Grid>
-            <TextField
-              id='document_number'
-              label='Credentials ID'
-              variant='standard'
-              fullWidth
-              {...register('document_number')}
-            />
+            <Grid item md={12} xs={12}>
+              <TextField
+                id='document_number'
+                label='Credentials ID'
+                variant='standard'
+                fullWidth
+                {...register('document_number')}
+              />
+            </Grid>
             <Grid item md={12} xs={12} mt={2}>
               <Grid item xs={12} md={12} container justifyContent={'left'}>
                 <Grid xs={6}>
