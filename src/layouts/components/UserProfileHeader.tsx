@@ -160,21 +160,30 @@ const UserProfileHeader = (props: userProps) => {
           <ProfileActionArea enabled={showFriendship} user={datauser} />
         </Box>
       </CardContent>
-      <Box sx={{ width: '100%', marginBottom: '20px' }}>
-        {props.datauser?.verified_at == null && documents.length == 0 && (
-          <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}>
-            <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
-              Please Upload your document to verify your company
-            </Typography>
-          </Alert>
-        )}
+      {props.datauser.role == 'Company' && (
+        <Box sx={{ width: '100%', marginBottom: '20px' }}>
+          {props.datauser?.verified_at == null && documents.length == 0 && (
+            <Alert
+              severity='info'
+              sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}
+            >
+              <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
+                Please Upload your document to verify your company
+              </Typography>
+            </Alert>
+          )}
 
-        {props.datauser.verified_at == null && documents.length > 0 && (
-          <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}>
-            <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>Please wait for admin to verify</Typography>
-          </Alert>
-        )}
-      </Box>
+          {props.datauser.verified_at == null && documents.length > 0 && (
+            <Alert
+              severity='info'
+              sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}
+            >
+              <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>Please wait for admin to verify</Typography>
+            </Alert>
+          )}
+        </Box>
+      )}
+
       <Divider style={{ width: '100%' }} />
       <CardContent>
         <Box
