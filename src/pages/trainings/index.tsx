@@ -36,20 +36,21 @@ const Main = () => {
               pl: { xs: 4, md: 6 },
               display: 'flex',
               gap: 2,
+              borderRadius: '10px',
               flexDirection: 'column',
               justifyContent: 'center'
             }}
           >
             <Typography
               variant='h1'
-              style={{ color: '#FFFFFF', fontSize: '46px', fontWeight: '800' }}
+              style={{ color: '#FFFFFF', fontSize: '46px', fontWeight: '800', letterSpacing: 0.6 }}
               sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4, whiteSpace: 'null' } }}
             >
               {t('landing_trainer_title')}
             </Typography>
             <Typography
               variant='h2'
-              style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: '500' }}
+              style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: '500', letterSpacing: 0.4 }}
               sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 }, mt: 2 }}
             >
               {t('landing_trainer_subtitle')}
