@@ -2,13 +2,13 @@ import { Theme } from '@mui/material'
 import { SxProps } from '@mui/system'
 
 const bannerHero: SxProps<Theme> = {
-  backgroundImage: 'url(/images/banner-landing-trainer.png)',
+  backgroundImage: 'url(/images/banner-landing-trainer2.jpg)',
   backgroundSize: 'cover',
   backgroundPosition: {
-    xs: '60% center',
-    md: 'center center'
+    xs: '80% center',
+    lg: 'center center'
   },
-  height: '350px'
+  minHeight: '350px'
 }
 
 const landingPageStyle = {

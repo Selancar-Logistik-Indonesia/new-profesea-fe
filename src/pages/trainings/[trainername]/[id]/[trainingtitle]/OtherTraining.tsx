@@ -15,53 +15,55 @@ const renderList = (arr: Training[] | null) => {
     const showList = arr.slice(0, 3)
 
     return showList.map(item => {
+      const trainerNameUrl = item.trainer.name.toLowerCase().split(' ').join('-')
+      const trainingTitleUrl = item.title ? item.title?.toLowerCase().split(' ').join('-') : ''
+
       return (
-        <Grid item xs={12} sx={{ marginTop: '10px', marginBottom: '10px' }} key={item.id}>
-          <Card sx={{ border: 0, boxShadow: 0.5, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-            <Grid item component={Link} href={`/trainings/detail/${item.id}`}>
+        <Grid item xs={12} sx={{ marginBottom: '10px' }} key={item.id}>
+          <Card sx={{ border: 0, boxShadow: 0.1, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+            <Grid item component={Link} href={`/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}>
               <CardContent>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   <Grid
-                    item
+                    container
+                    spacing={2}
                     sx={{
                       display: 'flex',
                       flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 3
+                      alignItems: 'center'
                     }}
                   >
-                    <Box>
+                    <Grid item xs={4}>
                       <img
                         alt='logo'
                         src={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
                         style={{
-                          width: '100px',
-                          height: '100px',
+                          width: '100%',
+                          aspectRatio: '1',
                           objectFit: 'cover',
                           borderRadius: '8px',
                           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
                         }}
                       />
-                    </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    </Grid>
+                    <Grid item xs={8} sx={{ display: 'flex', flexDirection: 'column' }}>
                       <Typography color='#32487A' fontWeight='bold' fontSize={16}>
                         {item.title}
                       </Typography>
                       <Typography fontSize={12}>{item.category.category}</Typography>
                       <Typography fontSize={12}>{formatIDR(item.price)}</Typography>
-                    </Box>
+                    </Grid>
                   </Grid>
                 </Box>
-                <Divider />
+                <Divider sx={{ my: 2 }} />
                 <Box
                   sx={{
                     display: 'flex',
-                    alignItems: 'center',
-                    mt: 2
+                    alignItems: 'center'
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'center' }} ml={2} mr={3}>
-                    <Avatar src={getUserAvatar(item.trainer)} alt='profile-picture' sx={{ width: 25, height: 25 }} />
+                    <Avatar src={getUserAvatar(item.trainer)} alt='profile-picture' sx={{ width: 30, height: 30 }} />
                   </Box>
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
                     <Typography sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={14}>

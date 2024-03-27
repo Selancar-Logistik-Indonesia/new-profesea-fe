@@ -3,15 +3,25 @@ import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { Box, Button, CircularProgress, Divider, Tooltip } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Training from 'src/contract/models/training'
 import Avatar from 'src/@core/components/mui/avatar'
 import { formatIDR, getUserAvatar } from 'src/utils/helpers'
 import Icon from 'src/@core/components/icon'
-import { HttpClient } from 'src/services'
 import Link from 'next/link'
+import TrainingContext, { TrainingProvider } from 'src/context/TrainingContext'
+import { useTraining } from 'src/hooks/useTraining'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
-const renderList = (arr: Training[] | null) => {
+const SeafarerOngoingTraining = () => {
+  return (
+    <TrainingProvider>
+      <OngoingTrainingApp />
+    </TrainingProvider>
+  )
+}
+
+const renderList = (arr: Training[]) => {
   if (arr && arr.length) {
     return arr.map(item => {
       const trainerNameUrl = item.trainer.name.toLowerCase().split(' ').join('-')
@@ -23,7 +33,11 @@ const renderList = (arr: Training[] | null) => {
             <Grid item xs={12}>
               <CardContent>
                 <Grid container sx={{ alignItems: 'center', justifyContent: 'center', marginBottom: '5px' }}>
-                  <Grid item component={Link} href={`/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}>
+                  <Grid
+                    item
+                    component={Link}
+                    href={`/candidate/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}
+                  >
                     <img
                       alt='logo'
                       src={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
@@ -37,7 +51,11 @@ const renderList = (arr: Training[] | null) => {
                     />
                   </Grid>
                 </Grid>
-                <Grid container component={Link} href={`/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}>
+                <Grid
+                  container
+                  component={Link}
+                  href={`/candidate/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}
+                >
                   <Grid
                     item
                     sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '85px' }}
@@ -83,7 +101,7 @@ const renderList = (arr: Training[] | null) => {
                       LinkComponent={Link}
                       variant='contained'
                       color='primary'
-                      href={`/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}
+                      href={`/candidate/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}
                     >
                       See Details
                     </Button>
@@ -120,49 +138,44 @@ const renderList = (arr: Training[] | null) => {
   }
 }
 
-const OngoingTrainingScreen = () => {
-  const [listTrainings, setTraining] = useState<Training[] | null>(null)
-  const [onLoading, setOnLoading] = useState(false)
-  const payload = { page: 1, take: 12 }
-
-  const fetchTrainings = async () => {
-    try {
-      setOnLoading(true)
-      const resp = await HttpClient.get(`/public/data/training`, { ...payload })
-
-      if (resp.status == 200) {
-        const data = resp.data.trainings.data
-        setTraining(data)
-      }
-    } catch (error) {
-      console.error(error)
-    }
-
-    setOnLoading(false)
-  }
+const OngoingTrainingApp = () => {
+  const { fetchTrainings, hasNextPage, totalTraining } = useTraining()
 
   useEffect(() => {
-    fetchTrainings()
-  }, [])
-
-  if (onLoading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <CircularProgress sx={{ my: 20 }} />
-      </Box>
-    )
-  }
+    fetchTrainings({ take: 12, instant: 0, ongoing: 1 })
+  }, [hasNextPage])
 
   return (
-    <Grid container spacing={3} mt={1}>
-      {renderList(listTrainings)}
-    </Grid>
+    <TrainingContext.Consumer>
+      {({ listTrainings, onLoading }) => {
+        if (onLoading) {
+          return (
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <CircularProgress sx={{ mt: 20 }} />
+            </Box>
+          )
+        }
+
+        return (
+          <InfiniteScroll
+            dataLength={totalTraining}
+            next={() => fetchTrainings({ take: 12, instant: 0, ongoing: 1 })}
+            hasMore={hasNextPage}
+            loader={<CircularProgress sx={{ mt: 20 }} />}
+          >
+            <Grid container spacing={3} mt={1}>
+              {renderList(listTrainings)}
+            </Grid>
+          </InfiniteScroll>
+        )
+      }}
+    </TrainingContext.Consumer>
   )
 }
 
-OngoingTrainingScreen.acl = {
+SeafarerOngoingTraining.acl = {
   action: 'read',
   subject: 'seafarer-training-ongoing'
 }
 
-export default OngoingTrainingScreen
+export default SeafarerOngoingTraining
