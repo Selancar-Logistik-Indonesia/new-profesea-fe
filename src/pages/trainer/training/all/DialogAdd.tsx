@@ -101,7 +101,7 @@ const DialogAdd = (props: DialogProps) => {
 
   const schema = yup.object().shape({
     short_description: yup.string().required(),
-    requirement: yup.string().required(),
+    requirements: yup.string().required(),
     price: yup.string().required()
   })
 
@@ -115,8 +115,7 @@ const DialogAdd = (props: DialogProps) => {
   })
 
   const onSubmit = async (formData: Training) => {
-    const { title, short_description, requirement, price } = formData
-    debugger
+    const { title, short_description, requirements, price } = formData
     const json = {
       category_id: CatId,
       thumbnail: files[0],
@@ -135,7 +134,7 @@ const DialogAdd = (props: DialogProps) => {
         date?.toTimeString().split(' ')[0],
       instant: 0,
       short_description: short_description,
-      requirement: requirement,
+      requirements: requirements,
       price: price
     }
 
@@ -228,13 +227,13 @@ const DialogAdd = (props: DialogProps) => {
             </Grid>
             <Grid item md={12} xs={12}>
               <TextField
-                id='requirement'
+                id='requirements'
                 label='Requirement'
                 variant='outlined'
                 multiline
                 maxRows={4}
                 fullWidth
-                {...register('requirement')}
+                {...register('requirements')}
                 error={Boolean(errors.short_description)}
               />
             </Grid>
