@@ -101,7 +101,7 @@ const DialogAdd = (props: DialogProps) => {
 
   const schema = yup.object().shape({
     short_description: yup.string().required(),
-    requirements: yup.string().required(),
+    requirements: yup.string().optional(),
     price: yup.string().required()
   })
 
@@ -219,6 +219,7 @@ const DialogAdd = (props: DialogProps) => {
                 label='Description'
                 variant='outlined'
                 multiline
+                minRows={3}
                 maxRows={4}
                 fullWidth
                 {...register('short_description')}
@@ -231,10 +232,11 @@ const DialogAdd = (props: DialogProps) => {
                 label='Requirement'
                 variant='outlined'
                 multiline
+                minRows={3}
                 maxRows={4}
                 fullWidth
                 {...register('requirements')}
-                error={Boolean(errors.short_description)}
+                error={Boolean(errors.requirements)}
               />
             </Grid>
             <Grid item md={12} xs={12}>

@@ -102,7 +102,7 @@ const DialogEdit = (props: EditProps) => {
 
   const schema = yup.object().shape({
     short_description: yup.string().required(),
-    requirements: yup.string().required(),
+    requirements: yup.string().optional(),
     price: yup.string().required()
   })
 
@@ -237,6 +237,7 @@ const DialogEdit = (props: EditProps) => {
                 label='Description'
                 variant='outlined'
                 multiline
+                minRows={3}
                 maxRows={4}
                 fullWidth
                 {...register('short_description')}
@@ -250,6 +251,7 @@ const DialogEdit = (props: EditProps) => {
                 label='Requirement'
                 variant='outlined'
                 multiline
+                minRows={3}
                 maxRows={4}
                 fullWidth
                 {...register('requirements')}
