@@ -11,8 +11,7 @@ import FooterView from 'src/views/landing-page/footerView'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import CarouselNewsView from 'src/views/landing-page/carouselnews'
-import CarouselEvent from 'src/views/landing-page/carouselevent'
-
+// import CarouselEvent from 'src/views/landing-page/carouselevent'
 
 // ** Icon Imports
 // import Icon from 'src/@core/components/icon'
@@ -48,7 +47,6 @@ const Main = () => {
             style={{ color: '#000' }}
             mt={1}
             fontWeight='800'
-
             sx={{ maxWidth: { xs: '80%', color: '#32487A' }, px: { xs: 2, md: 5, whiteSpace: 'null' } }}
           >
             {t('landing_hero_title')}
@@ -60,7 +58,7 @@ const Main = () => {
             mt={2}
             sx={{ maxWidth: { xs: '68%' }, px: { xs: 2, md: 5 } }}
           >
-           {t('landing_hero_subtitle')}
+            {t('landing_hero_subtitle')}
           </Typography>
 
           <Container style={{ marginTop: 60, lineHeight: 3.5 }} sx={{ display: { xs: 'none', md: 'block' } }}>
@@ -168,7 +166,7 @@ const Main = () => {
         </Grid>
       </Grid>
 
-      <CarouselEvent />
+      {/* <CarouselEvent /> */}
       <FindJobsView id='findJobSection' />
 
       <DiscoverView />
