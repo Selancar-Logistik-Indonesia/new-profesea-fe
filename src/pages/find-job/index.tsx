@@ -1,5 +1,6 @@
 // import { useTheme } from '@emotion/react'
-import { Grid, Typography } from '@mui/material'
+import { Button, Divider, Grid, Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import Head from 'next/head'
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -51,8 +52,14 @@ const Jobs = () => {
             Find Jobs
           </Typography>
         </Grid>
-        <Grid item xs={12} md={10}>
-          Content
+        <Grid item container xs={12} md={10}>
+          <Grid item xs={12}>
+            <Box sx={{ display: 'flex', p: 2 }}>
+              <Button variant='text'>Seafarer</Button>
+              <Divider sx={{ mx: 1, borderRight: 2 }} />
+              <Button variant='text'>Non Seafarer</Button>
+            </Box>
+          </Grid>
         </Grid>
       </Grid>
       <FooterView />
