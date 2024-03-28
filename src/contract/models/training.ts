@@ -9,7 +9,7 @@ interface Training {
     title: string,
     schedule: string,
     short_description: string,
-    requirements: string,
+    requirements?: string,
     joined_at?: string,
     thumbnail: string,
     score: number,
