@@ -147,7 +147,7 @@ const TrainingDetailPage = () => {
                 sx={{ maxWidth: 720 }}
                 component='div'
                 dangerouslySetInnerHTML={{
-                  __html: training.requirement ? training.requirement : 'No requirement'
+                  __html: training.requirements ? training.requirements : 'No requirement'
                 }}
               />
             </Box>
