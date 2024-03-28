@@ -264,6 +264,7 @@ const JobDetail = () => {
 
           {openCertificateDialog && (
             <CertificateDialog
+              selectedItem={undefined}
               onClose={() => setOpenCertificateDialog(!openCertificateDialog)}
               openDialog={openCertificateDialog}
             />

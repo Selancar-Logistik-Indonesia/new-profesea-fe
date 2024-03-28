@@ -5,7 +5,7 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
-import { Button, Divider, IconButton } from '@mui/material'
+import { Alert, Button, Divider, IconButton } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { useEffect, useState } from 'react'
@@ -43,6 +43,7 @@ const Profile = (props: userProps) => {
   const [instagram, setInstagram] = useState<any>('-')
   const [linkedin, setLinkedin] = useState<any>('-')
   const [selectedItem, setSelectedItem] = useState<FieldPreference | null>(null)
+  const [documents, setDocuments] = useState<any[]>([])
 
   useEffect(() => {
     HttpClient.get('/user/field-preference', { user_id: props.datauser?.id }).then(response => {
@@ -63,6 +64,12 @@ const Profile = (props: userProps) => {
           setLinkedin(element.sosmed_address)
         }
       }
+    })
+
+    HttpClient.get(AppConfig.baseUrl + '/user/candidate-document').then(response => {
+      const itemData = response.data.documents
+
+      setDocuments(itemData)
     })
   }, [])
 
@@ -99,6 +106,32 @@ const Profile = (props: userProps) => {
                 {props.datauser?.name}
               </Typography>
             </Box>
+            {props.datauser?.role == 'Company' && (
+              <Box sx={{ width: '100%', marginBottom: '20px' }}>
+                {props.datauser?.verified_at == null && documents.length == 0 && (
+                  <Alert
+                    severity='info'
+                    sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}
+                  >
+                    <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
+                      Please Upload your document to verify your company
+                    </Typography>
+                  </Alert>
+                )}
+
+                {props.datauser?.verified_at == null && documents.length > 0 && (
+                  <Alert
+                    severity='info'
+                    sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}
+                  >
+                    <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
+                      Please wait for admin to verify
+                    </Typography>
+                  </Alert>
+                )}
+              </Box>
+            )}
+
             <Divider
               sx={{ mt: theme => `${theme.spacing(2)} !important`, mb: theme => `${theme.spacing(2)} !important` }}
             />

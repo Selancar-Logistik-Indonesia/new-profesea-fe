@@ -224,7 +224,10 @@ const JobManagementScreen = () => {
             key={selectedItem.id}
             selectedItem={selectedItem}
             visible={openEditModal}
-            onCloseClick={() => setOpenEditModal(!openEditModal)}
+            onCloseClick={() => {
+              setOpenEditModal(!openEditModal)
+              setSelectedItem(null)
+            }}
             onStateChange={() => setHookSignature(v4())}
           />
         </>

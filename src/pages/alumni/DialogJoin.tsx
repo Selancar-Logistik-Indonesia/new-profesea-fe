@@ -108,7 +108,7 @@ const DialogJoin = (props: DeleteDialogProps) => {
               id='combo-box-demo'
               options={tahunlulusan}
               getOptionLabel={(option: any) => option.label}
-              renderInput={params => <TextField {...params} label='Tahun Lulusan' fullWidth />}
+              renderInput={params => <TextField {...params} label='Tahun Angkatan' fullWidth />}
               onChange={(event: any, newValue: any | null) =>
                 newValue?.tahun ? setTahun(newValue?.tahun) : setTahun('')
               }
