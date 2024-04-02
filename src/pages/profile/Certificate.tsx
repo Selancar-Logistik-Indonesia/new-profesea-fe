@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { Icon } from '@iconify/react'
 import { Button, Divider } from '@mui/material'
- 
 
 export type ParamJobVacncy = {
   title: string
@@ -19,14 +18,12 @@ export type ParamJobVacncy = {
 // export type ProfileTeamsType = ProfileTabCommonType & { color: ThemeColor }
 interface Props {
   // teams: ProfileTeamsType[]
-  vacancy: ParamJobVacncy[] 
+  vacancy: ParamJobVacncy[]
 }
 
 const renderList = (arr: ParamJobVacncy[]) => {
-  if (arr && arr.length) { 
-    
-    return arr.map((item, index) => { 
-     
+  if (arr && arr.length) {
+    return arr.map((item, index) => {
       return (
         <Box key={index}>
           {item.childs?.length <= 0 && (
@@ -81,13 +78,11 @@ const renderList = (arr: ParamJobVacncy[]) => {
           <Divider style={{ width: '100%' }} />
         </Box>
       )
-          
     })
   } else {
     return null
   }
 }
- 
 
 const Ceritificate = (props: Props) => {
   const { vacancy } = props
@@ -95,14 +90,14 @@ const Ceritificate = (props: Props) => {
   return (
     <Grid container marginTop={'10px'}>
       <Grid item xs={12}>
-      <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 600 }}>
+              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 800 }}>
                 Certificate
               </Typography>
               {renderList(vacancy)}
-            </Box> 
+            </Box>
           </CardContent>
         </Card>
       </Grid>
