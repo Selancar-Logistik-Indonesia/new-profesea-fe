@@ -175,6 +175,21 @@ const toMegaByte = (size: number, stringify = false) => {
     return n;
 }
 
+const getMonthYear = (date: string) => {
+    const newString = date.split("-")
+    const year = newString[0]
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const monthIndex = parseInt(newString[1], 10);
+    if (!isNaN(monthIndex) && monthIndex >= 1 && monthIndex <= 12) {
+        return `${monthNames[monthIndex]} ${year}`
+    } else {
+        return date
+    }
+}
+
 export {
     getCleanErrorMessage,
     removeFirstZeroChar,
@@ -195,4 +210,5 @@ export {
     subscribev,
     translateTrxStatus,
     toMegaByte,
+    getMonthYear,
 }

@@ -40,22 +40,20 @@ export default function WorkExperienceSection(props: IWorkExperience) {
       <Grid item container xs={12}>
         {itemDataWE.map((item: any) => (
           <Grid item container xs={12} marginTop={2} key={item.id}>
-            <Grid xs={4} md={1}>
-              <img
-                alt='logo'
-                src={item.logo ? item.logo : '/images/workexperienceinfo.png'}
-                style={{
-                  maxWidth: '100%',
-                  height: '100px',
-                  padding: 10,
-                  margin: 0
-                }}
-              />
-            </Grid>
-            <Grid xs={8} md={11} item container>
+            <img
+              alt='logo'
+              src={item.logo ? item.logo : '/images/workexperienceinfo.png'}
+              style={{
+                maxWidth: '100px',
+                height: '100px',
+                padding: 10,
+                margin: 0
+              }}
+            />
+            <Grid item container xs={true} md={true} sx={{ flexGrow: '1', ml: 2 }}>
               <Grid xs={10} marginTop={2}>
                 <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
-                  {item.position} (-)
+                  {item.position}
                 </Typography>
                 <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
                   {item.institution}
@@ -65,13 +63,7 @@ export default function WorkExperienceSection(props: IWorkExperience) {
                 </Typography>
                 <Grid xs={12} display='flex'>
                   <Box>
-                    <Typography variant='body1'>{item.start_date}</Typography>
-                  </Box>
-                  <Box>
-                    <Typography variant='body1'> &nbsp; - &nbsp; </Typography>
-                  </Box>
-                  <Box>
-                    <Typography variant='body1'>{item.end_date}</Typography>
+                    <Typography variant='body1'>{`${item.start_date} - ${item.end_date}`}</Typography>
                   </Box>
                 </Grid>
               </Grid>
