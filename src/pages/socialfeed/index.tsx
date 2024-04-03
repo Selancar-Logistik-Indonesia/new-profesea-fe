@@ -8,7 +8,6 @@ import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import SideAd from 'src/views/banner-ad/sidead'
 import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
 import ProfileViewerCard from 'src/layouts/components/ProfileViewerCard'
-import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 
 const SocialFeed = () => {
   return (
@@ -25,11 +24,12 @@ const SocialFeedApp = () => {
     <Box>
       <Grid container spacing={6}>
         <Grid item lg={3} md={5} xs={12}>
-          <Profile datauser={user} />
-
-          <KeenSliderWrapper>
+          <Box>
+            <Profile datauser={user} />
+          </Box>
+          <Box my={4}>
             <SideAd />
-          </KeenSliderWrapper>
+          </Box>
         </Grid>
         <Grid item lg={6} md={7} xs={12}>
           <Grid container spacing={6}>
