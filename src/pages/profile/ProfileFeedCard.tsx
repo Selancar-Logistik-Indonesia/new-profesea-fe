@@ -68,7 +68,7 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 600 }}>
+              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 800 }}>
                 Activity
               </Typography>
               {onLoading ? <Typography style={{ textAlign: 'center' }}> Loading .... </Typography> : ''}

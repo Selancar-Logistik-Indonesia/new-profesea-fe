@@ -43,10 +43,10 @@ const renderList = (arr: ParamJobVacncy[]) => {
             }}
           />
           <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', m: 2 }}>
-            <Typography sx={{ color: '#262525', fontWeight: 600 }}>
+            <Typography sx={{ color: '#262525', fontWeight: 800 }}>
               {`${item.title.charAt(0).toUpperCase() + item.title.slice(1)}`}
             </Typography>
-            <Typography sx={{ color: '#262525', fontWeight: 400 }}>
+            <Typography sx={{ color: '#262525', fontWeight: 600 }}>
               {item.major.charAt(0).toUpperCase() + item.major.slice(1)}
             </Typography>
             <Typography sx={{ color: '#262525', fontWeight: 400 }}>
@@ -70,7 +70,7 @@ const EducationalInfo = (props: Props) => {
         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 600 }}>
+              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 800 }}>
                 Educational Info
               </Typography>
               {renderList(vacancy)}
