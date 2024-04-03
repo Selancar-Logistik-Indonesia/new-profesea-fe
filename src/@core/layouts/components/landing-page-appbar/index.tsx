@@ -50,15 +50,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
 
   useEffect(() => {
     const baseAddress1 = '/landingpage-recruiter'
-    const baseAddress2 = '/trainings'
-
-    // if (isStaging()) {
-    //     baseAddress1 = "https://staging.recruiter.profesea.id";
-    //     baseAddress2 = "https://staging.trainer.profesea.id";
-    // } else if (isProduction()) {
-    //     baseAddress1 = "https://recruiter.profesea.id";
-    //     baseAddress2 = "https://trainer.profesea.id";
-    // }
+    // const baseAddress2 = '/trainings'
 
     setNavItems([
       { title: t('button_1'), variant: 'contained', onClick: '/login' },
@@ -74,17 +66,11 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
       { title: t('landing_menu_1'), path: '/#findJobSection' },
       { title: t('landing_menu_2'), path: '/#discoverSection' },
       { title: t('landing_menu_3'), path: '/faqs' },
-      { title: t('landing_menu_4'), path: baseAddress1 },
-      { title: t('landing_menu_5'), path: baseAddress2 }
+      { title: t('landing_menu_4'), path: baseAddress1 }
+      // { title: t('landing_menu_5'), path: baseAddress2 }
     ])
   }, [t])
-  // const homeNavItems = [
-  //     { title: t('landing_menu_1'), path: '/#findJobSection' },
-  //     { title: t('landing_menu_2'), path: '/#discoverSection' },
-  //     { title: t('landing_menu_3'), path: '/#footer' },
-  //     { title: t('landing_menu_4'), path: '/landingpage-recruiter' },
-  //     { title: t('landing_menu_5'), path: '/landingpage-trainer' }
-  // ]
+
   const buildAppbarActions = () => {
     return (
       <>
