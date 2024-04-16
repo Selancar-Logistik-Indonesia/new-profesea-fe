@@ -18,7 +18,7 @@ import { CircularProgress } from '@mui/material'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import { Autocomplete } from '@mui/material'
 import DatePicker from 'react-datepicker'
-// import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'  
+// import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -26,8 +26,6 @@ const Transition = forwardRef(function Transition(
 ) {
   return <Fade ref={ref} {...props} />
 })
-
-
 
 type FormData = {
   title: string
@@ -46,11 +44,11 @@ type DialogProps = {
   onStateChange: VoidFunction
 }
 
-
 const DialogEditEducation = (props: DialogProps) => {
-  const [onLoading, setOnLoading] = useState(false);
-  const [dateAwal, setDateAwal] = useState<DateType>(new Date())
-  const [dateAkhir, setDateAkhir] = useState<DateType>(new Date())
+  console.log(props.selectedItem)
+  const [onLoading, setOnLoading] = useState(false)
+  const [dateAwal, setDateAwal] = useState<DateType>(new Date(props.selectedItem?.start_date) || new Date())
+  const [dateAkhir, setDateAkhir] = useState<DateType>(new Date(props.selectedItem?.end_date) || new Date())
   const [preview, setPreview] = useState(props.selectedItem?.logo)
   const [Education, getEducation] = useState<any[]>([])
   const [selectedFile, setSelectedFile] = useState()
@@ -85,13 +83,12 @@ const DialogEditEducation = (props: DialogProps) => {
 
   const {
     register,
-    // formState: { errors }, 
-    handleSubmit,
+    // formState: { errors },
+    handleSubmit
   } = useForm<FormData>({
-    mode: 'onBlur',
+    mode: 'onBlur'
     // resolver: yupResolver(schema)
   })
-
 
   const onSubmit = async (data: FormData) => {
     const { title, major } = data
@@ -133,7 +130,7 @@ const DialogEditEducation = (props: DialogProps) => {
       props.onCloseClick()
       toast.success(` Education submited successfully!`)
     } catch (error) {
-       alert( `Opps ${getCleanErrorMessage(error)}`);
+      alert(`Opps ${getCleanErrorMessage(error)}`)
     }
 
     setOnLoading(false)
@@ -176,7 +173,7 @@ const DialogEditEducation = (props: DialogProps) => {
             <Icon icon='mdi:close' />
           </IconButton>
           <Box sx={{ mb: 6, textAlign: 'center' }}>
-            <Typography variant="body2" color={"#32487A"} fontWeight="600" fontSize={18}>
+            <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
               Edit Educational
             </Typography>
             <Typography variant='body2'>Fulfill your Educational Info here</Typography>
@@ -251,9 +248,7 @@ const DialogEditEducation = (props: DialogProps) => {
                 {...register('degree')}
                 getOptionLabel={(option: string) => option}
                 renderInput={params => <TextField {...params} label='Education' variant='standard' />}
-                onChange={(event: any, newValue: string | null) =>
-                  newValue ? setEduId(newValue) : setEduId('---')
-                }
+                onChange={(event: any, newValue: string | null) => (newValue ? setEduId(newValue) : setEduId('---'))}
               />
             </Grid>
 
@@ -270,8 +265,8 @@ const DialogEditEducation = (props: DialogProps) => {
                     label='Start Date'
                     variant='standard'
                     fullWidth
+                    defaultValue={dateAwal}
                     {...register('startdate')}
-                    defaultValue={props.selectedItem?.start_date}
                   />
                 }
               />
@@ -290,14 +285,13 @@ const DialogEditEducation = (props: DialogProps) => {
                     label='End Date'
                     variant='standard'
                     fullWidth
+                    defaultValue={dateAkhir}
                     {...register('enddate')}
-                    defaultValue={props.selectedItem?.end_date}
                   />
                 }
               />
               {/* </DatePickerWrapper> */}
             </Grid>
-
           </Grid>
         </DialogContent>
         <DialogActions
@@ -307,11 +301,11 @@ const DialogEditEducation = (props: DialogProps) => {
             pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
           }}
         >
-          <Button variant='contained' size="small" sx={{ mr: 2 }} type='submit'>
+          <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>
             <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
-            {onLoading ? (<CircularProgress size={25} style={{ color: 'white' }} />) : "Submit"}
+            {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
           </Button>
-          <Button variant='outlined' size="small" color='error' onClick={props.onCloseClick}>
+          <Button variant='outlined' size='small' color='error' onClick={props.onCloseClick}>
             <Icon
               fontSize='large'
               icon={'material-symbols:cancel-outline'}

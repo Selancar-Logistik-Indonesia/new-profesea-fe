@@ -184,7 +184,7 @@ const getMonthYear = (date: string) => {
     ];
     const monthIndex = parseInt(newString[1], 10);
     if (!isNaN(monthIndex) && monthIndex >= 1 && monthIndex <= 12) {
-        return `${monthNames[monthIndex]} ${year}`
+        return `${monthNames[monthIndex - 1]} ${year}`
     } else {
         return date
     }
