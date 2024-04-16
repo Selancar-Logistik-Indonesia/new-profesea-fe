@@ -45,7 +45,6 @@ type DialogProps = {
 }
 
 const DialogEditEducation = (props: DialogProps) => {
-  console.log(props.selectedItem)
   const [onLoading, setOnLoading] = useState(false)
   const [dateAwal, setDateAwal] = useState<DateType>(new Date(props.selectedItem?.start_date) || new Date())
   const [dateAkhir, setDateAkhir] = useState<DateType>(new Date(props.selectedItem?.end_date) || new Date())
