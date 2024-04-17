@@ -10,12 +10,16 @@ import FeedCard from './FeedCard'
 import { useEffect } from 'react'
 
 type Props = {
-  username?: string
+  username?: string | null | undefined
 }
 
 const ListFeedView = (props: Props) => {
   const { fetchFeeds, hasNextPage, totalFeed } = useSocialFeed()
   // const adsEveryLine = 5;
+
+  useEffect(() => {
+    fetchFeeds({ take: 7, username: props.username })
+  }, [])
 
   const renderList = (feeds: ISocialFeed[]) => {
     // let itemCount = 0;
@@ -51,16 +55,6 @@ const ListFeedView = (props: Props) => {
     }
 
     feeds.forEach(item => {
-      // itemCount++;
-      // if (itemCount > adsEveryLine) {
-      //     itemCount = 1;
-      //     components.push(
-      //         <Paper sx={{ marginTop: '10px', padding: '10px', textAlign: 'center', }} key={v4()}>
-      //             <Box component='img' src={'/images/backgrounds/samplead.jpg'} sx={{ opacity: 0.2, maxWidth: '100%' }} />
-      //         </Paper>
-      //     );
-      // }
-
       components.push(<FeedCard item={item} key={`feedItem${item.id}`} />)
     })
 

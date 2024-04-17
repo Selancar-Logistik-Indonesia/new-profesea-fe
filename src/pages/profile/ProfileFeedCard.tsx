@@ -32,8 +32,8 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
     try {
       const url = '/social-feed/feed/'
       const response = await HttpClient.get(url, {
-        ...payload,
-        page: sPage
+        page: sPage,
+        ...payload
       })
 
       if (response.status == 200) {
@@ -167,7 +167,7 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
           </CardContent>
           <Divider />
           <CardContent>
-            <Link href='#'>
+            <Link href={`/profile/${selectedUser?.username}/activities`}>
               <Typography
                 variant='body2'
                 sx={{
