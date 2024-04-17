@@ -25,7 +25,6 @@ export default function ProfileViewer() {
   // const a = subscribev(['A05', 'A05', 'A12', 'A14'])
 
   useEffect(() => {
-    fetchFeeds({ take: 7 })
     loadActivitis()
     // if (a == true) {
     //   setShowDM('/seeprofile')
