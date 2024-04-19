@@ -14,6 +14,7 @@ import { Icon } from '@iconify/react'
 import { IUser } from 'src/contract/models/user'
 import FieldPreference from 'src/contract/models/field_preference'
 import { getEmployeetype, getUserAvatar, getUserRoleName } from 'src/utils/helpers'
+import { useAuth } from 'src/hooks/useAuth'
 
 export type ParamJobVacncy = {
   judul: string
@@ -45,13 +46,15 @@ const Profile = (props: userProps) => {
   const [selectedItem, setSelectedItem] = useState<FieldPreference | null>(null)
   const [documents, setDocuments] = useState<any[]>([])
 
+  const { user } = useAuth()
+
   useEffect(() => {
     HttpClient.get('/user/field-preference', { user_id: props.datauser?.id }).then(response => {
       const { fieldPreference } = response.data as { fieldPreference: FieldPreference }
       setSelectedItem(fieldPreference)
     })
 
-    HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
+    HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100&user_id=' + props.datauser?.id).then(response => {
       const code = response.data.sosmeds.data
       for (const element of code) {
         if (element.sosmed_type == 'Facebook') {
@@ -71,7 +74,7 @@ const Profile = (props: userProps) => {
 
       setDocuments(itemData)
     })
-  }, [])
+  }, [props.datauser])
 
   const resolveEditHref = (role?: string) => {
     if (role == 'Seafarer') {
@@ -358,19 +361,21 @@ const Profile = (props: userProps) => {
               </Box>
             )}
 
-            <Box display='flex' justifyContent='right' alignItems='center'>
-              <Button LinkComponent={Link} href={resolveEditHref(props.datauser?.role)}>
-                <IconButton>
-                  <Icon
-                    fontSize='large'
-                    icon={'solar:pen-new-round-bold-duotone'}
-                    color={'#32487A'}
-                    style={{ fontSize: '20px' }}
-                  />
-                </IconButton>
-                <div style={{ marginLeft: 5, fontWeight: 800, fontSize: '12px' }}>EDIT PROFILE</div>
-              </Button>
-            </Box>
+            {props.datauser?.id == user?.id && (
+              <Box display='flex' justifyContent='right' alignItems='center'>
+                <Button LinkComponent={Link} href={resolveEditHref(props.datauser?.role)}>
+                  <IconButton>
+                    <Icon
+                      fontSize='large'
+                      icon={'solar:pen-new-round-bold-duotone'}
+                      color={'#32487A'}
+                      style={{ fontSize: '20px' }}
+                    />
+                  </IconButton>
+                  <div style={{ marginLeft: 5, fontWeight: 800, fontSize: '12px' }}>EDIT PROFILE</div>
+                </Button>
+              </Box>
+            )}
           </CardContent>
         </Card>
       </Grid>

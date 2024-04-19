@@ -11,7 +11,7 @@ import { getUserAvatar, toTitleCase } from 'src/utils/helpers'
 import { IUser } from 'src/contract/models/user'
 
 interface IProfileFeedCard {
-  selectedUser: null | IUser
+  selectedUser: IUser | null
 }
 
 export default function ProfileFeedCard(props: IProfileFeedCard) {
@@ -32,8 +32,8 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
     try {
       const url = '/social-feed/feed/'
       const response = await HttpClient.get(url, {
-        ...payload,
-        page: sPage
+        page: sPage,
+        ...payload
       })
 
       if (response.status == 200) {
@@ -68,7 +68,7 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 600 }}>
+              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 800 }}>
                 Activity
               </Typography>
               {onLoading ? <Typography style={{ textAlign: 'center' }}> Loading .... </Typography> : ''}
@@ -167,7 +167,7 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
           </CardContent>
           <Divider />
           <CardContent>
-            <Link href='#'>
+            <Link href={`/profile/${selectedUser?.username}/activities`}>
               <Typography
                 variant='body2'
                 sx={{

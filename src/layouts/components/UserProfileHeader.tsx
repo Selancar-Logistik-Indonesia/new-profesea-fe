@@ -11,7 +11,6 @@ import Address from 'src/contract/models/address'
 import { HttpClient } from 'src/services'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useAuth } from 'src/hooks/useAuth'
 import ProfileActionArea from 'src/views/profile/action_area'
 import ShareArea from './ShareArea'
 import { getEmployeetypev2 } from 'src/utils/helpers'
@@ -30,12 +29,13 @@ const UserProfileHeader = (props: userProps) => {
   const [linkedin, setLinkedin] = useState<any>('-')
   const [showFriendship, setShowFriendship] = useState<boolean>(false)
   const [documents, setDocuments] = useState<any[]>([])
-  const { user } = useAuth()
+
   const { datauser } = props
+  console.log(datauser)
 
   useEffect(() => {
-    let userId = user?.id
-    if (user?.username != datauser.username) {
+    let userId = datauser?.id
+    if (datauser?.username != datauser.username) {
       setShowFriendship(true)
       userId = datauser.id
     }
@@ -63,7 +63,7 @@ const UserProfileHeader = (props: userProps) => {
 
       setDocuments(itemData)
     })
-  }, [user])
+  }, [datauser])
 
   return (
     <Card sx={{ width: '100%', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
