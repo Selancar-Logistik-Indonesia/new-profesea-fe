@@ -218,7 +218,6 @@ const SocialFeedProvider = (props: Props) => {
     })
 
     setFeeds(newFeedList)
-    console.log(feeds)
   }
 
   const getComments = async (feedId: number, page: number, take: number, replyable_type: 'feed' | 'comment') => {
