@@ -15,8 +15,8 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import ButtonDelete from './ButtonDelete'
 
-const CommentCard = (props: { comment: ISocialFeedComment }) => {
-  const { comment } = props
+const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => {
+  const { comment, feedId } = props
   const [openReply, setOpenReply] = useState(false)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
@@ -63,7 +63,7 @@ const CommentCard = (props: { comment: ISocialFeedComment }) => {
         {(user.team_id == 1 || user.id.toString() == comment.user_id.toString()) && (
           <ButtonDelete
             variant='no-icon'
-            item={{ id: comment.id, count_likes: comment.count_likes, deleteComment: true }}
+            item={{ id: comment.id, feedId, count_likes: comment.count_likes, deleteComment: true }}
           />
         )}
       </Box>
@@ -105,7 +105,7 @@ const CommentAreaView = (props: { item: ISocialFeed }) => {
         <Box>
           <Divider sx={{ mt: 3 }} />
           {commentObj?.data.map(comment => (
-            <CommentCard key={comment.id} comment={comment} />
+            <CommentCard key={comment.id} comment={comment} feedId={item.id} />
           ))}
         </Box>
       )}

@@ -6,6 +6,7 @@ import { useSocialFeed } from 'src/hooks/useSocialFeed'
 
 type ButtonLikeParam = {
   id: number
+  feedId?: number
   liked_at?: string
   count_likes: number
   deleteComment?: boolean
@@ -20,7 +21,7 @@ const ButtonDelete = (props: { item: ButtonLikeParam; variant?: 'no-icon' }) => 
     if (item.deleteComment) {
       setOnLoading(true)
       if (deleteComment !== undefined) {
-        await deleteComment(item.id)
+        await deleteComment(item.id, item.feedId)
       }
 
       return
