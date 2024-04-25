@@ -35,7 +35,7 @@ export default async function getCroppedImg(
   rotation = 0,
   flip = { horizontal: false, vertical: false }
 ) {
-  const image = await createImage(imageSrc)
+  const image: any = await createImage(imageSrc)
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
 
@@ -102,9 +102,9 @@ export const generateDownload = async (imageSrc: string, crop: any) => {
     return;
   }
 
-  const canvas = await getCroppedImg(imageSrc, crop);
+  const canvas: any = await getCroppedImg(imageSrc, crop);
 
-  canvas.toBlob(
+  canvas?.toBlob(
     (blob: any) => {
       const previewUrl = window.URL.createObjectURL(blob);
 
