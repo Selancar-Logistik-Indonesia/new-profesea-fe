@@ -19,6 +19,9 @@ import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 import DialogLogin from 'src/@core/components/login-modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import Head from 'next/head'
+import { useTranslation } from 'react-i18next'
+import themeConfig from 'src/configs/themeConfig'
 
 const JobDetail = () => {
   const router = useRouter()
@@ -29,6 +32,8 @@ const JobDetail = () => {
   //   router.push(`/candidate/${pathname}`)
   // }
 
+  const { t } = useTranslation()
+  const [title, setTitle] = useState<string>(`${themeConfig.templateName} - ${t('landing_hero_title')}`)
   const jobId = router.query?.id
   const companyname = router.query?.companyname
   const jobtitle = router.query?.jobtitle
@@ -80,8 +85,60 @@ const JobDetail = () => {
     setOpenDialog(!openDialog)
   }
 
+  function addProductJsonLd() {
+    return {
+      __html: `{
+      "@context" : "https://schema.org/",
+      "@type" : "JobPosting",
+      "title" : "Lowongan ${jobDetail?.rolelevel.levelName} ${jobDetail?.role_type.name} di Profesea",
+      "description" : "${jobDetail?.description}",
+      "identifier": {
+        "@type": "PropertyValue",
+        "name": "${jobDetail?.company.name}"
+      },
+      "datePosted" : "${jobDetail?.created_at}",
+      "employmentType" : "${jobDetail?.employment_type}",
+      "hiringOrganization" : {
+        "@type" : "Organization",
+        "name" : "${jobDetail?.company.name}",
+        "logo" : "${jobDetail?.company.photo}"
+      },
+      "jobLocation": {
+      "@type": "Place",
+        "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "${jobDetail?.company.address.address}",
+        "addressLocality": "${jobDetail?.company.address.city.city_name}",
+        "addressCountry": "${jobDetail?.country.iso}"
+        }
+      },
+      "baseSalary": {
+        "@type": "MonetaryAmount",
+        "currency": "IDR",
+        "value": {
+          "@type": "QuantitativeValue",
+          "minValue": ${jobDetail?.salary_start},
+          "maxValue": ${jobDetail?.salary_end},
+          "unitText": "MONTH"
+        }
+      }
+    }
+  `
+    }
+  }
+
+  useEffect(() => {
+    setTitle(`Lowongan ${jobDetail?.rolelevel.levelName} ${jobDetail?.role_type.name} di Profesea`)
+  }, [jobDetail])
+
   return (
     <>
+      <Head>
+        <title>{title}</title>
+        <script type='application/ld+json' dangerouslySetInnerHTML={addProductJsonLd()} key='product-jsonld' />
+        <meta name='keywords' content={`${t('app_keyword')}`} />
+        <meta name='viewport' content='initial-scale=0.8, width=device-width' />
+      </Head>
       <Box p={4}>
         <Grid container sx={{ position: 'fixed' }}>
           <IconButton onClick={() => router.push('/find-job')}>

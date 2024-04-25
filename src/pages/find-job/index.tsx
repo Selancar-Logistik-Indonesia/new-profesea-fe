@@ -7,7 +7,6 @@ import { useMediaQuery, Autocomplete, TextField, Typography, ToggleButtonGroup, 
 import Head from 'next/head'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import themeConfig from 'src/configs/themeConfig'
 import landingPageStyle from 'src/@core/styles/landing-page/landing-page-candidate'
 import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 import { useTranslation } from 'react-i18next'
@@ -48,8 +47,10 @@ const SeafarerJob = () => {
   return (
     <>
       <Head>
-        <title>{`${themeConfig.templateName} - ${t('landing_hero_title')}`}</title>
-        <meta name='description' content={`${themeConfig.templateName} - ${t('landing_about_subtitle')}`} />
+        <title>Temukan Karier dan Jaringanmu di Profesea</title>
+        <meta property='og:title' content='Temukan Karier dan Jaringanmu di Profesea' />
+        <meta property='og:description' content='Temukan pilihan karier dan jaringan yang ada di Profesea' />
+        <meta property='og:image' content='images/logosamudera.png' />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
       </Head>
@@ -92,7 +93,7 @@ const SeafarerJob = () => {
           </Typography>
         </Grid>
         <Grid item container xs={12} md={10}>
-          <Grid item xs={12} sx={{ padding: 5, border: 0, boxShadow: 0, backgroundColor: '#FFFFFF' }}>
+          <Grid item xs={12} sx={{ padding: 4, border: 0, boxShadow: 0, backgroundColor: '#FFFFFF' }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <Grid item container xs={4} spacing={2}>
                 <Grid item xs={8}>
@@ -101,7 +102,6 @@ const SeafarerJob = () => {
                     label='Search Job'
                     variant='outlined'
                     fullWidth
-                    sx={{ mb: 2 }}
                     onChange={e => {
                       setSearchJob(e.target.value)
                     }}
@@ -198,7 +198,7 @@ const SeafarerJob = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid container mt={3} sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+          <Grid container my={3} sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
             <Box padding={5}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>

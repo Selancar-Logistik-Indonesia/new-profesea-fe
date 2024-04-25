@@ -36,7 +36,7 @@ const renderList = (listJobs: Job[] | null) => {
 
     return (
       <Grid item xs={12} md={4} key={item?.id}>
-        <Paper sx={{ marginTop: '10px', border: '1px solid #eee', height: '250px' }} elevation={0}>
+        <Paper sx={{ marginTop: '5px', border: '1px solid #eee', height: '250px' }} elevation={0}>
           <Link style={{ textDecoration: 'none' }} href={link}>
             <Box
               height={65}
