@@ -10,7 +10,7 @@ import FeedCard from './FeedCard'
 import { useEffect } from 'react'
 
 type Props = {
-  username?: string | null | undefined
+  username?: any
 }
 
 const ListFeedView = (props: Props) => {
