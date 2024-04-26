@@ -1,10 +1,13 @@
 export const createImage = (url: string) =>
   new Promise((resolve, reject) => {
+    console.log("url => ", url)
     const image = new Image()
+
     image.addEventListener('load', () => resolve(image))
     image.addEventListener('error', error => reject(error))
-    image.setAttribute('crossOrigin', 'anonymous') // needed to avoid cross-origin issues on CodeSandbox
+    image.setAttribute('crossOrigin', 'anonymous')// needed to avoid cross-origin issues on CodeSandbox
     image.src = url
+
   })
 
 export function getRadianAngle(degreeValue: number) {
@@ -27,12 +30,12 @@ export function rotateSize(width: number, height: number, rotation: number) {
  * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
  */
 export default async function getCroppedImg(
-  imageSrc: string | undefined,
+  imageSrc: string,
   pixelCrop: any,
   rotation = 0,
   flip = { horizontal: false, vertical: false }
 ) {
-  const image = await createImage(imageSrc) as { width: number, height: number }
+  const image: any = await createImage(imageSrc)
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
 
@@ -84,12 +87,35 @@ export default async function getCroppedImg(
   )
 
   // As Base64 string
-  // return croppedCanvas.toDataURL('image/jpeg');
+  return croppedCanvas.toDataURL('image/png');
 
   // As a blob
-  return new Promise((resolve, reject) => {
-    croppedCanvas.toBlob(file => {
-      resolve(URL.createObjectURL(file))
-    }, 'image/jpeg')
-  })
+  // return await new Promise((resolve, reject) => {
+  //   croppedCanvas.toBlob(file => {
+  //     resolve(URL.createObjectURL(file))
+  //   }, 'image/png')
+  // })
 }
+
+export const generateDownload = async (imageSrc: string, crop: any) => {
+  if (!crop || !imageSrc) {
+    return;
+  }
+
+  const canvas: any = await getCroppedImg(imageSrc, crop);
+
+  canvas?.toBlob(
+    (blob: any) => {
+      const previewUrl = window.URL.createObjectURL(blob);
+
+      const anchor = document.createElement("a");
+      anchor.download = "image.jpeg";
+      anchor.href = URL.createObjectURL(blob);
+      anchor.click();
+
+      window.URL.revokeObjectURL(previewUrl);
+    },
+    "image/jpeg",
+    0.66
+  );
+};
