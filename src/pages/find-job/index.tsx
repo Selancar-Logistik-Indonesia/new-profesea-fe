@@ -13,22 +13,23 @@ import { useTranslation } from 'react-i18next'
 import FooterView from 'src/views/landing-page/footerView'
 import OngoingJob from './OngoingJob'
 import DialogLogin from 'src/@core/components/login-modal'
-// import { useRouter } from 'next/router'
-// import { usePathname } from 'next/navigation'
-// import { useAuth } from 'src/hooks/useAuth'
+import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
+import { useAuth } from 'src/hooks/useAuth'
 
 const SeafarerJob = () => {
-  // const router = useRouter()
-  // const pathname = usePathname()
-  // const { user } = useAuth()
+  const { t } = useTranslation()
+  const router = useRouter()
+  const pathname = usePathname()
+  const { user } = useAuth()
 
-  // if (user) {
-  //   router.push(`/candidate/${pathname}`)
-  // }
+  if (user) {
+    router.push(`/candidate/${pathname}`)
+  }
 
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
-  const { t } = useTranslation()
+  const isMd = useMediaQuery(theme.breakpoints.down('lg'))
 
   const [employeeType, setEmployeeType] = useState('onship')
   const [searchJob, setSearchJob] = useState('')
@@ -77,13 +78,6 @@ const SeafarerJob = () => {
           >
             Temukan karier dan jaringan di industri maritim
           </Typography>
-          {/* <Typography
-            variant='h2'
-            style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: '500', letterSpacing: 0.6 }}
-            sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 }, mt: 2 }}
-          >
-            Bergabung dengan forum alumni dan komunitas.
-          </Typography> */}
           <Typography
             variant='h2'
             style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: '500', letterSpacing: 0.6 }}
@@ -94,9 +88,33 @@ const SeafarerJob = () => {
         </Grid>
         <Grid item container xs={12} md={10}>
           <Grid item xs={12} sx={{ padding: 4, border: 0, boxShadow: 0, backgroundColor: '#FFFFFF' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Grid item container xs={4} spacing={2}>
-                <Grid item xs={8}>
+            <Box
+              sx={
+                !isMd && !hidden
+                  ? {
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }
+                  : isMd && !hidden
+                  ? {
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      overflowX: 'scroll',
+                      '&::-webkit-scrollbar': { display: 'none' }
+                    }
+                  : {
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: 2
+                    }
+              }
+            >
+              <Grid item container xs={12} md={4} minWidth={'350px'} spacing={2}>
+                <Grid item xs={8} md={7}>
                   <TextField
                     id='searchJob'
                     label='Search Job'
@@ -107,7 +125,7 @@ const SeafarerJob = () => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={4} md={5}>
                   <Autocomplete
                     fullWidth
                     id='city'
@@ -116,7 +134,7 @@ const SeafarerJob = () => {
                   />
                 </Grid>
               </Grid>
-              <Grid item container xs={5} spacing={2}>
+              <Grid item container xs={12} md={5} minWidth={'350px'} spacing={2}>
                 <Grid item xs={employeeType === 'onship' ? 4 : 3}>
                   <Autocomplete
                     fullWidth
@@ -179,19 +197,20 @@ const SeafarerJob = () => {
                   </>
                 )}
               </Grid>
-              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', minWidth: { xs: '100%', md: '250px' } }}>
                 <ToggleButtonGroup
+                  fullWidth
                   color='primary'
                   value={employeeType}
                   exclusive
                   onChange={handleEmployeeType}
                   aria-label='Platform'
-                  sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+                  sx={{ display: 'flex', justifyContent: 'center' }}
                 >
-                  <ToggleButton value='onship' sx={{ py: 3.5, width: '120px', fontSize: 12 }}>
+                  <ToggleButton value='onship' sx={{ py: 3.5, width: '50%', fontSize: 12 }}>
                     Seafarer
                   </ToggleButton>
-                  <ToggleButton value='offship' sx={{ py: 3.5, width: '120px', fontSize: 12 }}>
+                  <ToggleButton value='offship' sx={{ py: 3.5, width: '50%', fontSize: 12 }}>
                     Non Seafarer
                   </ToggleButton>
                 </ToggleButtonGroup>

@@ -57,7 +57,7 @@ const JobDetail = () => {
   const firstload = async (companyname: any, jobId: any, jobTitle: any) => {
     setIsLoading(true)
     try {
-      const resp = await HttpClient.get(`/job/${companyname}/${jobId}/${jobTitle}`)
+      const resp = await HttpClient.get(`/public/data/job/${companyname}/${jobId}/${jobTitle}`)
       const job = resp.data.job
 
       setIsLoading(false)
@@ -69,7 +69,7 @@ const JobDetail = () => {
   }
 
   useEffect(() => {
-    HttpClient.get('/job?take=4&page=1').then(response => {
+    HttpClient.get('/public/data/job?take=4&page=1').then(response => {
       const jobs = response.data.jobs.data
       setJobDetailSugestion(jobs)
     })
