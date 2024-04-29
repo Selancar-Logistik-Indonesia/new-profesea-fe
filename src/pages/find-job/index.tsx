@@ -76,14 +76,14 @@ const SeafarerJob = () => {
             style={{ color: '#FFFFFF', fontSize: '46px', fontWeight: '800', letterSpacing: 0.6 }}
             sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4, whiteSpace: 'null' } }}
           >
-            Temukan karier dan jaringan di industri maritim
+            {t('landing_job_title')}
           </Typography>
           <Typography
             variant='h2'
             style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: '500', letterSpacing: 0.6 }}
             sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 }, mt: 2 }}
           >
-            Terhubung dengan perusahaan impian, tanpa bantuan orang dalam.
+            {t('landing_job_subtitle')}
           </Typography>
         </Grid>
         <Grid item container xs={12} md={10}>
