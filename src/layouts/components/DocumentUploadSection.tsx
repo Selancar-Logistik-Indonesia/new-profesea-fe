@@ -63,7 +63,13 @@ export default function DocumentUploadSection(props: IDocumentUpload) {
                 <Grid xs={12} md={3} display='flex' item container>
                   <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
                     <Box margin={1}>
-                      <Button variant='outlined' color='info' size='small' href={itemhead.path} target='_blank'>
+                      <Button
+                        variant='outlined'
+                        color='info'
+                        size='small'
+                        href={process.env.NEXT_PUBLIC_BASE_API?.replace('/api', '') + '/storage/' + itemhead.path}
+                        target='_blank'
+                      >
                         <Icon
                           fontSize='large'
                           icon={'icon-park-outline:preview-open'}
