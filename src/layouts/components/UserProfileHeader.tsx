@@ -126,7 +126,7 @@ const UserProfileHeader = (props: userProps) => {
         >
           <Box sx={{ mb: [4, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
             <Typography variant='h6' sx={{ mb: 0, color: '#262525', fontWeight: 900 }}>
-              {datauser.name}
+              {datauser.name} DANG AF
             </Typography>
             <Box
               sx={{

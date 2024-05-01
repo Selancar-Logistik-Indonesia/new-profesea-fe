@@ -47,6 +47,7 @@ import DialogAddEducation from 'src/pages/candidate/DialogAddEducation'
 import DialogAddWorkExperience from 'src/pages/candidate/DialogAddWorkExperience'
 import DialogAddDocument from 'src/pages/candidate/DialogAddDocument'
 import DialogEditBanner from 'src/pages/candidate/DialogEditBanner'
+import DialogEditProfilePicture from 'src/pages/candidate/DialogEditProfilePicture'
 // import RoleLevel from 'src/contract/models/role_level'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
@@ -212,6 +213,7 @@ const CandidateProfile = (props: compProps) => {
   const [openEditModalWE, setOpenEditModalWE] = useState(false)
   const [openEditModalDoc, setOpenEditModalDoc] = useState(false)
   const [openEditModalBanner, setOpenEditModalBanner] = useState(false)
+  const [openEditModalProfile, setOpenEditModalProfile] = useState(false)
   const [itemData, getItemdata] = useState<any[]>([])
   const [itemDataWE, getItemdataWE] = useState<any[]>([])
   const [itemDataED, getItemdataED] = useState<any[]>([])
@@ -621,10 +623,10 @@ const CandidateProfile = (props: compProps) => {
     )
   }
 
-  const [selectedFile, setSelectedFile] = useState()
   const [preview, setPreview] = useState()
   const [showShip, setShowShip] = useState(true)
   const [previewBanner, setPreviewBanner] = useState()
+
   useEffect(() => {
     const a = props.datauser?.employee_type == 'offship' ? 'offship' : 'onship'
     setShip(a)
@@ -638,47 +640,6 @@ const CandidateProfile = (props: compProps) => {
     //   setDisabledOpen(false)
     // }
   }, [])
-  useEffect(() => {
-    if (!selectedFile) {
-      setPreview(undefined)
-
-      return
-    }
-
-    const objectUrl: any = URL.createObjectURL(selectedFile)
-    setPreview(objectUrl)
-
-    // free memory when ever this component is unmounted
-    return () => URL.revokeObjectURL(objectUrl)
-  }, [selectedFile])
-
-  const onSelectFile = (e: any) => {
-    if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFile(undefined)
-
-      return
-    }
-
-    // I've kept this example simple by using the first image instead of multiple
-    setSelectedFile(e.target.files[0])
-    const selectedFiles = e.target.files as FileList
-    // setCurrentImage(selectedFiles?.[0])
-    uploadPhoto(selectedFiles?.[0])
-  }
-  const uploadPhoto = (data: any) => {
-    const json: any = new FormData()
-    json.append('photo', data)
-    HttpClient.post(AppConfig.baseUrl + '/user/update-photo', json).then(
-      ({ data }) => {
-        console.log('here 1', data)
-        // toast.success(' Successfully submited!')
-      },
-      error => {
-        console.log('here 1', error)
-        toast.error(' Failed Upload Photo' + error.response.data.message)
-      }
-    )
-  }
 
   const displayship = (type: any) => {
     setShip(type?.employee_type)
@@ -753,6 +714,7 @@ const CandidateProfile = (props: compProps) => {
           marginLeft: { md: '10px' }
           // marginTop:'125px'
         }}
+        onClick={() => setOpenEditModalProfile(!openEditModalProfile)}
       >
         <BoxWrapper>
           <ProfilePicture
@@ -761,13 +723,13 @@ const CandidateProfile = (props: compProps) => {
             sx={{ width: 100, height: 100, objectFit: 'cover' }}
           ></ProfilePicture>
 
-          <input
+          {/* <input
             accept='image/*'
             style={{ display: 'none', height: 250, width: '100%' }}
             id='raised-button-file'
             onChange={onSelectFile}
             type='file'
-          ></input>
+          ></input> */}
           <Box position={'absolute'} right={'40%'} bottom={'40%'}>
             <label htmlFor='raised-button-file'>
               <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
@@ -1472,6 +1434,11 @@ const CandidateProfile = (props: compProps) => {
           onCloseClick={() => setOpenEditModalBanner(!openEditModalBanner)}
           previewBanner={previewBanner}
         ></DialogEditBanner>
+        <DialogEditProfilePicture
+          visible={openEditModalProfile}
+          onCloseClick={() => setOpenEditModalProfile(!openEditModalProfile)}
+          previewProfile={preview}
+        ></DialogEditProfilePicture>
         <DialogEditEducation
           key={selectedItem?.id}
           selectedItem={selectedItem}
