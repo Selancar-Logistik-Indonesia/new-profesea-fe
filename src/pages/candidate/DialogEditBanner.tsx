@@ -53,7 +53,11 @@ const DialogEditBanner = (props: IProps) => {
   }, [])
 
   useEffect(() => {
+<<<<<<< HEAD
     if (croppedImage) {
+=======
+    if(croppedImage){
+>>>>>>> 487c9dbfed3becc0675967a71c295d1ea162e4fd
       uploadPhotoBanner(croppedImage)
     }
   }, [croppedImage])
@@ -77,6 +81,7 @@ const DialogEditBanner = (props: IProps) => {
   }, [selectedFileBanner])
 
   const onSelectFileBanner = (e: any) => {
+    // alert('onSelectFileBanner')
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFileBanner(undefined)
 
