@@ -45,7 +45,7 @@ type FormData = {
 
 const DialogEditDocument = (props: DialogProps) => {
   const [onLoading, setOnLoading] = useState(false)
-  const [preview, setPreview] = useState(props.selectedItem?.path)
+  const [preview, setPreview] = useState()
   const [selectedFile, setSelectedFile] = useState()
   const iddokumen = props.selectedItem?.childs?.length > 0 ? props.selectedItem?.childs[0].id : props.selectedItem?.id
 
@@ -55,7 +55,7 @@ const DialogEditDocument = (props: DialogProps) => {
   // const [document_name, setDocument] = useState<any>(0)
   useEffect(() => {
     if (!selectedFile) {
-      setPreview(props.selectedItem?.path)
+      setPreview(process.env.NEXT_PUBLIC_BASE_API?.replace('/api', '') + '/storage/' + props.selectedItem?.path)
 
       return
     }
