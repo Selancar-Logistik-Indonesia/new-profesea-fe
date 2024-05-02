@@ -11,11 +11,11 @@ interface IDocumentUpload {
     path: string
   }) => void
   itemData: any
-  deletework: (itemheadId: Key | null | undefined) => void
+  deleteDocument: (itemheadId: Key | null | undefined) => void
 }
 
 export default function DocumentUploadSection(props: IDocumentUpload) {
-  const { setOpenAddModalDoc, editDocument, deletework, itemData, openAddModalDoc } = props
+  const { setOpenAddModalDoc, editDocument, deleteDocument, itemData, openAddModalDoc } = props
 
   return (
     <>
@@ -47,126 +47,61 @@ export default function DocumentUploadSection(props: IDocumentUpload) {
         <Grid item container xs={12}>
           {itemData.map((itemhead: any) => (
             <>
-              {itemhead.childs?.length <= 0 ? (
-                <>
-                  <Grid item container xs={12} marginTop={2} key={itemhead.id} alignItems='center'>
-                    <Grid xs={12} md={9} container direction='row' alignItems='center'>
-                      <Icon
-                        fontSize='large'
-                        icon={'solar:document-bold'}
-                        color={'info'}
-                        style={{ fontSize: '18px', margin: '5px' }}
-                      />
-                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
-                        {itemhead.document_name}
-                      </Typography>
-                    </Grid>
-                    <Grid xs={12} md={3} display='flex' item container>
-                      <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
-                        <Box margin={1}>
-                          <Button variant='outlined' color='info' size='small' href={itemhead.path} target='_blank'>
-                            <Icon
-                              fontSize='large'
-                              icon={'icon-park-outline:preview-open'}
-                              color={'info'}
-                              style={{ fontSize: '18px' }}
-                            />
-                          </Button>
-                        </Box>
-                        <Box margin={1}>
-                          <Button
-                            variant='outlined'
-                            color='primary'
-                            size='small'
-                            onClick={() => editDocument(itemhead)}
-                          >
-                            <Icon
-                              fontSize='large'
-                              icon={'solar:pen-new-round-bold-duotone'}
-                              color={'primary'}
-                              style={{ fontSize: '18px' }}
-                            />
-                          </Button>
-                        </Box>
-                        <Box margin={1}>
-                          <Button variant='outlined' color='error' size='small' onClick={() => deletework(itemhead.id)}>
-                            <Icon
-                              fontSize='large'
-                              icon={'solar:trash-bin-trash-bold-duotone'}
-                              color={'error'}
-                              style={{ fontSize: '18px' }}
-                            />
-                          </Button>
-                        </Box>
-                      </Grid>
-                    </Grid>
+              <Typography> {itemhead.document_name}</Typography>
+              <Grid item container xs={12} marginTop={2} key={itemhead.id} alignItems='center'>
+                <Grid xs={12} md={9} container direction='row' alignItems='center'>
+                  <Icon
+                    fontSize='large'
+                    icon={'solar:document-bold'}
+                    color={'info'}
+                    style={{ fontSize: '18px', margin: '5px' }}
+                  />
+                  <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
+                    {itemhead.document_number}
+                  </Typography>
+                </Grid>
+                <Grid xs={12} md={3} display='flex' item container>
+                  <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
+                    <Box margin={1}>
+                      <Button
+                        variant='outlined'
+                        color='info'
+                        size='small'
+                        href={process.env.NEXT_PUBLIC_BASE_API?.replace('/api', '') + '/storage/' + itemhead.path}
+                        target='_blank'
+                      >
+                        <Icon
+                          fontSize='large'
+                          icon={'icon-park-outline:preview-open'}
+                          color={'info'}
+                          style={{ fontSize: '18px' }}
+                        />
+                      </Button>
+                    </Box>
+                    <Box margin={1}>
+                      <Button variant='outlined' color='primary' size='small' onClick={() => editDocument(itemhead)}>
+                        <Icon
+                          fontSize='large'
+                          icon={'solar:pen-new-round-bold-duotone'}
+                          color={'primary'}
+                          style={{ fontSize: '18px' }}
+                        />
+                      </Button>
+                    </Box>
+                    <Box margin={1}>
+                      <Button variant='outlined' color='error' size='small' onClick={() => deleteDocument(itemhead.id)}>
+                        <Icon
+                          fontSize='large'
+                          icon={'solar:trash-bin-trash-bold-duotone'}
+                          color={'error'}
+                          style={{ fontSize: '18px' }}
+                        />
+                      </Button>
+                    </Box>
                   </Grid>
-                </>
-              ) : (
-                <>
-                  <Typography> {itemhead.document_name}</Typography>
-                  {itemhead.childs.map(
-                    (item: {
-                      id: React.Key | null | undefined
-                      document_name: string | null | undefined
-                      path: string
-                    }) => (
-                      <Grid item container xs={12} marginTop={2} key={item.id} alignItems='center'>
-                        <Grid xs={12} md={9} container direction='row' alignItems='center'>
-                          <Icon
-                            fontSize='large'
-                            icon={'solar:document-bold'}
-                            color={'info'}
-                            style={{ fontSize: '18px', margin: '5px' }}
-                          />
-                          <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px' }}>
-                            {item.document_name}
-                          </Typography>
-                        </Grid>
-                        <Grid xs={12} md={3} display='flex' item container>
-                          <Grid xs={12} md={12} container direction='row' justifyContent='flex-end' alignItems='center'>
-                            <Box margin={1}>
-                              <Button variant='outlined' color='info' size='small' href={item.path} target='_blank'>
-                                <Icon
-                                  fontSize='large'
-                                  icon={'icon-park-outline:preview-open'}
-                                  color={'info'}
-                                  style={{ fontSize: '18px' }}
-                                />
-                              </Button>
-                            </Box>
-                            <Box margin={1}>
-                              <Button
-                                variant='outlined'
-                                color='primary'
-                                size='small'
-                                onClick={() => editDocument(item)}
-                              >
-                                <Icon
-                                  fontSize='large'
-                                  icon={'solar:pen-new-round-bold-duotone'}
-                                  color={'primary'}
-                                  style={{ fontSize: '18px' }}
-                                />
-                              </Button>
-                            </Box>
-                            <Box margin={1}>
-                              <Button variant='outlined' color='error' size='small' onClick={() => deletework(item.id)}>
-                                <Icon
-                                  fontSize='large'
-                                  icon={'solar:trash-bin-trash-bold-duotone'}
-                                  color={'error'}
-                                  style={{ fontSize: '18px' }}
-                                />
-                              </Button>
-                            </Box>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    )
-                  )}
-                </>
-              )}
+                </Grid>
+              </Grid>
+
               <Divider style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }} />
             </>
           ))}

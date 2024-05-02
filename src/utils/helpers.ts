@@ -49,6 +49,16 @@ function toTitleCase(text: string) {
     return result;
 }
 
+function linkToTitleCase(text: string | undefined) {
+    if (text) {
+        const title = text.replace(/-/g, " ");
+
+        return title
+    }
+
+    return null;
+}
+
 function getUserAvatar(userData: IUser) {
     return (userData?.photo) ? userData.photo : "/images/avatars/default-user.png";
 }
@@ -165,10 +175,26 @@ const toMegaByte = (size: number, stringify = false) => {
     return n;
 }
 
+const getMonthYear = (date: string) => {
+    const newString = date.split("-")
+    const year = newString[0]
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const monthIndex = parseInt(newString[1], 10);
+    if (!isNaN(monthIndex) && monthIndex >= 1 && monthIndex <= 12) {
+        return `${monthNames[monthIndex - 1]} ${year}`
+    } else {
+        return date
+    }
+}
+
 export {
     getCleanErrorMessage,
     removeFirstZeroChar,
     toTitleCase,
+    linkToTitleCase,
     getUserAvatar,
     getUserRoleName,
     formatIDR,
@@ -184,4 +210,5 @@ export {
     subscribev,
     translateTrxStatus,
     toMegaByte,
+    getMonthYear,
 }

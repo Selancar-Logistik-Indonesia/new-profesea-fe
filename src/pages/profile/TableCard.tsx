@@ -7,7 +7,7 @@ export default function TableCard(props: any) {
     <Card>
       <CardContent sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
         <Box sx={{ mb: 7 }}>
-          <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 600 }}>
+          <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 800 }}>
             {title}
           </Typography>
           {props.children}

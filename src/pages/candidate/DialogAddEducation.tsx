@@ -14,7 +14,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import {   CircularProgress, Divider } from '@mui/material'
+import { CircularProgress, Divider } from '@mui/material'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import { Autocomplete } from '@mui/material'
 import DatePicker from 'react-datepicker'
@@ -30,9 +30,10 @@ const Transition = forwardRef(function Transition(
 })
 
 type DialogProps = {
-  visible: boolean;
-  onCloseClick: VoidFunction;
-  onStateChange: VoidFunction;
+  visible: boolean
+  onCloseClick: VoidFunction
+  onStateChange: VoidFunction
+  getUserEducation: VoidFunction
 }
 
 type FormData = {
@@ -48,30 +49,31 @@ type FormData = {
 }
 
 const DialogAddEducation = (props: DialogProps) => {
-  const [onLoading, setOnLoading] = useState<'form' | 'institution' | ''>('');
+  const [onLoading, setOnLoading] = useState<'form' | 'institution' | ''>('')
   const [dateAwal, setDateAwal] = useState<DateType>(new Date())
   const [dateAkhir, setDateAkhir] = useState<DateType>(new Date())
   const [preview, setPreview] = useState()
-  const [Education, getEducation] = useState<any[]>([])
+  const [Education, setEducation] = useState<any[]>([])
   const [selectedFile, setSelectedFile] = useState()
   const [EduId, setEduId] = useState('---')
-  const [institutions, setInstitutions] = useState<Institution[]>([]);
+  const [institutions, setInstitutions] = useState<Institution[]>([])
 
   const handleSearchInstitutions = useCallback(
     debounce((value: string) => {
-      getInstitutions(value);
-    }, 500), []
-  );
+      getInstitutions(value)
+    }, 500),
+    []
+  )
 
-  const getInstitutions = async (search = "") => {
-    const res4 = await HttpClient.get(`institutions?page=1&take=12&search=${search}`);
-    setOnLoading('');
+  const getInstitutions = async (search = '') => {
+    const res4 = await HttpClient.get(`institutions?page=1&take=12&search=${search}`)
+    setOnLoading('')
 
     if (res4.status != 200) {
       throw res4.data.message ?? 'Something went wrong!'
     }
 
-    setInstitutions(res4.data.institutions);
+    setInstitutions(res4.data.institutions)
   }
 
   const combobox = async () => {
@@ -79,13 +81,13 @@ const DialogAddEducation = (props: DialogProps) => {
     if (res3.status != 200) {
       throw res3.data.message ?? 'Something went wrong!'
     }
-    getEducation(res3.data.degrees);
-    getInstitutions();
+    setEducation(res3.data.degrees)
+    getInstitutions()
   }
 
   useEffect(() => {
     combobox()
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (!selectedFile) {
@@ -97,17 +99,14 @@ const DialogAddEducation = (props: DialogProps) => {
     setPreview(objectUrl)
 
     return () => URL.revokeObjectURL(objectUrl)
-  }, [selectedFile]);
+  }, [selectedFile])
 
-  const {
-    register,
-    handleSubmit,
-  } = useForm<FormData>({
-    mode: 'onBlur',
-  });
+  const { register, handleSubmit } = useForm<FormData>({
+    mode: 'onBlur'
+  })
 
   const onSubmit = async (data: FormData) => {
-    const { major, title } = data;
+    const { major, title } = data
     const json = {
       title: title,
       major: major,
@@ -131,28 +130,29 @@ const DialogAddEducation = (props: DialogProps) => {
         })
         .split('/')
         .reverse()
-        .join('-'),
-    };
+        .join('-')
+    }
 
-    setOnLoading('form');
+    setOnLoading('form')
 
     try {
-      const resp = await HttpClient.postFile('/user/education', json);
+      const resp = await HttpClient.postFile('/user/education', json)
       if (resp.status != 200) {
-        throw resp.data.message ?? 'Something went wrong!';
+        throw resp.data.message ?? 'Something went wrong!'
       }
 
-      props.onCloseClick();
-      toast.success(` Education submited successfully!`);
+      props.onCloseClick()
+      props.getUserEducation()
+      toast.success(` Education submited successfully!`)
     } catch (error) {
       // throw   'Something went wrong!';
-   
-       alert( `Opps ${getCleanErrorMessage(error)}`);
+
+      alert(`Opps ${getCleanErrorMessage(error)}`)
       // toast.error(`Opps ${getCleanErrorMessage(error)}`);
     }
 
-    setOnLoading('');
-    props.onStateChange();
+    setOnLoading('')
+    props.onStateChange()
   }
 
   const onSelectFile = (e: any) => {
@@ -198,14 +198,18 @@ const DialogAddEducation = (props: DialogProps) => {
                 id='combo-box-demo'
                 options={institutions.map(e => e.institution_name)}
                 loading={onLoading == 'institution'}
-                renderInput={params => <TextField {...register('title')} {...params}
-                  label='Institution Name'
-                  variant='standard'
-                  onChange={(e) => {
-                    setOnLoading('institution');
-                    handleSearchInstitutions(e.target.value);
-                  }}
-                />}
+                renderInput={params => (
+                  <TextField
+                    {...register('title')}
+                    {...params}
+                    label='Institution Name'
+                    variant='standard'
+                    onChange={e => {
+                      setOnLoading('institution')
+                      handleSearchInstitutions(e.target.value)
+                    }}
+                  />
+                )}
               />
             </Grid>
             <Grid item md={6} xs={12} mt={2}>

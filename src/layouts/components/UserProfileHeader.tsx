@@ -11,7 +11,6 @@ import Address from 'src/contract/models/address'
 import { HttpClient } from 'src/services'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useAuth } from 'src/hooks/useAuth'
 import ProfileActionArea from 'src/views/profile/action_area'
 import ShareArea from './ShareArea'
 import { getEmployeetypev2 } from 'src/utils/helpers'
@@ -30,12 +29,13 @@ const UserProfileHeader = (props: userProps) => {
   const [linkedin, setLinkedin] = useState<any>('-')
   const [showFriendship, setShowFriendship] = useState<boolean>(false)
   const [documents, setDocuments] = useState<any[]>([])
-  const { user } = useAuth()
+
   const { datauser } = props
+  console.log(datauser)
 
   useEffect(() => {
-    let userId = user?.id
-    if (user?.username != datauser.username) {
+    let userId = datauser?.id
+    if (datauser?.username != datauser.username) {
       setShowFriendship(true)
       userId = datauser.id
     }
@@ -58,21 +58,12 @@ const UserProfileHeader = (props: userProps) => {
       }
     })
 
-    HttpClient.get(AppConfig.baseUrl + '/user/document').then(response => {
+    HttpClient.get(AppConfig.baseUrl + '/user/candidate-document').then(response => {
       const itemData = response.data.documents
-
-      const arr = []
-
-      for (let x = 0; x < itemData.length; x++) {
-        const element = itemData[x]
-        if (element.childs.length > 0) {
-          arr.push({ id: element.id, name: element.document_type })
-        }
-      }
 
       setDocuments(itemData)
     })
-  }, [user])
+  }, [datauser])
 
   return (
     <Card sx={{ width: '100%', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
@@ -160,21 +151,30 @@ const UserProfileHeader = (props: userProps) => {
           <ProfileActionArea enabled={showFriendship} user={datauser} />
         </Box>
       </CardContent>
-      <Box sx={{ width: '100%', marginBottom: '20px' }}>
-        {props.datauser?.verified_at == null && documents.length == 0 && (
-          <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}>
-            <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
-              Please Upload your document to verify your company
-            </Typography>
-          </Alert>
-        )}
+      {props.datauser.role == 'Company' && (
+        <Box sx={{ width: '100%', marginBottom: '20px' }}>
+          {props.datauser?.verified_at == null && documents.length == 0 && (
+            <Alert
+              severity='info'
+              sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}
+            >
+              <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
+                Please Upload your document to verify your company
+              </Typography>
+            </Alert>
+          )}
 
-        {props.datauser.verified_at == null && documents.length > 0 && (
-          <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}>
-            <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>Please wait for admin to verify</Typography>
-          </Alert>
-        )}
-      </Box>
+          {props.datauser.verified_at == null && documents.length > 0 && (
+            <Alert
+              severity='info'
+              sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}
+            >
+              <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>Please wait for admin to verify</Typography>
+            </Alert>
+          )}
+        </Box>
+      )}
+
       <Divider style={{ width: '100%' }} />
       <CardContent>
         <Box
