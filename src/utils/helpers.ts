@@ -175,6 +175,20 @@ const toMegaByte = (size: number, stringify = false) => {
     return n;
 }
 
+const calculateAge = (dob: any) => {
+  const today = new Date()
+  const birthDate = new Date(dob)
+  let age = today.getFullYear() - birthDate.getFullYear()
+  const monthDiff = today.getMonth() - birthDate.getMonth()
+
+  // If the birthday hasn't occurred yet this year, subtract one year
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--
+  }
+
+  return age
+}
+
 export {
     getCleanErrorMessage,
     removeFirstZeroChar,
@@ -195,4 +209,5 @@ export {
     subscribev,
     translateTrxStatus,
     toMegaByte,
+    calculateAge
 }
