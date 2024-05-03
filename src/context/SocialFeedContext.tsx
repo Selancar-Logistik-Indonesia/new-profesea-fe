@@ -62,6 +62,7 @@ const SocialFeedProvider = (props: Props) => {
     const { feed } = response.data as { feed: ISocialFeed }
     setFeeds(items => [feed, ...items])
   }
+
   const EditupdateStatus = async (payload: UpdateStatusPayload) => {
     const formData = new FormData()
     formData.append('content', payload.content)
@@ -85,8 +86,8 @@ const SocialFeedProvider = (props: Props) => {
     // const { feed } = response.data as { feed: ISocialFeed }
     // setFeeds(items => [feed, ...items])
   }
+
   const fetchFeeds = async (payload: FetchFeedPayload) => {
-    console.log(payload)
     let sPage = page
     if (payload.mPage) {
       sPage = payload.mPage
@@ -197,6 +198,7 @@ const SocialFeedProvider = (props: Props) => {
 
     setFeeds(newFeedList)
   }
+
   const deleteFeed = async (feedId: number) => {
     const response = await HttpClient.del('/social-feed/feed/' + feedId)
 
@@ -206,7 +208,7 @@ const SocialFeedProvider = (props: Props) => {
     setCommentSignature(v4())
   }
 
-  const deleteComment = async (commentId: number) => {
+  const deleteComment = async (commentId: number, feedId?: number) => {
     const response = await HttpClient.del('/social-feed/comment/' + commentId)
 
     if (response.status != 200) {
@@ -214,6 +216,23 @@ const SocialFeedProvider = (props: Props) => {
     }
 
     setCommentSignature(v4())
+
+    if (feedId) {
+      const newFeedList = feeds.map(item => {
+        if (item.id == feedId) {
+          const updatedItem: ISocialFeed = {
+            ...item,
+            count_comments: item.count_comments - 1
+          }
+
+          return updatedItem
+        }
+
+        return item
+      })
+
+      setFeeds(newFeedList)
+    }
   }
 
   const postComment = async (feedId: number, replyable_type: 'feed' | 'comment', content: string) => {
@@ -230,6 +249,21 @@ const SocialFeedProvider = (props: Props) => {
     if (replyable_type == 'feed') setCommentSignature(v4())
 
     if (replyable_type == 'comment') setSubCommentSignature(v4())
+
+    const newFeedList = feeds.map(item => {
+      if (item.id == feedId) {
+        const updatedItem: ISocialFeed = {
+          ...item,
+          count_comments: item.count_comments + 1
+        }
+
+        return updatedItem
+      }
+
+      return item
+    })
+
+    setFeeds(newFeedList)
   }
 
   const getComments = async (feedId: number, page: number, take: number, replyable_type: 'feed' | 'comment') => {
