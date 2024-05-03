@@ -13,10 +13,11 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import ProfileActionArea from 'src/views/profile/action_area'
 import ShareArea from './ShareArea'
-import { getEmployeetypev2 } from 'src/utils/helpers'
+import { getEmployeetypev2, toLinkCase } from 'src/utils/helpers'
 import TextOverImage from 'src/views/profile/photoprofile'
 import TextOverImagebiru from 'src/views/profile/photoprofilebiru'
 import { AppConfig } from 'src/configs/api'
+import { useAuth } from 'src/hooks/useAuth'
 
 type userProps = {
   datauser: IUser
@@ -30,12 +31,12 @@ const UserProfileHeader = (props: userProps) => {
   const [showFriendship, setShowFriendship] = useState<boolean>(false)
   const [documents, setDocuments] = useState<any[]>([])
 
+  const { user } = useAuth()
   const { datauser } = props
-  console.log(datauser)
 
   useEffect(() => {
-    let userId = datauser?.id
-    if (datauser?.username != datauser.username) {
+    let userId = user?.id
+    if (user?.username != datauser.username) {
       setShowFriendship(true)
       userId = datauser.id
     }
@@ -281,14 +282,21 @@ const UserProfileHeader = (props: userProps) => {
                   <Grid item>
                     <ShareArea
                       subject={`User Shared ${datauser.name}.`}
-                      url={`/profile/${datauser.username}`}
+                      url={`/${datauser.role === 'Seafarer' ? 'profile' : 'company'}/${datauser.id}/${
+                        datauser.username
+                      }`}
                     ></ShareArea>
                   </Grid>
                 </Grid>
               </>
             )}
             {showFriendship && (
-              <ShareArea subject={`User Shared ${datauser.name}.`} url={`/profile/${datauser.username}`}></ShareArea>
+              <ShareArea
+                subject={`User Shared ${datauser.name}.`}
+                url={`/${datauser.role === 'Seafarer' ? 'profile' : 'company'}/${datauser.id}/${toLinkCase(
+                  datauser.username
+                )}`}
+              ></ShareArea>
             )}
           </Grid>
         </Grid>

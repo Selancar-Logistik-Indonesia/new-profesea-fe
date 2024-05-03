@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { HttpClient } from 'src/services'
 import { toast } from 'react-hot-toast'
 
-import { getCleanErrorMessage } from 'src/utils/helpers' 
+import { getCleanErrorMessage } from 'src/utils/helpers'
 import { useEffect, useState } from 'react'
 // import Alumni from 'src/contract/models/alumni'
 
@@ -16,7 +16,7 @@ export type ParamMain = {
   location: string
 }
 
-interface Props { 
+interface Props {
   idalumni: any
   reload: () => void
 }
@@ -26,7 +26,6 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
     return
   }
   const joinAlumni = async (iduser: any, url: any) => {
-   
     const json = {
       idalumni: idalumni,
       iduser: iduser
@@ -37,8 +36,8 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong create alumni!'
       }
-       props.reload()
-       reload()
+      props.reload()
+      reload()
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
@@ -57,7 +56,7 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
             '& svg': { color: 'text.secondary' }
           }}
         >
-          {/* <Link style={{ textDecoration: 'none' }} href={'/profile/' + item?.user.username}>
+          {/* <Link style={{ textDecoration: 'none' }} href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(item.user?.username)}`}>
             <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
               <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 35, height: 35 }} />
             </Box>
@@ -70,16 +69,18 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
               </Typography>
             </Link>
 
-              <Grid item container xs={12} spacing={0.5} mb={1}>
-                <Grid item xs={12} md={12}>
-                  <Typography sx={{ color: '#32487A', fontWeight: 400 }}>NIM : {item.nim ? item.nim : ' - '}</Typography>
-                </Grid>
-                <Grid item xs={12} md={12}>
-                  <Typography sx={{ color: '#32487A', fontWeight: 400 }}>Graduate : {item.lulusan ? item.lulusan : '-'}</Typography>
-                </Grid>
+            <Grid item container xs={12} spacing={0.5} mb={1}>
+              <Grid item xs={12} md={12}>
+                <Typography sx={{ color: '#32487A', fontWeight: 400 }}>NIM : {item.nim ? item.nim : ' - '}</Typography>
               </Grid>
-              <Grid item container xs={12} spacing={4}>
-              <Grid item xs={12} md={6} >
+              <Grid item xs={12} md={12}>
+                <Typography sx={{ color: '#32487A', fontWeight: 400 }}>
+                  Graduate : {item.lulusan ? item.lulusan : '-'}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid item container xs={12} spacing={4}>
+              <Grid item xs={12} md={6}>
                 <Button
                   variant='contained'
                   color='info'
@@ -121,8 +122,8 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
 }
 
 const LIstAlumniLeft = (props: Props) => {
-  const { idalumni } = props  
-   
+  const { idalumni } = props
+
   const [listAlumni, setReqListAlumni] = useState<any>(null)
   const firstload = async () => {
     const requestalumni = await HttpClient.get('/alumni/request-member?alumni_id=' + idalumni, {
@@ -130,14 +131,11 @@ const LIstAlumniLeft = (props: Props) => {
       take: 10
     })
     setReqListAlumni(requestalumni.data.alumnis.data)
- 
   }
   useEffect(() => {
-    firstload() 
+    firstload()
   }, [])
- 
 
-      
   return (
     <Grid container marginTop={'10px'}>
       <Grid item xs={12}>
@@ -148,11 +146,12 @@ const LIstAlumniLeft = (props: Props) => {
                 <>
                   <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Box sx={{ mr: 2 }}>
-                    <Typography
+                      <Typography
                         align='left'
                         variant='body2'
                         sx={{ color: '#32487A', fontFamily: 'Outfit', fontWeight: '600', mb: 1 }}
-                        fontSize={16}>
+                        fontSize={16}
+                      >
                         Pending Request
                       </Typography>
                     </Box>
@@ -160,7 +159,7 @@ const LIstAlumniLeft = (props: Props) => {
                 </>
               )}
             </Grid>
-            <Box sx={{ mt: 3 }}>{renderList(listAlumni, idalumni, props,firstload)}</Box>
+            <Box sx={{ mt: 3 }}>{renderList(listAlumni, idalumni, props, firstload)}</Box>
           </CardContent>
         </Card>
       </Grid>

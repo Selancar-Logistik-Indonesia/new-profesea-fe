@@ -5,7 +5,7 @@ import ISocialFeed from 'src/contract/models/social_feed'
 import ISocialFeedComment from 'src/contract/models/social_feed_comment'
 import CommentResponseType from 'src/contract/types/comment_response_type'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
-import { getUserAvatar, toTitleCase } from 'src/utils/helpers'
+import { getUserAvatar, toLinkCase, toTitleCase } from 'src/utils/helpers'
 import CommentForm from './CommentForm'
 import SubCommentAreaView from './SubCommentAreaView'
 import ButtonLike from './ButtonLike'
@@ -31,7 +31,12 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
           />
         </Box>
         <Box sx={{ mb: [6, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
-          <Link style={{ textDecoration: 'none' }} href={`/profile/${comment.user.username}`}>
+          <Link
+            style={{ textDecoration: 'none' }}
+            href={`/${comment.user?.role === 'Seafarer' ? 'profile' : 'company'}/${comment.user?.id}/${toLinkCase(
+              comment.user?.username
+            )}`}
+          >
             <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600 }}>
               {toTitleCase(comment.user.name)}
             </Typography>
@@ -52,6 +57,7 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
             likeableType='comment'
           />
         )}
+        {/* <ButtonLike variant="no-icon" item={{ id: comment.id, liked_at: comment.liked_at, count_likes: comment.count_likes }} likeableType="comment" /> */}
         <Button
           onClick={() => setOpenReply(!openReply)}
           sx={{ textTransform: 'none', fontSize: 11 }}
@@ -60,11 +66,8 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
         >
           {comment.count_replies > 0 && comment.count_replies} Reply
         </Button>
-        {(user.team_id == 1 || user.id.toString() == comment.user_id.toString()) && (
-          <ButtonDelete
-            variant='no-icon'
-            item={{ id: comment.id, feedId, count_likes: comment.count_likes, deleteComment: true }}
-          />
+        {user.team_id == 1 && (
+          <ButtonDelete item={{ id: comment.id, feedId, count_likes: comment.count_likes, deleteComment: true }} />
         )}
       </Box>
 

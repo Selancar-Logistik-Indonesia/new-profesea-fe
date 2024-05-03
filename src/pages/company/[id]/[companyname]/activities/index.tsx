@@ -13,7 +13,7 @@ import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 import { HttpClient } from 'src/services'
 import { toast } from 'react-hot-toast'
 import { IUser } from 'src/contract/models/user'
-import { getCleanErrorMessage } from 'src/utils/helpers'
+import { getCleanErrorMessage, linkToTitleCase } from 'src/utils/helpers'
 
 const SocialFeed = () => {
   return (
@@ -25,7 +25,7 @@ const SocialFeed = () => {
 
 const SocialFeedApp = () => {
   const params = useSearchParams()
-  const usernameParam = params?.get('username')
+  const usernameParam = linkToTitleCase(params.get('username') ?? undefined)
 
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
 
