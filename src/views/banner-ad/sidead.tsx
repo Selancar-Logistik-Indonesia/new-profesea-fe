@@ -11,9 +11,9 @@ import CardContent from '@mui/material/CardContent'
 import { useKeenSlider } from 'keen-slider/react'
 import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 import { HttpClient } from 'src/services'
-import Ads from 'src/contract/models/Ads'
+// import Ads from 'src/contract/models/Ads'
 
-const Slides = (Ads: Ads[]) => {
+const Slides = (Ads: any[]) => {
   const components: JSX.Element[] = []
 
   Ads.forEach((arr, index: number) => {
@@ -21,7 +21,7 @@ const Slides = (Ads: Ads[]) => {
       <Box key={index} className='keen-slider__slide'>
         <Box
           component='img'
-          src={arr.attachments}
+          src={arr}
           style={{
             width: '100%',
             height: '300px',
@@ -38,7 +38,7 @@ const Slides = (Ads: Ads[]) => {
 }
 
 const SideAd = () => {
-  const [Ads, getAds] = useState<Ads[]>([])
+  const [Ads, getAds] = useState<any[]>([])
   useEffect(() => {
     loadAds()
   }, [])
@@ -123,7 +123,7 @@ const SideAd = () => {
       >
         <Box
           component='img'
-          src={Ads[0].attachments}
+          src={Ads[0]}
           style={{
             width: '100%',
             height: '300px',

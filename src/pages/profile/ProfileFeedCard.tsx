@@ -7,7 +7,7 @@ import ISocialFeed from 'src/contract/models/social_feed'
 import FetchFeedPayload from 'src/contract/params/fetch_feed_payload'
 import { AppConfig } from 'src/configs/api'
 import { HttpClient } from 'src/services'
-import { getUserAvatar, toTitleCase } from 'src/utils/helpers'
+import { getUserAvatar, toLinkCase, toTitleCase } from 'src/utils/helpers'
 import { IUser } from 'src/contract/models/user'
 
 interface IProfileFeedCard {
@@ -89,7 +89,9 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
                       <Box
                         component={Link}
                         style={{ textDecoration: 'none' }}
-                        href={`/profile/${item.user.username}`}
+                        href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(
+                          item.user?.username
+                        )}`}
                         sx={{ display: 'flex', '& svg': { color: 'text.secondary' }, height: 60 }}
                       >
                         <Box>
@@ -167,7 +169,11 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
           </CardContent>
           <Divider />
           <CardContent>
-            <Link href={`/profile/${selectedUser?.username}/activities`}>
+            <Link
+              href={`/${selectedUser?.role === 'Seafarer' ? 'profile' : 'company'}/${selectedUser?.id}/${toLinkCase(
+                selectedUser?.username
+              )}/activities`}
+            >
               <Typography
                 variant='body2'
                 sx={{
