@@ -13,11 +13,12 @@ import { toast } from 'react-hot-toast'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import ListTraining from 'src/pages/profile/Training'
 import { useSearchParams } from 'next/navigation'
-import { getCleanErrorMessage } from 'src/utils/helpers'
+import { getCleanErrorMessage, linkToTitleCase, toLinkCase } from 'src/utils/helpers'
 import ProfileViewerCard from 'src/layouts/components/ProfileViewerCard'
 import AboutMe from 'src/pages/profile/AboutMe'
 import ProfileFeedCard from 'src/pages/profile/ProfileFeedCard'
 import NewsListCard from 'src/layouts/components/NewsListCard'
+import { useRouter } from 'next/router'
 
 const ProfileCompany = () => {
   return (
@@ -29,6 +30,7 @@ const ProfileCompany = () => {
 
 const UserFeedApp = () => {
   const theme = useTheme()
+  const router = useRouter()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
@@ -36,13 +38,13 @@ const UserFeedApp = () => {
   const iduser: any = user.id
   //let { username } = router.query as { username: string }
   const params = useSearchParams()
-  let companyName = params?.get('companyname')
+  let companyName = linkToTitleCase(params.get('companyname') ?? undefined)
 
   const firstload = async () => {
     let url = ''
     let filter = ''
     if (!companyName) {
-      url = '/user/' + iduser
+      url = '/user/' + toLinkCase(iduser)
       companyName = user.username
     } else {
       url = '/user/?username=' + companyName
@@ -58,6 +60,9 @@ const UserFeedApp = () => {
       }
 
       const user = response.data.user as IUser
+      if (user.role === 'Seafarer') {
+        router.push(`/profile/${user.id}/${toLinkCase(user.username)}`)
+      }
       setSelectedUser(user)
 
       if (user.role == 'Company') {

@@ -49,6 +49,16 @@ function toTitleCase(text: string) {
     return result;
 }
 
+function toLinkCase(text: string | undefined) {
+    if (text) {
+        const title = text.replace(/ /g, "-");
+
+        return title
+    }
+
+    return null;
+}
+
 function linkToTitleCase(text: string | undefined) {
     if (text) {
         const title = text.replace(/-/g, " ");
@@ -194,6 +204,7 @@ export {
     getCleanErrorMessage,
     removeFirstZeroChar,
     toTitleCase,
+    toLinkCase,
     linkToTitleCase,
     getUserAvatar,
     getUserRoleName,

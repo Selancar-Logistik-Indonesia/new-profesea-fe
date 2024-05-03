@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import ProfileActionArea from 'src/views/profile/action_area'
 import ShareArea from './ShareArea'
-import { getEmployeetypev2 } from 'src/utils/helpers'
+import { getEmployeetypev2, toLinkCase } from 'src/utils/helpers'
 import TextOverImage from 'src/views/profile/photoprofile'
 import TextOverImagebiru from 'src/views/profile/photoprofilebiru'
 import { AppConfig } from 'src/configs/api'
@@ -293,7 +293,9 @@ const UserProfileHeader = (props: userProps) => {
             {showFriendship && (
               <ShareArea
                 subject={`User Shared ${datauser.name}.`}
-                url={`/${datauser.role === 'Seafarer' ? 'profile' : 'company'}/${datauser.id}/${datauser.username}`}
+                url={`/${datauser.role === 'Seafarer' ? 'profile' : 'company'}/${datauser.id}/${toLinkCase(
+                  datauser.username
+                )}`}
               ></ShareArea>
             )}
           </Grid>

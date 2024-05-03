@@ -13,7 +13,7 @@ import WorkeExperience from '../../Workexperience'
 // import ListFeedView from 'src/views/social-feed/ListFeedView'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSearchParams } from 'next/navigation'
-import { getCleanErrorMessage } from 'src/utils/helpers'
+import { getCleanErrorMessage, linkToTitleCase, toLinkCase } from 'src/utils/helpers'
 import EducationalInfo from '../../Educational'
 import Ceritificate from '../../Certificate'
 import ProfileViewerCard from 'src/layouts/components/ProfileViewerCard'
@@ -27,6 +27,7 @@ import SeafarerRecommendationTable from 'src/layouts/components/SeafarerRecommen
 
 import NewsListCard from 'src/layouts/components/NewsListCard'
 import TableCard from '../../TableCard'
+import { useRouter } from 'next/router'
 
 const ProfileCompany = () => {
   return (
@@ -38,6 +39,7 @@ const ProfileCompany = () => {
 
 const UserFeedApp = () => {
   const theme = useTheme()
+  const router = useRouter()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
@@ -47,14 +49,14 @@ const UserFeedApp = () => {
   const iduser: any = user.id
   //let { username } = router.query as { username: string }
   const params = useSearchParams()
-  let username = params?.get('username')
+  let username = linkToTitleCase(params.get('username') ?? undefined)
 
   const firstload = async () => {
     let url = ''
     let filter = ''
     let filterdoc = ''
     if (!username) {
-      url = '/user/' + iduser
+      url = '/user/' + toLinkCase(iduser)
       username = user.username
     } else {
       url = '/user/?username=' + username
@@ -71,6 +73,9 @@ const UserFeedApp = () => {
       }
 
       const user = response.data.user as IUser
+      if (user.role === 'Company' || user.role === 'Trainer') {
+        router.push(`/company/${user.id}/${toLinkCase(user.username)}`)
+      }
       setSelectedUser(user)
 
       HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100' + filter).then(response => {

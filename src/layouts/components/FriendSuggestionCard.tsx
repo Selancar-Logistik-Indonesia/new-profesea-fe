@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent'
 import { Avatar, CircularProgress } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { IUser } from 'src/contract/models/user'
-import { toTitleCase } from 'src/utils/helpers'
+import { toLinkCase, toTitleCase } from 'src/utils/helpers'
 import ConnectButton from './ConnectButton'
 import Link from 'next/link'
 import { HttpClient } from 'src/services'
@@ -36,7 +36,10 @@ const renderList = (arr: IUser[]) => {
           <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 60, height: 60 }} />
         </Box>
         <Box sx={{ flexGrow: 1, ml: 3, display: 'flex', flexDirection: 'column' }}>
-          <Link style={{ textDecoration: 'none' }} href={`/profile/${item.username}`}>
+          <Link
+            style={{ textDecoration: 'none' }}
+            href={`/${item.role === 'Seafarer' ? 'profile' : 'company'}/${item.id}/${toLinkCase(item.username)}`}
+          >
             <Typography sx={{ color: '#0a66c2', fontWeight: 'bold', mt: 1, fontSize: 14 }}>
               {toTitleCase(item.name)}
             </Typography>
