@@ -143,7 +143,11 @@ const JobApplied = (props: IJobAppliedProps) => {
           subsribed: a,
           actions: {
             onView: () => viewHandler(row),
-            onDownload: () => resumeHandler(row)
+            onDownload: () => resumeHandler(row),
+            onApprove: () => handleApprove(row),
+            onReject: () => handleReject(row),
+            onSave: () => handleSaved(row),
+            onChat: () => handleChat(row)
           }
         } as RowItem
       })
@@ -163,6 +167,55 @@ const JobApplied = (props: IJobAppliedProps) => {
 
       toast.error(`Opps ${errorMessage}`)
     }
+  }
+
+  const handleApprove = async (row: Applicant) => {
+    try {
+      const response = await HttpClient.patch(`/job/appllicant/approve`, { applicant_id: row.id })
+
+      if (response.status != 200) {
+        throw response.data.message ?? 'Something went wrong!'
+      }
+
+      toast.success(`${row?.user?.name} proceed successfully!`)
+    } catch (error) {
+      console.error(error)
+      toast.error(`${row?.user?.name} proceed failed, Something went wrong!`)
+    }
+  }
+
+  const handleReject = async (row: Applicant) => {
+    try {
+      const resp = await HttpClient.patch(`/job/appllicant/reject`, { applicant_id: row.id })
+      if (resp.status != 200) {
+        throw resp.data.message ?? 'Something went wrong!'
+      }
+      toast.success(`${row?.user?.name} rejected successfully!`)
+    } catch (error) {
+      console.error(error)
+      toast.error(`${row?.user?.name} rejected failed, Something went wrong!`)
+    }
+  }
+
+  const handleSaved = async (row: Applicant) => {
+    try {
+      const resp = await HttpClient.post(`/directory/save`, {
+        dirable_id: row?.user_id,
+        dirable_type: 'user'
+      })
+      if (resp.status != 200) {
+        throw resp.data.message ?? 'Something went wrong!'
+      }
+
+      toast.success(`${row.user?.name} saved successfully!`)
+    } catch (error) {
+      console.error(error)
+      toast.error(`${row?.user?.name} save failed, Something went wrong!`)
+    }
+  }
+
+  const handleChat = (row: Applicant) => {
+    window.location.replace('/chat?username=' + row?.user.username)
   }
 
   const handleSearch = useCallback(
@@ -275,28 +328,33 @@ const JobApplied = (props: IJobAppliedProps) => {
     <>
       <Grid container spacing={6} className='match-height'>
         <Grid item lg={3} md={5} xs={12}>
-          <BasicFilter
-            collapsed={collapsed}
-            setCollapsed={setCollapsed}
-            jobCategory={jobDetail?.category.employee_type}
-            setExperience={setExperience}
-            getStatus={getStatus}
-            setStatusOnBoard={setStatusOnBoard}
-            setEducation={setEducation}
-          />
-          <AdvancedFilter
-            collapsedAdvanced={collapsedAdvanced}
-            isVisaUSA={isVisaUSA}
-            isVisaSchengen={isVisaSchengen}
-            showadvance={showadvance}
-            setCollapsedAdvanced={setCollapsedAdvanced}
-            setLicenseCOC={setLicenseCOC}
-            setLicenseCOP={setLicenseCOP}
-            setLanguage={setLanguage}
-            setCitizenship={setCitizenship}
-            setIsVisaUSA={setIsVisaUSA}
-            setIsVisaSchengen={setIsVisaSchengen}
-          />
+          {false && ( // dihide dulu
+            <>
+              <BasicFilter
+                collapsed={collapsed}
+                setCollapsed={setCollapsed}
+                jobCategory={jobDetail?.category.employee_type}
+                setExperience={setExperience}
+                getStatus={getStatus}
+                setStatusOnBoard={setStatusOnBoard}
+                setEducation={setEducation}
+              />
+              <AdvancedFilter
+                collapsedAdvanced={collapsedAdvanced}
+                isVisaUSA={isVisaUSA}
+                isVisaSchengen={isVisaSchengen}
+                showadvance={showadvance}
+                setCollapsedAdvanced={setCollapsedAdvanced}
+                setLicenseCOC={setLicenseCOC}
+                setLicenseCOP={setLicenseCOP}
+                setLanguage={setLanguage}
+                setCitizenship={setCitizenship}
+                setIsVisaUSA={setIsVisaUSA}
+                setIsVisaSchengen={setIsVisaSchengen}
+              />
+            </>
+          )}
+
           {/* {showadvance2 == true && (
             <Box mb={3}>
               <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
@@ -421,7 +479,7 @@ const JobApplied = (props: IJobAppliedProps) => {
             </Box>
           )} */}
         </Grid>
-        <Grid item lg={9} md={7} xs={12}>
+        <Grid item lg={12} md={12} xs={12}>
           <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
             <CardContent>
               {params.get('plan') === 'advance' && (
@@ -429,6 +487,7 @@ const JobApplied = (props: IJobAppliedProps) => {
                   List Applicants
                 </Typography>
               )}
+
               <Grid container justifyContent='flex-end'>
                 <Grid item>
                   <TextField
