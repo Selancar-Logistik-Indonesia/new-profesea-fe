@@ -11,8 +11,7 @@ import Grid, { GridProps } from '@mui/material/Grid'
 import { styled } from '@mui/material/styles'
 
 import { Icon } from '@iconify/react'
-import { HttpClient } from 'src/services'
-import { AppConfig } from 'src/configs/api'
+
 import Job from 'src/contract/models/job'
 
 interface IJobDetailProps {
