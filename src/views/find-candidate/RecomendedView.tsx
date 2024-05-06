@@ -110,6 +110,7 @@ const renderCardSeafarer = (item: IUser): JSX.Element => {
 
 const renderCardNonSeafarer = (item: IUser): JSX.Element => {
   const userPhoto = item.photo != '' ? item.photo : '/images/avatars/default-user.png'
+
   return (
     <Grid item xs={12} md={4} key={item?.id}>
       <Paper sx={{ marginTop: '10px', border: '1px solid #eee' }} elevation={0}>
