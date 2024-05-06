@@ -380,7 +380,7 @@ const Profile = (props: userProps) => {
               </Link>
               {props.datauser?.role === 'Seafarer' ? (
                 <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '16px', marginTop: '5px' }}>
-                  {`${selectedItem?.open_to_opp === 0 ? '' : 'Open to Work /'} ${
+                  {`${selectedItem?.open_to_opp === 0 ? '' : 'Open to Work | '} ${
                     props.datauser?.employee_type === 'onship'
                       ? selectedItem?.role_type?.name
                       : selectedItem?.job_category?.name
@@ -438,7 +438,7 @@ const Profile = (props: userProps) => {
               <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '800', ml: 3 }}>
                 Connections
               </Typography>
-              <Typography variant='body2' sx={{ color: '#262525', fontSize: '16px' }}>
+              <Typography variant='body2' sx={{ color: '#262525', fontSize: '16px', mr: 3 }}>
                 {activities?.total_connected}
               </Typography>
             </Box>
