@@ -12,7 +12,6 @@ import {
   FormControl,
   Grid,
   IconButton,
-  Input,
   InputLabel,
   MenuItem,
   OutlinedInput,
@@ -23,10 +22,7 @@ import {
   Alert,
   CircularProgress,
   Tabs,
-  Tab,
-  FormGroup,
-  FormControlLabel,
-  Checkbox
+  Tab
 } from '@mui/material'
 import { Icon } from '@iconify/react'
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
@@ -45,51 +41,51 @@ import debounce from 'src/utils/debounce'
 import { IUser } from 'src/contract/models/user'
 import Countries from 'src/contract/models/country'
 
-const EXPERIENCE_OPTIONS_YEARS = [
-  {
-    label: '1 Year',
-    value: 'one-year'
-  },
-  {
-    label: '2 Year',
-    value: 'two-year'
-  },
-  {
-    label: '3 Year',
-    value: 'three-year'
-  },
-  {
-    label: '4 Year',
-    value: 'four-year'
-  },
-  {
-    label: '> 5 Year',
-    value: 'more-then-five-year'
-  }
-]
+// const EXPERIENCE_OPTIONS_YEARS = [
+//   {
+//     label: '1 Year',
+//     value: 'one-year'
+//   },
+//   {
+//     label: '2 Year',
+//     value: 'two-year'
+//   },
+//   {
+//     label: '3 Year',
+//     value: 'three-year'
+//   },
+//   {
+//     label: '4 Year',
+//     value: 'four-year'
+//   },
+//   {
+//     label: '> 5 Year',
+//     value: 'more-then-five-year'
+//   }
+// ]
 
-const EXPERIENCE_OPTIONS_CONTRACT = [
-  {
-    label: '1 Contract',
-    value: 'one-contract'
-  },
-  {
-    label: '2 Contract',
-    value: 'two-contract'
-  },
-  {
-    label: '3 Contract',
-    value: 'three-contract'
-  },
-  {
-    label: '4 Contract',
-    value: 'four-contract'
-  },
-  {
-    label: '> 5 Contract',
-    value: 'more-then-five-contract'
-  }
-]
+// const EXPERIENCE_OPTIONS_CONTRACT = [
+//   {
+//     label: '1 Contract',
+//     value: 'one-contract'
+//   },
+//   {
+//     label: '2 Contract',
+//     value: 'two-contract'
+//   },
+//   {
+//     label: '3 Contract',
+//     value: 'three-contract'
+//   },
+//   {
+//     label: '4 Contract',
+//     value: 'four-contract'
+//   },
+//   {
+//     label: '> 5 Contract',
+//     value: 'more-then-five-contract'
+//   }
+// ]
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -135,7 +131,7 @@ const FindCandidateApp = () => {
   const [VesselType, getVesselType] = useState<any[]>([])
   // const [combocode, getCombocode] = useState<any[]>([])
   const [textCandidate, SetTextCandidate] = useState<any>('')
-  const [searchByPosition, setSearchByPosition] = useState<string>('')
+  // const [searchByPosition, setSearchByPosition] = useState<string>('')
   const [sJobCategory, setJobCategory] = useState<any>('')
   const [sJobTitle, setJobTitle] = useState<any>('')
   const [sVesselType, setVesselType] = useState<any>('')
@@ -144,23 +140,22 @@ const FindCandidateApp = () => {
   // const [licenseList, setLicense] = React.useState<string[]>([])
   // const [licenseCertificate, setCertificate] = React.useState<string[]>([])
 
-  const [values, setValues] = useState<any[]>([])
-  const [currValue, setCurrValue] = useState('')
-  const [valuesoneword, setValuesOneWord] = useState<any[]>([])
-  const [currValueoneword, setCurrValueOneWord] = useState('')
-  const [valuesexclude, setValuesExclude] = useState<any[]>([])
-  const [currValueexclude, setCurrValueExclude] = useState('')
-  const [valueslitle, setValuesLitle] = useState<any[]>([])
-  const [currValuelitle, setCurrValueLitle] = useState('')
+  // const [values, setValues] = useState<any[]>([])
+  // const [currValue, setCurrValue] = useState('')
+  // const [valuesoneword, setValuesOneWord] = useState<any[]>([])
+  // const [currValueoneword, setCurrValueOneWord] = useState('')
+  // const [valuesexclude, setValuesExclude] = useState<any[]>([])
+  // const [currValueexclude, setCurrValueExclude] = useState('')
+  // const [valueslitle, setValuesLitle] = useState<any[]>([])
+  // const [currValuelitle, setCurrValueLitle] = useState('')
   const [heightSpoken, setHeightSpoken] = useState('50')
   const [tabValue, setTabValue] = useState<string>('onship')
-  const [typeOfExperience, setTypeOfExperience] = useState<string>('contract') // contract for onship || years for offship
   const [experienceFilter, setExperienceFilter] = useState<any>(null)
 
-  const [checkBoxVisaValues, setCheckBoxVisaValues] = useState({
-    visaUsa: false,
-    visaSchengen: false
-  })
+  // const [checkBoxVisaValues, setCheckBoxVisaValues] = useState({
+  //   visaUsa: false,
+  //   visaSchengen: false
+  // })
 
   const handleChange2 = (event: SelectChangeEvent<typeof personName>) => {
     setPage(1)
@@ -431,37 +426,35 @@ const FindCandidateApp = () => {
   }, [])
 
   const getdatapencarian = async () => {
-    let allword = ''
-    if (values.length > 0) allword = JSON.stringify(values)
-    let oneword = ''
-    if (valuesoneword.length > 0) oneword = JSON.stringify(valuesoneword)
-    let exclude = ''
-    if (valuesexclude.length > 0) exclude = JSON.stringify(valuesexclude)
-    let valuelitle = ''
-    if (valueslitle.length > 0) valuelitle = JSON.stringify(valueslitle)
-    let spoken = ''
+    // let allword = ''
+    // if (values.length > 0) allword = JSON.stringify(values)
+    // let oneword = ''
+    // if (valuesoneword.length > 0) oneword = JSON.stringify(valuesoneword)
+    // let exclude = ''
+    // if (valuesexclude.length > 0) exclude = JSON.stringify(valuesexclude)
+    // let valuelitle = ''
+    // if (valueslitle.length > 0) valuelitle = JSON.stringify(valueslitle)
+    // let spoken = ''
 
-    if (personName.length > 0) spoken = JSON.stringify(personName)
-
-    console.log(checkBoxVisaValues)
+    // if (personName.length > 0) spoken = JSON.stringify(personName)
 
     const objFilter: any = {
       take: 9,
       search: textCandidate,
-      search_by_position: searchByPosition,
+      // search_by_position: searchByPosition,
       vesseltype_id: sVesselType,
       roletype_id: sJobTitle,
       category_id: sJobCategory,
-      include_all_word: allword,
-      include_one_word: oneword,
-      exact_phrase: valuelitle,
-      exclude_all_these: exclude,
-      spoken: spoken,
+      // include_all_word: allword,
+      // include_one_word: oneword,
+      // exact_phrase: valuelitle,
+      // exclude_all_these: exclude,
+      // spoken: spoken,
       employee_type: tabValue,
       country: country?.id,
-      experience_in_years: experienceFilter?.value,
-      visaUsa: checkBoxVisaValues.visaUsa,
-      visaSchengen: checkBoxVisaValues.visaSchengen
+      experience_in_years: experienceFilter?.value
+      // visaUsa: checkBoxVisaValues.visaUsa,
+      // visaSchengen: checkBoxVisaValues.visaSchengen
     }
 
     // if (typeOfExperience == 'contract') {
@@ -474,11 +467,6 @@ const FindCandidateApp = () => {
   }
 
   useEffect(() => {
-    if (tabValue == 'onship') {
-      setTypeOfExperience('contract')
-    } else {
-      setTypeOfExperience('years')
-    }
     setExperienceFilter(null)
     setCountry(null)
   }, [tabValue])
@@ -495,17 +483,17 @@ const FindCandidateApp = () => {
     sVesselType,
     sJobTitle,
     sJobCategory,
-    values,
-    valuesoneword,
-    valuesexclude,
-    valueslitle,
+    // values,
+    // valuesoneword,
+    // valuesexclude,
+    // valueslitle,
     personName,
     tabValue,
-    searchByPosition,
+    // searchByPosition,
     experienceFilter,
-    country,
-    checkBoxVisaValues.visaSchengen,
-    checkBoxVisaValues.visaUsa
+    country
+    // checkBoxVisaValues.visaSchengen,
+    // checkBoxVisaValues.visaUsa
   ])
 
   // const handleKeyUp = (e: any) => {
@@ -603,21 +591,21 @@ const FindCandidateApp = () => {
     []
   )
 
-  const handleSearchByPosition = useCallback(
-    debounce((value: string) => {
-      setPage(1)
-      setSearchByPosition(value)
-    }, 500),
-    []
-  )
+  // const handleSearchByPosition = useCallback(
+  //   debounce((value: string) => {
+  //     setPage(1)
+  //     setSearchByPosition(value)
+  //   }, 500),
+  //   []
+  // )
 
-  const handleCheckboxChange = (event: { target: { name: any; checked: any } }) => {
-    const { name, checked } = event.target
-    setCheckBoxVisaValues(prevState => ({
-      ...prevState,
-      [name]: checked
-    }))
-  }
+  // const handleCheckboxChange = (event: { target: { name: any; checked: any } }) => {
+  //   const { name, checked } = event.target
+  //   setCheckBoxVisaValues(prevState => ({
+  //     ...prevState,
+  //     [name]: checked
+  //   }))
+  // }
 
   return (
     <Grid container spacing={2}>
@@ -627,8 +615,11 @@ const FindCandidateApp = () => {
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <CardHeader
                 title={
+                  // <Typography variant='body2' style={{ fontSize: '14px', color: '#262525' }}>
+                  //   Basic Filter
+                  // </Typography>
                   <Typography variant='body2' style={{ fontSize: '14px', color: '#262525' }}>
-                    Basic Filter
+                    Search By
                   </Typography>
                 }
                 action={
@@ -654,13 +645,13 @@ const FindCandidateApp = () => {
                     fullWidth
                     onChange={e => handleSearch(e.target.value)}
                   />
-                  <TextField
+                  {/* <TextField
                     id='fullName'
                     label='Search By Position'
                     variant='outlined'
                     fullWidth
                     onChange={e => handleSearchByPosition(e.target.value)}
-                  />
+                  /> */}
 
                   {/* sementara dihide filter dibawah ini */}
                   {false && (
@@ -736,8 +727,11 @@ const FindCandidateApp = () => {
               <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
                 <CardHeader
                   title={
+                    // <Typography variant='body2' style={{ fontSize: '14px', color: '#262525' }}>
+                    //   Advanced Filter
+                    // </Typography>
                     <Typography variant='body2' style={{ fontSize: '14px', color: '#262525' }}>
-                      Advanced Filter
+                      Filter By
                     </Typography>
                   }
                   action={
@@ -762,7 +756,7 @@ const FindCandidateApp = () => {
                     ) : (
                       <>
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                          <Autocomplete
+                          {/* <Autocomplete
                             disablePortal
                             id='combo-box-experience-years'
                             value={experienceFilter}
@@ -772,6 +766,18 @@ const FindCandidateApp = () => {
                             onChange={(event: any, newValue: any) => {
                               setPage(1)
                               setExperienceFilter(newValue)
+                            }}
+                          /> */}
+
+                          <Autocomplete
+                            disablePortal
+                            id='combo-box-demo'
+                            options={JobCategory}
+                            getOptionLabel={(option: JobCategory) => option.name}
+                            renderInput={params => <TextField {...params} label='Job Category' />}
+                            onChange={(event: any, newValue: JobCategory | null) => {
+                              setPage(1)
+                              newValue?.id ? setJobCategory(newValue.id) : setJobCategory('')
                             }}
                           />
 
@@ -801,7 +807,7 @@ const FindCandidateApp = () => {
                               setCountry(newValue)
                             }}
                           />
-
+                          {/* 
                           {tabValue == 'onship' && (
                             <FormControl sx={{ m: 3 }} component='fieldset' variant='standard'>
                               <FormGroup>
@@ -827,7 +833,7 @@ const FindCandidateApp = () => {
                                 />
                               </FormGroup>
                             </FormControl>
-                          )}
+                          )} */}
                         </Box>
                       </>
                     )}
