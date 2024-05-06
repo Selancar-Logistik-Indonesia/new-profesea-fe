@@ -5,7 +5,7 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { IUser } from 'src/contract/models/user'
-import { getUserAvatar } from 'src/utils/helpers'
+import { getUserAvatar, toLinkCase } from 'src/utils/helpers'
 import Avatar from 'src/@core/components/mui/avatar'
 import Link from 'next/link'
 
@@ -37,12 +37,22 @@ const renderList = (arr: ParamJobVacncy[]) => {
           }}
         >
           <Box mr={5} mt={2}>
-            <Link style={{ textDecoration: 'none' }} href={'/profile/' + item.user?.username}>
+            <Link
+              style={{ textDecoration: 'none' }}
+              href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(
+                item.user?.username
+              )}`}
+            >
               <Avatar src={getUserAvatar(item.user)} alt='profile-picture' sx={{ height: 35, width: 35 }} />
             </Link>
           </Box>
           <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
-            <Link style={{ textDecoration: 'none' }} href={'/profile/' + item.user?.username}>
+            <Link
+              style={{ textDecoration: 'none' }}
+              href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${
+                item.user?.username
+              }`}
+            >
               <Typography sx={{ color: '#424242', fontWeight: 600 }}>
                 {`${item.user?.name.charAt(0).toUpperCase() + item.user?.name.slice(1)}`}
               </Typography>
@@ -52,8 +62,6 @@ const renderList = (arr: ParamJobVacncy[]) => {
             </Link>
           </Box>
         </Box>
-
-        
       )
     })
   } else {
@@ -93,8 +101,7 @@ const CardGroup = (props: Props) => {
                             backgroundColor: 'transparent',
                             border: '2px solid white'
                           }}
-                        >
-                        </Avatar>
+                        ></Avatar>
 
                         <Box
                           sx={{
@@ -106,11 +113,13 @@ const CardGroup = (props: Props) => {
                           }}
                         >
                           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                            <Typography sx={{  fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF'}} fontSize={14}>Total Member</Typography>
                             <Typography
-                              variant='h5'
-                              sx={{  fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF' }}
+                              sx={{ fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF' }}
+                              fontSize={14}
                             >
+                              Total Member
+                            </Typography>
+                            <Typography variant='h5' sx={{ fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF' }}>
                               {selectedGroup.totalmember}
                             </Typography>
                           </Box>

@@ -7,6 +7,7 @@ import { Icon } from '@iconify/react'
 
 import Link from 'next/link'
 import { calculateAge } from 'src/utils/helpers'
+import { toLinkCase } from 'src/utils/helpers'
 
 export type ParamMain = {
   name: string
@@ -25,7 +26,7 @@ const renderCardSeafarer = (item: IUser): JSX.Element => {
   return (
     <Grid item xs={12} md={4} key={item?.id}>
       <Paper sx={{ marginTop: '10px', border: '1px solid #eee' }} elevation={0}>
-        <Link style={{ textDecoration: 'none' }} href={'/profile/?username=' + item?.username}>
+        <Link style={{ textDecoration: 'none' }} href={`/profile/${item?.id}/${toLinkCase(item?.username)}`}>
           <Box
             height={65}
             sx={{
@@ -112,7 +113,7 @@ const renderCardNonSeafarer = (item: IUser): JSX.Element => {
   return (
     <Grid item xs={12} md={4} key={item?.id}>
       <Paper sx={{ marginTop: '10px', border: '1px solid #eee' }} elevation={0}>
-        <Link style={{ textDecoration: 'none' }} href={'/profile/?username=' + item?.username}>
+        <Link style={{ textDecoration: 'none' }} href={`/profile/${item?.id}/${toLinkCase(item?.username)}`}>
           <Box
             height={65}
             sx={{

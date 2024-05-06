@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { HttpClient } from 'src/services'
 // import { subscribev } from 'src/utils/helpers'
 import { useAuth } from 'src/hooks/useAuth'
-import { useSocialFeed } from 'src/hooks/useSocialFeed'
+// import { useSocialFeed } from 'src/hooks/useSocialFeed'
 
 type activities = {
   total_connected: string
@@ -18,14 +18,13 @@ type activities = {
 
 export default function ProfileViewer() {
   const { user } = useAuth()
-  const { fetchFeeds } = useSocialFeed()
+  // const { fetchFeeds } = useSocialFeed()
   const [activities, getActivities] = useState<activities>()
   const show = '/seeprofile'
   // const [show, setShowDM] = useState('/pricing')
   // const a = subscribev(['A05', 'A05', 'A12', 'A14'])
 
   useEffect(() => {
-    fetchFeeds({ take: 7 })
     loadActivitis()
     // if (a == true) {
     //   setShowDM('/seeprofile')
