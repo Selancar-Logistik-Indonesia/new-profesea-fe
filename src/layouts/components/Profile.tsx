@@ -5,15 +5,14 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
-import { Alert, Button, Divider, IconButton } from '@mui/material'
+import { Alert, CardMedia, Divider } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Icon } from '@iconify/react'
 import { IUser } from 'src/contract/models/user'
 import FieldPreference from 'src/contract/models/field_preference'
-import { getEmployeetype, getUserAvatar, getUserRoleName } from 'src/utils/helpers'
+import { getUserAvatar, toLinkCase } from 'src/utils/helpers'
 import { useAuth } from 'src/hooks/useAuth'
 
 export type ParamJobVacncy = {
@@ -23,12 +22,21 @@ export type ParamJobVacncy = {
   waktu: string
 }
 
+type activities = {
+  total_connected: string
+  total_visitor: string
+  total_post_feed: string
+  total_post_job: string
+  total_applied_job: string
+  total_post_thread: string
+}
+
 type userProps = {
   datauser: IUser | null
 }
-const LinkStyled = styled(Link)(() => ({
-  textDecoration: 'none'
-}))
+// const LinkStyled = styled(Link)(() => ({
+//   textDecoration: 'none'
+// }))
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 85,
   height: 85,
@@ -40,10 +48,11 @@ const ProfilePicture = styled('img')(({ theme }) => ({
 }))
 
 const Profile = (props: userProps) => {
-  const [facebook, setFacebook] = useState<any>('-')
-  const [instagram, setInstagram] = useState<any>('-')
-  const [linkedin, setLinkedin] = useState<any>('-')
+  // const [facebook, setFacebook] = useState<any>('-')
+  // const [instagram, setInstagram] = useState<any>('-')
+  // const [linkedin, setLinkedin] = useState<any>('-')
   const [selectedItem, setSelectedItem] = useState<FieldPreference | null>(null)
+  const [activities, getActivities] = useState<activities>()
   const [documents, setDocuments] = useState<any[]>([])
 
   const { user } = useAuth()
@@ -54,20 +63,25 @@ const Profile = (props: userProps) => {
       setSelectedItem(fieldPreference)
     })
 
-    HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100&user_id=' + props.datauser?.id).then(response => {
-      const code = response.data.sosmeds.data
-      for (const element of code) {
-        if (element.sosmed_type == 'Facebook') {
-          setFacebook(element.sosmed_address)
-        }
-        if (element.sosmed_type == 'Instagram') {
-          setInstagram(element.sosmed_address)
-        }
-        if (element.sosmed_type == 'LinkedIn') {
-          setLinkedin(element.sosmed_address)
-        }
-      }
+    HttpClient.get('/user/statistics?user_id=' + user?.id).then(response => {
+      const code = response.data
+      getActivities(code)
     })
+
+    // HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100&user_id=' + props.datauser?.id).then(response => {
+    //   const code = response.data.sosmeds.data
+    //   for (const element of code) {
+    //     if (element.sosmed_type == 'Facebook') {
+    //       setFacebook(element.sosmed_address)
+    //     }
+    //     if (element.sosmed_type == 'Instagram') {
+    //       setInstagram(element.sosmed_address)
+    //     }
+    //     if (element.sosmed_type == 'LinkedIn') {
+    //       setLinkedin(element.sosmed_address)
+    //     }
+    //   }
+    // })
 
     HttpClient.get(AppConfig.baseUrl + '/user/candidate-document').then(response => {
       const itemData = response.data.documents
@@ -92,9 +106,13 @@ const Profile = (props: userProps) => {
     return '/'
   }
 
+  const link = `${props.datauser?.role === 'Seafarer' ? '/profile' : '/company'}/${props.datauser?.id}/${toLinkCase(
+    props.datauser?.username
+  )}`
+
   return (
     <Grid container>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
             <Box sx={{ mb: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', objectFit: 'Fill' }}>
@@ -106,6 +124,9 @@ const Profile = (props: userProps) => {
             </Box>
             <Box sx={{ mb: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Typography variant='body2' sx={{ color: '#32487A', fontWeight: 800, fontSize: '18px' }}>
+                {props.datauser?.name}
+              </Typography>
+              <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '14px', marginTop: '5px' }}>
                 {props.datauser?.name}
               </Typography>
             </Box>
@@ -147,32 +168,6 @@ const Profile = (props: userProps) => {
                 {getUserRoleName(props.datauser?.team)}
               </Typography>
             </Box>
-            {/* <Box
-              sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', mb: 2.7 }}
-              display={'flex'}
-            >
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <Icon icon={'solar:user-id-bold-duotone'} fontSize={20} color={'#262525'} />
-                <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
-                  User
-                </Typography>
-              </Box>
-              <Typography
-                fontSize={12}
-                sx={{
-                  width: '30%',
-                  color: '#262525',
-                  fontWeight: 400,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: 2
-                }}
-              >
-                <Box>:</Box>
-                <Box>{getUserRoleName(props.datauser?.team)}</Box>
-              </Typography>
-            </Box> */}
             <Box>
               {props.datauser?.role == 'Seafarer' && (
                 <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
@@ -184,38 +179,6 @@ const Profile = (props: userProps) => {
                     {getEmployeetype(props.datauser?.employee_type)}
                   </Typography>
                 </Box>
-                // <Box
-                //   sx={{
-                //     columnGap: 2,
-                //     flexWrap: 'wrap',
-                //     alignItems: 'center',
-                //     justifyContent: 'space-between',
-                //     mb: 2.7
-                //   }}
-                //   display={'flex'}
-                // >
-                //   <Box sx={{ display: 'flex', gap: 2 }}>
-                //     <Icon icon={'iconamoon:box-bold'} fontSize={20} color={'#262525'} />
-                //     <Typography variant='body1' sx={{ color: '#262525', fontWeight: 'bold' }}>
-                //       Type of User
-                //     </Typography>
-                //   </Box>
-                //   <Typography
-                //     fontSize={12}
-                //     sx={{
-                //       width: '30%',
-                //       color: '#262525',
-                //       fontWeight: 400,
-                //       display: 'flex',
-                //       alignItems: 'center',
-                //       justifyContent: 'space-between',
-                //       gap: 2
-                //     }}
-                //   >
-                //     <Box>:</Box>
-                //     <Box>{getEmployeetype(props.datauser?.employee_type)}</Box>
-                //   </Typography>
-                // </Box>
               )}
 
               <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', mb: 2.7 }} display={'flex'}>
@@ -376,6 +339,109 @@ const Profile = (props: userProps) => {
                 </Button>
               </Box>
             )}
+          </CardContent>
+        </Card>
+      </Grid> */}
+      <Grid item xs={12}>
+        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+          <CardMedia
+            component='img'
+            alt='profile-header'
+            image={props.datauser?.banner ? props.datauser?.banner : '/images/avatars/headerprofile3.png'}
+            sx={{
+              height: '100px',
+              width: '100%',
+              objectFit: 'cover',
+              marginBottom: '-80px'
+            }}
+          />
+          <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                objectFit: 'Fill'
+              }}
+            >
+              <Link href={link}>
+                <ProfilePicture
+                  src={getUserAvatar(props.datauser!)}
+                  sx={{ width: 100, height: 100, objectFit: 'cover', my: 2 }}
+                  alt='profile-picture'
+                />
+              </Link>
+            </Box>
+            <Box sx={{ mb: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Link href={link}>
+                <Typography variant='body2' sx={{ color: '#32487A', fontWeight: 800, fontSize: '20px' }}>
+                  {props.datauser?.name}
+                </Typography>
+              </Link>
+              {props.datauser?.role === 'Seafarer' ? (
+                <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '16px', marginTop: '5px' }}>
+                  {`${selectedItem?.open_to_opp === 0 ? '' : 'Open to Work | '} ${
+                    props.datauser?.employee_type === 'onship'
+                      ? selectedItem?.role_type?.name
+                      : selectedItem?.job_category?.name
+                  }`}
+                </Typography>
+              ) : (
+                <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '16px', marginTop: '5px' }}>
+                  {props.datauser?.role} Account
+                </Typography>
+              )}
+            </Box>
+            {props.datauser?.role == 'Company' && (
+              <Box sx={{ width: '100%', marginBottom: '20px' }}>
+                {props.datauser?.verified_at == null && documents.length == 0 && (
+                  <Alert
+                    severity='info'
+                    sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}
+                  >
+                    <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
+                      Please Upload your document to verify your company
+                    </Typography>
+                  </Alert>
+                )}
+
+                {props.datauser?.verified_at == null && documents.length > 0 && (
+                  <Alert
+                    severity='info'
+                    sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}
+                  >
+                    <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
+                      Please wait for admin to verify
+                    </Typography>
+                  </Alert>
+                )}
+              </Box>
+            )}
+
+            <Divider sx={{ my: 3, borderBottomWidth: '3px' }} />
+            <Box display='flex' justifyContent='left' alignItems='center'>
+              <Link href={resolveEditHref(props.datauser?.role)}>
+                <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '14px', fontWeight: '600', ml: 3 }}>
+                  Edit Profile
+                </Typography>
+              </Link>
+            </Box>
+            <Divider sx={{ my: 3, borderBottomWidth: '3px' }} />
+            <Box display='flex' justifyContent='left' alignItems='center' marginBottom={2}>
+              <Link href={link}>
+                <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '800', ml: 3 }}>
+                  Profile
+                </Typography>
+              </Link>
+            </Box>
+            <Box display='flex' justifyContent='space-between' alignItems='center' marginBottom={4}>
+              <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '800', ml: 3 }}>
+                Connections
+              </Typography>
+              <Typography variant='body2' sx={{ color: '#262525', fontSize: '16px', mr: 3 }}>
+                {activities?.total_connected}
+              </Typography>
+            </Box>
           </CardContent>
         </Card>
       </Grid>
