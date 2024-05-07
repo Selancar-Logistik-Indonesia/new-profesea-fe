@@ -216,7 +216,6 @@ const DialogLogin = (props: BlockDialog) => {
                         onBlur={onBlur}
                         onChange={onChange}
                         error={Boolean(errors.email)}
-                        placeholder='Email'
                       />
                     )}
                   />
