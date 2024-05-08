@@ -12,7 +12,15 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage, toMegaByte } from 'src/utils/helpers'
-import { CircularProgress, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import {
+  CircularProgress,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  FormLabel,
+  Radio,
+  RadioGroup
+} from '@mui/material'
 import secureLocalStorage from 'react-secure-storage'
 import { IUser } from 'src/contract/models/user'
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -51,6 +59,7 @@ type FormData = {
 const DialogAddDocument = (props: DialogProps) => {
   const [onLoading, setOnLoading] = useState(false)
   const [isCrewing, setIsCrewing] = useState(true)
+  const [isSIUPAKK, setIsSIUPAKK] = useState(true)
   const [selectedFiles, setSelectedFiles] = useState<ISelectedFile[]>([])
   const userSession = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
@@ -87,6 +96,10 @@ const DialogAddDocument = (props: DialogProps) => {
 
       return newItems
     })
+
+    if (document.docType === 'M3') {
+      setIsSIUPAKK(true)
+    }
   }
 
   const onSubmit = async () => {
@@ -97,7 +110,6 @@ const DialogAddDocument = (props: DialogProps) => {
   }
 
   const saveparent = async () => {
-    setOnLoading(true)
     try {
       let tidakada = true
       let mandatorySiupak = true
@@ -116,7 +128,7 @@ const DialogAddDocument = (props: DialogProps) => {
         }
 
         if (tidakada == true && isCrewing == true) {
-          alert('Please Upload SIUPAKK')
+          setIsSIUPAKK(false)
 
           return
         }
@@ -200,12 +212,19 @@ const DialogAddDocument = (props: DialogProps) => {
                       </FormControl>
                     </Box>
                     {isCrewing && (
-                      <DocumentTile
-                        key={item.docType}
-                        selectedFile={selectedFiles.find(e => e.document.docType == item.docType)}
-                        item={item}
-                        handleChange={handleSelectedFile}
-                      />
+                      <>
+                        <DocumentTile
+                          key='M3'
+                          selectedFile={selectedFiles.find(e => e.document.docType == 'M3')}
+                          item={item}
+                          handleChange={handleSelectedFile}
+                        />
+                        {!isSIUPAKK && (
+                          <FormHelperText
+                            sx={{ color: 'error.main' }}
+                          >{`*You need to upload SIUPAKK if you are crewing`}</FormHelperText>
+                        )}
+                      </>
                     )}
                   </>
                 )
