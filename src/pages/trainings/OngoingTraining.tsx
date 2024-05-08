@@ -123,7 +123,7 @@ const renderList = (arr: Training[] | null) => {
 const OngoingTrainingScreen = () => {
   const [listTrainings, setTraining] = useState<Training[] | null>(null)
   const [onLoading, setOnLoading] = useState(false)
-  const payload = { page: 1, take: 12 }
+  const payload = { take: 12, page: 1, ongoing: 1 }
 
   const fetchTrainings = async () => {
     try {
