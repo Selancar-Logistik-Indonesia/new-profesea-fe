@@ -65,7 +65,11 @@ const renderList = (arr: ParamJobVacncy[]) => {
                   item.end_date
                 )}`}</Typography>
                 <Grid item xs={12}>
-                  <Typography variant='body2' align='justify' sx={{ color: '#262525', fontSize: '14px', mt: 2 }}>
+                  <Typography
+                    variant='body2'
+                    align='justify'
+                    sx={{ color: '#262525', fontSize: '14px', mt: 2, whiteSpace: 'pre-line' }}
+                  >
                     {expand ? item.description : `${item.description.slice(0, maxChars)}`}
                     {!expand && (
                       <span

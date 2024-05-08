@@ -155,7 +155,13 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
                           <Grid item md={10}>
                             <Typography
                               variant='body2'
-                              sx={{ color: '#262525', fontSize: '14px', fontWeight: 400, mx: 3 }}
+                              sx={{
+                                color: '#262525',
+                                fontSize: '14px',
+                                fontWeight: 400,
+                                mx: 3,
+                                whiteSpace: 'pre-line'
+                              }}
                             >
                               {item.content}
                             </Typography>
