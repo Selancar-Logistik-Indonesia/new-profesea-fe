@@ -106,7 +106,11 @@ const JobDetail = () => {
       user.about != null &&
       user.country_id != null
     ) {
-      if (user.license.length == 0 && jobDetail?.category.employee_type == 'onship') {
+      if (
+        user.license.length === 0 &&
+        jobDetail?.license.length !== 0 &&
+        jobDetail?.category.employee_type == 'onship'
+      ) {
         setOpenCertificateDialog(!openCertificateDialog)
       } else {
         setOpenDialog(!openDialog)
@@ -254,6 +258,7 @@ const JobDetail = () => {
               onClose={() => setOpenDialog(!openDialog)}
               selectedItem={jobDetail}
               openDialog={openDialog}
+              setApply={setOnApplied}
             />
           )}
 
