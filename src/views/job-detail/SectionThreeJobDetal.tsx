@@ -60,7 +60,7 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
           <Grid item>
             <Icon icon='clarity:certificate-solid' color='#32487A' fontSize={'35px'} />
           </Grid>
-          <Grid xs={11} sx={{ display: 'flex', alignItems: 'center' }}>
+          <Grid item xs={11} sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography sx={{ color: 'text.primary', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
               {findLicensesFromUser(userLicenses, companyLicenses).match.length} Certificates match your profile
             </Typography>
@@ -85,7 +85,7 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
           <Grid item>
             <Icon icon='el:check' color='#32487A' fontSize={'18px'} />
           </Grid>
-          <Grid xs={11}>
+          <Grid item xs={11}>
             <Typography sx={{ color: 'text.primary', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
               {companyLicenses.length} Certificates required by the company
             </Typography>
@@ -104,7 +104,7 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
           <Grid item>
             <Icon icon='healthicons:alert-negative' color='#32487A' fontSize={'18px'} />
           </Grid>
-          <Grid xs={11}>
+          <Grid item xs={11}>
             <Typography sx={{ color: 'text.primary', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
               {findLicensesFromUser(userLicenses, companyLicenses).missing.length} Certificates missing on your profile
             </Typography>
@@ -120,7 +120,7 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
           </Grid>
         </Grid>
         {userLicenses.length == 0 && (
-          <Grid ml='0.7rem' container>
+          <Grid container>
             <Grid
               item
               xs={12}
@@ -129,7 +129,7 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
                 alignItems: 'center',
                 justifyContent: 'center',
                 background: '#d5e7f7',
-                padding: '10px',
+                py: '10px',
                 gap: '5px'
               }}
             >

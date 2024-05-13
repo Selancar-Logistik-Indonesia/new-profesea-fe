@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'
-import { Avatar, Card, CardContent, Typography, CircularProgress } from '@mui/material'
+import { Avatar, Card, CardContent, Typography, CircularProgress, IconButton } from '@mui/material'
 import { HttpClient } from 'src/services'
 import Job from 'src/contract/models/job'
 import { toast } from 'react-hot-toast'
-import Grid, { GridProps } from '@mui/material/Grid'
-import { styled } from '@mui/material/styles'
+import Grid from '@mui/material/Grid'
 
 import RelatedJobView from 'src/views/find-job/RelatedJobView'
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -19,6 +18,8 @@ import SectionOneJobDetail from 'src/views/job-detail/SectionOneJobDetail'
 import SectionTwoJobDetail from 'src/views/job-detail/SectionTwoJobDetail'
 import SectionThreeJobDetail from 'src/views/job-detail/SectionThreeJobDetal'
 import CertificateDialog from 'src/pages/candidate/job/CertificateDialog'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 const JobDetail = () => {
   // const url = window.location.href
@@ -57,15 +58,6 @@ const JobDetail = () => {
 
   //   setOpen(false)
   // }
-
-  const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
-    [theme.breakpoints.down('sm')]: {
-      borderBottom: `1px solid ${theme.palette.divider}`
-    },
-    [theme.breakpoints.up('sm')]: {
-      borderRight: `1px solid ${theme.palette.divider}`
-    }
-  }))
 
   const firstload = async (companyname: any, jobId: any, jobTitle: any) => {
     setIsLoading(true)
@@ -108,7 +100,7 @@ const JobDetail = () => {
     ) {
       if (
         user.license.length === 0 &&
-        jobDetail?.license.length !== 0 &&
+        jobDetail?.license.length >= 1 &&
         jobDetail?.category.employee_type == 'onship'
       ) {
         setOpenCertificateDialog(!openCertificateDialog)
@@ -120,38 +112,27 @@ const JobDetail = () => {
     }
   }
 
-  // const handleApply = async () => {
-  //   try {
-  //     const resp = await HttpClient.get(`/job/${jobDetail?.id}/apply`);
-  //     if (resp.status != 200) {
-  //       throw resp.data.message ?? "Something went wrong!";
-  //     }
-
-  //     setOnApplied(true);
-  //     toast.success(`${jobDetail?.role_type?.name} applied successfully!`);
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // }
-
   return (
     <>
       <Box>
+        <Grid container sx={{ position: 'fixed' }}>
+          <IconButton onClick={() => router.push('/candidate/find-job')}>
+            <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
+          </IconButton>
+        </Grid>
         <Grid
           container
           spacing={2}
           sx={{
-            px: {
-              md: '5rem'
-            }
+            display: 'flex',
+            justifyContent: 'center'
           }}
         >
           <Grid
             item
             xs={12}
-            md={jobDetailSugestion.length !== 0 ? 9 : 12}
-            lg={jobDetailSugestion.length !== 0 ? 9 : 12}
-            style={{ maxHeight: '100vh', overflow: 'auto' }}
+            md={jobDetailSugestion.length !== 0 ? 7 : 10}
+            lg={jobDetailSugestion.length !== 0 ? 6 : 10}
           >
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               {isLoading ? (
@@ -160,7 +141,7 @@ const JobDetail = () => {
                 </Box>
               ) : (
                 <Grid container>
-                  <StyledGrid item xs={12} sx={{ py: '20px' }}>
+                  <Grid item xs={12} sx={{ py: '20px' }}>
                     <CardContent>
                       <HeaderJobDetail jobDetail={jobDetail} onApplied={onApplied} handleApply={handleApply} />
                       <SectionOneJobDetail jobDetail={jobDetail} />
@@ -175,7 +156,7 @@ const JobDetail = () => {
                       sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column', px: '20px' }}
                     >
                       <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#32487A' }}>
-                        <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
+                        <CardContent sx={{ p: 2 }}>
                           <Box
                             height={65}
                             sx={{
@@ -195,20 +176,14 @@ const JobDetail = () => {
                               sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
                               marginTop={2}
                             >
-                              <Typography sx={{ color: 'common.white', mb: 1 }} fontSize={14}>
+                              <Typography sx={{ color: 'common.white', mb: 1 }} fontSize={20}>
                                 <strong>{jobDetail?.company?.name ?? '-'}</strong>
                               </Typography>
                             </Box>
                           </Box>
-                          <Box
-                            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }}
-                            ml={2}
-                            mr={3}
-                            mt={5}
-                          >
+                          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mt={2}>
                             <Typography
                               sx={{ color: 'common.white', fontSize: '16px', fontWeight: '600' }}
-                              ml='0.5rem'
                               variant='body2'
                             >
                               About Recruiter
@@ -216,8 +191,7 @@ const JobDetail = () => {
                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
                               <Typography
                                 sx={{ color: 'common.white' }}
-                                ml='0.5rem'
-                                fontSize={12}
+                                fontSize={14}
                                 fontWeight={400}
                                 fontFamily={'Outfit'}
                                 textAlign={'justify'}
@@ -229,20 +203,20 @@ const JobDetail = () => {
                         </CardContent>
                       </Card>
                     </Grid>
-                  </StyledGrid>
+                  </Grid>
                 </Grid>
               )}
             </Card>
           </Grid>
           {jobDetailSugestion.length !== 0 && (
-            <Grid item xs={12} md={3} lg={3}>
+            <Grid item xs={12} md={3} lg={2}>
               <Box
                 sx={{
                   display: 'flex',
                   justifyContent: 'left',
                   alignItems: 'center',
                   padding: '10px',
-                  width: '100&',
+                  width: '100%',
                   bgcolor: '#d5e7f7',
                   color: '#5ea1e2'
                 }}
