@@ -198,9 +198,10 @@ const DialogEdit = (props: EditProps) => {
   const onSubmit = async (formData: Job) => {
     const { salary_start, salary_end, experience, job_title, contractDuration } = formData
     let type: any = ''
-    if (disabled == true) {
-      type = Type.id
-    }
+    type = Type.id
+    // if (disabled == true) {
+    //   type = Type.id
+    // }
 
     let sailfix = Sail
     if (disabled == false) {
@@ -366,6 +367,7 @@ const DialogEdit = (props: EditProps) => {
               />
             </Grid>
             {disabled == true ? (
+              // for onship
               <>
                 <Grid item md={3} xs={12}>
                   <Autocomplete
@@ -383,6 +385,7 @@ const DialogEdit = (props: EditProps) => {
                 </Grid>
               </>
             ) : (
+              // for offship
               <>
                 <Grid item md={4} xs={12}>
                   <Autocomplete
