@@ -11,13 +11,13 @@ import Address from 'src/contract/models/address'
 import { HttpClient } from 'src/services'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useAuth } from 'src/hooks/useAuth'
 import ProfileActionArea from 'src/views/profile/action_area'
 import ShareArea from './ShareArea'
-import { getEmployeetypev2 } from 'src/utils/helpers'
+import { getEmployeetypev2, toLinkCase } from 'src/utils/helpers'
 import TextOverImage from 'src/views/profile/photoprofile'
 import TextOverImagebiru from 'src/views/profile/photoprofilebiru'
 import { AppConfig } from 'src/configs/api'
+import { useAuth } from 'src/hooks/useAuth'
 
 type userProps = {
   datauser: IUser
@@ -30,6 +30,7 @@ const UserProfileHeader = (props: userProps) => {
   const [linkedin, setLinkedin] = useState<any>('-')
   const [showFriendship, setShowFriendship] = useState<boolean>(false)
   const [documents, setDocuments] = useState<any[]>([])
+
   const { user } = useAuth()
   const { datauser } = props
 
@@ -63,7 +64,7 @@ const UserProfileHeader = (props: userProps) => {
 
       setDocuments(itemData)
     })
-  }, [user])
+  }, [datauser])
 
   return (
     <Card sx={{ width: '100%', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
@@ -151,21 +152,30 @@ const UserProfileHeader = (props: userProps) => {
           <ProfileActionArea enabled={showFriendship} user={datauser} />
         </Box>
       </CardContent>
-      <Box sx={{ width: '100%', marginBottom: '20px' }}>
-        {props.datauser?.verified_at == null && documents.length == 0 && (
-          <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}>
-            <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
-              Please Upload your document to verify your company
-            </Typography>
-          </Alert>
-        )}
+      {props.datauser.role == 'Company' && (
+        <Box sx={{ width: '100%', marginBottom: '20px' }}>
+          {props.datauser?.verified_at == null && documents.length == 0 && (
+            <Alert
+              severity='info'
+              sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}
+            >
+              <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
+                Please Upload your document to verify your company
+              </Typography>
+            </Alert>
+          )}
 
-        {props.datauser.verified_at == null && documents.length > 0 && (
-          <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}>
-            <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>Please wait for admin to verify</Typography>
-          </Alert>
-        )}
-      </Box>
+          {props.datauser.verified_at == null && documents.length > 0 && (
+            <Alert
+              severity='info'
+              sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}
+            >
+              <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>Please wait for admin to verify</Typography>
+            </Alert>
+          )}
+        </Box>
+      )}
+
       <Divider style={{ width: '100%' }} />
       <CardContent>
         <Box
@@ -272,14 +282,21 @@ const UserProfileHeader = (props: userProps) => {
                   <Grid item>
                     <ShareArea
                       subject={`User Shared ${datauser.name}.`}
-                      url={`/profile/${datauser.username}`}
+                      url={`/${datauser.role === 'Seafarer' ? 'profile' : 'company'}/${datauser.id}/${
+                        datauser.username
+                      }`}
                     ></ShareArea>
                   </Grid>
                 </Grid>
               </>
             )}
             {showFriendship && (
-              <ShareArea subject={`User Shared ${datauser.name}.`} url={`/profile/${datauser.username}`}></ShareArea>
+              <ShareArea
+                subject={`User Shared ${datauser.name}.`}
+                url={`/${datauser.role === 'Seafarer' ? 'profile' : 'company'}/${datauser.id}/${toLinkCase(
+                  datauser.username
+                )}`}
+              ></ShareArea>
             )}
           </Grid>
         </Grid>

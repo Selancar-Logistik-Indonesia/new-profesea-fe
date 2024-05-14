@@ -46,6 +46,7 @@ import { v4 } from 'uuid'
 import DialogAddEducation from 'src/pages/candidate/DialogAddEducation'
 import DialogAddWorkExperience from 'src/pages/candidate/DialogAddWorkExperience'
 import DialogAddDocument from 'src/pages/candidate/DialogAddDocument'
+import DialogEditBanner from 'src/pages/candidate/DialogEditBanner'
 // import RoleLevel from 'src/contract/models/role_level'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
@@ -210,6 +211,7 @@ const CandidateProfile = (props: compProps) => {
   const [openEditModal, setOpenEditModal] = useState(false)
   const [openEditModalWE, setOpenEditModalWE] = useState(false)
   const [openEditModalDoc, setOpenEditModalDoc] = useState(false)
+  const [openEditModalBanner, setOpenEditModalBanner] = useState(false)
   const [itemData, getItemdata] = useState<any[]>([])
   const [itemDataWE, getItemdataWE] = useState<any[]>([])
   const [itemDataED, getItemdataED] = useState<any[]>([])
@@ -620,7 +622,6 @@ const CandidateProfile = (props: compProps) => {
   }
 
   const [selectedFile, setSelectedFile] = useState()
-  const [selectedFileBanner, setSelectedFileBanner] = useState()
   const [preview, setPreview] = useState()
   const [showShip, setShowShip] = useState(true)
   const [previewBanner, setPreviewBanner] = useState()
@@ -650,19 +651,6 @@ const CandidateProfile = (props: compProps) => {
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
-  useEffect(() => {
-    if (!selectedFileBanner) {
-      setPreviewBanner(undefined)
-
-      return
-    }
-
-    const objectUrl: any = URL.createObjectURL(selectedFileBanner)
-    setPreviewBanner(objectUrl)
-
-    // free memory when ever this component is unmounted
-    return () => URL.revokeObjectURL(objectUrl)
-  }, [selectedFileBanner])
 
   const onSelectFile = (e: any) => {
     if (!e.target.files || e.target.files.length === 0) {
@@ -692,33 +680,6 @@ const CandidateProfile = (props: compProps) => {
     )
   }
 
-  const onSelectFileBanner = (e: any) => {
-    if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFileBanner(undefined)
-
-      return
-    }
-
-    // I've kept this example simple by using the first image instead of multiple
-    setSelectedFileBanner(e.target.files[0])
-    const selectedFiles = e.target.files as FileList
-    // setCurrentImage(selectedFiles?.[0])
-    uploadPhotoBanner(selectedFiles?.[0])
-  }
-  const uploadPhotoBanner = (data: any) => {
-    const json: any = new FormData()
-    json.append('banner', data)
-    HttpClient.post(AppConfig.baseUrl + '/user/update-banner', json).then(
-      ({ data }) => {
-        console.log('here 1', data)
-        // toast.success(' Successfully submited!')
-      },
-      error => {
-        console.log('here 1', error)
-        toast.error(' Failed Photo Banner' + error.response.data.message)
-      }
-    )
-  }
   const displayship = (type: any) => {
     setShip(type?.employee_type)
 
@@ -743,13 +704,7 @@ const CandidateProfile = (props: compProps) => {
           </Typography>
         </Grid>
       </Grid>
-      <input
-        accept='image/*'
-        style={{ display: 'none', height: 250, width: '100%' }}
-        id='raised-button-file-banner'
-        onChange={onSelectFileBanner}
-        type='file'
-      ></input>
+
       <Grid
         item
         container
@@ -766,6 +721,7 @@ const CandidateProfile = (props: compProps) => {
               alt='profile-header'
               image={previewBanner ? previewBanner : '/images/avatars/headerprofile3.png'}
               sx={{
+                backgroundColor: 'grey',
                 height: { xs: 150, md: 250 },
                 width: '100%',
                 objectFit: 'cover'
@@ -773,8 +729,12 @@ const CandidateProfile = (props: compProps) => {
             />
           </Card>
 
-          <Box position={'absolute'} sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '50%', md: '50%' } }}>
-            <label htmlFor='raised-button-file-banner'>
+          <Box
+            onClick={() => setOpenEditModalBanner(true)}
+            position={'absolute'}
+            sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '50%', md: '50%' } }}
+          >
+            <label>
               <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
             </label>
           </Box>
@@ -1507,6 +1467,11 @@ const CandidateProfile = (props: compProps) => {
 
       <Grid className='modals'>
         {/* <form> */}
+        <DialogEditBanner
+          visible={openEditModalBanner}
+          onCloseClick={() => setOpenEditModalBanner(!openEditModalBanner)}
+          previewBanner={previewBanner}
+        ></DialogEditBanner>
         <DialogEditEducation
           key={selectedItem?.id}
           selectedItem={selectedItem}

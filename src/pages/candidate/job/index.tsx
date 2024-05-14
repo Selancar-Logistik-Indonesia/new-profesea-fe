@@ -93,14 +93,7 @@ const JobDetail = () => {
   }, [jobId])
 
   const handleApply = async () => {
-    if (
-      user.banner != '' &&
-      user.license != null &&
-      user.photo != '' &&
-      user.address != null &&
-      user.about != null &&
-      user.country_id != null
-    ) {
+    if (user.license != null && user.photo != '' && user.country_id != null) {
       if (user.license.length == 0 && jobDetail?.category.employee_type == 'onship') {
         setOpenCertificateDialog(!openCertificateDialog)
       } else {
@@ -109,6 +102,23 @@ const JobDetail = () => {
     } else {
       toast.error(`Please complete your resume !`)
     }
+
+    // if (
+    //   user.banner != '' &&
+    //   user.license != null &&
+    //   user.photo != '' &&
+    //   user.address != null &&
+    //   user.about != null &&
+    //   user.country_id != null
+    // ) {
+    //   if (user.license.length == 0 && jobDetail?.category.employee_type == 'onship') {
+    //     setOpenCertificateDialog(!openCertificateDialog)
+    //   } else {
+    //     setOpenDialog(!openDialog)
+    //   }
+    // } else {
+    //   toast.error(`Please complete your resume !`)
+    // }
   }
 
   // const handleApply = async () => {
@@ -249,6 +259,7 @@ const JobDetail = () => {
               onClose={() => setOpenDialog(!openDialog)}
               selectedItem={jobDetail}
               openDialog={openDialog}
+              setApply={setOnApplied}
             />
           )}
 

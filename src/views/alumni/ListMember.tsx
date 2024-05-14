@@ -1,10 +1,10 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography' 
-import { Avatar, Paper } from '@mui/material' 
-import Link from 'next/link' 
+import Typography from '@mui/material/Typography'
+import { Avatar, Paper } from '@mui/material'
+import Link from 'next/link'
+import { toLinkCase } from 'src/utils/helpers'
 
- 
 export type ParamMain = {
   name: string
   skill: string
@@ -21,14 +21,18 @@ const renderList = (listMember: any[]) => {
   }
 
   return listMember.map(item => {
-    debugger;
+    debugger
     const userPhoto = item?.user?.photo ? item?.user?.photo : '/images/avatars/default-user.png'
- 
 
     return (
       <Grid item xs={12} md={3} key={item?.id}>
         <Paper sx={{ marginTop: '10px', border: '1px solid #eee', height: 78 }} elevation={0}>
-          <Link style={{ textDecoration: 'none' }} href={'/profile/' + item?.user.username}>
+          <Link
+            style={{ textDecoration: 'none' }}
+            href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(
+              item.user?.username
+            )}`}
+          >
             <Box
               height={75}
               sx={{
@@ -48,9 +52,8 @@ const renderList = (listMember: any[]) => {
                   NIM : {item?.nim ?? '-'}
                 </Typography>
                 <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
-                  Graduate : {item?.lulusan ?? '-' }
+                  Graduate : {item?.lulusan ?? '-'}
                 </Typography>
-               
               </Box>
             </Box>
           </Link>
@@ -61,14 +64,13 @@ const renderList = (listMember: any[]) => {
 }
 
 const ListMemberView = (props: Props) => {
- 
   const { listMember } = props
 
   return (
-    <Grid container spacing={2}> 
+    <Grid container spacing={2}>
       {renderList(listMember)}
     </Grid>
   )
 }
 
-export default ListMemberView;
+export default ListMemberView

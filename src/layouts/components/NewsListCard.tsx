@@ -14,14 +14,13 @@ export default function NewsListCard() {
   const getListNews = async () => {
     try {
       // const resp = await HttpClient.get(`/news?page=${1}&take=25&type=${forumCode}`)
-      const resp = await HttpClient.get(`/news?page=${1}&take=2&type=News`)
+      const resp = await HttpClient.get(`/news?page=1&take=2&type=News`)
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'
       }
 
       const rows = resp.data.news.data
-      const items = rows
-      setDataSheet(items)
+      setDataSheet(rows)
     } catch (error) {
       let errorMessage = 'Something went wrong!'
 
@@ -47,10 +46,9 @@ export default function NewsListCard() {
         sx={{
           color: 'common.white',
           backgroundColor: '#FFFFFF',
-          marginRight: 3,
-          height: 200,
-          marginBottom: 5,
-          marginTop: 5
+          paddingBottom: 2,
+          marginBottom: 2,
+          marginTop: 2
         }}
       >
         <CardContent>
@@ -58,11 +56,11 @@ export default function NewsListCard() {
             {t('landing_event_title')}
           </Typography>
           {/* <Link style={{ textDecoration: 'none' }} href={'/news/' + props.item.slug}> */}
-          <Link style={{ textDecoration: 'none' }} href={'/news/' + props.item.title}>
+          <Link style={{ textDecoration: 'none' }} href={'/news/' + props.item.slug}>
             <CardMedia
               component='img'
               alt={'alt'}
-              sx={{ objectFit: 'contain', marginBottom: '5', height: { md: '450px', xs: '150px' } }}
+              sx={{ objectFit: 'cover', marginBottom: '5', width: '100%' }}
               image={props.item.imgnews}
             />
           </Link>
@@ -74,15 +72,21 @@ export default function NewsListCard() {
   return (
     <Card>
       <CardContent sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-        <Box sx={{ mb: 7 }}>
-          <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 600 }}>
+        <Box sx={{ mb: 4 }}>
+          <Typography variant='body2' sx={{ mb: 2, color: '#262525', textTransform: 'uppercase', fontWeight: 600 }}>
             Latest Article
           </Typography>
         </Box>
 
-        {dataSheet.map((item: any, i: number) => (
-          <Item key={i} item={item}></Item>
-        ))}
+        {dataSheet.length > 0 ? (
+          dataSheet.map((item: any, i: number) => <Item key={i} item={item}></Item>)
+        ) : (
+          <Box sx={{ mb: 4 }}>
+            <Typography variant='body2' sx={{ mb: 2, color: '#262525', fontWeight: 600 }}>
+              No article
+            </Typography>
+          </Box>
+        )}
       </CardContent>
     </Card>
   )

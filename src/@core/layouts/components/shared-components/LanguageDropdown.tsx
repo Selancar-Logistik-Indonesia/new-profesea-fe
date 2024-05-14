@@ -14,6 +14,7 @@ import OptionsMenu from 'src/@core/components/option-menu'
 import { Settings } from 'src/@core/context/settingsContext'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import Router from 'next/router'
+import { usePathname } from 'next/navigation'
 
 interface Props {
   settings: Settings
@@ -27,20 +28,19 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
   // ** Vars
   const { layout } = settings
 
+  const pathname = usePathname()
   const [templang, setTemplang] = useState()
 
   const handleLangItemClick = (lang: 'en' | 'id') => {
-    localStorage.setItem(localStorageKeys.userLocale, lang);
+    localStorage.setItem(localStorageKeys.userLocale, lang)
     setTemplang(localStorage.user_locale)
     i18n.changeLanguage(lang)
-    Router.push(Router.pathname, Router.pathname, { locale: lang });
+    Router.push(pathname, pathname, { locale: lang })
   }
 
   // ** Change html `lang` attribute when changing locale
   useEffect(() => {
     document.documentElement.setAttribute('lang', i18n.language)
-
-
   }, [i18n.language])
 
   return (

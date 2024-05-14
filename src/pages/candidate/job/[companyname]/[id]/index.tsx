@@ -1,3 +1,3 @@
-import JobDetail from 'src/pages/job/[companyname]/[id]/[jobtitle]'
+import JobDetail from './[jobtitle]'
 
 export default JobDetail

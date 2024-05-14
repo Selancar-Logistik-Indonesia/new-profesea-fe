@@ -136,7 +136,7 @@ const LoginPage = () => {
           backgroundRepeat: 'no-repeat'
         }}
       >
-        <Box className='content-right'>
+        <Box className='content-right' sx={{ display: 'flex', alignItems: 'center' }}>
           <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: '1px solid ${theme.palette.divider}' } : {}}>
             <Box
               sx={
@@ -144,13 +144,12 @@ const LoginPage = () => {
                   ? {
                       boxSizing: 'border-box',
                       maxWidth: '100%',
-                      marginTop: '25%',
                       marginLeft: '10%',
                       background: '#FFFFFF',
                       border: '1px solid rgba(76, 78, 100, 0.12)',
                       borderRadius: '20px',
-                      p: 7,
-                      height: '75%',
+                      px: 7,
+                      py: 15,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -200,7 +199,6 @@ const LoginPage = () => {
                           onBlur={onBlur}
                           onChange={onChange}
                           error={Boolean(errors.email)}
-                          placeholder='Email'
                         />
                       )}
                     />

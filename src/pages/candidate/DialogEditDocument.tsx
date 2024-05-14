@@ -45,7 +45,7 @@ type FormData = {
 
 const DialogEditDocument = (props: DialogProps) => {
   const [onLoading, setOnLoading] = useState(false)
-  const [preview, setPreview] = useState()
+  const [preview, setPreview] = useState<any>()
   const [selectedFile, setSelectedFile] = useState()
   const iddokumen = props.selectedItem?.childs?.length > 0 ? props.selectedItem?.childs[0].id : props.selectedItem?.id
 

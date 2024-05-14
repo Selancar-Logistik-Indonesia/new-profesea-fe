@@ -89,6 +89,7 @@ const JobManagementScreen = () => {
       }
 
       const rows = resp.data.documents as any[]
+
       if (user.is_crewing == 1) {
         if (rows.length < 1 || user.verified_at === null) {
           setOpenBlockModal(true)

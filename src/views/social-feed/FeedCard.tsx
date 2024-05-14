@@ -1,7 +1,7 @@
 import { Avatar, CardMedia, Paper, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import ISocialFeed from 'src/contract/models/social_feed'
-import { getUserAvatar, toTitleCase } from 'src/utils/helpers'
+import { getUserAvatar, toLinkCase, toTitleCase } from 'src/utils/helpers'
 import { useState } from 'react'
 import { AppConfig } from 'src/configs/api'
 import CommentAreaView from './CommentAreaView'
@@ -28,6 +28,10 @@ const FeedCard = (props: Prop) => {
   const attachments = item.attachments
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
+  // const renderContent = (content: string) => {
+  //   return { __html: content }
+  // }
+
   return (
     <Paper
       sx={{
@@ -42,7 +46,9 @@ const FeedCard = (props: Prop) => {
       <Box
         component={Link}
         style={{ textDecoration: 'none' }}
-        href={`/profile/${item.user.username}`}
+        href={`/${item.user.role === 'Seafarer' ? 'profile' : 'company'}/${item.user.id}/${toLinkCase(
+          item.user.username
+        )}`}
         sx={{ display: 'flex', '& svg': { color: 'text.secondary' }, height: 60 }}
       >
         <Box>
@@ -68,7 +74,11 @@ const FeedCard = (props: Prop) => {
         href={`/feed/${item.id}`}
         sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px', p: 2, border: '1px solid #e4e4e4' }}
       >
-        <Typography variant='body2' sx={{ color: '#262525', fontSize: '14px', fontWeight: 400, my: 2 }}>
+        {/* <div dangerouslySetInnerHTML={renderContent(item?.content)} /> */}
+        <Typography
+          variant='body2'
+          sx={{ color: '#262525', fontSize: '14px', fontWeight: 400, my: 2, whiteSpace: 'pre-line' }}
+        >
           {item.content}
         </Typography>
 

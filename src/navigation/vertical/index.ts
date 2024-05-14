@@ -35,7 +35,7 @@ const navigation = (): VerticalNavItemsType => {
       subject: 'seafarer-jobs'
     },
     {
-      path: '/candidate/training',
+      path: '/candidate/trainings',
       title: 'My Training',
       icon: 'solar:book-bookmark-bold-duotone',
       action: 'read',
