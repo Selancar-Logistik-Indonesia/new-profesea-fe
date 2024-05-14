@@ -19,7 +19,7 @@ const SectionTwoJobDetail: React.FC<ISectionTwoJobDetailProps> = ({ jobDetail })
       }}
     >
       <Box>
-        <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
+        <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
           <strong>Experience</strong>
         </Typography>
       </Box>
@@ -30,7 +30,7 @@ const SectionTwoJobDetail: React.FC<ISectionTwoJobDetailProps> = ({ jobDetail })
         </Typography>
       </Box>
       <Box>
-        <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
+        <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
           <strong>Description</strong>
         </Typography>
       </Box>

@@ -92,14 +92,12 @@ const AllJobApplied = () => {
                 <Grid item>
                   <TextField
                     size='small'
-                    sx={{ mr: 6, mb: 2 }}
+                    sx={{ mb: 3 }}
                     placeholder='Search'
                     onChange={e => handleSearch(e.target.value)}
                   />
                 </Grid>
-                <Grid item sx={{ mr: 6, mb: 2 }}></Grid>
               </Grid>
-
               <JobDatagrid
                 page={page - 1} // di MUI page pertama = 0
                 rowCount={rowCount}
