@@ -131,10 +131,7 @@ const LIstAlumniLeft = (props: Props) => {
                 </>
               )}
             </Grid>
-            <Box sx={{ mt: 2 }}>
-              {renderList(listAlumni, idalumni, props, firstload)}
-              {renderList(listAlumni, idalumni, props, firstload)}
-            </Box>
+            <Box sx={{ mt: 2 }}>{renderList(listAlumni, idalumni, props, firstload)}</Box>
           </CardContent>
         </Card>
       </Grid>
