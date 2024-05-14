@@ -29,7 +29,7 @@ const JobDetail = () => {
   const [openCertificateDialog, setOpenCertificateDialog] = useState(false)
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  const [license, setLicense] = useState<any[] | null>(null)
+  const [license, setLicense] = useState<any[] | undefined>()
 
   const router = useRouter()
   const jobId = router.query?.id

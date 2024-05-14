@@ -6,13 +6,13 @@ import { Icon } from '@iconify/react'
 
 interface ISectionThreeJobDetailProps {
   jobDetail: Job | null
-  license: any[] | null
+  license?: any[]
 }
 
 const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetail, license }) => {
   const companyLicenses: any[] = jobDetail?.license
 
-  const findLicensesFromUser = (license: any[] | null, companyLicenses: any[]) => {
+  const findLicensesFromUser = (license: any[] | undefined, companyLicenses: any[]) => {
     const match: any[] = []
     const missing: any[] = []
 
