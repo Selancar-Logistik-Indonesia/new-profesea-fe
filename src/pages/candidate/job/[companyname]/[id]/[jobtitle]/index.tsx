@@ -22,18 +22,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 const JobDetail = () => {
-  // const url = window.location.href
   const [onApplied, setOnApplied] = useState(false)
   const [jobDetail, setJobDetail] = useState<Job | null>(null)
-  // const license: any[] = Object.values(jobDetail?.license != undefined ? jobDetail?.license : '')
   const [isLoading, setIsLoading] = useState(true)
   const [openDialog, setOpenDialog] = useState(false)
   const [openCertificateDialog, setOpenCertificateDialog] = useState(false)
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  // const [open, setOpen] = React.useState(false)
-  // const anchorRef = React.useRef<HTMLDivElement>(null)
-  // const [selectedIndex, setSelectedIndex] = React.useState(1)
+  const [license, setLicense] = useState<any[] | null>(null)
 
   const router = useRouter()
   const jobId = router.query?.id
@@ -42,42 +38,29 @@ const JobDetail = () => {
 
   const [jobDetailSugestion, setJobDetailSugestion] = useState<Job[]>([])
 
-  // const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => {
-  //   setSelectedIndex(index)
-  //   setOpen(false)
-  // }
-
-  // const handleToggle = () => {
-  //   setOpen(prevOpen => !prevOpen)
-  // }
-
-  // const handleClose = (event: Event) => {
-  //   if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
-  //     return;
-  //   }
-
-  //   setOpen(false)
-  // }
-
   const firstload = async (companyname: any, jobId: any, jobTitle: any) => {
     setIsLoading(true)
     try {
-      //const resp = await HttpClient.get('/job/' + mJobId)
       const resp = await HttpClient.get(`/job/${companyname}/${jobId}/${jobTitle}`)
       const job = resp.data.job
 
-      setIsLoading(false)
+      const resp2 = await HttpClient.get(`/user/${user.id}`)
+      const applicant = resp2.data.user
+
       if (job?.applied_at != null) {
         setOnApplied(true)
       }
 
+      setLicense(applicant.seafarer_competencies.concat(applicant.seafarer_proficiencies))
       setJobDetail(job)
+      setIsLoading(false)
     } catch (error) {
       setIsLoading(false)
       alert(error)
     }
   }
 
+  console.log(license)
   useEffect(() => {
     HttpClient.get('/job?take=4&page=1').then(response => {
       const jobs = response.data.jobs.data
@@ -98,11 +81,7 @@ const JobDetail = () => {
       user.about != null &&
       user.country_id != null
     ) {
-      if (
-        user.license.length === 0 &&
-        jobDetail?.license.length >= 1 &&
-        jobDetail?.category.employee_type == 'onship'
-      ) {
+      if (license?.length === 0 && jobDetail?.license.length >= 1 && jobDetail?.category.employee_type == 'onship') {
         setOpenCertificateDialog(!openCertificateDialog)
       } else {
         setOpenDialog(!openDialog)
@@ -147,7 +126,7 @@ const JobDetail = () => {
                       <SectionOneJobDetail jobDetail={jobDetail} />
                       <SectionTwoJobDetail jobDetail={jobDetail} />
                       {jobDetail?.category?.employee_type == 'onship' && (
-                        <SectionThreeJobDetail jobDetail={jobDetail} />
+                        <SectionThreeJobDetail jobDetail={jobDetail} license={license} />
                       )}
                     </CardContent>
                     <Grid
@@ -181,7 +160,7 @@ const JobDetail = () => {
                               </Typography>
                             </Box>
                           </Box>
-                          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mt={2}>
+                          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} mx={2} mt={2}>
                             <Typography
                               sx={{ color: 'common.white', fontSize: '16px', fontWeight: '600' }}
                               variant='body2'
@@ -190,11 +169,12 @@ const JobDetail = () => {
                             </Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
                               <Typography
-                                sx={{ color: 'common.white' }}
+                                sx={{ color: 'common.white', whiteSpace: 'pre-line' }}
                                 fontSize={14}
                                 fontWeight={400}
                                 fontFamily={'Outfit'}
                                 textAlign={'justify'}
+                                mt={1}
                               >
                                 {jobDetail?.company?.about}
                               </Typography>
