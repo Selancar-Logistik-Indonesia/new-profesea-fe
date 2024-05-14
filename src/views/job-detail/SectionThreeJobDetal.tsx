@@ -13,6 +13,7 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
   const { user } = useAuth()
   const userLicenses: any[] = user?.license
   const companyLicenses: any[] = jobDetail?.license
+  const isCompany = user?.team_id === 3
 
   const findLicensesFromUser = (userLicenses: any[], companyLicenses: any[]) => {
     const match: any[] = []
@@ -42,31 +43,45 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
 
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-          paddingBottom: '10px',
-          borderBottom: theme => `1px solid ${theme.palette.divider}`
-        }}
-      >
-        <Box>
-          <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
-            <strong>How You match</strong>
-          </Typography>
-        </Box>
-        <Grid ml='0.7rem' container>
-          <Grid item>
-            <Icon icon='clarity:certificate-solid' color='#32487A' fontSize={'35px'} />
-          </Grid>
-          <Grid xs={11} sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography sx={{ color: 'text.primary', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-              {findLicensesFromUser(userLicenses, companyLicenses).match.length} Certificates match your profile
-            </Typography>
-          </Grid>
-        </Grid>
-      </Box>
+      {!isCompany && (
+        <>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+              paddingBottom: '10px',
+              borderBottom: theme => `1px solid ${theme.palette.divider}`
+            }}
+          >
+            <Box>
+              <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
+                <strong>How You match</strong>
+              </Typography>
+            </Box>
+            <Grid ml='0.7rem' container>
+              <Grid item>
+                <Icon icon='clarity:certificate-solid' color='#32487A' fontSize={'35px'} />
+              </Grid>
+              <Grid xs={11} sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography
+                  sx={{
+                    color:
+                      findLicensesFromUser(userLicenses, companyLicenses).match.length == 0 ? 'red' : 'text.primary',
+                    fontWeight: 900
+                  }}
+                  ml='0.5rem'
+                  mt='0.2rem'
+                  fontSize={12}
+                >
+                  {findLicensesFromUser(userLicenses, companyLicenses).match.length} Certificates match your profile
+                </Typography>
+              </Grid>
+            </Grid>
+          </Box>
+        </>
+      )}
+
       <Box
         sx={{
           display: 'flex',
