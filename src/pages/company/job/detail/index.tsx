@@ -21,7 +21,6 @@ interface IJobDetailProps {
 const JobDetail = (props: IJobDetailProps) => {
   const jobDetail = props.jobDetail
   // const [jobDetail, setJobDetail] = useState<Job>(props.jobDetail)
-  const license: any[] = Object.values(jobDetail?.license != undefined ? jobDetail?.license : '')
   // Styled Grid component
   const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
