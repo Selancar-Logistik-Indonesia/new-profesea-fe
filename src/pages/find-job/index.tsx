@@ -13,9 +13,20 @@ import { useTranslation } from 'react-i18next'
 import FooterView from 'src/views/landing-page/footerView'
 import OngoingJob from './OngoingJob'
 import DialogLogin from 'src/@core/components/login-modal'
+import { useAuth } from 'src/hooks/useAuth'
+import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/router'
 
 const SeafarerJob = () => {
   const { t } = useTranslation()
+
+  const pathname = usePathname()
+  const { user } = useAuth()
+  const router = useRouter()
+
+  if (user) {
+    router.push(`/candidate/${pathname}`)
+  }
 
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))

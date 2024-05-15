@@ -44,7 +44,7 @@ const renderList = (listJobs: Job[] | null) => {
                 display: 'flex',
                 alignContent: 'center',
                 justifyContent: 'space-between',
-                height: { xs: 65, md: 100, lg: 65 }
+                height: { xs: 75, md: 100, lg: 75 }
               }}
             >
               <Box

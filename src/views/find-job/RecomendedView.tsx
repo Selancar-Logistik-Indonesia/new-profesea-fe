@@ -27,41 +27,40 @@ const renderList = (listJob: Job[]) => {
 
   return listJob.map(item => {
     const userPhoto = item?.company?.photo ? item?.company?.photo : '/images/avatars/default-user.png'
-    // const license: any[] = Object.values(item?.license)
-
     const companyNameUrl = item.company.name.toLowerCase().split(' ').join('-')
     const jobTitleUrl = item.job_title ? item.job_title?.toLowerCase().split(' ').join('-') : ''
 
     return (
       <Grid item xs={12} md={4} key={item?.id}>
-        <Paper sx={{ marginTop: '10px', border: '1px solid #eee', height: '250px' }} elevation={0}>
+        <Paper
+          sx={{ marginTop: '5px', border: '1px solid #eee', height: { xs: '235px', md: '300px', lg: '235px' } }}
+          elevation={0}
+        >
           <Link style={{ textDecoration: 'none' }} href={`/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`}>
             <Box
-              height={65}
               sx={{
                 display: 'flex',
                 alignContent: 'center',
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
+                height: { xs: 75, md: 100, lg: 75 }
               }}
             >
               <Box
                 sx={{
                   display: 'flex',
                   alignContent: 'center',
-                  '& svg': { color: 'text.secondary' }
+                  '& svg': { color: 'text.secondary' },
+                  my: 2
                 }}
               >
-                <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={2} ml={2} mr={3}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} ml={2} mr={3}>
                   <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50 }} />
                 </Box>
-                <Box
-                  sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }}
-                  marginTop={2}
-                >
-                  <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={14}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }}>
+                  <Typography sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={20}>
                     {item?.role_type?.name ?? '-'}
                   </Typography>
-                  <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
+                  <Typography sx={{ color: 'text.primary' }} fontSize={14}>
                     {item?.company?.name ?? '-'}
                   </Typography>
                 </Box>
@@ -73,130 +72,126 @@ const renderList = (listJob: Job[]) => {
               </Box>
             </Box>
           </Link>
-          <Grid item container ml={5} mr={5}>
-            <Grid xs={1}>
-              <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
-            </Grid>
-            <Grid xs={11}>
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                {item?.rolelevel?.levelName} | {item?.category?.name}
-              </Typography>
+          <Grid item container paddingX={5} pt={2}>
+            <Grid container mb={1}>
+              <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
+              </Grid>
+              <Grid item xs={11}>
+                <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                  {item?.rolelevel?.levelName ?? '-'} | {item?.category?.name ?? '-'}
+                </Typography>
+              </Grid>
             </Grid>
 
             {item?.category?.employee_type != 'offship' ? (
               <>
-                {/* <Grid xs={1}>
-                  <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
+                <Grid container mb={1}>
+                  <Grid xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
+                  </Grid>
+                  <Grid xs={11} maxWidth={'90%'}>
+                    <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                      {item?.vessel_type?.name ?? '-'}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid xs={11} maxWidth={'90%'}>
-                  <Typography
-                    sx={{
-                      color: 'text.primary',
-                      display: '-webkit-box',
-                      overflow: 'hidden',
-                      WebkitBoxOrient: 'vertical',
-                      WebkitLineClamp: 2,
-                      maxWidth: '70%'
-                    }}
-                    ml='0.5rem'
-                    mt='0.2rem'
-                    fontSize={12}
-                  >
-                    {license.map(e => e.title).join(', ')}
-                  </Typography>
-                </Grid> */}
-                <Grid xs={1}>
-                  <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
+                <Grid container mb={1}>
+                  <Grid xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Icon icon='ri:calendar-fill' color='#32487A' fontSize={'20px'} />
+                  </Grid>
+                  <Grid xs={11} maxWidth={'90%'}>
+                    <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                      {format(new Date(item?.onboard_at), 'dd MMMM yyyy') ?? '-'}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid xs={11} maxWidth={'90%'}>
-                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                    {item?.vessel_type?.name}
-                  </Typography>
-                </Grid>
-                <Grid xs={1}>
-                  <Icon icon='ri:calendar-fill' color='#32487A' fontSize={'20px'} />
-                </Grid>
-                <Grid xs={11} maxWidth={'90%'}>
-                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                    {format(new Date(item?.onboard_at), 'dd MMMM yyyy')}
-                  </Typography>
-                </Grid>
-                <Grid xs={1}>
-                  <Icon icon='mdi:timer-sand' color='#32487A' fontSize={'20px'} />
-                </Grid>
-                <Grid xs={11} maxWidth={'90%'}>
-                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                    {item?.contract_duration ? `${item?.contract_duration} months` : '-'}
-                  </Typography>
+                <Grid container mb={1}>
+                  <Grid xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Icon icon='mdi:timer-sand' color='#32487A' fontSize={'20px'} />
+                  </Grid>
+                  <Grid xs={11} maxWidth={'90%'}>
+                    <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                      {item?.contract_duration ? `${item?.contract_duration} months` : '-'}
+                    </Typography>
+                  </Grid>
                 </Grid>
                 {!item?.hide_salary && (
                   <>
-                    <Grid xs={1}>
-                      <Icon icon='clarity:dollar-line' color='#32487A' fontSize={'20px'} />
-                    </Grid>
-                    <Grid xs={11} maxWidth={'90%'}>
-                      {item?.currency == 'IDR' ? (
-                        <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                          {item?.salary_start && item?.salary_end
-                            ? `${
-                                item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-                                ' - ' +
-                                item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                              } (${item?.currency})`
-                            : '-'}
-                        </Typography>
-                      ) : (
-                        <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                          {item?.salary_start && item?.salary_end
-                            ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
-                            : '-'}
-                        </Typography>
-                      )}
+                    <Grid container mb={1}>
+                      <Grid xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Icon icon='clarity:dollar-line' color='#32487A' fontSize={'20px'} />
+                      </Grid>
+                      <Grid xs={11} maxWidth={'90%'}>
+                        {item?.currency == 'IDR' ? (
+                          <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                            {item?.salary_start && item?.salary_end
+                              ? `${
+                                  item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
+                                  ' - ' +
+                                  item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                                } (${item?.currency})`
+                              : '-'}
+                          </Typography>
+                        ) : (
+                          <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                            {item?.salary_start && item?.salary_end
+                              ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
+                              : '-'}
+                          </Typography>
+                        )}
+                      </Grid>
                     </Grid>
                   </>
                 )}
               </>
             ) : (
               <>
-                <Grid xs={1}>
-                  <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
+                <Grid container mb={1}>
+                  <Grid xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
+                  </Grid>
+                  <Grid xs={11}>
+                    <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                      {item?.degree?.name ?? '-'}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid xs={11}>
-                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                    {item?.degree?.name}
-                  </Typography>
-                </Grid>
-                <Grid xs={1}>
-                  <Icon icon='mdi:location' color='#32487A' fontSize={'20px'} />
-                </Grid>
-                <Grid xs={11}>
-                  <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                    {item?.city?.city_name} | {item?.employment_type ? item?.employment_type : ''}
-                  </Typography>
+                <Grid container mb={1}>
+                  <Grid xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Icon icon='mdi:location' color='#32487A' fontSize={'20px'} />
+                  </Grid>
+                  <Grid xs={11}>
+                    <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                      {item?.city?.city_name ?? '-'} | {item?.employment_type ?? '-'}
+                    </Typography>
+                  </Grid>
                 </Grid>
                 {!item?.hide_salary && (
                   <>
-                    <Grid xs={1}>
-                      <Icon icon='clarity:dollar-line' color='#32487A' fontSize={'20px'} />
-                    </Grid>
-                    <Grid xs={11} maxWidth={'90%'}>
-                      {item?.currency == 'IDR' ? (
-                        <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                          {item?.salary_start && item?.salary_end
-                            ? `${
-                                item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-                                ' - ' +
-                                item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                              } (${item?.currency})`
-                            : '-'}
-                        </Typography>
-                      ) : (
-                        <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                          {item?.salary_start && item?.salary_end
-                            ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
-                            : '-'}
-                        </Typography>
-                      )}
+                    <Grid container mb={1}>
+                      <Grid xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Icon icon='clarity:dollar-line' color='#32487A' fontSize={'20px'} />
+                      </Grid>
+                      <Grid xs={11} maxWidth={'90%'}>
+                        {item?.currency == 'IDR' ? (
+                          <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                            {item?.salary_start && item?.salary_end
+                              ? `${
+                                  item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
+                                  ' - ' +
+                                  item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                                } (${item?.currency})`
+                              : '-'}
+                          </Typography>
+                        ) : (
+                          <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                            {item?.salary_start && item?.salary_end
+                              ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
+                              : '-'}
+                          </Typography>
+                        )}
+                      </Grid>
                     </Grid>
                   </>
                 )}
