@@ -1,11 +1,10 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Button, Card, CardContent } from '@mui/material'
+import { Avatar, Button, Card, CardContent } from '@mui/material'
 import Link from 'next/link'
 import { HttpClient } from 'src/services'
 import { toast } from 'react-hot-toast'
-
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { useEffect, useState } from 'react'
 // import Alumni from 'src/contract/models/alumni'
@@ -44,78 +43,52 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
   }
 
   return listAlumni?.map(item => {
-    // const userPhoto = item.profilepicture != '' ? item.profilepicture : '/images/avatars/default-user.png'
+    const userPhoto = item.user.photo != '' ? item.user.photo : '/images/avatars/default-user.png'
 
     return (
-      <Grid item xs={12} md={12} key={item?.id}>
-        <Box
-          height={85}
-          sx={{
-            display: 'flex',
-            alignContent: 'center',
-            '& svg': { color: 'text.secondary' }
-          }}
-        >
-          {/* <Link style={{ textDecoration: 'none' }} href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(item.user?.username)}`}>
-            <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-              <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 35, height: 35 }} />
-            </Box>
-          </Link> */}
-
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: ['left', 'flex-start'] }} marginTop={1}>
+      <Grid item container xs={12} pl={2} py={2} key={item?.id}>
+        <Grid item container xs={12} spacing={2}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', m: 2 }}>
+            <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 55, height: 55 }} />
+          </Box>
+          <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
             <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item?.id}>
               <Typography sx={{ color: '#0a66c2', fontWeight: 600 }}>
                 {item.user.name ? item.user.name : '-'}
               </Typography>
             </Link>
-
-            <Grid item container xs={12} spacing={0.5} mb={1}>
-              <Grid item xs={12} md={12}>
-                <Typography sx={{ color: '#32487A', fontWeight: 400 }}>NIM : {item.nim ? item.nim : ' - '}</Typography>
-              </Grid>
-              <Grid item xs={12} md={12}>
-                <Typography sx={{ color: '#32487A', fontWeight: 400 }}>
-                  Graduate : {item.lulusan ? item.lulusan : '-'}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid item container xs={12} spacing={4}>
-              <Grid item xs={12} md={6}>
-                <Button
-                  variant='contained'
-                  color='info'
-                  size='small'
-                  type='submit'
-                  onClick={() => joinAlumni(item.user.id, '/alumni/accjoin')}
-                >
-                  <div style={{ marginLeft: 5 }}>Accept</div>
-                </Button>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Button
-                  variant='contained'
-                  color='error'
-                  size='small'
-                  type='submit'
-                  onClick={() => joinAlumni(item.user.id, '/alumni/rejectjoin')}
-                >
-                  <div style={{ marginLeft: 5 }}>reject</div>
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-          <Box
-            sx={{ display: 'flex', flexDirection: 'column', ml: 2, alignItems: ['left', 'flex-start'] }}
-            marginTop={2}
-          ></Box>
-
-          <Box
-            sx={{ display: 'flex', flexDirection: 'column', ml: 2, alignItems: ['left', 'flex-start'] }}
-            marginTop={2}
+            <Typography sx={{ color: '#32487A', fontWeight: 400 }}>NIM : {item.nim ? item.nim : ' - '}</Typography>
+            <Typography sx={{ color: '#32487A', fontWeight: 400 }}>
+              Graduate : {item.lulusan ? item.lulusan : '-'}
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid
+          item
+          container
+          xs={12}
+          mt={1}
+          sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row', gap: 10 } }}
+        >
+          <Button
+            variant='contained'
+            color='info'
+            size='small'
+            type='submit'
+            onClick={() => joinAlumni(item.user.id, '/alumni/accjoin')}
           >
-            {/* <Button>Reject</Button> */}
-          </Box>
-        </Box>
+            Accept
+          </Button>
+          <Button
+            variant='contained'
+            color='error'
+            size='small'
+            type='submit'
+            onClick={() => joinAlumni(item.user.id, '/alumni/rejectjoin')}
+          >
+            Reject
+          </Button>
+        </Grid>
       </Grid>
     )
   })
@@ -123,7 +96,6 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
 
 const LIstAlumniLeft = (props: Props) => {
   const { idalumni } = props
-
   const [listAlumni, setReqListAlumni] = useState<any>(null)
   const firstload = async () => {
     const requestalumni = await HttpClient.get('/alumni/request-member?alumni_id=' + idalumni, {
@@ -159,7 +131,7 @@ const LIstAlumniLeft = (props: Props) => {
                 </>
               )}
             </Grid>
-            <Box sx={{ mt: 3 }}>{renderList(listAlumni, idalumni, props, firstload)}</Box>
+            <Box sx={{ mt: 2 }}>{renderList(listAlumni, idalumni, props, firstload)}</Box>
           </CardContent>
         </Card>
       </Grid>

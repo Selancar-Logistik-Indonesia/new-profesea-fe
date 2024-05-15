@@ -48,7 +48,7 @@ const SailRegion = [
   { id: 'iv', name: 'International Voyage' }
 ]
 
-const EMPLOYMENT_TYPE_OPTIONS = [{ name: 'Unpaid' }, { name: 'Contract' }, { name: 'Full-Time' }]
+const EMPLOYMENT_TYPE_OPTIONS = [{ name: 'Intern' }, { name: 'Contract' }, { name: 'Full-Time' }]
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -611,7 +611,7 @@ const DialogEdit = (props: EditProps) => {
                     getOptionLabel={(option: any) => option.name}
                     renderInput={params => <TextField {...params} label='Employment Type' />}
                     onChange={(event: any, newValue: any | null) =>
-                      newValue ? setEmploymenttype(newValue) : setEmploymenttype(null)
+                      newValue ? setEmploymenttype(newValue.name) : setEmploymenttype(null)
                     }
                   />
                 </Grid>
