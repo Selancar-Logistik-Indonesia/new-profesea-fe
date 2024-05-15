@@ -5,7 +5,7 @@ import { Avatar, Button, Card, CardContent } from '@mui/material'
 import Link from 'next/link'
 import { HttpClient } from 'src/services'
 import { toast } from 'react-hot-toast'
-import { getCleanErrorMessage } from 'src/utils/helpers'
+import { getCleanErrorMessage, toLinkCase } from 'src/utils/helpers'
 import { useEffect, useState } from 'react'
 // import Alumni from 'src/contract/models/alumni'
 
@@ -48,9 +48,16 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
     return (
       <Grid item container xs={12} pl={2} py={2} key={item?.id}>
         <Grid item container xs={12} spacing={2}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', m: 2 }}>
-            <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 55, height: 55 }} />
-          </Box>
+          <Link
+            style={{ textDecoration: 'none' }}
+            href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(
+              item.user?.username
+            )}`}
+          >
+            <Box sx={{ display: 'flex', justifyContent: 'center', m: 2 }}>
+              <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 55, height: 55 }} />
+            </Box>
+          </Link>
           <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
             <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item?.id}>
               <Typography sx={{ color: '#0a66c2', fontWeight: 600 }}>
