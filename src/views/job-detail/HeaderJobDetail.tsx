@@ -6,8 +6,8 @@ import ShareArea from 'src/pages/candidate/job/ShareArea'
 
 interface IHeaderJobDetailProps {
   jobDetail: Job | null
-  onApplied: boolean
-  handleApply: () => void
+  onApplied?: boolean
+  handleApply?: () => void
 }
 
 const HeaderJobDetail: React.FC<IHeaderJobDetailProps> = ({ jobDetail, onApplied, handleApply }) => {
@@ -34,43 +34,45 @@ const HeaderJobDetail: React.FC<IHeaderJobDetailProps> = ({ jobDetail, onApplied
           </Grid>
         </Grid>
       </Box>
-      <Box sx={{ width: '30%' }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6} textAlign={'end'}>
-            {onApplied == false ? (
-              <>
-                <Button
-                  onClick={handleApply}
-                  variant='contained'
-                  color='primary'
-                  size='small'
-                  startIcon={<Icon icon='iconoir:submit-document' fontSize={10} />}
-                  sx={{ width: '100%' }}
-                >
-                  Apply Job
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  size='small'
-                  startIcon={<Icon icon='iconoir:submit-document' fontSize={10} />}
-                >
-                  Applied
-                </Button>
-              </>
-            )}
+      {onApplied != undefined && (
+        <Box sx={{ width: '30%' }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6} textAlign={'end'}>
+              {onApplied == false ? (
+                <>
+                  <Button
+                    onClick={handleApply}
+                    variant='contained'
+                    color='primary'
+                    size='small'
+                    startIcon={<Icon icon='iconoir:submit-document' fontSize={10} />}
+                    sx={{ width: '100%' }}
+                  >
+                    Apply Job
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    size='small'
+                    startIcon={<Icon icon='iconoir:submit-document' fontSize={10} />}
+                  >
+                    Applied
+                  </Button>
+                </>
+              )}
+            </Grid>
+            <Grid item xs={12} md={6} textAlign={'end'}>
+              <ShareArea
+                subject={`Job For ${jobDetail?.role_type?.name}.`}
+                url={`/candidate/job/?id=${jobDetail?.id}`}
+              ></ShareArea>
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6} textAlign={'end'}>
-            <ShareArea
-              subject={`Job For ${jobDetail?.role_type?.name}.`}
-              url={`/candidate/job/?id=${jobDetail?.id}`}
-            ></ShareArea>
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      )}
     </Box>
   )
 }

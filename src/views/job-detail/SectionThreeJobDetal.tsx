@@ -3,6 +3,7 @@ import React from 'react'
 import Job from 'src/contract/models/job'
 import Link from 'next/link'
 import { Icon } from '@iconify/react'
+import { useAuth } from 'src/hooks/useAuth'
 
 interface ISectionThreeJobDetailProps {
   jobDetail: Job | null
@@ -10,7 +11,9 @@ interface ISectionThreeJobDetailProps {
 }
 
 const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetail, license }) => {
+  const { user } = useAuth()
   const companyLicenses: any[] = jobDetail?.license
+  const isCompany = user?.team_id === 3
 
   const findLicensesFromUser = (license: any[] | undefined, companyLicenses: any[]) => {
     const match: any[] = []
@@ -42,34 +45,42 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
 
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-          paddingBottom: '10px',
-          borderBottom: theme => `1px solid ${theme.palette.divider}`
-        }}
-      >
-        <Box>
-          <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
-            <strong>How You match</strong>
-          </Typography>
-        </Box>
-        <Grid ml='0.7rem' container>
-          <Grid item>
-            <Icon icon='clarity:certificate-solid' color='#32487A' fontSize={'35px'} />
-          </Grid>
-          <Grid item xs={11} sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography sx={{ color: 'text.primary', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-              <Box component='span' sx={missing.length != 0 ? { color: 'error.dark' } : {}}>
-                {match.length}
-              </Box>{' '}
-              Certificates match your profile
+      {!isCompany && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            paddingBottom: '10px',
+            borderBottom: theme => `1px solid ${theme.palette.divider}`
+          }}
+        >
+          <Box>
+            <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
+              <strong>How You match</strong>
             </Typography>
+          </Box>
+          <Grid ml='0.7rem' container>
+            <Grid item>
+              <Icon icon='clarity:certificate-solid' color='#32487A' fontSize={'35px'} />
+            </Grid>
+            <Grid item xs={11} sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography
+                sx={{ color: match.length == 0 ? 'red' : 'text.primary', fontWeight: 900 }}
+                ml='0.5rem'
+                mt='0.2rem'
+                fontSize={12}
+              >
+                <Box component='span' sx={missing.length != 0 ? { color: 'error.dark' } : {}}>
+                  {match.length}
+                </Box>{' '}
+                Certificates match your profile
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      )}
+
       <Box
         sx={{
           display: 'flex',
@@ -127,7 +138,7 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
             </Grid>
           </Grid>
         )}
-        {license?.length == 0 && (
+        {match?.length == 0 && !isCompany && (
           <Grid container>
             <Grid
               item
