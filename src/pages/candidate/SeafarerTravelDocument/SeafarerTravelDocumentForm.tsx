@@ -67,7 +67,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
       : {}
   )
   const [validDateState, setValidDateState] = useState<any>()
-  const [preview, setPreview] = useState()
+  const [preview, setPreview] = useState<any>()
   const [dateOfIssue, setDateOfIssue] = useState<any>()
   const [attachment, setAttachment] = useState<any>(null)
 
@@ -195,7 +195,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
 
   useEffect(() => {
     if (!attachment) {
-      setPreview(undefined)
+      setPreview(seafarerTravelDocument?.filename ? process.env.NEXT_PUBLIC_BASE_API?.replace('/api', '') + '/storage/user-documents/'+seafarerTravelDocument?.user_id+"/travel-documents/"+seafarerTravelDocument?.filename : undefined)
 
       return
     }

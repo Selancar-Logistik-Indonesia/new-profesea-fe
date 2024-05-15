@@ -52,7 +52,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
   const id = seafarerCompetency?.id
 
   const [validDateState, setValidDateState] = useState<any>()
-  const [preview, setPreview] = useState()
+  const [preview, setPreview] = useState<any>()
   const [attachment, setAttachment] = useState<any>(null)
 
   const [coc, setCoc] = useState<any>(
@@ -195,7 +195,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
 
   useEffect(() => {
     if (!attachment) {
-      setPreview(undefined)
+      setPreview(seafarerCompetency?.filename ? process.env.NEXT_PUBLIC_BASE_API?.replace('/api', '') + '/storage/user-documents/'+seafarerCompetency?.user_id+"/competency/"+seafarerCompetency?.filename : undefined)
 
       return
     }
@@ -229,6 +229,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
               {type == 'create' ? 'Add new ' : 'Update '} competency
             </Typography>
             <Typography variant='body2'>Fulfill your competency Info here</Typography>
+            <Typography>{process.env.NEXT_PUBLIC_BASE_API?.replace('/api', '') + '/storage/user-documents/'+seafarerCompetency?.user_id+"/competency/"+seafarerCompetency?.filename}</Typography>
           </Box>
         </DialogTitle>
         <DialogContent

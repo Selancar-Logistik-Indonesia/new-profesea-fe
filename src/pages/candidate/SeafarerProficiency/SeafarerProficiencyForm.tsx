@@ -53,7 +53,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   const id = seafarerProficiency?.id
 
   const [validDateState, setValidDateState] = useState<any>()
-  const [preview, setPreview] = useState()
+  const [preview, setPreview] = useState<any>()
   const [attachment, setAttachment] = useState<any>(null)
 
   const [cop, setCop] = useState<any>(
@@ -195,7 +195,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
 
   useEffect(() => {
     if (!attachment) {
-      setPreview(undefined)
+      setPreview(seafarerProficiency?.filename ? process.env.NEXT_PUBLIC_BASE_API?.replace('/api', '') + '/storage/user-documents/'+seafarerProficiency?.user_id+"/proficiency/"+seafarerProficiency?.filename : undefined)
 
       return
     }

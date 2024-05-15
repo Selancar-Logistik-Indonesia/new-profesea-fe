@@ -11,4 +11,5 @@ export default interface seafarfer_travel_document {
     is_lifetime: boolean
     required_document: string
     country: ICountry
+    filename:string
 }
