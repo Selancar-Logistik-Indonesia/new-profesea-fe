@@ -69,6 +69,19 @@ function linkToTitleCase(text: string | undefined) {
   return null
 }
 
+function textEllipsis(text: string, number: number) {
+  if (text) {
+    let words = text.split(' ')
+    if (words.length > number) {
+      words = words.slice(0, number).concat(words[number] + '...')
+    }
+
+    return words.join(' ')
+  }
+
+  return null
+}
+
 function getUserAvatar(userData: IUser) {
   return userData?.photo ? userData.photo : '/images/avatars/default-user.png'
 }
@@ -233,6 +246,7 @@ export {
   toTitleCase,
   toLinkCase,
   linkToTitleCase,
+  textEllipsis,
   getUserAvatar,
   getUserRoleName,
   formatIDR,

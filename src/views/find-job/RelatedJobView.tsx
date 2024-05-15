@@ -3,6 +3,7 @@ import { Avatar, Box, Card, Grid, Paper, Typography } from '@mui/material'
 import { format } from 'date-fns'
 import Link from 'next/link'
 import Job from 'src/contract/models/job'
+import { textEllipsis } from 'src/utils/helpers'
 
 interface IRelatedJobViewProps {
   jobDetailSugestion: Job[]
@@ -20,7 +21,7 @@ const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) 
               <Paper sx={{ marginTop: '10px', border: '1px solid #eee', height: 'auto' }} elevation={0}>
                 <Link style={{ textDecoration: 'none' }} href={`/candidate/job/?id=${item?.id}`}>
                   <Box
-                    height={65}
+                    height={75}
                     sx={{
                       display: 'flex',
                       alignContent: 'center',
@@ -39,7 +40,7 @@ const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) 
                       marginTop={2}
                     >
                       <Typography sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={14}>
-                        {item?.role_type?.name ?? '-'}
+                        {textEllipsis(item?.role_type?.name, 5) ?? '-'}
                       </Typography>
                       <Typography sx={{ color: 'text.primary', mb: 1 }} fontSize={12}>
                         {item?.company?.name ?? '-'}
