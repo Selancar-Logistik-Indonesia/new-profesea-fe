@@ -1,28 +1,25 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import { Alert, AlertTitle, Avatar,   Paper } from '@mui/material'
+import { Alert, AlertTitle, Avatar, Paper } from '@mui/material'
 import Typography from '@mui/material/Typography'
- import { getEmployeetypev2,   toTitleCase } from 'src/utils/helpers'
+import { getEmployeetypev2, toLinkCase, toTitleCase } from 'src/utils/helpers'
 import { Icon } from '@iconify/react'
 import moment from 'moment'
 import Link from 'next/link'
-
 
 interface Props {
   listCandidate: any[]
 }
 
 const renderList = (listCandidate: any[]) => {
-  debugger;
+  debugger
   if (!listCandidate || listCandidate.length == 0) {
-
     return
-
   }
 
   return listCandidate.map(item => {
     const userPhoto = item.viewer.photo ? item.viewer.photo : '/images/avatars/default-user.png'
- 
+
     return (
       <Grid item xs={12} md={6} key={item?.viewer?.id}>
         <Paper
@@ -39,7 +36,12 @@ const renderList = (listCandidate: any[]) => {
               <Avatar sx={{ width: 50, height: 50 }} src={userPhoto} alt='profile-picture' />
             </Grid>
             <Grid xs={10} md={10}>
-              <Link style={{ textDecoration: 'none' }} href={'/profile/?username=' + item?.viewer?.username}>
+              <Link
+                style={{ textDecoration: 'none' }}
+                href={`/${item.viewer?.role === 'Seafarer' ? 'profile' : 'company'}/${item.viewer?.id}/${toLinkCase(
+                  item.viewer?.username
+                )}`}
+              >
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
                   <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600, fontSize: '14px' }}>
                     {toTitleCase(item?.viewer?.name)}
@@ -67,24 +69,23 @@ const renderList = (listCandidate: any[]) => {
           {/* </Box> */}
         </Paper>
       </Grid>
-    )})
-
+    )
+  })
 }
-const ListSeeProfile = (props: Props) => { 
-    const { listCandidate } = props
+const ListSeeProfile = (props: Props) => {
+  const { listCandidate } = props
 
-    return (
-      <>
-        <Alert severity='info'>
-          <AlertTitle>Whos See Your Profile?</AlertTitle>
-          Based on <strong>your profile</strong> 
-        </Alert>
-        <Grid container spacing={2}>
-          {renderList(listCandidate)}
-        </Grid>
-      </>
-    ) 
+  return (
+    <>
+      <Alert severity='info'>
+        <AlertTitle>Whos See Your Profile?</AlertTitle>
+        Based on <strong>your profile</strong>
+      </Alert>
+      <Grid container spacing={2}>
+        {renderList(listCandidate)}
+      </Grid>
+    </>
+  )
 }
-
 
 export default ListSeeProfile

@@ -14,7 +14,7 @@ import WorkeExperience from './Workexperience'
 // import ListFeedView from 'src/views/social-feed/ListFeedView'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import ListTraining from './Training'
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import EducationalInfo from './Educational'
 import Ceritificate from './Certificate'
@@ -39,7 +39,6 @@ const ProfileCompany = () => {
 }
 
 const UserFeedApp = () => {
-  const router = useRouter()
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -48,7 +47,9 @@ const UserFeedApp = () => {
   const [arrVacany2, setArrVacancy2] = useState<any>([])
   const [itemData, getItemdata] = useState<any[]>([])
   const iduser: any = user.id
-  let { username } = router.query as { username: string }
+  //let { username } = router.query as { username: string }
+  const params = useSearchParams()
+  let username = params?.get('username')
 
   const firstload = async () => {
     let url = ''
@@ -130,7 +131,6 @@ const UserFeedApp = () => {
                 <ProfileFeedCard selectedUser={selectedUser}></ProfileFeedCard>
               </Grid>
               <Grid item md={12} xs={12}>
-                {/* <ListFeedView username={username} /> */}
                 <Box></Box>
               </Grid>
               <EducationalInfo vacancy={arrVacany2} />

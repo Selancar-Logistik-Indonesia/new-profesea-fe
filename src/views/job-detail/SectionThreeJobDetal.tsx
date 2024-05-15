@@ -7,27 +7,27 @@ import { useAuth } from 'src/hooks/useAuth'
 
 interface ISectionThreeJobDetailProps {
   jobDetail: Job | null
+  license?: any[]
 }
 
-const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetail }) => {
+const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetail, license }) => {
   const { user } = useAuth()
-  const userLicenses: any[] = user?.license
   const companyLicenses: any[] = jobDetail?.license
+  const isCompany = user?.team_id === 3
 
-  const findLicensesFromUser = (userLicenses: any[], companyLicenses: any[]) => {
+  const findLicensesFromUser = (license: any[] | undefined, companyLicenses: any[]) => {
     const match: any[] = []
     const missing: any[] = []
 
     companyLicenses.forEach(l => {
-      const foundUserLicense = userLicenses.find(u => u.id === l.id)
+      const foundUserLicense =
+        l.parent === 'COC' ? license?.find(u => u.coc_id === l.id) : license?.find(u => u.cop_id === l.id)
 
       if (foundUserLicense) {
         match.push(l)
       } else {
-        // Cek apakah sudah ada di missing
         const isMissing = missing.some(m => m.id === l.id)
 
-        // Jika belum ada, tambahkan ke missing
         if (!isMissing) {
           missing.push(l)
         }
@@ -40,33 +40,47 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
     }
   }
 
+  const match = findLicensesFromUser(license, companyLicenses).match
+  const missing = findLicensesFromUser(license, companyLicenses).missing
+
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-          paddingBottom: '10px',
-          borderBottom: theme => `1px solid ${theme.palette.divider}`
-        }}
-      >
-        <Box>
-          <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
-            <strong>How You match</strong>
-          </Typography>
-        </Box>
-        <Grid ml='0.7rem' container>
-          <Grid item>
-            <Icon icon='clarity:certificate-solid' color='#32487A' fontSize={'35px'} />
-          </Grid>
-          <Grid xs={11} sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography sx={{ color: 'text.primary', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-              {findLicensesFromUser(userLicenses, companyLicenses).match.length} Certificates match your profile
+      {!isCompany && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            paddingBottom: '10px',
+            borderBottom: theme => `1px solid ${theme.palette.divider}`
+          }}
+        >
+          <Box>
+            <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
+              <strong>How You match</strong>
             </Typography>
+          </Box>
+          <Grid ml='0.7rem' container>
+            <Grid item>
+              <Icon icon='clarity:certificate-solid' color='#32487A' fontSize={'35px'} />
+            </Grid>
+            <Grid item xs={11} sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography
+                sx={{ color: match.length == 0 ? 'red' : 'text.primary', fontWeight: 900 }}
+                ml='0.5rem'
+                mt='0.2rem'
+                fontSize={12}
+              >
+                <Box component='span' sx={missing.length != 0 ? { color: 'error.dark' } : {}}>
+                  {match.length}
+                </Box>{' '}
+                Certificates match your profile
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      )}
+
       <Box
         sx={{
           display: 'flex',
@@ -85,7 +99,7 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
           <Grid item>
             <Icon icon='el:check' color='#32487A' fontSize={'18px'} />
           </Grid>
-          <Grid xs={11}>
+          <Grid item xs={11}>
             <Typography sx={{ color: 'text.primary', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
               {companyLicenses.length} Certificates required by the company
             </Typography>
@@ -100,27 +114,32 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
             </Box>
           </Grid>
         </Grid>
-        <Grid ml='0.7rem' container>
-          <Grid item>
-            <Icon icon='healthicons:alert-negative' color='#32487A' fontSize={'18px'} />
-          </Grid>
-          <Grid xs={11}>
-            <Typography sx={{ color: 'text.primary', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-              {findLicensesFromUser(userLicenses, companyLicenses).missing.length} Certificates missing on your profile
-            </Typography>
-            <Box sx={{ display: 'flex' }}>
-              {findLicensesFromUser(userLicenses, companyLicenses).missing.map((license, i) => {
-                return (
-                  <Typography key={i} sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={10}>
-                    {license?.title} |
-                  </Typography>
-                )
-              })}
-            </Box>
-          </Grid>
-        </Grid>
-        {userLicenses.length == 0 && (
+        {missing.length > 0 && (
           <Grid ml='0.7rem' container>
+            <Grid item>
+              <Icon icon='healthicons:alert-negative' color='#d32f2f' fontSize={'18px'} />
+            </Grid>
+            <Grid item xs={11}>
+              <Typography sx={{ color: 'text.primary', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                <Box component='span' sx={{ color: 'error.dark' }}>
+                  {missing.length}
+                </Box>{' '}
+                Certificates missing on your profile
+              </Typography>
+              <Box sx={{ display: 'flex' }}>
+                {companyLicenses.map((license, i) => {
+                  return (
+                    <Typography key={i} sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={10}>
+                      {license?.title} |
+                    </Typography>
+                  )
+                })}
+              </Box>
+            </Grid>
+          </Grid>
+        )}
+        {match?.length == 0 && !isCompany && (
+          <Grid container>
             <Grid
               item
               xs={12}
@@ -129,7 +148,7 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
                 alignItems: 'center',
                 justifyContent: 'center',
                 background: '#d5e7f7',
-                padding: '10px',
+                py: '10px',
                 gap: '5px'
               }}
             >

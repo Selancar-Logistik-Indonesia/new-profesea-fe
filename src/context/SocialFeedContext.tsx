@@ -62,6 +62,7 @@ const SocialFeedProvider = (props: Props) => {
     const { feed } = response.data as { feed: ISocialFeed }
     setFeeds(items => [feed, ...items])
   }
+
   const EditupdateStatus = async (payload: UpdateStatusPayload) => {
     const formData = new FormData()
     formData.append('content', payload.content)
@@ -85,8 +86,52 @@ const SocialFeedProvider = (props: Props) => {
     // const { feed } = response.data as { feed: ISocialFeed }
     // setFeeds(items => [feed, ...items])
   }
+
   const fetchFeeds = async (payload: FetchFeedPayload) => {
-    console.log('fetching feeds')
+    let sPage = page
+    if (payload.mPage) {
+      sPage = payload.mPage
+    }
+
+    // only trigger in page 1
+    if (sPage == 1) setOnLoading(true)
+
+    try {
+      const url = '/social-feed/feed/'
+      const response = await HttpClient.get(url, {
+        page: sPage,
+        ...payload
+      })
+
+      if (response.status == 200) {
+        const { feeds } = response.data as { feeds: { data: ISocialFeed[]; next_page_url?: string; total: number } }
+        if (feeds.data.length && feeds.data.length > 0) {
+          if (sPage == 1) {
+            setFeeds(feeds.data)
+            setTotalFeed(feeds.data.length)
+          } else {
+            setFeeds(old => {
+              const newItems = old
+              feeds.data.forEach(e => newItems.push(e))
+              setTotalFeed(newItems.length)
+
+              return newItems
+            })
+          }
+
+          setPage(sPage + 1)
+        }
+
+        setHasNextPage(feeds.next_page_url != null)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+
+    setOnLoading(false)
+  }
+
+  const fetchFeedsUsername = async (payload: FetchFeedPayload) => {
     let sPage = page
     if (payload.mPage) {
       sPage = payload.mPage
@@ -153,6 +198,7 @@ const SocialFeedProvider = (props: Props) => {
 
     setFeeds(newFeedList)
   }
+
   const deleteFeed = async (feedId: number) => {
     const response = await HttpClient.del('/social-feed/feed/' + feedId)
 
@@ -243,6 +289,7 @@ const SocialFeedProvider = (props: Props) => {
       updateStatus,
       EditupdateStatus,
       fetchFeeds,
+      fetchFeedsUsername,
       hasNextPage,
       page,
       setPage,
@@ -260,6 +307,7 @@ const SocialFeedProvider = (props: Props) => {
       updateStatus,
       EditupdateStatus,
       fetchFeeds,
+      fetchFeedsUsername,
       onLoading,
       hasNextPage,
       page,

@@ -197,6 +197,7 @@ const TrainingDetailPage = () => {
       {openDialog && (
         <DialogLogin
           visible={openDialog}
+          variant='training'
           onCloseClick={() => {
             setOpenDialog(!openDialog)
           }}

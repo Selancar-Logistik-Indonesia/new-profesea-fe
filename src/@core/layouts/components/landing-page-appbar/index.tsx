@@ -13,7 +13,6 @@ import IconifyIcon from 'src/@core/components/icon'
 import themeConfig from 'src/configs/themeConfig'
 import Navigation from '../vertical/landing-navigation'
 import { useAuth } from 'src/hooks/useAuth'
-// import { isProduction, isStaging } from 'src/utils/helpers'
 import { useTranslation } from 'react-i18next'
 
 const LandingPageAppBar = (props: { appBarElevation?: number }) => {
@@ -49,8 +48,11 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
   }, [user])
 
   useEffect(() => {
-    const baseAddress1 = '/landingpage-recruiter'
-    // const baseAddress2 = '/trainings'
+    const baseAddress1 = '/find-job'
+    const baseAddress2 = '/#discoverSection'
+    const baseAddress3 = '/faqs'
+    const baseAddress4 = '/landingpage-recruiter'
+    const baseAddress5 = '/trainings'
 
     setNavItems([
       { title: t('button_1'), variant: 'contained', onClick: '/login' },
@@ -63,11 +65,11 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     ])
 
     setHomeNavItems([
-      { title: t('landing_menu_1'), path: '/#findJobSection' },
-      { title: t('landing_menu_2'), path: '/#discoverSection' },
-      { title: t('landing_menu_3'), path: '/faqs' },
-      { title: t('landing_menu_4'), path: baseAddress1 }
-      // { title: t('landing_menu_5'), path: baseAddress2 }
+      { title: t('landing_menu_1'), path: baseAddress1 },
+      { title: t('landing_menu_2'), path: baseAddress2 },
+      { title: t('landing_menu_3'), path: baseAddress3 },
+      { title: t('landing_menu_4'), path: baseAddress4 },
+      { title: t('landing_menu_5'), path: baseAddress5 }
     ])
   }, [t])
 

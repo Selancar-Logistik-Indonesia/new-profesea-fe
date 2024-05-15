@@ -1,3 +1,4 @@
+import Address from "./address"
 import ITeam from "./team"
 
 export default interface Company {
@@ -20,4 +21,5 @@ export default interface Company {
     banner?: string
     role: string
     team: ITeam
+    address: Address
 }

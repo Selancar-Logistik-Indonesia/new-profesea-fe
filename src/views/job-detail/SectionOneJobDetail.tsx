@@ -26,7 +26,7 @@ const SectionOneJobDetail: React.FC<ISectionOneJobDetailProps> = ({ jobDetail })
         <Grid item>
           <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
         </Grid>
-        <Grid xs={11}>
+        <Grid item xs={11}>
           <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
             {jobDetail?.job_title} | {jobDetail?.category?.name}
           </Typography>

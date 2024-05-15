@@ -11,8 +11,7 @@ interface IRelatedJobViewProps {
 const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) => {
   return (
     <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-      {/* <Grid item xs={12} sm={12}> */}
-      <Grid sx={{ padding: 3 }} container style={{ maxHeight: '100vh', overflow: 'auto' }}>
+      <Grid sx={{ padding: 3 }} container>
         {jobDetailSugestion.map(item => {
           //   const license: any[] = Object.values(item?.license != undefined ? item?.license : '')
 
@@ -89,28 +88,28 @@ const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) 
                             {item?.vessel_type?.name}
                           </Typography>
                         </Grid>
-                        <Grid xs={1}>
+                        <Grid item xs={1}>
                           <Icon icon='ri:calendar-fill' color='#32487A' fontSize={'20px'} />
                         </Grid>
-                        <Grid xs={11} maxWidth={'90%'}>
+                        <Grid item xs={11} maxWidth={'90%'}>
                           <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                             {format(new Date(item?.onboard_at), 'dd MMMM yyyy')}
                           </Typography>
                         </Grid>
-                        <Grid xs={1}>
+                        <Grid item xs={1}>
                           <Icon icon='mdi:timer-sand' color='#32487A' fontSize={'20px'} />
                         </Grid>
-                        <Grid xs={11} maxWidth={'90%'}>
+                        <Grid item xs={11} maxWidth={'90%'}>
                           <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                             {item?.contract_duration ? `${item?.contract_duration} months` : '-'}
                           </Typography>
                         </Grid>
                         {!item?.hide_salary && (
                           <>
-                            <Grid xs={1}>
+                            <Grid item xs={1}>
                               <Icon icon='clarity:dollar-line' color='#32487A' fontSize={'20px'} />
                             </Grid>
-                            <Grid xs={11} maxWidth={'90%'}>
+                            <Grid item xs={11} maxWidth={'90%'}>
                               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                                 {item?.salary_start && item?.salary_end
                                   ? `${
@@ -134,20 +133,20 @@ const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) 
                             {item?.degree?.name}
                           </Typography>
                         </Grid>
-                        <Grid xs={1}>
+                        <Grid item xs={1}>
                           <Icon icon='mdi:location' color='#32487A' fontSize={'20px'} />
                         </Grid>
-                        <Grid xs={11}>
+                        <Grid item xs={11}>
                           <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                             {item?.city?.city_name} | {item?.employment_type ? item?.employment_type : ''}
                           </Typography>
                         </Grid>
                         {!item?.hide_salary && (
                           <>
-                            <Grid xs={1}>
+                            <Grid item xs={1}>
                               <Icon icon='clarity:dollar-line' color='#32487A' fontSize={'20px'} />
                             </Grid>
-                            <Grid xs={11} maxWidth={'90%'}>
+                            <Grid item xs={11} maxWidth={'90%'}>
                               <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
                                 {item?.salary_start && item?.salary_end
                                   ? `${
@@ -169,7 +168,6 @@ const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) 
           )
         })}
       </Grid>
-      {/* </Grid> */}
     </Card>
   )
 }

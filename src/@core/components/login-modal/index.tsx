@@ -52,6 +52,7 @@ type BlockDialog = {
   visible: boolean
   onCloseClick: VoidFunction
   isBanner?: boolean
+  variant?: 'candidate' | 'training'
 }
 
 const getSchema = (t: any) => {
@@ -76,6 +77,7 @@ const DialogLogin = (props: BlockDialog) => {
   const isXs = useMediaQuery(theme.breakpoints.down('md'))
   const isMd = useMediaQuery(theme.breakpoints.down('lg'))
   const isBanner = props?.isBanner ?? true
+  const variant = props?.variant ?? 'training'
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false)
   const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
@@ -157,23 +159,48 @@ const DialogLogin = (props: BlockDialog) => {
                 alignItems: 'center'
               }}
             >
-              <Typography
-                style={{ color: '#FFFFFF' }}
-                fontWeight='800'
-                fontSize={28}
-                sx={{ maxWidth: '75%', textAlign: 'center' }}
-              >
-                {t('login_modal_title_1')}
-              </Typography>
-              <Divider sx={{ my: 4, bgcolor: 'white', width: '60%' }} />
-              <Typography
-                style={{ color: '#FFFFFF' }}
-                fontWeight='500'
-                fontSize={16}
-                sx={{ maxWidth: '80%', textAlign: 'center' }}
-              >
-                {t('login_modal_subtitle_1')}
-              </Typography>
+              {variant == 'training' ? (
+                <>
+                  <Typography
+                    style={{ color: '#FFFFFF' }}
+                    fontWeight='800'
+                    fontSize={28}
+                    sx={{ maxWidth: '75%', textAlign: 'center' }}
+                  >
+                    {t('login_modal_title_1')}
+                  </Typography>
+                  <Divider sx={{ my: 4, bgcolor: 'white', width: '60%' }} />
+                  <Typography
+                    style={{ color: '#FFFFFF' }}
+                    fontWeight='500'
+                    fontSize={16}
+                    sx={{ maxWidth: '80%', textAlign: 'center' }}
+                  >
+                    {t('login_modal_subtitle_1')}
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <Typography
+                    style={{ color: '#FFFFFF' }}
+                    fontWeight='800'
+                    fontSize={24}
+                    sx={{ maxWidth: '85%', textAlign: 'left' }}
+                  >
+                    {t('login_modal_title_2')}
+                  </Typography>
+                  <Box
+                    fontWeight={500}
+                    fontSize={15}
+                    style={{ color: '#FFFFFF' }}
+                    sx={{ mt: 4, maxWidth: '90%', textAlign: 'left' }}
+                  >
+                    <li>{t('login_modal_subtitle_2_1')}</li>
+                    <li>{t('login_modal_subtitle_2_2')}</li>
+                    <li>{t('login_modal_subtitle_2_3')}</li>
+                  </Box>
+                </>
+              )}
             </Grid>
           )}
           <Grid item xs={12} md={isBanner ? 6 : 12}>

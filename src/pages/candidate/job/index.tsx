@@ -259,6 +259,7 @@ const JobDetail = () => {
               onClose={() => setOpenDialog(!openDialog)}
               selectedItem={jobDetail}
               openDialog={openDialog}
+              setApply={setOnApplied}
             />
           )}
 
