@@ -118,6 +118,7 @@ const SeafarerJob = () => {
                 <Grid item xs={4} md={5}>
                   <Autocomplete
                     fullWidth
+                    disablePortal
                     id='city'
                     options={[]}
                     renderInput={params => <TextField {...params} label='Location' onClick={handleLogin} />}
@@ -126,23 +127,44 @@ const SeafarerJob = () => {
               </Grid>
               <Grid item container xs={12} md={5} minWidth={'350px'} spacing={2}>
                 <Grid item xs={employeeType === 'onship' ? 4 : 3}>
+                  {/* <Autocomplete
+                          fullWidth
+                          disablePortal
+                          id='combo-box-demo'
+                          options={[]}
+                          renderInput={params => <TextField {...params} label='Newest' />}
+                        /> */}
                   <Autocomplete
                     fullWidth
                     disablePortal
-                    id='combo-box-demo'
+                    id='combo-box-level'
                     options={[]}
-                    renderInput={params => <TextField {...params} label='Newest' onClick={handleLogin} />}
+                    renderInput={params => <TextField {...params} label='Category' onClick={handleLogin} />}
                   />
                 </Grid>
                 {employeeType === 'onship' ? (
                   <>
+                    {/* <Grid item xs={3}>
+                            <Autocomplete
+                              fullWidth
+                              disablePortal
+                              id='combo-box-level'
+                              options={JobCategory}
+                              getOptionLabel={(option: JobCategory) => option.name}
+                              renderInput={params => <TextField {...params} label='Category' />}
+                               any, newValue: JobCategory | null) => {
+                                setPage(1)
+                                newValue?.id ? setJC(newValue?.id) : setJC(0)
+                              }}
+                            />
+                          </Grid> */}
                     <Grid item xs={4}>
                       <Autocomplete
                         fullWidth
                         disablePortal
                         id='combo-box-level'
                         options={[]}
-                        renderInput={params => <TextField {...params} label='Category' onClick={handleLogin} />}
+                        renderInput={params => <TextField {...params} label='Role Level' onClick={handleLogin} />}
                       />
                     </Grid>
                     <Grid item xs={4}>
@@ -161,7 +183,7 @@ const SeafarerJob = () => {
                       <Autocomplete
                         fullWidth
                         disablePortal
-                        id='combo-box-demo'
+                        id='combo-box-level'
                         options={[]}
                         renderInput={params => <TextField {...params} label='Role Level' onClick={handleLogin} />}
                       />
@@ -197,11 +219,19 @@ const SeafarerJob = () => {
                   aria-label='Platform'
                   sx={{ display: 'flex', justifyContent: 'center' }}
                 >
-                  <ToggleButton value='onship' sx={{ py: 3.5, width: '50%', fontSize: 12 }}>
+                  <ToggleButton
+                    disabled={employeeType === 'onship'}
+                    value='onship'
+                    sx={{ py: 3.5, width: '50%', fontSize: 12 }}
+                  >
                     Seafarer
                   </ToggleButton>
-                  <ToggleButton value='offship' sx={{ py: 3.5, width: '50%', fontSize: 12 }}>
-                    Non Seafarer
+                  <ToggleButton
+                    disabled={employeeType === 'offship'}
+                    value='offship'
+                    sx={{ py: 3.5, width: '50%', fontSize: 12 }}
+                  >
+                    Professional
                   </ToggleButton>
                 </ToggleButtonGroup>
               </Box>
