@@ -21,7 +21,7 @@ const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) 
               <Paper sx={{ marginTop: '10px', border: '1px solid #eee', height: 'auto' }} elevation={0}>
                 <Link style={{ textDecoration: 'none' }} href={`/candidate/job/?id=${item?.id}`}>
                   <Box
-                    height={75}
+                    height={70}
                     sx={{
                       display: 'flex',
                       alignContent: 'center',
