@@ -100,6 +100,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
         return user_id == userSession?.id && params.row.filename ? (
           <a
             href={process.env.NEXT_PUBLIC_BASE_API + `/seafarer-travel-documents/preview/${params.row.id}/`}
+            target='_blank'
             // onClick={() =>
             //   HttpClient.downloadFile(
             //     process.env.NEXT_PUBLIC_BASE_API + `/seafarer-travel-documents/download/${params.row.id}/`,
