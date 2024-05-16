@@ -21,7 +21,6 @@ interface Props {
 
 const renderCardSeafarer = (item: IUser): JSX.Element => {
   const userPhoto = item.photo != '' ? item.photo : '/images/avatars/default-user.png'
-  const license: any[] = Object.values(item?.license)
 
   return (
     <Grid item xs={12} md={4} key={item?.id}>
