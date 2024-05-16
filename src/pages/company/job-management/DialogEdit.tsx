@@ -50,7 +50,7 @@ const SailRegion = [
   { id: 'iv', name: 'International Voyage' }
 ]
 
-const EMPLOYMENT_TYPE_OPTIONS = [{ name: 'Unpaid' }, { name: 'Contract' }, { name: 'Full-Time' }]
+const EMPLOYMENT_TYPE_OPTIONS = [{ name: 'Intern' }, { name: 'Contract' }, { name: 'Full-Time' }]
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -252,7 +252,7 @@ const DialogEdit = (props: EditProps) => {
         .split('/')
         .reverse()
         .join('-'),
-      contract_duration: contractDuration,
+      contract_duration: contractDuration ? contractDuration : null,
       rotational: rotational.value, // value => yer or no (baru)
       hide_salary: checked,
       job_title: job_title
