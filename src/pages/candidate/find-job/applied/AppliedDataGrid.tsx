@@ -70,7 +70,7 @@ export default function AccountDatagrid(props: RoleGridProps) {
       <DataGrid
         disableColumnMenu
         loading={props.loading}
-        rows={[]}
+        rows={props.rows}
         columns={columns}
         paginationMode='server'
         rowCount={0}
