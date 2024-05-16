@@ -99,13 +99,14 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
       renderCell(params: any) {
         return userSession.id == user_id && params.row.filename ? (
           <a
-            href='#'
-            onClick={() =>
-              HttpClient.downloadFile(
-                process.env.NEXT_PUBLIC_BASE_API + `/seafarer-competencies/download/${params.row.id}/`,
-                params.row.certificate_number
-              )
-            }
+            href={process.env.NEXT_PUBLIC_BASE_API + `/seafarer-proficiencies/preview/${params.row.id}/`}
+            target='_blank'
+            // onClick={() =>
+            //   HttpClient.downloadFile(
+            //     process.env.NEXT_PUBLIC_BASE_API + `/seafarer-competencies/download/${params.row.id}/`,
+            //     params.row.certificate_number
+            //   )
+            // }
           >
             {' '}
             <Icon icon='bi:file-earmark-arrow-down-fill' width='24' height='24' color={thisGray} />{' '}
