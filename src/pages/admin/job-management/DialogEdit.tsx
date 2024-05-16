@@ -48,7 +48,7 @@ const SailRegion = [
   { id: 'iv', name: 'International Voyage' }
 ]
 
-const EMPLOYMENT_TYPE_OPTIONS = [{ name: 'Unpaid' }, { name: 'Contract' }, { name: 'Full-Time' }]
+const EMPLOYMENT_TYPE_OPTIONS = [{ name: 'Intern' }, { name: 'Contract' }, { name: 'Full-Time' }]
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -226,6 +226,7 @@ const DialogEdit = (props: EditProps) => {
       currency: currency?.value,
       experience: experience,
       experience_type: categoryEmployeeType == 'onship' ? 'contract' : 'year',
+      employment_type: Employmenttype?.name,
       description: draftToHtml(convertToRaw(desc?.getCurrentContent())),
       onboard_at: date
         ?.toLocaleDateString('en-GB', {
