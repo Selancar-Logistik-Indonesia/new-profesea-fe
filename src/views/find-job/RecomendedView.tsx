@@ -245,7 +245,7 @@ const RecomendedView = (props: Props) => {
   const { listJob } = props
 
   return (
-    <Grid item xs={12} container spacing={3}>
+    <Grid container spacing={3}>
       {renderList(listJob)}
     </Grid>
   )
