@@ -3,7 +3,16 @@ import React, { useState, ReactNode } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import { useMediaQuery, Autocomplete, TextField, Typography, ToggleButtonGroup, ToggleButton } from '@mui/material'
+import {
+  useMediaQuery,
+  Autocomplete,
+  TextField,
+  Typography,
+  ToggleButtonGroup,
+  ToggleButton,
+  Button
+} from '@mui/material'
+import { Icon } from '@iconify/react'
 import Head from 'next/head'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
@@ -248,13 +257,22 @@ const SeafarerJob = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid container my={3} sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+          <Grid
+            container
+            sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', mt: 3, mb: 4 }}
+          >
             <Box padding={5}>
-              <Grid container spacing={2}>
+              <Grid container>
                 <Grid item xs={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
-                  <Grid container spacing={6}>
+                  <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <OngoingJob searchJob={searchJob} />
+                    </Grid>
+                    <Grid item container xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+                      <Button onClick={handleLogin}>
+                        <Box mr={2}>See Other Jobs</Box>
+                        <Icon icon='iconamoon:arrow-down-2-duotone' fontSize={24} />
+                      </Button>
                     </Grid>
                   </Grid>
                 </Grid>
