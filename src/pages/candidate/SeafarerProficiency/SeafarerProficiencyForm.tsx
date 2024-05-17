@@ -195,7 +195,15 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
 
   useEffect(() => {
     if (!attachment) {
-      setPreview(seafarerProficiency?.filename ? process.env.NEXT_PUBLIC_BASE_API?.replace('/api', '') + '/storage/user-documents/'+seafarerProficiency?.user_id+"/proficiency/"+seafarerProficiency?.filename : undefined)
+      setPreview(
+        seafarerProficiency?.filename
+          ? process.env.NEXT_PUBLIC_BASE_API?.replace('/api', '') +
+              '/storage/user-documents/' +
+              seafarerProficiency?.user_id +
+              '/proficiency/' +
+              seafarerProficiency?.filename
+          : undefined
+      )
 
       return
     }
@@ -328,16 +336,23 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
               <Grid item xs={12} md={12} container justifyContent={'left'}>
                 <Grid xs={4}>
                   <label htmlFor='x'>
-                    <img
-                      alt='logo'
-                      src={preview ? preview : '/images/uploadimage.jpeg'}
-                      style={{
-                        maxWidth: '100%',
-                        height: '120px',
-                        padding: 0,
-                        margin: 0
-                      }}
-                    />
+                    {preview?.split('.').pop() == 'pdf' ? (
+                      <>
+                        <a style={{ textDecoration: 'underline', cursor: 'pointer' }}> change file </a>
+                        <object data={preview ? preview : null} width='150' height='200'></object>
+                      </>
+                    ) : (
+                      <img
+                        alt='logo'
+                        src={preview ? preview : '/images/uploadimage.jpeg'}
+                        style={{
+                          maxWidth: '100%',
+                          height: '120px',
+                          padding: 0,
+                          margin: 0
+                        }}
+                      />
+                    )}
                   </label>
                   <input
                     accept='application/pdf,,image/*'
@@ -347,6 +362,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                     onChange={e => setAttachment(e.target?.files ? e.target?.files[0] : null)}
                     type='file'
                   ></input>
+                  <div>{attachment?.name}</div>
                 </Grid>
                 <Grid xs={4}>
                   <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
