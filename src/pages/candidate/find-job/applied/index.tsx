@@ -24,7 +24,6 @@ const AllJobApplied = () => {
 
   const [perPage, setPerPage] = useState(10)
   const getAppliedJob = async () => {
-    // try {
     const resp = await HttpClient.get(`/user/job-applied?search=${search}&page=${page}&take=${perPage}`)
     if (resp.status != 200) {
       throw resp.data.message ?? 'Something went wrong!'
@@ -35,6 +34,8 @@ const AllJobApplied = () => {
       return {
         no: index + 1,
         id: row.id,
+        job_id: row?.job_id,
+        job_title: row?.job?.job_title,
         role_type: row?.job?.role_type?.name,
         category_name: row?.job?.category.name,
         company_name: row?.job?.company?.name,
@@ -47,19 +48,6 @@ const AllJobApplied = () => {
 
     setRowCount(resp?.data?.jobs?.total ?? 0)
     setDataSheet(items)
-    // } catch (error) {
-    //     let errorMessage = "Something went wrong!";
-
-    //     if (error instanceof AxiosError) {
-    //         errorMessage = error?.response?.data?.message ?? errorMessage;
-    //     }
-
-    //     if (typeof error == 'string') {
-    //         errorMessage = error;
-    //     }
-
-    //     toast.error(`Opps ${errorMessage}`);
-    // }
   }
 
   const handleSearch = useCallback(
