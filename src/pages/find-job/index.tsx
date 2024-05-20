@@ -69,7 +69,7 @@ const SeafarerJob = () => {
         <Grid
           item
           xs={12}
-          md={10}
+          md={11}
           sx={{
             ...landingPageStyle.bannerHero,
             my: 3,
@@ -96,7 +96,7 @@ const SeafarerJob = () => {
             {t('landing_job_subtitle')}
           </Typography>
         </Grid>
-        <Grid item container xs={12} md={10}>
+        <Grid item container xs={12} md={11}>
           <Grid item xs={12} sx={{ padding: 4, border: 0, boxShadow: 0, backgroundColor: '#FFFFFF' }}>
             <Box
               sx={

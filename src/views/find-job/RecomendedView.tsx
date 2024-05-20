@@ -54,7 +54,7 @@ const renderList = (listJob: Job[]) => {
     const jobTitleUrl = item.job_title ? item.job_title?.toLowerCase().split(' ').join('-') : ''
 
     return (
-      <Grid item xs={12} md={4} key={item?.id}>
+      <Grid item xs={12} md={6} lg={4} key={item?.id}>
         <Link style={{ textDecoration: 'none' }} href={`/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`}>
           <Paper
             sx={{
@@ -70,39 +70,42 @@ const renderList = (listJob: Job[]) => {
               sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                height: 70,
+                alignItems: 'flex-start',
+                height: { sm: 65, md: 75, lg: 65 },
                 mb: 2
               }}
             >
-              <Grid
-                container
+              <Box
                 sx={{
                   display: 'flex',
-                  alignContent: 'flex-start',
+                  alignItems: 'flex-start',
+                  flexGrow: 1,
                   '& svg': { color: 'text.secondary' }
                 }}
               >
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }} mr={3}>
-                  <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50 }} />
-                </Box>
-                <Grid
-                  item
-                  xs={9}
-                  md={8}
-                  lg={9}
+                <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50, mr: 2 }} />
+                <Box
                   sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: ['left', 'flex-start']
+                    justifyContent: 'center'
                   }}
                 >
                   <TruncatedTypography text={item?.role_type?.name ?? '-'} />
                   <Typography sx={{ color: 'text.primary' }} fontSize={14}>
                     {item?.company?.name ?? '-'}
                   </Typography>
-                </Grid>
-              </Grid>
-              <Box sx={{ display: 'flex', justifyContent: 'right', width: { sm: '100px', md: '80px', lg: '100px' } }}>
+                </Box>
+              </Box>
+              <Box
+                ml={1}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  justifyContent: 'right',
+                  width: { sm: '100px', md: '80px', lg: '100px' }
+                }}
+              >
                 <Typography sx={{ color: 'text.primary' }} fontSize={12}>
                   {item?.created_at ? moment(item.created_at).fromNow() : '-'}
                 </Typography>
