@@ -25,8 +25,9 @@ const ProficiencySchema = Yup.object().shape({
 })
 
 const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
-  const { user_id, handleModalForm, showModal, type, seafarerRecommendation } = props
+  const { user_id, handleModalForm, showModal, type, loadRecommendation, seafarerRecommendation } = props
   const [loading, setLoading] = useState(false)
+  const id = seafarerRecommendation?.id
 
   const formik = useFormik({
     initialValues: {
@@ -39,7 +40,7 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
     enableReinitialize: true,
     validationSchema: ProficiencySchema,
     onSubmit: values => {
-      createRecommendation(values)
+      handleSubmit(values)
     }
   })
 
@@ -56,11 +57,41 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
         toast.success('create recommendation success')
         handleModalForm(type, undefined)
         setLoading(false)
+        loadRecommendation()
       })
       .catch(err => {
         toast.error(JSON.stringify(err.message))
         setLoading(false)
       })
+  }
+
+  const updateRecommendation = (id: number, values: any) => {
+    setLoading(true)
+    HttpClient.patch(AppConfig.baseUrl + '/seafarer-recommendations/' + id, {
+      user_id: values.user_id,
+      company: values.company,
+      email: values.email,
+      position: values.position,
+      phone_number: values.phone_number
+    })
+      .then(() => {
+        toast.success('update recommendation success')
+        handleModalForm(type, undefined)
+        setLoading(false)
+        loadRecommendation()
+      })
+      .catch(err => {
+        toast.error(JSON.stringify(err.message))
+        setLoading(false)
+      })
+  }
+
+  const handleSubmit = (values: any) => {
+    if (type == 'edit') {
+      updateRecommendation(id, values)
+    } else {
+      createRecommendation(values)
+    }
   }
 
   return (

@@ -13,7 +13,7 @@ export default function SeafarerRecommendationDeleteConfirm(props: ISeafarerReco
 
   const deleteRecommendation = async (id?: number) => {
     try {
-      await HttpClient.del(AppConfig.baseUrl + '/seafarer-proficiencies/' + id)
+      await HttpClient.del(AppConfig.baseUrl + '/seafarer-recommendations/' + id)
 
       toast.success('delete Recommendation success')
       loadRecommendation()
