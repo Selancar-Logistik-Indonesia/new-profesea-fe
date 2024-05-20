@@ -135,17 +135,19 @@ const DialogAddDocument = (props: DialogProps) => {
       }
 
       for (const file of selectedFiles) {
-        const json = {
-          user_document: file?.file,
-          document_name: file?.document.title,
-          document_type: file?.document.docType,
-          document_number: null
-        }
+        if (file?.file.name) {
+          const json = {
+            user_document: file?.file,
+            document_name: file?.document.title,
+            document_type: file?.document.docType,
+            document_number: null
+          }
 
-        console.log(json)
-        const resp = await HttpClient.postFile('/user/document', json)
-        if (resp.status != 200) {
-          throw resp.data.message ?? 'Something went wrong!'
+          console.log(json)
+          const resp = await HttpClient.postFile('/user/document', json)
+          if (resp.status != 200) {
+            throw resp.data.message ?? 'Something went wrong!'
+          }
         }
       }
     } catch (error) {

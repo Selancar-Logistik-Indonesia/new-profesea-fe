@@ -69,7 +69,7 @@ import SeafarerTravelDocumentTable from 'src/pages/candidate/SeafarerTravelDocum
 import SeafarerExperienceTable from 'src/pages/candidate/SeafarerExperience/SeafarerExperienceContainer'
 import SeafarerCompetencyTable from 'src/pages/candidate/SeafarerCompetency/SeafarerCompetencyContainer'
 import SeafarerProficiencyTable from 'src/pages/candidate/SeafarerProficiency/SeafarerProficiencyContainer'
-import SeafarerRecommendationForm from 'src/pages/candidate/SeafarerRecommendation/SeafarerRecommendationForm'
+import SeafarerRecommendationContainer from 'src/pages/candidate/SeafarerRecommendation/SeafarerRecommendationContainer'
 import DocumentUpload from './DocumentUploadSection'
 import WorkExperienceSection from './WorkExperienceSection'
 import EducationalInfoSection from './EducationalInfoSection'
@@ -1440,7 +1440,7 @@ const CandidateProfile = (props: compProps) => {
           />
           <SeafarerCompetencyTable user_id={props?.datauser.id} />
           <SeafarerProficiencyTable user_id={props?.datauser.id} />
-          {!noExperience ? <SeafarerRecommendationForm user_id={props?.datauser.id} /> : ''}
+          {!noExperience ? <SeafarerRecommendationContainer user_id={props?.datauser.id} /> : ''}
         </Grid>
       )}
 
