@@ -78,7 +78,7 @@ export default function SeafarerRecommendationTable(props: ISeafarerRecommendati
           <>
             <IconButton
               size='small'
-              title={`Update this Comptency Id = ${params.row.id} `}
+              title={`Update this Recommendation Id = ${params.row.id} `}
               onClick={() => handleModalDelete(params.row)}
             >
               <Icon icon='material-symbols:delete-outline' width='24' height='24' />
