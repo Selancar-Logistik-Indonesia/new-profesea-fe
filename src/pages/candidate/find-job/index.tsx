@@ -171,12 +171,12 @@ const SeafarerJobApp = () => {
   }, [JC, searchJob, RL, ED, idcity, idvessel, employmentType])
 
   return (
-    <Box display={'flex'} justifyContent={'center'}>
+    <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
       <Grid
         item
         container
-        lg={11}
-        md={12}
+        xs={12}
+        md={11}
         sx={
           !hidden
             ? {
@@ -463,7 +463,7 @@ const SeafarerJobApp = () => {
           </Grid>
         </Grid>
       </Grid>
-    </Box>
+    </Grid>
   )
 }
 
