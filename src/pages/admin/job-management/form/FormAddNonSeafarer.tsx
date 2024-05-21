@@ -48,7 +48,7 @@ interface IFormAddNonSeafarerProps {
   handleChangeToggle: (event: React.MouseEvent<HTMLElement>, newAlignment: string) => void
 }
 
-const employmentType = [{ name: 'Intern' }, { name: 'Contract' }, { name: 'Full-Time' }]
+const employmenttype = [{ name: 'Intern' }, { name: 'Contract' }, { name: 'Full-Time' }]
 
 const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ alignment, dialogProps, handleChangeToggle }) => {
   const [onLoading, setOnLoading] = useState(false)

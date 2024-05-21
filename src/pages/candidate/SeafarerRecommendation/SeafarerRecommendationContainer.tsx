@@ -9,18 +9,18 @@ import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 
 import { IUser } from 'src/contract/models/user'
-import { ISeafarerProficiencyProps } from '../../../contract/types/seafarer_proficiency_type'
-import ISeafarerProficiencyData from '../../../contract/models/seafarer_proficiency'
-import SeafarerProficiencyForm from './SeafarerProficiencyForm'
+import { ISeafarerRecommendationProps } from '../../../contract/types/seafarer_recommendation_type'
+import ISeafarerRecommendationData from '../../../contract/models/seafarer_recommendation'
+import SeafarerRecommendationForm from './SeafarerRecommendationForm'
 
-import SeafarerProficiencyDeleteConfirm from './SeafarerProficiencyDeleteConfirm'
+import SeafarerRecommendationDeleteConfirm from './SeafarerRecommendationDeleteConfirm'
 import LoadingIcon from 'src/layouts/components/LoadingIcon'
 import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
 
-const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
+const SeafarerRecommendationTable = (props: ISeafarerRecommendationProps) => {
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(false)
-  const [seafarerProficiency, setSeafarerProficiency] = useState()
+  const [seafarerRecommendation, setSeafarerRecommendation] = useState()
   const [modalFormType, setModalFormType] = useState('create')
   const [modalFormOpen, setModalFormOpen] = useState(false)
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
@@ -31,14 +31,12 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
 
   const userSession = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
-  const loadProficiency = () => {
+  const loadRecommendation = () => {
     setLoading(true)
-    HttpClient.get(AppConfig.baseUrl + '/seafarer-proficiencies/user-id/' + user_id).then(response => {
-      const result = response.data.data.map((item: ISeafarerProficiencyData) => {
+    HttpClient.get(AppConfig.baseUrl + '/seafarer-recommendations/user-id/' + user_id).then(response => {
+      const result = response.data.data.map((item: ISeafarerRecommendationData) => {
         return {
-          ...item,
-          certificate_name: item.proficiency.title,
-          country: item.country.name
+          ...item
         }
       })
 
@@ -50,71 +48,43 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
   const handleModalForm = (type: string, data: any = undefined) => {
     setModalFormType(type)
     if (type == 'edit') {
-      setSeafarerProficiency(data)
+      setSeafarerRecommendation(data)
     } else {
-      setSeafarerProficiency(undefined)
+      setSeafarerRecommendation(undefined)
     }
 
     setModalFormOpen(modalFormOpen ? false : true)
   }
 
   const handleModalDelete = (data: any = undefined) => {
-    setSeafarerProficiency(data)
+    setSeafarerRecommendation(data)
     setModalDeleteOpen(modalDeleteOpen ? false : true)
   }
 
   useEffect(() => {
-    loadProficiency()
+    loadRecommendation()
   }, [])
 
   const columns: GridColDef[] = [
-    { field: 'certificate_name', headerName: 'Certificate Name', type: 'string', width: 220, editable: false },
+    { field: 'company', headerName: 'Company', type: 'string', width: 220, editable: false },
     {
-      field: 'certificate_number',
-      headerName: 'Certificate Number',
+      field: 'email',
+      headerName: 'Email',
       type: 'string',
       width: 200,
       align: 'left',
       headerAlign: 'left'
     },
     {
-      field: 'country',
-      headerName: 'Country',
+      field: 'phone_number',
+      headerName: 'Phone Number',
       type: 'string',
       width: 180
     },
     {
-      field: 'valid_until',
-      headerName: 'Valid Up',
-      width: 220,
-      renderCell: (params: any) => {
-        return params.row.valid_until ? <>{params.row.valid_until}</> : 'lifetime'
-      }
-    },
-    {
-      field: 'download',
-      headerName: 'Credentials',
-
-      width: 180,
-      renderCell(params: any) {
-        return userSession.id == user_id && params.row.filename ? (
-          <a
-            href={process.env.NEXT_PUBLIC_BASE_API + `/seafarer-proficiencies/preview/${params.row.id}/`}
-            target='_blank'
-            // onClick={() =>
-            //   HttpClient.downloadFile(
-            //     process.env.NEXT_PUBLIC_BASE_API + `/seafarer-competencies/download/${params.row.id}/`,
-            //     params.row.certificate_number
-            //   )
-            // }
-          >
-            {' '}
-            <Icon icon='bi:file-earmark-arrow-down-fill' width='24' height='24' color={thisGray} />{' '}
-          </a>
-        ) : (
-          ''
-        )
-      }
+      field: 'position',
+      headerName: 'Position',
+      width: 220
     },
     {
       field: 'action',
@@ -125,7 +95,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
           <>
             <IconButton
               size='small'
-              title={`Update this Proficiency Id = ${params.row.id} `}
+              title={`Update this recommendation Id = ${params.row.id} `}
               onClick={() => {
                 handleModalForm('edit', params.row)
               }}
@@ -134,7 +104,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
             </IconButton>
             <IconButton
               size='small'
-              title={`Update this Proficiency Id = ${params.row.id} `}
+              title={`Update this recommendation Id = ${params.row.id} `}
               onClick={() => handleModalDelete(params.row)}
             >
               <Icon icon='material-symbols:delete-outline' width='24' height='24' color={thisGray} />
@@ -150,29 +120,29 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
   return (
     <>
       {userSession.id == user_id && (
-        <SeafarerProficiencyForm
+        <SeafarerRecommendationForm
           user_id={user_id}
-          key={seafarerProficiency ? seafarerProficiency['id'] : 0}
-          seafarerProficiency={seafarerProficiency}
+          key={seafarerRecommendation ? seafarerRecommendation['id'] : 0}
+          seafarerRecommendation={seafarerRecommendation}
           type={modalFormType}
           handleModalForm={handleModalForm}
-          loadProficiency={loadProficiency}
+          loadRecommendation={loadRecommendation}
           showModal={modalFormOpen}
         />
       )}
 
       {userSession.id == user_id && (
-        <SeafarerProficiencyDeleteConfirm
-          seafarerProficiency={seafarerProficiency}
+        <SeafarerRecommendationDeleteConfirm
+          seafarerRecommendation={seafarerRecommendation}
           handleModalDelete={handleModalDelete}
-          loadProficiency={loadProficiency}
+          loadRecommendation={loadRecommendation}
           showModal={modalDeleteOpen}
         />
       )}
       <Grid item container xs={12} md={12} lg={12}>
         <Grid item xs={12} md={6} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-            Certificate of Proficiency
+            Certificate of recommendation
           </Typography>
         </Grid>
         <Grid item md={6}>
@@ -190,7 +160,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
                   color={'success'}
                   style={{ fontSize: '18px' }}
                 />
-                <div> Add more Proficiency </div>
+                <div> Add more recommendation </div>
               </Button>
             )}
           </Grid>
@@ -220,4 +190,4 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
   )
 }
 
-export default SeafarerProficiencyTable
+export default SeafarerRecommendationTable

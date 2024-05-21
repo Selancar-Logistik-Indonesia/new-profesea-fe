@@ -99,13 +99,14 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
       renderCell(params: any) {
         return user_id == userSession?.id && params.row.filename ? (
           <a
-            href='#'
-            onClick={() =>
-              HttpClient.downloadFile(
-                process.env.NEXT_PUBLIC_BASE_API + `/seafarer-travel-documents/download/${params.row.id}/`,
-                params.row.filename
-              )
-            }
+            href={process.env.NEXT_PUBLIC_BASE_API + `/seafarer-travel-documents/preview/${params.row.id}/`}
+            target='_blank'
+            // onClick={() =>
+            //   HttpClient.downloadFile(
+            //     process.env.NEXT_PUBLIC_BASE_API + `/seafarer-travel-documents/download/${params.row.id}/`,
+            //     params.row.filename
+            //   )
+            // }
           >
             {' '}
             <Icon icon='bi:file-earmark-arrow-down-fill' width='24' height='24' color={thisGray} />{' '}

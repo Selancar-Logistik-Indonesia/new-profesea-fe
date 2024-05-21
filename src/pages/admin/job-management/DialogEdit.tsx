@@ -226,6 +226,7 @@ const DialogEdit = (props: EditProps) => {
       currency: currency?.value,
       experience: experience,
       experience_type: categoryEmployeeType == 'onship' ? 'contract' : 'year',
+      employment_type: Employmenttype?.name,
       description: draftToHtml(convertToRaw(desc?.getCurrentContent())),
       onboard_at: date
         ?.toLocaleDateString('en-GB', {

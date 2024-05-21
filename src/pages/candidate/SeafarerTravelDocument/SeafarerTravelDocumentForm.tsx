@@ -39,9 +39,9 @@ const Transition = forwardRef(function Transition(
 })
 
 const TravelDocumentSchema = Yup.object().shape({
-  document: Yup.string().required("Document is required"),
+  document: Yup.string().required('Document is required'),
   no: Yup.string().required('Document Number is required'),
-  date_of_issue: Yup.string().required("Date of Issue is required"),
+  date_of_issue: Yup.string().required('Date of Issue is required'),
   country_of_issue: Yup.object().shape({
     id: Yup.number().required('Country is required'),
     name: Yup.string().required('')
@@ -49,7 +49,7 @@ const TravelDocumentSchema = Yup.object().shape({
   user_id: Yup.number().required(),
   valid_date: Yup.date().nullable(),
   is_lifetime: Yup.boolean().nullable(),
-  required_document: Yup.string().required("Document Required Type is required")
+  required_document: Yup.string().required('Document Required Type is required')
 })
 
 const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
@@ -67,6 +67,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
       : {}
   )
   const [validDateState, setValidDateState] = useState<any>()
+  const [preview, setPreview] = useState<any>()
   const [dateOfIssue, setDateOfIssue] = useState<any>()
   const [attachment, setAttachment] = useState<any>(null)
 
@@ -191,6 +192,26 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
           : formik.values.document
     })
   }, [formik.values.required_document])
+
+  useEffect(() => {
+    if (!attachment) {
+      setPreview(
+        seafarerTravelDocument?.filename
+          ? process.env.NEXT_PUBLIC_BASE_API?.replace('/api', '') +
+              '/storage/user-documents/' +
+              seafarerTravelDocument?.user_id +
+              '/travel-documents/' +
+              seafarerTravelDocument?.filename
+          : undefined
+      )
+
+      return
+    }
+    const objectUrl: any = URL.createObjectURL(attachment)
+    setPreview(objectUrl)
+
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [attachment])
 
   const handleSubmit = (values: any) => {
     if (type == 'edit') {
@@ -336,7 +357,6 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                   <TextField label='Valid Date' variant='standard' fullWidth id='valid_date' name='valid_date' />
                 }
               />
-             
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <FormControlLabel
@@ -351,33 +371,61 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 }
                 label='Lifetime'
               />
-            
             </Grid>
-           
-            <Grid mb={5}>
-              <Button
-                component='label'
-                variant='contained'
-                size='small'
-                sx={{ width:200 }}
-                startIcon={
-                  <Icon icon='material-symbols:cloud-upload' width='16' height='16' style={{ color: 'white' }} />
-                }
-              >
-                <span style={{ display:'inline', width:'600px', textAlign:'center'}}>Upload file {attachment ? ' : ' + attachment['name'] : ''} </span>
-                <input
-                  style={{ visibility: 'hidden' }}
-                  type='file'
-                  name='attachment'
-                  onChange={e => setAttachment(e.target?.files ? e.target?.files[0] : null)}
-                />
-              </Button>
+
+            <Grid item md={12} xs={12} mt={2}>
+              <Grid item xs={12} md={12} container justifyContent={'left'}>
+                <Grid xs={4}>
+                  <label htmlFor='x'>
+                    {preview?.split('.').pop() == 'pdf' ? (
+                      <>
+                        <a style={{ textDecoration: 'underline', cursor: 'pointer' }}> change file </a>
+                        <object data={preview ? preview : null} width='150' height='200'></object>
+                      </>
+                    ) : (
+                      <img
+                        alt='logo'
+                        src={preview ? preview : '/images/uploadimage.jpeg'}
+                        style={{
+                          maxWidth: '100%',
+                          height: '120px',
+                          padding: 0,
+                          margin: 0
+                        }}
+                      />
+                    )}
+                  </label>
+                  <input
+                    accept='application/pdf,,image/*'
+                    style={{ display: 'none' }}
+                    id='x'
+                    name='attachment'
+                    onChange={e => setAttachment(e.target?.files ? e.target?.files[0] : null)}
+                    type='file'
+                  ></input>
+                  <div>{attachment?.name}</div>
+                </Grid>
+                <Grid xs={4}>
+                  <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
+                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
+                      <strong>Click to change Document File.</strong>
+                    </Typography>
+                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
+                      Allowed PDF.
+                    </Typography>
+                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
+                      Max size of 800K. Aspect Ratio 1:1
+                    </Typography>
+                  </Box>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item md={12} xs={12} mb={5} sx={{ color:'red', margin:"-10px -25px"}}>
+            <Grid item md={12} xs={12} mb={5} sx={{ color: 'red', margin: '-10px -25px' }}>
               <ul>
-                {formik.isSubmitting && Object.entries(formik.errors).map((item:any) => {
-                  return (<li key={item[0]}>{JSON.stringify(item[1])}</li>)
-                })}
+                {formik.isSubmitting &&
+                  Object.entries(formik.errors).map((item: any) => {
+                    return <li key={item[0]}>{JSON.stringify(item[1])}</li>
+                  })}
               </ul>
             </Grid>
           </Grid>
