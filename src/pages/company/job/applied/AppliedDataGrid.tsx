@@ -3,12 +3,30 @@ import Box from '@mui/material/Box'
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid'
 import { Button, Chip, Typography } from '@mui/material'
 import Icon from 'src/@core/components/icon'
+import Link from 'next/link'
+import { toLinkCase } from 'src/utils/helpers'
 
 const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true, width: 50 },
-  { field: 'name', headerName: 'Name', sortable: true, minWidth: 200 },
+  {
+    field: 'name',
+    headerName: 'Name',
+    sortable: true,
+    minWidth: 200,
+    renderCell: cell => {
+      const { row } = cell
+
+      return (
+        <>
+          <Link href={`/profile/${row.user_id}/${toLinkCase(row.username)}`} target='_blank'>
+            {row.name}
+          </Link>
+        </>
+      )
+    }
+  },
   { field: 'email', headerName: 'Email', sortable: false, minWidth: 200 },
-  { field: 'phone', headerName: 'Phone', sortable: false, minWidth: 150 },
+  // { field: 'phone', headerName: 'Phone', sortable: false, minWidth: 150 },
   { field: 'category', headerName: 'Category', sortable: true, minWidth: 120 },
   {
     field: 'status',
@@ -55,16 +73,15 @@ const columns: GridColDef[] = [
               </Typography>
             </Button>
             <Button onClick={() => row.actions.onSave()} variant='contained' color='warning' size='small'>
-              {/* <Icon icon='mdi:download' style={{ fontSize: '20px' }} /> */}
               <Typography ml={1} fontSize={'12px'} color='common.white'>
                 Save
               </Typography>
             </Button>
             <Button onClick={() => row.actions.onChat()} variant='outlined' color='success' size='small'>
-              {/* <Icon icon='mdi:download' style={{ fontSize: '20px' }} /> */}
-              <Typography ml={1} fontSize={'12px'}>
+              <Icon icon='ic:baseline-whatsapp' style={{ fontSize: '20px' }} color='green' />
+              {/* <Typography ml={1} fontSize={'12px'}>
                 Chat
-              </Typography>
+              </Typography> */}
             </Button>
 
             {/* <Button
