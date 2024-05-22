@@ -42,15 +42,7 @@ export default function NewsListCard() {
 
   const Item = (props: any) => {
     return (
-      <Card
-        sx={{
-          color: 'common.white',
-          backgroundColor: '#FFFFFF',
-          paddingBottom: 2,
-          marginBottom: 2,
-          marginTop: 2
-        }}
-      >
+      <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
         <CardContent>
           <Typography fontSize={15} style={{ color: '#000' }} fontWeight='800' textAlign='center'>
             {t('landing_event_title')}
@@ -70,8 +62,8 @@ export default function NewsListCard() {
   }
 
   return (
-    <Card>
-      <CardContent sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+    <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+      <CardContent>
         <Box sx={{ mb: 4 }}>
           <Typography variant='body2' sx={{ mb: 2, color: '#262525', textTransform: 'uppercase', fontWeight: 600 }}>
             Latest Article

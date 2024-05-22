@@ -66,12 +66,12 @@ const UserFeedApp = () => {
       setSelectedUser(user)
 
       if (user.role == 'Company') {
-        HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=250' + filter).then(response => {
+        HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=3' + filter).then(response => {
           const code = response.data.jobs.data
           setArrVacancy(code)
         })
       } else if (user.role == 'Trainer') {
-        HttpClient.get(AppConfig.baseUrl + '/training?search=&page=1&take=250' + filter).then(response => {
+        HttpClient.get(AppConfig.baseUrl + '/training?search=&page=1&take=3' + filter).then(response => {
           const itemData = response.data.trainings.data
           setArrVacancy(itemData)
         })
@@ -88,30 +88,35 @@ const UserFeedApp = () => {
   return (
     <Box>
       <Grid container spacing={1}>
-        <Grid item xs={12} md={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
-          <Grid container spacing={6} sx={{ marginTop: '1px' }}>
-            <Grid item lg={2} md={2} xs={12}>
-              {selectedUser?.role == 'Company' && <JobVacancy vacancy={arrVacany} />}
-              {selectedUser?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
-              <NewsListCard />
+        <Grid item xs={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
+          <Grid container spacing={6}>
+            <Grid item md={2} xs={12}>
+              <Box>
+                {selectedUser?.role == 'Company' && <JobVacancy vacancy={arrVacany} userId={selectedUser.id} />}
+                {selectedUser?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
+              </Box>
+              <Box my={3}>
+                <NewsListCard />
+              </Box>
             </Grid>
-            <Grid item container lg={8} md={8} xs={12}>
-              <Grid item md={12} xs={12}>
-                {selectedUser && <UserProfileHeader datauser={selectedUser} address={selectedUser.address} />}
-              </Grid>
-              <Grid item md={12} xs={12}>
+            <Grid item lg={8} md={8} xs={12}>
+              <Box>{selectedUser && <UserProfileHeader datauser={selectedUser} address={selectedUser.address} />}</Box>
+              <Box>
                 <AboutMe dataUser={selectedUser}></AboutMe>
-              </Grid>
-              <Grid item md={12} xs={12}>
+              </Box>
+              <Box>
                 <ProfileFeedCard selectedUser={selectedUser}></ProfileFeedCard>
-              </Grid>
+              </Box>
             </Grid>
-            <Grid item lg={2} md={2} xs={12}>
+            <Grid item md={2} xs={12}>
               <ProfileViewerCard />
             </Grid>
           </Grid>
         </Grid>
       </Grid>
+      {/* <Grid container>
+
+      </Grid> */}
     </Box>
   )
 }
