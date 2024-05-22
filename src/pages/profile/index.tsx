@@ -7,13 +7,11 @@ import secureLocalStorage from 'react-secure-storage'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import UserProfileHeader from 'src/layouts/components/UserProfileHeader'
-import JobVacancy from './JobVacancy'
 import { IUser } from 'src/contract/models/user'
 import { toast } from 'react-hot-toast'
 import WorkeExperience from './Workexperience'
 // import ListFeedView from 'src/views/social-feed/ListFeedView'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
-import ListTraining from './Training'
 import { useSearchParams } from 'next/navigation'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import EducationalInfo from './Educational'
@@ -115,9 +113,6 @@ const UserFeedApp = () => {
         <Grid item xs={12} md={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
           <Grid container spacing={6} sx={{ marginTop: '1px' }}>
             <Grid item lg={2} md={2} xs={12}>
-              {selectedUser?.role == 'Company' && <JobVacancy vacancy={arrVacany} />}
-              {selectedUser?.role == 'Seafarer' && <Box></Box>}
-              {selectedUser?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
               <NewsListCard />
             </Grid>
             <Grid item container lg={8} md={8} xs={12}>

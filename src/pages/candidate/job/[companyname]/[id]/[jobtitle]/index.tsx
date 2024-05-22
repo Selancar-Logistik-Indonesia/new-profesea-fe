@@ -81,7 +81,7 @@ const JobDetail = () => {
       user.about != null &&
       user.country_id != null
     ) {
-      if (license?.length === 0 && jobDetail?.license.length >= 1 && jobDetail?.category.employee_type == 'onship') {
+      if (license?.length === 0 && jobDetail?.license.length !== 0 && jobDetail?.category.employee_type == 'onship') {
         setOpenCertificateDialog(!openCertificateDialog)
       } else {
         setOpenDialog(!openDialog)

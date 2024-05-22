@@ -16,9 +16,7 @@ import DialogDelete from './DialogDelete'
 import DialogEdit from './DialogEdit'
 import { v4 } from 'uuid'
 import { Icon } from '@iconify/react'
-import localStorageKeys from 'src/configs/localstorage_keys'
-import secureLocalStorage from 'react-secure-storage'
-import { IUser } from 'src/contract/models/user'
+import { useAuth } from 'src/hooks/useAuth'
 import DialogBlock from './DialogBlock'
 
 const JobManagementScreen = () => {
@@ -31,7 +29,7 @@ const JobManagementScreen = () => {
 
   const [dataSheet, setDataSheet] = useState<RowItem[]>([])
   const [selectedItem, setSelectedItem] = useState<Job | null>(null)
-  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+  const { user } = useAuth()
 
   const [page, setPage] = useState(1)
   const [rowCount, setRowCount] = useState(0)
@@ -83,27 +81,24 @@ const JobManagementScreen = () => {
 
   const cekDocument = async () => {
     try {
-      const resp = await HttpClient.get(`/user/document?siup=1`)
-      if (resp.status != 200) {
-        throw resp.data.message ?? 'Something went wrong!'
-      }
+      if (user?.is_crewing === 1) {
+        const resp = await HttpClient.get(`/user/document?siup=1`)
+        if (resp.status != 200) {
+          throw resp.data.message ?? 'Something went wrong!'
+        }
+        const siupakk = resp.data.documents as any[]
 
-      const rows = resp.data.documents as any[]
-
-      if (user.is_crewing == 1) {
-        if (rows.length < 1 || user.verified_at === null) {
+        if (siupakk.length === 0 || user?.verified_at === null) {
           setOpenBlockModal(true)
         }
-      }
+      } else {
+        const resp = await HttpClient.get(`/user/document`)
+        if (resp.status != 200) {
+          throw resp.data.message ?? 'Something went wrong!'
+        }
+        const document = resp.data.documents as any[]
 
-      const resp2 = await HttpClient.get(`/user/document`)
-      if (resp2.status != 200) {
-        throw resp2.data.message ?? 'Something went wrong!'
-      }
-
-      const rows2 = resp2.data.documents as any[]
-      if (user.is_crewing == 0) {
-        if (rows2.length < 1 || user.verified_at === null) {
+        if (document.length === 0 || user?.verified_at === null) {
           setOpenBlockModal(true)
         }
       }

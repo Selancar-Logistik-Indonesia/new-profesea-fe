@@ -21,6 +21,28 @@ const SeafarerOngoingTraining = () => {
   )
 }
 
+const TruncatedTypography = ({ text, fontSize }: any) => {
+  return (
+    <Typography
+      sx={{
+        display: '-webkit-box',
+        WebkitBoxOrient: 'vertical',
+        WebkitLineClamp: 1,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'normal',
+        height: '1.2rem',
+        lineHeight: '1.2rem',
+        fontWeight: 'bold',
+        color: '#0a66c2',
+        fontSize: fontSize
+      }}
+    >
+      {text}
+    </Typography>
+  )
+}
+
 const renderList = (arr: Training[]) => {
   if (arr && arr.length) {
     return arr.map(item => {
@@ -61,24 +83,14 @@ const renderList = (arr: Training[]) => {
                     sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '85px' }}
                   >
                     <Tooltip title={item.title} enterDelay={500} leaveDelay={200}>
-                      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'center'] }} mb={1}>
-                        <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' />
-                        <Typography
-                          sx={{
-                            fontWeight: 'bold',
-                            color: '#0a66c2',
-                            width: '260px',
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis'
-                          }}
-                          ml='0.5rem'
-                          mt='0.2rem'
-                          fontSize={18}
-                        >
-                          {item.title}
-                        </Typography>
-                      </Box>
+                      <Grid item container mb={1} xs={12} sx={{ display: 'flex', flexDirection: 'row' }}>
+                        <Grid item sx={{ mr: '0.5rem' }}>
+                          <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' />
+                        </Grid>
+                        <Grid item xs={10} pt={'0.2rem'}>
+                          <TruncatedTypography text={item.title} fontSize={18} />
+                        </Grid>
+                      </Grid>
                     </Tooltip>
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={1}>
                       <Icon icon='solar:tag-horizontal-bold-duotone' color='#32487A' />

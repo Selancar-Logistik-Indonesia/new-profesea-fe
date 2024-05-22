@@ -79,7 +79,7 @@ const TrainingDetailPage = () => {
                     variant='body2'
                     color='#32487A'
                     fontWeight='600'
-                    sx={{ fontSize: { xs: '28px', md: '52px' } }}
+                    sx={{ fontSize: { xs: '28px', md: '48px' } }}
                   >
                     {training.title}
                   </Typography>
@@ -117,8 +117,8 @@ const TrainingDetailPage = () => {
                     alt='logo'
                     src={training?.thumbnail ? training?.thumbnail : '/images/icon-trainer.png'}
                     style={{
-                      width: '200px',
-                      height: '200px',
+                      width: '150px',
+                      height: '150px',
                       objectFit: 'cover',
                       borderRadius: '8px',
                       boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
@@ -134,7 +134,7 @@ const TrainingDetailPage = () => {
                 Description
               </Typography>
               <Box
-                sx={{ maxWidth: 720 }}
+                sx={{ w: '100%', whiteSpace: 'pre-line' }}
                 component='div'
                 dangerouslySetInnerHTML={{ __html: training.short_description }}
               />
@@ -144,7 +144,7 @@ const TrainingDetailPage = () => {
                 Requirement
               </Typography>
               <Box
-                sx={{ maxWidth: 720 }}
+                sx={{ w: '100%', whiteSpace: 'pre-line' }}
                 component='div'
                 dangerouslySetInnerHTML={{
                   __html: training.requirements ? training.requirements : 'No requirement'

@@ -171,12 +171,12 @@ const SeafarerJobApp = () => {
   }, [JC, searchJob, RL, ED, idcity, idvessel, employmentType])
 
   return (
-    <Box display={'flex'} justifyContent={'center'}>
+    <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
       <Grid
         item
         container
-        md={10}
         xs={12}
+        md={11}
         sx={
           !hidden
             ? {
@@ -416,12 +416,14 @@ const SeafarerJobApp = () => {
                 <Box px={5} pb={5}>
                   <Grid container spacing={2}>
                     <Grid item xs={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
-                      <Grid container spacing={6}>
+                      <Grid container spacing={4}>
                         <Grid item xs={12}>
                           <Alert severity='info'>
                             <AlertTitle>Find & Apply to Your Dream Job</AlertTitle>
                             Based on <strong>your profile</strong> and <strong>experience</strong>
                           </Alert>
+                        </Grid>
+                        <Grid item xs={12}>
                           <JobContext.Consumer>
                             {({ listJobs, onLoading }) => {
                               if (onLoading) {
@@ -461,7 +463,7 @@ const SeafarerJobApp = () => {
           </Grid>
         </Grid>
       </Grid>
-    </Box>
+    </Grid>
   )
 }
 
