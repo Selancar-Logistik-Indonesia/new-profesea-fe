@@ -65,7 +65,7 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
       })
   }
 
-  const updateRecommendation = (id: number, values: any) => {
+  const updateRecommendation = (id: number | undefined, values: any) => {
     setLoading(true)
     HttpClient.patch(AppConfig.baseUrl + '/seafarer-recommendations/' + id, {
       user_id: values.user_id,
