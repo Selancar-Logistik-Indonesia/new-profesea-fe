@@ -32,10 +32,17 @@ const columns: GridColDef[] = [
     minWidth: 150,
     renderCell: cell => {
       const { row } = cell
+      const companyNameUrl = row.company_name.toLowerCase().split(' ').join('-')
+      const jobTitleUrl = row.job_title ? row.job_title?.toLowerCase().split(' ').join('-') : ''
 
       return (
         <>
-          <IconButton href={'/candidate/job/?id=' + row.id} aria-label='view' color='secondary' size='small'>
+          <IconButton
+            href={`/candidate/job/${companyNameUrl}/${row.job_id}/${jobTitleUrl}`}
+            aria-label='view'
+            color='secondary'
+            size='small'
+          >
             <Icon icon='solar:eye-scan-bold-duotone' style={{ fontSize: '24px' }} />
           </IconButton>
         </>
