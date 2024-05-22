@@ -4,7 +4,7 @@ import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Grid, styled } from '@mui/material'
+import { Grid, IconButton, styled } from '@mui/material'
 import Alumni from 'src/contract/models/alumni'
 import { Icon } from '@iconify/react'
 import { toast } from 'react-hot-toast'
@@ -45,75 +45,66 @@ const UserProfileHeader = (props: userProps) => {
 
   return (
     <Card sx={{ width: '100%', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-      <CardMedia
-        component='img'
-        alt='profile-header'
-        image={'/images/banner.jpeg'}
-        sx={{
-          height: { xs: 150, md: 250 },
-          width: '100%',
-          objectFit: 'cover'
-        }}
-      />
-      <ProfilePicture
-        src={dataalumni?.profilepicture ? dataalumni?.profilepicture : '/images/avatars/1.png'}
-        alt='profile-picture'
-        sx={{
-          top: { xs: 280, md: 300 },
-          left: { xs: 25, md: 50 },
-          width: 100,
-          height: 100,
-          position: 'absolute',
-          border: theme => `5px solid ${theme.palette.common.white}`
-        }}
-      />
-      <CardContent
-        sx={{
-          pt: 2,
-          px: 6,
-          mt: 0,
-          display: 'flex',
-          alignItems: 'flex-end',
-          flexWrap: { xs: 'wrap', md: 'nowrap' },
-          justifyContent: { xs: 'center', md: 'flex-start' }
-        }}
-      >
-        <Box
+      <Box sx={{ position: 'relative', height: { xs: 150, md: 225 } }}>
+        <CardMedia
+          component='img'
+          alt='profile-header'
+          image={'/images/banner.jpeg'}
           sx={{
-            mt: 15.75,
-            mb: 5.25,
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between'
+            height: '100%',
+            width: '100%',
+            objectFit: 'cover'
           }}
-        >
-          <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
-            {iduser == String(dataalumni.id) && (
-              <>
+        />
+        {iduser == String(dataalumni.id) && (
+          <>
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 10,
+                right: 10,
+                textAlign: 'center'
+              }}
+            >
+              <IconButton sx={{ backgroundColor: '#DFDFDF' }}>
                 <input
                   accept='image/png, image/gif, image/jpeg'
-                  style={{ display: 'none', height: 50, width: '100%' }}
+                  style={{ display: 'none', height: '100%', width: '100%' }}
                   id='raised-button-file-banner'
                   onChange={onSelectFile2}
                   type='file'
-                ></input>
-                <Box
-                  sx={{
-                    top: { xs: 355, md: 370 },
-                    left: { xs: 100, md: 127 },
-                    width: { xs: 100, md: 100 },
-                    height: { xs: 100, md: 30 },
-                    position: 'absolute'
-                  }}
-                >
-                  <label htmlFor='raised-button-file-banner'>
-                    <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
-                  </label>
-                </Box>
-              </>
-            )}
-
+                />
+                <Icon fontSize='large' icon={'mingcute:pencil-fill'} color={'black'} style={{ fontSize: '24px' }} />
+              </IconButton>
+            </Box>
+          </>
+        )}
+      </Box>
+      <CardContent
+        sx={{
+          p: 4,
+          gap: { xs: 0, md: 4 },
+          display: 'flex',
+          justifyContent: 'flex-start',
+          flexDirection: { xs: 'column', md: 'row' }
+        }}
+      >
+        <ProfilePicture
+          src={dataalumni?.profilepicture ? dataalumni?.profilepicture : '/images/avatars/1.png'}
+          alt='profile-picture'
+          sx={{
+            width: 100,
+            height: 100,
+            border: theme => `5px solid ${theme.palette.common.white}`
+          }}
+        />
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
             <Grid container direction='row' alignItems='center'>
               <Grid item>
                 <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '900' }}>

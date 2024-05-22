@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box, Button, Card, CardHeader, Collapse, Grid, IconButton, useMediaQuery } from '@mui/material'
+import { Box, Button, CardHeader, Collapse, Grid, IconButton, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
@@ -113,40 +113,25 @@ const UserFeedApp = () => {
     <Box>
       <Grid item xs={12} md={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
         <Grid container>{selectedAlumni && <UserAlumniHeader dataalumni={selectedAlumni} iduser={iduser} />}</Grid>
-        <Grid container>
-          <Card
-            sx={{
-              width: '100%',
-              border: 0,
-              boxShadow: 0,
-              color: 'common.white',
-              backgroundColor: '#FFFFFF',
-              pb: 4,
-              pr: 6,
-              mt: -2
-            }}
-          >
-            <Grid item container xs={12} mt={2}>
-              <Grid xs={9} md={11.2}>
-                <Box display='flex' justifyContent='flex-end'>
-                  {selectedAlumni && (
-                    <ButtonJoinAlumni
-                      onMessage={handleMassage}
-                      selectedAlumni={selectedAlumni}
-                      iduser={iduser}
-                      url={url2}
-                    />
-                  )}
-                </Box>
-              </Grid>
-              <Grid xs={3} md={0.8}>
-                <ShareArea
-                  subject={`Alumni Shared ${selectedAlumni?.title}.`}
-                  url={`/alumni/?id=${selectedAlumni?.id}`}
-                />
-              </Grid>
-            </Grid>
-          </Card>
+        <Grid
+          item
+          container
+          xs={12}
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            backgroundColor: '#FFFFFF',
+            pb: 4,
+            px: 4,
+            mt: -3
+          }}
+        >
+          <Box display={'flex'}>
+            {selectedAlumni && (
+              <ButtonJoinAlumni onMessage={handleMassage} selectedAlumni={selectedAlumni} iduser={iduser} url={url2} />
+            )}
+            <ShareArea subject={`Alumni Shared ${selectedAlumni?.title}.`} url={`/alumni/?id=${selectedAlumni?.id}`} />
+          </Box>
         </Grid>
         <Grid container spacing={6} sx={{ marginTop: '1px' }}>
           <Grid item lg={2.5} md={2.5} xs={12}>
