@@ -114,8 +114,9 @@ const DialogEditBanner = (props: IProps) => {
     json.append('banner', data)
     HttpClient.post(AppConfig.baseUrl + '/user/update-banner', json).then(
       () => {
-        setOnLoading(false)
         toast.success(' Photo Banner Upload Sucessfully!')
+        setOnLoading(false)
+        location.reload()
       },
       error => {
         toast.error(' Failed Photo Banner' + error.response.data.message)

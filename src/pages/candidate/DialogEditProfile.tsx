@@ -116,10 +116,13 @@ const DialogEditProfile = (props: IProps) => {
       ({ data }) => {
         console.log('here 1', data)
         toast.success(' Photo Profile Upload Sucessfully!')
+        setOnLoading(false)
+        location.reload()
       },
       error => {
         console.log('here 1', error)
-        toast.error(' Failed Upload Photo' + error?.response?.data?.message)
+        toast.error(' Failed Upload Photo ' + error?.response?.data?.message)
+        setOnLoading(false)
       }
     )
   }

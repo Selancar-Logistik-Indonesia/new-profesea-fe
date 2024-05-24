@@ -62,6 +62,8 @@ import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
+import DialogBannerDeleteConfirmation from 'src/pages/candidate/DialogBannerDeleteConfirmation'
+import DialogProfileDeleteConfirmation from 'src/pages/candidate/DialogProfileDeleteConfirmation'
 import { removeFirstZeroChar, refreshsession } from 'src/utils/helpers'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -237,6 +239,8 @@ const CandidateProfile = (props: compProps) => {
 
   const [openProfileMenu, setOpenProfileMenu] = React.useState<null | HTMLElement>(null)
   const [openBannerMenu, setOpenBannerMenu] = React.useState<null | HTMLElement>(null)
+  const [openBannerDeleteConfirm, setOpenBannerDeleteConfirm] = React.useState(false)
+  const [openProfileDeleteConfirm, setOpenProfileDeleteConfirm] = React.useState(false)
 
   // const kintil = subscribev(['A09'])
 
@@ -732,7 +736,7 @@ const CandidateProfile = (props: compProps) => {
                 <Icon fontSize='large' icon={'bi:upload'} color={'blue'} style={{ fontSize: '14px' }} /> &nbsp; Update
                 Banner Picture
               </MenuItem>
-              <MenuItem onClick={() => {}} color='red'>
+              <MenuItem onClick={() => setOpenBannerDeleteConfirm(true)} color='red'>
                 <Icon fontSize='large' icon={'bi:trash'} color={'red'} style={{ fontSize: '14px' }} />
                 &nbsp; Remove Banner Picture
               </MenuItem>
@@ -791,7 +795,7 @@ const CandidateProfile = (props: compProps) => {
             <Icon fontSize='large' icon={'bi:upload'} color={'blue'} style={{ fontSize: '14px' }} /> &nbsp; Update
             Profile Picture
           </MenuItem>
-          <MenuItem onClick={() => {}} color='red'>
+          <MenuItem onClick={() => setOpenProfileDeleteConfirm(true)} color='red'>
             <Icon fontSize='large' icon={'bi:trash'} color={'red'} style={{ fontSize: '14px' }} />
             &nbsp; Remove Profile Picture
           </MenuItem>
@@ -1488,6 +1492,14 @@ const CandidateProfile = (props: compProps) => {
       </Grid>
 
       <Grid className='modals'>
+        <DialogBannerDeleteConfirmation
+          visible={openBannerDeleteConfirm}
+          onCloseClick={() => setOpenBannerDeleteConfirm(!openBannerDeleteConfirm)}
+        ></DialogBannerDeleteConfirmation>
+        <DialogProfileDeleteConfirmation
+          visible={openProfileDeleteConfirm}
+          onCloseClick={() => setOpenProfileDeleteConfirm(!openProfileDeleteConfirm)}
+        ></DialogProfileDeleteConfirmation>
         <DialogEditProfile
           visible={openEditModalProfile}
           onCloseClick={() => setOpenEditModalProfile(!openEditModalProfile)}
