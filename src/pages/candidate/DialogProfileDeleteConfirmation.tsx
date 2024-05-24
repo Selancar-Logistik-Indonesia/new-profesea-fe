@@ -11,6 +11,9 @@ import {
 } from '@mui/material'
 import Fade, { FadeProps } from '@mui/material/Fade'
 import Icon from 'src/@core/components/icon'
+import { HttpClient } from 'src/services'
+import { AppConfig } from 'src/configs/api'
+import { toast } from 'react-hot-toast'
 
 interface IProps {
   visible: boolean
@@ -26,6 +29,20 @@ const Transition = forwardRef(function Transition(
 
 const DialogProfileDeleteConfirmation = (props: IProps) => {
   const [onLoading, setOnLoading] = useState(false)
+
+  const handleProfileDelete = () => {
+    HttpClient.del(AppConfig.baseUrl + '/user/delete-profile').then(
+      () => {
+        toast.success(' Photo Profile DELETED Sucessfully!')
+        setOnLoading(false)
+        location.reload()
+      },
+      error => {
+        toast.error(' FAILED Photo Profile Deleted ' + error.response.data.message)
+        setOnLoading(false)
+      }
+    )
+  }
 
   return (
     <Dialog fullWidth open={props.visible} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
@@ -55,7 +72,7 @@ const DialogProfileDeleteConfirmation = (props: IProps) => {
           pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
         }}
       >
-        <Button variant='contained' size='small' sx={{ mr: 2 }} type='button' onClick={() => {}}>
+        <Button variant='contained' size='small' sx={{ mr: 2 }} type='button' onClick={() => handleProfileDelete()}>
           <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
           {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Yes'}
         </Button>
