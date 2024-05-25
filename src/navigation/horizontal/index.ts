@@ -47,7 +47,7 @@ const navigation = (): HorizontalNavItemsType => [
   {
     path: '/company/find-candidate',
     title: 'Find Candidate',
-    icon: 'solar:glasses-bold-duotone',
+    icon: 'ic:round-person-search',
     action: 'read',
     subject: 'user-find-candidate'
   },
