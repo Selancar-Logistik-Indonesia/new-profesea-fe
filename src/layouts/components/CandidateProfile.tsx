@@ -15,6 +15,7 @@ import {
   SelectChangeEvent,
   OutlinedInput,
   Chip,
+  Menu,
   MenuItem,
   Card,
   InputLabel,
@@ -47,6 +48,7 @@ import DialogAddEducation from 'src/pages/candidate/DialogAddEducation'
 import DialogAddWorkExperience from 'src/pages/candidate/DialogAddWorkExperience'
 import DialogAddDocument from 'src/pages/candidate/DialogAddDocument'
 import DialogEditBanner from 'src/pages/candidate/DialogEditBanner'
+import DialogEditProfile from 'src/pages/candidate/DialogEditProfile'
 // import RoleLevel from 'src/contract/models/role_level'
 import RoleType from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
@@ -60,6 +62,8 @@ import { Icon } from '@iconify/react'
 import DialogEditEducation from 'src/pages/candidate/DialogEditEducation'
 import DialogEditWorkExperience from 'src/pages/candidate/DialogEditWorkExperience'
 import DialogEditDocument from 'src/pages/candidate/DialogEditDocument'
+import DialogBannerDeleteConfirmation from 'src/pages/candidate/DialogBannerDeleteConfirmation'
+import DialogProfileDeleteConfirmation from 'src/pages/candidate/DialogProfileDeleteConfirmation'
 import { removeFirstZeroChar, refreshsession } from 'src/utils/helpers'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -212,6 +216,7 @@ const CandidateProfile = (props: compProps) => {
   const [openEditModalWE, setOpenEditModalWE] = useState(false)
   const [openEditModalDoc, setOpenEditModalDoc] = useState(false)
   const [openEditModalBanner, setOpenEditModalBanner] = useState(false)
+  const [openEditModalProfile, setOpenEditModalProfile] = useState(false)
   const [itemData, getItemdata] = useState<any[]>([])
   const [itemDataWE, getItemdataWE] = useState<any[]>([])
   const [itemDataED, getItemdataED] = useState<any[]>([])
@@ -231,6 +236,11 @@ const CandidateProfile = (props: compProps) => {
   const [JC, setJC] = useState(
     props.datauser?.field_preference?.category_id ? props.datauser?.field_preference?.category_id : 0
   )
+
+  const [openProfileMenu, setOpenProfileMenu] = React.useState<null | HTMLElement>(null)
+  const [openBannerMenu, setOpenBannerMenu] = React.useState<null | HTMLElement>(null)
+  const [openBannerDeleteConfirm, setOpenBannerDeleteConfirm] = React.useState(false)
+  const [openProfileDeleteConfirm, setOpenProfileDeleteConfirm] = React.useState(false)
 
   // const kintil = subscribev(['A09'])
 
@@ -621,10 +631,10 @@ const CandidateProfile = (props: compProps) => {
     )
   }
 
-  const [selectedFile, setSelectedFile] = useState()
   const [preview, setPreview] = useState()
   const [showShip, setShowShip] = useState(true)
   const [previewBanner, setPreviewBanner] = useState()
+
   useEffect(() => {
     const a = props.datauser?.employee_type == 'offship' ? 'offship' : 'onship'
     setShip(a)
@@ -638,47 +648,6 @@ const CandidateProfile = (props: compProps) => {
     //   setDisabledOpen(false)
     // }
   }, [])
-  useEffect(() => {
-    if (!selectedFile) {
-      setPreview(undefined)
-
-      return
-    }
-
-    const objectUrl: any = URL.createObjectURL(selectedFile)
-    setPreview(objectUrl)
-
-    // free memory when ever this component is unmounted
-    return () => URL.revokeObjectURL(objectUrl)
-  }, [selectedFile])
-
-  const onSelectFile = (e: any) => {
-    if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFile(undefined)
-
-      return
-    }
-
-    // I've kept this example simple by using the first image instead of multiple
-    setSelectedFile(e.target.files[0])
-    const selectedFiles = e.target.files as FileList
-    // setCurrentImage(selectedFiles?.[0])
-    uploadPhoto(selectedFiles?.[0])
-  }
-  const uploadPhoto = (data: any) => {
-    const json: any = new FormData()
-    json.append('photo', data)
-    HttpClient.post(AppConfig.baseUrl + '/user/update-photo', json).then(
-      ({ data }) => {
-        console.log('here 1', data)
-        // toast.success(' Successfully submited!')
-      },
-      error => {
-        console.log('here 1', error)
-        toast.error(' Failed Upload Photo' + error.response.data.message)
-      }
-    )
-  }
 
   const displayship = (type: any) => {
     setShip(type?.employee_type)
@@ -730,19 +699,53 @@ const CandidateProfile = (props: compProps) => {
           </Card>
 
           <Box
-            onClick={() => setOpenEditModalBanner(true)}
+            // onClick={() => setOpenEditModalBanner(true)}
+
             position={'absolute'}
             sx={{ right: { xs: '45%', md: '50%' }, bottom: { xs: '50%', md: '50%' } }}
           >
-            <label>
-              <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
-            </label>
+            <Icon
+              id='banner-button'
+              aria-controls={Boolean(openBannerMenu) ? 'banner-menu' : undefined}
+              aria-haspopup='true'
+              aria-expanded={Boolean(openBannerMenu) ? 'true' : undefined}
+              onClick={(event: React.MouseEvent<HTMLElement>) => setOpenBannerMenu(event.currentTarget)}
+              fontSize='large'
+              icon={'bi:camera'}
+              color={'white'}
+              style={{ fontSize: '36px' }}
+            />
+
+            <Menu
+              anchorEl={openBannerMenu}
+              aria-labelledby='banner-button'
+              id='banner-menu'
+              open={Boolean(openBannerMenu)}
+              onClose={() => setOpenBannerMenu(null)}
+              MenuListProps={{
+                'aria-labelledby': 'banner-button'
+              }}
+            >
+              <MenuItem
+                color='blue'
+                onClick={() => {
+                  setOpenEditModalBanner(!openEditModalBanner)
+                  setOpenBannerMenu(null)
+                }}
+              >
+                <Icon fontSize='large' icon={'bi:upload'} color={'blue'} style={{ fontSize: '14px' }} /> &nbsp; Update
+                Banner Picture
+              </MenuItem>
+              <MenuItem onClick={() => setOpenBannerDeleteConfirm(true)} color='red'>
+                <Icon fontSize='large' icon={'bi:trash'} color={'red'} style={{ fontSize: '14px' }} />
+                &nbsp; Remove Banner Picture
+              </MenuItem>
+            </Menu>
           </Box>
         </Box>
       </Grid>
 
       <CardContent
-        className='profile-image'
         sx={{
           pt: 0,
           mt: -8,
@@ -754,26 +757,49 @@ const CandidateProfile = (props: compProps) => {
           // marginTop:'125px'
         }}
       >
-        <BoxWrapper>
+        <BoxWrapper
+          id='profile-picture-frame-box'
+          aria-controls={Boolean(openProfileMenu) ? 'profile-menu' : undefined}
+          aria-haspopup='true'
+          aria-expanded={Boolean(openProfileMenu) ? 'true' : undefined}
+          onClick={(event: React.MouseEvent<HTMLElement>) => setOpenProfileMenu(event.currentTarget)}
+        >
           <ProfilePicture
+            id='profile-picture-frame'
             src={preview ? preview : '/images/avatars/profilepic.png'}
             alt='profile-picture'
             sx={{ width: 100, height: 100, objectFit: 'cover' }}
           ></ProfilePicture>
-
-          <input
-            accept='image/*'
-            style={{ display: 'none', height: 250, width: '100%' }}
-            id='raised-button-file'
-            onChange={onSelectFile}
-            type='file'
-          ></input>
           <Box position={'absolute'} right={'40%'} bottom={'40%'}>
-            <label htmlFor='raised-button-file'>
+            <label>
               <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
             </label>
           </Box>
         </BoxWrapper>
+        <Menu
+          anchorEl={openProfileMenu}
+          id='profile-menu'
+          open={Boolean(openProfileMenu)}
+          onClose={() => setOpenProfileMenu(null)}
+          MenuListProps={{
+            'aria-labelledby': 'profile-picture-frame-box'
+          }}
+        >
+          <MenuItem
+            color='blue'
+            onClick={() => {
+              setOpenEditModalProfile(!openEditModalProfile)
+              setOpenProfileMenu(null)
+            }}
+          >
+            <Icon fontSize='large' icon={'bi:upload'} color={'blue'} style={{ fontSize: '14px' }} /> &nbsp; Update
+            Profile Picture
+          </MenuItem>
+          <MenuItem onClick={() => setOpenProfileDeleteConfirm(true)} color='red'>
+            <Icon fontSize='large' icon={'bi:trash'} color={'red'} style={{ fontSize: '14px' }} />
+            &nbsp; Remove Profile Picture
+          </MenuItem>
+        </Menu>
       </CardContent>
 
       <form id='profile-form' noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
@@ -1466,12 +1492,26 @@ const CandidateProfile = (props: compProps) => {
       </Grid>
 
       <Grid className='modals'>
+        <DialogBannerDeleteConfirmation
+          visible={openBannerDeleteConfirm}
+          onCloseClick={() => setOpenBannerDeleteConfirm(!openBannerDeleteConfirm)}
+        ></DialogBannerDeleteConfirmation>
+        <DialogProfileDeleteConfirmation
+          visible={openProfileDeleteConfirm}
+          onCloseClick={() => setOpenProfileDeleteConfirm(!openProfileDeleteConfirm)}
+        ></DialogProfileDeleteConfirmation>
+        <DialogEditProfile
+          visible={openEditModalProfile}
+          onCloseClick={() => setOpenEditModalProfile(!openEditModalProfile)}
+          previewProfile={preview}
+        ></DialogEditProfile>
         {/* <form> */}
         <DialogEditBanner
           visible={openEditModalBanner}
           onCloseClick={() => setOpenEditModalBanner(!openEditModalBanner)}
           previewBanner={previewBanner}
         ></DialogEditBanner>
+
         <DialogEditEducation
           key={selectedItem?.id}
           selectedItem={selectedItem}

@@ -20,7 +20,7 @@ import getCroppedImg from 'src/utils/cropImage'
 
 interface IProps {
   visible: boolean
-  previewBanner: any
+  previewProfile: any
   onCloseClick: VoidFunction
 }
 
@@ -31,15 +31,15 @@ const Transition = forwardRef(function Transition(
   return <Fade ref={ref} {...props} />
 })
 
-const DialogEditBanner = (props: IProps) => {
+const DialogEditProfile = (props: IProps) => {
   const [onLoading, setOnLoading] = useState(false)
   const [zoom, setZoom] = useState(1)
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [rotation] = useState(0)
 
-  const [selectedFileBanner, setSelectedFileBanner] = useState(undefined)
-  const [selectedFileBannerUrl, setSelectedFileBannerUrl] = useState<any>(null)
-  const [modalPreviewBanner, setModalPreviewBanner] = useState(undefined)
+  const [selectedFileProfile, setSelectedFileProfile] = useState(undefined)
+  const [selectedFileProfileUrl, setSelectedFileProfileUrl] = useState<any>(null)
+  const [modalPreviewProfile, setModalPreviewProfile] = useState(undefined)
 
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
   const [croppedImage, setCroppedImage] = useState<any>(null)
@@ -49,53 +49,53 @@ const DialogEditBanner = (props: IProps) => {
   }
 
   useEffect(() => {
-    setModalPreviewBanner(props.previewBanner)
+    setModalPreviewProfile(props.previewProfile)
   }, [])
 
   useEffect(() => {
     if (croppedImage) {
-      uploadPhotoBanner(croppedImage)
+      uploadPhotoProfile(croppedImage)
     }
   }, [croppedImage])
 
   useEffect(() => {
     setOnLoading(true)
-    if (!selectedFileBanner) {
-      setModalPreviewBanner(undefined)
+    if (!selectedFileProfile) {
+      setModalPreviewProfile(undefined)
       setOnLoading(false)
 
       return
     }
 
-    const objectUrl: any = URL.createObjectURL(selectedFileBanner)
-    setModalPreviewBanner(objectUrl)
-    setSelectedFileBannerUrl(objectUrl)
+    const objectUrl: any = URL.createObjectURL(selectedFileProfile)
+    setModalPreviewProfile(objectUrl)
+    setSelectedFileProfileUrl(objectUrl)
     setOnLoading(false)
 
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl)
-  }, [selectedFileBanner])
+  }, [selectedFileProfile])
 
-  const onSelectFileBanner = (e: any) => {
-    // alert('onSelectFileBanner')
+  const onSelectFileProfile = (e: any) => {
+    // alert('onSelectFileProfile')
     if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFileBanner(undefined)
+      setSelectedFileProfile(undefined)
 
       return
     }
 
     // I've kept this example simple by using the first image instead of multiple
-    setSelectedFileBanner(e.target.files[0])
+    setSelectedFileProfile(e.target.files[0])
     //const selectedFiles = e.target.files as FileList
 
     // setCurrentImage(selectedFiles?.[0])
-    //uploadPhotoBanner(selectedFiles?.[0])
+    //uploadPhotoProfile(selectedFiles?.[0])
   }
 
   const croppedImageProcess = async () => {
     try {
-      if (selectedFileBanner) {
-        const croppedImage = (await getCroppedImg(selectedFileBannerUrl, croppedAreaPixels, rotation)) as any
+      if (selectedFileProfile) {
+        const croppedImage = (await getCroppedImg(selectedFileProfileUrl, croppedAreaPixels, rotation)) as any
         fetch(croppedImage)
           .then(res => res.blob())
           .then(blob => {
@@ -108,25 +108,27 @@ const DialogEditBanner = (props: IProps) => {
     }
   }
 
-  const uploadPhotoBanner = (data: any) => {
+  const uploadPhotoProfile = (data: any) => {
     setOnLoading(true)
     const json: any = new FormData()
-    json.append('banner', data)
-    HttpClient.post(AppConfig.baseUrl + '/user/update-banner', json).then(
-      () => {
-        toast.success(' Photo Banner Upload Sucessfully!')
+    json.append('photo', data)
+    HttpClient.post(AppConfig.baseUrl + '/user/update-photo', json).then(
+      ({ data }) => {
+        console.log('here 1', data)
+        toast.success(' Photo Profile Upload Sucessfully!')
         setOnLoading(false)
         location.reload()
       },
       error => {
-        toast.error(' Failed Photo Banner' + error.response.data.message)
+        console.log('here 1', error)
+        toast.error(' Failed Upload Photo ' + error?.response?.data?.message)
         setOnLoading(false)
       }
     )
   }
 
   return (
-    <Dialog fullWidth open={props.visible} maxWidth='xl' scroll='body' TransitionComponent={Transition}>
+    <Dialog fullWidth open={props.visible} maxWidth='md' scroll='body' TransitionComponent={Transition}>
       <DialogContent
         sx={{
           position: 'relative',
@@ -141,26 +143,26 @@ const DialogEditBanner = (props: IProps) => {
         </IconButton>
         <Box sx={{ mb: 6, textAlign: 'center' }}>
           <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
-            Edit Banner
+            Edit Profile
           </Typography>
-          <Typography variant='body2'> Edit your Banner here</Typography>
+          <Typography variant='body2'> Edit your Profile here</Typography>
         </Box>
         <input
           accept='image/*'
           style={{ display: 'none', height: 250, width: '100%' }}
           id='raised-button-file-banner'
-          onChange={onSelectFileBanner}
+          onChange={onSelectFileProfile}
           type='file'
         ></input>
 
         <Card>
           <div style={{ position: 'absolute', top: 120, left: 0, right: 0, bottom: 80, backgroundColor: 'grey' }}>
-            {selectedFileBanner && (
+            {selectedFileProfile && (
               <Cropper
-                image={modalPreviewBanner ? modalPreviewBanner : '/images/avatars/headerprofile3.png'}
+                image={modalPreviewProfile ? modalPreviewProfile : '/images/avatars/headerprofile3.png'}
                 crop={crop}
                 zoom={zoom}
-                aspect={16 / 4}
+                aspect={4 / 4}
                 onCropChange={setCrop}
                 onCropComplete={onCropComplete}
                 onZoomChange={setZoom}
@@ -221,4 +223,4 @@ const DialogEditBanner = (props: IProps) => {
   )
 }
 
-export default DialogEditBanner
+export default DialogEditProfile
