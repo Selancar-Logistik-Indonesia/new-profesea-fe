@@ -62,7 +62,7 @@ const renderList = (listJobs: Job[] | null) => {
             sx={{
               p: 4,
               border: '2px solid #eee',
-              height: '250px',
+              height: item.category.employee_type === 'offship' ? '225px' : '250px',
               transition: 'border-color 0.2s ease-in-out, color 0.2s ease-in-out',
               '&:hover': { borderColor: 'primary.main' }
             }}
@@ -246,14 +246,15 @@ const renderList = (listJobs: Job[] | null) => {
   })
 }
 
-const OngoingJobScreen = ({ searchJob }: { searchJob: string | null }) => {
+const OngoingJobScreen = ({ searchJob, employeeType }: { searchJob: string | null; employeeType: string | null }) => {
   const [listJobs, setJob] = useState<Job[] | null>(null)
   const [onLoading, setOnLoading] = useState(false)
   const payload = {
     page: 1,
     take: 12,
     search: searchJob,
-    country_id: 100
+    country_id: 100,
+    employee_type: employeeType
   }
 
   const fetchJobs = async () => {
@@ -274,7 +275,7 @@ const OngoingJobScreen = ({ searchJob }: { searchJob: string | null }) => {
 
   useEffect(() => {
     fetchJobs()
-  }, [searchJob])
+  }, [searchJob, employeeType])
 
   if (onLoading) {
     return (
