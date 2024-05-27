@@ -80,7 +80,11 @@ const JobDetail = () => {
       __html: `{
       "@context" : "https://schema.org/",
       "@type" : "JobPosting",
-      "title" : "Lowongan ${jobDetail?.rolelevel?.levelName ?? ''} ${jobDetail?.role_type.name} di Profesea",
+      "title" : "Lowongan ${
+        jobDetail?.category.employee_type == 'onship'
+          ? jobDetail?.job_title ?? '-'
+          : jobDetail?.rolelevel?.levelName ?? '-'
+      } ${jobDetail?.role_type.name} di Profesea",
       "description" : "${jobDetail?.description}",
       "identifier": {
         "@type": "PropertyValue",

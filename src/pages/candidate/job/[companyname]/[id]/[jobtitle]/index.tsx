@@ -20,8 +20,10 @@ import SectionThreeJobDetail from 'src/views/job-detail/SectionThreeJobDetal'
 import CertificateDialog from 'src/pages/candidate/job/CertificateDialog'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import Head from 'next/head'
 
 const JobDetail = () => {
+  const [title, setTitle] = useState<string | null>()
   const [onApplied, setOnApplied] = useState(false)
   const [jobDetail, setJobDetail] = useState<Job | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -60,7 +62,6 @@ const JobDetail = () => {
     }
   }
 
-  console.log(license)
   useEffect(() => {
     HttpClient.get('/job?take=4&page=1').then(response => {
       const jobs = response.data.jobs.data
@@ -91,8 +92,64 @@ const JobDetail = () => {
     }
   }
 
+  function addProductJsonLd() {
+    return {
+      __html: `{
+      "@context" : "https://schema.org/",
+      "@type" : "JobPosting",
+      "title" : "Lowongan ${
+        jobDetail?.category.employee_type == 'onship'
+          ? jobDetail?.job_title ?? '-'
+          : jobDetail?.rolelevel?.levelName ?? '-'
+      } ${jobDetail?.role_type.name} di Profesea",
+      "description" : "${jobDetail?.description}",
+      "identifier": {
+        "@type": "PropertyValue",
+        "name": "${jobDetail?.company.name}"
+      },
+      "datePosted" : "${jobDetail?.created_at}",
+      "employmentType" : "${jobDetail?.employment_type}",
+      "hiringOrganization" : {
+        "@type" : "Organization",
+        "name" : "${jobDetail?.company.name}",
+        "logo" : "${jobDetail?.company.photo}"
+      },
+      "jobLocation": {
+      "@type": "Place",
+        "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "${jobDetail?.company.address.address}",
+        "addressLocality": "${jobDetail?.company.address.city.city_name}",
+        "addressCountry": "${jobDetail?.country.iso}"
+        }
+      },
+      "baseSalary": {
+        "@type": "MonetaryAmount",
+        "currency": "IDR",
+        "value": {
+          "@type": "QuantitativeValue",
+          "minValue": ${jobDetail?.salary_start},
+          "maxValue": ${jobDetail?.salary_end},
+          "unitText": "MONTH"
+        }
+      }
+    }
+  `
+    }
+  }
+
+  useEffect(() => {
+    setTitle(`Lowongan ${jobDetail?.rolelevel?.levelName ?? ''} ${jobDetail?.role_type.name} di Profesea`)
+  }, [jobDetail])
+
   return (
     <>
+      <Head>
+        <title>{title}</title>
+        <script type='application/ld+json' dangerouslySetInnerHTML={addProductJsonLd()} key='product-jsonld' />
+        <meta name='keywords' content='Job, candidate, Recruiter, Maritime industry jobs, Career, Seafarer' />
+        <meta name='viewport' content='initial-scale=0.8, width=device-width' />
+      </Head>
       <Box>
         <Grid container sx={{ position: 'fixed' }}>
           <IconButton onClick={() => router.push('/candidate/find-job')}>
