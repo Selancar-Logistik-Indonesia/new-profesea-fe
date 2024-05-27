@@ -99,8 +99,8 @@ const JobDetail = () => {
       "@type" : "JobPosting",
       "title" : "Lowongan ${
         jobDetail?.category.employee_type == 'onship'
-          ? jobDetail?.job_title ?? '-'
-          : jobDetail?.rolelevel?.levelName ?? '-'
+          ? jobDetail?.job_title ?? ''
+          : jobDetail?.rolelevel?.levelName ?? ''
       } ${jobDetail?.role_type.name} di Profesea",
       "description" : "${jobDetail?.description}",
       "identifier": {
