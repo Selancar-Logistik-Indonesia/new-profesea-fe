@@ -162,13 +162,14 @@ const SeafarerJobApp = () => {
       vesseltype_id: idvessel,
       country_id: 100,
       city_id: idcity,
-      employment_type: employmentType
+      employment_type: employmentType,
+      employee_type: employeeType
     })
   }
   useEffect(() => {
     getdatapencarian()
     getListJobsSubscribe()
-  }, [JC, searchJob, RL, ED, idcity, idvessel, employmentType])
+  }, [JC, searchJob, RL, ED, idcity, idvessel, employmentType, employeeType])
 
   return (
     <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
