@@ -709,7 +709,7 @@ const CandidateProfile = (props: compProps) => {
               aria-controls={Boolean(openBannerMenu) ? 'banner-menu' : undefined}
               aria-haspopup='true'
               aria-expanded={Boolean(openBannerMenu) ? 'true' : undefined}
-              onClick={(event: React.MouseEvent<HTMLElement>) => setOpenBannerMenu(event.currentTarget)}
+              onClick={(event: any) => setOpenBannerMenu(event.currentTarget)}
               fontSize='large'
               icon={'bi:camera'}
               color={'white'}
