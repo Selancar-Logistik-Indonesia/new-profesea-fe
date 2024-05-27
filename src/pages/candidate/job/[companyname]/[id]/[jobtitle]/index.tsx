@@ -139,7 +139,13 @@ const JobDetail = () => {
   }
 
   useEffect(() => {
-    setTitle(`Lowongan ${jobDetail?.rolelevel?.levelName ?? ''} ${jobDetail?.role_type.name} di Profesea`)
+    setTitle(
+      `Lowongan ${
+        jobDetail?.category.employee_type == 'onship'
+          ? jobDetail?.job_title ?? ''
+          : jobDetail?.rolelevel?.levelName ?? ''
+      } ${jobDetail?.role_type.name} di Profesea`
+    )
   }, [jobDetail])
 
   return (
