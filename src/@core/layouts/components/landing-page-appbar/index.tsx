@@ -51,7 +51,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const baseAddress1 = '/find-job'
     const baseAddress2 = '/#discoverSection'
     const baseAddress3 = '/faqs'
-    const baseAddress4 = '/landingpage-recruiter'
+    const baseAddress4 = '/profesea-for-company'
     const baseAddress5 = '/trainings'
 
     setNavItems([
