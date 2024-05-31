@@ -389,7 +389,7 @@ const SeafarerJobApp = () => {
                         sx={{ display: 'flex', justifyContent: 'center' }}
                       >
                         <ToggleButton
-                          disabled={employeeType === 'onship' && !isOnShip}
+                          disabled={employeeType === 'onship' || !isOnShip}
                           value='onship'
                           sx={{ py: 3.5, width: '50%', fontSize: 12 }}
                         >
