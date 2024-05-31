@@ -20,6 +20,9 @@ import {
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { HttpClient } from 'src/services'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import { IUser } from 'src/contract/models/user'
 import { Icon } from '@iconify/react'
 import AllJobApplied from './applied'
 import Degree from 'src/contract/models/degree'
@@ -31,7 +34,6 @@ import JobContext, { JobProvider } from 'src/context/JobContext'
 import { useJob } from 'src/hooks/useJob'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import RecomendedView from 'src/views/find-job/RecomendedView'
-import Job from 'src/contract/models/job'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -73,7 +75,8 @@ const SeafarerJob = () => {
 const SeafarerJobApp = () => {
   const { setPage, fetchJobs, totalJob, hasNextPage } = useJob()
 
-  const [listJobSubscribe, setListJobSubscribe] = useState<Job[]>([])
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+  const isOnShip = user.employee_type === 'onship'
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const isMd = useMediaQuery(theme.breakpoints.down('lg'))
@@ -82,7 +85,7 @@ const SeafarerJobApp = () => {
   const [Education, getEducation] = useState<any[]>([])
   const [RoleLevel, getRoleLevel] = useState<any[]>([])
 
-  const [employeeType, setEmployeeType] = useState('onship')
+  const [employeeType, setEmployeeType] = useState(isOnShip ? 'onship' : 'offship')
   const [searchJob, setSearchJob] = useState<any>('')
   const [JC, setJC] = useState(0)
   const [RL, setRL] = useState(0)
@@ -142,16 +145,6 @@ const SeafarerJobApp = () => {
     firstload()
   }, [JC, employeeType])
 
-  const getListJobsSubscribe = async () => {
-    const response = await HttpClient.get(
-      `/job?search=${searchJob}&category_id=${JC}&rolelevel_id=${RL}&edugrade_id=${ED}&subcription=1&page=1&take=6`
-    )
-    const jobs = response.data.jobs.data
-
-    setListJobSubscribe(jobs)
-    console.log(listJobSubscribe)
-  }
-
   const getdatapencarian = () => {
     fetchJobs({
       take: 9,
@@ -168,7 +161,6 @@ const SeafarerJobApp = () => {
   }
   useEffect(() => {
     getdatapencarian()
-    getListJobsSubscribe()
   }, [JC, searchJob, RL, ED, idcity, idvessel, employmentType, employeeType])
 
   return (
@@ -397,7 +389,7 @@ const SeafarerJobApp = () => {
                         sx={{ display: 'flex', justifyContent: 'center' }}
                       >
                         <ToggleButton
-                          disabled={employeeType === 'onship'}
+                          disabled={employeeType === 'onship' && !isOnShip}
                           value='onship'
                           sx={{ py: 3.5, width: '50%', fontSize: 12 }}
                         >
