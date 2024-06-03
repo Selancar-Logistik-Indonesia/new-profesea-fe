@@ -106,11 +106,6 @@ const AdsScreen = () => {
         throw new Error(resp.data.message ?? 'Something went wrong!')
       }
 
-      const { ads } = resp.data
-
-      //   setDataSheet((prevDataSheet: any) =>
-      //     prevDataSheet.map((d: any) => (d.adsId === ads?.id ? { ...d, show: ads?.show } : d))
-      //   )
       await getListAds()
     } catch (error) {
       let errorMessage = 'Something went wrong!'
