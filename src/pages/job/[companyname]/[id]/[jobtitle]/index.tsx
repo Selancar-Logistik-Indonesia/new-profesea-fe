@@ -20,7 +20,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import Head from 'next/head'
 import { useTranslation } from 'react-i18next'
-import themeConfig from 'src/configs/themeConfig'
 
 const JobDetail = () => {
   const router = useRouter()
@@ -32,7 +31,7 @@ const JobDetail = () => {
   // }
 
   const { t } = useTranslation()
-  const [title, setTitle] = useState<string>(`${themeConfig.templateName} - ${t('landing_hero_title')}`)
+  const [title, setTitle] = useState<string>()
   const jobId = router.query?.id
   const companyname = router.query?.companyname
   const jobtitle = router.query?.jobtitle
@@ -45,13 +44,16 @@ const JobDetail = () => {
   const [jobDetailSugestion, setJobDetailSugestion] = useState<Job[]>([])
 
   const firstload = async (companyname: any, jobId: any, jobTitle: any) => {
-    setIsLoading(true)
     try {
       const resp = await HttpClient.get(`/public/data/job/${companyname}/${jobId}/${jobTitle}`)
-      const job = resp.data.job
-
-      setIsLoading(false)
+      const job = await resp.data.job
+      await setTitle(
+        `Lowongan ${job.category.employee_type == 'onship' ? job.job_title ?? '' : job.rolelevel?.levelName ?? ''} ${
+          job.role_type.name
+        } di Profesea`
+      )
       setJobDetail(job)
+      setIsLoading(false)
     } catch (error) {
       setIsLoading(false)
       alert(error)
@@ -121,23 +123,24 @@ const JobDetail = () => {
     }
   }
 
-  useEffect(() => {
-    setTitle(
-      `Lowongan ${
-        jobDetail?.category.employee_type == 'onship'
-          ? jobDetail?.job_title ?? ''
-          : jobDetail?.rolelevel?.levelName ?? ''
-      } ${jobDetail?.role_type.name} di Profesea`
+  if (isLoading) {
+    return (
+      <Box textAlign={'center'} mt={10}>
+        <CircularProgress />
+      </Box>
     )
-  }, [jobDetail])
+  }
 
   return (
     <>
       <Head>
         <title>{title}</title>
-        <script type='application/ld+json' dangerouslySetInnerHTML={addProductJsonLd()} key='product-jsonld' />
+        <meta property='og:title' content={title} />
+        <meta property='og:description' content={jobDetail?.description} />
+        <meta property='og:image' content='images/logosamudera.png' />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
+        <script type='application/ld+json' dangerouslySetInnerHTML={addProductJsonLd()} key='product-jsonld' />
       </Head>
       <Box p={4}>
         <Grid container sx={{ position: 'fixed' }}>
@@ -160,77 +163,65 @@ const JobDetail = () => {
             lg={jobDetailSugestion.length !== 0 ? 6 : 10}
           >
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-              {isLoading ? (
-                <Box textAlign={'center'} mt={10}>
-                  <CircularProgress />
-                </Box>
-              ) : (
-                <Grid container>
-                  <Grid item xs={12} sx={{ py: '20px' }}>
-                    <CardContent>
-                      <HeaderJobDetail jobDetail={jobDetail} onApplied={false} handleApply={handleApply} />
-                      <SectionOneJobDetail jobDetail={jobDetail} />
-                      <SectionTwoJobDetail jobDetail={jobDetail} />
-                      {jobDetail?.category?.employee_type == 'onship' && (
-                        <SectionThreeJobDetail jobDetail={jobDetail} />
-                      )}
-                    </CardContent>
-                    <Grid
-                      item
-                      xs={12}
-                      sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column', px: '20px' }}
-                    >
-                      <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#32487A' }}>
-                        <CardContent sx={{ p: 2 }}>
+              <Grid container>
+                <Grid item xs={12} sx={{ py: '20px' }}>
+                  <CardContent>
+                    <HeaderJobDetail jobDetail={jobDetail} onApplied={false} handleApply={handleApply} />
+                    <SectionOneJobDetail jobDetail={jobDetail} />
+                    <SectionTwoJobDetail jobDetail={jobDetail} />
+                    {jobDetail?.category?.employee_type == 'onship' && <SectionThreeJobDetail jobDetail={jobDetail} />}
+                  </CardContent>
+                  <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column', px: '20px' }}>
+                    <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#32487A' }}>
+                      <CardContent sx={{ p: 2 }}>
+                        <Box
+                          height={65}
+                          sx={{
+                            display: 'flex',
+                            alignContent: 'center',
+                            '& svg': { color: 'text.secondary' }
+                          }}
+                        >
+                          <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={2} ml={2} mr={3}>
+                            <Avatar
+                              src={jobDetail?.company?.photo}
+                              alt='profile-picture'
+                              sx={{ width: 50, height: 50 }}
+                            />
+                          </Box>
                           <Box
-                            height={65}
-                            sx={{
-                              display: 'flex',
-                              alignContent: 'center',
-                              '& svg': { color: 'text.secondary' }
-                            }}
+                            sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
+                            marginTop={2}
                           >
-                            <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={2} ml={2} mr={3}>
-                              <Avatar
-                                src={jobDetail?.company?.photo}
-                                alt='profile-picture'
-                                sx={{ width: 50, height: 50 }}
-                              />
-                            </Box>
-                            <Box
-                              sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
-                              marginTop={2}
-                            >
-                              <Typography sx={{ color: 'common.white', mb: 1 }} fontSize={20}>
-                                <strong>{jobDetail?.company?.name ?? '-'}</strong>
-                              </Typography>
-                            </Box>
-                          </Box>
-                          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mt={2}>
-                            <Typography
-                              sx={{ color: 'common.white', fontSize: '16px', fontWeight: '600' }}
-                              variant='body2'
-                            >
-                              About Recruiter
+                            <Typography sx={{ color: 'common.white', mb: 1 }} fontSize={20}>
+                              <strong>{jobDetail?.company?.name ?? '-'}</strong>
                             </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
-                              <Typography
-                                sx={{ color: 'common.white' }}
-                                fontSize={14}
-                                fontWeight={400}
-                                fontFamily={'Outfit'}
-                                textAlign={'justify'}
-                              >
-                                {jobDetail?.company?.about}
-                              </Typography>
-                            </Box>
                           </Box>
-                        </CardContent>
-                      </Card>
-                    </Grid>
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} ml={2} mt={2}>
+                          <Typography
+                            sx={{ color: 'common.white', fontSize: '16px', fontWeight: '600' }}
+                            variant='body2'
+                          >
+                            About Recruiter
+                          </Typography>
+                          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
+                            <Typography
+                              sx={{ color: 'common.white' }}
+                              fontSize={14}
+                              fontWeight={400}
+                              fontFamily={'Outfit'}
+                              textAlign={'justify'}
+                            >
+                              {jobDetail?.company?.about}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </CardContent>
+                    </Card>
                   </Grid>
                 </Grid>
-              )}
+              </Grid>
             </Card>
           </Grid>
           {jobDetailSugestion.length !== 0 && (
