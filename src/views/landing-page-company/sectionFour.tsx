@@ -3,9 +3,8 @@ import { useState } from 'react'
 import Icon from 'src/@core/components/icon'
 // import { useTranslation } from 'react-i18next'
 
-const Accordion = (props: { summary: string; description: string }) => {
-  const { summary, description } = props
-  const [isOpen, setIsOpen] = useState(false)
+const Accordion = ({ summary, description }: { summary: string; description: string }) => {
+  const [open, setOpen] = useState(false)
 
   return (
     <Grid item xs={12} md={8}>
@@ -14,11 +13,11 @@ const Accordion = (props: { summary: string; description: string }) => {
           <Typography fontSize={24} fontWeight={700}>
             {summary}
           </Typography>
-          <IconButton onClick={() => setIsOpen(!isOpen)}>
-            <Icon icon='flowbite:circle-plus-outline' fontSize={36} />
+          <IconButton onClick={() => setOpen(!open)} size='large'>
+            <Icon icon='flowbite:circle-plus-outline' fontSize='inherit' />
           </IconButton>
         </Box>
-        <Collapse in={!isOpen}>
+        <Collapse in={!open}>
           <Typography fontSize={16} fontWeight={400} align={'left'} sx={{ w: '60%' }}>
             {description}
           </Typography>
@@ -28,11 +27,35 @@ const Accordion = (props: { summary: string; description: string }) => {
   )
 }
 
+const Background = (props: { img: string; top?: number; left?: number; bottom?: number; right?: number }) => {
+  const { top, left, bottom, right } = props
+  const placement = {
+    ...(top !== undefined && { top }),
+    ...(left !== undefined && { left }),
+    ...(bottom !== undefined && { bottom }),
+    ...(right !== undefined && { right })
+  }
+
+  return (
+    <Box
+      sx={{
+        position: 'absolute',
+        ...placement,
+        width: '100%',
+        height: '100%',
+        backgroundImage: `url(${props.img})`,
+        backgroundSize: 'cover',
+        backgroundPosition: '100% 100%'
+      }}
+    />
+  )
+}
+
 const sectionThree = () => {
   // const { t } = useTranslation()
 
   return (
-    <Grid item container sx={{ px: 10, pt: 20, pb: 40 }}>
+    <Grid item container sx={{ position: 'relative', px: 10, pt: 20, pb: 40 }}>
       <Typography sx={{ mb: 6, width: '100%' }} color={'black'} fontSize={32} fontWeight='700' align={'center'}>
         FAQ
       </Typography>
@@ -46,6 +69,8 @@ const sectionThree = () => {
         <Accordion summary='Bagaimana bergabung sebagai perusahaan di Profesea' description='register.' />
         <Accordion summary='Apakah Profesea berbayar?' description='free ongkir.' />
       </Grid>
+      <Background bottom={0} left={0} img='/images/backgrounds/company-gelombang-kiri.png' />
+      <Background bottom={0} right={0} img='/images/backgrounds/company-gelombang-kanan.png' />
     </Grid>
   )
 }
