@@ -21,6 +21,7 @@ import { subscribev } from 'src/utils/helpers'
 import BasicFilter from './BasicFilter'
 import Job from 'src/contract/models/job'
 import AdvancedFilter from './AdvancedFilter'
+import axios from 'axios'
 
 const status: any[] = [
   { id: 'AP', title: 'Approved' },
@@ -232,8 +233,17 @@ const JobApplied = (props: IJobAppliedProps) => {
 
       toast.success(`${row.user?.name} saved successfully!`)
     } catch (error) {
-      console.error(error)
-      toast.error(`${row?.user?.name} save failed, Something went wrong!`)
+      let errorMessage = 'Something went wrong!'
+
+      if (axios.isAxiosError(error)) {
+        errorMessage = error?.response?.data?.message ?? errorMessage
+      } else if (typeof error === 'string') {
+        errorMessage = error
+      } else if (error instanceof Error) {
+        errorMessage = error.message
+      }
+
+      toast.error(`${row?.user?.name} save failed, ${errorMessage}`)
     }
   }
 

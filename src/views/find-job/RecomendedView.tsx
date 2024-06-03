@@ -51,7 +51,6 @@ const renderList = (listJob: Job[]) => {
     const userPhoto = item?.company?.photo ? item?.company?.photo : '/images/avatars/default-user.png'
     const companyNameUrl = item.company.name.toLowerCase().split(' ').join('-')
     const jobTitleUrl = item.job_title ? item.job_title?.toLowerCase().split(' ').join('-') : ''
-    console.log(item.category.employee_type)
 
     return (
       <Grid item xs={12} md={6} lg={4} key={item?.id}>
