@@ -27,8 +27,17 @@ const Accordion = ({ summary, description }: { summary: string; description: str
   )
 }
 
-const Background = (props: { img: string; top?: number; left?: number; bottom?: number; right?: number }) => {
-  const { top, left, bottom, right } = props
+const Background = (props: {
+  img: string
+  top?: number
+  left?: number
+  bottom?: number
+  right?: number
+  width?: string
+  height?: string
+  z?: number
+}) => {
+  const { top, left, bottom, right, width, height, z } = props
   const placement = {
     ...(top !== undefined && { top }),
     ...(left !== undefined && { left }),
@@ -39,13 +48,15 @@ const Background = (props: { img: string; top?: number; left?: number; bottom?: 
   return (
     <Box
       sx={{
+        zIndex: z ? z : 0,
         position: 'absolute',
         ...placement,
-        width: '100%',
-        height: '100%',
+        width: width ? width : '100%',
+        height: height ? height : '100%',
         backgroundImage: `url(${props.img})`,
         backgroundSize: 'cover',
-        backgroundPosition: '100% 100%'
+        backgroundPosition: '100% 100%',
+        backgroundRepeat: 'no-repeat'
       }}
     />
   )
@@ -69,8 +80,8 @@ const sectionThree = () => {
         <Accordion summary='Bagaimana bergabung sebagai perusahaan di Profesea' description='register.' />
         <Accordion summary='Apakah Profesea berbayar?' description='free ongkir.' />
       </Grid>
-      <Background bottom={0} left={0} img='/images/backgrounds/company-gelombang-kiri.png' />
-      <Background bottom={0} right={0} img='/images/backgrounds/company-gelombang-kanan.png' />
+      <Background bottom={0} left={0} z={-1} img='/images/backgrounds/company-gelombang-kiri.png' />
+      <Background bottom={0} right={0} z={-1} img='/images/backgrounds/company-gelombang-kanan.png' />
     </Grid>
   )
 }

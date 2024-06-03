@@ -51,11 +51,46 @@ const CardList = (props: { title: string; img: string; description: string }) =>
   )
 }
 
+const Background = (props: {
+  img: string
+  top?: number
+  left?: number
+  bottom?: number
+  right?: number
+  width?: string
+  height?: string
+  z?: number
+}) => {
+  const { top, left, bottom, right, width, height, z } = props
+  const placement = {
+    ...(top !== undefined && { top }),
+    ...(left !== undefined && { left }),
+    ...(bottom !== undefined && { bottom }),
+    ...(right !== undefined && { right })
+  }
+
+  return (
+    <Box
+      sx={{
+        zIndex: z ? z : 0,
+        position: 'absolute',
+        ...placement,
+        width: width ? width : '100%',
+        height: height ? height : '100%',
+        backgroundImage: `url(${props.img})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'top',
+        backgroundRepeat: 'no-repeat'
+      }}
+    />
+  )
+}
+
 const sectionThree = () => {
   // const { t } = useTranslation()
 
   return (
-    <Grid item container sx={{ px: 10, py: 20 }}>
+    <Grid item container sx={{ position: 'relative', px: 10, py: 20 }}>
       <Typography sx={{ mb: 10, width: '100%' }} color={'black'} fontSize={32} fontWeight='700' align={'center'}>
         4 Tahap Mudah untuk Bergabung!
       </Typography>
@@ -81,6 +116,23 @@ const sectionThree = () => {
           description='Kelola data kandidat untuk proses seleksi selanjutnya.'
         />
       </Grid>
+      <Background bottom={0} right={0} img='/images/backgrounds/company-background-dots.png' />
+      <Background
+        top={0}
+        left={0}
+        width='60%'
+        height='60%'
+        z={2}
+        img='/images/backgrounds/company-gelombang-biru2.png'
+      />
+      <Background
+        top={0}
+        right={0}
+        width='60%'
+        height='60%'
+        z={4}
+        img='/images/backgrounds/company-gelombang-orange2.png'
+      />
     </Grid>
   )
 }
