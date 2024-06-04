@@ -759,9 +759,6 @@ const CandidateProfile = (props: compProps) => {
       >
         <BoxWrapper
           id='profile-picture-frame-box'
-          aria-controls={Boolean(openProfileMenu) ? 'profile-menu' : undefined}
-          aria-haspopup='true'
-          aria-expanded={Boolean(openProfileMenu) ? 'true' : undefined}
           onClick={(event: React.MouseEvent<HTMLElement>) => setOpenProfileMenu(event.currentTarget)}
         >
           <ProfilePicture
