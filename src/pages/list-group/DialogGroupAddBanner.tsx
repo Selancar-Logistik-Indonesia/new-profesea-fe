@@ -96,7 +96,11 @@ const DialogGroupAddBanner = (props: IProps) => {
       if (selectedFileBanner) {
         const croppedImage = (await getCroppedImg(selectedFileBannerUrl, croppedAreaPixels, rotation)) as any
         fetch(croppedImage)
-          .then(res => res.blob())
+          .then(res => {
+            console.log(' res crop => ', res)
+
+            return res.blob()
+          })
           .then(blob => {
             const resultBlob = new File([blob], 'banner-' + new Date().getTime() + '.png', { type: 'image/png' })
             const url = URL.createObjectURL(resultBlob)
