@@ -81,6 +81,13 @@ const DialogAdd = (props: DialogProps) => {
     resolver: yupResolver(schema)
   })
 
+  const onReset = () => {
+    setPreviewBanner('')
+    setPreviewPhotoProfile('')
+    setBannerFile('')
+    setPhotoProfile('')
+  }
+
   const onSubmit = async (formData: Group) => {
     const { title, description } = formData
 
@@ -100,6 +107,7 @@ const DialogAdd = (props: DialogProps) => {
         throw resp.data.message ?? 'Something went wrong create group!'
       }
 
+      onReset()
       props.onCloseClick()
       toast.success(` Create Group successfully!`)
     } catch (error) {
@@ -121,7 +129,10 @@ const DialogAdd = (props: DialogProps) => {
           <IconButton
             size='small'
             sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-            onClick={props.onCloseClick}
+            onClick={() => {
+              onReset()
+              props.onCloseClick()
+            }}
           >
             <Icon icon='mdi:close' />
           </IconButton>
@@ -252,7 +263,15 @@ const DialogAdd = (props: DialogProps) => {
             <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
             {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
           </Button>
-          <Button variant='outlined' size='small' color='error' onClick={props.onCloseClick}>
+          <Button
+            variant='outlined'
+            size='small'
+            color='error'
+            onClick={() => {
+              onReset()
+              props.onCloseClick()
+            }}
+          >
             <Icon
               fontSize='large'
               icon={'material-symbols:cancel-outline'}
