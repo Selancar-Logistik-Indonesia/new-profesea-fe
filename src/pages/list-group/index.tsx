@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import {   Button, CircularProgress, Grid,     TextField,     Typography } from '@mui/material'
-import InfiniteScroll from 'react-infinite-scroll-component'   
+import { Button, CircularProgress, Grid, TextField, Typography } from '@mui/material'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import DialogAdd from './DialogAdd'
 import { v4 } from 'uuid'
 import GroupContext, { GroupProvider } from 'src/context/GroupContext'
@@ -9,8 +9,6 @@ import { useGroup } from 'src/hooks/useGroup'
 import LIstGroup from 'src/views/group/ListGroup'
 import { Icon } from '@iconify/react'
 
- 
- 
 const FindCandidate = () => {
   return (
     <GroupProvider>
@@ -19,22 +17,19 @@ const FindCandidate = () => {
   )
 }
 
- 
 const ListGroup = () => {
-  const { fetchGroups,  hasNextPage, totalGroup, setPage } = useGroup();
-  const [textCandidate, SetTextCandidate] = useState<any>('')    
+  const { fetchGroups, hasNextPage, totalGroup, setPage } = useGroup()
+  const [textCandidate, SetTextCandidate] = useState<any>('')
   const [openAddModal, setOpenAddModal] = useState(false)
   const [hookSignature, setHookSignature] = useState(v4())
 
-  const getdatapencarian = async () => {    
-    fetchGroups({ take: 12, search: textCandidate})  
+  const getdatapencarian = async () => {
+    fetchGroups({ take: 12, search: textCandidate })
   }
 
   useEffect(() => {
     getdatapencarian()
   }, [textCandidate, hookSignature])
- 
-
 
   return (
     <>
@@ -63,11 +58,14 @@ const ListGroup = () => {
                     <Grid item xs={12}>
                       <Box padding={5}>
                         <Grid container spacing={2}>
-                          <Grid item xs={12}  >
+                          <Grid item xs={12}>
                             <Grid container spacing={6}>
                               <Grid item container xs={12}>
                                 <Grid item xs={12}>
-                                <Typography variant="h3" color={"#32487A"} fontWeight="800" fontSize={18} mb={2}> Group</Typography>
+                                  <Typography variant='h3' color={'#32487A'} fontWeight='800' fontSize={18} mb={2}>
+                                    {' '}
+                                    Group
+                                  </Typography>
                                 </Grid>
                                 <Grid item lg={10} xs={10}>
                                   <TextField
@@ -84,9 +82,9 @@ const ListGroup = () => {
                                   />
                                 </Grid>
                                 <Grid item lg={2} xs={2}>
-                                  <Button 
+                                  <Button
                                     variant='contained'
-                                    size='small' 
+                                    size='small'
                                     startIcon={<Icon icon='solar:add-circle-bold-duotone' fontSize={10} />}
                                     sx={{ mr: 2 }}
                                     fullWidth
@@ -143,9 +141,7 @@ const ListGroup = () => {
       />
     </>
   )
-   
 }
-
 
 FindCandidate.acl = {
   action: 'read',
