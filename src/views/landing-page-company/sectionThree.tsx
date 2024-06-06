@@ -48,10 +48,10 @@ const CardList = (props: { title: string; img: string; description: string; isXs
           aspectRatio: 1
         }}
       />
-      <Typography align={'center'} fontSize={24} fontWeight={700} my={3}>
+      <Typography align={'center'} fontSize={20} fontWeight={700} my={3}>
         {title}
       </Typography>
-      <Typography fontSize={20} align={isXs ? 'left' : 'center'} sx={{ width: { md: 180, lg: 300 } }}>
+      <Typography fontSize={16} align={isXs ? 'left' : 'center'} sx={{ width: { md: 180, lg: 300 } }}>
         {description}
       </Typography>
     </Grid>

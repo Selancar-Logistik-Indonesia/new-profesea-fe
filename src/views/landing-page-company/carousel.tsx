@@ -59,14 +59,15 @@ const Arrow = ({
   </IconButton>
 )
 
-const Carousel = ({ items, timer }: { items: any[]; timer?: number }) => {
+const Carousel = ({ items, timer }: { items: any[]; timer: number }) => {
   const theme = useTheme()
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>(
     {
       slides: { spacing: 100 },
       loop: true,
       initial: 0,
-      rtl: theme.direction === 'rtl'
+      rtl: theme.direction === 'rtl',
+      drag: true
     },
     [
       slider => {
@@ -77,7 +78,7 @@ const Carousel = ({ items, timer }: { items: any[]; timer?: number }) => {
         }
         const nextTimeout = () => {
           clearTimeout(timeout as number)
-          if (mouseOver) return
+          if (mouseOver || timer === 0) return
           timeout = setTimeout(() => {
             slider.next()
           }, timer ?? 5000)
