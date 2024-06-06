@@ -1,11 +1,33 @@
 import { Box, Grid, Typography, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import Carousel from './carousel'
 // import { useTranslation } from 'react-i18next'
 
-const CardList = (props: { title: string; img: string; description: string }) => {
-  const theme = useTheme()
-  const isXs = useMediaQuery(theme.breakpoints.down('md'))
-  const { title, img, description } = props
+const items = [
+  {
+    title: 'Talent Pool & Management',
+    img: '/images/cards/company-info1.png',
+    description: 'Temukan serta kelola sumber bakat terbaik secara real-time untuk kebutuhan perusahaan Anda.'
+  },
+  {
+    title: 'Job Posting Pekerjaan',
+    img: '/images/cards/company-info2.png',
+    description: 'Posting langsung lowongan pekerjaan perusahaan Anda dan langsung dilihat kandidat secara real-time.'
+  },
+  {
+    title: 'Forum Komunitas',
+    img: '/images/cards/company-info3.png',
+    description: 'Berdiskusi seputar isu-isu terkini di industri maritim dan logistik.'
+  },
+  {
+    title: 'Media Sosial',
+    img: '/images/cards/company-info4.png',
+    description: 'Bangun jaringan dan promosikan perusahaan Anda di lingkungan yang berfokus  pada karier.'
+  }
+]
+
+const CardList = (props: { title: string; img: string; description: string; isXs: any }) => {
+  const { title, img, description, isXs } = props
 
   return (
     <Grid
@@ -14,7 +36,6 @@ const CardList = (props: { title: string; img: string; description: string }) =>
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-start',
         alignItems: 'center'
       }}
     >
@@ -23,18 +44,14 @@ const CardList = (props: { title: string; img: string; description: string }) =>
           backgroundImage: `url(${img})`,
           backgroundRepeat: `no-repeat`,
           backgroundSize: 'cover',
-          width: '225px',
+          width: { md: '200px', lg: '225px' },
           aspectRatio: 1
         }}
       />
       <Typography align={'center'} fontSize={24} fontWeight={700} my={3}>
         {title}
       </Typography>
-      <Typography
-        fontSize={20}
-        align={isXs ? 'left' : 'center'}
-        sx={{ width: { md: 200, lg: 300 }, mt: { xs: 2, md: 0 } }}
-      >
+      <Typography fontSize={20} align={isXs ? 'left' : 'center'} sx={{ width: { md: 180, lg: 300 } }}>
         {description}
       </Typography>
     </Grid>
@@ -76,43 +93,32 @@ const Background = (props: {
   )
 }
 
-const sectionTwo = () => {
+const SectionTwo = () => {
   // const { t } = useTranslation()
+  const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
     <Grid item container sx={{ position: 'relative', px: 10, pt: 20, pb: 40 }}>
       <Typography sx={{ mb: 10, width: '100%' }} color={'black'} fontSize={32} fontWeight='700' align={'center'}>
         Mengapa Profesea?
       </Typography>
-      <Grid container spacing={4} sx={{ display: 'flex', flexDirection: 'row' }}>
-        <CardList
-          title='Talent Pool & Management'
-          img='/images/cards/company-info1.png'
-          description='Temukan serta kelola sumber bakat terbaik secara real-time untuk kebutuhan perusahaan Anda.'
-        />
-        <CardList
-          title='Job Posting Pekerjaan'
-          img='/images/cards/company-info2.png'
-          description='Posting langsung lowongan pekerjaan perusahaan Anda dan langsung dilihat kandidat secara real-time.'
-        />
-        <CardList
-          title='Forum Komunitas'
-          img='/images/cards/company-info3.png'
-          description='Berdiskusi seputar isu-isu terkini di industri maritim dan logistik.'
-        />
-        <CardList
-          title='Media Sosial'
-          img='/images/cards/company-info4.png'
-          description='Bangun jaringan dan promosikan perusahaan Anda di lingkungan yang berfokus  pada karier.'
-        />
-      </Grid>
+      {isXs ? (
+        <Carousel items={items} timer={0} />
+      ) : (
+        <Grid container>
+          {items.map((item, index) => (
+            <CardList key={index} title={item.title} img={item.img} description={item.description} isXs={isXs} />
+          ))}
+        </Grid>
+      )}
       <Background
         bottom={0}
         left={0}
         width='60%'
         height='60%'
         z={2}
-        img='/images/backgrounds/company-gelombang-biru.png'
+        img='/images/backgrounds/company-bg-orange-kiri.png'
       />
       <Background
         bottom={0}
@@ -120,10 +126,10 @@ const sectionTwo = () => {
         width='60%'
         height='60%'
         z={4}
-        img='/images/backgrounds/company-gelombang-orange.png'
+        img='/images/backgrounds/company-bg-orange-kanan.png'
       />
     </Grid>
   )
 }
 
-export default sectionTwo
+export default SectionTwo
