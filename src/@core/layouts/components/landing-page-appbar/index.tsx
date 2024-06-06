@@ -52,6 +52,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const baseAddress2 = '/#discoverSection'
     const baseAddress3 = '/faqs'
     // const baseAddress4 = '/profesea-for-company'
+    const baseAddress4 = '/landingpage-recruiter'
     // const baseAddress5 = '/trainings'
 
     setNavItems([
@@ -67,8 +68,8 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     setHomeNavItems([
       { title: t('landing_menu_1'), path: baseAddress1 },
       { title: t('landing_menu_2'), path: baseAddress2 },
-      { title: t('landing_menu_3'), path: baseAddress3 }
-      // { title: t('landing_menu_4'), path: baseAddress4 }
+      { title: t('landing_menu_3'), path: baseAddress3 },
+      { title: t('landing_menu_4'), path: baseAddress4 }
       // { title: t('landing_menu_5'), path: baseAddress5 }
     ])
   }, [t])
