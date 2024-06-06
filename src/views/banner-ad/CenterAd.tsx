@@ -16,6 +16,12 @@ interface ICenterAdProps {
 const Slides = (Ads: Ads[]) => {
   const components: JSX.Element[] = []
 
+  const handleOnClickCTA = (cta: string) => {
+    if (cta) {
+      window.open(cta, '_blank')
+    }
+  }
+
   Ads.forEach((item, index: number) => {
     components.push(
       <Box key={index} className='keen-slider__slide'>
@@ -27,8 +33,10 @@ const Slides = (Ads: Ads[]) => {
             height: '300px',
             objectFit: 'cover',
             borderRadius: '8px',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            cursor: 'pointer'
           }}
+          onClick={() => handleOnClickCTA(item.cta as unknown as string)}
         />
       </Box>
     )
@@ -55,6 +63,12 @@ const CenterAd: React.FC<ICenterAdProps> = ({ adsLocation = 'home-page' }) => {
   useEffect(() => {
     loadAds()
   }, [])
+
+  const handleOnClickCTA = (cta: string) => {
+    if (cta) {
+      window.open(cta, '_blank')
+    }
+  }
 
   const theme = useTheme()
   const [sliderRef] = useKeenSlider<HTMLDivElement>(
@@ -132,8 +146,10 @@ const CenterAd: React.FC<ICenterAdProps> = ({ adsLocation = 'home-page' }) => {
             height: '300px',
             objectFit: 'cover',
             borderRadius: '8px',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            cursor: 'pointer'
           }}
+          onClick={() => handleOnClickCTA(ads[0].cta as unknown as string)}
         />
       </Box>
     )

@@ -45,7 +45,7 @@ interface Props {
   listGroup: Group[]
 }
 
-const base_url = process.env.NEXT_PUBLIC_BASE_API?.replace('api', '')
+const base_url = process.env.NEXT_PUBLIC_BASE_URL
 
 const renderList = (listGroup: Group[]) => {
   if (!listGroup || listGroup.length == 0) {
@@ -63,7 +63,7 @@ const renderList = (listGroup: Group[]) => {
               component='img'
               alt='profile-header'
               image={
-                item.groupbanner != '' ? base_url + 'storage/' + item.groupbanner : '/images/avatars/headerprofile3.png'
+                item.groupbanner != '' ? base_url + '/storage/' + item.groupbanner : '/images/avatars/headerprofile3.png'
               }
               sx={{
                 height: { xs: 100, md: 100 },
@@ -102,7 +102,7 @@ const renderList = (listGroup: Group[]) => {
                 >
                   <ProfilePicture
                     src={
-                      item.profilepicture != '' ? base_url + 'storage/' + item.profilepicture : '/images/avatars/1.png'
+                      item.profilepicture != '' ? base_url + '/storage/' + item.profilepicture : '/images/avatars/1.png'
                     }
                     sx={{ mb: 1, width: 100, height: 100 }}
                   />
