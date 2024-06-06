@@ -73,7 +73,7 @@ const UserProfileHeader = (props: userProps) => {
             >
               <label>
                 <Icon
-                  onClick={(event: React.MouseEvent<HTMLElement>) => setOpenBannerMenu(event.currentTarget)}
+                  onClick={(event: any) => setOpenBannerMenu(event.currentTarget)}
                   fontSize='large'
                   icon={'bi:camera'}
                   color={'white'}
@@ -126,7 +126,7 @@ const UserProfileHeader = (props: userProps) => {
             <Box sx={{ top: 335, left: 87, width: 100, height: 100, position: 'absolute' }}>
               <label>
                 <Icon
-                  onClick={(event: React.MouseEvent<HTMLElement>) => setOpenProfileMenu(event.currentTarget)}
+                  onClick={(event: any) => setOpenProfileMenu(event.currentTarget)}
                   fontSize='large'
                   icon={'bi:camera'}
                   color={'white'}
