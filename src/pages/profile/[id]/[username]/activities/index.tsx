@@ -53,11 +53,13 @@ const SocialFeedApp = () => {
   return (
     <Box>
       <Grid container spacing={6}>
-        <Grid item lg={3} md={5} xs={12}>
+        <Grid item lg={3} md={5} xs={12} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Profile datauser={selectedUser} />
-          <KeenSliderWrapper>
-            <SideAd />
-          </KeenSliderWrapper>
+          <Box sx={{ position: 'sticky', top: '70px' }}>
+            <KeenSliderWrapper>
+              <SideAd adslocation='candidate-profile-page' />
+            </KeenSliderWrapper>
+          </Box>
         </Grid>
         <Grid item lg={6} md={7} xs={12}>
           <Grid container spacing={6}>

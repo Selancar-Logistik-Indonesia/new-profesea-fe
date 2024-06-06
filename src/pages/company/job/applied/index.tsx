@@ -21,10 +21,13 @@ import { subscribev } from 'src/utils/helpers'
 import BasicFilter from './BasicFilter'
 import Job from 'src/contract/models/job'
 import AdvancedFilter from './AdvancedFilter'
+import axios from 'axios'
 
 const status: any[] = [
   { id: 'AP', title: 'Approved' },
   { id: 'RJ', title: 'Rejected' },
+  { id: 'PR', title: 'Proceed' },
+  { id: 'VD', title: 'Viewed' },
   { id: 'WR', title: 'Waiting Review' }
 ]
 
@@ -135,7 +138,9 @@ const JobApplied = (props: IJobAppliedProps) => {
         return {
           no: index + 1,
           id: row.id,
+          user_id: row.user_id,
           name: row.user?.name,
+          username: row?.user?.username,
           category: row.user?.employee_type,
           email: row.user?.email,
           phone: row.user?.phone,
@@ -171,11 +176,20 @@ const JobApplied = (props: IJobAppliedProps) => {
 
   const handleApprove = async (row: Applicant) => {
     try {
-      const response = await HttpClient.patch(`/job/appllicant/approve`, { applicant_id: row.id })
+      const response = await HttpClient.patch(`/job/appllicant/proceed`, { applicant_id: row.id })
 
       if (response.status != 200) {
         throw response.data.message ?? 'Something went wrong!'
       }
+
+      const newSatus = response?.data?.applicant?.status
+
+      setDataSheet(prevState => {
+        return prevState.map(p => ({
+          ...p,
+          status: p.id == row?.id ? status.find(e => e.id === newSatus).title : p.status
+        }))
+      })
 
       toast.success(`${row?.user?.name} proceed successfully!`)
     } catch (error) {
@@ -190,6 +204,16 @@ const JobApplied = (props: IJobAppliedProps) => {
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'
       }
+
+      const newSatus = resp?.data?.applicant?.status
+
+      setDataSheet(prevState => {
+        return prevState.map(p => ({
+          ...p,
+          status: p.id == row?.id ? status.find(e => e.id === newSatus).title : p.status
+        }))
+      })
+
       toast.success(`${row?.user?.name} rejected successfully!`)
     } catch (error) {
       console.error(error)
@@ -209,13 +233,38 @@ const JobApplied = (props: IJobAppliedProps) => {
 
       toast.success(`${row.user?.name} saved successfully!`)
     } catch (error) {
-      console.error(error)
-      toast.error(`${row?.user?.name} save failed, Something went wrong!`)
+      let errorMessage = 'Something went wrong!'
+
+      if (axios.isAxiosError(error)) {
+        errorMessage = error?.response?.data?.message ?? errorMessage
+      } else if (typeof error === 'string') {
+        errorMessage = error
+      } else if (error instanceof Error) {
+        errorMessage = error.message
+      }
+
+      toast.error(`${row?.user?.name} save failed, ${errorMessage}`)
     }
   }
 
   const handleChat = (row: Applicant) => {
-    window.location.replace('/chat?username=' + row?.user.username)
+    // Fungsi regex untuk menggantikan 0 di depan dengan +62
+
+    if (!row?.user?.phone) {
+      return
+    }
+
+    const formattedPhone = row?.user?.phone.startsWith('0')
+      ? row?.user?.phone.replace(/^0/, '+62')
+      : `+62${row?.user?.phone}`
+
+    // URL WhatsApp dengan nomor yang telah diformat
+    const whatsappUrl = `https://wa.me/${formattedPhone}`
+
+    // Membuka tab baru dengan URL WhatsApp
+    window.open(whatsappUrl, '_blank')
+
+    // window.location.replace('/chat?username=' + row?.user.username)
   }
 
   const handleSearch = useCallback(
@@ -241,8 +290,31 @@ const JobApplied = (props: IJobAppliedProps) => {
       if (response.status != 200) {
         throw response.data.message ?? 'Something went wrong!'
       }
+
+      // hit endpoint update status  { id: 'VD', title: 'Viewed' },
+      handlerUpdateStatusApplicantToViewed(row)
+
       window.open(`${response.data?.path}`, '_blank', 'noreferrer')
     })
+  }
+
+  const handlerUpdateStatusApplicantToViewed = (row: Applicant) => {
+    HttpClient.patch(`/job/appllicant/resume/view`, { applicant_id: row.id })
+      .then(response => {
+        if (response?.status != 200) {
+          throw response.data.message ?? 'Something went wrong!'
+        }
+
+        const newSatus = response?.data?.applicant?.status
+
+        setDataSheet(prevState => {
+          return prevState.map(p => ({
+            ...p,
+            status: p.id == row?.id ? status.find(e => e.id === newSatus).title : p.status
+          }))
+        })
+      })
+      .catch(error => console.log(error))
   }
 
   // const handleKeyUp = (e: any) => {

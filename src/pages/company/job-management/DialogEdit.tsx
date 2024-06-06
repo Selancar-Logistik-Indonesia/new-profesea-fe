@@ -252,7 +252,7 @@ const DialogEdit = (props: EditProps) => {
         .split('/')
         .reverse()
         .join('-'),
-      contract_duration: contractDuration,
+      contract_duration: contractDuration ? contractDuration : null,
       rotational: rotational.value, // value => yer or no (baru)
       hide_salary: checked,
       job_title: job_title

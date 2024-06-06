@@ -70,7 +70,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
                     align='justify'
                     sx={{ color: '#262525', fontSize: '14px', mt: 2, whiteSpace: 'pre-line' }}
                   >
-                    {expand ? item.description : `${item.description.slice(0, maxChars)}`}
+                    {expand ? item.description : `${item.description?.slice(0, maxChars)}`}
                     {!expand && (
                       <span
                         onClick={() => {

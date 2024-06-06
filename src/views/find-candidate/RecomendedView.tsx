@@ -21,7 +21,6 @@ interface Props {
 
 const renderCardSeafarer = (item: IUser): JSX.Element => {
   const userPhoto = item.photo != '' ? item.photo : '/images/avatars/default-user.png'
-  const license: any[] = Object.values(item?.license)
 
   return (
     <Grid item xs={12} md={4} key={item?.id}>
@@ -67,9 +66,7 @@ const renderCardSeafarer = (item: IUser): JSX.Element => {
               <Icon icon='entypo:location' color='#32487A' fontSize={'20px'} />
             </Tooltip>
             <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
-              {item.field_preference && item.field_preference.country && item.field_preference.country.nicename
-                ? item.field_preference.country.nicename
-                : '-'}
+              {item.address && item.address.city && item.address.city.city_name ? item.address.city.city_name : '-'}
             </Typography>
           </Box>
 
@@ -99,7 +96,7 @@ const renderCardSeafarer = (item: IUser): JSX.Element => {
               <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
             </Tooltip>
             <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='-0.2rem' fontSize={12}>
-              {license.length > 0 ? license?.map(e => e.name).join(', ') : '-'}
+              {item.last_coc ? item?.last_coc.competency?.title : '-'}
             </Typography>
           </Box>
         </Box>
@@ -155,9 +152,7 @@ const renderCardNonSeafarer = (item: IUser): JSX.Element => {
               <Icon icon='entypo:location' color='#32487A' fontSize={'20px'} />
             </Tooltip>
             <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12}>
-              {item.field_preference && item.field_preference.country && item.field_preference.country.nicename
-                ? item.field_preference.country.nicename
-                : '-'}
+              {item.address && item.address.city && item.address.city.city_name ? item.address.city.city_name : '-'}
             </Typography>
           </Box>
 

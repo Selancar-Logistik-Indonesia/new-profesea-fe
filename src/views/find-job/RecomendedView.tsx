@@ -7,6 +7,7 @@ import Job from 'src/contract/models/job'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import moment from 'moment'
+import { textEllipsis } from 'src/utils/helpers'
 
 const TruncatedTypography = ({ text }: any) => {
   return (
@@ -46,8 +47,6 @@ const renderList = (listJob: Job[]) => {
     return null
   }
 
-  console.log(listJob)
-
   return listJob.map(item => {
     const userPhoto = item?.company?.photo ? item?.company?.photo : '/images/avatars/default-user.png'
     const companyNameUrl = item.company.name.toLowerCase().split(' ').join('-')
@@ -60,7 +59,7 @@ const renderList = (listJob: Job[]) => {
             sx={{
               p: 4,
               border: '2px solid #eee',
-              height: '250px',
+              height: item.category.employee_type === 'offship' ? '225px' : '250px',
               transition: 'border-color 0.2s ease-in-out, color 0.2s ease-in-out',
               '&:hover': { borderColor: 'primary.main' }
             }}
@@ -112,19 +111,19 @@ const renderList = (listJob: Job[]) => {
               </Box>
             </Box>
             <Grid item container>
-              <Grid container mb={1}>
-                <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
-                </Grid>
-                <Grid item xs={11}>
-                  <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                    {item?.rolelevel?.levelName ?? '-'} | {item?.category?.name ?? '-'}
-                  </Typography>
-                </Grid>
-              </Grid>
-
-              {item?.category?.employee_type != 'offship' ? (
+              {item?.category?.employee_type == 'onship' ? (
                 <>
+                  <Grid container mb={1}>
+                    <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
+                    </Grid>
+                    <Grid item xs={11}>
+                      <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                        {item?.job_title ? `${textEllipsis(item.job_title, 4)} | ` : ''}
+                        {item?.category?.name ?? '-'}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                   <Grid container mb={1}>
                     <Grid xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
                       <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
@@ -186,6 +185,17 @@ const renderList = (listJob: Job[]) => {
                 </>
               ) : (
                 <>
+                  <Grid container mb={1}>
+                    <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
+                    </Grid>
+                    <Grid item xs={11}>
+                      <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                        {item?.rolelevel?.levelName ? `${item.rolelevel.levelName} | ` : ''}
+                        {item?.category?.name ?? '-'}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                   <Grid container mb={1}>
                     <Grid xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
                       <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />

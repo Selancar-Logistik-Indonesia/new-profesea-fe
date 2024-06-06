@@ -126,7 +126,7 @@ export default function SeafarerProficiencyTable(props: ISeafarerProficiencyTabl
             </IconButton>
             <IconButton
               size='small'
-              title={`Update this Comptency Id = ${params.row.id} `}
+              title={`Update this Competency Id = ${params.row.id} `}
               onClick={() => handleModalDelete(params.row)}
             >
               <Icon icon='material-symbols:delete-outline' width='24' height='24' color={thisGray} />

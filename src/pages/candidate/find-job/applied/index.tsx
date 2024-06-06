@@ -9,11 +9,20 @@ import Applied from 'src/contract/models/applicant'
 import debounce from 'src/utils/debounce'
 import { GridPaginationModel } from '@mui/x-data-grid'
 
+// const status: any[] = [
+//   { id: 'AP', title: 'Approved' },
+//   { id: 'RJ', title: 'Rejected' },
+//   { id: 'WR', title: 'Waiting Review' }
+// ]
+
 const status: any[] = [
   { id: 'AP', title: 'Approved' },
   { id: 'RJ', title: 'Rejected' },
+  { id: 'PR', title: 'Proceed' },
+  { id: 'VD', title: 'Viewed' },
   { id: 'WR', title: 'Waiting Review' }
 ]
+
 const AllJobApplied = () => {
   const [onLoading, setOnLoading] = useState(false)
   const [dataSheet, setDataSheet] = useState<RowItem[]>([])

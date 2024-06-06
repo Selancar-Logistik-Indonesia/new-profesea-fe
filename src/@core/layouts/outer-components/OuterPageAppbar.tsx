@@ -37,7 +37,7 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
     { title: t('landing_menu_1'), path: '/find-job' },
     { title: t('landing_menu_2'), path: '/#discoverSection' },
     { title: t('landing_menu_3'), path: '/faqs' },
-    { title: t('landing_menu_4'), path: '/landingpage-recruiter' }
+    { title: t('landing_menu_4'), path: '/profesea-for-company' }
     // { title: t('landing_menu_5'), path: '/trainings' }
   ]
 

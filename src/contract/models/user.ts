@@ -4,6 +4,7 @@ import FieldPreference from './field_preference'
 import Industry from './industry'
 import JobCategory from './job_category'
 import Province from './province'
+import seafarer_competency from './seafarer_competency'
 import ITeam from './team'
 import VesselType from './vessel_type'
 
@@ -77,4 +78,5 @@ export interface IUser {
   last_company: ILastCompany | null
   last_education: ILastEducation | null
   total_experience_in_years?: number
+  last_coc?: seafarer_competency
 }

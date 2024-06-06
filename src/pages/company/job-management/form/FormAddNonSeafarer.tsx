@@ -45,7 +45,7 @@ interface IFormAddNonSeafarerProps {
   handleChangeToggle: (event: React.MouseEvent<HTMLElement>, newAlignment: string) => void
 }
 
-const employmenttype = [{ name: 'Intern' }, { name: 'Contract' }, { name: 'Full-Time' }]
+const employmentType = [{ name: 'Intern' }, { name: 'Contract' }, { name: 'Full-Time' }]
 
 const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ dialogProps, alignment, handleChangeToggle }) => {
   const [onLoading, setOnLoading] = useState(false)
@@ -400,7 +400,7 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ dialogProps, a
             <Autocomplete
               disablePortal
               id='combo-box-demo'
-              options={employmenttype}
+              options={employmentType}
               getOptionLabel={(option: any) => option.name}
               renderInput={params => <TextField {...params} label='Employment Type' />}
               onChange={(event: any, newValue: any | null) =>

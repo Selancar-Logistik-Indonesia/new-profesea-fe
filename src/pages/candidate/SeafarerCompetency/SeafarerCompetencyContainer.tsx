@@ -87,15 +87,15 @@ const SeafarerCompetencyContainer = (props: ISeafarerCompetencyProps) => {
       renderCell(params: any) {
         return params.row.filename ? (
           <a
-            href='#'
-            onClick={() =>
-              HttpClient.downloadFile(
-                process.env.NEXT_PUBLIC_BASE_API + `/seafarer-competencies/download/${params.row.id}/`,
-                params.row.certificate_number
-              )
-            }
+            href={process.env.NEXT_PUBLIC_BASE_API + `/seafarer-competencies/preview/${params.row.id}/`}
+            target='_blank'
+            // onClick={() =>
+            //   HttpClient.downloadFile(
+            //     process.env.NEXT_PUBLIC_BASE_API + `/seafarer-competencies/preview/${params.row.id}/`,
+            //     params.row.certificate_number
+            //   )
+            // }
           >
-            {' '}
             <Icon icon='bi:file-earmark-arrow-down-fill' width='24' height='24' color={thisGray} />{' '}
           </a>
         ) : (
@@ -119,7 +119,7 @@ const SeafarerCompetencyContainer = (props: ISeafarerCompetencyProps) => {
             </IconButton>
             <IconButton
               size='small'
-              title={`Update this Comptency Id = ${params.row.id} `}
+              title={`Update this Competency Id = ${params.row.id} `}
               onClick={() => handleModalDelete(params.row)}
             >
               <Icon icon='material-symbols:delete-outline' width='24' height='24' color={thisGray} />

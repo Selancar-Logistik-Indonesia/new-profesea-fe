@@ -103,11 +103,18 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
             <Typography sx={{ color: 'text.primary', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
               {companyLicenses.length} Certificates required by the company
             </Typography>
-            <Box sx={{ display: 'flex' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               {companyLicenses.map((c, i) => {
                 return (
-                  <Typography key={i} sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={10}>
-                    {c?.title} |
+                  <Typography
+                    key={i}
+                    sx={{ color: 'text.primary', display: 'flex', alignItems: 'center', gap: 2 }}
+                    ml='0.5rem'
+                    mt='0.2rem'
+                    fontSize={10}
+                  >
+                    <div style={{ width: '5px', height: '5px', backgroundColor: 'black', borderRadius: '50%' }} />{' '}
+                    {c?.title}
                   </Typography>
                 )
               })}
@@ -126,11 +133,18 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
                 </Box>{' '}
                 Certificates missing on your profile
               </Typography>
-              <Box sx={{ display: 'flex' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 {companyLicenses.map((license, i) => {
                   return (
-                    <Typography key={i} sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={10}>
-                      {license?.title} |
+                    <Typography
+                      key={i}
+                      sx={{ color: 'text.primary', display: 'flex', alignItems: 'center', gap: 2 }}
+                      ml='0.5rem'
+                      mt='0.2rem'
+                      fontSize={10}
+                    >
+                      <div style={{ width: '5px', height: '5px', backgroundColor: 'black', borderRadius: '50%' }} />{' '}
+                      {license?.title}
                     </Typography>
                   )
                 })}

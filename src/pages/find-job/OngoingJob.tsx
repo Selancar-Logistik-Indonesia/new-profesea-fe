@@ -10,6 +10,7 @@ import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 import { useAuth } from 'src/hooks/useAuth'
+import { textEllipsis } from 'src/utils/helpers'
 
 const TruncatedTypography = ({ text }: any) => {
   return (
@@ -62,7 +63,7 @@ const renderList = (listJobs: Job[] | null) => {
             sx={{
               p: 4,
               border: '2px solid #eee',
-              height: '250px',
+              height: item.category.employee_type === 'offship' ? '225px' : '250px',
               transition: 'border-color 0.2s ease-in-out, color 0.2s ease-in-out',
               '&:hover': { borderColor: 'primary.main' }
             }}
@@ -114,19 +115,19 @@ const renderList = (listJobs: Job[] | null) => {
               </Box>
             </Box>
             <Grid item container>
-              <Grid container mb={1}>
-                <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
-                </Grid>
-                <Grid item xs={11}>
-                  <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                    {item?.rolelevel?.levelName ?? '-'} | {item?.category?.name ?? '-'}
-                  </Typography>
-                </Grid>
-              </Grid>
-
-              {item?.category?.employee_type != 'offship' ? (
+              {item?.category?.employee_type == 'onship' ? (
                 <>
+                  <Grid container mb={1}>
+                    <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
+                    </Grid>
+                    <Grid item xs={11}>
+                      <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                        {item?.job_title ? `${textEllipsis(item.job_title, 4)} | ` : ''}
+                        {item?.category?.name ?? '-'}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                   <Grid container mb={1}>
                     <Grid xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
                       <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
@@ -189,6 +190,17 @@ const renderList = (listJobs: Job[] | null) => {
               ) : (
                 <>
                   <Grid container mb={1}>
+                    <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
+                    </Grid>
+                    <Grid item xs={11}>
+                      <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                        {item?.rolelevel?.levelName ? `${item.rolelevel.levelName} | ` : ''}
+                        {item?.category?.name ?? '-'}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container mb={1}>
                     <Grid xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
                       <Icon icon='solar:square-academic-cap-bold-duotone' color='#32487A' fontSize={'20px'} />
                     </Grid>
@@ -246,14 +258,15 @@ const renderList = (listJobs: Job[] | null) => {
   })
 }
 
-const OngoingJobScreen = ({ searchJob }: { searchJob: string | null }) => {
+const OngoingJobScreen = ({ searchJob, employeeType }: { searchJob: string | null; employeeType: string | null }) => {
   const [listJobs, setJob] = useState<Job[] | null>(null)
   const [onLoading, setOnLoading] = useState(false)
   const payload = {
     page: 1,
     take: 12,
     search: searchJob,
-    country_id: 100
+    country_id: 100,
+    employee_type: employeeType
   }
 
   const fetchJobs = async () => {
@@ -274,7 +287,7 @@ const OngoingJobScreen = ({ searchJob }: { searchJob: string | null }) => {
 
   useEffect(() => {
     fetchJobs()
-  }, [searchJob])
+  }, [searchJob, employeeType])
 
   if (onLoading) {
     return (

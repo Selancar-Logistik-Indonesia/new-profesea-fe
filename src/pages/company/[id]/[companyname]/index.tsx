@@ -19,6 +19,9 @@ import AboutMe from 'src/pages/profile/AboutMe'
 import ProfileFeedCard from 'src/pages/profile/ProfileFeedCard'
 import NewsListCard from 'src/layouts/components/NewsListCard'
 import { useRouter } from 'next/router'
+import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
+import SideAd from 'src/views/banner-ad/sidead'
+import CenterAd from 'src/views/banner-ad/CenterAd'
 
 const ProfileCompany = () => {
   return (
@@ -90,7 +93,7 @@ const UserFeedApp = () => {
       <Grid container spacing={1}>
         <Grid item xs={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
           <Grid container spacing={6}>
-            <Grid item md={2} xs={12}>
+            <Grid item md={3} xs={12}>
               <Box>
                 {selectedUser?.role == 'Company' && <JobVacancy vacancy={arrVacany} userId={selectedUser.id} />}
                 {selectedUser?.role == 'Trainer' && <ListTraining vacancy={arrVacany} />}
@@ -98,8 +101,13 @@ const UserFeedApp = () => {
               <Box my={3}>
                 <NewsListCard />
               </Box>
+              <Box sx={{ position: 'sticky', top: '70px' }}>
+                <KeenSliderWrapper>
+                  <SideAd adslocation='company-profile-page' />
+                </KeenSliderWrapper>
+              </Box>
             </Grid>
-            <Grid item lg={8} md={8} xs={12}>
+            <Grid item md={6} xs={12}>
               <Box>{selectedUser && <UserProfileHeader datauser={selectedUser} address={selectedUser.address} />}</Box>
               <Box>
                 <AboutMe dataUser={selectedUser}></AboutMe>
@@ -107,8 +115,11 @@ const UserFeedApp = () => {
               <Box>
                 <ProfileFeedCard selectedUser={selectedUser}></ProfileFeedCard>
               </Box>
+              <Box sx={{ marginTop: '10px' }}>
+                <CenterAd adsLocation='company-profile-page' />
+              </Box>
             </Grid>
-            <Grid item md={2} xs={12}>
+            <Grid item md={3} xs={12}>
               <ProfileViewerCard />
             </Grid>
           </Grid>

@@ -13,22 +13,32 @@ import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 import { HttpClient } from 'src/services'
 // import Ads from 'src/contract/models/Ads'
 
-const Slides = (Ads: any[]) => {
+import Ads from 'src/contract/models/Ads'
+
+const Slides = (Ads: Ads[]) => {
   const components: JSX.Element[] = []
 
-  Ads.forEach((arr, index: number) => {
+  const handleOnClickCTA = (cta: string) => {
+    if (cta) {
+      window.open(cta, '_blank')
+    }
+  }
+
+  Ads.forEach((item, index: number) => {
     components.push(
       <Box key={index} className='keen-slider__slide'>
         <Box
           component='img'
-          src={arr}
+          src={item.show_case[0]}
           style={{
             width: '100%',
             height: '300px',
             objectFit: 'cover',
             borderRadius: '8px',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            cursor: 'pointer'
           }}
+          onClick={() => handleOnClickCTA(item.cta as unknown as string)}
         />
       </Box>
     )
@@ -37,19 +47,32 @@ const Slides = (Ads: any[]) => {
   return components
 }
 
-const SideAd = () => {
-  const [Ads, getAds] = useState<any[]>([])
+interface ISideAdProps {
+  adslocation?: string
+}
+
+const SideAd: React.FC<ISideAdProps> = ({ adslocation = 'home-page' }) => {
+  const [Ads, getAds] = useState<Ads[]>([])
   useEffect(() => {
     loadAds()
   }, [])
 
   const loadAds = () => {
-    HttpClient.get('/public/data/ads?take=9').then(response => {
+    HttpClient.get('/public/data/ads?take=100').then(response => {
       if (response.status != 200) {
         throw response.data.message ?? 'Something went wrong!'
       }
-      getAds(response.data.show_case)
+      const getSideAd = response?.data?.show_case.filter(
+        (ad: any) => ad?.ads_placement === 'sidebar' && ad?.show === true && ad?.ads_location === adslocation
+      )
+      getAds(getSideAd)
     })
+  }
+
+  const handleOnClickCTA = (cta: string) => {
+    if (cta) {
+      window.open(cta, '_blank')
+    }
   }
 
   // ** Hook
@@ -123,14 +146,16 @@ const SideAd = () => {
       >
         <Box
           component='img'
-          src={Ads[0]}
+          src={Ads[0].show_case[0]}
           style={{
             width: '100%',
             height: '300px',
             objectFit: 'cover',
             borderRadius: '8px',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            cursor: 'pointer'
           }}
+          onClick={() => handleOnClickCTA(Ads[0].cta as unknown as string)}
         />
       </Box>
     )

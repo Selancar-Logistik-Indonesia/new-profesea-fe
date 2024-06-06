@@ -266,7 +266,7 @@ const SeafarerJob = () => {
                 <Grid item xs={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <OngoingJob searchJob={searchJob} />
+                      <OngoingJob searchJob={searchJob} employeeType={employeeType} />
                     </Grid>
                     <Grid item container xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
                       <Button onClick={handleLogin}>

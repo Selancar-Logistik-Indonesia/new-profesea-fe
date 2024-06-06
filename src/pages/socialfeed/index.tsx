@@ -27,8 +27,8 @@ const SocialFeedApp = () => {
           <Box>
             <Profile datauser={user} />
           </Box>
-          <Box my={4}>
-            <SideAd />
+          <Box my={4} sx={{ position: 'sticky', top: '70px' }}>
+            <SideAd adslocation='home-page' />
           </Box>
         </Grid>
         <Grid item lg={6} md={7} xs={12}>
