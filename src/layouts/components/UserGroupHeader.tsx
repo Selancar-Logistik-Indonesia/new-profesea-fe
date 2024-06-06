@@ -45,7 +45,7 @@ const UserProfileHeader = (props: userProps) => {
   const [openEditModalBanner, setOpenEditModalBanner] = React.useState(false)
   const [openEditModalProfile, setOpenEditModalProfile] = React.useState(false)
 
-  const base_url = process.env.NEXT_PUBLIC_BASE_API?.replace('api', '')
+  const base_url = process.env.NEXT_PUBLIC_BASE_URL
 
   return (
     <Card sx={{ width: '100%', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
@@ -54,7 +54,7 @@ const UserProfileHeader = (props: userProps) => {
           component='img'
           alt='profile-header'
           image={
-            datagroup.groupbanner ? base_url + 'storage/' + datagroup.groupbanner : '/images/avatars/headerprofile3.png'
+            datagroup.groupbanner ? base_url + '/storage/' + datagroup.groupbanner : '/images/avatars/headerprofile3.png'
           }
           sx={{
             height: { xs: 150, md: 250 },
@@ -110,7 +110,7 @@ const UserProfileHeader = (props: userProps) => {
       </Box>
       <Box>
         <ProfilePicture
-          src={datagroup?.profilepicture ? base_url + 'storage/' + datagroup?.profilepicture : '/images/avatars/1.png'}
+          src={datagroup?.profilepicture ? base_url + '/storage/' + datagroup?.profilepicture : '/images/avatars/1.png'}
           alt='profile-picture'
           sx={{
             top: 300,
