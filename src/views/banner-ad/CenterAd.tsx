@@ -1,19 +1,17 @@
-// ** React Imports
-import { useEffect, useState } from 'react'
+import { Box, Card, CardContent } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import Ads from 'src/contract/models/Ads'
+import { HttpClient } from 'src/services'
 
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
 import { useTheme } from '@mui/material/styles'
-import CardContent from '@mui/material/CardContent'
 
 // ** Third Party Components
 import { useKeenSlider } from 'keen-slider/react'
 import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
-import { HttpClient } from 'src/services'
-// import Ads from 'src/contract/models/Ads'
 
-import Ads from 'src/contract/models/Ads'
+interface ICenterAdProps {
+  adsLocation?: string
+}
 
 const Slides = (Ads: Ads[]) => {
   const components: JSX.Element[] = []
@@ -39,15 +37,8 @@ const Slides = (Ads: Ads[]) => {
   return components
 }
 
-interface ISideAdProps {
-  adslocation?: string
-}
-
-const SideAd: React.FC<ISideAdProps> = ({ adslocation = 'home-page' }) => {
-  const [Ads, getAds] = useState<Ads[]>([])
-  useEffect(() => {
-    loadAds()
-  }, [])
+const CenterAd: React.FC<ICenterAdProps> = ({ adsLocation = 'home-page' }) => {
+  const [ads, setAds] = useState<Ads[]>([])
 
   const loadAds = () => {
     HttpClient.get('/public/data/ads?take=100').then(response => {
@@ -55,13 +46,16 @@ const SideAd: React.FC<ISideAdProps> = ({ adslocation = 'home-page' }) => {
         throw response.data.message ?? 'Something went wrong!'
       }
       const getSideAd = response?.data?.show_case.filter(
-        (ad: any) => ad?.ads_placement === 'sidebar' && ad?.show === true && ad?.ads_location === adslocation
+        (ad: any) => ad?.ads_placement === 'in-between-content' && ad?.show === true && ad?.ads_location === adsLocation
       )
-      getAds(getSideAd)
+      setAds(getSideAd)
     })
   }
 
-  // ** Hook
+  useEffect(() => {
+    loadAds()
+  }, [])
+
   const theme = useTheme()
   const [sliderRef] = useKeenSlider<HTMLDivElement>(
     {
@@ -102,21 +96,21 @@ const SideAd: React.FC<ISideAdProps> = ({ adslocation = 'home-page' }) => {
     ]
   )
 
-  if (Ads && Ads.length > 1) {
+  if (ads && ads.length > 1) {
     return (
       <KeenSliderWrapper>
         <Card sx={{ position: 'relative', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
-            {Ads.length && (
+            {ads.length && (
               <Box ref={sliderRef} className='keen-slider'>
-                {Slides(Ads)}
+                {Slides(ads)}
               </Box>
             )}
           </CardContent>
         </Card>
       </KeenSliderWrapper>
     )
-  } else if (Ads && Ads.length === 1) {
+  } else if (ads && ads.length === 1) {
     return (
       <Box
         sx={{
@@ -132,7 +126,7 @@ const SideAd: React.FC<ISideAdProps> = ({ adslocation = 'home-page' }) => {
       >
         <Box
           component='img'
-          src={Ads[0].show_case[0]}
+          src={ads[0].show_case[0]}
           style={{
             width: '100%',
             height: '300px',
@@ -146,4 +140,4 @@ const SideAd: React.FC<ISideAdProps> = ({ adslocation = 'home-page' }) => {
   } else return null
 }
 
-export default SideAd
+export default CenterAd
