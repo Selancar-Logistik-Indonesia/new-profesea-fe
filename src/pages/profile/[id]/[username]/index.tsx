@@ -10,7 +10,6 @@ import UserProfileHeader from 'src/layouts/components/UserProfileHeader'
 import { IUser } from 'src/contract/models/user'
 import { toast } from 'react-hot-toast'
 import WorkeExperience from '../../Workexperience'
-// import ListFeedView from 'src/views/social-feed/ListFeedView'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSearchParams } from 'next/navigation'
 import { getCleanErrorMessage, linkToTitleCase, toLinkCase } from 'src/utils/helpers'
@@ -24,10 +23,13 @@ import SeafarerExperienceTable from 'src/layouts/components/SeafarerExperienceTa
 import SeafarerCompetencyTable from 'src/layouts/components/SeafarerCompetencyTable'
 import SeafarerProficiencyTable from 'src/layouts/components/SeafarerProficiencyTable'
 import SeafarerRecommendationTable from 'src/layouts/components/SeafarerRecommendationTable'
+import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 
 import NewsListCard from 'src/layouts/components/NewsListCard'
 import TableCard from '../../TableCard'
 import { useRouter } from 'next/router'
+import SideAd from 'src/views/banner-ad/sidead'
+import CenterAd from 'src/views/banner-ad/CenterAd'
 
 const ProfileCompany = () => {
   return (
@@ -105,10 +107,15 @@ const UserFeedApp = () => {
       <Grid container spacing={1}>
         <Grid item xs={12} md={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
           <Grid container spacing={6} sx={{ marginTop: '1px' }}>
-            <Grid item lg={2} md={2} xs={12}>
+            <Grid item lg={3} md={3} xs={12} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <NewsListCard />
+              <Box sx={{ position: 'sticky', top: '70px' }}>
+                <KeenSliderWrapper>
+                  <SideAd adslocation='candidate-profile-page' />
+                </KeenSliderWrapper>
+              </Box>
             </Grid>
-            <Grid item container lg={8} md={8} xs={12}>
+            <Grid item container lg={6} md={6} xs={12}>
               <Grid item md={12} xs={12}>
                 {selectedUser && <UserProfileHeader datauser={selectedUser} address={selectedUser.address} />}
               </Grid>
@@ -198,8 +205,12 @@ const UserFeedApp = () => {
                   </TableCard>
                 </Grid>
               )}
+
+              <Grid item marginTop={'10px'} md={12} xs={12}>
+                <CenterAd adsLocation='candidate-profile-page' />
+              </Grid>
             </Grid>
-            <Grid item lg={2} md={2} xs={12}>
+            <Grid item lg={3} md={3} xs={12}>
               <ProfileViewerCard />
             </Grid>
           </Grid>

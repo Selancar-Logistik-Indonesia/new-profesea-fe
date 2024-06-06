@@ -161,7 +161,7 @@ const DialogAdd = (props: DialogProps) => {
                 icon={'bi:camera'}
                 color={'white'}
                 style={{ fontSize: '26px' }}
-                onClick={(event: React.MouseEvent<HTMLElement>) => setOpenBannerMenu(event.currentTarget)}
+                onClick={(event: any) => setOpenBannerMenu(event.currentTarget)}
               />
             </label>
           </Box>
@@ -206,7 +206,7 @@ const DialogAdd = (props: DialogProps) => {
                   icon={'bi:camera'}
                   color={'white'}
                   style={{ fontSize: '26px' }}
-                  onClick={(event: React.MouseEvent<HTMLElement>) => setOpenProfileMenu(event.currentTarget)}
+                  onClick={(event: any) => setOpenProfileMenu(event.currentTarget)}
                 />
               </label>
             </Box>

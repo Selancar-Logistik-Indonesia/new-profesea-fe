@@ -20,6 +20,8 @@ const columns: GridColDef[] = [
             ? 'Home Page'
             : row.ads_location == 'candidate-profile-page'
             ? 'Candidate Profile Page'
+            : row.ads_location == 'company-profile-page'
+            ? 'Company Profile Page'
             : '-'}
         </>
       )
