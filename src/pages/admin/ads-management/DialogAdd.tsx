@@ -60,6 +60,10 @@ const ADS_LOCATION_OPTIONS = [
   {
     label: 'Candidate Profile Page',
     value: 'candidate-profile-page'
+  },
+  {
+    label: 'Company Profile Page',
+    value: 'company-profile-page'
   }
 ]
 

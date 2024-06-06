@@ -1,8 +1,16 @@
 interface Ads {
-  attachments: string
-  cta?: string
+  id: number
+  attachments: string[]
+  expired_at?: string
+  created_at?: string
+  updated_at?: string
   description?: string
-  expired_at?: Date
+  cta?: string
+  ads_location?: string
+  ads_placement?: string
+  show?: boolean
+  ctr?: number
+  show_case: string[]
 }
 
-export default Ads;
+export default Ads

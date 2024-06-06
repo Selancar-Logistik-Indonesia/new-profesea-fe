@@ -8,6 +8,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import FeedCard from './FeedCard'
 import { useEffect } from 'react'
+import CenterAd from '../banner-ad/CenterAd'
 
 type Props = {
   username?: any
@@ -25,7 +26,7 @@ const ListFeedView = (props: Props) => {
     // let itemCount = 0;
     const components: JSX.Element[] = []
 
-    if (feeds?.length == 0) {
+    if (!feeds || feeds.length === 0) {
       return (
         <Card
           sx={{
@@ -54,8 +55,17 @@ const ListFeedView = (props: Props) => {
       )
     }
 
-    feeds.forEach(item => {
+    feeds.forEach((item, index) => {
       components.push(<FeedCard item={item} key={`feedItem${item.id}`} />)
+
+      // Sisipkan komponen iklan setelah setiap 6 feed
+      if ((index + 1) % 6 === 0) {
+        components.push(
+          <Box sx={{ mt: 2 }}>
+            <CenterAd key={`adsComponent${index}`} />
+          </Box>
+        )
+      }
     })
 
     return components
