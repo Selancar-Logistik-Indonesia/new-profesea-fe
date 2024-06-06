@@ -4,7 +4,7 @@ import Icon from 'src/@core/components/icon'
 // import { useTranslation } from 'react-i18next'
 
 const Accordion = ({ summary, description }: { summary: string; description: string }) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
 
   return (
     <Grid item xs={12} md={8}>
