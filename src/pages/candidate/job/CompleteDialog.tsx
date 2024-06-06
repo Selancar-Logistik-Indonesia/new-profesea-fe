@@ -35,6 +35,7 @@ const CompleteDialog = (props: ViewProps) => {
 
       props.setApply(true)
       toast.success(`${props.selectedItem?.role_type?.name} applied successfully!`)
+      props.onClose()
     } catch (error) {
       console.error(error)
     }
