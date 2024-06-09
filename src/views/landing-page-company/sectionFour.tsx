@@ -10,11 +10,11 @@ const Accordion = ({ summary, description }: { summary: string; description: str
     <Grid item xs={12} md={8}>
       <Box sx={{ width: '100%' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography fontSize={24} fontWeight={700}>
+          <Typography fontSize={24} fontWeight={700} ml={2}>
             {summary}
           </Typography>
-          <IconButton onClick={() => setOpen(!open)} size='large'>
-            <Icon icon='flowbite:circle-plus-outline' fontSize='inherit' />
+          <IconButton onClick={() => setOpen(!open)}>
+            <Icon icon='flowbite:circle-plus-outline' fontSize={32} />
           </IconButton>
         </Box>
         <Collapse in={!open}>
@@ -27,36 +27,20 @@ const Accordion = ({ summary, description }: { summary: string; description: str
   )
 }
 
-const Background = (props: {
-  img: string
-  top?: number
-  left?: number
-  bottom?: number
-  right?: number
-  width?: string
-  height?: string
-  z?: number
-}) => {
-  const { top, left, bottom, right, width, height, z } = props
-  const placement = {
-    ...(top !== undefined && { top }),
-    ...(left !== undefined && { left }),
-    ...(bottom !== undefined && { bottom }),
-    ...(right !== undefined && { right })
-  }
+const Background = (props: { img: string; [key: string]: any }) => {
+  const { img, ...rest } = props
 
   return (
     <Box
       sx={{
-        zIndex: z ? z : 0,
         position: 'absolute',
-        ...placement,
-        width: width ? width : '100%',
-        height: height ? height : '100%',
-        backgroundImage: `url(${props.img})`,
+        width: '100%',
+        height: '100%',
+        backgroundImage: `url(${img})`,
         backgroundSize: 'cover',
         backgroundPosition: '100% 100%',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'no-repeat',
+        ...rest
       }}
     />
   )
@@ -66,7 +50,7 @@ const sectionThree = () => {
   // const { t } = useTranslation()
 
   return (
-    <Grid item container sx={{ position: 'relative', px: 10, pt: 20, pb: 40 }}>
+    <Grid item container sx={{ position: 'relative', px: 10, pt: { xs: 10, md: 20 }, pb: { xs: 20, md: 40 } }}>
       <Typography sx={{ mb: 6, width: '100%' }} color={'black'} fontSize={32} fontWeight='700' align={'center'}>
         FAQ
       </Typography>
@@ -77,10 +61,16 @@ const sectionThree = () => {
           summary='Manfaat membuka lamaran pekerjaan di Profesea?'
           description='Perusahaan kamu akan dengan mudah menemukan kandidat terbaik di industri maritim dan logistik.'
         />
-        <Accordion summary='Bagaimana bergabung sebagai perusahaan di Profesea' description='register.' />
+        <Accordion summary='Bagaimana bergabung sebagai perusahaan di Profesea?' description='register.' />
         <Accordion summary='Apakah Profesea berbayar?' description='free ongkir.' />
       </Grid>
-      <Background bottom={0} left={0} z={-1} img='/images/backgrounds/company-gelombang-kiri.png' />
+      <Background
+        bottom={0}
+        left={0}
+        backgroundPosition='0% 100%'
+        z={-1}
+        img='/images/backgrounds/company-gelombang-kiri.png'
+      />
       <Background bottom={0} right={0} z={-1} img='/images/backgrounds/company-gelombang-kanan.png' />
     </Grid>
   )

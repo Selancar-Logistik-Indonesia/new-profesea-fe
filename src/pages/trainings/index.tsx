@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import FooterView from 'src/views/landing-page/footerView'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
-import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
+import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 import { Stack } from '@mui/system'
 import OngoingTrainingScreen from './OngoingTraining'
 
@@ -135,6 +135,6 @@ const Main = () => {
 
 Main.guestGuard = false
 Main.authGuard = false
-Main.getLayout = (page: ReactNode) => <OuterPageLayout>{page}</OuterPageLayout>
+Main.getLayout = (page: ReactNode) => <LandingPageLayout>{page}</LandingPageLayout>
 
 export default Main

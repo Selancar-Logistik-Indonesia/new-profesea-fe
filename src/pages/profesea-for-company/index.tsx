@@ -5,8 +5,8 @@ import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from 'react-i18next'
 import Head from 'next/head'
 import FooterView from 'src/views/landing-page/footerView'
-import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 import landingPageStyle from 'src/@core/styles/landing-page/landing-page-company'
+import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 import SectionTwo from 'src/views/landing-page-company/sectionTwo'
 import SectionThree from 'src/views/landing-page-company/sectionThree'
 import SectionFour from 'src/views/landing-page-company/sectionFour'
@@ -26,20 +26,22 @@ const Main = () => {
       </Head>
       <Grid container>
         <Grid item container sx={landingPageStyle.bannerHero}>
-          <Grid
-            item
-            xs={12}
-            md={6}
+          <Box
             sx={{
               display: 'flex',
               alignItems: 'center'
             }}
           >
-            <Box sx={{ mt: { xs: -20, md: -30 }, pl: 10 }}>
-              <Typography variant='h2' sx={{ mb: 2 }} color={'#FFFFFF'} fontWeight='800'>
+            <Box sx={{ zIndex: 2, mt: { xs: -10, lg: -20 }, mx: 12 }}>
+              <Typography
+                variant='h1'
+                sx={{ mb: 2, width: { md: 800 }, fontSize: { xs: 32, md: 50 } }}
+                color={'#FFFFFF'}
+                fontWeight='800'
+              >
                 Pencarian Talenta Terbaik bersama Profesea
               </Typography>
-              <Typography sx={{ mb: 5, fontSize: 20 }} color={'#FFFFFF'}>
+              <Typography sx={{ mb: 5, fontSize: { xs: 16, md: 32 }, width: { md: 800 } }} color={'#FFFFFF'}>
                 Akses ke sumber bakat profesional dan kru terbaik dari beragam keahlian serta pengalaman secara
                 <span style={{ fontStyle: 'italic' }}> real-time </span>melalui platform digital maritim.
               </Typography>
@@ -49,12 +51,8 @@ const Main = () => {
                 </Button>
               </Link>
             </Box>
-          </Grid>
-          {!isXs && (
-            <Grid item xs={5} sx={{ display: 'flex', alignItems: 'flex-end' }}>
-              <Box sx={landingPageStyle.bannerAsset} />
-            </Grid>
-          )}
+          </Box>
+          {!isXs && <Box sx={landingPageStyle.bannerAsset} />}
         </Grid>
         <SectionTwo />
         <SectionThree />
@@ -71,7 +69,12 @@ const Main = () => {
             }}
           >
             <Box>
-              <Typography variant='h2' sx={{ mb: 5 }} color={'#FFFFFF'} fontWeight='800'>
+              <Typography
+                variant='h2'
+                sx={{ mb: 5, width: { md: 800 }, fontSize: { xs: 32, md: 50 } }}
+                color={'#FFFFFF'}
+                fontWeight='800'
+              >
                 Cari kandidat mudah di talent pool kami
               </Typography>
               <Link href='/register/recruiter'>
@@ -90,6 +93,6 @@ const Main = () => {
 
 Main.guestGuard = false
 Main.authGuard = false
-Main.getLayout = (page: ReactNode) => <OuterPageLayout>{page}</OuterPageLayout>
+Main.getLayout = (page: ReactNode) => <LandingPageLayout>{page}</LandingPageLayout>
 
 export default Main

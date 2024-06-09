@@ -5,29 +5,25 @@ import Carousel from './carousel'
 
 const items = [
   {
-    title: 'Langkah 1',
     img: '/images/cards/company-step1.png',
     description: 'Daftar dan buat akun sebagai perusahaan di Profesea.id'
   },
   {
-    title: 'Langkah 2',
     img: '/images/cards/company-step2.png',
     description: 'Buat lowongan dan dapatkan exsposure di Platform kami.'
   },
   {
-    title: 'Langkah 3',
     img: '/images/cards/company-step3.png',
     description: 'Temukan kandidat terbaik dan dapatkan akses ke komunitas maritim dan logistik.'
   },
   {
-    title: 'Langkah 4',
     img: '/images/cards/company-step4.png',
     description: 'Kelola data kandidat untuk proses seleksi selanjutnya.'
   }
 ]
 
-const CardList = (props: { title: string; img: string; description: string; isXs: any }) => {
-  const { title, img, description, isXs } = props
+const CardList = (props: { img: string; description: string; isXs: any }) => {
+  const { img, description, isXs } = props
 
   return (
     <Grid
@@ -44,50 +40,32 @@ const CardList = (props: { title: string; img: string; description: string; isXs
           backgroundImage: `url(${img})`,
           backgroundRepeat: `no-repeat`,
           backgroundSize: 'cover',
-          width: { md: '200px', lg: '225px' },
-          aspectRatio: 1
+          width: '175px',
+          aspectRatio: 1,
+          mb: 4
         }}
       />
-      <Typography align={'center'} fontSize={20} fontWeight={700} my={3}>
-        {title}
-      </Typography>
-      <Typography fontSize={16} align={isXs ? 'left' : 'center'} sx={{ width: { md: 180, lg: 300 } }}>
+      <Typography fontSize={16} align={isXs ? 'left' : 'center'} sx={{ px: 4 }}>
         {description}
       </Typography>
     </Grid>
   )
 }
 
-const Background = (props: {
-  img: string
-  top?: number
-  left?: number
-  bottom?: number
-  right?: number
-  width?: string
-  height?: string
-  z?: number
-}) => {
-  const { top, left, bottom, right, width, height, z } = props
-  const placement = {
-    ...(top !== undefined && { top }),
-    ...(left !== undefined && { left }),
-    ...(bottom !== undefined && { bottom }),
-    ...(right !== undefined && { right })
-  }
+const Background = (props: { img: string; [key: string]: any }) => {
+  const { img, ...rest } = props
 
   return (
     <Box
       sx={{
-        zIndex: z ? z : 0,
         position: 'absolute',
-        ...placement,
-        width: width ? width : '100%',
-        height: height ? height : '100%',
-        backgroundImage: `url(${props.img})`,
+        width: '100%',
+        height: '100%',
+        backgroundImage: `url(${img})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'top',
-        backgroundRepeat: 'no-repeat'
+        backgroundPosition: '100% 100%',
+        backgroundRepeat: 'no-repeat',
+        ...rest
       }}
     />
   )
@@ -99,7 +77,7 @@ const SectionThree = () => {
   const isXs = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
-    <Grid item container sx={{ position: 'relative', px: 10, py: 20 }}>
+    <Grid item container sx={{ position: 'relative', py: { xs: 10, md: 20 }, px: { md: 5 } }}>
       <Typography sx={{ mb: 10, width: '100%' }} color={'black'} fontSize={32} fontWeight='700' align={'center'}>
         4 Tahap Mudah untuk Bergabung!
       </Typography>
@@ -108,32 +86,39 @@ const SectionThree = () => {
       ) : (
         <Grid container>
           {items.map((item, index) => (
-            <CardList key={index} title={item.title} img={item.img} description={item.description} isXs={isXs} />
+            <CardList key={index} img={item.img} description={item.description} isXs={isXs} />
           ))}
         </Grid>
       )}
-      <Background bottom={0} right={0} z={-1} img='/images/backgrounds/company-background-dots.png' />
+      {!isXs && (
+        <>
+          <Background bottom={0} right={0} z={-1} img='/images/backgrounds/company-background-dots.png' />
+          <Background
+            top={0}
+            left={0}
+            backgroundPosition='0% 0%'
+            width='40%'
+            height='50%'
+            z={-1}
+            img='/images/backgrounds/company-background-dots2.png'
+          />
+        </>
+      )}
       <Background
         top={0}
         left={0}
-        width='30%'
+        backgroundPosition='0% 0%'
+        width='50%'
         height='50%'
-        z={-1}
-        img='/images/backgrounds/company-background-dots2.png'
-      />
-      <Background
-        top={0}
-        left={0}
-        width='60%'
-        height='60%'
         z={2}
         img='/images/backgrounds/company-bg-orange-kiri2.png'
       />
       <Background
         top={0}
         right={0}
-        width='60%'
-        height='60%'
+        backgroundPosition='100% 0%'
+        width='50%'
+        height='50%'
         z={4}
         img='/images/backgrounds/company-bg-orange-kanan2.png'
       />

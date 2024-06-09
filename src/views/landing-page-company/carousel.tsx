@@ -8,25 +8,29 @@ import { Icon } from '@iconify/react'
 
 const Slides = (items: any[]) => {
   return items.map((arr, index) => (
-    <Box key={index} className='keen-slider__slide'>
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography align={'center'} fontSize={28} fontWeight={700} mb={4}>
+    <Box
+      key={index}
+      className='keen-slider__slide'
+      sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}
+    >
+      {arr.title && (
+        <Typography align='center' fontSize={28} fontWeight={700} mb={4}>
           {arr.title}
         </Typography>
-        <Box
-          sx={{
-            backgroundImage: `url(${arr.img})`,
-            backgroundRepeat: `no-repeat`,
-            backgroundSize: 'cover',
-            width: '100%',
-            maxWidth: '225px',
-            aspectRatio: '1'
-          }}
-        />
-        <Typography fontSize={24} align='center' sx={{ width: '100%', maxWidth: 400, mt: 4 }}>
-          {arr.description}
-        </Typography>
-      </Box>
+      )}
+      <Box
+        sx={{
+          backgroundImage: `url(${arr.img})`,
+          backgroundRepeat: `no-repeat`,
+          backgroundSize: 'cover',
+          width: '100%',
+          maxWidth: '225px',
+          aspectRatio: '1'
+        }}
+      />
+      <Typography fontSize={24} align='center' sx={{ width: '100%', maxWidth: 400, mt: 4 }}>
+        {arr.description}
+      </Typography>
     </Box>
   ))
 }
