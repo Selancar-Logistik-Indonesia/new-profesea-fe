@@ -22,6 +22,7 @@ import * as yup from 'yup'
 import Alumni from 'src/contract/models/alumni'
 import { AppConfig } from 'src/configs/api'
 import SekolahType from 'src/contract/models/sekolah'
+import DialogAlumniAddProfilePicture from './DialogAlumniAddProfilePicture'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -46,21 +47,15 @@ const ProfilePictureStyled = styled('img')(({ theme }) => ({
 const DialogAdd = (props: DialogProps) => {
   const isSmallScreen = useMediaQuery('(max-width:400px)')
   const [onLoading, setOnLoading] = useState(false)
-  const [preview, setPreview] = useState()
-  const [selectedFile, setSelectedFile] = useState()
+
   const [preview2, setPreview2] = useState()
   const [selectedFile2, setSelectedFile2] = useState()
   const [comboSekolah, getComboSekolah] = useState<any>([])
   const [idcomboSekolah, setComboSekolah] = useState<any>()
 
-  const onSelectFile = (e: any) => {
-    if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFile(undefined)
-
-      return
-    }
-    setSelectedFile(e.target.files[0])
-  }
+  const [photoProfile, setPhotoProfile] = useState('')
+  const [previewPhotoProfile, setPreviewPhotoProfile] = useState('')
+  const [openAddModalProfile, setOpenAddModalProfile] = useState(false)
 
   const onSelectFile2 = (e: any) => {
     if (!e.target.files || e.target.files.length === 0) {
@@ -90,39 +85,15 @@ const DialogAdd = (props: DialogProps) => {
     })
   }, [])
 
-  useEffect(() => {
-    if (!selectedFile) {
-      setPreview(undefined)
-
-      return
-    }
-    const objectUrl: any = URL.createObjectURL(selectedFile)
-    setPreview(objectUrl)
-
-    return () => URL.revokeObjectURL(objectUrl)
-  }, [selectedFile])
-
-  useEffect(() => {
-    if (!selectedFile2) {
-      setPreview2(undefined)
-
-      return
-    }
-    const objectUrl: any = URL.createObjectURL(selectedFile2)
-    setPreview2(objectUrl)
-
-    return () => URL.revokeObjectURL(objectUrl)
-  }, [selectedFile2])
-
   const onSubmit = async (formData: Alumni) => {
     const { title, description } = formData
-    if (selectedFile == undefined) {
+    if (photoProfile == undefined) {
       toast.error('Isi Photo Profile')
     }
     const json = {
       title: title,
       description: description,
-      profilepicture: selectedFile,
+      profilepicture: photoProfile,
       sekolah: idcomboSekolah,
       suratpenugasan: selectedFile2
     }
@@ -191,17 +162,11 @@ const DialogAdd = (props: DialogProps) => {
                 </Grid>
                 <Box sx={{ position: 'relative' }}>
                   <ProfilePictureStyled
-                    src={preview ? preview : '/images/avatars/profilepic.png'}
+                    src={previewPhotoProfile ? previewPhotoProfile : '/images/avatars/profilepic.png'}
                     alt='profile-picture'
                     sx={{ objectFit: 'cover' }}
                   />
-                  <input
-                    accept='image/*'
-                    style={{ display: 'none', width: '100%', aspectRatio: 1 }}
-                    id='raised-button-file'
-                    onChange={onSelectFile}
-                    type='file'
-                  />
+
                   <Box
                     sx={{
                       position: 'absolute',
@@ -210,6 +175,7 @@ const DialogAdd = (props: DialogProps) => {
                       transform: 'translate(-50%, -50%)',
                       textAlign: 'center'
                     }}
+                    onClick={() => setOpenAddModalProfile(!openAddModalProfile)}
                   >
                     <label htmlFor='raised-button-file'>
                       <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '26px' }} />
@@ -308,6 +274,13 @@ const DialogAdd = (props: DialogProps) => {
           </Button>
         </DialogActions>
       </form>
+      <DialogAlumniAddProfilePicture
+        previewProfile={previewPhotoProfile}
+        setPreviewPhotoProfile={setPreviewPhotoProfile}
+        setPhotoProfile={setPhotoProfile}
+        visible={openAddModalProfile}
+        onCloseClick={() => setOpenAddModalProfile(!openAddModalProfile)}
+      />
     </Dialog>
   )
 }
