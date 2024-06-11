@@ -4,8 +4,8 @@ import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import { IUser } from 'src/contract/models/user'
- import Avatar from 'src/@core/components/mui/avatar'
- 
+import Avatar from 'src/@core/components/mui/avatar'
+
 export type ParamJobVacncy = {
   judul: string
   user: IUser
@@ -20,7 +20,7 @@ interface Props {
   onMessage: (message: string) => void
 }
 
-
+const base_url = process.env.NEXT_PUBLIC_BASE_URL
 
 const CardAlumniLogo = (props: Props) => {
   const { selectedAlumni } = props
@@ -35,7 +35,11 @@ const CardAlumniLogo = (props: Props) => {
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                   <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
                     <Avatar
-                      src={selectedAlumni?.profilepicture ? selectedAlumni.profilepicture : '/images/avatars/1.png'}
+                      src={
+                        selectedAlumni?.profilepicture
+                          ? base_url + '/storage/' + selectedAlumni.profilepicture
+                          : '/images/avatars/1.png'
+                      }
                       alt='profile-picture'
                       sx={{
                         ml: 10,
