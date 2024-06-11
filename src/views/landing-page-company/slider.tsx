@@ -1,6 +1,4 @@
 import React from 'react'
-// import Box from '@mui/material/Box'
-import { useTheme } from '@mui/material/styles'
 import { Grid, Typography, Card, CardMedia } from '@mui/material'
 
 const Slides = (items: any[]) => {
@@ -55,8 +53,6 @@ const Slides = (items: any[]) => {
 }
 
 const Slider = ({ items }: { items: any[] }) => {
-  const theme = useTheme()
-
   return (
     <Grid
       container
