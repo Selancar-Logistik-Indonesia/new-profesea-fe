@@ -35,19 +35,26 @@ const Main = () => {
             <Box sx={{ zIndex: 2, mt: { xs: -10, lg: -20 }, mx: 12 }}>
               <Typography
                 variant='h1'
-                sx={{ mb: 2, width: { md: 800 }, fontSize: { xs: 32, md: 50 } }}
-                color={'#FFFFFF'}
-                fontWeight='800'
+                sx={{ mb: 2, maxWidth: 700, fontSize: { xs: 32, md: 48 }, textShadow: '1px 1px 12px black' }}
+                style={{ letterSpacing: 0.8, color: 'white', fontWeight: '800' }}
               >
                 Pencarian Talenta Terbaik bersama Profesea
               </Typography>
-              <Typography sx={{ mb: 5, fontSize: { xs: 16, md: 32 }, width: { md: 800 } }} color={'#FFFFFF'}>
+              <Typography
+                variant='h2'
+                sx={{ mb: 5, maxWidth: 800, fontSize: { xs: 16, md: 20 }, textShadow: '1px 1px 12px black' }}
+                style={{ letterSpacing: 0.8, color: 'white' }}
+              >
                 Akses ke sumber bakat profesional dan kru terbaik dari beragam keahlian serta pengalaman secara
                 <span style={{ fontStyle: 'italic' }}> real-time </span>melalui platform digital maritim.
               </Typography>
               <Link href='/register/recruiter'>
-                <Button style={{ backgroundColor: '#ef6c00', color: 'white' }} variant='contained'>
-                  Gabung Sekarang
+                <Button
+                  style={{ backgroundColor: '#ef6c00', color: 'white' }}
+                  sx={{ boxShadow: '1px 1px 5px black' }}
+                  variant='contained'
+                >
+                  {t('landing_join_now_1')}
                 </Button>
               </Link>
             </Box>
@@ -58,32 +65,24 @@ const Main = () => {
         <SectionThree />
         <SectionFour />
         <Grid item container sx={landingPageStyle.bannerBottom}>
-          <Grid
-            item
-            xs={6}
-            sx={{
-              pr: { xs: 10, md: 30, lg: 50 },
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'right'
-            }}
-          >
-            <Box>
-              <Typography
-                variant='h2'
-                sx={{ mb: 5, width: { md: 800 }, fontSize: { xs: 32, md: 50 } }}
-                color={'#FFFFFF'}
-                fontWeight='800'
+          <Box sx={{ pr: 12, position: 'absolute', top: { xs: '25%', lg: '30%' }, left: '40%' }}>
+            <Typography
+              variant='h2'
+              sx={{ mb: 2, maxWidth: 700, fontSize: { xs: 32, md: 48 }, textShadow: '1px 1px 12px black' }}
+              style={{ letterSpacing: 0.8, color: 'white', fontWeight: '800' }}
+            >
+              Cari kandidat mudah di talent pool kami
+            </Typography>
+            <Link href='/register/recruiter'>
+              <Button
+                style={{ backgroundColor: '#ef6c00', color: 'white' }}
+                sx={{ boxShadow: '1px 1px 5px black' }}
+                variant='contained'
               >
-                Cari kandidat mudah di talent pool kami
-              </Typography>
-              <Link href='/register/recruiter'>
-                <Button style={{ backgroundColor: '#ef6c00', color: 'white' }} variant='contained'>
-                  Gabung Sekarang
-                </Button>
-              </Link>
-            </Box>
-          </Grid>
+                {t('landing_join_now_2')}
+              </Button>
+            </Link>
+          </Box>
         </Grid>
       </Grid>
       <FooterView />

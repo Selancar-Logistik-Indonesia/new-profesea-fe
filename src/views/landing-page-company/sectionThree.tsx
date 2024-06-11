@@ -1,26 +1,7 @@
 import { Box, Grid, Typography, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import Carousel from './carousel'
-// import { useTranslation } from 'react-i18next'
-
-const items = [
-  {
-    img: '/images/cards/company-step1.png',
-    description: 'Daftar dan buat akun sebagai perusahaan di Profesea.id'
-  },
-  {
-    img: '/images/cards/company-step2.png',
-    description: 'Buat lowongan dan dapatkan exsposure di Platform kami.'
-  },
-  {
-    img: '/images/cards/company-step3.png',
-    description: 'Temukan kandidat terbaik dan dapatkan akses ke komunitas maritim dan logistik.'
-  },
-  {
-    img: '/images/cards/company-step4.png',
-    description: 'Kelola data kandidat untuk proses seleksi selanjutnya.'
-  }
-]
+import Slider from './slider'
+import { useTranslation } from 'react-i18next'
 
 const CardList = (props: { img: string; description: string; isXs: any }) => {
   const { img, description, isXs } = props
@@ -45,9 +26,11 @@ const CardList = (props: { img: string; description: string; isXs: any }) => {
           mb: 4
         }}
       />
-      <Typography fontSize={16} align={isXs ? 'left' : 'center'} sx={{ px: 4 }}>
-        {description}
-      </Typography>
+      <Typography
+        align={isXs ? 'left' : 'center'}
+        sx={{ px: 4, fontSize: 16 }}
+        dangerouslySetInnerHTML={{ __html: description }}
+      />
     </Grid>
   )
 }
@@ -72,17 +55,42 @@ const Background = (props: { img: string; [key: string]: any }) => {
 }
 
 const SectionThree = () => {
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.down('md'))
 
+  const items = [
+    {
+      img: '/images/cards/company-step1.png',
+      description: t('landing_company_step_description_1')
+    },
+    {
+      img: '/images/cards/company-step2.png',
+      description: t('landing_company_step_description_2')
+    },
+    {
+      img: '/images/cards/company-step3.png',
+      description: t('landing_company_step_description_3')
+    },
+    {
+      img: '/images/cards/company-step4.png',
+      description: t('landing_company_step_description_4')
+    }
+  ]
+
   return (
     <Grid item container sx={{ position: 'relative', py: { xs: 10, md: 20 }, px: { md: 5 } }}>
-      <Typography sx={{ mb: 10, width: '100%' }} color={'black'} fontSize={32} fontWeight='700' align={'center'}>
-        4 Tahap Mudah untuk Bergabung!
+      <Typography
+        sx={{ mb: { xs: 5, md: 10 }, width: '100%' }}
+        color={'black'}
+        fontSize={32}
+        fontWeight='700'
+        align={'center'}
+      >
+        {t('landing_company_step_title')}
       </Typography>
       {isXs ? (
-        <Carousel items={items} timer={0} />
+        <Slider items={items} />
       ) : (
         <Grid container>
           {items.map((item, index) => (
@@ -90,36 +98,39 @@ const SectionThree = () => {
           ))}
         </Grid>
       )}
-      {!isXs && (
-        <>
-          <Background bottom={0} right={0} z={-1} img='/images/backgrounds/company-background-dots.png' />
-          <Background
-            top={0}
-            left={0}
-            backgroundPosition='0% 0%'
-            width='40%'
-            height='50%'
-            z={-1}
-            img='/images/backgrounds/company-background-dots2.png'
-          />
-        </>
-      )}
       <Background
         top={0}
         left={0}
         backgroundPosition='0% 0%'
-        width='50%'
-        height='50%'
-        z={2}
+        width={{ xs: '200px', md: '300px' }}
+        height={{ xs: '200px', md: '300px' }}
+        zIndex={-3}
+        img='/images/backgrounds/company-background-dots.png'
+      />
+      <Background
+        bottom={0}
+        right={0}
+        width={{ xs: '200px', md: '300px' }}
+        height={{ xs: '200px', md: '300px' }}
+        zIndex={-3}
+        img='/images/backgrounds/company-background-dots3.png'
+      />
+      <Background
+        top={0}
+        left={0}
+        backgroundPosition='0% 0%'
+        width={{ xs: '200px', md: '300px' }}
+        height={{ xs: '200px', md: '300px' }}
+        zIndex={-1}
         img='/images/backgrounds/company-bg-orange-kiri2.png'
       />
       <Background
         top={0}
         right={0}
         backgroundPosition='100% 0%'
-        width='50%'
-        height='50%'
-        z={4}
+        width={{ xs: '200px', md: '300px' }}
+        height={{ xs: '200px', md: '300px' }}
+        zIndex={-1}
         img='/images/backgrounds/company-bg-orange-kanan2.png'
       />
     </Grid>

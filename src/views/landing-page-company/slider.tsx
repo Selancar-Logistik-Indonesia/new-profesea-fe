@@ -1,5 +1,5 @@
 import React from 'react'
-import Box from '@mui/material/Box'
+// import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import { Grid, Typography, Card, CardMedia } from '@mui/material'
 
@@ -11,7 +11,7 @@ const Slides = (items: any[]) => {
           m: 4,
           px: 6,
           pt: 8,
-          height: arr.title ? '525px' : '375px',
+          height: arr.title ? '480px' : '350px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -28,9 +28,9 @@ const Slides = (items: any[]) => {
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              fontSize: 28,
+              fontSize: 24,
               fontWeight: 700,
-              mb: 6,
+              mb: arr.title ? 6 : -2,
               height: '2.4em'
             }}
           >
@@ -43,14 +43,12 @@ const Slides = (items: any[]) => {
           sx={{
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
-            width: '200px',
+            width: '180px',
             aspectRatio: '1',
             mb: 2
           }}
         />
-        <Typography fontSize={24} my={4} align='center'>
-          {arr.description}
-        </Typography>
+        <Typography align='center' sx={{ fontSize: 18, my: 4 }} dangerouslySetInnerHTML={{ __html: arr.description }} />
       </Card>
     </Grid>
   ))
@@ -63,8 +61,8 @@ const Slider = ({ items }: { items: any[] }) => {
     <Grid
       container
       sx={{
-        px: 8,
-        maxHeight: '800px',
+        px: 15,
+        maxHeight: '520px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
