@@ -38,16 +38,14 @@ const Main = () => {
                 sx={{ mb: 2, maxWidth: 700, fontSize: { xs: 32, md: 48 }, textShadow: '1px 1px 12px black' }}
                 style={{ letterSpacing: 0.8, color: 'white', fontWeight: '800' }}
               >
-                Pencarian Talenta Terbaik bersama Profesea
+                {t('landing_company_banner_hero')}
               </Typography>
               <Typography
                 variant='h2'
                 sx={{ mb: 5, maxWidth: 800, fontSize: { xs: 16, md: 20 }, textShadow: '1px 1px 12px black' }}
                 style={{ letterSpacing: 0.8, color: 'white' }}
-              >
-                Akses ke sumber bakat profesional dan kru terbaik dari beragam keahlian serta pengalaman secara
-                <span style={{ fontStyle: 'italic' }}> real-time </span>melalui platform digital maritim.
-              </Typography>
+                dangerouslySetInnerHTML={{ __html: t('landing_company_banner_description') }}
+              />
               <Link href='/register/recruiter'>
                 <Button
                   style={{ backgroundColor: '#ef6c00', color: 'white' }}
@@ -70,9 +68,8 @@ const Main = () => {
               variant='h2'
               sx={{ mb: 2, maxWidth: 700, fontSize: { xs: 32, md: 48 }, textShadow: '1px 1px 12px black' }}
               style={{ letterSpacing: 0.8, color: 'white', fontWeight: '800' }}
-            >
-              Cari kandidat mudah di talent pool kami
-            </Typography>
+              dangerouslySetInnerHTML={{ __html: t('landing_company_banner_bottom') }}
+            />
             <Link href='/register/recruiter'>
               <Button
                 style={{ backgroundColor: '#ef6c00', color: 'white' }}
