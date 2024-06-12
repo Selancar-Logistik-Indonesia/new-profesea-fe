@@ -28,12 +28,11 @@ export type UserDataType = {
 export type AuthValuesType = {
   loading: boolean
   logout: () => void
-  logoutSilent: () => void
   user: IUser | null
   abilities: IAbilities | null
   setLoading: (value: boolean) => void
   setUser: (value: IUser | null) => void
   glogin: (params: { accessToken: string, namaevent: any }, errorCallback?: ErrCallbackType) => void
   login: (params: LoginParams, errorCallback?: ErrCallbackType, noReturn?: boolean) => void
-  loginSilent: (params: LoginParams, errorCallback?: ErrCallbackType) => void
+  loginSilent: (params: LoginSilentParams) => void
 }
