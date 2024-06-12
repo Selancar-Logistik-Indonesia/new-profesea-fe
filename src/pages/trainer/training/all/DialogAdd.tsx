@@ -102,7 +102,9 @@ const DialogAdd = (props: DialogProps) => {
   const schema = yup.object().shape({
     short_description: yup.string().required(),
     requirements: yup.string().optional(),
-    price: yup.string().required()
+    price: yup.string().required(),
+    discounted_price: yup.string().optional(),
+    cta: yup.string().optional()
   })
 
   const {
@@ -115,11 +117,11 @@ const DialogAdd = (props: DialogProps) => {
   })
 
   const onSubmit = async (formData: Training) => {
-    const { title, short_description, requirements, price } = formData
+    const { title, short_description, requirements, price, discounted_price, cta } = formData
     const json = {
       category_id: CatId,
       thumbnail: files[0],
-      title: title,
+      title,
       schedule:
         date
           ?.toLocaleDateString('en-GB', {
@@ -133,9 +135,11 @@ const DialogAdd = (props: DialogProps) => {
         ' ' +
         date?.toTimeString().split(' ')[0],
       instant: 0,
-      short_description: short_description,
-      requirements: requirements,
-      price: price
+      short_description,
+      requirements,
+      price,
+      discounted_price,
+      cta
     }
 
     setOnLoading(true)
@@ -182,8 +186,8 @@ const DialogAdd = (props: DialogProps) => {
             <Typography variant='body2'>Fulfill your Training Info here</Typography>
           </Box>
 
-          <Grid container columnSpacing={'1'} rowSpacing={'2'}>
-            <Grid item md={12} xs={12}>
+          <Grid container columnSpacing={'2'} rowSpacing={'3'}>
+            <Grid item xs={12}>
               <Autocomplete
                 disablePortal
                 id='combo-box-demo'
@@ -196,10 +200,10 @@ const DialogAdd = (props: DialogProps) => {
                 }
               />
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={12}>
               <TextField id='title' label='Title' variant='outlined' fullWidth {...register('title')} />
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={12}>
               <DatePickerWrapper>
                 <DatePicker
                   showTimeSelect
@@ -213,7 +217,7 @@ const DialogAdd = (props: DialogProps) => {
                 />
               </DatePickerWrapper>
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={12}>
               <TextField
                 id='short_description'
                 label='Description'
@@ -226,7 +230,7 @@ const DialogAdd = (props: DialogProps) => {
                 error={Boolean(errors.short_description)}
               />
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={12}>
               <TextField
                 id='requirements'
                 label='Requirement'
@@ -239,16 +243,30 @@ const DialogAdd = (props: DialogProps) => {
                 error={Boolean(errors.requirements)}
               />
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={6}>
               <InputLabel htmlFor='outlined-adornment-amount'>Price</InputLabel>
               <OutlinedInput
                 id='outlined-adornment-amount'
                 startAdornment={<InputAdornment position='start'>Rp.</InputAdornment>}
                 label='Price'
+                fullWidth
                 {...register('price')}
               />
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={6}>
+              <InputLabel htmlFor='outlined-adornment-amount'>Discounted Price</InputLabel>
+              <OutlinedInput
+                id='outlined-adornment-amount'
+                startAdornment={<InputAdornment position='start'>Rp.</InputAdornment>}
+                label='Discounted Price'
+                fullWidth
+                {...register('discounted_price')}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField id='cta' label='CTA' variant='outlined' fullWidth {...register('cta')} />
+            </Grid>
+            <Grid item xs={12}>
               <Box {...getRootProps({ className: 'dropzone' })} sx={{ p: 2, border: '1px dashed' }}>
                 <input {...getInputProps()} />
                 {files.length ? (

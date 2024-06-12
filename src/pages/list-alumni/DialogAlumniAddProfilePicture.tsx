@@ -155,7 +155,7 @@ const DialogAlumniAddProfilePicture = (props: IProps) => {
             )}
           </div>
 
-          Box position={'absolute'} sx={{ right: { xs: '45%', md: '48%' }, bottom: { xs: '50%', md: '40%' } }}>
+          <Box position={'absolute'} sx={{ right: { xs: '45%', md: '48%' }, bottom: { xs: '50%', md: '40%' } }}>
             <label htmlFor='raised-button-file-banner'>
               <Icon fontSize='large' icon={'bi:camera'} color={'white'} style={{ fontSize: '36px' }} />
             </label>

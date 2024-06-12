@@ -63,6 +63,7 @@ const DialogAdd = (props: DialogProps) => {
 
       return
     }
+    setPreview2(e.target.files[0])
     setSelectedFile2(e.target.files[0])
   }
   const schema = yup.object().shape({
