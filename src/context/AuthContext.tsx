@@ -16,7 +16,9 @@ const defaultProvider: AuthValuesType = {
   setLoading: () => Boolean,
   glogin: () => Promise.resolve(),
   login: () => Promise.resolve(),
-  logout: () => Promise.resolve()
+  loginSilent: () => Promise.resolve(),
+  logout: () => Promise.resolve(),
+  logoutSilent: () => Promise.resolve()
 }
 
 const AuthContext = createContext(defaultProvider)
@@ -93,6 +95,30 @@ const AuthProvider = ({ children }: Props) => {
       })
   }
 
+  const handleLoginSilent = async (params: LoginParams, errorCallback?: ErrCallbackType) => {
+    HttpClient.post(authConfig.loginSilentEndpoint, params)
+      .then(async response => {
+        setLoading(false)
+        const returnUrl = router.query.returnUrl
+        setUser({ ...response.data.user })
+        localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
+        secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
+        secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+        initAuth()
+        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home' // console.log(`redirectURL: ${redirectURL}`);
+
+        if (params.namaevent != null) {
+          await router.replace('/home/?event=true' as string)
+        } else {
+          router.replace(redirectURL as string)
+        }
+      })
+      .catch(err => {
+        setLoading(false)
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
   const handleGoogleLogin = async (
     params: { accessToken: string; namaevent: any },
     errorCallback?: ErrCallbackType
@@ -129,6 +155,12 @@ const AuthProvider = ({ children }: Props) => {
     await router.push('/login')
   }
 
+  const handleLogoutSilent = async () => {
+    setUser(null)
+    secureLocalStorage.clear()
+    window.localStorage.removeItem(authConfig.storageTokenKeyName)
+  }
+
   const values = {
     user,
     abilities,
@@ -137,7 +169,9 @@ const AuthProvider = ({ children }: Props) => {
     setLoading,
     glogin: handleGoogleLogin,
     login: handleLogin,
-    logout: handleLogout
+    logout: handleLogout,
+    loginSilent: handleLoginSilent,
+    logoutSilent: handleLogoutSilent
   }
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
