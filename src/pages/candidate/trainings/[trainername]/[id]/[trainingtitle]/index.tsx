@@ -5,29 +5,32 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 import Training from 'src/contract/models/training'
-import { formatIDR } from 'src/utils/helpers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import PaymentDialog from 'src/views/payment/PaymentDialog'
+import { formatIDR } from 'src/utils/helpers'
+// import PaymentDialog from 'src/views/payment/PaymentDialog'
 import OtherTraining from './OtherTraining'
 
 const TrainingDetailPage = () => {
   const router = useRouter()
   const trainingId = router.query.id
   const [training, setTraining] = useState<Training | null>(null)
-  const [openDialog, setOpenDialog] = useState(false)
-  const handleClickBuy = async () => {
-    setOpenDialog(!openDialog)
-  }
+  //   const [openDialog, setOpenDialog] = useState(false)
+  //   const handleClickBuy = async () => {
+  //     setOpenDialog(!openDialog)
+  //   }
 
   const getDetailTraining = async () => {
-    const resp = await HttpClient.get(`/public/data/training/${trainingId}`)
-    if (resp.status != 200) {
-      alert(resp.data?.message ?? '')
-
-      return
+    try {
+      const resp = await HttpClient.get(`/public/data/training/${trainingId}`)
+      if (resp.status !== 200) {
+        alert(resp.data?.message ?? '')
+        return
+      }
+      setTraining(resp.data.training)
+    } catch (error) {
+      console.error('Error fetching training details:', error)
     }
-    setTraining(resp.data.training)
   }
 
   useEffect(() => {
@@ -35,6 +38,14 @@ const TrainingDetailPage = () => {
       getDetailTraining()
     }
   }, [trainingId])
+
+  const handleEnrollClick = () => {
+    if (training?.cta) {
+      window.open(training.cta, '_blank', 'noopener,noreferrer')
+    } else {
+      alert('No link available for enrollment')
+    }
+  }
 
   return !training ? (
     <CircularProgress />
@@ -140,20 +151,31 @@ const TrainingDetailPage = () => {
                 }}
               />
             </Box>
-
             <Divider sx={{ my: 6, borderBottomWidth: 2 }} />
-
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Typography variant='h6' mt={1} width={155}>
-                {formatIDR(training.price)}
-              </Typography>
+            <Box
+              sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}
+            >
+              {training.discounted_price ? (
+                <Box>
+                  <Typography fontSize={14} mt={1} sx={{ textDecoration: 'line-through', color: 'gray' }}>
+                    {formatIDR(training.price, true)}
+                  </Typography>
+                  <Typography fontSize={20} sx={{ color: 'primary.main' }}>
+                    {formatIDR(training.discounted_price, true)}
+                  </Typography>
+                </Box>
+              ) : (
+                <Typography variant='h6' mt={1}>
+                  {formatIDR(training.price, true)}
+                </Typography>
+              )}
 
               {training.joined_at ? (
                 <Button disabled={true} variant='contained' size='small'>
                   Joined
                 </Button>
               ) : (
-                <Button onClick={handleClickBuy} variant='contained' size='small'>
+                <Button variant='contained' size='small' onClick={handleEnrollClick} disabled={!training?.cta}>
                   Enroll Now
                 </Button>
               )}
@@ -189,9 +211,9 @@ const TrainingDetailPage = () => {
           </Box>
         </Grid>
       </Grid>
-      {openDialog && (
+      {/* {openDialog && (
         <PaymentDialog onClose={() => setOpenDialog(!openDialog)} training={training} openDialog={openDialog} />
-      )}
+      )} */}
     </Box>
   )
 }
