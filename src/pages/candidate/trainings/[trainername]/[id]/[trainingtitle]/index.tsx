@@ -25,6 +25,7 @@ const TrainingDetailPage = () => {
       const resp = await HttpClient.get(`/public/data/training/${trainingId}`)
       if (resp.status !== 200) {
         alert(resp.data?.message ?? '')
+
         return
       }
       setTraining(resp.data.training)
