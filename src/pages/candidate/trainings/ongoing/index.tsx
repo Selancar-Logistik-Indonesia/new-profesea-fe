@@ -101,7 +101,7 @@ const renderList = (arr: Training[]) => {
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
                       <Icon icon='solar:tag-price-bold-duotone' color='#32487A' />
                       <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={14} fontWeight={700}>
-                        {formatIDR(item.price)}
+                        {formatIDR(item.price, true)}
                       </Typography>
                     </Box>
                   </Grid>
