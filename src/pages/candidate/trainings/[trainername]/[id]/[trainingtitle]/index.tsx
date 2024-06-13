@@ -65,7 +65,7 @@ const TrainingDetailPage = () => {
           justifyContent: 'center'
         }}
       >
-        <Grid item xs={12} md={7} lg={6}>
+        <Grid item xs={12} md={7}>
           <Box sx={{ p: 10, backgroundColor: '#FFFFFF' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Grid
@@ -183,7 +183,7 @@ const TrainingDetailPage = () => {
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={12} md={3} lg={2}>
+        <Grid item xs={12} md={3}>
           <Box
             sx={{
               display: 'flex',
