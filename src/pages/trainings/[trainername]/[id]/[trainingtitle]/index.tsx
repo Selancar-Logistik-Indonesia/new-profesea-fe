@@ -89,23 +89,19 @@ const TrainingDetailPage = () => {
                       {training.trainer.name}
                     </Typography>
                   </Box>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', mb: 1 }}>
-                    <Box sx={{ width: 35 }}>
-                      <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' fontSize={24} />
-                    </Box>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 1, gap: 2 }}>
+                    <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' fontSize={24} />
                     <Box sx={{ width: 120 }}>
-                      <Typography>Category</Typography>
+                      <Typography>Category :</Typography>
                     </Box>
                     <Box>
                       <Typography>{training?.category?.category}</Typography>
                     </Box>
                   </Box>
-                  <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <Box sx={{ width: 35 }}>
-                      <Icon icon='solar:calendar-bold-duotone' color='#32487A' fontSize={24} />
-                    </Box>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+                    <Icon icon='solar:calendar-bold-duotone' color='#32487A' fontSize={24} />
                     <Box sx={{ width: 120 }}>
-                      <Typography>Date & time</Typography>
+                      <Typography>Training Start :</Typography>
                     </Box>
                     <Box>
                       <Typography>{moment(training.schedule).format('dddd, DD MMM YYYY h:mm')}</Typography>
@@ -172,11 +168,11 @@ const TrainingDetailPage = () => {
 
               {training.joined_at ? (
                 <Button disabled={true} variant='contained' size='small'>
-                  Joined
+                  {t('login_modal_button_1')}
                 </Button>
               ) : (
                 <Button variant='contained' size='small' onClick={handleClickBuy} disabled={!training?.cta}>
-                  Enroll Now
+                  {t('login_modal_button_2')}
                 </Button>
               )}
             </Box>

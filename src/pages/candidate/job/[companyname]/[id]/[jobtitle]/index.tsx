@@ -175,12 +175,7 @@ const JobDetail = () => {
             justifyContent: 'center'
           }}
         >
-          <Grid
-            item
-            xs={12}
-            md={jobDetailSugestion.length !== 0 ? 7 : 10}
-            lg={jobDetailSugestion.length !== 0 ? 6 : 10}
-          >
+          <Grid item xs={12} md={jobDetailSugestion.length !== 0 ? 7 : 10}>
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <Grid container>
                 <Grid item xs={12} sx={{ py: '20px' }}>
@@ -247,7 +242,7 @@ const JobDetail = () => {
             </Card>
           </Grid>
           {jobDetailSugestion.length !== 0 && (
-            <Grid item xs={12} md={3} lg={2}>
+            <Grid item xs={12} md={3}>
               <Box
                 sx={{
                   display: 'flex',
