@@ -35,6 +35,7 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
 
 const JobsValue = (props: { icon: string; children: any }) => {
   const { icon, children } = props
+
   return (
     <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, mb: 1.5 }}>
       <Icon icon={icon} color='#32487A' fontSize={'20px'} />

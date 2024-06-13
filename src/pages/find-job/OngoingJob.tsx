@@ -10,7 +10,6 @@ import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 import { useAuth } from 'src/hooks/useAuth'
-import { textEllipsis } from 'src/utils/helpers'
 
 const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
   const { children, line, ...rest } = props
@@ -39,6 +38,7 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
 
 const JobsValue = (props: { icon: string; children: any }) => {
   const { icon, children } = props
+
   return (
     <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, mb: 1.5 }}>
       <Icon icon={icon} color='#32487A' fontSize={'20px'} />
