@@ -97,7 +97,7 @@ const renderList = (arr: Training[]) => {
                   <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1.5, mb: 1 }}>
                     <Icon icon='solar:tag-horizontal-bold-duotone' color='#32487A' />
                     <Grid item xs={true} sx={{ flexGrow: 1 }}>
-                      <TruncatedTypography color='text.primary' fontSize={14} fontWeight={700} line={2}>
+                      <TruncatedTypography fontSize={14} fontWeight={600} line={2}>
                         {item.category?.category}
                       </TruncatedTypography>
                     </Grid>
@@ -105,7 +105,7 @@ const renderList = (arr: Training[]) => {
                   <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1.5 }}>
                     <Icon icon='solar:tag-price-bold-duotone' color='#32487A' />
                     <Grid item xs={true} sx={{ flexGrow: 1 }}>
-                      <TruncatedTypography color='text.primary' fontSize={14} fontWeight={700}>
+                      <TruncatedTypography fontSize={14} fontWeight={600}>
                         {formatIDR(item.price, true)}
                       </TruncatedTypography>
                     </Grid>
