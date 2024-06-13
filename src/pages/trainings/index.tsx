@@ -27,11 +27,10 @@ const Main = () => {
         <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
           <Grid
             item
-            xs={12}
-            md={10}
             sx={{
               ...landingPageStyle.bannerHero,
               my: 2,
+              mx: 12,
               py: 6,
               pl: { xs: 4, md: 6 },
               display: 'flex',
@@ -58,14 +57,13 @@ const Main = () => {
           </Grid>
           <Grid
             item
-            xs={12}
-            md={10}
             sx={{
               display: 'flex',
               flexDirection: {
                 xs: 'column-reverse',
                 lg: 'row'
               },
+              mx: 12,
               justifyContent: 'center',
               gap: 2
             }}
