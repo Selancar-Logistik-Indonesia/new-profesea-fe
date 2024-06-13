@@ -22,7 +22,6 @@ interface Props {
   statusbutton: any
   onMessage: (message: string) => void
 }
- 
 
 const CardAlumni = (props: Props) => {
   const { selectedAlumni } = props
@@ -46,7 +45,6 @@ const CardAlumni = (props: Props) => {
                       }}
                     >
                       <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-
                         <Box
                           sx={{
                             width: '100%',

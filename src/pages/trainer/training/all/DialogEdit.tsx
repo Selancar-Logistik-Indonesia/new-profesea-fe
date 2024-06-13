@@ -103,7 +103,9 @@ const DialogEdit = (props: EditProps) => {
   const schema = yup.object().shape({
     short_description: yup.string().required(),
     requirements: yup.string().optional(),
-    price: yup.string().required()
+    price: yup.string().required(),
+    discounted_price: yup.string().optional(),
+    cta: yup.string().optional()
   })
 
   const {
@@ -116,11 +118,11 @@ const DialogEdit = (props: EditProps) => {
   })
 
   const onSubmit = async (formData: Training) => {
-    const { title, short_description, requirements, price } = formData
+    const { title, short_description, requirements, price, discounted_price, cta } = formData
 
     const json = {
       category_id: CatId,
-      title: title,
+      title,
       schedule:
         date
           ?.toLocaleDateString('en-GB', {
@@ -135,9 +137,11 @@ const DialogEdit = (props: EditProps) => {
         date?.toTimeString().split(' ')[0],
       thumbnail: files[0],
       instant: 0,
-      short_description: short_description,
-      requirements: requirements,
-      price: price
+      short_description,
+      requirements,
+      price,
+      discounted_price,
+      cta
     }
 
     setOnLoading(true)
@@ -191,8 +195,8 @@ const DialogEdit = (props: EditProps) => {
             </Typography>
             <Typography variant='body2'>Fulfill your Training Info here</Typography>
           </Box>
-          <Grid container columnSpacing={'1'} rowSpacing={'4'}>
-            <Grid item md={12} xs={12}>
+          <Grid container columnSpacing={'2'} rowSpacing={'3'}>
+            <Grid item xs={12}>
               <Autocomplete
                 disablePortal
                 id='combo-box-demo'
@@ -206,7 +210,7 @@ const DialogEdit = (props: EditProps) => {
                 }
               />
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={12}>
               <TextField
                 defaultValue={props.selectedItem?.title}
                 id='title'
@@ -216,7 +220,7 @@ const DialogEdit = (props: EditProps) => {
                 {...register('title')}
               />
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={12}>
               <DatePickerWrapper>
                 <DatePicker
                   showTimeSelect
@@ -230,7 +234,7 @@ const DialogEdit = (props: EditProps) => {
                 />
               </DatePickerWrapper>
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={12}>
               <TextField
                 defaultValue={props.selectedItem?.short_description}
                 id='short_description'
@@ -244,7 +248,7 @@ const DialogEdit = (props: EditProps) => {
                 error={Boolean(errors.short_description)}
               />
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={12}>
               <TextField
                 defaultValue={props.selectedItem?.requirements}
                 id='requirements'
@@ -258,7 +262,7 @@ const DialogEdit = (props: EditProps) => {
                 error={Boolean(errors.requirements)}
               />
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={6}>
               <InputLabel htmlFor='outlined-adornment-amount'>Price</InputLabel>
               <OutlinedInput
                 defaultValue={props.selectedItem?.price}
@@ -266,10 +270,33 @@ const DialogEdit = (props: EditProps) => {
                 id='outlined-adornment-amount'
                 startAdornment={<InputAdornment position='start'>Rp.</InputAdornment>}
                 label='Price'
+                fullWidth
                 {...register('price')}
               />
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={6}>
+              <InputLabel htmlFor='outlined-adornment-amount'>Discounted Price</InputLabel>
+              <OutlinedInput
+                defaultValue={props.selectedItem?.discounted_price}
+                placeholder='10000'
+                id='outlined-adornment-amount'
+                startAdornment={<InputAdornment position='start'>Rp.</InputAdornment>}
+                label='Discounted Price'
+                fullWidth
+                {...register('discounted_price')}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                defaultValue={props.selectedItem?.cta}
+                id='cta'
+                label='CTA'
+                variant='outlined'
+                fullWidth
+                {...register('cta')}
+              />
+            </Grid>
+            <Grid item xs={12}>
               <Box
                 {...getRootProps({ className: 'dropzone' })}
                 sx={{
