@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState, ReactNode } from 'react'
 import { useRouter } from 'next/router'
 import authConfig from 'src/configs/auth'
-import { AuthValuesType, LoginParams, ErrCallbackType } from './types'
+import { AuthValuesType, LoginParams, LoginSilentParams, ErrCallbackType } from './types'
 import { HttpClient } from 'src/services'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -16,6 +16,7 @@ const defaultProvider: AuthValuesType = {
   setLoading: () => Boolean,
   glogin: () => Promise.resolve(),
   login: () => Promise.resolve(),
+  loginSilent: () => Promise.resolve(),
   logout: () => Promise.resolve()
 }
 
@@ -93,6 +94,23 @@ const AuthProvider = ({ children }: Props) => {
       })
   }
 
+  const handleLoginSilent = async (params: LoginSilentParams, errorCallback?: ErrCallbackType) => {
+    HttpClient.post(authConfig.loginSilentEndpoint, params)
+      .then(async response => {
+        setLoading(false)
+        setUser({ ...response.data.user })
+        localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
+        secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
+        secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+        initAuth()
+        router.replace('/home' as string)
+      })
+      .catch(err => {
+        setLoading(false)
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
   const handleGoogleLogin = async (
     params: { accessToken: string; namaevent: any },
     errorCallback?: ErrCallbackType
@@ -137,7 +155,8 @@ const AuthProvider = ({ children }: Props) => {
     setLoading,
     glogin: handleGoogleLogin,
     login: handleLogin,
-    logout: handleLogout
+    logout: handleLogout,
+    loginSilent: handleLoginSilent
   }
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>

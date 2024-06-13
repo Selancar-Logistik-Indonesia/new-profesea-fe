@@ -1,14 +1,15 @@
-import Box from '@mui/material/Box'
+import { useState } from 'react'
+import { Box, Menu, MenuItem } from '@mui/material'
 import Card from '@mui/material/Card'
 // import { styled } from '@mui/material/styles'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Grid, IconButton, styled } from '@mui/material'
+import { Grid, styled } from '@mui/material'
 import Alumni from 'src/contract/models/alumni'
 import { Icon } from '@iconify/react'
-import { toast } from 'react-hot-toast'
-import { HttpClient } from 'src/services'
+
+import DialogAlumniEditProfilePicture from 'src/pages/alumni/DialogAlumniEditProfilePicture'
 
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
@@ -25,23 +26,13 @@ type userProps = {
   iduser: string
 }
 
+const base_url = process.env.NEXT_PUBLIC_BASE_URL
+
 const UserProfileHeader = (props: userProps) => {
-  const { dataalumni, iduser } = props
-  const onSelectFile2 = async (e: any) => {
-    const json = {
-      profilepicture: e.target.files[0]
-    }
-    try {
-      const resp = await HttpClient.postFile('/alumni/updatephoto/' + dataalumni.id, json)
-      if (resp.status != 200) {
-        throw resp.data.message ?? 'Something went wrong create alumni!'
-      }
-      toast.success(` Update Poto successfully!`)
-      window.location.reload()
-    } catch (error) {
-      toast.error(`Opps ${error}`)
-    }
-  }
+  const { dataalumni } = props
+
+  const [openProfileMenu, setOpenProfileMenu] = useState<null | HTMLElement>(null)
+  const [openEditModalProfile, setOpenEditModalProfile] = useState(false)
 
   return (
     <Card sx={{ width: '100%', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
@@ -56,7 +47,7 @@ const UserProfileHeader = (props: userProps) => {
             objectFit: 'cover'
           }}
         />
-        {iduser == String(dataalumni.id) && (
+        {/*iduser == String(dataalumni.user_id) && (
           <>
             <Box
               sx={{
@@ -78,7 +69,7 @@ const UserProfileHeader = (props: userProps) => {
               </IconButton>
             </Box>
           </>
-        )}
+        )*/}
       </Box>
       <CardContent
         sx={{
@@ -89,15 +80,52 @@ const UserProfileHeader = (props: userProps) => {
           flexDirection: { xs: 'column', md: 'row' }
         }}
       >
-        <ProfilePicture
-          src={dataalumni?.profilepicture ? dataalumni?.profilepicture : '/images/avatars/1.png'}
-          alt='profile-picture'
-          sx={{
-            width: 100,
-            height: 100,
-            border: theme => `5px solid ${theme.palette.common.white}`
-          }}
-        />
+        <Box style={{ width: '100px', height: '100px', position: 'relative' }}>
+          <ProfilePicture
+            style={{ zIndex: 5 }}
+            src={
+              dataalumni.profilepicture ? base_url + '/storage/' + dataalumni.profilepicture : '/images/avatars/1.png'
+            }
+            alt='profile-picture'
+            sx={{
+              width: 100,
+              height: 100,
+              border: theme => `5px solid ${theme.palette.common.white}`
+            }}
+          />
+          <>
+            <label style={{ zIndex: 100 }}>
+              <Icon
+                onClick={(event: any) => setOpenProfileMenu(event.currentTarget)}
+                fontSize='large'
+                icon={'bi:camera'}
+                color={'white'}
+                style={{ position: 'absolute', fontSize: '26px', zIndex: 99, marginTop: '35px', left: '35px' }}
+              />
+            </label>
+            <Menu
+              anchorEl={openProfileMenu}
+              id='profile-menu'
+              open={Boolean(openProfileMenu)}
+              onClose={() => setOpenProfileMenu(null)}
+              MenuListProps={{
+                'aria-labelledby': 'profile-picture-frame-box'
+              }}
+            >
+              <MenuItem
+                color='blue'
+                onClick={() => {
+                  setOpenEditModalProfile(!openEditModalProfile)
+                  setOpenProfileMenu(null)
+                }}
+              >
+                <Icon fontSize='large' icon={'bi:upload'} color={'blue'} style={{ fontSize: '14px' }} /> &nbsp; Update
+                Profile Picture
+              </MenuItem>
+            </Menu>
+          </>
+        </Box>
+
         <Box
           sx={{
             display: 'flex',
@@ -132,6 +160,11 @@ const UserProfileHeader = (props: userProps) => {
           </Box>
         </Box>
       </CardContent>
+      <DialogAlumniEditProfilePicture
+        visible={openEditModalProfile}
+        onCloseClick={() => setOpenEditModalProfile(!openEditModalProfile)}
+        id={dataalumni.id}
+      />
     </Card>
   )
 }

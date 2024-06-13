@@ -10,6 +10,10 @@ export type LoginParams = {
   namaevent?: any
 }
 
+export type LoginSilentParams = {
+  email: string
+}
+
 export type UserDataType = {
   id: number
   role: string
@@ -30,4 +34,5 @@ export type AuthValuesType = {
   setUser: (value: IUser | null) => void
   glogin: (params: { accessToken: string, namaevent: any }, errorCallback?: ErrCallbackType) => void
   login: (params: LoginParams, errorCallback?: ErrCallbackType, noReturn?: boolean) => void
+  loginSilent: (params: LoginSilentParams) => void
 }

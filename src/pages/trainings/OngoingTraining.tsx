@@ -2,7 +2,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Box, Button, CircularProgress, Divider, Tooltip } from '@mui/material'
+import { Box, Button, CardMedia, CircularProgress, Divider, Tooltip } from '@mui/material'
 import { useEffect, useState } from 'react'
 import Training from 'src/contract/models/training'
 import Avatar from 'src/@core/components/mui/avatar'
@@ -12,24 +12,28 @@ import { HttpClient } from 'src/services'
 import Link from 'next/link'
 import { useAuth } from 'src/hooks/useAuth'
 
-const TruncatedTypography = ({ text, fontSize }: any) => {
+const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
+  const { children, line, ...rest } = props
+  const maxLine = line ? line : 1
+
   return (
     <Typography
       sx={{
         display: '-webkit-box',
         WebkitBoxOrient: 'vertical',
-        WebkitLineClamp: 1,
+        WebkitLineClamp: maxLine,
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'normal',
-        height: '1.2rem',
-        lineHeight: '1.2rem',
+        maxHeight: `calc(${maxLine} * 1.2em)`,
+        minHeight: '1.2em',
+        lineHeight: '1.2em',
         fontWeight: 'bold',
-        color: '#0a66c2',
-        fontSize: fontSize
+        fontSize: '16px',
+        ...rest
       }}
     >
-      {text}
+      {children}
     </Typography>
   )
 }
@@ -48,81 +52,88 @@ const renderList = (arr: Training[] | null) => {
       return (
         <Grid item xs={12} md={4} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
           <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-            <Grid item xs={12}>
-              <CardContent>
-                <Grid container sx={{ alignItems: 'center', justifyContent: 'center', marginBottom: '5px' }}>
-                  <Grid item component={Link} href={link}>
-                    <img
-                      alt='logo'
-                      src={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
-                      style={{
-                        width: '100%',
-                        aspectRatio: '3/2',
-                        objectFit: 'cover',
-                        borderRadius: '8px',
-                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                      }}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container component={Link} href={link}>
-                  <Grid
-                    item
-                    sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '85px' }}
-                  >
-                    <Tooltip title={item.title} enterDelay={500} leaveDelay={200}>
-                      <Grid item container mb={1} xs={12} sx={{ display: 'flex', flexDirection: 'row' }}>
-                        <Grid item sx={{ mr: '0.5rem' }}>
-                          <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' />
-                        </Grid>
-                        <Grid item xs={10} pt={'0.2rem'}>
-                          <TruncatedTypography text={item.title} fontSize={18} />
-                        </Grid>
-                      </Grid>
-                    </Tooltip>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={1}>
-                      <Icon icon='solar:tag-horizontal-bold-duotone' color='#32487A' />
-                      <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={14} fontWeight={700}>
-                        {item.category?.category}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mb={2}>
-                      <Icon icon='solar:tag-price-bold-duotone' color='#32487A' />
-                      <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={14} fontWeight={700}>
-                        {formatIDR(item.price)}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                </Grid>
-                <Grid container sx={{ alignItems: 'left', justifyContent: 'left' }}>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} my={3}>
-                    <Button size='small' LinkComponent={Link} variant='contained' color='primary' href={link}>
-                      See Details
-                    </Button>
-                  </Box>
-                </Grid>
-                <Divider sx={{ my: '0 !important' }} />
-                <Box
-                  height={35}
+            <CardContent>
+              <Link href={link}>
+                <CardMedia
+                  component='div'
+                  image={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
+                  sx={{
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                    width: '100%',
+                    aspectRatio: '3/2',
+                    mb: 3
+                  }}
+                />
+              </Link>
+              <Link href={link}>
+                <Grid
+                  container
                   sx={{
                     display: 'flex',
-                    alignContent: 'center'
+                    flexDirection: 'row',
+                    height: '7.4em'
                   }}
                 >
-                  <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
-                    <Avatar src={getUserAvatar(item.trainer)} alt='profile-picture' sx={{ width: 25, height: 25 }} />
-                  </Box>
-                  <Box
-                    sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
-                    marginTop={3}
-                  >
-                    <Typography sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={14}>
-                      {item?.trainer?.name}
-                    </Typography>
-                  </Box>
+                  <Tooltip title={item.title} enterDelay={500} leaveDelay={200}>
+                    <Grid
+                      container
+                      sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1.5, mb: 1 }}
+                    >
+                      <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' />
+                      <Grid item xs={true} sx={{ flexGrow: 1 }}>
+                        <TruncatedTypography fontSize={20} color={'#0a66c2'}>
+                          {item.title}
+                        </TruncatedTypography>
+                      </Grid>
+                    </Grid>
+                  </Tooltip>
+                  <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1.5, mb: 1 }}>
+                    <Icon icon='solar:tag-horizontal-bold-duotone' color='#32487A' />
+                    <Grid item xs={true} sx={{ flexGrow: 1 }}>
+                      <TruncatedTypography fontSize={14} fontWeight={600} line={2}>
+                        {item.category?.category}
+                      </TruncatedTypography>
+                    </Grid>
+                  </Grid>
+                  <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1.5 }}>
+                    <Icon icon='solar:tag-price-bold-duotone' color='#32487A' />
+                    <Grid item xs={true} sx={{ flexGrow: 1 }}>
+                      <TruncatedTypography fontSize={14} fontWeight={600}>
+                        {formatIDR(item.price, true)}
+                      </TruncatedTypography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Link>
+              <Grid container sx={{ justifyContent: 'left', my: 2 }}>
+                <Button size='small' LinkComponent={Link} variant='contained' color='primary' href={link}>
+                  See Details
+                </Button>
+              </Grid>
+              <Divider sx={{ my: '0 !important' }} />
+              <Box
+                height={35}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+              >
+                <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={3} ml={2} mr={3}>
+                  <Avatar src={getUserAvatar(item.trainer)} alt='profile-picture' sx={{ width: 25, height: 25 }} />
                 </Box>
-              </CardContent>
-            </Grid>
+                <Box
+                  sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
+                  marginTop={3}
+                >
+                  <Typography sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={14}>
+                    {item?.trainer?.name}
+                  </Typography>
+                </Box>
+              </Box>
+            </CardContent>
           </Card>
         </Grid>
       )
