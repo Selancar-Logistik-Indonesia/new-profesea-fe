@@ -93,7 +93,7 @@ const TrainingDetailPage = () => {
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 1, gap: 2 }}>
                     <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' fontSize={24} />
                     <Box sx={{ width: 120 }}>
-                      <Typography>Category :</Typography>
+                      <Typography>Category:</Typography>
                     </Box>
                     <Box>
                       <Typography>{training?.category?.category}</Typography>
@@ -102,7 +102,7 @@ const TrainingDetailPage = () => {
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
                     <Icon icon='solar:calendar-bold-duotone' color='#32487A' fontSize={24} />
                     <Box sx={{ width: 120 }}>
-                      <Typography>Training Start :</Typography>
+                      <Typography>Training Start:</Typography>
                     </Box>
                     <Box>
                       <Typography>{moment(training.schedule).format('dddd, DD MMM YYYY h:mm')}</Typography>
@@ -160,11 +160,19 @@ const TrainingDetailPage = () => {
                   <Typography fontSize={20} sx={{ color: 'primary.main' }}>
                     {formatIDR(training.discounted_price, true)}
                   </Typography>
+                  <Typography fontSize={8} sx={{ color: 'gray' }}>
+                    *harga belum termasuk PPN
+                  </Typography>
                 </Box>
               ) : (
-                <Typography variant='h6' mt={1}>
-                  {formatIDR(training.price, true)}
-                </Typography>
+                <Box>
+                  <Typography variant='h6' mt={1}>
+                    {formatIDR(training.price, true)}
+                  </Typography>
+                  <Typography fontSize={8} sx={{ color: 'gray' }}>
+                    *harga belum termasuk PPN
+                  </Typography>
+                </Box>
               )}
 
               {training.joined_at ? (
