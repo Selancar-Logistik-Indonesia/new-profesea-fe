@@ -148,11 +148,11 @@
     "register_text_3_G": "Masuk Dengan",
     "register_text_4": "Kandidat ",
     "register_text_4_1": "Pelaut",
-    "register_text_4_2": "Non-Pelaut",
+    "register_text_4_2": "Profesional",
     "register_text_5": "Perusahaan",
     "register_text_6": "Pusat Pelatihan",
     "register_text_7": "Bergabung sebagai Pelaut",
-    "register_text_14": "Bergabung sebagai Non-Pelaut",
+    "register_text_14": "Bergabung sebagai Profesional",
     "register_text_8": "Buat Akun Perusahaan",
     "register_text_9": "Buat Akun Pusat Pelatihan",
     "register_text_10": "Silakan isi informasi di bawah ini",
@@ -165,6 +165,7 @@
     "register_rule_1": "Ketentuan Kata Sandi:",
     "register_rule_2": "Minimal 7 karakter.",
     "register_rule_3": "Gunakan kombinasi angka, huruf, simbol, serta huruf besar dan kecil.",
+    "tax_not_included": "*harga belum termasuk PPN",
 
     "features": {
       "meetthecompanies": {

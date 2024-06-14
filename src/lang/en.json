@@ -147,11 +147,11 @@
     "register_text_3_G": "Sign In With",
     "register_text_4": "Candidate ",
     "register_text_4_1": "Seafarer",
-    "register_text_4_2": "Non-Seafarer",
+    "register_text_4_2": "Professional",
     "register_text_5": "Company",
     "register_text_6": "Training Center",
     "register_text_7": "Join as a Seafarer",
-    "register_text_14": "Join as a Non-Seafarer",
+    "register_text_14": "Join as a Professional",
     "register_text_8": "Create a Company Account",
     "register_text_9": "Create a Trainer Center Account",
     "register_text_10": "Please fill in the information below",
@@ -164,6 +164,7 @@
     "register_rule_1": "Password Terms:",
     "register_rule_2": "Minimum 7 characters.",
     "register_rule_3": "Use a combination of numbers, letters, symbols, as well as uppercase and lowercase letters.",
+    "tax_not_included": "*price does not include VAT",
 
     "features": {
       "meetthecompanies": {

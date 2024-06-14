@@ -157,7 +157,7 @@ function getEmployeetypev2(name?: string) {
     const employee = name ?? ''
     const mapRole = [
         { title: 'onship', value: 'PELAUT' },
-        { title: 'offship', value: 'NON PELAUT' }
+        { title: 'offship', value: 'PROFESIONAL' }
     ]
     const newValue = mapRole.find(e => e.title == employee)
 

@@ -165,7 +165,7 @@ const CandidateProfile = (props: compProps) => {
   if (props.datauser?.employee_type == 'onship') {
     ship = { employee_type: 'onship', label: 'PELAUT' }
   } else if (props.datauser?.employee_type == 'offship') {
-    ship = { employee_type: 'offship', label: 'NON PELAUT' }
+    ship = { employee_type: 'offship', label: 'PROFESIONAL' }
   }
 
   if (props.datauser.field_preference?.open_to_opp == 0) {
@@ -194,7 +194,7 @@ const CandidateProfile = (props: compProps) => {
   const [idcity, setCombocity] = useState<any>(props.datauser.address?.city_id)
   const [idship, setShip] = useState<any>(
     props.datauser?.employee_type == 'offship'
-      ? { employee_type: 'offship', label: 'NON PELAUT' }
+      ? { employee_type: 'offship', label: 'PROFESIONAL' }
       : { employee_type: 'onship', label: 'PELAUT' }
   )
   const [idcountry, setCountry] = useState<any>(props.datauser?.country_id)
@@ -293,7 +293,7 @@ const CandidateProfile = (props: compProps) => {
     })
     const code = [
       { employee_type: 'onship', label: 'PELAUT' },
-      { employee_type: 'offship', label: 'NON PELAUT' }
+      { employee_type: 'offship', label: 'PROFESIONAL' }
     ]
     getShip(code)
 
