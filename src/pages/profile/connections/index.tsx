@@ -1,44 +1,45 @@
-import React, { useState } from 'react'
-import { Box, Grid, Card, CardContent, Tab, Typography, useMediaQuery } from '@mui/material'
-import { useRouter } from 'next/router'
+import React, { useState, useEffect } from 'react'
+import { Button, Box, Grid, Card, CardContent, Tab, Typography, useMediaQuery, Input, TextField } from '@mui/material'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import Divider from '@mui/material/Divider'
+import ListItemText from '@mui/material/ListItemText'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
+import Avatar from '@mui/material/Avatar'
 
+import { HttpClient } from 'src/services'
+import { AppConfig } from 'src/configs/api'
 import { useTheme } from '@mui/material/styles'
 import { IUser } from 'src/contract/models/user'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
-import { useSearchParams } from 'next/navigation'
-import { linkToTitleCase, toLinkCase } from 'src/utils/helpers'
 
 function ProfileConnection() {
   const [value, setValue] = useState('1')
+  const [connections, setConnections] = useState([])
 
   const theme = useTheme()
-  const router = useRouter()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const iduser: any = user.id
-  //let { username } = router.query as { username: string }
-  const params = useSearchParams()
-  let username = linkToTitleCase(params.get('username') ?? undefined)
-
-  let url = ''
-  let filter = ''
-  let filterdoc = ''
-  if (!username) {
-    url = '/user/' + toLinkCase(iduser)
-    username = user.username
-  } else {
-    url = '/user/?username=' + username
-    filter = '&username=' + username
-    filterdoc = '?username=' + username
-  }
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
   }
+
+  const getConnections = () => {
+    HttpClient.get(AppConfig.baseUrl + '/user/connected-profile/?user_id=' + iduser).then(response => {
+      const itemData = response.data
+      setConnections(itemData)
+    })
+  }
+
+  useEffect(() => {
+    getConnections()
+  }, [])
 
   return (
     <Box>
@@ -61,7 +62,61 @@ function ProfileConnection() {
                               </TabList>
                             </Box>
                             <TabPanel value='1'>
-                              <Typography variant='h6'> 15 Connection </Typography>
+                              <Typography variant='h6'>
+                                15 Connection
+                                <TextField
+                                  type='text'
+                                  name='search'
+                                  id='search'
+                                  variant='outlined'
+                                  size='small'
+                                  placeholder='search ...'
+                                  sx={{ float: 'right' }}
+                                />
+                                <div style={{ clear: 'both' }}></div>
+                              </Typography>
+                              <List sx={{ width: '100%', bgcolor: 'background.paper', margin: '20px 0 0 0' }}>
+                                {connections.map((item: any, index) => (
+                                  <Box key={index}>
+                                    <ListItem alignItems='flex-start'>
+                                      <ListItemAvatar>
+                                        <Avatar
+                                          style={{ height: 64, width: 64 }}
+                                          src={item?.friend_detail?.photo || '/static/images/avatar/1.jpg'}
+                                        />
+                                      </ListItemAvatar>
+                                      <ListItemText
+                                        primary={item?.friend_detail?.name}
+                                        secondary={
+                                          <React.Fragment>
+                                            <Typography
+                                              sx={{ display: 'inline' }}
+                                              component='span'
+                                              variant='body2'
+                                              color='text.primary'
+                                            >
+                                              {item?.friend_detail?.field_preference?.role_type?.name || 'No ranks'}
+                                            </Typography>
+                                          </React.Fragment>
+                                        }
+                                      />
+                                      <Box>
+                                        <Button variant='contained' sx={{ marginRight: 2 }}>
+                                          Message
+                                        </Button>
+                                        <Button
+                                          variant='outlined'
+                                          color='error'
+                                          sx={{ marginLeft: 2, marginRight: -4 }}
+                                        >
+                                          Remove
+                                        </Button>
+                                      </Box>
+                                    </ListItem>
+                                    <Divider variant='inset' component='hr' />
+                                  </Box>
+                                ))}
+                              </List>
                             </TabPanel>
                             <TabPanel value='2'>
                               <Typography variant='h6'>15 Suggestions</Typography>
