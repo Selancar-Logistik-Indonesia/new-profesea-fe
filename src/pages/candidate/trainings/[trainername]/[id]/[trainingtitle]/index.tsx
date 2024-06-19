@@ -166,10 +166,10 @@ const TrainingDetailPage = () => {
                 </Box>
               ) : (
                 <Box>
-                  <Typography variant='h6' mt={1}>
+                  <Typography fontSize={20} sx={{ color: 'primary.main' }}>
                     {formatIDR(training.price, true)}
                   </Typography>
-                  <Typography fontSize={8} sx={{ color: 'gray' }}>
+                  <Typography fontSize={10} sx={{ color: 'gray' }}>
                     *harga belum termasuk PPN
                   </Typography>
                 </Box>

@@ -807,7 +807,7 @@ const FindCandidateApp = () => {
                               setCountry(newValue)
                             }}
                           />
-                          {/* 
+                          {/*
                           {tabValue == 'onship' && (
                             <FormControl sx={{ m: 3 }} component='fieldset' variant='standard'>
                               <FormGroup>
@@ -883,7 +883,7 @@ const FindCandidateApp = () => {
                                     aria-label='basic tabs example'
                                   >
                                     <Tab label='Seafarer' id='tab-1' value={'onship'} />
-                                    <Tab label='Non Seafarer' id='tab-2' value={'offship'} />
+                                    <Tab label='Professional' id='tab-2' value={'offship'} />
                                   </Tabs>
                                 </Box>
                               </Box>
