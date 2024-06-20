@@ -9,6 +9,7 @@ import Divider from '@mui/material/Divider'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
+import DialogRemoveConnection from './DialogRemoveConnection'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
@@ -19,7 +20,9 @@ import secureLocalStorage from 'react-secure-storage'
 
 function ProfileConnection() {
   const [value, setValue] = useState('1')
+  const [showRemoveConnectionDialog, setShowRemoveConnectionDialog] = useState(false)
   const [connections, setConnections] = useState([])
+  const [selectedUser, setSelectedUser] = useState<IUser>()
 
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -28,6 +31,11 @@ function ProfileConnection() {
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
+  }
+
+  const handleSelectedUser = (selectedUser: IUser) => {
+    setSelectedUser(selectedUser)
+    setShowRemoveConnectionDialog(!showRemoveConnectionDialog)
   }
 
   const getConnections = () => {
@@ -108,6 +116,9 @@ function ProfileConnection() {
                                           variant='outlined'
                                           color='error'
                                           sx={{ marginLeft: 2, marginRight: -4 }}
+                                          onClick={() => {
+                                            handleSelectedUser(item?.friend_detail)
+                                          }}
                                         >
                                           Remove
                                         </Button>
@@ -133,6 +144,11 @@ function ProfileConnection() {
           </Grid>
         </Grid>
       </Grid>
+      <DialogRemoveConnection
+        selectedItem={selectedUser}
+        visible={showRemoveConnectionDialog}
+        onCloseClick={() => setShowRemoveConnectionDialog(!showRemoveConnectionDialog)}
+      />
     </Box>
   )
 }
