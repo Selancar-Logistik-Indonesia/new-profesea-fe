@@ -106,7 +106,7 @@ const renderList = (arr: Training[]) => {
                     <Icon icon='solar:tag-price-bold-duotone' color='#32487A' />
                     <Grid item xs={true} sx={{ flexGrow: 1 }}>
                       <TruncatedTypography fontSize={14} fontWeight={600}>
-                        {formatIDR(item.price, true)}
+                        {item.discounted_price ? formatIDR(item.discounted_price, true) : formatIDR(item.price, true)}
                       </TruncatedTypography>
                     </Grid>
                   </Grid>

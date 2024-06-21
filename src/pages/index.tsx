@@ -79,7 +79,7 @@ const Main = () => {
                       style={{ backgroundColor: '#ef6c00', color: 'white', marginRight: 10 }}
                       variant='contained'
                     >
-                      {t('landing_join_now')}
+                      {t('landing_join_now_1')}
                     </Button>
                   </Box>
                 </CardContent>
@@ -100,7 +100,7 @@ const Main = () => {
                       style={{ backgroundColor: '#ef6c00', color: 'white', marginRight: 10 }}
                       variant='contained'
                     >
-                      {t('landing_join_now')}
+                      {t('landing_join_now_1')}
                     </Button>
                   </Box>
                 </CardContent>
@@ -139,7 +139,7 @@ const Main = () => {
                 style={{ backgroundColor: '#ef6c00', color: 'white', marginRight: 10 }}
                 variant='contained'
               >
-                {t('landing_join_now')}
+                {t('landing_join_now_1')}
               </Button>
             </CardContent>
           </Card>
@@ -159,7 +159,7 @@ const Main = () => {
                 style={{ backgroundColor: '#ef6c00', color: 'white', marginRight: 10 }}
                 variant='contained'
               >
-                {t('landing_join_now')}
+                {t('landing_join_now_1')}
               </Button>
             </CardContent>
           </Card>

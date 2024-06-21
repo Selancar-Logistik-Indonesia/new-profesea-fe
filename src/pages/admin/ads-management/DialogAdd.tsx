@@ -69,7 +69,7 @@ const ADS_LOCATION_OPTIONS = [
 
 const ADS_PLACEMENT_OPTIONS = [
   {
-    label: 'Sidabar',
+    label: 'Sidebar',
     value: 'sidebar'
   },
   {
@@ -117,7 +117,7 @@ const DialogAdd = (props: DialogProps) => {
     />
   ))
 
-  const { register, handleSubmit } = useForm<any>({
+  const { register, handleSubmit, reset } = useForm<any>({
     mode: 'onBlur'
   })
 
@@ -145,8 +145,6 @@ const DialogAdd = (props: DialogProps) => {
       ads_placement: adsPlacement
     }
 
-    console.log(json)
-
     // return
 
     setOnLoading(true)
@@ -159,6 +157,9 @@ const DialogAdd = (props: DialogProps) => {
 
       props.onCloseClick()
       toast.success(` Ads submited successfully!`)
+      setAdsLocation('')
+      setAdsPlacement('')
+      reset()
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }

@@ -302,7 +302,7 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
               Seafarer
             </ToggleButton>
             <ToggleButton value='non-seafarer' sx={{ flex: '1' }}>
-              Non Seafarer
+              Professional
             </ToggleButton>
           </ToggleButtonGroup>
         </Box>

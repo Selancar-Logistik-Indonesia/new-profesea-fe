@@ -21,6 +21,10 @@ import DatePicker from 'react-datepicker'
 import Degree from 'src/contract/models/degree'
 import Institution from 'src/contract/models/institution'
 import debounce from 'src/utils/debounce'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import { IUser } from 'src/contract/models/user'
+import { AppConfig } from 'src/configs/api'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -49,6 +53,7 @@ type FormData = {
 }
 
 const DialogAddEducation = (props: DialogProps) => {
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [onLoading, setOnLoading] = useState<'form' | 'institution' | ''>('')
   const [dateAwal, setDateAwal] = useState<DateType>(new Date())
   const [dateAkhir, setDateAkhir] = useState<DateType>(new Date())
@@ -77,12 +82,29 @@ const DialogAddEducation = (props: DialogProps) => {
   }
 
   const combobox = async () => {
-    const res3 = await HttpClient.get(`/public/data/degree`)
-    if (res3.status != 200) {
-      throw res3.data.message ?? 'Something went wrong!'
+    let response
+    let data
+
+    response = await HttpClient.get(`/public/data/degree`)
+    if (response.status !== 200) {
+      throw new Error(response.data.message ?? 'Something went wrong!')
     }
-    setEducation(res3.data.degrees)
-    getInstitutions()
+    data = response.data.degrees.map((item: any) => ({
+      name: item.name
+    }))
+
+    if (user.employee_type === 'onship') {
+      response = await HttpClient.get(AppConfig.baseUrl + '/licensi/all/')
+      if (response.status !== 200) {
+        throw new Error(response.data.message ?? 'Something went wrong!')
+      }
+      data = data.concat(
+        response.data.licensiescoc.map((item: any) => ({
+          name: item.title
+        }))
+      )
+    }
+    setEducation(data)
   }
 
   useEffect(() => {

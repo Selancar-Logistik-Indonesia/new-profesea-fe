@@ -170,40 +170,44 @@ const SeafarerExperienceContainer = (props: ISeafarerExperienceProps) => {
               />{' '}
               I have no experience{' '}
             </label>
-            <Button
-              variant='contained'
-              style={{ marginBottom: 10 }}
-              size='small'
-              onClick={() => handleModalForm('create')}
-            >
-              <Icon
-                fontSize='small'
-                icon={'solar:add-circle-bold-duotone'}
-                color={'success'}
-                style={{ fontSize: '18px' }}
-              />
-              <div> Add more Experience </div>
-            </Button>
+            {!no_experience && (
+              <Button
+                variant='contained'
+                style={{ marginBottom: 10 }}
+                size='small'
+                onClick={() => handleModalForm('create')}
+              >
+                <Icon
+                  fontSize='small'
+                  icon={'solar:add-circle-bold-duotone'}
+                  color={'success'}
+                  style={{ fontSize: '18px' }}
+                />
+                <div> Add more Experience </div>
+              </Button>
+            )}
           </Grid>
         </Grid>
       </Grid>
-      <Grid md={12} sm={12} xs={12}>
-        <Paper style={{ overflow: 'auto' }} sx={{ overflow: 'auto', width: '100%' }}>
-          <DataGrid
-            autoHeight={true}
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 }
-              }
-            }}
-            pageSizeOptions={[5, 10]}
-            slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
-            getRowClassName={params => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
-          />
-        </Paper>
-      </Grid>
+      {!no_experience && (
+        <Grid md={12} sm={12} xs={12}>
+          <Paper style={{ overflow: 'auto' }} sx={{ overflow: 'auto', width: '100%' }}>
+            <DataGrid
+              autoHeight={true}
+              rows={rows}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 5 }
+                }
+              }}
+              pageSizeOptions={[5, 10]}
+              slots={{ noRowsOverlay: loading ? LoadingIcon : CustomNoRowsOverlay }}
+              getRowClassName={params => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
+            />
+          </Paper>
+        </Grid>
+      )}
       <Divider style={{ width: '100%', margin: '20px 0' }} />
     </>
   )

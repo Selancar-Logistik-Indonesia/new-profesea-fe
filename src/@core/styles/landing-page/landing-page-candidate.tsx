@@ -9,6 +9,7 @@ const bannerHero: SxProps<Theme> = {
     md: '85% center',
     lg: '85% center'
   },
+  width: '100%',
   minHeight: '350px'
 }
 
