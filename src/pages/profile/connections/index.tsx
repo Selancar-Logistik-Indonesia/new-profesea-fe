@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Box, Grid, Card, CardContent, Tab, Typography, useMediaQuery, Input, TextField } from '@mui/material'
+import { Button, Box, Grid, Card, CardContent, Tab, Typography, useMediaQuery, TextField } from '@mui/material'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
@@ -10,6 +10,7 @@ import ListItemText from '@mui/material/ListItemText'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import DialogRemoveConnection from './DialogRemoveConnection'
+import ConnectButton from 'src/layouts/components/ConnectButton'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
@@ -22,6 +23,7 @@ function ProfileConnection() {
   const [value, setValue] = useState('1')
   const [showRemoveConnectionDialog, setShowRemoveConnectionDialog] = useState(false)
   const [connections, setConnections] = useState([])
+  const [suggestions, setSuggestions] = useState([])
   const [selectedUser, setSelectedUser] = useState<IUser>()
 
   const theme = useTheme()
@@ -39,14 +41,26 @@ function ProfileConnection() {
   }
 
   const getConnections = () => {
-    HttpClient.get(AppConfig.baseUrl + '/user/connected-profile/?user_id=' + iduser).then(response => {
-      const itemData = response.data
-      setConnections(itemData)
-    })
+    HttpClient.get(AppConfig.baseUrl + '/user/connected-profile/?user_id=' + iduser + '&page=1&take=10').then(
+      response => {
+        const itemData = response.data.data
+        setConnections(itemData)
+      }
+    )
+  }
+
+  const getUserSuggestions = () => {
+    HttpClient.get(AppConfig.baseUrl + '/user/suggested-friend/?user_id=' + iduser + '&page=1&take=10').then(
+      response => {
+        const itemData = response.data.data
+        setSuggestions(itemData)
+      }
+    )
   }
 
   useEffect(() => {
     getConnections()
+    getUserSuggestions()
   }, [])
 
   return (
@@ -90,11 +104,11 @@ function ProfileConnection() {
                                       <ListItemAvatar>
                                         <Avatar
                                           style={{ height: 64, width: 64 }}
-                                          src={item?.friend_detail?.photo || '/static/images/avatar/1.jpg'}
+                                          src={item?.friend?.photo || '/static/images/avatar/1.jpg'}
                                         />
                                       </ListItemAvatar>
                                       <ListItemText
-                                        primary={item?.friend_detail?.name}
+                                        primary={item?.friend?.name}
                                         secondary={
                                           <React.Fragment>
                                             <Typography
@@ -103,7 +117,7 @@ function ProfileConnection() {
                                               variant='body2'
                                               color='text.primary'
                                             >
-                                              {item?.friend_detail?.field_preference?.role_type?.name || 'No ranks'}
+                                              {item?.field_preference?.role_type?.name || 'No ranks'}
                                             </Typography>
                                           </React.Fragment>
                                         }
@@ -131,6 +145,39 @@ function ProfileConnection() {
                             </TabPanel>
                             <TabPanel value='2'>
                               <Typography variant='h6'>15 Suggestions</Typography>
+                              <List sx={{ width: '100%', bgcolor: 'background.paper', margin: '20px 0 0 0' }}>
+                                {suggestions.map((item: any, index) => (
+                                  <Box key={index}>
+                                    <ListItem alignItems='flex-start'>
+                                      <ListItemAvatar>
+                                        <Avatar
+                                          style={{ height: 64, width: 64 }}
+                                          src={item?.photo || '/static/images/avatar/1.jpg'}
+                                        />
+                                      </ListItemAvatar>
+                                      <ListItemText
+                                        primary={item?.name}
+                                        secondary={
+                                          <React.Fragment>
+                                            <Typography
+                                              sx={{ display: 'inline' }}
+                                              component='span'
+                                              variant='body2'
+                                              color='text.primary'
+                                            >
+                                              {item?.field_preference?.role_type?.name || 'No ranks'}
+                                            </Typography>
+                                          </React.Fragment>
+                                        }
+                                      />
+                                      <Box>
+                                        <ConnectButton user={item} />
+                                      </Box>
+                                    </ListItem>
+                                    <Divider variant='inset' component='hr' />
+                                  </Box>
+                                ))}
+                              </List>
                             </TabPanel>
                           </TabContext>
                         </Box>
