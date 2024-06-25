@@ -17,7 +17,7 @@ import Head from 'next/head'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import landingPageStyle from 'src/@core/styles/landing-page/landing-page-candidate'
-import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
+import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 import { useTranslation } from 'react-i18next'
 import FooterView from 'src/views/landing-page/footerView'
 import OngoingJob from './OngoingJob'
@@ -68,11 +68,10 @@ const SeafarerJob = () => {
       <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
         <Grid
           item
-          xs={12}
-          md={11}
           sx={{
             ...landingPageStyle.bannerHero,
             my: 3,
+            mx: 12,
             py: 6,
             pl: { xs: 4, md: 6 },
             borderRadius: '10px',
@@ -96,7 +95,7 @@ const SeafarerJob = () => {
             {t('landing_job_subtitle')}
           </Typography>
         </Grid>
-        <Grid item container xs={12} md={11}>
+        <Grid item container sx={{ mx: 12 }}>
           <Grid item xs={12} sx={{ padding: 4, border: 0, boxShadow: 0, backgroundColor: '#FFFFFF' }}>
             <Box
               sx={
@@ -297,7 +296,7 @@ const SeafarerJob = () => {
 
 SeafarerJob.guestGuard = false
 SeafarerJob.authGuard = false
-SeafarerJob.getLayout = (page: ReactNode) => <OuterPageLayout>{page}</OuterPageLayout>
+SeafarerJob.getLayout = (page: ReactNode) => <LandingPageLayout>{page}</LandingPageLayout>
 
 SeafarerJob.acl = {
   action: 'read',

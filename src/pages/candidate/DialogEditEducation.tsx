@@ -18,7 +18,10 @@ import { CircularProgress } from '@mui/material'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import { Autocomplete } from '@mui/material'
 import DatePicker from 'react-datepicker'
-// import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import { AppConfig } from 'src/configs/api'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import { IUser } from 'src/contract/models/user'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -45,6 +48,7 @@ type DialogProps = {
 }
 
 const DialogEditEducation = (props: DialogProps) => {
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [onLoading, setOnLoading] = useState(false)
   const [dateAwal, setDateAwal] = useState<DateType>(new Date(props.selectedItem?.start_date) || new Date())
   const [dateAkhir, setDateAkhir] = useState<DateType>(new Date(props.selectedItem?.end_date) || new Date())
@@ -52,12 +56,31 @@ const DialogEditEducation = (props: DialogProps) => {
   const [Education, getEducation] = useState<any[]>([])
   const [selectedFile, setSelectedFile] = useState()
   const [EduId, setEduId] = useState('---')
+
   const combobox = async () => {
-    const res3 = await HttpClient.get(`/public/data/degree`)
-    if (res3.status != 200) {
-      throw res3.data.message ?? 'Something went wrong!'
+    let response
+    let data
+
+    response = await HttpClient.get(`/public/data/degree`)
+    if (response.status !== 200) {
+      throw new Error(response.data.message ?? 'Something went wrong!')
     }
-    getEducation(res3.data.degrees)
+    data = response.data.degrees.map((item: any) => ({
+      name: item.name
+    }))
+
+    if (user.employee_type === 'onship') {
+      response = await HttpClient.get(AppConfig.baseUrl + '/licensi/all/')
+      if (response.status !== 200) {
+        throw new Error(response.data.message ?? 'Something went wrong!')
+      }
+      data = data.concat(
+        response.data.licensiescoc.map((item: any) => ({
+          name: item.title
+        }))
+      )
+    }
+    getEducation(data)
   }
 
   useEffect(() => {
@@ -181,7 +204,7 @@ const DialogEditEducation = (props: DialogProps) => {
           <Grid container columnSpacing={'1'} rowSpacing={'4'}>
             <Grid item md={6} xs={12}>
               <TextField
-                id='institutuin'
+                id='institution'
                 label='Institution Name'
                 variant='standard'
                 fullWidth
@@ -204,13 +227,7 @@ const DialogEditEducation = (props: DialogProps) => {
                       }}
                     />
                   </label>
-                  <input
-                    accept='image/*'
-                    style={{ display: 'none' }}
-                    id='x'
-                    onChange={onSelectFile}
-                    type='file'
-                  ></input>
+                  <input accept='image/*' style={{ display: 'none' }} id='x' onChange={onSelectFile} type='file' />
                 </Grid>
                 <Grid xs={6}>
                   <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
@@ -227,17 +244,6 @@ const DialogEditEducation = (props: DialogProps) => {
                 </Grid>
               </Grid>
             </Grid>
-
-            <Grid item md={6} xs={12}>
-              <TextField
-                id='major'
-                label='Major'
-                variant='standard'
-                fullWidth
-                {...register('major')}
-                defaultValue={props.selectedItem?.major}
-              />
-            </Grid>
             <Grid item md={6} xs={12}>
               <Autocomplete
                 disablePortal
@@ -250,9 +256,17 @@ const DialogEditEducation = (props: DialogProps) => {
                 onChange={(event: any, newValue: string | null) => (newValue ? setEduId(newValue) : setEduId('---'))}
               />
             </Grid>
-
             <Grid item md={6} xs={12}>
-              {/* <DatePickerWrapper> */}
+              <TextField
+                id='major'
+                label='Major'
+                variant='standard'
+                fullWidth
+                {...register('major')}
+                defaultValue={props.selectedItem?.major}
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
               <DatePicker
                 dateFormat='dd/MM/yyyy'
                 selected={dateAwal}
@@ -269,10 +283,8 @@ const DialogEditEducation = (props: DialogProps) => {
                   />
                 }
               />
-              {/* </DatePickerWrapper> */}
             </Grid>
             <Grid item md={6} xs={12}>
-              {/* <DatePickerWrapper> */}
               <DatePicker
                 dateFormat='dd/MM/yyyy'
                 selected={dateAkhir}
@@ -289,7 +301,6 @@ const DialogEditEducation = (props: DialogProps) => {
                   />
                 }
               />
-              {/* </DatePickerWrapper> */}
             </Grid>
           </Grid>
         </DialogContent>
