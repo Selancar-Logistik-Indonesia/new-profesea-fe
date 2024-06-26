@@ -11,6 +11,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import DialogRemoveConnection from './DialogRemoveConnection'
 import ConnectButton from 'src/layouts/components/ConnectButton'
+import Link from 'next/link'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
@@ -24,6 +25,9 @@ function ProfileConnection() {
   const [showRemoveConnectionDialog, setShowRemoveConnectionDialog] = useState(false)
   const [connections, setConnections] = useState([])
   const [suggestions, setSuggestions] = useState([])
+  const [totalConnection, setTotalConnection] = useState(0)
+  const [totalSuggestions, setTotalSuggestions] = useState(0)
+  const [search, setSearch] = useState('')
   const [selectedUser, setSelectedUser] = useState<IUser>()
 
   const theme = useTheme()
@@ -41,12 +45,16 @@ function ProfileConnection() {
   }
 
   const getConnections = () => {
-    HttpClient.get(AppConfig.baseUrl + '/user/connected-profile/?user_id=' + iduser + '&page=1&take=10').then(
-      response => {
-        const itemData = response.data.data
-        setConnections(itemData)
-      }
-    )
+    HttpClient.get(AppConfig.baseUrl + '/user/connected-profile/', {
+      user_id: iduser,
+      page: 1,
+      take: 10,
+      search: search
+    }).then(response => {
+      const itemData = response.data.data
+      setConnections(itemData)
+      setTotalConnection(response.data.total)
+    })
   }
 
   const getUserSuggestions = () => {
@@ -54,8 +62,13 @@ function ProfileConnection() {
       response => {
         const itemData = response.data.data
         setSuggestions(itemData)
+        setTotalSuggestions(response.data.total)
       }
     )
+  }
+
+  const handleSearch = () => {
+    getConnections()
   }
 
   useEffect(() => {
@@ -85,15 +98,25 @@ function ProfileConnection() {
                             </Box>
                             <TabPanel value='1'>
                               <Typography variant='h6'>
-                                15 Connection
+                                {totalConnection} Connection
+                                <Button
+                                  size='small'
+                                  variant='contained'
+                                  sx={{ float: 'right', fontSize: 14 }}
+                                  onClick={() => handleSearch()}
+                                >
+                                  Search
+                                </Button>
                                 <TextField
+                                  value={search}
+                                  onChange={e => setSearch(e.target.value)}
                                   type='text'
                                   name='search'
                                   id='search'
                                   variant='outlined'
                                   size='small'
                                   placeholder='search ...'
-                                  sx={{ float: 'right' }}
+                                  sx={{ float: 'right', margin: '0 20px 0 0', fontSize: 14 }}
                                 />
                                 <div style={{ clear: 'both' }}></div>
                               </Typography>
@@ -108,11 +131,24 @@ function ProfileConnection() {
                                         />
                                       </ListItemAvatar>
                                       <ListItemText
-                                        primary={item?.friend?.name}
+                                        primary={
+                                          <React.Fragment>
+                                            <Typography
+                                              sx={{ display: 'inline', fontSize: 16, fontWeight: 'bold' }}
+                                              component='span'
+                                              variant='body2'
+                                              color='text.primary'
+                                            >
+                                              <Link href={'/profile/' + item.friend.id + '/' + item.friend.username}>
+                                                {item?.friend?.name}
+                                              </Link>
+                                            </Typography>
+                                          </React.Fragment>
+                                        }
                                         secondary={
                                           <React.Fragment>
                                             <Typography
-                                              sx={{ display: 'inline' }}
+                                              sx={{ display: 'inline', fontSize: 14 }}
                                               component='span'
                                               variant='body2'
                                               color='text.primary'
@@ -123,15 +159,16 @@ function ProfileConnection() {
                                         }
                                       />
                                       <Box>
-                                        <Button variant='contained' sx={{ marginRight: 2 }}>
+                                        <Button variant='contained' size='small' sx={{ marginRight: 2, fontSize: 14 }}>
                                           Message
                                         </Button>
                                         <Button
                                           variant='outlined'
                                           color='error'
-                                          sx={{ marginLeft: 2, marginRight: -4 }}
+                                          sx={{ marginLeft: 2, marginRight: -4, fontSize: 14 }}
+                                          size='small'
                                           onClick={() => {
-                                            handleSelectedUser(item?.friend_detail)
+                                            handleSelectedUser(item?.friend)
                                           }}
                                         >
                                           Remove
@@ -144,7 +181,7 @@ function ProfileConnection() {
                               </List>
                             </TabPanel>
                             <TabPanel value='2'>
-                              <Typography variant='h6'>15 Suggestions</Typography>
+                              <Typography variant='h6'>{totalSuggestions} Suggestions</Typography>
                               <List sx={{ width: '100%', bgcolor: 'background.paper', margin: '20px 0 0 0' }}>
                                 {suggestions.map((item: any, index) => (
                                   <Box key={index}>
@@ -156,11 +193,20 @@ function ProfileConnection() {
                                         />
                                       </ListItemAvatar>
                                       <ListItemText
-                                        primary={item?.name}
+                                        primary={
+                                          <Typography
+                                            sx={{ display: 'inline', fontSize: 16, fontWeight: 'bold' }}
+                                            component='span'
+                                            variant='body2'
+                                            color='text.primary'
+                                          >
+                                            <Link href={'/profile/' + item.id + '/' + item.username}>{item?.name}</Link>
+                                          </Typography>
+                                        }
                                         secondary={
                                           <React.Fragment>
                                             <Typography
-                                              sx={{ display: 'inline' }}
+                                              sx={{ display: 'inline', fontSize: 14 }}
                                               component='span'
                                               variant='body2'
                                               color='text.primary'
@@ -195,6 +241,7 @@ function ProfileConnection() {
         selectedItem={selectedUser}
         visible={showRemoveConnectionDialog}
         onCloseClick={() => setShowRemoveConnectionDialog(!showRemoveConnectionDialog)}
+        loadConnection={getConnections}
       />
     </Box>
   )

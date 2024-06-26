@@ -10,6 +10,8 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import Icon from 'src/@core/components/icon'
 
+import { HttpClient } from 'src/services'
+import { AppConfig } from 'src/configs/api'
 import { IUser } from 'src/contract/models/user'
 
 const Transition = forwardRef(function Transition(
@@ -23,10 +25,18 @@ type DeleteDialogProps = {
   selectedItem: IUser | undefined
   visible: boolean
   onCloseClick: VoidFunction
+  loadConnection: VoidFunction
 }
 
 const DialogRemoveConnection = (props: DeleteDialogProps) => {
-  const handleDelete = async () => {}
+  const handleDelete = async () => {
+    HttpClient.post(AppConfig.baseUrl + '/friendship/disconnect', {
+      friend_id: props?.selectedItem?.id
+    }).then(() => {
+      props.onCloseClick()
+      props.loadConnection()
+    })
+  }
 
   return (
     <Dialog fullWidth open={props.visible} maxWidth='sm' onClose={props.onCloseClick} TransitionComponent={Transition}>
@@ -45,7 +55,9 @@ const DialogRemoveConnection = (props: DeleteDialogProps) => {
           <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
             Confirm Remove Connection
           </Typography>
-          <Typography variant='body2'>Are you sure Remove Connection with {props?.selectedItem?.name} ?</Typography>
+          <Typography variant='body2'>
+            Are you sure Remove Connection with <strong>{props?.selectedItem?.name}</strong> ?
+          </Typography>
         </Box>
       </DialogContent>
       <DialogActions
