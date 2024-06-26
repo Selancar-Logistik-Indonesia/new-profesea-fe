@@ -34,6 +34,9 @@ import toast from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import draftToHtml from 'draftjs-to-html'
 
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+
 const SailRegion = [
   { id: 'ncv', name: 'Near Coastal Voyage (NCV)' },
   { id: 'iv', name: 'International Voyage' }
@@ -128,8 +131,20 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
     getlicenseDataCOP(resp2.data.licensiescop || [])
   }
 
-  const { register, handleSubmit } = useForm<Job>({
-    mode: 'onBlur'
+  const schema = yup.object().shape({
+    job_title: yup
+      .string()
+      .matches(/^[a-zA-Z0-9]*$/, 'Only alphanumeric characters are allowed')
+      .required()
+  })
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<Job>({
+    mode: 'onBlur',
+    resolver: yupResolver(schema)
   })
 
   const onSubmit = async (formData: Job) => {
@@ -310,7 +325,9 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
               fullWidth
               {...register('job_title')}
               sx={{ flex: 1 }}
+              error={Boolean(errors.job_title)}
             />
+            {Boolean(errors.job_title) && <Typography color={'red'}>{errors.job_title?.message}</Typography>}
           </Grid>
           <Grid item md={3} xs={12} sx={{ mb: 1 }}>
             <Autocomplete
