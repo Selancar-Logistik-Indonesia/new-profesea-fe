@@ -1,5 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Box, Grid, Card, CardContent, Tab, Typography, useMediaQuery, TextField } from '@mui/material'
+import {
+  Button,
+  Box,
+  Grid,
+  Card,
+  CardContent,
+  Tab,
+  Typography,
+  useMediaQuery,
+  TextField,
+  Pagination,
+  Stack
+} from '@mui/material'
+
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
@@ -22,6 +35,8 @@ import secureLocalStorage from 'react-secure-storage'
 
 function ProfileConnection() {
   const [value, setValue] = useState('1')
+  const [page, setPage] = React.useState(1)
+  const [pageSuggest, setPageSuggest] = React.useState(1)
   const [showRemoveConnectionDialog, setShowRemoveConnectionDialog] = useState(false)
   const [connections, setConnections] = useState([])
   const [suggestions, setSuggestions] = useState([])
@@ -47,7 +62,7 @@ function ProfileConnection() {
   const getConnections = () => {
     HttpClient.get(AppConfig.baseUrl + '/user/connected-profile/', {
       user_id: iduser,
-      page: 1,
+      page: page,
       take: 10,
       search: search
     }).then(response => {
@@ -58,13 +73,16 @@ function ProfileConnection() {
   }
 
   const getUserSuggestions = () => {
-    HttpClient.get(AppConfig.baseUrl + '/user/suggested-friend/?user_id=' + iduser + '&page=1&take=10').then(
-      response => {
-        const itemData = response.data.data
-        setSuggestions(itemData)
-        setTotalSuggestions(response.data.total)
-      }
-    )
+    HttpClient.get(AppConfig.baseUrl + '/user/suggested-friend/', {
+      // user_id=' + iduser + '&page=1&take=10'
+      user_id: iduser,
+      page: pageSuggest,
+      take: 10
+    }).then(response => {
+      const itemData = response.data.data
+      setSuggestions(itemData)
+      setTotalSuggestions(response.data.total)
+    })
   }
 
   const handleSearch = () => {
@@ -75,6 +93,11 @@ function ProfileConnection() {
     getConnections()
     getUserSuggestions()
   }, [])
+
+  useEffect(() => {
+    getConnections()
+    getUserSuggestions()
+  }, [page, pageSuggest])
 
   return (
     <Box>
@@ -179,6 +202,16 @@ function ProfileConnection() {
                                   </Box>
                                 ))}
                               </List>
+                              <Stack direction='row' justifyContent='flex-end' alignItems='center' spacing={0}>
+                                <Pagination
+                                  count={Math.ceil(totalConnection / 10)}
+                                  onChange={(e: React.ChangeEvent<unknown>, value: number) => {
+                                    setPage(value)
+                                  }}
+                                  variant='outlined'
+                                  shape='rounded'
+                                />
+                              </Stack>
                             </TabPanel>
                             <TabPanel value='2'>
                               <Typography variant='h6'>{totalSuggestions} Suggestions</Typography>
@@ -224,6 +257,16 @@ function ProfileConnection() {
                                   </Box>
                                 ))}
                               </List>
+                              <Stack direction='row' justifyContent='flex-end' alignItems='center' spacing={0}>
+                                <Pagination
+                                  count={Math.ceil(totalSuggestions / 10)}
+                                  onChange={(e: React.ChangeEvent<unknown>, value: number) => {
+                                    setPageSuggest(value)
+                                  }}
+                                  variant='outlined'
+                                  shape='rounded'
+                                />
+                              </Stack>
                             </TabPanel>
                           </TabContext>
                         </Box>
