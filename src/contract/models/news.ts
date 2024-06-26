@@ -1,5 +1,3 @@
- 
-
 interface INews {
   id: number
   forum_id: number
@@ -23,6 +21,7 @@ interface INews {
   venue: string
   email: string
   meet?: string
+  category?: any
 }
 
-export default INews;
+export default INews
