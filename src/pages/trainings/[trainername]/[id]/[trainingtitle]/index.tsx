@@ -64,7 +64,7 @@ const TrainingDetailPage = () => {
           gap: 3
         }}
       >
-        <Grid item xs={12} md={7} lg={6}>
+        <Grid item xs={12} md={7}>
           <Box sx={{ p: 10, backgroundColor: '#FFFFFF' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Grid
@@ -89,23 +89,19 @@ const TrainingDetailPage = () => {
                       {training.trainer.name}
                     </Typography>
                   </Box>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', mb: 1 }}>
-                    <Box sx={{ width: 35 }}>
-                      <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' fontSize={24} />
-                    </Box>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 1, gap: 2 }}>
+                    <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' fontSize={24} />
                     <Box sx={{ width: 120 }}>
-                      <Typography>Category</Typography>
+                      <Typography>Category:</Typography>
                     </Box>
                     <Box>
                       <Typography>{training?.category?.category}</Typography>
                     </Box>
                   </Box>
-                  <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <Box sx={{ width: 35 }}>
-                      <Icon icon='solar:calendar-bold-duotone' color='#32487A' fontSize={24} />
-                    </Box>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+                    <Icon icon='solar:calendar-bold-duotone' color='#32487A' fontSize={24} />
                     <Box sx={{ width: 120 }}>
-                      <Typography>Date & time</Typography>
+                      <Typography>Training Start:</Typography>
                     </Box>
                     <Box>
                       <Typography>{moment(training.schedule).format('dddd, DD MMM YYYY h:mm')}</Typography>
@@ -151,21 +147,46 @@ const TrainingDetailPage = () => {
                 }}
               />
             </Box>
-
             <Divider sx={{ my: 6, borderBottomWidth: 2 }} />
+            <Box
+              sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}
+            >
+              {training.discounted_price ? (
+                <Box>
+                  <Typography fontSize={14} mt={1} sx={{ textDecoration: 'line-through', color: 'gray' }}>
+                    {formatIDR(training.price, true)}
+                  </Typography>
+                  <Typography fontSize={20} sx={{ color: 'primary.main' }}>
+                    {formatIDR(training.discounted_price, true)}
+                  </Typography>
+                  <Typography fontSize={8} sx={{ color: 'gray' }}>
+                    {t('tax_not_included')}
+                  </Typography>
+                </Box>
+              ) : (
+                <Box>
+                  <Typography fontSize={20} sx={{ color: 'primary.main' }}>
+                    {formatIDR(training.price, true)}
+                  </Typography>
+                  <Typography fontSize={10} sx={{ color: 'gray' }}>
+                    {t('tax_not_included')}
+                  </Typography>
+                </Box>
+              )}
 
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Typography variant='h6' mt={1} width={155}>
-                {formatIDR(training.price)}
-              </Typography>
-
-              <Button onClick={handleClickBuy} variant='contained' size='small'>
-                {t('login_modal_button_2')}
-              </Button>
+              {training.joined_at ? (
+                <Button disabled={true} variant='contained' size='small'>
+                  {t('login_modal_button_1')}
+                </Button>
+              ) : (
+                <Button variant='contained' size='small' onClick={handleClickBuy} disabled={!training?.cta}>
+                  {t('login_modal_button_2')}
+                </Button>
+              )}
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={12} md={3} lg={2}>
+        <Grid item xs={12} md={3}>
           <Box
             sx={{
               display: 'flex',

@@ -318,7 +318,7 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ alignment, dia
               Seafarer
             </ToggleButton>
             <ToggleButton value='non-seafarer' sx={{ flex: '1' }}>
-              Non Seafarer
+              Professional
             </ToggleButton>
           </ToggleButtonGroup>
         </Box>

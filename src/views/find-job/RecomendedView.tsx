@@ -130,7 +130,7 @@ const renderList = (listJob: Job[]) => {
                     justifyContent: 'center'
                   }}
                 >
-                  <TruncatedTypography line={2} mb={0.5}>
+                  <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
                     {item?.role_type?.name ?? '-'}
                   </TruncatedTypography>
                   <TruncatedTypography fontSize={14} color={'#0a66c2'}>
@@ -177,7 +177,7 @@ const renderList = (listJob: Job[]) => {
                       opacity: item?.hide_salary ? 0 : 100
                     }}
                   >
-                    <Icon icon='clarity:dollar-line' color='#32487A' fontSize={'20px'} />
+                    <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
                     <Grid item xs={true} sx={{ flexGrow: 1 }}>
                       <TruncatedTypography line={1} fontSize={16}>
                         {item?.currency == 'IDR' ? (
@@ -223,7 +223,7 @@ const renderList = (listJob: Job[]) => {
                       opacity: item?.hide_salary ? 0 : 100
                     }}
                   >
-                    <Icon icon='clarity:dollar-line' color='#32487A' fontSize={'20px'} />
+                    <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
                     <Grid item xs={true} sx={{ flexGrow: 1 }}>
                       <TruncatedTypography line={1} fontSize={16}>
                         {item?.currency == 'IDR' ? (
