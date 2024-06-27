@@ -48,6 +48,32 @@ const JobsValue = (props: { icon: string; children: any }) => {
   )
 }
 
+const renderSalary = (salaryStart: any, salaryEnd: any, currency: any) => {
+  if (salaryEnd.toString() == '0') {
+    return (
+      <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+        {salaryStart ? `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (${currency})` : '-'}
+      </Typography>
+    )
+  }
+
+  if (salaryStart.toString() !== '0' && salaryEnd.toString() !== '0') {
+    return (
+      <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+        {salaryStart && salaryEnd
+          ? `${
+              salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
+              ' - ' +
+              salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+            } (${currency})`
+          : '-'}
+      </Typography>
+    )
+  }
+
+  return '-'
+}
+
 export type ParamMain = {
   name: string
   skill: string
@@ -155,16 +181,17 @@ const renderList = (listJob: Job[]) => {
                     <Grid item xs={true} sx={{ flexGrow: 1 }}>
                       <TruncatedTypography line={1} fontSize={16}>
                         {item?.currency == 'IDR' ? (
-                          <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                            {item?.salary_start && item?.salary_end
-                              ? `${
-                                  item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-                                  ' - ' +
-                                  item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                                } (${item?.currency})`
-                              : '-'}
-                          </Typography>
+                          renderSalary(item?.salary_start, item?.salary_end, item?.currency)
                         ) : (
+                          // <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                          //   {item?.salary_start && item?.salary_end
+                          //     ? `${
+                          //         item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
+                          //         ' - ' +
+                          //         item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                          //       } (${item?.currency})`
+                          //     : '-'}
+                          // </Typography>
                           <Typography sx={{ color: 'text.primary' }} fontSize={16}>
                             {item?.salary_start && item?.salary_end
                               ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
@@ -200,16 +227,17 @@ const renderList = (listJob: Job[]) => {
                     <Grid item xs={true} sx={{ flexGrow: 1 }}>
                       <TruncatedTypography line={1} fontSize={16}>
                         {item?.currency == 'IDR' ? (
-                          <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                            {item?.salary_start && item?.salary_end
-                              ? `${
-                                  item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-                                  ' - ' +
-                                  item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                                } (${item?.currency})`
-                              : '-'}
-                          </Typography>
+                          renderSalary(item?.salary_start, item?.salary_end, item?.currency)
                         ) : (
+                          // <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                          //   {item?.salary_start && item?.salary_end
+                          //     ? `${
+                          //         item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
+                          //         ' - ' +
+                          //         item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                          //       } (${item?.currency})`
+                          //     : '-'}
+                          // </Typography>
                           <Typography sx={{ color: 'text.primary' }} fontSize={16}>
                             {item?.salary_start && item?.salary_end
                               ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`

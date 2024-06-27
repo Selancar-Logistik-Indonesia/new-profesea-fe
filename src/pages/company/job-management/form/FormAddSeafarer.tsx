@@ -69,6 +69,7 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [currency, setCurrency] = useState('')
   const [checked, setChecked] = React.useState(false)
+  const [isFixedSalary, setIsFixedSalary] = useState(false)
 
   const [jobCategories, setJobCategories] = useState<JobCategory[]>([])
 
@@ -134,7 +135,7 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
   const schema = yup.object().shape({
     job_title: yup
       .string()
-      .matches(/^[a-zA-Z0-9]*$/, 'Only alphanumeric characters are allowed')
+      .matches(/^[a-zA-Z0-9 ]*$/, 'Field must contain only alphabetic or only numeric characters')
       .required()
   })
 
@@ -470,6 +471,19 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
                 renderInput={params => <TextField {...params} label='Currency' />}
                 onChange={(event: any, newValue: any | null) => setCurrency(newValue ? newValue.value : '')}
               />
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isFixedSalary}
+                    onChange={event => setIsFixedSalary(event.target.checked)}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                  />
+                }
+                label='Fixed Salary'
+                sx={{ width: '150px' }}
+              />
+
               <FormControlLabel
                 control={
                   <Checkbox
@@ -501,6 +515,7 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
               variant='outlined'
               fullWidth
               {...register('salary_end')}
+              disabled={isFixedSalary}
             />
           </Grid>
           <Grid item md={3} xs={12} sx={{ mb: 1 }}>
