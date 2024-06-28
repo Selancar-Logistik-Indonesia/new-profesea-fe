@@ -181,23 +181,16 @@ const renderList = (listJob: Job[]) => {
                     <Grid item xs={true} sx={{ flexGrow: 1 }}>
                       <TruncatedTypography line={1} fontSize={16}>
                         {item?.currency == 'IDR' ? (
-                          renderSalary(item?.salary_start, item?.salary_end, item?.currency)
-                        ) : (
-                          // <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                          //   {item?.salary_start && item?.salary_end
-                          //     ? `${
-                          //         item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-                          //         ' - ' +
-                          //         item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                          //       } (${item?.currency})`
-                          //     : '-'}
-                          // </Typography>
+                          item?.salary_start && item?.salary_end ? (
+                            renderSalary(item?.salary_start, item?.salary_end, item?.currency)
+                          ) : null
+                        ) : item?.salary_start && item?.salary_end ? (
                           <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                            {item?.salary_start && item?.salary_end
+                            {item?.salary_end.toString() !== '0'
                               ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
-                              : '-'}
+                              : `${item?.salary_start} (${item?.currency})`}
                           </Typography>
-                        )}
+                        ) : null}
                       </TruncatedTypography>
                     </Grid>
                   </Grid>
@@ -227,23 +220,16 @@ const renderList = (listJob: Job[]) => {
                     <Grid item xs={true} sx={{ flexGrow: 1 }}>
                       <TruncatedTypography line={1} fontSize={16}>
                         {item?.currency == 'IDR' ? (
-                          renderSalary(item?.salary_start, item?.salary_end, item?.currency)
-                        ) : (
-                          // <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                          //   {item?.salary_start && item?.salary_end
-                          //     ? `${
-                          //         item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-                          //         ' - ' +
-                          //         item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                          //       } (${item?.currency})`
-                          //     : '-'}
-                          // </Typography>
+                          item?.salary_start && item?.salary_end ? (
+                            renderSalary(item?.salary_start, item?.salary_end, item?.currency)
+                          ) : null
+                        ) : item?.salary_start && item?.salary_end ? (
                           <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                            {item?.salary_start && item?.salary_end
+                            {item?.salary_end.toString() !== '0'
                               ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
-                              : '-'}
+                              : `${item?.salary_start} (${item?.currency})`}
                           </Typography>
-                        )}
+                        ) : null}
                       </TruncatedTypography>
                     </Grid>
                   </Grid>
