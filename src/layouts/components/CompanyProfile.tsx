@@ -869,7 +869,6 @@ const CompanyProfile = (props: compProps) => {
                   <TextField
                     id='address'
                     label='Address'
-                    required
                     defaultValue={props.datauser.address?.address}
                     variant='standard'
                     fullWidth
@@ -884,7 +883,6 @@ const CompanyProfile = (props: compProps) => {
                       <TextField
                         id='website'
                         label='Website'
-                        required
                         defaultValue={props.datauser.website}
                         variant='standard'
                         fullWidth
@@ -952,8 +950,7 @@ const CompanyProfile = (props: compProps) => {
                     fullWidth
                     sx={{ mb: 1 }}
                     id='outlined-multiline-static'
-                    label='About me'
-                    required
+                    label='About Company'
                     multiline
                     variant='standard'
                     rows={4}
