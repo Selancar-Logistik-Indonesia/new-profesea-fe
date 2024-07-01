@@ -223,12 +223,14 @@ const JobDetail = () => {
                           </Typography>
                           <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
                             <Typography
-                              sx={{ color: 'common.white', whiteSpace: 'pre-line' }}
-                              fontSize={14}
-                              fontWeight={400}
-                              fontFamily={'Outfit'}
+                              sx={{
+                                mt: 1,
+                                color: 'common.white',
+                                fontSize: 14,
+                                fontWeight: 400,
+                                whiteSpace: 'pre-line'
+                              }}
                               textAlign={'justify'}
-                              mt={1}
                             >
                               {jobDetail?.company?.about}
                             </Typography>
