@@ -1,17 +1,25 @@
 // ** React Imports
-import React , { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
-import Box  from '@mui/material/Box'  
-import { Autocomplete, Button, CircularProgress, InputAdornment, InputLabel, OutlinedInput, Typography } from '@mui/material'
+import Box from '@mui/material/Box'
+import {
+  Autocomplete,
+  Button,
+  CircularProgress,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Typography
+} from '@mui/material'
 import TextField from '@mui/material/TextField'
 
 // import {  useTheme } from '@mui/material/styles'
 // ** Third Party Imports
 
 // ** Component Import
-import { Grid } from '@mui/material'  
- 
+import { Grid } from '@mui/material'
+
 import EditorArea from 'src/@core/components/react-draft-wysiwyg'
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
@@ -25,9 +33,9 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { ContentState, EditorState, convertFromHTML, convertToRaw } from 'draft-js'
-import draftToHtml from 'draftjs-to-html';
+import draftToHtml from 'draftjs-to-html'
 
- //import Thread from 'src/contract/models/news'
+//import Thread from 'src/contract/models/news'
 import { toast } from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { Icon } from '@iconify/react'
@@ -36,34 +44,34 @@ import Link from 'next/link'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
- 
- interface FileProp {
-   name: string
-   type: string
-   size: number
- }
 
-const EditNewsScreen = () => {  
-  // const theme = useTheme()    
-  const windowUrl = window.location.search 
+interface FileProp {
+  name: string
+  type: string
+  size: number
+}
+
+const EditNewsScreen = () => {
+  // const theme = useTheme()
+  const windowUrl = window.location.search
   const params = new URLSearchParams(windowUrl)
-  const [onLoading, setOnLoading] = useState(false); 
+  const [onLoading, setOnLoading] = useState(false)
   const [sforumCode, setForumCode] = useState<any>([])
   const [sforum, setForum] = useState<any>([])
   const [sTitle, setTitle] = useState<any>([])
   const [sSlug, setSlug] = useState<any>([])
   const [sMeta, setMeta] = useState<any>([])
-  
-    const [charType, setType] = useState('0')
-    const [charMeta, setMeta2] = useState('0')
-    const [charSlug, setSlug2] = useState('0')  
+
+  const [charType, setType] = useState('0')
+  const [charMeta, setMeta2] = useState('0')
+  const [charSlug, setSlug2] = useState('0')
   //const [newsDetail, setThreadDetail] = useState<Thread>()
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [files, setFiles] = useState<File[]>([])
-  const [postingDate, setPostingDate] = useState<DateType>(new Date()) 
+  const [postingDate, setPostingDate] = useState<DateType>(new Date())
   const [urlFile, getUrlFile] = useState<any>()
   // const [User, getUser] =useState<any[]>([])
-   const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
     accept: {
       'image/*': ['.png', '.jpg', '.jpeg', '.gif']
@@ -95,76 +103,72 @@ const EditNewsScreen = () => {
   } = useForm<any>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
-  })  
-   const type = [{ title: 'News' }, { title: 'Event' }]
+  })
+  const type = [{ title: 'News' }, { title: 'Event' }]
   const firstload = () => {
-      setShow(false);
-      HttpClient.get(AppConfig.baseUrl + '/news/id/' + params.get('id')).then(resp => {        
-        const news:any  = resp.data.news 
-        const contenDesc = convertFromHTML(news?.content).contentBlocks
-        const contentState = ContentState.createFromBlockArray(contenDesc)
-        const editorState = EditorState.createWithContent(contentState)
-        setDesc(editorState)
-        setTitle(news?.title)
-        setType(news?.title?.length)
-        setSlug(news?.slug)
-        setSlug2(news?.slug?.length)
-        setMeta(news?.meta)
-        setMeta2(news?.meta.length)
-        
-        setForum({ title: news?.type })
-        getUrlFile(news?.imgnews)
-        setPostingDate(new Date(news?.posting_at)) 
-        setForumCode(news?.type)
-      })
+    setShow(false)
+    HttpClient.get(AppConfig.baseUrl + '/news/id/' + params.get('id')).then(resp => {
+      const news: any = resp.data.news
+      const contenDesc = convertFromHTML(news?.content).contentBlocks
+      const contentState = ContentState.createFromBlockArray(contenDesc)
+      const editorState = EditorState.createWithContent(contentState)
+      setDesc(editorState)
+      setTitle(news?.title)
+      setType(news?.title?.length)
+      setSlug(news?.slug)
+      setSlug2(news?.slug?.length)
+      setMeta(news?.meta)
+      setMeta2(news?.meta.length)
 
-      
+      setForum({ title: news?.type })
+      getUrlFile(news?.imgnews)
+      setPostingDate(new Date(news?.posting_at))
+      setForumCode(news?.type)
+    })
   }
   useEffect(() => {
     firstload()
   }, [])
 
-  function uploadCallback(file:any){
-    console.log(file);
-    
+  function uploadCallback(file: any) {
+    console.log(file)
+
     return new Promise((resolve, reject) => {
-      const form_data = new FormData();
+      const form_data = new FormData()
       form_data.append('file', file)
-      HttpClient.postFile(`/user/filemanager` , form_data).then(response => {
+      HttpClient.postFile(`/user/filemanager`, form_data).then(response => {
         if (response.status != 200) {
-          const error = response.data.message;
-          reject(error);
+          const error = response.data.message
+          reject(error)
         }
         resolve({ data: { link: response.data.path } })
       })
-    });
+    })
   }
 
-  const onCreate = async () => { 
-
+  const onCreate = async () => {
     const json = {
-      "imgnews": files,
-      "title": sTitle,
-      "content": draftToHtml(convertToRaw(desc?.getCurrentContent())),
-      "type": sforumCode,
-      "postingdate": postingDate,
-      "slug": sSlug, 
-      "meta": sMeta
+      imgnews: files,
+      title: sTitle,
+      content: draftToHtml(convertToRaw(desc?.getCurrentContent())),
+      type: sforumCode,
+      postingdate: postingDate,
+      slug: sSlug,
+      meta: sMeta
     }
-    setOnLoading(true);       
+    setOnLoading(true)
     try {
-        const resp = await HttpClient.patch(`/news/${params.get('id')}`, json);
-        if (resp.status != 200) {
-            throw resp.data.message ?? "Something went wrong!";
-        }
+      const resp = await HttpClient.patch(`/news/${params.get('id')}`, json)
+      if (resp.status != 200) {
+        throw resp.data.message ?? 'Something went wrong!'
+      }
 
-        toast.success(` News update successfully!`);
-        window.location.replace('/admin/master-news/')
+      toast.success(` News update successfully!`)
+      window.location.replace('/admin/master-news/')
     } catch (error) {
-        toast.error(`Opps ${getCleanErrorMessage(error)}`);
+      toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
-    setOnLoading(false);       
-
+    setOnLoading(false)
   }
   const handleChangetitle = (event: { target: { value: any } }) => {
     // Update the 'value' state when the input value changes.
@@ -380,6 +384,9 @@ const EditNewsScreen = () => {
                       </Box>
                     )}
                   </Box>
+                  <Typography sx={{ mt: 1, color: 'primary.main', fontSize: 12 }}>
+                    Allowed JPEG, JPG, PNG Size up to 3 Mb.
+                  </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <EditorWrapper>
@@ -413,10 +420,9 @@ const EditNewsScreen = () => {
     </Box>
   )
 }
- 
 
 EditNewsScreen.acl = {
   action: 'read',
   subject: 'admin-community-management'
-};
+}
 export default EditNewsScreen
