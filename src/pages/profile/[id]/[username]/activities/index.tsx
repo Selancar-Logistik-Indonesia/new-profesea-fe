@@ -25,7 +25,7 @@ const SocialFeed = () => {
 
 const SocialFeedApp = () => {
   const params = useSearchParams()
-  const usernameParam = linkToTitleCase(params.get('username') ?? undefined)
+  const usernameParam = linkToTitleCase(params.get('username'))
 
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
 

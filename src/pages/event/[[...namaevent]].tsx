@@ -90,7 +90,7 @@ const EventApp = () => {
                         fontWeight='600'
                         sx={{ ml: 2, mb: 5, color: '#000', textTransform: 'uppercase' }}
                       >
-                        {linkToTitleCase(dataSheet?.title)}
+                        {linkToTitleCase(dataSheet?.title ?? null)}
                       </Typography>
                     </Grid>
                     <Grid item container xs={12} justifyContent={'left'}>

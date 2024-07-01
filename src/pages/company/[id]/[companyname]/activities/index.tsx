@@ -25,7 +25,7 @@ const SocialFeed = () => {
 
 const SocialFeedApp = () => {
   const params = useSearchParams()
-  const usernameParam = linkToTitleCase(params.get('username') ?? undefined)
+  const usernameParam = linkToTitleCase(params.get('companyname'))
 
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
 
@@ -51,33 +51,11 @@ const SocialFeedApp = () => {
   }, [usernameParam])
 
   return (
-    <Box>
-      <Grid container spacing={6}>
-        <Grid item lg={3} md={5} xs={12} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <Profile datauser={selectedUser} />
-          <Box sx={{ position: 'sticky', top: '70px' }}>
-            <KeenSliderWrapper>
-              <SideAd adslocation='company-profile-page' />
-            </KeenSliderWrapper>
-          </Box>
-        </Grid>
-        <Grid item lg={6} md={7} xs={12}>
-          <Grid container spacing={6}>
-            <Grid item xs={12}>
-              <ListFeedView username={usernameParam} />
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item lg={3} xs={12}>
-          <Box>
-            <ProfileViewerCard />
-          </Box>
-          <Box my={4}>
-            <FriendSuggestionCard />
-          </Box>
-        </Grid>
+    <Grid container sx={{ display: 'flex', justifyContent: 'center', px: '120px' }}>
+      <Grid item xs={12}>
+        <ListFeedView username={usernameParam} />
       </Grid>
-    </Box>
+    </Grid>
   )
 }
 

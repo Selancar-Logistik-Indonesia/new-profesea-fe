@@ -59,7 +59,7 @@ function toLinkCase(text: string | undefined) {
     return null
 }
 
-function linkToTitleCase(text: string | undefined) {
+function linkToTitleCase(text: string | null) {
     if (text) {
         const title = text.replace(/-/g, ' ')
 
