@@ -54,6 +54,10 @@ const AllTrainingScreen = () => {
           requirements: row.requirements,
           short_description: row.short_description,
           count_participant: row.count_participant,
+          price: row?.price,
+          discounted_price: row?.discounted_price,
+          cta: row?.cta,
+          thumbnail: row?.thumbnail,
           actions: {
             onDelete: () => deleteHandler(row),
             onUpdate: () => updateHandler(row),
