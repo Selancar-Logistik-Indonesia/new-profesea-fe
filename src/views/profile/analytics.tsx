@@ -19,9 +19,9 @@ const AnalyticData = (props: { icon: string; value?: string; type: string; descr
   return (
     <Grid
       item
-      xs={true}
+      xs={12}
+      md={true}
       sx={{
-        flexGrow: 1,
         display: 'flex',
         borderRadius: '4px',
         py: '12px',
@@ -32,8 +32,8 @@ const AnalyticData = (props: { icon: string; value?: string; type: string; descr
     >
       <Icon icon={icon} fontSize={24} />
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <Typography>{`${value ?? 0} ${type}`}</Typography>
-        <Typography>{description}</Typography>
+        <Typography sx={{ fontSize: 16, fontWeight: 'bold' }}>{`${value ?? 0} ${type}`}</Typography>
+        <Typography sx={{ color: '#949EA2', fontSize: 14 }}>{description}</Typography>
       </Box>
     </Grid>
   )
@@ -42,42 +42,64 @@ const AnalyticData = (props: { icon: string; value?: string; type: string; descr
 const Analytics = ({ dataUser }: { dataUser: IUser }) => {
   const [activities, getActivities] = useState<activities>()
 
+  const loadActivities = async () => {
+    const resp = await HttpClient.get('/user/statistics?user_id=' + dataUser?.id)
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
+    }
+    const code = resp.data
+    getActivities(code)
+  }
+
   useEffect(() => {
-    HttpClient.get('/user/statistics?user_id=' + dataUser.id).then(response => {
-      const connections = response.data.total_connected
-      getActivities(connections)
-    })
+    loadActivities()
   }, [dataUser])
 
   return (
-    <Box sx={{ p: '24px', borderRadius: '4px', backgroundColor: '#FFFFFF' }}>
+    <Box sx={{ p: '24px', borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
       <Typography sx={{ mb: '24px', color: 'black', fontSize: 20, fontWeight: 'bold', textTransform: 'uppercase' }}>
         analytics
       </Typography>
-      <Grid container sx={{ display: 'flex', gap: '9.2px' }}>
+      <Grid container sx={{ display: 'flex', flexWrap: { md: 'nowrap' }, gap: '9.2px' }}>
         <AnalyticData
           icon='mdi:people'
           value={activities?.total_visitor}
           type='Total visitor'
-          description="Discover who's visited your profile"
+          description="Discover who's visited your profile."
         />
         <AnalyticData
           icon='material-symbols:post-outline-rounded'
-          value={activities?.total_visitor}
-          type='Total visitor'
-          description="Discover who's visited your profile"
+          value={activities?.total_post_feed}
+          type='Total post feed'
+          description='This count reflects your shared updates.'
         />
-        <AnalyticData
-          icon='material-symbols:work'
-          value={activities?.total_visitor}
-          type='Total visitor'
-          description="Discover who's visited your profile"
-        />
+        {dataUser.team_id === 3 ? (
+          <AnalyticData
+            icon='material-symbols:work'
+            value={activities?.total_post_job}
+            type='Total post job'
+            description="shows numbers of job listings you've posted."
+          />
+        ) : dataUser.team_id === 4 ? (
+          <AnalyticData
+            icon='material-symbols:library-books-sharp'
+            value={'20'}
+            type='Total post training'
+            description="shows numbers of training listings you've posted."
+          />
+        ) : (
+          <AnalyticData
+            icon='material-symbols:work'
+            value={activities?.total_applied_job}
+            type='Total applied job'
+            description="shows numbers of job listings you've applied."
+          />
+        )}
         <AnalyticData
           icon='mdi:people'
-          value={activities?.total_visitor}
-          type='Total visitor'
-          description="Discover who's visited your profile"
+          value={activities?.total_post_thread}
+          type='Total thread'
+          description='Shows your initiated discussion threads.'
         />
       </Grid>
     </Box>
