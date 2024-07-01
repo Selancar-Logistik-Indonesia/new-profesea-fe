@@ -119,7 +119,7 @@ const FriendSuggestionCard = ({ location }: { location?: string }) => {
           <Divider sx={{ mx: '24px' }} />
           <Button
             endIcon={<Icon icon='mingcute:right-fill' style={{ fontSize: 18 }} />}
-            href={`-`} //no link
+            href={`/profile/connections`}
             sx={{
               py: '18px',
               display: 'flex',
