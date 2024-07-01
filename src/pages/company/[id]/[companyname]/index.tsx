@@ -30,8 +30,8 @@ const UserFeedApp = () => {
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const params = useSearchParams()
-  let selectedName = linkToTitleCase(params.get('companyname'))
-  let selectedId = params.get('id')
+  const selectedName = linkToTitleCase(params.get('companyname'))
+  const selectedId = params.get('id')
 
   const firstload = async () => {
     setSelectedUser(null)
@@ -47,6 +47,7 @@ const UserFeedApp = () => {
       const response = await HttpClient.get(url)
       if (response.data.user.length === 0) {
         toast.error(`Oops, data tidak ditemukan`)
+
         return
       }
       const user = response.data.user as IUser

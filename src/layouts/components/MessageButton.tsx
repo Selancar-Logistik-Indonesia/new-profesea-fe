@@ -1,10 +1,9 @@
 import { Icon } from '@iconify/react'
 import { Button, CircularProgress } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 // import secureLocalStorage from "react-secure-storage";
 // import localStorageKeys from "src/configs/localstorage_keys";
 import { IUser } from 'src/contract/models/user'
-import { subscribev } from 'src/utils/helpers'
 
 interface MessageButtonProps {
   user: IUser
@@ -18,7 +17,7 @@ const MessageButton = (props: MessageButtonProps) => {
     window.location.replace('/chat?username=' + user.username)
   }
 
-  const [show, setShowDM] = useState<boolean>(true)
+  //   const [show, setShowDM] = useState<boolean>(true)
   // const abilities = secureLocalStorage.getItem(localStorageKeys.abilities) as IUser
 
   const buildConnectIcon = () => {

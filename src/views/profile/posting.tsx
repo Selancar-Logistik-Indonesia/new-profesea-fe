@@ -49,10 +49,9 @@ const Posting = ({ dataUser }: { dataUser: IUser }) => {
                 : `/job/${companyNameUrl}/${arr?.id}/${jobTitleUrl}`
 
             return (
-              <Link href={link}>
+              <Link href={link} key={index}>
                 <Grid
                   container
-                  key={index}
                   sx={{
                     display: 'flex',
                     gap: '16px'
@@ -124,10 +123,9 @@ const Posting = ({ dataUser }: { dataUser: IUser }) => {
                 : `/trainings/${trainerNameUrl}/${arr.id}/${trainingTitleUrl}`
 
             return (
-              <Link href={link}>
+              <Link href={link} key={index}>
                 <Grid
                   container
-                  key={index}
                   sx={{
                     display: 'flex',
                     gap: '16px'

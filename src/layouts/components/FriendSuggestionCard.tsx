@@ -1,8 +1,6 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
 import { Avatar, Button, CircularProgress, Divider } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { IUser } from 'src/contract/models/user'

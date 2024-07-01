@@ -7,6 +7,7 @@ import Fade, { FadeProps } from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
 import Icon from 'src/@core/components/icon'
 import { Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
+
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>

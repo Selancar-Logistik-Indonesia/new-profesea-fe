@@ -15,6 +15,7 @@ import ConnectButton from 'src/layouts/components/ConnectButton'
 
 const SocialMedia = (props: { icon: string; type: string; link?: string }) => {
   const { icon, type, link } = props
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
       <Icon icon={icon} style={{ fontSize: 18 }} />

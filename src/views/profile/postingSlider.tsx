@@ -168,6 +168,7 @@ const Slides = (items: any[], teamId: number, width: number) => {
 
 const IndexDots = ({ total, currentIndex, setIndex }: { total: number; currentIndex: number; setIndex: any }) => {
   if (total <= 1) return null
+
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <Box sx={{ display: 'flex', gap: '8px' }}>
