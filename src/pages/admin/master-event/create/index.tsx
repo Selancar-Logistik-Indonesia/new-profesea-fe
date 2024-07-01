@@ -44,7 +44,7 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 const MasterNewsScreen = () => {
   // const theme = useTheme()
   const [onLoading, setOnLoading] = useState(false)
-  const [charType, setType] = useState('0') 
+  const [charType, setType] = useState('0')
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [files, setFiles] = useState<File[]>([])
   const [postingDate, setPostingDate] = useState<DateType>(new Date())
@@ -104,8 +104,8 @@ const MasterNewsScreen = () => {
   }
 
   const onCreate = async (formData: any) => {
-    const { title, date, time,cost,organizer,website,phone,email,venue,meet } = formData
- 
+    const { title, date, time, cost, organizer, website, phone, email, venue, meet } = formData
+
     const json = {
       imgnews: files,
       title: title,
@@ -142,7 +142,6 @@ const MasterNewsScreen = () => {
     const newValue = event.target.value.length
     setType(newValue)
   }
-  
 
   return (
     <Box padding={3}>
@@ -396,6 +395,9 @@ const MasterNewsScreen = () => {
                       </Box>
                     )}
                   </Box>
+                  <Typography sx={{ mt: 1, color: 'primary.main', fontSize: 12 }}>
+                    Allowed JPEG, JPG, PNG Size up to 3 Mb.
+                  </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <EditorWrapper>

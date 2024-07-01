@@ -3,14 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import { 
-  Button,
-  CircularProgress,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Typography
-} from '@mui/material'
+import { Button, CircularProgress, InputAdornment, InputLabel, OutlinedInput, Typography } from '@mui/material'
 import TextField from '@mui/material/TextField'
 
 // import {  useTheme } from '@mui/material/styles'
@@ -136,7 +129,7 @@ const EditNewsScreen = () => {
       setEmail(news?.email)
       setVenue(news?.venue)
       getUrlFile(news?.imgnews)
-      setPostingDate(new Date(news?.posting_at)) 
+      setPostingDate(new Date(news?.posting_at))
     })
   }
   useEffect(() => {
@@ -160,7 +153,6 @@ const EditNewsScreen = () => {
   }
 
   const onCreate = async () => {
- 
     const json = {
       imgnews: files,
       title: sTitle,
@@ -175,7 +167,7 @@ const EditNewsScreen = () => {
       phone: sphone,
       email: semail,
       venue: svenue,
-    meet: smeet
+      meet: smeet
     }
     setOnLoading(true)
     try {
@@ -474,6 +466,9 @@ const EditNewsScreen = () => {
                       </Box>
                     )}
                   </Box>
+                  <Typography sx={{ mt: 1, color: 'primary.main', fontSize: 12 }}>
+                    Allowed JPEG, JPG, PNG Size up to 3 Mb.
+                  </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <EditorWrapper>

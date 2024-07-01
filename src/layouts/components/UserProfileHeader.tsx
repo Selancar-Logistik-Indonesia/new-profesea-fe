@@ -119,7 +119,7 @@ const UserProfileHeader = (props: userProps) => {
           sx={{
             width: ['100%'],
             display: 'flex',
-            ml: { xs: 0, md: 6 },
+            ml: { xs: 0, md: 3 },
             alignItems: 'flex-end',
             flexWrap: ['wrap', 'nowrap'],
             justifyContent: ['center', 'space-between']
