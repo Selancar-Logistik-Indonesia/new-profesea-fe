@@ -23,10 +23,9 @@ const renderList = (arr: IUser[]) => {
     const userPhoto = item.photo ? item.photo : '/images/avatars/default-user.png'
 
     return (
-      <>
+      <Box key={index}>
         <Grid
           container
-          key={index}
           sx={{
             display: 'flex',
             gap: '12px',
@@ -53,7 +52,7 @@ const renderList = (arr: IUser[]) => {
           </Box>
         </Grid>
         {index !== arr.length - 1 && <Divider sx={{ my: '24px' }} />}
-      </>
+      </Box>
     )
   })
 }

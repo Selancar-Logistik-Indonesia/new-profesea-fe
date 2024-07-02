@@ -46,8 +46,10 @@ const Slides = (items: any[], teamId: number, width: number) => {
             sx={{
               alignSelf: 'center',
               backgroundRepeat: 'no-repeat',
+              borderRadius: '8px',
               backgroundSize: 'cover',
               width: '170px',
+              maxHeight: '174px',
               overflow: 'hidden'
             }}
           />
@@ -117,6 +119,7 @@ const Slides = (items: any[], teamId: number, width: number) => {
           sx={{
             alignSelf: 'center',
             backgroundRepeat: 'no-repeat',
+            borderRadius: '8px',
             backgroundSize: 'cover',
             height: '100%',
             aspectRatio: 1
