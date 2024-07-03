@@ -7,9 +7,9 @@ import Head from 'next/head'
 import FooterView from 'src/views/landing-page/footerView'
 import landingPageStyle from 'src/@core/styles/landing-page/landing-page-company'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
-import SectionTwo from 'src/views/landing-page-company/sectionTwo'
-import SectionThree from 'src/views/landing-page-company/sectionThree'
-import SectionFour from 'src/views/landing-page-company/sectionFour'
+import SectionTwo from 'src/views/employer/sectionTwo'
+import SectionThree from 'src/views/employer/sectionThree'
+import SectionFour from 'src/views/employer/sectionFour'
 
 const Main = () => {
   const { t } = useTranslation()
