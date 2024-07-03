@@ -1065,7 +1065,7 @@ const CandidateProfile = (props: compProps) => {
                   </Typography>
                   <Grid container item xs={12} justifyContent={'left'}>
                     <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                      Fulfill your Preferences Info
+                    Set your job preferences so companies can find the perfect fit.
                     </Typography>
                   </Grid>
                 </Grid>

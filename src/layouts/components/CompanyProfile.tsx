@@ -947,6 +947,7 @@ const CompanyProfile = (props: compProps) => {
 
                 <Grid item md={12} xs={12}>
                   <TextField
+                    required
                     fullWidth
                     sx={{ mb: 1 }}
                     id='outlined-multiline-static'
