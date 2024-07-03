@@ -39,10 +39,12 @@ const Posting = ({ dataUser }: { dataUser: IUser }) => {
     if (dataUser.team_id === 3) {
       if (!user) return '/find-job'
       if (user.team_id === dataUser.team_id) return '/company/job-management'
+
       return `/candidate/find-job?company=${companyParam}`
     } else {
       if (!user) return '/trainings'
       if (user.team_id === dataUser.team_id) return '/trainer/training'
+
       return `/candidate/trainings?trainer=${companyParam}`
     }
   }
