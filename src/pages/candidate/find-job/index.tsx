@@ -34,6 +34,8 @@ import JobContext, { JobProvider } from 'src/context/JobContext'
 import { useJob } from 'src/hooks/useJob'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import RecomendedView from 'src/views/find-job/RecomendedView'
+import { useSearchParams } from 'next/navigation'
+import { linkToTitleCase } from 'src/utils/helpers'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -74,6 +76,8 @@ const SeafarerJob = () => {
 
 const SeafarerJobApp = () => {
   const { setPage, fetchJobs, totalJob, hasNextPage } = useJob()
+  const params = useSearchParams()
+  const company = linkToTitleCase(params.get('company'))
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const isOnShip = user.employee_type === 'onship'
@@ -156,12 +160,13 @@ const SeafarerJobApp = () => {
       country_id: 100,
       city_id: idcity,
       employment_type: employmentType,
-      employee_type: employeeType
+      employee_type: employeeType,
+      username: company
     })
   }
   useEffect(() => {
     getdatapencarian()
-  }, [JC, searchJob, RL, ED, idcity, idvessel, employmentType, employeeType])
+  }, [JC, searchJob, RL, ED, idcity, idvessel, employmentType, employeeType, company])
 
   return (
     <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>

@@ -8,7 +8,7 @@ import { AppConfig } from 'src/configs/api'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'
-import { formatIDR } from 'src/utils/helpers'
+import { formatIDR, toLinkCase } from 'src/utils/helpers'
 import PostingSlider from './postingSlider'
 
 const Posting = ({ dataUser }: { dataUser: IUser }) => {
@@ -31,7 +31,23 @@ const Posting = ({ dataUser }: { dataUser: IUser }) => {
         }
       )
     }
-  }, [])
+  }, [dataUser])
+
+  const showMoreLink = () => {
+    const companyParam = encodeURIComponent(toLinkCase(dataUser.username) ?? '')
+
+    if (dataUser.team_id === 3) {
+      if (!user) return '/find-job'
+      if (user.team_id === dataUser.team_id) return '/company/job-management'
+
+      return `/candidate/find-job?company=${companyParam}`
+    } else {
+      if (!user) return '/trainings'
+      if (user.team_id === dataUser.team_id) return '/trainer/training'
+
+      return `/candidate/trainings?trainer=${companyParam}`
+    }
+  }
 
   return (
     <Box sx={{ borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
@@ -136,9 +152,10 @@ const Posting = ({ dataUser }: { dataUser: IUser }) => {
                     src={arr.thumbnail ? arr.thumbnail : '/images/icon-trainer.png'}
                     sx={{
                       backgroundRepeat: 'no-repeat',
-                      backgroundSize: 'contain',
-                      height: '100px',
-                      aspectRatio: 1
+                      borderRadius: '8px',
+                      backgroundSize: 'cover',
+                      width: '100px',
+                      maxHeight: '100px'
                     }}
                   />
                   <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -164,7 +181,7 @@ const Posting = ({ dataUser }: { dataUser: IUser }) => {
       <Divider sx={{ mx: '24px' }} />
       <Button
         endIcon={<Icon icon='mingcute:right-fill' style={{ fontSize: 18 }} />}
-        href={user.team_id === 3 ? '/company/job-management' : user.team_id === 3 ? `/trainer/training` : '-'}
+        href={showMoreLink()}
         sx={{
           py: '18px',
           display: 'flex',

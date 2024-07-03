@@ -37,6 +37,7 @@ const JobProvider = (props: Props) => {
     sailing_region?: any
     onboard_at?: any
     employment_type?: any
+    username?: any
   }) => {
     // only trigger in page 1
 
@@ -56,10 +57,6 @@ const JobProvider = (props: Props) => {
 
         if (jobs.data.length && jobs.data.length > 0) {
           setJobs(old => {
-            // const newItems = old
-            // jobs.data.forEach(e => newItems.push(e))
-            // setTotalJob(newItems.length)
-
             const existingJobId = new Set(old.map(job => job.id))
             const newJobs = jobs.data.filter(job => !existingJobId.has(job.id))
             const newItems = [...old, ...newJobs]

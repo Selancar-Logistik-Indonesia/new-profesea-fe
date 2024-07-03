@@ -68,76 +68,74 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
               }/${toLinkCase(item.user?.username)}`
 
               return (
-                <>
-                  <Link href={`/feed/${item.id}`}>
-                    <Grid container key={index} spacing={6} pl={1}>
-                      <Grid item xs={12}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                          <Avatar
+                <Link href={`/feed/${item.id}`} key={index}>
+                  <Grid container spacing={6} pl={1}>
+                    <Grid item xs={12}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <Avatar
+                          component={Link}
+                          href={profileLink}
+                          alt='profile-picture'
+                          src={getUserAvatar(item.user)}
+                          sx={{ width: 42, height: 42 }}
+                        />
+                        <Box>
+                          <Typography
                             component={Link}
                             href={profileLink}
-                            alt='profile-picture'
-                            src={getUserAvatar(item.user)}
-                            sx={{ width: 42, height: 42 }}
-                          />
-                          <Box>
-                            <Typography
-                              component={Link}
-                              href={profileLink}
-                              sx={{ fontSize: '16px', fontWeight: 'bold', color: 'black' }}
-                            >
-                              {toTitleCase(item.user.name)}
+                            sx={{ fontSize: '16px', fontWeight: 'bold', color: 'black' }}
+                          >
+                            {toTitleCase(item.user.name)}
+                          </Typography>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <Icon color={'#949EA2'} icon='formkit:time' fontSize='16px' />
+                            <Typography sx={{ fontSize: '12px', color: '#949EA2' }}>
+                              {moment(item.created_at).fromNow()}
                             </Typography>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                              <Icon color={'#949EA2'} icon='formkit:time' fontSize='16px' />
-                              <Typography sx={{ fontSize: '12px', color: '#949EA2' }}>
-                                {moment(item.created_at).fromNow()}
-                              </Typography>
-                            </Box>
                           </Box>
                         </Box>
-                      </Grid>
-                      <Grid item xs={12} sx={{ display: 'flex' }}>
-                        {item.content_type == 'videos' && (
-                          <CardMedia
-                            sx={{ width: '100%', height: 100, my: 2 }}
-                            component='video'
-                            controls
-                            src={`${AppConfig.baseUrl}/public/data/streaming?video=${item.attachments![0]}`}
-                          />
-                        )}
-                        {item.content_type == 'images' && (
-                          <img
-                            src={item.attachments![0]}
-                            alt={item.content}
-                            loading='lazy'
-                            style={{ objectFit: 'contain', width: '100%', height: '100%' }}
-                          />
-                        )}
-                        <Typography
-                          sx={{
-                            whiteSpace: 'pre-line',
-                            color: '#636E72',
-                            fontSize: 16
-                          }}
-                        >
-                          {item.content}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sx={{ display: 'flex', gap: '16px' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <Icon icon='material-symbols:thumb-up' style={{ fontSize: 16, color: '#32497A' }} />
-                          <Typography sx={{ fontSize: 14, color: '#444B4E' }}>{item.count_likes}</Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <Icon icon='iconamoon:comment' style={{ fontSize: 16, color: '#32497A' }} />
-                          <Typography sx={{ fontSize: 14, color: '#444B4E' }}>{item.count_comments}</Typography>
-                        </Box>
-                      </Grid>
+                      </Box>
                     </Grid>
-                    {index !== feeds.length - 1 && <Divider sx={{ my: '24px' }} />}
-                  </Link>
-                </>
+                    <Grid item xs={12} sx={{ display: 'flex' }}>
+                      {item.content_type == 'videos' && (
+                        <CardMedia
+                          sx={{ width: '100%', height: 100, my: 2 }}
+                          component='video'
+                          controls
+                          src={`${AppConfig.baseUrl}/public/data/streaming?video=${item.attachments![0]}`}
+                        />
+                      )}
+                      {item.content_type == 'images' && (
+                        <img
+                          src={item.attachments![0]}
+                          alt={item.content}
+                          loading='lazy'
+                          style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                        />
+                      )}
+                      <Typography
+                        sx={{
+                          whiteSpace: 'pre-line',
+                          color: '#636E72',
+                          fontSize: 16
+                        }}
+                      >
+                        {item.content}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sx={{ display: 'flex', gap: '16px' }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Icon icon='material-symbols:thumb-up' style={{ fontSize: 16, color: '#32497A' }} />
+                        <Typography sx={{ fontSize: 14, color: '#444B4E' }}>{item.count_likes}</Typography>
+                      </Box>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Icon icon='iconamoon:comment' style={{ fontSize: 16, color: '#32497A' }} />
+                        <Typography sx={{ fontSize: 14, color: '#444B4E' }}>{item.count_comments}</Typography>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                  {index !== feeds.length - 1 && <Divider sx={{ my: '24px' }} />}
+                </Link>
               )
             })
           : !onLoading && (

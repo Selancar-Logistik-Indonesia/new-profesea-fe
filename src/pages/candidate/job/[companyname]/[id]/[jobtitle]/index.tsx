@@ -10,7 +10,6 @@ import Grid from '@mui/material/Grid'
 import RelatedJobView from 'src/views/find-job/RelatedJobView'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
-// import ShareButton from 'src/views/find-job/ShareButton';
 import { IUser } from 'src/contract/models/user'
 import CompleteDialog from 'src/pages/candidate/job/CompleteDialog'
 import HeaderJobDetail from 'src/views/job-detail/HeaderJobDetail'
@@ -21,6 +20,8 @@ import CertificateDialog from 'src/pages/candidate/job/CertificateDialog'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import Head from 'next/head'
+import { useSearchParams } from 'next/navigation'
+import { linkToTitleCase } from 'src/utils/helpers'
 
 const JobDetail = () => {
   const [title, setTitle] = useState<string>()
@@ -32,11 +33,11 @@ const JobDetail = () => {
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [license, setLicense] = useState<any[] | undefined>()
-
   const router = useRouter()
-  const jobId = router.query?.id
-  const companyname = router.query?.companyname
-  const jobtitle = router.query?.jobtitle
+  const params = useSearchParams()
+  const jobId = params.get('id')
+  const companyname = linkToTitleCase(params.get('companyname'))
+  const jobtitle = params.get('jobtitle')
 
   const [jobDetailSugestion, setJobDetailSugestion] = useState<Job[]>([])
 
@@ -67,11 +68,11 @@ const JobDetail = () => {
   }
 
   useEffect(() => {
-    HttpClient.get('/job?take=4&page=1').then(response => {
+    HttpClient.get(`/job?search=&take=4&page=1&username=${jobDetail?.company.username}`).then(response => {
       const jobs = response.data.jobs.data
       setJobDetailSugestion(jobs)
     })
-  }, [])
+  }, [jobDetail])
 
   useEffect(() => {
     firstload(companyname, jobId, jobtitle)
@@ -122,8 +123,8 @@ const JobDetail = () => {
       "@type": "Place",
         "address": {
         "@type": "PostalAddress",
-        "streetAddress": "${jobDetail?.company.address.address}",
-        "addressLocality": "${jobDetail?.company.address.city.city_name}",
+        "streetAddress": "${jobDetail?.company.address?.address}",
+        "addressLocality": "${jobDetail?.company.address?.city.city_name}",
         "addressCountry": "${jobDetail?.country.iso}"
         }
       },
