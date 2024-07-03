@@ -71,7 +71,7 @@ const FooterView = () => {
                 {t('landing_footer_menu_6')}
               </Typography>
             </LinkStyled>
-            <LinkStyled href={'/profesea-for-company'}>
+            <LinkStyled href={'/employer'}>
               <Typography mt={1.7} variant='body1' color={'#101820'}>
                 {t('landing_footer_menu_7')}
               </Typography>
