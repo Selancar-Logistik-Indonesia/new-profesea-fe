@@ -137,7 +137,7 @@ const MasterNewsScreen = () => {
       }
       setShow(false)
       toast.success(` News created successfully!`)
-      // window.location.replace('/admin/master-news/')
+      window.location.replace('/admin/master-news/')
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
@@ -348,6 +348,9 @@ const MasterNewsScreen = () => {
                       </Box>
                     )}
                   </Box>
+                  <Typography sx={{ mt: 1, color: 'primary.main', fontSize: 12 }}>
+                    Allowed JPEG, JPG, PNG Size up to 3 Mb.
+                  </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <EditorWrapper>

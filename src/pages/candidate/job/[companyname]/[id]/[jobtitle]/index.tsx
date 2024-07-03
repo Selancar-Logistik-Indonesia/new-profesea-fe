@@ -10,7 +10,6 @@ import Grid from '@mui/material/Grid'
 import RelatedJobView from 'src/views/find-job/RelatedJobView'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
-// import ShareButton from 'src/views/find-job/ShareButton';
 import { IUser } from 'src/contract/models/user'
 import CompleteDialog from 'src/pages/candidate/job/CompleteDialog'
 import HeaderJobDetail from 'src/views/job-detail/HeaderJobDetail'
@@ -21,6 +20,8 @@ import CertificateDialog from 'src/pages/candidate/job/CertificateDialog'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import Head from 'next/head'
+import { useSearchParams } from 'next/navigation'
+import { linkToTitleCase } from 'src/utils/helpers'
 
 const JobDetail = () => {
   const [title, setTitle] = useState<string>()
@@ -32,11 +33,11 @@ const JobDetail = () => {
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [license, setLicense] = useState<any[] | undefined>()
-
   const router = useRouter()
-  const jobId = router.query?.id
-  const companyname = router.query?.companyname
-  const jobtitle = router.query?.jobtitle
+  const params = useSearchParams()
+  const jobId = params.get('id')
+  const companyname = linkToTitleCase(params.get('companyname'))
+  const jobtitle = params.get('jobtitle')
 
   const [jobDetailSugestion, setJobDetailSugestion] = useState<Job[]>([])
 
@@ -67,11 +68,11 @@ const JobDetail = () => {
   }
 
   useEffect(() => {
-    HttpClient.get('/job?take=4&page=1').then(response => {
+    HttpClient.get(`/job?search=&take=4&page=1&username=${jobDetail?.company.username}`).then(response => {
       const jobs = response.data.jobs.data
       setJobDetailSugestion(jobs)
     })
-  }, [])
+  }, [jobDetail])
 
   useEffect(() => {
     firstload(companyname, jobId, jobtitle)
@@ -122,8 +123,8 @@ const JobDetail = () => {
       "@type": "Place",
         "address": {
         "@type": "PostalAddress",
-        "streetAddress": "${jobDetail?.company.address.address}",
-        "addressLocality": "${jobDetail?.company.address.city.city_name}",
+        "streetAddress": "${jobDetail?.company.address?.address}",
+        "addressLocality": "${jobDetail?.company.address?.city.city_name}",
         "addressCountry": "${jobDetail?.country.iso}"
         }
       },
@@ -175,12 +176,7 @@ const JobDetail = () => {
             justifyContent: 'center'
           }}
         >
-          <Grid
-            item
-            xs={12}
-            md={jobDetailSugestion.length !== 0 ? 7 : 10}
-            lg={jobDetailSugestion.length !== 0 ? 6 : 10}
-          >
+          <Grid item xs={12} md={jobDetailSugestion.length !== 0 ? 7 : 10}>
             <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
               <Grid container>
                 <Grid item xs={12} sx={{ py: '20px' }}>
@@ -228,12 +224,14 @@ const JobDetail = () => {
                           </Typography>
                           <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
                             <Typography
-                              sx={{ color: 'common.white', whiteSpace: 'pre-line' }}
-                              fontSize={14}
-                              fontWeight={400}
-                              fontFamily={'Outfit'}
+                              sx={{
+                                mt: 1,
+                                color: 'common.white',
+                                fontSize: 14,
+                                fontWeight: 400,
+                                whiteSpace: 'pre-line'
+                              }}
                               textAlign={'justify'}
-                              mt={1}
                             >
                               {jobDetail?.company?.about}
                             </Typography>
@@ -247,7 +245,7 @@ const JobDetail = () => {
             </Card>
           </Grid>
           {jobDetailSugestion.length !== 0 && (
-            <Grid item xs={12} md={3} lg={2}>
+            <Grid item xs={12} md={3}>
               <Box
                 sx={{
                   display: 'flex',

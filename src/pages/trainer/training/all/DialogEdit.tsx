@@ -342,6 +342,9 @@ const DialogEdit = (props: EditProps) => {
                   </Box>
                 )}
               </Box>
+              <Typography sx={{ mt: 1, color: 'primary.main', fontSize: 12 }}>
+                Allowed JPEG, JPG, PNG Size up to 3 Mb.
+              </Typography>
             </Grid>
           </Grid>
         </DialogContent>

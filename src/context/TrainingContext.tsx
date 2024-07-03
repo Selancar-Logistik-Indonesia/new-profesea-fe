@@ -32,6 +32,7 @@ const TrainingProvider = (props: Props) => {
     instant?: any
     category_id?: any
     search?: any
+    username?: any
   }) => {
     // only trigger in page 1
 
@@ -50,10 +51,6 @@ const TrainingProvider = (props: Props) => {
 
         if (trainings.data.length && trainings.data.length > 0) {
           setTrainings(old => {
-            // const newItems = old;
-            // trainings.data.forEach(e => newItems.push(e));
-            // setTotalTraining(newItems.length);
-
             const existingTrainingId = new Set(old.map(training => training.id))
             const newTrainings = trainings.data.filter(job => !existingTrainingId.has(job.id))
             const newItems = [...old, ...newTrainings]

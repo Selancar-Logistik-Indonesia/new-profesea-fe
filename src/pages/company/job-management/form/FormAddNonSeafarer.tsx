@@ -65,6 +65,7 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ dialogProps, a
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [currency, setCurrency] = useState('')
   const [checked, setChecked] = React.useState(false)
+  const [isFixedSalary, setIsFixedSalary] = useState(false)
 
   const [jobCategories, setJobCategories] = useState<JobCategory[]>([])
   const [Education, getEducation] = useState<any[]>([])
@@ -298,7 +299,7 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ dialogProps, a
               Seafarer
             </ToggleButton>
             <ToggleButton value='non-seafarer' sx={{ flex: '1' }}>
-              Non Seafarer
+              Professional
             </ToggleButton>
           </ToggleButtonGroup>
         </Box>
@@ -423,6 +424,19 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ dialogProps, a
                 renderInput={params => <TextField {...params} label='Currency' />}
                 onChange={(event: any, newValue: any | null) => setCurrency(newValue ? newValue.value : '')}
               />
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isFixedSalary}
+                    onChange={event => setIsFixedSalary(event.target.checked)}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                  />
+                }
+                label='Fixed Salary'
+                sx={{ width: '150px' }}
+              />
+
               <FormControlLabel
                 control={
                   <Checkbox
@@ -454,6 +468,7 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ dialogProps, a
               variant='outlined'
               fullWidth
               {...register('salary_end')}
+              disabled={isFixedSalary}
             />
           </Grid>
           <Grid item md={12} xs={12} sx={{ mb: 1 }}>

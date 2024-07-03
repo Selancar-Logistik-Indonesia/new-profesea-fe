@@ -165,7 +165,7 @@ const CandidateProfile = (props: compProps) => {
   if (props.datauser?.employee_type == 'onship') {
     ship = { employee_type: 'onship', label: 'PELAUT' }
   } else if (props.datauser?.employee_type == 'offship') {
-    ship = { employee_type: 'offship', label: 'NON PELAUT' }
+    ship = { employee_type: 'offship', label: 'PROFESIONAL' }
   }
 
   if (props.datauser.field_preference?.open_to_opp == 0) {
@@ -194,7 +194,7 @@ const CandidateProfile = (props: compProps) => {
   const [idcity, setCombocity] = useState<any>(props.datauser.address?.city_id)
   const [idship, setShip] = useState<any>(
     props.datauser?.employee_type == 'offship'
-      ? { employee_type: 'offship', label: 'NON PELAUT' }
+      ? { employee_type: 'offship', label: 'PROFESIONAL' }
       : { employee_type: 'onship', label: 'PELAUT' }
   )
   const [idcountry, setCountry] = useState<any>(props.datauser?.country_id)
@@ -227,11 +227,6 @@ const CandidateProfile = (props: compProps) => {
   const [facebook, setFacebook] = useState<any>('')
   const [instagram, setInstagram] = useState<any>('')
   const [linkedin, setLinkedin] = useState<any>('')
-  // const [disabledFacebook, setDisabledFacebook] = useState<boolean>(true)
-  // const [disabledInstagram, setDisabledInstagram] = useState<boolean>(true)
-  // const [disabledLinkedn, setDisabledLinkedin] = useState<boolean>(true)
-  // const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
-  // const [disabledOpen, setDisabledOpen] = useState<boolean>(true)
   const [JobCategory, getJobCategory] = useState<any[]>([])
   const [JC, setJC] = useState(
     props.datauser?.field_preference?.category_id ? props.datauser?.field_preference?.category_id : 0
@@ -298,7 +293,7 @@ const CandidateProfile = (props: compProps) => {
     })
     const code = [
       { employee_type: 'onship', label: 'PELAUT' },
-      { employee_type: 'offship', label: 'NON PELAUT' }
+      { employee_type: 'offship', label: 'PROFESIONAL' }
     ]
     getShip(code)
 
@@ -399,7 +394,6 @@ const CandidateProfile = (props: compProps) => {
     if (statusfb == '') {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
         ({ data }) => {
-          // toast.success(' Successfully submited!')
           statusfb = data.sosmed.id
         },
         error => {
@@ -408,9 +402,7 @@ const CandidateProfile = (props: compProps) => {
       )
     } else {
       HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statusfb, json).then(
-        () => {
-          // toast.success(' Successfully submited!')
-        },
+        () => {},
         error => {
           toast.error('Registrastion Failed : ' + error.response.data.message)
         }
@@ -433,7 +425,6 @@ const CandidateProfile = (props: compProps) => {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
         ({ data }) => {
           console.log('registration success', data)
-          // toast.success(' Successfully submited!')
           statusig = data.sosmed.id
         },
         error => {
@@ -445,7 +436,6 @@ const CandidateProfile = (props: compProps) => {
       HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statusig, json).then(
         ({ data }) => {
           console.log('Registrastion Failed : ', data)
-          // toast.success(' Successfully submited!')
         },
         error => {
           console.log('Registrastion Failed : ', error)
@@ -470,7 +460,6 @@ const CandidateProfile = (props: compProps) => {
     if (statuslinkedin == '') {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
         ({ data }) => {
-          // toast.success(' Successfully submited!')
           statuslinkedin = data.sosmed.id
         },
         error => {
@@ -482,7 +471,6 @@ const CandidateProfile = (props: compProps) => {
       HttpClient.patch(AppConfig.baseUrl + '/user/sosmed/' + statuslinkedin, json).then(
         ({ data }) => {
           console.log('here 1', data)
-          // toast.success(' Successfully submited!')
         },
         error => {
           console.log('Registrastion Failed : ', error)
@@ -669,7 +657,7 @@ const CandidateProfile = (props: compProps) => {
         </Typography>
         <Grid container item xs={12} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-            Fulfill your General Info
+            Fill out your profile fully to increase your chances of getting the job you want.
           </Typography>
         </Grid>
       </Grid>
@@ -836,7 +824,7 @@ const CandidateProfile = (props: compProps) => {
               options={!comboShip ? [{ label: 'Loading...', id: 0 }] : comboShip}
               defaultValue={ship}
               getOptionLabel={(option: any) => option.label}
-              renderInput={params => <TextField {...params} label='Ship *' variant='standard' />}
+              renderInput={params => <TextField {...params} label='Ship' variant='standard' />}
               onChange={(event: any, newValue: any | null) => displayship(newValue)}
               disabled={showShip}
               // onChange={(event: any, newValue: Employee ) =>
@@ -923,7 +911,6 @@ const CandidateProfile = (props: compProps) => {
               value={phoneNum}
               onChange={e => onChangePhoneNum(e.target.value)}
               InputProps={{
-                // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
                 startAdornment: (
                   <Autocomplete
                     disablePortal
@@ -936,15 +923,6 @@ const CandidateProfile = (props: compProps) => {
                       newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
                     }
                   />
-                  // <Autocomplete
-                  //   style={{ width: '160px' }}
-                  //   disablePortal
-                  //   id='code'
-                  //   options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
-                  //   renderInput={params => <TextField {...params} variant='standard' />}
-                  //   {...register('code')}
-                  //   onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
-                  // />
                 )
               }}
             />
@@ -953,7 +931,7 @@ const CandidateProfile = (props: compProps) => {
             <TextField
               id='date_of_birth'
               label='Date of Birth'
-              defaultValue={'0000-01-01'}
+              defaultValue={dateOfBirth ?? null}
               variant='standard'
               required={true}
               fullWidth={true}
@@ -961,7 +939,8 @@ const CandidateProfile = (props: compProps) => {
               type='date'
               value={dateOfBirth}
               onChange={e => onChangeDateOfBirth(e.target.value)}
-            ></TextField>
+              InputLabelProps={{ shrink: true }}
+            />
           </Grid>
           <Grid item md={12} xs={12}>
             <TextField
@@ -970,7 +949,6 @@ const CandidateProfile = (props: compProps) => {
               id='outlined-multiline-static'
               label='About me'
               variant='standard'
-              required
               multiline
               rows={4}
               defaultValue={props.datauser.about}
@@ -1009,24 +987,12 @@ const CandidateProfile = (props: compProps) => {
                         sx={{ mb: 1 }}
                         value={facebook}
                         {...register('facebook')}
-                        // disabled={disabledFacebook}
                         onChange={e => setFacebook(e.target.value)}
                         onBlur={handleSubmit(addbuttonfacebook)}
                         InputProps={{
                           startAdornment: <InputAdornment position='start'>/</InputAdornment>
                         }}
                       />
-                      {/* <Button
-                    onClick={() => enabledtextfield('fb')}
-                    sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
-                  >
-                    <Icon
-                      fontSize='large'
-                      icon={'solar:pen-new-round-bold-duotone'}
-                      color={'primary'}
-                      style={{ fontSize: '24px' }}
-                    />
-                  </Button> */}
                     </Box>
                   </Grid>
                 </Grid>
@@ -1047,24 +1013,12 @@ const CandidateProfile = (props: compProps) => {
                         value={instagram}
                         sx={{ mb: 1 }}
                         {...register('instagram')}
-                        // disabled={disabledInstagram}
                         onChange={e => setInstagram(e.target.value)}
                         onBlur={handleSubmit(addbuttoninstagram)}
                         InputProps={{
                           startAdornment: <InputAdornment position='start'>/</InputAdornment>
                         }}
                       />
-                      {/* <Button
-                    onClick={() => enabledtextfield('ig')}
-                    sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
-                  >
-                    <Icon
-                      fontSize='large'
-                      icon={'solar:pen-new-round-bold-duotone'}
-                      color={'primary'}
-                      style={{ fontSize: '24px' }}
-                    />
-                  </Button> */}
                     </Box>
                   </Grid>
                 </Grid>
@@ -1085,7 +1039,6 @@ const CandidateProfile = (props: compProps) => {
                         fullWidth
                         sx={{ mb: 1 }}
                         {...register('linkedin')}
-                        // disabled={disabledLinkedn}
                         value={linkedin}
                         onChange={e => setLinkedin(e.target.value)}
                         onBlur={handleSubmit(addbuttonlinkedin)}
@@ -1093,17 +1046,6 @@ const CandidateProfile = (props: compProps) => {
                           startAdornment: <InputAdornment position='start'>/</InputAdornment>
                         }}
                       />
-                      {/* <Button
-                    onClick={() => enabledtextfield('li')}
-                    sx={{ mr: 4, minWidth: 5, display: 'flex', justifyContent: 'center' }}
-                  >
-                    <Icon
-                      fontSize='large'
-                      icon={'solar:pen-new-round-bold-duotone'}
-                      color={'primary'}
-                      style={{ fontSize: '24px' }}
-                    />
-                  </Button> */}
                     </Box>
                   </Grid>
                 </Grid>
@@ -1138,21 +1080,6 @@ const CandidateProfile = (props: compProps) => {
                     onChange={(event: any, newValue: any | null) => displayopp(newValue)}
                   />
                 </Grid>
-                {/* <Grid item md={6} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  options={comboroleLevel}
-                  getOptionLabel={(option: any) => option.levelName}
-                  defaultValue={props.datauser?.field_preference?.role_level}
-                  renderInput={params => <TextField {...params} label='Role Level' />}
-                  onChange={(event: any, newValue: RoleLevel | null) =>
-                    newValue?.id
-                      ? setComboRolLevel(newValue.id)
-                      : setComboRolLevel(props.datauser?.field_preference?.role_level?.id)
-                  }
-                />
-              </Grid> */}
                 <Grid item md={4} xs={12}>
                   <Autocomplete
                     sx={{ marginBottom: 2 }}
@@ -1204,7 +1131,9 @@ const CandidateProfile = (props: compProps) => {
                     options={comboRegion}
                     getOptionLabel={(option: any) => option.name}
                     defaultValue={props.datauser?.field_preference?.region_travel}
-                    renderInput={params => <TextField {...params} label='Region of Travel *' variant='standard' />}
+                    renderInput={params => (
+                      <TextField {...params} label='Region of Travel' variant='standard' required={false} />
+                    )}
                     onChange={(event: any, newValue: RegionTravel | null) =>
                       newValue?.id
                         ? setComboRegion(newValue.id)
@@ -1275,7 +1204,7 @@ const CandidateProfile = (props: compProps) => {
                   </Typography>
                   <Grid container item xs={12} justifyContent={'left'}>
                     <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                      Fulfill your Preferences Info
+                      Set your job preferences so companies can find the perfect fit.
                     </Typography>
                   </Grid>
                 </Grid>
@@ -1290,21 +1219,6 @@ const CandidateProfile = (props: compProps) => {
                     onChange={(event: any, newValue: any | null) => displayopp(newValue)}
                   />
                 </Grid>
-                {/* <Grid item md={6} xs={12}>
-              <Autocomplete
-                disablePortal
-                id='combo-box-demo'
-                options={comboroleLevel}
-                getOptionLabel={(option: any) => option.levelName}
-                defaultValue={props.datauser?.field_preference?.role_level}
-                renderInput={params => <TextField {...params} label='Role Level' />}
-                onChange={(event: any, newValue: RoleLevel | null) =>
-                  newValue?.id
-                    ? setComboRolLevel(newValue.id)
-                    : setComboRolLevel(props.datauser?.field_preference?.role_level?.id)
-                }
-              />
-            </Grid> */}
                 <Grid item md={6} xs={12}>
                   <Autocomplete
                     sx={{ marginBottom: 2 }}
@@ -1319,21 +1233,6 @@ const CandidateProfile = (props: compProps) => {
                     }
                   />
                 </Grid>
-                {/* <Grid item md={6} xs={12}>
-              <Autocomplete
-                disablePortal
-                id='combo-box-demo'
-                options={comboroleType}
-                getOptionLabel={(option: any) => option.name}
-                defaultValue={props.datauser?.field_preference?.role_type}
-                renderInput={params => <TextField {...params} label='Job Title' />}
-                onChange={(event: any, newValue: RoleType | null) =>
-                  newValue?.id
-                    ? setComboRolType(newValue.id)
-                    : setComboRolType(props.datauser?.field_preference?.role_type?.id)
-                }
-              />
-            </Grid> */}
                 {tampilkanship == 'PELAUT' ? (
                   <Grid item md={6} xs={12}>
                     <Autocomplete
@@ -1367,21 +1266,6 @@ const CandidateProfile = (props: compProps) => {
                     />
                   </Grid>
                 )}
-
-                {/* <Grid item md={6} xs={12}>
-              <DatePickerWrapper>
-                <DatePicker
-                  dateFormat='dd/MM/yyyy'
-                  selected={date}
-                  id='basic-input'
-                  onChange={(date: Date) => setDate(date)}
-                  placeholderText='Click to select a date'
-                  customInput={
-                    <TextField label='Available Date' variant='outlined' fullWidth {...register('available')} />
-                  }
-                />
-              </DatePickerWrapper>
-            </Grid> */}
                 <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
                   <FormControl>
                     <InputLabel id='demo-multiple-chip-label'>LANGUAGE</InputLabel>
@@ -1463,7 +1347,7 @@ const CandidateProfile = (props: compProps) => {
           />
           <SeafarerCompetencyTable user_id={props?.datauser.id} />
           <SeafarerProficiencyTable user_id={props?.datauser.id} />
-          {!noExperience ? <SeafarerRecommendationContainer user_id={props?.datauser.id} /> : ''}
+          {!noExperience ? <SeafarerRecommendationContainer user_id={props?.datauser.id} /> : <></>}
         </Grid>
       )}
 
@@ -1492,23 +1376,23 @@ const CandidateProfile = (props: compProps) => {
         <DialogBannerDeleteConfirmation
           visible={openBannerDeleteConfirm}
           onCloseClick={() => setOpenBannerDeleteConfirm(!openBannerDeleteConfirm)}
-        ></DialogBannerDeleteConfirmation>
+        />
         <DialogProfileDeleteConfirmation
           visible={openProfileDeleteConfirm}
           onCloseClick={() => setOpenProfileDeleteConfirm(!openProfileDeleteConfirm)}
-        ></DialogProfileDeleteConfirmation>
+        />
         <DialogEditProfile
           visible={openEditModalProfile}
           onCloseClick={() => setOpenEditModalProfile(!openEditModalProfile)}
           previewProfile={preview}
-        ></DialogEditProfile>
+        />
+
         {/* <form> */}
         <DialogEditBanner
           visible={openEditModalBanner}
           onCloseClick={() => setOpenEditModalBanner(!openEditModalBanner)}
           previewBanner={previewBanner}
-        ></DialogEditBanner>
-
+        />
         <DialogEditEducation
           key={selectedItem?.id}
           selectedItem={selectedItem}
@@ -1555,7 +1439,6 @@ const CandidateProfile = (props: compProps) => {
 }
 
 CandidateProfile.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
-
 CandidateProfile.guestGuard = true
 
 export default CandidateProfile
