@@ -1,9 +1,10 @@
 // ** React Imports
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
 import {
+  Autocomplete,
   Button,
   CircularProgress,
   InputAdornment,
@@ -41,6 +42,13 @@ import { DateType } from 'src/contract/models/DatepickerTypes'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
+interface INewsCategories {
+  id: number
+  name: string
+  created_at: string
+  updated_at: string
+}
+
 const MasterNewsScreen = () => {
   // const theme = useTheme()
   const [onLoading, setOnLoading] = useState(false)
@@ -59,6 +67,8 @@ const MasterNewsScreen = () => {
       setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
     }
   })
+  const [newsCategories, setNewsCategories] = useState<INewsCategories[]>([])
+  const [newsCategoryId, setNewsCategoryId] = useState<any>(null)
 
   const img = files.map((file: FileProp) => (
     <img
@@ -91,8 +101,6 @@ const MasterNewsScreen = () => {
   const [show, setShow] = useState<boolean>(false)
 
   function uploadCallback(file: any) {
-    console.log(file)
-
     return new Promise((resolve, reject) => {
       const form_data = new FormData()
       form_data.append('file', file)
@@ -116,11 +124,14 @@ const MasterNewsScreen = () => {
       type: 'News',
       slug: slug,
       meta: meta,
-      postingdate: postingDate
+      postingdate: postingDate,
+      category_id: newsCategoryId ? newsCategoryId : null
     }
+
     setOnLoading(true)
     try {
       const resp = await HttpClient.postFile('/news', json)
+      console.log(resp)
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'
       }
@@ -140,16 +151,30 @@ const MasterNewsScreen = () => {
   }
   const handleChangeslug = (event: { target: { value: any } }) => {
     // Update the 'value' state when the input value changes.
-    debugger
+    // debugger
     const newValue = event.target.value.length
     setSlug(newValue)
   }
   const handleChangemeta = (event: { target: { value: any } }) => {
     // Update the 'value' state when the input value changes.
-    debugger
+    // debugger
     const newValue = event.target.value.length
     setMeta(newValue)
   }
+
+  const comboBox = async () => {
+    HttpClient.get(`/news-category?page=1&take=1000`).then(response => {
+      if (response.status != 200) {
+        throw response.data.message ?? 'Something went wrong!'
+      }
+      const newsCategories = response?.data?.data?.data
+      setNewsCategories(newsCategories)
+    })
+  }
+
+  useEffect(() => {
+    comboBox()
+  }, [])
 
   return (
     <Box padding={3}>
@@ -254,6 +279,22 @@ const MasterNewsScreen = () => {
                       }
                     />
                   </Grid>
+                </Grid>
+
+                <Grid item container xs={12} md={6}>
+                  <Box sx={{ width: '100%' }}>
+                    <InputLabel>News Category</InputLabel>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-category-id'
+                      options={newsCategories}
+                      getOptionLabel={(option: INewsCategories) => option.name}
+                      renderInput={params => <TextField {...params} />}
+                      onChange={(event: any, newValue: INewsCategories | null) =>
+                        newValue ? setNewsCategoryId(newValue.id) : setNewsCategoryId(null)
+                      }
+                    />
+                  </Box>
                 </Grid>
 
                 {show == true && (
