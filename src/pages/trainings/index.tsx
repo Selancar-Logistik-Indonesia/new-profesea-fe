@@ -27,6 +27,7 @@ const Main = () => {
         <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
           <Grid
             item
+            xs={12}
             sx={{
               ...landingPageStyle.bannerHero,
               my: 2,

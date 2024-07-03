@@ -6,12 +6,13 @@ import { Box, Button, CardMedia, CircularProgress, Divider, Tooltip } from '@mui
 import { useEffect } from 'react'
 import Training from 'src/contract/models/training'
 import Avatar from 'src/@core/components/mui/avatar'
-import { formatIDR, getUserAvatar } from 'src/utils/helpers'
+import { formatIDR, getUserAvatar, linkToTitleCase } from 'src/utils/helpers'
 import Icon from 'src/@core/components/icon'
 import Link from 'next/link'
 import TrainingContext, { TrainingProvider } from 'src/context/TrainingContext'
 import { useTraining } from 'src/hooks/useTraining'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { useSearchParams } from 'next/navigation'
 
 const SeafarerOngoingTraining = () => {
   return (
@@ -155,10 +156,12 @@ const renderList = (arr: Training[]) => {
 
 const OngoingTrainingApp = () => {
   const { fetchTrainings, hasNextPage, totalTraining } = useTraining()
+  const params = useSearchParams()
+  const trainer = linkToTitleCase(params.get('trainer'))
 
   useEffect(() => {
-    fetchTrainings({ take: 12, instant: 0, ongoing: 1 })
-  }, [hasNextPage])
+    fetchTrainings({ take: 12, instant: 0, ongoing: 1, username: trainer })
+  }, [hasNextPage, trainer])
 
   return (
     <TrainingContext.Consumer>

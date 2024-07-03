@@ -657,7 +657,7 @@ const CandidateProfile = (props: compProps) => {
         </Typography>
         <Grid container item xs={12} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-            Fulfill your General Info
+            Fill out your profile fully to increase your chances of getting the job you want.
           </Typography>
         </Grid>
       </Grid>
@@ -824,7 +824,7 @@ const CandidateProfile = (props: compProps) => {
               options={!comboShip ? [{ label: 'Loading...', id: 0 }] : comboShip}
               defaultValue={ship}
               getOptionLabel={(option: any) => option.label}
-              renderInput={params => <TextField {...params} label='Ship *' variant='standard' />}
+              renderInput={params => <TextField {...params} label='Ship' variant='standard' />}
               onChange={(event: any, newValue: any | null) => displayship(newValue)}
               disabled={showShip}
               // onChange={(event: any, newValue: Employee ) =>
@@ -949,7 +949,6 @@ const CandidateProfile = (props: compProps) => {
               id='outlined-multiline-static'
               label='About me'
               variant='standard'
-              required
               multiline
               rows={4}
               defaultValue={props.datauser.about}
@@ -1066,7 +1065,7 @@ const CandidateProfile = (props: compProps) => {
                   </Typography>
                   <Grid container item xs={12} justifyContent={'left'}>
                     <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                      Fulfill your Preferences Info
+                    Set your job preferences so companies can find the perfect fit.
                     </Typography>
                   </Grid>
                 </Grid>
@@ -1132,7 +1131,9 @@ const CandidateProfile = (props: compProps) => {
                     options={comboRegion}
                     getOptionLabel={(option: any) => option.name}
                     defaultValue={props.datauser?.field_preference?.region_travel}
-                    renderInput={params => <TextField {...params} label='Region of Travel *' variant='standard' />}
+                    renderInput={params => (
+                      <TextField {...params} label='Region of Travel' variant='standard' required={false} />
+                    )}
                     onChange={(event: any, newValue: RegionTravel | null) =>
                       newValue?.id
                         ? setComboRegion(newValue.id)
@@ -1203,7 +1204,7 @@ const CandidateProfile = (props: compProps) => {
                   </Typography>
                   <Grid container item xs={12} justifyContent={'left'}>
                     <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                      Fulfill your Preferences Info
+                      Set your job preferences so companies can find the perfect fit.
                     </Typography>
                   </Grid>
                 </Grid>

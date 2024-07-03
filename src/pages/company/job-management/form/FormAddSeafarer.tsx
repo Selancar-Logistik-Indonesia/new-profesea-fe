@@ -34,6 +34,9 @@ import toast from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import draftToHtml from 'draftjs-to-html'
 
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+
 const SailRegion = [
   { id: 'ncv', name: 'Near Coastal Voyage (NCV)' },
   { id: 'iv', name: 'International Voyage' }
@@ -66,6 +69,7 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [currency, setCurrency] = useState('')
   const [checked, setChecked] = React.useState(false)
+  const [isFixedSalary, setIsFixedSalary] = useState(false)
 
   const [jobCategories, setJobCategories] = useState<JobCategory[]>([])
 
@@ -128,8 +132,20 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
     getlicenseDataCOP(resp2.data.licensiescop || [])
   }
 
-  const { register, handleSubmit } = useForm<Job>({
-    mode: 'onBlur'
+  const schema = yup.object().shape({
+    job_title: yup
+      .string()
+      .matches(/^[a-zA-Z0-9 ]*$/, 'Field must contain only alphabetic or only numeric characters')
+      .required()
+  })
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<Job>({
+    mode: 'onBlur',
+    resolver: yupResolver(schema)
   })
 
   const onSubmit = async (formData: Job) => {
@@ -310,7 +326,9 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
               fullWidth
               {...register('job_title')}
               sx={{ flex: 1 }}
+              error={Boolean(errors.job_title)}
             />
+            {Boolean(errors.job_title) && <Typography color={'red'}>{errors.job_title?.message}</Typography>}
           </Grid>
           <Grid item md={3} xs={12} sx={{ mb: 1 }}>
             <Autocomplete
@@ -453,6 +471,19 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
                 renderInput={params => <TextField {...params} label='Currency' />}
                 onChange={(event: any, newValue: any | null) => setCurrency(newValue ? newValue.value : '')}
               />
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isFixedSalary}
+                    onChange={event => setIsFixedSalary(event.target.checked)}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                  />
+                }
+                label='Fixed Salary'
+                sx={{ width: '150px' }}
+              />
+
               <FormControlLabel
                 control={
                   <Checkbox
@@ -484,6 +515,7 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
               variant='outlined'
               fullWidth
               {...register('salary_end')}
+              disabled={isFixedSalary}
             />
           </Grid>
           <Grid item md={3} xs={12} sx={{ mb: 1 }}>

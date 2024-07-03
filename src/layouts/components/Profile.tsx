@@ -434,14 +434,16 @@ const Profile = (props: userProps) => {
                 </Typography>
               </Link>
             </Box>
-            <Box display='flex' justifyContent='space-between' alignItems='center' marginBottom={4}>
-              <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '800', ml: 3 }}>
-                Connections
-              </Typography>
-              <Typography variant='body2' sx={{ color: '#262525', fontSize: '16px', mr: 3 }}>
-                {activities?.total_connected}
-              </Typography>
-            </Box>
+            <Link href='/profile/connections'>
+              <Box display='flex' justifyContent='space-between' alignItems='center' marginBottom={4}>
+                <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '800', ml: 3 }}>
+                  Connections
+                </Typography>
+                <Typography variant='body2' sx={{ color: '#262525', fontSize: '16px', mr: 3 }}>
+                  {activities?.total_connected}
+                </Typography>
+              </Box>
+            </Link>
           </CardContent>
         </Card>
       </Grid>

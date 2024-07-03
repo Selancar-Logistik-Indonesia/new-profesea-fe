@@ -144,6 +144,9 @@ const SeafarerRecommendationTable = (props: ISeafarerRecommendationProps) => {
           <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
             Recommendation
           </Typography>
+          <Typography>
+            <p>Share your previous employer details for reference verification.</p>
+          </Typography>
         </Grid>
         <Grid item md={6}>
           <Grid container md={12} justifyContent={'right'}>

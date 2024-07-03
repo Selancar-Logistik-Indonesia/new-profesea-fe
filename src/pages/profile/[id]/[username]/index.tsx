@@ -51,7 +51,7 @@ const UserFeedApp = () => {
   const iduser: any = user.id
   //let { username } = router.query as { username: string }
   const params = useSearchParams()
-  let username = linkToTitleCase(params.get('username') ?? undefined)
+  let username = linkToTitleCase(params.get('username'))
 
   const firstload = async () => {
     let url = ''

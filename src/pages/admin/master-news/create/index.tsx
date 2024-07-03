@@ -1,148 +1,180 @@
 // ** React Imports
-import React , {  useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
-import Box  from '@mui/material/Box'  
-import {    Button,    CircularProgress,           InputAdornment,      InputLabel,      OutlinedInput,      TextField, Typography    } from '@mui/material'
+import Box from '@mui/material/Box'
+import {
+  Autocomplete,
+  Button,
+  CircularProgress,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+  Typography
+} from '@mui/material'
 
 // import {  useTheme } from '@mui/material/styles'
 // ** Third Party Imports
 
 // ** Component Import
-import {   Grid } from '@mui/material'  
- 
+import { Grid } from '@mui/material'
+
 import EditorArea from 'src/@core/components/react-draft-wysiwyg'
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 import { HttpClient } from 'src/services'
- import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 // import "../../node_modules/draft-js-image-plugin/lib/plugin.css"
 
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { EditorState, convertToRaw } from 'draft-js'
-import draftToHtml from 'draftjs-to-html'; 
+import draftToHtml from 'draftjs-to-html'
 import { toast } from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { Icon } from '@iconify/react'
 import { useDropzone } from 'react-dropzone'
-import Link from 'next/link'  
+import Link from 'next/link'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
-const MasterNewsScreen = () => {  
-  // const theme = useTheme()  
-  const [onLoading, setOnLoading] = useState(false); 
-  const [charType, setType] = useState('0') 
-  const [charMeta, setMeta] = useState('0') 
-  const [charSlug, setSlug] = useState('0')   
-  const [desc, setDesc] = useState(EditorState.createEmpty())
-  const [files, setFiles] = useState<File[]>([])  
-  const [postingDate, setPostingDate] = useState<DateType>(new Date()) 
-   const { getRootProps, getInputProps } = useDropzone({
-     multiple: false,
-     accept: {
-       'image/*': ['.png', '.jpg', '.jpeg', '.gif']
-     },
-     onDrop: (acceptedFiles: File[]) => {
-       setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
-     }
-   })
-
-   const img = files.map((file: FileProp) => (
-     <img
-       key={file.name}
-       alt={file.name}
-       className='single-file-image'
-       src={URL.createObjectURL(file as any)}
-       width={450}
-     />
-   ))
-interface FileProp {
+interface INewsCategories {
+  id: number
   name: string
-  type: string
-  size: number
-} 
+  created_at: string
+  updated_at: string
+}
+
+const MasterNewsScreen = () => {
+  // const theme = useTheme()
+  const [onLoading, setOnLoading] = useState(false)
+  const [charType, setType] = useState('0')
+  const [charMeta, setMeta] = useState('0')
+  const [charSlug, setSlug] = useState('0')
+  const [desc, setDesc] = useState(EditorState.createEmpty())
+  const [files, setFiles] = useState<File[]>([])
+  const [postingDate, setPostingDate] = useState<DateType>(new Date())
+  const { getRootProps, getInputProps } = useDropzone({
+    multiple: false,
+    accept: {
+      'image/*': ['.png', '.jpg', '.jpeg', '.gif']
+    },
+    onDrop: (acceptedFiles: File[]) => {
+      setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
+    }
+  })
+  const [newsCategories, setNewsCategories] = useState<INewsCategories[]>([])
+  const [newsCategoryId, setNewsCategoryId] = useState<any>(null)
+
+  const img = files.map((file: FileProp) => (
+    <img
+      key={file.name}
+      alt={file.name}
+      className='single-file-image'
+      src={URL.createObjectURL(file as any)}
+      width={450}
+    />
+  ))
+  interface FileProp {
+    name: string
+    type: string
+    size: number
+  }
   const schema = yup.object().shape({
     // desc: yup.string().min(1).required(),
-    title: yup.string().min(1).max(60).required('maximum 60 character') ,
-    meta: yup.string().min(1).max(160).required('maximum 160 character') 
+    title: yup.string().min(1).max(60).required('maximum 60 character'),
+    meta: yup.string().min(1).max(160).required('maximum 160 character')
   })
- const {
-   register,
-   formState: { errors },
-   handleSubmit
- } = useForm<any>({
-   mode: 'onBlur',
-   resolver: yupResolver(schema)
- })  
-//  const type = [{ title: 'News' }, { title: 'Event' }]
-const [show, setShow] = useState<boolean>(false) 
- 
-function uploadCallback(file:any){
-  console.log(file);
-  
-  return new Promise((resolve, reject) => {
-    const form_data = new FormData();
-    form_data.append('file', file)
-    HttpClient.postFile(`/user/filemanager` , form_data).then(response => {
-      if (response.status != 200) {
-        const error = response.data.message;
-        reject(error);
-      }
-      resolve({ data: { link: response.data.path } })
+  const {
+    register,
+    formState: { errors },
+    handleSubmit
+  } = useForm<any>({
+    mode: 'onBlur',
+    resolver: yupResolver(schema)
+  })
+  //  const type = [{ title: 'News' }, { title: 'Event' }]
+  const [show, setShow] = useState<boolean>(false)
+
+  function uploadCallback(file: any) {
+    return new Promise((resolve, reject) => {
+      const form_data = new FormData()
+      form_data.append('file', file)
+      HttpClient.postFile(`/user/filemanager`, form_data).then(response => {
+        if (response.status != 200) {
+          const error = response.data.message
+          reject(error)
+        }
+        resolve({ data: { link: response.data.path } })
+      })
     })
-  });
-}
-
-const onCreate = async (formData: any) => {
-  const { title,slug,meta } = formData
-
-  const json = {
-    imgnews: files,
-    title: title,
-    content: draftToHtml(convertToRaw(desc?.getCurrentContent())),
-    type: 'News',
-    slug: slug,
-    meta: meta,
-    postingdate: postingDate
   }
-  setOnLoading(true);       
-  try {
+
+  const onCreate = async (formData: any) => {
+    const { title, slug, meta } = formData
+
+    const json = {
+      imgnews: files,
+      title: title,
+      content: draftToHtml(convertToRaw(desc?.getCurrentContent())),
+      type: 'News',
+      slug: slug,
+      meta: meta,
+      postingdate: postingDate,
+      category_id: newsCategoryId ? newsCategoryId : null
+    }
+
+    setOnLoading(true)
+    try {
       const resp = await HttpClient.postFile('/news', json)
+      console.log(resp)
       if (resp.status != 200) {
-          throw resp.data.message ?? "Something went wrong!";
+        throw resp.data.message ?? 'Something went wrong!'
       }
       setShow(false)
-      toast.success(` News created successfully!`);
+      toast.success(` News created successfully!`)
       window.location.replace('/admin/master-news/')
-  } catch (error) {
-      toast.error(`Opps ${getCleanErrorMessage(error)}`);
+    } catch (error) {
+      toast.error(`Opps ${getCleanErrorMessage(error)}`)
+    }
+    setOnLoading(false)
   }
-  setOnLoading(false);       
+  const handleChangetitle = (event: { target: { value: any } }) => {
+    // Update the 'value' state when the input value changes.
 
-}
-const handleChangetitle = (event: { target: { value: any } }) => {
-  // Update the 'value' state when the input value changes.
-  
-  const newValue = event.target.value.length
-  setType(newValue)
-}
-const handleChangeslug = (event: { target: { value: any } }) => {
-  // Update the 'value' state when the input value changes.
-  debugger
-  const newValue = event.target.value.length
-  setSlug(newValue)
-}
-const handleChangemeta = (event: { target: { value: any } }) => {
-  // Update the 'value' state when the input value changes.
-  debugger
-  const newValue = event.target.value.length
-  setMeta(newValue)
-}
+    const newValue = event.target.value.length
+    setType(newValue)
+  }
+  const handleChangeslug = (event: { target: { value: any } }) => {
+    // Update the 'value' state when the input value changes.
+    // debugger
+    const newValue = event.target.value.length
+    setSlug(newValue)
+  }
+  const handleChangemeta = (event: { target: { value: any } }) => {
+    // Update the 'value' state when the input value changes.
+    // debugger
+    const newValue = event.target.value.length
+    setMeta(newValue)
+  }
+
+  const comboBox = async () => {
+    HttpClient.get(`/news-category?page=1&take=1000`).then(response => {
+      if (response.status != 200) {
+        throw response.data.message ?? 'Something went wrong!'
+      }
+      const newsCategories = response?.data?.data?.data
+      setNewsCategories(newsCategories)
+    })
+  }
+
+  useEffect(() => {
+    comboBox()
+  }, [])
 
   return (
     <Box padding={3}>
@@ -184,7 +216,6 @@ const handleChangemeta = (event: { target: { value: any } }) => {
                 Create{' '}
               </Typography>
               <Grid container xs={12} columnSpacing={'2'} rowSpacing={'2'} sx={{ mb: 2 }}>
-                
                 <Grid item container xs={12} md={6}>
                   <Grid container md={12}>
                     <InputLabel htmlFor='x' error={Boolean(errors.title)}>
@@ -250,6 +281,22 @@ const handleChangemeta = (event: { target: { value: any } }) => {
                   </Grid>
                 </Grid>
 
+                <Grid item container xs={12} md={6}>
+                  <Box sx={{ width: '100%' }}>
+                    <InputLabel>News Category</InputLabel>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-category-id'
+                      options={newsCategories}
+                      getOptionLabel={(option: INewsCategories) => option.name}
+                      renderInput={params => <TextField {...params} />}
+                      onChange={(event: any, newValue: INewsCategories | null) =>
+                        newValue ? setNewsCategoryId(newValue.id) : setNewsCategoryId(null)
+                      }
+                    />
+                  </Box>
+                </Grid>
+
                 {show == true && (
                   <Grid item xs={12} md={4}>
                     <DatePickerWrapper>
@@ -301,6 +348,9 @@ const handleChangemeta = (event: { target: { value: any } }) => {
                       </Box>
                     )}
                   </Box>
+                  <Typography sx={{ mt: 1, color: 'primary.main', fontSize: 12 }}>
+                    Allowed JPEG, JPG, PNG Size up to 3 Mb.
+                  </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <EditorWrapper>
@@ -340,10 +390,9 @@ const handleChangemeta = (event: { target: { value: any } }) => {
     </Box>
   )
 }
- 
 
 MasterNewsScreen.acl = {
   action: 'read',
   subject: 'admin-community-management'
-};
+}
 export default MasterNewsScreen
