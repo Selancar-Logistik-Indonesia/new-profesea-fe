@@ -22,6 +22,7 @@ interface INews {
   email: string
   meet?: string
   category?: any
+  featured_news?: any
 }
 
 export default INews

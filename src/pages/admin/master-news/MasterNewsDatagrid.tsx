@@ -21,6 +21,16 @@ const columns: GridColDef[] = [
     }
   },
   {
+    field: 'featured_news',
+    headerName: 'Featured News',
+    sortable: true,
+    minWidth: 150,
+    renderCell: cell => {
+      const { row } = cell
+      return <p>{row?.featured_news ? row?.featured_news : '-'}</p>
+    }
+  },
+  {
     field: 'action',
     headerName: 'Action',
     sortable: false,

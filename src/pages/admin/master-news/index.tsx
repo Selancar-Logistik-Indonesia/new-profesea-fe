@@ -50,6 +50,7 @@ const MasterNews = () => {
           type: row.type,
           slug: row.slug,
           category: row.category,
+          featured_news: row?.featured_news,
           actions: {
             onDelete: () => deleteHandler(row)
           }
