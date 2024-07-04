@@ -16,7 +16,7 @@ import { Icon } from '@iconify/react'
 import Head from 'next/head'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import landingPageStyle from 'src/@core/styles/landing-page/landing-page-candidate'
+import landingPageStyle from 'src/@core/styles/landing-page/landing-page-job'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 import { useTranslation } from 'react-i18next'
 import FooterView from 'src/views/landing-page/footerView'
@@ -28,7 +28,6 @@ import { useRouter } from 'next/router'
 
 const SeafarerJob = () => {
   const { t } = useTranslation()
-
   const pathname = usePathname()
   const { user } = useAuth()
   const router = useRouter()
@@ -39,6 +38,7 @@ const SeafarerJob = () => {
 
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
+  const isXs = useMediaQuery(theme.breakpoints.down('md'))
   const isMd = useMediaQuery(theme.breakpoints.down('lg'))
 
   const [employeeType, setEmployeeType] = useState('onship')
@@ -68,32 +68,37 @@ const SeafarerJob = () => {
       <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
         <Grid
           item
+          container
           sx={{
             ...landingPageStyle.bannerHero,
             my: 3,
             mx: 12,
-            py: 6,
-            pl: { xs: 4, md: 6 },
+            px: { xs: 4, md: 6 },
             borderRadius: '10px',
             display: 'flex',
-            flexDirection: 'column',
+            flexWrap: 'nowrap',
             justifyContent: 'center'
           }}
         >
-          <Typography
-            variant='h1'
-            style={{ color: '#FFFFFF', fontSize: '46px', fontWeight: '800', letterSpacing: 0.6 }}
-            sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4, whiteSpace: 'null' } }}
-          >
-            {t('landing_job_title')}
-          </Typography>
-          <Typography
-            variant='h2'
-            style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: '500', letterSpacing: 0.6 }}
-            sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 }, mt: 2 }}
-          >
-            {t('landing_job_subtitle')}
-          </Typography>
+          <Grid item xs={12} md={6} sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box my={6}>
+              <Typography
+                variant='h1'
+                sx={{ pl: 4, mb: 4, fontSize: { xs: 32, md: 48 } }}
+                style={{ letterSpacing: 0.8, color: 'white', fontWeight: '800' }}
+              >
+                {t('landing_job_title')}
+              </Typography>
+              <Typography
+                variant='h2'
+                sx={{ pl: 4, fontSize: { xs: 16, md: 20 } }}
+                style={{ letterSpacing: 0.8, color: 'white' }}
+              >
+                {t('landing_job_subtitle')}
+              </Typography>
+            </Box>
+          </Grid>
+          {!isXs && <Grid md={6} sx={landingPageStyle.bannerAsset} />}
         </Grid>
         <Grid item container sx={{ mx: 12 }}>
           <Grid item xs={12} sx={{ padding: 4, border: 0, boxShadow: 0, backgroundColor: '#FFFFFF' }}>

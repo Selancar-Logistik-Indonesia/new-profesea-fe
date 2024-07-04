@@ -32,7 +32,6 @@ const Main = () => {
               ...landingPageStyle.bannerHero,
               my: 2,
               mx: 12,
-              py: 6,
               pl: { xs: 4, md: 6 },
               display: 'flex',
               gap: 2,
@@ -41,20 +40,27 @@ const Main = () => {
               justifyContent: 'center'
             }}
           >
-            <Typography
-              variant='h1'
-              style={{ color: '#FFFFFF', fontSize: '46px', fontWeight: '800', letterSpacing: 0.6 }}
-              sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4, whiteSpace: 'null' } }}
-            >
-              {t('landing_trainer_title')}
-            </Typography>
-            <Typography
-              variant='h2'
-              style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: '500', letterSpacing: 0.6 }}
-              sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 }, mt: 2 }}
-            >
-              {t('landing_trainer_subtitle')}
-            </Typography>
+            <Box my={6}>
+              <Typography
+                variant='h1'
+                style={{ color: '#FFFFFF', fontWeight: '800', letterSpacing: 0.6 }}
+                sx={{
+                  maxWidth: { xs: '100%', md: '50%' },
+                  px: { xs: 2, md: 4, whiteSpace: 'null' },
+                  mb: 4,
+                  fontSize: { xs: 32, md: 48 }
+                }}
+              >
+                {t('landing_trainer_title')}
+              </Typography>
+              <Typography
+                variant='h2'
+                style={{ color: '#FFFFFF', fontWeight: '500', letterSpacing: 0.6 }}
+                sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 }, mt: 2, fontSize: { xs: 16, md: 20 } }}
+              >
+                {t('landing_trainer_subtitle')}
+              </Typography>
+            </Box>
           </Grid>
           <Grid
             item
