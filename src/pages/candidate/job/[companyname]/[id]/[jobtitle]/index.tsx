@@ -79,13 +79,7 @@ const JobDetail = () => {
   }, [companyname, jobId, jobtitle])
 
   const handleApply = async () => {
-    if (
-      user.license != null &&
-      user.photo != '' &&
-      user.address != null &&
-      user.about != null &&
-      user.country_id != null
-    ) {
+    if (user.license != null && user.photo != '' && user.address.city_id != null) {
       if (license?.length === 0 && jobDetail?.license.length !== 0 && jobDetail?.category.employee_type == 'onship') {
         setOpenCertificateDialog(!openCertificateDialog)
       } else {
