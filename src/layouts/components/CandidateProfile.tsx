@@ -156,9 +156,10 @@ let statuslinkedin: any = ''
 const CandidateProfile = (props: compProps) => {
   const schema = yup.object().shape({
     address: yup.string().required(),
-    email: yup.string().email().required()
-    // phone: yup.string().required(),
-    // idcombokelamin: yup.string().required()
+    email: yup.string().email().required(),
+    phone: yup.string().required()
+    // idcombokelamin: yup.string().required(),
+    // date_of_birth: yup.string().required(),
   })
   const theme = useTheme()
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -547,6 +548,19 @@ const CandidateProfile = (props: compProps) => {
 
   const onSubmit = (data: FormData) => {
     const { fullName, website, address, about } = data
+
+    if (!dateOfBirth) {
+      toast.error('Date of Birth is required')
+
+      return false
+    }
+
+    if (!idcombokelamin) {
+      toast.error('Gender is required')
+
+      return false
+    }
+
     availabledate = date
     const json = {
       country_id: idcombocode,
@@ -562,6 +576,7 @@ const CandidateProfile = (props: compProps) => {
       gender: idcombokelamin.title,
       location_province_id: idcomboProvince,
       no_experience: noExperience
+      // team_id:props.datauser.team_id
     }
 
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
@@ -933,7 +948,7 @@ const CandidateProfile = (props: compProps) => {
               label='Date of Birth'
               defaultValue={dateOfBirth ?? null}
               variant='standard'
-              required={true}
+              required
               fullWidth={true}
               sx={{ mb: 1 }}
               type='date'
