@@ -80,7 +80,6 @@ const JobDetail = () => {
 
   const handleApply = async () => {
     if (
-      user.banner != '' &&
       user.license != null &&
       user.photo != '' &&
       user.address != null &&
