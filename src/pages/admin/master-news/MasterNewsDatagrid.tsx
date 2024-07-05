@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid'
-import { IconButton, TextField } from '@mui/material'
+import { IconButton } from '@mui/material'
 import Icon from 'src/@core/components/icon'
 import Link from 'next/link'
 
@@ -17,6 +17,7 @@ const columns: GridColDef[] = [
     minWidth: 150,
     renderCell: cell => {
       const { row } = cell
+
       return <p>{row?.category ? row?.category?.name : '-'}</p>
     }
   },
@@ -27,6 +28,7 @@ const columns: GridColDef[] = [
     minWidth: 150,
     renderCell: cell => {
       const { row } = cell
+
       return <p>{row?.featured_news ? row?.featured_news : '-'}</p>
     }
   },

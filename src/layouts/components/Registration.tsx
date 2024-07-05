@@ -109,7 +109,7 @@ const Registration = (props: any) => {
 
   const save = (json: any) => {
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(
-      ({ data }) => {
+      () => {
         toast.success('Successfully submited!')
         router.push('/registersuccess')
       },
