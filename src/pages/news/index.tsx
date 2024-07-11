@@ -208,6 +208,9 @@ const NewsPage = () => {
                       variant='contained'
                       onClick={() => window.open('https://youtu.be/6D5C4KcfOO4?si=L8acXduMUmJ2oKWl', '_blank')}
                       startIcon={<Icon icon={'ph:play-fill'} />}
+                      sx={{
+                        textTransform: 'none'
+                      }}
                     >
                       Watch Video
                     </Button>
@@ -215,6 +218,9 @@ const NewsPage = () => {
                       size='small'
                       variant='outlined'
                       onClick={() => window.open('https://www.youtube.com/@Profesea_id', '_blank')}
+                      sx={{
+                        textTransform: 'none'
+                      }}
                     >
                       View All Video
                     </Button>
