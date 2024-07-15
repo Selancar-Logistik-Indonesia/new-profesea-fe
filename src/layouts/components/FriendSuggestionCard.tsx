@@ -57,14 +57,14 @@ const renderList = (arr: IUser[]) => {
   })
 }
 
-const FriendSuggestionCard = ({ location }: { location?: string }) => {
+const FriendSuggestionCard = ({ location, dataUser }: { location?: string; dataUser?: IUser }) => {
   const [listFriends, setListFriends] = useState<IUser[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   const fetchListFriends = async () => {
     setIsLoading(true)
     try {
-      const resp = await HttpClient.get('/friendship/suggestion', {
+      const resp = await HttpClient.get('/public/data/friendship/suggestion/?' + 'user_id=' + dataUser?.id, {
         page: 1,
         take: location === 'profile' ? 3 : 9
       })

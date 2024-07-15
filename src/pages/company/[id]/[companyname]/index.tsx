@@ -11,10 +11,10 @@ import { useSearchParams } from 'next/navigation'
 import { getCleanErrorMessage, linkToTitleCase, toLinkCase } from 'src/utils/helpers'
 import ProfileHeader from 'src/views/profile/profileHeader'
 import CenterAd from 'src/views/banner-ad/CenterAd'
-// import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
+import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
 import AboutMe from 'src/views/profile/aboutMe'
 import Analytics from 'src/views/profile/analytics'
-// import Activity from 'src/views/profile/activity'
+import Activity from 'src/views/profile/activity'
 import Posting from 'src/views/profile/posting'
 import SideAdProfile from 'src/views/banner-ad/sideAdProfile'
 import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
@@ -37,11 +37,11 @@ const UserFeedApp = () => {
   const firstload = async () => {
     setSelectedUser(null)
 
-    let url
-    if (selectedName && selectedId) {
-      url = `/public/data/user/${toLinkCase(selectedId)}/?username=${selectedName}`
-    } else {
-      url = `/public/data/user/${selectedId}`
+    let url = '/public/data/user/0/?username=john'
+    if (params.get('companyname') && params.get('id')) {
+      url = `/public/data/user/${selectedId}/?username=${selectedName}`
+    } else if (user) {
+      url = `/public/data/user/${user?.id}/?username=${toLinkCase(user?.username)}`
     }
 
     try {
@@ -76,11 +76,11 @@ const UserFeedApp = () => {
         {selectedUser.id === user?.id && <Analytics dataUser={selectedUser} />}
         <AboutMe dataUser={selectedUser} />
         <Posting dataUser={selectedUser} />
-        {/* <Activity dataUser={selectedUser} /> */}
+        <Activity dataUser={selectedUser} />
         <CenterAd adsLocation='company-profile-page' />
       </Grid>
       <Grid item xs={12} md={3}>
-        {/* <FriendSuggestionCard location='profile' /> */}
+        <FriendSuggestionCard location='profile' dataUser={selectedUser} />
         <Box sx={{ my: '24px', position: 'sticky', top: '70px' }}>
           <SideAdProfile />
         </Box>

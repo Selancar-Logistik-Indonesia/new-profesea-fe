@@ -69,7 +69,7 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
       }
     })
 
-    HttpClient.get('/public/data/user/statistics?user_id=' + user?.id).then(response => {
+    HttpClient.get('/public/data/user/statistics?user_id=' + userId).then(response => {
       const connections = response.data.total_connected
       setConnections(connections)
     })

@@ -39,11 +39,12 @@ const AnalyticData = (props: { icon: string; value?: string; type: string; descr
   )
 }
 
-const Analytics = ({ dataUser }: { dataUser: IUser }) => {
+const Analytics = (props: { dataUser: IUser }) => {
+  const { dataUser } = props
   const [activities, getActivities] = useState<activities>()
 
   const loadActivities = async () => {
-    const resp = await HttpClient.get('/user/statistics?user_id=' + dataUser?.id)
+    const resp = await HttpClient.get('/public/data/user/statistics?user_id=' + dataUser?.id)
     if (resp.status != 200) {
       throw resp.data.message ?? 'Something went wrong!'
     }
