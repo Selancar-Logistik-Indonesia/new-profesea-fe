@@ -82,7 +82,7 @@ const JobDetail = (props: IJobDetailProps) => {
                     ml='0.5rem'
                     variant='body2'
                   >
-                    About Recruiter
+                    About Recruiter loh ?
                   </Typography>
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
                     <Typography
@@ -110,4 +110,5 @@ JobDetail.acl = {
   action: 'read',
   subject: 'home'
 }
+
 export default JobDetail

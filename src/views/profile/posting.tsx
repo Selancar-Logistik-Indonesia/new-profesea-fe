@@ -19,17 +19,19 @@ const Posting = ({ dataUser }: { dataUser: IUser }) => {
 
   useEffect(() => {
     if (dataUser.role == 'Company') {
-      HttpClient.get(AppConfig.baseUrl + '/job?search=&page=1&take=3&username=' + dataUser.username).then(response => {
-        const item = response.data.jobs.data
-        getPosting(item)
-      })
-    } else if (dataUser.role == 'Trainer') {
-      HttpClient.get(AppConfig.baseUrl + '/training?search=&page=1&take=3&username=' + dataUser.username).then(
+      HttpClient.get(AppConfig.baseUrl + '/public/data/job?search=&page=1&take=3&username=' + dataUser.username).then(
         response => {
-          const item = response.data.trainings.data
+          const item = response.data.jobs.data
           getPosting(item)
         }
       )
+    } else if (dataUser.role == 'Trainer') {
+      HttpClient.get(
+        AppConfig.baseUrl + '/public/data/training?search=&page=1&take=3&username=' + dataUser.username
+      ).then(response => {
+        const item = response.data.trainings.data
+        getPosting(item)
+      })
     }
   }, [dataUser])
 

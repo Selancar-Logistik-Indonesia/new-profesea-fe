@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import { CircularProgress, Grid } from '@mui/material'
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -11,12 +11,13 @@ import { useSearchParams } from 'next/navigation'
 import { getCleanErrorMessage, linkToTitleCase, toLinkCase } from 'src/utils/helpers'
 import ProfileHeader from 'src/views/profile/profileHeader'
 import CenterAd from 'src/views/banner-ad/CenterAd'
-import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
+// import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
 import AboutMe from 'src/views/profile/aboutMe'
 import Analytics from 'src/views/profile/analytics'
-import Activity from 'src/views/profile/activity'
+// import Activity from 'src/views/profile/activity'
 import Posting from 'src/views/profile/posting'
 import SideAdProfile from 'src/views/banner-ad/sideAdProfile'
+import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 
 const ProfileCompany = () => {
   return (
@@ -38,9 +39,9 @@ const UserFeedApp = () => {
 
     let url
     if (selectedName && selectedId) {
-      url = `/user/${toLinkCase(selectedId)}/?username=${selectedName}`
+      url = `/public/data/user/${toLinkCase(selectedId)}/?username=${selectedName}`
     } else {
-      url = `/user/${user.id}/?username=${toLinkCase(user.username)}`
+      url = `/public/data/user/${selectedId}`
     }
 
     try {
@@ -72,14 +73,14 @@ const UserFeedApp = () => {
     <Grid container spacing={6} sx={{ display: 'flex', justifyContent: 'center' }}>
       <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <ProfileHeader dataUser={selectedUser} />
-        {selectedUser.id === user.id && <Analytics dataUser={selectedUser} />}
+        {selectedUser.id === user?.id && <Analytics dataUser={selectedUser} />}
         <AboutMe dataUser={selectedUser} />
         <Posting dataUser={selectedUser} />
-        <Activity dataUser={selectedUser} />
+        {/* <Activity dataUser={selectedUser} /> */}
         <CenterAd adsLocation='company-profile-page' />
       </Grid>
       <Grid item xs={12} md={3}>
-        <FriendSuggestionCard location='profile' />
+        {/* <FriendSuggestionCard location='profile' /> */}
         <Box sx={{ my: '24px', position: 'sticky', top: '70px' }}>
           <SideAdProfile />
         </Box>
@@ -90,7 +91,11 @@ const UserFeedApp = () => {
 
 ProfileCompany.acl = {
   action: 'read',
-  subject: 'home'
+  subject: 'profile-company'
 }
+
+ProfileCompany.guestGuard = false
+ProfileCompany.authGuard = false
+ProfileCompany.getLayout = (page: ReactNode) => <OuterPageLayout>{page}</OuterPageLayout>
 
 export default ProfileCompany
