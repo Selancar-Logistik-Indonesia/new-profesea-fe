@@ -23,7 +23,7 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
     if (sPage == 1) setOnLoading(true)
 
     try {
-      const url = '/social-feed/feed/'
+      const url = 'public/data/social-feed/feed/'
       const response = await HttpClient.get(url, {
         page: sPage,
         ...payload

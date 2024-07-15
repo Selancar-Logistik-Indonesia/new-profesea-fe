@@ -1,13 +1,12 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { Alert, Button, Grid } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import Icon from 'src/@core/components/icon'
 import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { getUserAvatar } from 'src/utils/helpers'
-import { AppConfig } from 'src/configs/api'
 import { useAuth } from 'src/hooks/useAuth'
 import DialogShare from './shareDialog'
 import ConnectButton from 'src/layouts/components/ConnectButton'
@@ -34,7 +33,6 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
   const [instagram, setInstagram] = useState<any>()
   const [linkedin, setLinkedin] = useState<any>()
   const [isVisitor, setIsVisitor] = useState<boolean>(false)
-  const [documents, setDocuments] = useState<any[]>([])
 
   const industry =
     dataUser.team_id === 1
@@ -54,7 +52,7 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
     }
 
     const payload = { page: 1, take: 5, user_id: userId }
-    HttpClient.get('/user/sosmed', payload).then(response => {
+    HttpClient.get('/public/data/user/sosmed', payload).then(response => {
       const code = response.data.sosmeds.data
       for (const element of code) {
         if (element.sosmed_type == 'Facebook') {
@@ -71,12 +69,7 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
       }
     })
 
-    HttpClient.get(AppConfig.baseUrl + '/user/candidate-document').then(response => {
-      const itemData = response.data.documents
-      setDocuments(itemData)
-    })
-
-    HttpClient.get('/user/statistics?user_id=' + user?.id).then(response => {
+    HttpClient.get('/public/data/user/statistics?user_id=' + userId).then(response => {
       const connections = response.data.total_connected
       setConnections(connections)
     })
@@ -154,36 +147,6 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
             </Button>
           </Box>
         </Grid>
-        {!isVisitor && dataUser.role == 'Company' && (
-          <Box sx={{ width: '100%' }}>
-            {dataUser?.verified_at == null && documents.length == 0 && (
-              <Alert
-                severity='info'
-                sx={{
-                  width: '100%',
-                  borderRadius: '0 !important'
-                }}
-              >
-                <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
-                  Please Upload your document to verify your company
-                </Typography>
-              </Alert>
-            )}
-            {dataUser.verified_at == null && documents.length > 0 && (
-              <Alert
-                severity='info'
-                sx={{
-                  width: '100%',
-                  borderRadius: '0 !important'
-                }}
-              >
-                <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
-                  Please wait while We're in the process of verifying your account.
-                </Typography>
-              </Alert>
-            )}
-          </Box>
-        )}
       </Box>
       {openShare && (
         <DialogShare

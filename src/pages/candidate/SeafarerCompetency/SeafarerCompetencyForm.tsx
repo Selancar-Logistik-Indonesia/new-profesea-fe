@@ -84,7 +84,6 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
       valid_date: type == 'edit' ? validDateState : null,
       is_lifetime: type == 'edit' ? (seafarerCompetency?.is_lifetime ? true : false) : false
     },
-    enableReinitialize: true,
     validationSchema: CompetencySchema,
     onSubmit: values => {
       handleSubmit(values)
@@ -281,6 +280,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                     error={formik.errors.country_id ? true : false}
                     label='Country of Issue * '
                     variant='standard'
+                    
                   />
                 )}
                 onChange={(event: any, newValue: string | null) =>
