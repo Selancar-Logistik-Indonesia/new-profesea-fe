@@ -1,14 +1,13 @@
 import { Icon } from '@iconify/react'
 import { Box, Button, Divider, Grid, Link, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { format } from 'date-fns'
-import moment from 'moment'
 import { useEffect, useState } from 'react'
 import secureLocalStorage from 'react-secure-storage'
 import { AppConfig } from 'src/configs/api'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'
-import { formatIDR, toLinkCase } from 'src/utils/helpers'
+import { formatIDR, timeCreated, toLinkCase } from 'src/utils/helpers'
 import PostingSlider from './postingSlider'
 
 const Posting = ({ dataUser }: { dataUser: IUser }) => {
@@ -108,7 +107,7 @@ const Posting = ({ dataUser }: { dataUser: IUser }) => {
                         </Typography>
                         <Typography sx={{ color: '#636E72', fontSize: 14 }}>{arr.company.name}</Typography>
                         <Typography sx={{ color: '#949EA2', fontSize: 12 }}>
-                          {arr.created_at ? moment(arr.created_at).fromNow() : '-'}
+                          {arr.created_at ? timeCreated(arr.created_at) : '-'}
                         </Typography>
                       </Box>
                     ) : (
@@ -121,7 +120,7 @@ const Posting = ({ dataUser }: { dataUser: IUser }) => {
                         <Typography sx={{ color: '#636E72', fontSize: 14 }}>{arr.company.name}</Typography>
                         <Box></Box>
                         <Typography sx={{ color: '#949EA2', fontSize: 12 }}>
-                          {arr.created_at ? moment(arr.created_at).fromNow() : '-'}
+                          {arr.created_at ? timeCreated(arr.created_at) : '-'}
                         </Typography>
                       </Box>
                     )}
