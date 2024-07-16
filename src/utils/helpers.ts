@@ -6,6 +6,7 @@ import { HttpClient } from 'src/services'
 import authConfig from 'src/configs/auth'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
+import moment from 'moment'
 /**
  * we need to sanitize error messages, so that no sensitive data is leaked
  */
@@ -32,18 +33,13 @@ const removeFirstZeroChar = (input: string) => {
 }
 
 function toTitleCase(text: string) {
-    // Split the text into an array of words
     const words = text.split(' ')
-
-    // Capitalize the first letter of each word
     const capitalizedWords = words.map(word => {
         const firstLetter = word.charAt(0).toUpperCase()
         const restOfWord = word.slice(1).toLowerCase()
 
         return firstLetter + restOfWord
     })
-
-    // Join the capitalized words back into a sentence
     const result = capitalizedWords.join(' ')
 
     return result
@@ -212,7 +208,6 @@ const calculateAge = (dob: any) => {
     let age = today.getFullYear() - birthDate.getFullYear()
     const monthDiff = today.getMonth() - birthDate.getMonth()
 
-    // If the birthday hasn't occurred yet this year, subtract one year
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--
     }
@@ -220,36 +215,21 @@ const calculateAge = (dob: any) => {
     return age
 }
 
-const getMonthYear = (date: string) => {
-    const newString = date.split('-')
-    const year = newString[0]
-    const monthNames = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-    ]
-    const monthIndex = parseInt(newString[1], 10)
-    if (!isNaN(monthIndex) && monthIndex >= 1 && monthIndex <= 12) {
-        return `${monthNames[monthIndex - 1]} ${year}`
-    } else {
-        return date
-    }
-}
-
 const MONTH_NAMES = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
+const getMonthYear = (date: string) => {
+    const newString = date.split('-')
+    const year = newString[0]
+    const monthIndex = parseInt(newString[1], 10)
+    if (!isNaN(monthIndex) && monthIndex >= 1 && monthIndex <= 12) {
+        return `${MONTH_NAMES[monthIndex - 1]} ${year}`
+    } else {
+        return date
+    }
+}
 
 function getFormattedDate(date: any, prefomattedDate: any = false, hideYear: any = false) {
     const day = date.getDate();
@@ -259,27 +239,20 @@ function getFormattedDate(date: any, prefomattedDate: any = false, hideYear: any
     let minutes = date.getMinutes();
 
     if (minutes < 10) {
-        // Adding leading zero to minutes
         minutes = `0${minutes}`;
     }
 
     if (prefomattedDate) {
-        // Today at 10:20
-        // Yesterday at 10:20
         return `${prefomattedDate} at ${hours}:${minutes}`;
     }
 
     if (hideYear) {
-        // 10. January at 10:20
         return `${day}. ${month} at ${hours}:${minutes}`;
     }
 
-    // 10. January 2017. at 10:20
     return `${day}. ${month} ${year}. at ${hours}:${minutes}`;
 }
 
-
-// --- Main function
 function timeAgo(dateParam: any) {
     if (!dateParam) {
         return null;
@@ -305,14 +278,28 @@ function timeAgo(dateParam: any) {
     } else if (minutes < 60) {
         return `${minutes} minutes ago`;
     } else if (isToday) {
-        return getFormattedDate(date, 'Today'); // Today at 10:20
+        return getFormattedDate(date, 'Today');
     } else if (isYesterday) {
-        return getFormattedDate(date, 'Yesterday'); // Yesterday at 10:20
+        return getFormattedDate(date, 'Yesterday');
     } else if (isThisYear) {
-        return getFormattedDate(date, false, true); // 10. January at 10:20
+        return getFormattedDate(date, false, true);
     }
 
-    return getFormattedDate(date); // 10. January 2017. at 10:20
+    return getFormattedDate(date);
+}
+
+function timeCreated(createdAt: any) {
+    if (!createdAt) return null
+
+    const createdTime = moment(createdAt)
+    const now = moment()
+    const monthsDifferent = now.diff(createdTime, 'months')
+
+    if (monthsDifferent >= 3) {
+        return "several months ago"
+    } else {
+        return createdTime.fromNow()
+    }
 }
 
 export {
@@ -339,5 +326,6 @@ export {
     toMegaByte,
     calculateAge,
     getMonthYear,
-    timeAgo
+    timeAgo,
+    timeCreated
 }

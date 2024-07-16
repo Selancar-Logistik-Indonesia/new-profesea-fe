@@ -1,9 +1,8 @@
 import React, { useState, useRef } from 'react'
 import { Grid, Typography, Box, IconButton, Avatar } from '@mui/material'
-import moment from 'moment'
 import { format } from 'date-fns'
 import { Icon } from '@iconify/react'
-import { formatIDR, getUserAvatar } from 'src/utils/helpers'
+import { formatIDR, getUserAvatar, timeCreated } from 'src/utils/helpers'
 import Link from 'next/link'
 import { useAuth } from 'src/hooks/useAuth'
 
@@ -145,7 +144,7 @@ const Slides = (items: any[], teamId: number, width: number) => {
                 <Typography sx={{ color: '#636E72', fontSize: 14 }}>{arr.company.name}</Typography>
               </Box>
               <Typography sx={{ color: '#949EA2', fontSize: 12 }}>
-                {arr.created_at ? moment(arr.created_at).fromNow() : '-'}
+                {arr.created_at ? timeCreated(arr.created_at) : '-'}
               </Typography>
             </>
           ) : (
@@ -159,7 +158,7 @@ const Slides = (items: any[], teamId: number, width: number) => {
                 <Typography sx={{ color: '#636E72', fontSize: 14 }}>{arr.company.name}</Typography>
               </Box>
               <Typography sx={{ color: '#949EA2', fontSize: 12 }}>
-                {arr.created_at ? moment(arr.created_at).fromNow() : '-'}
+                {arr.created_at ? timeCreated(arr.created_at) : '-'}
               </Typography>
             </>
           )}
