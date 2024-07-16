@@ -8,7 +8,7 @@ import { IUser } from 'src/contract/models/user'
 import { toast } from 'react-hot-toast'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSearchParams } from 'next/navigation'
-import { getCleanErrorMessage, linkToTitleCase, toLinkCase } from 'src/utils/helpers'
+import { getCleanErrorMessage, linkToTitleCase } from 'src/utils/helpers'
 import ProfileHeader from 'src/views/profile/profileHeader'
 import CenterAd from 'src/views/banner-ad/CenterAd'
 import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
@@ -37,11 +37,10 @@ const UserFeedApp = () => {
   const firstload = async () => {
     setSelectedUser(null)
 
-    let url = '/public/data/user/0/?username=john'
-    if (params.get('companyname') && params.get('id')) {
+    let url: any = process.env.NEXT_PUBLIC_BASE_URL
+
+    if (selectedId && selectedName) {
       url = `/public/data/user/${selectedId}/?username=${selectedName}`
-    } else if (user) {
-      url = `/public/data/user/${user?.id}/?username=${toLinkCase(user?.username)}`
     }
 
     try {
@@ -59,7 +58,9 @@ const UserFeedApp = () => {
   }
 
   useEffect(() => {
-    firstload()
+    if (selectedId && selectedName) {
+      firstload()
+    }
   }, [selectedName, selectedId])
 
   if (!selectedUser)
