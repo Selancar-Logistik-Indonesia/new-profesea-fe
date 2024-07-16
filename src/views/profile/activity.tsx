@@ -96,10 +96,19 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
                         </Box>
                       </Box>
                     </Grid>
-                    <Grid item xs={12} sx={{ display: 'flex' }}>
+                    <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <Typography
+                        sx={{
+                          whiteSpace: 'pre-line',
+                          color: '#636E72',
+                          fontSize: 16
+                        }}
+                      >
+                        {item.content}
+                      </Typography>
                       {item.content_type == 'videos' && (
                         <CardMedia
-                          sx={{ width: '100%', height: 100, my: 2 }}
+                          sx={{ width: '100%', my: 2 }}
                           component='video'
                           controls
                           src={`${AppConfig.baseUrl}/public/data/streaming?video=${item.attachments![0]}`}
@@ -110,18 +119,9 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
                           src={item.attachments![0]}
                           alt={item.content}
                           loading='lazy'
-                          style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                          style={{ objectFit: 'contain', width: '100%' }}
                         />
                       )}
-                      <Typography
-                        sx={{
-                          whiteSpace: 'pre-line',
-                          color: '#636E72',
-                          fontSize: 16
-                        }}
-                      >
-                        {item.content}
-                      </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{ display: 'flex', gap: '16px' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
