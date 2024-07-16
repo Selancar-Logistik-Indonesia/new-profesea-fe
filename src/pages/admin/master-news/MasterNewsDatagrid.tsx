@@ -29,7 +29,7 @@ const columns: GridColDef[] = [
     renderCell: cell => {
       const { row } = cell
 
-      return <p>{row?.featured_news ? row?.featured_news : '-'}</p>
+      return <p>{row?.featured_news ? 'true' : '-'}</p>
     }
   },
   {

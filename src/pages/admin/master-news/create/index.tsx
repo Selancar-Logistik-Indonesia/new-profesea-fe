@@ -297,6 +297,10 @@ const MasterNewsScreen = () => {
                   </Box>
                 </Grid>
 
+                <Grid item container xs={12} md={6}>
+                  <Box sx={{ width: '100%' }}></Box>
+                </Grid>
+
                 {show == true && (
                   <Grid item xs={12} md={4}>
                     <DatePickerWrapper>

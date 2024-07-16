@@ -1,13 +1,15 @@
 .card-news-thumb {
     width: 100%;
-    max-width: 380px;
     height: 222px;
     overflow: hidden;
     background-color: #000;
     -webkit-transition: height 0.5s;
     transition: height 0.5s;
     border-radius: 8px;
-    
+
+    @media screen and (min-width: 600px) {
+        max-width: 380px;
+    }
 }
 
 .card-news-thumb img {
@@ -26,4 +28,13 @@
     opacity: 0.6;
     -webkit-transform: scale(1.2);
     transform: scale(1.2);
+}
+
+.hide-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scroll {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }

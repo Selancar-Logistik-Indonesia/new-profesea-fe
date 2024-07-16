@@ -2,14 +2,15 @@ import { Theme } from '@mui/material'
 import { SxProps } from '@mui/system'
 
 const bannerHero: SxProps<Theme> = {
-  backgroundImage: 'url(/images/banner-landing-trainer2.jpg)',
+  backgroundImage: 'url(/images/news-banner.png)',
   backgroundSize: 'cover',
   backgroundPosition: {
-    xs: '50% center',
-    md: '85% center',
-    lg: '85% center'
+    xs: '85% center'
   },
-  minHeight: '350px'
+  minHeight: {
+    xs: '170px',
+    lg: '380px'
+  }
 }
 
 const highlightedCardNewsWrapper: SxProps<Theme> = {
@@ -48,11 +49,21 @@ const stickyTabs: SxProps<Theme> = {
   zIndex: 999
 }
 
+const bannerLogo: SxProps<Theme> = {
+  width: '35%',
+  height: '200px',
+  backgroundImage: 'url(/images/white-logo-profesea.png)',
+  backgroundSize: 'contain',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'center'
+}
+
 const landingStyleNews = {
   bannerHero,
   highlightedCardNewsWrapper,
   cardNewsWrapper,
-  stickyTabs
+  stickyTabs,
+  bannerLogo
 }
 
 export default landingStyleNews
