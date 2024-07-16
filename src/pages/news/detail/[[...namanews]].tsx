@@ -26,6 +26,7 @@ import FooterView from 'src/views/landing-page/footerView'
 import moment from 'moment'
 import styles from '../../../../styles/scss/CardNews.module.scss'
 import SideAd from 'src/views/banner-ad/sidead'
+import Link from 'next/link'
 
 const detailContentWrapper: SxProps<Theme> = {
   display: 'flex',
@@ -54,6 +55,10 @@ const detailContentLeft: SxProps<Theme> = {
 }
 
 const cardNewsWrapper: SxProps<Theme> = {
+  width: {
+    xs: '100%',
+    lg: '379px'
+  },
   display: 'flex',
   gap: 4,
   flexDirection: {
@@ -86,11 +91,11 @@ const ThreadApp = () => {
         setthreadDetail(detail[0])
         if (newscache == undefined) {
           secureLocalStorage.setItem(localStorageKeys.news, response.data.news[0])
-          window.location.reload()
+          // window.location.reload()
         } else {
           if (newscache.id != detail[0].id) {
             secureLocalStorage.setItem(localStorageKeys.news, response.data.news[0])
-            window.location.reload()
+            // window.location.reload()
           }
         }
       })
@@ -115,10 +120,6 @@ const ThreadApp = () => {
         {
           name: 'News',
           path: '/news'
-        },
-        {
-          name: threadDetail?.category?.name,
-          path: '#'
         },
         {
           name: threadDetail?.title,
@@ -165,19 +166,14 @@ const ThreadApp = () => {
       </Head>
       <Box
         sx={{
-          px: { xs: 4, md: '8rem' }
+          px: { xs: '24px', md: '120px' }
         }}
       >
-        <Box
-          sx={{
-            my: 2,
-            mt: 2
-          }}
-        >
+        <Box>
           <BreadcrumbsNews />
         </Box>
         <Grid container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          {/* Bannder */}
+          {/* Banner */}
           <Grid
             item
             xs={12}
@@ -217,7 +213,7 @@ const ThreadApp = () => {
             </Typography>
           </Grid>
           {/* Content */}
-          <Grid item xs={12} sx={{ my: 4, ...detailContentWrapper }}>
+          <Grid item xs={12} sx={{ my: 4, ...detailContentWrapper, gap: 4 }}>
             <Box sx={{ ...detailContentLeft }}>
               <Typography variant='body2' fontSize={14} style={{ color: '#424242' }}>
                 {ReactHtmlParser(`${threadDetail?.content}`)}
@@ -244,17 +240,12 @@ const ThreadApp = () => {
                 display: 'flex',
                 flexDirection: { xs: 'column', lg: 'row' },
                 gap: 4,
-                width: '90%',
                 overflowX: {
                   lg: 'auto'
                 },
                 overflowY: {
                   xs: 'scroll',
                   lg: 'unset'
-                },
-                height: {
-                  xs: '700px',
-                  lg: '400px'
                 }
               }}
             >
@@ -276,8 +267,7 @@ const ThreadApp = () => {
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      gap: 4,
-                      padding: '20px'
+                      gap: 4
                     }}
                   >
                     <Box>
@@ -290,7 +280,14 @@ const ThreadApp = () => {
                         color={'black'}
                         fontSize={18}
                       >
-                        {o?.title}
+                        <Link
+                          href={`/news/detail/${o?.slug}`}
+                          style={{
+                            color: 'black'
+                          }}
+                        >
+                          {o?.title}
+                        </Link>
                       </Typography>
                       <Typography>{truncateText(o?.snap_content, 400)}</Typography>
                     </Box>

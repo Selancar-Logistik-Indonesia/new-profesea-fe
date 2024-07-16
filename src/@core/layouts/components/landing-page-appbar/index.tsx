@@ -53,6 +53,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const baseAddress3 = '/faqs'
     const baseAddress4 = '/employer'
     const baseAddress5 = '/trainings'
+    const baseAddress6 = '/news'
 
     setNavItems([
       { title: t('button_1'), variant: 'contained', onClick: '/login' },
@@ -69,7 +70,8 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
       { title: t('landing_menu_2'), path: baseAddress2 },
       { title: t('landing_menu_3'), path: baseAddress3 },
       { title: t('landing_menu_4'), path: baseAddress4 },
-      { title: t('landing_menu_5'), path: baseAddress5 }
+      { title: t('landing_menu_5'), path: baseAddress5 },
+      { title: t('landing_menu_6'), path: baseAddress6 }
     ])
   }, [t])
 

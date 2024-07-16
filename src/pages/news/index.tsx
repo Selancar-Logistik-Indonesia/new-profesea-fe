@@ -17,6 +17,7 @@ import FooterView from 'src/views/landing-page/footerView'
 import { HttpClient } from 'src/services'
 import INews from 'src/contract/models/news'
 import moment from 'moment'
+import Link from 'next/link'
 
 interface INewsCategory {
   id: number
@@ -31,7 +32,7 @@ const NewsPage = () => {
   const [news, setNews] = useState<INews[]>([])
   const [featuredNews, setFeaturedNews] = useState<INews[]>([])
 
-  const [, setIsFixed] = useState(false)
+  // const [isFixed, setIsFixed] = useState(false)
 
   useEffect(() => {
     dispatch({
@@ -58,22 +59,21 @@ const NewsPage = () => {
     handleFecthNewsWithCategoryId()
   }, [tabValue])
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 200) {
-        // adjust this value as needed
-        setIsFixed(true)
-      } else {
-        setIsFixed(false)
-      }
-    }
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (window.scrollY > 200) {
+  //       // adjust this value as needed
+  //       setIsFixed(true)
+  //     } else {
+  //       setIsFixed(false)
+  //     }
+  //   }
 
-    window.addEventListener('scroll', handleScroll)
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+  //   window.addEventListener('scroll', handleScroll)
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll)
+  //   }
+  // }, [])
 
   const handleFecthNewsWithCategoryId = async () => {
     const categoryId = tabValue ? tabValue : ''
@@ -128,15 +128,10 @@ const NewsPage = () => {
       </Head>
       <Box
         sx={{
-          px: { xs: 4, md: '8rem' }
+          px: { xs: '24px', md: '120px' }
         }}
       >
-        <Box
-          sx={{
-            my: 2,
-            mt: 2
-          }}
-        >
+        <Box>
           <BreadcrumbsNews />
         </Box>
         <Grid container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -149,59 +144,146 @@ const NewsPage = () => {
               display: 'flex',
               gap: 2,
               borderRadius: '10px',
-              flexDirection: 'column',
-              justifyContent: 'center'
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingTop: '60px',
+              paddingRight: {
+                xs: '30px',
+                lg: '60px'
+              },
+              paddingBottom: '60px',
+              paddingLeft: {
+                xs: '30px',
+                lg: '120px'
+              }
             }}
-          ></Grid>
-          <Grid item xs={12} sx={{ my: 4 }}>
-            <Typography sx={{ fontWeight: 'bold' }} color={'primary'} fontSize={24}>
-              Highlighted News
-            </Typography>
-            <Box
-              pt={2}
-              sx={{
-                ...landingPageStyle.highlightedCardNewsWrapper
-              }}
-            >
-              {featuredNews.map((d, index) => (
-                <HighlightedCardNews
-                  key={index}
-                  category={d?.category?.name}
-                  title={d?.title}
-                  description={d?.snap_content}
-                  image={d?.imgnews[0]}
-                  postDate={d?.posting_at}
-                  slug={d?.slug}
-                />
-              ))}
+          >
+            <Box>
+              <Typography
+                variant='h1'
+                color={'white'}
+                fontWeight={700}
+                sx={{
+                  fontSize: {
+                    md: '82px'
+                  }
+                }}
+              >
+                Profesea News
+              </Typography>
+              <Typography
+                variant='body1'
+                color={'white'}
+                fontWeight={500}
+                sx={{
+                  fontSize: {
+                    md: '28px'
+                  }
+                }}
+                width={'70%'}
+              >
+                Temukan berita, informasi, dan tren terbaru terkait industri Maritim dan Logistik
+              </Typography>
             </Box>
+            <Box
+              sx={{
+                ...landingPageStyle.bannerLogo
+              }}
+            />
           </Grid>
+          {featuredNews.length !== 0 && (
+            <Grid item xs={12} sx={{ my: 4 }}>
+              <Typography
+                sx={{
+                  fontWeight: 'bold',
+                  fontSize: {
+                    xs: '18px',
+                    lg: '24px'
+                  }
+                }}
+                color={'primary'}
+              >
+                Highlighted News
+              </Typography>
+              <Box
+                pt={2}
+                sx={{
+                  ...landingPageStyle.highlightedCardNewsWrapper
+                }}
+              >
+                {featuredNews.map((d, i) => (
+                  <HighlightedCardNews
+                    key={d?.category?.name + i}
+                    category={d?.category?.name}
+                    title={d?.title}
+                    description={d?.snap_content}
+                    image={d?.imgnews[0]}
+                    postDate={d?.posting_at}
+                    slug={d?.slug}
+                  />
+                ))}
+              </Box>
+            </Grid>
+          )}
+
           <Grid item xs={12} sx={{ my: 4 }}>
-            <Typography sx={{ fontWeight: 'bold' }} color={'primary'} fontSize={24}>
+            <Typography
+              sx={{
+                fontWeight: 'bold',
+                fontSize: {
+                  xs: '18px',
+                  lg: '24px'
+                }
+              }}
+              color={'primary'}
+            >
               Videos
             </Typography>
-            <Grid container spacing={2} sx={{ width: '100%' }} mx={0} my={4}>
-              <Grid item xs={12} lg={6} height={402}>
+            <Grid container spacing={2} sx={{ width: '100%' }} mx={0} my={6}>
+              <Grid
+                item
+                xs={12}
+                lg={6}
+                height={402}
+                sx={{ paddingLeft: '0px !important', paddingTop: '0px !important' }}
+              >
                 <YoutubeEmbed embedId='6D5C4KcfOO4' />
               </Grid>
-              <Grid item xs={12} lg={6}>
+              <Grid item xs={12} lg={6} sx={{ paddingLeft: '0px !important', paddingTop: '0px !important' }}>
                 <Box
                   sx={{
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    gap: 4,
-                    padding: '20px'
+                    gap: {
+                      xs: '12px',
+                      lg: '24px'
+                    },
+                    padding: {
+                      xs: '0px',
+                      lg: '32px'
+                    }
                   }}
                 >
-                  <Typography sx={{ fontWeight: 400 }} color={'gray'} fontSize={18}>
+                  <Typography sx={{ fontWeight: 400 }} color={'gray'} fontSize={18} mt={2}>
                     Video
                   </Typography>
-                  <Typography variant='h4' sx={{ fontWeight: 700 }} color={'black'} fontSize={32}>
+                  <Typography
+                    variant='h4'
+                    sx={{
+                      fontWeight: 700,
+                      fontSize: {
+                        xs: '24px',
+                        lg: '32px'
+                      }
+                    }}
+                    color={'black'}
+                  >
                     Rekrutmen 101: Tips & Trik Lolos Wawancara Kerja bersama Kak Dinar The HR
                   </Typography>
-                  <Typography>
+                  <Typography sx={{ fontSize: '16px' }}>
                     Tonton episode perdana MariTalks kita yang membahas mulai dari berbagai aspek #interview kerja
                     sampai mitos atau faktanya.
                   </Typography>
@@ -212,7 +294,8 @@ const NewsPage = () => {
                       onClick={() => window.open('https://youtu.be/6D5C4KcfOO4?si=L8acXduMUmJ2oKWl', '_blank')}
                       startIcon={<Icon icon={'ph:play-fill'} />}
                       sx={{
-                        textTransform: 'none'
+                        textTransform: 'none',
+                        fontSize: '14px'
                       }}
                     >
                       Watch Video
@@ -222,7 +305,8 @@ const NewsPage = () => {
                       variant='outlined'
                       onClick={() => window.open('https://www.youtube.com/@Profesea_id', '_blank')}
                       sx={{
-                        textTransform: 'none'
+                        textTransform: 'none',
+                        fontSize: '14px'
                       }}
                     >
                       View All Video
@@ -233,11 +317,18 @@ const NewsPage = () => {
             </Grid>
           </Grid>
           <Grid item xs={12} sx={{ my: 4 }}>
-            <Typography sx={{ fontWeight: 'bold' }} color={'primary'} fontSize={24}>
+            <Typography
+              sx={{
+                fontWeight: 'bold',
+                fontSize: '18px'
+              }}
+              color={'primary'}
+              fontSize={24}
+            >
               News
             </Typography>
             {/* Category Tab News */}
-            <Box>
+            <Box sx={{ borderBottom: 2, borderColor: 'divider' }}>
               <Tabs
                 sx={{
                   ...landingPageStyle.stickyTabs
@@ -247,9 +338,32 @@ const NewsPage = () => {
                 variant='scrollable'
                 scrollButtons='auto'
               >
-                <Tab value={null} label='All News' />
-                {newsCategories.map((n, index: number) => (
-                  <Tab value={n.id} label={n.name} key={index} />
+                <Tab
+                  value={null}
+                  label='All News'
+                  sx={{
+                    textTransform: 'capitalize',
+                    fontWeight: 700,
+                    fontSize: {
+                      xs: '14px'
+                      // lg: '24px'
+                    }
+                  }}
+                />
+                {newsCategories.map((n, i) => (
+                  <Tab
+                    key={n?.name + i}
+                    value={n.id}
+                    label={n.name}
+                    sx={{
+                      textTransform: 'capitalize',
+                      fontWeight: 700,
+                      fontSize: {
+                        xs: '14px'
+                        // lg: '24px'
+                      }
+                    }}
+                  />
                 ))}
               </Tabs>
             </Box>
@@ -261,7 +375,13 @@ const NewsPage = () => {
                 my: 4
               }}
             >
-              <Typography sx={{ fontWeight: 'bold' }} color={'primary'} fontSize={24}>
+              <Typography
+                sx={{
+                  fontWeight: 'bold',
+                  fontSize: '18px'
+                }}
+                color={'primary'}
+              >
                 {newsCategories.find(n => n.id === tabValue)?.name ?? 'All'} News
               </Typography>
 
@@ -274,17 +394,18 @@ const NewsPage = () => {
                   height: '700px',
                   overflowY: 'scroll'
                 }}
+                className={styles['hide-scroll']}
               >
-                {news.map((n, index: number) => (
+                {news.map((n, i) => (
                   <Box
-                    key={index}
+                    key={n?.title + i}
                     sx={{
                       ...landingPageStyle.cardNewsWrapper
                     }}
                   >
                     <div className={styles['card-news-thumb']}>
-                      <a href='#'>
-                        <img src={n?.imgnews[0]} alt={'test'} />
+                      <a href={`/news/detail/${n?.slug}`}>
+                        <img src={n?.imgnews[0]} alt={n?.title} />
                       </a>
                     </div>
                     <Box
@@ -294,7 +415,10 @@ const NewsPage = () => {
                         flexDirection: 'column',
                         justifyContent: 'space-between',
                         gap: 4,
-                        padding: '20px'
+                        padding: {
+                          xs: 0,
+                          lg: '20px'
+                        }
                       }}
                     >
                       <Box>
@@ -307,7 +431,15 @@ const NewsPage = () => {
                           color={'black'}
                           fontSize={18}
                         >
-                          {n?.title}
+                          <Link
+                            href={`/news/detail/${n?.slug}`}
+                            style={{
+                              color: 'black'
+                            }}
+                          >
+                            {' '}
+                            {n?.title}
+                          </Link>
                         </Typography>
                         <Typography>{truncateText(n?.snap_content, 400)}</Typography>
                       </Box>

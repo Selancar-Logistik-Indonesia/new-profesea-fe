@@ -44,7 +44,7 @@
 
 
 .card-highlighted:hover .card-highlighted-thumb {
-    height: 200px;
+    // height: 245px;
 }
 
 .card-highlighted:hover .card-highlighted-thumb img {
@@ -59,10 +59,11 @@
     padding: 20px;
     -webkit-transition: height 0.5s;
     transition: height 0.5s;
+    background: white;
 }
 
 .card-highlighted:hover .card-highlighted-body {
-    height: 230px;
+    transform: translateY(-100px);
 }
 
 .card-highlighted-title {
@@ -97,8 +98,8 @@
 
 .card-highlighted:hover .card-highlighted-description {
     opacity: 1;
-    -webkit-transform: translateY(15px);
-    transform: translateY(15px);
+    -webkit-transform: translateY(100px);
+    transform: translateY(100px);
     -webkit-transition-delay: 0.2s;
     transition-delay: 0.2s;
 }
