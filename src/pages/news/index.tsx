@@ -69,6 +69,7 @@ const NewsPage = () => {
     }
 
     window.addEventListener('scroll', handleScroll)
+
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
@@ -113,6 +114,7 @@ const NewsPage = () => {
     if (text.length <= maxLength) {
       return text
     }
+
     return text.substring(0, maxLength) + '...'
   }
 
@@ -161,8 +163,9 @@ const NewsPage = () => {
                 ...landingPageStyle.highlightedCardNewsWrapper
               }}
             >
-              {featuredNews.map(d => (
+              {featuredNews.map((d, index) => (
                 <HighlightedCardNews
+                  key={index}
                   category={d?.category?.name}
                   title={d?.title}
                   description={d?.snap_content}
@@ -245,8 +248,8 @@ const NewsPage = () => {
                 scrollButtons='auto'
               >
                 <Tab value={null} label='All News' />
-                {newsCategories.map(n => (
-                  <Tab value={n.id} label={n.name} />
+                {newsCategories.map((n, index) => (
+                  <Tab key={index} value={n.id} label={n.name} />
                 ))}
               </Tabs>
             </Box>
@@ -272,8 +275,9 @@ const NewsPage = () => {
                   overflowY: 'scroll'
                 }}
               >
-                {news.map(n => (
+                {news.map((n, index) => (
                   <Box
+                    key={index}
                     sx={{
                       ...landingPageStyle.cardNewsWrapper
                     }}
