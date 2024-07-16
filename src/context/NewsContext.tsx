@@ -66,6 +66,7 @@ const NewsProvider = (props: Props) => {
   }
 
   const fetchComments = async (payload: { take: number; replyable_id: any; replyable_type?: 'news' }) => {
+    console.log(payload)
     // only trigger in page 1
 
     // if (page == 1) setOnLoading(true);

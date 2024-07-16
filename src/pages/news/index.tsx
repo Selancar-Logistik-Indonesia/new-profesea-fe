@@ -212,8 +212,9 @@ const NewsPage = () => {
                   ...landingPageStyle.highlightedCardNewsWrapper
                 }}
               >
-                {featuredNews.map(d => (
+                {featuredNews.map((d, i) => (
                   <HighlightedCardNews
+                    key={d?.category?.name + i}
                     category={d?.category?.name}
                     title={d?.title}
                     description={d?.snap_content}
@@ -349,8 +350,9 @@ const NewsPage = () => {
                     }
                   }}
                 />
-                {newsCategories.map(n => (
+                {newsCategories.map((n, i) => (
                   <Tab
+                    key={n?.name + i}
                     value={n.id}
                     label={n.name}
                     sx={{
