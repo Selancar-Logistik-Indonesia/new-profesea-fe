@@ -142,6 +142,7 @@ const ThreadApp = () => {
     if (text.length <= maxLength) {
       return text
     }
+
     return text.substring(0, maxLength) + '...'
   }
 
@@ -156,6 +157,7 @@ const ThreadApp = () => {
   }
 
   const imgUrl = threadDetail?.imgnews && threadDetail?.imgnews.length != 0 ? threadDetail?.imgnews[0] : ''
+
   return (
     <>
       <Head>
@@ -247,8 +249,9 @@ const ThreadApp = () => {
                 }
               }}
             >
-              {otherNews.map(o => (
+              {otherNews.map((o, index: number) => (
                 <Box
+                  key={index}
                   sx={{
                     ...cardNewsWrapper
                   }}

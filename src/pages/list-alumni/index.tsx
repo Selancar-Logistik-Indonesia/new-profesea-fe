@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import {   Button, CircularProgress, Grid,     TextField,     Typography } from '@mui/material'
-import InfiniteScroll from 'react-infinite-scroll-component'   
+import { Button, CircularProgress, Grid, TextField, Typography } from '@mui/material'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import DialogAdd from './DialogAdd'
 import { v4 } from 'uuid'
 import AlumniContext, { AlumniProvider } from 'src/context/AlumniContext'
 import { useAlumni } from 'src/hooks/useAlumni'
-import LIstAlumni from 'src/views/alumni/ListAlumni'
+import ListAlumnis from 'src/views/alumni/ListAlumni'
 import { Icon } from '@iconify/react'
 
- 
- 
 const FindCandidate = () => {
   return (
     <AlumniProvider>
@@ -19,22 +17,19 @@ const FindCandidate = () => {
   )
 }
 
- 
 const ListAlumni = () => {
-  const { fetchAlumnis,  hasNextPage, totalAlumni, setPage } = useAlumni();
-  const [textCandidate, SetTextCandidate] = useState<any>('')    
+  const { fetchAlumnis, hasNextPage, totalAlumni, setPage } = useAlumni()
+  const [textCandidate, SetTextCandidate] = useState<any>('')
   const [openAddModal, setOpenAddModal] = useState(false)
   const [hookSignature, setHookSignature] = useState(v4())
 
-  const getdatapencarian = async () => {    
-    fetchAlumnis({ take: 12, search: textCandidate,status:null})  
+  const getdatapencarian = async () => {
+    fetchAlumnis({ take: 12, search: textCandidate, status: null })
   }
 
   useEffect(() => {
     getdatapencarian()
   }, [textCandidate, hookSignature])
- 
-
 
   return (
     <>
@@ -63,11 +58,14 @@ const ListAlumni = () => {
                     <Grid item xs={12}>
                       <Box padding={5}>
                         <Grid container spacing={2}>
-                          <Grid item xs={12}  >
+                          <Grid item xs={12}>
                             <Grid container spacing={6}>
                               <Grid item container xs={12}>
                                 <Grid item xs={12}>
-                                <Typography variant="h3" color={"#32487A"} fontWeight="800" fontSize={18} mb={2}> Alumni</Typography>
+                                  <Typography variant='h3' color={'#32487A'} fontWeight='800' fontSize={18} mb={2}>
+                                    {' '}
+                                    Alumni
+                                  </Typography>
                                 </Grid>
                                 <Grid item lg={2} xs={12}>
                                   <TextField
@@ -75,7 +73,7 @@ const ListAlumni = () => {
                                     // defaultValue={props.datauser.name}
                                     label='Search Alumni'
                                     variant='outlined'
-                                    size='small'                                    
+                                    size='small'
                                     fullWidth
                                     sx={{ mb: 1 }}
                                     onChange={e => {
@@ -84,12 +82,11 @@ const ListAlumni = () => {
                                     }}
                                   />
                                 </Grid>
-                                <Grid item lg={8} xs={12}>
-                                </Grid>
-                                <Grid item lg={2} xs={12}  mt={5} >
-                                  <Button 
+                                <Grid item lg={8} xs={12}></Grid>
+                                <Grid item lg={2} xs={12} mt={5}>
+                                  <Button
                                     variant='contained'
-                                    size='small' 
+                                    size='small'
                                     startIcon={<Icon icon='solar:add-circle-bold-duotone' fontSize={10} />}
                                     sx={{ mr: 2 }}
                                     fullWidth
@@ -98,7 +95,7 @@ const ListAlumni = () => {
                                     Create a new Alumni
                                   </Button>
                                 </Grid>
-                              </Grid> 
+                              </Grid>
                               <Grid item xs={12}>
                                 <AlumniContext.Consumer>
                                   {({ listAlumni, onLoading }) => {
@@ -121,7 +118,7 @@ const ListAlumni = () => {
                                           </Typography>
                                         }
                                       >
-                                        <LIstAlumni listAlumni={listAlumni} />
+                                        <ListAlumnis listAlumni={listAlumni} />
                                       </InfiniteScroll>
                                     )
                                   }}
@@ -146,9 +143,7 @@ const ListAlumni = () => {
       />
     </>
   )
-   
 }
-
 
 FindCandidate.acl = {
   action: 'read',

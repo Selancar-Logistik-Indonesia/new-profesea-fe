@@ -9,6 +9,8 @@ import ConnectButton from './ConnectButton'
 import Link from 'next/link'
 import { HttpClient } from 'src/services'
 import { Icon } from '@iconify/react'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
 
 const renderList = (arr: IUser[]) => {
   if (!arr || arr.length == 0) {
@@ -57,14 +59,18 @@ const renderList = (arr: IUser[]) => {
   })
 }
 
-const FriendSuggestionCard = ({ location }: { location?: string }) => {
+const FriendSuggestionCard = ({ location, dataUser }: { location?: string; dataUser?: IUser }) => {
   const [listFriends, setListFriends] = useState<IUser[]>([])
   const [isLoading, setIsLoading] = useState(true)
+
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   const fetchListFriends = async () => {
     setIsLoading(true)
     try {
-      const resp = await HttpClient.get('/friendship/suggestion', {
+      const user_id = dataUser ? dataUser.id : user.id
+
+      const resp = await HttpClient.get('/public/data/friendship/suggestion/?' + 'user_id=' + user_id, {
         page: 1,
         take: location === 'profile' ? 3 : 9
       })
