@@ -35,6 +35,7 @@ const BreadcrumbsNewsContext = createContext<{
 
 const BreadcrumbsNewsProvider = (props: Props) => {
   const [state, dispatch] = useReducer(breadcrumbReducer, { breadcrumbs: [] })
+
   return (
     <BreadcrumbsNewsContext.Provider value={{ breadcrumbs: state.breadcrumbs, dispatch }}>
       {props.children}

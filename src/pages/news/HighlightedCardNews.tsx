@@ -23,8 +23,10 @@ const HighlightedCardNews: React.FC<IHighlightedCardNews> = ({
     if (text.length <= maxLength) {
       return text
     }
+
     return text.substring(0, maxLength) + '...'
   }
+
   return (
     <div className={styles['card-highlighted']}>
       <div className={styles['card-highlighted-thumb']}>

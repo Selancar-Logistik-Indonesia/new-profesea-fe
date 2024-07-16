@@ -31,7 +31,7 @@ const NewsPage = () => {
   const [news, setNews] = useState<INews[]>([])
   const [featuredNews, setFeaturedNews] = useState<INews[]>([])
 
-  const [isFixed, setIsFixed] = useState(false)
+  const [, setIsFixed] = useState(false)
 
   useEffect(() => {
     dispatch({
@@ -69,6 +69,7 @@ const NewsPage = () => {
     }
 
     window.addEventListener('scroll', handleScroll)
+
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
@@ -113,6 +114,7 @@ const NewsPage = () => {
     if (text.length <= maxLength) {
       return text
     }
+
     return text.substring(0, maxLength) + '...'
   }
 
@@ -161,8 +163,9 @@ const NewsPage = () => {
                 ...landingPageStyle.highlightedCardNewsWrapper
               }}
             >
-              {featuredNews.map(d => (
+              {featuredNews.map((d, index) => (
                 <HighlightedCardNews
+                  key={index}
                   category={d?.category?.name}
                   title={d?.title}
                   description={d?.snap_content}
@@ -245,8 +248,8 @@ const NewsPage = () => {
                 scrollButtons='auto'
               >
                 <Tab value={null} label='All News' />
-                {newsCategories.map(n => (
-                  <Tab value={n.id} label={n.name} />
+                {newsCategories.map((n, index: number) => (
+                  <Tab value={n.id} label={n.name} key={index} />
                 ))}
               </Tabs>
             </Box>
@@ -272,8 +275,9 @@ const NewsPage = () => {
                   overflowY: 'scroll'
                 }}
               >
-                {news.map(n => (
+                {news.map((n, index: number) => (
                   <Box
+                    key={index}
                     sx={{
                       ...landingPageStyle.cardNewsWrapper
                     }}
