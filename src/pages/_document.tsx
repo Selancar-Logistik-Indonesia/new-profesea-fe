@@ -1,6 +1,6 @@
 // ** React Import
 import { Children } from 'react'
-
+import Script from 'next/script'
 // ** Next Import
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
@@ -34,7 +34,8 @@ class CustomDocument extends Document {
 
           <meta name='google-site-verification' content='kZE2N4B0Z9BwARL-mFj7YaeRdtUuhaLtBKsHONstBXo' />
 
-          <script
+          <Script
+            id='google-analytics'
             dangerouslySetInnerHTML={{
               __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

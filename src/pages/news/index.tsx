@@ -31,7 +31,7 @@ const NewsPage = () => {
   const [news, setNews] = useState<INews[]>([])
   const [featuredNews, setFeaturedNews] = useState<INews[]>([])
 
-  const [isFixed, setIsFixed] = useState(false)
+  const [, setIsFixed] = useState(false)
 
   useEffect(() => {
     dispatch({
@@ -248,8 +248,8 @@ const NewsPage = () => {
                 scrollButtons='auto'
               >
                 <Tab value={null} label='All News' />
-                {newsCategories.map((n, index) => (
-                  <Tab key={index} value={n.id} label={n.name} />
+                {newsCategories.map((n, index: number) => (
+                  <Tab value={n.id} label={n.name} key={index} />
                 ))}
               </Tabs>
             </Box>
@@ -275,7 +275,7 @@ const NewsPage = () => {
                   overflowY: 'scroll'
                 }}
               >
-                {news.map((n, index) => (
+                {news.map((n, index: number) => (
                   <Box
                     key={index}
                     sx={{

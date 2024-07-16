@@ -258,7 +258,7 @@ const ThreadApp = () => {
                 }
               }}
             >
-              {otherNews.map((o, index) => (
+              {otherNews.map((o, index: number) => (
                 <Box
                   key={index}
                   sx={{
