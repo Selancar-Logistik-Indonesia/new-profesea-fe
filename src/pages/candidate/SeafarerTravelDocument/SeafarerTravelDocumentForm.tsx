@@ -79,15 +79,25 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
   ]
 
   const formik = useFormik({
+    // initialValues: {
+    //   document: type == 'edit' ? seafarerTravelDocument?.document : '',
+    //   no: type == 'edit' ? seafarerTravelDocument?.no : '',
+    //   date_of_issue: type == 'edit' ? dateOfIssue : null,
+    //   country_of_issue: countryOfIssue,
+    //   user_id: user_id,
+    //   valid_date: type == 'edit' ? validDateState : null,
+    //   is_lifetime: type == 'edit' ? seafarerTravelDocument?.is_lifetime : false,
+    //   required_document: type == 'edit' ? seafarerTravelDocument?.required_document : 'other'
+    // },
     initialValues: {
-      document: type == 'edit' ? seafarerTravelDocument?.document : '',
-      no: type == 'edit' ? seafarerTravelDocument?.no : '',
-      date_of_issue: type == 'edit' ? dateOfIssue : null,
+      document: '',
+      no: '',
+      date_of_issue: null,
       country_of_issue: countryOfIssue,
       user_id: user_id,
-      valid_date: type == 'edit' ? validDateState : null,
-      is_lifetime: type == 'edit' ? seafarerTravelDocument?.is_lifetime : false,
-      required_document: type == 'edit' ? seafarerTravelDocument?.required_document : 'other'
+      valid_date: null,
+      is_lifetime: false,
+      required_document: 'other'
     },
     enableReinitialize: true,
     validationSchema: TravelDocumentSchema,
@@ -171,25 +181,29 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
   }, [])
 
   useEffect(() => {
-    setValidDateState(seafarerTravelDocument?.valid_date ? new Date(seafarerTravelDocument?.valid_date) : null)
-    setDateOfIssue(seafarerTravelDocument?.date_of_issue ? new Date(seafarerTravelDocument?.date_of_issue) : null)
+    if (type == 'edit') {
+      setValidDateState(seafarerTravelDocument?.valid_date ? new Date(seafarerTravelDocument?.valid_date) : null)
+      setDateOfIssue(seafarerTravelDocument?.date_of_issue ? new Date(seafarerTravelDocument?.date_of_issue) : null)
+    }
   }, [seafarerTravelDocument, countries])
 
   useEffect(() => {
-    formik.setValues({
-      ...formik.values,
-      date_of_issue: dateOfIssue,
-      valid_date: validDateState
-    })
+    if (type == 'edit') {
+      formik.setValues({
+        ...formik.values,
+        date_of_issue: dateOfIssue,
+        valid_date: validDateState
+      })
+    }
   }, [dateOfIssue, validDateState])
 
   useEffect(() => {
     formik.setValues({
       ...formik.values,
       document:
-        formik.values.required_document != 'other'
-          ? requiredDocumentType.find(item => item.id == formik.values.required_document)?.name
-          : formik.values.document
+        formik.values.required_document === 'other'
+          ? 'Please input document'
+          : requiredDocumentType.find(item => item.id == formik.values.required_document)?.name!
     })
   }, [formik.values.required_document])
 
