@@ -46,7 +46,7 @@ const TravelDocumentSchema = Yup.object().shape({
     id: Yup.number().required('Country is required'),
     name: Yup.string().required('')
   }),
-  user_id: Yup.number().required(),
+  user_id: Yup.number(),
   valid_date: Yup.string().nullable(),
   is_lifetime: Yup.boolean().nullable(),
   required_document: Yup.string().required('Document Required Type is required')
@@ -66,10 +66,10 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
         }
       : ''
   )
-  const [validDateState, setValidDateState] = useState<any>(null)
+  const [validDateState, setValidDateState] = useState<any>()
   const [preview, setPreview] = useState<any>()
-  const [dateOfIssue, setDateOfIssue] = useState<any>(null)
-  const [attachment, setAttachment] = useState<any>(null)
+  const [dateOfIssue, setDateOfIssue] = useState<any>()
+  const [attachment, setAttachment] = useState<any>()
 
   const requiredDocumentType = [
     { id: 'passport', name: 'Passport' },
@@ -93,10 +93,13 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     initialValues = {
       document: seafarerTravelDocument?.document,
       no: seafarerTravelDocument?.no,
-      date_of_issue: dateOfIssue,
-      country_of_issue: countryOfIssue,
+      date_of_issue: seafarerTravelDocument?.date_of_issue,
+      country_of_issue: {
+        id: seafarerTravelDocument?.country?.id,
+        name: seafarerTravelDocument?.country?.name
+      },
       user_id: user_id,
-      valid_date: validDateState,
+      valid_date: seafarerTravelDocument?.valid_date,
       is_lifetime: seafarerTravelDocument?.is_lifetime,
       required_document: seafarerTravelDocument?.required_document
     }
@@ -181,36 +184,41 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
   }
 
   useEffect(() => {
-    formik.setErrors({})
     loadCountries()
   }, [])
 
   useEffect(() => {
-    setValidDateState(seafarerTravelDocument?.valid_date ? new Date(seafarerTravelDocument?.valid_date) : null)
-    setDateOfIssue(seafarerTravelDocument?.date_of_issue ? new Date(seafarerTravelDocument?.date_of_issue) : null)
-  }, [seafarerTravelDocument, countries])
+    if (type == 'edit') {
+      setValidDateState(seafarerTravelDocument?.valid_date ? new Date(seafarerTravelDocument?.valid_date) : null)
+      setDateOfIssue(seafarerTravelDocument?.date_of_issue ? new Date(seafarerTravelDocument?.date_of_issue) : null)
+    }
+  }, [seafarerTravelDocument])
 
-  // useEffect(() => {
-  //   formik.setValues({
-  //     ...formik.values,
-  //     date_of_issue: dateOfIssue
-  //   })
-  // }, [dateOfIssue])
+  useEffect(() => {
+    if (dateOfIssue) {
+      formik.setValues({
+        ...formik.values,
+        date_of_issue: dateOfIssue
+      })
+    }
+  }, [dateOfIssue])
 
-  // useEffect(() => {
-  //   formik.setValues({
-  //     ...formik.values,
-  //     valid_date: validDateState
-  //   })
-  // }, [validDateState])
+  useEffect(() => {
+    if (validDateState) {
+      formik.setValues({
+        ...formik.values,
+        valid_date: validDateState
+      })
+    }
+  }, [validDateState])
 
   useEffect(() => {
     formik.setValues({
       ...formik.values,
       document:
-        formik.values.required_document != 'other'
-          ? requiredDocumentType.find(item => item.id == formik.values.required_document)?.name
-          : formik.values.document
+        formik.values.required_document === 'other'
+          ? 'Please input document'
+          : requiredDocumentType.find(item => item.id == formik.values.required_document)?.name
     })
   }, [formik.values.required_document])
 
@@ -344,8 +352,9 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
               <DatePicker
                 dateFormat='dd/MM/yyyy'
                 selected={dateOfIssue}
-                id='date-issue-datepicker'
-                onChange={(dateAwal: Date) => setDateOfIssue(dateAwal)}
+                id='date_of_issue'
+                name='date_of_issue'
+                onChange={(date: Date) => setDateOfIssue(date)}
                 placeholderText=''
                 showYearDropdown
                 showMonthDropdown
@@ -363,6 +372,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 }
               />
             </Grid>
+
             <Grid item md={12} xs={12} mb={5}>
               <DatePicker
                 disabled={formik.values.is_lifetime ? true : false}

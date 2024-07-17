@@ -187,7 +187,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
   }, [])
 
   useEffect(() => {
-    if (validDateState || formik.values.is_lifetime) {
+    if (validDateState && formik.values.is_lifetime == false) {
       formik.setValues({
         ...formik.values,
         valid_date: validDateState ? new Date(validDateState) : null

@@ -26,7 +26,7 @@ import * as Yup from 'yup'
 import { ISeafarerExperienceForm } from './../../../contract/types/seafarer_experience_type'
 
 const ExperienceSchema = Yup.object().shape({
-  user_id: Yup.number().required('User Data is required'),
+  user_id: Yup.number(),
   rank_id: Yup.object().shape({
     id: Yup.number().required('Rank is required'),
     name: Yup.string().required('')
@@ -78,19 +78,36 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
   const [vesselTypes, setVesselTypes] = useState([])
   const [ranks, setRanks] = useState([])
 
-  const formik = useFormik({
-    initialValues: {
+  let initialValues = {
+    user_id: user_id,
+    rank_id: rankId,
+    vessel_type_id: vesselTypeId,
+    vessel_name: '' as any,
+    grt: '' as any,
+    dwt: '' as any,
+    me_power: '' as any,
+    sign_in: '' as any,
+    sign_off: '' as any,
+    company: '' as any
+  }
+
+  if (type == 'edit') {
+    initialValues = {
       user_id: user_id,
       rank_id: rankId,
       vessel_type_id: vesselTypeId,
-      vessel_name: type == 'edit' ? seafarerExperience?.vessel_name : '',
-      grt: type == 'edit' ? seafarerExperience?.grt : '',
-      dwt: type == 'edit' ? seafarerExperience?.dwt : '',
-      me_power: type == 'edit' ? seafarerExperience?.me_power : '',
-      sign_in: type == 'edit' ? signIn : '',
-      sign_off: type == 'edit' ? signOff : '',
-      company: type == 'edit' ? seafarerExperience?.company : ''
-    },
+      vessel_name: seafarerExperience?.vessel_name,
+      grt: seafarerExperience?.grt,
+      dwt: seafarerExperience?.dwt,
+      me_power: seafarerExperience?.me_power,
+      sign_in: seafarerExperience?.sign_in,
+      sign_off: seafarerExperience?.sign_off,
+      company: seafarerExperience?.company
+    }
+  }
+
+  const formik = useFormik({
+    initialValues: initialValues,
     enableReinitialize: true,
     validationSchema: ExperienceSchema,
     onSubmit: values => {
@@ -179,22 +196,31 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
   }
 
   useEffect(() => {
-    setSignIn(seafarerExperience?.sign_in ? new Date(seafarerExperience?.sign_in) : null)
-    setSignOff(seafarerExperience?.sign_off ? new Date(seafarerExperience?.sign_off) : null)
-  }, [seafarerExperience, ranks])
+    if (type == 'edit') {
+      setSignIn(seafarerExperience?.sign_in ? new Date(seafarerExperience?.sign_in) : null)
+      setSignOff(seafarerExperience?.sign_off ? new Date(seafarerExperience?.sign_off) : null)
+    } else {
+      setSignIn(null)
+      setSignOff(null)
+    }
+  }, [seafarerExperience])
 
   useEffect(() => {
-    formik.setValues({
-      ...formik.values,
-      sign_in: signIn
-    })
+    if (signIn) {
+      formik.setValues({
+        ...formik.values,
+        sign_in: signIn
+      })
+    }
   }, [signIn])
 
   useEffect(() => {
-    formik.setValues({
-      ...formik.values,
-      sign_off: signOff
-    })
+    if (signOff) {
+      formik.setValues({
+        ...formik.values,
+        sign_off: signOff
+      })
+    }
   }, [signOff])
 
   useEffect(() => {
@@ -345,7 +371,6 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                   />
                 }
               />
-              {JSON.stringify(formik.errors.sign_in)} && {formik.values.sign_in}
             </Grid>
             <Grid item container md={12} xs={12} mb={5}>
               <DatePicker
