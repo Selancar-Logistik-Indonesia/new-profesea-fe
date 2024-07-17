@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid'
-import { IconButton } from '@mui/material'
+import { IconButton, Switch } from '@mui/material'
 import Icon from 'src/@core/components/icon'
 import Link from 'next/link'
 
@@ -29,7 +29,13 @@ const columns: GridColDef[] = [
     renderCell: cell => {
       const { row } = cell
 
-      return <p>{row?.featured_news ? 'true' : '-'}</p>
+      return (
+        <Switch
+          checked={row?.featured_news}
+          onChange={() => row.actions.onFeaturedNews()}
+          inputProps={{ 'aria-label': 'controlled' }}
+        />
+      )
     }
   },
   {

@@ -52,7 +52,8 @@ const MasterNews = () => {
           category: row.category,
           featured_news: row?.featured_news,
           actions: {
-            onDelete: () => deleteHandler(row)
+            onDelete: () => deleteHandler(row),
+            onFeaturedNews: () => featuredNewsHandler(row)
           }
         } as RowItem
       })
@@ -90,6 +91,30 @@ const MasterNews = () => {
   const deleteHandler = (row: News) => {
     setSelectedItem(row)
     setOpenDelModal(true)
+  }
+
+  const featuredNewsHandler = async (row: News) => {
+    try {
+      const response = await HttpClient.patch(`/news/${row?.id}/featured-news`, { featured_news: !row?.featured_news })
+
+      if (response.status !== 200) {
+        throw new Error(response.data.message ?? 'Something went wrong!')
+      }
+
+      await getListNews()
+    } catch (error) {
+      let errorMessage = 'Something went wrong!'
+
+      if (error instanceof AxiosError) {
+        errorMessage = error?.response?.data?.message ?? errorMessage
+      } else if (typeof error === 'string') {
+        errorMessage = error
+      } else if (error instanceof Error) {
+        errorMessage = error.message
+      }
+
+      toast.error(`Oops! ${errorMessage}`)
+    }
   }
 
   useEffect(() => {
