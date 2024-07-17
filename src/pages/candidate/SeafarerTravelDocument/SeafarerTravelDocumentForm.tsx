@@ -66,6 +66,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
         }
       : ''
   )
+
   const [validDateState, setValidDateState] = useState<any>()
   const [preview, setPreview] = useState<any>()
   const [dateOfIssue, setDateOfIssue] = useState<any>()
@@ -212,15 +213,31 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     }
   }, [validDateState])
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   formik.setValues({
+  //     ...formik.values,
+  //     document:
+  //       formik.values.required_document === 'other'
+  //         ? 'Please input document'
+  //         : requiredDocumentType.find(item => item.id == formik.values.required_document)?.name
+  //   })
+  // }, [formik.values.required_document])
+
+  const handleChangeRequireDocument = (e: any) => {
+    let documentName: string | undefined = 'Please Input document'
+
+    if (e.target.value != 'other') {
+      documentName = requiredDocumentType.find(item => item.id == e.target.value)?.name
+    } else {
+      documentName = 'Please Input document'
+    }
+
     formik.setValues({
       ...formik.values,
-      document:
-        formik.values.required_document === 'other'
-          ? 'Please input document'
-          : requiredDocumentType.find(item => item.id == formik.values.required_document)?.name
+      required_document: e.target.value,
+      document: documentName
     })
-  }, [formik.values.required_document])
+  }
 
   useEffect(() => {
     if (!attachment) {
@@ -305,9 +322,12 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 <Select
                   error={formik.errors.required_document ? true : false}
                   fullWidth
-                  value={formik.values.required_document == 'other' ? 'other' : formik.values.required_document}
+                  value={formik.values.required_document}
                   label='Required Document * '
-                  onChange={formik.handleChange}
+                  onChange={e => {
+                    formik.handleChange(e)
+                    handleChangeRequireDocument(e)
+                  }}
                   onBlur={formik.handleBlur}
                   name='required_document'
                   id={'required_document'}
@@ -325,7 +345,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
               <TextField
                 error={formik.errors.document ? true : false}
                 name='document'
-                value={formik.values.document}
+                value={formik.values.document || 'Please Input Document'}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 disabled={formik.values.required_document != 'other' ? true : false}
