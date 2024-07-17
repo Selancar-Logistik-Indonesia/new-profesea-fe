@@ -26,7 +26,7 @@ import * as Yup from 'yup'
 import { ISeafarerExperienceForm } from './../../../contract/types/seafarer_experience_type'
 
 const ExperienceSchema = Yup.object().shape({
-  user_id: Yup.number().required("User Data is required"),
+  user_id: Yup.number().required('User Data is required'),
   rank_id: Yup.object().shape({
     id: Yup.number().required('Rank is required'),
     name: Yup.string().required('')
@@ -35,13 +35,13 @@ const ExperienceSchema = Yup.object().shape({
     id: Yup.number().required('Vessel type is required'),
     name: Yup.string().required('')
   }),
-  vessel_name: Yup.string().required("Vessel Name is reqiured"),
+  vessel_name: Yup.string().required('Vessel Name is reqiured'),
   grt: Yup.number().nullable(),
   dwt: Yup.number().nullable(),
   me_power: Yup.number().nullable(),
-  sign_in: Yup.string().required("Sign in is required"),
-  sign_off: Yup.string().required("Sign off is required"),
-  company: Yup.string().required("Company is required")
+  sign_in: Yup.string().required('Sign in is required'),
+  sign_off: Yup.string().required('Sign off is required'),
+  company: Yup.string().required('Company is required')
 })
 
 const Transition = forwardRef(function Transition(
@@ -72,8 +72,8 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
       : ''
   )
 
-  const [signIn, setSignIn] = useState<any>()
-  const [signOff, setSignOff] = useState<any>()
+  const [signIn, setSignIn] = useState<any>(null)
+  const [signOff, setSignOff] = useState<any>(null)
 
   const [vesselTypes, setVesselTypes] = useState([])
   const [ranks, setRanks] = useState([])
@@ -87,8 +87,8 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
       grt: type == 'edit' ? seafarerExperience?.grt : '',
       dwt: type == 'edit' ? seafarerExperience?.dwt : '',
       me_power: type == 'edit' ? seafarerExperience?.me_power : '',
-      sign_in: type == 'edit' ? signIn : null,
-      sign_off: type == 'edit' ? signOff : null,
+      sign_in: type == 'edit' ? signIn : '',
+      sign_off: type == 'edit' ? signOff : '',
       company: type == 'edit' ? seafarerExperience?.company : ''
     },
     enableReinitialize: true,
@@ -181,15 +181,21 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
   useEffect(() => {
     setSignIn(seafarerExperience?.sign_in ? new Date(seafarerExperience?.sign_in) : null)
     setSignOff(seafarerExperience?.sign_off ? new Date(seafarerExperience?.sign_off) : null)
-  }, [seafarerExperience])
+  }, [seafarerExperience, ranks])
 
   useEffect(() => {
     formik.setValues({
       ...formik.values,
-      sign_in: signIn,
+      sign_in: signIn
+    })
+  }, [signIn])
+
+  useEffect(() => {
+    formik.setValues({
+      ...formik.values,
       sign_off: signOff
     })
-  }, [signIn, signOff])
+  }, [signOff])
 
   useEffect(() => {
     loadRanks()
@@ -259,7 +265,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                 disablePortal
                 options={ranks}
                 getOptionLabel={(option: any) => option.name}
-                defaultValue={rankId['id'] ? rankId : ''}
+                defaultValue={rankId?.id ? rankId : ''}
                 renderInput={params => (
                   <TextField
                     {...params}
@@ -328,17 +334,18 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                 showYearDropdown
                 showMonthDropdown
                 dropdownMode='select'
-                id='sign_in'
-                name='sign_in'
                 customInput={
                   <TextField
                     error={formik.errors.sign_in ? true : false}
                     label='Sign In Date * '
                     variant='standard'
+                    id='sign_in'
+                    name='sign_in'
                     fullWidth
                   />
                 }
               />
+              {JSON.stringify(formik.errors.sign_in)} && {formik.values.sign_in}
             </Grid>
             <Grid item container md={12} xs={12} mb={5}>
               <DatePicker
@@ -349,14 +356,14 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                 showYearDropdown
                 showMonthDropdown
                 dropdownMode='select'
-                id='sign_off'
-                name='sign_off'
                 customInput={
                   <TextField
                     error={formik.errors.sign_off ? true : false}
                     label='Sign Off Date * '
                     variant='standard'
                     fullWidth
+                    id='sign_off'
+                    name='sign_off'
                   />
                 }
               />
@@ -374,11 +381,12 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                 fullWidth
               />
             </Grid>
-            <Grid item md={12} xs={12} mb={5} sx={{ color:'red', margin:"-10px -25px"}}>
+            <Grid item md={12} xs={12} mb={5} sx={{ color: 'red', margin: '-10px -25px' }}>
               <ul>
-                {formik.isSubmitting && Object.entries(formik.errors).map((item:any) => {
-                  return (<li key={item[0]}>{JSON.stringify(item[1])}</li>)
-                })}
+                {formik.isSubmitting &&
+                  Object.entries(formik.errors).map((item: any) => {
+                    return <li key={item[0]}>{JSON.stringify(item[1])}</li>
+                  })}
               </ul>
             </Grid>
           </Grid>

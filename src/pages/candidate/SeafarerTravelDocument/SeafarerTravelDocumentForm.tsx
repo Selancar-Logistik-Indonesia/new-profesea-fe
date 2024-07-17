@@ -47,7 +47,7 @@ const TravelDocumentSchema = Yup.object().shape({
     name: Yup.string().required('')
   }),
   user_id: Yup.number().required(),
-  valid_date: Yup.date().nullable(),
+  valid_date: Yup.string().nullable(),
   is_lifetime: Yup.boolean().nullable(),
   required_document: Yup.string().required('Document Required Type is required')
 })
@@ -64,11 +64,11 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
           id: seafarerTravelDocument?.country?.id,
           name: seafarerTravelDocument?.country?.name
         }
-      : {}
+      : ''
   )
-  const [validDateState, setValidDateState] = useState<any>()
+  const [validDateState, setValidDateState] = useState<any>(null)
   const [preview, setPreview] = useState<any>()
-  const [dateOfIssue, setDateOfIssue] = useState<any>()
+  const [dateOfIssue, setDateOfIssue] = useState<any>(null)
   const [attachment, setAttachment] = useState<any>(null)
 
   const requiredDocumentType = [
@@ -78,17 +78,32 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     { id: 'schengen_visa', name: 'Schengen Visa' }
   ]
 
-  const formik = useFormik({
-    initialValues: {
-      document: type == 'edit' ? seafarerTravelDocument?.document : '',
-      no: type == 'edit' ? seafarerTravelDocument?.no : '',
-      date_of_issue: type == 'edit' ? dateOfIssue : null,
+  let initialValues = {
+    document: '' as string | undefined,
+    no: '' as string | undefined,
+    date_of_issue: '' as any,
+    country_of_issue: null as any,
+    user_id: undefined as number | undefined,
+    valid_date: '' as any,
+    is_lifetime: false as boolean | undefined,
+    required_document: 'other' as string | undefined
+  }
+
+  if (type == 'edit') {
+    initialValues = {
+      document: seafarerTravelDocument?.document,
+      no: seafarerTravelDocument?.no,
+      date_of_issue: dateOfIssue,
       country_of_issue: countryOfIssue,
       user_id: user_id,
-      valid_date: type == 'edit' ? validDateState : null,
-      is_lifetime: type == 'edit' ? seafarerTravelDocument?.is_lifetime : false,
-      required_document: type == 'edit' ? seafarerTravelDocument?.required_document : 'other'
-    },
+      valid_date: validDateState,
+      is_lifetime: seafarerTravelDocument?.is_lifetime,
+      required_document: seafarerTravelDocument?.required_document
+    }
+  }
+
+  const formik = useFormik({
+    initialValues: initialValues,
     enableReinitialize: true,
     validationSchema: TravelDocumentSchema,
     onSubmit: values => {
@@ -175,13 +190,19 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     setDateOfIssue(seafarerTravelDocument?.date_of_issue ? new Date(seafarerTravelDocument?.date_of_issue) : null)
   }, [seafarerTravelDocument, countries])
 
-  useEffect(() => {
-    formik.setValues({
-      ...formik.values,
-      date_of_issue: dateOfIssue,
-      valid_date: validDateState
-    })
-  }, [dateOfIssue, validDateState])
+  // useEffect(() => {
+  //   formik.setValues({
+  //     ...formik.values,
+  //     date_of_issue: dateOfIssue
+  //   })
+  // }, [dateOfIssue])
+
+  // useEffect(() => {
+  //   formik.setValues({
+  //     ...formik.values,
+  //     valid_date: validDateState
+  //   })
+  // }, [validDateState])
 
   useEffect(() => {
     formik.setValues({
