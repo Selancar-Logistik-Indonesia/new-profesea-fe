@@ -187,10 +187,12 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   }, [])
 
   useEffect(() => {
-    formik.setValues({
-      ...formik.values,
-      valid_date: validDateState ? new Date(validDateState) : null
-    })
+    if (validDateState && formik.values.is_lifetime == false) {
+      formik.setValues({
+        ...formik.values,
+        valid_date: validDateState ? new Date(validDateState) : null
+      })
+    }
   }, [formik.values.is_lifetime, validDateState])
 
   useEffect(() => {
