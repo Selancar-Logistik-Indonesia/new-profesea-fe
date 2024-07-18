@@ -66,13 +66,15 @@ const FriendSuggestionCard = ({
 }: {
   location?: string
   dataUser?: IUser
-  status: boolean
+  status?: boolean
 }) => {
   const [listFriends, setListFriends] = useState<IUser[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-
+  if (status === undefined) {
+    status = true
+  }
   const fetchListFriends = async () => {
     setIsLoading(true)
     try {

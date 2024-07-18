@@ -4,15 +4,15 @@ import { Avatar, AvatarGroup, Card, CardContent, Divider, Grid, Typography } fro
 import { Icon } from '@iconify/react'
 import Profile from 'src/layouts/components/Profile'
 import { useAuth } from 'src/hooks/useAuth'
- import { SocialFeedProvider } from 'src/context/SocialFeedContext'
- import SideAd from 'src/views/banner-ad/sidead'
+import { SocialFeedProvider } from 'src/context/SocialFeedContext'
+import SideAd from 'src/views/banner-ad/sidead'
 import { HttpClient } from 'src/services'
 import Link from 'next/link'
 import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
 import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 import ListSeeProfile from 'src/views/seeprofile/ListSeeProfile'
 import { IUser } from 'src/contract/models/user'
- 
+
 const SocialFeed = () => {
   return (
     <SocialFeedProvider>
@@ -32,33 +32,28 @@ type activities = {
 
 const SocialFeedApp = () => {
   const { user } = useAuth()
-  const [listCandidate, setListCandidate] = useState<IUser[]>([]) 
-   const [activities, getActivities] = useState<activities>()
- 
-   const loadActivitis = async () => {
-     const resp = await HttpClient.get('/user/statistics?user_id=' + user?.id)
-     if (resp.status != 200) {
-       throw resp.data.message ?? 'Something went wrong!'
-     }
-     const code = resp.data
-     getActivities(code)
-   }
+  const [listCandidate, setListCandidate] = useState<IUser[]>([])
+  const [activities, getActivities] = useState<activities>()
 
+  const loadActivitis = async () => {
+    const resp = await HttpClient.get('/user/statistics?user_id=' + user?.id)
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
+    }
+    const code = resp.data
+    getActivities(code)
+  }
 
-  useEffect(() => 
-  {
-    getdatapencarian();
-     loadActivitis();
+  useEffect(() => {
+    getdatapencarian()
+    loadActivitis()
   }, [])
 
   const getdatapencarian = async () => {
- 
-    const response = await HttpClient.get(
-      '/user/profile-viewer?search=&page=1&take=25'      
-    )
+    const response = await HttpClient.get('/user/profile-viewer?search=&page=1&take=25')
 
     const candidates = response.data.viewers
-     
+
     setListCandidate(candidates)
   }
 

@@ -38,7 +38,7 @@ const UserFeedApp = () => {
   const params = useSearchParams()
   const selectedName = linkToTitleCase(params.get('companyname'))
   const selectedId = params.get('id')
-  const status: boolean = Boolean(isLoggedin)
+  const status = Boolean(isLoggedin)
 
   const firstload = async () => {
     setSelectedUser(null)
