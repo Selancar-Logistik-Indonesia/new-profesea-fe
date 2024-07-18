@@ -186,10 +186,12 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
   }, [])
 
   useEffect(() => {
-    formik.setValues({
-      ...formik.values,
-      valid_date: validDateState ? new Date(validDateState) : null
-    })
+    if (validDateState && formik.values.is_lifetime == false) {
+      formik.setValues({
+        ...formik.values,
+        valid_date: validDateState ? new Date(validDateState) : null
+      })
+    }
   }, [formik.values.is_lifetime, validDateState])
 
   useEffect(() => {
@@ -315,9 +317,6 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                 name='valid_date'
                 customInput={<TextField label='Valid Date' variant='standard' fullWidth />}
               />
-              {formik.errors.valid_date && (
-                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.valid_date)}</span>
-              )}
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <FormControlLabel
