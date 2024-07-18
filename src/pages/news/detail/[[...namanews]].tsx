@@ -28,6 +28,8 @@ import styles from '../../../../styles/scss/CardNews.module.scss'
 import SideAd from 'src/views/banner-ad/sidead'
 import Link from 'next/link'
 
+import Spinner from 'src/@core/components/spinner'
+
 const detailContentWrapper: SxProps<Theme> = {
   display: 'flex',
   gap: {
@@ -60,7 +62,7 @@ const cardNewsWrapper: SxProps<Theme> = {
     lg: '379px'
   },
   display: 'flex',
-  gap: 4,
+  gap: '24px',
   flexDirection: {
     xs: 'column'
   }
@@ -82,13 +84,16 @@ const ThreadApp = () => {
   const [threadDetail, setthreadDetail] = useState<any>([])
   const [otherNews, setOtherNews] = useState<INews[]>([])
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
   // const x = newsca
   const { namanews } = router.query as { namanews: string }
   const firstload = async () => {
+    setLoading(true)
     if (namanews != undefined) {
       await HttpClient.get('/news/' + namanews).then(response => {
         const detail = response.data.news
         setthreadDetail(detail[0])
+        handleFetchOtherNews(detail[0]?.id)
         if (newscache == undefined) {
           secureLocalStorage.setItem(localStorageKeys.news, response.data.news[0])
           // window.location.reload()
@@ -98,6 +103,7 @@ const ThreadApp = () => {
             // window.location.reload()
           }
         }
+        setLoading(false)
       })
     }
     fetchComments({ take: 5, replyable_id: 1, replyable_type: 'news' })
@@ -106,7 +112,6 @@ const ThreadApp = () => {
 
   useEffect(() => {
     firstload()
-    handleFetchOtherNews()
   }, [namanews])
 
   useEffect(() => {
@@ -114,7 +119,7 @@ const ThreadApp = () => {
       type: 'SET_BREADCRUMBS',
       payload: [
         {
-          name: 'Home Page',
+          name: 'Homepage',
           path: '/'
         },
         {
@@ -129,10 +134,11 @@ const ThreadApp = () => {
     })
   }, [dispatch, threadDetail])
 
-  const handleFetchOtherNews = async () => {
+  const handleFetchOtherNews = async (filterId: any) => {
     try {
       const response = await HttpClient.get(`/news/?page=1&take=1000&type=News`)
-      setOtherNews(response?.data?.news?.data)
+      const otherNews: any[] = response?.data?.news?.data.filter((o: any) => o.id !== filterId)
+      setOtherNews(otherNews.slice(0, 3))
     } catch (error) {
       console.error(error)
     }
@@ -153,10 +159,14 @@ const ThreadApp = () => {
       md: '85% center',
       lg: '85% center'
     },
-    minHeight: '350px'
+    minHeight: '380px'
   }
 
   const imgUrl = threadDetail?.imgnews && threadDetail?.imgnews.length != 0 ? threadDetail?.imgnews[0] : ''
+
+  if (loading) {
+    return <Spinner />
+  }
 
   return (
     <>
@@ -169,7 +179,11 @@ const ThreadApp = () => {
           px: { xs: '24px', md: '120px' }
         }}
       >
-        <Box>
+        <Box
+          sx={{
+            my: '24px'
+          }}
+        >
           <BreadcrumbsNews />
         </Box>
         <Grid container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -179,7 +193,7 @@ const ThreadApp = () => {
             xs={12}
             sx={{
               ...bannerHeroDetail,
-              my: 2,
+              // my: 2,
               display: 'flex',
               gap: 2,
               borderRadius: '10px',
@@ -187,35 +201,50 @@ const ThreadApp = () => {
               justifyContent: 'flex-end',
               px: 2,
               pb: 4,
-              backgroundImage: `url(${imgUrl})`
+              backgroundImage: `url(${imgUrl})`,
+              position: 'relative',
+              overflow: 'hidden'
             }}
           >
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.8))',
+                borderRadius: '10px',
+                zIndex: 1
+              }}
+            ></div>
             <Typography
               variant='h2'
               style={{ color: '#FFFFFF', fontSize: '16px', fontWeight: '400' }}
-              sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 } }}
+              sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 }, zIndex: 2 }}
+              textTransform={'capitalize'}
             >
               {threadDetail?.category?.name}
             </Typography>
             <Typography
               variant='h1'
               style={{ color: '#FFFFFF', fontSize: '32px', fontWeight: '700' }}
-              sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4, whiteSpace: 'null' } }}
+              sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4, whiteSpace: 'null' }, zIndex: 2 }}
             >
               {threadDetail?.title}
             </Typography>
             <Typography
               variant='h2'
               style={{ color: '#FFFFFF', fontSize: '16px', fontWeight: '400' }}
-              sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 } }}
+              sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 }, zIndex: 2 }}
             >
               {moment(threadDetail?.posting_at).format('LL')}
             </Typography>
           </Grid>
           {/* Content */}
-          <Grid item xs={12} sx={{ my: 4, ...detailContentWrapper, gap: 4 }}>
-            <Box sx={{ ...detailContentLeft }}>
-              <Typography variant='body2' fontSize={14} style={{ color: '#424242' }}>
+          <Grid item xs={12} sx={{ my: 4, ...detailContentWrapper, gap: 8 }}>
+            <Box sx={{ ...detailContentLeft, background: '#FFF', padding: '24px', borderRadius: '4px' }}>
+              <Typography variant='body2' fontSize={14} style={{ color: '#424242', fontFamily: 'Outfit' }}>
                 {ReactHtmlParser(`${threadDetail?.content}`)}
               </Typography>
             </Box>
@@ -229,24 +258,18 @@ const ThreadApp = () => {
           {/* You Mau Also Like */}
           <Box
             sx={{
-              my: 4
+              width: '100%',
+              mb: 4
             }}
           >
-            <Typography sx={{ fontWeight: 700 }} color={'primary'} fontSize={18} my={4}>
+            <Typography sx={{ fontWeight: 700, mb: '24px' }} color={'primary'} fontSize={18}>
               You May Also Like
             </Typography>
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: { xs: 'column', lg: 'row' },
-                gap: 4,
-                overflowX: {
-                  lg: 'auto'
-                },
-                overflowY: {
-                  xs: 'scroll',
-                  lg: 'unset'
-                }
+                gap: 8
               }}
             >
               {otherNews.map((o, index: number) => (
@@ -257,7 +280,7 @@ const ThreadApp = () => {
                   }}
                 >
                   <div className={styles['card-news-thumb']}>
-                    <a href='#'>
+                    <a href={`/news/detail/${o?.slug}`}>
                       <img src={o?.imgnews[0]} alt={'test'} />
                     </a>
                   </div>
@@ -267,29 +290,56 @@ const ThreadApp = () => {
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      gap: 4
+                      gap: '24px'
                     }}
                   >
-                    <Box>
-                      <Typography sx={{ fontWeight: 400 }} color={'gray'} fontSize={14}>
-                        {o?.category?.name}
-                      </Typography>
+                    <Box
+                      sx={{
+                        minHeight: '150px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-start'
+                      }}
+                    >
                       <Typography
-                        variant='h4'
-                        sx={{ fontWeight: 700, cursor: 'pointer' }}
-                        color={'black'}
-                        fontSize={18}
+                        sx={{ fontWeight: 400, mb: '8px', textTransform: 'capitalize' }}
+                        color={'gray'}
+                        fontSize={14}
                       >
-                        <Link
-                          href={`/news/detail/${o?.slug}`}
-                          style={{
-                            color: 'black'
-                          }}
-                        >
-                          {o?.title}
-                        </Link>
+                        {o?.category?.name ? o?.category?.name : '-'}
                       </Typography>
-                      <Typography>{truncateText(o?.snap_content, 400)}</Typography>
+                      <Link
+                        href={`/news/detail/${o?.slug}`}
+                        style={{
+                          color: 'black',
+                          marginBottom: '8px'
+                        }}
+                      >
+                        <Typography
+                          variant='h4'
+                          sx={{
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            fontSize: {
+                              xs: '18px !important'
+                            }
+                          }}
+                          color={'black'}
+                        >
+                          {/* {o?.title} */}
+                          {truncateText(o?.title, 35)}
+                        </Typography>
+                      </Link>
+                      <Typography
+                        fontWeight={400}
+                        fontSize={16}
+                        sx={{
+                          height: '72px',
+                          maxHeight: '100px'
+                        }}
+                      >
+                        {truncateText(o?.snap_content, 100)}
+                      </Typography>
                     </Box>
                     <Box>
                       <Typography sx={{ fontWeight: 400 }} color={'gray'} fontSize={14}>

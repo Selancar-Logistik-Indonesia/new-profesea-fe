@@ -30,20 +30,29 @@ const HighlightedCardNews: React.FC<IHighlightedCardNews> = ({
   return (
     <div className={styles['card-highlighted']}>
       <div className={styles['card-highlighted-thumb']}>
-        <a href='#'>
+        <a href={`/news/detail/${slug}`}>
           <img src={image} alt={title} />
         </a>
       </div>
       <div className={styles['card-highlighted-body']}>
         <div>
-          <a href='#'>{category}</a>
+          <a
+            href='#'
+            style={{
+              fontSize: '14px',
+              textTransform: 'capitalize'
+            }}
+          >
+            {category}
+          </a>
         </div>
         <h2 className={styles['card-highlighted-title']}>
           <a href={`/news/detail/${slug}`}>{title}</a>
         </h2>
         <p className={styles['card-highlighted-description']}>{truncateText(description, 200)}</p>
-        <p style={{ fontSize: '12px', padding: 0, margin: 0 }}> {moment(postDate).format('LL')}</p>
+        {/* <p style={{ fontSize: '12px', padding: 0, margin: 0 }}> {moment(postDate).format('LL')}</p> */}
       </div>
+      <p style={{ fontSize: '12px', paddingLeft: '20px', paddingRight: '20px' }}> {moment(postDate).format('LL')}</p>
     </div>
   )
 }

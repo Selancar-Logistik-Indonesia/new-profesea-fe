@@ -2,13 +2,14 @@ import { Breadcrumbs, Stack, Typography } from '@mui/material'
 import Link from 'next/link'
 import React from 'react'
 import { useBreadcrumbsNews } from 'src/context/BreadcrumbsNewsContext'
+import { MdNavigateNext } from 'react-icons/md'
 
 const BreadcrumbsNews = () => {
   const { breadcrumbs } = useBreadcrumbsNews()
 
   return (
-    <Stack spacing={2} sx={{ mt: '24px', mb: '12px' }}>
-      <Breadcrumbs separator='›' aria-label='breadcrumb'>
+    <Stack spacing={2}>
+      <Breadcrumbs separator={<MdNavigateNext fontSize={'17px'} color='black' />} aria-label='breadcrumb'>
         {breadcrumbs.map((v, i) => {
           return (
             <Link key={i} href={v.path}>
