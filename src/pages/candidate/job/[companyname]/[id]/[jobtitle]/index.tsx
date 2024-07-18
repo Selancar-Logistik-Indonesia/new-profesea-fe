@@ -68,10 +68,12 @@ const JobDetail = () => {
   }
 
   useEffect(() => {
-    HttpClient.get(`/job?search=&take=4&page=1&username=${jobDetail?.company.username}`).then(response => {
-      const jobs = response.data.jobs.data
-      setJobDetailSugestion(jobs)
-    })
+    if (jobDetail) {
+      HttpClient.get(`/job?search=&take=4&page=1&username=${jobDetail?.company.username}`).then(response => {
+        const jobs = response.data.jobs.data
+        setJobDetailSugestion(jobs)
+      })
+    }
   }, [jobDetail])
 
   useEffect(() => {
