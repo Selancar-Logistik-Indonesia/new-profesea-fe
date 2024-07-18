@@ -10,7 +10,7 @@ import { HttpClient } from 'src/services'
 import { formatIDR, timeCreated, toLinkCase } from 'src/utils/helpers'
 import PostingSlider from './postingSlider'
 
-const Posting = ({ dataUser }: { dataUser: IUser }) => {
+const Posting = ({ dataUser, status }: { dataUser: IUser; status: boolean }) => {
   const theme = useTheme()
   const xs = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -34,19 +34,27 @@ const Posting = ({ dataUser }: { dataUser: IUser }) => {
     }
   }, [dataUser])
 
+  const isStatusLink = (link: string) => {
+    if (!status) {
+      return `/login/?returnUrl=` + link
+    }
+
+    return link
+  }
+
   const showMoreLink = () => {
     const companyParam = encodeURIComponent(toLinkCase(dataUser.username) ?? '')
 
     if (dataUser.team_id === 3) {
-      if (!user) return '/find-job'
-      if (user.team_id === dataUser.team_id) return '/company/job-management'
+      if (!user) return isStatusLink('/find-job')
+      if (user.team_id === dataUser.team_id) return isStatusLink('/company/job-management')
 
-      return `/candidate/find-job?company=${companyParam}`
+      return isStatusLink(`/candidate/find-job?company=${companyParam}`)
     } else {
-      if (!user) return '/trainings'
-      if (user.team_id === dataUser.team_id) return '/trainer/training'
+      if (!user) return isStatusLink('/trainings')
+      if (user.team_id === dataUser.team_id) return isStatusLink('/trainer/training')
 
-      return `/candidate/trainings?trainer=${companyParam}`
+      return isStatusLink(`/candidate/trainings?trainer=${companyParam}`)
     }
   }
 
@@ -66,7 +74,7 @@ const Posting = ({ dataUser }: { dataUser: IUser }) => {
                 : `/job/${companyNameUrl}/${arr?.id}/${jobTitleUrl}`
 
             return (
-              <Link href={link} key={index}>
+              <Link href={isStatusLink(link)} key={index}>
                 <Grid
                   container
                   sx={{
@@ -176,7 +184,7 @@ const Posting = ({ dataUser }: { dataUser: IUser }) => {
             )
           })
         ) : (
-          <PostingSlider items={posting} teamId={dataUser.team_id} />
+          <PostingSlider items={posting} teamId={dataUser.team_id} status={status} />
         )}
       </Box>
       <Divider sx={{ mx: '24px' }} />
