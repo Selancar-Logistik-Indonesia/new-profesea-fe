@@ -175,14 +175,6 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item md={12} xs={12} mb={5} sx={{ color: 'red', margin: '10px -25px' }}>
-                <ul>
-                  {formik.errors &&
-                    Object.entries(formik.errors).map((item: any) => {
-                      return <li key={item[0]}>{JSON.stringify(item[1])}</li>
-                    })}
-                </ul>
-              </Grid>
             </DialogContent>
             <DialogActions style={{ textAlign: 'center' }}>
               <Button disabled={loading} type='submit' variant='contained' style={{ margin: '10px 0' }} size='small'>

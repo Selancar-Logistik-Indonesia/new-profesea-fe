@@ -31,6 +31,20 @@ const NewsPage = () => {
   const [newsCategories, setNewsCategories] = useState<INewsCategory[]>([])
   const [news, setNews] = useState<INews[]>([])
   const [featuredNews, setFeaturedNews] = useState<INews[]>([])
+  const [isScrollAbleTab, setIsScrollAbleTab] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsScrollAbleTab(window.innerWidth <= 500)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    // Call handler right away so state gets updated with initial window size
+    handleResize()
+
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   // const [isFixed, setIsFixed] = useState(false)
 
@@ -39,7 +53,7 @@ const NewsPage = () => {
       type: 'SET_BREADCRUMBS',
       payload: [
         {
-          name: 'Home Page',
+          name: 'Homepage',
           path: '/'
         },
         {
@@ -131,16 +145,19 @@ const NewsPage = () => {
           px: { xs: '24px', md: '120px' }
         }}
       >
-        <Box>
+        <Box
+          sx={{
+            my: '24px'
+          }}
+        >
           <BreadcrumbsNews />
         </Box>
-        <Grid container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <Grid container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '2rem' }}>
           <Grid
             item
             xs={12}
             sx={{
               ...landingPageStyle.bannerHero,
-              my: 2,
               display: 'flex',
               gap: 2,
               borderRadius: '10px',
@@ -193,21 +210,22 @@ const NewsPage = () => {
             />
           </Grid>
           {featuredNews.length !== 0 && (
-            <Grid item xs={12} sx={{ my: 4 }}>
+            <Grid item xs={12}>
               <Typography
                 sx={{
                   fontWeight: 'bold',
                   fontSize: {
                     xs: '18px',
                     lg: '24px'
-                  }
+                  },
+                  mb: '24px'
                 }}
                 color={'primary'}
+                lineHeight={'30px'}
               >
                 Highlighted News
               </Typography>
               <Box
-                pt={2}
                 sx={{
                   ...landingPageStyle.highlightedCardNewsWrapper
                 }}
@@ -226,21 +244,22 @@ const NewsPage = () => {
               </Box>
             </Grid>
           )}
-
-          <Grid item xs={12} sx={{ my: 4 }}>
+          <Grid item xs={12}>
             <Typography
               sx={{
                 fontWeight: 'bold',
                 fontSize: {
                   xs: '18px',
                   lg: '24px'
-                }
+                },
+                mb: '24px'
               }}
               color={'primary'}
+              lineHeight={'30px'}
             >
               Videos
             </Typography>
-            <Grid container spacing={2} sx={{ width: '100%' }} mx={0} my={6}>
+            <Grid container spacing={2} sx={{ width: '100%' }} mx={0} my={0}>
               <Grid
                 item
                 xs={12}
@@ -316,27 +335,27 @@ const NewsPage = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} sx={{ my: 4 }}>
+          <Grid item xs={12}>
             <Typography
               sx={{
                 fontWeight: 'bold',
-                fontSize: '18px'
+                fontSize: '24px'
               }}
               color={'primary'}
-              fontSize={24}
             >
               News
             </Typography>
             {/* Category Tab News */}
-            <Box sx={{ borderBottom: 2, borderColor: 'divider' }}>
+            <Box sx={{ borderBottom: 3, borderColor: 'divider', width: '100%' }}>
               <Tabs
                 sx={{
                   ...landingPageStyle.stickyTabs
                 }}
                 value={tabValue}
                 onChange={handleChange}
-                variant='scrollable'
+                variant={isScrollAbleTab ? 'scrollable' : 'fullWidth'}
                 scrollButtons='auto'
+                aria-label='full width tabs example'
               >
                 <Tab
                   value={null}
@@ -345,7 +364,7 @@ const NewsPage = () => {
                     textTransform: 'capitalize',
                     fontWeight: 700,
                     fontSize: {
-                      xs: '14px'
+                      xs: '16px'
                       // lg: '24px'
                     }
                   }}
@@ -359,7 +378,7 @@ const NewsPage = () => {
                       textTransform: 'capitalize',
                       fontWeight: 700,
                       fontSize: {
-                        xs: '14px'
+                        xs: '16px'
                         // lg: '24px'
                       }
                     }}
@@ -371,16 +390,18 @@ const NewsPage = () => {
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 4,
-                my: 4
+                gap: '24px',
+                mt: '24px',
+                mb: '24px'
               }}
             >
               <Typography
                 sx={{
-                  fontWeight: 'bold',
-                  fontSize: '18px'
+                  fontWeight: 700,
+                  fontSize: '24px'
                 }}
                 color={'primary'}
+                textTransform={'capitalize'}
               >
                 {newsCategories.find(n => n.id === tabValue)?.name ?? 'All'} News
               </Typography>
@@ -389,7 +410,7 @@ const NewsPage = () => {
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 4,
+                  gap: '24px',
                   width: '100%',
                   height: '700px',
                   overflowY: 'scroll'
@@ -421,27 +442,39 @@ const NewsPage = () => {
                         }
                       }}
                     >
-                      <Box>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '8px'
+                        }}
+                      >
                         <Typography sx={{ fontWeight: 400 }} color={'gray'} fontSize={14}>
                           {n?.category?.name}
                         </Typography>
-                        <Typography
-                          variant='h4'
-                          sx={{ fontWeight: 700, cursor: 'pointer' }}
-                          color={'black'}
-                          fontSize={18}
+                        <Link
+                          href={`/news/detail/${n?.slug}`}
+                          style={{
+                            color: 'black'
+                          }}
                         >
-                          <Link
-                            href={`/news/detail/${n?.slug}`}
-                            style={{
-                              color: 'black'
+                          <Typography
+                            variant='h4'
+                            sx={{
+                              fontWeight: 700,
+                              cursor: 'pointer',
+                              fontSize: {
+                                xs: '18px !important'
+                              }
                             }}
+                            color={'black'}
                           >
-                            {' '}
                             {n?.title}
-                          </Link>
+                          </Typography>
+                        </Link>
+                        <Typography fontWeight={400} fontSize={16}>
+                          {truncateText(n?.snap_content, 400)}
                         </Typography>
-                        <Typography>{truncateText(n?.snap_content, 400)}</Typography>
                       </Box>
                       <Box>
                         <Typography sx={{ fontWeight: 400 }} color={'gray'} fontSize={14}>

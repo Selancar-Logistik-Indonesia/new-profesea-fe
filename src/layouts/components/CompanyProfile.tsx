@@ -53,6 +53,7 @@ type FormData = {
   facebook: string
   instagram: string
   linkedin: string
+  
 }
 
 type compProps = {
@@ -221,7 +222,8 @@ const CompanyProfile = (props: compProps) => {
       address_country_id: idcombocode,
       address_city_id: idcity,
       address_address: address,
-      date_of_birth: null
+      date_of_birth: null,
+      //team_id:props.datauser.team_id
     }
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
       ({ data }) => {
@@ -809,6 +811,7 @@ const CompanyProfile = (props: compProps) => {
       <>
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
+           
             <Grid item xs={12} container marginTop={'25px'}>
               <Grid item container spacing={3} sx={{ mb: 2 }}>
                 <Grid item md={6} xs={12}>

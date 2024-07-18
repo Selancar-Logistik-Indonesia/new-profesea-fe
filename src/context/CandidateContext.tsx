@@ -63,6 +63,15 @@ const CandidateProvider = (props: Props) => {
         const { candidates } = response.data as { candidates: { data: IUser[]; next_page_url?: string; total: number } }
 
         if (candidates.data.length && candidates.data.length > 0) {
+          // await candidates.data.map(async (item: any) => {
+          //   const checkImage = await axios.get(item.photo)
+          //   if (checkImage.status !== 200) {
+          //     item.photo = ''
+          //   }
+
+          //   return item
+          // })
+
           setCandidates(old => {
             const newItems = old
             candidates.data.forEach(e => newItems.push(e))

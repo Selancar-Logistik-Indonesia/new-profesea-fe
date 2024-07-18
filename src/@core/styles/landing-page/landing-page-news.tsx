@@ -24,7 +24,7 @@ const highlightedCardNewsWrapper: SxProps<Theme> = {
     xs: 'center',
     lg: 'flex-start'
   },
-  gap: 4,
+  gap: '2rem',
   flexDirection: {
     xs: 'column',
     lg: 'row'
