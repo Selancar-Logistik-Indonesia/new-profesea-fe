@@ -2,7 +2,9 @@ import { Icon } from '@iconify/react'
 import { Button, CircularProgress } from '@mui/material'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
+import DialogLogin from 'src/@core/components/login-modal'
 import { IUser } from 'src/contract/models/user'
+import { useAuth } from 'src/hooks/useAuth'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 
@@ -13,6 +15,8 @@ interface ConnectButtonProps {
 const ConnectButton = (props: ConnectButtonProps) => {
   const [user, setUser] = useState(props.user)
   const [isLoading, setIsLoading] = useState(false)
+  const { user: isLoggedIn } = useAuth()
+  const [openDialog, setOpenDialog] = useState(false)
 
   const onConnectRequest = async (user: IUser) => {
     setIsLoading(true)
@@ -38,7 +42,6 @@ const ConnectButton = (props: ConnectButtonProps) => {
 
   const buildConnectText = () => {
     if (user.frienship_status == 'AP') {
-      //   return 'Disconnect'
       return 'Connected'
     }
 
@@ -50,22 +53,38 @@ const ConnectButton = (props: ConnectButtonProps) => {
   }
 
   return (
-    <Button
-      disabled={isLoading || !!user.frienship_status}
-      onClick={() => onConnectRequest(user)}
-      variant={user.frienship_status ? 'outlined' : 'contained'}
-      startIcon={!isLoading && <Icon icon='solar:link-linear' color={user.frienship_status ? '#26252542' : 'white'} />}
-      sx={{
-        py: '8px',
-        px: '16x',
-        fontSize: '14px',
-        color: '#FCFCFA',
-        textTransform: 'none',
-        maxWidth: 'fit-content'
-      }}
-    >
-      {isLoading ? <CircularProgress size={22} /> : buildConnectText()}
-    </Button>
+    <>
+      <Button
+        disabled={isLoading || !!user.frienship_status}
+        onClick={() => {
+          isLoggedIn ? onConnectRequest(user) : setOpenDialog(!openDialog)
+        }}
+        variant={user.frienship_status ? 'outlined' : 'contained'}
+        startIcon={
+          !isLoading && <Icon icon='solar:link-linear' color={user.frienship_status ? '#26252542' : 'white'} />
+        }
+        sx={{
+          py: '8px',
+          px: '16x',
+          fontSize: '14px',
+          color: '#FCFCFA',
+          textTransform: 'none',
+          maxWidth: 'fit-content'
+        }}
+      >
+        {isLoading ? <CircularProgress size={22} /> : buildConnectText()}
+      </Button>
+      {!isLoggedIn && openDialog && (
+        <DialogLogin
+          isBanner={false}
+          visible={openDialog}
+          variant='training'
+          onCloseClick={() => {
+            setOpenDialog(!openDialog)
+          }}
+        />
+      )}
+    </>
   )
 }
 

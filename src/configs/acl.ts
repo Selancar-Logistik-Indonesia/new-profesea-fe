@@ -17,7 +17,7 @@ export type ACLObj = {
  * admin can manage everything and client can just visit ACL page
  */
 const defineRulesFor = (role: string, subject: string) => {
-    console.log(subject);
+    console.log(subject)
     const { can, rules } = new AbilityBuilder(AppAbility)
     if (role === 'admin') {
         can('manage', [
@@ -48,13 +48,13 @@ const defineRulesFor = (role: string, subject: string) => {
             'admin-feeds-management'
         ])
     } else if (role === 'Seafarer') {
-        can(['read'], ['home', 'user-community', 'profile-company', 'user-alumni', 'seafarer-training', 'seafarer', 'seafarer-jobs', 'feed-detail', 'candidate/profile', 'PricingPage'])
+        can(['read'], ['home', 'user-community', 'profile-company', 'company-activities', 'user-alumni', 'seafarer-training', 'seafarer', 'seafarer-jobs', 'feed-detail', 'candidate/profile', 'PricingPage'])
     } else if (role === 'Company') {
-        can(['read'], ['home', 'company', 'profile-company', 'user-community', 'user-job-management', 'user-find-candidate', 'user-job-detail', 'find-candidate', 'feed-detail', 'company-job-applied', 'PricingPage']);
+        can(['read'], ['home', 'company', 'profile-company', 'company-activities', 'user-community', 'user-job-management', 'user-find-candidate', 'user-job-detail', 'find-candidate', 'feed-detail', 'company-job-applied', 'PricingPage']);
     } else if (role === 'Trainer') {
-        can(['read'], ['home', 'user-community', 'profile-company', 'user-training-management', 'feed-detail', 'user-my-participant']);
+        can(['read'], ['home', 'user-community', 'profile-company', 'company-activities', 'user-training-management', 'feed-detail', 'user-my-participant']);
     } else {
-        can(['read'], ['home', 'job-detail', 'seafarer-jobs', 'profile-company']);
+        can(['read'], ['home', 'job-detail', 'seafarer-jobs', 'profile-company', 'company-activities']);
     }
 
     return rules

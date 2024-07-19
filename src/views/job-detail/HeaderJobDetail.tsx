@@ -11,6 +11,8 @@ interface IHeaderJobDetailProps {
 }
 
 const HeaderJobDetail: React.FC<IHeaderJobDetailProps> = ({ jobDetail, onApplied, handleApply }) => {
+  const shareUrl = window.location.href
+
   return (
     <Box
       sx={{
@@ -65,10 +67,7 @@ const HeaderJobDetail: React.FC<IHeaderJobDetailProps> = ({ jobDetail, onApplied
               )}
             </Grid>
             <Grid item xs={12} md={6} textAlign={'end'}>
-              <ShareArea
-                subject={`Job For ${jobDetail?.role_type?.name}.`}
-                url={`/candidate/job/?id=${jobDetail?.id}`}
-              ></ShareArea>
+              <ShareArea subject={`Job For ${jobDetail?.role_type?.name}.`} url={shareUrl} clean={true} />
             </Grid>
           </Grid>
         </Box>

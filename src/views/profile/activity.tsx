@@ -10,7 +10,7 @@ import { HttpClient } from 'src/services'
 import { getUserAvatar, toLinkCase, toTitleCase } from 'src/utils/helpers'
 import { IUser } from 'src/contract/models/user'
 
-const Activity = ({ dataUser }: { dataUser: IUser }) => {
+const Activity = ({ dataUser, status }: { dataUser: IUser; status: boolean }) => {
   const [feeds, setFeeds] = useState<ISocialFeed[]>([])
   const [onLoading, setOnLoading] = useState(false)
 
@@ -54,6 +54,14 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
     fetchFeeds({ mPage: 1, take: 3, user_id: dataUser?.id })
   }, [dataUser])
 
+  const isStatusLink = (link: string) => {
+    if (!status) {
+      return `/login/?returnUrl=` + link
+    }
+
+    return link
+  }
+
   return (
     <Box sx={{ borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
       <Box sx={{ p: '24px' }}>
@@ -74,7 +82,7 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <Avatar
                           component={Link}
-                          href={profileLink}
+                          href={isStatusLink(profileLink)}
                           alt='profile-picture'
                           src={getUserAvatar(item.user)}
                           sx={{ width: 42, height: 42 }}
@@ -82,7 +90,7 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
                         <Box>
                           <Typography
                             component={Link}
-                            href={profileLink}
+                            href={isStatusLink(profileLink)}
                             sx={{ fontSize: '16px', fontWeight: 'bold', color: 'black' }}
                           >
                             {toTitleCase(item.user.name)}
@@ -96,10 +104,19 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
                         </Box>
                       </Box>
                     </Grid>
-                    <Grid item xs={12} sx={{ display: 'flex' }}>
+                    <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <Typography
+                        sx={{
+                          whiteSpace: 'pre-line',
+                          color: '#636E72',
+                          fontSize: 16
+                        }}
+                      >
+                        {item.content}
+                      </Typography>
                       {item.content_type == 'videos' && (
                         <CardMedia
-                          sx={{ width: '100%', height: 100, my: 2 }}
+                          sx={{ width: '100%', my: 2 }}
                           component='video'
                           controls
                           src={`${AppConfig.baseUrl}/public/data/streaming?video=${item.attachments![0]}`}
@@ -110,18 +127,9 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
                           src={item.attachments![0]}
                           alt={item.content}
                           loading='lazy'
-                          style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                          style={{ objectFit: 'contain', width: '100%' }}
                         />
                       )}
-                      <Typography
-                        sx={{
-                          whiteSpace: 'pre-line',
-                          color: '#636E72',
-                          fontSize: 16
-                        }}
-                      >
-                        {item.content}
-                      </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{ display: 'flex', gap: '16px' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -152,9 +160,11 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
       <Divider sx={{ mx: '24px' }} />
       <Button
         endIcon={<Icon icon='mingcute:right-fill' style={{ fontSize: 18 }} />}
-        href={`/${dataUser?.role === 'Seafarer' ? 'profile' : 'company'}/${dataUser?.id}/${toLinkCase(
-          dataUser?.username
-        )}/activities`}
+        href={isStatusLink(
+          `/${dataUser?.role === 'Seafarer' ? 'profile' : 'company'}/${dataUser?.id}/${toLinkCase(
+            dataUser?.username
+          )}/activities`
+        )}
         sx={{
           py: '18px',
           display: 'flex',
