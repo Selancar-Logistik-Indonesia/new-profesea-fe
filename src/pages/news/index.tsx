@@ -302,7 +302,7 @@ const NewsPage = () => {
                   >
                     Rekrutmen 101: Tips & Trik Lolos Wawancara Kerja bersama Kak Dinar The HR
                   </Typography>
-                  <Typography sx={{ fontSize: '16px' }}>
+                  <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>
                     Tonton episode perdana MariTalks kita yang membahas mulai dari berbagai aspek #interview kerja
                     sampai mitos atau faktanya.
                   </Typography>
@@ -314,7 +314,8 @@ const NewsPage = () => {
                       startIcon={<Icon icon={'ph:play-fill'} />}
                       sx={{
                         textTransform: 'none',
-                        fontSize: '14px'
+                        fontSize: '14px',
+                        fontWeight: 400
                       }}
                     >
                       Watch Video
@@ -325,7 +326,8 @@ const NewsPage = () => {
                       onClick={() => window.open('https://www.youtube.com/@Profesea_id', '_blank')}
                       sx={{
                         textTransform: 'none',
-                        fontSize: '14px'
+                        fontSize: '14px',
+                        fontWeight: 400
                       }}
                     >
                       View All Video
