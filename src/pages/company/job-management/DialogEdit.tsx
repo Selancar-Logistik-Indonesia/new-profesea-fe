@@ -89,6 +89,7 @@ const DialogEdit = (props: EditProps) => {
     value: props.selectedItem.currency
   })
   const [checked, setChecked] = useState(props.selectedItem.hide_salary)
+  const [fixedSalary, setFixedSalary] = useState(+props?.selectedItem?.salary_end == 0)
 
   const [rotational, setRotational] = useState(
     props?.selectedItem?.rotational ? { value: 'yes', label: 'Yes' } : { value: 'no', label: 'No' }
@@ -650,6 +651,18 @@ const DialogEdit = (props: EditProps) => {
                     renderInput={params => <TextField {...params} label='Currency' />}
                     onChange={(event: any, newValue: any | null) => setCurrency(newValue ? newValue : '')}
                   />
+
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={fixedSalary}
+                        onChange={event => setFixedSalary(event.target.checked)}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                      />
+                    }
+                    label='Fixed Salary'
+                    sx={{ width: '150px' }}
+                  />
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -681,6 +694,7 @@ const DialogEdit = (props: EditProps) => {
                   variant='outlined'
                   fullWidth
                   {...register('salary_end')}
+                  disabled={fixedSalary}
                 />
               </Grid>
               {disabled == false && (

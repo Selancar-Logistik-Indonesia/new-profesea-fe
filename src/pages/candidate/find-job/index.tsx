@@ -36,6 +36,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import RecomendedView from 'src/views/find-job/RecomendedView'
 import { useSearchParams } from 'next/navigation'
 import { linkToTitleCase } from 'src/utils/helpers'
+import RoleType from 'src/contract/models/role_type'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -88,12 +89,14 @@ const SeafarerJobApp = () => {
   const [JobCategory, getJobCategory] = useState<any[]>([])
   const [Education, getEducation] = useState<any[]>([])
   const [RoleLevel, getRoleLevel] = useState<any[]>([])
+  const [RoleType, getRoleType] = useState<any[]>([])
 
   const [employeeType, setEmployeeType] = useState(isOnShip ? 'onship' : 'offship')
-  const [searchJob, setSearchJob] = useState<any>('')
-  const [JC, setJC] = useState(0)
-  const [RL, setRL] = useState(0)
-  const [ED, setED] = useState(0)
+  const [searchJob, setSearchJob] = useState<any>()
+  const [JC, setJC] = useState<number | undefined>()
+  const [RL, setRL] = useState<number | undefined>()
+  const [RT, setRT] = useState<number | undefined>()
+  const [ED, setED] = useState<number | undefined>()
 
   const [combocity, getComboCity] = useState<any[]>([])
   const [combovessel, getComboVessel] = useState<any>([])
@@ -117,6 +120,7 @@ const SeafarerJobApp = () => {
   }
 
   const employmentTypeOptions = [{ name: 'Intern' }, { name: 'Contract' }, { name: 'Full-Time' }]
+
   const firstload = () => {
     HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
       if (response.status != 200) {
@@ -130,6 +134,14 @@ const SeafarerJobApp = () => {
       }
       getJobCategory(response.data.categories.data)
     })
+    if (JC) {
+      HttpClient.get(`/public/data/role-type?search=&page=1&take=250&category_id=${JC}`).then(response => {
+        if (response.status != 200) {
+          throw response.data.message ?? 'Something went wrong!'
+        }
+        getRoleType(response.data.roleTypes.data)
+      })
+    }
     HttpClient.get(`/public/data/degree`).then(response => {
       if (response.status != 200) {
         throw response.data.message ?? 'Something went wrong!'
@@ -156,6 +168,7 @@ const SeafarerJobApp = () => {
       category_id: JC,
       edugrade_id: ED,
       rolelevel_id: RL,
+      roletype_id: RT,
       vesseltype_id: idvessel,
       country_id: 100,
       city_id: idcity,
@@ -166,7 +179,7 @@ const SeafarerJobApp = () => {
   }
   useEffect(() => {
     getdatapencarian()
-  }, [JC, searchJob, RL, ED, idcity, idvessel, employmentType, employeeType, company])
+  }, [JC, searchJob, RL, RT, ED, idcity, idvessel, employmentType, employeeType, company])
 
   return (
     <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -264,60 +277,39 @@ const SeafarerJobApp = () => {
                           renderInput={params => <TextField {...params} label='Location' />}
                           onChange={(event: any, newValue: City | null) => {
                             setPage(1)
-                            newValue?.id ? setCombocity(newValue.id) : setCombocity('')
+                            newValue?.id ? setCombocity(newValue.id) : setCombocity(null)
                           }}
                         />
                       </Grid>
                     </Grid>
                     <Grid item container xs={12} md={5} minWidth={'350px'} spacing={2}>
                       <Grid item xs={employeeType === 'onship' ? 4 : 3}>
-                        {/* <Autocomplete
-                          fullWidth
-                          disablePortal
-                          id='combo-box-demo'
-                          options={[]}
-                          renderInput={params => <TextField {...params} label='Newest' />}
-                        /> */}
                         <Autocomplete
                           fullWidth
                           disablePortal
                           id='combo-box-level'
                           options={JobCategory}
                           getOptionLabel={(option: JobCategory) => option.name}
-                          renderInput={params => <TextField {...params} label='Category' />}
+                          renderInput={params => <TextField {...params} label='Job Category' />}
                           onChange={(event: any, newValue: JobCategory | null) => {
                             setPage(1)
-                            newValue?.id ? setJC(newValue?.id) : setJC(0)
+                            newValue?.id ? setJC(newValue?.id) : setJC(undefined)
                           }}
                         />
                       </Grid>
                       {employeeType === 'onship' ? (
                         <>
-                          {/* <Grid item xs={3}>
-                            <Autocomplete
-                              fullWidth
-                              disablePortal
-                              id='combo-box-level'
-                              options={JobCategory}
-                              getOptionLabel={(option: JobCategory) => option.name}
-                              renderInput={params => <TextField {...params} label='Category' />}
-                              onChange={(event: any, newValue: JobCategory | null) => {
-                                setPage(1)
-                                newValue?.id ? setJC(newValue?.id) : setJC(0)
-                              }}
-                            />
-                          </Grid> */}
                           <Grid item xs={4}>
                             <Autocomplete
-                              fullWidth
                               disablePortal
-                              id='combo-box-level'
-                              options={RoleLevel}
-                              getOptionLabel={(option: RoleLevel) => option.levelName}
-                              renderInput={params => <TextField {...params} label='Role Level' />}
-                              onChange={(event: any, newValue: RoleLevel | null) => {
+                              id='combo-box-demo'
+                              disabled={!JC}
+                              options={JC ? RoleType : []}
+                              getOptionLabel={(option: RoleType) => option.name}
+                              renderInput={params => <TextField {...params} label='Job Rank' />}
+                              onChange={(event: any, newValue: RoleType | null) => {
                                 setPage(1)
-                                newValue?.id ? setRL(newValue?.id) : setRL(0)
+                                newValue?.id ? setRT(newValue.id) : setRT(undefined)
                               }}
                             />
                           </Grid>
@@ -331,7 +323,7 @@ const SeafarerJobApp = () => {
                               renderInput={params => <TextField {...params} label='Vessel Type' />}
                               onChange={(event: any, newValue: VesselType | null) => {
                                 setPage(1)
-                                newValue?.id ? setVesel(newValue?.id) : setVesel('')
+                                newValue?.id ? setVesel(newValue?.id) : setVesel(undefined)
                               }}
                             />
                           </Grid>
@@ -348,7 +340,7 @@ const SeafarerJobApp = () => {
                               renderInput={params => <TextField {...params} label='Role Level' />}
                               onChange={(event: any, newValue: RoleLevel | null) => {
                                 setPage(1)
-                                newValue?.id ? setRL(newValue?.id) : setRL(0)
+                                newValue?.id ? setRL(newValue?.id) : setRL(undefined)
                               }}
                             />
                           </Grid>
@@ -362,7 +354,7 @@ const SeafarerJobApp = () => {
                               renderInput={params => <TextField {...params} label='Education' />}
                               onChange={(event: any, newValue: Degree | null) => {
                                 setPage(1)
-                                newValue?.id ? setED(newValue?.id) : setED(0)
+                                newValue?.id ? setED(newValue?.id) : setED(undefined)
                               }}
                             />
                           </Grid>
@@ -376,7 +368,7 @@ const SeafarerJobApp = () => {
                               renderInput={params => <TextField {...params} label='Employment Type' />}
                               onChange={(event: any, newValue: { name: string } | null) => {
                                 setPage(1)
-                                newValue?.name ? setEmplymentType(newValue?.name) : setEmplymentType('')
+                                newValue?.name ? setEmplymentType(newValue?.name) : setEmplymentType(undefined)
                               }}
                             />
                           </Grid>

@@ -62,6 +62,36 @@ const renderList = (listJobs: Job[] | null) => {
     return <></>
   }
 
+  const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
+    if (+salaryStart == 0) {
+      return '-'
+    }
+
+    if (salaryStart && salaryEnd) {
+      if (currency == 'IDR') {
+        // IDR
+        if (+salaryEnd == 0) {
+          return `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (${currency})`
+        } else {
+          return `${
+            salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
+            ' - ' +
+            salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+          } (${currency})`
+        }
+      } else {
+        // USD
+        if (+salaryEnd == 0) {
+          return `${salaryStart} (${currency})`
+        } else {
+          return `${salaryStart} - ${salaryEnd} (${currency})`
+        }
+      }
+    } else {
+      return '-'
+    }
+  }
+
   return listJobs.map(item => {
     const { user } = useAuth()
 
@@ -158,23 +188,9 @@ const renderList = (listJobs: Job[] | null) => {
                     <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
                     <Grid item xs={true} sx={{ flexGrow: 1 }}>
                       <TruncatedTypography line={1} fontSize={16}>
-                        {item?.currency == 'IDR' ? (
-                          <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                            {item?.salary_start && item?.salary_end
-                              ? `${
-                                  item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-                                  ' - ' +
-                                  item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                                } (${item?.currency})`
-                              : '-'}
-                          </Typography>
-                        ) : (
-                          <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                            {item?.salary_start && item?.salary_end
-                              ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
-                              : '-'}
-                          </Typography>
-                        )}
+                        <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                          {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
+                        </Typography>
                       </TruncatedTypography>
                     </Grid>
                   </Grid>
@@ -203,23 +219,9 @@ const renderList = (listJobs: Job[] | null) => {
                     <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
                     <Grid item xs={true} sx={{ flexGrow: 1 }}>
                       <TruncatedTypography line={1} fontSize={16}>
-                        {item?.currency == 'IDR' ? (
-                          <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                            {item?.salary_start && item?.salary_end
-                              ? `${
-                                  item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-                                  ' - ' +
-                                  item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                                } (${item?.currency})`
-                              : '-'}
-                          </Typography>
-                        ) : (
-                          <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                            {item?.salary_start && item?.salary_end
-                              ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
-                              : '-'}
-                          </Typography>
-                        )}
+                        <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+                          {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
+                        </Typography>
                       </TruncatedTypography>
                     </Grid>
                   </Grid>

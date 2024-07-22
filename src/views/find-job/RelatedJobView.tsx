@@ -9,13 +9,66 @@ interface IRelatedJobViewProps {
   jobDetailSugestion: Job[]
 }
 
+const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
+  const { children, line, ...rest } = props
+  const maxLine = line ? line : 1
+
+  return (
+    <Typography
+      sx={{
+        display: '-webkit-box',
+        WebkitBoxOrient: 'vertical',
+        WebkitLineClamp: maxLine,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'normal',
+        maxHeight: `calc(${maxLine} * 1.2em)`,
+        minHeight: '1.2em',
+        lineHeight: '1.2em',
+        fontSize: '16px',
+        ...rest
+      }}
+    >
+      {children}
+    </Typography>
+  )
+}
+
 const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) => {
+  const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
+    if (+salaryStart == 0) {
+      return '-'
+    }
+
+    if (salaryStart && salaryEnd) {
+      if (currency == 'IDR') {
+        // IDR
+        if (+salaryEnd == 0) {
+          return `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (${currency})`
+        } else {
+          return `${
+            salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
+            ' - ' +
+            salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+          } (${currency})`
+        }
+      } else {
+        // USD
+        if (+salaryEnd == 0) {
+          return `${salaryStart} (${currency})`
+        } else {
+          return `${salaryStart} - ${salaryEnd} (${currency})`
+        }
+      }
+    } else {
+      return '-'
+    }
+  }
+
   return (
     <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
       <Grid sx={{ padding: 3 }} container>
         {jobDetailSugestion.map(item => {
-          //   const license: any[] = Object.values(item?.license != undefined ? item?.license : '')
-
           return (
             <Grid item xs={12} md={12} key={item?.id}>
               <Paper sx={{ marginTop: '10px', border: '1px solid #eee', height: 'auto' }} elevation={0}>
@@ -54,38 +107,18 @@ const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) 
                       <Icon icon='solar:case-minimalistic-bold-duotone' color='#32487A' fontSize={'20px'} />
                     </Grid>
                     <Grid item xs={11}>
-                      <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                      <Typography sx={{ color: 'text.primary' }} fontSize={12}>
                         {item?.rolelevel?.levelName} | {item?.category?.name}
                       </Typography>
                     </Grid>
 
                     {item?.category?.employee_type != 'offship' ? (
                       <>
-                        {/* <Grid item xs={1}>
-                          <Icon icon='solar:medal-ribbons-star-bold-duotone' color='#32487A' fontSize={'20px'} />
-                        </Grid>
-                        <Grid item xs={11} maxWidth={'90%'}>
-                          <Typography
-                            sx={{
-                              color: 'text.primary',
-                              display: '-webkit-box',
-                              overflow: 'hidden',
-                              WebkitBoxOrient: 'vertical',
-                              WebkitLineClamp: 2,
-                              maxWidth: '70%'
-                            }}
-                            ml='0.5rem'
-                            mt='0.2rem'
-                            fontSize={12}
-                          >
-                            {license.map(e => e.title).join(', ')}
-                          </Typography>
-                        </Grid> */}
                         <Grid item xs={1}>
                           <Icon icon='ri:ship-fill' color='#32487A' fontSize={'20px'} />
                         </Grid>
                         <Grid item xs={11} maxWidth={'90%'}>
-                          <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                          <Typography sx={{ color: 'text.primary' }} fontSize={12}>
                             {item?.vessel_type?.name}
                           </Typography>
                         </Grid>
@@ -93,7 +126,7 @@ const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) 
                           <Icon icon='ri:calendar-fill' color='#32487A' fontSize={'20px'} />
                         </Grid>
                         <Grid item xs={11} maxWidth={'90%'}>
-                          <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                          <Typography sx={{ color: 'text.primary' }} fontSize={12}>
                             {format(new Date(item?.onboard_at), 'dd MMMM yyyy')}
                           </Typography>
                         </Grid>
@@ -101,28 +134,20 @@ const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) 
                           <Icon icon='mdi:timer-sand' color='#32487A' fontSize={'20px'} />
                         </Grid>
                         <Grid item xs={11} maxWidth={'90%'}>
-                          <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+                          <Typography sx={{ color: 'text.primary' }} fontSize={12}>
                             {item?.contract_duration ? `${item?.contract_duration} months` : '-'}
                           </Typography>
                         </Grid>
-                        {!item?.hide_salary && (
-                          <>
-                            <Grid item xs={1}>
-                              <Icon icon='clarity:dollar-line' color='#32487A' fontSize={'20px'} />
-                            </Grid>
-                            <Grid item xs={11} maxWidth={'90%'}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                                {item?.salary_start && item?.salary_end
-                                  ? `${
-                                      item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-                                      ' - ' +
-                                      item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                                    } (${item?.currency})`
-                                  : '-'}
-                              </Typography>
-                            </Grid>
-                          </>
-                        )}
+                        <Grid item xs={1} sx={{ opacity: item?.hide_salary ? 0 : 100 }}>
+                          <Icon icon='clarity:dollar-line' color='#32487A' fontSize={'20px'} />
+                        </Grid>
+                        <Grid item xs={11} maxWidth={'90%'} sx={{ opacity: item?.hide_salary ? 0 : 100 }}>
+                          <TruncatedTypography line={1} fontSize={16}>
+                            <Typography sx={{ color: 'text.primary' }} fontSize={12}>
+                              {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
+                            </Typography>
+                          </TruncatedTypography>
+                        </Grid>
                       </>
                     ) : (
                       <>
@@ -142,24 +167,16 @@ const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) 
                             {item?.city?.city_name} | {item?.employment_type ? item?.employment_type : ''}
                           </Typography>
                         </Grid>
-                        {!item?.hide_salary && (
-                          <>
-                            <Grid item xs={1}>
-                              <Icon icon='clarity:dollar-line' color='#32487A' fontSize={'20px'} />
-                            </Grid>
-                            <Grid item xs={11} maxWidth={'90%'}>
-                              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                                {item?.salary_start && item?.salary_end
-                                  ? `${
-                                      item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-                                      ' - ' +
-                                      item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                                    } (${item?.currency})`
-                                  : '-'}
-                              </Typography>
-                            </Grid>
-                          </>
-                        )}
+                        <Grid item xs={1} sx={{ opacity: item?.hide_salary ? 0 : 100 }}>
+                          <Icon icon='clarity:dollar-line' color='#32487A' fontSize={'20px'} />
+                        </Grid>
+                        <Grid item xs={11} maxWidth={'90%'} sx={{ opacity: item?.hide_salary ? 0 : 100 }}>
+                          <TruncatedTypography line={1} fontSize={16}>
+                            <Typography sx={{ color: 'text.primary' }} fontSize={12}>
+                              {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
+                            </Typography>
+                          </TruncatedTypography>
+                        </Grid>
                       </>
                     )}
                   </Grid>
