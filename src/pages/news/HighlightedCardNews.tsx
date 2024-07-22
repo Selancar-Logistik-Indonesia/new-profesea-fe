@@ -46,14 +46,6 @@ const HighlightedCardNews: React.FC<IHighlightedCardNews> = ({
   description,
   slug
 }) => {
-  const truncateText = (text: string, maxLength: number) => {
-    if (text.length <= maxLength) {
-      return text
-    }
-
-    return text.substring(0, maxLength) + '...'
-  }
-
   return (
     <div className={styles['card-highlighted']}>
       <div className={styles['card-highlighted-thumb']}>
