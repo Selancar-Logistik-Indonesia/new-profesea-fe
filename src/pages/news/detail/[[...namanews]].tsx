@@ -68,6 +68,31 @@ const cardNewsWrapper: SxProps<Theme> = {
   }
 }
 
+const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
+  const { children, line, ...rest } = props
+  const maxLine = line ? line : 1
+
+  return (
+    <Typography
+      sx={{
+        display: '-webkit-box',
+        WebkitBoxOrient: 'vertical',
+        WebkitLineClamp: maxLine,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'normal',
+        maxHeight: `calc(${maxLine} * 1.2em)`,
+        minHeight: '1.2em',
+        lineHeight: '1.2em',
+        fontSize: '16px',
+        ...rest
+      }}
+    >
+      {children}
+    </Typography>
+  )
+}
+
 const newscache = secureLocalStorage.getItem(localStorageKeys.news) as INews
 
 const Thread = () => {
@@ -248,8 +273,8 @@ const ThreadApp = () => {
                 {ReactHtmlParser(`${threadDetail?.content}`)}
               </Typography>
             </Box>
-            <Box sx={{ ...detailContentRight }}>
-              <Box my={4} sx={{ position: 'sticky', top: '70px' }}>
+            <Box sx={{ ...detailContentRight, position: 'relative' }}>
+              <Box sx={{ position: 'sticky', top: '70px', borderRadius: '4px' }}>
                 <SideAd adslocation='home-page' />
               </Box>
             </Box>
@@ -315,24 +340,13 @@ const ThreadApp = () => {
                           marginBottom: '8px'
                         }}
                       >
-                        <Typography
-                          variant='h4'
-                          sx={{
-                            fontWeight: 700,
-                            cursor: 'pointer',
-                            fontSize: {
-                              xs: '18px !important'
-                            }
-                          }}
-                          color={'black'}
-                        >
-                          {/* {o?.title} */}
-                          {truncateText(o?.title, 35)}
-                        </Typography>
+                        <TruncatedTypography line={1} fontSize={18} fontWeight={700} color='black'>
+                          {o?.title}
+                        </TruncatedTypography>
                       </Link>
                       <Typography
                         fontWeight={400}
-                        fontSize={16}
+                        fontSize={14}
                         sx={{
                           height: '72px',
                           maxHeight: '100px'
