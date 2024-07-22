@@ -345,7 +345,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
               <TextField
                 error={formik.errors.document ? true : false}
                 name='document'
-                value={formik.values.document || 'Please Input Document'}
+                value={formik.values.document}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 disabled={formik.values.required_document != 'other' ? true : false}
