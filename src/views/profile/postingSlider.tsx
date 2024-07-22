@@ -6,8 +6,16 @@ import { formatIDR, getUserAvatar, timeCreated } from 'src/utils/helpers'
 import Link from 'next/link'
 import { useAuth } from 'src/hooks/useAuth'
 
-const Slides = (items: any[], teamId: number, width: number) => {
+const Slides = (items: any[], teamId: number, width: number, status: boolean) => {
   const { user } = useAuth()
+
+  const isStatusLink = (link: string) => {
+    if (!status) {
+      return `/login/?returnUrl=` + link
+    }
+
+    return link
+  }
 
   if (teamId === 4)
     return items.map((arr: any, index) => {
@@ -22,7 +30,7 @@ const Slides = (items: any[], teamId: number, width: number) => {
         <Box
           key={index}
           component={Link}
-          href={link}
+          href={isStatusLink(link)}
           target='_blank'
           sx={{
             p: '16px',
@@ -95,7 +103,7 @@ const Slides = (items: any[], teamId: number, width: number) => {
       <Box
         key={index}
         component={Link}
-        href={link}
+        href={isStatusLink(link)}
         target='_blank'
         sx={{
           p: '16px',
@@ -192,7 +200,7 @@ const IndexDots = ({ total, currentIndex, setIndex }: { total: number; currentIn
   )
 }
 
-const Slider = ({ items, teamId }: { items: any[]; teamId: number }) => {
+const Slider = ({ items, teamId, status }: { items: any[]; teamId: number; status: boolean }) => {
   const [index, setIndex] = useState(0)
   const [startX, setStartX] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
@@ -266,7 +274,7 @@ const Slider = ({ items, teamId }: { items: any[]; teamId: number }) => {
             transition: 'transform 0.5s ease-in-out'
           }}
         >
-          {Slides(items, teamId, cardWidth)}
+          {Slides(items, teamId, cardWidth, status)}
         </Grid>
       </Grid>
       <IndexDots total={items.length} currentIndex={index} setIndex={setIndex} />

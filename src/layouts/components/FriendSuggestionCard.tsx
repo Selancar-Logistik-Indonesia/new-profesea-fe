@@ -59,12 +59,22 @@ const renderList = (arr: IUser[]) => {
   })
 }
 
-const FriendSuggestionCard = ({ location, dataUser }: { location?: string; dataUser?: IUser }) => {
+const FriendSuggestionCard = ({
+  location,
+  dataUser,
+  status
+}: {
+  location?: string
+  dataUser?: IUser
+  status?: boolean
+}) => {
   const [listFriends, setListFriends] = useState<IUser[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-
+  if (status === undefined) {
+    status = true
+  }
   const fetchListFriends = async () => {
     setIsLoading(true)
     try {
@@ -87,6 +97,14 @@ const FriendSuggestionCard = ({ location, dataUser }: { location?: string; dataU
   useEffect(() => {
     fetchListFriends()
   }, [])
+
+  const isStatusLink = (link: string) => {
+    if (!status) {
+      return `/login/?returnUrl=` + link
+    }
+
+    return link
+  }
 
   return (
     <Box
@@ -122,7 +140,7 @@ const FriendSuggestionCard = ({ location, dataUser }: { location?: string; dataU
           <Divider sx={{ mx: '24px' }} />
           <Button
             endIcon={<Icon icon='mingcute:right-fill' style={{ fontSize: 18 }} />}
-            href={`/profile/connections`}
+            href={isStatusLink(`/profile/connections`)}
             sx={{
               py: '18px',
               display: 'flex',
