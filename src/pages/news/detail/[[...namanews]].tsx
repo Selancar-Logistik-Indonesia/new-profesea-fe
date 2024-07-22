@@ -21,7 +21,7 @@ import BreadcrumbsNews from '../BreadcrumbsNews'
 import { BreadcrumbsNewsProvider, useBreadcrumbsNews } from 'src/context/BreadcrumbsNewsContext'
 
 import { Theme } from '@mui/material'
-import { SxProps } from '@mui/system'
+import { height, SxProps } from '@mui/system'
 import FooterView from 'src/views/landing-page/footerView'
 import moment from 'moment'
 import styles from '../../../../styles/scss/CardNews.module.scss'
@@ -169,12 +169,29 @@ const ThreadApp = () => {
     }
   }
 
-  const truncateText = (text: string, maxLength: number) => {
-    if (text.length <= maxLength) {
-      return text
-    }
+  const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
+    const { children, line, ...rest } = props
+    const maxLine = line ? line : 1
 
-    return text.substring(0, maxLength) + '...'
+    return (
+      <Typography
+        sx={{
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+          WebkitLineClamp: maxLine,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'normal',
+          maxHeight: `calc(${maxLine} * 1.2em)`,
+          minHeight: '1.2em',
+          lineHeight: '1.2em',
+          fontSize: '16px',
+          ...rest
+        }}
+      >
+        {children}
+      </Typography>
+    )
   }
 
   const bannerHeroDetail: SxProps<Theme> = {
@@ -268,13 +285,13 @@ const ThreadApp = () => {
           </Grid>
           {/* Content */}
           <Grid item xs={12} sx={{ my: 4, ...detailContentWrapper, gap: 8 }}>
-            <Box sx={{ ...detailContentLeft, background: '#FFF', padding: '24px', borderRadius: '4px' }}>
+            <Box sx={{ ...detailContentLeft, background: '#FFF', padding: '24px', borderRadius: '16px' }}>
               <Typography variant='body2' fontSize={14} style={{ color: '#424242', fontFamily: 'Outfit' }}>
                 {ReactHtmlParser(`${threadDetail?.content}`)}
               </Typography>
             </Box>
             <Box sx={{ ...detailContentRight, position: 'relative' }}>
-              <Box sx={{ position: 'sticky', top: '70px', borderRadius: '4px' }}>
+              <Box sx={{ borderRadius: '16px' }}>
                 <SideAd adslocation='home-page' />
               </Box>
             </Box>
@@ -320,10 +337,10 @@ const ThreadApp = () => {
                   >
                     <Box
                       sx={{
-                        minHeight: '150px',
                         display: 'flex',
                         flexDirection: 'column',
-                        justifyContent: 'flex-start'
+                        justifyContent: 'flex-start',
+                        mb: '24px'
                       }}
                     >
                       <Typography
@@ -340,20 +357,13 @@ const ThreadApp = () => {
                           marginBottom: '8px'
                         }}
                       >
-                        <TruncatedTypography line={1} fontSize={18} fontWeight={700} color='black'>
+                        <TruncatedTypography line={2} fontSize={18} fontWeight={700} color='black' minHeight={'50px'}>
                           {o?.title}
                         </TruncatedTypography>
                       </Link>
-                      <Typography
-                        fontWeight={400}
-                        fontSize={14}
-                        sx={{
-                          height: '72px',
-                          maxHeight: '100px'
-                        }}
-                      >
-                        {truncateText(o?.snap_content, 100)}
-                      </Typography>
+                      <TruncatedTypography line={3} fontWeight={400} fontSize={14}>
+                        {o?.snap_content}
+                      </TruncatedTypography>
                     </Box>
                     <Box>
                       <Typography sx={{ fontWeight: 400 }} color={'gray'} fontSize={14}>

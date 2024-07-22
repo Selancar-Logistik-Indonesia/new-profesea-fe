@@ -60,7 +60,8 @@ const HighlightedCardNews: React.FC<IHighlightedCardNews> = ({
             style={{
               fontSize: '14px',
               textTransform: 'capitalize',
-              color: '#949EA2'
+              color: '#949EA2',
+              fontWeight: 400
             }}
           >
             {category}
@@ -68,15 +69,14 @@ const HighlightedCardNews: React.FC<IHighlightedCardNews> = ({
         </div>
         <h2 className={styles['card-highlighted-title']}>
           <a href={`/news/detail/${slug}`}>
-            <TruncatedTypography line={1} fontSize={18} color='black' fontWeight={'bold'}>
+            <TruncatedTypography line={2} fontSize={18} color='black' fontWeight={'bold'}>
               {title}
             </TruncatedTypography>
           </a>
         </h2>
         <p className={styles['card-highlighted-description']}>{description}</p>
       </div>
-      <p style={{ fontSize: '12px', paddingLeft: '20px', paddingRight: '20px', color: '#949EA2' }}>
-        {' '}
+      <p style={{ fontSize: '12px', paddingLeft: '20px', paddingRight: '20px', color: '#949EA2', fontWeight: 400 }}>
         {moment(postDate).format('LL')}
       </p>
     </div>
