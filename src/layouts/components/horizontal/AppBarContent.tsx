@@ -5,28 +5,28 @@ import HorizontalNavItems from 'src/navigation/horizontal'
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
 import NotificationDropdown from 'src/@core/layouts/components/shared-components/NotificationDropdown'
 import AppbarSearchUser from 'src/views/appbar/appbar-search-user'
+import { Grid } from '@mui/material'
 
 interface Props {
-    settings: Settings
-    saveSettings: (values: Settings) => void
+  settings: Settings
+  saveSettings: (values: Settings) => void
 }
 
 const AppBarContent = (props: Props) => {
-    const { settings } = props;
+  const { settings } = props
 
-    return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box>
-            <AppbarSearchUser />
-        </Box>
-            <Navigation
-                {...props}
-                horizontalNavItems={HorizontalNavItems()}
-            />
-            <NotificationDropdown settings={settings} />
-            <UserDropdown settings={settings} />
-        </Box>
-    )
+  return (
+    <Grid container sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'space-between' }}>
+      <Grid item xs={true} sx={{ flexGrow: 1, display: 'flex', px: '14px', justifyContent: 'center' }}>
+        <AppbarSearchUser />
+      </Grid>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Navigation {...props} horizontalNavItems={HorizontalNavItems()} />
+        <NotificationDropdown settings={settings} />
+        <UserDropdown settings={settings} />
+      </Box>
+    </Grid>
+  )
 }
 
 export default AppBarContent
