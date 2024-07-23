@@ -86,8 +86,8 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
     grt: '' as any,
     dwt: '' as any,
     me_power: '' as any,
-    sign_in: '' as any,
-    sign_off: '' as any,
+    sign_in: signIn as any,
+    sign_off: signOff as any,
     company: '' as any
   }
 
@@ -238,7 +238,12 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
 
   return (
     <Dialog fullWidth open={showModal} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
-      <form onSubmit={formik.handleSubmit}>
+      <form
+        onSubmit={formik.handleSubmit}
+        onReset={() => {
+          formik.resetForm()
+        }}
+      >
         <DialogTitle>
           <IconButton
             size='small'
@@ -368,6 +373,9 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                     id='sign_in'
                     name='sign_in'
                     fullWidth
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 }
               />
@@ -389,6 +397,9 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                     fullWidth
                     id='sign_off'
                     name='sign_off'
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 }
               />
@@ -406,17 +417,17 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                 fullWidth
               />
             </Grid>
-            <Grid item md={12} xs={12} mb={5} sx={{ color: 'red', margin: '-10px -25px' }}>
-              <ul>
-                {formik.isSubmitting &&
-                  Object.entries(formik.errors).map((item: any) => {
-                    return <li key={item[0]}>{JSON.stringify(item[1])}</li>
-                  })}
-              </ul>
-            </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
+          <Button
+            type='reset'
+            variant='contained'
+            style={{ margin: '10px 10px', backgroundColor: 'grey' }}
+            size='small'
+          >
+            Reset
+          </Button>
           <Button
             disabled={Object.keys(formik.errors).length > 0 ? true : false}
             type='submit'
