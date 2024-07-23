@@ -154,7 +154,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
         loadTravelDocument()
       })
       .catch(err => {
-        toast.error(JSON.stringify(err.message))
+        toast.error(JSON.stringify(err.response.data.message || err.message))
       })
   }
 
@@ -180,7 +180,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
         loadTravelDocument()
       })
       .catch(err => {
-        toast.error(JSON.stringify(err.message))
+        toast.error(JSON.stringify(err.response.data.message || err.message))
       })
   }
 

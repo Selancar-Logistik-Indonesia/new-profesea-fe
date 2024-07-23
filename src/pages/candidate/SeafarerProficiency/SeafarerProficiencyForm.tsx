@@ -145,7 +145,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         handleModalForm(type, undefined)
       })
       .catch(err => {
-        toast.error(JSON.stringify(err.message))
+        toast.error(JSON.stringify(err.response.data.message || err.message))
       })
   }
 
@@ -167,7 +167,11 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         handleModalForm(type, undefined)
       })
       .catch(err => {
-        toast.error(JSON.stringify(err.message))
+        toast.error(JSON.stringify(err.response.data.message || err.message), {
+          style: {
+            zIndex: 10000
+          }
+        })
       })
   }
 
