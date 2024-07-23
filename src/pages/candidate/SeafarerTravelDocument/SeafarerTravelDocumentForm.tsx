@@ -403,6 +403,9 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                     id='date_of_issue'
                     name='date_of_issue'
                     fullWidth
+                    InputProps={{
+                      readOnly: true
+                    }}
                   ></TextField>
                 }
               />
