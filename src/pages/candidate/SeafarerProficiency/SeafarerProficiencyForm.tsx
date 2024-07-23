@@ -62,7 +62,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
           id: seafarerProficiency?.proficiency?.id,
           title: seafarerProficiency?.proficiency?.title
         }
-      : {}
+      : ''
   )
   const [countryOfIssue, setCountryOfIssue] = useState<any>(
     type == 'edit'
@@ -70,7 +70,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
           id: seafarerProficiency?.country_id,
           name: seafarerProficiency?.country
         }
-      : {}
+      : ''
   )
 
   const [countries, setCountries] = useState<{ id?: number; name: string }[]>([])

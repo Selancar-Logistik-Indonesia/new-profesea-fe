@@ -84,7 +84,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     no: '' as string | undefined,
     date_of_issue: dateOfIssue as any,
     country_of_issue: countryOfIssue as any,
-    user_id: undefined as number | undefined,
+    user_id: user_id as number | undefined,
     valid_date: validDateState as any,
     is_lifetime: false as boolean | undefined,
     required_document: 'other' as string | undefined

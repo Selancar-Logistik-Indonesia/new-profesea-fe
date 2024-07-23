@@ -98,7 +98,13 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
     <Grid item container md={12}>
       <Grid item container xs={12} md={6} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
         <Dialog open={showModal}>
-          <form onSubmit={formik.handleSubmit} method='post'>
+          <form
+            onSubmit={formik.handleSubmit}
+            onReset={() => {
+              formik.resetForm()
+            }}
+            method='post'
+          >
             <DialogTitle>
               <IconButton
                 size='small'
@@ -177,6 +183,14 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
               </Grid>
             </DialogContent>
             <DialogActions style={{ textAlign: 'center' }}>
+              <Button
+                type='reset'
+                variant='contained'
+                style={{ margin: '10px 10px', backgroundColor: 'grey' }}
+                size='small'
+              >
+                Reset
+              </Button>
               <Button disabled={loading} type='submit' variant='contained' style={{ margin: '10px 0' }} size='small'>
                 <Icon
                   fontSize='small'
