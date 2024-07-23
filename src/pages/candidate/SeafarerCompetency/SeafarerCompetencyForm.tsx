@@ -73,7 +73,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
   )
 
   const [countries, setCountries] = useState<{ id?: number; name: string }[]>([])
-  const [proficiencies, setProficiencies] = useState([])
+  const [competencies, setCompetencies] = useState([])
 
   const formik = useFormik({
     initialValues: {
@@ -85,6 +85,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
       is_lifetime: type == 'edit' ? (seafarerCompetency?.is_lifetime ? true : false) : false
     },
     validationSchema: CompetencySchema,
+    enableReinitialize: true,
     onSubmit: values => {
       handleSubmit(values)
     }
@@ -117,7 +118,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
           }
         })
 
-        setProficiencies(certificates)
+        setCompetencies(certificates)
       })
       .catch(err => {
         toast.error(' err load Certificate ' + JSON.stringify(err.message))
@@ -194,6 +195,16 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
     }
   }, [formik.values.is_lifetime, validDateState])
 
+  // bikin merah
+  // useEffect(() => {
+  //   if (coc) {
+  //     formik.setValues({
+  //       ...formik.values,
+  //       coc_id: coc
+  //     })
+  //   }
+  // }, [coc])
+
   useEffect(() => {
     if (!attachment) {
       setPreview(
@@ -224,7 +235,13 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
 
   return (
     <Dialog fullWidth open={showModal} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
-      <form onSubmit={formik.handleSubmit}>
+      <form
+        noValidate
+        onSubmit={formik.handleSubmit}
+        onReset={() => {
+          formik.resetForm()
+        }}
+      >
         <DialogTitle>
           <IconButton
             size='small'
@@ -255,9 +272,10 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
               <Autocomplete
                 id='autocomplete-competency'
                 disablePortal
-                options={proficiencies}
+                options={competencies}
                 getOptionLabel={(option: any) => option.title || ''}
                 defaultValue={coc?.id ? coc : ''}
+                value={coc?.id ? coc : ''}
                 renderInput={params => (
                   <TextField
                     {...params}
@@ -282,7 +300,6 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                     error={formik.errors.country_id ? true : false}
                     label='Country of Issue * '
                     variant='standard'
-                    
                   />
                 )}
                 onChange={(event: any, newValue: string | null) =>
@@ -315,7 +332,16 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
                 dropdownMode='select'
                 id='valid_date'
                 name='valid_date'
-                customInput={<TextField label='Valid Date' variant='standard' fullWidth />}
+                customInput={
+                  <TextField
+                    label='Valid Date'
+                    variant='standard'
+                    fullWidth
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                }
               />
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
@@ -394,6 +420,14 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
           </Grid>
         </DialogContent>
         <DialogActions>
+          <Button
+            type='reset'
+            variant='contained'
+            style={{ margin: '10px 10px', backgroundColor: 'grey' }}
+            size='small'
+          >
+            Reset
+          </Button>
           <Button
             disabled={Object.keys(formik.errors).length > 0 ? true : false}
             type='submit'

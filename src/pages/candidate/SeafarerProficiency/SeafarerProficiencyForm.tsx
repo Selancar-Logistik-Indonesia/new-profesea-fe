@@ -225,7 +225,13 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
 
   return (
     <Dialog fullWidth open={showModal} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
-      <form noValidate onSubmit={formik.handleSubmit}>
+      <form
+        noValidate
+        onSubmit={formik.handleSubmit}
+        onReset={() => {
+          formik.resetForm()
+        }}
+      >
         <DialogTitle>
           <IconButton
             size='small'
@@ -315,7 +321,16 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 dropdownMode='select'
                 id='valid_date'
                 name='valid_date'
-                customInput={<TextField label='Valid Date' variant='standard' fullWidth />}
+                customInput={
+                  <TextField
+                    label='Valid Date'
+                    variant='standard'
+                    fullWidth
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                }
               />
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
@@ -392,6 +407,14 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
           </Grid>
         </DialogContent>
         <DialogActions>
+          <Button
+            type='reset'
+            variant='contained'
+            style={{ margin: '10px 10px', backgroundColor: 'grey' }}
+            size='small'
+          >
+            Reset
+          </Button>
           <Button
             disabled={Object.keys(formik.errors).length > 0 ? true : false}
             type='submit'

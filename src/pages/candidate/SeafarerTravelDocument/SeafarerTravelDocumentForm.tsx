@@ -82,10 +82,10 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
   let initialValues = {
     document: '' as string | undefined,
     no: '' as string | undefined,
-    date_of_issue: '' as any,
-    country_of_issue: null as any,
+    date_of_issue: dateOfIssue as any,
+    country_of_issue: countryOfIssue as any,
     user_id: undefined as number | undefined,
-    valid_date: '' as any,
+    valid_date: validDateState as any,
     is_lifetime: false as boolean | undefined,
     required_document: 'other' as string | undefined
   }
@@ -214,6 +214,15 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
   }, [validDateState])
 
   // useEffect(() => {
+  //   if (countryOfIssue) {
+  //     formik.setValues({
+  //       ...formik.values,
+  //       country_of_issue: countryOfIssue
+  //     })
+  //   }
+  // }, [countryOfIssue])
+
+  // useEffect(() => {
   //   formik.setValues({
   //     ...formik.values,
   //     document:
@@ -269,7 +278,13 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
 
   return (
     <Dialog fullWidth open={showModal} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
-      <form onSubmit={formik.handleSubmit}>
+      <form
+        noValidate
+        onSubmit={formik.handleSubmit}
+        onReset={() => {
+          formik.resetForm()
+        }}
+      >
         <DialogTitle>
           <IconButton
             size='small'
@@ -299,7 +314,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
             <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
                 disablePortal
-                id='country_of_issue'
+                id='autocomplete-country-of-issue'
                 options={countries}
                 defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
                 getOptionLabel={option => option.name || ''}
@@ -392,7 +407,6 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 }
               />
             </Grid>
-
             <Grid item md={12} xs={12} mb={5}>
               <DatePicker
                 disabled={formik.values.is_lifetime ? true : false}
@@ -405,7 +419,16 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 dropdownMode='select'
                 id='valid-date-datepicker'
                 customInput={
-                  <TextField label='Valid Date' variant='standard' fullWidth id='valid_date' name='valid_date' />
+                  <TextField
+                    label='Valid Date'
+                    variant='standard'
+                    fullWidth
+                    id='valid_date'
+                    name='valid_date'
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
                 }
               />
             </Grid>
@@ -423,7 +446,6 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 label='Lifetime'
               />
             </Grid>
-
             <Grid item md={12} xs={12} mt={2}>
               <Grid item xs={12} md={12} container justifyContent={'left'}>
                 <Grid xs={4}>
@@ -482,6 +504,14 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
           </Grid>
         </DialogContent>
         <DialogActions>
+          <Button
+            type='reset'
+            variant='contained'
+            style={{ margin: '10px 10px', backgroundColor: 'grey' }}
+            size='small'
+          >
+            Reset
+          </Button>
           <Button
             disabled={Object.keys(formik.errors).length > 0 ? true : false}
             type='submit'
