@@ -21,7 +21,7 @@ import BreadcrumbsNews from '../BreadcrumbsNews'
 import { BreadcrumbsNewsProvider, useBreadcrumbsNews } from 'src/context/BreadcrumbsNewsContext'
 
 import { Theme } from '@mui/material'
-import { height, SxProps } from '@mui/system'
+import { SxProps } from '@mui/system'
 import FooterView from 'src/views/landing-page/footerView'
 import moment from 'moment'
 import styles from '../../../../styles/scss/CardNews.module.scss'
@@ -68,30 +68,30 @@ const cardNewsWrapper: SxProps<Theme> = {
   }
 }
 
-const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
-  const { children, line, ...rest } = props
-  const maxLine = line ? line : 1
+// const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
+//   const { children, line, ...rest } = props
+//   const maxLine = line ? line : 1
 
-  return (
-    <Typography
-      sx={{
-        display: '-webkit-box',
-        WebkitBoxOrient: 'vertical',
-        WebkitLineClamp: maxLine,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'normal',
-        maxHeight: `calc(${maxLine} * 1.2em)`,
-        minHeight: '1.2em',
-        lineHeight: '1.2em',
-        fontSize: '16px',
-        ...rest
-      }}
-    >
-      {children}
-    </Typography>
-  )
-}
+//   return (
+//     <Typography
+//       sx={{
+//         display: '-webkit-box',
+//         WebkitBoxOrient: 'vertical',
+//         WebkitLineClamp: maxLine,
+//         overflow: 'hidden',
+//         textOverflow: 'ellipsis',
+//         whiteSpace: 'normal',
+//         maxHeight: `calc(${maxLine} * 1.2em)`,
+//         minHeight: '1.2em',
+//         lineHeight: '1.2em',
+//         fontSize: '16px',
+//         ...rest
+//       }}
+//     >
+//       {children}
+//     </Typography>
+//   )
+// }
 
 const newscache = secureLocalStorage.getItem(localStorageKeys.news) as INews
 

@@ -3,7 +3,6 @@ import Link from 'next/link'
 import React from 'react'
 import { useBreadcrumbsNews } from 'src/context/BreadcrumbsNewsContext'
 import { MdNavigateNext } from 'react-icons/md'
-import { useRouter } from 'next/navigation'
 
 const BreadcrumbsNews = () => {
   const { breadcrumbs } = useBreadcrumbsNews()

@@ -149,6 +149,7 @@ const AppbarSearchUser = () => {
             </Typography>
           )
         }
+
         return (
           <Grid
             container
