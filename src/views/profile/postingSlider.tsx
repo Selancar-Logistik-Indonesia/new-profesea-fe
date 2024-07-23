@@ -63,7 +63,7 @@ const Slides = (items: any[], teamId: number, width: number, status: boolean) =>
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography sx={{ color: 'primary.main', fontSize: 16, fontWeight: 'bold' }}>{arr.title}</Typography>
-              <Typography sx={{ color: 'primary.main', fontSize: 14 }}>{arr.category.category}</Typography>
+              <Typography sx={{ color: 'primary.main', fontSize: 14 }}>{arr.category?.category}</Typography>
               <Typography sx={{ fontSize: 14, color: '#949EA2' }}>
                 {arr.discounted_price ? formatIDR(arr.discounted_price, true) : formatIDR(arr.price, true)}
               </Typography>
