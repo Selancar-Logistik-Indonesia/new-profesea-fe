@@ -6,7 +6,7 @@ import { IUser } from 'src/contract/models/user'
 const AboutMe = ({ dataUser }: { dataUser: IUser }) => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
-  if (!dataUser.about && dataUser.id !== user.id) return null
+  if (!dataUser.about && dataUser.id !== user?.id) return null
 
   return (
     <Box sx={{ p: '24px', borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>

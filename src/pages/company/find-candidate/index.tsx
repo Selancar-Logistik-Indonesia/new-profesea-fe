@@ -407,7 +407,9 @@ const FindCandidateApp = () => {
     const response = await HttpClient.get(
       `/candidate?search=' + '&take=6&page=1&status=bayar&employee_type=${tabValue}`
     )
-    const candidates = response.data.candidates
+
+    const candidates = await response.data
+
     setListCandidateSubscribe(candidates.data)
   }
 

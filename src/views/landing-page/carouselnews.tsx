@@ -9,9 +9,11 @@ import { toast } from 'react-hot-toast'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 import Moment from 'moment'
+import { useRouter } from 'next/router'
 
 const CarouselNewsView = () => {
   // const [forumCode, setForumCode] = useState('')
+  const router = useRouter()
   const [dataSheet, setDataSheet] = useState<[]>([])
   const { t } = useTranslation()
   const responsive = {
@@ -54,6 +56,10 @@ const CarouselNewsView = () => {
 
       toast.error(`Opps ${errorMessage}`)
     }
+  }
+
+  const handleOpenNews = () => {
+    router.push('/news')
   }
 
   useEffect(() => {
@@ -143,7 +149,13 @@ const CarouselNewsView = () => {
             {t('landing_news_title')}
           </Typography>
         </Grid>
-        <Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2
+          }}
+        >
           <Carousel
             autoPlay={true}
             swipeable={true}
@@ -167,6 +179,25 @@ const CarouselNewsView = () => {
               <Item key={i} item={item}></Item>
             ))}
           </Carousel>
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              mb: 4
+            }}
+          >
+            <Typography
+              variant='h6'
+              color={'primary'}
+              sx={{
+                cursor: 'pointer'
+              }}
+              onClick={handleOpenNews}
+            >
+              Lihat berita lainnya
+            </Typography>
+          </Box>
         </Box>
       </Grid>
     </Grid>

@@ -39,8 +39,9 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
     },
     enableReinitialize: true,
     validationSchema: ProficiencySchema,
-    onSubmit: values => {
+    onSubmit: (values, { resetForm }) => {
       handleSubmit(values)
+      resetForm()
     }
   })
 
@@ -98,7 +99,13 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
     <Grid item container md={12}>
       <Grid item container xs={12} md={6} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
         <Dialog open={showModal}>
-          <form onSubmit={formik.handleSubmit} method='post'>
+          <form
+            onSubmit={formik.handleSubmit}
+            onReset={() => {
+              formik.resetForm()
+            }}
+            method='post'
+          >
             <DialogTitle>
               <IconButton
                 size='small'
@@ -175,16 +182,16 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item md={12} xs={12} mb={5} sx={{ color: 'red', margin: '10px -25px' }}>
-                <ul>
-                  {formik.errors &&
-                    Object.entries(formik.errors).map((item: any) => {
-                      return <li key={item[0]}>{JSON.stringify(item[1])}</li>
-                    })}
-                </ul>
-              </Grid>
             </DialogContent>
             <DialogActions style={{ textAlign: 'center' }}>
+              <Button
+                type='reset'
+                variant='contained'
+                style={{ margin: '10px 10px', backgroundColor: 'grey' }}
+                size='small'
+              >
+                Reset
+              </Button>
               <Button disabled={loading} type='submit' variant='contained' style={{ margin: '10px 0' }} size='small'>
                 <Icon
                   fontSize='small'

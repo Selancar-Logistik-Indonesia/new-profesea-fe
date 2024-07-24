@@ -97,8 +97,7 @@ type FormData = {
   instagram: string
   linkedin: string
   genderr: string
-  noExperience: boolean,
-  
+  noExperience: boolean
 }
 
 type compProps = {
@@ -158,10 +157,9 @@ const CandidateProfile = (props: compProps) => {
   const schema = yup.object().shape({
     address: yup.string().required(),
     email: yup.string().email().required(),
-    phone: yup.string().required(),
+    phone: yup.string().required()
     // idcombokelamin: yup.string().required(),
     // date_of_birth: yup.string().required(),
-
   })
   const theme = useTheme()
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -551,15 +549,15 @@ const CandidateProfile = (props: compProps) => {
   const onSubmit = (data: FormData) => {
     const { fullName, website, address, about } = data
 
-    if(!dateOfBirth){
+    if (!dateOfBirth) {
       toast.error('Date of Birth is required')
-      
+
       return false
     }
 
-    if(!idcombokelamin){
+    if (!idcombokelamin) {
       toast.error('Gender is required')
-      
+
       return false
     }
 
@@ -577,7 +575,7 @@ const CandidateProfile = (props: compProps) => {
       address_address: address,
       gender: idcombokelamin.title,
       location_province_id: idcomboProvince,
-      no_experience: noExperience,
+      no_experience: noExperience
       // team_id:props.datauser.team_id
     }
 
@@ -805,7 +803,6 @@ const CandidateProfile = (props: compProps) => {
       </CardContent>
 
       <form id='profile-form' noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-      
         <Grid className='profile-form' item container xs={12} spacing={3} sx={{ mb: 2 }} marginTop={'25px'}>
           <Grid item md={6} xs={12}>
             <TextField
@@ -1083,7 +1080,7 @@ const CandidateProfile = (props: compProps) => {
                   </Typography>
                   <Grid container item xs={12} justifyContent={'left'}>
                     <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                    Set your job preferences so companies can find the perfect fit.
+                      Set your job preferences so companies can find the perfect fit.
                     </Typography>
                   </Grid>
                 </Grid>

@@ -1,14 +1,21 @@
 import React, { useState, useRef } from 'react'
 import { Grid, Typography, Box, IconButton, Avatar } from '@mui/material'
-import moment from 'moment'
 import { format } from 'date-fns'
 import { Icon } from '@iconify/react'
-import { formatIDR, getUserAvatar } from 'src/utils/helpers'
+import { formatIDR, getUserAvatar, timeCreated } from 'src/utils/helpers'
 import Link from 'next/link'
 import { useAuth } from 'src/hooks/useAuth'
 
-const Slides = (items: any[], teamId: number, width: number) => {
+const Slides = (items: any[], teamId: number, width: number, status: boolean) => {
   const { user } = useAuth()
+
+  const isStatusLink = (link: string) => {
+    if (!status) {
+      return `/login/?returnUrl=` + link
+    }
+
+    return link
+  }
 
   if (teamId === 4)
     return items.map((arr: any, index) => {
@@ -23,7 +30,7 @@ const Slides = (items: any[], teamId: number, width: number) => {
         <Box
           key={index}
           component={Link}
-          href={link}
+          href={isStatusLink(link)}
           target='_blank'
           sx={{
             p: '16px',
@@ -56,7 +63,7 @@ const Slides = (items: any[], teamId: number, width: number) => {
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography sx={{ color: 'primary.main', fontSize: 16, fontWeight: 'bold' }}>{arr.title}</Typography>
-              <Typography sx={{ color: 'primary.main', fontSize: 14 }}>{arr.category.category}</Typography>
+              <Typography sx={{ color: 'primary.main', fontSize: 14 }}>{arr.category?.category}</Typography>
               <Typography sx={{ fontSize: 14, color: '#949EA2' }}>
                 {arr.discounted_price ? formatIDR(arr.discounted_price, true) : formatIDR(arr.price, true)}
               </Typography>
@@ -96,7 +103,7 @@ const Slides = (items: any[], teamId: number, width: number) => {
       <Box
         key={index}
         component={Link}
-        href={link}
+        href={isStatusLink(link)}
         target='_blank'
         sx={{
           p: '16px',
@@ -145,7 +152,7 @@ const Slides = (items: any[], teamId: number, width: number) => {
                 <Typography sx={{ color: '#636E72', fontSize: 14 }}>{arr.company.name}</Typography>
               </Box>
               <Typography sx={{ color: '#949EA2', fontSize: 12 }}>
-                {arr.created_at ? moment(arr.created_at).fromNow() : '-'}
+                {arr.created_at ? timeCreated(arr.created_at) : '-'}
               </Typography>
             </>
           ) : (
@@ -159,7 +166,7 @@ const Slides = (items: any[], teamId: number, width: number) => {
                 <Typography sx={{ color: '#636E72', fontSize: 14 }}>{arr.company.name}</Typography>
               </Box>
               <Typography sx={{ color: '#949EA2', fontSize: 12 }}>
-                {arr.created_at ? moment(arr.created_at).fromNow() : '-'}
+                {arr.created_at ? timeCreated(arr.created_at) : '-'}
               </Typography>
             </>
           )}
@@ -193,7 +200,7 @@ const IndexDots = ({ total, currentIndex, setIndex }: { total: number; currentIn
   )
 }
 
-const Slider = ({ items, teamId }: { items: any[]; teamId: number }) => {
+const Slider = ({ items, teamId, status }: { items: any[]; teamId: number; status: boolean }) => {
   const [index, setIndex] = useState(0)
   const [startX, setStartX] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
@@ -272,7 +279,7 @@ const Slider = ({ items, teamId }: { items: any[]; teamId: number }) => {
             transition: 'transform 0.5s ease-in-out'
           }}
         >
-          {Slides(items, teamId, cardWidth)}
+          {Slides(items, teamId, cardWidth, status)}
         </Grid>
       </Grid>
       <IndexDots total={items.length} currentIndex={index} setIndex={setIndex} />
