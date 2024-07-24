@@ -110,10 +110,21 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
     initialValues: initialValues,
     enableReinitialize: true,
     validationSchema: ExperienceSchema,
-    onSubmit: values => {
+    onSubmit: (values, {resetForm}) => {
       handleSubmit(values)
+      resetForm()
+      resetState()
     }
   })
+
+  const resetState = () => {
+    if(type != 'edit'){
+      setRankId('')
+      setVesselTypeId('')
+      setSignIn(null)
+      setSignOff(null)
+    }
+  }
 
   const loadVesselTypes = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/vessel-type?page=1&take=100')
