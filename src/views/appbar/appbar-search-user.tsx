@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, useRef } from 'react'
-import { Autocomplete, Box, Grid, TextField, Typography, Popper, InputAdornment, CircularProgress } from '@mui/material'
+import { Autocomplete, Box, Grid, TextField, Typography, InputAdornment, CircularProgress } from '@mui/material'
 import { useRouter } from 'next/router'
 import ISearchContent from 'src/contract/models/search_content'
 import SearchContentType from 'src/contract/types/search_content_type'
@@ -7,10 +7,6 @@ import { HttpClient } from 'src/services'
 import debounce from 'src/utils/debounce'
 import { getUserAvatarByPath, toLinkCase } from 'src/utils/helpers'
 import { Icon } from '@iconify/react'
-
-const CustomPopper = (props: any) => {
-  return <Popper {...props} placement={'bottom-start'} style={{ width: '300px', overflowY: 'auto' }} />
-}
 
 const AppbarSearchUser = () => {
   const router = useRouter()
@@ -26,7 +22,8 @@ const AppbarSearchUser = () => {
       const resp = await HttpClient.get('/search/content', {
         search: search
       })
-      const { contents } = resp.data as { contents: ISearchContent[] }
+      const { contents } = (await resp.data) as { contents: ISearchContent[] }
+      console.log(contents)
 
       setListFriends(contents)
       setNoResults(contents.length === 0 && search.length >= 4)
@@ -87,7 +84,6 @@ const AppbarSearchUser = () => {
     <Autocomplete
       freeSolo
       fullWidth
-      PopperComponent={CustomPopper}
       sx={{ minWidth: '150px', maxWidth: '238px' }}
       size='small'
       options={options()}
@@ -155,31 +151,41 @@ const AppbarSearchUser = () => {
             container
             component='li'
             {...props}
-            sx={{ display: 'flex', flexWrap: 'nowrap', width: '100%' }}
+            sx={{ width: '100%', display: 'flex', alignItems: 'center', p: '8px !important', gap: 2 }}
             onClick={() => handleClick(option)}
           >
             {option.content_type === SearchContentType.user && (
               <Box
                 component='img'
                 loading='lazy'
-                sx={{ flexShrink: 0, width: '40px', aspectRatio: 1, mr: 2 }}
+                sx={{ flexShrink: 0, borderRadius: '100px', width: '40px', aspectRatio: 1, mr: 1 }}
                 src={getUserAvatarByPath(option.leading)}
                 alt={option.title}
               />
             )}
-            <Grid item xs={true} sx={{ flexGrow: 1 }}>
+            <Grid item xs={true} sx={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
               <Typography
                 variant='body1'
                 sx={{
-                  display: '-webkit-box',
+                  fontSize: '14px',
                   overflow: 'hidden',
-                  WebkitBoxOrient: 'vertical',
-                  WebkitLineClamp: 2
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
                 }}
               >
                 {option.title}
               </Typography>
-              <Typography variant='caption'>{option.subtitle}</Typography>
+              <Typography
+                variant='caption'
+                sx={{
+                  fontSize: '12px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {option.subtitle}
+              </Typography>
             </Grid>
           </Grid>
         )
@@ -194,7 +200,8 @@ const AppbarSearchUser = () => {
         sx: {
           '&::-webkit-scrollbar': {
             display: 'none'
-          }
+          },
+          p: 0
         }
       }}
     />
