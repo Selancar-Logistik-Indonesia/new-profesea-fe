@@ -176,7 +176,15 @@ const NewsPage = () => {
               }
             }}
           >
-            <Box>
+            <Box
+              sx={{
+                display: {
+                  xs: 'flex',
+                  lg: 'block'
+                },
+                flexDirection: 'column'
+              }}
+            >
               <Typography
                 variant='h1'
                 color={'white'}
