@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, useRef } from 'react'
-import { Autocomplete, Box, Grid, TextField, Typography, Popper, InputAdornment, CircularProgress } from '@mui/material'
+import { Autocomplete, Box, Grid, TextField, Typography, InputAdornment, CircularProgress } from '@mui/material'
 import { useRouter } from 'next/router'
 import ISearchContent from 'src/contract/models/search_content'
 import SearchContentType from 'src/contract/types/search_content_type'
