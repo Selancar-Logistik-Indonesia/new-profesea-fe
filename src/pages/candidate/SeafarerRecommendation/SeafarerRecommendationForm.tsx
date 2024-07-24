@@ -39,8 +39,9 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
     },
     enableReinitialize: true,
     validationSchema: ProficiencySchema,
-    onSubmit: values => {
+    onSubmit: (values, { resetForm }) => {
       handleSubmit(values)
+      resetForm()
     }
   })
 

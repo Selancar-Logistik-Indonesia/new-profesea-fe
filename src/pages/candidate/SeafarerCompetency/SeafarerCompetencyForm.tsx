@@ -86,10 +86,21 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
     },
     validationSchema: CompetencySchema,
     enableReinitialize: true,
-    onSubmit: values => {
+    onSubmit: (values,{ resetForm }) => {
       handleSubmit(values)
+      resetForm()
+      resetState()
     }
   })
+
+  const resetState = () => {
+    if(type != 'edit'){
+      setCountryOfIssue('')
+      setCoc('')
+      setValidDateState(null)
+      setAttachment(null)
+    }
+  }
 
   const loadCountries = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?page=1&take=100')

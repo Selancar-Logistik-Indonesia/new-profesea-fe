@@ -88,10 +88,21 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
     },
     enableReinitialize: true,
     validationSchema: ProficiencySchema,
-    onSubmit: values => {
+    onSubmit: (values, {resetForm}) => {
       handleSubmit(values)
+      resetForm()
+      resetState()
     }
   })
+
+  const resetState = () => {
+    if(type != 'edit'){
+      setCountryOfIssue('')
+      setCop('')
+      setValidDateState(null)
+      setAttachment(null)
+    }
+  }
 
   const loadCountries = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?page=1&take=100')

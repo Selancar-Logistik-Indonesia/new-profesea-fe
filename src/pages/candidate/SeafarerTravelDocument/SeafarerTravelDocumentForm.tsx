@@ -110,10 +110,21 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     initialValues: initialValues,
     enableReinitialize: true,
     validationSchema: TravelDocumentSchema,
-    onSubmit: values => {
+    onSubmit: (values, {resetForm}) => {
       handleSubmit(values)
+      resetForm()
+      resetState()
     }
   })
+
+  const resetState = () => {
+    if(type != 'edit'){
+      setCountryOfIssue('')
+      setDateOfIssue(null)
+      setValidDateState(null)
+      setAttachment(null)
+    }
+  }
 
   const loadCountries = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?page=1&take=100')
