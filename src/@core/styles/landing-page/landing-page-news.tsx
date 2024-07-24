@@ -50,6 +50,10 @@ const stickyTabs: SxProps<Theme> = {
 }
 
 const bannerLogo: SxProps<Theme> = {
+  display: {
+    xs: 'none',
+    lg: 'block'
+  },
   width: '35%',
   height: '200px',
   backgroundImage: 'url(/images/white-logo-profesea.png)',
