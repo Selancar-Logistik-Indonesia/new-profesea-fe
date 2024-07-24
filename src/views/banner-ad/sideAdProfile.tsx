@@ -29,6 +29,7 @@ const Slides = (Ads: Ads[]) => {
       <Box key={index} className='keen-slider__slide'>
         <Box
           component='img'
+          loading='lazy'
           src={item.show_case[0]}
           style={{
             width: '100%',
@@ -144,6 +145,7 @@ const SideAdProfile: React.FC<ISideAdProps> = ({ adslocation = 'home-page' }) =>
       <Box sx={{ p: '20px', borderRadius: '12px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
         <Box
           component='img'
+          loading='lazy'
           src={Ads[0].show_case[0]}
           style={{
             width: '100%',

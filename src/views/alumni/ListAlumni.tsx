@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Alumni from 'src/contract/models/alumni'
 import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
-import { Divider, styled } from '@mui/material'
+import { styled } from '@mui/material'
 import CardContent from '@mui/material/CardContent'
 import { Icon } from '@iconify/react'
 
@@ -25,14 +25,12 @@ const ProfilePicture = styled('img')(({ theme }) => ({
     marginBottom: theme.spacing(4)
   }
 }))
+
 const theme = createTheme({
   components: {
-    // Name of the component
     MuiCard: {
       styleOverrides: {
-        // Name of the slot
         root: {
-          // Some CSS
           borderColor: 'green',
           borderRadius: 5,
           position: 'relative',
@@ -45,8 +43,6 @@ const theme = createTheme({
 interface Props {
   listAlumni: Alumni[]
 }
-
-const base_url = process.env.NEXT_PUBLIC_BASE_URL
 
 const renderList = (listAlumni: Alumni[]) => {
   if (!listAlumni || listAlumni.length == 0) {
@@ -61,7 +57,6 @@ const renderList = (listAlumni: Alumni[]) => {
         <Grid item xs={12} md={3} padding={2} mt={3}>
           <Card
             sx={{
-              // width: '100%',
               borderRadius: '16px',
               color: 'common.white',
               backgroundColor: '#FFFFFF'
@@ -109,9 +104,7 @@ const renderList = (listAlumni: Alumni[]) => {
                 >
                   <ProfilePicture
                     sx={{ backgroundColor: 'white' }}
-                    src={
-                      item.profilepicture != '' ? base_url + '/storage/' + item.profilepicture : '/images/avatars/1.png'
-                    }
+                    src={item.profilepicture ?? '/images/avatars/1.png'}
                   />
                   <Box
                     sx={{
@@ -122,10 +115,6 @@ const renderList = (listAlumni: Alumni[]) => {
                     }}
                   >
                     <Link style={{ textDecoration: 'none' }} href={'/alumni?id=' + item?.id}>
-                      {/* <Typography align='center' sx={{ fontWeight: 'bold', color: '#0a66c2', mb: 1 }} fontSize={18}>
-                        {item.title ? item.title : '-'}
-                      </Typography> */}
-
                       <Grid container direction='row' alignItems='center'>
                         {item?.statusaktif == true ? (
                           <>
@@ -167,14 +156,10 @@ const renderList = (listAlumni: Alumni[]) => {
                         </Grid>
                       </Grid>
                     </Link>
-                    {/* <Button href={'/alumni?id=' + item?.id} variant='outlined' color='primary'>
-                      Join
-                    </Button> */}
                   </Box>
                 </Box>
               </Box>
             </CardContent>
-            <Divider style={{ width: '100%' }} />
           </Card>
         </Grid>
       </ThemeProvider>
@@ -182,7 +167,7 @@ const renderList = (listAlumni: Alumni[]) => {
   })
 }
 
-const LIstAlumni = (props: Props) => {
+const ListAlumni = (props: Props) => {
   const { listAlumni } = props
 
   return (
@@ -192,4 +177,4 @@ const LIstAlumni = (props: Props) => {
   )
 }
 
-export default LIstAlumni
+export default ListAlumni

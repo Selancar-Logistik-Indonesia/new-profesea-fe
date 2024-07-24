@@ -27,7 +27,7 @@ const SocialFeedApp = () => {
 
 SocialFeed.acl = {
   action: 'read',
-  subject: 'home'
+  subject: 'company-activities'
 }
 
 export default SocialFeed

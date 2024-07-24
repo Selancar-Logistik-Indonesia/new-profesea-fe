@@ -10,7 +10,7 @@ import { HttpClient } from 'src/services'
 import { getUserAvatar, toLinkCase, toTitleCase } from 'src/utils/helpers'
 import { IUser } from 'src/contract/models/user'
 
-const Activity = ({ dataUser }: { dataUser: IUser }) => {
+const Activity = ({ dataUser, status }: { dataUser: IUser; status: boolean }) => {
   const [feeds, setFeeds] = useState<ISocialFeed[]>([])
   const [onLoading, setOnLoading] = useState(false)
 
@@ -23,7 +23,7 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
     if (sPage == 1) setOnLoading(true)
 
     try {
-      const url = '/social-feed/feed/'
+      const url = 'public/data/social-feed/feed/'
       const response = await HttpClient.get(url, {
         page: sPage,
         ...payload
@@ -54,6 +54,14 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
     fetchFeeds({ mPage: 1, take: 3, user_id: dataUser?.id })
   }, [dataUser])
 
+  const isStatusLink = (link: string) => {
+    if (!status) {
+      return `/login/?returnUrl=` + link
+    }
+
+    return link
+  }
+
   return (
     <Box sx={{ borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
       <Box sx={{ p: '24px' }}>
@@ -74,7 +82,7 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <Avatar
                           component={Link}
-                          href={profileLink}
+                          href={isStatusLink(profileLink)}
                           alt='profile-picture'
                           src={getUserAvatar(item.user)}
                           sx={{ width: 42, height: 42 }}
@@ -82,7 +90,7 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
                         <Box>
                           <Typography
                             component={Link}
-                            href={profileLink}
+                            href={isStatusLink(profileLink)}
                             sx={{ fontSize: '16px', fontWeight: 'bold', color: 'black' }}
                           >
                             {toTitleCase(item.user.name)}
@@ -152,9 +160,11 @@ const Activity = ({ dataUser }: { dataUser: IUser }) => {
       <Divider sx={{ mx: '24px' }} />
       <Button
         endIcon={<Icon icon='mingcute:right-fill' style={{ fontSize: 18 }} />}
-        href={`/${dataUser?.role === 'Seafarer' ? 'profile' : 'company'}/${dataUser?.id}/${toLinkCase(
-          dataUser?.username
-        )}/activities`}
+        href={isStatusLink(
+          `/${dataUser?.role === 'Seafarer' ? 'profile' : 'company'}/${dataUser?.id}/${toLinkCase(
+            dataUser?.username
+          )}/activities`
+        )}
         sx={{
           py: '18px',
           display: 'flex',

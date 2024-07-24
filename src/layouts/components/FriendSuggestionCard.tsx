@@ -9,6 +9,8 @@ import ConnectButton from './ConnectButton'
 import Link from 'next/link'
 import { HttpClient } from 'src/services'
 import { Icon } from '@iconify/react'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
 
 const renderList = (arr: IUser[]) => {
   if (!arr || arr.length == 0) {
@@ -57,14 +59,28 @@ const renderList = (arr: IUser[]) => {
   })
 }
 
-const FriendSuggestionCard = ({ location }: { location?: string }) => {
+const FriendSuggestionCard = ({
+  location,
+  dataUser,
+  status
+}: {
+  location?: string
+  dataUser?: IUser
+  status?: boolean
+}) => {
   const [listFriends, setListFriends] = useState<IUser[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+  if (status === undefined) {
+    status = true
+  }
   const fetchListFriends = async () => {
     setIsLoading(true)
     try {
-      const resp = await HttpClient.get('/friendship/suggestion', {
+      const user_id = dataUser ? dataUser.id : user.id
+
+      const resp = await HttpClient.get('/public/data/friendship/suggestion/?' + 'user_id=' + user_id, {
         page: 1,
         take: location === 'profile' ? 3 : 9
       })
@@ -81,6 +97,14 @@ const FriendSuggestionCard = ({ location }: { location?: string }) => {
   useEffect(() => {
     fetchListFriends()
   }, [])
+
+  const isStatusLink = (link: string) => {
+    if (!status) {
+      return `/login/?returnUrl=` + link
+    }
+
+    return link
+  }
 
   return (
     <Box
@@ -116,7 +140,7 @@ const FriendSuggestionCard = ({ location }: { location?: string }) => {
           <Divider sx={{ mx: '24px' }} />
           <Button
             endIcon={<Icon icon='mingcute:right-fill' style={{ fontSize: 18 }} />}
-            href={`/profile/connections`}
+            href={isStatusLink(`/profile/connections`)}
             sx={{
               py: '18px',
               display: 'flex',

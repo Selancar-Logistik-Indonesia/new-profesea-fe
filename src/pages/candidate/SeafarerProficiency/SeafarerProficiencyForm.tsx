@@ -62,7 +62,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
           id: seafarerProficiency?.proficiency?.id,
           title: seafarerProficiency?.proficiency?.title
         }
-      : {}
+      : ''
   )
   const [countryOfIssue, setCountryOfIssue] = useState<any>(
     type == 'edit'
@@ -70,7 +70,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
           id: seafarerProficiency?.country_id,
           name: seafarerProficiency?.country
         }
-      : {}
+      : ''
   )
 
   const [countries, setCountries] = useState<{ id?: number; name: string }[]>([])
@@ -88,10 +88,21 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
     },
     enableReinitialize: true,
     validationSchema: ProficiencySchema,
-    onSubmit: values => {
+    onSubmit: (values, {resetForm}) => {
       handleSubmit(values)
+      resetForm()
+      resetState()
     }
   })
+
+  const resetState = () => {
+    if(type != 'edit'){
+      setCountryOfIssue('')
+      setCop('')
+      setValidDateState(null)
+      setAttachment(null)
+    }
+  }
 
   const loadCountries = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?page=1&take=100')
@@ -145,7 +156,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         handleModalForm(type, undefined)
       })
       .catch(err => {
-        toast.error(JSON.stringify(err.message))
+        toast.error(JSON.stringify(err.response.data.message || err.message))
       })
   }
 
@@ -167,7 +178,11 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         handleModalForm(type, undefined)
       })
       .catch(err => {
-        toast.error(JSON.stringify(err.message))
+        toast.error(JSON.stringify(err.response.data.message || err.message), {
+          style: {
+            zIndex: 10000
+          }
+        })
       })
   }
 
@@ -187,10 +202,12 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   }, [])
 
   useEffect(() => {
-    formik.setValues({
-      ...formik.values,
-      valid_date: validDateState ? new Date(validDateState) : null
-    })
+    if (validDateState && formik.values.is_lifetime == false) {
+      formik.setValues({
+        ...formik.values,
+        valid_date: validDateState ? new Date(validDateState) : null
+      })
+    }
   }, [formik.values.is_lifetime, validDateState])
 
   useEffect(() => {
@@ -223,7 +240,13 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
 
   return (
     <Dialog fullWidth open={showModal} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
-      <form noValidate onSubmit={formik.handleSubmit}>
+      <form
+        noValidate
+        onSubmit={formik.handleSubmit}
+        onReset={() => {
+          formik.resetForm()
+        }}
+      >
         <DialogTitle>
           <IconButton
             size='small'
@@ -313,7 +336,16 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 dropdownMode='select'
                 id='valid_date'
                 name='valid_date'
-                customInput={<TextField label='Valid Date' variant='standard' fullWidth />}
+                customInput={
+                  <TextField
+                    label='Valid Date'
+                    variant='standard'
+                    fullWidth
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                }
               />
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
@@ -390,6 +422,14 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
           </Grid>
         </DialogContent>
         <DialogActions>
+          <Button
+            type='reset'
+            variant='contained'
+            style={{ margin: '10px 10px', backgroundColor: 'grey' }}
+            size='small'
+          >
+            Reset
+          </Button>
           <Button
             disabled={Object.keys(formik.errors).length > 0 ? true : false}
             type='submit'

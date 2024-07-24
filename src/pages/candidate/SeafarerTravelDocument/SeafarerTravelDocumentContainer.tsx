@@ -89,7 +89,10 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
       field: 'valid_date_column',
       headerName: 'Valid Date',
       type: 'string',
-      width: 180
+      width: 180,
+      renderCell: (params: any) => {
+        return params.row.valid_date ? <>{params.row.valid_date}</> : 'lifetime'
+      }
     },
     {
       field: 'download',

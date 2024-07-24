@@ -10,6 +10,7 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  Switch,
   TextField,
   Typography
 } from '@mui/material'
@@ -42,7 +43,7 @@ import { DateType } from 'src/contract/models/DatepickerTypes'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
-interface INewsCategories {
+export interface INewsCategories {
   id: number
   name: string
   created_at: string
@@ -69,6 +70,7 @@ const MasterNewsScreen = () => {
   })
   const [newsCategories, setNewsCategories] = useState<INewsCategories[]>([])
   const [newsCategoryId, setNewsCategoryId] = useState<any>(null)
+  const [featuredNews, setFeaturedNews] = useState(false)
 
   const img = files.map((file: FileProp) => (
     <img
@@ -125,13 +127,14 @@ const MasterNewsScreen = () => {
       slug: slug,
       meta: meta,
       postingdate: postingDate,
-      category_id: newsCategoryId ? newsCategoryId : null
+      category_id: newsCategoryId ? newsCategoryId : null,
+      featured_news: featuredNews
     }
 
     setOnLoading(true)
     try {
       const resp = await HttpClient.postFile('/news', json)
-      console.log(resp)
+
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'
       }
@@ -293,6 +296,17 @@ const MasterNewsScreen = () => {
                       onChange={(event: any, newValue: INewsCategories | null) =>
                         newValue ? setNewsCategoryId(newValue.id) : setNewsCategoryId(null)
                       }
+                    />
+                  </Box>
+                </Grid>
+
+                <Grid item container xs={12} md={6}>
+                  <Box sx={{ width: '100%' }}>
+                    <InputLabel>Featured News</InputLabel>
+                    <Switch
+                      checked={featuredNews}
+                      onChange={() => setFeaturedNews(!featuredNews)}
+                      inputProps={{ 'aria-label': 'controlled' }}
                     />
                   </Box>
                 </Grid>

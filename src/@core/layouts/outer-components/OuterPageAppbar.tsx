@@ -38,7 +38,8 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
     { title: t('landing_menu_2'), path: '/#discoverSection' },
     { title: t('landing_menu_3'), path: '/faqs' },
     { title: t('landing_menu_4'), path: '/employer' },
-    { title: t('landing_menu_5'), path: '/trainings' }
+    { title: t('landing_menu_5'), path: '/trainings' },
+    { title: t('landing_menu_6'), path: '/news' }
   ]
 
   const { navigationSize, collapsedNavigationSize } = themeConfig

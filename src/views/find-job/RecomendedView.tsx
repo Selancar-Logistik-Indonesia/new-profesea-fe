@@ -6,7 +6,7 @@ import { Avatar, Paper } from '@mui/material'
 import Job from 'src/contract/models/job'
 import Link from 'next/link'
 import { format } from 'date-fns'
-import moment from 'moment'
+import { timeCreated } from 'src/utils/helpers'
 
 const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
   const { children, line, ...rest } = props
@@ -147,8 +147,8 @@ const renderList = (listJob: Job[]) => {
                   width: { sm: '100px', md: '80px', lg: '100px' }
                 }}
               >
-                <Typography sx={{ color: 'text.primary' }} fontSize={12}>
-                  {item?.created_at ? moment(item.created_at).fromNow() : '-'}
+                <Typography align='right' sx={{ color: 'text.primary' }} fontSize={12}>
+                  {item?.created_at ? timeCreated(item.created_at) : '-'}
                 </Typography>
               </Box>
             </Box>

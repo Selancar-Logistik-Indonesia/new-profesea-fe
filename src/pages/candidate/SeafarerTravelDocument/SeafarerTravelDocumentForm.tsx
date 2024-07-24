@@ -46,8 +46,8 @@ const TravelDocumentSchema = Yup.object().shape({
     id: Yup.number().required('Country is required'),
     name: Yup.string().required('')
   }),
-  user_id: Yup.number().required(),
-  valid_date: Yup.date().nullable(),
+  user_id: Yup.number(),
+  valid_date: Yup.string().nullable(),
   is_lifetime: Yup.boolean().nullable(),
   required_document: Yup.string().required('Document Required Type is required')
 })
@@ -64,12 +64,13 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
           id: seafarerTravelDocument?.country?.id,
           name: seafarerTravelDocument?.country?.name
         }
-      : {}
+      : ''
   )
+
   const [validDateState, setValidDateState] = useState<any>()
   const [preview, setPreview] = useState<any>()
   const [dateOfIssue, setDateOfIssue] = useState<any>()
-  const [attachment, setAttachment] = useState<any>(null)
+  const [attachment, setAttachment] = useState<any>()
 
   const requiredDocumentType = [
     { id: 'passport', name: 'Passport' },
@@ -78,23 +79,52 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     { id: 'schengen_visa', name: 'Schengen Visa' }
   ]
 
-  const formik = useFormik({
-    initialValues: {
-      document: type == 'edit' ? seafarerTravelDocument?.document : '',
-      no: type == 'edit' ? seafarerTravelDocument?.no : '',
-      date_of_issue: type == 'edit' ? dateOfIssue : null,
-      country_of_issue: countryOfIssue,
+  let initialValues = {
+    document: '' as string | undefined,
+    no: '' as string | undefined,
+    date_of_issue: dateOfIssue as any,
+    country_of_issue: countryOfIssue as any,
+    user_id: user_id as number | undefined,
+    valid_date: validDateState as any,
+    is_lifetime: false as boolean | undefined,
+    required_document: 'other' as string | undefined
+  }
+
+  if (type == 'edit') {
+    initialValues = {
+      document: seafarerTravelDocument?.document,
+      no: seafarerTravelDocument?.no,
+      date_of_issue: seafarerTravelDocument?.date_of_issue,
+      country_of_issue: {
+        id: seafarerTravelDocument?.country?.id,
+        name: seafarerTravelDocument?.country?.name
+      },
       user_id: user_id,
-      valid_date: type == 'edit' ? validDateState : null,
-      is_lifetime: type == 'edit' ? seafarerTravelDocument?.is_lifetime : false,
-      required_document: type == 'edit' ? seafarerTravelDocument?.required_document : 'other'
-    },
+      valid_date: seafarerTravelDocument?.valid_date,
+      is_lifetime: seafarerTravelDocument?.is_lifetime,
+      required_document: seafarerTravelDocument?.required_document
+    }
+  }
+
+  const formik = useFormik({
+    initialValues: initialValues,
     enableReinitialize: true,
     validationSchema: TravelDocumentSchema,
-    onSubmit: values => {
+    onSubmit: (values, {resetForm}) => {
       handleSubmit(values)
+      resetForm()
+      resetState()
     }
   })
+
+  const resetState = () => {
+    if(type != 'edit'){
+      setCountryOfIssue('')
+      setDateOfIssue(null)
+      setValidDateState(null)
+      setAttachment(null)
+    }
+  }
 
   const loadCountries = () => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?page=1&take=100')
@@ -135,7 +165,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
         loadTravelDocument()
       })
       .catch(err => {
-        toast.error(JSON.stringify(err.message))
+        toast.error(JSON.stringify(err.response.data.message || err.message))
       })
   }
 
@@ -161,37 +191,73 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
         loadTravelDocument()
       })
       .catch(err => {
-        toast.error(JSON.stringify(err.message))
+        toast.error(JSON.stringify(err.response.data.message || err.message))
       })
   }
 
   useEffect(() => {
-    formik.setErrors({})
     loadCountries()
   }, [])
 
   useEffect(() => {
-    setValidDateState(seafarerTravelDocument?.valid_date ? new Date(seafarerTravelDocument?.valid_date) : null)
-    setDateOfIssue(seafarerTravelDocument?.date_of_issue ? new Date(seafarerTravelDocument?.date_of_issue) : null)
-  }, [seafarerTravelDocument, countries])
+    if (type == 'edit') {
+      setValidDateState(seafarerTravelDocument?.valid_date ? new Date(seafarerTravelDocument?.valid_date) : null)
+      setDateOfIssue(seafarerTravelDocument?.date_of_issue ? new Date(seafarerTravelDocument?.date_of_issue) : null)
+    }
+  }, [seafarerTravelDocument])
 
   useEffect(() => {
-    formik.setValues({
-      ...formik.values,
-      date_of_issue: dateOfIssue,
-      valid_date: validDateState
-    })
-  }, [dateOfIssue, validDateState])
+    if (dateOfIssue) {
+      formik.setValues({
+        ...formik.values,
+        date_of_issue: dateOfIssue
+      })
+    }
+  }, [dateOfIssue])
 
   useEffect(() => {
+    if (validDateState) {
+      formik.setValues({
+        ...formik.values,
+        valid_date: validDateState
+      })
+    }
+  }, [validDateState])
+
+  // useEffect(() => {
+  //   if (countryOfIssue) {
+  //     formik.setValues({
+  //       ...formik.values,
+  //       country_of_issue: countryOfIssue
+  //     })
+  //   }
+  // }, [countryOfIssue])
+
+  // useEffect(() => {
+  //   formik.setValues({
+  //     ...formik.values,
+  //     document:
+  //       formik.values.required_document === 'other'
+  //         ? 'Please input document'
+  //         : requiredDocumentType.find(item => item.id == formik.values.required_document)?.name
+  //   })
+  // }, [formik.values.required_document])
+
+  const handleChangeRequireDocument = (e: any) => {
+    let documentName: string | undefined = 'Please Input document'
+
+    if (e.target.value != 'other') {
+      documentName = requiredDocumentType.find(item => item.id == e.target.value)?.name
+    } else {
+      documentName = 'Please Input document'
+    }
+
     formik.setValues({
       ...formik.values,
-      document:
-        formik.values.required_document != 'other'
-          ? requiredDocumentType.find(item => item.id == formik.values.required_document)?.name
-          : formik.values.document
+      required_document: e.target.value,
+      document: documentName
     })
-  }, [formik.values.required_document])
+  }
 
   useEffect(() => {
     if (!attachment) {
@@ -223,7 +289,13 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
 
   return (
     <Dialog fullWidth open={showModal} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
-      <form onSubmit={formik.handleSubmit}>
+      <form
+        noValidate
+        onSubmit={formik.handleSubmit}
+        onReset={() => {
+          formik.resetForm()
+        }}
+      >
         <DialogTitle>
           <IconButton
             size='small'
@@ -253,7 +325,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
             <Grid item md={12} xs={12} mb={5}>
               <Autocomplete
                 disablePortal
-                id='country_of_issue'
+                id='autocomplete-country-of-issue'
                 options={countries}
                 defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
                 getOptionLabel={option => option.name || ''}
@@ -276,9 +348,12 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 <Select
                   error={formik.errors.required_document ? true : false}
                   fullWidth
-                  value={formik.values.required_document == 'other' ? 'other' : formik.values.required_document}
+                  value={formik.values.required_document}
                   label='Required Document * '
-                  onChange={formik.handleChange}
+                  onChange={e => {
+                    formik.handleChange(e)
+                    handleChangeRequireDocument(e)
+                  }}
                   onBlur={formik.handleBlur}
                   name='required_document'
                   id={'required_document'}
@@ -323,8 +398,9 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
               <DatePicker
                 dateFormat='dd/MM/yyyy'
                 selected={dateOfIssue}
-                id='date-issue-datepicker'
-                onChange={(dateAwal: Date) => setDateOfIssue(dateAwal)}
+                id='date_of_issue'
+                name='date_of_issue'
+                onChange={(date: Date) => setDateOfIssue(date)}
                 placeholderText=''
                 showYearDropdown
                 showMonthDropdown
@@ -338,6 +414,9 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                     id='date_of_issue'
                     name='date_of_issue'
                     fullWidth
+                    InputProps={{
+                      readOnly: true
+                    }}
                   ></TextField>
                 }
               />
@@ -354,7 +433,16 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 dropdownMode='select'
                 id='valid-date-datepicker'
                 customInput={
-                  <TextField label='Valid Date' variant='standard' fullWidth id='valid_date' name='valid_date' />
+                  <TextField
+                    label='Valid Date'
+                    variant='standard'
+                    fullWidth
+                    id='valid_date'
+                    name='valid_date'
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
                 }
               />
             </Grid>
@@ -372,7 +460,6 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 label='Lifetime'
               />
             </Grid>
-
             <Grid item md={12} xs={12} mt={2}>
               <Grid item xs={12} md={12} container justifyContent={'left'}>
                 <Grid xs={4}>
@@ -431,6 +518,14 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
           </Grid>
         </DialogContent>
         <DialogActions>
+          <Button
+            type='reset'
+            variant='contained'
+            style={{ margin: '10px 10px', backgroundColor: 'grey' }}
+            size='small'
+          >
+            Reset
+          </Button>
           <Button
             disabled={Object.keys(formik.errors).length > 0 ? true : false}
             type='submit'

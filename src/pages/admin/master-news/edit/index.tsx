@@ -10,6 +10,7 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  Switch,
   Typography
 } from '@mui/material'
 import TextField from '@mui/material/TextField'
@@ -44,6 +45,7 @@ import Link from 'next/link'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import { INewsCategories } from '../create'
 
 interface FileProp {
   name: string
@@ -71,6 +73,11 @@ const EditNewsScreen = () => {
   const [postingDate, setPostingDate] = useState<DateType>(new Date())
   const [urlFile, getUrlFile] = useState<any>()
   // const [User, getUser] =useState<any[]>([])
+
+  const [newsCategoryId, setNewsCategoryId] = useState<any>(null)
+  const [newsCategories, setNewsCategories] = useState<INewsCategories[]>([])
+  const [featuredNews, setFeaturedNews] = useState(false)
+
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
     accept: {
@@ -119,6 +126,8 @@ const EditNewsScreen = () => {
       setSlug2(news?.slug?.length)
       setMeta(news?.meta)
       setMeta2(news?.meta.length)
+      setNewsCategoryId(news?.category)
+      setFeaturedNews(news?.featured_news)
 
       setForum({ title: news?.type })
       getUrlFile(news?.imgnews)
@@ -126,13 +135,23 @@ const EditNewsScreen = () => {
       setForumCode(news?.type)
     })
   }
+
+  const comboBox = async () => {
+    HttpClient.get(`/news-category?page=1&take=1000`).then(response => {
+      if (response.status != 200) {
+        throw response.data.message ?? 'Something went wrong!'
+      }
+      const newsCategories = response?.data?.data?.data
+      setNewsCategories(newsCategories)
+    })
+  }
+
   useEffect(() => {
     firstload()
+    comboBox()
   }, [])
 
   function uploadCallback(file: any) {
-    console.log(file)
-
     return new Promise((resolve, reject) => {
       const form_data = new FormData()
       form_data.append('file', file)
@@ -154,7 +173,9 @@ const EditNewsScreen = () => {
       type: sforumCode,
       postingdate: postingDate,
       slug: sSlug,
-      meta: sMeta
+      meta: sMeta,
+      category_id: newsCategoryId?.id,
+      featured_news: featuredNews
     }
     setOnLoading(true)
     try {
@@ -179,14 +200,14 @@ const EditNewsScreen = () => {
   }
   const handleChangeslug = (event: { target: { value: any } }) => {
     // Update the 'value' state when the input value changes.
-    debugger
+
     const newValue = event.target.value.length
     setSlug2(newValue)
     setSlug(event.target.value)
   }
   const handleChangemeta = (event: { target: { value: any } }) => {
     // Update the 'value' state when the input value changes.
-    debugger
+
     const newValue = event.target.value.length
     setMeta2(newValue)
     setMeta(event.target.value)
@@ -325,6 +346,35 @@ const EditNewsScreen = () => {
                     />
                   </Grid>
                 </Grid>
+
+                <Grid item container xs={12} md={6}>
+                  <Box sx={{ width: '100%' }}>
+                    <InputLabel>News Category</InputLabel>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-category-id'
+                      value={newsCategoryId}
+                      options={newsCategories}
+                      getOptionLabel={(option: INewsCategories) => option.name}
+                      renderInput={params => <TextField {...params} />}
+                      onChange={(event: any, newValue: INewsCategories | null) =>
+                        newValue ? setNewsCategoryId(newValue) : setNewsCategoryId(null)
+                      }
+                    />
+                  </Box>
+                </Grid>
+
+                <Grid item container xs={12} md={6}>
+                  <Box sx={{ width: '100%' }}>
+                    <InputLabel>Featured News</InputLabel>
+                    <Switch
+                      checked={featuredNews}
+                      onChange={() => setFeaturedNews(!featuredNews)}
+                      inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                  </Box>
+                </Grid>
+
                 {show == true && (
                   <Grid item xs={12} md={4}>
                     <DatePickerWrapper>
