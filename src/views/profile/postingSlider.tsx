@@ -162,7 +162,7 @@ const Slides = (items: any[], teamId: number, width: number, status: boolean) =>
                   {`${arr.category.name ?? ''}, `}
                   {arr.rolelevel.levelName ?? ''}
                 </Typography>
-                <Typography sx={{ fontSize: 14 }}>{arr.city.city_name ?? '-'}</Typography>
+                <Typography sx={{ fontSize: 14 }}>{arr.city?.city_name ?? '-'}</Typography>
                 <Typography sx={{ color: '#636E72', fontSize: 14 }}>{arr.company.name}</Typography>
               </Box>
               <Typography sx={{ color: '#949EA2', fontSize: 12 }}>
@@ -240,17 +240,22 @@ const Slider = ({ items, teamId, status }: { items: any[]; teamId: number; statu
   const translateX = (totalWidth / items.length) * index
 
   return (
-    <Grid container sx={{ mt: '-44px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Box sx={{ display: 'flex', gap: '16px' }}>
-          <IconButton sx={{ border: '2px solid #D9D9D9', borderRadius: '12px' }} onClick={handlePrev}>
-            <Icon icon='mdi:chevron-left' fontSize={24} color='black' />
-          </IconButton>
-          <IconButton sx={{ border: '2px solid #D9D9D9', borderRadius: '12px' }} onClick={handleNext}>
-            <Icon icon='mdi:chevron-right' fontSize={24} color='black' />
-          </IconButton>
+    <Grid
+      container
+      sx={{ mt: items.length > 1 ? '-44px' : '12px', display: 'flex', flexDirection: 'column', gap: '16px' }}
+    >
+      {items.length > 1 && (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Box sx={{ display: 'flex', gap: '16px' }}>
+            <IconButton sx={{ border: '2px solid #D9D9D9', borderRadius: '12px' }} onClick={handlePrev}>
+              <Icon icon='mdi:chevron-left' fontSize={24} color='black' />
+            </IconButton>
+            <IconButton sx={{ border: '2px solid #D9D9D9', borderRadius: '12px' }} onClick={handleNext}>
+              <Icon icon='mdi:chevron-right' fontSize={24} color='black' />
+            </IconButton>
+          </Box>
         </Box>
-      </Box>
+      )}
       <Grid
         container
         onMouseDown={e => handleStart(e.clientX)}

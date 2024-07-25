@@ -24,7 +24,6 @@ const bannerAsset: SxProps<Theme> = {
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center 100%',
   minWidth: '540px',
-  //   height: '100%',
   aspectRatio: 1
 }
 

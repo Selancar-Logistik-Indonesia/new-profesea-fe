@@ -14,7 +14,7 @@ const Posting = ({ dataUser, status }: { dataUser: IUser; status: boolean }) => 
   const theme = useTheme()
   const xs = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  const [posting, getPosting] = useState([])
+  const [posting, getPosting] = useState<any[]>([])
 
   useEffect(() => {
     if (dataUser.role == 'Company') {
@@ -58,13 +58,15 @@ const Posting = ({ dataUser, status }: { dataUser: IUser; status: boolean }) => 
     }
   }
 
+  if (posting.length === 0) return null
+
   return (
     <Box sx={{ borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
       <Box sx={{ p: '24px' }}>
         <Typography sx={{ mb: '12px', color: 'black', fontSize: 20, fontWeight: 'bold', textTransform: 'uppercase' }}>
           {`recently posted ${dataUser?.team_id === 3 ? 'jobs' : dataUser?.team_id === 4 ? 'trainings' : ''}`}
         </Typography>
-        {dataUser.team_id === 3 && (xs || posting.length < 2) ? (
+        {dataUser.team_id === 3 && xs ? (
           posting.map((arr: any, index) => {
             const companyNameUrl = arr.company.name.toLowerCase().split(' ').join('-')
             const jobTitleUrl = arr.job_title ? arr.job_title?.toLowerCase().split(' ').join('-') : ''
@@ -86,10 +88,10 @@ const Posting = ({ dataUser, status }: { dataUser: IUser; status: boolean }) => 
                     component='img'
                     src={arr.company.photo ? arr.company.photo : '/images/avatars/default-user.png'}
                     sx={{
-                      borderRadius: '50%',
+                      borderRadius: '8px',
                       backgroundRepeat: 'no-repeat',
                       backgroundSize: 'cover',
-                      height: 42,
+                      height: 80,
                       aspectRatio: 1
                     }}
                   />
@@ -138,7 +140,7 @@ const Posting = ({ dataUser, status }: { dataUser: IUser; status: boolean }) => 
               </Link>
             )
           })
-        ) : dataUser.team_id === 4 && (xs || posting.length < 2) ? (
+        ) : dataUser.team_id === 4 && xs ? (
           posting.map((arr: any, index) => {
             const trainerNameUrl = arr.trainer.name.toLowerCase().split(' ').join('-')
             const trainingTitleUrl = arr.title ? arr.title?.toLowerCase().split(' ').join('-') : ''

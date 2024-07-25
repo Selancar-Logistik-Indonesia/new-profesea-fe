@@ -127,13 +127,13 @@ const FindCandidateApp = () => {
   const [showadvance2, setShowAdvance2] = useState<boolean>(true)
   const [JobCategory, getJobCategory] = useState<any[]>([])
   const [combocountry, getComboCountry] = useState<any>([])
-  const [JobTitle, getJobTitle] = useState<any[]>([])
+  const [RoleType, getRoleType] = useState<any[]>([])
   const [VesselType, getVesselType] = useState<any[]>([])
   // const [combocode, getCombocode] = useState<any[]>([])
   const [textCandidate, SetTextCandidate] = useState<any>('')
   // const [searchByPosition, setSearchByPosition] = useState<string>('')
   const [sJobCategory, setJobCategory] = useState<any>('')
-  const [sJobTitle, setJobTitle] = useState<any>('')
+  const [sRoleType, setRoleType] = useState<any>('')
   const [sVesselType, setVesselType] = useState<any>('')
   const [personName, setPersonName] = React.useState<string[]>([])
   const [country, setCountry] = useState<any>(null)
@@ -195,24 +195,28 @@ const FindCandidateApp = () => {
     if (res2.status != 200) {
       throw res2.data.message ?? 'Something went wrong!'
     }
-    getJobCategory(res2.data.categories.data)
+    const rawData: JobCategory[] = res2?.data?.categories?.data
+    const filterOnshipCategories = rawData.filter(d => d.employee_type == tabValue)
+    getJobCategory(filterOnshipCategories)
 
-    const res3 = await HttpClient.get(`/public/data/role-type?search=&page=1&take=250`)
+    const res3 = await HttpClient.get(`/public/data/vessel-type?search=&page=1&take=250`)
     if (res3.status != 200) {
-      throw res2.data.message ?? 'Something went wrong!'
+      throw res3.data.message ?? 'Something went wrong!'
     }
-    getJobTitle(res3.data.roleTypes.data)
-
-    const res4 = await HttpClient.get(`/public/data/vessel-type?search=&page=1&take=250`)
-    if (res4.status != 200) {
-      throw res4.data.message ?? 'Something went wrong!'
-    }
-    getVesselType(res4.data.vesselTypes.data)
+    getVesselType(res3.data.vesselTypes.data)
 
     HttpClient.get('/public/data/country?search=').then(response => {
       const code = response.data.countries
       getComboCountry(code)
     })
+  }
+
+  const getRoleTypes = async () => {
+    const res4 = await HttpClient.get(`/public/data/role-type?search=&page=1&take=250&category_id=` + sJobCategory)
+    if (res4.status != 200) {
+      throw res4.data.message ?? 'Something went wrong!'
+    }
+    getRoleType(res4.data.roleTypes.data)
   }
 
   // const dokumen = [
@@ -410,12 +414,16 @@ const FindCandidateApp = () => {
   }
 
   useEffect(() => {
+    getListCandidates()
     getdatapencarianSubscribe()
     setShowAdvance2(true)
   }, [tabValue])
 
   useEffect(() => {
-    getListCandidates()
+    getRoleTypes()
+  }, [sJobCategory])
+
+  useEffect(() => {
     const a = subscribev(['A16'])
     setShowAdvance(true)
     if (a == true) {
@@ -443,7 +451,7 @@ const FindCandidateApp = () => {
       search: textCandidate,
       // search_by_position: searchByPosition,
       vesseltype_id: sVesselType,
-      roletype_id: sJobTitle,
+      roletype_id: sRoleType,
       category_id: sJobCategory,
       // include_all_word: allword,
       // include_one_word: oneword,
@@ -481,7 +489,7 @@ const FindCandidateApp = () => {
   }, [
     textCandidate,
     sVesselType,
-    sJobTitle,
+    sRoleType,
     sJobCategory,
     // values,
     // valuesoneword,
@@ -670,12 +678,12 @@ const FindCandidateApp = () => {
                       <Autocomplete
                         disablePortal
                         id='combo-box-demo'
-                        options={JobTitle}
+                        options={RoleType}
                         getOptionLabel={(option: RoleType) => option.name}
                         renderInput={params => <TextField {...params} label='Role Type' />}
                         onChange={(event: any, newValue: RoleType | null) => {
                           setPage(1)
-                          newValue?.id ? setJobTitle(newValue.id) : setJobTitle('')
+                          newValue?.id ? setRoleType(newValue.id) : setRoleType('')
                         }}
                       />
                       <Autocomplete
@@ -782,19 +790,46 @@ const FindCandidateApp = () => {
                           />
 
                           {tabValue == 'onship' && (
+                            <>
+                              {sJobCategory && (
+                                <Autocomplete
+                                  disablePortal
+                                  id='combo-box-demo'
+                                  options={RoleType}
+                                  getOptionLabel={(option: RoleType) => option.name}
+                                  renderInput={params => <TextField {...params} label='Job Rank' />}
+                                  onChange={(event: any, newValue: RoleType | null) => {
+                                    setPage(1)
+                                    newValue?.id ? setRoleType(newValue.id) : setRoleType('')
+                                  }}
+                                />
+                              )}
+                              <Autocomplete
+                                disablePortal
+                                id='combo-box-demo'
+                                options={VesselType}
+                                getOptionLabel={(option: VesselType) => option.name}
+                                renderInput={params => <TextField {...params} label='Type of Vessel' />}
+                                onChange={(event: any, newValue: VesselType | null) => {
+                                  setPage(1)
+                                  newValue?.id ? setVesselType(newValue.id) : setVesselType('')
+                                }}
+                              />
+                            </>
+                          )}
+                          {tabValue == 'offship' && sJobCategory && (
                             <Autocomplete
                               disablePortal
                               id='combo-box-demo'
-                              options={VesselType}
-                              getOptionLabel={(option: VesselType) => option.name}
-                              renderInput={params => <TextField {...params} label='Type of Vessel' />}
-                              onChange={(event: any, newValue: VesselType | null) => {
+                              options={RoleType}
+                              getOptionLabel={(option: RoleType) => option.name}
+                              renderInput={params => <TextField {...params} label='Job Title' />}
+                              onChange={(event: any, newValue: RoleType | null) => {
                                 setPage(1)
-                                newValue?.id ? setVesselType(newValue.id) : setVesselType('')
+                                newValue?.id ? setRoleType(newValue.id) : setRoleType('')
                               }}
                             />
                           )}
-
                           <Autocomplete
                             disablePortal
                             id='combo-box-demo'
