@@ -33,7 +33,7 @@ const SeafarerJob = () => {
   const router = useRouter()
 
   if (user) {
-    router.push(`/candidate/${pathname}`)
+    router.replace(`/candidate/${pathname}`)
   }
 
   const theme = useTheme()
