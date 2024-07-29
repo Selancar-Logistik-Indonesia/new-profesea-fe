@@ -34,6 +34,7 @@ const UserJob = () => {
     (name: string, value: string) => {
       const searchParams = new URLSearchParams(params.toString())
       searchParams.set(name, value)
+
       return searchParams.toString()
     },
     [params]
@@ -61,6 +62,7 @@ const UserJob = () => {
 
   function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props
+
     return (
       <div
         role='tabpanel'
