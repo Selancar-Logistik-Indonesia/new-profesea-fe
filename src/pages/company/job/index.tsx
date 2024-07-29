@@ -1,70 +1,66 @@
-// ** React Imports
-import React, { useState, useEffect } from 'react'
-
-// ** MUI Components
+import React, { useState, useEffect, useCallback } from 'react'
 import Box from '@mui/material/Box'
-import { Tabs, Tab, useMediaQuery } from '@mui/material'
-import { Grid } from '@mui/material'
-import { useForm } from 'react-hook-form'
-// import Icon from 'src/@core/components/icon'
+import { Tabs, Tab, useMediaQuery, Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-
+import { Icon } from '@iconify/react'
 import JobApplied from './applied'
 import JobDetail from './detail'
 import UserSaved from './saved'
-import { Icon } from '@iconify/react'
 import Job from 'src/contract/models/job'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 
-type FormData = {
-  companyName: string
-  industryType: string
-  country: string
-  district: string
-  city: string
-  postalCode: string
-  email: string
-  code: string
-  website: string
-  phone: string
-  address: string
-  about: string
+interface TabPanelProps {
+  children?: React.ReactNode
+  index: number
+  value: number
 }
-const UserJob = () => {
-  const windowUrl = window.location.search
-  const params = new URLSearchParams(windowUrl)
-  const [jobDetail, setJobDetail] = useState<Job>()
 
+const UserJob = () => {
+  const router = useRouter()
+  const pathname = usePathname()
+  const params = useSearchParams()
+
+  const jobId = params.get('id')
+  const tabs = params.get('tabs')
+
+  const [jobDetail, setJobDetail] = useState<Job>()
+  const [value, setValue] = useState<string>(tabs || '1')
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
-  const firstload = () => {
-    HttpClient.get(AppConfig.baseUrl + '/job/' + params.get('id')).then(response => {
-      const job = response.data.job
-      setJobDetail(job)
-    })
-  }
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const searchParams = new URLSearchParams(params.toString())
+      searchParams.set(name, value)
+      return searchParams.toString()
+    },
+    [params]
+  )
 
-  // const firstload = async () => {
+  const firstLoad = useCallback(() => {
+    if (jobId) {
+      HttpClient.get(`${AppConfig.baseUrl}/job/${jobId}`).then(response => {
+        setJobDetail(response.data.job)
+      })
+    }
+  }, [jobId])
 
-  // }
   useEffect(() => {
-    firstload()
+    if (tabs === null) {
+      router.push(`${pathname}?${createQueryString('tabs', '1')}`)
+    }
+    firstLoad()
   }, [])
 
-  const {} = useForm<FormData>({
-    mode: 'onBlur'
-  })
-  interface TabPanelProps {
-    children?: React.ReactNode
-    index: number
-    value: number
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue)
+    router.push(`${pathname}?${createQueryString('tabs', newValue)}`)
   }
 
   function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props
-
     return (
       <div
         role='tabpanel'
@@ -73,12 +69,7 @@ const UserJob = () => {
         aria-labelledby={`simple-tab-${index}`}
         {...other}
       >
-        {value === index && (
-          <Box sx={{ p: 0 }}>
-            {children}
-            {/* <Typography>{children}</Typography> */}
-          </Box>
-        )}
+        {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
       </div>
     )
   }
@@ -88,13 +79,6 @@ const UserJob = () => {
       id: `simple-tab-${index}`,
       'aria-controls': `simple-tabpanel-${index}`
     }
-  }
-
-  const [value, setValue] = React.useState(0)
-  const [color, getColor] = useState<any>('#FFFFFF')
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
-    getColor('#FFFFFF')
   }
 
   return (
@@ -130,17 +114,20 @@ const UserJob = () => {
                 <Tab
                   label='Detail Job'
                   icon={<Icon icon='solar:case-minimalistic-bold-duotone' fontSize={18} />}
-                  {...a11yProps(0)}
+                  {...a11yProps(1)}
+                  value='1'
                 />
                 <Tab
                   label='List Applicant'
                   icon={<Icon icon='solar:users-group-rounded-bold-duotone' fontSize={18} />}
-                  {...a11yProps(1)}
+                  {...a11yProps(2)}
+                  value='2'
                 />
                 <Tab
                   label='Applicant Saved'
                   icon={<Icon icon='solar:user-heart-rounded-bold-duotone' fontSize={18} />}
-                  {...a11yProps(2)}
+                  {...a11yProps(3)}
+                  value='3'
                 />
               </Tabs>
             </Box>
@@ -150,7 +137,7 @@ const UserJob = () => {
                 borderBottom: 1,
                 borderColor: 'divider',
                 boxSizing: 'border-box',
-                background: color,
+                background: '#FFFFFF',
                 border: '1px solid rgba(76, 78, 100, 0.12)',
                 borderRadius: '10px',
                 marginTop: '10px',
@@ -160,21 +147,15 @@ const UserJob = () => {
                 alignContent: 'top'
               }}
             >
-              <Grid item xs={12}>
-                <TabPanel value={value} index={0}>
-                  <Grid item xs={12}>
-                    <Grid item xs={9}></Grid>
-                    <Grid md={12} xs={3} item justifyContent={'right'} marginTop={'10px'}></Grid>
-                  </Grid>
+              <Grid item xs={12} sx={{ pt: '10px' }}>
+                <TabPanel value={parseInt(value, 10)} index={1}>
+                  <JobDetail jobDetail={jobDetail} />
                 </TabPanel>
-                <TabPanel value={value} index={0}>
-                  <JobDetail jobDetail={jobDetail}></JobDetail>
+                <TabPanel value={parseInt(value, 10)} index={2}>
+                  <JobApplied jobDetail={jobDetail} />
                 </TabPanel>
-                <TabPanel value={value} index={1}>
-                  <JobApplied jobDetail={jobDetail}></JobApplied>
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                  <UserSaved></UserSaved>
+                <TabPanel value={parseInt(value, 10)} index={3}>
+                  <UserSaved />
                 </TabPanel>
               </Grid>
             </Grid>
@@ -184,10 +165,6 @@ const UserJob = () => {
     </Box>
   )
 }
-
-// OngoingTraining.getLayout = (page: ReactNode) => <BlankLayoutWithAppBar>{page}</BlankLayoutWithAppBar>
-
-// OngoingTraining.guestGuard = true
 
 UserJob.acl = {
   action: 'read',
