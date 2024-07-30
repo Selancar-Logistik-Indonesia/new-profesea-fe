@@ -30,7 +30,7 @@ const JobDetail = () => {
   const { user } = useAuth()
 
   if (user) {
-    router.push(`/candidate/${pathname}`)
+    router.replace(`/candidate/${pathname}`)
   }
 
   const { t } = useTranslation()

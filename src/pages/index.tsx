@@ -11,15 +11,18 @@ import FooterView from 'src/views/landing-page/footerView'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import CarouselNewsView from 'src/views/landing-page/carouselnews'
+import { useAuth } from 'src/hooks/useAuth'
+import { useRouter } from 'next/router'
 // import CarouselEvent from 'src/views/landing-page/carouselevent'
-
-// ** Icon Imports
-// import Icon from 'src/@core/components/icon'
-// ** Custom Components Imports
-// import CustomAvatar from 'src/@core/components/mui/avatar'
 
 const Main = () => {
   const { t } = useTranslation()
+  const router = useRouter()
+  const { user } = useAuth()
+
+  if (user) {
+    router.replace('/home')
+  }
 
   return (
     <>
@@ -168,7 +171,6 @@ const Main = () => {
 
       {/* <CarouselEvent /> */}
       <FindJobsView id='findJobSection' />
-
       <DiscoverView />
       <FeatureView />
       <CarouselNewsView />

@@ -38,7 +38,7 @@ const TrainingDetailPage = () => {
   }
 
   if (user) {
-    router.push(`/candidate/${pathname}`)
+    router.replace(`/candidate/${pathname}`)
   }
 
   useEffect(() => {

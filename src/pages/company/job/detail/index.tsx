@@ -82,7 +82,7 @@ const JobDetail = (props: IJobDetailProps) => {
                     ml='0.5rem'
                     variant='body2'
                   >
-                    About Recruiter loh ?
+                    About Recruiter
                   </Typography>
                   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
                     <Typography
