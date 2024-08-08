@@ -116,14 +116,30 @@ const buildNotifies = (e: INotification) => {
     }
   }
 
+  if (e.type == NotificationType.applicantApplied) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data.candidate.name,
+      title: `You've Applied for "${e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name}"`,
+      avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
+      subtitle: 'Check your application status.',
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
   if (e.type == NotificationType.newApplicant) {
     return {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data.candidate.name,
-      title: 'New applicant',
+      title: 'You Have New Applicant',
       avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
-      subtitle: `${e.data.candidate.name} applied to your job post "${e.data.job.role_type.name}".`,
+      subtitle: `${e.data.candidate.name} Applied for "${
+        e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name
+      }".`,
       type: e.type,
       read_at: e.read_at,
       data: e.data

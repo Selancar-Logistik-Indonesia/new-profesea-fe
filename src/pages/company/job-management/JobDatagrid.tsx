@@ -22,7 +22,7 @@ const columns: GridColDef[] = [
     renderCell: cell => {
       const { row } = cell
 
-      return <Link href={`/company/job/?id=${row.id}`}>{row.category_name}</Link>
+      return <Link href={`/company/job/?tabs=1&id=${row.id}`}>{row.category_name}</Link>
     }
   },
   { field: 'role_type', headerName: 'Job Title', sortable: true, minWidth: 180 },
