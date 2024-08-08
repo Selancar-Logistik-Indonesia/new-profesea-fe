@@ -186,6 +186,9 @@ const NotificationItem = (props: { item: NotificationsType }) => {
 
         router.push(`/company/job/?id=${jobId}`)
         break
+      case NotificationType.companyOnboarding:
+        router.push(`/company/`)
+        break
 
       case NotificationType.completeProfileEncouragement:
         router.push(`/${user?.role === 'Seafarer' ? 'profile' : 'company'}/${user?.id}/${toLinkCase(user?.username)}`)
