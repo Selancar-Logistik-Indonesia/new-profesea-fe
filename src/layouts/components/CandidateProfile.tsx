@@ -913,6 +913,20 @@ const CandidateProfile = (props: compProps) => {
               </Grid>
             </>
           )}
+
+          <Grid item md={3} xs={12}>
+            <Autocomplete
+              disablePortal
+              id='code'
+              options={combocode}
+              getOptionLabel={(option: Countries) => option.iso}
+              defaultValue={props.datauser?.country}
+              renderInput={params => <TextField {...params} variant='standard' {...register('phone')} />}
+              onChange={(event: any, newValue: Countries | null) =>
+                newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
+              }
+            />
+          </Grid>
           <Grid item md={3} xs={12}>
             <TextField
               id='phone'
@@ -925,21 +939,6 @@ const CandidateProfile = (props: compProps) => {
               type='number'
               value={phoneNum}
               onChange={e => onChangePhoneNum(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <Autocomplete
-                    disablePortal
-                    id='code'
-                    options={combocode}
-                    getOptionLabel={(option: Countries) => option.iso}
-                    defaultValue={props.datauser?.country}
-                    renderInput={params => <TextField {...params} variant='standard' {...register('phone')} />}
-                    onChange={(event: any, newValue: Countries | null) =>
-                      newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
-                    }
-                  />
-                )
-              }}
             />
           </Grid>
           <Grid item md={3} xs={12}>
