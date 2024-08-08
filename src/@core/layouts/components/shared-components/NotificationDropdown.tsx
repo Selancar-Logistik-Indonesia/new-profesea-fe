@@ -180,8 +180,36 @@ const buildNotifies = (e: INotification) => {
       meta: hDiff,
       avatarAlt: e.data.user.name,
       title: 'Please complete your profile',
-      avatarIcon: <Icon icon='ic:baseline-remove-circle-outline' />,
+      avatarIcon: <Icon icon='ph:confetti' />,
       subtitle: `Hey ${e.data.user.name}, a warm welcome to Profesea! To boost your profile visibility and help recruiters find your resume effortlessly, we suggest filling out your profile. It's a great way to showcase your talents!`,
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
+  if (e.type == NotificationType.companyApproval) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data.user.name,
+      title: 'Congratulations!',
+      avatarIcon: <Icon icon='ic:baseline-mark-email-read' />,
+      subtitle: `Your Company Registration on Profesea Has Been Approved!`,
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
+  if (e.type == NotificationType.companyOnboarding) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data.user.name,
+      title: 'Complete Registration on Profesea!',
+      avatarIcon: <Icon icon='ic:baseline-mark-email-read' />,
+      subtitle: `Upload your document to complete Registration`,
       type: e.type,
       read_at: e.read_at,
       data: e.data
