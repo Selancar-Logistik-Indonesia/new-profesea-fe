@@ -17,6 +17,29 @@ interface TabPanelProps {
   value: number
 }
 
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props
+
+  return (
+    <div
+      role='tabpanel'
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
+    </div>
+  )
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`
+  }
+}
+
 const UserJob = () => {
   const router = useRouter()
   const pathname = usePathname()
@@ -58,29 +81,6 @@ const UserJob = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
     router.push(`${pathname}?${createQueryString('tabs', newValue)}`)
-  }
-
-  function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props
-
-    return (
-      <div
-        role='tabpanel'
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
-      </div>
-    )
-  }
-
-  function a11yProps(index: number) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`
-    }
   }
 
   return (

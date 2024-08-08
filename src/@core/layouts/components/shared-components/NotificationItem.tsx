@@ -178,13 +178,18 @@ const NotificationItem = (props: { item: NotificationsType }) => {
     })
 
     switch (item.type) {
+      case NotificationType.applicantApplied:
+        router.push(`/candidate/find-job/?tabs=2`)
+        break
+
       case NotificationType.newApplicant:
-        const jobId = item?.data?.job?.id
-        if (!jobId) {
+        const newApplicantJobId = item?.data?.job?.id
+        const newApplicantName = item?.data?.candidate?.name
+        if (!newApplicantJobId) {
           return
         }
 
-        router.push(`/company/job/?id=${jobId}`)
+        router.push(`/company/job/?tabs=2&id=${newApplicantJobId}&applicant=${toLinkCase(newApplicantName)}`)
         break
 
       case NotificationType.completeProfileEncouragement:
