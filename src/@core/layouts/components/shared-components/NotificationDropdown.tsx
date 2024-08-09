@@ -18,7 +18,6 @@ import INotification from 'src/contract/models/notification'
 import moment, { now } from 'moment'
 import NotificationType from 'src/contract/types/notification_type'
 import NotificationItem from './NotificationItem'
-import { title } from 'process'
 
 export type NotificationsType = {
   id: string
@@ -203,7 +202,7 @@ const buildNotifies = (e: INotification) => {
     }
   }
 
-  if (e.type == NotificationType.companyOnBoarding) {
+  if (e.type == NotificationType.companyOnboarding) {
     return {
       id: e.id,
       meta: hDiff,
