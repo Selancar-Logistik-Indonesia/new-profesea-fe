@@ -186,7 +186,7 @@ const NotificationItem = (props: { item: NotificationsType }) => {
 
         router.push(`/company/job/?id=${jobId}`)
         break
-      case NotificationType.companyOnboarding:
+      case NotificationType.companyOnBoarding:
         router.push(`/company/`)
         break
 

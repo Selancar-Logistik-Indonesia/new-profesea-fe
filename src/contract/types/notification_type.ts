@@ -6,7 +6,7 @@ enum NotificationType {
     connectRequestRejected = "App\\Notifications\\ConnectRequestRejected",
     completeProfileEncouragement = "App\\Notifications\\CompleteProfileEncouragement",
     companyApproval = "App\\Notifications\\NotificationCompanyApproval",
-    companyOnboarding = "App\\Notifications\\NotificationCompanyOnboarding",
+    companyOnBoarding = "App\\Notifications\\NotificationCompanyOnBoarding",
 }
 
 export default NotificationType;
