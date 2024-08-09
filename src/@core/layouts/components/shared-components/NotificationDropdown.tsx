@@ -203,7 +203,7 @@ const buildNotifies = (e: INotification) => {
     }
   }
 
-  if (e.type == NotificationType.companyOnboarding) {
+  if (e.type == NotificationType.companyOnBoarding) {
     return {
       id: e.id,
       meta: hDiff,
