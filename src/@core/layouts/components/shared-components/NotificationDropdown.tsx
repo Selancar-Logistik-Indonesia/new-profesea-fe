@@ -116,14 +116,30 @@ const buildNotifies = (e: INotification) => {
     }
   }
 
+  if (e.type == NotificationType.applicantApplied) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data.candidate.name,
+      title: `You've Applied for "${e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name}"`,
+      avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
+      subtitle: 'Check your application status.',
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
   if (e.type == NotificationType.newApplicant) {
     return {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data.candidate.name,
-      title: 'New applicant',
+      title: 'You Have New Applicant',
       avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
-      subtitle: `${e.data.candidate.name} applied to your job post "${e.data.job.role_type.name}".`,
+      subtitle: `${e.data.candidate.name} Applied for "${
+        e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name
+      }".`,
       type: e.type,
       read_at: e.read_at,
       data: e.data
@@ -194,6 +210,52 @@ const buildNotifies = (e: INotification) => {
       title: 'Complete Registration on Profesea!',
       avatarIcon: <Icon icon='ic:baseline-mark-email-read' />,
       subtitle: `Upload your document to complete Registration`,
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
+  if (e.type === NotificationType.applicantViewed) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data?.user?.name,
+      title: `Check your applicant status`,
+      avatarIcon: <Icon icon='fluent:people-search-24-regular' />,
+      subtitle: `${e?.data?.company?.name} has been viewed your application!`,
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
+  if (e.type === NotificationType.applicantRejected) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data?.user?.name,
+      title: `Check your applicant status`,
+      avatarIcon: <Icon icon='icon-park-outline:people-delete' />,
+      subtitle: `Your Application for ${
+        e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName
+      } – Rejected`,
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
+  if (e.type === NotificationType.applicantApproved) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data?.user?.name,
+      title: `Check your applicant status`,
+      avatarIcon: <Icon icon='fluent:people-checkmark-24-regular' />,
+      subtitle: `Your Application for ${
+        e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName
+      } – Approved`,
       type: e.type,
       read_at: e.read_at,
       data: e.data

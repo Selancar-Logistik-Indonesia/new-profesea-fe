@@ -17,7 +17,7 @@ import { Button, Typography } from '@mui/material'
 // import RoleType from 'src/contract/models/role_type'
 // import VesselType from 'src/contract/models/vessel_type'
 import { Icon } from '@iconify/react'
-import { subscribev } from 'src/utils/helpers'
+import { linkToTitleCase, subscribev } from 'src/utils/helpers'
 import BasicFilter from './BasicFilter'
 import Job from 'src/contract/models/job'
 import AdvancedFilter from './AdvancedFilter'
@@ -53,7 +53,7 @@ const JobApplied = (props: IJobAppliedProps) => {
   const params = useSearchParams()
 
   const plan = params.get('plan')
-  const searchCandidate = params.get('applicant')
+  const searchCandidate = linkToTitleCase(params.get('applicant') ?? '')
 
   const [collapsed, setCollapsed] = useState<boolean>(plan === 'advance' ? false : true)
   const [collapsedAdvanced, setCollapsedAdvanced] = useState<boolean>(true)
@@ -576,7 +576,7 @@ const JobApplied = (props: IJobAppliedProps) => {
                     variant='outlined'
                     sx={{ textTransform: 'none', ml: '4px', borderRadius: '18px !important', px: '12px !important' }}
                     endIcon={<Icon icon='mdi:clear-circle-outline' color='#32497A' />}
-                    onClick={() => router.push(pathname + '?id=' + jobDetail?.id + '&tabs=2')}
+                    onClick={() => router.push(pathname + '?tabs=2&id=' + jobDetail?.id)}
                   >
                     {searchCandidate}
                   </Button>

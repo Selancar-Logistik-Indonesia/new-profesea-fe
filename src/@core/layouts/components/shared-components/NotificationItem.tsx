@@ -178,13 +178,18 @@ const NotificationItem = (props: { item: NotificationsType }) => {
     })
 
     switch (item.type) {
+      case NotificationType.applicantApplied:
+        router.push(`/candidate/find-job/?tabs=2`)
+        break
+
       case NotificationType.newApplicant:
-        const jobId = item?.data?.job?.id
-        if (!jobId) {
+        const newApplicantJobId = item?.data?.job?.id
+        const newApplicantName = item?.data?.candidate?.name
+        if (!newApplicantJobId) {
           return
         }
 
-        router.push(`/company/job/?id=${jobId}`)
+        router.push(`/company/job/?tabs=2&id=${newApplicantJobId}&applicant=${toLinkCase(newApplicantName)}`)
         break
       case NotificationType.companyOnboarding:
         router.push(`/company/`)
@@ -192,6 +197,10 @@ const NotificationItem = (props: { item: NotificationsType }) => {
 
       case NotificationType.completeProfileEncouragement:
         router.push(`/${user?.role === 'Seafarer' ? 'profile' : 'company'}/${user?.id}/${toLinkCase(user?.username)}`)
+        break
+
+      case NotificationType.applicantViewed || NotificationType.applicantApproved || NotificationType.applicantRejected:
+        router.push(`/candidate/find-job?tabs=2`)
         break
 
       default:
@@ -203,15 +212,17 @@ const NotificationItem = (props: { item: NotificationsType }) => {
   return (
     <>
       <MenuItem key={item.id} onClick={() => handleClick()}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           <RenderAvatar notification={item} />
-          <Box sx={{ mx: 4 }}>
-            <MenuItemTitle>{item.title}</MenuItemTitle>
-            <MenuItemSubtitle variant='body2'>{item.subtitle}</MenuItemSubtitle>
+          <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{ mx: 4 }}>
+              <MenuItemTitle>{item.title}</MenuItemTitle>
+              <MenuItemSubtitle variant='body2'>{item.subtitle}</MenuItemSubtitle>
+            </Box>
+            <Typography variant='caption' sx={{ color: 'text.disabled' }}>
+              {item.meta}
+            </Typography>
           </Box>
-          <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-            {item.meta}
-          </Typography>
         </Box>
       </MenuItem>
 
