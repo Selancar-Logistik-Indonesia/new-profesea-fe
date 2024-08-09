@@ -199,6 +199,10 @@ const NotificationItem = (props: { item: NotificationsType }) => {
         router.push(`/${user?.role === 'Seafarer' ? 'profile' : 'company'}/${user?.id}/${toLinkCase(user?.username)}`)
         break
 
+      case NotificationType.applicantViewed || NotificationType.applicantApproved || NotificationType.applicantRejected:
+        router.push(`/candidate/find-job?tabs=2`)
+        break
+
       default:
         console.log('No action required..')
         break
@@ -208,15 +212,17 @@ const NotificationItem = (props: { item: NotificationsType }) => {
   return (
     <>
       <MenuItem key={item.id} onClick={() => handleClick()}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           <RenderAvatar notification={item} />
-          <Box sx={{ mx: 4 }}>
-            <MenuItemTitle>{item.title}</MenuItemTitle>
-            <MenuItemSubtitle variant='body2'>{item.subtitle}</MenuItemSubtitle>
+          <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{ mx: 4 }}>
+              <MenuItemTitle>{item.title}</MenuItemTitle>
+              <MenuItemSubtitle variant='body2'>{item.subtitle}</MenuItemSubtitle>
+            </Box>
+            <Typography variant='caption' sx={{ color: 'text.disabled' }}>
+              {item.meta}
+            </Typography>
           </Box>
-          <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-            {item.meta}
-          </Typography>
         </Box>
       </MenuItem>
 
