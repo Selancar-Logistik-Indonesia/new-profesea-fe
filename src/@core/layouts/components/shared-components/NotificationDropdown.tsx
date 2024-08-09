@@ -186,7 +186,7 @@ const buildNotifies = (e: INotification) => {
     }
   }
 
-  if (e.type == NotificationType.companyOnBoarding) {
+  if (e.type == NotificationType.companyOnboarding) {
     return {
       id: e.id,
       meta: hDiff,
