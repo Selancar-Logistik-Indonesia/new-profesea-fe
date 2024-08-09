@@ -18,6 +18,7 @@ import INotification from 'src/contract/models/notification'
 import moment, { now } from 'moment'
 import NotificationType from 'src/contract/types/notification_type'
 import NotificationItem from './NotificationItem'
+import { title } from 'process'
 
 export type NotificationsType = {
   id: string
@@ -210,6 +211,52 @@ const buildNotifies = (e: INotification) => {
       title: 'Complete Registration on Profesea!',
       avatarIcon: <Icon icon='ic:baseline-mark-email-read' />,
       subtitle: `Upload your document to complete Registration`,
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
+  if (e.type === NotificationType.applicantViewed) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data?.user?.name,
+      title: `Check your applicant status`,
+      avatarIcon: <Icon icon='fluent:people-search-24-regular' />,
+      subtitle: `${e?.data?.company?.name} has been viewed your application!`,
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
+  if (e.type === NotificationType.applicantRejected) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data?.user?.name,
+      title: `Check your applicant status`,
+      avatarIcon: <Icon icon='icon-park-outline:people-delete' />,
+      subtitle: `Your Application for ${
+        e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName
+      } – Rejected`,
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
+  if (e.type === NotificationType.applicantApproved) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data?.user?.name,
+      title: `Check your applicant status`,
+      avatarIcon: <Icon icon='fluent:people-checkmark-24-regular' />,
+      subtitle: `Your Application for ${
+        e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName
+      } – Approved`,
       type: e.type,
       read_at: e.read_at,
       data: e.data

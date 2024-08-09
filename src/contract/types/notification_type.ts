@@ -8,6 +8,9 @@ enum NotificationType {
     completeProfileEncouragement = "App\\Notifications\\CompleteProfileEncouragement",
     companyApproval = "App\\Notifications\\NotificationCompanyApproval",
     companyOnboarding = "App\\Notifications\\NotificationCompanyOnboarding",
+    applicantViewed = "App\\Notifications\\ApplicantViewed",
+    applicantRejected = "App\\Notifications\\ApplicantRejected",
+    applicantApproved = "App\\Notifications\\ApplicantApproved",
 }
 
 export default NotificationType;
