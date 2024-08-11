@@ -222,7 +222,7 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data?.user?.name,
-      title: `Check your applicant status`,
+      title: `Check your application status`,
       avatarIcon: <Icon icon='fluent:people-search-24-regular' />,
       subtitle: `${e?.data?.company?.name} has been viewed your application!`,
       type: e.type,
@@ -236,7 +236,7 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data?.user?.name,
-      title: `Check your applicant status`,
+      title: `Check your application status`,
       avatarIcon: <Icon icon='icon-park-outline:people-delete' />,
       subtitle: `Your Application for ${
         e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName
@@ -252,7 +252,7 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data?.user?.name,
-      title: `Check your applicant status`,
+      title: `Check your application status`,
       avatarIcon: <Icon icon='fluent:people-checkmark-24-regular' />,
       subtitle: `Your Application for ${
         e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName
