@@ -199,10 +199,16 @@ const NotificationItem = (props: { item: NotificationsType }) => {
         router.push(`/${user?.role === 'Seafarer' ? 'profile' : 'company'}/${user?.id}/${toLinkCase(user?.username)}`)
         break
 
-      case NotificationType.applicantViewed || NotificationType.applicantApproved || NotificationType.applicantRejected:
+      case NotificationType.applicantViewed:
         router.push(`/candidate/find-job?tabs=2`)
         break
 
+      case NotificationType.applicantRejected:
+        router.push(`/candidate/find-job?tabs=2`)
+        break
+      case NotificationType.applicantApproved:
+        router.push(`/candidate/find-job?tabs=2`)
+        break
       default:
         console.log('No action required..')
         break
