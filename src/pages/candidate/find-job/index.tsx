@@ -118,7 +118,6 @@ const SeafarerJobApp = () => {
   }
 
   const [value, setValue] = useState<string>(tabs || '1')
-  const [color, getColor] = useState<any>('#FFFFFF')
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
     router.push(`${pathname}?${createQueryString('tabs', newValue)}`)
@@ -251,7 +250,7 @@ const SeafarerJobApp = () => {
           </Box>
           <Grid
             container
-            sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', background: color }}
+            sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', background: '#FFFFFF' }}
           >
             <Grid item xs={12}>
               <TabPanel value={parseInt(value, 10)} index={1}>
