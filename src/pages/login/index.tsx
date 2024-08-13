@@ -203,7 +203,9 @@ const LoginPage = () => {
                       )}
                     />
                     {errors.email && (
-                      <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>
+                      <Typography sx={{ color: 'error.main', ml: '4px', fontSize: 12 }}>
+                        {errors.email.message}
+                      </Typography>
                     )}
                   </FormControl>
                   <FormControl fullWidth>
@@ -238,9 +240,9 @@ const LoginPage = () => {
                       )}
                     />
                     {errors.password && (
-                      <FormHelperText sx={{ color: 'error.main' }} id=''>
+                      <Typography sx={{ color: 'error.main', ml: '4px', fontSize: 12 }} id=''>
                         {errors.password.message}
-                      </FormHelperText>
+                      </Typography>
                     )}
                   </FormControl>
                   <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', marginTop: '2%' }}>
