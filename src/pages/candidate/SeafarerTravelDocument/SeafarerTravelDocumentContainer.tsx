@@ -91,7 +91,7 @@ const SeafarerTravelDocumentTable = (props: ISeafarerTravelDocumentProps) => {
       type: 'string',
       width: 180,
       renderCell: (params: any) => {
-        return params.row.valid_date ? <>{params.row.valid_date}</> : 'lifetime'
+        return params.row.valid_date ? <>{new Date(params.row.valid_date).toLocaleDateString('id-ID')}</> : 'lifetime'
       }
     },
     {

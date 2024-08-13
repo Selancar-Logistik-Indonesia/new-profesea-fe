@@ -88,7 +88,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
       headerName: 'Valid Date',
       width: 220,
       renderCell: (params: any) => {
-        return params.row.valid_until ? <>{params.row.valid_until}</> : 'lifetime'
+        return params.row.valid_until ? <>{new Date(params.row.valid_until).toLocaleDateString('id-ID')}</> : 'lifetime'
       }
     },
     {
