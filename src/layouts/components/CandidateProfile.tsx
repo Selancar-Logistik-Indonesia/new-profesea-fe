@@ -87,7 +87,7 @@ type FormData = {
   code: string
   website: string
   phone: string
-  dateOfBirth: string
+  dateOfBirth: any
   address: string
   about: string
   usernamesosmed: string
@@ -198,7 +198,9 @@ const CandidateProfile = (props: compProps) => {
       : { employee_type: 'onship', label: 'PELAUT' }
   )
   const [idcountry, setCountry] = useState<any>(props.datauser?.country_id)
-  const [date, setDate] = useState<DateType>(new Date())
+  const [date, setDate] = useState<any>(
+    props.datauser?.field_preference?.available_date ? new Date(props.datauser?.field_preference?.available_date) : null
+  )
   // const [idcomborolLevel, setComboRolLevel] = useState<any>(props.datauser?.field_preference?.role_level?.id)
   const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
   const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id)
@@ -250,8 +252,10 @@ const CandidateProfile = (props: compProps) => {
   }
   const [noExperience, setNoExperience] = useState<boolean>(props.datauser?.no_experience ? true : false)
   const [phoneNum, setPhoneNum] = useState(props.datauser?.phone)
-  const [dateOfBirth, setDateOfBirth] = useState(props.datauser?.date_of_birth)
-  const onChangeDateOfBirth = (input: string) => {
+  const [dateOfBirth, setDateOfBirth] = useState<any>(
+    props.datauser?.date_of_birth ? new Date(props.datauser?.date_of_birth) : null
+  )
+  const onChangeDateOfBirth = (input: any) => {
     setDateOfBirth(input)
   }
   const onChangePhoneNum = (input: string) => {
@@ -566,7 +570,7 @@ const CandidateProfile = (props: compProps) => {
       employee_type: idship,
       name: fullName,
       phone: phoneNum,
-      date_of_birth: dateOfBirth ? dateOfBirth : null,
+      date_of_birth: dateOfBirth || null,
       website: website,
       about: about,
       address_country_id: idcountry,
@@ -924,7 +928,6 @@ const CandidateProfile = (props: compProps) => {
               sx={{ mb: 1 }}
               type='number'
               value={phoneNum}
-              {...register('phone')}
               onChange={e => onChangePhoneNum(e.target.value)}
               InputProps={{
                 // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
@@ -935,7 +938,7 @@ const CandidateProfile = (props: compProps) => {
                     options={combocode}
                     getOptionLabel={(option: Countries) => option.iso}
                     defaultValue={props.datauser?.country}
-                    renderInput={params => <TextField {...params} variant='standard' />}
+                    renderInput={params => <TextField {...params} variant='standard' {...register('phone')} />}
                     onChange={(event: any, newValue: Countries | null) =>
                       newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
                     }
@@ -947,14 +950,13 @@ const CandidateProfile = (props: compProps) => {
           <Grid item md={3} xs={12}>
             <DatePicker
               dateFormat='dd/MM/yyyy'
-              onChange={(date: Date) => onChangeDateOfBirth(String(date))}
+              onChange={(date: Date) => onChangeDateOfBirth(date)}
               placeholderText='Click to select a Date of Birth'
               showYearDropdown
               showMonthDropdown
               dropdownMode='select'
               id='date_of_birth'
-              selected={new Date(dateOfBirth)}
-              value={new Date(dateOfBirth).toLocaleDateString('id-ID') ?? null}
+              selected={dateOfBirth}
               customInput={
                 <TextField
                   label='Date Of Birth'

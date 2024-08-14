@@ -124,7 +124,7 @@
     "input_label_error_1": "Bagian ini wajib diisi",
     "input_label_error_2": "Kata sandi minimal harus 8 karakter",
     "input_label_error_3": "Surel harus valid",
-    "input_label_error_4": "Surel atau Kata Sandi tidak valid",
+    "input_label_error_4": "Surel atau Kata Sandi tidak valid. Perhatikan huruf besar dan kecil pada email dan kata sandi anda",
     "input_label_error_5": "Mohon menyetujui Syarat & Ketentuan dan Kebijakan Privasi yang berlaku",
     "input_label_error_6": "Pendaftaran gagal, konfirmasi kata sandi tidak cocok",
     "login_text_1": "Masuk",

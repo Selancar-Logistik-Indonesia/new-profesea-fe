@@ -1,5 +1,5 @@
 import { Button, Container, Grid, Typography, Card, CardContent, Box } from '@mui/material'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 import landingPageStyle from 'src/@core/styles/landing-page/landing-page'
 import { useTranslation } from 'react-i18next'
@@ -13,16 +13,29 @@ import themeConfig from 'src/configs/themeConfig'
 import CarouselNewsView from 'src/views/landing-page/carouselnews'
 import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
+import Spinner from 'src/@core/components/spinner'
 // import CarouselEvent from 'src/views/landing-page/carouselevent'
 
 const Main = () => {
   const { t } = useTranslation()
   const router = useRouter()
-  const { user } = useAuth()
+  const auth = useAuth()
+  const [isNavigating, setIsNavigating] = useState(true)
 
-  if (user) {
-    router.replace('/home')
+  const firstLoad = async () => {
+    if (auth.user) {
+      await router.replace('/home')
+    }
+    setIsNavigating(false)
   }
+
+  useEffect(() => {
+    if (!auth.loading) {
+      firstLoad()
+    }
+  }, [auth, router])
+
+  if (isNavigating || auth.loading) return <Spinner />
 
   return (
     <>
