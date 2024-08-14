@@ -80,7 +80,7 @@ const DialogAdd = (props: DialogProps) => {
   })
 
   useEffect(() => {
-    HttpClient.get(AppConfig.baseUrl + '/public/data/sekolah?page=1&take=100&search').then(response => {
+    HttpClient.get(AppConfig.baseUrl + '/public/data/sekolah?page=1&take=1000&search').then(response => {
       const code = response.data.sekolah.data
       getComboSekolah(code)
     })
