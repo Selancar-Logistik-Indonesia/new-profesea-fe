@@ -924,7 +924,6 @@ const CandidateProfile = (props: compProps) => {
               sx={{ mb: 1 }}
               type='number'
               value={phoneNum}
-              {...register('phone')}
               onChange={e => onChangePhoneNum(e.target.value)}
               InputProps={{
                 // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
@@ -935,7 +934,7 @@ const CandidateProfile = (props: compProps) => {
                     options={combocode}
                     getOptionLabel={(option: Countries) => option.iso}
                     defaultValue={props.datauser?.country}
-                    renderInput={params => <TextField {...params} variant='standard' />}
+                    renderInput={params => <TextField {...params} variant='standard' {...register('phone')} />}
                     onChange={(event: any, newValue: Countries | null) =>
                       newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
                     }
