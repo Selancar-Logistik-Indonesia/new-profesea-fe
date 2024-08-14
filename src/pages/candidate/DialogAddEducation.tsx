@@ -1,14 +1,16 @@
 import { Ref, forwardRef, ReactElement, useState, useEffect, useCallback } from 'react'
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Dialog from '@mui/material/Dialog'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
+import {
+  Box,
+  Grid,
+  Dialog,
+  Button,
+  TextField,
+  IconButton,
+  Typography,
+  DialogContent,
+  DialogActions
+} from '@mui/material'
 import Fade, { FadeProps } from '@mui/material/Fade'
-import DialogContent from '@mui/material/DialogContent'
-import DialogActions from '@mui/material/DialogActions'
 import toast from 'react-hot-toast'
 import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
@@ -17,7 +19,6 @@ import { getCleanErrorMessage } from 'src/utils/helpers'
 import { CircularProgress, Divider } from '@mui/material'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import { Autocomplete } from '@mui/material'
-import DatePicker from 'react-datepicker'
 import Degree from 'src/contract/models/degree'
 import Institution from 'src/contract/models/institution'
 import debounce from 'src/utils/debounce'
@@ -25,6 +26,7 @@ import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import { AppConfig } from 'src/configs/api'
+import DatePicker from 'react-datepicker'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
