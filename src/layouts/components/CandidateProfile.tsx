@@ -953,7 +953,7 @@ const CandidateProfile = (props: compProps) => {
               dropdownMode='select'
               id='date_of_birth'
               selected={new Date(dateOfBirth)}
-              value={new Date(dateOfBirth).toLocaleDateString('id-ID') ?? null}
+              value={String(dateOfBirth) ?? null}
               customInput={
                 <TextField
                   label='Date Of Birth'
