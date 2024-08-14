@@ -1,5 +1,5 @@
 // ** React Imports
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
@@ -34,9 +34,10 @@ import JobContext, { JobProvider } from 'src/context/JobContext'
 import { useJob } from 'src/hooks/useJob'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import RecomendedView from 'src/views/find-job/RecomendedView'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { linkToTitleCase } from 'src/utils/helpers'
 import RoleType from 'src/contract/models/role_type'
+import { useRouter } from 'next/router'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -55,7 +56,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value == index && <Box sx={{ p: 0 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
     </div>
   )
 }
@@ -77,7 +78,11 @@ const SeafarerJob = () => {
 
 const SeafarerJobApp = () => {
   const { setPage, fetchJobs, totalJob, hasNextPage } = useJob()
+  const router = useRouter()
+  const pathname = usePathname()
   const params = useSearchParams()
+
+  const tabs = params.get('tabs')
   const company = linkToTitleCase(params.get('company'))
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -112,12 +117,27 @@ const SeafarerJobApp = () => {
     setPage(1)
   }
 
-  const [value, setValue] = React.useState(0)
-  const [color, getColor] = useState<any>('#FFFFFF')
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const [value, setValue] = useState<string>(tabs || '1')
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
-    getColor('#FFFFFF')
+    router.push(`${pathname}?${createQueryString('tabs', newValue)}`)
   }
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const searchParams = new URLSearchParams(params.toString())
+      searchParams.set(name, value)
+
+      return searchParams.toString()
+    },
+    [params]
+  )
+
+  useEffect(() => {
+    if (tabs === null) {
+      router.push(`${pathname}?${createQueryString('tabs', '1')}`)
+    }
+  }, [tabs])
 
   const employmentTypeOptions = [{ name: 'Intern' }, { name: 'Contract' }, { name: 'Full-Time' }]
 
@@ -214,20 +234,26 @@ const SeafarerJobApp = () => {
             }}
           >
             <Tabs value={value} onChange={handleChange} aria-label='customized tabs example'>
-              <Tab label='Find Job' icon={<Icon icon='solar:boombox-bold-duotone' fontSize={18} />} {...a11yProps(0)} />
+              <Tab
+                label='Find Job'
+                icon={<Icon icon='solar:boombox-bold-duotone' fontSize={18} />}
+                {...a11yProps(1)}
+                value='1'
+              />
               <Tab
                 label='Job Applied'
                 icon={<Icon icon='solar:widget-add-bold-duotone' fontSize={18} />}
-                {...a11yProps(1)}
+                {...a11yProps(2)}
+                value='2'
               />
             </Tabs>
           </Box>
           <Grid
             container
-            sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', background: color }}
+            sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', background: '#FFFFFF' }}
           >
             <Grid item xs={12}>
-              <TabPanel value={value} index={0}>
+              <TabPanel value={parseInt(value, 10)} index={1}>
                 <Grid item xs={12} sx={{ padding: 4, border: 0, boxShadow: 0, backgroundColor: '#FFFFFF' }}>
                   <Box
                     sx={
@@ -446,7 +472,7 @@ const SeafarerJobApp = () => {
                   </Grid>
                 </Box>
               </TabPanel>
-              <TabPanel value={value} index={1}>
+              <TabPanel value={parseInt(value, 10)} index={2}>
                 <AllJobApplied />
               </TabPanel>
             </Grid>

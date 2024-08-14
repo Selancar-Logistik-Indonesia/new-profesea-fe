@@ -25,8 +25,9 @@ const OuterPageLayoutWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 
 const OuterPageLayout = (props: LandingPageLayoutProps) => {
   const { children } = props
-  const { user } = useAuth()
-  if (user) return <UserLayout>{children}</UserLayout>
+  const auth = useAuth()
+
+  if (auth.user !== null) return <UserLayout>{children}</UserLayout>
 
   return (
     <OuterPageLayoutWrapper>

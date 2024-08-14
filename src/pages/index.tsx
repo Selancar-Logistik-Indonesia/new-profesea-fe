@@ -1,5 +1,5 @@
 import { Button, Container, Grid, Typography, Card, CardContent, Box } from '@mui/material'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 import landingPageStyle from 'src/@core/styles/landing-page/landing-page'
 import { useTranslation } from 'react-i18next'
@@ -11,15 +11,31 @@ import FooterView from 'src/views/landing-page/footerView'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import CarouselNewsView from 'src/views/landing-page/carouselnews'
+import { useAuth } from 'src/hooks/useAuth'
+import { useRouter } from 'next/router'
+import Spinner from 'src/@core/components/spinner'
 // import CarouselEvent from 'src/views/landing-page/carouselevent'
-
-// ** Icon Imports
-// import Icon from 'src/@core/components/icon'
-// ** Custom Components Imports
-// import CustomAvatar from 'src/@core/components/mui/avatar'
 
 const Main = () => {
   const { t } = useTranslation()
+  const router = useRouter()
+  const auth = useAuth()
+  const [isNavigating, setIsNavigating] = useState(true)
+
+  const firstLoad = async () => {
+    if (auth.user) {
+      await router.replace('/home')
+    }
+    setIsNavigating(false)
+  }
+
+  useEffect(() => {
+    if (!auth.loading) {
+      firstLoad()
+    }
+  }, [auth, router])
+
+  if (isNavigating || auth.loading) return <Spinner />
 
   return (
     <>
@@ -168,7 +184,6 @@ const Main = () => {
 
       {/* <CarouselEvent /> */}
       <FindJobsView id='findJobSection' />
-
       <DiscoverView />
       <FeatureView />
       <CarouselNewsView />

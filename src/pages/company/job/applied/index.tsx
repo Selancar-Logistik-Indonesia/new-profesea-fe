@@ -12,16 +12,18 @@ import debounce from 'src/utils/debounce'
 import { GridPaginationModel } from '@mui/x-data-grid'
 import { v4 } from 'uuid'
 import DialogView from './DialogView'
-import { Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 // import JobCategory from 'src/contract/models/job_category'
 // import RoleType from 'src/contract/models/role_type'
 // import VesselType from 'src/contract/models/vessel_type'
-// import { Icon } from '@iconify/react'
-import { subscribev } from 'src/utils/helpers'
+import { Icon } from '@iconify/react'
+import { linkToTitleCase, subscribev } from 'src/utils/helpers'
 import BasicFilter from './BasicFilter'
 import Job from 'src/contract/models/job'
 import AdvancedFilter from './AdvancedFilter'
 import axios from 'axios'
+import { useRouter } from 'next/router'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 const status: any[] = [
   { id: 'AP', title: 'Approved' },
@@ -46,9 +48,14 @@ interface IJobAppliedProps {
 
 const JobApplied = (props: IJobAppliedProps) => {
   const jobDetail = props.jobDetail
-  const windowUrl = window.location.search
-  const params = new URLSearchParams(windowUrl)
-  const [collapsed, setCollapsed] = useState<boolean>(params.get('plan') === 'advance' ? false : true)
+  const router = useRouter()
+  const pathname = usePathname()
+  const params = useSearchParams()
+
+  const plan = params.get('plan')
+  const searchCandidate = linkToTitleCase(params.get('applicant') ?? '')
+
+  const [collapsed, setCollapsed] = useState<boolean>(plan === 'advance' ? false : true)
   const [collapsedAdvanced, setCollapsedAdvanced] = useState<boolean>(true)
   // const [JobCategory, getJobCategory] = useState<any[]>([])
   // const [JobTitle, getJobTitle] = useState<any[]>([])
@@ -124,7 +131,9 @@ const JobApplied = (props: IJobAppliedProps) => {
 
       const resp = await HttpClient.get(
         `/job/${params.get('id')}/appllicants?` +
-          `experience=${experience}&status_onboard=${statusOnBoard}&education=${education}&search=${search}&page=${page}&take=${perPage}`
+          `experience=${experience}&status_onboard=${statusOnBoard}&education=${education}&search=${
+            searchCandidate || search
+          }&page=${page}&take=${perPage}`
       )
 
       if (resp.status != 200) {
@@ -248,12 +257,11 @@ const JobApplied = (props: IJobAppliedProps) => {
   }
 
   const handleChat = (row: Applicant) => {
-    // Fungsi regex untuk menggantikan 0 di depan dengan +62
-
     if (!row?.user?.phone) {
       return
     }
 
+    // Fungsi regex untuk menggantikan 0 di depan dengan +62
     const formattedPhone = row?.user?.phone.startsWith('0')
       ? row?.user?.phone.replace(/^0/, '+62')
       : `+62${row?.user?.phone}`
@@ -263,7 +271,6 @@ const JobApplied = (props: IJobAppliedProps) => {
 
     // Membuka tab baru dengan URL WhatsApp
     window.open(whatsappUrl, '_blank')
-
     // window.location.replace('/chat?username=' + row?.user.username)
   }
 
@@ -551,7 +558,7 @@ const JobApplied = (props: IJobAppliedProps) => {
             </Box>
           )} */}
         </Grid>
-        <Grid item lg={12} md={12} xs={12}>
+        <Grid item xs={12}>
           <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
             <CardContent>
               {params.get('plan') === 'advance' && (
@@ -560,16 +567,26 @@ const JobApplied = (props: IJobAppliedProps) => {
                 </Typography>
               )}
 
-              <Grid container justifyContent='flex-end'>
-                <Grid item>
-                  <TextField
-                    size='small'
-                    sx={{ mr: 6, mb: 2 }}
-                    placeholder='Search'
-                    onChange={e => handleSearch(e.target.value)}
-                  />
-                </Grid>
-                <Grid item sx={{ mr: 6, mb: 2 }}></Grid>
+              <Grid
+                container
+                sx={{ display: 'flex', justifyContent: searchCandidate ? 'space-between' : 'flex-end', mb: 2 }}
+              >
+                {searchCandidate && (
+                  <Button
+                    variant='outlined'
+                    sx={{ textTransform: 'none', ml: '4px', borderRadius: '18px !important', px: '12px !important' }}
+                    endIcon={<Icon icon='mdi:clear-circle-outline' color='#32497A' />}
+                    onClick={() => router.push(pathname + '?tabs=2&id=' + jobDetail?.id)}
+                  >
+                    {searchCandidate}
+                  </Button>
+                )}
+                <TextField
+                  disabled={searchCandidate === ''}
+                  size='small'
+                  placeholder='Search'
+                  onChange={e => handleSearch(e.target.value)}
+                />
               </Grid>
 
               <AppliedDataGrid

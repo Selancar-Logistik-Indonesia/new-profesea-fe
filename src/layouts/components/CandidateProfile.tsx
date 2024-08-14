@@ -41,7 +41,6 @@ import { toast } from 'react-hot-toast'
 import Countries from 'src/contract/models/country'
 import City from 'src/contract/models/city'
 import Address from 'src/contract/models/address'
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { DateType } from 'src/contract/models/DatepickerTypes'
 import { v4 } from 'uuid'
 import DialogAddEducation from 'src/pages/candidate/DialogAddEducation'
@@ -913,6 +912,7 @@ const CandidateProfile = (props: compProps) => {
               </Grid>
             </>
           )}
+
           <Grid item md={3} xs={12}>
             <TextField
               id='phone'
@@ -924,8 +924,10 @@ const CandidateProfile = (props: compProps) => {
               sx={{ mb: 1 }}
               type='number'
               value={phoneNum}
+              {...register('phone')}
               onChange={e => onChangePhoneNum(e.target.value)}
               InputProps={{
+                // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
                 startAdornment: (
                   <Autocomplete
                     disablePortal
@@ -933,7 +935,7 @@ const CandidateProfile = (props: compProps) => {
                     options={combocode}
                     getOptionLabel={(option: Countries) => option.iso}
                     defaultValue={props.datauser?.country}
-                    renderInput={params => <TextField {...params} variant='standard' {...register('phone')} />}
+                    renderInput={params => <TextField {...params} variant='standard' />}
                     onChange={(event: any, newValue: Countries | null) =>
                       newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
                     }
@@ -943,20 +945,29 @@ const CandidateProfile = (props: compProps) => {
             />
           </Grid>
           <Grid item md={3} xs={12}>
-            <TextField
+            <DatePicker
+              dateFormat='dd/MM/yyyy'
+              onChange={(date: Date) => onChangeDateOfBirth(String(date))}
+              placeholderText='Click to select a Date of Birth'
+              showYearDropdown
+              showMonthDropdown
+              dropdownMode='select'
               id='date_of_birth'
-              label='Date of Birth'
-              defaultValue={dateOfBirth ?? null}
-              variant='standard'
-              required
-              fullWidth={true}
-              sx={{ mb: 1 }}
-              type='date'
-              value={dateOfBirth}
-              onChange={e => onChangeDateOfBirth(e.target.value)}
-              InputLabelProps={{ shrink: true }}
+              selected={new Date(dateOfBirth)}
+              value={new Date(dateOfBirth).toLocaleDateString('id-ID') ?? null}
+              customInput={
+                <TextField
+                  label='Date Of Birth'
+                  variant='standard'
+                  fullWidth
+                  InputProps={{
+                    readOnly: true
+                  }}
+                />
+              }
             />
           </Grid>
+          <Grid item md={3} xs={12}></Grid>
           <Grid item md={12} xs={12}>
             <TextField
               fullWidth
@@ -1157,19 +1168,17 @@ const CandidateProfile = (props: compProps) => {
                   />
                 </Grid>
                 <Grid item md={4} xs={12}>
-                  <DatePickerWrapper>
-                    <DatePicker
-                      minDate={new Date()}
-                      dateFormat='dd/MM/yyyy'
-                      selected={date}
-                      id='basic-input'
-                      onChange={(date: Date) => setDate(date)}
-                      placeholderText='Click to select a date'
-                      customInput={
-                        <TextField label='Available Date *' variant='standard' fullWidth {...register('available')} />
-                      }
-                    />
-                  </DatePickerWrapper>
+                  <DatePicker
+                    minDate={new Date()}
+                    dateFormat='dd/MM/yyyy'
+                    selected={date}
+                    id='basic-input'
+                    onChange={(date: Date) => setDate(date)}
+                    placeholderText='Click to select a date'
+                    customInput={
+                      <TextField label='Available Date *' variant='standard' fullWidth {...register('available')} />
+                    }
+                  />
                 </Grid>
                 <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
                   <FormControl>

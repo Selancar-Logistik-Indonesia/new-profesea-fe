@@ -61,7 +61,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
           id: seafarerExperience?.rank_id,
           name: seafarerExperience?.rank
         }
-      : ''
+      : {}
   )
   const [vesselTypeId, setVesselTypeId] = useState<any>(
     type == 'edit'
@@ -69,7 +69,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
           id: seafarerExperience?.vessel_type_id,
           name: seafarerExperience?.vessel_type
         }
-      : ''
+      : {}
   )
 
   const [signIn, setSignIn] = useState<any>(null)
@@ -110,7 +110,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
     initialValues: initialValues,
     enableReinitialize: true,
     validationSchema: ExperienceSchema,
-    onSubmit: (values, {resetForm}) => {
+    onSubmit: (values, { resetForm }) => {
       handleSubmit(values)
       resetForm()
       resetState()
@@ -118,7 +118,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
   })
 
   const resetState = () => {
-    if(type != 'edit'){
+    if (type != 'edit') {
       setRankId('')
       setVesselTypeId('')
       setSignIn(null)
@@ -286,7 +286,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                 id='autocomplete-vessel-type'
                 disablePortal
                 options={vesselTypes}
-                getOptionLabel={(option: any) => option.name}
+                getOptionLabel={(option: any) => option.name || ''}
                 defaultValue={vesselTypeId?.id ? vesselTypeId : ''}
                 renderInput={params => (
                   <TextField
@@ -306,7 +306,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                 id='autocomplete-rank'
                 disablePortal
                 options={ranks}
-                getOptionLabel={(option: any) => option.name}
+                getOptionLabel={(option: any) => option.name || ''}
                 defaultValue={rankId?.id ? rankId : ''}
                 renderInput={params => (
                   <TextField

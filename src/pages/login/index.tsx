@@ -10,7 +10,6 @@ import FormControl from '@mui/material/FormControl'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import { styled, useTheme } from '@mui/material/styles'
-import FormHelperText from '@mui/material/FormHelperText'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
@@ -203,7 +202,9 @@ const LoginPage = () => {
                       )}
                     />
                     {errors.email && (
-                      <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>
+                      <Typography sx={{ color: 'error.main', ml: '4px', fontSize: 12 }}>
+                        {errors.email.message}
+                      </Typography>
                     )}
                   </FormControl>
                   <FormControl fullWidth>
@@ -238,9 +239,9 @@ const LoginPage = () => {
                       )}
                     />
                     {errors.password && (
-                      <FormHelperText sx={{ color: 'error.main' }} id=''>
+                      <Typography sx={{ color: 'error.main', ml: '4px', fontSize: 12 }} id=''>
                         {errors.password.message}
-                      </FormHelperText>
+                      </Typography>
                     )}
                   </FormControl>
                   <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', marginTop: '2%' }}>
