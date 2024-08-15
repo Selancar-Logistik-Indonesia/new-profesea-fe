@@ -958,7 +958,7 @@ const CandidateProfile = (props: compProps) => {
               selected={dateOfBirth}
               customInput={
                 <TextField
-                  label='Date Of Birth'
+                  label='Date Of Birth *'
                   variant='standard'
                   fullWidth
                   InputProps={{
