@@ -140,7 +140,7 @@ const Register = () => {
                     {t('register_text_5')}
                   </Button>
                 </Link>
-                <Link href='/register/trainer' passHref legacyBehavior>
+                {/* <Link href='/register/trainer' passHref legacyBehavior>
                   <Button
                     variant='contained'
                     fullWidth
@@ -150,7 +150,7 @@ const Register = () => {
                   >
                     {t('register_text_6')}
                   </Button>
-                </Link>
+                </Link> */}
 
                 {/* <Box sx={{ marginTop: '2.5%' }}>
                     <Button
