@@ -163,12 +163,12 @@ const ForgotPassword = () => {
                         autoFocus
                         type='email'
                         label='Email'
-                        sx={{ display: 'flex', mb: 2 }}
+                        sx={{ display: 'flex', mb: 1 }}
                         error={Boolean(errors.email)}
                         {...register('email')}
                       />
                       <Box sx={{ mb: 6 }}>
-                        <Typography variant='body2' sx={{ ml: 1, fontSize: 12, color: 'black' }}>
+                        <Typography variant='body2' sx={{ ml: 1, fontSize: 12, color: 'red' }}>
                           Pastikan huruf besar dan kecil serta simbol pada email anda benar
                         </Typography>
                       </Box>

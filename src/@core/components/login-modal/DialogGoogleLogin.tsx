@@ -95,7 +95,7 @@ const DialogGoogleLogin = (props: BlockDialog) => {
               </Button>
             </Link>
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <Link href={`https://apifix.profesea.id/auth/google?team_id=4&type=null`} passHref legacyBehavior>
               <Button
                 variant='contained'
@@ -107,7 +107,7 @@ const DialogGoogleLogin = (props: BlockDialog) => {
                 {t('register_text_6')}
               </Button>
             </Link>
-          </Grid>
+          </Grid> */}
         </Grid>
       </DialogActions>
     </Dialog>
