@@ -117,15 +117,14 @@ const DialogEditDocument = (props: DialogProps) => {
   }, [props.selectedItem])
 
   return (
-    <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
+    <Dialog fullWidth open={props.visible} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <DialogContent
           sx={{
             position: 'relative',
             pb: theme => `${theme.spacing(8)} !important`,
             px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`],
-            height: '450px'
+            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
           }}
         >
           <IconButton
@@ -142,7 +141,7 @@ const DialogEditDocument = (props: DialogProps) => {
             <Typography variant='body2'> Edit your Document Info here</Typography>
           </Box>
 
-          <Grid container columnSpacing={'1'} rowSpacing={'2'}>
+          <Grid container rowSpacing={'4'}>
             <Grid item md={12} xs={12}>
               <TextField
                 id='document_name'

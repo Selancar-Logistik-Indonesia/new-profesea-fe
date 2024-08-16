@@ -187,7 +187,7 @@ const DialogEditWorkExperience = (props: DialogProps) => {
   }
 
   return (
-    <Dialog fullWidth open={props.visible} maxWidth='md' scroll='body' TransitionComponent={Transition}>
+    <Dialog fullWidth open={props.visible} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <DialogContent
           sx={{
@@ -211,8 +211,8 @@ const DialogEditWorkExperience = (props: DialogProps) => {
             <Typography variant='body2'>Fulfill your Work Experience Info here</Typography>
           </Box>
 
-          <Grid container columnSpacing={'1'} rowSpacing={'4'}>
-            <Grid item md={6} xs={12}>
+          <Grid container rowSpacing={'4'}>
+            <Grid item md={12} xs={12}>
               <TextField
                 id='institution'
                 label='Company Name'
@@ -222,8 +222,86 @@ const DialogEditWorkExperience = (props: DialogProps) => {
                 {...register('institution')}
               />
             </Grid>
-            <Grid item md={6} xs={12} mt={2}>
-              <Grid item xs={12} md={8} container justifyContent={'center'}>
+
+            <Grid item md={12} xs={12}>
+              <TextField
+                id='Position'
+                label='Position'
+                variant='standard'
+                fullWidth
+                {...register('position')}
+                defaultValue={props.selectedItem?.position}
+              />
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <DatePickerWrapper>
+                <DatePicker
+                  dateFormat='dd/MM/yyyy'
+                  selected={dateAwal}
+                  id='basic-input'
+                  onChange={(dateAwal: Date) => setDateAwal(dateAwal)}
+                  placeholderText='Click to select a date'
+                  customInput={
+                    <TextField
+                      label='Start Date'
+                      variant='standard'
+                      fullWidth
+                      {...register('startdate')}
+                      defaultValue={dateAwal}
+                    />
+                  }
+                />
+              </DatePickerWrapper>
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <DatePickerWrapper>
+                <DatePicker
+                  dateFormat='dd/MM/yyyy'
+                  selected={dateAkhir}
+                  id='basic-input'
+                  onChange={(dateAkhir: Date) => setDateAkhir(dateAkhir)}
+                  placeholderText='Click to select a date'
+                  customInput={
+                    <TextField
+                      label='End Date'
+                      variant='standard'
+                      fullWidth
+                      {...register('enddate')}
+                      defaultValue={dateAkhir}
+                    />
+                  }
+                />
+              </DatePickerWrapper>
+            </Grid>
+            {user.employee_type == 'onship' && (
+              <Grid item md={12} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-demo'
+                  options={comboVessel}
+                  getOptionLabel={(option: any) => option.name}
+                  defaultValue={props.selectedItem?.vessel_type}
+                  renderInput={params => <TextField {...params} label='Type of Vessel' variant='standard' />}
+                  onChange={(event: any, newValue: VesselType | null) =>
+                    newValue?.id ? setComboVessel(newValue.id) : setComboVessel(0)
+                  }
+                />
+              </Grid>
+            )}
+            <Grid item md={12} xs={12}>
+              <TextField
+                id='short_description'
+                label='Description'
+                variant='standard'
+                multiline
+                maxRows={4}
+                fullWidth
+                {...register('short_description')}
+                defaultValue={props.selectedItem?.description}
+              />
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <Grid item xs={12} md={8} container justifyContent={'left'}>
                 <Grid xs={6}>
                   <label htmlFor='x'>
                     <img
@@ -259,84 +337,6 @@ const DialogEditWorkExperience = (props: DialogProps) => {
                   </Box>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                id='Position'
-                label='Position'
-                variant='standard'
-                fullWidth
-                {...register('position')}
-                defaultValue={props.selectedItem?.position}
-              />
-            </Grid>
-
-            <Grid item md={3} xs={12}>
-              <DatePickerWrapper>
-                <DatePicker
-                  dateFormat='dd/MM/yyyy'
-                  selected={dateAwal}
-                  id='basic-input'
-                  onChange={(dateAwal: Date) => setDateAwal(dateAwal)}
-                  placeholderText='Click to select a date'
-                  customInput={
-                    <TextField
-                      label='Start Date'
-                      variant='standard'
-                      fullWidth
-                      {...register('startdate')}
-                      defaultValue={dateAwal}
-                    />
-                  }
-                />
-              </DatePickerWrapper>
-            </Grid>
-            <Grid item md={3} xs={12}>
-              <DatePickerWrapper>
-                <DatePicker
-                  dateFormat='dd/MM/yyyy'
-                  selected={dateAkhir}
-                  id='basic-input'
-                  onChange={(dateAkhir: Date) => setDateAkhir(dateAkhir)}
-                  placeholderText='Click to select a date'
-                  customInput={
-                    <TextField
-                      label='End Date'
-                      variant='standard'
-                      fullWidth
-                      {...register('enddate')}
-                      defaultValue={dateAkhir}
-                    />
-                  }
-                />
-              </DatePickerWrapper>
-            </Grid>
-            {user.employee_type == 'onship' && (
-              <Grid item md={4} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  options={comboVessel}
-                  getOptionLabel={(option: any) => option.name}
-                  defaultValue={props.selectedItem?.vessel_type}
-                  renderInput={params => <TextField {...params} label='Type of Vessel' variant='standard' />}
-                  onChange={(event: any, newValue: VesselType | null) =>
-                    newValue?.id ? setComboVessel(newValue.id) : setComboVessel(0)
-                  }
-                />
-              </Grid>
-            )}
-            <Grid item md={8} xs={12}>
-              <TextField
-                id='short_description'
-                label='Description'
-                variant='standard'
-                multiline
-                maxRows={4}
-                fullWidth
-                {...register('short_description')}
-                defaultValue={props.selectedItem?.description}
-              />
             </Grid>
           </Grid>
         </DialogContent>
