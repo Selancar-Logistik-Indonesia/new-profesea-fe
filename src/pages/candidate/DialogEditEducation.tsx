@@ -15,13 +15,18 @@ import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { CircularProgress } from '@mui/material'
-import { DateType } from 'src/contract/models/DatepickerTypes'
 import { Autocomplete } from '@mui/material'
-import DatePicker from 'react-datepicker'
+
 import { AppConfig } from 'src/configs/api'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
+
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+
+import moment from 'moment'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -50,8 +55,8 @@ type DialogProps = {
 const DialogEditEducation = (props: DialogProps) => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [onLoading, setOnLoading] = useState(false)
-  const [dateAwal, setDateAwal] = useState<DateType>(new Date(props.selectedItem?.start_date) || new Date())
-  const [dateAkhir, setDateAkhir] = useState<DateType>(new Date(props.selectedItem?.end_date) || new Date())
+  const [dateAwal, setDateAwal] = useState<any>(new Date(props.selectedItem?.start_date) || null)
+  const [dateAkhir, setDateAkhir] = useState<any>(new Date(props.selectedItem?.end_date) || null)
   const [preview, setPreview] = useState(props.selectedItem?.logo)
   const [Education, getEducation] = useState<any[]>([])
   const [selectedFile, setSelectedFile] = useState()
@@ -121,24 +126,8 @@ const DialogEditEducation = (props: DialogProps) => {
       degree: EduId,
       logo: selectedFile,
       still_here: 0,
-      start_date: dateAwal
-        ?.toLocaleDateString('en-GB', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit'
-        })
-        .split('/')
-        .reverse()
-        .join('-'),
-      end_date: dateAkhir
-        ?.toLocaleDateString('en-GB', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit'
-        })
-        .split('/')
-        .reverse()
-        .join('-')
+      start_date: moment(dateAwal).format('YYYY-MM-DD') || null,
+      end_date: moment(dateAkhir).format('YYYY-MM-DD') || null
     }
     setOnLoading(true)
 
@@ -173,7 +162,7 @@ const DialogEditEducation = (props: DialogProps) => {
     <Dialog
       fullWidth
       open={props.visible}
-      maxWidth='md'
+      maxWidth='sm'
       scroll='body'
       onClose={props.onCloseClick}
       TransitionComponent={Transition}
@@ -182,9 +171,15 @@ const DialogEditEducation = (props: DialogProps) => {
         <DialogContent
           sx={{
             position: 'relative',
-            pb: theme => `${theme.spacing(8)} !important`,
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            pb: (theme: { spacing: (arg0: number) => any }) => `${theme.spacing(8)} !important`,
+            px: (theme: { spacing: (arg0: number) => any }) => [
+              `${theme.spacing(5)} !important`,
+              `${theme.spacing(15)} !important`
+            ],
+            pt: (theme: { spacing: (arg0: number) => any }) => [
+              `${theme.spacing(8)} !important`,
+              `${theme.spacing(12.5)} !important`
+            ]
           }}
         >
           <IconButton
@@ -196,13 +191,13 @@ const DialogEditEducation = (props: DialogProps) => {
           </IconButton>
           <Box sx={{ mb: 6, textAlign: 'center' }}>
             <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
-              Edit Educational
+              Edit Education
             </Typography>
-            <Typography variant='body2'>Fulfill your Educational Info here</Typography>
+            <Typography variant='body2'>Enhance your profile by adding your education</Typography>
           </Box>
 
-          <Grid container columnSpacing={'1'} rowSpacing={'4'}>
-            <Grid item md={6} xs={12}>
+          <Grid container rowSpacing={'4'}>
+            <Grid item md={12} xs={12}>
               <TextField
                 id='institution'
                 label='Institution Name'
@@ -212,7 +207,56 @@ const DialogEditEducation = (props: DialogProps) => {
                 defaultValue={props.selectedItem?.title}
               />
             </Grid>
-            <Grid item md={6} xs={12} mt={2}>
+
+            <Grid item md={12} xs={12}>
+              <Autocomplete
+                disablePortal
+                id='combo-box-demo'
+                options={Education.map(e => e.name)}
+                defaultValue={props.selectedItem?.degree}
+                {...register('degree')}
+                getOptionLabel={(option: string) => option}
+                renderInput={params => <TextField {...params} label='Education' variant='standard' />}
+                onChange={(event: any, newValue: string | null) => (newValue ? setEduId(newValue) : setEduId('---'))}
+              />
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <TextField
+                id='major'
+                label='Major'
+                variant='standard'
+                fullWidth
+                {...register('major')}
+                defaultValue={props.selectedItem?.major}
+              />
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  label={'Start Date'}
+                  views={['month', 'year']}
+                  onChange={(date: any) => setDateAwal(date)}
+                  value={dateAwal ? moment(dateAwal) : null}
+                  slotProps={{
+                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('startdate') }
+                  }}
+                />
+              </LocalizationProvider>
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  label={'End Date'}
+                  views={['month', 'year']}
+                  onChange={(date: any) => setDateAkhir(date)}
+                  value={dateAkhir ? moment(dateAkhir) : null}
+                  slotProps={{
+                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('enddate') }
+                  }}
+                />
+              </LocalizationProvider>
+            </Grid>
+            <Grid item md={12} xs={12}>
               <Grid item xs={6} md={8} container justifyContent={'left'}>
                 <Grid xs={6}>
                   <label htmlFor='x'>
@@ -244,71 +288,19 @@ const DialogEditEducation = (props: DialogProps) => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item md={6} xs={12}>
-              <Autocomplete
-                disablePortal
-                id='combo-box-demo'
-                options={Education.map(e => e.name)}
-                defaultValue={props.selectedItem?.degree}
-                {...register('degree')}
-                getOptionLabel={(option: string) => option}
-                renderInput={params => <TextField {...params} label='Education' variant='standard' />}
-                onChange={(event: any, newValue: string | null) => (newValue ? setEduId(newValue) : setEduId('---'))}
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                id='major'
-                label='Major'
-                variant='standard'
-                fullWidth
-                {...register('major')}
-                defaultValue={props.selectedItem?.major}
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <DatePicker
-                dateFormat='dd/MM/yyyy'
-                selected={dateAwal}
-                id='basic-input'
-                onChange={(dateAwal: Date) => setDateAwal(dateAwal)}
-                placeholderText='Click to select a date'
-                customInput={
-                  <TextField
-                    label='Start Date'
-                    variant='standard'
-                    fullWidth
-                    defaultValue={dateAwal}
-                    {...register('startdate')}
-                  />
-                }
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <DatePicker
-                dateFormat='dd/MM/yyyy'
-                selected={dateAkhir}
-                id='basic-input'
-                onChange={(dateAkhir: Date) => setDateAkhir(dateAkhir)}
-                placeholderText='Click to select a date'
-                customInput={
-                  <TextField
-                    label='End Date'
-                    variant='standard'
-                    fullWidth
-                    defaultValue={dateAkhir}
-                    {...register('enddate')}
-                  />
-                }
-              />
-            </Grid>
           </Grid>
         </DialogContent>
         <DialogActions
           sx={{
             justifyContent: 'center',
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            px: (theme: { spacing: (arg0: number) => any }) => [
+              `${theme.spacing(5)} !important`,
+              `${theme.spacing(15)} !important`
+            ],
+            pb: (theme: { spacing: (arg0: number) => any }) => [
+              `${theme.spacing(8)} !important`,
+              `${theme.spacing(12.5)} !important`
+            ]
           }}
         >
           <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>

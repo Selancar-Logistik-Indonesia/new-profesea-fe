@@ -15,14 +15,18 @@ import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { Autocomplete, CircularProgress } from '@mui/material'
-import { DateType } from 'src/contract/models/DatepickerTypes'
-import DatePicker from 'react-datepicker'
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+
 import { AppConfig } from 'src/configs/api'
 import VesselType from 'src/contract/models/vessel_type'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
+
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+
+import moment from 'moment'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -53,8 +57,8 @@ type FormData = {
 const DialogAddWorkExperience = (props: DialogProps) => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [onLoading, setOnLoading] = useState(false)
-  const [dateAwal, setDateAwal] = useState<DateType>(new Date())
-  const [dateAkhir, setDateAkhir] = useState<DateType>(new Date())
+  const [dateAwal, setDateAwal] = useState<any>(null)
+  const [dateAkhir, setDateAkhir] = useState<any>(null)
   const [preview, setPreview] = useState()
   const [selectedFile, setSelectedFile] = useState()
   const [comboVessel, getComborVessel] = useState<any>([])
@@ -103,24 +107,8 @@ const DialogAddWorkExperience = (props: DialogProps) => {
       still_here: 0,
       vessel: idcomboVessel,
       logo: selectedFile,
-      start_date: dateAwal
-        ?.toLocaleDateString('en-GB', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit'
-        })
-        .split('/')
-        .reverse()
-        .join('-'),
-      end_date: dateAkhir
-        ?.toLocaleDateString('en-GB', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit'
-        })
-        .split('/')
-        .reverse()
-        .join('-'),
+      start_date: moment(dateAwal).format('YYYY-MM-DD'),
+      end_date: moment(dateAkhir).format('YYYY-MM-DD'),
       description: short_description
     }
     setOnLoading(true)
@@ -159,9 +147,15 @@ const DialogAddWorkExperience = (props: DialogProps) => {
         <DialogContent
           sx={{
             position: 'relative',
-            pb: theme => `${theme.spacing(8)} !important`,
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            pb: (theme: { spacing: (arg0: number) => any }) => `${theme.spacing(8)} !important`,
+            px: (theme: { spacing: (arg0: number) => any }) => [
+              `${theme.spacing(5)} !important`,
+              `${theme.spacing(15)} !important`
+            ],
+            pt: (theme: { spacing: (arg0: number) => any }) => [
+              `${theme.spacing(8)} !important`,
+              `${theme.spacing(12.5)} !important`
+            ]
           }}
         >
           <IconButton
@@ -173,9 +167,11 @@ const DialogAddWorkExperience = (props: DialogProps) => {
           </IconButton>
           <Box sx={{ mb: 6, textAlign: 'center' }}>
             <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
-              Add New Work Experience
+              Add Work Experience
             </Typography>
-            <Typography variant='body2'>Fulfill your Work Experience Info here</Typography>
+            <Typography variant='body2'>
+              Fill in the details below to highlight your professional background and achievements
+            </Typography>
           </Box>
 
           <Grid container rowSpacing={'4'}>
@@ -192,28 +188,30 @@ const DialogAddWorkExperience = (props: DialogProps) => {
               <TextField id='Position' label='Position' variant='standard' fullWidth {...register('position')} />
             </Grid>
             <Grid item md={12} xs={12}>
-              <DatePickerWrapper>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
-                  dateFormat='dd/MM/yyyy'
-                  selected={dateAwal}
-                  id='basic-input'
-                  onChange={(dateAwal: Date) => setDateAwal(dateAwal)}
-                  placeholderText='Click to select a date'
-                  customInput={<TextField label='Start Date' variant='standard' fullWidth {...register('startdate')} />}
+                  label={'Start Date'}
+                  views={['month', 'year']}
+                  onChange={(date: any) => setDateAwal(date)}
+                  value={dateAwal ? moment(dateAwal) : null}
+                  slotProps={{
+                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('startdate') }
+                  }}
                 />
-              </DatePickerWrapper>
+              </LocalizationProvider>
             </Grid>
             <Grid item md={12} xs={12}>
-              <DatePickerWrapper>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
-                  dateFormat='dd/MM/yyyy'
-                  selected={dateAkhir}
-                  id='basic-input'
-                  onChange={(dateAkhir: Date) => setDateAkhir(dateAkhir)}
-                  placeholderText='Click to select a date'
-                  customInput={<TextField label='End Date' variant='standard' fullWidth {...register('enddate')} />}
+                  label={'End Date'}
+                  views={['month', 'year']}
+                  onChange={(date: any) => setDateAkhir(date)}
+                  value={dateAkhir ? moment(dateAkhir) : null}
+                  slotProps={{
+                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('enddate') }
+                  }}
                 />
-              </DatePickerWrapper>
+              </LocalizationProvider>
             </Grid>
             {user.employee_type == 'onship' && (
               <Grid item md={12} xs={12}>
@@ -285,8 +283,14 @@ const DialogAddWorkExperience = (props: DialogProps) => {
         <DialogActions
           sx={{
             justifyContent: 'center',
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            px: (theme: { spacing: (arg0: number) => any }) => [
+              `${theme.spacing(5)} !important`,
+              `${theme.spacing(15)} !important`
+            ],
+            pb: (theme: { spacing: (arg0: number) => any }) => [
+              `${theme.spacing(8)} !important`,
+              `${theme.spacing(12.5)} !important`
+            ]
           }}
         >
           <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>
