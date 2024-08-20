@@ -14,7 +14,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { Autocomplete, CircularProgress } from '@mui/material'
+import { Autocomplete, Checkbox, CircularProgress, FormControlLabel } from '@mui/material'
 import { AppConfig } from 'src/configs/api'
 import VesselType from 'src/contract/models/vessel_type'
 import secureLocalStorage from 'react-secure-storage'
@@ -49,6 +49,7 @@ type FormData = {
   startdate: string
   enddate: string
   position: string
+  is_current: boolean
 }
 
 const DialogEditWorkExperience = (props: DialogProps) => {
@@ -56,6 +57,7 @@ const DialogEditWorkExperience = (props: DialogProps) => {
   const [onLoading, setOnLoading] = useState(false)
   const [dateAwal, setDateAwal] = useState<any>(props.selectedItem?.start_date || null)
   const [dateAkhir, setDateAkhir] = useState<any>(props.selectedItem?.end_date || null)
+  const [isCurrentExperience, setIsCurrentExperience] = useState(props.selectedItem?.is_current)
   const [preview, setPreview] = useState(props.selectedItem?.logo)
   const [selectedFile, setSelectedFile] = useState()
 
@@ -115,7 +117,8 @@ const DialogEditWorkExperience = (props: DialogProps) => {
       logo: selectedFile,
       vessel: idcomboVessel,
       start_date: moment(dateAwal).format('YYYY-MM-DD'),
-      end_date: moment(dateAkhir).format('YYYY-MM-DD'),
+      end_date: !isCurrentExperience && dateAkhir ? moment(dateAkhir).format('YYYY-MM-DD') : null,
+      is_current: isCurrentExperience,
       description: short_description
     }
     setOnLoading(true)
@@ -212,6 +215,7 @@ const DialogEditWorkExperience = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
+                  disabled={isCurrentExperience}
                   label={'End Date'}
                   views={['month', 'year']}
                   onChange={(date: any) => setDateAkhir(date)}
@@ -221,6 +225,21 @@ const DialogEditWorkExperience = (props: DialogProps) => {
                   }}
                 />
               </LocalizationProvider>
+            </Grid>
+            <Grid>
+              <FormControlLabel
+                sx={{ width: '100%' }}
+                control={
+                  <Checkbox
+                    name='is_current_experience'
+                    id='is_current_experience'
+                    onClick={() => setIsCurrentExperience(!isCurrentExperience)}
+                    value={isCurrentExperience}
+                    checked={isCurrentExperience}
+                  />
+                }
+                label='Iam currently working here'
+              />
             </Grid>
             {user.employee_type == 'onship' && (
               <Grid item md={12} xs={12}>

@@ -14,7 +14,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { Autocomplete, CircularProgress } from '@mui/material'
+import { Autocomplete, CircularProgress, FormControlLabel, Checkbox } from '@mui/material'
 
 import { AppConfig } from 'src/configs/api'
 import VesselType from 'src/contract/models/vessel_type'
@@ -52,6 +52,7 @@ type FormData = {
   startdate: string
   enddate: string
   position: string
+  is_current: boolean
 }
 
 const DialogAddWorkExperience = (props: DialogProps) => {
@@ -59,6 +60,7 @@ const DialogAddWorkExperience = (props: DialogProps) => {
   const [onLoading, setOnLoading] = useState(false)
   const [dateAwal, setDateAwal] = useState<any>(null)
   const [dateAkhir, setDateAkhir] = useState<any>(null)
+  const [isCurrentExperience, setIsCurrentExperience] = useState(false)
   const [preview, setPreview] = useState()
   const [selectedFile, setSelectedFile] = useState()
   const [comboVessel, getComborVessel] = useState<any>([])
@@ -108,7 +110,8 @@ const DialogAddWorkExperience = (props: DialogProps) => {
       vessel: idcomboVessel,
       logo: selectedFile,
       start_date: moment(dateAwal).format('YYYY-MM-DD'),
-      end_date: moment(dateAkhir).format('YYYY-MM-DD'),
+      end_date: !isCurrentExperience && dateAkhir ? moment(dateAkhir).format('YYYY-MM-DD') : null,
+      is_current: isCurrentExperience,
       description: short_description
     }
     setOnLoading(true)
@@ -203,6 +206,7 @@ const DialogAddWorkExperience = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
+                  disabled={isCurrentExperience}
                   label={'End Date'}
                   views={['month', 'year']}
                   onChange={(date: any) => setDateAkhir(date)}
@@ -212,6 +216,21 @@ const DialogAddWorkExperience = (props: DialogProps) => {
                   }}
                 />
               </LocalizationProvider>
+            </Grid>
+            <Grid>
+              <FormControlLabel
+                sx={{ width: '100%' }}
+                control={
+                  <Checkbox
+                    name='is_current_experience'
+                    id='is_current_experience'
+                    onClick={() => setIsCurrentExperience(!isCurrentExperience)}
+                    value={isCurrentExperience}
+                    checked={isCurrentExperience}
+                  />
+                }
+                label='Iam currently working here'
+              />
             </Grid>
             {user.employee_type == 'onship' && (
               <Grid item md={12} xs={12}>

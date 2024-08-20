@@ -14,7 +14,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, FormControlLabel, Checkbox } from '@mui/material'
 import { Autocomplete } from '@mui/material'
 
 import { AppConfig } from 'src/configs/api'
@@ -44,6 +44,7 @@ type FormData = {
   institution: string
   startdate: string
   enddate: string
+  is_current: boolean
 }
 type DialogProps = {
   selectedItem: any
@@ -55,8 +56,9 @@ type DialogProps = {
 const DialogEditEducation = (props: DialogProps) => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [onLoading, setOnLoading] = useState(false)
-  const [dateAwal, setDateAwal] = useState<any>(new Date(props.selectedItem?.start_date) || null)
-  const [dateAkhir, setDateAkhir] = useState<any>(new Date(props.selectedItem?.end_date) || null)
+  const [dateAwal, setDateAwal] = useState<any>(props.selectedItem?.start_date || null)
+  const [dateAkhir, setDateAkhir] = useState<any>(props.selectedItem?.end_date || null)
+  const [isCurrentEducation, setIsCurrentEducation] = useState<any>(props.selectedItem?.is_current)
   const [preview, setPreview] = useState(props.selectedItem?.logo)
   const [Education, getEducation] = useState<any[]>([])
   const [selectedFile, setSelectedFile] = useState()
@@ -127,7 +129,8 @@ const DialogEditEducation = (props: DialogProps) => {
       logo: selectedFile,
       still_here: 0,
       start_date: moment(dateAwal).format('YYYY-MM-DD') || null,
-      end_date: moment(dateAkhir).format('YYYY-MM-DD') || null
+      end_date: !isCurrentEducation && dateAkhir ? moment(dateAkhir).format('YYYY-MM-DD') : null,
+      is_current: isCurrentEducation
     }
     setOnLoading(true)
 
@@ -212,9 +215,9 @@ const DialogEditEducation = (props: DialogProps) => {
               <Autocomplete
                 disablePortal
                 id='combo-box-demo'
-                options={Education.map(e => e.name)}
                 defaultValue={props.selectedItem?.degree}
                 {...register('degree')}
+                options={Education.map(e => e.name)}
                 getOptionLabel={(option: string) => option}
                 renderInput={params => <TextField {...params} label='Education' variant='standard' />}
                 onChange={(event: any, newValue: string | null) => (newValue ? setEduId(newValue) : setEduId('---'))}
@@ -249,12 +252,28 @@ const DialogEditEducation = (props: DialogProps) => {
                   label={'End Date'}
                   views={['month', 'year']}
                   onChange={(date: any) => setDateAkhir(date)}
-                  value={dateAkhir ? moment(dateAkhir) : null}
+                  value={!isCurrentEducation && dateAkhir ? moment(dateAkhir) : null}
                   slotProps={{
                     textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('enddate') }
                   }}
+                  disabled={isCurrentEducation}
                 />
               </LocalizationProvider>
+            </Grid>
+            <Grid>
+              <FormControlLabel
+                sx={{ width: '100%' }}
+                control={
+                  <Checkbox
+                    name='is_current_experience'
+                    id='is_current_experience'
+                    onClick={() => setIsCurrentEducation(!isCurrentEducation)}
+                    value={isCurrentEducation}
+                    checked={isCurrentEducation}
+                  />
+                }
+                label='Iam currently studying here'
+              />
             </Grid>
             <Grid item md={12} xs={12}>
               <Grid item xs={6} md={8} container justifyContent={'left'}>

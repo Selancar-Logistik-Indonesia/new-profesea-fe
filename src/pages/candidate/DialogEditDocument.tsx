@@ -14,7 +14,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, FormControlLabel, Checkbox } from '@mui/material'
 // import { Autocomplete } from '@mui/material'
 
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
@@ -44,6 +44,7 @@ type FormData = {
   document_number: string
   issue_at: string
   expired_at: string
+  is_lifetime: boolean
 }
 
 const DialogEditDocument = (props: DialogProps) => {
@@ -54,6 +55,7 @@ const DialogEditDocument = (props: DialogProps) => {
 
   const [issueDate, setIssueDate] = useState<any>(props.selectedItem?.issue_at || null)
   const [expiredDate, setExpiredDate] = useState<any>(props.selectedItem?.expired_at || null)
+  const [isLifetime, setIsLifetime] = useState(props.selectedItem?.is_lifetime)
 
   useEffect(() => {
     if (!selectedFile) {
@@ -84,7 +86,8 @@ const DialogEditDocument = (props: DialogProps) => {
       document_number: item.document_number,
       organization: item.organization,
       issue_at: moment(issueDate).format('YYYY-MM-DD'),
-      expired_at: moment(expiredDate).format('YYYY-MM-DD')
+      expired_at: !isLifetime && expiredDate ? moment(expiredDate).format('YYYY-MM-DD') : null,
+      is_lifetime: isLifetime
     }
     setOnLoading(true)
 
@@ -173,7 +176,9 @@ const DialogEditDocument = (props: DialogProps) => {
                   views={['month', 'year']}
                   onChange={(date: any) => setIssueDate(date)}
                   value={moment(issueDate)}
-                  slotProps={{ textField: { variant: 'standard', fullWidth: true, id: 'basic-input' } }}
+                  slotProps={{
+                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('issue_at') }
+                  }}
                 />
               </LocalizationProvider>
             </Grid>
@@ -183,10 +188,26 @@ const DialogEditDocument = (props: DialogProps) => {
                   label={'Expired Date'}
                   views={['month', 'year']}
                   onChange={(date: any) => setExpiredDate(date)}
-                  value={moment(expiredDate)}
+                  value={!isLifetime && expiredDate ? moment(expiredDate) : null}
                   slotProps={{ textField: { variant: 'standard', fullWidth: true, id: 'basic-input' } }}
+                  disabled={isLifetime}
                 />
               </LocalizationProvider>
+            </Grid>
+            <Grid>
+              <FormControlLabel
+                sx={{ width: '100%' }}
+                control={
+                  <Checkbox
+                    name='is_lifetime'
+                    id='is_lifetime'
+                    onClick={() => setIsLifetime(!isLifetime)}
+                    value={isLifetime}
+                    checked={isLifetime}
+                  />
+                }
+                label='This Certificate is no expired date'
+              />
             </Grid>
             <Grid item md={12} xs={12}>
               <TextField

@@ -14,7 +14,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress, Divider } from '@mui/material'
+import { CircularProgress, Divider, FormControlLabel, Checkbox } from '@mui/material'
 import { Autocomplete } from '@mui/material'
 
 import Degree from 'src/contract/models/degree'
@@ -55,6 +55,7 @@ type FormData = {
   institution: string
   startdate: string
   enddate: string
+  is_current: boolean
 }
 
 const DialogAddEducation = (props: DialogProps) => {
@@ -62,6 +63,7 @@ const DialogAddEducation = (props: DialogProps) => {
   const [onLoading, setOnLoading] = useState<'form' | 'institution' | ''>('')
   const [dateAwal, setDateAwal] = useState<any>(null)
   const [dateAkhir, setDateAkhir] = useState<any>(null)
+  const [isCurrentEducation, setIsCurrentEducation] = useState<any>(false)
   const [preview, setPreview] = useState()
   const [Education, setEducation] = useState<any[]>([])
   const [selectedFile, setSelectedFile] = useState()
@@ -141,7 +143,8 @@ const DialogAddEducation = (props: DialogProps) => {
       logo: selectedFile,
       still_here: 0,
       start_date: moment(dateAwal).format('YYYY-MM-DD') || null,
-      end_date: moment(dateAkhir).format('YYYY-MM-DD') || null
+      end_date: !isCurrentEducation && dateAkhir ? moment(dateAkhir).format('YYYY-MM-DD') : null,
+      is_current: isCurrentEducation
     }
 
     setOnLoading('form')
@@ -265,12 +268,28 @@ const DialogAddEducation = (props: DialogProps) => {
                   label={'End Date'}
                   views={['month', 'year']}
                   onChange={(date: any) => setDateAkhir(date)}
-                  value={dateAkhir ? moment(dateAkhir) : null}
+                  value={!isCurrentEducation && dateAkhir ? moment(dateAkhir) : null}
                   slotProps={{
                     textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('enddate') }
                   }}
+                  disabled={isCurrentEducation}
                 />
               </LocalizationProvider>
+            </Grid>
+            <Grid>
+              <FormControlLabel
+                sx={{ width: '100%' }}
+                control={
+                  <Checkbox
+                    name='is_current_experience'
+                    id='is_current_experience'
+                    onClick={() => setIsCurrentEducation(!isCurrentEducation)}
+                    value={isCurrentEducation}
+                    checked={isCurrentEducation}
+                  />
+                }
+                label='Iam currently studying here'
+              />
             </Grid>
             <Grid item md={12} xs={12} mt={2}>
               <Grid item xs={12} md={12} container justifyContent={'left'}>
