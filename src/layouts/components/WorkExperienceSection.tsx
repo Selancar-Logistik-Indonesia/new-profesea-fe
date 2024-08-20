@@ -1,5 +1,6 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material'
 import { Icon } from '@iconify/react'
+import moment from 'moment'
 
 interface IWorkExperience {
   setOpenAddModalWE: (openAddModalWE: boolean) => void
@@ -63,7 +64,9 @@ export default function WorkExperienceSection(props: IWorkExperience) {
                 </Typography>
                 <Grid xs={12} display='flex'>
                   <Box>
-                    <Typography variant='body1'>{`${item.start_date} - ${item.end_date}`}</Typography>
+                    <Typography variant='body1'>{`${moment(item.start_date).format('MMMM YYYY')} - ${
+                      item.is_current ? 'Now' : moment(item.end_date).format('MMMM YYYY')
+                    }`}</Typography>
                   </Box>
                 </Grid>
               </Grid>

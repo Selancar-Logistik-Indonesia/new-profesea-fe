@@ -14,15 +14,18 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { Autocomplete, CircularProgress } from '@mui/material'
-import { DateType } from 'src/contract/models/DatepickerTypes'
-import DatePicker from 'react-datepicker'
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import { Autocomplete, Checkbox, CircularProgress, FormControlLabel } from '@mui/material'
 import { AppConfig } from 'src/configs/api'
 import VesselType from 'src/contract/models/vessel_type'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
+
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+
+import moment from 'moment'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -46,13 +49,15 @@ type FormData = {
   startdate: string
   enddate: string
   position: string
+  is_current: boolean
 }
 
 const DialogEditWorkExperience = (props: DialogProps) => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [onLoading, setOnLoading] = useState(false)
-  const [dateAwal, setDateAwal] = useState<DateType>(new Date(props.selectedItem?.start_date) || new Date())
-  const [dateAkhir, setDateAkhir] = useState<DateType>(new Date(props.selectedItem?.end_date) || new Date())
+  const [dateAwal, setDateAwal] = useState<any>(props.selectedItem?.start_date || null)
+  const [dateAkhir, setDateAkhir] = useState<any>(props.selectedItem?.end_date || null)
+  const [isCurrentExperience, setIsCurrentExperience] = useState(props.selectedItem?.is_current)
   const [preview, setPreview] = useState(props.selectedItem?.logo)
   const [selectedFile, setSelectedFile] = useState()
 
@@ -74,28 +79,6 @@ const DialogEditWorkExperience = (props: DialogProps) => {
 
     if (imageUrl) {
       try {
-        //  const response = await fetch(
-        //    'https://api.staging.profesea.id/storage/logos/I4Du5vKsqkq8DShkm397wM1IW0NNxLV5NY3l2lAU.jpg',
-        //    {
-        //      method:'GET',
-        //      mode:'no-cors'
-        //    }
-        //  )
-        // const response= await HttpClient.get(imageUrl).then(response => {
-        //   debugger
-        //   const code = response.data.vesselTypes.data
-        //    getComborVessel(code)
-        //  })
-        // fetch(imageUrl)
-        //   .then(res => res.blob)
-        //   .then(blob => {
-        //     debugger
-        //   })
-        // const response = await fetch(imageUrl)
-        // const blob = await response.blob()
-        // const file = new File([blob], 'image.jpg', { type: 'image/jpeg' })
-        // Set the blob as the value of the file input
-        // setSelectedFile([file])
       } catch (error) {
         console.error(error)
         // Handle the error here
@@ -113,10 +96,6 @@ const DialogEditWorkExperience = (props: DialogProps) => {
 
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
-
-  // const schema = yup.object().shape({
-  //     user_id: yup.string().required()
-  // })
 
   const {
     register,
@@ -137,24 +116,9 @@ const DialogEditWorkExperience = (props: DialogProps) => {
       still_here: 0,
       logo: selectedFile,
       vessel: idcomboVessel,
-      start_date: dateAwal
-        ?.toLocaleDateString('en-GB', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit'
-        })
-        .split('/')
-        .reverse()
-        .join('-'),
-      end_date: dateAkhir
-        ?.toLocaleDateString('en-GB', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit'
-        })
-        .split('/')
-        .reverse()
-        .join('-'),
+      start_date: moment(dateAwal).format('YYYY-MM-DD'),
+      end_date: !isCurrentExperience && dateAkhir ? moment(dateAkhir).format('YYYY-MM-DD') : null,
+      is_current: isCurrentExperience,
       description: short_description
     }
     setOnLoading(true)
@@ -187,7 +151,7 @@ const DialogEditWorkExperience = (props: DialogProps) => {
   }
 
   return (
-    <Dialog fullWidth open={props.visible} maxWidth='md' scroll='body' TransitionComponent={Transition}>
+    <Dialog fullWidth open={props.visible} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <DialogContent
           sx={{
@@ -208,11 +172,13 @@ const DialogEditWorkExperience = (props: DialogProps) => {
             <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
               Edit Work Experience
             </Typography>
-            <Typography variant='body2'>Fulfill your Work Experience Info here</Typography>
+            <Typography variant='body2'>
+              Fill in the details below to highlight your professional background and achievements
+            </Typography>
           </Box>
 
-          <Grid container columnSpacing={'1'} rowSpacing={'4'}>
-            <Grid item md={6} xs={12}>
+          <Grid container rowSpacing={'4'}>
+            <Grid item md={12} xs={12}>
               <TextField
                 id='institution'
                 label='Company Name'
@@ -222,8 +188,88 @@ const DialogEditWorkExperience = (props: DialogProps) => {
                 {...register('institution')}
               />
             </Grid>
-            <Grid item md={6} xs={12} mt={2}>
-              <Grid item xs={12} md={8} container justifyContent={'center'}>
+
+            <Grid item md={12} xs={12}>
+              <TextField
+                id='Position'
+                label='Position'
+                variant='standard'
+                fullWidth
+                {...register('position')}
+                defaultValue={props.selectedItem?.position}
+              />
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  label={'Start Date'}
+                  views={['month', 'year']}
+                  onChange={(date: any) => setDateAwal(date)}
+                  value={dateAwal ? moment(dateAwal) : null}
+                  slotProps={{
+                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('startdate') }
+                  }}
+                />
+              </LocalizationProvider>
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  disabled={isCurrentExperience}
+                  label={'End Date'}
+                  views={['month', 'year']}
+                  onChange={(date: any) => setDateAkhir(date)}
+                  value={dateAkhir ? moment(dateAkhir) : null}
+                  slotProps={{
+                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('enddate') }
+                  }}
+                />
+              </LocalizationProvider>
+            </Grid>
+            <Grid>
+              <FormControlLabel
+                sx={{ width: '100%' }}
+                control={
+                  <Checkbox
+                    name='is_current_experience'
+                    id='is_current_experience'
+                    onClick={() => setIsCurrentExperience(!isCurrentExperience)}
+                    value={isCurrentExperience}
+                    checked={isCurrentExperience}
+                  />
+                }
+                label='Iam currently working here'
+              />
+            </Grid>
+            {user.employee_type == 'onship' && (
+              <Grid item md={12} xs={12}>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-demo'
+                  options={comboVessel}
+                  getOptionLabel={(option: any) => option.name}
+                  defaultValue={props.selectedItem?.vessel_type}
+                  renderInput={params => <TextField {...params} label='Type of Vessel' variant='standard' />}
+                  onChange={(event: any, newValue: VesselType | null) =>
+                    newValue?.id ? setComboVessel(newValue.id) : setComboVessel(0)
+                  }
+                />
+              </Grid>
+            )}
+            <Grid item md={12} xs={12}>
+              <TextField
+                id='short_description'
+                label='Description'
+                variant='standard'
+                multiline
+                maxRows={4}
+                fullWidth
+                {...register('short_description')}
+                defaultValue={props.selectedItem?.description}
+              />
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <Grid item xs={12} md={8} container justifyContent={'left'}>
                 <Grid xs={6}>
                   <label htmlFor='x'>
                     <img
@@ -259,84 +305,6 @@ const DialogEditWorkExperience = (props: DialogProps) => {
                   </Box>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                id='Position'
-                label='Position'
-                variant='standard'
-                fullWidth
-                {...register('position')}
-                defaultValue={props.selectedItem?.position}
-              />
-            </Grid>
-
-            <Grid item md={3} xs={12}>
-              <DatePickerWrapper>
-                <DatePicker
-                  dateFormat='dd/MM/yyyy'
-                  selected={dateAwal}
-                  id='basic-input'
-                  onChange={(dateAwal: Date) => setDateAwal(dateAwal)}
-                  placeholderText='Click to select a date'
-                  customInput={
-                    <TextField
-                      label='Start Date'
-                      variant='standard'
-                      fullWidth
-                      {...register('startdate')}
-                      defaultValue={dateAwal}
-                    />
-                  }
-                />
-              </DatePickerWrapper>
-            </Grid>
-            <Grid item md={3} xs={12}>
-              <DatePickerWrapper>
-                <DatePicker
-                  dateFormat='dd/MM/yyyy'
-                  selected={dateAkhir}
-                  id='basic-input'
-                  onChange={(dateAkhir: Date) => setDateAkhir(dateAkhir)}
-                  placeholderText='Click to select a date'
-                  customInput={
-                    <TextField
-                      label='End Date'
-                      variant='standard'
-                      fullWidth
-                      {...register('enddate')}
-                      defaultValue={dateAkhir}
-                    />
-                  }
-                />
-              </DatePickerWrapper>
-            </Grid>
-            {user.employee_type == 'onship' && (
-              <Grid item md={4} xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id='combo-box-demo'
-                  options={comboVessel}
-                  getOptionLabel={(option: any) => option.name}
-                  defaultValue={props.selectedItem?.vessel_type}
-                  renderInput={params => <TextField {...params} label='Type of Vessel' variant='standard' />}
-                  onChange={(event: any, newValue: VesselType | null) =>
-                    newValue?.id ? setComboVessel(newValue.id) : setComboVessel(0)
-                  }
-                />
-              </Grid>
-            )}
-            <Grid item md={8} xs={12}>
-              <TextField
-                id='short_description'
-                label='Description'
-                variant='standard'
-                multiline
-                maxRows={4}
-                fullWidth
-                {...register('short_description')}
-                defaultValue={props.selectedItem?.description}
-              />
             </Grid>
           </Grid>
         </DialogContent>

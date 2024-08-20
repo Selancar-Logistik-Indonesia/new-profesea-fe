@@ -9,15 +9,21 @@ import Typography from '@mui/material/Typography'
 import Fade, { FadeProps } from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
+
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+
+import moment from 'moment'
 import toast from 'react-hot-toast'
 import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, FormControlLabel, Checkbox } from '@mui/material'
 
-import DatePicker from 'react-datepicker'
-import { DateType } from 'src/contract/models/DatepickerTypes'
+// import DatePicker from 'react-datepicker'
+// import { DateType } from 'src/contract/models/DatepickerTypes'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -38,15 +44,18 @@ type FormData = {
   document_name: string
   organization: string
   document_number: string
+  issue_at: string
+  expired_at: string
+  is_lifetime: boolean
 }
 
 const DialogAddDocument = (props: DialogProps) => {
   const [onLoading, setOnLoading] = useState(false)
   const [preview, setPreview] = useState()
   const [selectedFile, setSelectedFile] = useState()
-
-  const [issueDate, setIssueDate] = useState<DateType>(new Date())
-  const [expiredDate, setExpiredDate] = useState<DateType>(new Date())
+  const [issueDate, setIssueDate] = useState<any>(null)
+  const [expiredDate, setExpiredDate] = useState<any>(null)
+  const [isLifetime, setIsLifetime] = useState(false)
 
   useEffect(() => {
     if (!selectedFile) {
@@ -79,8 +88,9 @@ const DialogAddDocument = (props: DialogProps) => {
       document_name: item.document_name,
       document_number: item.document_number,
       organization: item.organization,
-      issue_at: issueDate,
-      expired_at: expiredDate
+      issue_at: moment(issueDate).format('YYYY-MM-DD'),
+      expired_at: !isLifetime && expiredDate ? moment(expiredDate).format('YYYY-MM-DD') : null,
+      is_lifetime: isLifetime
     }
     setOnLoading(true)
 
@@ -111,15 +121,14 @@ const DialogAddDocument = (props: DialogProps) => {
   }
 
   return (
-    <Dialog fullWidth open={props.visible} maxWidth='xs' scroll='body' TransitionComponent={Transition}>
+    <Dialog fullWidth open={props.visible} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <DialogContent
           sx={{
             position: 'relative',
             pb: theme => `${theme.spacing(8)} !important`,
             px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`],
-            height: '450px'
+            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
           }}
         >
           <IconButton
@@ -131,12 +140,14 @@ const DialogAddDocument = (props: DialogProps) => {
           </IconButton>
           <Box sx={{ mb: 6, textAlign: 'center' }}>
             <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
-              Add New Candidate Document
+              Add Certificate
             </Typography>
-            <Typography variant='body2'> Fulfill your Candidate Document Info here</Typography>
+            <Typography variant='body2'>
+              Fill in the details below to highlight your skills and qualifications.
+            </Typography>
           </Box>
 
-          <Grid container columnSpacing={'1'} rowSpacing={'2'}>
+          <Grid container rowSpacing={'4'}>
             <Grid item md={12} xs={12}>
               <TextField
                 id='document_name'
@@ -156,29 +167,43 @@ const DialogAddDocument = (props: DialogProps) => {
               />
             </Grid>
             <Grid item md={12} xs={12}>
-              <DatePicker
-                dateFormat='dd/MM/yyyy'
-                selected={issueDate}
-                id='basic-input'
-                onChange={(dateAwal: Date) => setIssueDate(dateAwal)}
-                placeholderText='Click to select a date'
-                showYearDropdown
-                showMonthDropdown
-                dropdownMode='select'
-                customInput={<TextField label='Issue Date' variant='standard' fullWidth />}
-              />
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  label={'Issue Date'}
+                  views={['month', 'year']}
+                  onChange={(date: any) => setIssueDate(date)}
+                  value={issueDate}
+                  slotProps={{
+                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('issue_at') }
+                  }}
+                />
+              </LocalizationProvider>
             </Grid>
             <Grid item md={12} xs={12}>
-              <DatePicker
-                dateFormat='dd/MM/yyyy'
-                selected={expiredDate}
-                id='basic-input'
-                onChange={(dateAwal: Date) => setExpiredDate(dateAwal)}
-                placeholderText='Click to select a date'
-                showYearDropdown
-                showMonthDropdown
-                dropdownMode='select'
-                customInput={<TextField label='Expired Date' variant='standard' fullWidth />}
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  label={'Expired Date'}
+                  views={['month', 'year']}
+                  onChange={(date: any) => setExpiredDate(date)}
+                  value={!isLifetime && expiredDate ? moment(expiredDate) : null}
+                  slotProps={{ textField: { variant: 'standard', fullWidth: true, id: 'basic-input' } }}
+                  disabled={isLifetime}
+                />
+              </LocalizationProvider>
+            </Grid>
+            <Grid>
+              <FormControlLabel
+                sx={{ width: '100%' }}
+                control={
+                  <Checkbox
+                    name='is_lifetime'
+                    id='is_lifetime'
+                    onClick={() => setIsLifetime(!isLifetime)}
+                    value={isLifetime}
+                    checked={isLifetime}
+                  />
+                }
+                label='This Certificate is no expired date'
               />
             </Grid>
             <Grid item md={12} xs={12}>
