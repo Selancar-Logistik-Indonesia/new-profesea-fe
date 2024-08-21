@@ -222,7 +222,7 @@ const DialogAddEducation = (props: DialogProps) => {
                   <TextField
                     {...register('title')}
                     {...params}
-                    label='Institution Name'
+                    label='Institution Name *'
                     variant='standard'
                     onChange={e => {
                       setOnLoading('institution')
@@ -247,12 +247,12 @@ const DialogAddEducation = (props: DialogProps) => {
               />
             </Grid>
             <Grid item md={12} xs={12}>
-              <TextField id='major' label='Major' variant='standard' fullWidth {...register('major')} />
+              <TextField id='major' label='Major *' variant='standard' fullWidth {...register('major')} />
             </Grid>
             <Grid item md={12} xs={12}>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
-                  label={'Start Date'}
+                  label={'Start Date *'}
                   views={['month', 'year']}
                   onChange={(date: any) => setDateAwal(date)}
                   value={dateAwal ? moment(dateAwal) : null}
@@ -288,7 +288,7 @@ const DialogAddEducation = (props: DialogProps) => {
                     checked={isCurrentEducation}
                   />
                 }
-                label='Iam currently studying here'
+                label='Iam currently studying'
               />
             </Grid>
             <Grid item md={12} xs={12} mt={2}>

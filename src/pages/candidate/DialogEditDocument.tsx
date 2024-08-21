@@ -98,7 +98,7 @@ const DialogEditDocument = (props: DialogProps) => {
       }
 
       props.onCloseClick()
-      toast.success(` Document submited successfully!`)
+      toast.success(` Certificate submited successfully!`)
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
@@ -152,7 +152,7 @@ const DialogEditDocument = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <TextField
                 id='document_name'
-                label='Document Name'
+                label='Certificate Name *'
                 variant='standard'
                 fullWidth
                 {...register('document_name')}
@@ -162,7 +162,7 @@ const DialogEditDocument = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <TextField
                 id='organization'
-                label='Organization'
+                label='Organization *'
                 variant='standard'
                 fullWidth
                 {...register('organization')}
@@ -172,7 +172,7 @@ const DialogEditDocument = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
-                  label={'Issue Date'}
+                  label={'Issue Date *'}
                   views={['month', 'year']}
                   onChange={(date: any) => setIssueDate(date)}
                   value={moment(issueDate)}
@@ -245,7 +245,7 @@ const DialogEditDocument = (props: DialogProps) => {
                 <Grid xs={6}>
                   <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                      <strong>Click to change Document File.</strong>
+                      <strong>Click to change Certificate File.</strong>
                     </Typography>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
                       Allowed PDF.

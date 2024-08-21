@@ -62,7 +62,7 @@ export default function EducationalInfoSection(props: IEducationalInfo) {
                 <Grid xs={12} display='flex'>
                   <Box>
                     <Typography variant='body1'>{`${moment(item.start_date).format('MMMM YYYY')} - ${
-                      item.is_current ? 'Now' : moment(item.end_date).format('MMMM YYYY')
+                      item.is_current ? 'Present' : moment(item.end_date).format('MMMM YYYY')
                     }`}</Typography>
                   </Box>
                 </Grid>

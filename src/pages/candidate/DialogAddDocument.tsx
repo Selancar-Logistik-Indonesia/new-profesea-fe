@@ -100,7 +100,7 @@ const DialogAddDocument = (props: DialogProps) => {
         throw resp.data.message ?? 'Something went wrong!'
       }
       props.onCloseClick()
-      toast.success(` Document submited successfully!`)
+      toast.success(` Certificate submited successfully!`)
       props.getCandidateDocument()
       setOnLoading(false)
     } catch (error) {
@@ -151,7 +151,7 @@ const DialogAddDocument = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <TextField
                 id='document_name'
-                label='Document Name'
+                label='Certificate Name *'
                 variant='standard'
                 fullWidth
                 {...register('document_name')}
@@ -160,7 +160,7 @@ const DialogAddDocument = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <TextField
                 id='organization'
-                label='Organization'
+                label='Organization *'
                 variant='standard'
                 fullWidth
                 {...register('organization')}
@@ -169,7 +169,7 @@ const DialogAddDocument = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
-                  label={'Issue Date'}
+                  label={'Issue Date *'}
                   views={['month', 'year']}
                   onChange={(date: any) => setIssueDate(date)}
                   value={issueDate}
@@ -241,7 +241,7 @@ const DialogAddDocument = (props: DialogProps) => {
                 <Grid xs={6}>
                   <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                      <strong>Click to change Document File.</strong>
+                      <strong>Click to change Certificate File.</strong>
                     </Typography>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
                       Allowed PDF.
