@@ -181,7 +181,7 @@ const DialogEditWorkExperience = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <TextField
                 id='institution'
-                label='Company Name'
+                label='Company Name *'
                 variant='standard'
                 fullWidth
                 defaultValue={props.selectedItem?.institution}
@@ -192,7 +192,7 @@ const DialogEditWorkExperience = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <TextField
                 id='Position'
-                label='Position'
+                label='Position *'
                 variant='standard'
                 fullWidth
                 {...register('position')}
@@ -202,7 +202,7 @@ const DialogEditWorkExperience = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
-                  label={'Start Date'}
+                  label={'Start Date *'}
                   views={['month', 'year']}
                   onChange={(date: any) => setDateAwal(date)}
                   value={dateAwal ? moment(dateAwal) : null}
@@ -238,7 +238,7 @@ const DialogEditWorkExperience = (props: DialogProps) => {
                     checked={isCurrentExperience}
                   />
                 }
-                label='Iam currently working here'
+                label="I'm currently working in this company"
               />
             </Grid>
             {user.employee_type == 'onship' && (
