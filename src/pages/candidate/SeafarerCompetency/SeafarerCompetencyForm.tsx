@@ -23,8 +23,14 @@ import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
 import { useFormik } from 'formik'
 import { ISeafarerCompetencyForm } from './../../../contract/types/seafarer_competency_type'
-import DatePicker from 'react-datepicker'
+// import DatePicker from 'react-datepicker'
 import * as Yup from 'yup'
+
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+
+import moment from 'moment'
 
 const CompetencySchema = Yup.object().shape({
   user_id: Yup.number().required('User Data is required'),
@@ -51,7 +57,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
   const { type, seafarerCompetency, showModal, user_id, loadCompetency, handleModalForm } = props
   const id = seafarerCompetency?.id
 
-  const [validDateState, setValidDateState] = useState<any>()
+  const [validDateState, setValidDateState] = useState<any>(null)
   const [preview, setPreview] = useState<any>()
   const [attachment, setAttachment] = useState<any>(null)
 
@@ -86,7 +92,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
     },
     validationSchema: CompetencySchema,
     enableReinitialize: true,
-    onSubmit: (values,{ resetForm }) => {
+    onSubmit: (values, { resetForm }) => {
       handleSubmit(values)
       resetForm()
       resetState()
@@ -94,7 +100,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
   })
 
   const resetState = () => {
-    if(type != 'edit'){
+    if (type != 'edit') {
       setCountryOfIssue('')
       setCoc('')
       setValidDateState(null)
@@ -336,28 +342,20 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
               />
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
-              <DatePicker
-                disabled={formik.values.is_lifetime ? true : false}
-                dateFormat='dd/MM/yyyy'
-                selected={validDateState}
-                onChange={(date: Date) => setValidDateState(date)}
-                placeholderText='Click to select a date'
-                showYearDropdown
-                showMonthDropdown
-                dropdownMode='select'
-                id='valid_date'
-                name='valid_date'
-                customInput={
-                  <TextField
-                    label='Valid Date'
-                    variant='standard'
-                    fullWidth
-                    InputProps={{
-                      readOnly: true
-                    }}
-                  />
-                }
-              />
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  disabled={formik.values.is_lifetime ? true : false}
+                  format='DD/MM/YYYY'
+                  className='valid_date'
+                  name='valid_date'
+                  label={'Valid Date'}
+                  onChange={date => setValidDateState(date)}
+                  value={validDateState ? moment(validDateState) : null}
+                  slotProps={{
+                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', 'aria-readonly': true }
+                  }}
+                />
+              </LocalizationProvider>
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <FormControlLabel
