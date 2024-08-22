@@ -23,7 +23,7 @@ export default function EducationalInfoSection(props: IEducationalInfo) {
         </Grid>
         <Grid container item xs={12} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-            Fulfill your Educational Info
+            Enhance your profile by adding your education
           </Typography>
         </Grid>
       </Grid>
@@ -43,7 +43,7 @@ export default function EducationalInfoSection(props: IEducationalInfo) {
           <Grid item container xs={12} marginTop={2} key={item.id}>
             <img
               alt='logo'
-              src={item.logo ? item.logo : '/images/educationalinfo.png'}
+              src={item.logo ? item.logo : '/images/education.png'}
               style={{
                 maxWidth: '100px',
                 height: '100px',
