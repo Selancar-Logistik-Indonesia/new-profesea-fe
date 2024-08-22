@@ -203,7 +203,7 @@ const DialogEditEducation = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <TextField
                 id='institution'
-                label='Institution Name'
+                label='Institution Name *'
                 variant='standard'
                 fullWidth
                 {...register('title')}
@@ -226,7 +226,7 @@ const DialogEditEducation = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <TextField
                 id='major'
-                label='Major'
+                label='Major *'
                 variant='standard'
                 fullWidth
                 {...register('major')}
@@ -236,7 +236,7 @@ const DialogEditEducation = (props: DialogProps) => {
             <Grid item md={12} xs={12}>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
-                  label={'Start Date'}
+                  label={'Start Date *'}
                   views={['month', 'year']}
                   onChange={(date: any) => setDateAwal(date)}
                   value={dateAwal ? moment(dateAwal) : null}
@@ -272,7 +272,7 @@ const DialogEditEducation = (props: DialogProps) => {
                     checked={isCurrentEducation}
                   />
                 }
-                label='Iam currently studying here'
+                label='Iam currently studying'
               />
             </Grid>
             <Grid item md={12} xs={12}>
