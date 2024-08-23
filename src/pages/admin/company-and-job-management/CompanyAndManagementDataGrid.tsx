@@ -53,6 +53,7 @@ const CompanyAndManagementDataGrid = (props: RoleGridProps) => {
       minWidth: 150,
       renderCell: cell => {
         const { row } = cell
+        
         return (
           <>
             <Link href={`/admin/company-and-job-management/detail/${row?.id}`}>{row?.name}</Link>

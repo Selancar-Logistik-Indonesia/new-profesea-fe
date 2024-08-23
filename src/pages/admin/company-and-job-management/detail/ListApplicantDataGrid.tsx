@@ -6,6 +6,7 @@ const StatusLabel = (status: string) => {
   const label =
     status === 'RJ' ? 'Rejected' : status === 'VD' ? 'Viewed' : status === 'PR' ? 'Proceed' : 'Waiting Review'
   const color = status === 'RJ' ? 'error' : status === 'VD' ? 'default' : status === 'PR' ? 'success' : 'primary'
+  
   return <Chip label={label} color={color} />
 }
 
