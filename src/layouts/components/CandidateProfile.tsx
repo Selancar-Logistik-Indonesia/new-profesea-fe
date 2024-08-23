@@ -946,6 +946,8 @@ const CandidateProfile = (props: compProps) => {
             <LocalizationProvider dateAdapter={AdapterMoment}>
               <DatePicker
                 format='DD/MM/YYYY'
+                openTo='month'
+                views={['year', 'month', 'day']}
                 label={'Date Of Birth *'}
                 onChange={(date: any) => onChangeDateOfBirth(date)}
                 value={moment(dateOfBirth)}
@@ -1157,6 +1159,8 @@ const CandidateProfile = (props: compProps) => {
                   <LocalizationProvider dateAdapter={AdapterMoment}>
                     <DatePicker
                       format='DD/MM/YYYY'
+                      openTo='month'
+                      views={['year', 'month', 'day']}
                       label={'Available Date *'}
                       onChange={(date: any) => setAvailableDate(date)}
                       value={availableDate ? moment(availableDate) : null}

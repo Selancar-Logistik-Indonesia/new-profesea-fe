@@ -376,6 +376,8 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
                   format='DD/MM/YYYY'
+                  openTo='month'
+                  views={['year', 'month', 'day']}
                   className='sign_in'
                   name='sign_in'
                   label={'Sign In Date *'}
@@ -398,6 +400,8 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
                   format='DD/MM/YYYY'
+                  openTo='month'
+                  views={['year', 'month', 'day']}
                   className='sign_off'
                   name='sign_off'
                   label={'Sign Off Date *'}
