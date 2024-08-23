@@ -25,11 +25,16 @@ import { Icon } from '@iconify/react'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
-import DatePicker from 'react-datepicker'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 import { ISeafarerTravelDocumentForm } from '../../../contract/types/seafarer_travel_document_type'
+
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+
+import moment from 'moment'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -110,7 +115,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     initialValues: initialValues,
     enableReinitialize: true,
     validationSchema: TravelDocumentSchema,
-    onSubmit: (values, {resetForm}) => {
+    onSubmit: (values, { resetForm }) => {
       handleSubmit(values)
       resetForm()
       resetState()
@@ -118,7 +123,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
   })
 
   const resetState = () => {
-    if(type != 'edit'){
+    if (type != 'edit') {
       setCountryOfIssue('')
       setDateOfIssue(null)
       setValidDateState(null)
@@ -395,56 +400,48 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
               />
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
-              <DatePicker
-                dateFormat='dd/MM/yyyy'
-                selected={dateOfIssue}
-                id='date_of_issue'
-                name='date_of_issue'
-                onChange={(date: Date) => setDateOfIssue(date)}
-                placeholderText=''
-                showYearDropdown
-                showMonthDropdown
-                dropdownMode='select'
-                customInput={
-                  <TextField
-                    error={formik.errors.date_of_issue ? true : false}
-                    placeholder='Click to select a date'
-                    label='Date Of Issue * '
-                    variant='standard'
-                    id='date_of_issue'
-                    name='date_of_issue'
-                    fullWidth
-                    InputProps={{
-                      readOnly: true
-                    }}
-                  ></TextField>
-                }
-              />
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  format='DD/MM/YYYY'
+                  className='date_of_issue'
+                  name='date_of_issue'
+                  label={'Date of Issue *'}
+                  onChange={date => setDateOfIssue(date)}
+                  value={dateOfIssue ? moment(dateOfIssue) : null}
+                  slotProps={{
+                    textField: {
+                      variant: 'standard',
+                      fullWidth: true,
+                      id: 'basic-input',
+                      'aria-readonly': true,
+                      name: 'date_of_issue',
+                      error: formik.errors.date_of_issue ? true : false
+                    }
+                  }}
+                />
+              </LocalizationProvider>
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
-              <DatePicker
-                disabled={formik.values.is_lifetime ? true : false}
-                dateFormat='dd/MM/yyyy'
-                selected={validDateState}
-                onChange={(date: Date) => setValidDateState(date)}
-                placeholderText='Click to select a date'
-                showYearDropdown
-                showMonthDropdown
-                dropdownMode='select'
-                id='valid-date-datepicker'
-                customInput={
-                  <TextField
-                    label='Valid Date'
-                    variant='standard'
-                    fullWidth
-                    id='valid_date'
-                    name='valid_date'
-                    InputProps={{
-                      readOnly: true
-                    }}
-                  />
-                }
-              />
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  disabled={formik.values.is_lifetime ? true : false}
+                  format='DD/MM/YYYY'
+                  className='valid-date-datepicker'
+                  name='valid_date'
+                  label={'Valid Date'}
+                  onChange={date => setValidDateState(date)}
+                  value={validDateState ? moment(validDateState) : null}
+                  slotProps={{
+                    textField: {
+                      variant: 'standard',
+                      fullWidth: true,
+                      id: 'basic-input',
+                      'aria-readonly': true,
+                      name: 'valid_date'
+                    }
+                  }}
+                />
+              </LocalizationProvider>
             </Grid>
             <Grid item md={12} xs={12} mb={5}>
               <FormControlLabel
