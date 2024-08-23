@@ -241,10 +241,10 @@ const DialogAddDocument = (props: DialogProps) => {
                 <Grid xs={6}>
                   <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                      <strong>Click to change Certificate File.</strong>
+                      <strong>Click image to change Certificate.</strong>
                     </Typography>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                      Allowed PDF.
+                      Allowed JPG, GIF or PNG.
                     </Typography>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
                       Max size of 800K. Aspect Ratio 1:1

@@ -67,7 +67,7 @@ export default function DocumentUploadSection(props: IDocumentUpload) {
                         variant='outlined'
                         color='info'
                         size='small'
-                        href={process.env.NEXT_PUBLIC_BASE_API?.replace('/api', '') + '/storage/' + itemhead.path}
+                        href={process.env.NEXT_PUBLIC_BASE_URL + '/storage/' + itemhead.path}
                         target='_blank'
                       >
                         <Icon

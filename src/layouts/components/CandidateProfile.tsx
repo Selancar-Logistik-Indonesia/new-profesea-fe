@@ -945,6 +945,7 @@ const CandidateProfile = (props: compProps) => {
           <Grid item md={3} xs={12}>
             <LocalizationProvider dateAdapter={AdapterMoment}>
               <DatePicker
+                format='DD/MM/YYYY'
                 label={'Date Of Birth *'}
                 onChange={(date: any) => onChangeDateOfBirth(date)}
                 value={moment(dateOfBirth)}
@@ -1153,19 +1154,9 @@ const CandidateProfile = (props: compProps) => {
                   />
                 </Grid>
                 <Grid item md={4} xs={12}>
-                  {/* <DatePicker
-                    minDate={new Date()}
-                    dateFormat='dd/MM/yyyy'
-                    selected={date}
-                    id='basic-input'
-                    onChange={(date: Date) => setDate(date)}
-                    placeholderText='Click to select a date'
-                    customInput={
-                      <TextField label='Available Date *' variant='standard' fullWidth {...register('available')} />
-                    }
-                  /> */}
                   <LocalizationProvider dateAdapter={AdapterMoment}>
                     <DatePicker
+                      format='DD/MM/YYYY'
                       label={'Available Date *'}
                       onChange={(date: any) => setAvailableDate(date)}
                       value={moment(availableDate)}
