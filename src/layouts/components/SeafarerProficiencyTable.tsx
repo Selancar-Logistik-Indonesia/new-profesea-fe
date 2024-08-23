@@ -13,6 +13,8 @@ import { AppConfig } from 'src/configs/api'
 import ISeafarerProficiencyData from '../../contract/models/seafarer_proficiency'
 import { IUser } from 'src/contract/models/user'
 
+import moment from 'moment'
+
 interface ISeafarerProficiencyTable {
   user_id: number | null | undefined
   selectedUser: IUser | null
@@ -77,7 +79,7 @@ export default function SeafarerProficiencyTable(props: ISeafarerProficiencyTabl
       headerName: 'Valid Up',
       width: 220,
       renderCell: (params: any) => {
-        return params.row.valid_until ? <>{params.row.valid_until}</> : 'lifetime'
+        return params.row.valid_until ? <>{moment(params.row.valid_until).format('DD/MM/YYYY')}</> : 'lifetime'
       }
     }
   ]
@@ -94,7 +96,7 @@ export default function SeafarerProficiencyTable(props: ISeafarerProficiencyTabl
             href='#'
             onClick={() =>
               HttpClient.downloadFile(
-                process.env.NEXT_PUBLIC_BASE_API + `/seafarer-proficiencies/download/${params.row.id}/`,
+                process.env.NEXT_PUBLIC_BASE_API + `/public/data/proficiency/preview/${params.row.id}/`,
                 params.row.certificate_number
               )
             }

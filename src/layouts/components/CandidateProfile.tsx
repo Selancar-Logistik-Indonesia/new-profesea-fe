@@ -1159,7 +1159,7 @@ const CandidateProfile = (props: compProps) => {
                       format='DD/MM/YYYY'
                       label={'Available Date *'}
                       onChange={(date: any) => setAvailableDate(date)}
-                      value={moment(availableDate)}
+                      value={availableDate ? moment(availableDate) : null}
                       slotProps={{ textField: { variant: 'standard', fullWidth: true, id: 'basic-input' } }}
                     />
                   </LocalizationProvider>
