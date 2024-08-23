@@ -107,6 +107,13 @@ const navigation = (): VerticalNavItemsType => {
             subject: 'admin-job-management'
         },
         {
+            path: '/admin/company-and-job-management/',
+            title: 'Company And Job Management',
+            icon: 'solar:buildings-2-bold',
+            action: 'read',
+            subject: 'admin-company-and-job-management'
+        },
+        {
             path: '#',
             title: 'Training Management',
             icon: 'solar:notebook-bookmark-bold-duotone',
