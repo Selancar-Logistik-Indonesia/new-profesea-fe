@@ -19,11 +19,16 @@ import { Icon } from '@iconify/react'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
-import DatePicker from 'react-datepicker'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 import { ISeafarerExperienceForm } from './../../../contract/types/seafarer_experience_type'
+
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+
+import moment from 'moment'
 
 const ExperienceSchema = Yup.object().shape({
   user_id: Yup.number(),
@@ -368,52 +373,48 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
               </Grid>
             </Grid>
             <Grid item container md={12} xs={12} mb={5}>
-              <DatePicker
-                dateFormat='dd/MM/yyyy'
-                selected={signIn}
-                onChange={(date: Date) => setSignIn(date)}
-                placeholderText='Click to select a date'
-                showYearDropdown
-                showMonthDropdown
-                dropdownMode='select'
-                customInput={
-                  <TextField
-                    error={formik.errors.sign_in ? true : false}
-                    label='Sign In Date * '
-                    variant='standard'
-                    id='sign_in'
-                    name='sign_in'
-                    fullWidth
-                    InputProps={{
-                      readOnly: true
-                    }}
-                  />
-                }
-              />
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  format='DD/MM/YYYY'
+                  className='sign_in'
+                  name='sign_in'
+                  label={'Sign In Date *'}
+                  onChange={date => setSignIn(date)}
+                  value={signIn ? moment(signIn) : null}
+                  slotProps={{
+                    textField: {
+                      variant: 'standard',
+                      fullWidth: true,
+                      id: 'basic-input',
+                      'aria-readonly': true,
+                      name: 'sign_in',
+                      error: formik.errors.sign_in ? true : false
+                    }
+                  }}
+                />
+              </LocalizationProvider>
             </Grid>
             <Grid item container md={12} xs={12} mb={5}>
-              <DatePicker
-                dateFormat='dd/MM/yyyy'
-                selected={signOff}
-                onChange={(date: Date) => setSignOff(date)}
-                placeholderText='Click to select a date'
-                showYearDropdown
-                showMonthDropdown
-                dropdownMode='select'
-                customInput={
-                  <TextField
-                    error={formik.errors.sign_off ? true : false}
-                    label='Sign Off Date * '
-                    variant='standard'
-                    fullWidth
-                    id='sign_off'
-                    name='sign_off'
-                    InputProps={{
-                      readOnly: true
-                    }}
-                  />
-                }
-              />
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  format='DD/MM/YYYY'
+                  className='sign_off'
+                  name='sign_off'
+                  label={'Sign Off Date *'}
+                  onChange={date => setSignOff(date)}
+                  value={signOff ? moment(signOff) : null}
+                  slotProps={{
+                    textField: {
+                      variant: 'standard',
+                      fullWidth: true,
+                      id: 'basic-input',
+                      'aria-readonly': true,
+                      name: 'sign_off',
+                      error: formik.errors.sign_off ? true : false
+                    }
+                  }}
+                />
+              </LocalizationProvider>
             </Grid>
             <Grid item container md={12} xs={12} mb={5}>
               <TextField

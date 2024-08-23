@@ -14,6 +14,7 @@ export type ParamJobVacncy = {
   start_date: string
   end_date: string
   description: string
+  is_current: boolean
 }
 
 // export type ProfileTeamsType = ProfileTabCommonType & { color: ThemeColor }
@@ -61,9 +62,9 @@ const renderList = (arr: ParamJobVacncy[]) => {
                 <Typography sx={{ color: '#262525', fontWeight: 600 }}>
                   {item.position?.charAt(0).toUpperCase() + item.position?.slice(1)}
                 </Typography>
-                <Typography variant='body1'>{`${getMonthYear(item.start_date)} - ${getMonthYear(
-                  item.end_date
-                )}`}</Typography>
+                <Typography variant='body1'>{`${getMonthYear(item.start_date)} - ${
+                  !item.is_current ? getMonthYear(item.end_date) : 'Present'
+                }`}</Typography>
                 <Grid item xs={12}>
                   <Typography
                     variant='body2'
