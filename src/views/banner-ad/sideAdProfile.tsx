@@ -120,16 +120,7 @@ const SideAdProfile: React.FC<ISideAdProps> = ({ adslocation = 'home-page' }) =>
   if (Ads && Ads.length > 1) {
     return (
       <KeenSliderWrapper>
-        <Card
-          sx={{
-            p: '24px',
-            position: 'relative',
-            borderRadius: '16px',
-            backgroundColor: '#FFFFFF',
-            boxShadow: 3,
-            overflow: 'hidden'
-          }}
-        >
+        <Card sx={{ position: 'relative', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             {Ads.length && (
               <Box ref={sliderRef} className='keen-slider'>
@@ -142,7 +133,7 @@ const SideAdProfile: React.FC<ISideAdProps> = ({ adslocation = 'home-page' }) =>
     )
   } else if (Ads && Ads.length === 1) {
     return (
-      <Box sx={{ p: '20px', borderRadius: '12px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
+      <Box sx={{ p: 6, borderRadius: '12px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
         <Box
           component='img'
           loading='lazy'
