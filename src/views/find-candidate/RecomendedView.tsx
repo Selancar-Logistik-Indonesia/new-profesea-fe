@@ -34,6 +34,7 @@ const BoxedText = ({ children }: { children: string }) => {
     <Box
       sx={{
         border: '1px solid #32497A',
+        backgroundColor: '#F1F6FF',
         color: 'primary.main',
         borderRadius: '4px',
         py: '2.5px',
@@ -99,13 +100,13 @@ const renderCardSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
               </Box>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              {!isXs && <Typography sx={{ color: '#949EA2', fontSize: 14 }}>Preference:</Typography>}
+              {!isXs && <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}>Preference:</Typography>}
               <Typography sx={{ fontSize: 14 }}>{`(${item.field_preference?.role_type?.name})`}</Typography>
               <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
               <Typography sx={{ fontSize: 14 }}>{item.field_preference?.vessel_type.name}</Typography>
             </Box>
             <Typography
-              sx={{ color: '#949EA2', fontSize: 14 }}
+              sx={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}
             >{`${item.address?.city?.city_name}, ${item.address?.country?.nicename}`}</Typography>
           </Box>
         </Box>
@@ -145,7 +146,7 @@ const renderCardSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
                     at {item.last_company.institution}
                   </Typography>
                   <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14 }}>{`${getMonthYear(
+                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${getMonthYear(
                     item.last_company.start_date,
                     true
                   )} - ${
@@ -182,7 +183,7 @@ const renderCardSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
                     {item.last_education.title}
                   </Typography>
                   <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14 }}>{`${getMonthYear(
+                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${getMonthYear(
                     item.last_education.start_date,
                     true
                   )} - ${
@@ -274,14 +275,14 @@ const renderCardNonSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
               </Box>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              {!isXs && <Typography sx={{ color: '#949EA2', fontSize: 14 }}>Preference:</Typography>}
+              {!isXs && <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}>Preference:</Typography>}
               <Typography sx={{ fontSize: 14 }}>{`(${item.field_preference?.job_category?.name})`}</Typography>
               <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
               <Typography sx={{ fontSize: 14 }}>{item.field_preference?.role_level?.levelName ?? ''}</Typography>
             </Box>
             <Typography
-              sx={{ color: '#949EA2', fontSize: 14 }}
-            >{`${item.address.city.city_name}, ${item.address.country.nicename}`}</Typography>
+              sx={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}
+            >{`${item.address?.city?.city_name}, ${item.address?.country?.nicename}`}</Typography>
           </Box>
         </Box>
         <Box sx={{ mt: '16px' }}>
@@ -320,7 +321,7 @@ const renderCardNonSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
                     at {item.last_company.institution}
                   </Typography>
                   <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14 }}>{`${getMonthYear(
+                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${getMonthYear(
                     item.last_company.start_date,
                     true
                   )} - ${
@@ -357,7 +358,7 @@ const renderCardNonSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
                     {item.last_education.title}
                   </Typography>
                   <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14 }}>{`${getMonthYear(
+                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${getMonthYear(
                     item.last_education.start_date,
                     true
                   )} - ${

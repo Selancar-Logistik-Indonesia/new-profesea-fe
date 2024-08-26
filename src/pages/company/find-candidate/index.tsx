@@ -16,10 +16,11 @@ import {
   useMediaQuery,
   Tabs,
   Tab,
-  Link,
-  Pagination
+  Link
+  //   Pagination
 } from '@mui/material'
 import CandidateContext, { CandidateProvider } from 'src/context/CandidateContext'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { useRouter } from 'next/router'
 import { useSearchParams } from 'next/navigation'
 import { HttpClient } from 'src/services'
@@ -41,8 +42,6 @@ const FindCandidate = () => {
   )
 }
 
-const pageItem = 15
-
 const FindCandidateApp = () => {
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -52,39 +51,25 @@ const FindCandidateApp = () => {
   const router = useRouter()
   const params = useSearchParams()
 
+  const tabs = params.get('tabs')
   const search = params.get('search')
   const country = params.get('country')
   const jobCategory = params.get('job_category')
   const roleType = params.get('role_type')
   const typeOfVessel = params.get('tov')
 
-  const tabs = params.get('tabs')
   const [tabValue, setTabValue] = useState<string>(tabs || 'onship')
-  const [JobCategory, getJobCategory] = useState<JobCategory[]>([])
-  const [combocountry, getComboCountry] = useState<Countries[]>([])
-  const [RoleType, getRoleType] = useState<RoleType[]>([])
-  const [VesselType, getVesselType] = useState<VesselType[]>([])
+  const [comboJobCategory, getJobCategory] = useState<JobCategory[]>([])
+  const [comboCountry, getComboCountry] = useState<Countries[]>([])
+  const [comboRoleType, getRoleType] = useState<RoleType[]>([])
+  const [comboVesselType, getVesselType] = useState<VesselType[]>([])
+  const [inputSearch, SetSearch] = useState<any>(search || '')
 
-  const [searchCandidate, SetSearchCandidate] = useState<any>(search || '')
+  const [sSearchCandidate, SetSearchCandidate] = useState<any>(search || '')
   const [sCountry, setCountry] = useState<any>(null)
   const [sJobCategory, setJobCategory] = useState<any>(null)
   const [sRoleType, setRoleType] = useState<any>(null)
   const [sVesselType, setVesselType] = useState<any>(null)
-
-  useEffect(() => {
-    if (country) {
-      setCountry(combocountry.filter(filter => filter.id == Number(country)))
-    }
-    if (jobCategory) {
-      setJobCategory(JobCategory.filter(filter => filter.id == Number(jobCategory)))
-    }
-    if (RoleType) {
-      setRoleType(RoleType.filter(filter => filter.id == Number(roleType)))
-    }
-    if (typeOfVessel) {
-      setVesselType(VesselType.filter(filter => filter.id == Number(typeOfVessel)))
-    }
-  }, [])
 
   const clearFilter = () => {
     setPage(1)
@@ -100,22 +85,22 @@ const FindCandidateApp = () => {
     const searchParams = new URLSearchParams(params.toString())
     searchParams.set('tabs', tabValue)
 
-    if (searchCandidate) searchParams.set('search', searchCandidate)
+    if (sSearchCandidate !== '') searchParams.set('search', sSearchCandidate)
     else searchParams.delete('search')
 
-    if (sCountry) searchParams.set('country', sCountry.id)
+    if (sCountry !== null) searchParams.set('country', sCountry.id)
     else searchParams.delete('country')
 
-    if (sJobCategory) searchParams.set('job_category', sJobCategory.id)
+    if (sJobCategory !== null) searchParams.set('job_category', sJobCategory.id)
     else searchParams.delete('job_category')
 
-    if (sRoleType) searchParams.set('role_type', sRoleType.id)
+    if (sRoleType !== null) searchParams.set('role_type', sRoleType.id)
     else searchParams.delete('role_type')
 
-    if (sVesselType) searchParams.set('tov', sVesselType.id)
+    if (sVesselType !== null) searchParams.set('tov', sVesselType.id)
     else searchParams.delete('tov')
 
-    router.replace(
+    router.push(
       {
         pathname: router.pathname,
         query: searchParams.toString()
@@ -123,25 +108,34 @@ const FindCandidateApp = () => {
       undefined,
       { shallow: true }
     )
-  }, [searchCandidate, sCountry, sJobCategory, sRoleType, sVesselType, tabValue, params])
+  }, [sSearchCandidate, sCountry, sJobCategory, sRoleType, sVesselType, tabValue])
 
   const handleChangeTabValue = (e: any, value: any) => {
     setPage(1)
     setTabValue(value)
   }
 
-  const getListCandidates = async () => {
+  const getListCandidates = () => {
     try {
-      await HttpClient.get('/public/data/country').then(response => {
-        const data = response.data.countries
+      HttpClient.get('/public/data/country').then(async response => {
+        const data: Countries[] = await response.data.countries
+        if (country) {
+          setCountry(data.find(find => find.id == parseInt(country, 10)))
+        }
         getComboCountry(data)
       })
-      await HttpClient.get('/job-category?page=1&take=1000').then(response => {
-        const data: JobCategory[] = response.data.categories.data
+      HttpClient.get('/job-category?page=1&take=1000').then(async response => {
+        const data: JobCategory[] = await response.data.categories.data
+        if (jobCategory) {
+          setJobCategory(data.find(find => find.id == parseInt(jobCategory, 10)))
+        }
         getJobCategory(data.filter(d => d.employee_type == tabValue))
       })
-      await HttpClient.get('/public/data/vessel-type?page=1&take=1000').then(response => {
-        const data = response.data.vesselTypes.data
+      HttpClient.get('/public/data/vessel-type?page=1&take=1000').then(async response => {
+        const data: VesselType[] = await response.data.vesselTypes.data
+        if (typeOfVessel) {
+          setVesselType(data.find(find => find.id == parseInt(typeOfVessel, 10)))
+        }
         getVesselType(data)
       })
     } catch (error) {
@@ -149,14 +143,17 @@ const FindCandidateApp = () => {
     }
   }
 
-  const getRoleTypes = async () => {
+  const getRoleTypes = () => {
     try {
-      await HttpClient.get('/public/data/role-type', {
+      HttpClient.get('/public/data/role-type', {
         page: 1,
         take: 250,
         category_id: sJobCategory?.id
-      }).then(response => {
-        const data = response.data.roleTypes.data
+      }).then(async response => {
+        const data: RoleType[] = await response.data.roleTypes.data
+        if (roleType) {
+          setRoleType(data.find(find => find.id == parseInt(roleType, 10)))
+        }
         getRoleType(data)
       })
     } catch (error) {
@@ -175,16 +172,16 @@ const FindCandidateApp = () => {
 
   useEffect(() => {
     fetchCandidates({
-      take: pageItem,
+      take: 1000,
       employee_type: tabValue,
-      search: searchCandidate,
+      search: sSearchCandidate,
       vesseltype_id: sVesselType?.id,
       roletype_id: sRoleType?.id,
       category_id: sJobCategory?.id,
       country: sCountry?.id
     })
     updateParamsFilter()
-  }, [searchCandidate, sVesselType, sRoleType, sJobCategory, tabValue, sCountry])
+  }, [sSearchCandidate, sVesselType, sRoleType, sJobCategory, tabValue, sCountry])
 
   const handleSearch = (value: string) => {
     setPage(1)
@@ -267,10 +264,16 @@ const FindCandidateApp = () => {
                   <TextField
                     fullWidth
                     id='fullName'
-                    defaultValue={searchCandidate}
+                    value={inputSearch}
                     placeholder='Search Candidate Name'
                     variant='outlined'
-                    onChange={e => handleSearch(e.target.value)}
+                    onChange={e => SetSearch(e.target.value)}
+                    onBlur={() => handleSearch(inputSearch)}
+                    onKeyPress={e => {
+                      if (e.key === 'Enter') {
+                        handleSearch(inputSearch)
+                      }
+                    }}
                   />
                 </Grid>
                 <Grid container gap='12px'>
@@ -279,7 +282,7 @@ const FindCandidateApp = () => {
                     fullWidth
                     disablePortal
                     id='combo-box-demo'
-                    options={combocountry}
+                    options={comboCountry}
                     value={sCountry}
                     getOptionLabel={(option: any) => option.nicename}
                     renderInput={params => <TextField {...params} placeholder='Choose Country' />}
@@ -295,7 +298,7 @@ const FindCandidateApp = () => {
                     fullWidth
                     disablePortal
                     id='job-category-autocomplete'
-                    options={JobCategory}
+                    options={comboJobCategory}
                     value={sJobCategory}
                     getOptionLabel={(option: JobCategory) => option.name}
                     renderInput={params => <TextField {...params} placeholder='Choose Job Category' />}
@@ -313,7 +316,7 @@ const FindCandidateApp = () => {
                         fullWidth
                         disablePortal
                         id='role-type-autocomplete'
-                        options={RoleType}
+                        options={comboRoleType}
                         value={sRoleType}
                         getOptionLabel={(option: RoleType) => option.name}
                         renderInput={params => <TextField {...params} placeholder='Choose Job Rank' />}
@@ -331,7 +334,7 @@ const FindCandidateApp = () => {
                         fullWidth
                         disablePortal
                         id='vessel-type-autocomplete'
-                        options={VesselType}
+                        options={comboVesselType}
                         value={sVesselType}
                         getOptionLabel={(option: VesselType) => option.name}
                         renderInput={params => <TextField {...params} placeholder='Choose Vessel' />}
@@ -350,7 +353,7 @@ const FindCandidateApp = () => {
                       fullWidth
                       disablePortal
                       id='role-type-autocomplete'
-                      options={RoleType}
+                      options={comboRoleType}
                       value={sRoleType}
                       getOptionLabel={(option: RoleType) => option.name}
                       renderInput={params => <TextField {...params} placeholder='Choose Job Title' />}
@@ -408,33 +411,54 @@ const FindCandidateApp = () => {
               }
 
               return (
-                <Grid container gap='24px'>
-                  <Grid container sx={{ display: 'flex', justifyContent: 'flex-end', mt: '12px', mb: '-36px' }}>
-                    <Pagination
-                      count={Math.ceil(totalCandidate / pageItem)}
-                      onChange={(e: React.ChangeEvent<unknown>, value: number) => {
-                        setPage(value)
-                      }}
-                      variant='outlined'
-                      shape='rounded'
-                    />
-                  </Grid>
+                // <Grid container gap='24px'>
+                //   <Grid container sx={{ display: 'flex', justifyContent: 'flex-end', mt: '12px', mb: '-36px' }}>
+                //     <Pagination
+                //       count={Math.ceil(totalCandidate / pageItem)}
+                //       onChange={(e: React.ChangeEvent<unknown>, value: number) => {
+                //         setPage(value)
+                //       }}
+                //       variant='outlined'
+                //       shape='rounded'
+                //     />
+                //   </Grid>
+                <InfiniteScroll
+                  dataLength={totalCandidate}
+                  next={() =>
+                    fetchCandidates({
+                      take: 1000,
+                      employee_type: tabValue,
+                      search: sSearchCandidate,
+                      vesseltype_id: sVesselType?.id,
+                      roletype_id: sRoleType?.id,
+                      category_id: sJobCategory?.id,
+                      country: sCountry?.id
+                    })
+                  }
+                  hasMore={hasNextPage}
+                  loader={
+                    <Typography mt={5} color={'text.secondary'}>
+                      Loading..
+                    </Typography>
+                  }
+                >
                   <RecomendedView listCandidate={listCandidates} />
-                  <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Typography sx={{ color: '#949EA2', fontSize: 14 }}>{`Showing ${
-                      page * pageItem < totalCandidate ? page * pageItem : totalCandidate
-                    } out of ${totalCandidate} results`}</Typography>
-                    <Pagination
-                      sx={{ margin: '0 auto' }}
-                      count={Math.ceil(totalCandidate / pageItem)}
-                      onChange={(e: React.ChangeEvent<unknown>, value: number) => {
-                        setPage(value)
-                      }}
-                      variant='outlined'
-                      shape='rounded'
-                    />
-                  </Grid>
-                </Grid>
+                </InfiniteScroll>
+                //   <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                //     <Typography sx={{ color: '#949EA2', fontSize: 14 }}>{`Showing ${
+                //       page * pageItem < totalCandidate ? page * pageItem : totalCandidate
+                //     } out of ${totalCandidate} results`}</Typography>
+                //     <Pagination
+                //       sx={{ margin: '0 auto' }}
+                //       count={Math.ceil(totalCandidate / pageItem)}
+                //       onChange={(e: React.ChangeEvent<unknown>, value: number) => {
+                //         setPage(value)
+                //       }}
+                //       variant='outlined'
+                //       shape='rounded'
+                //     />
+                //   </Grid>
+                // </Grid>
               )
             }}
           </CandidateContext.Consumer>
