@@ -272,7 +272,7 @@ const DialogEditEducation = (props: DialogProps) => {
                     checked={isCurrentEducation}
                   />
                 }
-                label='Iam currently studying'
+                label="I'm currently studying"
               />
             </Grid>
             <Grid item md={12} xs={12}>

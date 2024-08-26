@@ -403,6 +403,8 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
                   format='DD/MM/YYYY'
+                  openTo='month'
+                  views={['year', 'month', 'day']}
                   className='date_of_issue'
                   name='date_of_issue'
                   label={'Date of Issue *'}
@@ -426,6 +428,8 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 <DatePicker
                   disabled={formik.values.is_lifetime ? true : false}
                   format='DD/MM/YYYY'
+                  openTo='month'
+                  views={['year', 'month', 'day']}
                   className='valid-date-datepicker'
                   name='valid_date'
                   label={'Valid Date'}

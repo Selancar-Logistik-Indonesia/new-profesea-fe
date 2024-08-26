@@ -345,6 +345,8 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
                   disabled={formik.values.is_lifetime ? true : false}
+                  openTo='month'
+                  views={['year', 'month', 'day']}
                   format='DD/MM/YYYY'
                   className='valid_date'
                   name='valid_date'

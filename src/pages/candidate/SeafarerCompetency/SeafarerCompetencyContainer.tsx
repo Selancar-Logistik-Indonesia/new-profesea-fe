@@ -87,7 +87,7 @@ const SeafarerCompetencyContainer = (props: ISeafarerCompetencyProps) => {
       renderCell(params: any) {
         return params.row.filename ? (
           <a
-            href={process.env.NEXT_PUBLIC_BASE_API + `/seafarer-competencies/preview/${params.row.id}/`}
+            href={process.env.NEXT_PUBLIC_BASE_API + `/public/data/competency/preview/${params.row.id}/`}
             target='_blank'
             // onClick={() =>
             //   HttpClient.downloadFile(
