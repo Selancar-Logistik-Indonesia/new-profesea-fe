@@ -23,12 +23,18 @@ type DialogProps = {
   onStateChange: VoidFunction
 }
 
+interface IStatusApplicants {
+  status: string
+  total: number
+}
+
 const DialogShowListApplicant = (props: DialogProps) => {
   const [loadingTable, setLoadingTable] = useState(true)
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(10)
   const [dataSheet, setDataSheet] = useState<RowItem[]>([])
   const [rowCount, setRowCount] = useState(0)
+  const [statusApplicants, setStatusApplicants] = useState<IStatusApplicants[]>([])
 
   // detail
   const { company, category, job_title, vesseltype_id, role_type, count_applicant } = props.selectedItem
@@ -73,6 +79,16 @@ const DialogShowListApplicant = (props: DialogProps) => {
     }
   }
 
+  const handeGetCountStatus = async () => {
+    const response = await HttpClient.get(`/job/${props.selectedItem.id}/appllicants/count-statuses`)
+
+    if (response.status != 200) {
+      throw response.data.message ?? 'Something went wrong!'
+    }
+
+    setStatusApplicants(response?.data?.data)
+  }
+
   const onPageChange = (model: GridPaginationModel) => {
     const mPage = model.page + 1
     setPage(mPage)
@@ -81,6 +97,7 @@ const DialogShowListApplicant = (props: DialogProps) => {
 
   useEffect(() => {
     handleListApplicant()
+    handeGetCountStatus()
   }, [])
 
   return (
@@ -102,6 +119,23 @@ const DialogShowListApplicant = (props: DialogProps) => {
             {count_applicant} Applicants
           </Typography>
         </Stack>
+        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: 2 }}>
+          {statusApplicants.map(s => (
+            <Stack direction={'row'} gap={1}>
+              <Typography variant='body1' sx={{ fontWeight: 700 }}>
+                {s?.status === 'RJ'
+                  ? 'Rejected'
+                  : s?.status === 'VD'
+                  ? 'Viewed'
+                  : s?.status === 'PR'
+                  ? 'Proceed'
+                  : 'Waiting Review'}
+                :
+              </Typography>
+              <Typography variant='body1'>{s?.total}</Typography>
+            </Stack>
+          ))}
+        </Box>
         <ListApplicantDataGrid
           page={page - 1} // di MUI page pertama = 0
           rowCount={rowCount}
