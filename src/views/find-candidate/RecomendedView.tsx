@@ -1,13 +1,13 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Avatar, Button, Paper, Tooltip, useMediaQuery, useTheme } from '@mui/material'
+import { Avatar, Button, Paper, useMediaQuery, useTheme } from '@mui/material'
 import { IUser } from 'src/contract/models/user'
 import { Icon } from '@iconify/react'
 
 import Link from 'next/link'
-import { calculateAge, getMonthYear } from 'src/utils/helpers'
 import { toLinkCase } from 'src/utils/helpers'
+import { calculateAge, getMonthYear } from 'src/utils/helpers'
 
 export type ParamMain = {
   name: string
@@ -52,13 +52,23 @@ const renderCardSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
   const userPhoto = item.photo != '' ? item.photo : '/images/avatars/default-user-new.png'
 
   return (
-    <Grid item xs={12} key={item?.id}>
+    <Grid
+      item
+      xs={12}
+      key={item?.id}
+      component={Link}
+      href={`/profile/${item.id}/${toLinkCase(item.username)}`}
+      target='_blank'
+    >
       <Paper
         sx={{
           marginTop: '24px',
           border: '1px solid #DDDDDD',
           borderRadius: '8px',
-          padding: isXs ? '12px' : '24px'
+          padding: isXs ? '12px' : '24px',
+          '&:hover': {
+            border: '1px solid #32497A'
+          }
         }}
         elevation={0}
       >
@@ -227,13 +237,23 @@ const renderCardNonSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
   const userPhoto = item.photo != '' ? item.photo : '/images/avatars/default-user.png'
 
   return (
-    <Grid item xs={12} key={item?.id}>
+    <Grid
+      item
+      xs={12}
+      key={item?.id}
+      component={Link}
+      href={`/profile/${item.id}/${toLinkCase(item.username)}`}
+      target='_blank'
+    >
       <Paper
         sx={{
           marginTop: '24px',
           border: '1px solid #DDDDDD',
           borderRadius: '8px',
-          padding: isXs ? '12px' : '24px'
+          padding: isXs ? '12px' : '24px',
+          '&:hover': {
+            border: '1px solid #32497A'
+          }
         }}
         elevation={0}
       >
