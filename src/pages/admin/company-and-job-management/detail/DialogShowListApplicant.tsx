@@ -126,8 +126,8 @@ const DialogShowListApplicant = (props: DialogProps) => {
             </Typography>
           </Stack>
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: 2 }}>
-            {statusApplicants.map(s => (
-              <Stack direction={'row'} gap={1}>
+            {statusApplicants.map((s, i) => (
+              <Stack key={s.status + i} direction={'row'} gap={1}>
                 <Typography variant='body1' sx={{ fontWeight: 700 }}>
                   {s?.status === 'RJ'
                     ? 'Rejected'
