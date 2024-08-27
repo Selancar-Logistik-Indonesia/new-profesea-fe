@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Chip, Typography } from '@mui/material'
 import { Box, Stack } from '@mui/system'
 import { AxiosError } from 'axios'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { IUser } from 'src/contract/models/user'
@@ -34,6 +34,7 @@ const CompanyAndJobManagementDetail = () => {
   const [openDelModal, setOpenDelModal] = useState(false)
   const [openEditModal, setOpenEditModal] = useState(false)
   const [openShowModal, setOpenShowModal] = useState(false)
+  const router = useRouter()
 
   const handleGetDetail = async () => {
     try {
@@ -79,7 +80,7 @@ const CompanyAndJobManagementDetail = () => {
           jobTitle: row?.vesseltype_id && row?.vesseltype_id !== null ? row?.job_title : row?.role_type?.name,
           roleLevel:
             row?.vesseltype_id && row?.vesseltype_id !== null ? row?.role_type?.name : row?.rolelevel?.levelName,
-          status: 'Active',
+          status: new Date(row?.onboard_at) > new Date() ? 'Active' : 'Non Active',
           applicantApplied: row?.count_applicant,
           actions: {
             onShowListApplicant: () => handleShowListApplicant(row),
@@ -147,11 +148,20 @@ const CompanyAndJobManagementDetail = () => {
   return (
     <>
       <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <Box>
+          <Button
+            onClick={() => router.back()}
+            size='small'
+            type='button'
+            variant='text'
+            startIcon={<Icon icon={'solar:double-alt-arrow-left-bold-duotone'} />}
+          />
+        </Box>
         <Card sx={{ width: '100%', display: 'flex' }}>
           <CardMedia sx={{ width: 200, backgroundSize: 'auto' }} image={detail?.photo} />
           <CardContent sx={{ width: '70%' }}>
             <Stack direction={'column'} gap={2}>
-              <Typography gutterBottom variant='h5' component='div'>
+              <Typography gutterBottom variant='h5' component='div' color={'primary'}>
                 {detail?.name}
               </Typography>
               <Typography variant='h6' color='text.primary' sx={{ fontSize: '14px !important' }}>

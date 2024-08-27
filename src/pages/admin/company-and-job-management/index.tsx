@@ -28,6 +28,7 @@ export interface ICompanyAndManagement {
   job_post: number
   photo: string
   team: ITeam
+  need_verification: boolean
 }
 
 const DOCUMENT_VERIFICATION_OPTIONS = [
@@ -38,6 +39,10 @@ const DOCUMENT_VERIFICATION_OPTIONS = [
   {
     id: 'unverified',
     label: 'Unverified'
+  },
+  {
+    id: 'needverification',
+    label: 'Need Verification'
   }
 ]
 
@@ -106,6 +111,7 @@ const CompanyAndJobManagement = () => {
         rejected_at: row?.rejected_at,
         type: row?.type,
         jobPost: row?.job_post,
+        needVerification: row?.need_verification,
         resend: {
           onResend: () => handleResendEmail(row)
         },
