@@ -53,6 +53,7 @@ const JobApplied = (props: IJobAppliedProps) => {
   const params = useSearchParams()
 
   const plan = params.get('plan')
+  const userId = params.get('id')
   const searchCandidate = linkToTitleCase(params.get('applicant') ?? '')
 
   const [collapsed, setCollapsed] = useState<boolean>(plan === 'advance' ? false : true)
@@ -115,7 +116,7 @@ const JobApplied = (props: IJobAppliedProps) => {
     console.log('is bisa schengen =>', isVisaSchengen)
     try {
       // const resp = await HttpClient.get(
-      //   `/job/${params.get('id')}/appllicants?` +
+      //   `/job/${userId}/appllicants?` +
       //     'vesseltype_id=' +
       //     sVesselType +
       //     '&roletype_id=' +
@@ -130,7 +131,7 @@ const JobApplied = (props: IJobAppliedProps) => {
       // )
 
       const resp = await HttpClient.get(
-        `/job/${params.get('id')}/appllicants?` +
+        `/job/${userId}/appllicants?` +
           `experience=${experience}&status_onboard=${statusOnBoard}&education=${education}&search=${
             searchCandidate || search
           }&page=${page}&take=${perPage}`
@@ -388,6 +389,8 @@ const JobApplied = (props: IJobAppliedProps) => {
       setOnLoading(false)
     })
   }, [
+    userId,
+    searchCandidate,
     page,
     search,
     comboStatus,
