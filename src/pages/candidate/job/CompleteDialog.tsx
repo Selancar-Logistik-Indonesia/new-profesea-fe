@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement } from 'react'
+import { Ref, forwardRef, ReactElement, useState } from 'react'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import IconButton from '@mui/material/IconButton'
@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import Fade, { FadeProps } from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
 import Icon from 'src/@core/components/icon'
-import { Button, DialogActions } from '@mui/material'
+import { Button, CircularProgress, DialogActions } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { toast } from 'react-hot-toast'
 import Job from 'src/contract/models/job'
@@ -26,18 +26,26 @@ type ViewProps = {
 }
 
 const CompleteDialog = (props: ViewProps) => {
+  const [onLoading, setOnLoading] = useState(false)
+
   const handleApprove = async () => {
+    setOnLoading(true)
     try {
       const resp = await HttpClient.get(`/job/${props.selectedItem?.id}/apply`)
-      if (resp.status != 200) {
-        throw resp.data.message ?? 'Something went wrong!'
+
+      if (resp.status !== 200) {
+        props.setApply(false)
+        throw new Error(resp.data.message ?? 'Something went wrong!')
       }
 
-      props.setApply(true)
       toast.success(`${props.selectedItem?.role_type?.name} applied successfully!`)
+      props.setApply(true)
+      setOnLoading(false)
       props.onClose()
     } catch (error) {
-      console.error(error)
+      props.setApply(false)
+      setOnLoading(false)
+      toast.error('An error occurred while applying.')
     }
   }
 
@@ -78,8 +86,22 @@ const CompleteDialog = (props: ViewProps) => {
             pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
           }}
         >
-          <Button onClick={handleApprove} variant='contained' color='success' sx={{ mr: 2 }} type='button' size='small'>
-            <Icon fontSize='large' icon={'material-symbols:recommend'} color={'info'} style={{ margin: 3 }} />
+          <Button
+            onClick={handleApprove}
+            variant='contained'
+            color='success'
+            sx={{ mr: 2 }}
+            type='button'
+            size='small'
+            disabled={onLoading}
+            startIcon={
+              onLoading ? (
+                <CircularProgress size={24} />
+              ) : (
+                <Icon fontSize='large' icon={'material-symbols:recommend'} color={'info'} style={{ margin: 3 }} />
+              )
+            }
+          >
             Yes
           </Button>
           <Button variant='outlined' size='small' color='secondary' onClick={props.onClose}>
