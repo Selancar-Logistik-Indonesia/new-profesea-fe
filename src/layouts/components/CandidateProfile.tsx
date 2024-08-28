@@ -925,6 +925,7 @@ const CandidateProfile = (props: compProps) => {
                 // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
                 startAdornment: (
                   <Select
+                    sx={{ marginTop:-2 }}
                     labelId='select-country-code'
                     id='select-country-code'
                     value={idcombocode}
@@ -1158,6 +1159,7 @@ const CandidateProfile = (props: compProps) => {
                 <Grid item md={4} xs={12}>
                   <LocalizationProvider dateAdapter={AdapterMoment}>
                     <DatePicker
+                
                       format='DD/MM/YYYY'
                       openTo='month'
                       views={['year', 'month', 'day']}
