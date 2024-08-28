@@ -504,6 +504,6 @@ const FindCandidateApp = () => {
 
 FindCandidate.acl = {
   action: 'read',
-  subject: 'find-candidate'
+  subject: 'home'
 }
 export default FindCandidate

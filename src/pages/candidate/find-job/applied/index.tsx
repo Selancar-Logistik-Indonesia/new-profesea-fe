@@ -113,7 +113,7 @@ const AllJobApplied = () => {
 
 AllJobApplied.acl = {
   action: 'read',
-  subject: 'seafarer-job-applied'
+  subject: 'home'
 }
 
 export default AllJobApplied
