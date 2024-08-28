@@ -13,6 +13,8 @@ import SeafarerExperienceDeleteConfirm from './SeafarerExperienceDeleteConfirm'
 import LoadingIcon from 'src/layouts/components/LoadingIcon'
 import CustomNoRowsOverlay from 'src/layouts/components/NoRowDataTable'
 
+import moment from 'moment'
+
 const SeafarerExperienceContainer = (props: ISeafarerExperienceProps) => {
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(false)
@@ -96,13 +98,19 @@ const SeafarerExperienceContainer = (props: ISeafarerExperienceProps) => {
       field: 'sign_in',
       headerName: 'Sign In',
       width: 150,
-      type: 'date'
+      type: 'date',
+      renderCell: (params: any) => {
+        return moment(params.row.sign_in).format('DD/MM/YYYY')
+      }
     },
     {
       field: 'sign_off',
       headerName: 'Sign Off',
       width: 150,
-      type: 'date'
+      type: 'date',
+      renderCell: (params: any) => {
+        return params.row.sign_off ? <>{moment(params.row.sign_off).format('DD/MM/YYYY')}</> : 'current'
+      }
     },
     {
       field: 'company',
