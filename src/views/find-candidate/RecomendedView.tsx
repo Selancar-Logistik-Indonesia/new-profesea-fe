@@ -30,6 +30,7 @@ const handleChatWhatsapp = (phone: string) => {
 
 const BoxedText = ({ children }: { children: string }) => {
   if (!children) return null
+
   return (
     <Box
       sx={{
@@ -426,13 +427,10 @@ const renderCardNonSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
   )
 }
 
-const renderList = (listCandidate: IUser[]) => {
+const renderList = (listCandidate: IUser[], isXs: boolean) => {
   if (!listCandidate || listCandidate.length == 0) {
     return
   }
-
-  const theme = useTheme()
-  const isXs = useMediaQuery(theme.breakpoints.down('md'))
 
   return listCandidate?.map(item => {
     const employee_type = item.employee_type
@@ -446,8 +444,10 @@ const renderList = (listCandidate: IUser[]) => {
 
 const RecomendedView = (props: Props) => {
   const { listCandidate } = props
+  const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.down('md'))
 
-  return <Grid container>{renderList(listCandidate)}</Grid>
+  return <Grid container>{renderList(listCandidate, isXs)}</Grid>
 }
 
 export default RecomendedView

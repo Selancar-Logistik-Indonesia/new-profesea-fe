@@ -226,7 +226,7 @@ const FindCandidateApp = () => {
   return (
     <Grid container spacing={6} justifyContent={'center'}>
       <Grid item md={11} xs={12}>
-        <Breadcrumbs separator={<MdNavigateNext fontSize={'17px'} color='black' />} aria-lable='breadcrumb'>
+        <Breadcrumbs separator={<MdNavigateNext fontSize={'17px'} color='black' />} aria-label='breadcrumb'>
           <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
             <Typography
               sx={{
