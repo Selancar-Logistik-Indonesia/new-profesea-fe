@@ -13,6 +13,8 @@ import { AppConfig } from 'src/configs/api'
 import ISeafarerExperienceData from '../../contract/models/seafarer_experience'
 import { IUser } from 'src/contract/models/user'
 
+import moment from "moment"
+
 interface ISeafarerExperienceTable {
   user_id: number | null | undefined
   selectedUser: IUser | null
@@ -102,13 +104,19 @@ export default function SeafarerExperienceTable(props: ISeafarerExperienceTable)
       field: 'sign_in',
       headerName: 'Sign In',
       width: 150,
-      type: 'date'
+      type: 'date',
+      renderCell: (params: any) => {
+        return moment(params.row.sign_in).format('DD/MM/YYYY')
+      }
     },
     {
       field: 'sign_off',
       headerName: 'Sign Off',
       width: 150,
-      type: 'date'
+      type: 'date',
+      renderCell: (params: any) => {
+        return params.row.sign_off ? <>{moment(params.row.sign_off).format('DD/MM/YYYY')}</> : 'present'
+      }
     },
     {
       field: 'company',
