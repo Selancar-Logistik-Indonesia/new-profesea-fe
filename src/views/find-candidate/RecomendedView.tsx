@@ -166,7 +166,7 @@ const renderCardSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
                     item.last_company.start_date,
                     true
                   )} - ${
-                    item.last_company.still_here ? 'present' : getMonthYear(item.last_company.end_date, true)
+                    item.last_company.end_date ? getMonthYear(item.last_company.end_date, true) : 'Present'
                   }`}</Typography>
                 </Box>
               </Box>
@@ -203,7 +203,7 @@ const renderCardSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
                     item.last_education.start_date,
                     true
                   )} - ${
-                    item.last_education.still_here ? 'present' : getMonthYear(item.last_education.end_date, true)
+                    item.last_education.end_date ? getMonthYear(item.last_education.end_date, true) : 'Present'
                   }`}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mt: '4px' }}>
@@ -353,7 +353,7 @@ const renderCardNonSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
                     item.last_company.start_date,
                     true
                   )} - ${
-                    item.last_company.still_here ? 'present' : getMonthYear(item.last_company.end_date, true)
+                    item.last_company.end_date ? getMonthYear(item.last_company.end_date, true) : 'Present'
                   }`}</Typography>
                 </Box>
               </Box>
@@ -390,7 +390,7 @@ const renderCardNonSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
                     item.last_education.start_date,
                     true
                   )} - ${
-                    item.last_education.still_here ? 'present' : getMonthYear(item.last_education.end_date, true)
+                    item.last_education.end_date ? getMonthYear(item.last_education.end_date, true) : 'Present'
                   }`}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mt: '4px' }}>
