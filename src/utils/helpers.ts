@@ -203,6 +203,8 @@ const toMegaByte = (size: number, stringify = false) => {
 }
 
 const calculateAge = (dob: any) => {
+    if (!dob) return null
+
     const today = new Date()
     const birthDate = new Date(dob)
     let age = today.getFullYear() - birthDate.getFullYear()
@@ -220,12 +222,19 @@ const MONTH_NAMES = [
     'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
-const getMonthYear = (date: string) => {
+const shortMonthNames = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+];
+
+const getMonthYear = (date: string | null, shortMoths?: boolean) => {
+    if (!date) return null
+
     const newString = date.split('-')
     const year = newString[0]
     const monthIndex = parseInt(newString[1], 10)
     if (!isNaN(monthIndex) && monthIndex >= 1 && monthIndex <= 12) {
-        return `${MONTH_NAMES[monthIndex - 1]} ${year}`
+        return `${shortMoths ? shortMonthNames[monthIndex - 1] : MONTH_NAMES[monthIndex - 1]} ${year}`
     } else {
         return date
     }

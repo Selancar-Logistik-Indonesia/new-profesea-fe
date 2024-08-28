@@ -13,6 +13,8 @@ import { AppConfig } from 'src/configs/api'
 import { IUser } from 'src/contract/models/user'
 import ISeafarerTravelDocumentData from '../../contract/models/seafarer_travel_document'
 
+import moment from 'moment'
+
 interface ISeafarerTravelDocumentTable {
   user_id: number | null | undefined
   selectedUser: IUser | null
@@ -84,7 +86,10 @@ export default function SeafarerTravelDocumentTable(props: ISeafarerTravelDocume
       field: 'valid_date_column',
       headerName: 'Valid Date',
       type: 'string',
-      width: 180
+      width: 180,
+      renderCell: (params: any) => {
+        return params.row.valid_date ? <>{moment(params.row.valid_date).format('DD/MM/YYYY')}</> : 'lifetime'
+      }
     }
   ]
 
@@ -100,7 +105,7 @@ export default function SeafarerTravelDocumentTable(props: ISeafarerTravelDocume
             href='#'
             onClick={() =>
               HttpClient.downloadFile(
-                process.env.NEXT_PUBLIC_BASE_API + `/seafarer-travel-documents/download/${params.row.id}/`,
+                process.env.NEXT_PUBLIC_BASE_API + `/public/data/travel-documents/preview/${params.row.id}/`,
                 params.row.filename
               )
             }

@@ -1,5 +1,6 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material'
 import { Icon } from '@iconify/react'
+import moment from 'moment'
 
 interface IWorkExperience {
   setOpenAddModalWE: (openAddModalWE: boolean) => void
@@ -22,7 +23,7 @@ export default function WorkExperienceSection(props: IWorkExperience) {
         </Grid>
         <Grid container item xs={12} justifyContent={'left'}>
           <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-            Fulfill your Work Experience Info
+            Fill in the details below to highlight your professional background and achievements
           </Typography>
         </Grid>
       </Grid>
@@ -42,7 +43,7 @@ export default function WorkExperienceSection(props: IWorkExperience) {
           <Grid item container xs={12} marginTop={2} key={item.id}>
             <img
               alt='logo'
-              src={item.logo ? item.logo : '/images/workexperienceinfo.png'}
+              src={item.logo ? item.logo : '/images/work-experience.png'}
               style={{
                 maxWidth: '100px',
                 height: '100px',
@@ -63,7 +64,9 @@ export default function WorkExperienceSection(props: IWorkExperience) {
                 </Typography>
                 <Grid xs={12} display='flex'>
                   <Box>
-                    <Typography variant='body1'>{`${item.start_date} - ${item.end_date}`}</Typography>
+                    <Typography variant='body1'>{`${moment(item.start_date).format('MMMM YYYY')} - ${
+                      item.is_current ? 'Present' : moment(item.end_date).format('MMMM YYYY')
+                    }`}</Typography>
                   </Box>
                 </Grid>
               </Grid>
@@ -95,7 +98,7 @@ export default function WorkExperienceSection(props: IWorkExperience) {
               </Grid>
             </Grid>
             <Grid xs={12}>
-              <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+              <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px', whiteSpace: 'pre-line' }}>
                 {item.description}
               </Typography>
             </Grid>
