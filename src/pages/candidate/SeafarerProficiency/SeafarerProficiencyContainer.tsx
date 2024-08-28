@@ -99,7 +99,7 @@ const SeafarerProficiencyTable = (props: ISeafarerProficiencyProps) => {
       renderCell(params: any) {
         return userSession.id == user_id && params.row.filename ? (
           <a
-            href={process.env.NEXT_PUBLIC_BASE_API + `/seafarer-proficiencies/preview/${params.row.id}/`}
+            href={process.env.NEXT_PUBLIC_BASE_API + `/public/data/proficiency/preview/${params.row.id}/`}
             target='_blank'
             // onClick={() =>
             //   HttpClient.downloadFile(

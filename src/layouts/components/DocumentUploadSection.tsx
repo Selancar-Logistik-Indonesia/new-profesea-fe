@@ -23,12 +23,12 @@ export default function DocumentUploadSection(props: IDocumentUpload) {
         <Grid xs={10} md={11}>
           <Grid container item xs={12} justifyContent={'left'}>
             <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-              Document Upload
+              Certificate Upload
             </Typography>
           </Grid>
           <Grid container item xs={12} justifyContent={'left'}>
             <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-              Upload your Document Info
+              Fill in the details below to highlight your skills and qualifications
             </Typography>
           </Grid>
         </Grid>
@@ -67,7 +67,7 @@ export default function DocumentUploadSection(props: IDocumentUpload) {
                         variant='outlined'
                         color='info'
                         size='small'
-                        href={process.env.NEXT_PUBLIC_BASE_API?.replace('/api', '') + '/storage/' + itemhead.path}
+                        href={process.env.NEXT_PUBLIC_BASE_URL + '/storage/' + itemhead.path}
                         target='_blank'
                       >
                         <Icon

@@ -24,6 +24,7 @@ const defineRulesFor = (role: string, subject: string) => {
             'home',
             'admin-accounts',
             'admin-job-management',
+            'admin-company-and-job-management',
             'admin-training-management',
             'admin-subcription-management',
             'admin-ads-management',
