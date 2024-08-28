@@ -111,7 +111,9 @@ const AllJobApplied = () => {
   )
 }
 
-AllJobApplied.guestGuard = false
-AllJobApplied.authGuard = false
+AllJobApplied.acl = {
+  action: 'read',
+  subject: 'home'
+}
 
 export default AllJobApplied
