@@ -129,7 +129,7 @@ const FindCandidateApp = () => {
     setCountry(null)
   }
 
-  const updateParamsFilter = useCallback(() => {
+  const updateParamsFilter = () => {
     const searchParams = new URLSearchParams(params.toString())
     searchParams.set('tabs', tabValue)
 
@@ -151,15 +151,11 @@ const FindCandidateApp = () => {
     if (sVesselType !== null) searchParams.set('tov', sVesselType.id)
     else searchParams.delete('tov')
 
-    router.push(
-      {
-        pathname: router.pathname,
-        query: searchParams.toString()
-      },
-      undefined,
-      { shallow: true }
-    )
-  }, [sSearchCandidate, sCountry, sJobCategory, sRoleType, sVesselType, tabValue])
+    router.push({
+      pathname: router.pathname,
+      query: searchParams.toString()
+    })
+  }
 
   const handleChangeTabValue = (e: any, value: any) => {
     setPage(1)
@@ -500,6 +496,11 @@ const FindCandidateApp = () => {
       </Grid>
     </Grid>
   )
+}
+
+FindCandidate.acl = {
+  action: 'read',
+  subject: 'home'
 }
 
 export default FindCandidate
