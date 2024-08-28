@@ -498,9 +498,12 @@ const FindCandidateApp = () => {
   )
 }
 
-FindCandidate.acl = {
-  action: 'read',
-  subject: 'home'
-}
+// FindCandidate.acl = {
+//   action: 'read',
+//   subject: 'home'
+// }
+
+FindCandidate.guestGuard = false
+FindCandidate.authGuard = false
 
 export default FindCandidate
