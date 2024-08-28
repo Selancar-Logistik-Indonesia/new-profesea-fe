@@ -86,7 +86,7 @@ const RegistrationEvent = (props: any) => {
   const [idcombocode, setCombocode] = useState<any>({ label: 'Loading...', id: 0 })
 
   const [idposition, setPosition] = useState<any>(
-    type == 'onship' ? { label: 'Pelaut', id: 0 } : type == 'offship' ? { label: 'Non Pelaut', id: 1 } : ''
+    type == 'onship' ? { label: 'Pelaut', id: 0 } : type == 'offship' ? { label: 'Profesional', id: 1 } : ''
   )
   const schema = yup.object().shape({
     email: yup.string().email().required(),
@@ -98,8 +98,6 @@ const RegistrationEvent = (props: any) => {
     setPhoneNum(removeFirstZeroChar(input))
   }
   const handleInputChange = (e: any) => {
-    // Mengubah teks menjadi huruf kecil dan menyimpannya dalam state
-    // setTeks(e.toLowerCase())
     register('email', e.toLowerCase())
   }
   const {
@@ -113,13 +111,11 @@ const RegistrationEvent = (props: any) => {
 
   const save = (json: any) => {
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(
-      ({ data }) => {
-        console.log('here 1', data)
-        toast.success(' "data tersebut akan otomatis terdaftar sebagai user profesea')
+      () => {
+        toast.success('data tersebut akan otomatis terdaftar sebagai user profesea')
         router.push('/registersuccess/?event=true')
       },
       error => {
-        console.log('here 1', error)
         toast.error('Registrastion Failed ' + error.response.data.message)
       }
     )
@@ -132,7 +128,6 @@ const RegistrationEvent = (props: any) => {
 
       return
     }
-
     if (privacy == '') {
       toast.error(data.name + ' Please checklist privacy')
 
@@ -200,7 +195,7 @@ const RegistrationEvent = (props: any) => {
 
   const position = [
     { label: 'Pelaut', id: 0 },
-    { label: 'Non Pelaut', id: 1 }
+    { label: 'Profesional', id: 1 }
   ]
   const onChangeEmployee = (newValue: any) => {
     setPosition(newValue)

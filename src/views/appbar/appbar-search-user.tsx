@@ -1,128 +1,211 @@
-import { Autocomplete, Box, TextField, Typography } from "@mui/material";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
-import ISearchContent from "src/contract/models/search_content";
-import SearchContentType from "src/contract/types/search_content_type";
-import { HttpClient } from "src/services";
-import debounce from "src/utils/debounce";
-import { getUserAvatarByPath } from "src/utils/helpers";
+import { useCallback, useEffect, useState, useRef } from 'react'
+import { Autocomplete, Box, Grid, TextField, Typography, InputAdornment, CircularProgress } from '@mui/material'
+import { useRouter } from 'next/router'
+import ISearchContent from 'src/contract/models/search_content'
+import SearchContentType from 'src/contract/types/search_content_type'
+import { HttpClient } from 'src/services'
+import debounce from 'src/utils/debounce'
+import { getUserAvatarByPath, toLinkCase } from 'src/utils/helpers'
+import { Icon } from '@iconify/react'
 
 const AppbarSearchUser = () => {
-    const router = useRouter();
-    const [listFriends, setListFriends] = useState<ISearchContent[]>([]);
-    const [search, setSearch] = useState<string>('');
-    const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter()
+  const [listFriends, setListFriends] = useState<ISearchContent[]>([])
+  const [search, setSearch] = useState<string>('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [noResults, setNoResults] = useState(false)
+  const searchTimeoutRef = useRef<number | undefined>(undefined)
 
-    const fetchListFriends = async () => {
-        setIsLoading(true);
-        try {
-            const resp = await HttpClient.get("/search/content", {
-                search: search
-            });
+  const fetchListFriends = async () => {
+    setIsLoading(true)
+    try {
+      const resp = await HttpClient.get('/search/content', {
+        search: search
+      })
+      const { contents } = (await resp.data) as { contents: ISearchContent[] }
+      console.log(contents)
 
-            const { contents } = resp.data as { contents: ISearchContent[] };
-            setIsLoading(false);
-            setListFriends(contents);
-        } catch (error) {
-            setIsLoading(false);
-            alert(error);
-        }
+      setListFriends(contents)
+      setNoResults(contents.length === 0 && search.length >= 4)
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
+      alert(error)
+    }
+  }
+
+  const handleClick = (option: ISearchContent) => {
+    if (option.content_type === SearchContentType.socialFeed) {
+      return router.push(`/feed/${option.content.id}`)
     }
 
-    const handleClick = (option: ISearchContent) => {
-        if (option.content_type == SearchContentType.socialFeed) {
-            return router.push(`/feed/${option.content.id}`);
+    return router.push(
+      `/${option.content.role === 'Seafarer' ? 'profile' : 'company'}/${option.content.id}/${toLinkCase(
+        option.content.username
+      )}`
+    )
+  }
+
+  const handleSearch = useCallback(
+    debounce((value: string) => {
+      setSearch(value)
+      setNoResults(false)
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current)
+      }
+      searchTimeoutRef.current = window.setTimeout(() => {
+        if (value === search && value.length >= 4) {
+          setNoResults(true)
         }
+      }, 3000)
+    }, 500),
+    []
+  )
 
-        return router.push(`/profile/${option.content.username}`);
-    }
+  useEffect(() => {
+    fetchListFriends()
+  }, [search])
 
-    const handleSearch = useCallback (
-        debounce((value: string) => {
-            setSearch(value);
-        }, 500), []
-    );
+  const options = () => {
+    if (noResults) {
+      return [
+        {
+          title: `There are no results for "${search}"`,
+          content_type: '',
+          leading: '',
+          subtitle: '',
+          content: ''
+        }
+      ]
+    } else return listFriends
+  }
 
-    useEffect(() => {
-        fetchListFriends();
-    }, [search]);
-    const handleOptionSelect = (option:any) => {
-        // Implement your logic when an option is selected
-        console.log('Option selected:', option.title);
-        handleClick(option);
-    };
-    const handleKeyDown = (event:any, value:any) => {
-        if (event.key === 'Enter') {
-            debugger;
-        // Handle "Enter" key press
-        console.log('Enter key pressed');
-        // You can perform any additional action here
-
-        // If there's a value, you can also handle selecting the first option
-        if (value && value.length > 0) {
-            const firstOption = listFriends.find((friend) =>
-            friend.title.toLowerCase().startsWith(value.toLowerCase())
-            );
-
-            if (firstOption) {
-            handleOptionSelect(firstOption);
+  return (
+    <Autocomplete
+      freeSolo
+      fullWidth
+      sx={{ minWidth: '150px', maxWidth: '238px' }}
+      size='small'
+      options={options()}
+      getOptionLabel={option => (option as ISearchContent).title}
+      onInputChange={(_event, newInputValue) => {
+        setListFriends([])
+        if (newInputValue === '') {
+          setSearch('')
+          setNoResults(false)
+        } else {
+          handleSearch(newInputValue)
+        }
+      }}
+      renderInput={params => (
+        <TextField
+          {...params}
+          placeholder='Search...'
+          onChange={e => handleSearch(e.target.value)}
+          onKeyDown={event => {
+            if (event.key === 'Enter') {
+              event.preventDefault()
+              event.stopPropagation()
             }
-        }
-        }
-    };
-    
-    return (
-        <Autocomplete
-            freeSolo
-            autoHighlight
-            sx={{ width:200, ml: 3 }}
-            options={listFriends}
-            getOptionLabel={(option) => (option as ISearchContent).title}
-            size='small'
-            renderOption={(props, option) => (
-                <Box {...props} onClick={() => handleClick(option)} component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 }, display: 'flex', flexDirection: 'row' }}>
-                    {option.content_type == SearchContentType.user && (
-                        <img
-                            loading="lazy"
-                            width="40"
-                            src={getUserAvatarByPath(option.leading)}
-                            srcSet={getUserAvatarByPath(option.leading)}
-                            alt={option.title}
-                        />
-                    )}
-
-                    <Box>
-                        <Typography variant='body1' sx={{
-                            display: "-webkit-box",
-                            overflow: "hidden",
-                            WebkitBoxOrient: "vertical",
-                            WebkitLineClamp: 2
-                        }}>
-                            {option.title}
-                        </Typography>
-                        <Typography variant='caption'>
-                            {option.subtitle}
-                        </Typography>
-                    </Box>
-                </Box>
-            )}
-            renderInput={(params) => (
-                <TextField
-                    {...params}
-                    disabled={isLoading}
-                    label="Search"
-                    name="search"
-                    id="search"
-                    inputProps={{
-                        ...params.inputProps,
-                        autoComplete: 'new-password', // disable autocomplete and autofill
-                    }}
-                    onKeyDown={(e) => handleKeyDown(e, params.inputProps.value)}
-                    onChange={(e) => handleSearch(e.target.value)}
-                />
-            )}
+          }}
+          InputProps={{
+            ...params.InputProps,
+            startAdornment: (
+              <InputAdornment
+                position='start'
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'right',
+                  paddingLeft: '6px',
+                  alignItems: 'center'
+                }}
+              >
+                {isLoading ? <CircularProgress size={20} /> : <Icon icon='mdi:magnify' style={{ fontSize: '20px' }} />}
+              </InputAdornment>
+            )
+          }}
+          sx={{
+            '& .MuiInputBase-root': { height: '40px', borderRadius: '20px' },
+            '& .MuiInputBase-input': { fontSize: '14px' }
+          }}
         />
-    );
+      )}
+      renderOption={(props, option) => {
+        if (!option.content_type) {
+          return (
+            <Typography
+              component='li'
+              {...props}
+              sx={{
+                color: 'grey',
+                cursor: 'default'
+              }}
+            >
+              {option.title}
+            </Typography>
+          )
+        }
+
+        return (
+          <Grid
+            container
+            component='li'
+            {...props}
+            sx={{ width: '100%', display: 'flex', alignItems: 'center', p: '8px !important', gap: 2 }}
+            onClick={() => handleClick(option)}
+          >
+            {option.content_type === SearchContentType.user && (
+              <Box
+                component='img'
+                loading='lazy'
+                sx={{ flexShrink: 0, borderRadius: '100px', width: '40px', aspectRatio: 1, mr: 1 }}
+                src={getUserAvatarByPath(option.leading)}
+                alt={option.title}
+              />
+            )}
+            <Grid item xs={true} sx={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+              <Typography
+                variant='body1'
+                sx={{
+                  fontSize: '14px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {option.title}
+              </Typography>
+              <Typography
+                variant='caption'
+                sx={{
+                  fontSize: '12px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {option.subtitle}
+              </Typography>
+            </Grid>
+          </Grid>
+        )
+      }}
+      ListboxProps={{
+        style: {
+          maxHeight: '250px',
+          overflowY: 'auto',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none'
+        },
+        sx: {
+          '&::-webkit-scrollbar': {
+            display: 'none'
+          },
+          p: 0
+        }
+      }}
+    />
+  )
 }
 
-export default AppbarSearchUser;
+export default AppbarSearchUser

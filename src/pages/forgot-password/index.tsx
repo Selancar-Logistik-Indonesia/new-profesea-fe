@@ -33,8 +33,6 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 // ** Demo Imports
 import Head from 'next/head'
 
-
-
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.up('md')]: {
@@ -76,35 +74,34 @@ const ForgotPassword = () => {
   // ** Hooks
   const theme = useTheme()
   const { settings } = useSettings()
-  const [message, setMessage]  = useState("")
+  const [message, setMessage] = useState('')
   const schema = yup.object().shape({
     email: yup.string().email().required()
   })
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<FormData>({
-      mode: 'onBlur',
-      resolver: yupResolver(schema)
+    mode: 'onBlur',
+    resolver: yupResolver(schema)
   })
 
-  const onSubmit = async (data : FormData) => {
-    const { email } = data;
+  const onSubmit = async (data: FormData) => {
+    const { email } = data
 
-      const json = {
-          "email": email
-      };
+    const json = {
+      email: email
+    }
 
-      try {
-          const response = await HttpClient.post('/auth/forgot-password', json);
-          // if (response.status != 200) {
-              setMessage(response.data?.message)
-          // }
-
-      } catch (error) {
-          toast.error(`Opps ${getCleanErrorMessage(error)}`);
-      }
+    try {
+      const response = await HttpClient.post('/auth/forgot-password', json)
+      // if (response.status != 200) {
+      setMessage(response.data?.message)
+      // }
+    } catch (error) {
+      toast.error(`Opps ${getCleanErrorMessage(error)}`)
+    }
   }
 
   // ** Vars
@@ -113,74 +110,91 @@ const ForgotPassword = () => {
 
   return (
     <>
-    <Head>
-      <title>{`${themeConfig.templateName} - Forgot Password Page`}</title>
-    </Head>
-    <Box sx={{
-      position: 'fit',
-      width: '100%',
-      height: '100%',
-      backgroundImage: "url(/images/bglogin.jpg)",
-      backgroundPosition: 'center',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-    }}>
-      <Box className='content-right'>
-        <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
-          <Box
-            sx={{
-              p: 7,
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'background.paper'
-            }}
-          >
-            <BoxWrapper>
-              <Box sx={{ mb: 10, maxWidth: '100%', justifyContent: 'center', alignContent: 'center', textAlign: 'center' }}>
-                <Link href='/'>
-                  <Box
-                    component="img"
-                    src='/images/logosamudera.png'
-                    sx={{ width: 225, mt: 5 }}
-                  >
-                  </Box>
-                </Link>
-              </Box>
-              {(message == "") ? (
-                <>
-                <Box sx={{ mb: 6 }}>
-                  <TypographyStyled variant='h5'>Forgot Password? 🔒</TypographyStyled>
-                  <Typography variant='body2'>
-                    Enter your email and we&prime;ll send you instructions to reset your password
-                  </Typography>
+      <Head>
+        <title>{`${themeConfig.templateName} - Forgot Password Page`}</title>
+      </Head>
+      <Box
+        sx={{
+          position: 'fit',
+          width: '100%',
+          height: '100%',
+          backgroundImage: 'url(/images/bglogin.jpg)',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <Box className='content-right'>
+          <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
+            <Box
+              sx={{
+                p: 7,
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'background.paper'
+              }}
+            >
+              <BoxWrapper>
+                <Box
+                  sx={{
+                    mb: 10,
+                    maxWidth: '100%',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    textAlign: 'center'
+                  }}
+                >
+                  <Link href='/'>
+                    <Box component='img' src='/images/logosamudera.png' sx={{ width: 225, mt: 5 }}></Box>
+                  </Link>
                 </Box>
-                <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-                  <TextField autoFocus type='email' label='Email' sx={{ display: 'flex', mb: 4 }} error={Boolean(errors.email)} {...register("email")} />
-                  <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 5.25 }}>
-                    Send reset link
-                  </Button>
-                  <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <LinkStyled href='/login'>
-                      <Icon icon='mdi:chevron-left' fontSize='2rem' />
-                      <span>Back to login</span>
-                    </LinkStyled>
-                  </Typography>
-                </form>
-                </>
-              ) : (
-                <>
-                <Box sx={{ mb: 6 }}>
-                  <TypographyStyled variant='h5'> We have e-mailed your password reset link!</TypographyStyled>
-                </Box>
-                </>
-              )}
-            </BoxWrapper>
-          </Box>
-        </RightWrapper>
+                {message == '' ? (
+                  <>
+                    <Box sx={{ mb: 6 }}>
+                      <TypographyStyled variant='h5'>Forgot Password? 🔒</TypographyStyled>
+                      <Typography variant='body2'>
+                        Enter your email and we&prime;ll send you instructions to reset your password
+                      </Typography>
+                    </Box>
+                    <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+                      <TextField
+                        autoFocus
+                        type='email'
+                        label='Email'
+                        sx={{ display: 'flex', mb: 1 }}
+                        error={Boolean(errors.email)}
+                        {...register('email')}
+                      />
+                      <Box sx={{ mb: 6 }}>
+                        <Typography variant='body2' sx={{ ml: 1, fontSize: 12, color: 'red' }}>
+                          Pastikan huruf besar dan kecil serta simbol pada email anda benar
+                        </Typography>
+                      </Box>
+                      <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 5.25 }}>
+                        Send reset link
+                      </Button>
+                      <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <LinkStyled href='/login'>
+                          <Icon icon='mdi:chevron-left' fontSize='2rem' />
+                          <span>Back to login</span>
+                        </LinkStyled>
+                      </Typography>
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    <Box sx={{ mb: 6 }}>
+                      <TypographyStyled variant='h5'> We have e-mailed your password reset link!</TypographyStyled>
+                    </Box>
+                  </>
+                )}
+              </BoxWrapper>
+            </Box>
+          </RightWrapper>
+        </Box>
       </Box>
-    </Box>
     </>
   )
 }

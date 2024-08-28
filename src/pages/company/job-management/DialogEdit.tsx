@@ -14,7 +14,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress } from '@mui/material'
+import { Checkbox, CircularProgress, FormControlLabel } from '@mui/material'
 import Job from 'src/contract/models/job'
 import Degree from 'src/contract/models/degree'
 import JobCategory from 'src/contract/models/job_category'
@@ -28,7 +28,7 @@ import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { Autocomplete } from '@mui/material'
 import { ContentState, EditorState, convertFromHTML, convertToRaw } from 'draft-js'
-import draftToHtml from 'draftjs-to-html';
+import draftToHtml from 'draftjs-to-html'
 
 import EditorArea from 'src/@core/components/react-draft-wysiwyg'
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
@@ -46,14 +46,12 @@ import { v4 } from 'uuid'
 // ]
 
 const SailRegion = [
-  { id : 'ncv', name : 'Near Coastal Voyage (NCV)'},
-  { id : 'iv', name : 'International Voyage'},
+  { id: 'ncv', name: 'Near Coastal Voyage (NCV)' },
+  { id: 'iv', name: 'International Voyage' }
 ]
-const employmenttype = [
-  { name: 'Unpaid' },
-  { name: 'Contract' },
-  { name: 'Full-Time' }
-]
+
+const EMPLOYMENT_TYPE_OPTIONS = [{ name: 'Intern' }, { name: 'Contract' }, { name: 'Full-Time' }]
+
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
@@ -61,51 +59,63 @@ const Transition = forwardRef(function Transition(
   return <Fade ref={ref} {...props} />
 })
 
-
 type EditProps = {
-  selectedItem: Job;
-  visible: boolean;
-  onCloseClick: VoidFunction;
-  onStateChange: VoidFunction;
-};
-
-
+  selectedItem: Job
+  visible: boolean
+  onCloseClick: VoidFunction
+  onStateChange: VoidFunction
+}
 
 const DialogEdit = (props: EditProps) => {
   const [hookSignature, setHookSignature] = useState(v4())
-  const [onLoading, setOnLoading] = useState(false);
-  const [Edu, setEdu] = useState(props.selectedItem?.degree);
-  const [Level, setLevel] = useState(props.selectedItem?.rolelevel);
-  const [Type, setType] = useState<any>(props.selectedItem?.role_type);
-  const [Cat, setCat] = useState(props.selectedItem?.category);
-  const [Cou, setCou] = useState(props.selectedItem?.country); 
-  const [Cit, setCit] = useState<any>(props.selectedItem?.city);
-  const [Vessel, setVessel] = useState(props.selectedItem?.vessel_type); 
-  const [Sail, setSail] = useState(props.selectedItem?.sailing_region == 'ncv' ? 
-   { id : 'ncv', name : 'Near Coastal Voyage (NCV)'}:props.selectedItem?.sailing_region == 'iv'
-   ?{ id : 'iv', name : 'International Voyage'} :
-    null);
-  const [Employmenttype, setEmploymenttype] = useState<any>({name:props.selectedItem?.employment_type})
-  const [license, setLicense] = useState<any>(props.selectedItem?.license);
-  const onboard = (props.selectedItem?.onboard_at) ? new Date(props.selectedItem?.onboard_at) : new Date();
-  const [date, setDate] = useState<DateType>(onboard);
-  const [JobCategory, getJobCategory] = useState<any[]>([]);
-  const [Education, getEducation] = useState<any[]>([]);
-  const [RoleLevel, getRoleLevel] = useState<any[]>([]);
-  const [RoleType, getRoleType] = useState<any[]>([]);
+  const [onLoading, setOnLoading] = useState(false)
+  const [Edu, setEdu] = useState(props.selectedItem?.degree)
+  const [Level, setLevel] = useState(props.selectedItem?.rolelevel)
+  const [Type, setType] = useState<any>(props.selectedItem?.role_type)
+  const [Cat, setCat] = useState(props.selectedItem?.category)
+  const [Cou, setCou] = useState(props.selectedItem?.country)
+  const [Cit, setCit] = useState<any>(props.selectedItem?.city)
+  const [Vessel, setVessel] = useState(props.selectedItem?.vessel_type)
+  const [Sail, setSail] = useState(
+    props.selectedItem?.sailing_region == 'ncv'
+      ? { id: 'ncv', name: 'Near Coastal Voyage (NCV)' }
+      : props.selectedItem?.sailing_region == 'iv'
+      ? { id: 'iv', name: 'International Voyage' }
+      : null
+  )
+  const [jobTitle, setJobTitle] = useState(props.selectedItem.job_title || '')
+  const [currency, setCurrency] = useState<any>({
+    label: props.selectedItem.currency,
+    value: props.selectedItem.currency
+  })
+  const [checked, setChecked] = useState(props.selectedItem.hide_salary)
+  const [fixedSalary, setFixedSalary] = useState(+props?.selectedItem?.salary_end == 0)
+
+  const [rotational, setRotational] = useState(
+    props?.selectedItem?.rotational ? { value: 'yes', label: 'Yes' } : { value: 'no', label: 'No' }
+  )
+  const [Employmenttype, setEmploymenttype] = useState<any>({ name: props.selectedItem?.employment_type })
+  const [license, setLicense] = useState<any>(props.selectedItem?.license.filter((l: any) => l.parent == 'COC'))
+  const [licenseCop, setLicenseCop] = useState<any[]>(props.selectedItem?.license.filter((l: any) => l.parent == 'COP'))
+  const onboard = props.selectedItem?.onboard_at ? new Date(props.selectedItem?.onboard_at) : new Date()
+  const [date, setDate] = useState<DateType>(onboard)
+  const [JobCategory, getJobCategory] = useState<any[]>([])
+  const [Education, getEducation] = useState<any[]>([])
+  const [RoleLevel, getRoleLevel] = useState<any[]>([])
+  const [RoleType, getRoleType] = useState<any[]>([])
   const [combocountry, getComboCountry] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
-  const [VesselType, getVesselType] = useState<any[]>([]);
-  
-  const [openAddModal, setOpenAddModal] = useState(false);
+  const [VesselType, getVesselType] = useState<any[]>([])
+
+  const [openAddModal, setOpenAddModal] = useState(false)
 
   const contenDesc = convertFromHTML(props.selectedItem.description).contentBlocks
   const contentState = ContentState.createFromBlockArray(contenDesc)
   const editorState = EditorState.createWithContent(contentState)
-  
+
   const [licenseData, getlicenseData] = useState<Licensi[]>([])
-  const [disabled, setDisabled] = useState(true)  
-  // console.log(editorState);
+  const [licenseDataCOP, getlicenseDataCOP] = useState<Licensi[]>([])
+  const [disabled, setDisabled] = useState(true)
 
   const [desc, setDesc] = useState(editorState)
   const combobox = async () => {
@@ -113,64 +123,67 @@ const DialogEdit = (props: EditProps) => {
     if (resp2.status != 200) {
       throw resp2.data.message ?? 'Something went wrong!'
     }
-    debugger;
+
     getlicenseData(resp2.data.licensiescoc)
+    getlicenseDataCOP(resp2.data.licensiescop || [])
     HttpClient.get(`/public/data/role-level?search=&page=1&take=250`).then(response => {
       if (response.status != 200) {
-        throw response.data.message ?? "Something went wrong!";
+        throw response.data.message ?? 'Something went wrong!'
       }
-      getRoleLevel(response.data.roleLevels.data);
+      getRoleLevel(response.data.roleLevels.data)
     })
     HttpClient.get(`/public/data/role-type?search=&page=1&take=250`).then(response => {
       if (response.status != 200) {
-        throw response.data.message ?? "Something went wrong!";
+        throw response.data.message ?? 'Something went wrong!'
       }
-      getRoleType(response.data.roleTypes.data);
+      getRoleType(response.data.roleTypes.data)
     })
     HttpClient.get(`/job-category?search=&page=1&take=250`).then(response => {
       if (response.status != 200) {
-        throw response.data.message ?? "Something went wrong!";
+        throw response.data.message ?? 'Something went wrong!'
       }
-      getJobCategory(response.data.categories.data);
+      const rawData: JobCategory[] = response?.data?.categories?.data
+      if (props.selectedItem.category.employee_type == 'onship') {
+        const filterOnshipCategories = rawData.filter(item => item.employee_type == 'onship')
+        getJobCategory(filterOnshipCategories)
+      } else {
+        const filterOffshipCategories = rawData.filter(item => item.employee_type == 'offship')
+        getJobCategory(filterOffshipCategories)
+      }
     })
     HttpClient.get(`/public/data/degree`).then(response => {
       if (response.status != 200) {
-        throw response.data.message ?? "Something went wrong!";
+        throw response.data.message ?? 'Something went wrong!'
       }
-      getEducation(response.data.degrees);
+      getEducation(response.data.degrees)
     })
     HttpClient.get('/public/data/country?search=').then(response => {
       if (response.status != 200) {
-        throw response.data.message ?? "Something went wrong!";
+        throw response.data.message ?? 'Something went wrong!'
       }
       getComboCountry(response.data.countries)
     })
     HttpClient.get('/public/data/vessel-type?page=1&take=250&search=').then(response => {
       if (response.status != 200) {
-          throw response.data.message ?? "Something went wrong!";
+        throw response.data.message ?? 'Something went wrong!'
       }
       getVesselType(response.data.vesselTypes.data)
     })
 
-     if (props.selectedItem.sailing_region == null) {
-       setDisabled(true) 
-     } else {
-       setDisabled(false)
-       
-          searchcity({ id: 100 })
-        
-     }
+    if (props.selectedItem.sailing_region == null && props.selectedItem.category.employee_type == 'offship') {
+      setDisabled(true)
+    } else {
+      setDisabled(false)
+
+      searchcity({ id: 100 })
+    }
   }
 
   useEffect(() => {
     combobox()
-  }, [hookSignature])
+  }, [hookSignature, props.visible])
 
-
-  const {
-    register,
-    handleSubmit,
-  } = useForm<Job>({
+  const { register, handleSubmit } = useForm<Job>({
     mode: 'onBlur'
   })
 
@@ -184,37 +197,36 @@ const DialogEdit = (props: EditProps) => {
     getComboCity(code)
   }
 
- 
-
-
   const onSubmit = async (formData: Job) => {
-    const { salary_start, salary_end, experience,text_role } = formData
+    const { salary_start, salary_end, experience, text_role, job_title, contractDuration } = formData
     let type = Type == null ? null : Type.id
-    if(Type?.name != text_role ){
-       const json1 = {
-            "name": text_role,
-            "category_id": Cat.id
-        }
-        
-        setOnLoading(true);
-        try {
-            const resp = await HttpClient.post('/role-type', json1);
-     
-            type = resp.data.roleType.id
-            if (resp.status != 200) {
-                throw resp.data.message ?? "Something went wrong!";
-            }
+    if (Type?.name != text_role) {
+      const json1 = {
+        name: text_role,
+        category_id: Cat.id
+      }
 
-          
-            toast.success(`${json1.name} submited successfully!`);
-        } catch (error) {
-            toast.error(`Opps ${getCleanErrorMessage(error)}`);
+      setOnLoading(true)
+      try {
+        const resp = await HttpClient.post('/role-type', json1)
+
+        type = resp.data.roleType.id
+        if (resp.status != 200) {
+          throw resp.data.message ?? 'Something went wrong!'
         }
+
+        toast.success(`${json1.name} submited successfully!`)
+      } catch (error) {
+        toast.error(`Opps ${getCleanErrorMessage(error)}`)
+      }
     }
     let sailfix = Sail
-    if(disabled == true){
+    if (disabled == true) {
       sailfix = null
     }
+
+    const categoryEmployeeType = props.selectedItem?.category?.employee_type
+
     const json = {
       rolelevel_id: Level == null ? null : Level.id,
       roletype_id: type == null ? null : type,
@@ -222,13 +234,15 @@ const DialogEdit = (props: EditProps) => {
       category_id: Cat == null ? null : Cat.id,
       country_id: Cou == null ? null : Cou.id,
       city_id: Cit == null ? null : Cit.id,
-      license: license,
-      sailing_region: sailfix == null ? null : Sail,
+      license: [...license, ...licenseCop],
+      sailing_region: sailfix == null ? null : Sail?.id,
       vesseltype_id: Vessel == null ? null : Vessel.id,
       salary_start: salary_start,
       salary_end: salary_end,
+      currency: currency?.value,
       experience: experience,
-      employment_type: Employmenttype,
+      experience_type: categoryEmployeeType == 'onship' ? 'contract' : 'year',
+      employment_type: Employmenttype?.name,
       description: draftToHtml(convertToRaw(desc?.getCurrentContent())),
       onboard_at: date
         ?.toLocaleDateString('en-GB', {
@@ -238,49 +252,58 @@ const DialogEdit = (props: EditProps) => {
         })
         .split('/')
         .reverse()
-        .join('-')
+        .join('-'),
+      contract_duration: contractDuration ? contractDuration : null,
+      rotational: rotational.value, // value => yer or no (baru)
+      hide_salary: checked,
+      job_title: job_title
     }
 
-    setOnLoading(true);
+    setOnLoading(true)
     try {
-      const resp = await HttpClient.patch(`/job/${props.selectedItem.id}`, json);
+      const resp = await HttpClient.patch(`/job/${props.selectedItem.id}`, json)
       if (resp.status != 200) {
-        throw resp.data.message ?? "Something went wrong!";
+        throw resp.data.message ?? 'Something went wrong!'
       }
 
-      props.onCloseClick();
-      toast.success(`Updated successfully!`);
+      props.onCloseClick()
+      toast.success(`Updated successfully!`)
     } catch (error) {
-      toast.error(`Opps ${getCleanErrorMessage(error)}`);
+      toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
 
-    setOnLoading(false);
-    props.onStateChange();
+    setOnLoading(false)
+    props.onStateChange()
   }
-    const handlecategory = (q: any) => {
-      if (q !== '') {
-        HttpClient.get(`/public/data/role-type?search=&page=1&take=250&category_id=` + q.id).then(response => {
-          if (response.status != 200) {
-            throw response.data.message ?? 'Something went wrong!'
-          }
-          getRoleType(response.data.roleTypes.data)
-        })
-      }
-
-      if (q !== '') {
-        setCat(q)
-        if (q.employee_type != 'onship') {
-          setDisabled(true)
-          searchcity({id:100})
-        } else {
-          setDisabled(false)
-          setType(null)
+  const handlecategory = (q: any) => {
+    if (q !== '') {
+      HttpClient.get(`/public/data/role-type?search=&page=1&take=250&category_id=` + q.id).then(response => {
+        if (response.status != 200) {
+          throw response.data.message ?? 'Something went wrong!'
         }
-      } else {
-        setCat(q)
-      }
+        getRoleType(response.data.roleTypes.data)
+      })
     }
-  // console.log(props)
+
+    if (q !== '') {
+      setCat(q)
+      if (q.employee_type != 'onship') {
+        setDisabled(true)
+        searchcity({ id: 100 })
+      } else {
+        setDisabled(false)
+        setType(null)
+      }
+    } else {
+      setCat(q)
+    }
+  }
+
+  const handleChangeRotational = (newValue: any) => {
+    if (newValue) {
+      setRotational(newValue)
+    }
+  }
 
   return (
     <Dialog
@@ -315,7 +338,21 @@ const DialogEdit = (props: EditProps) => {
           </Box>
 
           <Grid container columnSpacing={'1'} rowSpacing={'4'}>
-            <Grid item md={4} xs={12}>
+            {disabled == false && (
+              <Grid item md={12} xs={12} sx={{ mb: 1 }}>
+                <TextField
+                  id='job_title'
+                  label='Job Title'
+                  variant='outlined'
+                  fullWidth
+                  {...register('job_title')}
+                  sx={{ flex: 1 }}
+                  value={jobTitle}
+                  onChange={event => setJobTitle(event.target.value)}
+                />
+              </Grid>
+            )}
+            <Grid item md={3} xs={12}>
               <Autocomplete
                 disablePortal
                 id='combo-box-category'
@@ -332,25 +369,54 @@ const DialogEdit = (props: EditProps) => {
                 }
               />
             </Grid>
-            <Grid item md={4} xs={12}>
-              <Autocomplete
+            {disabled == false ? (
+              // // For Seafarer
+              <Grid item md={3} xs={12}>
+                <Autocomplete
                   freeSolo
-                id='combo-box-type'
-                value={Type}
-                options={RoleType}
-                {...register('role_type')}
-                getOptionLabel={(option:  RoleType | string) => (typeof option === 'string' ? option : option.name)}
-                renderInput={params => <TextField {...params} label='Job Title'   {...register('text_role')}/>}  
-                onChange={(event: any, newValue: RoleType | null |string) =>
-                  typeof newValue === 'string' ?setType(0) :   newValue ? setType(newValue) : setType(props.selectedItem.role_type)
-                } 
-              />
-            </Grid>
-            
-                <DialogAddRole visible={openAddModal}
-                onStateChange={() => setHookSignature(v4())}
-                onCloseClick={() => setOpenAddModal(!openAddModal)} />
-             
+                  id='combo-box-type'
+                  value={Type}
+                  options={RoleType}
+                  {...register('role_type')}
+                  getOptionLabel={(option: RoleType | string) => (typeof option === 'string' ? option : option.name)}
+                  renderInput={params => <TextField {...params} label='Job Rank' {...register('text_role')} />}
+                  onChange={(event: any, newValue: RoleType | null | string) =>
+                    typeof newValue === 'string'
+                      ? setType(0)
+                      : newValue
+                      ? setType(newValue)
+                      : setType(props.selectedItem.role_type)
+                  }
+                />
+              </Grid>
+            ) : (
+              // For Non-Seafarer
+              <Grid item md={4} xs={12}>
+                <Autocomplete
+                  freeSolo
+                  id='combo-box-type'
+                  value={Type}
+                  options={RoleType}
+                  {...register('role_type')}
+                  getOptionLabel={(option: RoleType | string) => (typeof option === 'string' ? option : option.name)}
+                  renderInput={params => <TextField {...params} label='Job Title' {...register('text_role')} />}
+                  onChange={(event: any, newValue: RoleType | null | string) =>
+                    typeof newValue === 'string'
+                      ? setType(0)
+                      : newValue
+                      ? setType(newValue)
+                      : setType(props.selectedItem.role_type)
+                  }
+                />
+              </Grid>
+            )}
+
+            <DialogAddRole
+              visible={openAddModal}
+              onStateChange={() => setHookSignature(v4())}
+              onCloseClick={() => setOpenAddModal(!openAddModal)}
+            />
+
             {disabled == true && (
               <>
                 <Grid item md={4} xs={12}>
@@ -388,7 +454,7 @@ const DialogEdit = (props: EditProps) => {
             )}
             {disabled == false && (
               <>
-                <Grid item md={4} xs={12} sx={{ mb: 1 }}>
+                <Grid item md={3} xs={12} sx={{ mb: 1 }}>
                   <Autocomplete
                     disablePortal
                     id='combo-box-demo'
@@ -396,7 +462,19 @@ const DialogEdit = (props: EditProps) => {
                     value={Sail}
                     getOptionLabel={(option: any) => option.name}
                     renderInput={params => <TextField {...params} label='Sail Region' />}
-                    onChange={(event: any, newValue: any | null) => (newValue?.id ? setSail(newValue.id) : setSail(null))}
+                    onChange={(event: any, newValue: any | null) => (newValue ? setSail(newValue) : setSail(null))}
+                  />
+                </Grid>
+                <Grid item md={3} xs={12} sx={{ mb: 1 }}>
+                  <TextField
+                    id='experience'
+                    defaultValue={props.selectedItem.experience}
+                    label='Experience (Contract)'
+                    variant='outlined'
+                    fullWidth
+                    type='number'
+                    {...register('experience')}
+                    sx={{ flex: 1 }}
                   />
                 </Grid>
               </>
@@ -485,7 +563,7 @@ const DialogEdit = (props: EditProps) => {
                   <TextField
                     defaultValue={props.selectedItem.experience}
                     id='experience'
-                    label='Experience'
+                    label='Experience (Year)'
                     variant='outlined'
                     fullWidth
                     {...register('experience')}
@@ -496,11 +574,11 @@ const DialogEdit = (props: EditProps) => {
                     disablePortal
                     id='combo-box-demo'
                     value={Employmenttype}
-                    options={employmenttype}
+                    options={EMPLOYMENT_TYPE_OPTIONS}
                     getOptionLabel={(option: any) => option.name}
                     renderInput={params => <TextField {...params} label='Employment Type' />}
                     onChange={(event: any, newValue: any | null) =>
-                      newValue?.name ? setEmploymenttype(newValue.name) : setEmploymenttype({ name: '' })
+                      newValue ? setEmploymenttype(newValue.name) : setEmploymenttype(null)
                     }
                   />
                 </Grid>
@@ -510,15 +588,26 @@ const DialogEdit = (props: EditProps) => {
               <>
                 <Grid item md={3} xs={12}>
                   <TextField
-                    defaultValue={props.selectedItem.experience}
-                    id='experience'
-                    label='Experience'
+                    id='contractDuration'
+                    label='Contract Duration (Month)'
                     variant='outlined'
                     fullWidth
-                    {...register('experience')}
+                    type='number'
+                    defaultValue={props.selectedItem.contract_duration}
+                    {...register('contractDuration')}
                   />
                 </Grid>
-                <Grid item md={12} xs={12}>
+              </>
+            )}
+
+            {disabled == false && (
+              <Grid container rowGap={1}>
+                <Grid item>
+                  <Typography variant='body2' sx={{ mb: 1 }}>
+                    Mandatory Certificate
+                  </Typography>
+                </Grid>
+                <Grid item md={12} xs={12} sx={{ mb: 1 }}>
                   <Autocomplete
                     multiple
                     options={licenseData}
@@ -528,32 +617,104 @@ const DialogEdit = (props: EditProps) => {
                     getOptionLabel={option => option.title || ''}
                     fullWidth
                     onChange={(e, newValue: any) => (newValue ? setLicense(newValue) : setLicense([]))}
-                    renderInput={params => <TextField {...params} fullWidth label='License' />}
+                    renderInput={params => <TextField {...params} fullWidth label='Certificate of Competency' />}
                   />
                 </Grid>
-              </>
+                <Grid item md={12} xs={12} sx={{ mb: 1 }}>
+                  <Autocomplete
+                    multiple
+                    options={licenseDataCOP}
+                    id='licensecop'
+                    value={licenseCop}
+                    filterSelectedOptions
+                    getOptionLabel={option => option.title || ''}
+                    fullWidth
+                    onChange={(e, newValue: any) => (newValue ? setLicenseCop(newValue) : setLicenseCop([]))}
+                    renderInput={params => <TextField {...params} fullWidth label='Certificate of Proficiency' />}
+                  />
+                </Grid>
+              </Grid>
             )}
 
-            <Grid item md={6} xs={12}>
-              <TextField
-                defaultValue={props.selectedItem.salary_start}
-                id='salary_start'
-                label='Salary From'
-                variant='outlined'
-                fullWidth
-                {...register('salary_start')}
-              />
+            <Grid item container xs={12} sx={{ mt: 2, display: 'flex', gap: 1 }}>
+              <Grid item md={3} xs={12}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <Autocomplete
+                    disablePortal
+                    id='currency'
+                    value={currency}
+                    options={[
+                      { value: 'IDR', label: 'IDR' },
+                      { value: 'USD', label: 'USD' }
+                    ]}
+                    getOptionLabel={(option: any) => option.label}
+                    renderInput={params => <TextField {...params} label='Currency' />}
+                    onChange={(event: any, newValue: any | null) => setCurrency(newValue ? newValue : '')}
+                  />
+
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={fixedSalary}
+                        onChange={event => setFixedSalary(event.target.checked)}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                      />
+                    }
+                    label='Fixed Salary'
+                    sx={{ width: '150px' }}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={checked}
+                        onChange={event => setChecked(event.target.checked)}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                      />
+                    }
+                    label='Hide Salary'
+                    sx={{ width: '150px' }}
+                  />
+                </Box>
+              </Grid>
+              <Grid item md={3} xs={12}>
+                <TextField
+                  defaultValue={props.selectedItem.salary_start}
+                  id='salary_start'
+                  label='Salary Range From'
+                  variant='outlined'
+                  fullWidth
+                  {...register('salary_start')}
+                />
+              </Grid>
+              <Grid item md={3} xs={12}>
+                <TextField
+                  defaultValue={props.selectedItem.salary_end}
+                  id='salary_end'
+                  label='Salary Range To'
+                  variant='outlined'
+                  fullWidth
+                  {...register('salary_end')}
+                  disabled={fixedSalary}
+                />
+              </Grid>
+              {disabled == false && (
+                <Grid item md={2} xs={12} sx={{ mb: 1 }}>
+                  <Autocomplete
+                    disablePortal
+                    id='rotational'
+                    value={rotational}
+                    options={[
+                      { value: 'yes', label: 'Yes' },
+                      { value: 'no', label: 'No' }
+                    ]}
+                    getOptionLabel={(option: any) => option.label}
+                    renderInput={params => <TextField {...params} label='Rotational' />}
+                    onChange={(event: any, newValue: any | null) => handleChangeRotational(newValue)}
+                  />
+                </Grid>
+              )}
             </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                defaultValue={props.selectedItem.salary_end}
-                id='salary_end'
-                label='Salary To'
-                variant='outlined'
-                fullWidth
-                {...register('salary_end')}
-              />
-            </Grid>
+
             <Grid item md={12} xs={12}>
               <EditorWrapper>
                 <EditorArea

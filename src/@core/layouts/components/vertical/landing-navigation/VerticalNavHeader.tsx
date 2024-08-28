@@ -7,86 +7,93 @@ import Icon from 'src/@core/components/icon'
 import { IUser } from 'src/contract/models/user'
 
 interface Props {
-    navHover: boolean
-    collapsedNavWidth: number
-    hidden: LayoutProps['hidden']
-    navigationBorderWidth: number
-    toggleNavVisibility: () => void
-    settings: LayoutProps['settings']
-    saveSettings: LayoutProps['saveSettings']
-    navMenuBranding?: LayoutProps['verticalLayoutProps']['navMenu']['branding']
-    menuLockedIcon?: LayoutProps['verticalLayoutProps']['navMenu']['lockedIcon']
-    menuUnlockedIcon?: LayoutProps['verticalLayoutProps']['navMenu']['unlockedIcon']
-    user: IUser | null
+  navHover: boolean
+  collapsedNavWidth: number
+  hidden: LayoutProps['hidden']
+  navigationBorderWidth: number
+  toggleNavVisibility: () => void
+  settings: LayoutProps['settings']
+  saveSettings: LayoutProps['saveSettings']
+  navMenuBranding?: LayoutProps['verticalLayoutProps']['navMenu']['branding']
+  menuLockedIcon?: LayoutProps['verticalLayoutProps']['navMenu']['lockedIcon']
+  menuUnlockedIcon?: LayoutProps['verticalLayoutProps']['navMenu']['unlockedIcon']
+  user: IUser | null
 }
 
 // ** Styled Components
 const MenuHeaderWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    paddingRight: theme.spacing(4),
-    justifyContent: 'space-between',
-    transition: 'padding .25s ease-in-out',
-    minHeight: theme.mixins.toolbar.minHeight
+  display: 'flex',
+  alignItems: 'center',
+  paddingRight: theme.spacing(4),
+  justifyContent: 'space-between',
+  transition: 'padding .25s ease-in-out',
+  minHeight: theme.mixins.toolbar.minHeight
 }))
 
 const LinkStyled = styled(Link)({
-    display: 'flex',
-    alignItems: 'center',
-    textDecoration: 'none'
+  display: 'flex',
+  alignItems: 'center',
+  textDecoration: 'none'
 })
 
 const VerticalNavHeader = (props: Props) => {
-    const {
-        hidden,
-        navHover,
-        settings,
-        collapsedNavWidth,
-        toggleNavVisibility,
-        navigationBorderWidth,
-        navMenuBranding: userNavMenuBranding,
-    } = props
-    const { navCollapsed } = settings
-    const menuHeaderPaddingLeft = () => {
-        if (navCollapsed && !navHover) {
-            if (userNavMenuBranding) {
-                return 0
-            } else {
-                return (collapsedNavWidth - navigationBorderWidth - 40) / 8
-            }
-        } else {
-            return 5.5
-        }
+  const {
+    hidden,
+    navHover,
+    settings,
+    collapsedNavWidth,
+    toggleNavVisibility,
+    navigationBorderWidth,
+    navMenuBranding: userNavMenuBranding
+  } = props
+  const { navCollapsed } = settings
+  const menuHeaderPaddingLeft = () => {
+    if (navCollapsed && !navHover) {
+      if (userNavMenuBranding) {
+        return 0
+      } else {
+        return (collapsedNavWidth - navigationBorderWidth - 40) / 8
+      }
+    } else {
+      return 5.5
     }
+  }
 
-    return (
-        <MenuHeaderWrapper className='nav-header' sx={{ pl: menuHeaderPaddingLeft() }}>
-            {/* {!user ? <RegularNavHeader hidden={hidden} toggleNavVisibility={toggleNavVisibility} /> : <SessionedNvHeader user={props.user!} />} */}
-            <RegularNavHeader hidden={hidden} toggleNavVisibility={toggleNavVisibility} />
-        </MenuHeaderWrapper>
-    )
+  return (
+    <MenuHeaderWrapper className='nav-header' sx={{ pl: menuHeaderPaddingLeft() }}>
+      {/* {!user ? <RegularNavHeader hidden={hidden} toggleNavVisibility={toggleNavVisibility} /> : <SessionedNvHeader user={props.user!} />} */}
+      <RegularNavHeader hidden={hidden} toggleNavVisibility={toggleNavVisibility} />
+    </MenuHeaderWrapper>
+  )
 }
 
-const RegularNavHeader = (props: { hidden: boolean, toggleNavVisibility: () => void }) => {
-    const { hidden, toggleNavVisibility } = props;
+const RegularNavHeader = (props: { hidden: boolean; toggleNavVisibility: () => void }) => {
+  const { hidden, toggleNavVisibility } = props
 
-    return <>
-        <LinkStyled href='/'>
-            <Box
-                component="img"
-                sx={{ width: 125 }}
-                alt="The Profesea logo"
-                title="Profesea"
-                src="/images/logosamudera.png"
-            />
-        </LinkStyled>
+  return (
+    <>
+      <LinkStyled href='/home'>
+        <Box
+          component='img'
+          sx={{ width: 125 }}
+          alt='The Profesea logo'
+          title='Profesea'
+          src='/images/logosamudera.png'
+        />
+      </LinkStyled>
 
-        {hidden && (
-            <IconButton disableRipple disableFocusRipple onClick={toggleNavVisibility} sx={{ p: 0, backgroundColor: 'transparent !important' }} >
-                <Icon icon='mdi:close' fontSize={20} />
-            </IconButton>
-        )}
-    </>;
+      {hidden && (
+        <IconButton
+          disableRipple
+          disableFocusRipple
+          onClick={toggleNavVisibility}
+          sx={{ p: 0, backgroundColor: 'transparent !important' }}
+        >
+          <Icon icon='mdi:close' fontSize={20} />
+        </IconButton>
+      )}
+    </>
+  )
 }
 
 // const SessionedNvHeader = (props: { user: IUser }) => {

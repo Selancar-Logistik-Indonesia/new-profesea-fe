@@ -103,12 +103,22 @@ const Register = () => {
                   </Link>
                   {/* <Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#262525" }}>Register</Typography> */}
                   <Typography variant='body2' sx={{ textAlign: 'center', color: '#262525', mb: 8 }}>
-                    {' '}
-                    {t('register_text_1')}{' '}
+                    {`${t('register_text_1_1')} \n ${t('register_text_1_2')}`}
                   </Typography>
                 </Box>
 
-                <Link href='/register/seafarer' passHref legacyBehavior>
+                <Link href='/register/seafareronship' passHref legacyBehavior>
+                  <Button
+                    variant='contained'
+                    fullWidth
+                    sx={{ mb: 6, height: '70px', color: 'white' }}
+                    style={{ textTransform: 'none' }}
+                    startIcon={<Icon icon={'solar:shield-user-broken'} />}
+                  >
+                    {t('register_text_4_1')}
+                  </Button>
+                </Link>
+                <Link href='/register/seafareroffship' passHref legacyBehavior>
                   <Button
                     variant='contained'
                     fullWidth
@@ -116,7 +126,7 @@ const Register = () => {
                     style={{ textTransform: 'none' }}
                     startIcon={<Icon icon={'solar:user-hands-bold-duotone'} />}
                   >
-                    {t('register_text_4')}
+                    {t('register_text_4_2')}
                   </Button>
                 </Link>
                 <Link href='/register/recruiter' passHref legacyBehavior>
@@ -130,7 +140,7 @@ const Register = () => {
                     {t('register_text_5')}
                   </Button>
                 </Link>
-                <Link href='/register/trainer' passHref legacyBehavior>
+                {/* <Link href='/register/trainer' passHref legacyBehavior>
                   <Button
                     variant='contained'
                     fullWidth
@@ -140,7 +150,7 @@ const Register = () => {
                   >
                     {t('register_text_6')}
                   </Button>
-                </Link>
+                </Link> */}
 
                 {/* <Box sx={{ marginTop: '2.5%' }}>
                     <Button

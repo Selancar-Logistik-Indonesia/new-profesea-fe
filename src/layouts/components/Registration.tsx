@@ -28,8 +28,6 @@ import Icon from 'src/@core/components/icon'
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
-// ** Hooks
-
 // ** Demo Imports
 import { Autocomplete, Grid } from '@mui/material'
 
@@ -57,12 +55,12 @@ interface FormData {
   phone: string
   username: string
   email: string
-  term: string
-  privacy: string
+  tos: string
 }
 const LinkStyled = styled(Link)(() => ({
   textDecoration: 'none'
 }))
+
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
@@ -73,26 +71,18 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
     fontSize: 11
   }
 }))
+
 const Registration = (props: any) => {
-  const { tipereg } = props
-  const { type } = props
-  // const { vonchangeEmployee } = props
   const router = useRouter()
   const { t } = useTranslation()
+  const { tipereg } = props
+  const { type } = props
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [combocode, getCombocode] = useState<any>([])
   const [idcombocode, setCombocode] = useState<any>({ label: 'Loading...', id: 0 })
+  const [error, setError] = useState<any>(null)
 
   const schemaSeafarer = yup.object().shape({
-    name: yup.string().required(),
-    email: yup.string().email().required(),
-    password: yup.string().min(5).required(),
-    username: yup.string().required(),
-
-    phone: yup.string().required()
-  })
-
-  const schema = yup.object().shape({
     name: yup.string().required(),
     email: yup.string().email().required(),
     password: yup.string().min(5).required(),
@@ -105,8 +95,6 @@ const Registration = (props: any) => {
     setPhoneNum(removeFirstZeroChar(input))
   }
   const handleInputChange = (e: any) => {
-    // Mengubah teks menjadi huruf kecil dan menyimpannya dalam state
-    // setTeks(e.toLowerCase())
     register('email', e.toLowerCase())
   }
 
@@ -114,36 +102,34 @@ const Registration = (props: any) => {
     register,
     formState: { errors },
     handleSubmit
-    // setValue
   } = useForm<FormData>({
     mode: 'onBlur',
-    resolver: yupResolver(tipereg == 'seafarer' ? schemaSeafarer : schema)
+    resolver: yupResolver(schemaSeafarer)
   })
 
   const save = (json: any) => {
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(
-      ({ data }) => {
-        console.log('here 1', data)
-        toast.success(' Successfully submited!')
+      () => {
+        toast.success('Successfully submited!')
         router.push('/registersuccess')
       },
       error => {
-        console.log('here 1', error)
+        setError(error.response.data.errors)
         toast.error('Registrastion Failed ' + error.response.data.message)
       }
     )
   }
 
   const onSubmit = (data: FormData) => {
-    const { password, password2, username, name, email, term, privacy } = data
-    if (term == '') {
-      toast.error(data.name + ' Please checklist term!')
+    const { password, password2, username, name, email, tos } = data
+    if (tos == '') {
+      toast.error(`${t('input_label_error_5')}`)
 
       return
     }
 
-    if (privacy == '') {
-      toast.error(data.name + ' Please checklist privacy')
+    if (password !== password2) {
+      toast.error(`${t('input_label_error_6')}`)
 
       return
     }
@@ -170,10 +156,10 @@ const Registration = (props: any) => {
     }
 
     try {
+      setError(null)
       save(json)
     } catch (e) {
       alert(e)
-      console.log(e)
     }
   }
 
@@ -187,7 +173,6 @@ const Registration = (props: any) => {
           setCombocode(element)
         }
       }
-
       getCombocode(code)
     })
   }
@@ -196,165 +181,106 @@ const Registration = (props: any) => {
     combobox()
   }, [])
 
-  // const onChangeEmployee = (newValue: any) => {
-  //   if (newValue) {
-  //     setValue('position', newValue)
-  //     vonchangeEmployee(newValue.id)
-  //   }
-  // }
-
   return (
     <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-      <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
-        {tipereg == 'seafarer' ? (
-          <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
-            <Grid item md={6} xs={12}>
-              <TextField
-                id='Name'
-                label='Nama Kandidat'
-                variant='outlined'
-                fullWidth
-                sx={{ mb: 2 }}
-                {...register('name')}
-                error={Boolean(errors.name)}
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              {/* <Autocomplete
-                disablePortal
-                id='code'
-                options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
-                renderInput={params => <TextField {...params} label='Code Phone' sx={{ mb: 2 }} />}
-                {...register('code')}
-                onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
-              /> */}
-              <TextField
-                id='phone'
-                label='No Telp'
-                variant='outlined'
-                type='number'
-                fullWidth
-                sx={{ mb: 2 }}
-                value={phoneNum}
-                {...register('phone')}
-                onChange={e => onChangePhoneNum(e.target.value)}
-                error={Boolean(errors.phone)}
-                InputProps={{
-                  startAdornment: (
-                    <Autocomplete
-                      style={{ width: '160px' }}
-                      disablePortal
-                      id='code'
-                      options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
-                      renderInput={params => <TextField {...params} variant='standard' />}
-                      value={idcombocode}
-                      {...register('code')}
-                      onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
-                    />
-                  )
-                }}
-              />
-            </Grid>
-            {/* <Grid item md={4} xs={12}>
-              <TextField
-                id='Phone'
-                label='Phone'
-                variant='outlined'
-                type='number'
-                fullWidth
-                sx={{ mb: 2 }}
-                value={phoneNum}
-                onChange={e => onChangePhoneNum(e.target.value)}
-              />
-            </Grid> */}
-          </Grid>
-        ) : (
-          <Grid container columnSpacing={'1'} rowSpacing={'0,5'} sx={{ mb: 2 }}>
-            <Grid item md={6} xs={12}>
-              <TextField
-                id='Name'
-                label={tipereg == 'company' ? 'Nama Perusahaan' : 'Nama Pusat Pelatihan'}
-                variant='outlined'
-                fullWidth
-                sx={{ mb: 2 }}
-                {...register('name')}
-                error={Boolean(errors.name)}
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                id='phone'
-                label='No Telp'
-                variant='outlined'
-                type='number'
-                fullWidth
-                sx={{ mb: 2 }}
-                value={phoneNum}
-                {...register('phone')}
-                onChange={e => onChangePhoneNum(e.target.value)}
-                error={Boolean(errors.phone)}
-                InputProps={{
-                  startAdornment: (
-                    <Autocomplete
-                      style={{ width: '160px' }}
-                      disablePortal
-                      id='code'
-                      options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
-                      renderInput={params => <TextField {...params} variant='standard' />}
-                      {...register('code')}
-                      onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
-                    />
-                  )
-                }}
-              />
-            </Grid>
-          </Grid>
-        )}
-
-        <Divider style={{ width: '100%', marginBottom: '10px' }} />
+      <Grid container columnSpacing={2} rowSpacing={4} mt={1}>
+        <Grid item md={6} xs={12}>
+          <TextField
+            id='Name'
+            label={
+              tipereg == 'seafarer'
+                ? `${t('input_label_3_1')}`
+                : 'company'
+                ? `${t('input_label_3_2')}`
+                : `${t('input_label_3_3')}`
+            }
+            variant='outlined'
+            fullWidth
+            {...register('name')}
+            error={Boolean(errors.name)}
+          />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <TextField
+            id='phone'
+            label={t('input_label_4')}
+            variant='outlined'
+            type='number'
+            fullWidth
+            value={phoneNum}
+            {...register('phone')}
+            onChange={e => onChangePhoneNum(e.target.value)}
+            error={Boolean(errors.phone)}
+            placeholder={'85234567'}
+            InputProps={{
+              startAdornment: (
+                <Autocomplete
+                  style={{ width: '160px' }}
+                  disablePortal
+                  id='code'
+                  options={!combocode ? [{ label: 'Loading...', id: 0 }] : combocode}
+                  renderInput={params => <TextField {...params} variant='standard' />}
+                  value={idcombocode}
+                  {...register('code')}
+                  onChange={(event: any, newValue: string | null) => setCombocode(newValue)}
+                />
+              )
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
+          <Divider sx={{ width: '100%' }} />
+        </Grid>
         <Grid item md={6} xs={12}>
           <TextField
             id='Username'
-            label='Username'
+            label={t('input_label_5')}
             variant='outlined'
             fullWidth
-            sx={{ mb: 2 }}
             {...register('username')}
-            error={Boolean(errors.username)}
+            onChange={() => setError({ ...error, username: null })}
+            error={Boolean(errors.username || (error && error.username))}
           />
+          {error && error.username && (
+            <Typography sx={{ color: 'red', fontSize: 10, m: 1, pl: 1 }}>{error.username}</Typography>
+          )}
         </Grid>
         <Grid item md={6} xs={12}>
           <TextField
             id='Email'
-            label='Email'
+            label={t('input_label_1')}
             variant='outlined'
             fullWidth
-            // value={teks}
-            sx={{ mb: 2 }}
             {...register('email')}
-            onChange={e => handleInputChange(e.target.value)}
-            error={Boolean(errors.email)}
+            onChange={e => {
+              handleInputChange(e.target.value)
+              setError({ ...error, email: null })
+            }}
+            error={Boolean(errors.email || (error && error.email))}
           />
+          {error && error.email && (
+            <Typography sx={{ color: 'red', fontSize: 10, m: 1, pl: 1 }}>{error.email}</Typography>
+          )}
         </Grid>
         <Grid item md={6} xs={12}>
           <FormControl fullWidth>
             <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-              Kata Sandi
+              {t('input_label_2')}
             </InputLabel>
             <LightTooltip
               title={
                 <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2 }}>
-                  <Typography sx={{ fontWeight: 800, color: 'text.primary' }}>Ketentuan Kata Sandi:</Typography>
-                  <Box component='ul' sx={{ pl: 4, mb: 0, '& li': { mb: 1, color: 'text.primary' } }}>
-                    <li>Minimum 8 karakter</li>
-                    <li>Setidaknya satu karakter huruf kecil & satu karakter huruf besar</li>
+                  <Typography sx={{ fontWeight: 800, color: 'text.primary' }}>{t('register_rule_1')}</Typography>
+                  <Box component='ul' sx={{ pl: 4, mb: 0, '&li': { mb: 1, color: 'text.primary' } }}>
+                    <li>{t('register_rule_2')}</li>
+                    <li>{t('register_rule_3')}</li>
                   </Box>
                 </Alert>
               }
             >
               <OutlinedInput
                 sx={{ mb: 1 }}
-                label='Password'
+                label={t('input_label_2')}
                 id='password1'
                 error={Boolean(errors.password)}
                 type={showPassword ? 'text' : 'password'}
@@ -371,34 +297,28 @@ const Registration = (props: any) => {
                   </InputAdornment>
                 }
               />
-              {/* {errors.password && (
-              <FormHelperText sx={{ color: 'error.main' }} id=''>
-                {(errors as any).password?.message}
-              </FormHelperText>
-            )} */}
             </LightTooltip>
           </FormControl>
         </Grid>
-
         <Grid item md={6} xs={12}>
           <FormControl fullWidth>
             <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-              Konfirmasi Kata Sandi
+              {t('input_label_6')}
             </InputLabel>
             <LightTooltip
               title={
                 <Alert severity='info' sx={{ marginTop: 2, marginBottom: 2 }}>
-                  <Typography sx={{ fontWeight: 800, color: 'text.primary' }}>Ketentuan Kata Sandi:</Typography>
-                  <Box component='ul' sx={{ pl: 4, mb: 0, '& li': { mb: 1, color: 'text.primary' } }}>
-                    <li>Minimum 8 karakter</li>
-                    <li>Setidaknya satu karakter huruf kecil & satu karakter huruf besar</li>
+                  <Typography sx={{ fontWeight: 800, color: 'text.primary' }}>{t('register_rule_1')}</Typography>
+                  <Box component='ul' sx={{ pl: 4, mb: 0, '&li': { mb: 1, color: 'text.primary' } }}>
+                    <li>{t('register_rule_2')}</li>
+                    <li>{t('register_rule_3')}</li>
                   </Box>
                 </Alert>
               }
             >
               <OutlinedInput
                 sx={{ mb: 1 }}
-                label='Konfirmasi Kata Sandi'
+                label={t('input_label_6')}
                 id='password2'
                 error={Boolean(errors.password)}
                 type={showPassword ? 'text' : 'password'}
@@ -416,59 +336,41 @@ const Registration = (props: any) => {
                 }
               />
             </LightTooltip>
-
-            {/* {errors.password && (
-              <FormHelperText sx={{ color: 'error.main' }} id=''>
-                {(errors as any).password?.message}
-              </FormHelperText>
-            )} */}
           </FormControl>
         </Grid>
-        <Grid item md={12} xs={12}>
-          <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
-            <Checkbox id='term' {...register('term')}></Checkbox>
+        <Grid container>
+          <Box sx={{ display: 'flex', justifyContent: 'left', alignItems: 'center', flexWrap: 'wrap' }}>
+            <Checkbox id='tos' {...register('tos')}></Checkbox>
+            <Typography sx={{ color: '#262525' }}>{t('register_text_13')}&nbsp; </Typography>
             <LinkStyled href={'/term'} target='_blank'>
-              <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>{t('register_text_11')} ,</Typography>
+              <Typography sx={{ color: 'primary.main' }}>{t('register_text_11')}</Typography>
             </LinkStyled>
-            <Typography sx={{ marginTop: '10px', color: '#262525' }}>&nbsp; {t('register_text_13')} </Typography>
-          </Box>
-        </Grid>
-        <Grid item md={12} xs={12}>
-          <Box sx={{ display: 'flex', alignItems: 'left', flexWrap: 'wrap', justifyContent: 'left' }}>
-            <Checkbox id='privacy' {...register('privacy')}></Checkbox>
-
+            <Typography sx={{ color: '#262525' }}>&nbsp;{t('register_text_16')}&nbsp; </Typography>
             <LinkStyled href={'/privacy'} target='_blank'>
-              <Typography sx={{ color: 'primary.main', marginTop: '10px' }}>{t('register_text_12')} ,</Typography>
+              <Typography sx={{ color: 'primary.main' }}>{t('register_text_12')}</Typography>
             </LinkStyled>
-            <Typography sx={{ marginTop: '10px', color: '#262525' }}>&nbsp; {t('register_text_13')} </Typography>
+            <Typography sx={{ color: '#262525' }}>&nbsp;{t('register_text_17')} </Typography>
           </Box>
         </Grid>
-        <Grid item md={3} xs={12} mt={5}>
-          <Link href='/register'>
-            <Button
-              fullWidth
-              size='large'
-              type='button'
-              variant='outlined'
-              sx={{ mb: 7 }}
-              startIcon={<Icon icon={'solar:double-alt-arrow-left-bold-duotone'} />}
-            >
-              BACK
-            </Button>
-          </Link>
-        </Grid>
-
-        <Grid item md={6} xs={0}></Grid>
-        <Grid item md={3} xs={12} mt={5}>
+        <Grid container sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button
-            fullWidth
+            href={'/register'}
+            size='large'
+            type='button'
+            variant='outlined'
+            sx={{ mt: 5 }}
+            startIcon={<Icon icon={'solar:double-alt-arrow-left-bold-duotone'} />}
+          >
+            {t('button_5')}
+          </Button>
+          <Button
             size='large'
             type='submit'
             variant='contained'
-            sx={{ mb: 7 }}
+            sx={{ mt: 5 }}
             endIcon={<Icon icon={'solar:double-alt-arrow-right-bold-duotone'} />}
           >
-            REGISTER
+            {t('button_4')}
           </Button>
         </Grid>
       </Grid>

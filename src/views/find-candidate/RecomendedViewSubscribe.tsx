@@ -6,7 +6,7 @@ import { IUser } from 'src/contract/models/user'
 import { Icon } from '@iconify/react'
 
 import Link from 'next/link'
-
+import { toLinkCase } from 'src/utils/helpers'
 
 export type ParamMain = {
   name: string
@@ -20,20 +20,18 @@ interface Props {
 
 const renderList = (listCandidate: IUser[]) => {
   if (!listCandidate || listCandidate.length == 0) {
-
     return
-
   }
 
   return listCandidate?.map(item => {
-    const userPhoto = item.photo != '' ? item.photo : '/images/avatars/default-user.png'
+    const userPhoto = item.photo != '' ? item.photo : '/images/avatars/default-user-new.png'
     const names = item.field_preference?.spoken_langs ? item.field_preference?.spoken_langs : []
-     const license: any[] = Object.values(item?.license)
+    const license: any[] = Object.values(item?.license)
 
     return (
       <Grid item xs={12} md={4} key={item?.id}>
         <Paper sx={{ marginTop: '10px', border: '3px solid #eee', borderColor: 'warning.main' }} elevation={0}>
-          <Link style={{ textDecoration: 'none' }} href={'/profile/?username=' + item?.username}>
+          <Link style={{ textDecoration: 'none' }} href={`/profile/${item?.id}/${toLinkCase(item?.username)}`}>
             <Box
               height={65}
               sx={{

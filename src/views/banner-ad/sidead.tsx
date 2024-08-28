@@ -4,70 +4,84 @@ import { useEffect, useState } from 'react'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import Badge from '@mui/material/Badge'
 import { useTheme } from '@mui/material/styles'
 import CardContent from '@mui/material/CardContent'
 
 // ** Third Party Components
-import clsx from 'clsx'
 import { useKeenSlider } from 'keen-slider/react'
+import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 import { HttpClient } from 'src/services'
+// import Ads from 'src/contract/models/Ads'
 
+import Ads from 'src/contract/models/Ads'
 
-const Slides = (Ads: any[]) => {
-    const components: JSX.Element[] = [];
-    
-    Ads.forEach((arr, index: number) => {
-        components.push(
-          <Box key={index} className='keen-slider__slide' mt={3}>
-                  <Box component='img' 
-                  src={arr} 
-                  style={{
-                    width: '261px',
-                    height: '241px',
-                    objectFit: 'cover',
-                    borderRadius: '8px',
-                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                  }} >                    
-                  </Box>
-          </Box>
-        )
-    })
+const Slides = (Ads: Ads[]) => {
+  const components: JSX.Element[] = []
 
-    return components;
+  const handleOnClickCTA = (cta: string) => {
+    if (cta) {
+      window.open(cta, '_blank')
+    }
+  }
+
+  Ads.forEach((item, index: number) => {
+    components.push(
+      <Box key={index} className='keen-slider__slide'>
+        <Box
+          component='img'
+          src={item.show_case[0]}
+          style={{
+            width: '100%',
+            objectFit: 'cover',
+            borderRadius: '8px',
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            cursor: 'pointer'
+          }}
+          onClick={() => handleOnClickCTA(item.cta as unknown as string)}
+        />
+      </Box>
+    )
+  })
+
+  return components
 }
 
-const SideAd = () => {
-  // ** States
-  const [loaded, setLoaded] = useState<boolean>(false)
-  const [currentSlide, setCurrentSlide] = useState<number>(0)
-  const [Ads, getAds] = useState([])
-  useEffect(() => {
-    loadAds();
-  }, []);
+interface ISideAdProps {
+  adslocation?: string
+}
 
-    const loadAds = () => {
-        HttpClient.get('/public/data/ads?take=9').then(response => {
-          if (response.status != 200) {
-              throw response.data.message ?? 'Something went wrong!'
-          }
-          getAds(response.data.show_case)
-        })
+const SideAd: React.FC<ISideAdProps> = ({ adslocation = 'home-page' }) => {
+  const [Ads, getAds] = useState<Ads[]>([])
+  useEffect(() => {
+    loadAds()
+  }, [])
+
+  const loadAds = () => {
+    HttpClient.get('/public/data/ads?take=100').then(response => {
+      if (response.status != 200) {
+        throw response.data.message ?? 'Something went wrong!'
+      }
+      const getSideAd = response?.data?.show_case.filter(
+        (ad: any) => ad?.ads_placement === 'sidebar' && ad?.show === true && ad?.ads_location === adslocation
+      )
+      getAds(getSideAd)
+    })
+  }
+
+  const handleOnClickCTA = (cta: string) => {
+    if (cta) {
+      window.open(cta, '_blank')
     }
+  }
 
   // ** Hook
   const theme = useTheme()
-  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>(
+  const [sliderRef] = useKeenSlider<HTMLDivElement>(
     {
+      slides: { spacing: 100 },
       loop: true,
       initial: 0,
-      rtl: theme.direction === 'rtl',
-      slideChanged(slider) {
-        setCurrentSlide(slider.track.details.rel)
-      },
-      created() {
-        setLoaded(true)
-      }
+      rtl: theme.direction === 'rtl'
     },
     [
       slider => {
@@ -101,67 +115,49 @@ const SideAd = () => {
     ]
   )
 
-  return (
-    <>
-      {Ads?.length > 0 && (
-      <Card sx={{ position: 'relative', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-      <CardContent>
-        {loaded && instanceRef.current && (
-          <Box className='swiper-dots' sx={{ top: 7, right: 13, position: 'absolute' }}>
-            {[...Array(instanceRef.current.track.details.length).keys()].map(idx => {
-              return (
-                <Badge
-                  key={idx}
-                  variant='dot'
-                  component='div'
-                  className={clsx({
-                    active: currentSlide === idx
-                  })}
-                  onClick={() => {
-                    instanceRef.current?.moveToIdx(idx)
-                  }}
-                  sx={{
-                    mr: theme => `${theme.spacing(2.5)} !important`,
-                    '&.active': {
-                      '& .MuiBadge-dot': {
-                        backgroundColor: theme => `${theme.palette.primary.main} !important`
-                      }
-                    },
-                    '& .MuiBadge-dot': {
-                      height: '6px !important',
-                      width: '6px !important',
-                      minWidth: '6px !important'
-                    }
-                  }}
-                ></Badge>
-              )
-            })}
-          </Box>
-        )}
-        {Ads.length && (
-        <Box ref={sliderRef} className='keen-slider'>
-            {Slides(Ads)}
-        </Box>
-        )}
-        {/* {(Ads.length == 0) && (
-          <Box component='img' 
-            mt={3}
-            src="images/backgrounds/ads-here.png"
-            style={{
-              width: '261px',
-              height: '241px',
-              objectFit: 'cover',
-              borderRadius: '8px',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-            }} >                    
-          </Box>
-        )} */}
-      </CardContent>
-      </Card>
-      )}
-    </>
-   
-  )
+  if (Ads && Ads.length > 1) {
+    return (
+      <KeenSliderWrapper>
+        <Card sx={{ position: 'relative', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+          <CardContent>
+            {Ads.length && (
+              <Box ref={sliderRef} className='keen-slider'>
+                {Slides(Ads)}
+              </Box>
+            )}
+          </CardContent>
+        </Card>
+      </KeenSliderWrapper>
+    )
+  } else if (Ads && Ads.length === 1) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          border: 0,
+          boxShadow: 0,
+          padding: 6,
+          color: 'common.white',
+          backgroundColor: '#FFFFFF'
+        }}
+      >
+        <Box
+          component='img'
+          src={Ads[0].show_case[0]}
+          style={{
+            width: '100%',
+            objectFit: 'cover',
+            borderRadius: '8px',
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            cursor: 'pointer'
+          }}
+          onClick={() => handleOnClickCTA(Ads[0].cta as unknown as string)}
+        />
+      </Box>
+    )
+  } else return null
 }
 
 export default SideAd

@@ -1,15 +1,43 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
-import { IconButton } from '@mui/material';
+import * as React from 'react'
+import Box from '@mui/material/Box'
+import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid'
+import { IconButton, Switch } from '@mui/material'
 import Icon from 'src/@core/components/icon'
-import Link from 'next/link';
+import Link from 'next/link'
 
 const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true, minWidth: 10 },
   { field: 'title', headerName: 'Title', sortable: true, minWidth: 300 },
   { field: 'type', headerName: 'Type', sortable: true, minWidth: 150 },
   { field: 'slug', headerName: 'Slug', sortable: true, minWidth: 150 },
+  {
+    field: 'category',
+    headerName: 'Category',
+    sortable: true,
+    minWidth: 150,
+    renderCell: cell => {
+      const { row } = cell
+
+      return <p>{row?.category ? row?.category?.name : '-'}</p>
+    }
+  },
+  {
+    field: 'featured_news',
+    headerName: 'Featured News',
+    sortable: true,
+    minWidth: 150,
+    renderCell: cell => {
+      const { row } = cell
+
+      return (
+        <Switch
+          checked={row?.featured_news}
+          onChange={() => row.actions.onFeaturedNews()}
+          inputProps={{ 'aria-label': 'controlled' }}
+        />
+      )
+    }
+  },
   {
     field: 'action',
     headerName: 'Action',
@@ -34,12 +62,12 @@ const columns: GridColDef[] = [
 ]
 
 type RoleGridProps = {
-    rows: RowItem[];
-    loading: boolean;
-    pageSize: number;
-    page: number;
-    rowCount: number;
-    onPageChange: (model: GridPaginationModel, details: GridCallbackDetails) => void;
+  rows: RowItem[]
+  loading: boolean
+  pageSize: number
+  page: number
+  rowCount: number
+  onPageChange: (model: GridPaginationModel, details: GridCallbackDetails) => void
 }
 
 interface RowItem {
@@ -52,33 +80,31 @@ interface RowItem {
   }
 }
 
-export {
-    type RowItem,
-}
+export { type RowItem }
 
 export default function AccountDatagrid(props: RoleGridProps) {
-    return (
-        <Box sx={{ height: 500, width: '100%' }}>
-            <DataGrid
-                disableColumnMenu
-                loading={props.loading}
-                rows={props.rows}
-                columns={columns}
-                paginationMode="server"
-                rowCount={props.rowCount}
-                pageSizeOptions={[10, 25, 50, 100, 250]}
-                onPaginationModelChange={props.onPageChange}
-                initialState={{
-                    pagination: {
-                        paginationModel: {
-                            pageSize: props.pageSize,
-                            page: props.page,
-                        },
-                    },
-                }}
-                disableRowSelectionOnClick
-                getRowId={(row) => row.id}
-            />
-        </Box>
-    );
+  return (
+    <Box sx={{ height: 500, width: '100%' }}>
+      <DataGrid
+        disableColumnMenu
+        loading={props.loading}
+        rows={props.rows}
+        columns={columns}
+        paginationMode='server'
+        rowCount={props.rowCount}
+        pageSizeOptions={[10, 25, 50, 100, 250]}
+        onPaginationModelChange={props.onPageChange}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: props.pageSize,
+              page: props.page
+            }
+          }
+        }}
+        disableRowSelectionOnClick
+        getRowId={row => row.id}
+      />
+    </Box>
+  )
 }

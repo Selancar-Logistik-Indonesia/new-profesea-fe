@@ -9,44 +9,49 @@ import { Icon } from '@iconify/react'
 import Grid from '@mui/material/Grid'
 import { toast } from 'react-hot-toast'
 // import Link from 'next/link'
-  
 
-const ShareArea = (props:{url:string, subject:any}) => {
-  
-  const options = ['Whatsapp', 'Email','Link' ]
+const ShareArea = (props: { url: string; subject: any; clean?: boolean }) => {
+  const options = ['Whatsapp', 'Email', 'Link']
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLDivElement>(null)
   const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => {
-    if(options[index] == 'Link'){
-      navigator.clipboard.writeText(window.location.origin+props.url);
-      toast.success('Link copied') 
-    }else if(options[index] == 'Whatsapp'){
-      window.open('https://web.whatsapp.com/send?text='+ window.location.origin+props.url, '_blank')
-    }else if(options[index] == 'Email'){
-      const body = `Click link here ${window.location.origin+props.url+props.url}`
+    if (options[index] == 'Link') {
+      navigator.clipboard.writeText(props.clean ? props.url : window.location.origin + props.url)
+      toast.success('Link copied')
+    } else if (options[index] == 'Whatsapp') {
+      window.open(
+        'https://web.whatsapp.com/send?text=' + (props.clean ? props.url : window.location.origin + props.url),
+        '_blank'
+      )
+    } else if (options[index] == 'Email') {
+      const body = `Click link here ${props.clean ? props.url : window.location.origin + props.url}`
       const emailLink = `mailto:?subject=${encodeURIComponent(props.subject)}&body=${encodeURIComponent(body)}`
       window.open(emailLink, '_blank')
     }
     setOpen(false)
   }
-   const handleToggle = () => {
-     setOpen(prevOpen => !prevOpen)
-   }
+  const handleToggle = () => {
+    setOpen(prevOpen => !prevOpen)
+  }
 
-   const handleClose = (event: Event) => {
-     if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
-       return
-     }
+  const handleClose = (event: Event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
+      return
+    }
 
-     setOpen(false)
-   }
-  
+    setOpen(false)
+  }
+
   return (
     <>
-      <Grid container direction="row" justifyContent="flex-end" alignItems="center">
-        
-        <Grid>
-          <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
+      <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
+        <Grid sx={{ width: '100%' }}>
+          <ButtonGroup
+            variant='text'
+            ref={anchorRef}
+            aria-label='split button'
+            sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+          >
             <Button
               variant='text'
               color='secondary'
@@ -83,10 +88,7 @@ const ShareArea = (props:{url:string, subject:any}) => {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList id='split-button-menu' autoFocusItem>
                     {options.map((option, index) => (
-                      <MenuItem
-                        key={option}
-                        onClick={event => handleMenuItemClick(event, index)}
-                      >
+                      <MenuItem key={option} onClick={event => handleMenuItemClick(event, index)}>
                         {option}
                       </MenuItem>
                     ))}
@@ -96,14 +98,13 @@ const ShareArea = (props:{url:string, subject:any}) => {
             </Grow>
           )}
         </Popper>
-      </Grid>               
+      </Grid>
     </>
   )
 }
 
-
 ShareArea.acl = {
   action: 'read',
   subject: 'home'
-};
+}
 export default ShareArea

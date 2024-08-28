@@ -1,18 +1,19 @@
-import { Theme } from "@mui/material";
-import { SxProps } from "@mui/system";
+import { Theme } from '@mui/material'
+import { SxProps } from '@mui/system'
 
 const bannerHero: SxProps<Theme> = {
-    backgroundImage: "url(/images/bg-landing-trainer2.jpg)",
-    backgroundSize: "cover",
-    backgroundPosition: {
-        xs: "67% 40%",
-        md: "20% 40%"
-    },
-    height: 550
-};
-
-const landingPageStyle = {
-    bannerHero,
+  backgroundImage: 'url(/images/banner-landing-trainer.jpg)',
+  backgroundSize: 'cover',
+  backgroundPosition: {
+    xs: '0% center',
+    md: '85% center',
+    lg: '85% center'
+  },
+  maxHeight: '350px'
 }
 
-export default landingPageStyle;
+const landingPageStyle = {
+  bannerHero
+}
+
+export default landingPageStyle

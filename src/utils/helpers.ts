@@ -1,89 +1,126 @@
-import { AxiosError } from "axios";
-import { AppConfig } from "src/configs/api";
-import ITeam from "src/contract/models/team";
-import { IUser } from "src/contract/models/user";
-import { HttpClient } from "src/services";
+import { AxiosError } from 'axios'
+import { AppConfig } from 'src/configs/api'
+import ITeam from 'src/contract/models/team'
+import { IUser } from 'src/contract/models/user'
+import { HttpClient } from 'src/services'
 import authConfig from 'src/configs/auth'
-import secureLocalStorage from "react-secure-storage";
-import localStorageKeys from "src/configs/localstorage_keys";
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import moment from 'moment'
 /**
  * we need to sanitize error messages, so that no sensitive data is leaked
  */
 const getCleanErrorMessage = (error: any) => {
-    let errorMessage = "Something went wrong!";
+    let errorMessage = 'Something went wrong!'
 
     if (error instanceof AxiosError) {
-        errorMessage = error?.response?.data?.message ?? errorMessage;
+        errorMessage = error?.response?.data?.message ?? errorMessage
     }
 
     if (typeof error == 'string') {
-        errorMessage = error;
+        errorMessage = error
     }
 
-    return errorMessage;
+    return errorMessage
 }
 
 const removeFirstZeroChar = (input: string) => {
     if (input.startsWith('0')) {
-        return input.substring(1);
+        return input.substring(1)
     }
 
-    return input;
+    return input
 }
 
 function toTitleCase(text: string) {
-    // Split the text into an array of words
-    const words = text.split(' ');
-
-    // Capitalize the first letter of each word
+    const words = text.split(' ')
     const capitalizedWords = words.map(word => {
-        const firstLetter = word.charAt(0).toUpperCase();
-        const restOfWord = word.slice(1).toLowerCase();
+        const firstLetter = word.charAt(0).toUpperCase()
+        const restOfWord = word.slice(1).toLowerCase()
 
-        return firstLetter + restOfWord;
-    });
+        return firstLetter + restOfWord
+    })
+    const result = capitalizedWords.join(' ')
 
-    // Join the capitalized words back into a sentence
-    const result = capitalizedWords.join(' ');
+    return result
+}
 
-    return result;
+function toLinkCase(text: string | undefined) {
+    if (text) {
+        const title = text.replace(/ /g, '-')
+
+        return title
+    }
+
+    return null
+}
+
+function linkToTitleCase(text: string | null) {
+    if (text) {
+        const title = text.replace(/-/g, ' ')
+
+        return title
+    }
+
+    return null
+}
+
+function textEllipsis(text: string, number: number) {
+    if (text) {
+        let words = text.split(' ')
+        if (words.length > number) {
+            words = words.slice(0, number).concat(words[number] + '...')
+        }
+
+        return words.join(' ')
+    }
+
+    return null
 }
 
 function getUserAvatar(userData: IUser) {
-    return (userData?.photo) ? userData.photo : "/images/avatars/default-user.png";
+    return userData?.photo ? userData.photo : '/images/avatars/default-user.png'
 }
 
 function getUserAvatarByPath(path: string) {
-    return path ? path : "/images/avatars/default-user.png";
+    return path ? path : '/images/avatars/default-user.png'
 }
 
 function getUserRoleName(team?: ITeam) {
-    const teamName = team?.teamName ?? "";
-    const mapRole = [{ title: "Seafarer", value: "Candidate" }, { title: 'Company', value: 'Recruiter' }];
-    const newValue = mapRole.find(e => e.title == teamName);
+    const teamName = team?.teamName ?? ''
+    const mapRole = [
+        { title: 'Seafarer', value: 'Candidate' },
+        { title: 'Company', value: 'Recruiter' }
+    ]
+    const newValue = mapRole.find(e => e.title == teamName)
 
-    return newValue ? newValue.value : teamName;
+    return newValue ? newValue.value : teamName
 }
 
-function formatIDR(amount: number) {
+function formatIDR(amount: number, isIdr?: boolean) {
     const options: Intl.NumberFormatOptions = {
         style: 'currency',
-        currency: 'IDR',
-    };
+        currency: 'IDR'
+    }
+    const price = new Intl.NumberFormat('id-ID', options).format(amount)
 
-    return new Intl.NumberFormat('id-ID', options).format(amount);
+    if (isIdr) {
+        return price.replace('Rp', 'IDR');
+    }
+
+    return price
 }
 
 function isDevelopment() {
-    return AppConfig.appEnv == "DEV";
+    return AppConfig.appEnv == 'DEV'
 }
 
 function isStaging() {
-    return AppConfig.appEnv == "STAGING";
+    return AppConfig.appEnv == 'STAGING'
 }
 
 function isProduction() {
-    return AppConfig.appEnv == "PROD";
+    return AppConfig.appEnv == 'PROD'
 }
 
 async function refreshsession() {
@@ -94,12 +131,12 @@ async function refreshsession() {
 }
 
 function getUrl(path?: string) {
-    let baseUrl = `${window.location.protocol}//${window.location.host}`;
+    let baseUrl = `${window.location.protocol}//${window.location.host}`
     if (path) {
-        baseUrl = baseUrl + path;
+        baseUrl = baseUrl + path
     }
 
-    return baseUrl;
+    return baseUrl
 }
 
 function getEmployeetype(name?: string) {
@@ -116,7 +153,7 @@ function getEmployeetypev2(name?: string) {
     const employee = name ?? ''
     const mapRole = [
         { title: 'onship', value: 'PELAUT' },
-        { title: 'offship', value: 'NON PELAUT' }
+        { title: 'offship', value: 'PROFESIONAL' }
     ]
     const newValue = mapRole.find(e => e.title == employee)
 
@@ -125,50 +162,153 @@ function getEmployeetypev2(name?: string) {
 
 const getUserPlanType = (user: IUser | null) => {
     if (!user) {
-        return "";
+        return ''
     }
 
-    if (!user.plan_type || user.plan_type == "basic") {
-        return "basic";
+    if (!user.plan_type || user.plan_type == 'basic') {
+        return 'basic'
     }
 
-    return user.plan_type;
+    return user.plan_type
 }
 function subscribev(id: string[]) {
     const abilities = secureLocalStorage.getItem(localStorageKeys.abilities) as IUser
     let newValue = ''
     for (let i = 0; i < id.length; i++) {
         newValue = abilities?.items.find((e: any) => e.code == id[i])
-        if (newValue != undefined) break;
+        if (newValue != undefined) break
     }
-    console.log('here 1', newValue);
+    console.log('here 1', newValue)
 
     return newValue ? true : false
 }
 
 const translateTrxStatus = (s: string) => {
     const map = new Map<string, string>([
-        ["canceled", "Dibatalkan"],
-        ["paid", "Pembayaran diterima"],
-        ["unpaid", "Menunggu pembayaran"],
-    ]);
+        ['canceled', 'Dibatalkan'],
+        ['paid', 'Pembayaran diterima'],
+        ['unpaid', 'Menunggu pembayaran']
+    ])
 
-    return map.get(s) ?? "Undefined";
+    return map.get(s) ?? 'Undefined'
 }
 
 const toMegaByte = (size: number, stringify = false) => {
-    const n = ((size / 1024) / 1024).toFixed(2);
+    const n = (size / 1024 / 1024).toFixed(2)
     if (stringify) {
-        return `${n}Mb`;
+        return `${n}Mb`
     }
 
-    return n;
+    return n
+}
+
+const calculateAge = (dob: any) => {
+    const today = new Date()
+    const birthDate = new Date(dob)
+    let age = today.getFullYear() - birthDate.getFullYear()
+    const monthDiff = today.getMonth() - birthDate.getMonth()
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--
+    }
+
+    return age
+}
+
+const MONTH_NAMES = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
+
+const getMonthYear = (date: string) => {
+    const newString = date.split('-')
+    const year = newString[0]
+    const monthIndex = parseInt(newString[1], 10)
+    if (!isNaN(monthIndex) && monthIndex >= 1 && monthIndex <= 12) {
+        return `${MONTH_NAMES[monthIndex - 1]} ${year}`
+    } else {
+        return date
+    }
+}
+
+function getFormattedDate(date: any, prefomattedDate: any = false, hideYear: any = false) {
+    const day = date.getDate();
+    const month = MONTH_NAMES[date.getMonth()];
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    let minutes = date.getMinutes();
+
+    if (minutes < 10) {
+        minutes = `0${minutes}`;
+    }
+
+    if (prefomattedDate) {
+        return `${prefomattedDate} at ${hours}:${minutes}`;
+    }
+
+    if (hideYear) {
+        return `${day}. ${month} at ${hours}:${minutes}`;
+    }
+
+    return `${day}. ${month} ${year}. at ${hours}:${minutes}`;
+}
+
+function timeAgo(dateParam: any) {
+    if (!dateParam) {
+        return null;
+    }
+
+    const date = typeof dateParam === 'object' ? dateParam : new Date(dateParam);
+    const DAY_IN_MS = 86400000; // 24 * 60 * 60 * 1000
+    const today = new Date();
+    const yesterday = new Date(today as any - DAY_IN_MS);
+    const seconds = Math.round((today as any - date) / 1000);
+    const minutes = Math.round(seconds / 60);
+    const isToday = today.toDateString() === date.toDateString();
+    const isYesterday = yesterday.toDateString() === date.toDateString();
+    const isThisYear = today.getFullYear() === date.getFullYear();
+
+
+    if (seconds < 5) {
+        return 'now';
+    } else if (seconds < 60) {
+        return `${seconds} seconds ago`;
+    } else if (seconds < 90) {
+        return 'about a minute ago';
+    } else if (minutes < 60) {
+        return `${minutes} minutes ago`;
+    } else if (isToday) {
+        return getFormattedDate(date, 'Today');
+    } else if (isYesterday) {
+        return getFormattedDate(date, 'Yesterday');
+    } else if (isThisYear) {
+        return getFormattedDate(date, false, true);
+    }
+
+    return getFormattedDate(date);
+}
+
+function timeCreated(createdAt: any) {
+    if (!createdAt) return null
+
+    const createdTime = moment(createdAt)
+    const now = moment()
+    const monthsDifferent = now.diff(createdTime, 'months')
+
+    if (monthsDifferent >= 3) {
+        return "several months ago"
+    } else {
+        return createdTime.fromNow()
+    }
 }
 
 export {
     getCleanErrorMessage,
     removeFirstZeroChar,
     toTitleCase,
+    toLinkCase,
+    linkToTitleCase,
+    textEllipsis,
     getUserAvatar,
     getUserRoleName,
     formatIDR,
@@ -184,4 +324,8 @@ export {
     subscribev,
     translateTrxStatus,
     toMegaByte,
+    calculateAge,
+    getMonthYear,
+    timeAgo,
+    timeCreated
 }

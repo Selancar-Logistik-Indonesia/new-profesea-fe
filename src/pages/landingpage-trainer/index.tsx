@@ -1,108 +1,145 @@
-import { Button, Grid, Typography, Box, Card, CardContent } from "@mui/material";
-import { ReactNode } from "react";
-import landingPageStyle from "src/@core/styles/landing-page/landing-page-trainer";
-import { useTranslation } from "react-i18next";
-import FooterView from "src/views/landing-page/footerView";
-import Head from "next/head";
-import themeConfig from "src/configs/themeConfig";
-import OuterPageLayout from "src/@core/layouts/outer-components/OuterPageLayout";
-// ** Icon Imports
-//import Icon from 'src/@core/components/icon'
-// ** Custom Components Imports
-//import CustomAvatar from 'src/@core/components/mui/avatar'
+import { Grid, Typography, Box, useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import { ReactNode } from 'react'
+import landingPageStyle from 'src/@core/styles/landing-page/landing-page-trainer'
+import { useTranslation } from 'react-i18next'
+import FooterView from 'src/views/landing-page/footerView'
+import Head from 'next/head'
+import themeConfig from 'src/configs/themeConfig'
+import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
+import { Stack } from '@mui/system'
+import OngoingTrainingScreen from './OngoingTraining'
 
 const Main = () => {
-    const { t } = useTranslation();
+  const { t } = useTranslation()
+  const theme = useTheme()
+  const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
-    return ( 
-        <>
-            <Head>
-                <title>{`${themeConfig.templateName} - ${t('landing_hero_title')}`}</title>
-                <meta name='description' content={`${themeConfig.templateName} - ${t('landing_about_subtitle')}`} />
-                <meta name='keywords' content={`${t('app_keyword')}`} />
-                <meta name='viewport' content='initial-scale=0.8, width=device-width' />
-            </Head>
-
-            <Grid container sx={{
-                ...landingPageStyle.bannerHero,
-                height: { xs: 850, md: 850 }
-            }}>
-                <Grid item xs={12} xl={6} lg={6} md={6} sx={{ maxWidth: { xs: '100%' }, px: { xs: 5, md: 10 } }}>
-                    <Box sx={{ display: "flex", flexDirection: 'column', mt: 2 }}>
-                        <div className="ag-courses_item">
-                            </div>
-
-                            <div className="ag-courses_item">
-                            </div>
-
-                            <div className="ag-courses_item">
-                            </div>
-
-                            <div className="ag-courses_item">
-                            </div>
-
-                            <div className="ag-courses_item">
-                                <a href="#" className="ag-courses-item_link">
-                                    <div className="ag-courses-item_bg"></div>
-
-                                    <div className="ag-courses-item_title">
-                                        {t("landing_trainer_title_1")}
-                                    </div>
-
-                                    <div className="ag-courses-item_date-box">
-                                        <span className="ag-courses-item_date">
-                                            {t("landing_trainer_subtitle_1")}
-                                        </span>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div className="ag-courses_item">
-                                <a href="#" className="ag-courses-item_link">
-                                    <div className="ag-courses-item_bg"></div>
-
-                                    <div className="ag-courses-item_title">
-                                        {t("landing_trainer_title_2")}
-                                    </div>
-
-                                    <div className="ag-courses-item_date-box">
-                                        <span className="ag-courses-item_date">
-                                            {t("landing_trainer_subtitle_2")}
-                                        </span>
-                                    </div>
-                                </a>
-                            </div>
-                    </Box>
-                    <Grid item xs={12} xl={6} lg={6} md={6} pt={2} sx={{
-                    maxWidth: { xs: '90%' }, px: { xs: 5, md: 10 },
-                    display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
-                    alignItems: "center"
-                }}>
-                    <Box mb={5}>
-                        <Card sx={{ width: 320, height: 200, backgroundColor: '#101820' }} elevation={10}>
-                            <CardContent sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}>
-                            <Typography variant='h5' sx={{ mb: 2 }} color={"#FFFFFF"} fontWeight="800">
-                                    {t('b_to_trainer')}
-                                </Typography>
-                                <Typography variant='body2' maxWidth={'60%'} sx={{ mb: 6.5, color: "#FFFFFF" }}>
-                                    {t('b_to_trainer_detail')}
-                                </Typography>
-                                <Button href="/register/trainer/" style={{ backgroundColor: "#ef6c00", color: "white", marginRight: 10 }} variant="contained">{t('landing_join_now')}</Button>
-                            </CardContent>
-                        </Card>
-                    </Box>
-                </Grid>
-                </Grid>
-                
-            </Grid >
-
-            <FooterView />
-        </>
-    );
+  return (
+    <>
+      <Head>
+        <title>{`${themeConfig.templateName} - ${t('landing_hero_title')}`}</title>
+        <meta name='description' content={`${themeConfig.templateName} - ${t('landing_about_subtitle')}`} />
+        <meta name='keywords' content={`${t('app_keyword')}`} />
+        <meta name='viewport' content='initial-scale=0.8, width=device-width' />
+      </Head>
+      <Box>
+        <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Grid
+            item
+            xs={12}
+            md={10}
+            sx={{
+              ...landingPageStyle.bannerHero,
+              my: 2,
+              p: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center'
+            }}
+          >
+            <Typography
+              // variant='h1'
+              style={{ color: '#FFFFFF' }}
+              mt={1}
+              fontWeight='800'
+              fontSize={28}
+              sx={{ maxWidth: { xs: '80%', md: '60%' }, px: { xs: 2, md: 5, whiteSpace: 'null' } }}
+            >
+              {t('landing_trainer_title')}
+            </Typography>
+            <Typography
+              // variant='h2'
+              style={{ color: '#FFFFFF' }}
+              fontWeight='500'
+              fontSize={28}
+              mt={4}
+              sx={{ maxWidth: { xs: '68%', md: '60%' }, px: { xs: 2, md: 5 } }}
+            >
+              {t('landing_trainer_subtitle')}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={10}
+            sx={{
+              display: 'flex',
+              flexDirection: {
+                xs: 'column-reverse',
+                lg: 'row'
+              },
+              justifyContent: 'center',
+              gap: 3
+            }}
+          >
+            <Grid item xs={12} md={2}>
+              <Box
+                sx={{
+                  p: 4,
+                  my: 2,
+                  border: 0,
+                  boxShadow: 0,
+                  borderColor: 'divider',
+                  boxSizing: 'border-box',
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: '2px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  overflow: 'hidden'
+                }}
+              >
+                <Typography sx={{ fontWeight: 'bold', color: 'text.primary' }} fontSize={18}>
+                  Training Partners
+                </Typography>
+                <Stack spacing={2} mt={2}>
+                  <Grid item sx={{ alignItems: 'center', justifyContent: 'center' }}>
+                    <img
+                      alt='logo'
+                      src={'/images/training-partner1.jpg'}
+                      style={{
+                        width: '250px',
+                        height: '250px',
+                        objectFit: 'cover',
+                        borderRadius: '8px',
+                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                      }}
+                    />
+                  </Grid>
+                </Stack>
+              </Box>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={10}
+              sx={
+                !hidden
+                  ? {
+                      direction: 'row',
+                      justifyContent: 'flex-start',
+                      alignItems: 'stretch',
+                      alignContent: 'top',
+                      marginBottom: '10px'
+                    }
+                  : {}
+              }
+            >
+              <Grid>
+                <OngoingTrainingScreen />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
+      <FooterView />
+    </>
+  )
 }
 
-Main.guestGuard = false;
-Main.authGuard = false;
+Main.guestGuard = false
+Main.authGuard = false
 Main.getLayout = (page: ReactNode) => <OuterPageLayout>{page}</OuterPageLayout>
 
-export default Main;
+export default Main

@@ -1,5 +1,5 @@
 import { Button, Container, Grid, Typography, Card, CardContent, Box } from '@mui/material'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 import landingPageStyle from 'src/@core/styles/landing-page/landing-page'
 import { useTranslation } from 'react-i18next'
@@ -11,14 +11,31 @@ import FooterView from 'src/views/landing-page/footerView'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import CarouselNewsView from 'src/views/landing-page/carouselnews'
-import CarouselEvent from 'src/views/landing-page/carouselevent'
-// ** Icon Imports
-// import Icon from 'src/@core/components/icon'
-// ** Custom Components Imports
-// import CustomAvatar from 'src/@core/components/mui/avatar'
+import { useAuth } from 'src/hooks/useAuth'
+import { useRouter } from 'next/router'
+import Spinner from 'src/@core/components/spinner'
+// import CarouselEvent from 'src/views/landing-page/carouselevent'
 
 const Main = () => {
   const { t } = useTranslation()
+  const router = useRouter()
+  const auth = useAuth()
+  const [isNavigating, setIsNavigating] = useState(true)
+
+  const firstLoad = async () => {
+    if (auth.user) {
+      await router.replace('/home')
+    }
+    setIsNavigating(false)
+  }
+
+  useEffect(() => {
+    if (!auth.loading) {
+      firstLoad()
+    }
+  }, [auth, router])
+
+  if (isNavigating || auth.loading) return <Spinner />
 
   return (
     <>
@@ -32,14 +49,14 @@ const Main = () => {
       <Grid container sx={landingPageStyle.bannerHero}>
         <Grid
           item
-          xs={12}
-          xl={6}
-          lg={8}
           md={12}
+          lg={8}
+          xl={6}
           pt={5}
           mt={20}
           mb={10}
-          sx={{ maxWidth: { xs: '80%' }, px: { xs: 5, md: 10 } }}
+          // sx={{ maxWidth: { xs: '80%' }, px: { xs: 5, md: 10 } }}
+          sx={{ px: { xs: 5, md: 10 } }}
         >
           <Typography
             variant='h3'
@@ -61,7 +78,7 @@ const Main = () => {
           </Typography>
 
           <Container style={{ marginTop: 60, lineHeight: 3.5 }} sx={{ display: { xs: 'none', md: 'block' } }}>
-            <Grid container justifyContent='left' sx={{ backgroundColor: 'none' }} spacing={9} mt={0} mb={10} ml={5}>
+            <Grid container justifyContent='left' sx={{ backgroundColor: 'none' }} spacing={9} mt={0} mb={10} ml={1}>
               <Card sx={{ width: 320, height: 200, backgroundColor: '#101820', mr: 5 }} elevation={10}>
                 <CardContent
                   sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column' }}
@@ -78,7 +95,7 @@ const Main = () => {
                       style={{ backgroundColor: '#ef6c00', color: 'white', marginRight: 10 }}
                       variant='contained'
                     >
-                      {t('landing_join_now')}
+                      {t('landing_join_now_1')}
                     </Button>
                   </Box>
                 </CardContent>
@@ -99,13 +116,23 @@ const Main = () => {
                       style={{ backgroundColor: '#ef6c00', color: 'white', marginRight: 10 }}
                       variant='contained'
                     >
-                      {t('landing_join_now')}
+                      {t('landing_join_now_1')}
                     </Button>
                   </Box>
                 </CardContent>
               </Card>
             </Grid>
           </Container>
+        </Grid>
+        <Grid
+          item
+          md={12}
+          lg={4}
+          xl={6}
+          pt={5}
+          sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'end' }}
+        >
+          <Box sx={landingPageStyle.bannerAsset} />
         </Grid>
       </Grid>
 
@@ -128,7 +155,7 @@ const Main = () => {
                 style={{ backgroundColor: '#ef6c00', color: 'white', marginRight: 10 }}
                 variant='contained'
               >
-                {t('landing_join_now')}
+                {t('landing_join_now_1')}
               </Button>
             </CardContent>
           </Card>
@@ -144,20 +171,19 @@ const Main = () => {
                 {t('b_to_professional_detail')}
               </Typography>
               <Button
-                href='/register/seafareronship'
+                href='/register/seafareroffship'
                 style={{ backgroundColor: '#ef6c00', color: 'white', marginRight: 10 }}
                 variant='contained'
               >
-                {t('landing_join_now')}
+                {t('landing_join_now_1')}
               </Button>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
 
-      <CarouselEvent />
+      {/* <CarouselEvent /> */}
       <FindJobsView id='findJobSection' />
-
       <DiscoverView />
       <FeatureView />
       <CarouselNewsView />

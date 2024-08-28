@@ -1,13 +1,30 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
-import { IconButton, Tooltip } from '@mui/material';
+import * as React from 'react'
+import Box from '@mui/material/Box'
+import {
+  DataGrid,
+  GridCallbackDetails,
+  GridColDef,
+  GridPaginationModel,
+  GridRowParams,
+  MuiEvent
+} from '@mui/x-data-grid'
+import { IconButton, Tooltip } from '@mui/material'
 import Icon from 'src/@core/components/icon'
-import Link from 'next/link';
+import Link from 'next/link'
 
 const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true, minWidth: 10 },
-  { field: 'category_name', headerName: 'Job Category', sortable: true, minWidth: 250 },
+  {
+    field: 'category_name',
+    headerName: 'Job Category',
+    sortable: true,
+    minWidth: 250,
+    renderCell: cell => {
+      const { row } = cell
+
+      return <Link href={`/company/job/?tabs=1&id=${row.id}`}>{row.category_name}</Link>
+    }
+  },
   { field: 'role_type', headerName: 'Job Title', sortable: true, minWidth: 180 },
   { field: 'level_name', headerName: 'Role Level', sortable: true, minWidth: 120 },
   { field: 'degree', headerName: 'Degree', sortable: true, minWidth: 180 },
@@ -50,53 +67,57 @@ const columns: GridColDef[] = [
 ]
 
 type RoleGridProps = {
-    rows: RowItem[];
-    loading: boolean;
-    pageSize: number;
-    page: number;
-    rowCount: number;
-    onPageChange: (model: GridPaginationModel, details: GridCallbackDetails) => void;
+  rows: RowItem[]
+  loading: boolean
+  pageSize: number
+  page: number
+  rowCount: number
+  onPageChange: (model: GridPaginationModel, details: GridCallbackDetails) => void
+  onRowClick?: (
+    params: GridRowParams,
+    events: MuiEvent<React.MouseEvent<HTMLElement>>,
+    details: GridCallbackDetails
+  ) => void
 }
 
 interface RowItem {
-    id: number,
-    category_name: string,
-    level_name: string,
-    license: string,
-    degree: string,
-    actions: {
-        onDelete: VoidFunction,
-        onUpdate: VoidFunction,
-    };
+  id: number
+  category_name: string
+  level_name: string
+  license: string
+  degree: string
+  actions: {
+    onDelete: VoidFunction
+    onUpdate: VoidFunction
+  }
 }
 
-export {
-    type RowItem,
-}
+export { type RowItem }
 
 export default function AccountDatagrid(props: RoleGridProps) {
-    return (
-        <Box sx={{ height: 500, width: '100%' }}>
-            <DataGrid
-                disableColumnMenu
-                loading={props.loading}
-                rows={props.rows}
-                columns={columns}
-                paginationMode="server"
-                rowCount={props.rowCount}
-                pageSizeOptions={[10, 25, 50, 100, 250]}
-                onPaginationModelChange={props.onPageChange}
-                initialState={{
-                    pagination: {
-                        paginationModel: {
-                            pageSize: props.pageSize,
-                            page: props.page,
-                        },
-                    },
-                }}
-                disableRowSelectionOnClick
-                getRowId={(row) => row.id}
-            />
-        </Box>
-    );
+  return (
+    <Box sx={{ height: 500, width: '100%' }}>
+      <DataGrid
+        disableColumnMenu
+        loading={props.loading}
+        rows={props.rows}
+        columns={columns}
+        paginationMode='server'
+        rowCount={props.rowCount}
+        pageSizeOptions={[10, 25, 50, 100, 250]}
+        onPaginationModelChange={props.onPageChange}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: props.pageSize,
+              page: props.page
+            }
+          }
+        }}
+        disableRowSelectionOnClick
+        onRowClick={props.onRowClick}
+        getRowId={row => row.id}
+      />
+    </Box>
+  )
 }

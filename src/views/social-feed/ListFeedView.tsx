@@ -8,20 +8,25 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import FeedCard from './FeedCard'
 import { useEffect } from 'react'
+import CenterAd from '../banner-ad/CenterAd'
 
 type Props = {
-  username?: string
+  username?: any
 }
 
 const ListFeedView = (props: Props) => {
   const { fetchFeeds, hasNextPage, totalFeed } = useSocialFeed()
   // const adsEveryLine = 5;
 
+  useEffect(() => {
+    fetchFeeds({ take: 7, username: props.username })
+  }, [])
+
   const renderList = (feeds: ISocialFeed[]) => {
     // let itemCount = 0;
     const components: JSX.Element[] = []
 
-    if (feeds?.length == 0) {
+    if (!feeds || feeds.length === 0) {
       return (
         <Card
           sx={{
@@ -50,18 +55,17 @@ const ListFeedView = (props: Props) => {
       )
     }
 
-    feeds.forEach(item => {
-      // itemCount++;
-      // if (itemCount > adsEveryLine) {
-      //     itemCount = 1;
-      //     components.push(
-      //         <Paper sx={{ marginTop: '10px', padding: '10px', textAlign: 'center', }} key={v4()}>
-      //             <Box component='img' src={'/images/backgrounds/samplead.jpg'} sx={{ opacity: 0.2, maxWidth: '100%' }} />
-      //         </Paper>
-      //     );
-      // }
-
+    feeds.forEach((item, index) => {
       components.push(<FeedCard item={item} key={`feedItem${item.id}`} />)
+
+      // Sisipkan komponen iklan setelah setiap 6 feed
+      if ((index + 1) % 6 === 0) {
+        components.push(
+          <Box sx={{ mt: 2 }}>
+            <CenterAd key={`adsComponent${index}`} />
+          </Box>
+        )
+      }
     })
 
     return components

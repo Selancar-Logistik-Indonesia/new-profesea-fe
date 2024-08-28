@@ -4,24 +4,22 @@ import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
- 
 
 export type ParamJobVacncy = {
   title: string
   major: string
-  degree: string 
+  degree: string
 }
 
 // export type ProfileTeamsType = ProfileTabCommonType & { color: ThemeColor }
 interface Props {
   // teams: ProfileTeamsType[]
-  vacancy: ParamJobVacncy[] 
+  vacancy: ParamJobVacncy[]
 }
 
 const renderList = (arr: ParamJobVacncy[]) => {
-  if (arr && arr.length) { 
-    
-    return arr.map((item, index) => {
+  if (arr && arr.length) {
+    return arr.map((item: any, index) => {
       return (
         <Box
           key={index}
@@ -34,11 +32,21 @@ const renderList = (arr: ParamJobVacncy[]) => {
             padding: '5px'
           }}
         >
-          <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
-            <Typography sx={{ color: '#262525', fontWeight: 600 }}>
+          <img
+            alt='logo'
+            src={item.logo ? item.logo : '/images/educationalinfo.png'}
+            style={{
+              width: '100px',
+              height: '100px',
+              padding: 10,
+              margin: 0
+            }}
+          />
+          <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', m: 2 }}>
+            <Typography sx={{ color: '#262525', fontWeight: 800 }}>
               {`${item.title.charAt(0).toUpperCase() + item.title.slice(1)}`}
             </Typography>
-            <Typography sx={{ color: '#262525', fontWeight: 400 }}>
+            <Typography sx={{ color: '#262525', fontWeight: 600 }}>
               {item.major.charAt(0).toUpperCase() + item.major.slice(1)}
             </Typography>
             <Typography sx={{ color: '#262525', fontWeight: 400 }}>
@@ -52,18 +60,17 @@ const renderList = (arr: ParamJobVacncy[]) => {
     return null
   }
 }
- 
 
 const EducationalInfo = (props: Props) => {
-  const {   vacancy  } = props
+  const { vacancy } = props
 
   return (
-    <Grid container  marginTop={'10px'} >
+    <Grid container marginTop={'10px'}>
       <Grid item xs={12}>
-      <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: "#262525", textTransform: 'uppercase' , fontWeight: 600}}>
+              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 800 }}>
                 Educational Info
               </Typography>
               {renderList(vacancy)}
@@ -74,11 +81,9 @@ const EducationalInfo = (props: Props) => {
               </Typography>
               {renderList(contacts)}
             </Box> */}
-           
           </CardContent>
         </Card>
       </Grid>
-      
     </Grid>
   )
 }
