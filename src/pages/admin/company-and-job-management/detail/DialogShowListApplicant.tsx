@@ -1,6 +1,6 @@
 import React, { forwardRef, ReactElement, Ref, useEffect, useState } from 'react'
 import Dialog from '@mui/material/Dialog'
-import { Box, Fade, FadeProps, Stack, Typography } from '@mui/material'
+import { Box, DialogContent, Fade, FadeProps, Stack, Typography } from '@mui/material'
 import Job from 'src/contract/models/job'
 import { HttpClient } from 'src/services'
 import { AxiosError } from 'axios'
@@ -8,6 +8,8 @@ import toast from 'react-hot-toast'
 import { GridPaginationModel } from '@mui/x-data-grid'
 import ListApplicantDataGrid, { RowItem } from './ListApplicantDataGrid'
 import Applicant from 'src/contract/models/applicant'
+import IconButton from '@mui/material/IconButton'
+import Icon from 'src/@core/components/icon'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -109,42 +111,47 @@ const DialogShowListApplicant = (props: DialogProps) => {
       TransitionComponent={Transition}
       onClose={props.onCloseClick}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '20px' }}>
-        <Stack direction={'column'} gap={2}>
-          <Typography gutterBottom variant='h5' component='div'>
-            {category?.name}, {vesseltype_id && vesseltype_id !== null ? job_title : role_type?.name}
-          </Typography>
-          <Typography variant='body1'>{company?.name}</Typography>
-          <Typography variant='body1' color={'gray'}>
-            {count_applicant} Applicants
-          </Typography>
-        </Stack>
-        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: 2 }}>
-          {statusApplicants.map(s => (
-            <Stack direction={'row'} gap={1}>
-              <Typography variant='body1' sx={{ fontWeight: 700 }}>
-                {s?.status === 'RJ'
-                  ? 'Rejected'
-                  : s?.status === 'VD'
-                  ? 'Viewed'
-                  : s?.status === 'PR'
-                  ? 'Proceed'
-                  : 'Waiting Review'}
-                :
-              </Typography>
-              <Typography variant='body1'>{s?.total}</Typography>
-            </Stack>
-          ))}
+      <DialogContent>
+        <IconButton size='small' onClick={props.onCloseClick} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
+          <Icon icon='mdi:close' />
+        </IconButton>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '20px' }}>
+          <Stack direction={'column'} gap={2}>
+            <Typography gutterBottom variant='h5' component='div' color={'primary'}>
+              {category?.name}, {vesseltype_id && vesseltype_id !== null ? job_title : role_type?.name}
+            </Typography>
+            <Typography variant='body1'>{company?.name}</Typography>
+            <Typography variant='body1' color={'gray'}>
+              {count_applicant} Applicants
+            </Typography>
+          </Stack>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: 2 }}>
+            {statusApplicants.map((s, i) => (
+              <Stack key={s.status + i} direction={'row'} gap={1}>
+                <Typography variant='body1' sx={{ fontWeight: 700 }}>
+                  {s?.status === 'RJ'
+                    ? 'Rejected'
+                    : s?.status === 'VD'
+                    ? 'Viewed'
+                    : s?.status === 'PR'
+                    ? 'Proceed'
+                    : 'Waiting Review'}
+                  :
+                </Typography>
+                <Typography variant='body1'>{s?.total}</Typography>
+              </Stack>
+            ))}
+          </Box>
+          <ListApplicantDataGrid
+            page={page - 1} // di MUI page pertama = 0
+            rowCount={rowCount}
+            pageSize={perPage}
+            loading={loadingTable}
+            onPageChange={model => onPageChange(model)}
+            rows={dataSheet}
+          />
         </Box>
-        <ListApplicantDataGrid
-          page={page - 1} // di MUI page pertama = 0
-          rowCount={rowCount}
-          pageSize={perPage}
-          loading={loadingTable}
-          onPageChange={model => onPageChange(model)}
-          rows={dataSheet}
-        />
-      </Box>
+      </DialogContent>
     </Dialog>
   )
 }

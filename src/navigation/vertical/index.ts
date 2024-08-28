@@ -99,13 +99,13 @@ const navigation = (): VerticalNavItemsType => {
             action: 'read',
             subject: 'admin-accounts'
         },
-        {
-            path: '/admin/job-management/',
-            title: 'Job Management',
-            icon: 'solar:suitcase-lines-bold-duotone',
-            action: 'read',
-            subject: 'admin-job-management'
-        },
+        // {
+        //     path: '/admin/job-management/',
+        //     title: 'Job Management',
+        //     icon: 'solar:suitcase-lines-bold-duotone',
+        //     action: 'read',
+        //     subject: 'admin-job-management'
+        // },
         {
             path: '/admin/company-and-job-management/',
             title: 'Company And Job Management',

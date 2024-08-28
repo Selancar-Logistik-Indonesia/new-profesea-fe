@@ -29,6 +29,7 @@ interface RowItem {
   rejected_at: string | null
   type: string
   jobPost: string
+  needVerification: boolean
   resend: {
     onResend: VoidFunction
   }
@@ -44,6 +45,19 @@ export { type RowItem }
 const CompanyAndManagementDataGrid = (props: RoleGridProps) => {
   const auth = useAuth()
 
+  const mappingStatusDoc = (row: any) => {
+    // need verification
+    if (row?.needVerification && row?.rejected_at == null && row?.verified_at == null) {
+      return 'Need Verification'
+    }
+
+    if (row?.verified_at == null) {
+      return row?.rejected_at ? 'Rejected' : 'Unverified'
+    } else {
+      return row.rejected_at ? 'Rejected' : 'Verified'
+    }
+  }
+
   const columns: GridColDef[] = [
     { field: 'no', headerName: '#', sortable: true, minWidth: 10 },
     {
@@ -53,7 +67,7 @@ const CompanyAndManagementDataGrid = (props: RoleGridProps) => {
       minWidth: 150,
       renderCell: cell => {
         const { row } = cell
-        
+
         return (
           <>
             <Link href={`/admin/company-and-job-management/detail/${row?.id}`}>{row?.name}</Link>
@@ -134,13 +148,14 @@ const CompanyAndManagementDataGrid = (props: RoleGridProps) => {
               color='secondary'
               size='small'
             >
-              {row.verified_at == null
+              {/* {row.verified_at == null
                 ? row.rejected_at
                   ? 'Rejected'
                   : 'Unverified'
                 : row.rejected_at
                 ? 'Rejected'
-                : 'Verified'}
+                : 'Verified'} */}
+              {mappingStatusDoc(row)}
             </Button>
           </>
         )

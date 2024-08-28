@@ -35,7 +35,21 @@ const JobManagementDataGrid = (props: RoleGridProps) => {
     { field: 'categoryName', headerName: 'Job Category', sortable: true, minWidth: 150 },
     { field: 'jobTitle', headerName: 'Job Title', sortable: true, minWidth: 170 },
     { field: 'roleLevel', headerName: 'Role Level', sortable: true, minWidth: 150 },
-    { field: 'applicantApplied', headerName: 'Applicant Applied', sortable: true, minWidth: 150 },
+    {
+      field: 'applicantApplied',
+      headerName: 'Applicant Applied',
+      sortable: true,
+      minWidth: 70,
+      renderCell: cell => {
+        const { row } = cell
+
+        return (
+          <>
+            <p style={{ width: '100%', textAlign: 'center' }}>{row?.applicantApplied}</p>
+          </>
+        )
+      }
+    },
     {
       field: 'listApplicant',
       headerName: 'List Applicant',
@@ -59,7 +73,7 @@ const JobManagementDataGrid = (props: RoleGridProps) => {
         )
       }
     },
-    { field: 'status', headerName: 'Status', sortable: false, minWidth: 100 },
+    { field: 'status', headerName: 'Status', sortable: false, minWidth: 150 },
     {
       field: 'action',
       headerName: 'Action',
