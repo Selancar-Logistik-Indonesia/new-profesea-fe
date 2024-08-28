@@ -140,7 +140,10 @@ const FindCandidateApp = () => {
     else searchParams.delete('country')
 
     if (sJobCategory !== null) searchParams.set('job_category', sJobCategory.id)
-    else searchParams.delete('job_category')
+    else {
+      searchParams.delete('job_category')
+      searchParams.delete('role_type')
+    }
 
     if (sRoleType !== null) searchParams.set('role_type', sRoleType.id)
     else searchParams.delete('role_type')
@@ -215,7 +218,9 @@ const FindCandidateApp = () => {
   }, [tabValue])
 
   useEffect(() => {
-    getRoleTypes()
+    if (!sJobCategory) {
+      setRoleType(null)
+    } else getRoleTypes()
   }, [sJobCategory])
 
   const handleSearch = (value: string) => {
@@ -345,26 +350,25 @@ const FindCandidateApp = () => {
                 </Grid>
                 {tabValue == 'onship' && (
                   <>
-                    <Grid container gap='8px'>
-                      <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Job Rank</Typography>
-                      <Autocomplete
-                        fullWidth
-                        disablePortal
-                        disabled={!jobCategory}
-                        id='role-type-autocomplete'
-                        options={comboRoleType}
-                        value={sRoleType}
-                        getOptionLabel={(option: RoleType) => option.name}
-                        renderInput={params => <TextField {...params} placeholder='Choose Job Rank' />}
-                        onChange={(event: any, newValue: RoleType | null) => {
-                          setPage(1)
-                          setRoleType(newValue)
-                        }}
-                      />
-                      {!jobCategory && (
-                        <span style={{ color: 'red', fontSize: 10, fontWeight: 400 }}>Select Job Category first</span>
-                      )}
-                    </Grid>
+                    {sJobCategory && (
+                      <Grid container gap='8px'>
+                        <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Job Rank</Typography>
+                        <Autocomplete
+                          fullWidth
+                          disablePortal
+                          disabled={!jobCategory}
+                          id='role-type-autocomplete'
+                          options={comboRoleType}
+                          value={sRoleType}
+                          getOptionLabel={(option: RoleType) => option.name}
+                          renderInput={params => <TextField {...params} placeholder='Choose Job Rank' />}
+                          onChange={(event: any, newValue: RoleType | null) => {
+                            setPage(1)
+                            setRoleType(newValue)
+                          }}
+                        />
+                      </Grid>
+                    )}
                     <Grid container gap='8px'>
                       <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>
                         Type of Vessel
@@ -385,7 +389,7 @@ const FindCandidateApp = () => {
                     </Grid>
                   </>
                 )}
-                {tabValue == 'offship' && (
+                {tabValue == 'offship' && sJobCategory && (
                   <Grid container gap='8px'>
                     <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Job Title</Typography>
                     <Autocomplete
@@ -401,9 +405,6 @@ const FindCandidateApp = () => {
                         setRoleType(newValue)
                       }}
                     />
-                    {!jobCategory && (
-                      <span style={{ color: 'red', fontSize: 10, fontWeight: 400 }}>Select Job Category first</span>
-                    )}
                   </Grid>
                 )}
                 <Button

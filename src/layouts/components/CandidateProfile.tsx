@@ -925,7 +925,7 @@ const CandidateProfile = (props: compProps) => {
                 // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
                 startAdornment: (
                   <Select
-                    sx={{ marginTop:-2 }}
+                    sx={{ marginTop: -2 }}
                     labelId='select-country-code'
                     id='select-country-code'
                     value={idcombocode}
@@ -1159,7 +1159,6 @@ const CandidateProfile = (props: compProps) => {
                 <Grid item md={4} xs={12}>
                   <LocalizationProvider dateAdapter={AdapterMoment}>
                     <DatePicker
-                
                       format='DD/MM/YYYY'
                       openTo='month'
                       views={['year', 'month', 'day']}
@@ -1172,14 +1171,14 @@ const CandidateProfile = (props: compProps) => {
                 </Grid>
                 <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
                   <FormControl>
-                    <InputLabel id='demo-multiple-chip-label'>LANGUANGE</InputLabel>
+                    <InputLabel id='demo-multiple-chip-label'>LANGUAGE</InputLabel>
                     <Select
                       labelId='demo-multiple-chip-label'
                       id='demo-multiple-chip'
                       multiple
                       value={personName}
                       onChange={handleChange}
-                      label='LANGUANGE'
+                      label='LANGUAGE'
                       sx={{ fontSize: '18px', height: 50.2 }}
                       input={
                         <OutlinedInput
