@@ -13,6 +13,8 @@ import { AppConfig } from 'src/configs/api'
 import ISeafarerCompetencyData from '../../contract/models/seafarer_competency'
 import { IUser } from 'src/contract/models/user'
 
+import moment from 'moment'
+
 interface ISeafarerCompetencyTable {
   user_id: number | null | undefined
   selectedUser: IUser | null
@@ -76,7 +78,7 @@ export default function SeafarerCompetencyTable(props: ISeafarerCompetencyTable)
       headerName: 'Valid Up',
       width: 220,
       renderCell: (params: any) => {
-        return params.row.valid_until ? <>{params.row.valid_until}</> : 'lifetime'
+        return params.row.valid_until ? <>{moment(params.row.valid_until).format('DD/MM/YYYY')}</> : 'lifetime'
       }
     }
   ]
@@ -93,7 +95,7 @@ export default function SeafarerCompetencyTable(props: ISeafarerCompetencyTable)
             href='#'
             onClick={() =>
               HttpClient.downloadFile(
-                process.env.NEXT_PUBLIC_BASE_API + `/seafarer-competencies/download/${params.row.id}/`,
+                process.env.NEXT_PUBLIC_BASE_API + `/public/data/competency/preview/${params.row.id}/`,
                 params.row.certificate_number
               )
             }

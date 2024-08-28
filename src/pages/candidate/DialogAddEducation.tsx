@@ -67,7 +67,7 @@ const DialogAddEducation = (props: DialogProps) => {
   const [preview, setPreview] = useState()
   const [Education, setEducation] = useState<any[]>([])
   const [selectedFile, setSelectedFile] = useState()
-  const [EduId, setEduId] = useState('---')
+  const [EduId, setEduId] = useState('')
   const [institutions, setInstitutions] = useState<Institution[]>([])
 
   const handleSearchInstitutions = useCallback(
@@ -240,9 +240,9 @@ const DialogAddEducation = (props: DialogProps) => {
                 options={Education}
                 {...register('degree')}
                 getOptionLabel={(option: Degree) => option.name}
-                renderInput={params => <TextField {...params} label='Education' variant='standard' />}
+                renderInput={params => <TextField {...params} label='Education *' variant='standard' />}
                 onChange={(event: any, newValue: Degree | null) =>
-                  newValue?.name ? setEduId(newValue.name) : setEduId('---')
+                  newValue?.name ? setEduId(newValue.name) : setEduId('')
                 }
               />
             </Grid>
@@ -288,7 +288,7 @@ const DialogAddEducation = (props: DialogProps) => {
                     checked={isCurrentEducation}
                   />
                 }
-                label='Iam currently studying'
+                label="I'm currently studying"
               />
             </Grid>
             <Grid item md={12} xs={12} mt={2}>

@@ -23,7 +23,12 @@ import {
   Typography
 } from '@mui/material'
 
-import DatePicker from 'react-datepicker'
+// import DatePicker from 'react-datepicker'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+
+import moment from 'moment'
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
@@ -41,7 +46,6 @@ import { toast } from 'react-hot-toast'
 import Countries from 'src/contract/models/country'
 import City from 'src/contract/models/city'
 import Address from 'src/contract/models/address'
-import { DateType } from 'src/contract/models/DatepickerTypes'
 import { v4 } from 'uuid'
 import DialogAddEducation from 'src/pages/candidate/DialogAddEducation'
 import DialogAddWorkExperience from 'src/pages/candidate/DialogAddWorkExperience'
@@ -108,7 +112,6 @@ type compProps = {
 let ship: any = []
 let opp: any = []
 let tampilkanship: any = ''
-let availabledate: any = ''
 
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
@@ -198,7 +201,7 @@ const CandidateProfile = (props: compProps) => {
       : { employee_type: 'onship', label: 'PELAUT' }
   )
   const [idcountry, setCountry] = useState<any>(props.datauser?.country_id)
-  const [date, setDate] = useState<DateType>(new Date())
+  const [availableDate, setAvailableDate] = useState<any>(props.datauser?.field_preference?.available_date)
   // const [idcomborolLevel, setComboRolLevel] = useState<any>(props.datauser?.field_preference?.role_level?.id)
   const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
   const [idcomboVessel, setComboVessel] = useState<any>(props.datauser?.field_preference?.vessel_type?.id)
@@ -290,7 +293,9 @@ const CandidateProfile = (props: compProps) => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
       getComboCountry(code)
+      getCombocode(code)
     })
+
     const code = [
       { employee_type: 'onship', label: 'PELAUT' },
       { employee_type: 'offship', label: 'PROFESIONAL' }
@@ -307,15 +312,6 @@ const CandidateProfile = (props: compProps) => {
       const code = response.data.user
       setPreview(code.photo)
       setPreviewBanner(code.banner)
-    })
-
-    HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
-      const code = response.data.countries
-      for (let x = 0; x < code.length; x++) {
-        const element = code[x]
-        element.label = element.name + '(' + element.phonecode + ')'
-      }
-      getCombocode(code)
     })
 
     HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
@@ -560,7 +556,6 @@ const CandidateProfile = (props: compProps) => {
       return false
     }
 
-    availabledate = date
     const json = {
       country_id: idcombocode,
       employee_type: idship,
@@ -587,7 +582,7 @@ const CandidateProfile = (props: compProps) => {
             vesseltype_id: idcomboVessel,
             regiontravel_id: idcomboRegion,
             category_id: JC,
-            available_date: availabledate,
+            available_date: availableDate,
             spoken_langs: personName,
             open_to_opp: idOPP
           }
@@ -929,43 +924,36 @@ const CandidateProfile = (props: compProps) => {
               InputProps={{
                 // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
                 startAdornment: (
-                  <Autocomplete
-                    disablePortal
-                    id='code'
-                    options={combocode}
-                    getOptionLabel={(option: Countries) => option.iso}
-                    defaultValue={props.datauser?.country}
-                    renderInput={params => <TextField {...params} variant='standard' />}
-                    onChange={(event: any, newValue: Countries | null) =>
-                      newValue?.id ? setCombocode(newValue.id) : setCombocode(props.address.country_id)
-                    }
-                  />
+                  <Select
+                    labelId='select-country-code'
+                    id='select-country-code'
+                    value={idcombocode}
+                    onChange={e => setCombocode(e.target.value)}
+                    label='Code'
+                    variant='standard'
+                  >
+                    {combocode.map((item, index) => (
+                      <MenuItem key={index} value={item.id}>
+                        {item.iso} (+ {item.phonecode})
+                      </MenuItem>
+                    ))}
+                  </Select>
                 )
               }}
             />
           </Grid>
           <Grid item md={3} xs={12}>
-            <DatePicker
-              dateFormat='dd/MM/yyyy'
-              onChange={(date: Date) => onChangeDateOfBirth(String(date))}
-              placeholderText='Click to select a Date of Birth'
-              showYearDropdown
-              showMonthDropdown
-              dropdownMode='select'
-              id='date_of_birth'
-              selected={new Date(dateOfBirth)}
-              value={new Date(dateOfBirth).toLocaleDateString('id-ID') ?? null}
-              customInput={
-                <TextField
-                  label='Date Of Birth'
-                  variant='standard'
-                  fullWidth
-                  InputProps={{
-                    readOnly: true
-                  }}
-                />
-              }
-            />
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <DatePicker
+                format='DD/MM/YYYY'
+                openTo='month'
+                views={['year', 'month', 'day']}
+                label={'Date Of Birth *'}
+                onChange={(date: any) => onChangeDateOfBirth(date)}
+                value={moment(dateOfBirth)}
+                slotProps={{ textField: { variant: 'standard', fullWidth: true, id: 'basic-input' } }}
+              />
+            </LocalizationProvider>
           </Grid>
           <Grid item md={3} xs={12}></Grid>
           <Grid item md={12} xs={12}>
@@ -1168,17 +1156,17 @@ const CandidateProfile = (props: compProps) => {
                   />
                 </Grid>
                 <Grid item md={4} xs={12}>
-                  <DatePicker
-                    minDate={new Date()}
-                    dateFormat='dd/MM/yyyy'
-                    selected={date}
-                    id='basic-input'
-                    onChange={(date: Date) => setDate(date)}
-                    placeholderText='Click to select a date'
-                    customInput={
-                      <TextField label='Available Date *' variant='standard' fullWidth {...register('available')} />
-                    }
-                  />
+                  <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <DatePicker
+                      format='DD/MM/YYYY'
+                      openTo='month'
+                      views={['year', 'month', 'day']}
+                      label={'Available Date *'}
+                      onChange={(date: any) => setAvailableDate(date)}
+                      value={availableDate ? moment(availableDate) : null}
+                      slotProps={{ textField: { variant: 'standard', fullWidth: true, id: 'basic-input' } }}
+                    />
+                  </LocalizationProvider>
                 </Grid>
                 <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
                   <FormControl>

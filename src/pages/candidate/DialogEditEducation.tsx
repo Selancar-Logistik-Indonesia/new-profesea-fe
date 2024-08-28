@@ -62,7 +62,7 @@ const DialogEditEducation = (props: DialogProps) => {
   const [preview, setPreview] = useState(props.selectedItem?.logo)
   const [Education, getEducation] = useState<any[]>([])
   const [selectedFile, setSelectedFile] = useState()
-  const [EduId, setEduId] = useState('---')
+  const [EduId, setEduId] = useState('')
 
   const combobox = async () => {
     let response
@@ -219,8 +219,8 @@ const DialogEditEducation = (props: DialogProps) => {
                 {...register('degree')}
                 options={Education.map(e => e.name)}
                 getOptionLabel={(option: string) => option}
-                renderInput={params => <TextField {...params} label='Education' variant='standard' />}
-                onChange={(event: any, newValue: string | null) => (newValue ? setEduId(newValue) : setEduId('---'))}
+                renderInput={params => <TextField {...params} label='Education *' variant='standard' />}
+                onChange={(event: any, newValue: string | null) => (newValue ? setEduId(newValue) : setEduId(''))}
               />
             </Grid>
             <Grid item md={12} xs={12}>
@@ -272,7 +272,7 @@ const DialogEditEducation = (props: DialogProps) => {
                     checked={isCurrentEducation}
                   />
                 }
-                label='Iam currently studying'
+                label="I'm currently studying"
               />
             </Grid>
             <Grid item md={12} xs={12}>
