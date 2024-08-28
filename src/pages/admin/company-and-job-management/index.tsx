@@ -82,9 +82,7 @@ const CompanyAndJobManagement = () => {
 
   useEffect(() => {
     setOnLoading(true)
-    handleGetListCompany().then(() => {
-      setOnLoading(false)
-    })
+    handleGetListCompany()
   }, [page, search, companyType, docVerified, hookSignature])
 
   const handleGetListCompany = async () => {
@@ -98,6 +96,7 @@ const CompanyAndJobManagement = () => {
 
     const rows = response.data?.companies.data as ICompanyAndManagement[]
     const total = response?.data?.companies.total ?? 0
+
     const items = rows?.map((row, index) => {
       return {
         no: index + 1,
@@ -125,6 +124,7 @@ const CompanyAndJobManagement = () => {
 
     setRowCount(total)
     setDataSheet(items)
+    setOnLoading(false)
   }
 
   const handleResendEmail = async (row: ICompanyAndManagement) => {
