@@ -21,7 +21,7 @@ const CandidateProvider = (props: Props) => {
   const [page, setPage] = useState(1)
   const [listCandidates, setCandidates] = useState<IUser[]>([])
   const [onLoading, setOnLoading] = useState(false)
-  const [hasNextPage, setHasNextPage] = useState(true)
+  const [hasNextPage, setHasNextPage] = useState(false)
   const [totalCandidate, setTotalCandidate] = useState(0)
 
   const fetchCandidates = async (payload: {
@@ -43,54 +43,33 @@ const CandidateProvider = (props: Props) => {
     visaUsa?: any
     visaSchengen?: any
   }) => {
-    // only trigger in page 1
+    setOnLoading(true)
+    setCandidates([])
 
-    if (page == 1) {
-      setOnLoading(true)
-      setCandidates([])
-    }
-    // if (payload.search!= null || payload.vesseltype_id!= null || payload.roletype_id!= null || payload.rolelevel_id!= null || payload.include_all_word!= null || payload.include_one_word!= null || payload.exact_phrase!= null || payload.exclude_all_these!= null || payload.spoken!= null) {
-    //     setCandidates([])
-    //     setPage(1)
-    // }
     try {
       const response = await HttpClient.get(AppConfig.baseUrl + '/candidate', {
         page: page,
         ...payload
       })
 
-      if (response.status == 200) {
-        const { candidates } = response.data as { candidates: { data: IUser[]; next_page_url?: string; total: number } }
-
-        if (candidates.data.length && candidates.data.length > 0) {
-          // await candidates.data.map(async (item: any) => {
-          //   const checkImage = await axios.get(item.photo)
-          //   if (checkImage.status !== 200) {
-          //     item.photo = ''
-          //   }
-
-          //   return item
-          // })
-
-          setCandidates(old => {
-            const newItems = old
-            candidates.data.forEach(e => newItems.push(e))
-            setTotalCandidate(newItems.length)
-
-            return newItems
-          })
-
-          if (candidates.total > 9) {
-            setPage(page => page + 1)
-          }
-        } else {
-          setTotalCandidate(0)
-          setCandidates([])
+      if (response.status === 200) {
+        const { candidates } = response.data as {
+          candidates: { data: IUser[]; next_page_url?: string; total: number }
         }
+
+        setCandidates(old => (page === 1 ? candidates.data : [...old, ...candidates.data]))
+        setTotalCandidate(candidates.total)
         setHasNextPage(candidates.next_page_url != null)
+      } else {
+        setTotalCandidate(0)
+        setCandidates([])
+        setHasNextPage(false)
       }
     } catch (error) {
       console.error(error)
+      setCandidates([])
+      setTotalCandidate(0)
+      setHasNextPage(false)
     }
 
     setOnLoading(false)
@@ -113,5 +92,4 @@ const CandidateProvider = (props: Props) => {
 }
 
 export { CandidateProvider }
-
 export default CandidateContext

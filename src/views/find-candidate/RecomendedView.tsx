@@ -40,6 +40,7 @@ const BoxedText = ({ children }: { children: string }) => {
         py: '2.5px',
         px: '8px',
         fontSize: 14,
+        fontWeight: 400,
         whiteSpace: 'nowrap'
       }}
     >
@@ -79,7 +80,9 @@ const renderCardSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 <Typography sx={{ color: 'primary.main', fontSize: 16, fontWeight: 'bold' }}>{item.name}</Typography>
                 {item.date_of_birth !== null && (
-                  <Typography sx={{ fontSize: 14 }}>{calculateAge(item.date_of_birth)} years old</Typography>
+                  <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
+                    {calculateAge(item.date_of_birth)} years old
+                  </Typography>
                 )}
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'flex-start', flexWrap: 'nowrap', gap: '16px' }}>
@@ -110,13 +113,15 @@ const renderCardSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
               </Box>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              {!isXs && <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}>Preference:</Typography>}
-              <Typography sx={{ fontSize: 14 }}>{`(${item.field_preference?.role_type?.name})`}</Typography>
+              {!isXs && <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 400 }}>Preference:</Typography>}
+              <Typography
+                sx={{ fontSize: 14, fontWeight: 400 }}
+              >{`(${item.field_preference?.role_type?.name})`}</Typography>
               <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-              <Typography sx={{ fontSize: 14 }}>{item.field_preference?.vessel_type.name}</Typography>
+              <Typography sx={{ fontSize: 14, fontWeight: 400 }}>{item.field_preference?.vessel_type.name}</Typography>
             </Box>
             <Typography
-              sx={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}
+              sx={{ color: '#949EA2', fontSize: 14, fontWeight: 400 }}
             >{`${item.address?.city?.city_name}, ${item.address?.country?.nicename}`}</Typography>
           </Box>
         </Box>
@@ -156,7 +161,7 @@ const renderCardSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
                     at {item.last_company.institution}
                   </Typography>
                   <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${getMonthYear(
+                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 400 }}>{`${getMonthYear(
                     item.last_company.start_date,
                     true
                   )} - ${
@@ -193,7 +198,7 @@ const renderCardSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
                     {item.last_education.title}
                   </Typography>
                   <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${getMonthYear(
+                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 400 }}>{`${getMonthYear(
                     item.last_education.start_date,
                     true
                   )} - ${
@@ -205,6 +210,7 @@ const renderCardSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
                   <Typography
                     sx={{
                       fontSize: 14,
+                      fontWeight: 400,
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
@@ -219,6 +225,7 @@ const renderCardSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
           )}
           {isXs && (
             <Button
+              disabled={true}
               variant='contained'
               startIcon={<Icon icon='ph:whatsapp-logo' />}
               onClick={() => handleChatWhatsapp(item.phone)}
@@ -295,14 +302,14 @@ const renderCardNonSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
               </Box>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              {!isXs && <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}>Preference:</Typography>}
-              <Typography sx={{ fontSize: 14 }}>{`(${item.field_preference?.job_category?.name})`}</Typography>
-              <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-              <Typography sx={{ fontSize: 14 }}>{item.field_preference?.role_level?.levelName ?? ''}</Typography>
+              {!isXs && <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 400 }}>Preference:</Typography>}
+              <Typography sx={{ fontSize: 14 }}>{`${item.field_preference?.job_category?.name}`}</Typography>
+              {/* <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
+              <Typography sx={{ fontSize: 14 }}>{item.field_preference?.role_level?.levelName ?? ''}</Typography> */}
             </Box>
             <Typography
-              sx={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}
-            >{`${item.address?.city?.city_name}, ${item.address?.country?.nicename}`}</Typography>
+              sx={{ color: '#949EA2', fontSize: 14, fontWeight: 400 }}
+            >{`${item.address.city.city_name}, ${item.address.country.nicename}`}</Typography>
           </Box>
         </Box>
         <Box sx={{ mt: '16px' }}>
@@ -341,7 +348,7 @@ const renderCardNonSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
                     at {item.last_company.institution}
                   </Typography>
                   <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${getMonthYear(
+                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 400 }}>{`${getMonthYear(
                     item.last_company.start_date,
                     true
                   )} - ${
@@ -378,7 +385,7 @@ const renderCardNonSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
                     {item.last_education.title}
                   </Typography>
                   <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${getMonthYear(
+                  <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 400 }}>{`${getMonthYear(
                     item.last_education.start_date,
                     true
                   )} - ${
@@ -404,6 +411,7 @@ const renderCardNonSeafarer = (item: IUser, isXs: boolean): JSX.Element => {
           )}
           {isXs && (
             <Button
+              disabled={true}
               variant='contained'
               startIcon={<Icon icon='ph:whatsapp-logo' />}
               onClick={() => handleChatWhatsapp(item.phone)}

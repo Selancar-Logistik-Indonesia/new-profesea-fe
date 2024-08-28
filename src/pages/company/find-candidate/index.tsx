@@ -16,11 +16,11 @@ import {
   useMediaQuery,
   Tabs,
   Tab,
-  Link
-  //   Pagination
+  Link,
+  Pagination,
+  PaginationItem
 } from '@mui/material'
 import CandidateContext, { CandidateProvider } from 'src/context/CandidateContext'
-import InfiniteScroll from 'react-infinite-scroll-component'
 import { useRouter } from 'next/router'
 import { useSearchParams } from 'next/navigation'
 import { HttpClient } from 'src/services'
@@ -42,12 +42,41 @@ const FindCandidate = () => {
   )
 }
 
+const CustomPaginationItem = (props: any) => {
+  const { selected, ...other } = props
+
+  return (
+    <PaginationItem
+      {...other}
+      sx={{
+        ...(selected
+          ? {
+              backgroundColor: '#32497A',
+              color: '#FFFFFF',
+              '&:hover': {
+                backgroundColor: '#32497A'
+              }
+            }
+          : {
+              backgroundColor: '#DDDDDD',
+              color: '#000000',
+              '&:hover': {
+                backgroundColor: '#CCCCCC'
+              }
+            }),
+        borderRadius: '4px',
+        margin: '0 2px'
+      }}
+    />
+  )
+}
+const pageItems = 15
+
 const FindCandidateApp = () => {
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const [collapsed, setCollapsed] = useState<boolean>(true)
 
-  const { fetchCandidates, hasNextPage, totalCandidate, page, setPage } = useCandidate()
   const router = useRouter()
   const params = useSearchParams()
 
@@ -70,6 +99,25 @@ const FindCandidateApp = () => {
   const [sJobCategory, setJobCategory] = useState<any>(null)
   const [sRoleType, setRoleType] = useState<any>(null)
   const [sVesselType, setVesselType] = useState<any>(null)
+
+  const { page, setPage, fetchCandidates, totalCandidate } = useCandidate()
+
+  useEffect(() => {
+    fetchCandidates({
+      take: pageItems,
+      employee_type: tabValue,
+      search: sSearchCandidate,
+      vesseltype_id: sVesselType?.id,
+      roletype_id: sRoleType?.id,
+      category_id: sJobCategory?.id,
+      country: sCountry?.id
+    })
+    updateParamsFilter()
+  }, [page, sSearchCandidate, sVesselType, sRoleType, sJobCategory, tabValue, sCountry])
+
+  const handlePageChange = (e: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value)
+  }
 
   const clearFilter = () => {
     setPage(1)
@@ -170,19 +218,6 @@ const FindCandidateApp = () => {
     getRoleTypes()
   }, [sJobCategory])
 
-  useEffect(() => {
-    fetchCandidates({
-      take: 1000,
-      employee_type: tabValue,
-      search: sSearchCandidate,
-      vesseltype_id: sVesselType?.id,
-      roletype_id: sRoleType?.id,
-      category_id: sJobCategory?.id,
-      country: sCountry?.id
-    })
-    updateParamsFilter()
-  }, [sSearchCandidate, sVesselType, sRoleType, sJobCategory, tabValue, sCountry])
-
   const handleSearch = (value: string) => {
     setPage(1)
     SetSearchCandidate(value)
@@ -259,7 +294,7 @@ const FindCandidateApp = () => {
           <Collapse in={collapsed}>
             <CardContent>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <Grid container gap='12px'>
+                <Grid container gap='8px'>
                   <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Keyword</Typography>
                   <TextField
                     fullWidth
@@ -276,7 +311,7 @@ const FindCandidateApp = () => {
                     }}
                   />
                 </Grid>
-                <Grid container gap='12px'>
+                <Grid container gap='8px'>
                   <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Country</Typography>
                   <Autocomplete
                     fullWidth
@@ -292,7 +327,7 @@ const FindCandidateApp = () => {
                     }}
                   />
                 </Grid>
-                <Grid container gap='12px'>
+                <Grid container gap='8px'>
                   <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Job Category</Typography>
                   <Autocomplete
                     fullWidth
@@ -310,11 +345,12 @@ const FindCandidateApp = () => {
                 </Grid>
                 {tabValue == 'onship' && (
                   <>
-                    <Grid container gap='12px'>
+                    <Grid container gap='8px'>
                       <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Job Rank</Typography>
                       <Autocomplete
                         fullWidth
                         disablePortal
+                        disabled={!jobCategory}
                         id='role-type-autocomplete'
                         options={comboRoleType}
                         value={sRoleType}
@@ -325,8 +361,11 @@ const FindCandidateApp = () => {
                           setRoleType(newValue)
                         }}
                       />
+                      {!jobCategory && (
+                        <span style={{ color: 'red', fontSize: 10, fontWeight: 400 }}>Select Job Category first</span>
+                      )}
                     </Grid>
-                    <Grid container gap='12px'>
+                    <Grid container gap='8px'>
                       <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>
                         Type of Vessel
                       </Typography>
@@ -347,7 +386,7 @@ const FindCandidateApp = () => {
                   </>
                 )}
                 {tabValue == 'offship' && (
-                  <Grid container gap='12px'>
+                  <Grid container gap='8px'>
                     <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Job Title</Typography>
                     <Autocomplete
                       fullWidth
@@ -362,6 +401,9 @@ const FindCandidateApp = () => {
                         setRoleType(newValue)
                       }}
                     />
+                    {!jobCategory && (
+                      <span style={{ color: 'red', fontSize: 10, fontWeight: 400 }}>Select Job Category first</span>
+                    )}
                   </Grid>
                 )}
                 <Button
@@ -386,7 +428,7 @@ const FindCandidateApp = () => {
             p: '24px',
             background: '#FFFFFF',
             boxShadow: 3,
-            borderRadius: '12px'
+            borderRadius: '8px'
           }}
         >
           <Box sx={{ borderBottom: 4, borderColor: 'divider' }}>
@@ -411,54 +453,45 @@ const FindCandidateApp = () => {
               }
 
               return (
-                // <Grid container gap='24px'>
-                //   <Grid container sx={{ display: 'flex', justifyContent: 'flex-end', mt: '12px', mb: '-36px' }}>
-                //     <Pagination
-                //       count={Math.ceil(totalCandidate / pageItem)}
-                //       onChange={(e: React.ChangeEvent<unknown>, value: number) => {
-                //         setPage(value)
-                //       }}
-                //       variant='outlined'
-                //       shape='rounded'
-                //     />
-                //   </Grid>
-                <InfiniteScroll
-                  dataLength={totalCandidate}
-                  next={() =>
-                    fetchCandidates({
-                      take: 1000,
-                      employee_type: tabValue,
-                      search: sSearchCandidate,
-                      vesseltype_id: sVesselType?.id,
-                      roletype_id: sRoleType?.id,
-                      category_id: sJobCategory?.id,
-                      country: sCountry?.id
-                    })
-                  }
-                  hasMore={hasNextPage}
-                  loader={
-                    <Typography mt={5} color={'text.secondary'}>
-                      Loading..
-                    </Typography>
-                  }
-                >
+                <Grid container gap='24px'>
+                  <Grid container sx={{ display: 'flex', justifyContent: 'flex-end', mt: '8px', mb: '-36px' }}>
+                    <Pagination
+                      size='small'
+                      count={Math.ceil(totalCandidate / pageItems)}
+                      page={page}
+                      onChange={handlePageChange}
+                      variant='outlined'
+                      shape='rounded'
+                      renderItem={item => <CustomPaginationItem {...item} />}
+                    />
+                  </Grid>
                   <RecomendedView listCandidate={listCandidates} />
-                </InfiniteScroll>
-                //   <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                //     <Typography sx={{ color: '#949EA2', fontSize: 14 }}>{`Showing ${
-                //       page * pageItem < totalCandidate ? page * pageItem : totalCandidate
-                //     } out of ${totalCandidate} results`}</Typography>
-                //     <Pagination
-                //       sx={{ margin: '0 auto' }}
-                //       count={Math.ceil(totalCandidate / pageItem)}
-                //       onChange={(e: React.ChangeEvent<unknown>, value: number) => {
-                //         setPage(value)
-                //       }}
-                //       variant='outlined'
-                //       shape='rounded'
-                //     />
-                //   </Grid>
-                // </Grid>
+                  <Grid
+                    container
+                    sx={{
+                      display: 'flex',
+                      flexDirection: hidden ? 'column' : 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px'
+                    }}
+                  >
+                    <Typography sx={{ color: '#949EA2', fontSize: 14 }}>{`Showing ${
+                      page * pageItems < totalCandidate ? page * pageItems : totalCandidate
+                    } out of ${totalCandidate} results`}</Typography>
+                    <Pagination
+                      sx={{ margin: '0 auto' }}
+                      page={page}
+                      count={Math.ceil(totalCandidate / pageItems)}
+                      onChange={(e: React.ChangeEvent<unknown>, value: number) => {
+                        setPage(value)
+                      }}
+                      variant='outlined'
+                      shape='rounded'
+                      renderItem={item => <CustomPaginationItem {...item} />}
+                    />
+                  </Grid>
+                </Grid>
               )
             }}
           </CandidateContext.Consumer>
