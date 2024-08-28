@@ -111,9 +111,4 @@ const AllJobApplied = () => {
   )
 }
 
-AllJobApplied.acl = {
-  action: 'read',
-  subject: 'home'
-}
-
 export default AllJobApplied
