@@ -158,65 +158,10 @@ const NewsPage = () => {
             xs={12}
             sx={{
               ...landingPageStyle.bannerHero,
-              display: 'flex',
-              gap: 2,
-              borderRadius: '10px',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingTop: '60px',
-              paddingRight: {
-                xs: '30px',
-                lg: '60px'
-              },
-              paddingBottom: '60px',
-              paddingLeft: {
-                xs: '30px',
-                lg: '120px'
-              }
+              width: '100%',
+              borderRadius: '12px'
             }}
-          >
-            <Box
-              sx={{
-                display: {
-                  xs: 'flex',
-                  lg: 'block'
-                },
-                flexDirection: 'column'
-              }}
-            >
-              <Typography
-                variant='h1'
-                color={'white'}
-                fontWeight={700}
-                sx={{
-                  fontSize: {
-                    md: '82px'
-                  }
-                }}
-              >
-                Profesea News
-              </Typography>
-              <Typography
-                variant='body1'
-                color={'white'}
-                fontWeight={500}
-                sx={{
-                  fontSize: {
-                    md: '28px'
-                  }
-                }}
-                width={'70%'}
-              >
-                Temukan berita, informasi, dan tren terbaru terkait industri Maritim dan Logistik
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                ...landingPageStyle.bannerLogo
-              }}
-            />
-          </Grid>
+          />
           {featuredNews.length !== 0 && (
             <Grid item xs={12}>
               <Typography
