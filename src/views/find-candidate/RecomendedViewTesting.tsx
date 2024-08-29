@@ -115,7 +115,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                 )} */}
                   </Box>
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                   {!isXs && (
                     <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 400 }}>Preference:</Typography>
                   )}
@@ -132,7 +132,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                   ) : (
                     <Typography sx={{ fontSize: 14 }}>{`${item.field_preference?.job_category?.name}`}</Typography>
                   )}
-                </Box>
+                </Box> */}
                 <Typography
                   sx={{ color: '#949EA2', fontSize: 14, fontWeight: 400 }}
                 >{`${item.address?.city?.city_name}, ${item.address?.country?.nicename}`}</Typography>
