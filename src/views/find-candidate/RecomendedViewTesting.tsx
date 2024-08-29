@@ -115,7 +115,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                 )} */}
                   </Box>
                 </Box>
-                {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                   {!isXs && (
                     <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 400 }}>Preference:</Typography>
                   )}
@@ -132,13 +132,13 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                   ) : (
                     <Typography sx={{ fontSize: 14 }}>{`${item.field_preference?.job_category?.name}`}</Typography>
                   )}
-                </Box> */}
+                </Box>
                 <Typography
                   sx={{ color: '#949EA2', fontSize: 14, fontWeight: 400 }}
                 >{`${item.address?.city?.city_name}, ${item.address?.country?.nicename}`}</Typography>
               </Box>
             </Box>
-            {/* <Box sx={{ mt: '16px' }}>
+            <Box sx={{ mt: '16px' }}>
               {item.last_company && (
                 <Box
                   sx={{
@@ -245,7 +245,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                   Message
                 </Button>
               )}
-            </Box> */}
+            </Box>
           </Paper>
         </Link>
       </Grid>
@@ -253,11 +253,12 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
   })
 }
 const RecomendedView = (props: Props) => {
-  const { listCandidate } = props
-  const theme = useTheme()
-  const isXs = useMediaQuery(theme.breakpoints.down('md'))
+  //   const { listCandidate } = props
+  //   const theme = useTheme()
+  //   const isXs = useMediaQuery(theme.breakpoints.down('md'))
 
-  return <Grid container>{renderList(listCandidate, isXs)}</Grid>
+  //   return <Grid container>{renderList(listCandidate, isXs)}</Grid>
+  return <Box></Box>
 }
 
 export default RecomendedView
