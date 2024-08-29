@@ -220,7 +220,7 @@ const NewsPage = () => {
                 height={402}
                 sx={{ paddingLeft: '0px !important', paddingTop: '0px !important' }}
               >
-                <YoutubeEmbed embedId='6D5C4KcfOO4' />
+                <YoutubeEmbed embedId='vHE8UjLs3PI' />
               </Grid>
               <Grid item xs={12} lg={6} sx={{ paddingLeft: '0px !important', paddingTop: '0px !important' }}>
                 <Box
@@ -253,17 +253,18 @@ const NewsPage = () => {
                     }}
                     color={'black'}
                   >
-                    Rekrutmen 101: Tips & Trik Lolos Wawancara Kerja bersama Kak Dinar The HR
+                    Pelatihan dan Sertifikasi Pelaut Tanpa Ribet? Memang Bisa? 🤔
                   </Typography>
                   <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>
-                    Tonton episode perdana MariTalks kita yang membahas mulai dari berbagai aspek #interview kerja
-                    sampai mitos atau faktanya.
+                    Di episode MariTalks kali ini, Profesea berkesempatan ngobrol bareng Ibu Nanis Widiatiningsih selaku
+                    Direktur dari Hugos Maritime Services. Profesean bisa mempelajari cara mudah mengikuti pelatihan dan
+                    sertifikasi pelaut dengan proses yang efisien dan tanpa ribet.
                   </Typography>
                   <Box display={'flex'} gap={4}>
                     <Button
                       size='small'
                       variant='contained'
-                      onClick={() => window.open('https://youtu.be/6D5C4KcfOO4?si=L8acXduMUmJ2oKWl', '_blank')}
+                      onClick={() => window.open('https://youtu.be/vHE8UjLs3PI?si=2WUj5trQdXJBr3GL', '_blank')}
                       startIcon={<Icon icon={'ph:play-fill'} />}
                       sx={{
                         textTransform: 'none',

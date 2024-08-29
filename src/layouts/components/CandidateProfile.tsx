@@ -91,7 +91,7 @@ type FormData = {
   code: string
   website: string
   phone: string
-  dateOfBirth: string
+  dateOfBirth: any
   address: string
   about: string
   usernamesosmed: string
@@ -253,8 +253,10 @@ const CandidateProfile = (props: compProps) => {
   }
   const [noExperience, setNoExperience] = useState<boolean>(props.datauser?.no_experience ? true : false)
   const [phoneNum, setPhoneNum] = useState(props.datauser?.phone)
-  const [dateOfBirth, setDateOfBirth] = useState(props.datauser?.date_of_birth)
-  const onChangeDateOfBirth = (input: string) => {
+  const [dateOfBirth, setDateOfBirth] = useState<any>(
+    props.datauser?.date_of_birth ? new Date(props.datauser?.date_of_birth) : null
+  )
+  const onChangeDateOfBirth = (input: any) => {
     setDateOfBirth(input)
   }
   const onChangePhoneNum = (input: string) => {
@@ -561,7 +563,7 @@ const CandidateProfile = (props: compProps) => {
       employee_type: idship,
       name: fullName,
       phone: phoneNum,
-      date_of_birth: dateOfBirth ? dateOfBirth : null,
+      date_of_birth: dateOfBirth || null,
       website: website,
       about: about,
       address_country_id: idcountry,
@@ -919,7 +921,6 @@ const CandidateProfile = (props: compProps) => {
               sx={{ mb: 1 }}
               type='number'
               value={phoneNum}
-              {...register('phone')}
               onChange={e => onChangePhoneNum(e.target.value)}
               InputProps={{
                 // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,

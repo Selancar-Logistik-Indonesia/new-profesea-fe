@@ -53,6 +53,12 @@ const UserJob = () => {
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
+  useEffect(() => {
+    if (tabs) {
+      setValue(tabs)
+    }
+  }, [tabs])
+
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const searchParams = new URLSearchParams(params.toString())

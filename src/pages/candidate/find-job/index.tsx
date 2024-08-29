@@ -118,6 +118,13 @@ const SeafarerJobApp = () => {
   }
 
   const [value, setValue] = useState<string>(tabs || '1')
+
+  useEffect(() => {
+    if (tabs) {
+      setValue(tabs)
+    }
+  }, [tabs])
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
     router.push(`${pathname}?${createQueryString('tabs', newValue)}`)
