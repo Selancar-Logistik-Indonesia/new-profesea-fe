@@ -9,12 +9,6 @@ import Link from 'next/link'
 import { toLinkCase } from 'src/utils/helpers'
 import { calculateAge, getMonthYear } from 'src/utils/helpers'
 
-export type ParamMain = {
-  name: string
-  skill: string
-  location: string
-}
-
 interface Props {
   listCandidate: IUser[]
 }
@@ -252,13 +246,13 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
     )
   })
 }
-const RecomendedView = (props: Props) => {
-  //   const { listCandidate } = props
-  //   const theme = useTheme()
-  //   const isXs = useMediaQuery(theme.breakpoints.down('md'))
 
-  //   return <Grid container>{renderList(listCandidate, isXs)}</Grid>
-  return <Box></Box>
+const RecomendedView = (props: Props) => {
+  const { listCandidate } = props
+  const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.down('md'))
+
+  return <Grid container>{renderList(listCandidate, isXs)}</Grid>
 }
 
 export default RecomendedView
