@@ -138,7 +138,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                 >{`${item.address?.city?.city_name}, ${item.address?.country?.nicename}`}</Typography>
               </Box>
             </Box>
-            <Box sx={{ mt: '16px' }}>
+            {/* <Box sx={{ mt: '16px' }}>
               {item.last_company && (
                 <Box
                   sx={{
@@ -245,7 +245,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                   Message
                 </Button>
               )}
-            </Box>
+            </Box> */}
           </Paper>
         </Link>
       </Grid>
