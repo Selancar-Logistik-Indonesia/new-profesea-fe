@@ -32,7 +32,7 @@ import Countries from 'src/contract/models/country'
 import { useTheme } from '@mui/material/styles'
 import { Icon } from '@iconify/react'
 import { MdNavigateNext } from 'react-icons/md'
-import RecomendedView from 'src/views/find-candidate/RecomendedView'
+import RecomendedView from 'src/views/find-candidate/RecomendedViewTesting'
 
 const FindCandidate = () => {
   return (
