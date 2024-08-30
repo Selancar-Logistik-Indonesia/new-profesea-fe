@@ -260,6 +260,7 @@ interface Props {
 
 const RecomendedView = (props: Props) => {
   console.log(props.listCandidate)
+
   return <Box>Find Candidate</Box>
 }
 
