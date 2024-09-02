@@ -64,6 +64,7 @@ const CustomPaginationItem = (props: any) => {
                 backgroundColor: '#CCCCCC'
               }
             }),
+        fontWeight: 300,
         borderRadius: '4px',
         margin: '0 2px'
       }}
@@ -92,7 +93,7 @@ const FindCandidateApp = () => {
   const [comboCountry, getComboCountry] = useState<Countries[]>([])
   const [comboRoleType, getRoleType] = useState<RoleType[]>([])
   const [comboVesselType, getVesselType] = useState<VesselType[]>([])
-  const [inputSearch, SetSearch] = useState<any>(search || '')
+  const [inputSearch, setSearch] = useState<any>(search || '')
 
   const [sSearchCandidate, SetSearchCandidate] = useState<any>(search || '')
   const [sCountry, setCountry] = useState<any>(null)
@@ -134,7 +135,10 @@ const FindCandidateApp = () => {
     searchParams.set('tabs', tabValue)
 
     if (sSearchCandidate !== '') searchParams.set('search', sSearchCandidate)
-    else searchParams.delete('search')
+    else {
+      searchParams.delete('search')
+      setSearch('')
+    }
 
     if (sCountry !== null) searchParams.set('country', sCountry.id)
     else searchParams.delete('country')
@@ -274,11 +278,7 @@ const FindCandidateApp = () => {
           }}
         >
           <CardHeader
-            title={
-              <Typography variant='body2' style={{ fontSize: '18px', fontWeight: 'bold', color: 'black' }}>
-                Filter
-              </Typography>
-            }
+            title={<Typography style={{ fontSize: '18px', fontWeight: 'bold', color: 'black' }}>Filter</Typography>}
             action={
               hidden && (
                 <IconButton
@@ -303,7 +303,7 @@ const FindCandidateApp = () => {
                     value={inputSearch}
                     placeholder='Search Candidate Name'
                     variant='outlined'
-                    onChange={e => SetSearch(e.target.value)}
+                    onChange={e => setSearch(e.target.value)}
                     onBlur={() => handleSearch(inputSearch)}
                     onKeyPress={e => {
                       if (e.key === 'Enter') {
@@ -408,7 +408,7 @@ const FindCandidateApp = () => {
                   onClick={() => {
                     clearFilter()
                   }}
-                  sx={{ width: '100%', textTransform: 'none', fontSize: 14 }}
+                  sx={{ width: '100%', textTransform: 'none', fontSize: 14, fontWeight: 300 }}
                 >
                   Reset Filters
                 </Button>
@@ -435,8 +435,18 @@ const FindCandidateApp = () => {
               aria-label='basic tabs example'
               sx={{ mb: '-3.5px' }}
             >
-              <Tab label='Seafarer' id='tab-1' value={'onship'} />
-              <Tab label='Professional' id='tab-2' value={'offship'} />
+              <Tab
+                label='Seafarer'
+                id='tab-1'
+                value={'onship'}
+                sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold' }}
+              />
+              <Tab
+                label='Professional'
+                id='tab-2'
+                value={'offship'}
+                sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold' }}
+              />
             </Tabs>
           </Box>
           <CandidateContext.Consumer>
@@ -473,7 +483,7 @@ const FindCandidateApp = () => {
                       gap: '8px'
                     }}
                   >
-                    <Typography sx={{ color: '#949EA2', fontSize: 14 }}>{`Showing ${
+                    <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`Showing ${
                       page * pageItems < totalCandidate ? page * pageItems : totalCandidate
                     } out of ${totalCandidate} results`}</Typography>
                     <Pagination

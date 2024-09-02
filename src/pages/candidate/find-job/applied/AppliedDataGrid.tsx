@@ -32,7 +32,7 @@ const columns: GridColDef[] = [
     minWidth: 150,
     renderCell: cell => {
       const { row } = cell
-      const companyNameUrl = row.company_name.toLowerCase().split(' ').join('-')
+      const companyNameUrl = row.company_name.toLowerCase().split(' ').join('-') ?? ''
       const jobTitleUrl = row.job_title ? row.job_title?.toLowerCase().split(' ').join('-') : ''
 
       return (

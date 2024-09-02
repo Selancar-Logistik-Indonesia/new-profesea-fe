@@ -34,7 +34,7 @@ const BoxedText = ({ children }: { children: string }) => {
         py: '2.5px',
         px: '8px',
         fontSize: 14,
-        fontWeight: 400,
+        fontWeight: 300,
         whiteSpace: 'nowrap'
       }}
     >
@@ -76,7 +76,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                       {item.name ?? ''}
                     </Typography>
                     {item.date_of_birth !== null && (
-                      <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
+                      <Typography sx={{ fontSize: 14, fontWeight: 300 }}>
                         {calculateAge(item.date_of_birth)} years old
                       </Typography>
                     )}
@@ -87,8 +87,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                         disabled={true || !item.phone}
                         variant='contained'
                         onClick={() => handleChatWhatsapp(item.phone ?? '')}
-                        sx={{ height: '34px', textTransform: 'none', fontSize: 14 }}
-                        startIcon={<Icon icon='ph:whatsapp-logo' />}
+                        sx={{ height: '34px', textTransform: 'none', fontSize: 14, fontWeight: 300 }}
                       >
                         Message
                       </Button>
@@ -110,15 +109,15 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                   {!isXs && (
-                    <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 400 }}>Preference:</Typography>
+                    <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}>Preference:</Typography>
                   )}
                   {type === 'onship' ? (
                     <>
-                      <Typography sx={{ fontSize: 14, fontWeight: 400 }}>{`(${
-                        item.field_preference?.role_type?.name ?? '-'
-                      })`}</Typography>
+                      <Typography sx={{ fontSize: 14, fontWeight: 300 }}>
+                        {item.field_preference?.role_type?.name ?? '-'}
+                      </Typography>
                       <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                      <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
+                      <Typography sx={{ fontSize: 14, fontWeight: 300 }}>
                         {item.field_preference?.vessel_type?.name ?? '-'}
                       </Typography>
                     </>
@@ -128,7 +127,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                     }`}</Typography>
                   )}
                 </Box>
-                <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 400 }}>{`${
+                <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${
                   item.address?.city?.city_name ?? '-'
                 }, ${item.address?.country?.nicename ?? '-'}`}</Typography>
               </Box>
@@ -169,7 +168,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                         at {item.last_company?.institution ?? '-'}
                       </Typography>
                       <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                      <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 400 }}>{`${
+                      <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${
                         getMonthYear(item.last_company?.start_date, true) ?? '-'
                       } - ${
                         item.last_company?.end_date ? getMonthYear(item.last_company.end_date, true) : 'Present'
@@ -205,7 +204,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                         {item.last_education?.title ?? '-'}
                       </Typography>
                       <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                      <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 400 }}>{`${
+                      <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${
                         getMonthYear(item.last_education?.start_date, true) ?? '-'
                       } - ${
                         item.last_education?.end_date ? getMonthYear(item.last_education.end_date, true) : 'Present'
@@ -216,7 +215,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                       <Typography
                         sx={{
                           fontSize: 14,
-                          fontWeight: 400,
+                          fontWeight: 300,
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           whiteSpace: 'nowrap',
@@ -231,11 +230,10 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
               )}
               {isXs && (
                 <Button
-                  disabled={true}
+                  disabled={true || !item.phone}
                   variant='contained'
-                  startIcon={<Icon icon='ph:whatsapp-logo' />}
                   onClick={() => handleChatWhatsapp(item.phone ?? '')}
-                  sx={{ width: '100%', textTransform: 'none', fontSize: 14 }}
+                  sx={{ width: '100%', textTransform: 'none', fontSize: 14, fontWeight: 300 }}
                 >
                   Message
                 </Button>
