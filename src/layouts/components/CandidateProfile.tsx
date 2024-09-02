@@ -687,7 +687,13 @@ const CandidateProfile = (props: compProps) => {
             <CardMedia
               component='img'
               alt='profile-header'
-              image={previewBanner ? previewBanner : '/images/avatars/headerprofile3.png'}
+              image={
+                previewBanner
+                  ? previewBanner
+                  : props.datauser.employee_type == 'onship'
+                  ? '/images/banner/seafarer-banner.png'
+                  : '/images/banner/professional-banner.png'
+              }
               sx={{
                 backgroundColor: 'grey',
                 height: { xs: 150, md: 250 },
