@@ -444,7 +444,7 @@ const CompanyProfile = (props: compProps) => {
             <CardMedia
               component='img'
               alt='profile-header'
-              image={previewBanner ? previewBanner : '/images/avatars/headerprofile3.png'}
+              image={previewBanner ? previewBanner : '/images/banner/employer-banner.png'}
               sx={{
                 height: { xs: 150, md: 250 },
                 width: '100%',
