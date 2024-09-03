@@ -71,7 +71,13 @@ const UserProfileHeader = (props: userProps) => {
       <CardMedia
         component='img'
         alt='profile-header'
-        image={datauser.banner ? datauser.banner : '/images/avatars/headerprofile3.png'}
+        image={
+          datauser.banner
+            ? datauser.banner
+            : props.datauser.employee_type == 'onship'
+            ? '/images/banner/seafarer-banner.png'
+            : '/images/banner/professional-banner.png'
+        }
         sx={{
           height: { xs: 150, md: 250 },
           width: '100%',

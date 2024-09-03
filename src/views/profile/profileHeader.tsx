@@ -81,7 +81,15 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
         <Box
           component='img'
           alt='profile-header'
-          src={dataUser.banner ? dataUser.banner : '/images/avatars/headerprofile3.png'}
+          src={
+            dataUser.banner
+              ? dataUser.banner
+              : dataUser.team_id == 3
+              ? '/images/banner/employer-banner.png'
+              : dataUser.employee_type == 'onship'
+              ? '/images/banner/seafarer-banner.png'
+              : '/images/banner/professional-banner.png'
+          }
           sx={{
             width: '100%',
             height: '230px',

@@ -135,7 +135,7 @@ const CompanyAndManagementDataGrid = (props: RoleGridProps) => {
       field: 'doc',
       headerName: 'Documents',
       sortable: false,
-      minWidth: 150,
+      minWidth: 200,
       renderCell: cell => {
         const { row } = cell
 
