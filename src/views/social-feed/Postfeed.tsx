@@ -41,11 +41,12 @@ const Postfeed = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isOpenDialog, setIsOpenDialog] = useState(false)
   const [checked, isChecked] = useState(false)
-  const [isAgree, setIsAgree] = useState<Boolean | undefined>(user?.is_agree_policy_post)
+  const [isAgree, setIsAgree] = useState<boolean | undefined>(user?.is_agree_policy_post)
 
   const handleUpdateStatus = async () => {
     if (!isAgree) {
       setIsOpenDialog(true)
+      
       return
     }
 
