@@ -135,11 +135,12 @@ const NewsPage = () => {
   return (
     <>
       <Head>
-        <title>{`${themeConfig.templateName} - ${t('landing_hero_title')}`}</title>
+        <title>News at profesea.id</title>
         <meta name='description' content={`${themeConfig.templateName} - ${t('landing_about_subtitle')}`} />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
       </Head>
+
       <Box
         sx={{
           px: { xs: '24px', md: '120px' }
