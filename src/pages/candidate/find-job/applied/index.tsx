@@ -9,12 +9,6 @@ import Applied from 'src/contract/models/applicant'
 import debounce from 'src/utils/debounce'
 import { GridPaginationModel } from '@mui/x-data-grid'
 
-// const status: any[] = [
-//   { id: 'AP', title: 'Approved' },
-//   { id: 'RJ', title: 'Rejected' },
-//   { id: 'WR', title: 'Waiting Review' }
-// ]
-
 const status: any[] = [
   { id: 'AP', title: 'Approved' },
   { id: 'RJ', title: 'Rejected' },
@@ -43,14 +37,14 @@ const AllJobApplied = () => {
       return {
         no: index + 1,
         id: row.id,
-        job_id: row?.job_id,
-        job_title: row?.job?.job_title,
-        role_type: row?.job?.role_type?.name,
-        category_name: row?.job?.category.name,
-        company_name: row?.job?.company?.name,
-        location: `${row?.job?.city?.city_name} - ${row?.job?.country?.name}`,
-        degree: row?.job?.degree?.name,
-        salary: `Rp. ${row?.job?.salary_start} - Rp. ${row?.job?.salary_end}`,
+        job_id: row.job_id,
+        job_title: row.job?.job_title ?? '-',
+        role_type: row.job?.role_type?.name ?? '-',
+        level_name: row.job?.rolelevel?.levelName ?? '-',
+        category_name: row.job?.category?.name ?? '-',
+        company_name: row.job?.company?.name ?? '-',
+        location: `${row.job?.city?.city_name ?? ''} - ${row.job?.country?.name ?? ''}`,
+        degree: row.job?.degree?.name ?? '-',
         status: status.find(e => e.id === row.status).title
       } as unknown as RowItem
     })

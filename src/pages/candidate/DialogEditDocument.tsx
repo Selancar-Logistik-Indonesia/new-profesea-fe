@@ -59,7 +59,7 @@ const DialogEditDocument = (props: DialogProps) => {
 
   useEffect(() => {
     if (!selectedFile) {
-      setPreview(process.env.NEXT_PUBLIC_BASE_API?.replace('/api', '') + '/storage/' + props.selectedItem?.path)
+      setPreview(process.env.NEXT_PUBLIC_BASE_URL + '/storage/' + props.selectedItem?.path)
 
       return
     }

@@ -116,15 +116,15 @@ const Postfeed = () => {
           </Box>
 
           <Stack direction={'column'} gap={2}>
-            <Box>
+            <Typography sx={{ textAlign: 'justify' }}>
               Make sure your post doesn't contain sensitive personal information such as ID numbers, passports, driver's
               licenses, home addresses, certification information, passwords, or other data that could compromise your
               security and privacy.
-            </Box>
-            <Box>
+            </Typography>
+            <Typography sx={{ textAlign: 'justify' }}>
               In the event of non-compliance, our platform reserves the right to remove or delete the post to ensure the
               safety of all users.
-            </Box>
+            </Typography>
             <FormControlLabel
               control={<Checkbox checked={checked} onChange={event => isChecked(event.target.checked)} />}
               label='I have read and agree to the Feeds Policy'
@@ -182,9 +182,9 @@ const Postfeed = () => {
               triggerDialogPolicy={() => setIsOpenDialog(true)}
               isAgree={isAgree as unknown as boolean}
             />
-            <ButtonUploadVideo 
-                triggerDialogPolicy={() => setIsOpenDialog(true)}
-                isAgree={isAgree as unknown as boolean}
+            <ButtonUploadVideo
+              triggerDialogPolicy={() => setIsOpenDialog(true)}
+              isAgree={isAgree as unknown as boolean}
             />
           </Box>
           <Box flexGrow={1} textAlign='right'>

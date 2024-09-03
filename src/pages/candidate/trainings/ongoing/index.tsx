@@ -22,9 +22,15 @@ const SeafarerOngoingTraining = () => {
   )
 }
 
-const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
-  const { children, line, ...rest } = props
+const TruncatedTypography = (props: { children: any; line?: number; textTransform?: boolean; [key: string]: any }) => {
+  const { children, line, textTransform, ...rest } = props
   const maxLine = line ? line : 1
+
+  let value = children
+
+  if (textTransform) {
+    value = children.charAt(0).toUpperCase() + children.slice(1).toLowerCase()
+  }
 
   return (
     <Typography
@@ -43,7 +49,7 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
         ...rest
       }}
     >
-      {children}
+      {value}
     </Typography>
   )
 }
@@ -89,7 +95,7 @@ const renderList = (arr: Training[]) => {
                     >
                       <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' />
                       <Grid item xs={true} sx={{ flexGrow: 1 }}>
-                        <TruncatedTypography fontSize={20} color={'#0a66c2'}>
+                        <TruncatedTypography fontSize={20} color={'#0a66c2'} textTransform>
                           {item.title}
                         </TruncatedTypography>
                       </Grid>
@@ -175,16 +181,19 @@ const OngoingTrainingApp = () => {
         }
 
         return (
-          <InfiniteScroll
-            dataLength={totalTraining}
-            next={() => fetchTrainings({ take: 12, instant: 0, ongoing: 1 })}
-            hasMore={hasNextPage}
-            loader={<CircularProgress sx={{ mt: 20 }} />}
-          >
-            <Grid container spacing={3} mt={1}>
-              {renderList(listTrainings)}
-            </Grid>
-          </InfiniteScroll>
+          <Box style={{ height: 'fit-content' }}>
+            <InfiniteScroll
+              style={{ overflow: 'visible' }}
+              dataLength={totalTraining}
+              next={() => fetchTrainings({ take: 12, instant: 0, ongoing: 1 })}
+              hasMore={hasNextPage}
+              loader={<CircularProgress sx={{ mt: 20 }} />}
+            >
+              <Grid container spacing={3} mt={1}>
+                {renderList(listTrainings)}
+              </Grid>
+            </InfiniteScroll>
+          </Box>
         )
       }}
     </TrainingContext.Consumer>
