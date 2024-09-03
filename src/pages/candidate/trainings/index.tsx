@@ -26,8 +26,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 0 }}>
-          {children}
-          {/* <Typography>{children}</Typography> */}
+          <Typography>{children}</Typography>
         </Box>
       )}
     </div>
@@ -128,12 +127,7 @@ const SeafarerTraining = () => {
               borderRadius: '2px'
             }}
           >
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label='basic tabs example'
-              // sx={{ "& button.Mui-selected": { backgroundColor: '#32487A', color: 'white', borderRadius: '4px' } }}
-            >
+            <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
               <Tab
                 label='Find Training'
                 icon={<Icon icon='solar:card-search-bold-duotone' fontSize={18} />}
