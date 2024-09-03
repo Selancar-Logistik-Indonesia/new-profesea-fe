@@ -5,7 +5,12 @@ import { useSocialFeed } from "src/hooks/useSocialFeed";
 import { getCleanErrorMessage } from "src/utils/helpers";
 import ImageListPreview from "./ImageListPreview";
 
-const ButtonUploadPhoto = () => {
+interface IButtonUploadPhoto {
+    triggerDialogPolicy : () => void
+    isAgree : boolean
+}
+
+const ButtonUploadPhoto : React.FC<IButtonUploadPhoto> = ({triggerDialogPolicy, isAgree}) => {
     const [open, setOpen] = useState(false);
     const inputFile = useRef<HTMLInputElement>(null);
     const [content, setContent] = useState('');
@@ -29,9 +34,15 @@ const ButtonUploadPhoto = () => {
     }
 
     const openModalPhoto = () => {
-        inputFile.current?.click();
-        setOpen(true);
-        setPreviewUrls([]);
+      if (!isAgree) {
+        triggerDialogPolicy()
+        
+        return
+      }
+
+      inputFile.current?.click()
+      setOpen(true)
+      setPreviewUrls([])
     }
 
     const handleUpdateStatus = async () => {
