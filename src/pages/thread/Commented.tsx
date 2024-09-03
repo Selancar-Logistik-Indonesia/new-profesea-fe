@@ -104,16 +104,19 @@ const Commented = (props: any) => {
         }
 
         return (
-          <InfiniteScroll
-            dataLength={totalComments}
-            next={() => fetchComments({ take: 5, replyable_id: props.replyable_id, replyable_type: 'thread' })}
-            hasMore={hasNextPage}
-            loader={<CircularProgress sx={{ mt: 20, alignItems: 'center', justifyContent: 'center' }} />}
-          >
-            <Grid container spacing={2}>
-              {renderList(comments)}
-            </Grid>
-          </InfiniteScroll>
+          <Box style={{ height: 'fit-content' }}>
+            <InfiniteScroll
+              style={{ overflow: 'visible' }}
+              dataLength={totalComments}
+              next={() => fetchComments({ take: 5, replyable_id: props.replyable_id, replyable_type: 'thread' })}
+              hasMore={hasNextPage}
+              loader={<CircularProgress sx={{ mt: 20, alignItems: 'center', justifyContent: 'center' }} />}
+            >
+              <Grid container spacing={2}>
+                {renderList(comments)}
+              </Grid>
+            </InfiniteScroll>
+          </Box>
         )
       }}
     </ThreadContext.Consumer>
