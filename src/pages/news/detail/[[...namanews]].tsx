@@ -213,7 +213,9 @@ const ThreadApp = () => {
   return (
     <>
       <Head>
-        <meta name='description' content={`${newscache?.id}`} />
+        <title>News at Profesea.id - {`${newscache?.title}`}</title>
+        <meta name='title' content={`${newscache?.title}`} />
+        <meta name='description' content={`${newscache?.content}`} />
         <meta name='keywords' content='profesea' />
       </Head>
       <Box
