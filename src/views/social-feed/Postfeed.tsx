@@ -46,7 +46,7 @@ const Postfeed = () => {
   const handleUpdateStatus = async () => {
     if (!isAgree) {
       setIsOpenDialog(true)
-      
+
       return
     }
 
@@ -155,28 +155,6 @@ const Postfeed = () => {
           >
             Agree And Continue
           </Button>
-          {/* {disabled == true && (
-            <Button variant='contained' color='error' onClick={() => setDisabled(false)}>
-              <Icon fontSize='large' icon={'carbon:close-outline'} color={'info'} style={{ margin: 3 }} />
-              Reject
-            </Button>
-          )} */}
-
-          {/* {disabled == false && (
-            <>
-              <TextField
-                sx={{ mr: 2 }}
-                id='reason'
-                label='Reason'
-                variant='outlined'
-                fullWidth
-                onChange={e => setReason(e.target.value)}
-              />
-              <Button variant='contained' color='error' onClick={handleReject} sx={{ mr: 2 }}>
-                Submit
-              </Button>
-            </>
-          )} */}
         </DialogActions>
       </Dialog>
       <Card
@@ -200,8 +178,14 @@ const Postfeed = () => {
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', mt: 3, alignItems: 'end' }}>
           <Box>
-            <ButtonUploadPhoto />
-            <ButtonUploadVideo />
+            <ButtonUploadPhoto
+              triggerDialogPolicy={() => setIsOpenDialog(true)}
+              isAgree={isAgree as unknown as boolean}
+            />
+            <ButtonUploadVideo 
+                triggerDialogPolicy={() => setIsOpenDialog(true)}
+                isAgree={isAgree as unknown as boolean}
+            />
           </Box>
           <Box flexGrow={1} textAlign='right'>
             <Button

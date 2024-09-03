@@ -4,7 +4,12 @@ import { ChangeEvent, useRef, useState } from "react";
 import { useSocialFeed } from "src/hooks/useSocialFeed";
 import { getCleanErrorMessage } from "src/utils/helpers";
 
-const ButtonUploadVideo = () => {
+interface IButtonUploadVideo {
+    triggerDialogPolicy : () => void
+    isAgree : boolean
+}
+
+const ButtonUploadVideo : React.FC<IButtonUploadVideo> = ({triggerDialogPolicy, isAgree}) => {
     const [open, setOpen] = useState(false);
     const inputFile = useRef<HTMLInputElement>(null);
     const videoPreview = useRef<HTMLVideoElement>(null);
@@ -26,9 +31,15 @@ const ButtonUploadVideo = () => {
     }
 
     const openModalVideo = () => {
-        inputFile.current?.click();
-        setOpen(true);
-        setVideoSelected(false);
+      if (!isAgree) {
+        triggerDialogPolicy()
+
+        return
+      }
+
+      inputFile.current?.click()
+      setOpen(true)
+      setVideoSelected(false)
     }
 
     const handleUpdateStatus = async () => {
