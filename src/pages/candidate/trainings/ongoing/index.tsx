@@ -29,7 +29,7 @@ const TruncatedTypography = (props: { children: any; line?: number; textTransfor
   let value = children
 
   if (textTransform) {
-    value = children.charAt(0).toUpperCase() + children.slice(1).toLowerCase()
+    value = children.toLowerCase()
   }
 
   return (
@@ -46,6 +46,7 @@ const TruncatedTypography = (props: { children: any; line?: number; textTransfor
         lineHeight: '1.2em',
         fontWeight: 'bold',
         fontSize: '16px',
+        textTransform: 'capitalize',
         ...rest
       }}
     >
@@ -88,7 +89,16 @@ const renderList = (arr: Training[]) => {
                     height: '7.4em'
                   }}
                 >
-                  <Tooltip title={item.title} enterDelay={500} leaveDelay={200}>
+                  <Tooltip
+                    title={
+                      <Typography sx={{ textTransform: 'capitalize', color: 'white' }}>
+                        {item.title.toLowerCase()}
+                      </Typography>
+                    }
+                    enterDelay={500}
+                    leaveDelay={200}
+                    style={{ textTransform: 'capitalize' }}
+                  >
                     <Grid
                       container
                       sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1.5, mb: 1 }}
