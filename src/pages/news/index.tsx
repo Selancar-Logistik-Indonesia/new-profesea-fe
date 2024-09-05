@@ -124,13 +124,13 @@ const NewsPage = () => {
     setTabValue(newValue)
   }
 
-  const truncateText = (text: string, maxLength: number) => {
-    if (text.length <= maxLength) {
-      return text
-    }
+  // const truncateText = (text: string, maxLength: number) => {
+  //   if (text.length <= maxLength) {
+  //     return text
+  //   }
 
-    return text.substring(0, maxLength) + '...'
-  }
+  //   return text.substring(0, maxLength) + '...'
+  // }
 
   return (
     <>
@@ -429,7 +429,7 @@ const NewsPage = () => {
                           </Typography>
                         </Link>
                         <Typography fontWeight={400} fontSize={16}>
-                          {truncateText(n?.snap_content, 400)}
+                          {n?.snap_content ? n?.snap_content : '-'}
                         </Typography>
                       </Box>
                       <Box>
