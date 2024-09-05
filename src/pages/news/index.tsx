@@ -135,11 +135,20 @@ const NewsPage = () => {
   return (
     <>
       <Head>
-        <title>{`${themeConfig.templateName} - ${t('landing_hero_title')}`}</title>
-        <meta name='description' content={`${themeConfig.templateName} - ${t('landing_about_subtitle')}`} />
+        <title>Profesea News - Temukan berita, informasi, dan tren terbaru di Industri maritim dan logistik</title>
+        <meta
+          name='title'
+          content='Profesea News - Temukan berita, informasi, dan tren terbaru di Industri maritim dan logistik'
+        />
+        <meta
+          name='description'
+          content='Temukan berita, informasi, dan tren terbaru di Industri maritim dan logistik di Profesea News!
+'
+        />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
       </Head>
+
       <Box
         sx={{
           px: { xs: '24px', md: '120px' }
