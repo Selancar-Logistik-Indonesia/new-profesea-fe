@@ -67,6 +67,7 @@ const EditNewsScreen = () => {
   const [charType, setType] = useState('0')
   const [charMeta, setMeta2] = useState('0')
   const [charSlug, setSlug2] = useState('0')
+  const [charSnap, setCharSnap] = useState('0')
   //const [newsDetail, setThreadDetail] = useState<Thread>()
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [files, setFiles] = useState<File[]>([])
@@ -77,6 +78,7 @@ const EditNewsScreen = () => {
   const [newsCategoryId, setNewsCategoryId] = useState<any>(null)
   const [newsCategories, setNewsCategories] = useState<INewsCategories[]>([])
   const [featuredNews, setFeaturedNews] = useState(false)
+  const [snapContent, setSnapContent] = useState<any>(null)
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
@@ -101,16 +103,19 @@ const EditNewsScreen = () => {
 
   const schema = yup.object().shape({
     title: yup.string().min(1).max(60).required('maximum 60 character'),
-    meta: yup.string().min(1).max(160).required('maximum 160 character')
+    meta: yup.string().min(1).max(160).required('maximum 160 character'),
+    snapContent: yup.string().min(1).max(250).required('maximum 250 character')
   })
   const {
     register,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
+    setValue
   } = useForm<any>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
+
   const type = [{ title: 'News' }, { title: 'Event' }]
   const firstload = () => {
     setShow(false)
@@ -128,6 +133,13 @@ const EditNewsScreen = () => {
       setMeta2(news?.meta.length)
       setNewsCategoryId(news?.category)
       setFeaturedNews(news?.featured_news)
+      setSnapContent(news?.snap_content)
+      setCharSnap(news?.snap_content?.length)
+
+      // useform setvalue
+      setValue('title', news?.title)
+      setValue('meta', news?.meta)
+      setValue('snapContent', news?.snap_content)
 
       setForum({ title: news?.type })
       getUrlFile(news?.imgnews)
@@ -175,7 +187,8 @@ const EditNewsScreen = () => {
       slug: sSlug,
       meta: sMeta,
       category_id: newsCategoryId?.id,
-      featured_news: featuredNews
+      featured_news: featuredNews,
+      snap_content: snapContent
     }
     setOnLoading(true)
     try {
@@ -211,6 +224,12 @@ const EditNewsScreen = () => {
     const newValue = event.target.value.length
     setMeta2(newValue)
     setMeta(event.target.value)
+  }
+
+  const handleChangeSnapContentLength = (event: { target: { value: any } }) => {
+    const newValue = event.target.value.length
+    setCharSnap(newValue)
+    setSnapContent(event?.target.value)
   }
 
   return (
@@ -341,6 +360,29 @@ const EditNewsScreen = () => {
                       endAdornment={
                         <InputAdornment position='end'>
                           <Typography>{charMeta} character / 160</Typography>
+                        </InputAdornment>
+                      }
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid item container xs={12} md={6}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.snapContent)}>
+                      Snap Content
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='snapContent'
+                      {...register('snapContent')}
+                      error={Boolean(errors.snapContent)}
+                      value={snapContent}
+                      onChange={handleChangeSnapContentLength}
+                      label='Snap Content'
+                      fullWidth
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <Typography>{charSnap} character / 250</Typography>
                         </InputAdornment>
                       }
                     />
