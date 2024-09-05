@@ -163,18 +163,18 @@ const navigation = (): VerticalNavItemsType => {
             subject: 'admin-community-management'
         },
         {
-            path: '/admin/master-news/',
+            path: '/admin/master-news2/',
             title: 'News Management',
             icon: 'solar:card-2-bold-duotone',
             action: 'read',
-            subject: 'admin-master-news'
+            subject: 'admin-master-news2'
         },
         {
             path: '/admin/alumni/',
             title: 'Alumni Management',
             icon: 'ic:twotone-school',
             action: 'read',
-            subject: 'admin-master-news'
+            subject: 'admin-master-news2'
         },
         {
             path: '#',
