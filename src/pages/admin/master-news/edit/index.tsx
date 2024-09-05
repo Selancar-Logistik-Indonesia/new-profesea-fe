@@ -378,7 +378,7 @@ const EditNewsScreen = () => {
                       error={Boolean(errors.snapContent)}
                       value={snapContent}
                       onChange={handleChangeSnapContentLength}
-                      label='Snap Content'
+                      label='Please Insert Snap Content'
                       fullWidth
                       endAdornment={
                         <InputAdornment position='end'>
