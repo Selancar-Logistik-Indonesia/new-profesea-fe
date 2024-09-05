@@ -56,6 +56,7 @@ const MasterNewsScreen = () => {
   const [charType, setType] = useState('0')
   const [charMeta, setMeta] = useState('0')
   const [charSlug, setSlug] = useState('0')
+  const [charSnap, setCharSnap] = useState('0')
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [files, setFiles] = useState<File[]>([])
   const [postingDate, setPostingDate] = useState<DateType>(new Date())
@@ -89,7 +90,8 @@ const MasterNewsScreen = () => {
   const schema = yup.object().shape({
     // desc: yup.string().min(1).required(),
     title: yup.string().min(1).max(60).required('maximum 60 character'),
-    meta: yup.string().min(1).max(160).required('maximum 160 character')
+    meta: yup.string().min(1).max(160).required('maximum 160 character'),
+    snapContent : yup.string().min(1).max(250).required('maximum 250 character')
   })
   const {
     register,
@@ -117,7 +119,7 @@ const MasterNewsScreen = () => {
   }
 
   const onCreate = async (formData: any) => {
-    const { title, slug, meta } = formData
+    const { title, slug, meta, snapContent } = formData
 
     const json = {
       imgnews: files,
@@ -128,7 +130,8 @@ const MasterNewsScreen = () => {
       meta: meta,
       postingdate: postingDate,
       category_id: newsCategoryId ? newsCategoryId : null,
-      featured_news: featuredNews
+      featured_news: featuredNews,
+      snap_content : snapContent
     }
 
     setOnLoading(true)
@@ -163,6 +166,11 @@ const MasterNewsScreen = () => {
     // debugger
     const newValue = event.target.value.length
     setMeta(newValue)
+  }
+
+  const handleChangeSnapContentLength = (event : {target : {value : any}}) => {
+    const newValue = event.target.value.length;
+    setCharSnap(newValue)
   }
 
   const comboBox = async () => {
@@ -298,6 +306,28 @@ const MasterNewsScreen = () => {
                       }
                     />
                   </Box>
+                </Grid>
+
+                <Grid item container xs={12} md={6}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.snapContent)}>
+                      Snap Content
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      id='snapContent'
+                      {...register('snapContent')}
+                      error={Boolean(errors.snapContent)}
+                      onChange={handleChangeSnapContentLength}
+                      label='Snap Content'
+                      fullWidth
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <Typography>{charSnap} character / 250</Typography>
+                        </InputAdornment>
+                      }
+                    />
+                  </Grid>
                 </Grid>
 
                 <Grid item container xs={12} md={6}>
