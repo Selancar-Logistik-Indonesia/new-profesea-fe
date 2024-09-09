@@ -8,7 +8,6 @@ import {
   Button,
   Grid,
   TextField,
-  FormControl,
   Autocomplete,
   Divider,
   Select,
@@ -18,9 +17,9 @@ import {
   Menu,
   MenuItem,
   Card,
-  InputLabel,
   InputAdornment,
-  Typography
+  Typography,
+  FormControl
 } from '@mui/material'
 
 // import DatePicker from 'react-datepicker'
@@ -187,13 +186,13 @@ const CandidateProfile = (props: compProps) => {
   const [comboShip, getShip] = useState<any>([])
   const [comboOPP, getOpp] = useState<any>([])
   const [combocity, getComboCity] = useState<any[]>([])
-  const [combocode, getCombocode] = useState<any[]>([])
+  // const [combocode, getCombocode] = useState<any[]>([])
   const [combokelamin, getCombokelamin] = useState<any[]>([])
   const [idcombokelamin, setCombokelamin] = useState<any>(
     props.datauser?.gender == 'f' ? { title: 'f', label: 'Female' } : { title: 'm', label: 'Male' }
   )
 
-  const [idcombocode, setCombocode] = useState<any>(props.datauser?.country_id)
+  // const [idcombocode, setCombocode] = useState<any>(props.datauser?.country_id)
   const [idcity, setCombocity] = useState<any>(props.datauser.address?.city_id)
   const [idship, setShip] = useState<any>(
     props.datauser?.employee_type == 'offship'
@@ -295,7 +294,7 @@ const CandidateProfile = (props: compProps) => {
     HttpClient.get(AppConfig.baseUrl + '/public/data/country?search=').then(response => {
       const code = response.data.countries
       getComboCountry(code)
-      getCombocode(code)
+      // getCombocode(code)
     })
 
     const code = [
@@ -544,6 +543,7 @@ const CandidateProfile = (props: compProps) => {
   }
 
   const onSubmit = (data: FormData) => {
+    alert('onsubmit')
     const { fullName, website, address, about } = data
 
     if (!dateOfBirth) {
@@ -559,7 +559,7 @@ const CandidateProfile = (props: compProps) => {
     }
 
     const json = {
-      country_id: idcombocode,
+      country_id: 62,
       employee_type: idship,
       name: fullName,
       phone: phoneNum,
@@ -657,8 +657,6 @@ const CandidateProfile = (props: compProps) => {
   const displayopp = (type: any) => {
     setOpp(type?.id)
   }
-
-  console.log(' idComboProvince => ', idcomboProvince)
 
   return (
     <Grid container md={12} xs={12} padding={5}>
@@ -804,464 +802,359 @@ const CandidateProfile = (props: compProps) => {
         </Menu>
       </CardContent>
 
-      <form id='profile-form' noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-        <Grid className='profile-form' item container xs={12} spacing={3} sx={{ mb: 2 }} marginTop={'25px'}>
-          <Grid item md={6} xs={12}>
-            <TextField
-              id='fullName'
-              required
-              defaultValue={props.datauser.name}
-              label='Full Name'
-              variant='standard'
-              fullWidth
-              sx={{ mb: 1 }}
-              {...register('fullName')}
-            />
-          </Grid>
-          <Grid item md={3} xs={12}>
-            <Autocomplete
-              disablePortal
-              id='combo-box-demo'
-              options={!combokelamin ? [{ label: 'Loading...', title: 0 }] : combokelamin}
-              defaultValue={idcombokelamin}
-              getOptionLabel={(option: any) => option.label}
-              renderInput={params => (
-                <TextField {...params} label='Gender *' id='gender' variant='standard' {...register('genderr')} />
-              )}
-              onChange={(event: any, newValue: any) =>
-                newValue?.title ? setCombokelamin(newValue) : setCombokelamin('')
-              }
-            />
-          </Grid>
-          <Grid item md={3} xs={12}>
-            <Autocomplete
-              disablePortal
-              id='combo-box-demo'
-              // options={comboShip}
-              options={!comboShip ? [{ label: 'Loading...', id: 0 }] : comboShip}
-              defaultValue={ship}
-              getOptionLabel={(option: any) => option.label}
-              renderInput={params => <TextField {...params} label='Ship' variant='standard' />}
-              onChange={(event: any, newValue: any | null) => displayship(newValue)}
-              disabled={showShip}
-              // onChange={(event: any, newValue: Employee ) =>
-              //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
-              // }
-            />
-          </Grid>
-          <Grid item md={3} xs={12}>
-            <Autocomplete
-              disablePortal
-              id='combo-box-demo'
-              options={combocountry}
-              getOptionLabel={(option: any) => option.nicename}
-              defaultValue={props.address?.country}
-              renderInput={params => <TextField {...params} label='Country *' variant='standard' />}
-              onChange={(event: any, newValue: Countries | null) =>
-                newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
-              }
-            />
-          </Grid>
-          <Grid item md={3} xs={12}>
-            <Autocomplete
-              disablePortal
-              id='city'
-              value={props.datauser.address?.city}
-              options={combocity}
-              getOptionLabel={(option: City) => option.city_name}
-              renderInput={params => <TextField {...params} label='City *' sx={{ mb: 2 }} variant='standard' />}
-              onChange={(event: any, newValue: City | null) =>
-                newValue?.id ? setCombocity(newValue.id) : setCombocity(props.address?.city_id)
-              }
-            />
-          </Grid>
-          <Grid item md={6} xs={12}>
-            <TextField
-              id='address'
-              label='Address'
-              required
-              defaultValue={props.datauser.address?.address}
-              variant='standard'
-              fullWidth
-              sx={{ mb: 1 }}
-              {...register('address')}
-            />
-          </Grid>
-          <Grid item md={3} xs={12}>
-            <TextField
-              id='Email'
-              label='Email'
-              required
-              defaultValue={props.datauser.email}
-              variant='standard'
-              fullWidth
-              sx={{ mb: 1 }}
-              {...register('email')}
-            />
-          </Grid>
-          {props.datauser.role == 'Company' && (
-            <>
-              <Grid item md={6} xs={12}>
-                <TextField
-                  id='website'
-                  label='Website'
-                  required
-                  defaultValue={props.datauser.website}
-                  variant='standard'
-                  fullWidth
-                  sx={{ mb: 1 }}
-                  {...register('website')}
-                />
-              </Grid>
-            </>
-          )}
-
-          <Grid item md={3} xs={12}>
-            <TextField
-              id='phone'
-              label='Phone'
-              required
-              defaultValue={props.datauser.phone}
-              variant='standard'
-              fullWidth
-              sx={{ mb: 1 }}
-              type='number'
-              value={phoneNum}
-              onChange={e => onChangePhoneNum(e.target.value)}
-              InputProps={{
-                // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
-                startAdornment: (
-                  <Select
-                    sx={{ marginTop: -2 }}
-                    labelId='select-country-code'
-                    id='select-country-code'
-                    value={idcombocode}
-                    onChange={e => setCombocode(e.target.value)}
-                    label='Code'
-                    variant='standard'
-                  >
-                    {combocode.map((item, index) => (
-                      <MenuItem key={index} value={item.id}>
-                        {item.iso} (+ {item.phonecode})
-                      </MenuItem>
-                    ))}
-                  </Select>
-                )
-              }}
-            />
-          </Grid>
-          <Grid item md={3} xs={12}>
-            <LocalizationProvider dateAdapter={AdapterMoment}>
-              <DatePicker
-                format='DD/MM/YYYY'
-                openTo='month'
-                views={['year', 'month', 'day']}
-                label={'Date Of Birth *'}
-                onChange={(date: any) => onChangeDateOfBirth(date)}
-                value={moment(dateOfBirth)}
-                slotProps={{ textField: { variant: 'standard', fullWidth: true, id: 'basic-input' } }}
+      <form id='profile-form' className='profile-form' noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+        <FormControl>
+          <Grid item container xs={12} spacing={3} sx={{ mb: 2 }} marginTop={'25px'}>
+            <Grid item md={6} xs={12}>
+              <TextField
+                id='fullName'
+                required
+                defaultValue={props.datauser.name}
+                label='Full Name'
+                variant='standard'
+                fullWidth
+                sx={{ mb: 1 }}
+                {...register('fullName')}
               />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item md={3} xs={12}></Grid>
-          <Grid item md={12} xs={12}>
-            <TextField
-              fullWidth
-              sx={{ mb: 1 }}
-              id='outlined-multiline-static'
-              label='About me'
-              variant='standard'
-              multiline
-              rows={4}
-              defaultValue={props.datauser.about}
-              {...register('about')}
-            />
-          </Grid>
-          {/* ----- Social Media Info ---- */}
-          <>
-            <Grid item md={5} xs={12}>
-              <Grid container item xs={12} justifyContent={'left'}>
-                <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-                  Social Media Info
-                </Typography>
-              </Grid>
-              <Grid container item xs={12} justifyContent={'left'}>
-                <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                  Fulfill your Social Media Info
-                </Typography>
-              </Grid>
             </Grid>
-
-            <Grid container item md={12} xs={12} marginTop={'20px'}>
-              <Grid container item xs={12} md={4} marginBottom={2}>
-                <Grid container item xs={12} md={12}>
-                  <Grid xs={12} item>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                        <Icon icon='mdi:facebook' fontSize={24} color={'#262525'} />
-                      </Box>
-                      <TextField
-                        id='facebook'
-                        defaultValue={facebook}
-                        label='Facebook'
-                        variant='standard'
-                        fullWidth
-                        sx={{ mb: 1 }}
-                        value={facebook}
-                        {...register('facebook')}
-                        onChange={e => setFacebook(e.target.value)}
-                        onBlur={handleSubmit(addbuttonfacebook)}
-                        InputProps={{
-                          startAdornment: <InputAdornment position='start'>/</InputAdornment>
-                        }}
-                      />
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Grid>
-
-              <Grid container item xs={12} marginBottom={2} md={4}>
-                <Grid container item xs={12} md={12}>
-                  <Grid xs={12} item>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                        <Icon icon='mdi:instagram' fontSize={24} color={'#262525'} />
-                      </Box>
-                      <TextField
-                        id='instagram'
-                        label='Instagram'
-                        variant='standard'
-                        fullWidth
-                        value={instagram}
-                        sx={{ mb: 1 }}
-                        {...register('instagram')}
-                        onChange={e => setInstagram(e.target.value)}
-                        onBlur={handleSubmit(addbuttoninstagram)}
-                        InputProps={{
-                          startAdornment: <InputAdornment position='start'>/</InputAdornment>
-                        }}
-                      />
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Grid>
-
-              <Grid container item xs={12} marginBottom={2} md={4}>
-                <Grid container item xs={12} md={12}>
-                  <Grid xs={12} item>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
-                        <Icon icon='mdi:linkedin' fontSize={24} color={'#262525'} />
-                      </Box>
-                      <TextField
-                        id='linkedin'
-                        defaultValue={linkedin}
-                        label='Linkedin'
-                        variant='standard'
-                        fullWidth
-                        sx={{ mb: 1 }}
-                        {...register('linkedin')}
-                        value={linkedin}
-                        onChange={e => setLinkedin(e.target.value)}
-                        onBlur={handleSubmit(addbuttonlinkedin)}
-                        InputProps={{
-                          startAdornment: <InputAdornment position='start'>/</InputAdornment>
-                        }}
-                      />
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Grid>
+            <Grid item md={3} xs={12}>
+              <Autocomplete
+                disablePortal
+                id='combo-box-gender'
+                options={!combokelamin ? [{ label: 'Loading...', title: 0 }] : combokelamin}
+                defaultValue={idcombokelamin}
+                getOptionLabel={(option: any) => option.label}
+                renderInput={params => (
+                  <TextField {...params} label='Gender *' id='gender' variant='standard' {...register('genderr')} />
+                )}
+                onChange={(event: any, newValue: any) =>
+                  newValue?.title ? setCombokelamin(newValue) : setCombokelamin('')
+                }
+              />
             </Grid>
+            <Grid item md={3} xs={12}>
+              <Autocomplete
+                disablePortal
+                id='combo-box-ship'
+                // options={comboShip}
+                options={!comboShip ? [{ label: 'Loading...', id: 0 }] : comboShip}
+                defaultValue={ship}
+                getOptionLabel={(option: any) => option.label}
+                renderInput={params => <TextField {...params} label='Ship' variant='standard' />}
+                onChange={(event: any, newValue: any | null) => displayship(newValue)}
+                disabled={showShip}
+                // onChange={(event: any, newValue: Employee ) =>
+                //   newValue?.id ? setShip(newValue.employee_type) : setShip(props.datauser.employee_type)
+                // }
+              />
+            </Grid>
+            <Grid item md={3} xs={12}>
+              <Autocomplete
+                disablePortal
+                id='combo-box-country'
+                options={combocountry}
+                getOptionLabel={(option: any) => option.nicename}
+                defaultValue={props.address?.country}
+                renderInput={params => <TextField {...params} label='Country *' variant='standard' />}
+                onChange={(event: any, newValue: Countries | null) =>
+                  newValue?.id ? searchcity(newValue.id) : searchcity(props.datauser.country_id)
+                }
+              />
+            </Grid>
+            <Grid item md={3} xs={12}>
+              <Autocomplete
+                disablePortal
+                id='city'
+                value={props.datauser.address?.city}
+                options={combocity}
+                getOptionLabel={(option: City) => option.city_name}
+                renderInput={params => <TextField {...params} label='City *' sx={{ mb: 2 }} variant='standard' />}
+                onChange={(event: any, newValue: City | null) =>
+                  newValue?.id ? setCombocity(newValue.id) : setCombocity(props.address?.city_id)
+                }
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <TextField
+                id='address'
+                label='Address'
+                required
+                defaultValue={props.datauser.address?.address}
+                variant='standard'
+                fullWidth
+                sx={{ mb: 1 }}
+                {...register('address')}
+              />
+            </Grid>
+            <Grid item md={3} xs={12}>
+              <TextField
+                id='Email'
+                label='Email'
+                required
+                defaultValue={props.datauser.email}
+                variant='standard'
+                fullWidth
+                sx={{ mb: 1 }}
+                {...register('email')}
+              />
+            </Grid>
+            {props.datauser.role == 'Company' && (
+              <>
+                <Grid item md={6} xs={12}>
+                  <TextField
+                    id='website'
+                    label='Website'
+                    required
+                    defaultValue={props.datauser.website}
+                    variant='standard'
+                    fullWidth
+                    sx={{ mb: 1 }}
+                    {...register('website')}
+                  />
+                </Grid>
+              </>
+            )}
 
-            <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.2} lg={0.2} xs={12}></Grid>
-            <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
-          </>
-          {/* ----- END Social Media Info ---- */}
-          {tampilkanship == 'PELAUT' && (
+            <Grid item md={3} xs={12}>
+              <TextField
+                id='phone'
+                label='Phone'
+                required
+                defaultValue={props.datauser.phone}
+                variant='standard'
+                fullWidth
+                sx={{ mb: 1 }}
+                type='number'
+                value={phoneNum}
+                onChange={e => onChangePhoneNum(e.target.value)}
+                // InputProps={{
+                //   // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
+                //   startAdornment: (
+                //     <Select
+                //       sx={{ marginTop: -2 }}
+                //       labelId='select-country-code'
+                //       id='select-country-code'
+                //       value={idcombocode}
+                //       onChange={e => setCombocode(e.target.value)}
+                //       label='Code'
+                //       variant='standard'
+                //     >
+                //       {combocode.map((item, index) => (
+                //         <MenuItem key={index} value={item.id}>
+                //           {item.iso} (+ {item.phonecode})
+                //         </MenuItem>
+                //       ))}
+                //     </Select>
+                //   )
+                // }}
+              />
+            </Grid>
+            <Grid item md={3} xs={12}>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  format='DD/MM/YYYY'
+                  openTo='month'
+                  views={['year', 'month', 'day']}
+                  label={'Date Of Birth *'}
+                  onChange={(date: any) => onChangeDateOfBirth(date)}
+                  value={moment(dateOfBirth)}
+                  slotProps={{ textField: { variant: 'standard', fullWidth: true, id: 'basic-input' } }}
+                />
+              </LocalizationProvider>
+            </Grid>
+            <Grid item md={3} xs={12}></Grid>
+            <Grid item md={12} xs={12}>
+              <TextField
+                fullWidth
+                sx={{ mb: 1 }}
+                id='about-me'
+                label='About me'
+                variant='standard'
+                multiline
+                rows={4}
+                defaultValue={props.datauser.about}
+                {...register('about')}
+              />
+            </Grid>
+            {/* ----- Social Media Info ---- */}
             <>
-              <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
-                <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
+              <Grid item md={5} xs={12}>
+                <Grid container item xs={12} justifyContent={'left'}>
                   <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-                    Preferences
+                    Social Media Info
                   </Typography>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                      Set your job preferences so companies can find the perfect fit.
-                    </Typography>
-                  </Grid>
                 </Grid>
+                <Grid container item xs={12} justifyContent={'left'}>
+                  <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                    Fulfill your Social Media Info
+                  </Typography>
+                </Grid>
+              </Grid>
 
-                <Grid item md={4} xs={12}>
-                  <Autocomplete
-                    id='combo-box-demo'
-                    options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
-                    defaultValue={opp}
-                    getOptionLabel={(option: any) => option.label}
-                    renderInput={params => <TextField {...params} label='Status *' variant='standard' />}
-                    onChange={(event: any, newValue: any | null) => displayopp(newValue)}
-                  />
-                </Grid>
-                <Grid item md={4} xs={12}>
-                  <Autocomplete
-                    sx={{ marginBottom: 2 }}
-                    disablePortal
-                    id='combo-box-level'
-                    options={JobCategory}
-                    defaultValue={props.datauser?.field_preference?.job_category}
-                    getOptionLabel={(option: JobCategory) => option.name}
-                    renderInput={params => <TextField {...params} label='Job Category *' variant='standard' />}
-                    onChange={(event: any, newValue: JobCategory | null) =>
-                      newValue?.id ? setJC(newValue?.id) : setJC(0)
-                    }
-                  />
-                </Grid>
-                <Grid item md={4} xs={12}>
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={comboroleType}
-                    getOptionLabel={(option: any) => option.name}
-                    defaultValue={props.datauser?.field_preference?.role_type}
-                    renderInput={params => <TextField {...params} label='Job Title *' variant='standard' />}
-                    onChange={(event: any, newValue: RoleType | null) =>
-                      newValue?.id
-                        ? setComboRolType(newValue.id)
-                        : setComboRolType(props.datauser?.field_preference?.role_type?.id)
-                    }
-                  />
-                </Grid>
-                <Grid item md={4} xs={12}>
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={comboVessel}
-                    getOptionLabel={(option: any) => option.name}
-                    defaultValue={props.datauser?.field_preference?.vessel_type}
-                    renderInput={params => <TextField {...params} label='Type of Vessel *' variant='standard' />}
-                    onChange={(event: any, newValue: VesselType | null) =>
-                      newValue?.id
-                        ? setComboVessel(newValue.id)
-                        : setComboVessel(props.datauser?.field_preference?.vessel_type?.id)
-                    }
-                  />
-                </Grid>
-                <Grid item md={4} xs={12}>
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={comboRegion}
-                    getOptionLabel={(option: any) => option.name}
-                    defaultValue={props.datauser?.field_preference?.region_travel}
-                    renderInput={params => (
-                      <TextField {...params} label='Region of Travel' variant='standard' required={false} />
-                    )}
-                    onChange={(event: any, newValue: RegionTravel | null) =>
-                      newValue?.id
-                        ? setComboRegion(newValue.id)
-                        : setComboRegion(props.datauser?.field_preference?.region_travel?.id)
-                    }
-                  />
-                </Grid>
-                <Grid item md={4} xs={12}>
-                  <LocalizationProvider dateAdapter={AdapterMoment}>
-                    <DatePicker
-                      format='DD/MM/YYYY'
-                      openTo='month'
-                      views={['year', 'month', 'day']}
-                      label={'Available Date *'}
-                      onChange={(date: any) => setAvailableDate(date)}
-                      value={availableDate ? moment(availableDate) : null}
-                      slotProps={{ textField: { variant: 'standard', fullWidth: true, id: 'basic-input' } }}
-                    />
-                  </LocalizationProvider>
-                </Grid>
-                <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
-                  <FormControl>
-                    <InputLabel id='demo-multiple-chip-label'>LANGUAGE</InputLabel>
-                    <Select
-                      labelId='demo-multiple-chip-label'
-                      id='demo-multiple-chip'
-                      multiple
-                      value={personName}
-                      onChange={handleChange}
-                      label='LANGUAGE'
-                      sx={{ fontSize: '18px', height: 50.2 }}
-                      input={
-                        <OutlinedInput
-                          id='select-multiple-chip'
-                          label='Chip'
-                          defaultValue={props.datauser?.field_preference?.spoken_langs}
-                          sx={{ fontSize: '8px' }}
-                        />
-                      }
-                      renderValue={selected => (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
-                          {selected.map(value => (
-                            <Chip key={value} label={value} />
-                          ))}
+              <Grid container item md={12} xs={12} marginTop={'20px'}>
+                <Grid container item xs={12} md={4} marginBottom={2}>
+                  <Grid container item xs={12} md={12}>
+                    <Grid xs={12} item>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                          <Icon icon='mdi:facebook' fontSize={24} color={'#262525'} />
                         </Box>
-                      )}
-                      MenuProps={MenuProps}
-                    >
-                      {names.map(name => (
-                        <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-                          {name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </>
-          )}
-          {tampilkanship != 'PELAUT' && (
-            <>
-              <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
-                <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
-                  <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
-                    Preferences
-                  </Typography>
-                  <Grid container item xs={12} justifyContent={'left'}>
-                    <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                      Set your job preferences so companies can find the perfect fit.
-                    </Typography>
+                        <TextField
+                          id='facebook'
+                          defaultValue={facebook}
+                          label='Facebook'
+                          variant='standard'
+                          fullWidth
+                          sx={{ mb: 1 }}
+                          value={facebook}
+                          {...register('facebook')}
+                          onChange={e => setFacebook(e.target.value)}
+                          onBlur={handleSubmit(addbuttonfacebook)}
+                          InputProps={{
+                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                          }}
+                        />
+                      </Box>
+                    </Grid>
                   </Grid>
                 </Grid>
-                <Grid item md={6} xs={12}>
-                  <Autocomplete
-                    disablePortal
-                    id='combo-box-demo'
-                    options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
-                    defaultValue={opp}
-                    getOptionLabel={(option: any) => option.label}
-                    renderInput={params => <TextField {...params} label='Status *' variant='standard' />}
-                    onChange={(event: any, newValue: any | null) => displayopp(newValue)}
-                  />
+
+                <Grid container item xs={12} marginBottom={2} md={4}>
+                  <Grid container item xs={12} md={12}>
+                    <Grid xs={12} item>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                          <Icon icon='mdi:instagram' fontSize={24} color={'#262525'} />
+                        </Box>
+                        <TextField
+                          id='instagram'
+                          label='Instagram'
+                          variant='standard'
+                          fullWidth
+                          value={instagram}
+                          sx={{ mb: 1 }}
+                          {...register('instagram')}
+                          onChange={e => setInstagram(e.target.value)}
+                          onBlur={handleSubmit(addbuttoninstagram)}
+                          InputProps={{
+                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                          }}
+                        />
+                      </Box>
+                    </Grid>
+                  </Grid>
                 </Grid>
-                <Grid item md={6} xs={12}>
-                  <Autocomplete
-                    sx={{ marginBottom: 2 }}
-                    disablePortal
-                    id='combo-box-level'
-                    options={JobCategory}
-                    defaultValue={props.datauser?.field_preference?.job_category}
-                    getOptionLabel={(option: JobCategory) => option.name}
-                    renderInput={params => <TextField {...params} label='Job Category *' variant='standard' />}
-                    onChange={(event: any, newValue: JobCategory | null) =>
-                      newValue?.id ? setJC(newValue?.id) : setJC(0)
-                    }
-                  />
+
+                <Grid container item xs={12} marginBottom={2} md={4}>
+                  <Grid container item xs={12} md={12}>
+                    <Grid xs={12} item>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ mr: 6, minWidth: 5, display: 'flex', justifyContent: 'center' }}>
+                          <Icon icon='mdi:linkedin' fontSize={24} color={'#262525'} />
+                        </Box>
+                        <TextField
+                          id='linkedin'
+                          defaultValue={linkedin}
+                          label='Linkedin'
+                          variant='standard'
+                          fullWidth
+                          sx={{ mb: 1 }}
+                          {...register('linkedin')}
+                          value={linkedin}
+                          onChange={e => setLinkedin(e.target.value)}
+                          onBlur={handleSubmit(addbuttonlinkedin)}
+                          InputProps={{
+                            startAdornment: <InputAdornment position='start'>/</InputAdornment>
+                          }}
+                        />
+                      </Box>
+                    </Grid>
+                  </Grid>
                 </Grid>
-                {tampilkanship == 'PELAUT' ? (
-                  <Grid item md={6} xs={12}>
+              </Grid>
+
+              <Grid item direction='row' justifyContent='flex-end' alignItems='center' md={0.2} lg={0.2} xs={12}></Grid>
+              <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
+            </>
+            {/* ----- END Social Media Info ---- */}
+            {tampilkanship == 'PELAUT' && (
+              <>
+                <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
+                  <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
+                    <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
+                      Preferences
+                    </Typography>
+                    <Grid container item xs={12} justifyContent={'left'}>
+                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                        Set your job preferences so companies can find the perfect fit.
+                      </Typography>
+                    </Grid>
+                  </Grid>
+
+                  <Grid item md={4} xs={12}>
+                    <Autocomplete
+                      id='combo-box-status'
+                      options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
+                      defaultValue={opp}
+                      getOptionLabel={(option: any) => option.label}
+                      renderInput={params => <TextField {...params} label='Status *' variant='standard' />}
+                      onChange={(event: any, newValue: any | null) => displayopp(newValue)}
+                    />
+                  </Grid>
+                  <Grid item md={4} xs={12}>
+                    <Autocomplete
+                      sx={{ marginBottom: 2 }}
+                      disablePortal
+                      id='combo-box-level'
+                      options={JobCategory}
+                      defaultValue={props.datauser?.field_preference?.job_category}
+                      getOptionLabel={(option: JobCategory) => option.name}
+                      renderInput={params => <TextField {...params} label='Job Category *' variant='standard' />}
+                      onChange={(event: any, newValue: JobCategory | null) =>
+                        newValue?.id ? setJC(newValue?.id) : setJC(0)
+                      }
+                    />
+                  </Grid>
+                  <Grid item md={4} xs={12}>
                     <Autocomplete
                       disablePortal
-                      id='combo-box-demo'
+                      id='combo-box-job-title'
+                      options={comboroleType}
+                      getOptionLabel={(option: any) => option.name}
+                      defaultValue={props.datauser?.field_preference?.role_type}
+                      renderInput={params => <TextField {...params} label='Job Title *' variant='standard' />}
+                      onChange={(event: any, newValue: RoleType | null) =>
+                        newValue?.id
+                          ? setComboRolType(newValue.id)
+                          : setComboRolType(props.datauser?.field_preference?.role_type?.id)
+                      }
+                    />
+                  </Grid>
+                  <Grid item md={4} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-vessel-type'
+                      options={comboVessel}
+                      getOptionLabel={(option: any) => option.name}
+                      defaultValue={props.datauser?.field_preference?.vessel_type}
+                      renderInput={params => <TextField {...params} label='Type of Vessel *' variant='standard' />}
+                      onChange={(event: any, newValue: VesselType | null) =>
+                        newValue?.id
+                          ? setComboVessel(newValue.id)
+                          : setComboVessel(props.datauser?.field_preference?.vessel_type?.id)
+                      }
+                    />
+                  </Grid>
+                  <Grid item md={4} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-region-travel'
                       options={comboRegion}
                       getOptionLabel={(option: any) => option.name}
                       defaultValue={props.datauser?.field_preference?.region_travel}
-                      renderInput={params => <TextField {...params} label='Location *' variant='standard' />}
+                      renderInput={params => (
+                        <TextField {...params} label='Region of Travel' variant='standard' required={false} />
+                      )}
                       onChange={(event: any, newValue: RegionTravel | null) =>
                         newValue?.id
                           ? setComboRegion(newValue.id)
@@ -1269,26 +1162,20 @@ const CandidateProfile = (props: compProps) => {
                       }
                     />
                   </Grid>
-                ) : (
-                  <Grid item md={6} xs={12}>
-                    <Autocomplete
-                      disablePortal
-                      id='combo-box-demo'
-                      options={comboProvince}
-                      getOptionLabel={(option: any) => option.province_name}
-                      defaultValue={props.datauser?.location_province}
-                      renderInput={params => <TextField {...params} label='Location *' variant='standard' />}
-                      onChange={(event: any, newValue: Province | null) =>
-                        newValue?.id
-                          ? setComboProvince(newValue.id)
-                          : setComboProvince(props.datauser?.location_province?.id)
-                      }
-                    />
+                  <Grid item md={4} xs={12}>
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                      <DatePicker
+                        format='DD/MM/YYYY'
+                        openTo='month'
+                        views={['year', 'month', 'day']}
+                        label={'Available Date *'}
+                        onChange={(date: any) => setAvailableDate(date)}
+                        value={availableDate ? moment(availableDate) : null}
+                        slotProps={{ textField: { variant: 'standard', fullWidth: true, id: 'basic-input' } }}
+                      />
+                    </LocalizationProvider>
                   </Grid>
-                )}
-                <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
-                  <FormControl>
-                    <InputLabel id='demo-multiple-chip-label'>LANGUAGE</InputLabel>
+                  <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
                     <Select
                       labelId='demo-multiple-chip-label'
                       id='demo-multiple-chip'
@@ -1320,41 +1207,149 @@ const CandidateProfile = (props: compProps) => {
                         </MenuItem>
                       ))}
                     </Select>
-                  </FormControl>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </>
-          )}
-          <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
-          <Box sx={{ marginTop: '20px' }}></Box>
-          <EducationalInfoSection
-            setOpenAddModal={setOpenAddModal}
-            editEducation={editEducation}
-            deleteeducation={deleteeducation}
-            openAddModal={openAddModal}
-            itemDataED={itemDataED}
-          />
-
-          {tampilkanship != 'PELAUT' && (
-            <WorkExperienceSection
-              setOpenAddModalWE={setOpenAddModalWE}
-              deletewe={deletewe}
-              editWorkExperience={editWorkExperience}
-              openAddModalWE={openAddModalWE}
-              itemDataWE={itemDataWE}
+              </>
+            )}
+            {tampilkanship != 'PELAUT' && (
+              <>
+                <Grid item container xs={12} spacing={4} sx={{ mb: 2 }}>
+                  <Grid xs={12} sx={{ mt: 5, ml: 2, mb: 2 }}>
+                    <Typography variant='body2' sx={{ color: '#32487A', fontSize: '18px', fontWeight: '600' }}>
+                      Preferences
+                    </Typography>
+                    <Grid container item xs={12} justifyContent={'left'}>
+                      <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
+                        Set your job preferences so companies can find the perfect fit.
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <Autocomplete
+                      disablePortal
+                      id='combo-box-status'
+                      options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
+                      defaultValue={opp}
+                      getOptionLabel={(option: any) => option.label}
+                      renderInput={params => <TextField {...params} label='Status *' variant='standard' />}
+                      onChange={(event: any, newValue: any | null) => displayopp(newValue)}
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <Autocomplete
+                      sx={{ marginBottom: 2 }}
+                      disablePortal
+                      id='combo-box-level'
+                      options={JobCategory}
+                      defaultValue={props.datauser?.field_preference?.job_category}
+                      getOptionLabel={(option: JobCategory) => option.name}
+                      renderInput={params => <TextField {...params} label='Job Category *' variant='standard' />}
+                      onChange={(event: any, newValue: JobCategory | null) =>
+                        newValue?.id ? setJC(newValue?.id) : setJC(0)
+                      }
+                    />
+                  </Grid>
+                  {tampilkanship == 'PELAUT' ? (
+                    <Grid item md={6} xs={12}>
+                      <Autocomplete
+                        disablePortal
+                        id='combo-box-location'
+                        options={comboRegion}
+                        getOptionLabel={(option: any) => option.name}
+                        defaultValue={props.datauser?.field_preference?.region_travel}
+                        renderInput={params => <TextField {...params} label='Location *' variant='standard' />}
+                        onChange={(event: any, newValue: RegionTravel | null) =>
+                          newValue?.id
+                            ? setComboRegion(newValue.id)
+                            : setComboRegion(props.datauser?.field_preference?.region_travel?.id)
+                        }
+                      />
+                    </Grid>
+                  ) : (
+                    <Grid item md={6} xs={12}>
+                      <Autocomplete
+                        disablePortal
+                        id='combo-box-province'
+                        options={comboProvince}
+                        getOptionLabel={(option: any) => option.province_name}
+                        defaultValue={props.datauser?.location_province}
+                        renderInput={params => <TextField {...params} label='Location *' variant='standard' />}
+                        onChange={(event: any, newValue: Province | null) =>
+                          newValue?.id
+                            ? setComboProvince(newValue.id)
+                            : setComboProvince(props.datauser?.location_province?.id)
+                        }
+                      />
+                    </Grid>
+                  )}
+                  <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
+                    <Select
+                      labelId='demo-multiple-chip-label'
+                      id='demo-multiple-chip'
+                      multiple
+                      value={personName}
+                      onChange={handleChange}
+                      label='LANGUAGE'
+                      sx={{ fontSize: '18px', height: 50.2 }}
+                      input={
+                        <OutlinedInput
+                          id='select-multiple-chip'
+                          label='Chip'
+                          defaultValue={props.datauser?.field_preference?.spoken_langs}
+                          sx={{ fontSize: '8px' }}
+                        />
+                      }
+                      renderValue={selected => (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                          {selected.map(value => (
+                            <Chip key={value} label={value} />
+                          ))}
+                        </Box>
+                      )}
+                      MenuProps={MenuProps}
+                    >
+                      {names.map(name => (
+                        <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Grid>
+                </Grid>
+              </>
+            )}
+            <Divider style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }} />
+            <Box sx={{ marginTop: '20px' }}></Box>
+            <EducationalInfoSection
+              setOpenAddModal={setOpenAddModal}
+              editEducation={editEducation}
+              deleteeducation={deleteeducation}
+              openAddModal={openAddModal}
+              itemDataED={itemDataED}
             />
-          )}
 
-          {tampilkanship != 'PELAUT' && (
-            <DocumentUpload
-              setOpenAddModalDoc={setOpenAddModalDoc}
-              editDocument={editDocument}
-              deleteDocument={deleteDocument}
-              itemData={itemData}
-              openAddModalDoc={openAddModalDoc}
-            />
-          )}
-        </Grid>
+            {tampilkanship != 'PELAUT' && (
+              <WorkExperienceSection
+                setOpenAddModalWE={setOpenAddModalWE}
+                deletewe={deletewe}
+                editWorkExperience={editWorkExperience}
+                openAddModalWE={openAddModalWE}
+                itemDataWE={itemDataWE}
+              />
+            )}
+
+            {tampilkanship != 'PELAUT' && (
+              <DocumentUpload
+                setOpenAddModalDoc={setOpenAddModalDoc}
+                editDocument={editDocument}
+                deleteDocument={deleteDocument}
+                itemData={itemData}
+                openAddModalDoc={openAddModalDoc}
+              />
+            )}
+            <button type='submit'> submit </button>
+          </Grid>
+        </FormControl>
       </form>
 
       {tampilkanship == 'PELAUT' && (
