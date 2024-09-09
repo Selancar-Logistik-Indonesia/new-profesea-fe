@@ -559,7 +559,7 @@ const CandidateProfile = (props: compProps) => {
     }
 
     const json = {
-      country_id: 62,
+      country_id: idcombocode,
       employee_type: idship,
       name: fullName,
       phone: phoneNum,
