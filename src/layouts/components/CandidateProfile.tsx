@@ -200,7 +200,7 @@ const CandidateProfile = (props: compProps) => {
       ? { employee_type: 'offship', label: 'PROFESIONAL' }
       : { employee_type: 'onship', label: 'PELAUT' }
   )
-  const [idcountry, setCountry] = useState<any>(props.datauser?.country_id)
+  const [idcountry, setCountry] = useState<any>(props.datauser?.address?.country_id)
   const [availableDate, setAvailableDate] = useState<any>(props.datauser?.field_preference?.available_date)
   // const [idcomborolLevel, setComboRolLevel] = useState<any>(props.datauser?.field_preference?.role_level?.id)
   const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
