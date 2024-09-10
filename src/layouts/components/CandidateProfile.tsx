@@ -7,8 +7,8 @@ import {
   BoxProps,
   Button,
   Grid,
+  InputLabel,
   TextField,
-  FormControl,
   Autocomplete,
   Divider,
   Select,
@@ -18,9 +18,9 @@ import {
   Menu,
   MenuItem,
   Card,
-  InputLabel,
   InputAdornment,
-  Typography
+  Typography,
+  FormControl
 } from '@mui/material'
 
 // import DatePicker from 'react-datepicker'
@@ -200,7 +200,7 @@ const CandidateProfile = (props: compProps) => {
       ? { employee_type: 'offship', label: 'PROFESIONAL' }
       : { employee_type: 'onship', label: 'PELAUT' }
   )
-  const [idcountry, setCountry] = useState<any>(props.datauser?.country_id)
+  const [idcountry, setCountry] = useState<any>(props.datauser?.address?.country_id)
   const [availableDate, setAvailableDate] = useState<any>(props.datauser?.field_preference?.available_date)
   // const [idcomborolLevel, setComboRolLevel] = useState<any>(props.datauser?.field_preference?.role_level?.id)
   const [idcomborolType, setComboRolType] = useState<any>(props.datauser?.field_preference?.role_type?.id)
@@ -658,8 +658,6 @@ const CandidateProfile = (props: compProps) => {
     setOpp(type?.id)
   }
 
-  console.log(' idComboProvince => ', idcomboProvince)
-
   return (
     <Grid container md={12} xs={12} padding={5}>
       <Grid className='heading-title' xs={12} sx={{ mt: 0, ml: 2, mb: 2 }}>
@@ -804,7 +802,7 @@ const CandidateProfile = (props: compProps) => {
         </Menu>
       </CardContent>
 
-      <form id='profile-form' noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+      <form id='profile-form' className='profile-form' noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <Grid className='profile-form' item container xs={12} spacing={3} sx={{ mb: 2 }} marginTop={'25px'}>
           <Grid item md={6} xs={12}>
             <TextField
@@ -924,15 +922,15 @@ const CandidateProfile = (props: compProps) => {
               defaultValue={props.datauser.phone}
               variant='standard'
               fullWidth
-              sx={{ mb: 1 }}
+              sx={{ mb: 1, mt: -1.5 }}
               type='number'
               value={phoneNum}
+              {...register('phone')}
               onChange={e => onChangePhoneNum(e.target.value)}
               InputProps={{
                 // startAdornment: <InputAdornment position='start'>Prefix</InputAdornment>,
                 startAdornment: (
                   <Select
-                    sx={{ marginTop: -2 }}
                     labelId='select-country-code'
                     id='select-country-code'
                     value={idcombocode}
@@ -1178,14 +1176,14 @@ const CandidateProfile = (props: compProps) => {
                 </Grid>
                 <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
                   <FormControl>
-                    <InputLabel id='demo-multiple-chip-label'>LANGUAGE</InputLabel>
+                    <InputLabel id='demo-multiple-chip-label'>LANGUANGE</InputLabel>
                     <Select
                       labelId='demo-multiple-chip-label'
                       id='demo-multiple-chip'
                       multiple
                       value={personName}
                       onChange={handleChange}
-                      label='LANGUAGE'
+                      label='LANGUANGE'
                       sx={{ fontSize: '18px', height: 50.2 }}
                       input={
                         <OutlinedInput
