@@ -13,6 +13,8 @@ import {
   Pagination,
   Stack
 } from '@mui/material'
+import DialogAcceptConfirmation from './DialogAcceptConfirmation'
+import DialogDeclineConfirmation from './DialogDeclineConfirmation'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
@@ -21,6 +23,10 @@ export default function Request(props: any) {
   const [pageRequest, setPageRequest] = React.useState(1)
   const [requests, setRequests] = useState([])
   const [totalRequests, setTotalRequests] = useState(0)
+
+  const [showAcceptConfirm, setShowAcceptConfirm] = useState(false)
+  const [showDeclineConfirm, setShowDeclineConfirm] = useState(false)
+  const [selectedUser, setSelectedUser] = useState()
 
   const getUserRequest = () => {
     HttpClient.get(AppConfig.baseUrl + '/user/friend-request/', {
@@ -80,8 +86,28 @@ export default function Request(props: any) {
                 }
               />
               <Box>
-                <Button variant='contained' size='small' sx={{ marginRight: 2, fontSize: 14 }}>
-                  Message
+                <Button
+                  variant='outlined'
+                  size='small'
+                  color='secondary'
+                  sx={{ marginRight: 2, fontSize: 14 }}
+                  onClick={() => {
+                    setSelectedUser(item?.friend)
+                    setShowDeclineConfirm(!showDeclineConfirm)
+                  }}
+                >
+                  Decline
+                </Button>
+                <Button
+                  variant='contained'
+                  size='small'
+                  sx={{ marginRight: 2, fontSize: 14 }}
+                  onClick={() => {
+                    setSelectedUser(item?.friend)
+                    setShowAcceptConfirm(!showAcceptConfirm)
+                  }}
+                >
+                  Accept
                 </Button>
               </Box>
             </ListItem>
@@ -99,6 +125,20 @@ export default function Request(props: any) {
           shape='rounded'
         />
       </Stack>
+      <DialogAcceptConfirmation
+        visible={showAcceptConfirm}
+        user_id={props.iduser}
+        selectedItem={selectedUser}
+        loadRequest={getUserRequest}
+        onCloseClick={() => setShowAcceptConfirm(!showAcceptConfirm)}
+      />
+      <DialogDeclineConfirmation
+        visible={showDeclineConfirm}
+        user_id={props.iduser}
+        selectedItem={selectedUser}
+        loadRequest={getUserRequest}
+        onCloseClick={() => setShowDeclineConfirm(!showDeclineConfirm)}
+      />
     </>
   )
 }
