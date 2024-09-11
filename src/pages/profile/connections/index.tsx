@@ -13,6 +13,7 @@ import secureLocalStorage from 'react-secure-storage'
 import ConnectionTab from './ConnectionTab'
 import SuggestionTab from './SuggestionTab'
 import RequestTab from './RequestTab'
+import CompanyListTab from './CompanyListTab'
 
 function ProfileConnection() {
   const [value, setValue] = useState('1')
@@ -54,7 +55,9 @@ function ProfileConnection() {
                             <TabPanel value='2'>
                               <ConnectionTab iduser={iduser} />
                             </TabPanel>
-                            <TabPanel value='3'></TabPanel>
+                            <TabPanel value='3'>
+                              <CompanyListTab />
+                            </TabPanel>
                             <TabPanel value='4'>
                               <SuggestionTab iduser={iduser} />
                             </TabPanel>

@@ -20,6 +20,8 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import DialogRemoveConnection from './DialogRemoveConnection'
 
+import style from '../../../../styles/css/ConnectionList.module.css'
+
 export default function ConnectionTab(props: any) {
   const [page, setPage] = React.useState(1)
   const [connections, setConnections] = useState([])
@@ -78,60 +80,65 @@ export default function ConnectionTab(props: any) {
         />
         <div style={{ clear: 'both' }}></div>
       </Typography>
-      <List sx={{ width: '100%', bgcolor: 'background.paper', margin: '20px 0 0 0' }}>
-        {connections.map((item: any, index) => (
-          <Box key={index}>
-            <ListItem alignItems='flex-start'>
-              <ListItemAvatar>
-                <Avatar style={{ height: 64, width: 64 }} src={item?.friend?.photo || '/static/images/avatar/1.jpg'} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <React.Fragment>
-                    <Typography
-                      sx={{ display: 'inline', fontSize: 16, fontWeight: 'bold' }}
-                      component='span'
-                      variant='body2'
-                      color='text.primary'
-                    >
-                      <Link href={'/profile/' + item.friend.id + '/' + item.friend.username}>{item?.friend?.name}</Link>
-                    </Typography>
-                  </React.Fragment>
-                }
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      sx={{ display: 'inline', fontSize: 14 }}
-                      component='span'
-                      variant='body2'
-                      color='text.primary'
-                    >
-                      {item?.field_preference?.role_type?.name || 'No ranks'}
-                    </Typography>
-                  </React.Fragment>
-                }
-              />
-              <Box>
-                <Button variant='contained' size='small' sx={{ marginRight: 2, fontSize: 14 }}>
-                  Message
-                </Button>
-                <Button
-                  variant='outlined'
-                  color='error'
-                  sx={{ marginLeft: 2, marginRight: -4, fontSize: 14 }}
-                  size='small'
-                  onClick={() => {
-                    handleSelectedUser(item?.friend)
-                  }}
-                >
-                  Remove
-                </Button>
-              </Box>
-            </ListItem>
-            <Divider variant='inset' component='hr' />
-          </Box>
-        ))}
-      </List>
+      {connections.length > 0 ? (
+        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+          {connections.map((item: any, index) => (
+            <Box key={index} className={style['list-box']}>
+              <ListItem alignItems='flex-start'>
+                <ListItemAvatar>
+                  <Avatar
+                    style={{ height: 64, width: 64 }}
+                    src={item?.friend?.photo || '/static/images/avatar/1.jpg'}
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  className={style['list-item-text']}
+                  primary={
+                    <React.Fragment>
+                      <Typography component='span' variant='body2' color='text.primary'>
+                        <Link href={'/profile/' + item.friend.id + '/' + item.friend.username}>
+                          {item?.friend?.name}
+                        </Link>
+                      </Typography>
+                    </React.Fragment>
+                  }
+                  secondary={
+                    <React.Fragment>
+                      <Typography sx={{ fontSize: 14 }} component='span' variant='body2' color='text.primary'>
+                        {item?.field_preference?.role_type?.name || 'No ranks'}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+                <Box className={style['button-list-connection']}>
+                  <Button variant='contained' size='small' sx={{ marginRight: 2, fontSize: 14 }}>
+                    Message
+                  </Button>
+                  <Button
+                    variant='outlined'
+                    color='error'
+                    sx={{ marginLeft: 2, marginRight: -4, fontSize: 14 }}
+                    size='small'
+                    onClick={() => {
+                      handleSelectedUser(item?.friend)
+                    }}
+                  >
+                    Remove
+                  </Button>
+                </Box>
+              </ListItem>
+              <Divider variant='inset' component='hr' />
+            </Box>
+          ))}
+        </List>
+      ) : (
+        <>
+          <div style={{ textAlign: 'center', margin: '40px 0' }}>
+            <img src='/images/no-connection-request.png' />
+            <p>You have no connection </p>
+          </div>
+        </>
+      )}
       <Stack direction='row' justifyContent='flex-end' alignItems='center' spacing={0}>
         <Pagination
           count={Math.ceil(totalConnection / 10)}

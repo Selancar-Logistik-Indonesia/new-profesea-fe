@@ -18,6 +18,8 @@ import ConnectButton from 'src/layouts/components/ConnectButton'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 
+import style from '../../../../styles/css/ConnectionList.module.css'
+
 export default function SuggestionTab(props: any) {
   const [pageSuggest, setPageSuggest] = React.useState(1)
   const [suggestions, setSuggestions] = useState([])
@@ -49,12 +51,13 @@ export default function SuggestionTab(props: any) {
       <Typography variant='h6'>{totalSuggestions} Suggestions</Typography>
       <List sx={{ width: '100%', bgcolor: 'background.paper', margin: '20px 0 0 0' }}>
         {suggestions.map((item: any, index) => (
-          <Box key={index}>
+          <Box key={index} className={style['list-box']}>
             <ListItem alignItems='flex-start'>
               <ListItemAvatar>
                 <Avatar style={{ height: 64, width: 64 }} src={item?.photo || '/static/images/avatar/1.jpg'} />
               </ListItemAvatar>
               <ListItemText
+                className={style['list-item-text']}
                 primary={
                   <Typography
                     sx={{ display: 'inline', fontSize: 16, fontWeight: 'bold' }}
@@ -78,7 +81,7 @@ export default function SuggestionTab(props: any) {
                   </React.Fragment>
                 }
               />
-              <Box>
+              <Box className={style['button-list-connection']}>
                 <ConnectButton user={item} />
               </Box>
             </ListItem>
