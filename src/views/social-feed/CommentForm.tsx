@@ -51,8 +51,8 @@ const CommentForm = (props: { feedId: number; replyable_type: 'feed' | 'comment'
                 {onLoading ? (
                   <CircularProgress size={20} />
                 ) : (
-                  <IconButton color='primary' onClick={handleSend}>
-                    <Icon icon='ph:paper-plane-tilt' fontSize={16} />
+                  <IconButton color='primary' onClick={handleSend} sx={{ '&:hover': { backgroundColor: '#D8E6FF' } }}>
+                    <Icon icon='ph:paper-plane-right-fill' fontSize={16} />
                   </IconButton>
                 )}
               </InputAdornment>
