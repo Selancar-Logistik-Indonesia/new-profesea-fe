@@ -12,8 +12,14 @@ import {
   ListItemAvatar,
   ListItemText,
   Pagination,
+  Grid,
+  IconButton,
+  Menu,
+  MenuItem,
   Stack
 } from '@mui/material'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+import CircleIcon from '@mui/icons-material/Circle'
 
 import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'
@@ -30,6 +36,15 @@ export default function ConnectionTab(props: any) {
   const [selectedUser, setSelectedUser] = useState<IUser>()
   const [showRemoveConnectionDialog, setShowRemoveConnectionDialog] = useState(false)
 
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const openMenu = Boolean(anchorEl)
+  const handleClickMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleCloseMenu = () => {
+    setAnchorEl(null)
+  }
+
   const handleSelectedUser = (selectedUser: IUser) => {
     setSelectedUser(selectedUser)
     setShowRemoveConnectionDialog(!showRemoveConnectionDialog)
@@ -43,6 +58,7 @@ export default function ConnectionTab(props: any) {
       search: search
     }).then(response => {
       const itemData = response.data.data
+      console.log(response.data)
       setConnections(itemData)
       setTotalConnection(response.data.total)
     })
@@ -62,24 +78,29 @@ export default function ConnectionTab(props: any) {
 
   return (
     <>
-      <Typography variant='h6'>
-        {totalConnection} Connection
-        <Button size='small' variant='contained' sx={{ float: 'right', fontSize: 14 }} onClick={() => handleSearch()}>
-          Search
-        </Button>
-        <TextField
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          type='text'
-          name='search'
-          id='search'
-          variant='outlined'
-          size='small'
-          placeholder='search ...'
-          sx={{ float: 'right', margin: '0 20px 0 0', fontSize: 14 }}
-        />
-        <div style={{ clear: 'both' }}></div>
+      <Typography variant='subtitle1'>Connections</Typography>
+      <Typography>
+        you have <b>{totalConnection} Connection</b>
       </Typography>
+
+      <TextField
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+        type='text'
+        name='search'
+        id='search'
+        variant='outlined'
+        size='small'
+        placeholder='search ...'
+        sx={{ float: 'right', margin: '0 20px 0 0', fontSize: 14 }}
+        onKeyDown={event => {
+          if (event.key === 'Enter') {
+            handleSearch()
+          }
+        }}
+      />
+      <div style={{ clear: 'both' }}></div>
+
       {connections.length > 0 ? (
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
           {connections.map((item: any, index) => (
@@ -104,27 +125,56 @@ export default function ConnectionTab(props: any) {
                   }
                   secondary={
                     <React.Fragment>
-                      <Typography sx={{ fontSize: 14 }} component='span' variant='body2' color='text.primary'>
+                      <Typography sx={{ fontSize: 12 }} component='span' variant='body2' color='text.primary'>
                         {item?.field_preference?.role_type?.name || 'No ranks'}
+                        <CircleIcon sx={{ fontSize: 7, m: '0 5px' }} />
+                        {item?.field_preference?.job_category?.name || ''} <br />
+                      </Typography>
+                      <Typography
+                        sx={{ display: 'block', fontSize: 12 }}
+                        component='span'
+                        variant='body2'
+                        color='text.primary'
+                      >
+                        {item?.address ? item?.address?.city?.city_name + ', ' + item?.address?.country?.name : ''}
                       </Typography>
                     </React.Fragment>
                   }
                 />
                 <Box className={style['button-list-connection']}>
-                  <Button variant='contained' size='small' sx={{ marginRight: 2, fontSize: 14 }}>
+                  <Button variant='contained' size='small' sx={{ marginRight: 2, fontSize: 14, display: 'none' }}>
                     Message
                   </Button>
-                  <Button
-                    variant='outlined'
-                    color='error'
-                    sx={{ marginLeft: 2, marginRight: -4, fontSize: 14 }}
-                    size='small'
-                    onClick={() => {
-                      handleSelectedUser(item?.friend)
-                    }}
+
+                  <IconButton
+                    aria-label='more'
+                    id='long-button'
+                    aria-controls={openMenu ? 'long-menu' : undefined}
+                    aria-expanded={openMenu ? 'true' : undefined}
+                    aria-haspopup='true'
+                    onClick={handleClickMenu}
                   >
-                    Remove
-                  </Button>
+                    <MoreHorizIcon />
+                  </IconButton>
+                  <Menu
+                    id='long-menu'
+                    MenuListProps={{
+                      'aria-labelledby': 'long-button'
+                    }}
+                    open={openMenu}
+                    anchorEl={anchorEl}
+                    onClose={handleCloseMenu}
+                  >
+                    <MenuItem
+                      key={'remove'}
+                      onClick={() => {
+                        handleSelectedUser(item?.friend)
+                        handleCloseMenu()
+                      }}
+                    >
+                      Remove Connection
+                    </MenuItem>
+                  </Menu>
                 </Box>
               </ListItem>
               <Divider variant='inset' component='hr' />
@@ -139,16 +189,26 @@ export default function ConnectionTab(props: any) {
           </div>
         </>
       )}
-      <Stack direction='row' justifyContent='flex-end' alignItems='center' spacing={0}>
-        <Pagination
-          count={Math.ceil(totalConnection / 10)}
-          onChange={(e: React.ChangeEvent<unknown>, value: number) => {
-            setPage(value)
-          }}
-          variant='outlined'
-          shape='rounded'
-        />
-      </Stack>
+      <Grid container sx={{ mt: 10 }}>
+        <Grid item>
+          <Typography>
+            Showing {connections.length} out of {totalConnection}
+          </Typography>
+        </Grid>
+        <Grid item sx={{ marginLeft: 'auto', marginRight: 'auto' }}>
+          <Stack direction='row' justifyContent='center' alignItems='center' spacing={0}>
+            <Pagination
+              count={Math.ceil(totalConnection / 10)}
+              onChange={(e: React.ChangeEvent<unknown>, value: number) => {
+                setPage(value)
+              }}
+              variant='outlined'
+              shape='rounded'
+            />
+          </Stack>
+        </Grid>
+      </Grid>
+
       <DialogRemoveConnection
         selectedItem={selectedUser}
         visible={showRemoveConnectionDialog}

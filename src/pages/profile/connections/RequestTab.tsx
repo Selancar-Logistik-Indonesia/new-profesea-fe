@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Divider,
+  Grid,
   Typography,
   Link,
   List,
@@ -13,6 +14,7 @@ import {
   Pagination,
   Stack
 } from '@mui/material'
+import CircleIcon from '@mui/icons-material/Circle'
 import DialogAcceptConfirmation from './DialogAcceptConfirmation'
 import DialogDeclineConfirmation from './DialogDeclineConfirmation'
 
@@ -38,6 +40,7 @@ export default function Request(props: any) {
       take: 10
     }).then(response => {
       const itemData = response.data.data
+      console.log(itemData)
       setRequests(itemData)
       setTotalRequests(response.data.total)
     })
@@ -53,7 +56,10 @@ export default function Request(props: any) {
 
   return (
     <>
-      <Typography variant='h6'>{totalRequests} Request</Typography>
+      <Typography variant='subtitle1'>Connection Request </Typography>
+      <Typography>
+        You have <b>{totalRequests} Connection Request</b>
+      </Typography>
       {requests.length > 0 ? (
         <List sx={{ width: '100%', bgcolor: 'background.paper', margin: '20px 0 0 0' }}>
           {requests.map((item: any, index) => (
@@ -83,13 +89,10 @@ export default function Request(props: any) {
                   }
                   secondary={
                     <React.Fragment>
-                      <Typography
-                        sx={{ display: 'inline', fontSize: 14 }}
-                        component='span'
-                        variant='body2'
-                        color='text.primary'
-                      >
+                      <Typography sx={{ fontSize: 12 }} component='span' variant='body2' color='text.primary'>
                         {item?.field_preference?.role_type?.name || 'No ranks'}
+                        <CircleIcon sx={{ fontSize: 7, m: '0 5px' }} />
+                        {item?.field_preference?.job_category?.name || ''} <br />
                       </Typography>
                     </React.Fragment>
                   }
@@ -131,16 +134,25 @@ export default function Request(props: any) {
         </div>
       )}
 
-      <Stack direction='row' justifyContent='flex-end' alignItems='center' spacing={0}>
-        <Pagination
-          count={Math.ceil(totalRequests / 10)}
-          onChange={(e: React.ChangeEvent<unknown>, value: number) => {
-            setPageRequest(value)
-          }}
-          variant='outlined'
-          shape='rounded'
-        />
-      </Stack>
+      <Grid container sx={{ mt: 10 }}>
+        <Grid item>
+          <Typography>
+            Showing {requests.length} out of {totalRequests}
+          </Typography>
+        </Grid>
+        <Grid item sx={{ marginLeft: 'auto', marginRight: 'auto' }}>
+          <Stack direction='row' justifyContent='center' alignItems='center' spacing={0}>
+            <Pagination
+              count={Math.ceil(totalRequests / 10)}
+              onChange={(e: React.ChangeEvent<unknown>, value: number) => {
+                setPageRequest(value)
+              }}
+              variant='outlined'
+              shape='rounded'
+            />
+          </Stack>
+        </Grid>
+      </Grid>
       <DialogAcceptConfirmation
         visible={showAcceptConfirm}
         user_id={props.iduser}

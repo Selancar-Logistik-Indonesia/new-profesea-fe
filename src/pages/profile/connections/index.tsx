@@ -45,7 +45,7 @@ function ProfileConnection() {
                               <TabList onChange={handleChange} aria-label='lab API tabs example'>
                                 <Tab label='Request' value='1' />
                                 <Tab label='Connections' value='2' />
-                                <Tab label='Companies for you' value='3' />
+                                <Tab label='Companies for you' value='3' sx={{ display: 'none' }} />
                                 <Tab label='Suggestions' value='4' />
                               </TabList>
                             </Box>
@@ -55,7 +55,7 @@ function ProfileConnection() {
                             <TabPanel value='2'>
                               <ConnectionTab iduser={iduser} />
                             </TabPanel>
-                            <TabPanel value='3'>
+                            <TabPanel value='3' sx={{ display: 'none' }}>
                               <CompanyListTab />
                             </TabPanel>
                             <TabPanel value='4'>
