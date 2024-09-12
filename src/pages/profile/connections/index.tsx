@@ -15,6 +15,8 @@ import SuggestionTab from './SuggestionTab'
 import RequestTab from './RequestTab'
 import CompanyListTab from './CompanyListTab'
 
+import SideAd from 'src/views/banner-ad/sidead'
+
 function ProfileConnection() {
   const [value, setValue] = useState('1')
 
@@ -69,7 +71,9 @@ function ProfileConnection() {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item lg={3} md={3} xs={12}></Grid>
+            <Grid item lg={3} md={3} xs={12}>
+              <SideAd adslocation='home-page' />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

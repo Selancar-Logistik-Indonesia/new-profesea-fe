@@ -14,12 +14,14 @@ import {
   Pagination,
   Grid,
   IconButton,
+  InputAdornment,
   Menu,
   MenuItem,
   Stack
 } from '@mui/material'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import CircleIcon from '@mui/icons-material/Circle'
+import SearchIcon from '@mui/icons-material/Search'
 
 import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'
@@ -78,27 +80,40 @@ export default function ConnectionTab(props: any) {
 
   return (
     <>
-      <Typography variant='subtitle1'>Connections</Typography>
-      <Typography>
-        you have <b>{totalConnection} Connection</b>
-      </Typography>
+      <Grid container>
+        <Grid item md={7} xs={12}>
+          <Typography variant='subtitle1'>Connections</Typography>
+          <Typography>
+            you have <b>{totalConnection} Connection</b>
+          </Typography>
+        </Grid>
+        <Grid item sx={{ display: 'flex', justifyContent: 'flex-end' }} md={5} xs={12}>
+          <TextField
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            type='text'
+            name='search'
+            id='search'
+            variant='outlined'
+            size='small'
+            placeholder='search ...'
+            sx={{ float: 'right', fontSize: 14, mt: 2 }}
+            onKeyDown={event => {
+              if (event.key === 'Enter') {
+                handleSearch()
+              }
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position='start' onClick={() => handleSearch()} sx={{ cursor: 'pointer' }}>
+                  <SearchIcon />
+                </InputAdornment>
+              )
+            }}
+          />
+        </Grid>
+      </Grid>
 
-      <TextField
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-        type='text'
-        name='search'
-        id='search'
-        variant='outlined'
-        size='small'
-        placeholder='search ...'
-        sx={{ float: 'right', margin: '0 20px 0 0', fontSize: 14 }}
-        onKeyDown={event => {
-          if (event.key === 'Enter') {
-            handleSearch()
-          }
-        }}
-      />
       <div style={{ clear: 'both' }}></div>
 
       {connections.length > 0 ? (
