@@ -1,6 +1,6 @@
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Card, CardContent, CardHeader, CircularProgress, IconButton } from '@mui/material'
+import { Box, CardContent, CircularProgress, Grid, IconButton } from '@mui/material'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -20,7 +20,7 @@ const FeedDetailApp = () => {
 const FeedDetail = () => {
   const router = useRouter()
   const feedId = parseInt(router.query?.feedId as string)
-  const [feed, setFeed] = useState<ISocialFeed | null>(null)
+  const [feed, setFeed] = useState<ISocialFeed>()
 
   const getDetailFeed = async () => {
     const response = await HttpClient.get(`/social-feed/feed/${feedId}`)
@@ -38,16 +38,23 @@ const FeedDetail = () => {
   }, [feedId])
 
   return (
-    <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-      <CardHeader
-        avatar={
-          <IconButton LinkComponent={Link} href='/home'>
-            <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
-          </IconButton>
-        }
-      />
-      <CardContent>{feed == null ? <CircularProgress /> : <FeedCard item={feed} />}</CardContent>
-    </Card>
+    <Box p={4}>
+      <Grid container sx={{ position: 'fixed' }}>
+        <IconButton LinkComponent={Link} href='/home'>
+          <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
+        </IconButton>
+      </Grid>
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          display: 'flex',
+          justifyContent: 'center'
+        }}
+      >
+        <CardContent>{feed ? <FeedCard item={feed} /> : <CircularProgress />}</CardContent>
+      </Grid>
+    </Box>
   )
 }
 

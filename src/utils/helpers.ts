@@ -297,12 +297,32 @@ function timeAgo(dateParam: any) {
     return getFormattedDate(date);
 }
 
-function timeCreated(createdAt: any) {
+function timeCreated(createdAt: any, type?: string) {
     if (!createdAt) return null
 
     const createdTime = moment(createdAt)
     const now = moment()
+    const secondDifferent = now.diff(createdTime, 'seconds')
     const monthsDifferent = now.diff(createdTime, 'months')
+
+    const secondsInMinute = 60;
+    const secondsInHour = 3600;
+    const secondsInDay = 86400;
+    const secondsInWeek = 604800;
+
+    if (type === 'feed') {
+        if (secondDifferent < secondsInMinute) {
+            return `${secondDifferent} s`
+        } else if (secondDifferent < secondsInHour) {
+            return `${Math.floor(secondDifferent / secondsInMinute)} m`
+        } else if (secondDifferent < secondsInDay) {
+            return `${Math.floor(secondDifferent / secondsInHour)} h`
+        } else if (secondDifferent < secondsInWeek) {
+            return `${Math.floor(secondDifferent / secondsInDay)} d`
+        } else {
+            return `${Math.floor(secondDifferent / secondsInWeek)} w`
+        }
+    }
 
     if (monthsDifferent >= 3) {
         return "several months ago"
