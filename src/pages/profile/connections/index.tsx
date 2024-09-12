@@ -13,7 +13,7 @@ import secureLocalStorage from 'react-secure-storage'
 import ConnectionTab from './ConnectionTab'
 import SuggestionTab from './SuggestionTab'
 import RequestTab from './RequestTab'
-import CompanyListTab from './CompanyListTab'
+// import CompanyListTab from './CompanyListTab'
 
 import SideAd from 'src/views/banner-ad/sidead'
 
@@ -57,9 +57,7 @@ function ProfileConnection() {
                             <TabPanel value='2'>
                               <ConnectionTab iduser={iduser} />
                             </TabPanel>
-                            <TabPanel value='3' sx={{ display: 'none' }}>
-                              <CompanyListTab />
-                            </TabPanel>
+                            <TabPanel value='3' sx={{ display: 'none' }}></TabPanel>
                             <TabPanel value='4'>
                               <SuggestionTab iduser={iduser} />
                             </TabPanel>
