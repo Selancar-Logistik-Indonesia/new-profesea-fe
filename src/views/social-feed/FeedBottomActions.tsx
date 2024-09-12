@@ -9,7 +9,7 @@ import { IUser } from 'src/contract/models/user'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import ButtonDelete from './ButtonDelete'
-import ButtonUpdate from './ButtonUpdate'
+// import ButtonUpdate from './ButtonUpdate'
 
 type Props = {
   item: ISocialFeed
@@ -21,7 +21,8 @@ type Props = {
 }
 
 const FeedBottomActions = (props: Props) => {
-  const { item, openComment, setOpenComment, openUpdate, setOpenUpdate } = props
+  //   const { item, openComment, setOpenComment, openUpdate, setOpenUpdate } = props
+  const { item, openComment, setOpenComment } = props
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   if (user.team_id == 1) {

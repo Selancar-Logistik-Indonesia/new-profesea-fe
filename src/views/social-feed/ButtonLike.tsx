@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
-import { Button, Typography } from '@mui/material'
+import { Button } from '@mui/material'
 import { Icon } from '@iconify/react'
 import moment from 'moment'
 
