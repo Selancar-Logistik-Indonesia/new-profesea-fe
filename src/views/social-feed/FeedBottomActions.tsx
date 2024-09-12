@@ -34,8 +34,12 @@ const FeedBottomActions = (props: Props) => {
   }
 
   return (
-    <Box sx={{ mt: 4 }}>
-      {user.id.toString() == item.user_id.toString() && (
+    <Box sx={{ pt: '12px', display: 'flex', justifyContent: 'space-between' }}>
+      <ButtonLike item={{ id: item.id, count_likes: item.count_likes, liked_at: item.liked_at }} likeableType='feed' />
+      <ButtonComment replyCount={item.count_comments} onClick={() => setOpenComment(!openComment)} />
+      <ButtonRepost post={item} />
+      <ButtonShare feedPage={getUrl(`/feed/${item.id}`)} />
+      {/* {user.id.toString() == item.user_id.toString() && (
         <>
           <ButtonDelete item={{ id: item.id, count_likes: item.count_likes, liked_at: item.liked_at }} />
           <ButtonUpdate
@@ -43,11 +47,7 @@ const FeedBottomActions = (props: Props) => {
             onClick={() => setOpenUpdate(!openUpdate)}
           />
         </>
-      )}
-      <ButtonRepost post={item} />
-      <ButtonShare feedPage={getUrl(`/feed/${item.id}`)} />
-      <ButtonLike item={{ id: item.id, count_likes: item.count_likes, liked_at: item.liked_at }} likeableType='feed' />
-      <ButtonComment replyCount={item.count_comments} onClick={() => setOpenComment(!openComment)} />
+      )} */}
     </Box>
   )
 }
