@@ -18,10 +18,11 @@ type Prop = {
   item: ISocialFeed
   withBottomArea?: boolean
   user?: IUser
+  type?: 'repost'
 }
 
 const FeedCard = (props: Prop) => {
-  const { item, withBottomArea } = props
+  const { item, withBottomArea, type } = props
   const [openComment, setOpenComment] = useState(false)
   const [openUpdate, setOpenUpdate] = useState(false)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -40,9 +41,17 @@ const FeedCard = (props: Prop) => {
   }
 
   return (
-    <Grid item xs={12} sx={{ mt: '16px' }}>
+    <Grid item xs={12} sx={{ mt: type ? 0 : '16px' }}>
       <Paper
-        sx={{ p: '24px', borderRadius: '12px', boxShadow: 3, display: 'flex', flexDirection: 'column', gap: '12px' }}
+        sx={{
+          p: '24px',
+          boxShadow: type ? 0 : 3,
+          borderRadius: type ? '8px' : '12px',
+          border: type ? '1px solid #DDDDDD' : '',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '12px'
+        }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -87,8 +96,8 @@ const FeedCard = (props: Prop) => {
             />
           )}
           {item.feed_repost && (
-            <Box sx={{ px: '20px' }}>
-              <FeedCard item={item.feed_repost} withBottomArea={false} user={user} />
+            <Box sx={{ px: '24px' }}>
+              <FeedCard item={item.feed_repost} withBottomArea={false} user={user} type='repost' />
             </Box>
           )}
         </Box>
