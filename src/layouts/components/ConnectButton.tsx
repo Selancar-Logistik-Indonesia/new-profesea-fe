@@ -63,6 +63,7 @@ const ConnectButton = (props: ConnectButtonProps) => {
         startIcon={
           !isLoading && <Icon icon='solar:link-linear' color={user.frienship_status ? '#26252542' : 'white'} />
         }
+        size='small'
         sx={{
           width : "100%",
           py: '8px',

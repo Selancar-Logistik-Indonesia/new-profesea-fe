@@ -4,6 +4,7 @@ import {
   Avatar,
   Box,
   Divider,
+  IconButton,
   Typography,
   Link,
   List,
@@ -11,17 +12,32 @@ import {
   ListItemAvatar,
   ListItemText,
   Pagination,
-  Stack
+  Stack,
+  Grid,
+  Menu,
+  MenuItem
 } from '@mui/material'
 import ConnectButton from 'src/layouts/components/ConnectButton'
+import CircleIcon from '@mui/icons-material/Circle'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
+
+import style from '../../../../styles/css/ConnectionList.module.css'
 
 export default function SuggestionTab(props: any) {
   const [pageSuggest, setPageSuggest] = React.useState(1)
   const [suggestions, setSuggestions] = useState([])
   const [totalSuggestions, setTotalSuggestions] = useState(0)
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const openMenu = Boolean(anchorEl)
+  const handleClickMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleCloseMenu = () => {
+    setAnchorEl(null)
+  }
 
   const getUserSuggestions = () => {
     HttpClient.get(AppConfig.baseUrl + '/user/suggested-friend/', {
@@ -31,6 +47,7 @@ export default function SuggestionTab(props: any) {
       take: 10
     }).then(response => {
       const itemData = response.data.data
+      console.log(response)
       setSuggestions(itemData)
       setTotalSuggestions(response.data.total)
     })
@@ -46,15 +63,16 @@ export default function SuggestionTab(props: any) {
 
   return (
     <>
-      <Typography variant='h6'>{totalSuggestions} Suggestions</Typography>
+      <Typography variant='subtitle1'>Suggestion For You</Typography>
       <List sx={{ width: '100%', bgcolor: 'background.paper', margin: '20px 0 0 0' }}>
         {suggestions.map((item: any, index) => (
-          <Box key={index}>
+          <Box key={index} className={style['list-box']}>
             <ListItem alignItems='flex-start'>
               <ListItemAvatar>
                 <Avatar style={{ height: 64, width: 64 }} src={item?.photo || '/static/images/avatar/1.jpg'} />
               </ListItemAvatar>
               <ListItemText
+                className={style['list-item-text']}
                 primary={
                   <Typography
                     sx={{ display: 'inline', fontSize: 16, fontWeight: 'bold' }}
@@ -68,34 +86,83 @@ export default function SuggestionTab(props: any) {
                 secondary={
                   <React.Fragment>
                     <Typography
-                      sx={{ display: 'inline', fontSize: 14 }}
+                      sx={{ display: 'block', fontSize: 12 }}
                       component='span'
                       variant='body2'
                       color='text.primary'
                     >
                       {item?.field_preference?.role_type?.name || 'No ranks'}
+                      <CircleIcon sx={{ fontSize: 7, m: '0 5px' }} />
+                      {item?.field_preference?.job_category?.name || ''}
+                    </Typography>
+                    <Typography
+                      sx={{ display: 'block', fontSize: 12 }}
+                      component='span'
+                      variant='body2'
+                      color='text.primary'
+                    >
+                      {item?.address ? item?.address?.city?.city_name + ', ' + item?.address?.country?.name : ''}
                     </Typography>
                   </React.Fragment>
                 }
               />
-              <Box>
+              <Box className={style['button-list-connection-suggest']}>
                 <ConnectButton user={item} />
+              </Box>
+              <Box className={style['menu-list-connection-suggest']}>
+                <IconButton
+                  aria-label='more'
+                  id='long-button'
+                  aria-controls={openMenu ? 'long-menu' : undefined}
+                  aria-expanded={openMenu ? 'true' : undefined}
+                  aria-haspopup='true'
+                  onClick={handleClickMenu}
+                >
+                  <MoreHorizIcon />
+                </IconButton>
+                <Menu
+                  id='long-menu'
+                  MenuListProps={{
+                    'aria-labelledby': 'long-button'
+                  }}
+                  open={openMenu}
+                  anchorEl={anchorEl}
+                  onClose={handleCloseMenu}
+                >
+                  <MenuItem
+                    key={'remove'}
+                    onClick={() => {
+                      handleCloseMenu()
+                    }}
+                  >
+                    <ConnectButton user={item} />
+                  </MenuItem>
+                </Menu>
               </Box>
             </ListItem>
             <Divider variant='inset' component='hr' />
           </Box>
         ))}
       </List>
-      <Stack direction='row' justifyContent='flex-end' alignItems='center' spacing={0}>
-        <Pagination
-          count={Math.ceil(totalSuggestions / 10)}
-          onChange={(e: React.ChangeEvent<unknown>, value: number) => {
-            setPageSuggest(value)
-          }}
-          variant='outlined'
-          shape='rounded'
-        />
-      </Stack>
+      <Grid container sx={{ mt: 10 }}>
+        <Grid item>
+          <Typography>
+            Showing {suggestions.length} out of {totalSuggestions}
+          </Typography>
+        </Grid>
+        <Grid item sx={{ marginLeft: 'auto', marginRight: 'auto' }}>
+          <Stack direction='row' justifyContent='center' alignItems='center' spacing={0}>
+            <Pagination
+              count={Math.ceil(totalSuggestions / 10)}
+              onChange={(e: React.ChangeEvent<unknown>, value: number) => {
+                setPageSuggest(value)
+              }}
+              variant='outlined'
+              shape='rounded'
+            />
+          </Stack>
+        </Grid>
+      </Grid>
     </>
   )
 }

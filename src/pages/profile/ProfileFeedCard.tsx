@@ -26,7 +26,6 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
       sPage = payload.mPage
     }
 
-    // only trigger in page 1
     if (sPage == 1) setOnLoading(true)
 
     try {
@@ -145,7 +144,7 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
                           {item.content_type == 'images' && (
                             <Grid item md={1} height={100} width={200}>
                               <img
-                                src={item?.attachments ? item?.attachments![0] : undefined}
+                                src={item.attachments ? item.attachments[0] : '/images/no-image.jpg'}
                                 alt={item.content}
                                 loading='lazy'
                                 style={{ objectFit: 'contain', width: '100%', height: '100%' }}
