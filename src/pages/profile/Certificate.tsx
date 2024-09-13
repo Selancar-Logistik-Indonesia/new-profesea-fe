@@ -1,9 +1,7 @@
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
 import { Icon } from '@iconify/react'
 import { Button, Divider } from '@mui/material'
 
@@ -88,20 +86,17 @@ const Ceritificate = (props: Props) => {
   const { vacancy } = props
 
   return (
-    <Grid container marginTop={'10px'}>
-      <Grid item xs={12}>
-        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-          <CardContent>
-            <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 800 }}>
-                Certificate
-              </Typography>
-              {renderList(vacancy)}
-            </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
+    <Box sx={{ borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
+      <Box sx={{ p: '24px' }}>
+        <Typography sx={{ mb: '10px', color: 'black', fontSize: 20, fontWeight: 'bold', textTransform: 'capitalize' }}>
+          Certificate
+        </Typography>
+        <Typography sx={{ mb: '10px', color: 'black', fontSize: 14, fontWeight: '400' }}>
+          You Have <span style={{ color: 'rgba(50, 73, 122, 1)' }}>{vacancy.length} Certificates</span>
+        </Typography>
+        {renderList(vacancy)}
+      </Box>
+    </Box>
   )
 }
 

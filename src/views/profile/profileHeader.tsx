@@ -33,6 +33,7 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
   const [instagram, setInstagram] = useState<any>()
   const [linkedin, setLinkedin] = useState<any>()
   const [isVisitor, setIsVisitor] = useState<boolean>(false)
+  console.log(dataUser)
 
   const industry =
     dataUser.team_id === 1

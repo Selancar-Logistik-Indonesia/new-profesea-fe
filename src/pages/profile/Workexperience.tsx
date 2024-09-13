@@ -1,11 +1,9 @@
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
-import { getMonthYear } from 'src/utils/helpers'
 import { useState } from 'react'
+import { format } from 'date-fns'
 
 export type ParamJobVacncy = {
   logo: string | undefined
@@ -36,11 +34,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
           key={index}
           sx={{
             display: 'flex',
-            '&:not(:last-of-type)': { mb: 4 },
-            '& svg': { color: 'text.secondary' },
-            border: '1px solid var(--light-action-disabled-background, rgba(76, 78, 100, 0.12))',
-            borderRadius: '10px',
-            padding: '5px'
+            borderBottom: '1px solid var(--light-action-disabled-background, rgba(76, 78, 100, 0.12))'
           }}
         >
           <Grid item container xs={12}>
@@ -56,20 +50,33 @@ const renderList = (arr: ParamJobVacncy[]) => {
             />
             <Grid item container xs={true} md={true} sx={{ flexGrow: '1' }}>
               <Box sx={{ columnGap: 2, flexWrap: 'wrap', alignItems: 'center', m: 2 }}>
-                <Typography sx={{ color: '#262525', fontWeight: 800 }}>
-                  {`${item.institution?.charAt(0).toUpperCase() + item.institution?.slice(1)}`}
-                </Typography>
-                <Typography sx={{ color: '#262525', fontWeight: 600 }}>
+                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+                  <Typography
+                    sx={{ color: 'rgba(45, 52, 54, 1)', fontWeight: 700, fontSize: '16px', lineHeight: '21px' }}
+                  >
+                    {`${item.institution?.charAt(0).toUpperCase() + item.institution?.slice(1)}`}
+                  </Typography>
+                  <Typography variant='body1'>
+                    {`${format(new Date(item.start_date), 'LLL yyyy')} - ${
+                      !item.is_current ? format(new Date(item.end_date), 'LLL yyyy') : 'Present'
+                    }`}
+                  </Typography>
+                </Box>
+                <Typography sx={{ color: 'rgba(45, 52, 54, 1)', fontWeight: 400, fontSize: '14px' }}>
                   {item.position?.charAt(0).toUpperCase() + item.position?.slice(1)}
                 </Typography>
-                <Typography variant='body1'>{`${getMonthYear(item.start_date)} - ${
-                  !item.is_current ? getMonthYear(item.end_date) : 'Present'
-                }`}</Typography>
+
                 <Grid item xs={12}>
                   <Typography
                     variant='body2'
                     align='justify'
-                    sx={{ color: '#262525', fontSize: '14px', mt: 2, whiteSpace: 'pre-line' }}
+                    sx={{
+                      color: 'rgba(45, 52, 54, 1)',
+                      fontSize: '14px',
+                      mt: 2,
+                      whiteSpace: 'pre-line',
+                      fontWeight: 400
+                    }}
                   >
                     {expand ? item.description : `${item.description?.slice(0, maxChars)}`}
                     {!expand && (
@@ -99,26 +106,14 @@ const WorkeExperience = (props: Props) => {
   const { vacancy } = props
 
   return (
-    <Grid container marginTop={'10px'}>
-      <Grid item xs={12}>
-        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-          <CardContent>
-            <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 800 }}>
-                Work Experience
-              </Typography>
-              {renderList(vacancy)}
-            </Box>
-            {/* <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: 'text.disabled', textTransform: 'uppercase' }}>
-                Contacts
-              </Typography>
-              {renderList(contacts)}
-            </Box> */}
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
+    <Box sx={{ borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
+      <Box sx={{ p: '24px' }}>
+        <Typography sx={{ mb: '10px', color: 'black', fontSize: 20, fontWeight: 'bold', textTransform: 'capitalize' }}>
+          Experience
+        </Typography>
+        {renderList(vacancy)}
+      </Box>
+    </Box>
   )
 }
 

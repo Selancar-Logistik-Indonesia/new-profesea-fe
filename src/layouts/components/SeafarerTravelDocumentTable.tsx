@@ -25,6 +25,7 @@ interface ISeafarerTravelDocumentTable {
 }
 
 export default function SeafarerTravelDocumentTable(props: ISeafarerTravelDocumentTable) {
+  console.log('Component jalan')
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -38,6 +39,7 @@ export default function SeafarerTravelDocumentTable(props: ISeafarerTravelDocume
     setLoading(true)
     HttpClient.get(AppConfig.baseUrl + '/seafarer-travel-documents/user-id/' + user_id).then(response => {
       const result = response.data.data.map((item: ISeafarerTravelDocumentData) => {
+       
         return {
           ...item,
           country_issue: item.country?.name,

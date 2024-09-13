@@ -65,6 +65,7 @@ const ConnectButton = (props: ConnectButtonProps) => {
         }
         size='small'
         sx={{
+          width : "100%",
           py: '8px',
           px: '16x',
           fontSize: '14px',
