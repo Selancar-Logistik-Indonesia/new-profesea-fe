@@ -17,6 +17,8 @@ import RequestTab from './RequestTab'
 
 import SideAd from 'src/views/banner-ad/sidead'
 
+import style from './../../../../styles/css/ConnectionPage.module.css'
+
 function ProfileConnection() {
   const [value, setValue] = useState('1')
 
@@ -31,11 +33,17 @@ function ProfileConnection() {
 
   return (
     <Box>
-      <Grid container spacing={1}>
-        <Grid item xs={12} md={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
-          <Grid container spacing={6} sx={{ marginTop: '1px' }}>
-            <Grid item lg={3} md={3} xs={12} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}></Grid>
-            <Grid item container lg={6} md={6} xs={12}>
+      <Grid container spacing={1} className={style['connection-page']}>
+        <Grid
+          item
+          xs={12}
+          md={11}
+          sx={!hidden ? { alignItems: 'stretch' } : {}}
+          className={style['connection-page-ch']}
+        >
+          <Grid container spacing={6} sx={{ marginTop: '1px' }} direction='row'>
+            {/* <Grid item lg={3} md={3} xs={12} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}></Grid> */}
+            <Grid item container lg={9} md={9} xs={12}>
               <Grid container>
                 <Grid item xs={12}>
                   <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
