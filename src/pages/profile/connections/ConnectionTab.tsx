@@ -28,7 +28,7 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import DialogRemoveConnection from './DialogRemoveConnection'
 
-import style from '../../../../styles/css/ConnectionList.module.css'
+// import style from '../../../../styles/css/ConnectionList.module.css'
 
 export default function ConnectionTab(props: any) {
   const [page, setPage] = React.useState(1)
@@ -119,7 +119,7 @@ export default function ConnectionTab(props: any) {
       {connections.length > 0 ? (
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
           {connections.map((item: any, index) => (
-            <Box key={index} className={style['list-box']}>
+            <Box key={index}>
               <ListItem alignItems='flex-start'>
                 <ListItemAvatar>
                   <Avatar
@@ -128,10 +128,14 @@ export default function ConnectionTab(props: any) {
                   />
                 </ListItemAvatar>
                 <ListItemText
-                  className={style['list-item-text']}
                   primary={
                     <React.Fragment>
-                      <Typography component='span' variant='body2' color='text.primary'>
+                      <Typography
+                        component='span'
+                        variant='body2'
+                        color='text.primary'
+                        sx={{ display: 'inline', fontSize: 16, fontWeight: 'bold' }}
+                      >
                         <Link href={'/profile/' + item.friend.id + '/' + item.friend.username}>
                           {item?.friend?.name}
                         </Link>
@@ -156,7 +160,7 @@ export default function ConnectionTab(props: any) {
                     </React.Fragment>
                   }
                 />
-                <Box className={style['button-list-connection']}>
+                <Box>
                   <Button variant='contained' size='small' sx={{ marginRight: 2, fontSize: 14, display: 'none' }}>
                     Message
                   </Button>

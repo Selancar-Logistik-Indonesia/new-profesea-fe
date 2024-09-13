@@ -94,6 +94,14 @@ export default function Request(props: any) {
                         <CircleIcon sx={{ fontSize: 7, m: '0 5px' }} />
                         {item?.field_preference?.job_category?.name || ''} <br />
                       </Typography>
+                      <Typography
+                        sx={{ display: 'block', fontSize: 12 }}
+                        component='span'
+                        variant='body2'
+                        color='text.primary'
+                      >
+                        {item?.address ? item?.address?.city?.city_name + ', ' + item?.address?.country?.name : ''}
+                      </Typography>
                     </React.Fragment>
                   }
                 />
