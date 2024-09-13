@@ -4,6 +4,7 @@ import {
   Avatar,
   Box,
   Divider,
+  IconButton,
   Typography,
   Link,
   List,
@@ -12,10 +13,13 @@ import {
   ListItemText,
   Pagination,
   Stack,
-  Grid
+  Grid,
+  Menu,
+  MenuItem
 } from '@mui/material'
 import ConnectButton from 'src/layouts/components/ConnectButton'
 import CircleIcon from '@mui/icons-material/Circle'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
@@ -26,6 +30,14 @@ export default function SuggestionTab(props: any) {
   const [pageSuggest, setPageSuggest] = React.useState(1)
   const [suggestions, setSuggestions] = useState([])
   const [totalSuggestions, setTotalSuggestions] = useState(0)
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const openMenu = Boolean(anchorEl)
+  const handleClickMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleCloseMenu = () => {
+    setAnchorEl(null)
+  }
 
   const getUserSuggestions = () => {
     HttpClient.get(AppConfig.baseUrl + '/user/suggested-friend/', {
@@ -94,8 +106,38 @@ export default function SuggestionTab(props: any) {
                   </React.Fragment>
                 }
               />
-              <Box className={style['button-list-connection']}>
+              <Box className={style['button-list-connection-suggest']}>
                 <ConnectButton user={item} />
+              </Box>
+              <Box className={style['menu-list-connection-suggest']}>
+                <IconButton
+                  aria-label='more'
+                  id='long-button'
+                  aria-controls={openMenu ? 'long-menu' : undefined}
+                  aria-expanded={openMenu ? 'true' : undefined}
+                  aria-haspopup='true'
+                  onClick={handleClickMenu}
+                >
+                  <MoreHorizIcon />
+                </IconButton>
+                <Menu
+                  id='long-menu'
+                  MenuListProps={{
+                    'aria-labelledby': 'long-button'
+                  }}
+                  open={openMenu}
+                  anchorEl={anchorEl}
+                  onClose={handleCloseMenu}
+                >
+                  <MenuItem
+                    key={'remove'}
+                    onClick={() => {
+                      handleCloseMenu()
+                    }}
+                  >
+                    <ConnectButton user={item} />
+                  </MenuItem>
+                </Menu>
               </Box>
             </ListItem>
             <Divider variant='inset' component='hr' />

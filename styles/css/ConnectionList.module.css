@@ -16,15 +16,19 @@
         width: 200%;
         display: block;
         word-break: break-all;
-        height: 160px;
+        height: 120px;
     }
 
     .button-list-connection {
         position: absolute;
-        top: 140px;
+        top: 100px;
         left: 10;
        
         width: 200px;
+    }
+
+    .button-list-connection-suggest { 
+        display: none;
     }
 }
 
@@ -39,9 +43,18 @@
     }
 
     .button-list-connection {
+       
         position: relative;
         top: 0;
         width: 100%;
+    }
+
+    .button-list-connection-suggest {
+        display: block;
+    }
+
+    .menu-list-connection-suggest {
+        display: none;
     }
 }
 
