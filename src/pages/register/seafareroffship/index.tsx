@@ -95,7 +95,7 @@ const Register = () => {
             }}
           >
             <Container fixed>
-              <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'></Box>
+              <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh' />
             </Container>
           </Box>
         ) : null}
@@ -160,7 +160,7 @@ const Register = () => {
                     type='offship'
                     vonchangeEmployee={onchangeEmployee}
                     disabledcombo={true}
-                  ></Registration>
+                  />
                 </Box>
               </BoxWrapper>
             </Container>
