@@ -112,41 +112,7 @@ const Register = () => {
             }}
           >
             <Container fixed>
-              <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
-                {/* <Grid container justifyContent={'center'} alignContent={'center'}>
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    marginTop={'50px'}
-                  >
-                    <Grid item md={12} xs={12}  >
-                      <img alt="logo" src='/images/logosamudera.png' style={{
-                        maxWidth: '100%',
-                        height: '30px',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }} />
-                    </Grid>
-                  </Box>
-                  <Grid item md={12} xs={12} >
-                    <Box
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center"
-                      minHeight="100vh"
-                    >
-                      <img alt="sailor" src='/images/sailor.png' style={{
-                        maxWidth: '100%',
-                        height: '450px',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: '40%'
-                      }} />
-                    </Box>
-                  </Grid>
-                </Grid> */}
-              </Box>
+              <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh' />
             </Container>
           </Box>
         ) : null}
@@ -211,7 +177,7 @@ const Register = () => {
                     type='onship'
                     vonchangeEmployee={onchangeEmployee}
                     disabledcombo={true}
-                  ></Registration>
+                  />
                 </Box>
               </BoxWrapper>
             </Container>

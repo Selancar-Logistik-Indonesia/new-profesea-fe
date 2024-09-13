@@ -3,7 +3,6 @@ import Head from 'next/head'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
-import themeConfig from 'src/configs/themeConfig'
 import landingPageStyle from 'src/@core/styles/landing-page/landing-page-news'
 import BreadcrumbsNews from './BreadcrumbsNews'
 import { BreadcrumbsNewsProvider, useBreadcrumbsNews } from 'src/context/BreadcrumbsNewsContext'
@@ -135,8 +134,16 @@ const NewsPage = () => {
   return (
     <>
       <Head>
-        <title>News at profesea.id</title>
-        <meta name='description' content={`${themeConfig.templateName} - ${t('landing_about_subtitle')}`} />
+        <title>Profesea News - Temukan berita, informasi, dan tren terbaru di Industri maritim dan logistik</title>
+        <meta
+          name='title'
+          content='Profesea News - Temukan berita, informasi, dan tren terbaru di Industri maritim dan logistik'
+        />
+        <meta
+          name='description'
+          content='Temukan berita, informasi, dan tren terbaru di Industri maritim dan logistik di Profesea News!
+'
+        />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
       </Head>
