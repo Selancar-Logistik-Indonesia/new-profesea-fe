@@ -60,22 +60,21 @@ const ButtonRepost = (props: { post: ISocialFeed }) => {
             Repost Feed
           </Typography>
         </DialogTitle>
-
         <DialogContent>
           <TextField
             disabled={isLoading}
             sx={{ mt: 4 }}
+            rows={2}
             value={content}
             multiline
             fullWidth
-            rows={4}
             placeholder='Write a caption'
             variant='standard'
             onChange={e => setContent(e.target.value)}
           />
           <FeedCard item={post} withBottomArea={false} />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ mt: '10px' }}>
           <Button size='small' variant='contained' color='error' onClick={() => setOpenDialog(!dialogOpen)}>
             <Icon icon='material-symbols:cancel-outline' color='white' fontSize={12} />
             Cancel
