@@ -63,16 +63,17 @@ export default function SuggestionTab(props: any) {
 
   return (
     <>
-      <Typography variant='subtitle1'>Suggestion For You</Typography>
-      <List sx={{ width: '100%', bgcolor: 'background.paper', margin: '20px 0 0 0' }}>
+      <Typography variant='subtitle1' sx={{ fontSize: '16px', fontWeight: 'bold' }}>
+        Suggestion For You
+      </Typography>
+      <List sx={{ width: '100%', bgcolor: 'background.paper', margin: '24px 0 0 0' }}>
         {suggestions.map((item: any, index) => (
           <Box key={index} className={style['list-box']}>
             <ListItem alignItems='flex-start'>
               <ListItemAvatar>
-                <Avatar style={{ height: 64, width: 64 }} src={item?.photo || '/static/images/avatar/1.jpg'} />
+                <Avatar style={{ height: 76, width: 76 }} src={item?.photo || '/static/images/avatar/1.jpg'} />
               </ListItemAvatar>
               <ListItemText
-                className={style['list-item-text']}
                 primary={
                   <Typography
                     sx={{ display: 'inline', fontSize: 16, fontWeight: 'bold' }}
@@ -86,17 +87,17 @@ export default function SuggestionTab(props: any) {
                 secondary={
                   <React.Fragment>
                     <Typography
-                      sx={{ display: 'block', fontSize: 12 }}
+                      sx={{ display: 'block', fontSize: 14, mb: '6px', fontWeight: '300' }}
                       component='span'
                       variant='body2'
                       color='text.primary'
                     >
                       {item?.field_preference?.role_type?.name || 'No ranks'}
-                      <CircleIcon sx={{ fontSize: 7, m: '0 5px' }} />
+                      <CircleIcon sx={{ fontSize: 4, m: '0 5px 2px 5px', color: '#525252' }} />
                       {item?.field_preference?.job_category?.name || ''}
                     </Typography>
                     <Typography
-                      sx={{ display: 'block', fontSize: 12 }}
+                      sx={{ fontSize: 14, mb: '6px', fontWeight: '300' }}
                       component='span'
                       variant='body2'
                       color='text.primary'
@@ -140,13 +141,13 @@ export default function SuggestionTab(props: any) {
                 </Menu>
               </Box>
             </ListItem>
-            <Divider variant='inset' component='hr' />
+            <Divider variant='inset' component='hr' sx={{ ml: '10px' }} />
           </Box>
         ))}
       </List>
       <Grid container sx={{ mt: 10 }}>
         <Grid item>
-          <Typography>
+          <Typography sx={{ fontSize: 14, fontWeight: '300' }}>
             Showing {suggestions.length} out of {totalSuggestions}
           </Typography>
         </Grid>
@@ -157,8 +158,8 @@ export default function SuggestionTab(props: any) {
               onChange={(e: React.ChangeEvent<unknown>, value: number) => {
                 setPageSuggest(value)
               }}
-              variant='outlined'
               shape='rounded'
+              color='primary'
             />
           </Stack>
         </Grid>

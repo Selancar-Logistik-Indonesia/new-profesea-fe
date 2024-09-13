@@ -46,27 +46,47 @@ function ProfileConnection() {
             <Grid item container lg={9} md={9} xs={12}>
               <Grid container>
                 <Grid item xs={12}>
-                  <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-                    <CardContent>
-                      <Box sx={{ mb: 7 }}>
+                  <Card
+                    sx={{
+                      border: 0,
+                      boxShadow: 6,
+                      borderRadius: 12,
+                      color: 'common.white',
+                      backgroundColor: '#FFFFFF'
+                    }}
+                  >
+                    <CardContent sx={{ padding: '24px' }}>
+                      <Box sx={{ mb: 0 }}>
                         <Box sx={{ width: '100%', typography: 'body1' }}>
                           <TabContext value={value}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                               <TabList onChange={handleChange} aria-label='lab API tabs example'>
-                                <Tab label='Request' value='1' />
-                                <Tab label='Connections' value='2' />
+                                <Tab
+                                  label='Request'
+                                  value='1'
+                                  sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold' }}
+                                />
+                                <Tab
+                                  label='Connections'
+                                  value='2'
+                                  sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold' }}
+                                />
                                 <Tab label='Companies for you' value='3' sx={{ display: 'none' }} />
-                                <Tab label='Suggestions' value='4' />
+                                <Tab
+                                  label='Suggestions'
+                                  value='4'
+                                  sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold' }}
+                                />
                               </TabList>
                             </Box>
-                            <TabPanel value='1'>
+                            <TabPanel value='1' className={style['tabpanel']}>
                               <RequestTab iduser={iduser} />
                             </TabPanel>
-                            <TabPanel value='2'>
+                            <TabPanel value='2' className={style['tabpanel']}>
                               <ConnectionTab iduser={iduser} />
                             </TabPanel>
-                            <TabPanel value='3' sx={{ display: 'none' }}></TabPanel>
-                            <TabPanel value='4'>
+                            <TabPanel value='3' className={style['tabpanel']}></TabPanel>
+                            <TabPanel value='4' className={style['tabpanel']}>
                               <SuggestionTab iduser={iduser} />
                             </TabPanel>
                           </TabContext>

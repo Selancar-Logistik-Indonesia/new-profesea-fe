@@ -82,9 +82,14 @@ export default function ConnectionTab(props: any) {
     <>
       <Grid container>
         <Grid item md={7} xs={12}>
-          <Typography variant='subtitle1'>Connections</Typography>
+          <Typography variant='subtitle1' sx={{ fontSize: '16px', fontWeight: 'bold' }}>
+            Connections
+          </Typography>
           <Typography>
-            you have <b>{totalConnection} Connection</b>
+            you have{' '}
+            <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#32487A' }}>
+              {totalConnection} Connections{' '}
+            </span>
           </Typography>
         </Grid>
         <Grid item sx={{ display: 'flex', justifyContent: 'flex-end' }} md={5} xs={12}>
@@ -117,13 +122,13 @@ export default function ConnectionTab(props: any) {
       <div style={{ clear: 'both' }}></div>
 
       {connections.length > 0 ? (
-        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+        <List sx={{ width: '100%', bgcolor: 'background.paper', margin: '24px 0 0 0' }}>
           {connections.map((item: any, index) => (
-            <Box key={index}>
+            <Box key={index} sx={{ m: '0 -16px 16px -16px' }}>
               <ListItem alignItems='flex-start'>
                 <ListItemAvatar>
                   <Avatar
-                    style={{ height: 64, width: 64 }}
+                    style={{ height: 76, width: 76 }}
                     src={item?.friend?.photo || '/static/images/avatar/1.jpg'}
                   />
                 </ListItemAvatar>
@@ -144,13 +149,18 @@ export default function ConnectionTab(props: any) {
                   }
                   secondary={
                     <React.Fragment>
-                      <Typography sx={{ fontSize: 12 }} component='span' variant='body2' color='text.primary'>
+                      <Typography
+                        sx={{ fontSize: 14, mb: '6px', fontWeight: '300' }}
+                        component='span'
+                        variant='body2'
+                        color='text.primary'
+                      >
                         {item?.field_preference?.role_type?.name || 'No ranks'}
-                        <CircleIcon sx={{ fontSize: 7, m: '0 5px' }} />
+                        <CircleIcon sx={{ fontSize: 4, m: '0 5px 2px 5px', color: '#525252' }} />
                         {item?.field_preference?.job_category?.name || ''} <br />
                       </Typography>
                       <Typography
-                        sx={{ display: 'block', fontSize: 12 }}
+                        sx={{ fontSize: 14, mb: '6px', fontWeight: '300' }}
                         component='span'
                         variant='body2'
                         color='text.primary'
@@ -161,7 +171,18 @@ export default function ConnectionTab(props: any) {
                   }
                 />
                 <Box>
-                  <Button variant='contained' size='small' sx={{ marginRight: 2, fontSize: 14, display: 'none' }}>
+                  <Button
+                    variant='contained'
+                    size='small'
+                    sx={{
+                      marginRight: '16px',
+                      fontSize: 14,
+                      textTransform: 'none',
+                      fontWeight: 300,
+                      p: '8px 12px',
+                      display: 'none'
+                    }}
+                  >
                     Message
                   </Button>
 
@@ -196,7 +217,7 @@ export default function ConnectionTab(props: any) {
                   </Menu>
                 </Box>
               </ListItem>
-              <Divider variant='inset' component='hr' />
+              <Divider variant='inset' component='hr' sx={{ ml: '10px' }} />
             </Box>
           ))}
         </List>
@@ -204,13 +225,13 @@ export default function ConnectionTab(props: any) {
         <>
           <div style={{ textAlign: 'center', margin: '40px 0' }}>
             <img src='/images/no-connection-request.png' />
-            <p>You have no connection </p>
+            <p style={{ fontSize: 14, fontWeight: 300, color: '#868686' }}>You have no connection </p>
           </div>
         </>
       )}
       <Grid container sx={{ mt: 10 }}>
         <Grid item>
-          <Typography>
+          <Typography sx={{ fontSize: 14, fontWeight: '300' }}>
             Showing {connections.length} out of {totalConnection}
           </Typography>
         </Grid>
@@ -221,8 +242,8 @@ export default function ConnectionTab(props: any) {
               onChange={(e: React.ChangeEvent<unknown>, value: number) => {
                 setPage(value)
               }}
-              variant='outlined'
               shape='rounded'
+              color='primary'
             />
           </Stack>
         </Grid>
