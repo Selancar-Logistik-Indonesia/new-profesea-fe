@@ -145,7 +145,7 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
                           {item.content_type == 'images' && (
                             <Grid item md={1} height={100} width={200}>
                               <img
-                                src={item.attachments![0]}
+                                src={item?.attachments ? item?.attachments![0] : undefined}
                                 alt={item.content}
                                 loading='lazy'
                                 style={{ objectFit: 'contain', width: '100%', height: '100%' }}

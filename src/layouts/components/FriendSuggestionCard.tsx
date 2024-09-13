@@ -35,7 +35,7 @@ const renderList = (arr: IUser[]) => {
           }}
         >
           <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 44, height: 44 }} />
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', }}>
             <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <Link
                 style={{ textDecoration: 'none' }}

@@ -65,7 +65,7 @@ const Activity = ({ dataUser, status }: { dataUser: IUser; status: boolean }) =>
   return (
     <Box sx={{ borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
       <Box sx={{ p: '24px' }}>
-        <Typography sx={{ mb: '24px', color: 'black', fontSize: 20, fontWeight: 'bold', textTransform: 'uppercase' }}>
+        <Typography sx={{ mb: '24px', color: 'black', fontSize: 20, fontWeight: 'bold', textTransform: 'capitalize' }}>
           activity
         </Typography>
         {onLoading && <Typography style={{ textAlign: 'center' }}> Loading ...</Typography>}
@@ -124,7 +124,7 @@ const Activity = ({ dataUser, status }: { dataUser: IUser; status: boolean }) =>
                       )}
                       {item.content_type == 'images' && (
                         <img
-                          src={item.attachments![0]}
+                          src={item.attachments ? item.attachments![0] : '/images/no-image'}
                           alt={item.content}
                           loading='lazy'
                           style={{ objectFit: 'contain', width: '100%' }}

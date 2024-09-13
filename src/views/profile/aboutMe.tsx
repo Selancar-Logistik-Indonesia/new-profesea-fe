@@ -10,8 +10,8 @@ const AboutMe = ({ dataUser }: { dataUser: IUser }) => {
 
   return (
     <Box sx={{ p: '24px', borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
-      <Typography sx={{ mb: '24px', color: 'black', fontSize: 20, fontWeight: 'bold', textTransform: 'uppercase' }}>
-        {`about ${dataUser?.team_id === 3 ? 'company' : dataUser?.team_id === 4 ? 'trainer' : 'candidate'}`}
+      <Typography sx={{ mb: '24px', color: 'black', fontSize: 20, fontWeight: 'bold', textTransform: 'capitalize' }}>
+        {`about ${dataUser?.team_id === 3 ? 'company' : dataUser?.team_id === 4 ? 'trainer' : 'Me'}`}
       </Typography>
       <Typography sx={{ color: '#636E72', fontSize: '16px', whiteSpace: 'pre-line' }}>
         {dataUser?.about ??
