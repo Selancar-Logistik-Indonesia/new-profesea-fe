@@ -1,4 +1,4 @@
-import { CircularProgress, Avatar, Typography } from '@mui/material'
+import { CircularProgress, Avatar, Typography, Button, Grid } from '@mui/material'
 import { Box } from '@mui/system'
 import { useState, useEffect } from 'react'
 import ISocialFeed from 'src/contract/models/social_feed'
@@ -7,18 +7,18 @@ import CommentResponseType from 'src/contract/types/comment_response_type'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import { getUserAvatar, timeCreated, toLinkCase, toTitleCase } from 'src/utils/helpers'
 import CommentForm from './CommentForm'
-// import SubCommentAreaView from './SubCommentAreaView'
-// import ButtonLike from './ButtonLike'
+import SubCommentAreaView from './SubCommentAreaView'
+import ButtonLike from './ButtonLike'
 import Link from 'next/link'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import ButtonDelete from './ButtonDelete'
-// import { Icon } from '@iconify/react'
+import { Icon } from '@iconify/react'
 
 const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => {
   const { comment, feedId } = props
-  //   const [openReply, setOpenReply] = useState(false)
+  const [openReply, setOpenReply] = useState(false)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   return (
@@ -31,7 +31,7 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
         mt: 5,
         position: 'relative',
         '&:hover .delete-button': {
-          display: 'inline-block' // Show delete button on hover
+          display: 'inline-block'
         }
       }}
     >
@@ -58,7 +58,7 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
           <Typography sx={{ color: '#949EA2', py: '9px', fontSize: 12, fontWeight: 400 }}>
             {timeCreated(comment.created_at, 'feed')}
           </Typography>
-          {/* {user.team_id !== 1 && (
+          {user.team_id !== 1 && (
             <ButtonLike
               variant='no-icon'
               item={{ id: comment.id, liked_at: comment.liked_at, count_likes: comment.count_likes }}
@@ -77,7 +77,7 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
             size='small'
           >
             {comment.count_replies > 0 && comment.count_replies} Reply
-          </Button> */}
+          </Button>
           {(user.team_id === 1 || user.id === comment.user_id) && (
             <Box className='delete-button' sx={{ display: 'none' }}>
               <ButtonDelete
@@ -87,12 +87,12 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
             </Box>
           )}
         </Box>
-        {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'default' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'default' }}>
           <Icon color='#32497A' icon={comment.liked_at ? 'ph:thumbs-up-fill' : 'ph:thumbs-up'} fontSize={16} />
           <Typography sx={{ color: '#32497A', fontSize: 14 }}>{comment.count_likes}</Typography>
-        </Box> */}
+        </Box>
       </Box>
-      {/* <Grid container>
+      <Grid container>
         <Box
           sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }}
           onClick={() => setOpenReply(!openReply)}
@@ -103,7 +103,8 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
           </Typography>
         </Box>
       </Grid>
-      {openReply && <SubCommentAreaView item={comment} feedId={feedId} />} */}
+      {openReply && <CommentForm feedId={feedId} replyable_type='comment' />}
+      {openReply && <SubCommentAreaView item={comment} feedId={feedId} />}
     </Box>
   )
 }

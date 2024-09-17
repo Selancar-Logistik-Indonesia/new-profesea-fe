@@ -42,7 +42,6 @@ const FeedBottomActions = (props: Props) => {
       <ButtonShare feedPage={getUrl(`/feed/${item.id}`)} />
       {/* {user.id.toString() == item.user_id.toString() && (
         <>
-          <ButtonDelete item={{ id: item.id, count_likes: item.count_likes, liked_at: item.liked_at }} />
           <ButtonUpdate
             item={{ id: item.id, count_likes: item.count_likes, liked_at: item.liked_at }}
             onClick={() => setOpenUpdate(!openUpdate)}
