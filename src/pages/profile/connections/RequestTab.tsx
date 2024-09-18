@@ -96,17 +96,17 @@ export default function Request(props: any) {
                     secondary={
                       <React.Fragment>
                         <Typography
-                          sx={{ fontSize: 14, mb: '6px', fontWeight: '300' }}
+                          sx={{ display: 'block', fontSize: 14, mb: '6px', fontWeight: '300' }}
                           component='span'
                           variant='body2'
                           color='text.primary'
                         >
-                          {item?.field_preference?.role_type?.name || 'No ranks'}
+                          {item?.field_preference_user?.role_type?.name || 'No ranks'}
                           <CircleIcon sx={{ fontSize: 4, m: '0 5px 2px 5px', color: '#525252' }} />
-                          {item?.field_preference?.job_category?.name || ''} <br />
+                          {item?.field_preference_user?.job_category?.name || ''}
                         </Typography>
                         <Typography
-                          sx={{ display: 'block', fontSize: 14, fontWeight: '300', color: '#868686' }}
+                          sx={{ fontSize: 14, mb: '6px', fontWeight: '300' }}
                           component='span'
                           variant='body2'
                           color='text.primary'
