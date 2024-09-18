@@ -54,7 +54,7 @@ const UserFeedApp = () => {
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [arrVacany, setArrVacancy] = useState<any>([])
   const [arrVacany2, setArrVacancy2] = useState<any>([])
-  const [itemData, getItemdata] = useState<any[]>([])
+  // const [itemData, getItemdata] = useState<any[]>([])
   const iduser: any = user.id
   //let { username } = router.query as { username: string }
   const params = useSearchParams()
@@ -63,14 +63,14 @@ const UserFeedApp = () => {
   const firstload = async () => {
     let url = ''
     let filter = ''
-    let filterdoc = ''
+    // let filterdoc = ''
     if (!username) {
       url = '/user/' + toLinkCase(iduser)
       username = user.username
     } else {
       url = '/user/?username=' + username
       filter = '&username=' + username
-      filterdoc = '?username=' + username
+      // filterdoc = '?username=' + username
     }
 
     try {
@@ -95,11 +95,11 @@ const UserFeedApp = () => {
         const itemData = response.data.educations
         setArrVacancy2(itemData)
       })
-      HttpClient.get(AppConfig.baseUrl + '/user/document' + filterdoc).then(response => {
-        const itemData = response.data.documents
+      // HttpClient.get(AppConfig.baseUrl + '/user/document' + filterdoc).then(response => {
+      //   const itemData = response.data.documents
 
-        getItemdata(itemData)
-      })
+      //   getItemdata(itemData)
+      // })
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
@@ -127,8 +127,8 @@ const UserFeedApp = () => {
           mt: '10px',
           mb: '20px',
           gap: '32px',
-          paddingLeft: '96px',
-          paddingRight: '96px'
+          paddingLeft: { lg: '96px' },
+          paddingRight: { lg: '96px' }
         }}
       >
         <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
@@ -151,7 +151,7 @@ const UserFeedApp = () => {
           {selectedUser?.employee_type == 'onship' && <CocSection userId={selectedUser?.id} />}
 
           {selectedUser?.employee_type == 'offship' && <WorkeExperience vacancy={arrVacany} />}
-          {selectedUser?.employee_type == 'offship' && false && <Ceritificate vacancy={itemData} />}
+          {selectedUser?.employee_type == 'offship' && <Ceritificate userId={selectedUser?.id} />}
         </Grid>
         <Grid item xs={12} md={3}>
           <FriendSuggestionCard location='profile' dataUser={selectedUser} status={true} />
