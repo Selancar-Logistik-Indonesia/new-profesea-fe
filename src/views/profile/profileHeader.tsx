@@ -33,7 +33,6 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
   const [instagram, setInstagram] = useState<any>()
   const [linkedin, setLinkedin] = useState<any>()
   const [isVisitor, setIsVisitor] = useState<boolean>(false)
-  console.log(dataUser)
 
   const industry =
     dataUser.team_id === 1
@@ -108,11 +107,13 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
             />
             <Box>
               <Typography sx={{ fontSize: 24, fontWeight: 'bold', mb: '8px' }}>{dataUser.username}</Typography>
-              <Typography sx={{ color: '#636E72', fontSize: 16 }}>{industry}</Typography>
+              <Typography sx={{ color: 'rgba(64, 64, 64, 1)', fontSize: 16, fontWeight: 300, lineHeight: '20px' }}>
+                {industry}
+              </Typography>
             </Box>
-            <Typography sx={{ color: '#949EA2', fontSize: 14 }}>{`${dataUser.address?.city?.city_name ?? '-'}, ${
-              dataUser.country?.nicename ?? '-'
-            }`}</Typography>
+            <Typography sx={{ color: 'rgba(82, 82, 82, 1)', fontSize: 14, fontWeight: 400 }}>{`${
+              dataUser.address?.city?.city_name ?? '-'
+            }, ${dataUser.country?.nicename ?? '-'}`}</Typography>
             <Typography sx={{ color: 'primary.main', fontSize: '14px', fontWeight: 'bold' }}>{`${connections} ${
               connections > 1 ? 'connections' : 'connection'
             }`}</Typography>
