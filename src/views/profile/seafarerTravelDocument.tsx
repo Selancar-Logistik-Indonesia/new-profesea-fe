@@ -48,7 +48,10 @@ const SeafarerTravelDocument: React.FC<ISeafarerTravelDocumentProps> = ({ userId
                 key={index}
                 sx={{
                   display: 'flex',
-                  borderBottom: '1px solid var(--light-action-disabled-background, rgba(76, 78, 100, 0.12))'
+                  borderBottom:
+                    travelDocument.length - 1 == index
+                      ? ''
+                      : '1px solid var(--light-action-disabled-background, rgba(76, 78, 100, 0.12))'
                 }}
               >
                 <Box

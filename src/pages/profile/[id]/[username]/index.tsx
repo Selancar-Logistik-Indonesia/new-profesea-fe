@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { CircularProgress, Grid,  } from '@mui/material'
+import { CircularProgress, Grid } from '@mui/material'
 // import { useTheme } from '@mui/material/styles'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
@@ -119,20 +119,19 @@ const UserFeedApp = () => {
 
   return (
     <>
-      <Grid container spacing={6} sx={{ display: 'flex', justifyContent: 'center', mt: '10px', mb: '20px' }}>
-        <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          {/* <Grid item md={12} xs={12}>
-                {selectedUser && <UserProfileHeader datauser={selectedUser} address={selectedUser.address} />}
-              </Grid>
-              <Grid item md={12} xs={12}>
-                <AboutMe dataUser={selectedUser}></AboutMe>
-              </Grid>
-              <Grid item md={12} xs={12}>
-                <ProfileFeedCard selectedUser={selectedUser}></ProfileFeedCard>
-              </Grid>
-              <Grid item md={12} xs={12}>
-                <Box></Box>
-              </Grid> */}
+      <Grid
+        container
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          mt: '10px',
+          mb: '20px',
+          gap: '32px',
+          paddingLeft: '96px',
+          paddingRight: '96px'
+        }}
+      >
+        <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
           <ProfileHeader dataUser={selectedUser as unknown as IUser} />
           {selectedUser.id === user?.id && <Analytics dataUser={selectedUser} />}
           <AboutMe dataUser={selectedUser} />
@@ -142,70 +141,17 @@ const UserFeedApp = () => {
           {/* Seafarer Travel Documents */}
           {selectedUser?.employee_type == 'onship' && <SeafarerTravelDocument userId={selectedUser?.id} />}
 
-          {/* {selectedUser?.employee_type == 'onship' && (
-            <TableCard title='Travel Document'>
-              <SeafarerTravelDocumentTable
-                user_id={selectedUser?.id}
-                selectedUser={selectedUser}
-                isEditable={false}
-                isDataHidden={selectedUser?.id == user?.id || user.team_id == 3 ? false : true}
-                handleModalDelete={undefined}
-                handleModalForm={undefined}
-              />
-            </TableCard>
-          )} */}
-
           {/* seafarer experience */}
           {selectedUser?.employee_type == 'onship' && <SeafarerExperience userId={selectedUser?.id} />}
 
           {/* seafarer cop */}
           {selectedUser?.employee_type == 'onship' && <CopSection userId={selectedUser?.id} />}
 
-          {/* {selectedUser?.employee_type == 'onship' && (
-            <TableCard title='Certificate Of Proficiency'>
-              <SeafarerProficiencyTable
-                user_id={selectedUser?.id}
-                selectedUser={selectedUser}
-                isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true}
-                isEditable={false}
-                handleModalDelete={undefined}
-                handleModalForm={undefined}
-              />
-            </TableCard>
-          )} */}
-
           {/* seafarer coc */}
           {selectedUser?.employee_type == 'onship' && <CocSection userId={selectedUser?.id} />}
 
-          {/* {selectedUser?.employee_type == 'onship' && (
-            <TableCard title='Certificate of Competency'>
-              <SeafarerCompetencyTable
-                user_id={selectedUser?.id}
-                selectedUser={selectedUser}
-                isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true}
-                isEditable={false}
-                handleModalDelete={undefined}
-                handleModalForm={undefined}
-              />
-            </TableCard>
-          )} */}
-
-          {/* {selectedUser?.employee_type == 'onship' && (
-            <Grid item marginTop={'10px'} md={12} xs={12}>
-              <TableCard title='Recommendation'>
-                <SeafarerRecommendationTable
-                  user_id={selectedUser?.id}
-                  selectedUser={selectedUser}
-                  isHiddenData={true}
-                  isEditable={false}
-                  handleModalDelete={undefined}
-                />
-              </TableCard>
-            </Grid>
-          )} */}
-
           {selectedUser?.employee_type == 'offship' && <WorkeExperience vacancy={arrVacany} />}
-          {selectedUser?.employee_type == 'offship'&& false && <Ceritificate vacancy={itemData} />}
+          {selectedUser?.employee_type == 'offship' && false && <Ceritificate vacancy={itemData} />}
         </Grid>
         <Grid item xs={12} md={3}>
           <FriendSuggestionCard location='profile' dataUser={selectedUser} status={true} />
