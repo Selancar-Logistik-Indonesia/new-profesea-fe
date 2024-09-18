@@ -35,13 +35,8 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
   const [isVisitor, setIsVisitor] = useState<boolean>(false)
 
   const industry =
-    dataUser.team_id === 1
-      ? 'Seafarer'
-      : dataUser.team_id === 2
-      ? 'Professional'
-      : dataUser.team_id === 3
-      ? dataUser.industry?.name
-      : 'Trainer'
+    dataUser.team_id === 2 ? 'Professional' : dataUser.team_id === 3 ? dataUser.industry?.name : 'Trainer'
+
   const editProfileLink = dataUser.team_id === 3 ? '/company' : dataUser.team_id === 4 ? '/trainer' : '/candidate'
 
   useEffect(() => {
@@ -106,9 +101,13 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
               sx={{ mt: '-90px', width: 120, height: 120, border: '5px solid white', borderRadius: '12px' }}
             />
             <Box>
-              <Typography sx={{ fontSize: 24, fontWeight: 'bold', mb: '8px' }}>{dataUser.username}</Typography>
+              <Typography sx={{ fontSize: 24, fontWeight: 'bold', mb: '8px' }}>{dataUser.name}</Typography>
               <Typography sx={{ color: 'rgba(64, 64, 64, 1)', fontSize: 16, fontWeight: 300, lineHeight: '20px' }}>
-                {industry}
+                {dataUser?.team_id === 2
+                  ? dataUser?.employee_type === 'onship'
+                    ? dataUser?.field_preference?.role_type?.name
+                    : dataUser?.field_preference?.job_category?.name
+                  : industry}
               </Typography>
             </Box>
             <Typography sx={{ color: 'rgba(82, 82, 82, 1)', fontSize: 14, fontWeight: 400 }}>{`${

@@ -35,7 +35,7 @@ const CocSection: React.FC<ICocSectionProps> = ({ userId }) => {
   }
 
   const handleShowMore = () => {
-    setVisibleCount(prevCount => prevCount + 3) // Show 3 more items on each click
+    setVisibleCount(data.length)
   }
 
   useEffect(() => {
