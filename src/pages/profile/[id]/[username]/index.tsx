@@ -63,14 +63,14 @@ const UserFeedApp = () => {
   const firstload = async () => {
     let url = ''
     let filter = ''
-    let filterdoc = ''
+    // let filterdoc = ''
     if (!username) {
       url = '/user/' + toLinkCase(iduser)
       username = user.username
     } else {
       url = '/user/?username=' + username
       filter = '&username=' + username
-      filterdoc = '?username=' + username
+      // filterdoc = '?username=' + username
     }
 
     try {
