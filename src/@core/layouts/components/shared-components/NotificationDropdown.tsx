@@ -18,6 +18,7 @@ import INotification from 'src/contract/models/notification'
 import moment, { now } from 'moment'
 import NotificationType from 'src/contract/types/notification_type'
 import NotificationItem from './NotificationItem'
+import { useRouter } from 'next/navigation'
 
 export type NotificationsType = {
   id: string
@@ -276,6 +277,7 @@ const buildNotifies = (e: INotification) => {
 }
 
 const NotificationDropdown = (props: Props) => {
+  const { push } = useRouter()
   const { settings } = props
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(null)
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
@@ -294,6 +296,8 @@ const NotificationDropdown = (props: Props) => {
         notification_id: notifies.map(e => e.id)
       })
     }
+
+    push('/profile/notification')
   }
 
   const getNotifications = async () => {
