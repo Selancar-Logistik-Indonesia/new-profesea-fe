@@ -10,6 +10,8 @@ import { getUserAvatar } from 'src/utils/helpers'
 import { useAuth } from 'src/hooks/useAuth'
 import DialogShare from './shareDialog'
 import ConnectButton from 'src/layouts/components/ConnectButton'
+import { useRouter } from 'next/navigation'
+
 // import MessageButton from 'src/layouts/components/MessageButton'
 
 const SocialMedia = (props: { icon: string; type: string; link?: string }) => {
@@ -33,6 +35,7 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
   const [instagram, setInstagram] = useState<any>()
   const [linkedin, setLinkedin] = useState<any>()
   const [isVisitor, setIsVisitor] = useState<boolean>(false)
+  const router = useRouter()
 
   const industry =
     dataUser.team_id === 2 ? 'Professional' : dataUser.team_id === 3 ? dataUser.industry?.name : 'Trainer'
@@ -69,6 +72,10 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
       setConnections(connections)
     })
   }, [dataUser])
+
+  const handleOnClickConnection = () => {
+    router.push('/profile/connections')
+  }
 
   return (
     <>
@@ -113,9 +120,12 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
             <Typography sx={{ color: 'rgba(82, 82, 82, 1)', fontSize: 14, fontWeight: 400 }}>{`${
               dataUser.address?.city?.city_name ?? '-'
             }, ${dataUser.country?.nicename ?? '-'}`}</Typography>
-            <Typography sx={{ color: 'primary.main', fontSize: '14px', fontWeight: 'bold' }}>{`${connections} ${
-              connections > 1 ? 'connections' : 'connection'
-            }`}</Typography>
+
+            <Typography
+              onClick={handleOnClickConnection}
+              sx={{ color: 'primary.main', fontSize: '14px', fontWeight: 'bold', cursor: 'pointer' }}
+            >{`${connections} ${connections > 1 ? 'connections' : 'connection'}`}</Typography>
+
             <Box
               sx={{
                 display: 'flex',

@@ -17,6 +17,7 @@ interface ICopSectionProps {
 const CopSection: React.FC<ICopSectionProps> = ({ userId }) => {
   const [data, setData] = useState<ISeafarerProficiencyData[]>([])
   const [visibleCount, setVisibleCount] = useState<number>(3) // Number of visible items initially
+  const [showMoreClicked, setShowMoreClicked] = useState(false)
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
@@ -39,6 +40,7 @@ const CopSection: React.FC<ICopSectionProps> = ({ userId }) => {
 
   const handleShowMore = () => {
     setVisibleCount(data.length)
+    setShowMoreClicked(true)
   }
 
   useEffect(() => {
@@ -136,6 +138,31 @@ const CopSection: React.FC<ICopSectionProps> = ({ userId }) => {
             }}
           >
             Show More
+          </Button>
+        )}
+
+        {visibleCount === data?.length && showMoreClicked && (
+          <Button
+            onClick={() => {
+              setVisibleCount(3)
+              setShowMoreClicked(false)
+            }}
+            endIcon={<Icon icon='mingcute:up-fill' style={{ fontSize: 12 }} />}
+            sx={{
+              width: '100%',
+              py: '14px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              textTransform: 'none',
+              color: 'rgba(50, 73, 122, 1)',
+              fontSize: 14,
+              fontWeight: '400',
+              borderRadius: '0 !important',
+              lineHeight: '21px'
+            }}
+          >
+            Show Less
           </Button>
         )}
       </Box>
