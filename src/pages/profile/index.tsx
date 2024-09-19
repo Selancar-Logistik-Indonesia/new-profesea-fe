@@ -15,7 +15,7 @@ import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSearchParams } from 'next/navigation'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import EducationalInfo from './Educational'
-import Ceritificate from './Certificate'
+// import Ceritificate from './Certificate'
 import ProfileViewerCard from 'src/layouts/components/ProfileViewerCard'
 import AboutMe from './AboutMe'
 import ProfileFeedCard from './ProfileFeedCard'
@@ -43,7 +43,7 @@ const UserFeedApp = () => {
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [arrVacany, setArrVacancy] = useState<any>([])
   const [arrVacany2, setArrVacancy2] = useState<any>([])
-  const [itemData, getItemdata] = useState<any[]>([])
+  // const [itemData, getItemdata] = useState<any[]>([])
   const iduser: any = user.id
   //let { username } = router.query as { username: string }
   const params = useSearchParams()
@@ -52,14 +52,14 @@ const UserFeedApp = () => {
   const firstload = async () => {
     let url = ''
     let filter = ''
-    let filterdoc = ''
+    // let filterdoc = ''
     if (!username) {
       url = '/user/' + iduser
       username = user.username
     } else {
       url = '/user/?username=' + username
       filter = '&username=' + username
-      filterdoc = '?username=' + username
+      // filterdoc = '?username=' + username
     }
 
     try {
@@ -92,11 +92,11 @@ const UserFeedApp = () => {
           const itemData = response.data.educations
           setArrVacancy2(itemData)
         })
-        HttpClient.get(AppConfig.baseUrl + '/user/document' + filterdoc).then(response => {
-          const itemData = response.data.documents
+        // HttpClient.get(AppConfig.baseUrl + '/user/document' + filterdoc).then(response => {
+        //   const itemData = response.data.documents
 
-          getItemdata(itemData)
-        })
+        //   getItemdata(itemData)
+        // })
       }
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
@@ -130,7 +130,7 @@ const UserFeedApp = () => {
               </Grid>
               <EducationalInfo vacancy={arrVacany2} />
               {selectedUser?.employee_type == 'offship' && <WorkeExperience vacancy={arrVacany} />}
-              {selectedUser?.employee_type == 'offship' && <Ceritificate vacancy={itemData} />}
+              {/* {selectedUser?.employee_type == 'offship' && <Ceritificate vacancy={itemData} />} */}
 
               {selectedUser?.employee_type == 'onship' && (
                 <Grid item marginTop={'10px'} md={12} xs={12}>

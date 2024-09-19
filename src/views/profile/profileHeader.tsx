@@ -10,6 +10,8 @@ import { getUserAvatar } from 'src/utils/helpers'
 import { useAuth } from 'src/hooks/useAuth'
 import DialogShare from './shareDialog'
 import ConnectButton from 'src/layouts/components/ConnectButton'
+import { useRouter } from 'next/navigation'
+
 // import MessageButton from 'src/layouts/components/MessageButton'
 
 const SocialMedia = (props: { icon: string; type: string; link?: string }) => {
@@ -33,15 +35,11 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
   const [instagram, setInstagram] = useState<any>()
   const [linkedin, setLinkedin] = useState<any>()
   const [isVisitor, setIsVisitor] = useState<boolean>(false)
+  const router = useRouter()
 
   const industry =
-    dataUser.team_id === 1
-      ? 'Seafarer'
-      : dataUser.team_id === 2
-      ? 'Professional'
-      : dataUser.team_id === 3
-      ? dataUser.industry?.name
-      : 'Trainer'
+    dataUser.team_id === 2 ? 'Professional' : dataUser.team_id === 3 ? dataUser.industry?.name : 'Trainer'
+
   const editProfileLink = dataUser.team_id === 3 ? '/company' : dataUser.team_id === 4 ? '/trainer' : '/candidate'
 
   useEffect(() => {
@@ -75,6 +73,10 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
     })
   }, [dataUser])
 
+  const handleOnClickConnection = () => {
+    router.push('/profile/connections')
+  }
+
   return (
     <>
       <Box sx={{ width: '100%', borderRadius: '16px', boxShadow: 3, backgroundColor: '#FFFFFF', overflow: 'hidden' }}>
@@ -106,15 +108,24 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
               sx={{ mt: '-90px', width: 120, height: 120, border: '5px solid white', borderRadius: '12px' }}
             />
             <Box>
-              <Typography sx={{ fontSize: 24, fontWeight: 'bold', mb: '8px' }}>{dataUser.username}</Typography>
-              <Typography sx={{ color: '#636E72', fontSize: 16 }}>{industry}</Typography>
+              <Typography sx={{ fontSize: 24, fontWeight: 'bold', mb: '8px' }}>{dataUser.name}</Typography>
+              <Typography sx={{ color: 'rgba(64, 64, 64, 1)', fontSize: 16, fontWeight: 300, lineHeight: '20px' }}>
+                {dataUser?.team_id === 2
+                  ? dataUser?.employee_type === 'onship'
+                    ? dataUser?.field_preference?.role_type?.name
+                    : dataUser?.field_preference?.job_category?.name
+                  : industry}
+              </Typography>
             </Box>
-            <Typography sx={{ color: '#949EA2', fontSize: 14 }}>{`${dataUser.address?.city?.city_name ?? '-'}, ${
-              dataUser.country?.nicename ?? '-'
-            }`}</Typography>
-            <Typography sx={{ color: 'primary.main', fontSize: '14px', fontWeight: 'bold' }}>{`${connections} ${
-              connections > 1 ? 'connections' : 'connection'
-            }`}</Typography>
+            <Typography sx={{ color: 'rgba(82, 82, 82, 1)', fontSize: 14, fontWeight: 400 }}>{`${
+              dataUser.address?.city?.city_name ?? '-'
+            }, ${dataUser.country?.nicename ?? '-'}`}</Typography>
+
+            <Typography
+              onClick={handleOnClickConnection}
+              sx={{ color: 'primary.main', fontSize: '14px', fontWeight: 'bold', cursor: 'pointer' }}
+            >{`${connections} ${connections > 1 ? 'connections' : 'connection'}`}</Typography>
+
             <Box
               sx={{
                 display: 'flex',

@@ -72,30 +72,27 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   }
 }))
 
+const schemaSeafarer = yup.object().shape({
+  name: yup.string().required(),
+  email: yup.string().email().required(),
+  password: yup.string().min(5).required(),
+  username: yup.string().required(),
+  phone: yup.string().required()
+})
+
 const Registration = (props: any) => {
   const router = useRouter()
   const { t } = useTranslation()
-  const { tipereg } = props
-  const { type } = props
+  const { tipereg, type } = props
+
   const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [error, setError] = useState<any>(null)
   const [combocode, getCombocode] = useState<any>([])
   const [idcombocode, setCombocode] = useState<any>({ label: 'Loading...', id: 0 })
-  const [error, setError] = useState<any>(null)
-
-  const schemaSeafarer = yup.object().shape({
-    name: yup.string().required(),
-    email: yup.string().email().required(),
-    password: yup.string().min(5).required(),
-    username: yup.string().required(),
-    phone: yup.string().required()
-  })
-
   const [phoneNum, setPhoneNum] = useState('')
+
   const onChangePhoneNum = (input: string) => {
     setPhoneNum(removeFirstZeroChar(input))
-  }
-  const handleInputChange = (e: any) => {
-    register('email', e.toLowerCase())
   }
 
   const {
@@ -122,6 +119,8 @@ const Registration = (props: any) => {
 
   const onSubmit = (data: FormData) => {
     const { password, password2, username, name, email, tos } = data
+    const lowerCaseEmail = email.toLowerCase()
+
     if (tos == '') {
       toast.error(`${t('input_label_error_5')}`)
 
@@ -145,7 +144,7 @@ const Registration = (props: any) => {
 
     const json = {
       name: name,
-      email: email,
+      email: lowerCaseEmail,
       username: username,
       password: password,
       password_confirmation: password2,
@@ -252,8 +251,7 @@ const Registration = (props: any) => {
             variant='outlined'
             fullWidth
             {...register('email')}
-            onChange={e => {
-              handleInputChange(e.target.value)
+            onChange={() => {
               setError({ ...error, email: null })
             }}
             error={Boolean(errors.email || (error && error.email))}

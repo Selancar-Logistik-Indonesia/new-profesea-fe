@@ -58,7 +58,7 @@ const Analytics = (props: { dataUser: IUser }) => {
 
   return (
     <Box sx={{ p: '24px', borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
-      <Typography sx={{ mb: '24px', color: 'black', fontSize: 20, fontWeight: 'bold', textTransform: 'uppercase' }}>
+      <Typography sx={{ mb: '24px', color: 'black', fontSize: 20, fontWeight: 'bold', textTransform: 'capitalize' }}>
         analytics
       </Typography>
       <Grid container sx={{ display: 'flex', flexWrap: { md: 'nowrap' }, gap: '9.2px' }}>

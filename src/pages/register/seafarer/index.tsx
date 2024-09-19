@@ -95,7 +95,7 @@ const Register = () => {
             }}
           >
             <Container fixed>
-              <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'></Box>
+              <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh' />
             </Container>
           </Box>
         ) : null}
@@ -155,11 +155,7 @@ const Register = () => {
                       {t('register_text_10')}
                     </Typography>
                   )}
-                  <Registration
-                    tipereg='seafarer'
-                    vonchangeEmployee={onchangeEmployee}
-                    disabledcombo={false}
-                  ></Registration>
+                  <Registration tipereg='seafarer' vonchangeEmployee={onchangeEmployee} disabledcombo={false} />
                 </Box>
               </BoxWrapper>
             </Container>

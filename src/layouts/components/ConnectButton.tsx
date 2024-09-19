@@ -63,14 +63,16 @@ const ConnectButton = (props: ConnectButtonProps) => {
         startIcon={
           !isLoading && <Icon icon='solar:link-linear' color={user.frienship_status ? '#26252542' : 'white'} />
         }
-        sx={{
-          py: '8px',
-          px: '16x',
-          fontSize: '14px',
-          color: '#FCFCFA',
-          textTransform: 'none',
-          maxWidth: 'fit-content'
-        }}
+        size='small'
+        sx={{ marginRight: '16px', fontSize: 14, textTransform: 'none', fontWeight: 300, p: '8px 12px' }}
+        // sx={{
+        //   py: '8px',
+        //   px: '16x',
+        //   fontSize: '14px',
+        //   color: '#FCFCFA',
+        //   textTransform: 'none',
+        //   maxWidth: 'fit-content'
+        // }}
       >
         {isLoading ? <CircularProgress size={22} /> : buildConnectText()}
       </Button>

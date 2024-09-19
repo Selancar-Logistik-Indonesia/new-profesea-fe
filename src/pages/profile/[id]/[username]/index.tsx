@@ -1,35 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Grid, useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { CircularProgress, Grid } from '@mui/material'
+// import { useTheme } from '@mui/material/styles'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import UserProfileHeader from 'src/layouts/components/UserProfileHeader'
+// import UserProfileHeader from 'src/layouts/components/UserProfileHeader'
 import { IUser } from 'src/contract/models/user'
 import { toast } from 'react-hot-toast'
 import WorkeExperience from '../../Workexperience'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSearchParams } from 'next/navigation'
 import { getCleanErrorMessage, linkToTitleCase, toLinkCase } from 'src/utils/helpers'
-import EducationalInfo from '../../Educational'
+// import EducationalInfo from '../../Educational'
 import Ceritificate from '../../Certificate'
-import ProfileViewerCard from 'src/layouts/components/ProfileViewerCard'
-import AboutMe from '../../AboutMe'
-import ProfileFeedCard from '../../ProfileFeedCard'
-import SeafarerTravelDocumentTable from 'src/layouts/components/SeafarerTravelDocumentTable'
-import SeafarerExperienceTable from 'src/layouts/components/SeafarerExperienceTable'
-import SeafarerCompetencyTable from 'src/layouts/components/SeafarerCompetencyTable'
-import SeafarerProficiencyTable from 'src/layouts/components/SeafarerProficiencyTable'
-import SeafarerRecommendationTable from 'src/layouts/components/SeafarerRecommendationTable'
-import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
+// import ProfileViewerCard from 'src/layouts/components/ProfileViewerCard'
+import AboutMe from 'src/views/profile/aboutMe'
+// import ProfileFeedCard from '../../ProfileFeedCard'
+// import SeafarerTravelDocumentTable from 'src/layouts/components/SeafarerTravelDocumentTable'
+// import SeafarerExperienceTable from 'src/layouts/components/SeafarerExperienceTable'
+// import SeafarerCompetencyTable from 'src/layouts/components/SeafarerCompetencyTable'
+// import SeafarerProficiencyTable from 'src/layouts/components/SeafarerProficiencyTable'
+// import SeafarerRecommendationTable from 'src/layouts/components/SeafarerRecommendationTable'
+// import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 
-import NewsListCard from 'src/layouts/components/NewsListCard'
-import TableCard from '../../TableCard'
 import { useRouter } from 'next/router'
-import SideAd from 'src/views/banner-ad/sidead'
-import CenterAd from 'src/views/banner-ad/CenterAd'
+
+import ProfileHeader from 'src/views/profile/profileHeader'
+import Analytics from 'src/views/profile/analytics'
+import Activity from 'src/views/profile/activity'
+import EducationInfo from 'src/views/profile/educationInfo'
+import SeafarerTravelDocument from 'src/views/profile/seafarerTravelDocument'
+import SeafarerExperience from 'src/views/profile/seafarerExperience'
+import CopSection from 'src/views/profile/copSection'
+import CocSection from 'src/views/profile/cocSection'
+import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
+import SideAdProfile from 'src/views/banner-ad/sideAdProfile'
 
 const ProfileCompany = () => {
   return (
@@ -40,14 +47,14 @@ const ProfileCompany = () => {
 }
 
 const UserFeedApp = () => {
-  const theme = useTheme()
+  // const theme = useTheme()
   const router = useRouter()
-  const hidden = useMediaQuery(theme.breakpoints.down('md'))
+  // const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [arrVacany, setArrVacancy] = useState<any>([])
   const [arrVacany2, setArrVacancy2] = useState<any>([])
-  const [itemData, getItemdata] = useState<any[]>([])
+  // const [itemData, getItemdata] = useState<any[]>([])
   const iduser: any = user.id
   //let { username } = router.query as { username: string }
   const params = useSearchParams()
@@ -56,14 +63,14 @@ const UserFeedApp = () => {
   const firstload = async () => {
     let url = ''
     let filter = ''
-    let filterdoc = ''
+    // let filterdoc = ''
     if (!username) {
       url = '/user/' + toLinkCase(iduser)
       username = user.username
     } else {
       url = '/user/?username=' + username
       filter = '&username=' + username
-      filterdoc = '?username=' + username
+      // filterdoc = '?username=' + username
     }
 
     try {
@@ -88,11 +95,11 @@ const UserFeedApp = () => {
         const itemData = response.data.educations
         setArrVacancy2(itemData)
       })
-      HttpClient.get(AppConfig.baseUrl + '/user/document' + filterdoc).then(response => {
-        const itemData = response.data.documents
+      // HttpClient.get(AppConfig.baseUrl + '/user/document' + filterdoc).then(response => {
+      //   const itemData = response.data.documents
 
-        getItemdata(itemData)
-      })
+      //   getItemdata(itemData)
+      // })
     } catch (error) {
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
@@ -102,121 +109,58 @@ const UserFeedApp = () => {
     firstload()
   }, [username])
 
+  if (!selectedUser) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <CircularProgress sx={{ my: 20 }} />
+      </Box>
+    )
+  }
+
   return (
-    <Box>
-      <Grid container spacing={1}>
-        <Grid item xs={12} md={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
-          <Grid container spacing={6} sx={{ marginTop: '1px' }}>
-            <Grid item lg={3} md={3} xs={12} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <NewsListCard />
-              <Box sx={{ position: 'sticky', top: '70px' }}>
-                <KeenSliderWrapper>
-                  <SideAd adslocation='candidate-profile-page' />
-                </KeenSliderWrapper>
-              </Box>
-            </Grid>
-            <Grid item container lg={6} md={6} xs={12}>
-              <Grid item md={12} xs={12}>
-                {selectedUser && <UserProfileHeader datauser={selectedUser} address={selectedUser.address} />}
-              </Grid>
-              <Grid item md={12} xs={12}>
-                <AboutMe dataUser={selectedUser}></AboutMe>
-              </Grid>
-              <Grid item md={12} xs={12}>
-                <ProfileFeedCard selectedUser={selectedUser}></ProfileFeedCard>
-              </Grid>
-              <Grid item md={12} xs={12}>
-                <Box></Box>
-              </Grid>
-              <EducationalInfo vacancy={arrVacany2} />
-              {selectedUser?.employee_type == 'offship' && <WorkeExperience vacancy={arrVacany} />}
-              {selectedUser?.employee_type == 'offship' && <Ceritificate vacancy={itemData} />}
+    <>
+      <Grid
+        container
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          mt: '10px',
+          mb: '20px',
+          gap: '32px',
+          paddingLeft: { lg: '96px' },
+          paddingRight: { lg: '96px' }
+        }}
+      >
+        <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+          <ProfileHeader dataUser={selectedUser as unknown as IUser} />
+          {selectedUser.id === user?.id && <Analytics dataUser={selectedUser} />}
+          <AboutMe dataUser={selectedUser} />
+          <Activity dataUser={selectedUser} status={true} />
+          <EducationInfo educations={arrVacany2} />
 
-              {selectedUser?.employee_type == 'onship' && (
-                <Grid item marginTop={'10px'} md={12} xs={12}>
-                  <TableCard title='Travel Document'>
-                    <SeafarerTravelDocumentTable
-                      user_id={selectedUser?.id}
-                      selectedUser={selectedUser}
-                      isEditable={false}
-                      isDataHidden={selectedUser?.id == user?.id || user.team_id == 3 ? false : true}
-                      handleModalDelete={undefined}
-                      handleModalForm={undefined}
-                    />
-                  </TableCard>
-                </Grid>
-              )}
+          {/* Seafarer Travel Documents */}
+          {selectedUser?.employee_type == 'onship' && <SeafarerTravelDocument userId={selectedUser?.id} />}
 
-              {selectedUser?.employee_type == 'onship' && (
-                <Grid item marginTop={'10px'} md={12} xs={12}>
-                  <TableCard title='Sea Experience'>
-                    <SeafarerExperienceTable
-                      isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true}
-                      user_id={selectedUser?.id}
-                      selectedUser={selectedUser}
-                      isEditable={false}
-                      handleModalDelete={undefined}
-                      handleModalForm={undefined}
-                    />
-                  </TableCard>
-                </Grid>
-              )}
+          {/* seafarer experience */}
+          {selectedUser?.employee_type == 'onship' && <SeafarerExperience userId={selectedUser?.id} />}
 
-              {selectedUser?.employee_type == 'onship' && (
-                <Grid item marginTop={'10px'} md={12} xs={12}>
-                  <TableCard title='Certificate of Competency'>
-                    <SeafarerCompetencyTable
-                      user_id={selectedUser?.id}
-                      selectedUser={selectedUser}
-                      isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true}
-                      isEditable={false}
-                      handleModalDelete={undefined}
-                      handleModalForm={undefined}
-                    />
-                  </TableCard>
-                </Grid>
-              )}
+          {/* seafarer cop */}
+          {selectedUser?.employee_type == 'onship' && <CopSection userId={selectedUser?.id} />}
 
-              {selectedUser?.employee_type == 'onship' && (
-                <Grid item marginTop={'10px'} md={12} xs={12}>
-                  <TableCard title='Certificate Of Proficiency'>
-                    <SeafarerProficiencyTable
-                      user_id={selectedUser?.id}
-                      selectedUser={selectedUser}
-                      isHiddenData={selectedUser?.id == user?.id || user.team_id == 3 ? false : true}
-                      isEditable={false}
-                      handleModalDelete={undefined}
-                      handleModalForm={undefined}
-                    />
-                  </TableCard>
-                </Grid>
-              )}
+          {/* seafarer coc */}
+          {selectedUser?.employee_type == 'onship' && <CocSection userId={selectedUser?.id} />}
 
-              {selectedUser?.employee_type == 'onship' && (
-                <Grid item marginTop={'10px'} md={12} xs={12}>
-                  <TableCard title='Recommendation'>
-                    <SeafarerRecommendationTable
-                      user_id={selectedUser?.id}
-                      selectedUser={selectedUser}
-                      isHiddenData={true}
-                      isEditable={false}
-                      handleModalDelete={undefined}
-                    />
-                  </TableCard>
-                </Grid>
-              )}
-
-              <Grid item marginTop={'10px'} md={12} xs={12}>
-                <CenterAd adsLocation='candidate-profile-page' />
-              </Grid>
-            </Grid>
-            <Grid item lg={3} md={3} xs={12}>
-              <ProfileViewerCard />
-            </Grid>
-          </Grid>
+          {selectedUser?.employee_type == 'offship' && <WorkeExperience vacancy={arrVacany} />}
+          {selectedUser?.employee_type == 'offship' && <Ceritificate userId={selectedUser?.id} />}
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <FriendSuggestionCard location='profile' dataUser={selectedUser} status={true} />
+          <Box sx={{ my: '24px', position: 'sticky', top: '70px' }}>
+            <SideAdProfile />
+          </Box>
         </Grid>
       </Grid>
-    </Box>
+    </>
   )
 }
 
