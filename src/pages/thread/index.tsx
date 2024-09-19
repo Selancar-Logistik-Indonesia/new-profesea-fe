@@ -1,20 +1,20 @@
 // ** React Imports
-import React , { useEffect, useState } from 'react'
-import ReactHtmlParser from 'react-html-parser';
+import React, { useEffect, useState } from 'react'
+import ReactHtmlParser from 'react-html-parser'
 
 // ** MUI Components
-import Box  from '@mui/material/Box'  
-import {   Card, CardContent, Typography } from '@mui/material'
+import Box from '@mui/material/Box'
+import { Card, CardContent, Typography } from '@mui/material'
 
 // ** Layout Import
 // import BlankLayout from 'src/@core/layouts/BlankLayout'
 
-// ** Hooks 
+// ** Hooks
 
 // ** Demo Imports
 // import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import { Grid } from '@mui/material'  
- 
+import { Grid } from '@mui/material'
+
 import Recomended from './Recomended'
 // import { Icon } from '@iconify/react'
 // import Profile from 'src/layouts/components/Profile'
@@ -22,12 +22,12 @@ import Recomended from './Recomended'
 import { HttpClient } from 'src/services'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
-import { IUser } from 'src/contract/models/user'  
+import { IUser } from 'src/contract/models/user'
 import CommentForm from './CommentForm'
-import Commented from './Commented';
-import { ThreadProvider } from 'src/context/ThreadContext';
-import { useThread } from 'src/hooks/useThread';
-import moment from 'moment';
+import Commented from './Commented'
+import { ThreadProvider } from 'src/context/ThreadContext'
+import { useThread } from 'src/hooks/useThread'
+import moment from 'moment'
 
 const Thread = () => {
   return (
@@ -37,29 +37,27 @@ const Thread = () => {
   )
 }
 
-const ThreadApp = () => { 
-  const { fetchComments, fetchThreads } = useThread();
+const ThreadApp = () => {
+  const { fetchComments, fetchThreads } = useThread()
   const windowUrl = window.location.search
   const params = new URLSearchParams(windowUrl)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   // const [userDetail, setUserDetail] = useState<IUser | null>(null)
   const [threadDetail, setthreadDetail] = useState<any>([])
- 
-const firstload = () => {
 
-  HttpClient.get('/thread/' + params.get('id')).then(response => {
-    const detail = response.data.thread
-    setthreadDetail(detail)
-  })
-  
-  fetchComments({ take: 5 , replyable_id: params.get('id'), replyable_type:'thread'})
-  fetchThreads({take: 5})
+  const firstload = () => {
+    HttpClient.get('/thread/' + params.get('id')).then(response => {
+      const detail = response.data.thread
+      setthreadDetail(detail)
+    })
 
-}
- useEffect(() => { 
-   firstload()
- }, [params.get('id')]) 
-    
+    fetchComments({ take: 5, replyable_id: params.get('id'), replyable_type: 'thread' })
+    fetchThreads({ take: 5 })
+  }
+  useEffect(() => {
+    firstload()
+  }, [params.get('id')])
+
   return (
     <Box>
       <Grid container spacing={2}>
@@ -97,7 +95,7 @@ const firstload = () => {
                         }}
                       >
                         {threadDetail?.forum?.name} {'-'}{' '}
-                        {moment(threadDetail?.forum?.updated_at).format('DD/MM/YYYY HH:MM:SS')} 
+                        {moment(threadDetail?.forum?.updated_at).format('DD/MM/YYYY HH:MM:SS')}
                       </Typography>
                     </Grid>
                     <Grid item container xs={12} justifyContent={'left'}>
@@ -147,16 +145,15 @@ const firstload = () => {
           </Grid>
         </Grid>
         <Grid item md={3} xs={12}>
-          <Recomended></Recomended>
+          <Recomended />
         </Grid>
       </Grid>
     </Box>
   )
 }
- 
 
 Thread.acl = {
   action: 'read',
   subject: 'home'
-};
+}
 export default Thread
