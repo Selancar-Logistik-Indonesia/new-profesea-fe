@@ -11,7 +11,7 @@ const EducationInfo: React.FC<IEducationInfoProps> = ({ educations }) => {
   return (
     <Box sx={{ borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
       <Box sx={{ p: '24px' }}>
-        <Typography sx={{ mb: '20px', color: 'black', fontSize: 20, fontWeight: 'bold', textTransform: 'capitalize' }}>
+        <Typography sx={{ mb: '16px', color: 'black', fontSize: 20, fontWeight: 'bold', textTransform: 'capitalize' }}>
           Education
         </Typography>
         {educations && educations.length > 0
@@ -20,7 +20,10 @@ const EducationInfo: React.FC<IEducationInfoProps> = ({ educations }) => {
                 key={index}
                 sx={{
                   display: 'flex',
-                  borderBottom: '1px solid var(--light-action-disabled-background, rgba(76, 78, 100, 0.12))'
+                  borderBottom:
+                    educations.length - 1 == index
+                      ? ''
+                      : '1px solid var(--light-action-disabled-background, rgba(76, 78, 100, 0.12))'
                 }}
               >
                 <img
@@ -50,7 +53,7 @@ const EducationInfo: React.FC<IEducationInfoProps> = ({ educations }) => {
                       {`${item.title.charAt(0).toUpperCase() + item.title.slice(1)}`}
                     </Typography>
                     <Typography
-                      sx={{ color: 'rgba(82, 82, 82, 1)', fontWeight: 400, fontSize: '14px', lineHeight: '21px' }}
+                      sx={{ color: '#868686', fontWeight: 400, fontSize: '14px', lineHeight: '21px' }}
                     >
                       {item?.start_date && item?.end_date
                         ? format(new Date(item?.start_date), 'LLL yyyy') +
