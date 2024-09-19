@@ -215,6 +215,7 @@ const SeafarerJobApp = () => {
     <>
       <Head>
         <title>{`${themeConfig.templateName} - ${t('landing_findjob_title')}`}</title>
+        <meta name='description' content={`${themeConfig.templateName} - ${t('landing_findjob_description')}`} />
         <meta property='og:title' content={`${t('landing_findjob_title')}`} />
         <meta property='og:description' content={`${t('landing_findjob_description')}`} />
         <meta property='og:image' content='images/logosamudera.png' />
