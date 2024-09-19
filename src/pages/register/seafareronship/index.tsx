@@ -96,7 +96,10 @@ const Register = () => {
   return (
     <>
       <Head>
-        <title>{`${themeConfig.templateName} - Candidate Registration`}</title>
+        <title>{`${themeConfig.templateName} - ${t('register_seafarer_title')}`}</title>
+        <meta name='description' content={`${themeConfig.templateName} - ${t('register_seafarer_description')}`} />
+        <meta name='keywords' content={`${t('app_keyword')}`} />
+        <meta name='viewport' content='initial-scale=0.8, width=device-width' />
       </Head>
       <Box className='content-right'>
         {!hidden ? (
