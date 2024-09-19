@@ -1,6 +1,6 @@
 // ** React Imports
 import React, { useState, useEffect, useCallback } from 'react'
-
+import Head from 'next/head'
 // ** MUI Components
 import Box from '@mui/material/Box'
 import {
@@ -38,6 +38,8 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import { linkToTitleCase } from 'src/utils/helpers'
 import RoleType from 'src/contract/models/role_type'
 import { useRouter } from 'next/router'
+import themeConfig from 'src/configs/themeConfig'
+import { useTranslation } from 'react-i18next'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -78,6 +80,7 @@ const SeafarerJob = () => {
 
 const SeafarerJobApp = () => {
   const { setPage, fetchJobs, totalJob, hasNextPage } = useJob()
+  const { t } = useTranslation()
   const router = useRouter()
   const pathname = usePathname()
   const params = useSearchParams()
@@ -209,284 +212,294 @@ const SeafarerJobApp = () => {
   }, [JC, searchJob, RL, RT, ED, idcity, idvessel, employmentType, employeeType, company])
 
   return (
-    <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Grid
-        item
-        container
-        xs={12}
-        md={11}
-        sx={
-          !hidden
-            ? {
-                direction: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'stretch',
-                alignContent: 'top',
-                marginBottom: '10px'
-              }
-            : {}
-        }
-      >
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              border: 0,
-              boxShadow: 0,
-              borderBottom: 1,
-              borderColor: 'divider',
-              boxSizing: 'border-box',
-              color: 'common.white',
-              backgroundColor: '#FFFFFF',
-              borderRadius: '3px'
-            }}
-          >
-            <Tabs value={value} onChange={handleChange} aria-label='customized tabs example'>
-              <Tab
-                label='Find Job'
-                icon={<Icon icon='solar:boombox-bold-duotone' fontSize={18} />}
-                {...a11yProps(1)}
-                value='1'
-              />
-              <Tab
-                label='Job Applied'
-                icon={<Icon icon='solar:widget-add-bold-duotone' fontSize={18} />}
-                {...a11yProps(2)}
-                value='2'
-              />
-            </Tabs>
-          </Box>
-          <Grid
-            container
-            sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', background: '#FFFFFF' }}
-          >
-            <Grid item xs={12}>
-              <TabPanel value={parseInt(value, 10)} index={1}>
-                <Grid item xs={12} sx={{ padding: 4, border: 0, boxShadow: 0, backgroundColor: '#FFFFFF' }}>
-                  <Box
-                    sx={
-                      !isMd && !hidden
-                        ? {
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'space-between'
-                          }
-                        : isMd && !hidden
-                        ? {
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            overflowX: 'scroll',
-                            '&::-webkit-scrollbar': { display: 'none' }
-                          }
-                        : {
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: 2
-                          }
-                    }
-                  >
-                    <Grid item container xs={12} md={4} minWidth={'350px'} spacing={2}>
-                      <Grid item xs={8} md={7}>
-                        <TextField
-                          id='searchJob'
-                          label='Search Job'
-                          variant='outlined'
-                          fullWidth
-                          onChange={e => {
-                            setPage(1)
-                            setSearchJob(e.target.value)
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={4} md={5}>
-                        <Autocomplete
-                          fullWidth
-                          disablePortal
-                          id='city'
-                          options={combocity}
-                          getOptionLabel={(option: City) => option.city_name}
-                          renderInput={params => <TextField {...params} label='Location' />}
-                          onChange={(event: any, newValue: City | null) => {
-                            setPage(1)
-                            newValue?.id ? setCombocity(newValue.id) : setCombocity(null)
-                          }}
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid item container xs={12} md={5} minWidth={'350px'} spacing={2}>
-                      <Grid item xs={employeeType === 'onship' ? 4 : 3}>
-                        <Autocomplete
-                          fullWidth
-                          disablePortal
-                          id='combo-box-level'
-                          options={JobCategory}
-                          getOptionLabel={(option: JobCategory) => option.name}
-                          renderInput={params => <TextField {...params} label='Job Category' />}
-                          onChange={(event: any, newValue: JobCategory | null) => {
-                            setPage(1)
-                            newValue?.id ? setJC(newValue?.id) : setJC(undefined)
-                          }}
-                        />
-                      </Grid>
-                      {employeeType === 'onship' ? (
-                        <>
-                          <Grid item xs={4}>
-                            <Autocomplete
-                              disablePortal
-                              id='combo-box-demo'
-                              disabled={!JC}
-                              options={JC ? RoleType : []}
-                              getOptionLabel={(option: RoleType) => option.name}
-                              renderInput={params => <TextField {...params} label='Job Rank' />}
-                              onChange={(event: any, newValue: RoleType | null) => {
-                                setPage(1)
-                                newValue?.id ? setRT(newValue.id) : setRT(undefined)
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={4}>
-                            <Autocomplete
-                              fullWidth
-                              disablePortal
-                              id='combo-box-demo'
-                              options={combovessel}
-                              getOptionLabel={(option: VesselType) => option.name}
-                              renderInput={params => <TextField {...params} label='Vessel Type' />}
-                              onChange={(event: any, newValue: VesselType | null) => {
-                                setPage(1)
-                                newValue?.id ? setVesel(newValue?.id) : setVesel(undefined)
-                              }}
-                            />
-                          </Grid>
-                        </>
-                      ) : (
-                        <>
-                          <Grid item xs={3}>
-                            <Autocomplete
-                              fullWidth
-                              disablePortal
-                              id='combo-box-level'
-                              options={RoleLevel}
-                              getOptionLabel={(option: RoleLevel) => option.levelName}
-                              renderInput={params => <TextField {...params} label='Role Level' />}
-                              onChange={(event: any, newValue: RoleLevel | null) => {
-                                setPage(1)
-                                newValue?.id ? setRL(newValue?.id) : setRL(undefined)
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={3}>
-                            <Autocomplete
-                              fullWidth
-                              disablePortal
-                              id='combo-box-demo'
-                              options={Education}
-                              getOptionLabel={(option: Degree) => option.name}
-                              renderInput={params => <TextField {...params} label='Education' />}
-                              onChange={(event: any, newValue: Degree | null) => {
-                                setPage(1)
-                                newValue?.id ? setED(newValue?.id) : setED(undefined)
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={3}>
-                            <Autocomplete
-                              fullWidth
-                              disablePortal
-                              id='combo-box-demo'
-                              options={employmentTypeOptions}
-                              getOptionLabel={(option: { name: string }) => option.name}
-                              renderInput={params => <TextField {...params} label='Employment Type' />}
-                              onChange={(event: any, newValue: { name: string } | null) => {
-                                setPage(1)
-                                newValue?.name ? setEmplymentType(newValue?.name) : setEmplymentType(undefined)
-                              }}
-                            />
-                          </Grid>
-                        </>
-                      )}
-                    </Grid>
-                    <Box sx={{ display: 'flex', justifyContent: 'center', minWidth: { xs: '100%', md: '250px' } }}>
-                      <ToggleButtonGroup
-                        fullWidth
-                        color='primary'
-                        value={employeeType}
-                        exclusive
-                        onChange={handleEmployeeType}
-                        aria-label='Platform'
-                        sx={{ display: 'flex', justifyContent: 'center' }}
-                      >
-                        <ToggleButton
-                          disabled={employeeType === 'onship' || !isOnShip}
-                          value='onship'
-                          sx={{ py: 3.5, width: '50%', fontSize: 12 }}
-                        >
-                          Seafarer
-                        </ToggleButton>
-                        <ToggleButton
-                          disabled={employeeType === 'offship'}
-                          value='offship'
-                          sx={{ py: 3.5, width: '50%', fontSize: 12 }}
-                        >
-                          Professional
-                        </ToggleButton>
-                      </ToggleButtonGroup>
-                    </Box>
-                  </Box>
-                </Grid>
-                <Box px={5} pb={5}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
-                      <Grid container spacing={4}>
-                        <Grid item xs={12}>
-                          <Alert severity='info'>
-                            <AlertTitle>Find & Apply to Your Dream Job</AlertTitle>
-                            Based on <strong>your profile</strong> and <strong>experience</strong>
-                          </Alert>
-                        </Grid>
-                        <Grid item xs={12}>
-                          <JobContext.Consumer>
-                            {({ listJobs, onLoading }) => {
-                              if (onLoading) {
-                                return (
-                                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                    <CircularProgress sx={{ mt: 20 }} />
-                                  </Box>
-                                )
-                              }
-
-                              return (
-                                <InfiniteScroll
-                                  dataLength={totalJob}
-                                  next={() => getdatapencarian()}
-                                  hasMore={hasNextPage}
-                                  loader={
-                                    <Typography mt={5} color={'text.secondary'}>
-                                      Loading..
-                                    </Typography>
-                                  }
-                                >
-                                  <RecomendedView listJob={listJobs} />
-                                </InfiniteScroll>
-                              )
+    <>
+      <Head>
+        <title>{`${themeConfig.templateName} - ${t('landing_findjob_title')}`}</title>
+        <meta property='og:title' content={`${t('landing_findjob_title')}`} />
+        <meta property='og:description' content={`${t('landing_findjob_description')}`} />
+        <meta property='og:image' content='images/logosamudera.png' />
+        <meta name='keywords' content={`${t('app_keyword')}`} />
+        <meta name='viewport' content='initial-scale=0.8, width=device-width' />
+      </Head>
+      <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Grid
+          item
+          container
+          xs={12}
+          md={11}
+          sx={
+            !hidden
+              ? {
+                  direction: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'stretch',
+                  alignContent: 'top',
+                  marginBottom: '10px'
+                }
+              : {}
+          }
+        >
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                border: 0,
+                boxShadow: 0,
+                borderBottom: 1,
+                borderColor: 'divider',
+                boxSizing: 'border-box',
+                color: 'common.white',
+                backgroundColor: '#FFFFFF',
+                borderRadius: '3px'
+              }}
+            >
+              <Tabs value={value} onChange={handleChange} aria-label='customized tabs example'>
+                <Tab
+                  label='Find Job'
+                  icon={<Icon icon='solar:boombox-bold-duotone' fontSize={18} />}
+                  {...a11yProps(1)}
+                  value='1'
+                />
+                <Tab
+                  label='Job Applied'
+                  icon={<Icon icon='solar:widget-add-bold-duotone' fontSize={18} />}
+                  {...a11yProps(2)}
+                  value='2'
+                />
+              </Tabs>
+            </Box>
+            <Grid
+              container
+              sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', background: '#FFFFFF' }}
+            >
+              <Grid item xs={12}>
+                <TabPanel value={parseInt(value, 10)} index={1}>
+                  <Grid item xs={12} sx={{ padding: 4, border: 0, boxShadow: 0, backgroundColor: '#FFFFFF' }}>
+                    <Box
+                      sx={
+                        !isMd && !hidden
+                          ? {
+                              display: 'flex',
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              justifyContent: 'space-between'
+                            }
+                          : isMd && !hidden
+                          ? {
+                              display: 'flex',
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              overflowX: 'scroll',
+                              '&::-webkit-scrollbar': { display: 'none' }
+                            }
+                          : {
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              gap: 2
+                            }
+                      }
+                    >
+                      <Grid item container xs={12} md={4} minWidth={'350px'} spacing={2}>
+                        <Grid item xs={8} md={7}>
+                          <TextField
+                            id='searchJob'
+                            label='Search Job'
+                            variant='outlined'
+                            fullWidth
+                            onChange={e => {
+                              setPage(1)
+                              setSearchJob(e.target.value)
                             }}
-                          </JobContext.Consumer>
+                          />
+                        </Grid>
+                        <Grid item xs={4} md={5}>
+                          <Autocomplete
+                            fullWidth
+                            disablePortal
+                            id='city'
+                            options={combocity}
+                            getOptionLabel={(option: City) => option.city_name}
+                            renderInput={params => <TextField {...params} label='Location' />}
+                            onChange={(event: any, newValue: City | null) => {
+                              setPage(1)
+                              newValue?.id ? setCombocity(newValue.id) : setCombocity(null)
+                            }}
+                          />
+                        </Grid>
+                      </Grid>
+                      <Grid item container xs={12} md={5} minWidth={'350px'} spacing={2}>
+                        <Grid item xs={employeeType === 'onship' ? 4 : 3}>
+                          <Autocomplete
+                            fullWidth
+                            disablePortal
+                            id='combo-box-level'
+                            options={JobCategory}
+                            getOptionLabel={(option: JobCategory) => option.name}
+                            renderInput={params => <TextField {...params} label='Job Category' />}
+                            onChange={(event: any, newValue: JobCategory | null) => {
+                              setPage(1)
+                              newValue?.id ? setJC(newValue?.id) : setJC(undefined)
+                            }}
+                          />
+                        </Grid>
+                        {employeeType === 'onship' ? (
+                          <>
+                            <Grid item xs={4}>
+                              <Autocomplete
+                                disablePortal
+                                id='combo-box-demo'
+                                disabled={!JC}
+                                options={JC ? RoleType : []}
+                                getOptionLabel={(option: RoleType) => option.name}
+                                renderInput={params => <TextField {...params} label='Job Rank' />}
+                                onChange={(event: any, newValue: RoleType | null) => {
+                                  setPage(1)
+                                  newValue?.id ? setRT(newValue.id) : setRT(undefined)
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={4}>
+                              <Autocomplete
+                                fullWidth
+                                disablePortal
+                                id='combo-box-demo'
+                                options={combovessel}
+                                getOptionLabel={(option: VesselType) => option.name}
+                                renderInput={params => <TextField {...params} label='Vessel Type' />}
+                                onChange={(event: any, newValue: VesselType | null) => {
+                                  setPage(1)
+                                  newValue?.id ? setVesel(newValue?.id) : setVesel(undefined)
+                                }}
+                              />
+                            </Grid>
+                          </>
+                        ) : (
+                          <>
+                            <Grid item xs={3}>
+                              <Autocomplete
+                                fullWidth
+                                disablePortal
+                                id='combo-box-level'
+                                options={RoleLevel}
+                                getOptionLabel={(option: RoleLevel) => option.levelName}
+                                renderInput={params => <TextField {...params} label='Role Level' />}
+                                onChange={(event: any, newValue: RoleLevel | null) => {
+                                  setPage(1)
+                                  newValue?.id ? setRL(newValue?.id) : setRL(undefined)
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={3}>
+                              <Autocomplete
+                                fullWidth
+                                disablePortal
+                                id='combo-box-demo'
+                                options={Education}
+                                getOptionLabel={(option: Degree) => option.name}
+                                renderInput={params => <TextField {...params} label='Education' />}
+                                onChange={(event: any, newValue: Degree | null) => {
+                                  setPage(1)
+                                  newValue?.id ? setED(newValue?.id) : setED(undefined)
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={3}>
+                              <Autocomplete
+                                fullWidth
+                                disablePortal
+                                id='combo-box-demo'
+                                options={employmentTypeOptions}
+                                getOptionLabel={(option: { name: string }) => option.name}
+                                renderInput={params => <TextField {...params} label='Employment Type' />}
+                                onChange={(event: any, newValue: { name: string } | null) => {
+                                  setPage(1)
+                                  newValue?.name ? setEmplymentType(newValue?.name) : setEmplymentType(undefined)
+                                }}
+                              />
+                            </Grid>
+                          </>
+                        )}
+                      </Grid>
+                      <Box sx={{ display: 'flex', justifyContent: 'center', minWidth: { xs: '100%', md: '250px' } }}>
+                        <ToggleButtonGroup
+                          fullWidth
+                          color='primary'
+                          value={employeeType}
+                          exclusive
+                          onChange={handleEmployeeType}
+                          aria-label='Platform'
+                          sx={{ display: 'flex', justifyContent: 'center' }}
+                        >
+                          <ToggleButton
+                            disabled={employeeType === 'onship' || !isOnShip}
+                            value='onship'
+                            sx={{ py: 3.5, width: '50%', fontSize: 12 }}
+                          >
+                            Seafarer
+                          </ToggleButton>
+                          <ToggleButton
+                            disabled={employeeType === 'offship'}
+                            value='offship'
+                            sx={{ py: 3.5, width: '50%', fontSize: 12 }}
+                          >
+                            Professional
+                          </ToggleButton>
+                        </ToggleButtonGroup>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  <Box px={5} pb={5}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>
+                        <Grid container spacing={4}>
+                          <Grid item xs={12}>
+                            <Alert severity='info'>
+                              <AlertTitle>Find & Apply to Your Dream Job</AlertTitle>
+                              Based on <strong>your profile</strong> and <strong>experience</strong>
+                            </Alert>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <JobContext.Consumer>
+                              {({ listJobs, onLoading }) => {
+                                if (onLoading) {
+                                  return (
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                      <CircularProgress sx={{ mt: 20 }} />
+                                    </Box>
+                                  )
+                                }
+
+                                return (
+                                  <InfiniteScroll
+                                    dataLength={totalJob}
+                                    next={() => getdatapencarian()}
+                                    hasMore={hasNextPage}
+                                    loader={
+                                      <Typography mt={5} color={'text.secondary'}>
+                                        Loading..
+                                      </Typography>
+                                    }
+                                  >
+                                    <RecomendedView listJob={listJobs} />
+                                  </InfiniteScroll>
+                                )
+                              }}
+                            </JobContext.Consumer>
+                          </Grid>
                         </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                </Box>
-              </TabPanel>
-              <TabPanel value={parseInt(value, 10)} index={2}>
-                <AllJobApplied />
-              </TabPanel>
+                  </Box>
+                </TabPanel>
+                <TabPanel value={parseInt(value, 10)} index={2}>
+                  <AllJobApplied />
+                </TabPanel>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   )
 }
 
