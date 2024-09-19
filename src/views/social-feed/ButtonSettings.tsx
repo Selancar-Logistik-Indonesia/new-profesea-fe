@@ -3,6 +3,7 @@ import { IconButton, List, ListItem, Popover } from '@mui/material'
 import { useState } from 'react'
 import ISocialFeed from 'src/contract/models/social_feed'
 import ButtonDelete from './ButtonDelete'
+import ButtonUpdate from './ButtonUpdate'
 
 const ButtonSettings = (props: { item: ISocialFeed }) => {
   const { item } = props
@@ -37,6 +38,9 @@ const ButtonSettings = (props: { item: ISocialFeed }) => {
         }}
       >
         <List>
+          <ListItem disablePadding>
+            <ButtonUpdate item={item} variant='settings' />
+          </ListItem>
           <ListItem disablePadding>
             <ButtonDelete
               item={{ id: item.id, feedId: item.id, count_likes: item.count_likes, deleteComment: true }}

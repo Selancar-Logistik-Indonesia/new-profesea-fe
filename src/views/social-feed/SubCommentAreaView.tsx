@@ -12,6 +12,7 @@ import { IUser } from 'src/contract/models/user'
 import ButtonDelete from './ButtonDelete'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
+import CommentForm from './CommentForm'
 
 const SubCommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => {
   const { comment, feedId } = props
@@ -81,7 +82,7 @@ const SubCommentAreaView = (props: { item: ISocialFeedComment; feedId: number })
   }, [subCommentSignature])
 
   return (
-    <Box sx={{ ml: 5 }}>
+    <Box sx={{ ml: 5, mt: 1 }}>
       {commentObj?.data && commentObj?.data.length > 0 && (
         <Box mb={5}>
           {commentObj?.data.reverse().map(comment => (
@@ -89,6 +90,7 @@ const SubCommentAreaView = (props: { item: ISocialFeedComment; feedId: number })
           ))}
         </Box>
       )}
+      <CommentForm feedId={item.id} replyable_type='comment' />
       {onLoading && (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 10 }}>
           <CircularProgress />

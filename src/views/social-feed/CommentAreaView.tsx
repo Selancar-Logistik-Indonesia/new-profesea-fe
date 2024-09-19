@@ -103,7 +103,6 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
           </Typography>
         </Box>
       </Grid>
-      {openReply && <CommentForm feedId={feedId} replyable_type='comment' />}
       {openReply && <SubCommentAreaView item={comment} feedId={feedId} />}
     </Box>
   )
@@ -138,7 +137,7 @@ const CommentAreaView = (props: { item: ISocialFeed }) => {
       {!onLoading && commentObj?.data && commentObj?.data.length > 0 && (
         <Box>
           {commentObj?.data.map(comment => (
-            <CommentCard key={comment.id} comment={comment} feedId={item.id} />
+            <CommentCard comment={comment} feedId={item.id} />
           ))}
         </Box>
       )}

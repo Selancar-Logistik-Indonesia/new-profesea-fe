@@ -124,16 +124,6 @@ const FeedCard = (props: Prop) => {
           </Box>
         )}
         {withBottomArea !== false && openComment && <CommentAreaView item={item} />}
-        {/* {withBottomArea !== false && openUpdate && (
-          <>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mt={2} ml={2}>
-              <Typography sx={{ color: '#262525', fontWeight: 600, fontSize: '12px' }}>
-                Update your Post here :
-              </Typography>
-            </Box>
-            <PostFeedUpdate feed={item} />
-          </>
-        )} */}
       </Paper>
     </Grid>
   )

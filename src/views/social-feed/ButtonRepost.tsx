@@ -5,18 +5,27 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Fade,
+  FadeProps,
   TextField,
   Typography
 } from '@mui/material'
 import Icon from 'src/@core/components/icon'
-import { useState } from 'react'
+import { forwardRef, ReactElement, Ref, useState } from 'react'
 import FeedCard from './FeedCard'
 import ISocialFeed from 'src/contract/models/social_feed'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 
-const ButtonRepost = (props: { post: ISocialFeed }) => {
-  const { post } = props
+const Transition = forwardRef(function Transition(
+  props: FadeProps & { children?: ReactElement<any, any> },
+  ref: Ref<unknown>
+) {
+  return <Fade ref={ref} {...props} />
+})
+
+const ButtonRepost = (props: { post: ISocialFeed; isXs: boolean }) => {
+  const { post, isXs } = props
   const [dialogOpen, setOpenDialog] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [content, setContent] = useState('')
@@ -50,17 +59,24 @@ const ButtonRepost = (props: { post: ISocialFeed }) => {
           textTransform: 'none'
         }}
         color='primary'
-        startIcon={<Icon icon='ph:repeat' fontSize={16} />}
+        startIcon={isXs ? undefined : <Icon icon='ph:repeat' fontSize={16} />}
       >
         Repost
       </Button>
-      <Dialog sx={{ minWidth: { md: 320 } }} open={dialogOpen} onClose={() => setOpenDialog(!dialogOpen)}>
+      <Dialog
+        fullWidth
+        open={dialogOpen}
+        onClose={() => setOpenDialog(!dialogOpen)}
+        TransitionComponent={Transition}
+        maxWidth='md'
+      >
         <DialogTitle>
           <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
             Repost Feed
           </Typography>
         </DialogTitle>
         <DialogContent>
+          <FeedCard item={post} withBottomArea={false} />
           <TextField
             disabled={isLoading}
             sx={{ mt: 4 }}
@@ -72,15 +88,12 @@ const ButtonRepost = (props: { post: ISocialFeed }) => {
             variant='standard'
             onChange={e => setContent(e.target.value)}
           />
-          <FeedCard item={post} withBottomArea={false} />
         </DialogContent>
         <DialogActions sx={{ mt: '10px' }}>
-          <Button size='small' variant='contained' color='error' onClick={() => setOpenDialog(!dialogOpen)}>
-            <Icon icon='material-symbols:cancel-outline' color='white' fontSize={12} />
+          <Button size='small' variant='contained' onClick={() => setOpenDialog(!dialogOpen)}>
             Cancel
           </Button>
-          <Button size='small' variant='contained' disabled={isLoading} onClick={handleUpdateStatus}>
-            <Icon icon='material-symbols:upload' color='white' fontSize={12} />
+          <Button size='small' variant='contained' color='success' disabled={isLoading} onClick={handleUpdateStatus}>
             {isLoading ? <CircularProgress /> : 'Post'}
           </Button>
         </DialogActions>
