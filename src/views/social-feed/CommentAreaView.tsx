@@ -137,7 +137,7 @@ const CommentAreaView = (props: { item: ISocialFeed }) => {
       {!onLoading && commentObj?.data && commentObj?.data.length > 0 && (
         <Box>
           {commentObj?.data.map(comment => (
-            <CommentCard comment={comment} feedId={item.id} />
+            <CommentCard key={comment.id} comment={comment} feedId={item.id} />
           ))}
         </Box>
       )}

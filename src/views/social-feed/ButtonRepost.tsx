@@ -24,7 +24,7 @@ const Transition = forwardRef(function Transition(
   return <Fade ref={ref} {...props} />
 })
 
-const ButtonRepost = (props: { post: ISocialFeed; isXs: boolean }) => {
+const ButtonRepost = (props: { post: ISocialFeed; isXs?: boolean }) => {
   const { post, isXs } = props
   const [dialogOpen, setOpenDialog] = useState(false)
   const [isLoading, setIsLoading] = useState(false)

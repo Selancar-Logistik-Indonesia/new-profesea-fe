@@ -43,7 +43,7 @@ function shareLink(url: string, via: string) {
   }
 }
 
-const ButtonShare = (props: { feedPage: string; isXs: boolean }) => {
+const ButtonShare = (props: { feedPage: string; isXs?: boolean }) => {
   const theme = useTheme()
   const xs = useMediaQuery(theme.breakpoints.down('md'))
   const shareUrl = props.feedPage
