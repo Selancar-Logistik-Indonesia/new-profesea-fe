@@ -28,7 +28,7 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
         display: 'flex',
         flexDirection: 'column',
         gap: '8px',
-        mt: 5,
+        mt: '16px',
         position: 'relative',
         '&:hover .delete-button': {
           display: 'inline-block'
@@ -108,8 +108,8 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
   )
 }
 
-const CommentAreaView = (props: { item: ISocialFeed }) => {
-  const { item } = props
+const CommentAreaView = (props: { item: ISocialFeed; placement?: 'popup' }) => {
+  const { item, placement } = props
   const [onLoading, setOnLoading] = useState(true)
   const [commentObj, setCommentObj] = useState<CommentResponseType>()
   const { getComments, commentSignature } = useSocialFeed()
@@ -126,14 +126,33 @@ const CommentAreaView = (props: { item: ISocialFeed }) => {
     loadComments()
   }, [commentSignature])
 
+  if (placement)
+    return (
+      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        {onLoading && (
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <CircularProgress />
+          </Box>
+        )}
+        {!onLoading && commentObj?.data && commentObj?.data.length > 0 && (
+          <Box>
+            {commentObj?.data.map(comment => (
+              <CommentCard key={comment.id} comment={comment} feedId={item.id} />
+            ))}
+          </Box>
+        )}
+        {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' />}
+      </Box>
+    )
+
   return (
-    <Box>
-      {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' />}
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       {onLoading && (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 10 }}>
           <CircularProgress />
         </Box>
       )}
+      {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' />}
       {!onLoading && commentObj?.data && commentObj?.data.length > 0 && (
         <Box>
           {commentObj?.data.map(comment => (

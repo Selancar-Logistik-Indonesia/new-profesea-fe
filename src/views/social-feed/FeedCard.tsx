@@ -13,6 +13,7 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import ImageListFeed from './ImageListFeed'
 import ButtonSettings from './ButtonSettings'
+import PopUpFeed from './PopUpFeed'
 
 type Prop = {
   item: ISocialFeed
@@ -23,22 +24,16 @@ type Prop = {
 
 const FeedCard = (props: Prop) => {
   const { item, withBottomArea, type } = props
-  const [openComment, setOpenComment] = useState(false)
-  const [openUpdate, setOpenUpdate] = useState(false)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const attachments = item.attachments
+
+  const [openComment, setOpenComment] = useState(false)
+  const [openUpdate, setOpenUpdate] = useState(false)
+  const [openPopUp, setOpenPopUp] = useState(false)
 
   const profileLink = `/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(
     item.user?.username
   )}`
-
-  const isStatusLink = (link: string) => {
-    if (!link) {
-      return `/login/?returnUrl=` + link
-    }
-
-    return link
-  }
 
   return (
     <Grid item xs={12} sx={{ mt: type ? 0 : '16px' }}>
@@ -58,7 +53,7 @@ const FeedCard = (props: Prop) => {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <Avatar
                 component={Link}
-                href={isStatusLink(profileLink)}
+                href={profileLink}
                 alt='profile-picture'
                 src={getUserAvatar(item.user)}
                 sx={{ width: 36, height: 36 }}
@@ -66,7 +61,7 @@ const FeedCard = (props: Prop) => {
               <Box>
                 <Typography
                   component={Link}
-                  href={isStatusLink(profileLink)}
+                  href={profileLink}
                   sx={{ fontSize: '16px', fontWeight: 'bold', color: 'black' }}
                 >
                   {toTitleCase(item.user.name)}
@@ -85,7 +80,7 @@ const FeedCard = (props: Prop) => {
             {item.content}
           </Typography>
         </Box>
-        <Box sx={{ mx: '-24px', display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ mx: '-24px', display: 'flex', flexDirection: 'column' }} onClick={() => setOpenPopUp(!openPopUp)}>
           {item.content_type === 'images' && <ImageListFeed item={item} />}
           {item.content_type === 'videos' && (
             <CardMedia
@@ -112,17 +107,12 @@ const FeedCard = (props: Prop) => {
           </Box>
         </Box>
         {withBottomArea !== false && (
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <Divider sx={{ border: '1px solid #DDDDDD' }} />
-            <FeedBottomActions
-              item={item}
-              openComment={openComment}
-              setOpenComment={setOpenComment}
-              setOpenUpdate={setOpenUpdate}
-              openUpdate={openUpdate}
-            />
+            <FeedBottomActions item={item} openComment={openComment} setOpenComment={setOpenComment} />
           </Box>
         )}
+        {openPopUp && <PopUpFeed feed={item} openDialog={openPopUp} setOpenDialog={setOpenPopUp} />}
         {withBottomArea !== false && openComment && <CommentAreaView item={item} />}
       </Paper>
     </Grid>
