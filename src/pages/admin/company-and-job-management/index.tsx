@@ -57,10 +57,26 @@ const COMPANY_TYPE_OPTIONS = [
   }
 ]
 
+const SORT_BY_OPTIPNS = [
+  {
+    id: 'newest',
+    label: 'Newest'
+  },
+  {
+    id: 'sort-by-name',
+    label: 'A-Z'
+  },
+  {
+    id: 'most-job-posts',
+    label: 'Most Job Posts'
+  }
+]
+
 const CompanyAndJobManagement = () => {
   const [search, setSearch] = useState('')
   const [docVerified, setDocVerified] = useState('')
   const [companyType, setCompanyType] = useState('')
+  const [sortBy, setSortBy] = useState(SORT_BY_OPTIPNS[0].id)
 
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(10)
@@ -83,11 +99,11 @@ const CompanyAndJobManagement = () => {
   useEffect(() => {
     setOnLoading(true)
     handleGetListCompany()
-  }, [page, search, companyType, docVerified, hookSignature])
+  }, [page, search, companyType, docVerified, hookSignature, sortBy])
 
   const handleGetListCompany = async () => {
     const response = await HttpClient.get(
-      `/company-and-job-management?search=${search}&page=${page}&take=${perPage}&company_type=${companyType}&doc_verified=${docVerified}`
+      `/company-and-job-management?search=${search}&page=${page}&take=${perPage}&company_type=${companyType}&doc_verified=${docVerified}&sort_by=${sortBy}`
     )
 
     if (response.status != 200) {
@@ -190,6 +206,17 @@ const CompanyAndJobManagement = () => {
                       getOptionLabel={option => option.label}
                       renderInput={params => <TextField {...params} label='Company Type' />}
                       onChange={(event: any, newValue) => (newValue !== null ? setCompanyType(newValue.id) : '')}
+                    />
+                  </Grid>
+                  <Grid item flex={1}>
+                    <Autocomplete
+                      disablePortal
+                      size='small'
+                      id='sortBy'
+                      options={SORT_BY_OPTIPNS}
+                      getOptionLabel={option => option.label}
+                      renderInput={params => <TextField {...params} label='Sort By' />}
+                      onChange={(event: any, newValue) => (newValue !== null ? setSortBy(newValue.id) : '')}
                     />
                   </Grid>
                 </Grid>
