@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
-import { Box, Grid, Card, CardContent, useMediaQuery, Tab } from '@mui/material'
+import { Button, Box, Grid, Card, CardContent, useMediaQuery, Tab } from '@mui/material'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 
 import SideAd from 'src/views/banner-ad/sidead'
 import { useTheme } from '@mui/material/styles'
+import DoneAllIcon from '@mui/icons-material/DoneAll'
 import style from './../../../../styles/css/NotificationPage.module.css'
+import AllNotificationTab from './AllNotificationTab'
+import UnreadNotificationTab from './UnreadNotificationTab'
 
 function Notification() {
   const theme = useTheme()
@@ -45,6 +48,17 @@ function Notification() {
                     <CardContent sx={{ padding: '24px' }}>
                       <Box sx={{ mb: 0 }}>
                         <Box sx={{ width: '100%', typography: 'body1' }}>
+                          <div style={{ display: 'inline', float: 'left' }}>
+                            <h1 className={style['notification-title']}> Notifications </h1>
+                            <h2 className={style['notification-subtitle']}>
+                              You have <b className={style['primary-color']}>3 notifications</b> today
+                            </h2>
+                          </div>
+
+                          <Button variant='contained' className={style['btn-mark']}>
+                            <DoneAllIcon style={{ width: 16, height: 16, margin: '0 10px 0 0' }} />
+                            <span>Mark all as read</span>
+                          </Button>
                           <TabContext value={tab}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                               <TabList
@@ -66,8 +80,12 @@ function Notification() {
                                 />
                               </TabList>
                             </Box>
-                            <TabPanel value='1' className={style['tabpanel']}></TabPanel>
-                            <TabPanel value='2' className={style['tabpanel']}></TabPanel>
+                            <TabPanel value='1' className={style['tabpanel']}>
+                              <AllNotificationTab />
+                            </TabPanel>
+                            <TabPanel value='2' className={style['tabpanel']}>
+                              <UnreadNotificationTab />
+                            </TabPanel>
                           </TabContext>
                         </Box>
                       </Box>

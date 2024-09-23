@@ -1,5 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+
+/* <uniquifier>: Use a unique and descriptive class name */
+/* <weight>: Use a value from 300 to 900 */
+
 .notification-page { 
 
+}
+
+.primary-color {
+    color:#32497A;
+}
+
+.notification-title {
+    font-family: "Figtree", sans-serif;
+    font-weight: 700px;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: bold;
+   
+}
+
+.notification-subtitle { 
+    font-family: "Figtree", sans-serif;
+    font-weight: 400px;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: normal;
+    
+}
+
+.btn-mark {
+    float: right;
+}
+
+.btn-mark span { 
+    text-transform: none;
+    font-family: "Figtree", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
 }
 
 .notification-page-ch {
