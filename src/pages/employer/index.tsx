@@ -19,8 +19,8 @@ const Main = () => {
   return (
     <>
       <Head>
-        <title>{`${themeConfig.templateName} - ${t('landing_hero_title')}`}</title>
-        <meta name='description' content={`${themeConfig.templateName} - ${t('landing_about_subtitle')}`} />
+        <title>{`${themeConfig.templateName} - ${t('landing_employer_title')}`}</title>
+        <meta name='description' content={`${themeConfig.templateName} - ${t('landing_employer_description')}`} />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
       </Head>

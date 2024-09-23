@@ -48,7 +48,10 @@ const SeafarerTravelDocument: React.FC<ISeafarerTravelDocumentProps> = ({ userId
                 key={index}
                 sx={{
                   display: 'flex',
-                  borderBottom: '1px solid var(--light-action-disabled-background, rgba(76, 78, 100, 0.12))'
+                  borderBottom:
+                    travelDocument.length - 1 == index
+                      ? ''
+                      : '1px solid var(--light-action-disabled-background, rgba(76, 78, 100, 0.12))'
                 }}
               >
                 <Box
@@ -76,7 +79,11 @@ const SeafarerTravelDocument: React.FC<ISeafarerTravelDocumentProps> = ({ userId
                   <Typography
                     sx={{ color: 'rgba(82, 82, 82, 1)', fontWeight: 400, fontSize: '14px', lineHeight: '21px' }}
                   >
-                    Valid until {item?.valid_date ? format(new Date(item?.valid_date), 'LLL yyyy') : '-'}
+                    {item?.is_lifetime
+                      ? 'Valid Lifetime'
+                      : item?.valid_date
+                      ? 'Valid until ' + format(new Date(item?.valid_date), 'LLL yyyy')
+                      : 'Valid until -'}
                   </Typography>
                   <Typography
                     sx={{
