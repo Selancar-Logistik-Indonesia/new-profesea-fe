@@ -17,6 +17,7 @@ import { HttpClient } from 'src/services'
 import INews from 'src/contract/models/news'
 import moment from 'moment'
 import Link from 'next/link'
+import themeConfig from 'src/configs/themeConfig'
 
 interface INewsCategory {
   id: number
@@ -134,16 +135,11 @@ const NewsPage = () => {
   return (
     <>
       <Head>
-        <title>Profesea News - Temukan berita, informasi, dan tren terbaru di Industri maritim dan logistik</title>
-        <meta
-          name='title'
-          content='Profesea News - Temukan berita, informasi, dan tren terbaru di Industri maritim dan logistik'
-        />
-        <meta
-          name='description'
-          content='Temukan berita, informasi, dan tren terbaru di Industri maritim dan logistik di Profesea News!
-'
-        />
+        <title>{`${themeConfig.templateName} - ${t('landing_news_title')}`}</title>
+        <meta property='og:title' content={`${t('landing_news_title')}`} />
+        <meta property='og:description' content={`${t('landing_news_description')}`} />
+        <meta name='title' content={`${t('landing_news_title')}`} />
+        <meta name='description' content={`${t('landing_news_description')}`} />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
       </Head>
