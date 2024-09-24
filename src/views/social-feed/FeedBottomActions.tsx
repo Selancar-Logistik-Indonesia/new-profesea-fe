@@ -14,10 +14,8 @@ import ButtonDelete from './ButtonDelete'
 type Props = {
   item: ISocialFeed
   openComment: boolean
-  openUpdate: boolean
   user?: IUser
   setOpenComment: (i: boolean) => void
-  setOpenUpdate: (i: boolean) => void
 }
 
 const FeedBottomActions = (props: Props) => {
@@ -36,7 +34,7 @@ const FeedBottomActions = (props: Props) => {
   }
 
   return (
-    <Box sx={{ pt: '12px', display: 'flex', justifyContent: 'space-between' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
       <ButtonLike
         item={{ id: item.id, count_likes: item.count_likes, liked_at: item.liked_at }}
         likeableType='feed'
