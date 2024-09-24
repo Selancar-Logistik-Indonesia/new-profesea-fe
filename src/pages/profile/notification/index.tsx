@@ -48,7 +48,7 @@ function Notification() {
                     <CardContent sx={{ padding: '24px' }}>
                       <Box sx={{ mb: 0 }}>
                         <Box sx={{ width: '100%', typography: 'body1' }}>
-                          <div style={{ display: 'inline', float: 'left' }}>
+                          <div style={{ display: 'inline', float: 'left', marginBottom: '24px' }}>
                             <h1 className={style['notification-title']}> Notifications </h1>
                             <h2 className={style['notification-subtitle']}>
                               You have <b className={style['primary-color']}>3 notifications</b> today
@@ -59,24 +59,29 @@ function Notification() {
                             <DoneAllIcon style={{ width: 16, height: 16, margin: '0 10px 0 0' }} />
                             <span>Mark all as read</span>
                           </Button>
+                          <div style={{ clear: 'both' }}></div>
                           <TabContext value={tab}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                              <TabList
-                                className={style['tablist']}
-                                onChange={handleChangeTab}
-                                aria-label='lab API tabs example'
-                              >
+                              <TabList variant='fullWidth' className={style['tablist']} onChange={handleChangeTab}>
                                 <Tab
                                   className={style['tablist-item']}
                                   label='All Notification'
                                   value='1'
-                                  sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold', width: '100%' }}
+                                  sx={{
+                                    textTransform: 'none',
+                                    fontSize: '16px',
+                                    fontWeight: 'bold'
+                                  }}
                                 />
                                 <Tab
                                   className={style['tablist-item']}
                                   label='Unread'
                                   value='2'
-                                  sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold', width: '100%' }}
+                                  sx={{
+                                    textTransform: 'none',
+                                    fontSize: '16px',
+                                    fontWeight: 'bold'
+                                  }}
                                 />
                               </TabList>
                             </Box>

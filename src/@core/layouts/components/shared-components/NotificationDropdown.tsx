@@ -10,42 +10,16 @@ import MuiMenuItem, { MenuItemProps } from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
 import PerfectScrollbarComponent from 'react-perfect-scrollbar'
-import { ThemeColor } from 'src/@core/layouts/types'
 import { Settings } from 'src/@core/context/settingsContext'
 import CustomChip from 'src/@core/components/mui/chip'
 import { HttpClient } from 'src/services'
 import INotification from 'src/contract/models/notification'
 import moment, { now } from 'moment'
 import NotificationType from 'src/contract/types/notification_type'
+import NotificationsType from './NotificationsType'
 import NotificationItem from './NotificationItem'
 import { useRouter } from 'next/navigation'
 
-export type NotificationsType = {
-  id: string
-  meta: string
-  title: string
-  subtitle: string
-  type: string
-  read_at?: string
-  payload?: any
-  data?: any
-} & (
-  | { avatarAlt: string; avatarImg: string; avatarText?: never; avatarColor?: never; avatarIcon?: never }
-  | {
-      avatarAlt?: never
-      avatarImg?: never
-      avatarText: string
-      avatarIcon?: never
-      avatarColor?: ThemeColor
-    }
-  | {
-      avatarAlt?: never
-      avatarImg?: never
-      avatarText?: never
-      avatarIcon: ReactNode
-      avatarColor?: ThemeColor
-    }
-)
 interface Props {
   settings: Settings
 }
