@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap'); */
 
 .list-box {
     
@@ -17,14 +17,14 @@
 
 .list-item-text .title {
    
-    font-family: "Figtree", sans-serif;
+    /* font-family: "Figtree", sans-serif; */
     font-weight: 400 normal;
     font-size: 14px;
     line-height: 21px;
 }
 
 .list-item-text .title .name {
-    font-family: "Figtree", sans-serif;
+    /* font-family: "Figtree", sans-serif; */
     font-weight: 700 normal;
     font-size: 16px;
     line-height: 21px;
@@ -32,7 +32,7 @@
 }
 
 .list-item-text .subtitle {
-    font-family: "Figtree", sans-serif;
+    /* font-family: "Figtree", sans-serif; */
     font-weight: 400;
     font-size: 12px;
     line-height: 21px;

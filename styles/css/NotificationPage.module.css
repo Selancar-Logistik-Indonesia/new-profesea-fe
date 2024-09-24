@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap'); */
 
 /* <uniquifier>: Use a unique and descriptive class name */
 /* <weight>: Use a value from 300 to 900 */
@@ -8,7 +8,7 @@
 }
 
 .notification-title {
-    font-family: "Figtree", sans-serif;
+    /* font-family: "Figtree", sans-serif; */
     font-weight: 700;
     font-size: 20px;
     line-height: 24px;
@@ -18,7 +18,7 @@
 }
 
 .notification-subtitle { 
-    font-family: "Figtree", sans-serif;
+    /* font-family: "Figtree", sans-serif; */
     font-weight: 400;
     font-size: 14px;
     line-height: 21px;
@@ -33,7 +33,7 @@
 
 .btn-mark span { 
     text-transform: none;
-    font-family: "Figtree", sans-serif;
+    /* font-family: "Figtree", sans-serif; */
     font-weight: 400;
     font-size: 14px;
 }

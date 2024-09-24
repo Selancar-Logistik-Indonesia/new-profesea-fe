@@ -18,6 +18,7 @@ import FriendshipIssuingDialog from 'src/@core/layouts/components/shared-compone
 interface Iprops {
   item: any
   key: number
+  getNotifications: VoidFunction
 }
 
 const RenderAvatar = ({ notification }: { notification: NotificationsType }) => {
@@ -40,13 +41,14 @@ const RenderAvatar = ({ notification }: { notification: NotificationsType }) => 
   }
 }
 
-export default function NotificationItem({ item, key }: Iprops) {
+export default function NotificationItem({ item, key, getNotifications }: Iprops) {
   const { user } = useAuth()
   const router = useRouter()
   const [dialogOpen, setDialogOpen] = useState(false)
 
   const handleClick = async () => {
     setDialogOpen(true)
+    getNotifications()
     await HttpClient.post('/user/notification/mark-as-read', {
       notification_id: [item.id]
     })

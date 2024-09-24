@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Box, Grid, Card, CardContent, useMediaQuery, Tab } from '@mui/material'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
@@ -11,6 +11,11 @@ import style from './../../../../styles/css/NotificationPage.module.css'
 import AllNotificationTab from './AllNotificationTab'
 import UnreadNotificationTab from './UnreadNotificationTab'
 
+import NotificationsType from './NotificationsType'
+import { HttpClient } from 'src/services'
+import INotification from 'src/contract/models/notification'
+import buildNotifies from './buildNotifies'
+
 function Notification() {
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -20,6 +25,55 @@ function Notification() {
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
     setTab(newValue)
   }
+
+  const [notifies, setNotifies] = useState<NotificationsType[]>([])
+  const [unreadNotifies, setUnreadNotifies] = useState<NotificationsType[]>([])
+  const [onLoading, setOnLoading] = useState<boolean>(false)
+
+  const getNotifications = async () => {
+    setOnLoading(true)
+    const response = await HttpClient.get('/user/notification', {
+      page: 1,
+      take: 35
+    })
+
+    if (response.status != 200) {
+      alert(response.data?.message ?? 'Unknow error')
+      setOnLoading(false)
+
+      return
+    }
+
+    const { notifications } = response.data as { notifications: { data: INotification[] } }
+    const notifies = notifications.data.map(buildNotifies)
+    setOnLoading(false)
+    setNotifies(notifies)
+  }
+
+  const getUnreadNotifications = async () => {
+    setOnLoading(true)
+    const response = await HttpClient.get('/user/notification/unread/', {
+      page: 1,
+      take: 35
+    })
+
+    if (response.status != 200) {
+      alert(response.data?.message ?? 'Unknow error')
+      setOnLoading(false)
+
+      return
+    }
+
+    const { notifications } = response.data as { notifications: { data: INotification[] } }
+    const unreadNotifies = notifications.data.map(buildNotifies)
+    setOnLoading(false)
+    setUnreadNotifies(unreadNotifies)
+  }
+
+  useEffect(() => {
+    getNotifications()
+    getUnreadNotifications()
+  }, [])
 
   return (
     <Box>
@@ -51,7 +105,8 @@ function Notification() {
                           <div style={{ display: 'inline', float: 'left', marginBottom: '24px' }}>
                             <h1 className={style['notification-title']}> Notifications </h1>
                             <h2 className={style['notification-subtitle']}>
-                              You have <b className={style['primary-color']}>3 notifications</b> today
+                              You have <b className={style['primary-color']}>{unreadNotifies.length} notifications</b>{' '}
+                              today
                             </h2>
                           </div>
 
@@ -86,10 +141,18 @@ function Notification() {
                               </TabList>
                             </Box>
                             <TabPanel value='1' className={style['tabpanel']}>
-                              <AllNotificationTab />
+                              <AllNotificationTab
+                                notifies={notifies}
+                                getNotifications={getNotifications}
+                                onLoading={onLoading}
+                              />
                             </TabPanel>
                             <TabPanel value='2' className={style['tabpanel']}>
-                              <UnreadNotificationTab />
+                              <UnreadNotificationTab
+                                notifies={unreadNotifies}
+                                getNotifications={getUnreadNotifications}
+                                onLoading={onLoading}
+                              />
                             </TabPanel>
                           </TabContext>
                         </Box>
