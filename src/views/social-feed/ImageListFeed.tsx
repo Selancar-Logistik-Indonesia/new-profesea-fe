@@ -12,9 +12,9 @@ const srcset = (image: string) => {
 }
 
 const ImageListFeed = ({ item }: { item: ISocialFeed }) => {
-  if (!item.attachments) return null
-
   const [openPopUp, setOpenPopUp] = useState(false)
+
+  if (!item.attachments) return null
   const attachments = item.attachments
   const total = attachments.length
   const column = total === 2 ? 6 : attachments.length > 1 ? 5 : 1
