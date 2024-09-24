@@ -1,8 +1,7 @@
-import { Avatar, CardMedia, Divider, Grid, Paper, Typography, Box } from '@mui/material'
+import { Avatar, Divider, Grid, Paper, Typography, Box } from '@mui/material'
 import ISocialFeed from 'src/contract/models/social_feed'
 import { getUserAvatar, toLinkCase, toTitleCase } from 'src/utils/helpers'
 import { useState } from 'react'
-import { AppConfig } from 'src/configs/api'
 import CommentAreaView from './CommentAreaView'
 import Link from 'next/link'
 import { Icon } from '@iconify/react'
@@ -13,7 +12,6 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import ImageListFeed from './ImageListFeed'
 import ButtonSettings from './ButtonSettings'
-import PopUpFeed from './PopUpFeed'
 
 type Prop = {
   item: ISocialFeed
@@ -25,11 +23,7 @@ type Prop = {
 const FeedCard = (props: Prop) => {
   const { item, withBottomArea, type } = props
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  const attachments = item.attachments
-
   const [openComment, setOpenComment] = useState(false)
-  const [openUpdate, setOpenUpdate] = useState(false)
-  const [openPopUp, setOpenPopUp] = useState(false)
 
   const profileLink = `/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(
     item.user?.username
@@ -80,16 +74,8 @@ const FeedCard = (props: Prop) => {
             {item.content}
           </Typography>
         </Box>
-        <Box sx={{ mx: '-24px', display: 'flex', flexDirection: 'column' }} onClick={() => setOpenPopUp(!openPopUp)}>
-          {item.content_type === 'images' && <ImageListFeed item={item} />}
-          {item.content_type === 'videos' && (
-            <CardMedia
-              sx={{ width: '100%' }}
-              component='video'
-              controls
-              src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments![0]}`}
-            />
-          )}
+        <Box sx={{ mx: '-24px', display: 'flex', flexDirection: 'column' }}>
+          {item.content_type !== 'text' && <ImageListFeed item={item} />}
           {item.feed_repost && (
             <Box sx={{ px: '24px' }}>
               <FeedCard item={item.feed_repost} withBottomArea={false} user={user} type='repost' />
@@ -112,8 +98,7 @@ const FeedCard = (props: Prop) => {
             <FeedBottomActions item={item} openComment={openComment} setOpenComment={setOpenComment} />
           </Box>
         )}
-        {openPopUp && <PopUpFeed feed={item} openDialog={openPopUp} setOpenDialog={setOpenPopUp} />}
-        {withBottomArea !== false && openComment && <CommentAreaView item={item} />}
+        {withBottomArea !== false && <CommentAreaView item={item} />}
       </Paper>
     </Grid>
   )
