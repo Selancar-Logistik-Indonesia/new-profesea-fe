@@ -132,12 +132,14 @@ const NotificationItem = (props: { item: NotificationsType }) => {
           )}
           <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box sx={{ mx: 4 }}>
-              <MenuItemTitle>{item.title}</MenuItemTitle>
-              <MenuItemSubtitle variant='body2'>{item.subtitle}</MenuItemSubtitle>
+              <MenuItemTitle
+                sx={{ fontSize: '14px', fontWeight: 400, wordBreak: 'break-all', width: '85%' }}
+                title={item.subtitle}
+              >
+                {item.subtitle}
+              </MenuItemTitle>
+              <MenuItemSubtitle variant='body2'> {item.meta}</MenuItemSubtitle>
             </Box>
-            <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-              {item.meta}
-            </Typography>
           </Box>
         </Box>
       </MenuItem>
