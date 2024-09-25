@@ -116,9 +116,9 @@ const PopUpFeed = (props: Prop) => {
               </Box>
             </Box>
             <Box>
-              <Divider />
+              <Divider sx={{ mb: '6px' }} />
               <FeedBottomActions item={feed} openComment={openComment} setOpenComment={setOpenComment} />
-              <Divider />
+              <Divider sx={{ mt: '6px' }} />
             </Box>
             <CommentAreaView item={feed} placement='popup' />
           </Grid>
