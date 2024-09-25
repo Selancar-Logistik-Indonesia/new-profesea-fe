@@ -16,19 +16,21 @@ import { HttpClient } from 'src/services'
 import INotification from 'src/contract/models/notification'
 import buildNotifies from './buildNotifies'
 
+import DialogMarkConfirmation from './DialogMarkConfirmation'
+
 function Notification() {
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
   const [tab, setTab] = useState('1')
+  const [showMarkConfirm, setShowMarkConfirm] = useState(false)
+  const [notifies, setNotifies] = useState<NotificationsType[]>([])
+  const [unreadNotifies, setUnreadNotifies] = useState<NotificationsType[]>([])
+  const [onLoading, setOnLoading] = useState<boolean>(false)
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
     setTab(newValue)
   }
-
-  const [notifies, setNotifies] = useState<NotificationsType[]>([])
-  const [unreadNotifies, setUnreadNotifies] = useState<NotificationsType[]>([])
-  const [onLoading, setOnLoading] = useState<boolean>(false)
 
   const getNotifications = async () => {
     setOnLoading(true)
@@ -110,7 +112,11 @@ function Notification() {
                             </h2>
                           </div>
 
-                          <Button variant='contained' className={style['btn-mark']}>
+                          <Button
+                            variant='contained'
+                            className={style['btn-mark']}
+                            onClick={() => setShowMarkConfirm(true)}
+                          >
                             <DoneAllIcon style={{ width: 16, height: 16, margin: '0 10px 0 0' }} />
                             <span>Mark all as read</span>
                           </Button>
@@ -168,6 +174,12 @@ function Notification() {
           </Grid>
         </Grid>
       </Grid>
+      <DialogMarkConfirmation
+        visible={showMarkConfirm}
+        onCloseClick={() => setShowMarkConfirm(!showMarkConfirm)}
+        loadNotifications={getNotifications}
+        loadUnreadNotifications={getUnreadNotifications}
+      />
     </Box>
   )
 }

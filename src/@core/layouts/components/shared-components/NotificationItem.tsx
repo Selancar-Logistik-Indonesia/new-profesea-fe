@@ -1,4 +1,5 @@
 import { styled } from '@mui/material/styles'
+import StyledBadge from 'src/pages/profile/notification/StyleBadge'
 
 import MuiMenuItem, { MenuItemProps } from '@mui/material/MenuItem'
 import { Box, TypographyProps, Typography } from '@mui/material'
@@ -45,25 +46,23 @@ const Avatar = styled(CustomAvatar)<CustomAvatarProps>({
 const MenuItem = styled(MuiMenuItem)<MenuItemProps>(({ theme }) => ({
   paddingTop: theme.spacing(3),
   paddingBottom: theme.spacing(3),
-  '&:not(:last-of-type)': {
-    borderBottom: `1px solid ${theme.palette.divider}`
-  }
+  '&:not(:last-of-type)': {}
 }))
 
 const RenderAvatar = ({ notification }: { notification: NotificationsType }) => {
   const { avatarAlt, avatarImg, avatarIcon, avatarText, avatarColor } = notification
 
   if (avatarImg) {
-    return <Avatar alt={avatarAlt} src={avatarImg} />
+    return <Avatar alt={avatarAlt} src={avatarImg} sx={{ width: '54px', height: '54px' }} />
   } else if (avatarIcon) {
     return (
-      <Avatar skin='light' color={avatarColor}>
+      <Avatar skin='light' color={avatarColor} sx={{ width: '54px', height: '54px' }}>
         {avatarIcon}
       </Avatar>
     )
   } else {
     return (
-      <Avatar skin='light' color={avatarColor}>
+      <Avatar skin='light' color={avatarColor} sx={{ width: '54px', height: '54px' }}>
         {getInitials(avatarText as string)}
       </Avatar>
     )
@@ -124,7 +123,13 @@ const NotificationItem = (props: { item: NotificationsType }) => {
     <>
       <MenuItem key={item.id} onClick={() => handleClick()}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          <RenderAvatar notification={item} />
+          {!item.read_at ? (
+            <StyledBadge overlap='circular' anchorOrigin={{ vertical: 'top', horizontal: 'right' }} variant='dot'>
+              <RenderAvatar notification={item} />
+            </StyledBadge>
+          ) : (
+            <RenderAvatar notification={item} />
+          )}
           <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box sx={{ mx: 4 }}>
               <MenuItemTitle>{item.title}</MenuItemTitle>
