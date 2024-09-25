@@ -10,41 +10,17 @@ import MuiMenuItem, { MenuItemProps } from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
 import PerfectScrollbarComponent from 'react-perfect-scrollbar'
-import { ThemeColor } from 'src/@core/layouts/types'
 import { Settings } from 'src/@core/context/settingsContext'
 import CustomChip from 'src/@core/components/mui/chip'
 import { HttpClient } from 'src/services'
 import INotification from 'src/contract/models/notification'
 import moment, { now } from 'moment'
 import NotificationType from 'src/contract/types/notification_type'
+import NotificationsType from './NotificationsType'
 import NotificationItem from './NotificationItem'
 
-export type NotificationsType = {
-  id: string
-  meta: string
-  title: string
-  subtitle: string
-  type: string
-  read_at?: string
-  payload?: any
-  data?: any
-} & (
-  | { avatarAlt: string; avatarImg: string; avatarText?: never; avatarColor?: never; avatarIcon?: never }
-  | {
-      avatarAlt?: never
-      avatarImg?: never
-      avatarText: string
-      avatarIcon?: never
-      avatarColor?: ThemeColor
-    }
-  | {
-      avatarAlt?: never
-      avatarImg?: never
-      avatarText?: never
-      avatarIcon: ReactNode
-      avatarColor?: ThemeColor
-    }
-)
+import DialogMarkConfirmation from 'src/pages/profile/notification/DialogMarkConfirmation'
+
 interface Props {
   settings: Settings
 }
@@ -64,11 +40,9 @@ const Menu = styled(MuiMenu)<MenuProps>(({ theme }) => ({
 }))
 
 const MenuItem = styled(MuiMenuItem)<MenuItemProps>(({ theme }) => ({
-  paddingTop: theme.spacing(3),
-  paddingBottom: theme.spacing(3),
-  '&:not(:last-of-type)': {
-    borderBottom: `1px solid ${theme.palette.divider}`
-  }
+  paddingTop: theme.spacing(2),
+  paddingBottom: theme.spacing(2),
+  '&:not(:last-of-type)': {}
 }))
 
 const PerfectScrollbar = styled(PerfectScrollbarComponent)({
@@ -281,6 +255,48 @@ const NotificationDropdown = (props: Props) => {
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
   const { direction } = settings
   const [notifies, setNotifies] = useState<NotificationsType[]>([])
+  const [selectedMenu, setSelectedMenu] = useState('All')
+  const [showMarkConfirm, setShowMarkConfirm] = useState(false)
+
+  const handleSelectedmenu = (menu: string) => {
+    if (selectedMenu == menu) {
+      return (
+        <CustomChip
+          skin='light'
+          size='small'
+          color='primary'
+          label={menu}
+          sx={{
+            lineHeight: '16.8px',
+            fontSize: '14px',
+            fontWeight: 700,
+            borderRadius: '12px',
+            marginRight: '18px',
+            ':hover': {
+              cursor: 'pointer'
+            }
+          }}
+        />
+      )
+    }
+
+    return (
+      <Typography
+        sx={{
+          lineHeight: '16.8px',
+          fontSize: '14px',
+          fontWeight: 700,
+          borderRadius: '12px',
+          marginRight: '18px',
+          ':hover': {
+            cursor: 'pointer'
+          }
+        }}
+      >
+        {menu}
+      </Typography>
+    )
+  }
 
   const handleDropdownOpen = (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget)
@@ -288,12 +304,6 @@ const NotificationDropdown = (props: Props) => {
 
   const handleDropdownClose = async () => {
     setAnchorEl(null)
-
-    if (notifies) {
-      await HttpClient.post('/user/notification/mark-as-read', {
-        notification_id: notifies.map(e => e.id)
-      })
-    }
   }
 
   const getNotifications = async () => {
@@ -311,6 +321,24 @@ const NotificationDropdown = (props: Props) => {
     const { notifications } = response.data as { notifications: { data: INotification[] } }
     const notifies = notifications.data.map(buildNotifies)
     setNotifies(notifies)
+  }
+
+  const getUnreadNotifications = async () => {
+    const response = await HttpClient.get('/user/notification/unread/', {
+      page: 1,
+      take: 35
+    })
+
+    if (response.status != 200) {
+      alert(response.data?.message ?? 'Unknow error')
+
+      return
+    }
+
+    const { notifications } = response.data as { notifications: { data: INotification[] } }
+    const unreadNotifies = notifications.data.map(buildNotifies)
+
+    setNotifies(unreadNotifies)
   }
 
   useEffect(() => {
@@ -343,39 +371,80 @@ const NotificationDropdown = (props: Props) => {
           disableTouchRipple
           sx={{ cursor: 'default', userSelect: 'auto', backgroundColor: 'transparent !important' }}
         >
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-            <Typography sx={{ cursor: 'text', fontWeight: 600 }}>Notifications</Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'left', alignItems: 'center', width: '100%' }}>
+            <Typography sx={{ cursor: 'text', fontWeight: 700, marginRight: '10px', fontSize: '16px' }}>
+              Notifications
+            </Typography>
             <CustomChip
               skin='light'
               size='small'
               color='primary'
-              label={`${notifies.filter(e => !e.read_at).length} New`}
-              sx={{ height: 20, fontSize: '0.75rem', fontWeight: 500, borderRadius: '10px' }}
+              label={`${notifies.filter(e => !e.read_at).length}`}
+              sx={{ lineHeight: '16.8px', fontSize: '14px', fontWeight: 700, borderRadius: '5px' }}
             />
           </Box>
+          <Box>
+            <Button sx={{ textTransform: 'none' }} size='small' onClick={() => setShowMarkConfirm(!showMarkConfirm)}>
+              Mark as read
+            </Button>
+          </Box>
         </MenuItem>
-        <ScrollWrapper hidden={hidden}>
-          {notifies.map((notification: NotificationsType) => (
-            <NotificationItem key={notification.id} item={notification} />
-          ))}
-        </ScrollWrapper>
         <MenuItem
           disableRipple
           disableTouchRipple
           sx={{
-            py: 3.5,
-            borderBottom: 0,
             cursor: 'default',
             userSelect: 'auto',
-            backgroundColor: 'transparent !important',
-            borderTop: theme => `1px solid ${theme.palette.divider}`
+            backgroundColor: 'transparent !important'
           }}
         >
-          <Button fullWidth variant='contained' onClick={handleDropdownClose}>
-            Read All Notifications
-          </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'left', alignItems: 'center', width: '100%' }}>
+            <span
+              onClick={() => {
+                setSelectedMenu('All')
+                getNotifications()
+              }}
+            >
+              {handleSelectedmenu('All')}
+            </span>
+            <span
+              onClick={() => {
+                setSelectedMenu('Unread')
+                getUnreadNotifications()
+              }}
+            >
+              {handleSelectedmenu('Unread')}
+            </span>
+          </Box>
+          <Box>
+            <Button
+              sx={{ textTransform: 'none', fontSize: '14px', fontWeight: 400 }}
+              size='small'
+              href='/profile/notification'
+            >
+              See all
+            </Button>
+          </Box>
         </MenuItem>
+        <ScrollWrapper hidden={hidden}>
+          {notifies.length > 0 ? (
+            notifies.map((notification: NotificationsType) => (
+              <NotificationItem key={notification.id} item={notification} />
+            ))
+          ) : (
+            <Box sx={{ py: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <img src='/images/no-notification.png' />
+              <div style={{ margin: '20px 0 0 0' }}>You have no notification.</div>
+            </Box>
+          )}
+        </ScrollWrapper>
       </Menu>
+      <DialogMarkConfirmation
+        visible={showMarkConfirm}
+        onCloseClick={() => setShowMarkConfirm(!showMarkConfirm)}
+        loadNotifications={getNotifications}
+        loadUnreadNotifications={getUnreadNotifications}
+      />
     </Fragment>
   )
 }
