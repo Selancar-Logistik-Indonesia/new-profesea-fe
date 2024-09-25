@@ -145,10 +145,14 @@ const UserFeedApp = () => {
           {selectedUser?.employee_type == 'onship' && <SeafarerExperience userId={selectedUser?.id} />}
 
           {/* seafarer cop */}
-          {selectedUser?.employee_type == 'onship' && <CopSection userId={selectedUser?.id} />}
+          {selectedUser?.employee_type == 'onship' && (
+            <CopSection userId={selectedUser?.id} userName={selectedUser?.name} />
+          )}
 
           {/* seafarer coc */}
-          {selectedUser?.employee_type == 'onship' && <CocSection userId={selectedUser?.id} />}
+          {selectedUser?.employee_type == 'onship' && (
+            <CocSection userId={selectedUser?.id} userName={selectedUser?.name} />
+          )}
 
           {selectedUser?.employee_type == 'offship' && <WorkeExperience vacancy={arrVacany} />}
           {selectedUser?.employee_type == 'offship' && <Ceritificate userId={selectedUser?.id} />}
