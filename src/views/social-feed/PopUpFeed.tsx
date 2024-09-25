@@ -105,6 +105,16 @@ const PopUpFeed = (props: Prop) => {
                 {feed.content}
               </Typography>
             </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'default' }}>
+                <Icon color='#32497A' icon='ph:thumbs-up' fontSize={16} />
+                <Typography sx={{ color: '#32497A', fontSize: 14 }}>{feed.count_likes}</Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'default' }}>
+                <Icon color='#32497A' icon='ph:chat-circle' fontSize={16} />
+                <Typography sx={{ color: '#32497A', fontSize: 14 }}>{feed.count_comments}</Typography>
+              </Box>
+            </Box>
             <Box>
               <Divider />
               <FeedBottomActions item={feed} openComment={openComment} setOpenComment={setOpenComment} />
