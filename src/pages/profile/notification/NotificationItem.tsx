@@ -22,10 +22,10 @@ interface Iprops {
 }
 
 const RenderAvatar = ({ notification }: { notification: NotificationsType }) => {
-  const { avatarAlt, avatarImg, avatarIcon, avatarText, avatarColor } = notification
+  const { avatarAlt, avatarIcon, avatarText, avatarColor, payload } = notification
 
-  if (avatarImg) {
-    return <Avatar sx={{ width: 54, height: 54 }} alt={avatarAlt} src={avatarImg} />
+  if (payload?.photo) {
+    return <Avatar sx={{ width: 54, height: 54 }} alt={avatarAlt} src={payload?.photo} />
   } else if (avatarIcon) {
     return (
       <Avatar sx={{ width: 54, height: 54 }} color={avatarColor}>
@@ -85,6 +85,12 @@ export default function NotificationItem({ item, key, getNotifications }: Iprops
       case NotificationType.applicantApproved:
         router.push(`/candidate/find-job?tabs=2`)
         break
+      case NotificationType.connectRequest:
+      case NotificationType.connectRequestApproved:
+      case NotificationType.connectRequestRejected:
+        router.push('/profile/connections')
+        break
+
       default:
         console.log('No action required..')
         break
