@@ -5,7 +5,7 @@ type NotificationsType = {
   id: string
   meta: string
   title: string
-  subtitle: string
+  subtitle: JSX.Element
   type: string
   read_at?: string
   payload?: any

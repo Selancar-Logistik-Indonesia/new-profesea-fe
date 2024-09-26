@@ -50,10 +50,10 @@ const MenuItem = styled(MuiMenuItem)<MenuItemProps>(({ theme }) => ({
 }))
 
 const RenderAvatar = ({ notification }: { notification: NotificationsType }) => {
-  const { avatarAlt, avatarImg, avatarIcon, avatarText, avatarColor } = notification
+  const { avatarAlt, avatarIcon, avatarText, avatarColor, payload } = notification
 
-  if (avatarImg) {
-    return <Avatar alt={avatarAlt} src={avatarImg} sx={{ width: '54px', height: '54px' }} />
+  if (payload?.photo) {
+    return <Avatar alt={avatarAlt} src={payload?.photo} sx={{ width: '54px', height: '54px' }} />
   } else if (avatarIcon) {
     return (
       <Avatar skin='light' color={avatarColor} sx={{ width: '54px', height: '54px' }}>
@@ -113,6 +113,7 @@ const NotificationItem = (props: { item: NotificationsType }) => {
       case NotificationType.applicantApproved:
         router.push(`/candidate/find-job?tabs=2`)
         break
+
       default:
         console.log('No action required..')
         break
@@ -134,7 +135,7 @@ const NotificationItem = (props: { item: NotificationsType }) => {
             <Box sx={{ mx: 4 }}>
               <MenuItemTitle
                 sx={{ fontSize: '14px', fontWeight: 400, wordBreak: 'break-all', width: '85%' }}
-                title={item.subtitle}
+                title={JSON.stringify(item)}
               >
                 {item.subtitle}
               </MenuItemTitle>
