@@ -13,7 +13,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import NotificationsType from './NotificationsType'
 import NotificationType from 'src/contract/types/notification_type'
 
-import FriendshipIssuingDialog from 'src/@core/layouts/components/shared-components/FrienshipIssuingDialog'
+import FriendshipIssuingDialog from 'src/@core/layouts/components/shared-components/FriendshipIssuingDialog'
 
 interface Iprops {
   item: any

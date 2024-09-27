@@ -15,7 +15,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import NotificationType from 'src/contract/types/notification_type'
 import NotificationsType from './NotificationsType'
 
-import FriendshipIssuingDialog from './FrienshipIssuingDialog'
+import FriendshipIssuingDialog from './FriendshipIssuingDialog'
 
 // ** Styled component for the subtitle in MenuItems
 const MenuItemSubtitle = styled(Typography)<TypographyProps>({
@@ -133,10 +133,7 @@ const NotificationItem = (props: { item: NotificationsType }) => {
           )}
           <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box sx={{ mx: 4 }}>
-              <MenuItemTitle
-                sx={{ fontSize: '14px', fontWeight: 400, wordBreak: 'break-all', width: '85%' }}
-                title={JSON.stringify(item)}
-              >
+              <MenuItemTitle sx={{ fontSize: '14px', fontWeight: 400, wordBreak: 'break-all', width: '85%' }}>
                 {item.subtitle}
               </MenuItemTitle>
               <MenuItemSubtitle variant='body2'> {item.meta}</MenuItemSubtitle>
