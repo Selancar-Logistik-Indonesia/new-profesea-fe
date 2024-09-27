@@ -126,6 +126,9 @@ const LoginPage = () => {
         <meta name='description' content={`${themeConfig.templateName} - ${t('login_description')}`} />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
+        <meta property='og:title' content={`${themeConfig.templateName} - ${t('login_title')}`} />
+        <meta property='og:description' content={`${themeConfig.templateName} - ${t('login_description')}`} />
+        <meta property='og:image' content='images/logosamudera.png' />
       </Head>
       <Box
         sx={{

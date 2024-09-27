@@ -23,6 +23,9 @@ const Main = () => {
         <meta name='description' content={`${themeConfig.templateName} - ${t('landing_employer_description')}`} />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
+        <meta name='og:title' content={`${themeConfig.templateName} - ${t('landing_employer_title')}`} />
+        <meta name='og:description' content={`${themeConfig.templateName} - ${t('landing_employer_description')}`} />
+        <meta property='og:image' content='images/logosamudera.png' />
       </Head>
       <Grid container>
         <Grid item container sx={landingPageStyle.bannerHero}>

@@ -9,7 +9,6 @@ import Icon from 'src/@core/components/icon'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { useSettings } from 'src/@core/hooks/useSettings'
 import Head from 'next/head'
-import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from 'react-i18next'
 // import DialogGoogleLogin from './DialogGoogleLogin'
 
@@ -66,7 +65,13 @@ const Register = () => {
   return (
     <>
       <Head>
-        <title>{`${themeConfig.templateName} - Choose who you are`}</title>
+        <title>{t('register_title')}</title>
+        <meta name='description' content={`${t('register_description')}`} />
+        <meta name='keywords' content='tos, term of service, term and condition' />
+        <meta name='viewport' content='initial-scale=0.8, width=device-width' />
+        <meta property='og:title' content={`${t('register_title')}`} />
+        <meta property='og:description' content={`${t('register_description')}`} />
+        <meta property='og:image' content='images/logosamudera.png' />
       </Head>
       <Box
         sx={{

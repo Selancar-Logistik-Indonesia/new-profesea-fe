@@ -40,9 +40,12 @@ const Main = () => {
     <>
       <Head>
         <title>{`${t('landing_hero_title')}`}</title>
-        <meta name='description' content={`${t('landing_about_subtitle')}`} />
+        <meta name='description' content={`${t('landing_hero_subtitle')}`} />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
+        <meta name='og:title' content={`${t('landing_hero_title')}`} />
+        <meta name='og:description' content={`${t('landing_hero_subtitle')}`} />
+        <meta property='og:image' content='images/logosamudera.png' />
       </Head>
 
       <Grid container sx={landingPageStyle.bannerHero}>

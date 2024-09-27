@@ -2,7 +2,7 @@
   "translation": {
     "app_keyword": "Job, candidate, Recruiter, Maritime industry jobs, Career, Seafarer",
     "landing_hero_title": "Profesea: Best Work Platform",
-    "landing_hero_subtitle": "Discover limitless opportunities and land your dream career in the maritime industry with our professional platform and extensive community.",
+    "landing_hero_subtitle": "Profesea adalah platform lokerja khusus untuk industri maritim, logistik, dan pelaut, menyediakan lowongan kerja dan pelatihan terbaik.",
     "landing_about_title": "About Us",
     "landing_about_subtitle": "Profesea is Seafarer and Vessel match platform that provides featured and rapid candidate sourcing for Maritime Industry. Companies and employees have a chance to choose specific-technical options and detailed criterias via Profesea. Main goal is to help personnel & HR managers find suitable seafarers for their companies quickly and easily.",
     "landing_join_now_1": "Join Now",
@@ -31,6 +31,8 @@
     "landing_term_description": "Baca syarat dan ketentuan penggunaan Profesea untuk memahami aturan layanan kami.",
     "landing_privacy_title": "Privacy Page",
     "landing_privacy_description": "Pelajari kebijakan privasi kami dan bagaimana Profesea menjaga keamanan data dan informasi pribadi Anda.",
+    "register_title": "Daftar di Profesea",
+    "register_description": "Daftar di Profesea, Mulai Berkarier di Industri Maritim dan Logistik.",
     "l_password": "Password",
     "b_apply_job": "Apply for job",
     "b_post_job": "Post a job",
