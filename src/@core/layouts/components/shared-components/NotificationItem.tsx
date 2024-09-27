@@ -15,7 +15,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import NotificationType from 'src/contract/types/notification_type'
 import NotificationsType from './NotificationsType'
 
-import FriendshipIssuingDialog from './FrienshipIssuingDialog'
+import FriendshipIssuingDialog from './FriendshipIssuingDialog'
 
 // ** Styled component for the subtitle in MenuItems
 const MenuItemSubtitle = styled(Typography)<TypographyProps>({
