@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, useMediaQuery, useTheme } from '@mui/material'
 import ButtonComment from './ButtonComment'
 import ButtonLike from './ButtonLike'
 import ISocialFeed from 'src/contract/models/social_feed'
@@ -14,14 +14,13 @@ import ButtonDelete from './ButtonDelete'
 type Props = {
   item: ISocialFeed
   openComment: boolean
-  openUpdate: boolean
   user?: IUser
   setOpenComment: (i: boolean) => void
-  setOpenUpdate: (i: boolean) => void
 }
 
 const FeedBottomActions = (props: Props) => {
-  //   const { item, openComment, setOpenComment, openUpdate, setOpenUpdate } = props
+  const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.down('md'))
   const { item, openComment, setOpenComment } = props
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
@@ -35,20 +34,15 @@ const FeedBottomActions = (props: Props) => {
   }
 
   return (
-    <Box sx={{ pt: '12px', display: 'flex', justifyContent: 'space-between' }}>
-      <ButtonLike item={{ id: item.id, count_likes: item.count_likes, liked_at: item.liked_at }} likeableType='feed' />
-      <ButtonComment replyCount={item.count_comments} onClick={() => setOpenComment(!openComment)} />
-      <ButtonRepost post={item} />
-      <ButtonShare feedPage={getUrl(`/feed/${item.id}`)} />
-      {/* {user.id.toString() == item.user_id.toString() && (
-        <>
-          <ButtonDelete item={{ id: item.id, count_likes: item.count_likes, liked_at: item.liked_at }} />
-          <ButtonUpdate
-            item={{ id: item.id, count_likes: item.count_likes, liked_at: item.liked_at }}
-            onClick={() => setOpenUpdate(!openUpdate)}
-          />
-        </>
-      )} */}
+    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <ButtonLike
+        item={{ id: item.id, count_likes: item.count_likes, liked_at: item.liked_at }}
+        likeableType='feed'
+        isXs={isXs}
+      />
+      <ButtonComment replyCount={item.count_comments} onClick={() => setOpenComment(!openComment)} isXs={isXs} />
+      <ButtonRepost post={item} isXs={isXs} />
+      <ButtonShare feedPage={getUrl(`/feed/${item.id}`)} isXs={isXs} />
     </Box>
   )
 }

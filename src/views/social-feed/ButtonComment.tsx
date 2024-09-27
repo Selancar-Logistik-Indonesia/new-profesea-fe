@@ -4,6 +4,7 @@ import { Icon } from '@iconify/react'
 interface Props {
   replyCount: number
   onClick: () => void
+  isXs?: boolean
 }
 
 function ButtonComment(props: Props) {
@@ -15,7 +16,7 @@ function ButtonComment(props: Props) {
         textTransform: 'none'
       }}
       color='primary'
-      startIcon={<Icon icon='ph:chat-circle' fontSize={16} />}
+      startIcon={props.isXs ? undefined : <Icon icon='ph:chat-circle' fontSize={16} />}
       onClick={props.onClick}
     >
       Comment

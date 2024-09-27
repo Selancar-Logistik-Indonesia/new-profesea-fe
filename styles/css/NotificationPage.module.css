@@ -1,0 +1,75 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap'); */
+
+/* <uniquifier>: Use a unique and descriptive class name */
+/* <weight>: Use a value from 300 to 900 */
+
+.primary-color {
+    color:#32497A;
+}
+
+.notification-title {
+    /* font-family: "Figtree", sans-serif; */
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+   
+}
+
+.notification-subtitle { 
+    /* font-family: "Figtree", sans-serif; */
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: normal;
+    margin: 0 0 0 0;
+    
+}
+
+.btn-mark {
+    float: right;
+}
+
+.btn-mark span { 
+    text-transform: none;
+    /* font-family: "Figtree", sans-serif; */
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.tablist{
+ 
+  
+}
+
+.tablist-item { 
+   width: 50%;
+   background-color: aqua;
+}
+
+/* Default: Extra-small devices such as small phones (less than 640px) */
+/* Small devices such as large phones (640px and up) */
+@media only screen and (min-width: 320px) {
+    .btn-mark {
+        width: 100%;
+    }
+}
+
+/* Small devices such as large phones (640px and up) */
+@media only screen and (min-width: 640px) {}
+
+/* Medium devices such as tablets (768px and up) */
+@media only screen and (min-width: 768px) {
+    .btn-mark {
+        width: fit-content;
+    }
+}
+
+/* Large devices such as laptops (1024px and up) */
+@media only screen and (min-width: 1024px) {
+    
+}
+
+/* Largest devices such as desktops (1280px and up) */
+@media only screen and (min-width: 1280px) {}
