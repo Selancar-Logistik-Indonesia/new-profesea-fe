@@ -30,7 +30,7 @@ const SeafarerExperience: React.FC<ISeafarerExperienceProps> = ({ userId }) => {
 
   useEffect(() => {
     loadExperience()
-  }, [])
+  }, [userId])
 
   return (
     <Box sx={{ borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
@@ -66,9 +66,7 @@ const SeafarerExperience: React.FC<ISeafarerExperienceProps> = ({ userId }) => {
                     >
                       {item?.rank?.name}
                     </Typography>
-                    <Typography
-                      sx={{ color: '#868686', fontWeight: 300, fontSize: '14px', lineHeight: '21px' }}
-                    >
+                    <Typography sx={{ color: '#868686', fontWeight: 300, fontSize: '14px', lineHeight: '21px' }}>
                       {item?.sign_in && item?.sign_off
                         ? format(new Date(item?.sign_in), 'LLL yyyy') +
                           ' - ' +

@@ -34,7 +34,7 @@ const SeafarerTravelDocument: React.FC<ISeafarerTravelDocumentProps> = ({ userId
 
   useEffect(() => {
     loadTravelDocument()
-  }, [])
+  }, [userId])
 
   return (
     <Box sx={{ borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>

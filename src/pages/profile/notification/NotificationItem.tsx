@@ -1,82 +1,54 @@
-import { styled } from '@mui/material/styles'
-import StyledBadge from 'src/pages/profile/notification/StyleBadge'
+import React, { useEffect, useState } from 'react'
 
-import MuiMenuItem, { MenuItemProps } from '@mui/material/MenuItem'
-import { Box, TypographyProps, Typography } from '@mui/material'
-import CustomAvatar from 'src/@core/components/mui/avatar'
-import { CustomAvatarProps } from 'src/@core/components/mui/avatar/types'
-import { getInitials } from 'src/@core/utils/get-initials'
-import { useState } from 'react'
-import { toLinkCase } from 'src/utils/helpers'
+import { Avatar, Box, ListItem, ListItemAvatar, ListItemText } from '@mui/material'
+import style from './../../../../styles/css/NotificationTab.module.css'
+import StyledBadge from './StyleBadge'
 import { HttpClient } from 'src/services'
+import { getInitials } from 'src/@core/utils/get-initials'
+import { toLinkCase } from 'src/utils/helpers'
+// import { IUser } from 'src/contract/models/user'
 import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
 
-import NotificationType from 'src/contract/types/notification_type'
 import NotificationsType from './NotificationsType'
+import NotificationType from 'src/contract/types/notification_type'
 
-import FriendshipIssuingDialog from './FriendshipIssuingDialog'
+import FriendshipIssuingDialog from 'src/@core/layouts/components/shared-components/FriendshipIssuingDialog'
 
-// ** Styled component for the subtitle in MenuItems
-const MenuItemSubtitle = styled(Typography)<TypographyProps>({
-  flex: '1 1 100%',
-  whiteSpace: 'break-spaces',
-  fontSize: '11px'
-})
-
-// ** Styled component for the title in MenuItems
-const MenuItemTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
-  fontWeight: 600,
-  flex: '1 1 100%',
-  overflow: 'hidden',
-  fontSize: '0.875rem',
-  whiteSpace: 'nowrap',
-  textOverflow: 'ellipsis',
-  marginBottom: theme.spacing(0.75)
-}))
-
-// ** Styled Avatar component
-const Avatar = styled(CustomAvatar)<CustomAvatarProps>({
-  width: 38,
-  height: 38,
-  fontSize: '1.125rem'
-})
-
-// ** Styled MenuItem component
-const MenuItem = styled(MuiMenuItem)<MenuItemProps>(({ theme }) => ({
-  paddingTop: theme.spacing(3),
-  paddingBottom: theme.spacing(3),
-  '&:not(:last-of-type)': {}
-}))
+interface Iprops {
+  item: any
+  key: number
+  getNotifications: VoidFunction
+}
 
 const RenderAvatar = ({ notification }: { notification: NotificationsType }) => {
   const { avatarAlt, avatarIcon, avatarText, avatarColor, payload } = notification
 
   if (payload?.photo) {
-    return <Avatar alt={avatarAlt} src={payload?.photo} sx={{ width: '54px', height: '54px' }} />
+    return <Avatar sx={{ width: 54, height: 54 }} alt={avatarAlt} src={payload?.photo} />
   } else if (avatarIcon) {
     return (
-      <Avatar skin='light' color={avatarColor} sx={{ width: '54px', height: '54px' }}>
+      <Avatar sx={{ width: 54, height: 54 }} color={avatarColor}>
         {avatarIcon}
       </Avatar>
     )
   } else {
     return (
-      <Avatar skin='light' color={avatarColor} sx={{ width: '54px', height: '54px' }}>
+      <Avatar sx={{ width: 54, height: 54 }} color={avatarColor}>
         {getInitials(avatarText as string)}
       </Avatar>
     )
   }
 }
 
-const NotificationItem = (props: { item: NotificationsType }) => {
-  const { item } = props
-  const [dialogOpen, setDialogOpen] = useState(false)
+export default function NotificationItem({ item, key, getNotifications }: Iprops) {
   const { user } = useAuth()
   const router = useRouter()
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   const handleClick = async () => {
     setDialogOpen(true)
+    getNotifications()
     await HttpClient.post('/user/notification/mark-as-read', {
       notification_id: [item.id]
     })
@@ -113,6 +85,11 @@ const NotificationItem = (props: { item: NotificationsType }) => {
       case NotificationType.applicantApproved:
         router.push(`/candidate/find-job?tabs=2`)
         break
+      case NotificationType.connectRequest:
+      case NotificationType.connectRequestApproved:
+      case NotificationType.connectRequestRejected:
+        router.push('/profile/connections')
+        break
 
       default:
         console.log('No action required..')
@@ -120,10 +97,12 @@ const NotificationItem = (props: { item: NotificationsType }) => {
     }
   }
 
+  useEffect(() => {}, [])
+
   return (
-    <>
-      <MenuItem key={item.id} onClick={() => handleClick()}>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+    <Box key={key} className={style['list-box']}>
+      <ListItem alignItems='flex-start' sx={{ cursor: 'pointer' }} onClick={() => handleClick()}>
+        <ListItemAvatar sx={{ marginTop: '-2px' }}>
           {!item.read_at ? (
             <StyledBadge overlap='circular' anchorOrigin={{ vertical: 'top', horizontal: 'right' }} variant='dot'>
               <RenderAvatar notification={item} />
@@ -131,22 +110,24 @@ const NotificationItem = (props: { item: NotificationsType }) => {
           ) : (
             <RenderAvatar notification={item} />
           )}
-          <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Box sx={{ mx: 4 }}>
-              <MenuItemTitle sx={{ fontSize: '14px', fontWeight: 400, wordBreak: 'break-all', width: '85%' }}>
-                {item.subtitle}
-              </MenuItemTitle>
-              <MenuItemSubtitle variant='body2'> {item.meta}</MenuItemSubtitle>
-            </Box>
-          </Box>
-        </Box>
-      </MenuItem>
-
+        </ListItemAvatar>
+        <ListItemText
+          className={style['list-item-text']}
+          primary={
+            <React.Fragment>
+              <div className={style['title']}>{item.subtitle}</div>
+            </React.Fragment>
+          }
+          secondary={
+            <React.Fragment>
+              <div className={style['subtitle']}>{item.meta}</div>
+            </React.Fragment>
+          }
+        />
+      </ListItem>
       {dialogOpen && item.type == NotificationType.connectRequest && (
         <FriendshipIssuingDialog item={item} dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} />
       )}
-    </>
+    </Box>
   )
 }
-
-export default NotificationItem
