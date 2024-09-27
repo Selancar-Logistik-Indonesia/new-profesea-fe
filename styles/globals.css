@@ -48,6 +48,11 @@ h1 {
   font-weight: 300;
 }
 
+span {
+  font-family: "Outfit" !important;  
+}
+
+
 .row {
   max-width: 900px;
   margin: 50px auto 0;
@@ -161,6 +166,7 @@ body {
 .ag-courses_item:nth-child(6n) .ag-courses-item_bg {
   background-color: #4c49ea;
 }
+
 
 
 

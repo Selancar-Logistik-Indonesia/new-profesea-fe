@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Disallow: /home/
+
+Sitemap: https://profesea.id/sitemap.xml

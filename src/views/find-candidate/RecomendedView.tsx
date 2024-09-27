@@ -133,7 +133,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
               </Box>
             </Box>
             <Box sx={{ mt: '16px' }}>
-              {item.last_company && (
+              {item.employee_type === 'onship' && item.last_sea_experience && (
                 <Box
                   sx={{
                     mb: '16px',
@@ -153,7 +153,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                       gap: 1.5
                     }}
                   >
-                    <BoxedText>{item.last_company?.position ?? '-'}</BoxedText>
+                    <BoxedText>{item.last_sea_experience?.vessel_name ?? '-'}</BoxedText>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                       <Typography
                         sx={{
@@ -165,13 +165,59 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                           whiteSpace: 'nowrap'
                         }}
                       >
-                        at {item.last_company?.institution ?? '-'}
+                        at {item.last_sea_experience?.company ?? '-'}
                       </Typography>
                       <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
                       <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${
-                        getMonthYear(item.last_company?.start_date, true) ?? '-'
+                        getMonthYear(item.last_sea_experience.sign_in, true) ?? '-'
                       } - ${
-                        item.last_company?.end_date ? getMonthYear(item.last_company.end_date, true) : 'Present'
+                        item.last_education?.end_date
+                          ? getMonthYear(item.last_sea_experience?.sign_off, true)
+                          : 'Present'
+                      }`}</Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              )}
+              {item.employee_type === 'offship' && item.last_experience && (
+                <Box
+                  sx={{
+                    mb: '16px',
+                    display: 'flex',
+                    flexDirection: isXs ? 'column' : 'row',
+                    alignItems: 'start'
+                  }}
+                >
+                  <Typography sx={{ width: '150px', fontSize: 16, fontWeight: 'bold', mb: isXs ? '4px' : 0 }}>
+                    Last Experience
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: isXs ? 'column' : 'row',
+                      alignItems: isXs ? 'start' : 'center',
+                      gap: 1.5
+                    }}
+                  >
+                    <BoxedText>{item.last_experience.position ?? '-'}</BoxedText>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                      <Typography
+                        sx={{
+                          flexShrink: 1,
+                          fontSize: 14,
+                          fontWeight: 'bold',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        at {item.last_experience.institution ?? '-'}
+                      </Typography>
+                      <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
+                      <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${
+                        getMonthYear(item.last_experience.start_date, true) ?? '-'
+                      } - ${
+                        item.last_experience.end_date ? getMonthYear(item.last_experience.end_date, true) : 'Present'
                       }`}</Typography>
                     </Box>
                   </Box>
