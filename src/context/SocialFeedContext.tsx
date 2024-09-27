@@ -195,7 +195,6 @@ const SocialFeedProvider = (props: Props) => {
 
       return item
     })
-
     setFeeds(newFeedList)
   }
 
@@ -217,7 +216,7 @@ const SocialFeedProvider = (props: Props) => {
 
     setCommentSignature(v4())
 
-    if (feedId) {
+    if (feedId && response.status == 200) {
       const newFeedList = feeds.map(item => {
         if (item.id == feedId) {
           const updatedItem: ISocialFeed = {
@@ -230,7 +229,6 @@ const SocialFeedProvider = (props: Props) => {
 
         return item
       })
-
       setFeeds(newFeedList)
     }
   }
@@ -250,20 +248,21 @@ const SocialFeedProvider = (props: Props) => {
 
     if (replyable_type == 'comment') setSubCommentSignature(v4())
 
-    const newFeedList = feeds.map(item => {
-      if (item.id == feedId) {
-        const updatedItem: ISocialFeed = {
-          ...item,
-          count_comments: item.count_comments + 1
+    if (response.status == 200) {
+      const newFeedList = feeds.map(item => {
+        if (item.id == feedId) {
+          const updatedItem: ISocialFeed = {
+            ...item,
+            count_comments: item.count_comments + 1
+          }
+
+          return updatedItem
         }
 
-        return updatedItem
-      }
-
-      return item
-    })
-
-    setFeeds(newFeedList)
+        return item
+      })
+      setFeeds(newFeedList)
+    }
   }
 
   const getComments = async (feedId: number, page: number, take: number, replyable_type: 'feed' | 'comment') => {

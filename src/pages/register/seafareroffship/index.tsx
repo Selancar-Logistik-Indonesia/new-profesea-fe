@@ -79,7 +79,16 @@ const Register = () => {
   return (
     <>
       <Head>
-        <title>{`${themeConfig.templateName} - Candidate Registration`}</title>
+        <title>{`${themeConfig.templateName} - ${t('register_professional_title')}`}</title>
+        <meta name='description' content={`${themeConfig.templateName} - ${t('register_professional_description')}`} />
+        <meta name='keywords' content={`${t('app_keyword')}`} />
+        <meta name='viewport' content='initial-scale=0.8, width=device-width' />
+        <meta property='og:title' content={`${themeConfig.templateName} - ${t('register_professional_title')}`} />
+        <meta
+          property='og:description'
+          content={`${themeConfig.templateName} - ${t('register_professional_description')}`}
+        />
+        <meta property='og:image' content='images/logosamudera.png' />
       </Head>
       <Box className='content-right'>
         {!hidden ? (

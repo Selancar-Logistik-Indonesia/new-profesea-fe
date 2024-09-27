@@ -25,10 +25,13 @@ const Term = (props: { tosContent: string }) => {
   return (
     <>
       <Head>
-        <title>{`${themeConfig.templateName} - ${t('landing_hero_title')}`}</title>
-        <meta name='description' content={`${themeConfig.templateName} - ${t('landing_about_subtitle')}`} />
+        <title>{`${themeConfig.templateName} - ${t('landing_privacy_title')}`}</title>
+        <meta name='description' content={`${themeConfig.templateName} - ${t('landing_privacy_description')}`} />
         <meta name='keywords' content='tos, term of service, term and condition' />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
+        <meta property='og:title' content={`${themeConfig.templateName} - ${t('landing_privacy_title')}`} />
+        <meta property='og:description' content={`${themeConfig.templateName} - ${t('landing_privacy_description')}`} />
+        <meta property='og:image' content='images/logosamudera.png' />
       </Head>
 
       <Grid container>

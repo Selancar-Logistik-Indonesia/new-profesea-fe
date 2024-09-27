@@ -31,7 +31,6 @@ const SubCommentCard = (props: { comment: ISocialFeedComment; feedId: number }) 
         <Typography variant='body2' sx={{ color: 'black', fontSize: 14, fontWeight: 700 }}>
           {toTitleCase(comment.user.name)}
         </Typography>
-        <Typography sx={{ color: '#949EA2', fontSize: 12, fontWeight: 400 }}>{comment.h_created_at}</Typography>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <Typography variant='body1' sx={{ color: 'black', fontWeight: 400, whiteSpace: 'pre-line' }}>

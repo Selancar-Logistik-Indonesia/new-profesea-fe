@@ -110,7 +110,7 @@ const ButtonShare = (props: { feedPage: string; isXs?: boolean }) => {
         TransitionComponent={Transition}
         maxWidth='md'
       >
-        <DialogContent dividers sx={{ position: 'relative' }}>
+        <DialogContent sx={{ position: 'relative' }}>
           <IconButton
             size='small'
             onClick={() => setOpenDialog(!openDialog)}

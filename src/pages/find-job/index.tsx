@@ -25,6 +25,7 @@ import DialogLogin from 'src/@core/components/login-modal'
 import { useAuth } from 'src/hooks/useAuth'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/router'
+import themeConfig from 'src/configs/themeConfig'
 
 const SeafarerJob = () => {
   const { t } = useTranslation()
@@ -58,9 +59,10 @@ const SeafarerJob = () => {
   return (
     <>
       <Head>
-        <title>Temukan Karier dan Jaringanmu di Profesea</title>
-        <meta property='og:title' content='Temukan Karier dan Jaringanmu di Profesea' />
-        <meta property='og:description' content='Temukan pilihan karier dan jaringan yang ada di Profesea' />
+        <title>{`${themeConfig.templateName} - ${t('landing_findjob_title')}`}</title>
+        <meta name='description' content={`${themeConfig.templateName} - ${t('landing_findjob_description')}`} />
+        <meta property='og:title' content={`${themeConfig.templateName} - ${t('landing_findjob_title')}`} />
+        <meta property='og:description' content={`${themeConfig.templateName} - ${t('landing_findjob_description')}`} />
         <meta property='og:image' content='images/logosamudera.png' />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />

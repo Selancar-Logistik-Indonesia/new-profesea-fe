@@ -7,6 +7,7 @@ import {
   CircularProgress,
   DialogActions,
   DialogContent,
+  Divider,
   Fade,
   FadeProps,
   FormControlLabel,
@@ -124,6 +125,16 @@ const Postfeed = () => {
             <Typography sx={{ textAlign: 'justify' }}>
               In the event of non-compliance, our platform reserves the right to remove or delete the post to ensure the
               safety of all users.
+            </Typography>
+            <Divider />
+            <Typography sx={{ textAlign: 'justify' }}>
+              Pastikan postingan Anda tidak mengandung informasi pribadi sensitif seperti nomor identitas, paspor, SIM,
+              alamat rumah, informasi sertifikasi, kata sandi, atau data lain yang dapat membahayakan keamanan dan
+              privasi Anda.
+            </Typography>
+            <Typography sx={{ textAlign: 'justify' }}>
+              Jika terjadi pelanggaran, platform kami berhak untuk menghapus atau menghilangkan postingan tersebut demi
+              menjaga keamanan semua pengguna.
             </Typography>
             <FormControlLabel
               control={<Checkbox checked={checked} onChange={event => isChecked(event.target.checked)} />}

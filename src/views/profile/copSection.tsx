@@ -12,9 +12,10 @@ import { Icon } from '@iconify/react'
 
 interface ICopSectionProps {
   userId: number
+  userName: string
 }
 
-const CopSection: React.FC<ICopSectionProps> = ({ userId }) => {
+const CopSection: React.FC<ICopSectionProps> = ({ userId, userName }) => {
   const [data, setData] = useState<ISeafarerProficiencyData[]>([])
   const [visibleCount, setVisibleCount] = useState<number>(3) // Number of visible items initially
   const [showMoreClicked, setShowMoreClicked] = useState(false)
@@ -45,7 +46,7 @@ const CopSection: React.FC<ICopSectionProps> = ({ userId }) => {
 
   useEffect(() => {
     loadProficiency()
-  }, [])
+  }, [userId])
 
   return (
     <Box sx={{ borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
@@ -54,7 +55,15 @@ const CopSection: React.FC<ICopSectionProps> = ({ userId }) => {
           Certificate of Proficiency
         </Typography>
         <Typography sx={{ mb: '10px', color: 'black', fontSize: 14, fontWeight: '400' }}>
-          You Have <span style={{ color: 'rgba(50, 73, 122, 1)' }}>{data.length} Certificates</span>
+          {userId === user?.id ? (
+            <>
+              You Have <span style={{ color: 'rgba(50, 73, 122, 1)' }}>{data.length} Certificates.</span>
+            </>
+          ) : (
+            <>
+              {userName} has <span style={{ color: 'rgba(50, 73, 122, 1)' }}>{data.length} Certificates.</span>
+            </>
+          )}
         </Typography>
         {data && data.length > 0
           ? data.slice(0, visibleCount).map((item, index) => (

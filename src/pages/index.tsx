@@ -9,7 +9,6 @@ import FeatureView from 'src/views/landing-page/featureView'
 import LetsSailView from 'src/views/landing-page/letsSailView'
 import FooterView from 'src/views/landing-page/footerView'
 import Head from 'next/head'
-import themeConfig from 'src/configs/themeConfig'
 import CarouselNewsView from 'src/views/landing-page/carouselnews'
 import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
@@ -40,10 +39,13 @@ const Main = () => {
   return (
     <>
       <Head>
-        <title>{`${themeConfig.templateName} - ${t('landing_hero_title')}`}</title>
-        <meta name='description' content={`${themeConfig.templateName} - ${t('landing_about_subtitle')}`} />
+        <title>{`${t('landing_hero_title')}`}</title>
+        <meta name='description' content={`${t('landing_hero_subtitle')}`} />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
+        <meta name='og:title' content={`${t('landing_hero_title')}`} />
+        <meta name='og:description' content={`${t('landing_hero_subtitle')}`} />
+        <meta property='og:image' content='images/logosamudera.png' />
       </Head>
 
       <Grid container sx={landingPageStyle.bannerHero}>
