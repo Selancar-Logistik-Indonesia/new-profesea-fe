@@ -135,7 +135,7 @@ const NotificationItem = (props: { item: NotificationsType }) => {
             <Box sx={{ mx: 4 }}>
               <MenuItemTitle
                 sx={{ fontSize: '14px', fontWeight: 400, wordBreak: 'break-all', width: '85%' }}
-                title={JSON.stringify(item)}
+                title={item.subtitle}
               >
                 {item.subtitle}
               </MenuItemTitle>
