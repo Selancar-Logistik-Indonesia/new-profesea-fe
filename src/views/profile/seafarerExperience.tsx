@@ -30,7 +30,7 @@ const SeafarerExperience: React.FC<ISeafarerExperienceProps> = ({ userId }) => {
 
   useEffect(() => {
     loadExperience()
-  }, [])
+  }, [userId])
 
   return (
     <Box sx={{ borderRadius: '16px', backgroundColor: '#FFFFFF', boxShadow: 3, overflow: 'hidden' }}>
@@ -44,7 +44,10 @@ const SeafarerExperience: React.FC<ISeafarerExperienceProps> = ({ userId }) => {
                 key={index}
                 sx={{
                   display: 'flex',
-                  borderBottom: '1px solid var(--light-action-disabled-background, rgba(76, 78, 100, 0.12))'
+                  borderBottom:
+                    data.length - 1 == index
+                      ? ''
+                      : '1px solid var(--light-action-disabled-background, rgba(76, 78, 100, 0.12))'
                 }}
               >
                 <Box
@@ -63,9 +66,7 @@ const SeafarerExperience: React.FC<ISeafarerExperienceProps> = ({ userId }) => {
                     >
                       {item?.rank?.name}
                     </Typography>
-                    <Typography
-                      sx={{ color: 'rgba(82, 82, 82, 1)', fontWeight: 400, fontSize: '14px', lineHeight: '21px' }}
-                    >
+                    <Typography sx={{ color: '#868686', fontWeight: 300, fontSize: '14px', lineHeight: '21px' }}>
                       {item?.sign_in && item?.sign_off
                         ? format(new Date(item?.sign_in), 'LLL yyyy') +
                           ' - ' +
@@ -76,7 +77,7 @@ const SeafarerExperience: React.FC<ISeafarerExperienceProps> = ({ userId }) => {
                   <Typography
                     sx={{
                       color: 'rgba(45, 52, 54, 1)',
-                      fontWeight: 400,
+                      fontWeight: 300,
                       fontSize: '14px',
                       lineHeight: '21px',
                       textTransform: 'capitalize'

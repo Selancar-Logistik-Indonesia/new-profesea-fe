@@ -10,8 +10,8 @@ type ButtonLikeParam = {
   count_likes: number
 }
 
-const ButtonLike = (props: { item: ButtonLikeParam; likeableType: string; variant?: 'no-icon' }) => {
-  const { item, likeableType, variant } = props
+const ButtonLike = (props: { item: ButtonLikeParam; likeableType: string; variant?: 'no-icon'; isXs?: boolean }) => {
+  const { item, likeableType, variant, isXs } = props
   const { likeUnlikeFeed } = useSocialFeed()
   const [onLoading, setOnLoading] = useState(false)
   const [likedAt, setLikedAt] = useState(item.liked_at)
@@ -38,7 +38,7 @@ const ButtonLike = (props: { item: ButtonLikeParam; likeableType: string; varian
       }}
       onClick={handleClick}
       startIcon={
-        variant === 'no-icon' ? undefined : (
+        variant === 'no-icon' || isXs ? undefined : (
           <Icon icon={!likedAt ? 'ph:thumbs-up' : 'ph:thumbs-up-fill'} fontSize={16} />
         )
       }

@@ -1,10 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
-   <url>
-    <loc>https://profesea.id/news/Dapat%20Undangan%20Interview/</loc>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+    <url>
+    <loc>https://profesea.id/find-job/</loc>
+    <lastmod>2024-07-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1</priority>
   </url>
   <url>
-    <loc>https://profesea.id/news/Cerita%20Pelaut%20Profesea/</loc>
+    <loc>https://profesea.id/employer/</loc>
+    <lastmod>2024-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
-    
+  <url>
+    <loc>https://profesea.id/news/</loc>
+    <lastmod>2024-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profesea.id/register/</loc>
+    <lastmod>2024-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://profesea.id/register/seafareronship/</loc>
+    <lastmod>2024-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://profesea.id/register/trainings/</loc>
+    <lastmod>2024-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://profesea.id/privacy/</loc>
+    <lastmod>2024-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://profesea.id/faqs/</loc>
+    <lastmod>2024-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
 </urlset>

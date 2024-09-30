@@ -17,6 +17,7 @@ import { HttpClient } from 'src/services'
 import INews from 'src/contract/models/news'
 import moment from 'moment'
 import Link from 'next/link'
+import themeConfig from 'src/configs/themeConfig'
 
 interface INewsCategory {
   id: number
@@ -123,27 +124,22 @@ const NewsPage = () => {
     setTabValue(newValue)
   }
 
-  const truncateText = (text: string, maxLength: number) => {
-    if (text.length <= maxLength) {
-      return text
-    }
+  // const truncateText = (text: string, maxLength: number) => {
+  //   if (text.length <= maxLength) {
+  //     return text
+  //   }
 
-    return text.substring(0, maxLength) + '...'
-  }
+  //   return text.substring(0, maxLength) + '...'
+  // }
 
   return (
     <>
       <Head>
-        <title>Profesea News - Temukan berita, informasi, dan tren terbaru di Industri maritim dan logistik</title>
-        <meta
-          name='title'
-          content='Profesea News - Temukan berita, informasi, dan tren terbaru di Industri maritim dan logistik'
-        />
-        <meta
-          name='description'
-          content='Temukan berita, informasi, dan tren terbaru di Industri maritim dan logistik di Profesea News!
-'
-        />
+        <title>{`${themeConfig.templateName} - ${t('landing_news_title')}`}</title>
+        <meta property='og:title' content={`${themeConfig.templateName} - ${t('landing_news_title')}`} />
+        <meta property='og:description' content={`${t('landing_news_description')}`} />
+        <meta property='og:image' content='images/logosamudera.png' />
+        <meta name='description' content={`${t('landing_news_description')}`} />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
       </Head>
@@ -437,7 +433,7 @@ const NewsPage = () => {
                           </Typography>
                         </Link>
                         <Typography fontWeight={400} fontSize={16}>
-                          {truncateText(n?.snap_content, 400)}
+                          {n?.snap_content ? n?.snap_content : '-'}
                         </Typography>
                       </Box>
                       <Box>

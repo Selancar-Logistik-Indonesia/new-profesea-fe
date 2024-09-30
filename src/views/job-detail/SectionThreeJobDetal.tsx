@@ -40,12 +40,88 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
     }
   }
 
+  const renderHowYouMatch = (missing: any[], match: any[], companyLicenses: any[]) => {
+    // full match
+    if (missing.length === 0) {
+      return (
+        <Typography sx={{ color: '#4CAF50', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+          <Box component='span'>
+            {/* jika missing 0 maka dia full match, jika missing tidak nol maka ada 2 kondisi bisa partial ataupun 0 match ceritificate */}
+            {match.length} / {companyLicenses.length}
+          </Box>{' '}
+          Certificate match your profile - Anda berpeluang besar mendapatkan pekerjaan ini.
+        </Typography>
+      )
+    }
+
+    // partial match
+    if (match.length != 0 && missing.length != 0) {
+      return (
+        <Typography sx={{ color: '#FF9800', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+          <Box component='span'>
+            {/* jika missing 0 maka dia full match, jika missing tidak nol maka ada 2 kondisi bisa partial ataupun 0 match ceritificate */}
+            {match.length} / {companyLicenses.length}
+          </Box>{' '}
+          Certificate match your profile - Tambahkan lebih banyak sertifikat untuk meningkatkan peluang Anda.
+        </Typography>
+      )
+    }
+
+    // zero match
+    if (match.length === 0 && missing.length != 0) {
+      return (
+        <Typography sx={{ color: '#868686', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
+          <Box component='span'>
+            {/* jika missing 0 maka dia full match, jika missing tidak nol maka ada 2 kondisi bisa partial ataupun 0 match ceritificate */}
+            {match.length}
+          </Box>{' '}
+          Certificates match your profile - Pertimbangkan untuk menambahkan sertifikat yang relevan agar peluang Anda
+          lebih baik.
+        </Typography>
+      )
+    }
+  }
+
+  const renderCheckList = (licenseId: any, license: any[], type: any, index: any, title: any) => {
+    const check =
+      type === 'COC'
+        ? license.findIndex((l: any) => l.coc_id === licenseId)
+        : license.findIndex((l: any) => l.cop_id === licenseId)
+
+    if (check !== -1) {
+      return (
+        <Typography
+          key={index}
+          sx={{ color: '#4CAF50', display: 'flex', alignItems: 'center', gap: 2 }}
+          ml='0.5rem'
+          mt='0.2rem'
+          fontSize={10}
+        >
+          <Icon icon='ion:checkbox-outline' color='#4CAF50' fontSize={'18px'} /> {title}
+        </Typography>
+      )
+    }
+
+    return (
+      <Typography
+        key={index}
+        sx={{ color: 'text.primary', display: 'flex', alignItems: 'center', gap: 2 }}
+        ml='0.5rem'
+        mt='0.2rem'
+        fontSize={10}
+      >
+        <Icon icon='carbon:checkbox' color='#32487A' fontSize={'18px'} /> {title}
+      </Typography>
+    )
+  }
+
   const match = findLicensesFromUser(license, companyLicenses).match
+
   const missing = findLicensesFromUser(license, companyLicenses).missing
 
   return (
     <>
-      {!isCompany && (
+      {!isCompany && companyLicenses.length != 0 && (
         <Box
           sx={{
             display: 'flex',
@@ -57,7 +133,13 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
         >
           <Box>
             <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
-              <strong>How You match</strong>
+              <strong>See How You match</strong>
+            </Typography>
+          </Box>
+          <Box>
+            <Typography mt='0.2rem' sx={{ fontWeight: '400' }} fontSize={14}>
+              Easily track your progress with our certificate matching feature. Find out how well your certifications
+              align with the job’s requirements
             </Typography>
           </Box>
           <Grid ml='0.7rem' container>
@@ -65,17 +147,7 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
               <Icon icon='clarity:certificate-solid' color='#32487A' fontSize={'35px'} />
             </Grid>
             <Grid item xs={11} sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography
-                sx={{ color: match.length == 0 ? 'red' : 'text.primary', fontWeight: 900 }}
-                ml='0.5rem'
-                mt='0.2rem'
-                fontSize={12}
-              >
-                <Box component='span' sx={missing.length != 0 ? { color: 'error.dark' } : {}}>
-                  {match.length}
-                </Box>{' '}
-                Certificates match your profile
-              </Typography>
+              {renderHowYouMatch(missing, match, companyLicenses)}
             </Grid>
           </Grid>
         </Box>
@@ -90,69 +162,22 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
           borderBottom: theme => `1px solid ${theme.palette.divider}`
         }}
       >
-        <Box>
-          <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
-            <strong>Mandatory Certificates</strong>
-          </Typography>
-        </Box>
-        <Grid ml='0.7rem' container>
-          <Grid item>
-            <Icon icon='el:check' color='#32487A' fontSize={'18px'} />
-          </Grid>
-          <Grid item xs={11}>
-            <Typography sx={{ color: 'text.primary', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-              {companyLicenses.length} Certificates required by the company
+        {companyLicenses.length != 0 && (
+          <Box>
+            <Typography mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={16}>
+              <strong>Mandatory Certificates</strong>
             </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              {companyLicenses.map((c, i) => {
-                return (
-                  <Typography
-                    key={i}
-                    sx={{ color: 'text.primary', display: 'flex', alignItems: 'center', gap: 2 }}
-                    ml='0.5rem'
-                    mt='0.2rem'
-                    fontSize={10}
-                  >
-                    <div style={{ width: '5px', height: '5px', backgroundColor: 'black', borderRadius: '50%' }} />{' '}
-                    {c?.title}
-                  </Typography>
-                )
-              })}
-            </Box>
-          </Grid>
-        </Grid>
-        {missing.length > 0 && (
-          <Grid ml='0.7rem' container>
-            <Grid item>
-              <Icon icon='healthicons:alert-negative' color='#d32f2f' fontSize={'18px'} />
-            </Grid>
-            <Grid item xs={11}>
-              <Typography sx={{ color: 'text.primary', fontWeight: 900 }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                <Box component='span' sx={{ color: 'error.dark' }}>
-                  {missing.length}
-                </Box>{' '}
-                Certificates missing on your profile
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                {companyLicenses.map((license, i) => {
-                  return (
-                    <Typography
-                      key={i}
-                      sx={{ color: 'text.primary', display: 'flex', alignItems: 'center', gap: 2 }}
-                      ml='0.5rem'
-                      mt='0.2rem'
-                      fontSize={10}
-                    >
-                      <div style={{ width: '5px', height: '5px', backgroundColor: 'black', borderRadius: '50%' }} />{' '}
-                      {license?.title}
-                    </Typography>
-                  )
-                })}
-              </Box>
-            </Grid>
-          </Grid>
+          </Box>
         )}
-        {match?.length == 0 && !isCompany && (
+
+        <Grid ml='0.7rem' container>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            {companyLicenses.map((c, i) => {
+              return renderCheckList(c?.id, license as unknown as any[], c.parent, i, c?.title)
+            })}
+          </Box>
+        </Grid>
+        {match?.length == 0 && !isCompany && companyLicenses.length != 0 && (
           <Grid container>
             <Grid
               item

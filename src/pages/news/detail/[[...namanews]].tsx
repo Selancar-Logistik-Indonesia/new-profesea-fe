@@ -30,6 +30,8 @@ import Link from 'next/link'
 
 import Spinner from 'src/@core/components/spinner'
 
+// import './detail.css'
+
 const detailContentWrapper: SxProps<Theme> = {
   display: 'flex',
   gap: {
@@ -288,9 +290,9 @@ const ThreadApp = () => {
           {/* Content */}
           <Grid item xs={12} sx={{ my: 4, ...detailContentWrapper, gap: 8 }}>
             <Box sx={{ ...detailContentLeft, background: '#FFF', padding: '24px', borderRadius: '16px' }}>
-              <Typography variant='body2' fontSize={14} style={{ color: '#424242', fontFamily: 'Outfit' }}>
+              <Box fontSize={14} style={{ color: '#424242', fontFamily: 'Outfit !important' }}>
                 {ReactHtmlParser(`${threadDetail?.content}`)}
-              </Typography>
+              </Box>
             </Box>
             <Box sx={{ ...detailContentRight, position: 'relative' }}>
               <Box sx={{ borderRadius: '16px' }}>

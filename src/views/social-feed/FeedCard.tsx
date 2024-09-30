@@ -1,8 +1,7 @@
-import { Avatar, CardMedia, Divider, Grid, Paper, Typography, Box } from '@mui/material'
+import { Avatar, Divider, Grid, Paper, Typography, Box } from '@mui/material'
 import ISocialFeed from 'src/contract/models/social_feed'
 import { getUserAvatar, toLinkCase, toTitleCase } from 'src/utils/helpers'
 import { useState } from 'react'
-import { AppConfig } from 'src/configs/api'
 import CommentAreaView from './CommentAreaView'
 import Link from 'next/link'
 import { Icon } from '@iconify/react'
@@ -23,22 +22,12 @@ type Prop = {
 
 const FeedCard = (props: Prop) => {
   const { item, withBottomArea, type } = props
-  const [openComment, setOpenComment] = useState(false)
-  const [openUpdate, setOpenUpdate] = useState(false)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  const attachments = item.attachments
+  const [openComment, setOpenComment] = useState(false)
 
   const profileLink = `/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(
     item.user?.username
   )}`
-
-  const isStatusLink = (link: string) => {
-    if (!link) {
-      return `/login/?returnUrl=` + link
-    }
-
-    return link
-  }
 
   return (
     <Grid item xs={12} sx={{ mt: type ? 0 : '16px' }}>
@@ -58,7 +47,7 @@ const FeedCard = (props: Prop) => {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <Avatar
                 component={Link}
-                href={isStatusLink(profileLink)}
+                href={profileLink}
                 alt='profile-picture'
                 src={getUserAvatar(item.user)}
                 sx={{ width: 36, height: 36 }}
@@ -66,7 +55,7 @@ const FeedCard = (props: Prop) => {
               <Box>
                 <Typography
                   component={Link}
-                  href={isStatusLink(profileLink)}
+                  href={profileLink}
                   sx={{ fontSize: '16px', fontWeight: 'bold', color: 'black' }}
                 >
                   {toTitleCase(item.user.name)}
@@ -86,15 +75,7 @@ const FeedCard = (props: Prop) => {
           </Typography>
         </Box>
         <Box sx={{ mx: '-24px', display: 'flex', flexDirection: 'column' }}>
-          {item.content_type === 'images' && <ImageListFeed item={item} />}
-          {item.content_type === 'videos' && (
-            <CardMedia
-              sx={{ width: '100%' }}
-              component='video'
-              controls
-              src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments![0]}`}
-            />
-          )}
+          {item.content_type !== 'text' && <ImageListFeed item={item} />}
           {item.feed_repost && (
             <Box sx={{ px: '24px' }}>
               <FeedCard item={item.feed_repost} withBottomArea={false} user={user} type='repost' />
@@ -112,28 +93,12 @@ const FeedCard = (props: Prop) => {
           </Box>
         </Box>
         {withBottomArea !== false && (
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <Divider sx={{ border: '1px solid #DDDDDD' }} />
-            <FeedBottomActions
-              item={item}
-              openComment={openComment}
-              setOpenComment={setOpenComment}
-              setOpenUpdate={setOpenUpdate}
-              openUpdate={openUpdate}
-            />
+            <FeedBottomActions item={item} openComment={openComment} setOpenComment={setOpenComment} />
           </Box>
         )}
-        {withBottomArea !== false && openComment && <CommentAreaView item={item} />}
-        {/* {withBottomArea !== false && openUpdate && (
-          <>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }} mt={2} ml={2}>
-              <Typography sx={{ color: '#262525', fontWeight: 600, fontSize: '12px' }}>
-                Update your Post here :
-              </Typography>
-            </Box>
-            <PostFeedUpdate feed={item} />
-          </>
-        )} */}
+        {withBottomArea !== false && <CommentAreaView item={item} />}
       </Paper>
     </Grid>
   )
