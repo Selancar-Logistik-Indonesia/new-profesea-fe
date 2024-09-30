@@ -46,9 +46,9 @@ const renderList = (arr: IUser[]) => {
                 <Typography
                   sx={{
                     color: 'black',
-                    wordBreak: 'break-word',
                     fontWeight: 'bold',
-                    fontSize: 16
+                    fontSize: 16,
+                    wordBreak: 'break-word'
                   }}
                 >
                   {toTitleCase(item.username)}
