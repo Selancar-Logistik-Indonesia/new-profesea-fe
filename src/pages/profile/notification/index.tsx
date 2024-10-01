@@ -11,7 +11,7 @@ import style from './../../../../styles/css/NotificationPage.module.css'
 import AllNotificationTab from './AllNotificationTab'
 import UnreadNotificationTab from './UnreadNotificationTab'
 
-import NotificationsType from './NotificationsType'
+import { NotificationsTypeProps } from './NotificationItem'
 import { HttpClient } from 'src/services'
 import INotification from 'src/contract/models/notification'
 import buildNotifies from './buildNotifies'
@@ -24,8 +24,8 @@ function Notification() {
 
   const [tab, setTab] = useState('1')
   const [showMarkConfirm, setShowMarkConfirm] = useState(false)
-  const [notifies, setNotifies] = useState<NotificationsType[]>([])
-  const [unreadNotifies, setUnreadNotifies] = useState<NotificationsType[]>([])
+  const [notifies, setNotifies] = useState<NotificationsTypeProps[]>([])
+  const [unreadNotifies, setUnreadNotifies] = useState<NotificationsTypeProps[]>([])
   const [onLoading, setOnLoading] = useState<boolean>(false)
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
