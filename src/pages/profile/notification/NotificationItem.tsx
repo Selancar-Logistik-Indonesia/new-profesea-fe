@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 
 import { Avatar, Box, ListItem, ListItemAvatar, ListItemText } from '@mui/material'
 import style from './../../../../styles/css/NotificationTab.module.css'
@@ -10,10 +10,10 @@ import { toLinkCase } from 'src/utils/helpers'
 import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
 
-import { NotificationsType } from './../../../types/apps/NotificationsType'
 import NotificationType from 'src/contract/types/notification_type'
 
 import FriendshipIssuingDialog from 'src/@core/layouts/components/shared-components/FriendshipIssuingDialog'
+import { ThemeColor } from 'src/@core/layouts/types'
 
 interface Iprops {
   item: any
@@ -21,7 +21,34 @@ interface Iprops {
   getNotifications: VoidFunction
 }
 
-const RenderAvatar = ({ notification }: { notification: NotificationsType }) => {
+export type NotificationsTypeProps = {
+  id: string
+  meta: string
+  title: string
+  subtitle: JSX.Element
+  type: string
+  read_at?: string
+  payload?: any
+  data?: any
+} & (
+  | { avatarAlt: string; avatarImg: string; avatarText?: never; avatarColor?: never; avatarIcon?: never }
+  | {
+      avatarAlt?: never
+      avatarImg?: never
+      avatarText: string
+      avatarIcon?: never
+      avatarColor?: ThemeColor
+    }
+  | {
+      avatarAlt?: never
+      avatarImg?: never
+      avatarText?: never
+      avatarIcon: ReactNode
+      avatarColor?: ThemeColor
+    }
+)
+
+const RenderAvatar = ({ notification }: { notification: NotificationsTypeProps }) => {
   const { avatarAlt, avatarIcon, avatarText, avatarColor, payload } = notification
 
   if (payload?.photo) {

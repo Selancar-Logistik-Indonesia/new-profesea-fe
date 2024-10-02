@@ -11,6 +11,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import DialogShare from './shareDialog'
 import ConnectButton from 'src/layouts/components/ConnectButton'
 import { useRouter } from 'next/navigation'
+import TextOverImage from './photoprofile'
 
 // import MessageButton from 'src/layouts/components/MessageButton'
 
@@ -28,6 +29,7 @@ const SocialMedia = (props: { icon: string; type: string; link?: string }) => {
 }
 
 const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
+  console.log(dataUser)
   const { user } = useAuth()
   const [openShare, setOpenShare] = useState(false)
   const [connections, setConnections] = useState<number>(0)
@@ -101,11 +103,10 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
         />
         <Grid container sx={{ p: '24px', display: 'flex', gap: '12px' }}>
           <Grid item xs={12} md={true} sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <Box
-              component='img'
-              alt='profile-picture'
-              src={getUserAvatar(dataUser!)}
-              sx={{ mt: '-90px', width: 120, height: 120, border: '5px solid white', borderRadius: '12px' }}
+            <TextOverImage
+              imageUrl={getUserAvatar(dataUser!)}
+              text='Open To Work'
+              showText={dataUser?.field_preference?.open_to_opp === 1 ? true : false}
             />
             <Box>
               <Typography sx={{ fontSize: 24, fontWeight: 'bold', mb: '8px' }}>{dataUser.name}</Typography>

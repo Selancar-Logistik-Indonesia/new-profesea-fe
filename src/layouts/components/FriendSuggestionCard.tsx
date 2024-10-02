@@ -31,18 +31,26 @@ const renderList = (arr: IUser[]) => {
           sx={{
             display: 'flex',
             gap: '12px',
-            flexDirection: 'row'
+            flexDirection: 'row',
+            flexWrap: 'nowrap'
           }}
         >
           <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 44, height: 44 }} />
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <Link
                 style={{ textDecoration: 'none' }}
                 href={`/${item.role === 'Seafarer' ? 'profile' : 'company'}/${item.id}/${toLinkCase(item.username)}`}
                 target='_blank'
               >
-                <Typography sx={{ color: 'black', fontWeight: 'bold', fontSize: 16 }}>
+                <Typography
+                  sx={{
+                    color: 'black',
+                    fontWeight: 'bold',
+                    fontSize: 16,
+                    wordBreak: 'break-word'
+                  }}
+                >
                   {toTitleCase(item.username)}
                 </Typography>
               </Link>
