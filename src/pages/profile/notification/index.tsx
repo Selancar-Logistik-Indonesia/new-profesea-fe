@@ -12,7 +12,7 @@ import style from './../../../../styles/css/NotificationPage.module.css'
 import AllNotificationTab from './AllNotificationTab'
 import UnreadNotificationTab from './UnreadNotificationTab'
 
-import { NotificationsType } from './NotificationsType'
+import { NotificationsType } from './../../../types/apps/NotificationsType'
 import { HttpClient } from 'src/services'
 import INotification from 'src/contract/models/notification'
 import buildNotifies from './buildNotifies'

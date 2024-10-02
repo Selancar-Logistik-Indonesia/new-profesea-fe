@@ -10,7 +10,7 @@ import { toLinkCase } from 'src/utils/helpers'
 import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
 
-import { NotificationsType } from './NotificationsType'
+import { NotificationsType } from './../../../types/apps/NotificationsType'
 import NotificationType from 'src/contract/types/notification_type'
 
 import FriendshipIssuingDialog from 'src/@core/layouts/components/shared-components/FriendshipIssuingDialog'
