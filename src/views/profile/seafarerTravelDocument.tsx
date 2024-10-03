@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import secureLocalStorage from 'react-secure-storage'
@@ -97,6 +97,29 @@ const SeafarerTravelDocument: React.FC<ISeafarerTravelDocumentProps> = ({ userId
                     Travel Document No.{' '}
                     <span style={{ fontWeight: 400 }}>{isDataHidden ? '***** ***** *****' : item?.no}</span>
                   </Typography>
+                  {!isDataHidden && (
+                    <Button
+                      variant='outlined'
+                      sx={{
+                        width: { sm: '100%', md: '136px' },
+                        height: '37px',
+                        borderColor: 'rgba(50, 73, 122, 1) !important',
+                        textTransform: 'capitalize',
+                        fontWeight: 400,
+                        fontSize: { sm: '14px', md: '11px' },
+                        lineHeight: '21px',
+                        color: 'rgba(50, 73, 122, 1) !important'
+                      }}
+                      onClick={() =>
+                        window.open(
+                          `${process.env.NEXT_PUBLIC_BASE_API}/public/data/travel-document/preview/${item?.id}`,
+                          '_blank'
+                        )
+                      }
+                    >
+                      Show Credential
+                    </Button>
+                  )}
                 </Box>
               </Box>
             ))
