@@ -74,6 +74,7 @@ const NotificationItem = (props: { item: NotificationsType }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
   const { user } = useAuth()
   const router = useRouter()
+  const newApplicantJobId = item?.data?.job?.id
 
   const handleClick = async () => {
     setDialogOpen(true)
@@ -83,11 +84,11 @@ const NotificationItem = (props: { item: NotificationsType }) => {
 
     switch (item.type) {
       case NotificationType.applicantApplied:
-        router.push(`/candidate/find-job/?tabs=2`)
+        router.push(`/candidate/job/${toLinkCase(item?.data?.company?.name)}/${newApplicantJobId}/`)
+        // router.push(`/candidate/find-job/?tabs=2`)
         break
 
       case NotificationType.newApplicant:
-        const newApplicantJobId = item?.data?.job?.id
         const newApplicantName = item?.data?.candidate?.name
         if (!newApplicantJobId) {
           return
