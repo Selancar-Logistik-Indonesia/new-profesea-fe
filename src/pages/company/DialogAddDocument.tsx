@@ -63,12 +63,6 @@ const DialogAddDocument = (props: DialogProps) => {
   const [selectedFiles, setSelectedFiles] = useState<ISelectedFile[]>([])
   const userSession = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
-  useEffect(() => {
-    setOnLoading(true)
-    HttpClient.patch('/user/crewing-status', { isCrewing: isCrewing ? 'yes' : 'no' }).finally(() => setOnLoading(false))
-    // .catch((err) => alert(err));
-  }, [isCrewing])
-
   const { handleSubmit } = useForm<FormData>({
     mode: 'onBlur'
   })
@@ -113,6 +107,7 @@ const DialogAddDocument = (props: DialogProps) => {
     try {
       let tidakada = true
       let mandatorySiupak = true
+      await HttpClient.patch('/user/crewing-status', { isCrewing: isCrewing ? 'yes' : 'no' })
 
       for (let x = 0; x < props.arrayhead.length; x++) {
         const element = props.arrayhead[x]
