@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement, useState, useEffect } from 'react'
+import { Ref, forwardRef, ReactElement, useState } from 'react'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import Button from '@mui/material/Button'
