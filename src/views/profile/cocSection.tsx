@@ -119,7 +119,7 @@ const CocSection: React.FC<ICocSectionProps> = ({ userId, userName }) => {
                       {isDataHidden ? '***** ***** *****' : item?.certificate_number}
                     </span>
                   </Typography>
-                  {!isDataHidden && (
+                  {!isDataHidden && item?.filename && (
                     <Button
                       variant='outlined'
                       sx={{

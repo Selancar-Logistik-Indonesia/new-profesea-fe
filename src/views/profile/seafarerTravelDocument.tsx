@@ -97,7 +97,7 @@ const SeafarerTravelDocument: React.FC<ISeafarerTravelDocumentProps> = ({ userId
                     Travel Document No.{' '}
                     <span style={{ fontWeight: 400 }}>{isDataHidden ? '***** ***** *****' : item?.no}</span>
                   </Typography>
-                  {!isDataHidden && (
+                  {!isDataHidden && item?.filename && (
                     <Button
                       variant='outlined'
                       sx={{
