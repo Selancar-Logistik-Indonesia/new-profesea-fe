@@ -40,7 +40,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
           <Grid item container xs={12}>
             <img
               alt='logo'
-              src={item.logo ? item.logo : '/images/educationalinfo.png'}
+              src={item.logo ? item.logo : '/images/work-experience.png'}
               style={{
                 width: '100px',
                 height: '100px',
