@@ -1,10 +1,10 @@
-import { Box, Divider, Grid, IconButton, Typography } from '@mui/material'
+import { Box, Grid, IconButton, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { styled } from '@mui/material/styles'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 
-const LinkStyled = styled(Link)(({ theme }) => ({
+const LinkStyled = styled(Link)(() => ({
   display: 'flex',
   alignItems: 'center',
   textDecoration: 'none'

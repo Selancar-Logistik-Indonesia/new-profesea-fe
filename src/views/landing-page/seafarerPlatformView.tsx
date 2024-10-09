@@ -49,7 +49,7 @@ const JobCard = ({ jobs }: { jobs: Job[] | null }) => {
             const link = `/job/${companyNameUrl}/${job.id}/${jobTitleUrl}`
 
             return (
-              <Grid item xs={12} md={3} component={Link} href={link}>
+              <Grid item key={i} xs={12} md={3} component={Link} href={link}>
                 <Paper
                   sx={{
                     padding: '12px',
@@ -167,10 +167,10 @@ const JobCard = ({ jobs }: { jobs: Job[] | null }) => {
 
 const SeafarerPlatformView = () => {
   const [jobs, setJobs] = useState<Job[] | null>(null)
-  const [onLoading, setOnLoading] = useState(false)
+  //   const [onLoading, setOnLoading] = useState(false)
 
   const fetchJobs = async () => {
-    setOnLoading(true)
+    // setOnLoading(true)
     try {
       const resp = await HttpClient.get(`/public/data/job`, {
         page: 1,
@@ -186,7 +186,7 @@ const SeafarerPlatformView = () => {
       console.error(error)
     }
 
-    setOnLoading(false)
+    // setOnLoading(false)
   }
 
   useEffect(() => {

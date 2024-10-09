@@ -111,8 +111,8 @@ const NewsView = () => {
       <Grid item container sx={{ display: 'flex', flexWrap: 'nowrap' }} spacing={8}>
         {!onLoading &&
           listNews?.map((news, i) => (
-            <Grid item xs={12} md={4}>
-              <NewsCard key={i} item={news} />
+            <Grid item key={i} xs={12} md={4}>
+              <NewsCard item={news} />
             </Grid>
           ))}
       </Grid>
