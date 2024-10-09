@@ -122,11 +122,10 @@ const ThreadApp = () => {
                           color: '#000000',
                           fontWeight: 300,
                           fontSize: 14,
-                          fontFamily: 'Outfit',
                           alignContent: 'justify'
                         }}
                       >
-                        <div style={{ fontFamily: 'Outfit', fontSize: '14px', fontWeight: '300', color: '#0000000' }}>
+                        <div style={{ fontSize: '14px', fontWeight: '300', color: '#0000000' }}>
                           {ReactHtmlParser(`${threadDetail?.content}`)}
                         </div>
                       </Typography>

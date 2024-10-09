@@ -220,7 +220,6 @@ const JobDetail = () => {
                                 ml='0.5rem'
                                 fontSize={12}
                                 fontWeight={400}
-                                fontFamily={'Outfit'}
                                 textAlign={'justify'}
                               >
                                 {jobDetail?.company?.about}

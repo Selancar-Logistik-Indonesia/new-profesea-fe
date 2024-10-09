@@ -2,12 +2,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+
 html,
 body {
   min-height: 100%;
-  font-family: 'Outfit';
+  font-family: Figtree;
   color: '#262525';
+  background-color: #f8f8f7 !important;
 }
 
 #__next {
@@ -15,7 +17,7 @@ body {
 }
 
 code {
-  font-family: 'Outfit', sans-serif;
+  font-family: Figtree, sans-serif;
   padding: 0.1rem 0.4rem;
   font-size: 90%;
   color: '#262525';
@@ -31,11 +33,11 @@ code[class*='language-'] {
   padding: 0;
 }
 
-.MuiPaper-root{
+.MuiPaper-root {
   border-radius: 5px !important;
 }
 
-.MuiButton-root{
+.MuiButton-root {
   border-radius: 5px !important;
 }
 
@@ -44,14 +46,13 @@ a {
 }
 
 h1 {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-weight: 300;
 }
 
 span {
-  font-family: "Outfit" !important;  
+  font-family: Figtree;
 }
-
 
 .row {
   max-width: 900px;
@@ -62,10 +63,6 @@ span {
   margin: 0 auto;
 }
 
-
-body {
-  background-color: #000;
-}
 .ag-courses_box {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -131,9 +128,9 @@ body {
   font-weight: 300;
   color: #000;
 
-  -webkit-transition: color .5s ease;
-  -o-transition: color .5s ease;
-  transition: color .5s ease
+  -webkit-transition: color 0.5s ease;
+  -o-transition: color 0.5s ease;
+  transition: color 0.5s ease;
 }
 .ag-courses-item_bg {
   height: 128px;
@@ -147,9 +144,9 @@ body {
 
   border-radius: 50%;
 
-  -webkit-transition: all .5s ease;
-  -o-transition: all .5s ease;
-  transition: all .5s ease;
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 .ag-courses_item:nth-child(2n) .ag-courses-item_bg {
   background-color: #e44002;
@@ -167,10 +164,6 @@ body {
   background-color: #4c49ea;
 }
 
-
-
-
-
 @media only screen and (max-width: 979px) {
   .ag-courses_item {
     -ms-flex-preferred-size: calc(50% - 30px);
@@ -185,7 +178,6 @@ body {
   .ag-format-container {
     width: 96%;
   }
-
 }
 @media only screen and (max-width: 639px) {
   .ag-courses_item {
@@ -209,4 +201,3 @@ body {
 .css-uzoefn-MuiTabs-indicator {
   height: 3px !important;
 }
-

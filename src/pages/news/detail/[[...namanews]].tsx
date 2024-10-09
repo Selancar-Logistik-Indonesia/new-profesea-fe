@@ -290,7 +290,7 @@ const ThreadApp = () => {
           {/* Content */}
           <Grid item xs={12} sx={{ my: 4, ...detailContentWrapper, gap: 8 }}>
             <Box sx={{ ...detailContentLeft, background: '#FFF', padding: '24px', borderRadius: '16px' }}>
-              <Box fontSize={14} style={{ color: '#424242', fontFamily: 'Outfit !important' }}>
+              <Box fontSize={14} style={{ color: '#424242' }}>
                 {ReactHtmlParser(`${threadDetail?.content}`)}
               </Box>
             </Box>
