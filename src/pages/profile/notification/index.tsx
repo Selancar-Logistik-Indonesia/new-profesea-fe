@@ -99,93 +99,88 @@ function Notification() {
 
   return (
     <Box sx={{ px: { xs: '24px', md: '120px' } }}>
-      <Box
+      <Grid
         sx={{
-          my: '24px'
+          my: '24px',
+          mx: '3rem'
         }}
       >
         <BreadcrumbsNotification />
-      </Box>
-      <Grid container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '2rem' }}>
+      </Grid>
+      <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '2rem' }}>
         <Grid item container lg={9} md={9} xs={12}>
-          <Grid container>
-            <Grid item xs={12}>
-              <Card
-                sx={{
-                  border: 0,
-                  boxShadow: 6,
-                  borderRadius: 12,
-                  color: 'common.white',
-                  backgroundColor: '#FFFFFF'
-                }}
-              >
-                <CardContent sx={{ padding: '24px' }}>
-                  <Box sx={{ mb: 0 }}>
-                    <Box sx={{ width: '100%', typography: 'body1' }}>
-                      <div style={{ display: 'inline', float: 'left', marginBottom: '24px' }}>
-                        <h1 className={style['notification-title']}> Notifications </h1>
-                        <h2 className={style['notification-subtitle']}>
-                          You have <b className={style['primary-color']}>{unreadNotifies.length} notifications</b> today
-                        </h2>
-                      </div>
+          <Grid item xs={12}>
+            <Card
+              sx={{
+                border: 0,
+                boxShadow: 6,
+                borderRadius: 12,
+                color: 'common.white',
+                backgroundColor: '#FFFFFF'
+              }}
+            >
+              <CardContent sx={{ padding: '24px' }}>
+                <Box sx={{ mb: 0 }}>
+                  <Box sx={{ width: '100%', typography: 'body1' }}>
+                    <div style={{ display: 'inline', float: 'left', marginBottom: '24px' }}>
+                      <h1 className={style['notification-title']}> Notifications </h1>
+                      <h2 className={style['notification-subtitle']}>
+                        You have <b className={style['primary-color']}>{unreadNotifies.length} notifications</b> today
+                      </h2>
+                    </div>
 
-                      <Button
-                        variant='contained'
-                        className={style['btn-mark']}
-                        onClick={() => setShowMarkConfirm(true)}
-                      >
-                        <DoneAllIcon style={{ width: 16, height: 16, margin: '0 10px 0 0' }} />
-                        <span>Mark all as read</span>
-                      </Button>
-                      <div style={{ clear: 'both' }}></div>
-                      <TabContext value={tab}>
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                          <TabList variant='fullWidth' className={style['tablist']} onChange={handleChangeTab}>
-                            <Tab
-                              className={style['tablist-item']}
-                              label='All Notification'
-                              value='1'
-                              sx={{
-                                textTransform: 'none',
-                                fontSize: '16px',
-                                fontWeight: 'bold'
-                              }}
-                            />
-                            <Tab
-                              className={style['tablist-item']}
-                              label='Unread'
-                              value='2'
-                              sx={{
-                                textTransform: 'none',
-                                fontSize: '16px',
-                                fontWeight: 'bold'
-                              }}
-                            />
-                          </TabList>
-                        </Box>
-                        <TabPanel value='1' className={style['tabpanel']}>
-                          <AllNotificationTab
-                            notifies={notifies}
-                            getNotifications={getNotifications}
-                            onLoading={onLoading}
+                    <Button variant='contained' className={style['btn-mark']} onClick={() => setShowMarkConfirm(true)}>
+                      <DoneAllIcon style={{ width: 16, height: 16, margin: '0 10px 0 0' }} />
+                      <span>Mark all as read</span>
+                    </Button>
+                    <div style={{ clear: 'both' }}></div>
+                    <TabContext value={tab}>
+                      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <TabList variant='fullWidth' className={style['tablist']} onChange={handleChangeTab}>
+                          <Tab
+                            className={style['tablist-item']}
+                            label='All Notification'
+                            value='1'
+                            sx={{
+                              textTransform: 'none',
+                              fontSize: '16px',
+                              fontWeight: 'bold'
+                            }}
                           />
-                        </TabPanel>
-                        <TabPanel value='2' className={style['tabpanel']}>
-                          <UnreadNotificationTab
-                            notifies={unreadNotifies}
-                            getNotifications={getUnreadNotifications}
-                            onLoading={onLoading}
+                          <Tab
+                            className={style['tablist-item']}
+                            label='Unread'
+                            value='2'
+                            sx={{
+                              textTransform: 'none',
+                              fontSize: '16px',
+                              fontWeight: 'bold'
+                            }}
                           />
-                        </TabPanel>
-                      </TabContext>
-                    </Box>
+                        </TabList>
+                      </Box>
+                      <TabPanel value='1' className={style['tabpanel']}>
+                        <AllNotificationTab
+                          notifies={notifies}
+                          getNotifications={getNotifications}
+                          onLoading={onLoading}
+                        />
+                      </TabPanel>
+                      <TabPanel value='2' className={style['tabpanel']}>
+                        <UnreadNotificationTab
+                          notifies={unreadNotifies}
+                          getNotifications={getUnreadNotifications}
+                          onLoading={onLoading}
+                        />
+                      </TabPanel>
+                    </TabContext>
                   </Box>
-                </CardContent>
-              </Card>
-            </Grid>
+                </Box>
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
-        <Grid item lg={3} md={3} xs={12}>
+        <Grid item lg={2} md={2} xs={12}>
           <SideAd adslocation='home-page' />
         </Grid>
       </Grid>
