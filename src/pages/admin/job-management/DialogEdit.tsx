@@ -14,13 +14,13 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress, Autocomplete, FormControlLabel, Checkbox } from '@mui/material'
+import { CircularProgress, Autocomplete, FormControlLabel, Checkbox, createFilterOptions } from '@mui/material'
 import Job from 'src/contract/models/job'
 import Company from 'src/contract/models/company'
 import Degree from 'src/contract/models/degree'
 import JobCategory from 'src/contract/models/job_category'
 import RoleLevel from 'src/contract/models/role_level'
-import RoleType from 'src/contract/models/role_type'
+import RoleType, { RoleTypeAutocomplete } from 'src/contract/models/role_type'
 import Countries from 'src/contract/models/country'
 import City from 'src/contract/models/city'
 import { DateType } from 'src/contract/models/DatepickerTypes'
@@ -34,6 +34,8 @@ import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import VesselType from 'src/contract/models/vessel_type'
 import Licensi from 'src/contract/models/licensi'
+
+const filter = createFilterOptions<RoleTypeAutocomplete>()
 
 // const licenseData = [
 //   { title: 'Certificate of Competency', docType: 'COC' },
@@ -212,7 +214,7 @@ const DialogEdit = (props: EditProps) => {
 
     const json = {
       rolelevel_id: Level == null ? null : Level.id,
-      roletype_id: type == null ? null : type,
+      roletype_id: type == 0 ? Type.inputValue : type,
       user_id: User.id,
       edugrade_id: Edu == null ? null : Edu.id,
       category_id: Cat == null ? null : Cat.id,
@@ -395,11 +397,46 @@ const DialogEdit = (props: EditProps) => {
                     value={Type || null}
                     options={RoleType}
                     {...register('role_type')}
-                    getOptionLabel={(option: RoleType) => option.name}
+                    // getOptionLabel={(option: RoleType) => option.name}
                     renderInput={params => <TextField {...params} label='Job Title' />}
                     onChange={(event: any, newValue: RoleType | null) =>
                       newValue ? setType(newValue) : setType(props.selectedItem.role_type)
                     }
+                    getOptionLabel={(option: RoleTypeAutocomplete) => {
+                      // Value selected with enter, right from the input
+                      if (typeof option === 'string') {
+                        return option
+                      }
+                      // Add "xxx" option created dynamically
+                      if (option.inputValue) {
+                        return option.inputValue
+                      }
+
+                      // Regular option
+                      return option.name
+                    }}
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params)
+
+                      const { inputValue } = params
+
+                      // Suggest the creation of a new value
+                      const isExisting = options.some(option => inputValue === option.name)
+                      if (inputValue !== '' && !isExisting) {
+                        filtered.push({
+                          inputValue: inputValue,
+                          id: 0,
+                          category_id: 0,
+                          name: inputValue,
+                          category: Cat,
+                          user: props.selectedItem,
+                          created_at: String(new Date()),
+                          updated_at: String(new Date())
+                        })
+                      }
+
+                      return filtered
+                    }}
                   />
                 </Grid>
               </>
