@@ -148,8 +148,8 @@ const RoleTypeScreen = () => {
                   >
                     <MenuItem value={'created_at:desc'}> Sort Created At : DESC </MenuItem>
                     <MenuItem value={'created_at:asc'}> Sort Created At : ASC </MenuItem>
-                    <MenuItem value={'job_title:asc'}> Sort Job Title : ASC </MenuItem>
-                    <MenuItem value={'job_title:desc'}> Sort Job Title : DESC </MenuItem>
+                    <MenuItem value={'name:asc'}> Sort Job Title : ASC </MenuItem>
+                    <MenuItem value={'name:desc'}> Sort Job Title : DESC </MenuItem>
                   </Select>
                   <TextField
                     size='small'
