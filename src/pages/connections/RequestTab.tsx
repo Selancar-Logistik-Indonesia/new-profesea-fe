@@ -21,7 +21,7 @@ import DialogDeclineConfirmation from './DialogDeclineConfirmation'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 
-import style from '../../../../styles/css/ConnectionList.module.css'
+import style from '../../../styles/css/ConnectionList.module.css'
 
 export default function Request(props: any) {
   const [pageRequest, setPageRequest] = React.useState(1)

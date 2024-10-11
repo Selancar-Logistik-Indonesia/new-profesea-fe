@@ -19,7 +19,7 @@ import RequestTab from './RequestTab'
 
 import SideAd from 'src/views/banner-ad/sidead'
 
-import style from './../../../../styles/css/ConnectionPage.module.css'
+import style from './../../../styles/css/ConnectionPage.module.css'
 
 function ProfileConnection() {
   const { dispatch } = useBreadcrumbsConnection()
@@ -39,10 +39,6 @@ function ProfileConnection() {
         {
           name: 'Homepage',
           path: '/'
-        },
-        {
-          name: 'Profile',
-          path: '/profile'
         },
         {
           name: 'Connections',

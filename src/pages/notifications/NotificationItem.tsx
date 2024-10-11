@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 
 import { Avatar, Box, ListItem, ListItemAvatar, ListItemText } from '@mui/material'
-import style from './../../../../styles/css/NotificationTab.module.css'
+import style from './../../../styles/css/NotificationTab.module.css'
 import StyledBadge from './StyleBadge'
 import { HttpClient } from 'src/services'
 import { getInitials } from 'src/@core/utils/get-initials'
@@ -115,7 +115,7 @@ export default function NotificationItem({ item, key, getNotifications }: Iprops
       case NotificationType.connectRequest:
       case NotificationType.connectRequestApproved:
       case NotificationType.connectRequestRejected:
-        router.push('/profile/connections')
+        router.push('/connections')
         break
 
       default:
