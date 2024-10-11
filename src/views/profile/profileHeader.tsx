@@ -76,7 +76,7 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
   }, [dataUser])
 
   const handleOnClickConnection = () => {
-    router.push('/profile/connections')
+    router.push('/connections')
   }
 
   return (

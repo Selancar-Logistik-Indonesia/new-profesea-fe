@@ -8,7 +8,7 @@ import TabPanel from '@mui/lab/TabPanel'
 
 import SideAd from 'src/views/banner-ad/sidead'
 import DoneAllIcon from '@mui/icons-material/DoneAll'
-import style from './../../../../styles/css/NotificationPage.module.css'
+import style from './../../../styles/css/NotificationPage.module.css'
 import AllNotificationTab from './AllNotificationTab'
 import UnreadNotificationTab from './UnreadNotificationTab'
 
@@ -86,12 +86,8 @@ function Notification() {
           path: '/'
         },
         {
-          name: 'Profile',
-          path: '/profile'
-        },
-        {
-          name: 'Notification',
-          path: '/notification'
+          name: 'Notifications',
+          path: '/notifications'
         }
       ]
     })

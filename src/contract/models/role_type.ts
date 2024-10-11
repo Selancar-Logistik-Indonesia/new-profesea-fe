@@ -16,7 +16,7 @@ export interface RoleTypeAutocomplete {
     category_id: number
     name: string
     inputValue?: string
-    category: JobCategory
+    category: JobCategory | number | string
     user: IUser | any
     created_at: string
     updated_at: string

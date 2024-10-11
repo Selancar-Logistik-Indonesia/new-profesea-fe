@@ -3,7 +3,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, MenuItem, Select, Typography } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import DialogAdd from './DialogAdd'
 import RoleTypeDatagrid, { RowItem } from './RoleTypeDatagrid'
@@ -29,12 +29,22 @@ const RoleTypeScreen = () => {
   const [page, setPage] = useState(1)
   const [rowCount, setRowCount] = useState(0)
   const [search, setSearch] = useState('')
+  const [searchCreatedBy, setSearchCreatedBy] = useState('')
 
   const [perPage, setPerPage] = useState(10)
+  const [sort, setSort] = useState('created_at:desc')
 
   const getListForum = async () => {
     try {
-      const resp = await HttpClient.get(`/role-type?search=${search}&page=${page}&take=${perPage}`)
+      // ?search=${search}&page=${page}&take=${perPage}&orderBy=${}&order={}
+      const resp = await HttpClient.get(`/role-type`, {
+        search: search,
+        page: page,
+        take: perPage,
+        orderBy: sort.split(':')[0],
+        orderDirection: sort.split(':')[1],
+        searchCreatedBy: searchCreatedBy
+      })
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'
       }
@@ -81,6 +91,13 @@ const RoleTypeScreen = () => {
     []
   )
 
+  const handleSearchCreatedBy = useCallback(
+    debounce((value: string) => {
+      setSearchCreatedBy(value)
+    }, 500),
+    []
+  )
+
   const onPageChange = (model: GridPaginationModel) => {
     const mPage = model.page + 1
     setPage(mPage)
@@ -102,7 +119,7 @@ const RoleTypeScreen = () => {
     getListForum().then(() => {
       setOnLoading(false)
     })
-  }, [page, search, hookSignature, perPage])
+  }, [page, search, hookSignature, perPage, sort, searchCreatedBy])
 
   return (
     <>
@@ -117,21 +134,46 @@ const RoleTypeScreen = () => {
               }
             />
             <CardContent>
-              <Grid container justifyContent='flex-end'>
-                <Grid item>
+              <Grid container>
+                <Grid item md={6} xs={12}>
+                  <Select
+                    size='small'
+                    labelId='sort-job-title-id'
+                    id='sort-job-title'
+                    value={sort}
+                    label='Job Title Sort'
+                    onChange={event => {
+                      setSort(event.target.value)
+                    }}
+                  >
+                    <MenuItem value={'created_at:desc'}> Sort Created At : DESC </MenuItem>
+                    <MenuItem value={'created_at:asc'}> Sort Created At : ASC </MenuItem>
+                    <MenuItem value={'name:asc'}> Sort Job Title : ASC </MenuItem>
+                    <MenuItem value={'name:desc'}> Sort Job Title : DESC </MenuItem>
+                  </Select>
                   <TextField
                     size='small'
-                    sx={{ mr: 6, mb: 2 }}
-                    placeholder='Search'
-                    onChange={e => handleSearch(e.target.value)}
+                    sx={{ ml: 6, mb: 2 }}
+                    placeholder='Created By'
+                    onChange={e => handleSearchCreatedBy(e.target.value)}
                   />
                 </Grid>
-                <Grid item sx={{ mr: 6, mb: 2 }}>
-                  <Box>
-                    <Button variant='contained' onClick={() => setOpenAddModal(!openAddModal)}>
-                      Add
-                    </Button>
-                  </Box>
+                <Grid md={6} xs={12} item container justifyContent='flex-end'>
+                  <Grid item>
+                    <TextField
+                      size='small'
+                      sx={{ mr: 6, mb: 2 }}
+                      placeholder='Search'
+                      onChange={e => handleSearch(e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item sx={{ mr: 6, mb: 2 }}>
+                    <Box>
+                      <Button variant='contained' onClick={() => setOpenAddModal(!openAddModal)}>
+                        Add
+                      </Button>
+                    </Box>
+                  </Grid>
                 </Grid>
               </Grid>
 

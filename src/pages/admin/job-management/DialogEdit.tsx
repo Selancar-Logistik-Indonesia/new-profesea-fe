@@ -399,9 +399,9 @@ const DialogEdit = (props: EditProps) => {
                     {...register('role_type')}
                     // getOptionLabel={(option: RoleType) => option.name}
                     renderInput={params => <TextField {...params} label='Job Title' />}
-                    onChange={(event: any, newValue: RoleType | null) =>
+                    onChange={(event: any, newValue: any) => {
                       newValue ? setType(newValue) : setType(props.selectedItem.role_type)
-                    }
+                    }}
                     getOptionLabel={(option: RoleTypeAutocomplete) => {
                       // Value selected with enter, right from the input
                       if (typeof option === 'string') {
