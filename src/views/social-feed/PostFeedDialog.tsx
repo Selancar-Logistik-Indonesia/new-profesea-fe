@@ -96,6 +96,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
         if (attachments.length > 0) {
           setPreviewUrls(prevState => [...prevState, ...urls])
           setAttachments(prevState => [...prevState, ...acceptedFiles])
+
           return
         }
 

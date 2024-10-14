@@ -54,7 +54,17 @@ const Main = () => {
 
       <Grid container>
         <HeaderBannerView />
-        <Grid item xs={12} sx={{ py: '64px', px: '120px', display: 'flex', flexDirection: 'column', gap: '64px' }}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: { xs: '32px', md: '64px' },
+            py: { xs: '32px', md: '64px' },
+            px: { xs: 0, md: '120px' }
+          }}
+        >
           <OurPartnerView />
           <OurFeatureView />
           <SeafarerPlatformView />

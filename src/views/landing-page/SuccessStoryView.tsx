@@ -1,29 +1,34 @@
-import { Avatar, Box, Button, Card, Grid, Typography } from '@mui/material'
+import { Avatar, Box, Button, Card, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { TFunction } from 'i18next'
+import CarouselEvent from './carouselEvent'
 import Link from 'next/link'
 
-const personData = [
-  {
-    name: 'John Doe',
-    position: 'Captain',
-    company: 'Global Maritime Co.',
-    quotes:
-      'Profesea has been a game-changer for my career. I found the perfect training programs to upgrade my certifications and it helped me connect with top employers across the globe. Highly recommended!'
-  },
-  {
-    name: 'Michael Tan',
-    position: 'Seafarer',
-    company: null,
-    quotes:
-      'Thanks to Profesea, I was able to easily discover training centers that met my needs and land a better job after getting my certifications. It’s truly a one-stop solution for maritime professionals.'
-  },
-  {
-    name: 'Anna Smith',
-    position: 'HR Manager',
-    company: 'SeaLogix Logistics',
-    quotes:
-      'Finding qualified talent used to be a struggle, but Profesea has streamlined the process. The platform’s candidate matching tool saved us time and connected us with the best maritime talents.'
-  }
-]
+const personData = (t: TFunction) => {
+  return [
+    {
+      name: 'M. Daffa Atlantic Putra',
+      position: 'Seafarer',
+      company: 'PT KSM Indonesia',
+      quotes: t('success_story.quotes_1'),
+      profile: '/images/seafarer-daffa.jpg'
+    },
+    {
+      name: 'Tohom Yogi Emerson Simatupang',
+      position: 'Crewing Manager',
+      company: 'Global Lingkar Cemerlang',
+      quotes: t('success_story.quotes_2'),
+      profile: '/images/glc-crewing-manager.jpg'
+    },
+    {
+      name: 'Nanis Widiatiningsih',
+      position: 'Director',
+      company: 'Hugos Training Service',
+      quotes: t('success_story.quotes_3'),
+      profile: '/images/hugos-director.png'
+    }
+  ]
+}
 
 const PersonCard = ({ item }: { item: any }) => {
   return (
@@ -37,46 +42,57 @@ const PersonCard = ({ item }: { item: any }) => {
           flexDirection: 'column',
           alignItems: 'center',
           gap: '24px',
-          height: '100%'
+          height: '100%',
+          transition: '1s',
+          '&:hover': { boxShadow: 3, transform: 'scale(1.05)' }
         }}
       >
         <Typography
           sx={{
             WebkitTextStrokeWidth: 1,
-            WebkitTextStrokeColor: 'var(--Neutral-0, #FFF)',
+            WebkitTextStrokeColor: 'var(--Neutral-0, #525252)',
             color: 'transparent',
             fontFamily: 'Recoleta',
             lineHeight: 1,
             fontSize: 64,
-            fontWeight: 700
+            fontWeight: 700,
+            mb: '-20px'
           }}
         >
           “
         </Typography>
         <Typography
           sx={{
-            color: 'white',
-            fontSize: 14,
+            color: '#525252',
+            fontSize: 16,
             fontWeight: 400,
             lineHeight: '21px',
-            textAlign: 'justify'
+            textAlign: 'center',
+            flexGrow: 1
+          }}
+          dangerouslySetInnerHTML={{ __html: `"${item.quotes}"` }}
+        />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '12px',
+            flexGrow: 1
           }}
         >
-          "{item.quotes}"
-        </Typography>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
           <Avatar
-            src='/images/no-image.jpg'
+            src={item.profile ?? '/images/no-image.jpg'}
             alt={item.name}
             sx={{ border: '3px solid white', width: '76px', height: '76px' }}
           >
             {item.name}
           </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'center', gap: '4px' }}>
-            <Typography sx={{ color: 'white', fontSize: 14, fontWeight: 700 }}>{item.name}</Typography>
-            <Typography sx={{ color: 'white', fontSize: 14, fontWeight: 400 }}>{`${item.position}${
-              item.company ? `, ${item.company}` : ''
-            }`}</Typography>
+            <Typography sx={{ color: '#525252', fontSize: 14, fontWeight: 700 }}>{item.name}</Typography>
+            <Typography sx={{ color: '#525252', fontSize: 14, fontWeight: 400 }}>
+              {`${item.position}${item.company ? `, ${item.company}` : ''}`}
+            </Typography>
           </Box>
         </Box>
       </Card>
@@ -85,43 +101,90 @@ const PersonCard = ({ item }: { item: any }) => {
 }
 
 const SuccessStoryView = () => {
+  const { t } = useTranslation()
+  const theme = useTheme()
+  const isHidden = useMediaQuery(theme.breakpoints.up('md'))
+
   return (
     <Grid
       container
       sx={{
         backgroundColor: '#739BE9',
-        borderRadius: '20px',
-        p: '64px 49px',
+        borderRadius: { xs: 0, md: '20px' },
+        p: { xs: '24px', md: '64px 49px' },
         display: 'flex',
+        flexWrap: { xs: null, md: 'nowrap' },
         alignItems: 'flex-start',
-        flexWrap: 'nowrap',
-        gap: '32px'
+        gap: { xs: '24px', md: '32px' }
       }}
     >
-      <Box sx={{ display: 'flex', flexShrink: 0, alignItems: 'flex-start', flexDirection: 'column', gap: '32px' }}>
-        <Typography sx={{ width: '185px', color: 'white', fontSize: 40, fontWeight: 700 }}>
+      <Box
+        sx={{
+          width: { xs: '100%', md: 'fit-content' },
+          display: 'flex',
+          flexShrink: 0,
+          alignItems: 'flex-start',
+          flexDirection: 'column',
+          gap: { xs: '24px', md: '32px' }
+        }}
+      >
+        <Typography
+          sx={{ width: { xs: '100%', md: '185px' }, color: 'white', fontSize: { xs: 32, md: 40 }, fontWeight: 700 }}
+        >
           How they got onboard?
         </Typography>
+        {isHidden && (
+          <Button
+            component={Link}
+            href='/register'
+            variant='contained'
+            size='large'
+            sx={{
+              width: { xs: '100%', md: 'fit-content' },
+              backgroundColor: '#FFF',
+              color: '#1F57C3',
+              textTransform: 'none',
+              '&:hover': { backgroundColor: '#f0f0f0' }
+            }}
+          >
+            Start your journey
+          </Button>
+        )}
+      </Box>
+      {isHidden ? (
+        <Grid
+          item
+          container
+          sx={{ flexGrow: 1, flexWrap: { xs: null, md: 'nowrap' }, gap: { xs: '24px', md: '32px' } }}
+        >
+          {personData(t).map((person, i) => (
+            <PersonCard key={i} item={person} />
+          ))}
+        </Grid>
+      ) : (
+        <CarouselEvent>
+          {personData(t).map((person, i) => (
+            <PersonCard key={i} item={person} />
+          ))}
+        </CarouselEvent>
+      )}
+      {!isHidden && (
         <Button
           component={Link}
           href='/register'
           variant='contained'
           size='large'
           sx={{
+            width: { xs: '100%', md: 'fit-content' },
             backgroundColor: '#FFF',
             color: '#1F57C3',
             textTransform: 'none',
             '&:hover': { backgroundColor: '#f0f0f0' }
           }}
         >
-          Learn more
+          Start your journey
         </Button>
-      </Box>
-      <Grid item container sx={{ flexGrow: 1, display: 'flex', flexWrap: 'nowrap' }} spacing={8}>
-        {personData.map((person, i) => (
-          <PersonCard key={i} item={person} />
-        ))}
-      </Grid>
+      )}
     </Grid>
   )
 }
