@@ -51,7 +51,6 @@ const Main = () => {
         <meta name='og:description' content={`${t('landing_hero_subtitle')}`} />
         <meta property='og:image' content='images/logosamudera.png' />
       </Head>
-
       <Grid container>
         <HeaderBannerView />
         <Grid

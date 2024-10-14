@@ -1,11 +1,13 @@
 import { Icon } from '@iconify/react'
 import { Avatar, Box, Divider, Grid, IconButton, Paper, Typography, useMediaQuery, useTheme } from '@mui/material'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Job from 'src/contract/models/job'
 import { HttpClient } from 'src/services'
 import { timeCreated } from 'src/utils/helpers'
-import CarouselEvent from './carouselEvent'
+import CarouselEvent from './carouselevent'
 
 const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
   if (salaryStart == 0) {
@@ -134,6 +136,8 @@ const JobCard = ({ job }: { job: Job }) => {
 }
 
 const ProfessionalPlatformView = () => {
+  const { t } = useTranslation()
+  const router = useRouter()
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.down('sm'))
   const [jobs, setJobs] = useState<Job[] | null>(null)
@@ -165,7 +169,7 @@ const ProfessionalPlatformView = () => {
       sx={{
         backgroundImage: `url(/images/professional-platform-banner.png), linear-gradient(-90deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 0.80) 100%)`,
         backgroundSize: 'cover',
-        backgroundPosition: '0% 40%',
+        backgroundPosition: { xs: 'center 100%', md: '0% 40%' },
         backgroundBlendMode: 'overlay',
         backgroundColor: 'gray',
         borderRadius: { xs: 0, md: '20px' },
@@ -179,12 +183,10 @@ const ProfessionalPlatformView = () => {
       <Grid item container sx={{ mb: '24px', p: { xs: '24px', md: 0 }, display: 'flex', justifyContent: 'flex-end' }}>
         <Box sx={{ maxWidth: '560px', mr: '24px' }}>
           <Typography sx={{ mb: '12px', color: 'white', fontSize: { xs: 24, md: 40 }, fontWeight: 700 }}>
-            Profesea for Profesionnal
+            {t('landing_page.for_professional.title')}
           </Typography>
           <Typography sx={{ color: 'white', fontSize: { xs: 14, md: 16 }, fontWeight: 400, lineHeight: '21px' }}>
-            Build your dream team with our global hiring solution for the maritime and logistics industry. We help you
-            easily recruit top professionals while ensuring compliance with local regulations—so you can expand your
-            operations seamlessly across the globe.
+            {t('landing_page.for_professional.description')}
           </Typography>
         </Box>
       </Grid>
@@ -222,12 +224,16 @@ const ProfessionalPlatformView = () => {
                   gap: '12px'
                 }}
               >
-                <IconButton sx={{ backgroundColor: 'rgba(10, 12, 15, 0.5)', borderRadius: '200px' }}>
+                <IconButton
+                  onClick={() => router.push('/find-job')}
+                  sx={{ backgroundColor: 'rgba(10, 12, 15, 0.5)', borderRadius: '200px' }}
+                >
                   <Icon icon='mdi:chevron-right' color='white' fontSize={34} />
                 </IconButton>
-                <Typography sx={{ color: 'white', fontSize: '14px', fontWeight: 400, textAlign: 'center' }}>
-                  Discover <br />
-                  More Jobs
+                <Typography
+                  sx={{ color: 'white', width: '120px', fontSize: '14px', fontWeight: 400, textAlign: 'center' }}
+                >
+                  {t('landing_page.for_professional.button')}
                 </Typography>
               </Box>
             </Grid>

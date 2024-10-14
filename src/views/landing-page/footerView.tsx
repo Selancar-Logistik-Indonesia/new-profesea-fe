@@ -85,7 +85,7 @@ const FooterView = () => {
             {t('landing_footer_menu_2')}
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: '8px' }}>
-            <LinkStyled href={'/'}>
+            <LinkStyled href={'/find-job'}>
               <Typography sx={{ color: '#1F1F1F', fontSize: 12, fontWeight: 400 }}>
                 {t('landing_footer_menu_6')}
               </Typography>
@@ -95,7 +95,7 @@ const FooterView = () => {
                 {t('landing_footer_menu_7')}
               </Typography>
             </LinkStyled>
-            <LinkStyled href={'/landingpage-trainer'}>
+            <LinkStyled href={'/trainings'}>
               <Typography sx={{ color: '#1F1F1F', fontSize: 12, fontWeight: 400 }}>
                 {t('landing_footer_menu_8')}
               </Typography>

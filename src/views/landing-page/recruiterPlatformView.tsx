@@ -1,8 +1,11 @@
 import { Icon } from '@iconify/react'
 import { Box, Button, Grid, Typography } from '@mui/material'
 import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 
 const RecruiterPlatformView = () => {
+  const { t } = useTranslation()
+
   return (
     <Grid
       container
@@ -33,16 +36,16 @@ const RecruiterPlatformView = () => {
         <Typography
           sx={{ mb: { xs: '12px', md: '24px' }, color: 'white', fontSize: { xs: 14, md: 20 }, fontWeight: 400 }}
         >
-          Profesea For Employer
+          {t('landing_page.for_recruiter.title_1')}
         </Typography>
-        <Typography sx={{ mb: '16px', color: 'white', fontSize: { xs: 32, md: 48 }, fontWeight: 700 }}>
-          Search <span style={{ color: '#FE9602' }}>Smarter</span>, Hire{' '}
-          <span style={{ color: '#FE9602' }}>Faster</span>
-        </Typography>
+        <Typography
+          sx={{ mb: '16px', color: 'white', fontSize: { xs: 32, md: 48 }, fontWeight: 700 }}
+          dangerouslySetInnerHTML={{ __html: t('landing_page.for_recruiter.title_2') }}
+        />
         <Typography
           sx={{ mb: { xs: '24px', md: '39px' }, color: 'white', fontSize: { xs: 14, md: 16 }, fontWeight: 400 }}
         >
-          Use advanced filters and smart recommendations to streamline your hiring process.
+          {t('landing_page.for_recruiter.description')}
         </Typography>
         <Grid container gap='20px' sx={{ mb: { xs: '24px', md: '39px' } }}>
           <Grid item xs={12} sx={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
@@ -57,9 +60,8 @@ const RecruiterPlatformView = () => {
                 fontWeight: 400,
                 lineHeight: '24px'
               }}
-            >
-              Post job online, <span style={{ fontWeight: 700 }}>no more paperwork.</span>
-            </Typography>
+              dangerouslySetInnerHTML={{ __html: t('landing_page.for_recruiter.benefit_1') }}
+            />
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
             <Box sx={{ flexShrink: 0, height: '24px' }}>
@@ -73,9 +75,8 @@ const RecruiterPlatformView = () => {
                 fontWeight: 400,
                 lineHeight: '24px'
               }}
-            >
-              Use our <span style={{ fontWeight: 700 }}>quick filtering system</span> for seafarer recruitment.
-            </Typography>
+              dangerouslySetInnerHTML={{ __html: t('landing_page.for_recruiter.benefit_2') }}
+            />
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
             <Box sx={{ flexShrink: 0, height: '24px' }}>
@@ -89,9 +90,8 @@ const RecruiterPlatformView = () => {
                 fontWeight: 400,
                 lineHeight: '24px'
               }}
-            >
-              Receive <span style={{ fontWeight: 700 }}>personalized candidate</span> recommendation.
-            </Typography>
+              dangerouslySetInnerHTML={{ __html: t('landing_page.for_recruiter.benefit_3') }}
+            />
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
             <Box sx={{ flexShrink: 0, height: '24px' }}>
@@ -105,15 +105,13 @@ const RecruiterPlatformView = () => {
                 fontWeight: 400,
                 lineHeight: '24px'
               }}
-            >
-              <span style={{ fontWeight: 700 }}>Optimize talent acquisiton with Recuiter Star!</span> Our subscription
-              plan for companies.
-            </Typography>
+              dangerouslySetInnerHTML={{ __html: t('landing_page.for_recruiter.benefit_4') }}
+            />
           </Grid>
         </Grid>
         <Button
           component={Link}
-          href='/register'
+          href='/employer'
           variant='contained'
           size='large'
           sx={{
@@ -124,7 +122,7 @@ const RecruiterPlatformView = () => {
             '&:hover': { backgroundColor: '#f0f0f0' }
           }}
         >
-          Learn more
+          {t('landing_page.for_recruiter.button')}
         </Button>
       </Grid>
     </Grid>

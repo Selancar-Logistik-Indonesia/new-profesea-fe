@@ -1,7 +1,10 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material'
 import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 
 const TrainerPlatformView = () => {
+  const { t } = useTranslation()
+
   return (
     <Grid
       container
@@ -35,16 +38,16 @@ const TrainerPlatformView = () => {
         <Typography
           sx={{ mb: { xs: '12px', md: '24px' }, color: 'white', fontSize: { xs: 14, md: 20 }, fontWeight: 400 }}
         >
-          Profesea as Training Platform
+          {t('landing_page.for_trainer.title_1')}
         </Typography>
-        <Typography sx={{ mb: '16px', color: 'white', fontSize: { xs: 32, md: 48 }, fontWeight: 700 }}>
-          Get Certified, Stay <span style={{ color: '#FE9602' }}>Competitive</span>
-        </Typography>
+        <Typography
+          sx={{ mb: '16px', color: 'white', fontSize: { xs: 32, md: 48 }, fontWeight: 700 }}
+          dangerouslySetInnerHTML={{ __html: t('landing_page.for_trainer.title_2') }}
+        />
         <Typography
           sx={{ mb: { xs: '24px', md: '72px' }, color: 'white', fontSize: { xs: 14, md: 16 }, fontWeight: 400 }}
         >
-          Explore courses from officially recognized platforms and gain the certifications you need to excel. Want to
-          grow with us? Become a trusted training partner today.
+          {t('landing_page.for_trainer.description')}
         </Typography>
         <Divider sx={{ mb: { xs: '24px', md: '12px' }, borderColor: 'white' }} />
         <Grid container spacing={{ xs: 4, md: 6 }} sx={{ mb: '24px', display: 'flex' }}>
@@ -57,9 +60,8 @@ const TrainerPlatformView = () => {
                 fontWeight: 400,
                 lineHeight: '21px'
               }}
-            >
-              <span style={{ fontWeight: 700 }}>Online booking partner</span> for maritime training center.
-            </Typography>
+              dangerouslySetInnerHTML={{ __html: t('landing_page.for_trainer.benefit_1') }}
+            />
           </Grid>
           <Grid item xs={6} md={4}>
             <Typography
@@ -70,10 +72,8 @@ const TrainerPlatformView = () => {
                 fontWeight: 400,
                 lineHeight: '21px'
               }}
-            >
-              <span style={{ fontWeight: 700 }}>Alternative marketing channel</span> that will amplify your training
-              center's exposure.
-            </Typography>
+              dangerouslySetInnerHTML={{ __html: t('landing_page.for_trainer.benefit_2') }}
+            />
           </Grid>
           <Grid item xs={6} md={4}>
             <Typography
@@ -84,14 +84,13 @@ const TrainerPlatformView = () => {
                 fontWeight: 400,
                 lineHeight: '21px'
               }}
-            >
-              Partner for <span style={{ fontWeight: 700 }}>E-learning provider.</span>
-            </Typography>
+              dangerouslySetInnerHTML={{ __html: t('landing_page.for_trainer.benefit_3') }}
+            />
           </Grid>
         </Grid>
         <Button
           component={Link}
-          href='/register'
+          href='/trainings'
           variant='contained'
           size='large'
           sx={{
@@ -102,7 +101,7 @@ const TrainerPlatformView = () => {
             '&:hover': { backgroundColor: '#f0f0f0' }
           }}
         >
-          Learn more
+          {t('landing_page.for_trainer.button')}
         </Button>
       </Grid>
     </Grid>

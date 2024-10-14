@@ -1,31 +1,32 @@
 import { Box, Grid, Typography } from '@mui/material'
+import { TFunction } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
-const benefitData = [
+const benefitData = (t: TFunction) => [
   {
     img: '/images/our-benefit1.png',
-    title: 'Social media and community discussion forums',
-    description:
-      'Exchange ideas and expand your network with various professionals in the maritime and logistics industry.'
+    title: t('landing_page.our_benefit.benefit_title_1'),
+    description: t('landing_page.our_benefit.benefit_1')
   },
   {
     img: '/images/our-benefit2.png',
-    title: 'Maritime Career Assistance',
-    description: 'Reminder and scheduled certification directly to your email.'
+    title: t('landing_page.our_benefit.benefit_title_2'),
+    description: t('landing_page.our_benefit.benefit_2')
   },
   {
     img: '/images/our-benefit3.png',
-    title: 'Available Anytime',
-    description: 'Make your availability known and get spotlight by recruiters immediately.'
+    title: t('landing_page.our_benefit.benefit_title_3'),
+    description: t('landing_page.our_benefit.benefit_3')
   },
   {
     img: '/images/our-benefit4.png',
-    title: 'Create Your CV Anywhere & Anytime',
-    description: 'Create, update, and upload your CV and Certificate realtime.'
+    title: t('landing_page.our_benefit.benefit_title_4'),
+    description: t('landing_page.our_benefit.benefit_4')
   },
   {
     img: '/images/our-benefit5.png',
-    title: 'Connect with Companies',
-    description: 'Fresh candidates are able to connect with companies that suit their qualifications.'
+    title: t('landing_page.our_benefit.benefit_title_5'),
+    description: t('landing_page.our_benefit.benefit_5')
   }
 ]
 
@@ -73,13 +74,15 @@ const BenefitCard = ({ item }: { item: any }) => {
 }
 
 const OurBenefitView = () => {
+  const { t } = useTranslation()
+
   return (
     <Grid container sx={{ px: { xs: '24px', md: 0 }, display: 'flex', flexDirection: 'column', gap: '44px' }}>
       <Typography sx={{ color: '#2D3436', fontSize: { xs: 18, md: 32 }, fontWeight: 700 }} align='center'>
-        Unlocking Opportunities with Profesea
+        {t('landing_page.our_benefit.title')}
       </Typography>
       <Grid item container sx={{ display: 'flex', justifyContent: 'center' }} spacing={8}>
-        {benefitData.map((item, i) => (
+        {benefitData(t).map((item, i) => (
           <BenefitCard key={i} item={item} />
         ))}
       </Grid>

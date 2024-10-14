@@ -1,7 +1,9 @@
 import { Icon } from '@iconify/react'
 import { Box, Grid, Typography, useTheme, useMediaQuery } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 const OurFeatureView = () => {
+  const { t } = useTranslation()
   const theme = useTheme()
   const isHidden = useMediaQuery(theme.breakpoints.up('md'))
 
@@ -18,7 +20,7 @@ const OurFeatureView = () => {
       <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', gap: '34px' }}>
         {isHidden && (
           <Typography sx={{ color: '#303030', fontSize: 48, fontWeight: 700 }}>
-            Advance Your Network with Our Innovative Features
+            {t('landing_page.our_feature.title')}
           </Typography>
         )}
         <Grid
@@ -44,7 +46,7 @@ const OurFeatureView = () => {
                   lineHeight: '20px'
                 }}
               >
-                Social Media
+                {t('landing_page.our_feature.feature_title_1')}
               </Typography>
               <Typography
                 sx={{
@@ -54,8 +56,7 @@ const OurFeatureView = () => {
                   lineHeight: '21px'
                 }}
               >
-                Place where you can share insights, showcase your skills, and connect with interesting fellow companies
-                and other candidates in the industry.
+                {t('landing_page.our_feature.feature_1')}
               </Typography>
             </Box>
           </Grid>
@@ -72,7 +73,7 @@ const OurFeatureView = () => {
                   lineHeight: '20px'
                 }}
               >
-                Community
+                {t('landing_page.our_feature.feature_title_2')}
               </Typography>
               <Typography
                 sx={{
@@ -82,8 +83,7 @@ const OurFeatureView = () => {
                   lineHeight: '21px'
                 }}
               >
-                Join our vibrant community where you can support and inspire each other to chart a successful career
-                path.
+                {t('landing_page.our_feature.feature_2')}
               </Typography>
             </Box>
           </Grid>
@@ -100,7 +100,7 @@ const OurFeatureView = () => {
                   lineHeight: '20px'
                 }}
               >
-                Groups & Alumni
+                {t('landing_page.our_feature.feature_title_3')}
               </Typography>
               <Typography
                 sx={{
@@ -110,7 +110,7 @@ const OurFeatureView = () => {
                   lineHeight: '21px'
                 }}
               >
-                Build and maintain connections to help you stay ahead in this industry.
+                {t('landing_page.our_feature.feature_3')}
               </Typography>
             </Box>
           </Grid>
@@ -131,7 +131,12 @@ const OurFeatureView = () => {
           alignItems: 'center'
         }}
       >
-        video
+        <Box
+          component='img'
+          src='/images/profesea-feature.gif'
+          alt='profesea-feature'
+          sx={{ width: { xs: '400px', md: '100%' }, animationDuration: '300s' }}
+        />
       </Grid>
     </Grid>
   )
