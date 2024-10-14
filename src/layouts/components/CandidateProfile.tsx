@@ -54,7 +54,7 @@ import DialogAddDocument from 'src/pages/candidate/DialogAddDocument'
 import DialogEditBanner from 'src/pages/candidate/DialogEditBanner'
 import DialogEditProfile from 'src/pages/candidate/DialogEditProfile'
 // import RoleLevel from 'src/contract/models/role_level'
-import RoleType, { RoleTypeAutocomplete } from 'src/contract/models/role_type'
+import { RoleTypeAutocomplete } from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import RegionTravel from 'src/contract/models/regional_travel'
 import Province from 'src/contract/models/province'
@@ -1129,7 +1129,7 @@ const CandidateProfile = (props: compProps) => {
                     options={comboroleType}
                     defaultValue={props.datauser?.field_preference?.role_type}
                     renderInput={params => <TextField {...params} label='Job Title *' variant='standard' />}
-                    onChange={(event: any, newValue: RoleType | null) =>
+                    onChange={(event: any, newValue: any) =>
                       newValue
                         ? setComboRolType(newValue)
                         : setComboRolType(props.datauser?.field_preference?.role_type?.id)
@@ -1301,7 +1301,7 @@ const CandidateProfile = (props: compProps) => {
                     options={comboroleType}
                     defaultValue={props.datauser?.field_preference?.role_type}
                     renderInput={params => <TextField {...params} label='Job Title *' variant='standard' />}
-                    onChange={(event: any, newValue: RoleType | null) =>
+                    onChange={(event: any, newValue: any) =>
                       newValue
                         ? setComboRolType(newValue)
                         : setComboRolType(props.datauser?.field_preference?.role_type?.id)
