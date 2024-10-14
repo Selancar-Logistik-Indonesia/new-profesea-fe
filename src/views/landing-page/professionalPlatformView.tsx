@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import Job from 'src/contract/models/job'
 import { HttpClient } from 'src/services'
 import { timeCreated } from 'src/utils/helpers'
-import { format } from 'date-fns'
 import CarouselEvent from './carouselEvent'
 
 const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
@@ -202,15 +201,15 @@ const ProfessionalPlatformView = () => {
         >
           {isXs ? (
             <CarouselEvent>
-              {jobs.map(job => (
-                <JobCard job={job} />
+              {jobs.map((job, i) => (
+                <JobCard key={i} job={job} />
               ))}
             </CarouselEvent>
           ) : (
             <Grid container sx={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'space-between', gap: '17px' }}>
               <Grid item container spacing={4}>
-                {jobs.map(job => (
-                  <JobCard job={job} />
+                {jobs.map((job, i) => (
+                  <JobCard key={i} job={job} />
                 ))}
               </Grid>
               <Box

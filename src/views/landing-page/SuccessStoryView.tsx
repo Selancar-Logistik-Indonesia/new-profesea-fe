@@ -1,11 +1,10 @@
 import { Avatar, Box, Button, Card, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { TFunction } from 'i18next'
 import CarouselEvent from './carouselEvent'
 import Link from 'next/link'
 
-const personData = () => {
-  const { t } = useTranslation()
-
+const personData = (t: TFunction) => {
   return [
     {
       name: 'M. Daffa Atlantic Putra',
@@ -102,6 +101,7 @@ const PersonCard = ({ item }: { item: any }) => {
 }
 
 const SuccessStoryView = () => {
+  const { t } = useTranslation()
   const theme = useTheme()
   const isHidden = useMediaQuery(theme.breakpoints.up('md'))
 
@@ -157,13 +157,13 @@ const SuccessStoryView = () => {
           container
           sx={{ flexGrow: 1, flexWrap: { xs: null, md: 'nowrap' }, gap: { xs: '24px', md: '32px' } }}
         >
-          {personData().map((person, i) => (
+          {personData(t).map((person, i) => (
             <PersonCard key={i} item={person} />
           ))}
         </Grid>
       ) : (
         <CarouselEvent>
-          {personData().map((person, i) => (
+          {personData(t).map((person, i) => (
             <PersonCard key={i} item={person} />
           ))}
         </CarouselEvent>
