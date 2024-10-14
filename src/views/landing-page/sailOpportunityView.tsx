@@ -29,7 +29,7 @@ const SailOpportunity = () => {
           width: { xs: '100%', md: '600px' }
         }}
       >
-        {t('landing_lets_sail')}
+        {t('landing_page.lets_sail.title')}
       </Typography>
       <Button
         component={Link}
@@ -44,7 +44,7 @@ const SailOpportunity = () => {
           width: { xs: '100%', md: 'fit-content' }
         }}
       >
-        {t('landing_join_now_1')}
+        {t('landing_page.lets_sail.button')}
       </Button>
     </Grid>
   )

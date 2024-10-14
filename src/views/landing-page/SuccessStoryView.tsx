@@ -1,8 +1,8 @@
 import { Avatar, Box, Button, Card, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { TFunction } from 'i18next'
-import CarouselEvent from './carouselEvent'
+import CarouselEvent from './carouselevent'
 import Link from 'next/link'
+import { TFunction } from 'i18next'
 
 const personData = (t: TFunction) => {
   return [
@@ -10,21 +10,21 @@ const personData = (t: TFunction) => {
       name: 'M. Daffa Atlantic Putra',
       position: 'Seafarer',
       company: 'PT KSM Indonesia',
-      quotes: t('success_story.quotes_1'),
+      quotes: t('landing_page.success_story.quotes_1'),
       profile: '/images/seafarer-daffa.jpg'
     },
     {
       name: 'Tohom Yogi Emerson Simatupang',
       position: 'Crewing Manager',
       company: 'Global Lingkar Cemerlang',
-      quotes: t('success_story.quotes_2'),
+      quotes: t('landing_page.success_story.quotes_2'),
       profile: '/images/glc-crewing-manager.jpg'
     },
     {
       name: 'Nanis Widiatiningsih',
       position: 'Director',
       company: 'Hugos Training Service',
-      quotes: t('success_story.quotes_3'),
+      quotes: t('landing_page.success_story.quotes_3'),
       profile: '/images/hugos-director.png'
     }
   ]
@@ -131,7 +131,7 @@ const SuccessStoryView = () => {
         <Typography
           sx={{ width: { xs: '100%', md: '185px' }, color: 'white', fontSize: { xs: 32, md: 40 }, fontWeight: 700 }}
         >
-          How they got onboard?
+          {t('landing_page.success_story.title')}
         </Typography>
         {isHidden && (
           <Button
@@ -147,7 +147,7 @@ const SuccessStoryView = () => {
               '&:hover': { backgroundColor: '#f0f0f0' }
             }}
           >
-            Start your journey
+            {t('landing_page.success_story.button')}
           </Button>
         )}
       </Box>
@@ -182,7 +182,7 @@ const SuccessStoryView = () => {
             '&:hover': { backgroundColor: '#f0f0f0' }
           }}
         >
-          Start your journey
+          {t('landing_page.success_story.button')}
         </Button>
       )}
     </Grid>

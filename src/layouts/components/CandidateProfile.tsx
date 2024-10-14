@@ -1129,7 +1129,7 @@ const CandidateProfile = (props: compProps) => {
                     options={comboroleType}
                     defaultValue={props.datauser?.field_preference?.role_type}
                     renderInput={params => <TextField {...params} label='Job Title *' variant='standard' />}
-                    onChange={(event: any, newValue: RoleType | null) =>
+                    onChange={(event: any, newValue: any) =>
                       newValue
                         ? setComboRolType(newValue)
                         : setComboRolType(props.datauser?.field_preference?.role_type?.id)
@@ -1301,7 +1301,7 @@ const CandidateProfile = (props: compProps) => {
                     options={comboroleType}
                     defaultValue={props.datauser?.field_preference?.role_type}
                     renderInput={params => <TextField {...params} label='Job Title *' variant='standard' />}
-                    onChange={(event: any, newValue: RoleType | null) =>
+                    onChange={(event: any, newValue: any) =>
                       newValue
                         ? setComboRolType(newValue)
                         : setComboRolType(props.datauser?.field_preference?.role_type?.id)

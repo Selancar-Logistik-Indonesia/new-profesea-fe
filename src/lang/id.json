@@ -113,7 +113,6 @@
     "landing_company_faq_5_1": "Profesea memiliki jaringan yang luas di industri maritim dan logistik. Perusahaan Anda bisa dengan mudah menemukan kandidat terbaik di <span style=\"font-style:italic\">talent pool</span> kami.",
     "landing_company_faq_6": "Menemukan kendala login/registrasi di platform Profesea?",
     "landing_company_faq_6_1": "Silakan hubungi <span style=\"color:#0a66c2\"><b>hello@profesea.id</b></span>",
-    "landing_lets_sail": "Berlayar Bersama Menuju Pekerjaan Impian Anda",
     "landing_features_title_1": "Terhubung dengan Perusahaan",
     "landing_features_title_2": "Buat CV kapan saja dan di mana saja",
     "landing_features_title_3": "Bantuan Karir Maritim",
@@ -208,10 +207,77 @@
         "subtitle": "Tampilkan status ketersediaan Anda dan dapatkan sorotan dari perekrut segera."
       }
     },
-    "success_story": {
-      "quotes_1": "Profesea memudahkan saya dan teman-teman untuk menemukan peluang dan koneksi yang kami butuhkan di industri ini.",
-      "quotes_2": "Profesea memudahkan kami memperluas jangkauan kandidat dan menyediakan tools yang efisien untuk rekrutmen yang lebih cepat dan efektif.",
-      "quotes_3": "Fitur <b>My Training</b> di Profesea memudahkan pelaut mengakses informasi pelatihan HUGOS dan dapat lebih mudah memilih program yang diinginkan."
+    "landing_page": {
+      "title": "Solusi Ekosistem Maritim & Logistik",
+      "description": "Temukan peluang tak terbatas dengan platform all-in-one media sosial inovatif kami, yang menghubungkan Anda ke jaringan luas komunitas maritim dan logistik.",
+      "button": "Join Sekarang",
+      "our_partner": "Bekerja Sama dengan Para Pemimpin Industri",
+      "our_feature": {
+        "title": "Perluas Jaringan Anda dengan Fitur Inovatif Kami",
+        "feature_title_1": "Media Sosial",
+        "feature_1": "Tempat untuk saling berbagi wawasan serta keterampilan, dan terhubung dengan perusahaan menarik serta kandidat lainnya di industri ini.",
+        "feature_title_2": "Komunitas",
+        "feature_2": "Bergabunglah dengan komunitas kami yang dapat saling mendukung dan menginspirasi satu sama lain untuk merintis jalur karier yang sukses.",
+        "feature_title_3": "Grup & Alumni",
+        "feature_3": "Bangun dan jaga koneksi untuk membantu Anda tetap unggul di industri ini."
+      },
+      "for_seafarer": {
+        "title": "Profesea untuk Pelaut",
+        "description": "Mulailah perjalanan karir Anda dengan platform pekerjaan maritim global kami. Kami membantu Anda menemukan peluang pelayaran di seluruh dunia, memastikan kepatuhan terhadap regulasi internasional—sehingga Anda dapat menjelajahi cakrawala baru dan mengembangkan karir Anda dengan lancar di seluruh dunia.",
+        "button": "Temukan Lebih Banyak Pekerjaan"
+      },
+      "for_professional": {
+        "title": "Profesea untuk Profesional",
+        "description": "Bangun tim impian Anda dengan solusi perekrutan global kami untuk industri maritim dan logistik. Kami membantu Anda merekrut profesional terbaik dengan mudah sambil memastikan kepatuhan terhadap regulasi lokal—sehingga Anda dapat memperluas operasi Anda dengan lancar di seluruh dunia.",
+        "button": "Temukan Lebih Banyak Pekerjaan"
+      },
+      "for_recruiter": {
+        "title_1": "Profesea untuk perusahaan",
+        "title_2": "Cari <span style=\"color: #FE9602\">Lebih Cerdas</span>, Rekrut <span style=\"color: #FE9602\">Lebih Cepat</span>",
+        "description": "Gunakan filter lanjutan dan rekomendasi pintar untuk memperlancar proses perekrutan Anda.",
+        "benefit_1": "Pasang lowongan pekerjaan secara online, <span style=\" font-weight: 700 \">tanpa lagi memerlukan dokumen.</span>",
+        "benefit_2": "Gunakan <span style=\" font-weight: 700 \">sistem penyaringan cepat</span> kami untuk perekrutan pelaut.",
+        "benefit_3": "Terima <span style=\" font-weight: 700 \">rekomendasi kandidat</span> yang dipersonalisasi.",
+        "benefit_4": "<span style=\" font-weight: 700 \">Optimalkan akuisisi talenta</span> dengan <span style=\" font-weight: 700 \">Recruiter Star!</span> Paket langganan kami untuk perusahaan.",
+        "button": "Pelajari Lebih Lanjut"
+      },
+      "for_trainer": {
+        "title_1": "Profesea sebagai Platform Pelatihan",
+        "title_2": "Dapat <span style=\"color: #FE9602\">Sertifikasi</span>, Tetap <span style=\"color: #FE9602\">Kompetitif</span>",
+        "description": "Jelajahi kursus dari platform yang diakui secara resmi dan dapatkan sertifikasi yang Anda butuhkan untuk unggul. Ingin tumbuh bersama kami? Jadilah mitra pelatihan yang terpercaya hari ini.",
+        "benefit_1": "<span style=\" font-weight: 700 \">Mitra pemesanan online</span> untuk pusat pelatihan maritim.",
+        "benefit_2": "<span style=\" font-weight: 700 \">Saluran pemasaran alternatif</span> yang akan meningkatkan eksposur pusat pelatihan Anda.",
+        "benefit_3": "Mitra <span style=\" font-weight: 700 \">penyedia E-learning.</span>",
+        "button": "Pelajari Lebih Lanjut"
+      },
+      "our_benefit": {
+        "title": "Membuka Peluang dengan Profesea di Indonesia",
+        "benefit_title_1": "Media sosial dan forum diskusi komunitas",
+        "benefit_1": "Bertukar ide dan perluas jaringan Anda bersama berbagai profesional di industri maritim dan logistik.",
+        "benefit_title_2": "Bantuan Karir Maritim",
+        "benefit_2": "Pengingat dan jadwal sertifikasi akan langsung dikirim ke email Anda.",
+        "benefit_title_3": "Tersedia Kapan Saja",
+        "benefit_3": "Sampaikan ketersediaan Anda dan dapatkan perhatian dari perekrut dengan segera.",
+        "benefit_title_4": "Buat CV Anda Di Mana Saja & Kapan Saja",
+        "benefit_4": "Buat, perbarui, dan unggah CV serta Sertifikat Anda secara real-time.",
+        "benefit_title_5": "Terhubung dengan Perusahaan",
+        "benefit_5": "Kandidat baru dapat terhubung dengan perusahaan yang sesuai dengan kualifikasi mereka."
+      },
+      "success_story": {
+        "title": "How they got onboard?",
+        "quotes_1": "Profesea memudahkan saya dan teman-teman untuk menemukan peluang dan koneksi yang kami butuhkan di industri ini.",
+        "quotes_2": "Profesea memudahkan kami memperluas jangkauan kandidat dan menyediakan tools yang efisien untuk rekrutmen yang lebih cepat dan efektif.",
+        "quotes_3": "Fitur <b>My Training</b> di Profesea memudahkan pelaut mengakses informasi pelatihan HUGOS dan dapat lebih mudah memilih program yang diinginkan.",
+        "button": "Mulai perjalanan anda"
+      },
+      "news": {
+        "title": "Baca Artikel Kami",
+        "button": "Baca Lebih Lanjut"
+      },
+      "lets_sail": {
+        "title": "Berlayar Menuju Kesempatan Berikutnya",
+        "button": "Bergabunglah dengan Profesea"
+      }
     }
   }
 }
