@@ -1,42 +1,42 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import {Button, Card, CardContent } from '@mui/material'
-import { HttpClient } from 'src/services' 
- 
+import { Button, Card, CardContent } from '@mui/material'
+import { HttpClient } from 'src/services'
+
 import { Icon } from '@iconify/react'
 import { toast } from 'react-hot-toast'
- 
+
 export type ParamMain = {
   name: string
   skill: string
   location: string
 }
 
-interface Props { 
+interface Props {
   alumni: any
 }
- 
+
 const ListAlumniLatter = (props: Props) => {
-  const { alumni } = props  
+  const { alumni } = props
   const onSelectFile2 = async (e: any) => {
-    debugger;
+    debugger
     const json = {
       suratpenugasan: e.target.files[0]
     }
     try {
       console.log(json)
-      const resp = await HttpClient.postFile('/alumni/'+alumni.id, json)
+      const resp = await HttpClient.postFile('/alumni/' + alumni.id, json)
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong create alumni!'
-      } 
+      }
       toast.success(` Update latter of assigment successfully!`)
       window.location.reload()
     } catch (error) {
       toast.error(`Opps ${error}`)
     }
   }
-  
+
   return (
     <Grid container marginTop={'10px'}>
       <Grid item xs={12}>
@@ -48,58 +48,63 @@ const ListAlumniLatter = (props: Props) => {
                   <Typography
                     align='left'
                     variant='body2'
-                    sx={{ color: '#32487A', fontFamily: 'Outfit', fontWeight: '600', mb: 1 }}
+                    sx={{ color: '#32487A', fontWeight: '600', mb: 1 }}
                     fontSize={16}
                   >
                     Letter of Assignment
                   </Typography>
                 </Box>
               </Box>
-             
-              {alumni?.suratpenugasan == null?
-               <Box sx={{ display: 'flex', flexDirection: 'row', width: '90%', mb: 1, justifyContent: 'center' }} ml={5}>
-                <Box mr={3}>
-                  <Icon fontSize='large' icon={'vscode-icons:file-type-pdf2'} style={{ fontSize: '36px' }} />
-                </Box>
 
-                <Box flexGrow={1} display={'flex'} flexDirection={'column'} >
-                  <Button component='label'>
-                    Upload
-                    <input
-                      accept='application/pdf'
-                      style={{ display: 'none', height: 50, width: '100%' }}
-                      id='raised-button-file-2'
-                      onChange={onSelectFile2}
-                      type='file'
-                    ></input>
-                  </Button>
-                </Box>
- 
-              </Box>
-              :(
-                 <Box sx={{ display: 'flex', flexDirection: 'row', width: '90%', mb: 1, justifyContent: 'center' }} ml={5}>
-                <Box mr={3}>
-                  <Icon fontSize='large' icon={'vscode-icons:file-type-pdf2'} style={{ fontSize: '36px' }} />
-                </Box>
+              {alumni?.suratpenugasan == null ? (
+                <Box
+                  sx={{ display: 'flex', flexDirection: 'row', width: '90%', mb: 1, justifyContent: 'center' }}
+                  ml={5}
+                >
+                  <Box mr={3}>
+                    <Icon fontSize='large' icon={'vscode-icons:file-type-pdf2'} style={{ fontSize: '36px' }} />
+                  </Box>
 
-                <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'}>
-                  <Button component='label'>
-                    Change
-                    <input
-                      accept='application/pdf'
-                      style={{ display: 'none', height: 50, width: '100%' }}
-                      id='raised-button-file-2'
-                      onChange={onSelectFile2}
-                      type='file'
-                    ></input>
-                  </Button>
+                  <Box flexGrow={1} display={'flex'} flexDirection={'column'}>
+                    <Button component='label'>
+                      Upload
+                      <input
+                        accept='application/pdf'
+                        style={{ display: 'none', height: 50, width: '100%' }}
+                        id='raised-button-file-2'
+                        onChange={onSelectFile2}
+                        type='file'
+                      ></input>
+                    </Button>
+                  </Box>
                 </Box>
-                <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'} mt={1.5}>
-                  <Button target='blank' href={alumni?.suratpenugasan} size='small'>
-                    Open
-                  </Button>
+              ) : (
+                <Box
+                  sx={{ display: 'flex', flexDirection: 'row', width: '90%', mb: 1, justifyContent: 'center' }}
+                  ml={5}
+                >
+                  <Box mr={3}>
+                    <Icon fontSize='large' icon={'vscode-icons:file-type-pdf2'} style={{ fontSize: '36px' }} />
+                  </Box>
+
+                  <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'}>
+                    <Button component='label'>
+                      Change
+                      <input
+                        accept='application/pdf'
+                        style={{ display: 'none', height: 50, width: '100%' }}
+                        id='raised-button-file-2'
+                        onChange={onSelectFile2}
+                        type='file'
+                      ></input>
+                    </Button>
+                  </Box>
+                  <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'} mt={1.5}>
+                    <Button target='blank' href={alumni?.suratpenugasan} size='small'>
+                      Open
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
               )}
             </Grid>
             {/* <Box sx={{ mt: 3 }}>{renderList(listAlumni, idalumni, props, firstload)}</Box> */}

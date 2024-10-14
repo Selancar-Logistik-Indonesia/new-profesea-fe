@@ -63,7 +63,9 @@ const renderList = (listGroup: Group[]) => {
               component='img'
               alt='profile-header'
               image={
-                item.groupbanner != '' ? base_url + '/storage/' + item.groupbanner : '/images/avatars/headerprofile3.png'
+                item.groupbanner != ''
+                  ? base_url + '/storage/' + item.groupbanner
+                  : '/images/avatars/headerprofile3.png'
               }
               sx={{
                 height: { xs: 100, md: 100 },
@@ -116,25 +118,13 @@ const renderList = (listGroup: Group[]) => {
                     }}
                   >
                     <Link href={'/group?id=' + item?.id}>
-                      <Typography
-                        align='center'
-                        sx={{ fontFamily: 'Outfit', fontWeight: '600', color: '#0a66c2', mb: 1 }}
-                        fontSize={18}
-                      >
+                      <Typography align='center' sx={{ fontWeight: '600', color: '#0a66c2', mb: 1 }} fontSize={18}>
                         {item.title ? item.title : '-'}
                       </Typography>
-                      <Typography
-                        align='center'
-                        sx={{ fontFamily: 'Outfit', fontWeight: '400', color: 'text.primary', mb: 1 }}
-                        fontSize={14}
-                      >
+                      <Typography align='center' sx={{ fontWeight: '400', color: 'text.primary', mb: 1 }} fontSize={14}>
                         {item.description ? item.description : '-'}
                       </Typography>
-                      <Typography
-                        align='center'
-                        sx={{ fontFamily: 'Outfit', fontWeight: '600', color: '#ff9601', mb: 1 }}
-                        fontSize={12}
-                      >
+                      <Typography align='center' sx={{ fontWeight: '600', color: '#ff9601', mb: 1 }} fontSize={12}>
                         {item.count_member ? item.count_member : '-'} Member
                       </Typography>
                     </Link>
@@ -142,7 +132,7 @@ const renderList = (listGroup: Group[]) => {
                       href={'/group?id=' + item?.id}
                       variant='outlined'
                       color='primary'
-                      sx={{ fontFamily: 'Outfit', fontWeight: '600', color: '#0a66c2' }}
+                      sx={{ fontWeight: '600', color: '#0a66c2' }}
                     >
                       Join
                     </Button>

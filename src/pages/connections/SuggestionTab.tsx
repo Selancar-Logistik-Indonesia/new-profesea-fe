@@ -24,7 +24,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 
-import style from '../../../../styles/css/ConnectionList.module.css'
+import style from '../../../styles/css/ConnectionList.module.css'
 
 export default function SuggestionTab(props: any) {
   const [pageSuggest, setPageSuggest] = React.useState(1)

@@ -19,7 +19,7 @@ const renderList = (listAlumni: any[]) => {
   if (!listAlumni || listAlumni.length == 0) {
     return
   }
-  
+
   return listAlumni?.map(item => {
     const userPhoto = item.photo != '' ? item.photo : '/images/avatars/default-user.png'
 
@@ -64,11 +64,12 @@ const ListAlumniLeftContributor = (props: Props) => {
                 <>
                   <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Box sx={{ mr: 2 }}>
-                    <Typography
+                      <Typography
                         align='left'
                         variant='body2'
-                        sx={{ color: '#32487A', fontFamily: 'Outfit', fontWeight: '600', mb: 1 }}
-                        fontSize={16}>
+                        sx={{ color: '#32487A', fontWeight: '600', mb: 1 }}
+                        fontSize={16}
+                      >
                         Top 10 Contributor
                       </Typography>
                     </Box>

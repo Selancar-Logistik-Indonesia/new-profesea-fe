@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   Checkbox,
-  CircularProgress,
   DialogActions,
   DialogContent,
   Divider,
@@ -12,21 +11,21 @@ import {
   FadeProps,
   FormControlLabel,
   Stack,
-  TextField,
   Typography
 } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
 import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import { forwardRef, ReactElement, Ref, useState } from 'react'
-import ButtonUploadVideo from './ButtonUploadVideo'
-import ButtonUploadPhoto from './ButtonUploadPhoto'
+// import ButtonUploadVideo from './ButtonUploadVideo'
+// import ButtonUploadPhoto from './ButtonUploadPhoto'
 import IconButton from '@mui/material/IconButton'
 import Icon from 'src/@core/components/icon'
 
 // Dialog
 import Dialog from '@mui/material/Dialog'
 import { HttpClient } from 'src/services'
+import PostFeedDialog from './PostFeedDialog'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -38,13 +37,15 @@ const Transition = forwardRef(function Transition(
 const Postfeed = () => {
   const { user, setUser } = useAuth()
   const { updateStatus } = useSocialFeed()
-  const [content, setContent] = useState('')
+  // const [content, setContent] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isOpenDialog, setIsOpenDialog] = useState(false)
+  const [isOpenDialogPostFeed, setIsOpenDialogPostFeed] = useState(false)
   const [checked, isChecked] = useState(false)
   const [isAgree, setIsAgree] = useState<boolean | undefined>(user?.is_agree_policy_post)
+  const [contentType, setContentType] = useState('text')
 
-  const handleUpdateStatus = async () => {
+  const handleUpdateStatus = async (content_type: string, content: string, attachments?: any) => {
     if (!isAgree) {
       setIsOpenDialog(true)
 
@@ -54,11 +55,10 @@ const Postfeed = () => {
     setIsLoading(true)
     try {
       await updateStatus({
-        content_type: 'text',
-        content: content
+        content_type: content_type,
+        content: content,
+        attachments: attachments
       })
-
-      setContent('')
     } catch (error) {
       alert(getCleanErrorMessage(error))
     }
@@ -68,6 +68,15 @@ const Postfeed = () => {
 
   const handleOnCloseDialog = () => {
     setIsOpenDialog(!isOpenDialog)
+  }
+
+  const handleOnCloseDialogPostFeed = () => {
+    setIsOpenDialogPostFeed(!isOpenDialogPostFeed)
+  }
+
+  const handleOpenDialogPostFeed = (contentType: string) => {
+    setIsOpenDialogPostFeed(true)
+    setContentType(contentType)
   }
 
   const handleUpdatePolicyPostStatus = async () => {
@@ -85,6 +94,14 @@ const Postfeed = () => {
 
   return (
     <>
+      <PostFeedDialog
+        contentTypeFromParent={contentType}
+        isLoading={isLoading}
+        isOpen={isOpenDialogPostFeed}
+        onClose={handleOnCloseDialogPostFeed}
+        user={user}
+        handleUpdateStatus={handleUpdateStatus}
+      />
       <Dialog
         fullWidth
         open={isOpenDialog}
@@ -169,14 +186,47 @@ const Postfeed = () => {
         </DialogActions>
       </Dialog>
       <Card
-        sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', padding: { xs: 3, md: 5 } }}
+        sx={{
+          border: 0,
+          boxShadow: 0,
+          color: 'common.white',
+          backgroundColor: '#FFFFFF',
+          padding: { xs: 3, md: 5 },
+          borderRadius: '12px !important'
+        }}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+        <Box
+          sx={{ display: 'flex', flexDirection: 'row', borderBottom: '1px solid rgba(219, 219, 219, 1)', pb: '10px' }}
+        >
           <Box mr={3} mt={1}>
             <Avatar src={getUserAvatar(user!)} alt='profile-picture' sx={{ height: 50, width: 50 }} />
           </Box>
-          <Box sx={{ flexGrow: 1 }}>
-            <TextField
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              mt: '10px'
+            }}
+          >
+            <Button
+              onClick={() => setIsOpenDialogPostFeed(true)}
+              sx={{
+                width: '100%',
+                borderRadius: '30px !important',
+                backgroundColor: 'rgba(240, 240, 240, 1)',
+                textTransform: 'capitalize',
+                justifyContent: 'flex-start !important',
+                fontWeight: 400,
+                fontSize: '14px',
+                color: 'rgba(102, 102, 102, 1)'
+              }}
+            >
+              Start a Post, Share Your Thoughts...
+            </Button>
+            {/* <TextField
               value={content}
               multiline
               fullWidth
@@ -184,22 +234,47 @@ const Postfeed = () => {
               placeholder='Start a post'
               variant='standard'
               onChange={e => setContent(e.target.value)}
-            />
+            /> */}
           </Box>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', mt: 3, alignItems: 'end' }}>
-          <Box>
-            <ButtonUploadPhoto
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Button
+              onClick={() => handleOpenDialogPostFeed('images')}
+              size='small'
+              variant='text'
+              sx={{ textDecoration: 'none', textTransform: 'capitalize' }}
+            >
+              <Icon icon='icon-park-outline:picture-album' fontSize={24} color='#4CAF50' />
+              <div style={{ marginLeft: 5, fontWeight: 700, fontSize: '14px', color: 'rgba(94, 94, 94, 1)' }}>
+                Photo
+              </div>
+            </Button>
+            <Button
+              onClick={() => handleOpenDialogPostFeed('videos')}
+              size='small'
+              variant='text'
+              sx={{ textDecoration: 'none', textTransform: 'capitalize' }}
+            >
+              <Icon icon='icon-park-outline:video' fontSize={24} color='#FF5722' />
+              <div style={{ marginLeft: 5, fontWeight: 700, fontSize: '14px', color: 'rgba(94, 94, 94, 1)' }}>
+                Video
+              </div>
+            </Button>
+
+            {/* <Icon style={{ cursor: 'pointer' }} icon='icon-park-outline:picture-album' fontSize={24} color='#4CAF50' />
+            <Icon style={{ cursor: 'pointer' }} icon='icon-park-outline:video' fontSize={24} color='#FF5722' /> */}
+            {/* <ButtonUploadPhoto
               triggerDialogPolicy={() => setIsOpenDialog(true)}
               isAgree={isAgree as unknown as boolean}
             />
             <ButtonUploadVideo
               triggerDialogPolicy={() => setIsOpenDialog(true)}
               isAgree={isAgree as unknown as boolean}
-            />
+            /> */}
           </Box>
           <Box flexGrow={1} textAlign='right'>
-            <Button
+            {/* <Button
               sx={{ width: 45 }}
               disabled={isLoading}
               onClick={handleUpdateStatus}
@@ -208,7 +283,7 @@ const Postfeed = () => {
               variant='contained'
             >
               {isLoading ? <CircularProgress /> : 'Post'}
-            </Button>
+            </Button> */}
           </Box>
         </Box>
       </Card>
