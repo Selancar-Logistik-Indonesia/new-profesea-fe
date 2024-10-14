@@ -34,7 +34,7 @@ const RecruiterPlatformView = () => {
         sx={{ display: 'flex', flexDirection: 'column', padding: { xs: '24px', md: '54px 40px' } }}
       >
         <Typography
-          sx={{ mb: { xs: '12px', md: '24px' }, color: 'white', fontSize: { xs: 14, md: 20 }, fontWeight: 400 }}
+          sx={{ mb: { xs: '12px', md: '24px' }, color: 'white', fontSize: { xs: 16, md: 20 }, fontWeight: 400 }}
         >
           {t('landing_page.for_recruiter.title_1')}
         </Typography>
@@ -43,7 +43,7 @@ const RecruiterPlatformView = () => {
           dangerouslySetInnerHTML={{ __html: t('landing_page.for_recruiter.title_2') }}
         />
         <Typography
-          sx={{ mb: { xs: '24px', md: '39px' }, color: 'white', fontSize: { xs: 14, md: 16 }, fontWeight: 400 }}
+          sx={{ mb: { xs: '24px', md: '39px' }, color: 'white', fontSize: { xs: 18, md: 16 }, fontWeight: 400 }}
         >
           {t('landing_page.for_recruiter.description')}
         </Typography>
@@ -56,7 +56,7 @@ const RecruiterPlatformView = () => {
               sx={{
                 flexGrow: 1,
                 color: 'white',
-                fontSize: '14px',
+                fontSize: { xs: 18, md: 14 },
                 fontWeight: 400,
                 lineHeight: '24px'
               }}
@@ -71,7 +71,7 @@ const RecruiterPlatformView = () => {
               sx={{
                 flexGrow: 1,
                 color: 'white',
-                fontSize: '14px',
+                fontSize: { xs: 18, md: 14 },
                 fontWeight: 400,
                 lineHeight: '24px'
               }}
@@ -86,7 +86,7 @@ const RecruiterPlatformView = () => {
               sx={{
                 flexGrow: 1,
                 color: 'white',
-                fontSize: '14px',
+                fontSize: { xs: 18, md: 14 },
                 fontWeight: 400,
                 lineHeight: '24px'
               }}
@@ -101,7 +101,7 @@ const RecruiterPlatformView = () => {
               sx={{
                 flexGrow: 1,
                 color: 'white',
-                fontSize: '14px',
+                fontSize: { xs: 18, md: 14 },
                 fontWeight: 400,
                 lineHeight: '24px'
               }}
@@ -119,6 +119,8 @@ const RecruiterPlatformView = () => {
             backgroundColor: '#FFF',
             color: '#1F57C3',
             textTransform: 'none',
+            fontSize: { xs: 16, md: 14 },
+            fontWeight: 400,
             '&:hover': { backgroundColor: '#f0f0f0' }
           }}
         >

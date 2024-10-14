@@ -64,7 +64,7 @@ const PersonCard = ({ item }: { item: any }) => {
         <Typography
           sx={{
             color: '#525252',
-            fontSize: 16,
+            fontSize: { xs: 18, md: 16 },
             fontWeight: 400,
             lineHeight: '21px',
             textAlign: 'center',
@@ -89,8 +89,10 @@ const PersonCard = ({ item }: { item: any }) => {
             {item.name}
           </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'center', gap: '4px' }}>
-            <Typography sx={{ color: '#525252', fontSize: 14, fontWeight: 700 }}>{item.name}</Typography>
-            <Typography sx={{ color: '#525252', fontSize: 14, fontWeight: 400 }}>
+            <Typography sx={{ color: '#525252', fontSize: { xs: 16, md: 14 }, fontWeight: 700 }}>
+              {item.name}
+            </Typography>
+            <Typography sx={{ color: '#525252', fontSize: { xs: 16, md: 14 }, fontWeight: 400 }}>
               {`${item.position}${item.company ? `, ${item.company}` : ''}`}
             </Typography>
           </Box>
@@ -144,6 +146,7 @@ const SuccessStoryView = () => {
               backgroundColor: '#FFF',
               color: '#1F57C3',
               textTransform: 'none',
+              fontWeight: 400,
               '&:hover': { backgroundColor: '#f0f0f0' }
             }}
           >
@@ -179,6 +182,8 @@ const SuccessStoryView = () => {
             backgroundColor: '#FFF',
             color: '#1F57C3',
             textTransform: 'none',
+            fontSize: 16,
+            fontWeight: 400,
             '&:hover': { backgroundColor: '#f0f0f0' }
           }}
         >

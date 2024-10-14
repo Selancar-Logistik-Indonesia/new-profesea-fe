@@ -52,7 +52,7 @@ const OurPartnerView = () => {
         gap: '32px'
       }}
     >
-      <Typography sx={{ fontSize: { xs: 18, md: 32 }, fontWeight: 700, lineHeight: '38px' }}>
+      <Typography sx={{ fontSize: { xs: 22, md: 32 }, fontWeight: 700, lineHeight: '38px', textAlign: 'center' }}>
         {t('landing_page.our_partner')}
       </Typography>
       <Box

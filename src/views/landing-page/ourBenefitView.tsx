@@ -49,7 +49,7 @@ const BenefitCard = ({ item }: { item: any }) => {
         <Typography
           sx={{
             color: '#2D3436',
-            fontSize: 18,
+            fontSize: { xs: 20, md: 18 },
             fontWeight: 700,
             maxWidth: '379px',
             textAlign: { xs: 'left', md: 'center' }
@@ -60,7 +60,7 @@ const BenefitCard = ({ item }: { item: any }) => {
         <Typography
           sx={{
             color: '#868686',
-            fontSize: 16,
+            fontSize: { xs: 18, md: 16 },
             fontWeight: 400,
             maxWidth: '379px',
             textAlign: { xs: 'left', md: 'center' }

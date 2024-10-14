@@ -32,13 +32,15 @@ const NewsCard = ({ item }: { item: INews }) => {
           }}
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400, textTransform: 'capitalize' }}>
+          <Typography
+            sx={{ color: '#999', fontSize: { xs: 16, md: 14 }, fontWeight: 400, textTransform: 'capitalize' }}
+          >
             {item.category.name}
           </Typography>
           <Typography
             sx={{
               color: '#303030',
-              fontSize: 18,
+              fontSize: { xs: 20, md: 18 },
               fontWeight: 700,
               textTransform: 'capitalize',
               whiteSpace: 'nowrap',
@@ -58,7 +60,7 @@ const NewsCard = ({ item }: { item: INews }) => {
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
               color: '#5E5E5E',
-              fontSize: '14px',
+              fontSize: { xs: 16, md: 14 },
               fontWeight: 400
             }}
           >

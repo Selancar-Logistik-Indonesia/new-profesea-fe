@@ -36,7 +36,7 @@ const TrainerPlatformView = () => {
         sx={{ display: 'flex', flexDirection: 'column', padding: { xs: '24px', md: '54px 40px' } }}
       >
         <Typography
-          sx={{ mb: { xs: '12px', md: '24px' }, color: 'white', fontSize: { xs: 14, md: 20 }, fontWeight: 400 }}
+          sx={{ mb: { xs: '12px', md: '24px' }, color: 'white', fontSize: { xs: 16, md: 20 }, fontWeight: 400 }}
         >
           {t('landing_page.for_trainer.title_1')}
         </Typography>
@@ -45,7 +45,7 @@ const TrainerPlatformView = () => {
           dangerouslySetInnerHTML={{ __html: t('landing_page.for_trainer.title_2') }}
         />
         <Typography
-          sx={{ mb: { xs: '24px', md: '72px' }, color: 'white', fontSize: { xs: 14, md: 16 }, fontWeight: 400 }}
+          sx={{ mb: { xs: '24px', md: '72px' }, color: 'white', fontSize: { xs: 18, md: 16 }, fontWeight: 400 }}
         >
           {t('landing_page.for_trainer.description')}
         </Typography>
@@ -56,7 +56,7 @@ const TrainerPlatformView = () => {
               sx={{
                 width: '100%',
                 color: 'white',
-                fontSize: '14px',
+                fontSize: { xs: 18, md: 14 },
                 fontWeight: 400,
                 lineHeight: '21px'
               }}
@@ -68,7 +68,7 @@ const TrainerPlatformView = () => {
               sx={{
                 width: '100%',
                 color: 'white',
-                fontSize: '14px',
+                fontSize: { xs: 18, md: 14 },
                 fontWeight: 400,
                 lineHeight: '21px'
               }}
@@ -80,7 +80,7 @@ const TrainerPlatformView = () => {
               sx={{
                 width: '100%',
                 color: 'white',
-                fontSize: '14px',
+                fontSize: { xs: 18, md: 14 },
                 fontWeight: 400,
                 lineHeight: '21px'
               }}
@@ -98,6 +98,8 @@ const TrainerPlatformView = () => {
             backgroundColor: '#FFF',
             color: '#1F57C3',
             textTransform: 'none',
+            fontSize: { xs: 16, md: 14 },
+            fontWeight: 400,
             '&:hover': { backgroundColor: '#f0f0f0' }
           }}
         >
