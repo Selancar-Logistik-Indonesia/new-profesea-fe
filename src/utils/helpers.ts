@@ -7,9 +7,7 @@ import authConfig from 'src/configs/auth'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import moment from 'moment'
-/**
- * we need to sanitize error messages, so that no sensitive data is leaked
- */
+
 const getCleanErrorMessage = (error: any) => {
     let errorMessage = 'Something went wrong!'
 

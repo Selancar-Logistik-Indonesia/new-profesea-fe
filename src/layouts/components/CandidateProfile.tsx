@@ -20,7 +20,8 @@ import {
   Card,
   InputAdornment,
   Typography,
-  FormControl
+  FormControl,
+  createFilterOptions
 } from '@mui/material'
 
 // import DatePicker from 'react-datepicker'
@@ -53,7 +54,7 @@ import DialogAddDocument from 'src/pages/candidate/DialogAddDocument'
 import DialogEditBanner from 'src/pages/candidate/DialogEditBanner'
 import DialogEditProfile from 'src/pages/candidate/DialogEditProfile'
 // import RoleLevel from 'src/contract/models/role_level'
-import RoleType from 'src/contract/models/role_type'
+import { RoleTypeAutocomplete } from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import RegionTravel from 'src/contract/models/regional_travel'
 import Province from 'src/contract/models/province'
@@ -112,6 +113,8 @@ type compProps = {
 let ship: any = []
 let opp: any = []
 let tampilkanship: any = ''
+
+const filter = createFilterOptions<RoleTypeAutocomplete>()
 
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
@@ -584,7 +587,7 @@ const CandidateProfile = (props: compProps) => {
         if (tampilkanship == 'PELAUT') {
           const x = {
             // rolelevel_id: idcomborolLevel,
-            roletype_id: idcomborolType,
+            roletype_id: idcomborolType.id == 0 ? idcomborolType?.inputValue : idcomborolType?.id || idcomborolType,
             vesseltype_id: idcomboVessel,
             regiontravel_id: idcomboRegion,
             category_id: JC,
@@ -607,7 +610,7 @@ const CandidateProfile = (props: compProps) => {
         } else {
           const x = {
             // rolelevel_id: idcomborolLevel,
-            roletype_id: idcomborolType,
+            roletype_id: idcomborolType.id == 0 ? idcomborolType?.inputValue : idcomborolType?.id || idcomborolType,
             vesseltype_id: null,
             regiontravel_id: idcomboRegion,
             available_date: null,
@@ -1124,14 +1127,48 @@ const CandidateProfile = (props: compProps) => {
                     disablePortal
                     id='combo-box-job-title'
                     options={comboroleType}
-                    getOptionLabel={(option: any) => option.name}
                     defaultValue={props.datauser?.field_preference?.role_type}
                     renderInput={params => <TextField {...params} label='Job Title *' variant='standard' />}
-                    onChange={(event: any, newValue: RoleType | null) =>
-                      newValue?.id
-                        ? setComboRolType(newValue.id)
+                    onChange={(event: any, newValue: any) =>
+                      newValue
+                        ? setComboRolType(newValue)
                         : setComboRolType(props.datauser?.field_preference?.role_type?.id)
                     }
+                    getOptionLabel={(option: RoleTypeAutocomplete) => {
+                      // Value selected with enter, right from the input
+                      if (typeof option === 'string') {
+                        return option
+                      }
+                      // Add "xxx" option created dynamically
+                      if (option.inputValue) {
+                        return option.inputValue
+                      }
+
+                      // Regular option
+                      return option.name
+                    }}
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params)
+
+                      const { inputValue } = params
+
+                      // Suggest the creation of a new value
+                      const isExisting = options.some(option => inputValue === option.name)
+                      if (inputValue !== '' && !isExisting) {
+                        filtered.push({
+                          inputValue: inputValue,
+                          id: 0,
+                          category_id: 0,
+                          name: inputValue,
+                          category: JC,
+                          user: props.datauser,
+                          created_at: String(new Date()),
+                          updated_at: String(new Date())
+                        })
+                      }
+
+                      return filtered
+                    }}
                   />
                 </Grid>
                 <Grid item md={4} xs={12}>
@@ -1262,14 +1299,48 @@ const CandidateProfile = (props: compProps) => {
                     disablePortal
                     id='combo-box-job-title'
                     options={comboroleType}
-                    getOptionLabel={(option: any) => option.name}
                     defaultValue={props.datauser?.field_preference?.role_type}
                     renderInput={params => <TextField {...params} label='Job Title *' variant='standard' />}
-                    onChange={(event: any, newValue: RoleType | null) =>
-                      newValue?.id
-                        ? setComboRolType(newValue.id)
+                    onChange={(event: any, newValue: any) =>
+                      newValue
+                        ? setComboRolType(newValue)
                         : setComboRolType(props.datauser?.field_preference?.role_type?.id)
                     }
+                    getOptionLabel={(option: RoleTypeAutocomplete) => {
+                      // Value selected with enter, right from the input
+                      if (typeof option === 'string') {
+                        return option
+                      }
+                      // Add "xxx" option created dynamically
+                      if (option.inputValue) {
+                        return option.inputValue
+                      }
+
+                      // Regular option
+                      return option.name
+                    }}
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params)
+
+                      const { inputValue } = params
+
+                      // Suggest the creation of a new value
+                      const isExisting = options.some(option => inputValue === option.name)
+                      if (inputValue !== '' && !isExisting) {
+                        filtered.push({
+                          inputValue: inputValue,
+                          id: 0,
+                          category_id: 0,
+                          name: inputValue,
+                          category: JC,
+                          user: props.datauser,
+                          created_at: String(new Date()),
+                          updated_at: String(new Date())
+                        })
+                      }
+
+                      return filtered
+                    }}
                   />
                 </Grid>
 

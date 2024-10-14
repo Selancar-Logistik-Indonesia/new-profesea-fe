@@ -128,7 +128,7 @@ const LIstAlumniLeft = (props: Props) => {
                       <Typography
                         align='left'
                         variant='body2'
-                        sx={{ color: '#32487A', fontFamily: 'Outfit', fontWeight: '600', mb: 1 }}
+                        sx={{ color: '#32487A', fontWeight: '600', mb: 1 }}
                         fontSize={16}
                       >
                         Pending Request

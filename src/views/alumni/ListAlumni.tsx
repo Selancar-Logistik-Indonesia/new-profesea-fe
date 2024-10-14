@@ -121,7 +121,7 @@ const renderList = (listAlumni: Alumni[]) => {
                             <Grid item xs={12}>
                               <Typography
                                 align='center'
-                                sx={{ fontFamily: 'Outfit', fontWeight: '600', color: '#0a66c2', mt: 2, mb: 1 }}
+                                sx={{ fontWeight: '600', color: '#0a66c2', mt: 2, mb: 1 }}
                                 fontSize={18}
                               >
                                 {item.description ? item.description : '-'}
@@ -138,7 +138,7 @@ const renderList = (listAlumni: Alumni[]) => {
                           <Grid item xs={12}>
                             <Typography
                               align='center'
-                              sx={{ fontFamily: 'Outfit', fontWeight: '600', color: '#0a66c2', mt: 2, mb: 1 }}
+                              sx={{ fontWeight: '600', color: '#0a66c2', mt: 2, mb: 1 }}
                               fontSize={18}
                             >
                               {item.description ? item.description : '-'}
@@ -146,11 +146,7 @@ const renderList = (listAlumni: Alumni[]) => {
                           </Grid>
                         )}
                         <Grid item xs={12}>
-                          <Typography
-                            align='center'
-                            sx={{ fontFamily: 'Outfit', fontWeight: '600', color: '#ff9601', mb: 1 }}
-                            fontSize={12}
-                          >
+                          <Typography align='center' sx={{ fontWeight: '600', color: '#ff9601', mb: 1 }} fontSize={12}>
                             {item.count_member ? item.count_member : '-'} Alumni
                           </Typography>
                         </Grid>

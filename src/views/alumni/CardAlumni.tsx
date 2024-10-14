@@ -55,13 +55,10 @@ const CardAlumni = (props: Props) => {
                           }}
                         >
                           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                            <Typography
-                              sx={{ fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF' }}
-                              fontSize={14}
-                            >
+                            <Typography sx={{ fontWeight: '800', color: '#FFFFFF' }} fontSize={14}>
                               Total Member
                             </Typography>
-                            <Typography variant='h5' sx={{ fontFamily: 'Outfit', fontWeight: '800', color: '#FFFFFF' }}>
+                            <Typography variant='h5' sx={{ fontWeight: '800', color: '#FFFFFF' }}>
                               {selectedAlumni.totalmember}
                             </Typography>
                           </Box>

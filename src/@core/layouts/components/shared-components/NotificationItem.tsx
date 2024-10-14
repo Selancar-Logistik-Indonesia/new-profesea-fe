@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles'
-import StyledBadge from 'src/pages/profile/notification/StyleBadge'
+import StyledBadge from 'src/pages/notifications/StyleBadge'
 
 import MuiMenuItem, { MenuItemProps } from '@mui/material/MenuItem'
 import { Box, TypographyProps, Typography } from '@mui/material'

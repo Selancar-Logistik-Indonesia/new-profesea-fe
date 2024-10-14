@@ -4,6 +4,7 @@ import { EditorState, convertToRaw } from 'draft-js'
 import JobCategory from 'src/contract/models/job_category'
 import {
   Autocomplete,
+  createFilterOptions,
   Box,
   Button,
   Checkbox,
@@ -29,7 +30,7 @@ import toast from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import EditorArea from 'src/@core/components/react-draft-wysiwyg'
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
-import RoleType from 'src/contract/models/role_type'
+import { RoleTypeAutocomplete } from 'src/contract/models/role_type'
 import RoleLevel from 'src/contract/models/role_level'
 import Countries from 'src/contract/models/country'
 import City from 'src/contract/models/city'
@@ -50,6 +51,8 @@ interface IFormAddNonSeafarerProps {
 
 const employmentType = [{ name: 'Intern' }, { name: 'Contract' }, { name: 'Full-Time' }]
 
+const filter = createFilterOptions<RoleTypeAutocomplete>()
+
 const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ alignment, dialogProps, handleChangeToggle }) => {
   const [onLoading, setOnLoading] = useState(false)
   const [EduId, setEduId] = useState(0)
@@ -58,7 +61,7 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ alignment, dia
   const [CatId, setCatId] = useState(0)
   const [CouId, setCouId] = useState(100)
   const [CitId, setCitId] = useState('')
-  const [TypeId, setTypeId] = useState(0)
+  const [TypeId, setTypeId] = useState<any>(0)
   const [Sail, setSail] = useState('')
   const [Employmenttype, setEmploymenttype] = useState('')
   const [license, setLicense] = useState<any[]>([])
@@ -145,7 +148,7 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ alignment, dia
   const onSubmit = async (formData: Job) => {
     const { contractDuration, experience, salary_end, salary_start, text_role } = formData
 
-    let type = TypeId
+    let type = TypeId == 0 ? TypeId.inputValue : TypeId
     if (TypeId == 0 && text_role != '') {
       const json1 = {
         name: text_role,
@@ -303,7 +306,7 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ alignment, dia
           <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
             Add New Job
           </Typography>
-          <Typography variant='body2'>Fulfill your Job Info here</Typography>
+          <Typography variant='body2'>Fulfill your Job Info here </Typography>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
           <ToggleButtonGroup
@@ -357,11 +360,46 @@ const FormAddNonSeafarer: React.FC<IFormAddNonSeafarerProps> = ({ alignment, dia
               freeSolo
               id='combo-box-level'
               options={RoleType}
-              getOptionLabel={(option: RoleType | string) => (typeof option === 'string' ? option : option.name)}
+              //getOptionLabel={(option: RoleType | string) => (typeof option === 'string' ? option : option.name)}
               renderInput={params => <TextField {...params} label='Job Title' {...register('text_role')} />}
-              onChange={(event: any, newValue: RoleType | null | string) =>
+              onChange={(event: any, newValue: any) => {
                 typeof newValue === 'string' ? setTypeId(0) : newValue?.id ? setTypeId(newValue.id) : setTypeId(0)
-              }
+              }}
+              getOptionLabel={(option: string | RoleTypeAutocomplete) => {
+                // Value selected with enter, right from the input
+                if (typeof option === 'string') {
+                  return option
+                }
+                // Add "xxx" option created dynamically
+                if (option.inputValue) {
+                  return option.inputValue
+                }
+
+                // Regular option
+                return option.name
+              }}
+              filterOptions={(options: any, params) => {
+                const filtered = filter(options, params)
+
+                const { inputValue } = params
+
+                // Suggest the creation of a new value
+                const isExisting = options.some((option: RoleTypeAutocomplete) => inputValue === option.name)
+                if (inputValue !== '' && !isExisting) {
+                  filtered.push({
+                    inputValue: inputValue,
+                    id: 0,
+                    category_id: 0,
+                    name: inputValue,
+                    category: CatId,
+                    user: UserId,
+                    created_at: String(new Date()),
+                    updated_at: String(new Date())
+                  })
+                }
+
+                return filtered
+              }}
             />
           </Grid>
           <Grid item md={4} xs={12} sx={{ mb: 1 }}>

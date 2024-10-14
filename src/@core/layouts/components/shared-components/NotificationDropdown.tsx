@@ -16,9 +16,9 @@ import { HttpClient } from 'src/services'
 import INotification from 'src/contract/models/notification'
 import NotificationsType from './NotificationsType'
 import NotificationItem from './NotificationItem'
-import buildNotifies from 'src/pages/profile/notification/buildNotifies'
+import buildNotifies from 'src/pages/notifications/buildNotifies'
 
-import DialogMarkConfirmation from 'src/pages/profile/notification/DialogMarkConfirmation'
+import DialogMarkConfirmation from 'src/pages/notifications/DialogMarkConfirmation'
 
 interface Props {
   settings: Settings
@@ -227,7 +227,7 @@ const NotificationDropdown = (props: Props) => {
             <Button
               sx={{ textTransform: 'none', fontSize: '14px', fontWeight: 400 }}
               size='small'
-              href='/profile/notification'
+              href='/notifications'
             >
               See all
             </Button>
