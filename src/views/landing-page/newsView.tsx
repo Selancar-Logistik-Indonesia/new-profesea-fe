@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Box, Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Box, Button, Card, CardContent, CardMedia, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { HttpClient } from 'src/services'
 import INews from 'src/contract/models/news'
 import { Icon } from '@iconify/react'
 import moment from 'moment'
 import { useRouter } from 'next/router'
+import CarouselEvent from './carouselEvent'
 
 const NewsCard = ({ item }: { item: INews }) => {
   const router = useRouter()
@@ -75,6 +76,8 @@ const NewsCard = ({ item }: { item: INews }) => {
 
 const NewsView = () => {
   const { t } = useTranslation()
+  const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.down('sm'))
   const [listNews, setNews] = useState<INews[] | null>(null)
   const [onLoading, setOnLoading] = useState(false)
 
@@ -98,7 +101,7 @@ const NewsView = () => {
   }, [])
 
   return (
-    <Grid container sx={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
+    <Grid container sx={{ px: { xs: '24px', md: 0 }, display: 'flex', flexDirection: 'row', gap: '24px' }}>
       <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography sx={{ fontSize: 24, fontWeight: 700 }}>Read Our Articles</Typography>
         <Button
@@ -108,14 +111,24 @@ const NewsView = () => {
           {t('button_6')}
         </Button>
       </Grid>
-      <Grid item container sx={{ display: 'flex', flexWrap: 'nowrap' }} spacing={8}>
-        {!onLoading &&
-          listNews?.map((news, i) => (
+
+      {!onLoading && listNews && isXs ? (
+        <CarouselEvent>
+          {listNews.map((news, i) => (
             <Grid item key={i} xs={12} md={4}>
               <NewsCard item={news} />
             </Grid>
           ))}
-      </Grid>
+        </CarouselEvent>
+      ) : (
+        <Grid item container sx={{ display: 'flex', flexWrap: 'nowrap' }} spacing={8}>
+          {listNews?.map((news, i) => (
+            <Grid item key={i} xs={12} md={4}>
+              <NewsCard item={news} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Grid>
   )
 }

@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, Typography } from '@mui/material'
+import { Box, Divider, Grid, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { styled } from '@mui/material/styles'
 import { Icon } from '@iconify/react'
@@ -12,21 +12,33 @@ const LinkStyled = styled(Link)(() => ({
 
 const FooterView = () => {
   const { t } = useTranslation()
+  const theme = useTheme()
+  const isHidden = useMediaQuery(theme.breakpoints.up('md'))
 
   return (
     <Grid
       item
       container
       sx={{
-        p: '40px 120px 25px ',
+        p: { xs: '24px', md: '40px 120px 25px' },
         backgroundColor: '#FFFFFF',
         display: 'flex',
         flexDirection: 'row',
-        gap: '40px',
+        gap: { xs: '24px', md: '40px' },
         boxShadow: '0px -2px 10px rgba(0, 0, 0, 0.08)'
       }}
     >
-      <Grid item sx={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'nowrap', gap: '101px' }}>
+      <Grid
+        item
+        xs={12}
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          justifyContent: 'flex-start',
+          flexWrap: 'nowrap',
+          gap: { xs: '24px', md: '101px' }
+        }}
+      >
         <Box sx={{ width: '308px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <Box
             component='img'
@@ -39,6 +51,7 @@ const FooterView = () => {
             {t('landing_footer_title')}
           </Typography>
         </Box>
+        {!isHidden && <Divider sx={{ border: '1px solid #DBDBDB' }} />}
         <Box>
           <Typography sx={{ mb: '12px', color: 'primary.main', fontSize: 16, fontWeight: 700 }}>
             {t('landing_footer_menu_1')}
@@ -66,6 +79,7 @@ const FooterView = () => {
             </LinkStyled>
           </Box>
         </Box>
+        {!isHidden && <Divider sx={{ border: '1px solid #DBDBDB' }} />}
         <Box>
           <Typography sx={{ mb: '12px', color: 'primary.main', fontSize: 16, fontWeight: 700 }}>
             {t('landing_footer_menu_2')}
@@ -88,6 +102,7 @@ const FooterView = () => {
             </LinkStyled>
           </Box>
         </Box>
+        {!isHidden && <Divider sx={{ border: '1px solid #DBDBDB' }} />}
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <Typography sx={{ color: 'primary.main', fontSize: 16, fontWeight: 700 }}>
             {t('landing_footer_menu_9')}
@@ -107,10 +122,12 @@ const FooterView = () => {
             </IconButton>
           </Box>
         </Box>
+        {!isHidden && <Divider sx={{ border: '1px solid #DBDBDB' }} />}
       </Grid>
-      <Grid item xs={12}>
-        <Typography sx={{ color: '#1F1F1F', fontSize: '12px', fontWeight: 400 }} align='center'>
-          <Icon icon='ph:copyright' /> 2024 Profesea. All Rights Reserved Owned by PT. Selancar Logistik Indonesia
+      <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: '4px' }}>
+        <Icon icon='ph:copyright' style={{ marginTop: '2px' }} />
+        <Typography sx={{ color: '#1F1F1F', fontSize: '12px', fontWeight: 400 }}>
+          2024 Profesea. All Rights Reserved Owned by PT Selancar Logistik Indonesia.
         </Typography>
       </Grid>
     </Grid>

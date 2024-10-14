@@ -8,37 +8,43 @@ const RecruiterPlatformView = () => {
       container
       sx={{
         backgroundColor: '#2E50A2',
-        borderRadius: '20px',
-        display: 'flex',
-        flexWrap: 'nowrap',
-        alignItems: 'flex-start',
+        borderRadius: { xs: 0, md: '20px' },
         overflow: 'hidden'
       }}
     >
       <Grid
         item
-        xs={6}
+        xs={12}
+        md={6}
         sx={{
           backgroundImage: 'url(/images/recruiter-platform-banner.png)',
           backgroundSize: 'cover',
-          backgroundPosition: '100% center',
+          backgroundPosition: { xs: '100% 0%', md: '100% center' },
           width: '100%',
-          height: '100%'
+          height: { xs: '226px', md: '100%' }
         }}
       />
-      <Grid item xs={6} sx={{ display: 'flex', flexDirection: 'column', padding: '54px 40px' }}>
-        <Typography sx={{ mb: '24px', color: 'white', fontSize: 20, fontWeight: 400 }}>
+      <Grid
+        item
+        xs={12}
+        md={6}
+        sx={{ display: 'flex', flexDirection: 'column', padding: { xs: '24px', md: '54px 40px' } }}
+      >
+        <Typography
+          sx={{ mb: { xs: '12px', md: '24px' }, color: 'white', fontSize: { xs: 14, md: 20 }, fontWeight: 400 }}
+        >
           Profesea For Employer
         </Typography>
-        <Typography sx={{ mb: '16px', color: 'white', fontSize: 48, fontWeight: 700 }}>
+        <Typography sx={{ mb: '16px', color: 'white', fontSize: { xs: 32, md: 48 }, fontWeight: 700 }}>
           Search <span style={{ color: '#FE9602' }}>Smarter</span>, Hire{' '}
           <span style={{ color: '#FE9602' }}>Faster</span>
         </Typography>
-        <Typography sx={{ mb: '39px', color: 'white', fontSize: 16, fontWeight: 400 }}>
-          Use advanced filters and smart recommendations to streamline your <br />
-          hiring process.
+        <Typography
+          sx={{ mb: { xs: '24px', md: '39px' }, color: 'white', fontSize: { xs: 14, md: 16 }, fontWeight: 400 }}
+        >
+          Use advanced filters and smart recommendations to streamline your hiring process.
         </Typography>
-        <Grid container gap='20px' sx={{ mb: '39px' }}>
+        <Grid container gap='20px' sx={{ mb: { xs: '24px', md: '39px' } }}>
           <Grid item xs={12} sx={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
             <Box sx={{ flexShrink: 0, height: '24px' }}>
               <Icon icon='ph:note-pencil' color='#90C7E6' fontSize={24} />

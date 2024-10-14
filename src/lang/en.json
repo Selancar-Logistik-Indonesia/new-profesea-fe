@@ -112,7 +112,7 @@
     "landing_company_faq_5_1": "Profesea has a wide network in the maritime and logistics industry. Your company can easily find the best candidates in our talent pool.",
     "landing_company_faq_6": "Experiencing login/registration issues on the Profesea platform?",
     "landing_company_faq_6_1": "Please contact hello@profesea.id",
-    "landing_lets_sail": "Sail into Your Next \n Opportunity",
+    "landing_lets_sail": "Sail into Your Next Opportunity",
     "landing_features_title_1": "Meet the Companies",
     "landing_features_title_2": "Real-time CV Builder",
     "landing_features_title_3": "Maritime Career Assistance",
@@ -206,6 +206,11 @@
         "title": "Be Available and Recruit Alert",
         "subtitle": "Display your availability status and get spotlight from the recruiters right away."
       }
+    },
+    "success_story": {
+      "quotes_1": "Profesea makes it easy for me and my colleagues to find the opportunities and connections we need in this industry.",
+      "quotes_2": "Profesea helps us expand our candidate reach and provides efficient tools for faster and more effective recruitment.",
+      "quotes_3": "The <b>My Training</span> feature on Profesea allows seafarers to access HUGOS training information and choose their preferred programs more easily."
     }
   }
 }

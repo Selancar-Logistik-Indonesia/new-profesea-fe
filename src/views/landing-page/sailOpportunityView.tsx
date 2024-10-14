@@ -11,22 +11,22 @@ const SailOpportunity = () => {
       container
       sx={{
         ...landingPageStyle.bannerHero,
-        px: '30px',
-        borderRadius: '20px',
+        p: { xs: '22px 24px', md: '0px 30px' },
+        borderRadius: { xs: 0, md: '20px' },
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
+        alignItems: { xs: 'center', md: 'flex-start' },
+        justifyContent: { xs: 'flex-end', md: 'center' },
         gap: '22px'
       }}
     >
       <Typography
         sx={{
           color: '#FFFFFF',
-          fontSize: 48,
+          fontSize: { xs: 18, md: 48 },
           fontWeight: 700,
           lineHeight: 'normal',
-          whiteSpace: 'pre-line'
+          width: { xs: '100%', md: '600px' }
         }}
       >
         {t('landing_lets_sail')}
@@ -40,7 +40,8 @@ const SailOpportunity = () => {
           backgroundColor: '#FFF',
           color: '#1F57C3',
           textTransform: 'none',
-          '&:hover': { backgroundColor: '#f0f0f0' }
+          '&:hover': { backgroundColor: '#f0f0f0' },
+          width: { xs: '100%', md: 'fit-content' }
         }}
       >
         {t('landing_join_now_1')}

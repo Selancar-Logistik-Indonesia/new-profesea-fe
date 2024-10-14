@@ -40,16 +40,16 @@ const OurPartnerView = () => {
       container
       sx={{
         borderRadius: '20px',
-        backgroundColor: '#FAFAFA',
-        padding: '44px 60px',
+        padding: { xs: '0px 24px', md: '44px 60px' },
+        boxShadow: { xs: null, md: '1px 1px 1px 1px rgba(0, 0, 0, 0.06)' },
+        backgroundColor: { xs: null, md: '#FAFAFA' },
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '32px',
-        boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.06)'
+        gap: '32px'
       }}
     >
-      <Typography sx={{ fontSize: 32, fontWeight: 700, lineHeight: '38px' }}>
+      <Typography sx={{ fontSize: { xs: 18, md: 32 }, fontWeight: 700, lineHeight: '38px' }}>
         Partnering with Industry Leaders
       </Typography>
       <Box

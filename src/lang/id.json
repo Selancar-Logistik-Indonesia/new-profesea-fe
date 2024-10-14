@@ -113,7 +113,7 @@
     "landing_company_faq_5_1": "Profesea memiliki jaringan yang luas di industri maritim dan logistik. Perusahaan Anda bisa dengan mudah menemukan kandidat terbaik di <span style=\"font-style:italic\">talent pool</span> kami.",
     "landing_company_faq_6": "Menemukan kendala login/registrasi di platform Profesea?",
     "landing_company_faq_6_1": "Silakan hubungi <span style=\"color:#0a66c2\"><b>hello@profesea.id</b></span>",
-    "landing_lets_sail": "Berlayar Bersama Menuju \n Pekerjaan Impian Anda",
+    "landing_lets_sail": "Berlayar Bersama Menuju Pekerjaan Impian Anda",
     "landing_features_title_1": "Terhubung dengan Perusahaan",
     "landing_features_title_2": "Buat CV kapan saja dan di mana saja",
     "landing_features_title_3": "Bantuan Karir Maritim",
@@ -207,6 +207,11 @@
         "title": "Ketersediaan",
         "subtitle": "Tampilkan status ketersediaan Anda dan dapatkan sorotan dari perekrut segera."
       }
+    },
+    "success_story": {
+      "quotes_1": "Profesea memudahkan saya dan teman-teman untuk menemukan peluang dan koneksi yang kami butuhkan di industri ini.",
+      "quotes_2": "Profesea memudahkan kami memperluas jangkauan kandidat dan menyediakan tools yang efisien untuk rekrutmen yang lebih cepat dan efektif.",
+      "quotes_3": "Fitur <b>My Training</b> di Profesea memudahkan pelaut mengakses informasi pelatihan HUGOS dan dapat lebih mudah memilih program yang diinginkan."
     }
   }
 }
