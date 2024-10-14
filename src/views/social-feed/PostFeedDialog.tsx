@@ -96,6 +96,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
         if (attachments.length > 0) {
           setPreviewUrls(prevState => [...prevState, ...urls])
           setAttachments(prevState => [...prevState, ...acceptedFiles])
+
           return
         }
 
@@ -207,14 +208,30 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
               </Box>
             </Box>
             <Box>
-              <TextField
+              {/* <TextField
                 value={content}
                 onChange={e => setContent(e.target.value)}
-                sx={{ width: '100%' }}
+                sx={{ width: '100%', border: 'none' }}
                 id='outlined-multiline-static'
                 placeholder='Start a Post, Share Your Thoughts...'
                 multiline
                 rows={6}
+              /> */}
+              <textarea
+                value={content}
+                onChange={e => setContent(e.target.value)}
+                id='outlined-multiline-static'
+                placeholder='Start a Post, Share Your Thoughts...'
+                rows={6}
+                style={{
+                  border: 0,
+                  width: '100%',
+                  resize: 'none',
+                  fontWeight: 400,
+                  fontSize: '14px',
+                  color: 'rgba(102, 102, 102, 1)',
+                  fontFamily: 'Outfit'
+                }}
               />
             </Box>
             {isUploadFile && total > 0 && (
