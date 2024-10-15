@@ -13,7 +13,7 @@ interface ISectionThreeJobDetailProps {
 const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetail, license }) => {
   const { user } = useAuth()
   const companyLicenses: any[] = jobDetail?.license
-  const isCompany = user?.team_id === 3
+  const isUser = user && user.team_id === 2
 
   const findLicensesFromUser = (license: any[] | undefined, companyLicenses: any[]) => {
     const match: any[] = []
@@ -116,12 +116,11 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
   }
 
   const match = findLicensesFromUser(license, companyLicenses).match
-
   const missing = findLicensesFromUser(license, companyLicenses).missing
 
   return (
     <>
-      {!isCompany && companyLicenses.length != 0 && (
+      {isUser && companyLicenses.length !== 0 && (
         <Box
           sx={{
             display: 'flex',
@@ -139,7 +138,7 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
           <Box>
             <Typography mt='0.2rem' sx={{ fontWeight: '400' }} fontSize={14}>
               Easily track your progress with our certificate matching feature. Find out how well your certifications
-              align with the job’s requirements
+              align with the job's requirements
             </Typography>
           </Box>
           <Grid ml='0.7rem' container>
@@ -170,14 +169,17 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
           </Box>
         )}
 
-        <Grid ml='0.7rem' container>
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            {companyLicenses.map((c, i) => {
-              return renderCheckList(c?.id, license as unknown as any[], c.parent, i, c?.title)
-            })}
-          </Box>
-        </Grid>
-        {match?.length == 0 && !isCompany && companyLicenses.length != 0 && (
+        {isUser && (
+          <Grid ml='0.7rem' container>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              {companyLicenses.map((c, i) => {
+                return renderCheckList(c?.id, license as unknown as any[], c.parent, i, c?.title)
+              })}
+            </Box>
+          </Grid>
+        )}
+
+        {isUser && match?.length == 0 && companyLicenses.length !== 0 && (
           <Grid container>
             <Grid
               item
