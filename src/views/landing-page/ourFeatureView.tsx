@@ -52,7 +52,7 @@ const OurFeatureView = () => {
               <Typography
                 sx={{
                   color: '#525252',
-                  fontSize: { xs: '22px', md: '16px' },
+                  fontSize: { xs: '20px', md: '16px' },
                   fontWeight: 400,
                   lineHeight: { xs: '27px', md: '21px' }
                 }}
@@ -79,7 +79,7 @@ const OurFeatureView = () => {
               <Typography
                 sx={{
                   color: '#525252',
-                  fontSize: { xs: '22px', md: '16px' },
+                  fontSize: { xs: '20px', md: '16px' },
                   fontWeight: 400,
                   lineHeight: { xs: '27px', md: '21px' }
                 }}
@@ -106,7 +106,7 @@ const OurFeatureView = () => {
               <Typography
                 sx={{
                   color: '#525252',
-                  fontSize: { xs: '22px', md: '16px' },
+                  fontSize: { xs: '20px', md: '16px' },
                   fontWeight: 400,
                   lineHeight: { xs: '27px', md: '21px' }
                 }}

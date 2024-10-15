@@ -60,7 +60,7 @@ const HeaderBannerView = () => {
           sx={{
             width: 'fit-content',
             textTransform: 'none',
-            fontSize: { xs: 16, md: 14 },
+            fontSize: { xs: 18, md: 14 },
             fontWeight: 400
           }}
         >

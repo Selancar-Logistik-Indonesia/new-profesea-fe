@@ -98,7 +98,7 @@ const TrainerPlatformView = () => {
             backgroundColor: '#FFF',
             color: '#1F57C3',
             textTransform: 'none',
-            fontSize: { xs: 16, md: 14 },
+            fontSize: { xs: 18, md: 14 },
             fontWeight: 400,
             '&:hover': { backgroundColor: '#f0f0f0' }
           }}

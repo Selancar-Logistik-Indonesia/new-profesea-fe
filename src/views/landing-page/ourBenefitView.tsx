@@ -60,7 +60,7 @@ const BenefitCard = ({ item }: { item: any }) => {
         <Typography
           sx={{
             color: '#868686',
-            fontSize: { xs: 18, md: 16 },
+            fontSize: { xs: 20, md: 16 },
             fontWeight: 400,
             maxWidth: '379px',
             textAlign: { xs: 'left', md: 'center' }
@@ -78,7 +78,7 @@ const OurBenefitView = () => {
 
   return (
     <Grid container sx={{ px: { xs: '24px', md: 0 }, display: 'flex', flexDirection: 'column', gap: '44px' }}>
-      <Typography sx={{ color: '#2D3436', fontSize: { xs: 18, md: 32 }, fontWeight: 700 }} align='center'>
+      <Typography sx={{ color: '#2D3436', fontSize: { xs: 22, md: 32 }, fontWeight: 700 }} align='center'>
         {t('landing_page.our_benefit.title')}
       </Typography>
       <Grid item container sx={{ display: 'flex', justifyContent: 'center' }} spacing={8}>
