@@ -168,7 +168,7 @@ const ProfessionalPlatformView = () => {
       container
       sx={{
         backgroundImage: `url(/images/professional-platform-banner.png), linear-gradient(-90deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 0.50) 100%)`,
-        backgroundSize: { xs: '350%', md: 'cover' },
+        backgroundSize: { xs: '350%', md: '120%' },
         backgroundPosition: { xs: '60% 40%', md: '0% 40%' },
         backgroundBlendMode: 'overlay',
         backgroundColor: 'gray',
@@ -180,8 +180,8 @@ const ProfessionalPlatformView = () => {
         overflow: 'hidden'
       }}
     >
-      <Grid item container sx={{ mb: '24px', p: { xs: '24px', md: 0 }, display: 'flex', justifyContent: 'flex-end' }}>
-        <Box sx={{ maxWidth: '560px', mr: '24px' }}>
+      <Grid item container sx={{ mb: '24px', p: { xs: '24px', md: 0 }, display: 'flex', justifyContent: 'flex-start' }}>
+        <Box sx={{ maxWidth: '560px', ml: { xs: 0, md: '24px' } }}>
           <Typography sx={{ mb: '12px', color: 'white', fontSize: { xs: 24, md: 40 }, fontWeight: 700 }}>
             {t('landing_page.for_professional.title')}
           </Typography>

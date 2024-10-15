@@ -22,7 +22,7 @@ const RecruiterPlatformView = () => {
         sx={{
           backgroundImage: 'url(/images/recruiter-platform-banner.png)',
           backgroundSize: 'cover',
-          backgroundPosition: { xs: '100% 0%', md: '100% center' },
+          backgroundPosition: { xs: '0% 0%', md: '80% center' },
           width: '100%',
           height: { xs: '226px', md: '100%' }
         }}

@@ -172,8 +172,8 @@ const SeafarerPlatformView = () => {
       container
       sx={{
         backgroundImage: `url(/images/seafarer-platform-banner.png), linear-gradient(90deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 0.50) 100%)`,
-        backgroundSize: { xs: '350%', md: 'cover' },
-        backgroundPosition: { xs: 'center 60%', md: '0% 40%' },
+        backgroundSize: { xs: '350%', md: '120%' },
+        backgroundPosition: { xs: 'center 60%', md: '100% center' },
         backgroundBlendMode: 'overlay',
         backgroundColor: 'gray',
         borderRadius: { xs: 0, md: '20px' },
@@ -185,7 +185,7 @@ const SeafarerPlatformView = () => {
       }}
     >
       <Grid item container sx={{ mb: '24px', p: { xs: '24px', md: 0 }, display: 'flex', justifyContent: 'flex-end' }}>
-        <Box sx={{ maxWidth: '560px', mr: '24px' }}>
+        <Box sx={{ maxWidth: '560px', mr: { xs: 0, md: '24px' } }}>
           <Typography sx={{ mb: '12px', color: 'white', fontSize: { xs: 24, md: 40 }, fontWeight: 700 }}>
             {t('landing_page.for_seafarer.title')}
           </Typography>
