@@ -50,6 +50,7 @@ const CarouselEvent = ({ children }: { children: React.ReactNode[] | null }) => 
       <Box
         sx={{
           display: 'flex',
+          alignItems: 'center',
           transition: 'transform 0.5s ease',
           transform: `translateX(calc(-${currentIndex * 100}% - ${currentIndex * 24}px))`,
           gap: '24px'
@@ -61,14 +62,14 @@ const CarouselEvent = ({ children }: { children: React.ReactNode[] | null }) => 
           </Box>
         ))}
       </Box>
-      <Box sx={{ mt: '12px', display: 'flex', gap: '8px', justifyContent: 'center' }}>
+      <Box sx={{ mt: '24px', display: 'flex', gap: '8px', justifyContent: 'center' }}>
         {React.Children.map(children, (_, index) => (
           <Box
             key={index}
             onClick={() => setCurrentIndex(index)}
             sx={{
-              width: '12px',
-              height: '12px',
+              width: '10px',
+              height: '10px',
               borderRadius: '50%',
               backgroundColor: currentIndex === index ? 'primary.main' : 'grey.400',
               cursor: 'pointer'

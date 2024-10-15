@@ -49,13 +49,13 @@ const JobCard = ({ job }: { job: Job }) => {
     <Grid item xs={12} md={3} component={Link} href={link}>
       <Paper
         sx={{
-          padding: '12px',
-          borderRadius: '8px',
+          padding: { xs: '24px', md: '12px' },
           width: '100%',
-          height: '100%',
+          height: { xs: '280px', md: '100%' },
+          borderRadius: '8px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '6px',
+          gap: '12px',
           transition: '1s',
           '&:hover': { boxShadow: 3, transform: 'scale(1.02)' }
         }}
@@ -65,14 +65,14 @@ const JobCard = ({ job }: { job: Job }) => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
-            gap: '10px',
+            gap: { xs: '12px', md: '10px' },
             flexGrow: 1
           }}
         >
           <Typography
             sx={{
               color: '#303030',
-              fontSize: 14,
+              fontSize: { xs: 18, md: 14 },
               fontWeight: 700,
               textTransform: 'capitalize',
               whiteSpace: 'nowrap',
@@ -83,10 +83,16 @@ const JobCard = ({ job }: { job: Job }) => {
             {job.rolelevel.levelName ?? '-'}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 34, height: 34 }} />
+            <Avatar
+              src={userPhoto}
+              alt='profile-picture'
+              sx={{ width: { xs: 50, md: 34 }, height: { xs: 50, md: 34 } }}
+            />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <Typography sx={{ color: '#2D3436', fontSize: 12, fontWeight: 700 }}>{job.company.name}</Typography>
-              <Typography sx={{ color: '#868686', fontSize: 12, fontWeight: 400 }}>
+              <Typography sx={{ color: '#2D3436', fontSize: { xs: 14, md: 12 }, fontWeight: 700 }}>
+                {job.company.name}
+              </Typography>
+              <Typography sx={{ color: '#868686', fontSize: { xs: 14, md: 12 }, fontWeight: 400 }}>
                 {job.city.city_name}, {job.country.nicename}
               </Typography>
             </Box>
@@ -100,7 +106,9 @@ const JobCard = ({ job }: { job: Job }) => {
                 borderRadius: '4px'
               }}
             >
-              <Typography sx={{ color: '#32497A', fontSize: 10, fontWeight: 400, whiteSpace: 'nowrap' }}>
+              <Typography
+                sx={{ color: '#32497A', fontSize: { xs: 12, md: 10 }, fontWeight: 400, whiteSpace: 'nowrap' }}
+              >
                 {job.role_type?.name}
               </Typography>
             </Box>
@@ -112,21 +120,23 @@ const JobCard = ({ job }: { job: Job }) => {
                 borderRadius: '4px'
               }}
             >
-              <Typography sx={{ color: '#32497A', fontSize: 10, fontWeight: 400, whiteSpace: 'nowrap' }}>
+              <Typography
+                sx={{ color: '#32497A', fontSize: { xs: 12, md: 10 }, fontWeight: 400, whiteSpace: 'nowrap' }}
+              >
                 {job.category.name ?? '-'}
               </Typography>
             </Box>
           </Box>
-          <Typography sx={{ color: 'black', fontSize: 12, fontWeight: 400 }}>
+          <Typography sx={{ color: 'black', fontSize: { xs: 14, md: 12 }, fontWeight: 400 }}>
             {renderSalary(job.salary_start, job.salary_end, job.currency as string)}
           </Typography>
-          <Typography sx={{ color: '#525252', fontSize: 12, fontWeight: 400 }}>
+          <Typography sx={{ color: '#525252', fontSize: { xs: 14, md: 12 }, fontWeight: 400 }}>
             Requirement <span style={{ color: '#32497A', fontWeight: 700 }}>{job.degree?.name ?? '-'}</span>
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: '12px', md: '6px' } }}>
           <Divider sx={{ border: '1px solid #F0F0F0' }} />
-          <Typography sx={{ color: '#868686', fontSize: 10, fontWeight: 400 }} fontSize={12}>
+          <Typography sx={{ color: '#868686', fontSize: 12, fontWeight: 400 }} fontSize={12}>
             {job.created_at ? timeCreated(job.created_at) : '-'}
           </Typography>
         </Box>
@@ -167,7 +177,7 @@ const ProfessionalPlatformView = () => {
     <Grid
       container
       sx={{
-        backgroundImage: `url(/images/professional-platform-banner.png), linear-gradient(-90deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 0.50) 100%)`,
+        backgroundImage: `url(/images/professional-platform-banner.png), linear-gradient(-90deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 5) 100%)`,
         backgroundSize: { xs: '350%', md: '120%' },
         backgroundPosition: { xs: '60% 40%', md: '0% 40%' },
         backgroundBlendMode: 'overlay',
