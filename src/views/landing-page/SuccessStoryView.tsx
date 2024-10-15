@@ -50,7 +50,7 @@ const PersonCard = ({ item }: { item: any }) => {
         <Typography
           sx={{
             WebkitTextStrokeWidth: 1,
-            WebkitTextStrokeColor: 'var(--Neutral-0, #525252)',
+            WebkitTextStrokeColor: 'var(--Neutral-0, white)',
             color: 'transparent',
             fontFamily: 'Recoleta',
             lineHeight: 1,
@@ -63,8 +63,8 @@ const PersonCard = ({ item }: { item: any }) => {
         </Typography>
         <Typography
           sx={{
-            color: '#525252',
-            fontSize: { xs: 20, md: 16 },
+            color: 'white',
+            fontSize: { xs: 20, md: 17 },
             fontWeight: 400,
             lineHeight: '21px',
             textAlign: 'center',
@@ -89,10 +89,8 @@ const PersonCard = ({ item }: { item: any }) => {
             {item.name}
           </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'center', gap: '4px' }}>
-            <Typography sx={{ color: '#525252', fontSize: { xs: 18, md: 14 }, fontWeight: 700 }}>
-              {item.name}
-            </Typography>
-            <Typography sx={{ color: '#525252', fontSize: { xs: 18, md: 14 }, fontWeight: 400 }}>
+            <Typography sx={{ color: 'white', fontSize: { xs: 18, md: 14 }, fontWeight: 700 }}>{item.name}</Typography>
+            <Typography sx={{ color: 'white', fontSize: { xs: 18, md: 14 }, fontWeight: 400 }}>
               {`${item.position}${item.company ? `, ${item.company}` : ''}`}
             </Typography>
           </Box>
@@ -111,7 +109,7 @@ const SuccessStoryView = () => {
     <Grid
       container
       sx={{
-        backgroundColor: '#739BE9',
+        backgroundColor: '#2E50A2',
         borderRadius: { xs: 0, md: '20px' },
         p: { xs: '24px', md: '64px 49px' },
         display: 'flex',

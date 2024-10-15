@@ -9,6 +9,7 @@ import { format } from 'date-fns'
 import CarouselEvent from './carouselevent'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
+import landingPageStyle from 'src/@core/styles/landing-page/landing-page'
 
 const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
   if (salaryStart == 0) {
@@ -181,13 +182,8 @@ const SeafarerPlatformView = () => {
     <Grid
       container
       sx={{
-        backgroundImage: `url(/images/seafarer-platform-banner.png), linear-gradient(90deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 5) 100%)`,
-        backgroundSize: { xs: '350%', md: '120%' },
-        backgroundPosition: { xs: 'center 60%', md: '100% center' },
-        backgroundBlendMode: 'overlay',
-        backgroundColor: 'gray',
+        ...landingPageStyle.SeafarerView,
         borderRadius: { xs: 0, md: '20px' },
-        height: { xs: '800px', md: '622px' },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-end',
