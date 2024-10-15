@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react'
 import { Box, Button, Grid, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
+import landingPageStyle from 'src/@core/styles/landing-page/landing-page'
 
 const RecruiterPlatformView = () => {
   const { t } = useTranslation()
@@ -15,18 +16,7 @@ const RecruiterPlatformView = () => {
         overflow: 'hidden'
       }}
     >
-      <Grid
-        item
-        xs={12}
-        md={6}
-        sx={{
-          backgroundImage: 'url(/images/recruiter-platform-banner.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: { xs: '0% 0%', md: '80% center' },
-          width: '100%',
-          height: { xs: '226px', md: '100%' }
-        }}
-      />
+      <Grid item xs={12} md={6} sx={landingPageStyle.RecruiterView} />
       <Grid
         item
         xs={12}

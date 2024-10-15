@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import landingPageStyle from 'src/@core/styles/landing-page/landing-page'
 import Job from 'src/contract/models/job'
 import { HttpClient } from 'src/services'
 import { timeCreated } from 'src/utils/helpers'
@@ -177,13 +178,8 @@ const ProfessionalPlatformView = () => {
     <Grid
       container
       sx={{
-        backgroundImage: `url(/images/professional-platform-banner.png), linear-gradient(-90deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 5) 100%)`,
-        backgroundSize: { xs: '350%', md: '120%' },
-        backgroundPosition: { xs: '60% 40%', md: '0% 40%' },
-        backgroundBlendMode: 'overlay',
-        backgroundColor: 'gray',
+        ...landingPageStyle.ProfessionalView,
         borderRadius: { xs: 0, md: '20px' },
-        height: { xs: '800px', md: '622px' },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-end',

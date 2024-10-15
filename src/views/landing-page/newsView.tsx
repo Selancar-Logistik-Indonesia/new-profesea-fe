@@ -111,7 +111,7 @@ const NewsView = () => {
           component={Link}
           href='/news'
           endIcon={<Icon icon='mdi:chevron-right' />}
-          sx={{ color: 'black', fontSize: 14, fontWeight: 400, textTransform: 'none' }}
+          sx={{ color: 'black', fontSize: { xs: 16, md: 14 }, fontWeight: 400, textTransform: 'none' }}
         >
           {t('landing_page.news.button')}
         </Button>

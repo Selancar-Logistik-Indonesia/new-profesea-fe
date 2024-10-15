@@ -1,6 +1,6 @@
 import { Button, Typography, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import landingPageStyle from 'src/@core/styles/landing-page/landing-page-letssail'
+import landingPageStyle from 'src/@core/styles/landing-page/landing-page'
 import Link from 'next/link'
 
 const SailOpportunity = () => {
@@ -10,7 +10,7 @@ const SailOpportunity = () => {
     <Grid
       container
       sx={{
-        ...landingPageStyle.bannerHero,
+        ...landingPageStyle.SailOpportunity,
         p: { xs: '22px 24px', md: '0px 30px' },
         borderRadius: { xs: 0, md: '20px' },
         display: 'flex',
