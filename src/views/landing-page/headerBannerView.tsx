@@ -10,7 +10,7 @@ const HeaderBannerView = () => {
       container
       sx={{
         backgroundColor: '#E9F4FF',
-        padding: { xs: '48px', md: '120px' },
+        padding: { xs: '48px', md: '48px 120px' },
         display: 'flex',
         flexDirection: { xs: 'column', md: 'row' },
         justifyContent: 'space-between',
@@ -19,11 +19,37 @@ const HeaderBannerView = () => {
         alignItems: 'center'
       }}
     >
-      <Grid item sx={{ display: 'flex', flexDirection: 'column', width: { xs: '100%', md: '584px' } }}>
-        <Typography sx={{ mb: '32px', color: 'black', fontSize: { xs: 32, md: 48 }, fontWeight: 800, width: '100%' }}>
+      <Grid
+        item
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: { xs: 'center', md: 'start' },
+          width: { xs: '100%', md: '584px' }
+        }}
+      >
+        <Typography
+          sx={{
+            mb: '32px',
+            color: 'black',
+            fontSize: { xs: 36, md: 48 },
+            fontWeight: 800,
+            textAlign: { xs: 'center', md: 'left' },
+            width: '100%'
+          }}
+        >
           {t('landing_page.title')}
         </Typography>
-        <Typography sx={{ mb: '32px', color: 'black', fontSize: 16, fontWeight: 400, width: '100%' }}>
+        <Typography
+          sx={{
+            mb: '32px',
+            color: 'black',
+            fontSize: { xs: 20, md: 16 },
+            fontWeight: 400,
+            textAlign: { xs: 'center', md: 'left' },
+            width: '100%'
+          }}
+        >
           {t('landing_page.description')}
         </Typography>
         <Button
@@ -33,7 +59,9 @@ const HeaderBannerView = () => {
           size='large'
           sx={{
             width: 'fit-content',
-            textTransform: 'none'
+            textTransform: 'none',
+            fontSize: { xs: 16, md: 14 },
+            fontWeight: 400
           }}
         >
           {t('landing_page.button')}

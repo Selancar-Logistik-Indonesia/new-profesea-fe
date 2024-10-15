@@ -53,27 +53,27 @@ const FooterView = () => {
         </Box>
         {!isHidden && <Divider sx={{ border: '1px solid #DBDBDB' }} />}
         <Box>
-          <Typography sx={{ mb: '12px', color: 'primary.main', fontSize: 16, fontWeight: 700 }}>
+          <Typography sx={{ mb: '12px', color: 'primary.main', fontSize: { xs: 18, md: 16 }, fontWeight: 700 }}>
             {t('landing_footer_menu_1')}
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: '8px' }}>
             <LinkStyled href={'/news'}>
-              <Typography sx={{ color: '#1F1F1F', fontSize: 12, fontWeight: 400 }}>
+              <Typography sx={{ color: '#1F1F1F', fontSize: { xs: 16, md: 12 }, fontWeight: 400 }}>
                 {t('landing_footer_menu_10')}
               </Typography>
             </LinkStyled>
             <LinkStyled href={'/term'}>
-              <Typography sx={{ color: '#1F1F1F', fontSize: 12, fontWeight: 400 }}>
+              <Typography sx={{ color: '#1F1F1F', fontSize: { xs: 16, md: 12 }, fontWeight: 400 }}>
                 {t('landing_footer_menu_3')}
               </Typography>
             </LinkStyled>
             <LinkStyled href={'/privacy'}>
-              <Typography sx={{ color: '#1F1F1F', fontSize: 12, fontWeight: 400 }}>
+              <Typography sx={{ color: '#1F1F1F', fontSize: { xs: 16, md: 12 }, fontWeight: 400 }}>
                 {t('landing_footer_menu_4')}
               </Typography>
             </LinkStyled>
             <LinkStyled href={'/faqs'}>
-              <Typography sx={{ color: '#1F1F1F', fontSize: 12, fontWeight: 400 }}>
+              <Typography sx={{ color: '#1F1F1F', fontSize: { xs: 16, md: 12 }, fontWeight: 400 }}>
                 {t('landing_footer_menu_5')}
               </Typography>
             </LinkStyled>
@@ -81,22 +81,22 @@ const FooterView = () => {
         </Box>
         {!isHidden && <Divider sx={{ border: '1px solid #DBDBDB' }} />}
         <Box>
-          <Typography sx={{ mb: '12px', color: 'primary.main', fontSize: 16, fontWeight: 700 }}>
+          <Typography sx={{ mb: '12px', color: 'primary.main', fontSize: { xs: 18, md: 16 }, fontWeight: 700 }}>
             {t('landing_footer_menu_2')}
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: '8px' }}>
             <LinkStyled href={'/find-job'}>
-              <Typography sx={{ color: '#1F1F1F', fontSize: 12, fontWeight: 400 }}>
+              <Typography sx={{ color: '#1F1F1F', fontSize: { xs: 16, md: 12 }, fontWeight: 400 }}>
                 {t('landing_footer_menu_6')}
               </Typography>
             </LinkStyled>
             <LinkStyled href={'/employer'}>
-              <Typography sx={{ color: '#1F1F1F', fontSize: 12, fontWeight: 400 }}>
+              <Typography sx={{ color: '#1F1F1F', fontSize: { xs: 16, md: 12 }, fontWeight: 400 }}>
                 {t('landing_footer_menu_7')}
               </Typography>
             </LinkStyled>
             <LinkStyled href={'/trainings'}>
-              <Typography sx={{ color: '#1F1F1F', fontSize: 12, fontWeight: 400 }}>
+              <Typography sx={{ color: '#1F1F1F', fontSize: { xs: 16, md: 12 }, fontWeight: 400 }}>
                 {t('landing_footer_menu_8')}
               </Typography>
             </LinkStyled>
@@ -104,7 +104,7 @@ const FooterView = () => {
         </Box>
         {!isHidden && <Divider sx={{ border: '1px solid #DBDBDB' }} />}
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <Typography sx={{ color: 'primary.main', fontSize: 16, fontWeight: 700 }}>
+          <Typography sx={{ color: 'primary.main', fontSize: { xs: 18, md: 16 }, fontWeight: 700 }}>
             {t('landing_footer_menu_9')}
           </Typography>
           <Box sx={{ ml: '-8px', display: 'flex', gap: '12px' }}>

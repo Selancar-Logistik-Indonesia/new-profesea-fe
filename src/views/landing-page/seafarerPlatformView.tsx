@@ -73,7 +73,7 @@ const JobCard = ({ job }: { job: Job }) => {
           <Typography
             sx={{
               color: '#303030',
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: 700,
               textTransform: 'capitalize',
               whiteSpace: 'nowrap',
@@ -85,9 +85,9 @@ const JobCard = ({ job }: { job: Job }) => {
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 34, height: 34 }} />
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <Typography sx={{ color: '#2D3436', fontSize: 10, fontWeight: 700 }}>{job.company.name}</Typography>
-              <Typography sx={{ color: '#868686', fontSize: 10, fontWeight: 400 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <Typography sx={{ color: '#2D3436', fontSize: 12, fontWeight: 700 }}>{job.company.name}</Typography>
+              <Typography sx={{ color: '#868686', fontSize: 12, fontWeight: 400 }}>
                 {job.city.city_name}, {job.country.nicename}
               </Typography>
             </Box>
@@ -118,10 +118,10 @@ const JobCard = ({ job }: { job: Job }) => {
               </Typography>
             </Box>
           </Box>
-          <Typography sx={{ color: 'black', fontSize: 10, fontWeight: 400 }}>
+          <Typography sx={{ color: 'black', fontSize: 12, fontWeight: 400 }}>
             {renderSalary(job.salary_start, job.salary_end, job.currency as string)}
           </Typography>
-          <Typography sx={{ color: '#525252', fontSize: 10, fontWeight: 400 }}>
+          <Typography sx={{ color: '#525252', fontSize: 12, fontWeight: 400 }}>
             Onboarding on{' '}
             <span style={{ color: '#32497A', fontWeight: 700 }}>
               {format(new Date(job.onboard_at), 'dd MMMM yyyy') ?? '-'}
@@ -171,13 +171,13 @@ const SeafarerPlatformView = () => {
     <Grid
       container
       sx={{
-        backgroundImage: `url(/images/seafarer-platform-banner.png), linear-gradient(90deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 0.80) 100%)`,
-        backgroundSize: 'cover',
-        backgroundPosition: { xs: 'center 100%', md: '0% 40%' },
+        backgroundImage: `url(/images/seafarer-platform-banner.png), linear-gradient(90deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 0.50) 100%)`,
+        backgroundSize: { xs: '350%', md: '120%' },
+        backgroundPosition: { xs: 'center 60%', md: '100% center' },
         backgroundBlendMode: 'overlay',
         backgroundColor: 'gray',
         borderRadius: { xs: 0, md: '20px' },
-        height: '622px',
+        height: { xs: '800px', md: '622px' },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-end',
@@ -185,11 +185,18 @@ const SeafarerPlatformView = () => {
       }}
     >
       <Grid item container sx={{ mb: '24px', p: { xs: '24px', md: 0 }, display: 'flex', justifyContent: 'flex-end' }}>
-        <Box sx={{ maxWidth: '560px', mr: '24px' }}>
+        <Box sx={{ maxWidth: '560px', mr: { xs: 0, md: '24px' } }}>
           <Typography sx={{ mb: '12px', color: 'white', fontSize: { xs: 24, md: 40 }, fontWeight: 700 }}>
             {t('landing_page.for_seafarer.title')}
           </Typography>
-          <Typography sx={{ color: 'white', fontSize: { xs: 14, md: 16 }, fontWeight: 400, lineHeight: '21px' }}>
+          <Typography
+            sx={{
+              color: 'white',
+              fontSize: { xs: 20, md: 16 },
+              fontWeight: 400,
+              lineHeight: { xs: '24px', md: '21px' }
+            }}
+          >
             {t('landing_page.for_seafarer.description')}
           </Typography>
         </Box>
@@ -210,6 +217,30 @@ const SeafarerPlatformView = () => {
               {jobs.map((job, i) => (
                 <JobCard key={i} job={job} />
               ))}
+              <Grid
+                item
+                xs={12}
+                sx={{
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}
+              >
+                <IconButton
+                  onClick={() => router.push('/find-job')}
+                  sx={{ borderRadius: '200px', backgroundColor: 'gray' }}
+                >
+                  <Icon icon='mdi:chevron-right' color='white' fontSize={34} />
+                </IconButton>
+                <Typography
+                  sx={{ color: 'white', width: '120px', fontSize: '14px', fontWeight: 400, textAlign: 'center' }}
+                >
+                  {t('landing_page.for_seafarer.button')}
+                </Typography>
+              </Grid>
             </CarouselEvent>
           ) : (
             <Grid container sx={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'space-between', gap: '17px' }}>

@@ -26,6 +26,7 @@ const OurFeatureView = () => {
         <Grid
           container
           sx={{
+            flexGrow: 1,
             p: { xs: '0px 24px', md: '20px' },
             backgroundColor: { xs: null, md: '#CBE2F9' },
             borderRadius: '20px',
@@ -41,9 +42,9 @@ const OurFeatureView = () => {
               <Typography
                 sx={{
                   color: '#525252',
-                  fontSize: '16px',
+                  fontSize: { xs: '22px', md: '16px' },
                   fontWeight: 700,
-                  lineHeight: '20px'
+                  lineHeight: { xs: '24px', md: '20px' }
                 }}
               >
                 {t('landing_page.our_feature.feature_title_1')}
@@ -51,9 +52,9 @@ const OurFeatureView = () => {
               <Typography
                 sx={{
                   color: '#525252',
-                  fontSize: '16px',
+                  fontSize: { xs: '22px', md: '16px' },
                   fontWeight: 400,
-                  lineHeight: '21px'
+                  lineHeight: { xs: '27px', md: '21px' }
                 }}
               >
                 {t('landing_page.our_feature.feature_1')}
@@ -68,9 +69,9 @@ const OurFeatureView = () => {
               <Typography
                 sx={{
                   color: '#525252',
-                  fontSize: '16px',
+                  fontSize: { xs: '22px', md: '16px' },
                   fontWeight: 700,
-                  lineHeight: '20px'
+                  lineHeight: { xs: '24px', md: '20px' }
                 }}
               >
                 {t('landing_page.our_feature.feature_title_2')}
@@ -78,9 +79,9 @@ const OurFeatureView = () => {
               <Typography
                 sx={{
                   color: '#525252',
-                  fontSize: '16px',
+                  fontSize: { xs: '22px', md: '16px' },
                   fontWeight: 400,
-                  lineHeight: '21px'
+                  lineHeight: { xs: '27px', md: '21px' }
                 }}
               >
                 {t('landing_page.our_feature.feature_2')}
@@ -95,9 +96,9 @@ const OurFeatureView = () => {
               <Typography
                 sx={{
                   color: '#525252',
-                  fontSize: '16px',
+                  fontSize: { xs: '22px', md: '16px' },
                   fontWeight: 700,
-                  lineHeight: '20px'
+                  lineHeight: { xs: '24px', md: '20px' }
                 }}
               >
                 {t('landing_page.our_feature.feature_title_3')}
@@ -105,9 +106,9 @@ const OurFeatureView = () => {
               <Typography
                 sx={{
                   color: '#525252',
-                  fontSize: '16px',
+                  fontSize: { xs: '22px', md: '16px' },
                   fontWeight: 400,
-                  lineHeight: '21px'
+                  lineHeight: { xs: '27px', md: '21px' }
                 }}
               >
                 {t('landing_page.our_feature.feature_3')}
@@ -135,7 +136,12 @@ const OurFeatureView = () => {
           component='img'
           src='/images/profesea-feature.gif'
           alt='profesea-feature'
-          sx={{ width: { xs: '400px', md: '100%' }, animationDuration: '300s' }}
+          sx={{
+            width: { xs: '400px', md: '100%' },
+            height: 'auto',
+            maxHeight: { md: '500px' },
+            objectFit: 'cover'
+          }}
         />
       </Grid>
     </Grid>

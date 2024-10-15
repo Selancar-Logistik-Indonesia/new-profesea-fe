@@ -23,10 +23,11 @@ const SailOpportunity = () => {
       <Typography
         sx={{
           color: '#FFFFFF',
-          fontSize: { xs: 18, md: 48 },
+          fontSize: { xs: 24, md: 48 },
           fontWeight: 700,
           lineHeight: 'normal',
-          width: { xs: '100%', md: '600px' }
+          width: { xs: '100%', md: '600px' },
+          textAlign: { xs: 'center', md: 'left' }
         }}
       >
         {t('landing_page.lets_sail.title')}
@@ -40,6 +41,8 @@ const SailOpportunity = () => {
           backgroundColor: '#FFF',
           color: '#1F57C3',
           textTransform: 'none',
+          fontSize: { xs: 16, md: 14 },
+          fontWeight: 400,
           '&:hover': { backgroundColor: '#f0f0f0' },
           width: { xs: '100%', md: 'fit-content' }
         }}
