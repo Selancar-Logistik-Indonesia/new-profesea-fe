@@ -5,7 +5,7 @@
     "landing_hero_subtitle": "Profesea adalah platform lokerja khusus untuk industri maritim, logistik, dan pelaut, menyediakan lowongan kerja dan pelatihan terbaik.",
     "landing_about_title": "About Us",
     "landing_about_subtitle": "Profesea is Seafarer and Vessel match platform that provides featured and rapid candidate sourcing for Maritime Industry. Companies and employees have a chance to choose specific-technical options and detailed criterias via Profesea. Main goal is to help personnel & HR managers find suitable seafarers for their companies quickly and easily.",
-    "landing_join_now_1": "Join Now",
+    "landing_join_now_1": "Join Profesea",
     "landing_join_now_2": "Post Job",
     "landing_trainer_title": "Get Your Seafarer Certificate from Our Premier Training",
     "landing_trainer_subtitle": "Join our available training programs and open the door to becoming a successful seafarer!",
@@ -57,15 +57,16 @@
     "landing_discover_item_title": "How We Do Help You?",
     "landing_discover_item_title_detail": "Profesea solutions can support your business and career in the Maritime World",
     "landing_footer_title": "Profesea that connects your career in the maritime and logistics industry with a trust wide community network",
-    "landing_footer_menu_1": "Company",
-    "landing_footer_menu_2": "Platform",
+    "landing_footer_menu_1": "About Us",
+    "landing_footer_menu_2": "Platforms",
     "landing_footer_menu_3": "Terms of Service",
     "landing_footer_menu_4": "Privacy Policy",
     "landing_footer_menu_5": "FAQ",
     "landing_footer_menu_6": "Candidate",
     "landing_footer_menu_7": "Company",
     "landing_footer_menu_8": "Trainer",
-    "landing_footer_menu_9": "Our Social Media",
+    "landing_footer_menu_9": "Find Us",
+    "landing_footer_menu_10": "News",
     "landing_event_title": "Upcoming Events",
     "landing_recruiter_title_1": "As a source of most qualified talents for the maritime industry",
     "landing_recruiter_title_2": "Recruitment platform with filter system as needed",
@@ -111,7 +112,6 @@
     "landing_company_faq_5_1": "Profesea has a wide network in the maritime and logistics industry. Your company can easily find the best candidates in our talent pool.",
     "landing_company_faq_6": "Experiencing login/registration issues on the Profesea platform?",
     "landing_company_faq_6_1": "Please contact hello@profesea.id",
-    "landing_lets_sail": "Let's Sail Toward Your Dream Job",
     "landing_features_title_1": "Meet the Companies",
     "landing_features_title_2": "Real-time CV Builder",
     "landing_features_title_3": "Maritime Career Assistance",
@@ -133,6 +133,7 @@
     "button_3": "Dashboard",
     "button_4": "Register",
     "button_5": "Back",
+    "button_6": "Read More",
     "input_label_1": "Email",
     "input_label_2": "Password",
     "input_label_3_1": "Full Name",
@@ -203,6 +204,78 @@
       "beavailable": {
         "title": "Be Available and Recruit Alert",
         "subtitle": "Display your availability status and get spotlight from the recruiters right away."
+      }
+    },
+    "landing_page": {
+      "title": "Maritime & Logistics Ecosystem Solutions",
+      "description": "Discover limitless opportunities with our innovative all-in-one social media platform, connecting you to a vast network of maritime and logistics communities.",
+      "button": "Join Now",
+      "our_partner": "Partnering with Industry Leaders",
+      "our_feature": {
+        "title": "Advance Your Network with Our Innovative Features",
+        "feature_title_1": "Social Media",
+        "feature_1": "Place where you can share insights, showcase your skills, and connect with interesting fellow companies and other candidates in the industry.",
+        "feature_title_2": "Community",
+        "feature_2": "Join our vibrant community where you can support and inspire each other to chart a successful career path.",
+        "feature_title_3": "Groups & Alumni",
+        "feature_3": "Build and maintain connections to help you stay ahead in this industry."
+      },
+      "for_seafarer": {
+        "title": "Profesea for Seafarer",
+        "description": "Set sail on your career journey with our global maritime job platform. We help you find seafaring opportunities worldwide, ensuring compliance with international regulations—so you can explore new horizons and advance your career seamlessly across the globe.",
+        "button": "Discover More Jobs"
+      },
+      "for_professional": {
+        "title": "Profesea for Professional",
+        "description": "Build your dream team with our global hiring solution for the maritime and logistics industry. We help you easily recruit top professionals while ensuring compliance with local regulations—so you can expand your operations seamlessly across the globe.",
+        "button": "Discover More Jobs"
+      },
+      "for_recruiter": {
+        "title_1": "Profesea For Employer",
+        "title_2": "Search <span style=\"color: #FE9602\">Smarter</span>, Hire <span style=\"color: #FE9602\">Faster</span>",
+        "description": "Use advanced filters and smart recommendations to streamline your hiring process.",
+        "benefit_1": "Post job online, <span style=\" font-weight: 700 \">no more paperwork.</span>",
+        "benefit_2": "Use our <span style=\" font-weight: 700 \">quick filtering system</span> for seafarer recruitment.",
+        "benefit_3": "Receive <span style=\" font-weight: 700 \">personalized candidate</span> recommendation.",
+        "benefit_4": "<span style=\" font-weight: 700 \">Optimize talent acquisiton with Recuiter Star!</span> Our subscription plan for companies.",
+        "button": "Learn More"
+      },
+      "for_trainer": {
+        "title_1": "Profesea as Training Platform",
+        "title_2": "Get <span style=\"color: #FE9602\">Certified</span>, Stay <span style=\"color: #FE9602\">Competitive</span>",
+        "description": "Explore courses from officially recognized platforms and gain the certifications you need to excel. Want to grow with us? Become a trusted training partner today.",
+        "benefit_1": "<span style=\"font-weight: 700\">Online booking partner</span> for maritime training center.",
+        "benefit_2": "<span style=\"font-weight: 700\">Alternative marketing channel</span> that will amplify your training center's exposure.",
+        "benefit_3": "Partner for <span style=\"font-weight: 700\">E-learning provider.</span>",
+        "button": "Learn More"
+      },
+      "our_benefit": {
+        "title": "Unlocking Opportunities with Profesea",
+        "benefit_title_1": "Social media and community discussion forums",
+        "benefit_1": "Exchange ideas and expand your network with various professionals in the maritime and logistics industry.",
+        "benefit_title_2": "Maritime Career Assistance",
+        "benefit_2": "Reminder and scheduled certification directly to your email.",
+        "benefit_title_3": "Available Anytime",
+        "benefit_3": "Make your availability known and get spotlight by recruiters immediately.",
+        "benefit_title_4": "Create Your CV Anywhere & Anytime",
+        "benefit_4": "Create, update, and upload your CV and Certificate realtime.",
+        "benefit_title_5": "Connect with Companies",
+        "benefit_5": "Fresh candidates are able to connect with companies that suit their qualifications."
+      },
+      "success_story": {
+        "title": "How they got onboard?",
+        "quotes_1": "Profesea makes it easy for me and my colleagues to find the opportunities and connections we need in this industry.",
+        "quotes_2": "Profesea helps us expand our candidate reach and provides efficient tools for faster and more effective recruitment.",
+        "quotes_3": "The <b>My Training</b> feature on Profesea allows seafarers to access HUGOS training information and choose their preferred programs more easily.",
+        "button": "Start your journey"
+      },
+      "news": {
+        "title": "Read Our Articles",
+        "button": "Read More"
+      },
+      "lets_sail": {
+        "title": "Sail into Your Next Opportunity",
+        "button": "Join Profesea"
       }
     }
   }

@@ -1,146 +1,84 @@
-//import { faBriefcase, faChartLine, faUsers } from "@fortawesome/free-solid-svg-icons";
-import {   Box, Card,   CardContent, CardMedia, Grid, Typography } from "@mui/material";
-// import { useTranslation } from "react-i18next";
-//import discoverPageStyle from "src/@core/styles/discover/discover-page";
-import Carousel from 'react-multi-carousel'
-import 'react-multi-carousel/lib/styles.css'
- import { useEffect, useState } from "react";
-import { HttpClient } from "src/services";
-import { AxiosError } from "axios";
-import { toast } from "react-hot-toast";
-import Link from "next/link";
-import { useTranslation } from "react-i18next"; 
-// import Moment from 'moment'
+import React, { useEffect, useState } from 'react'
+import { Box } from '@mui/material'
 
+const CarouselEvent = ({ children }: { children: React.ReactNode[] | null }) => {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
-const CarouselEvent = () => {
-  // const [forumCode, setForumCode] = useState('') 
-  const [dataSheet, setDataSheet] = useState<[]>([])
-  const { t } = useTranslation();
-  const responsive = {
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 1,
-      slidesToSlide: 1 // optional, default to 1.
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 1,
-      slidesToSlide: 1 // optional, default to 1.
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-      slidesToSlide: 1 // optional, default to 1.
-    }
-  }
-  const getListNews = async () => {
-    try {
-      // const resp = await HttpClient.get(`/news?page=${1}&take=25&type=${forumCode}`)
-      const resp = await HttpClient.get(`/news?page=${1}&take=25&type=Event`)
-      if (resp.status != 200) {
-        throw resp.data.message ?? 'Something went wrong!'
-      }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex(prevIndex => (prevIndex === React.Children.count(children) - 1 ? 0 : prevIndex + 1))
+    }, 5000)
 
-      const rows = resp.data.news.data  
-      const items = rows 
-      setDataSheet(items)
-    } catch (error) {
-      let errorMessage = 'Something went wrong!'
+    return () => clearInterval(interval)
+  }, [children])
 
-      if (error instanceof AxiosError) {
-        errorMessage = error?.response?.data?.message ?? errorMessage
-      }
-
-      if (typeof error == 'string') {
-        errorMessage = error
-      }
-
-      toast.error(`Opps ${errorMessage}`)
-    }
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX)
   }
 
-  // const type = [{ title: 'News' }, { title: 'Event' }]
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
 
-  useEffect(() => { 
-    getListNews().then(() => { 
-    }) 
-  }, [])
-//tambah forumCOde di useefect kalau mau filter
+  const handleTouchEnd = () => {
+    if (touchStart !== null && touchEnd !== null) {
+      const distance = touchStart - touchEnd
+      const swipeThreshold = 50
+
+      if (distance > swipeThreshold) {
+        setCurrentIndex(prevIndex => Math.min(prevIndex + 1, React.Children.count(children) - 1))
+      }
+
+      if (distance < -swipeThreshold) {
+        setCurrentIndex(prevIndex => Math.max(prevIndex - 1, 0))
+      }
+    }
+
+    setTouchStart(null)
+    setTouchEnd(null)
+  }
 
   return (
-    <Grid
-      container
-      justifyContent='left'
-      sx={{
-        maxWidth: { xs: '100%' },
-        px: { xs: 5, md: 5 },
-        background: '#ececec'
-      }}
-      pb={2}
+    <Box
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      sx={{ position: 'relative', width: '100%', overflow: 'hidden' }}
     >
-      {dataSheet &&
-      <Grid item xs={12}>
-        <Box>
-          <Carousel
-            autoPlay={true}
-            swipeable={true}
-            draggable={true}
-            showDots={false}
-            responsive={responsive}
-            ssr={true} // means to render carousel on server-side.
-            infinite={true}
-            renderDotsOutside={true}
-            autoPlaySpeed={2000}
-            keyBoardControl={true}
-            customTransition='all .5'
-            transitionDuration={500}
-            containerClass='carousel-container'
-            removeArrowOnDeviceType={['tablet', 'mobile']}
-            dotListClass='custom-dot-list-style'
-            itemClass='carousel-item-padding-40-px'
-            rewindWithAnimation={true}
-          >
-            {/* <Item item={'/images/bannerevent.jpg'}></Item> */}
-            {dataSheet.map((item, i) => (
-              <Item key={i} item={item}></Item>
-            ))}
-          </Carousel>
-        </Box>
-      </Grid>
-      }
-      
-    </Grid>
-  )
-  function Item(props: any) {
-    return (
-      <Card
+      <Box
         sx={{
-          color: 'common.white',
-          backgroundColor: '#FFFFFF',
-          marginRight: 3,
-          height: '90%',
-          marginBottom: 5,
-          marginTop: 5
+          display: 'flex',
+          alignItems: 'center',
+          transition: 'transform 0.5s ease',
+          transform: `translateX(calc(-${currentIndex * 100}% - ${currentIndex * 24}px))`,
+          gap: '24px'
         }}
       >
-        <CardContent>
-        <Typography fontSize={34} style={{ color: '#000' }} fontWeight='800' textAlign='center'>
-            {t('landing_event_title')}
-          </Typography>
-          {/* <Link style={{ textDecoration: 'none' }} href={'/news/' + props.item.slug}> */}
-          <Link style={{ textDecoration: 'none' }} href={'/event/' + props.item.title}>
-            <CardMedia
-              component='img' 
-              alt={'alt'}
-              sx={{ objectFit: 'contain', marginBottom: '5' , height:{md:'450px',xs:'150px'}}}
-              image={props.item.imgnews}
-            />
-          </Link>
-        </CardContent>
-      </Card>
-    )
-  }
+        {React.Children.map(children, (child, index) => (
+          <Box key={index} sx={{ minWidth: '100%' }}>
+            {child}
+          </Box>
+        ))}
+      </Box>
+      <Box sx={{ mt: '24px', display: 'flex', gap: '8px', justifyContent: 'center' }}>
+        {React.Children.map(children, (_, index) => (
+          <Box
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            sx={{
+              width: '10px',
+              height: '10px',
+              borderRadius: '50%',
+              backgroundColor: currentIndex === index ? 'primary.main' : 'grey.400',
+              cursor: 'pointer'
+            }}
+          />
+        ))}
+      </Box>
+    </Box>
+  )
 }
 
-export default CarouselEvent;
+export default CarouselEvent

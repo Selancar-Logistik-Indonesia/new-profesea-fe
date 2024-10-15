@@ -28,7 +28,7 @@ const EducationInfo: React.FC<IEducationInfoProps> = ({ educations }) => {
               >
                 <img
                   alt='logo'
-                  src={item.logo ? item.logo : '/images/educationalinfo.png'}
+                  src={item?.logo ? item.logo : '/images/education.png'}
                   style={{
                     width: '100px',
                     height: '100px',
@@ -52,9 +52,7 @@ const EducationInfo: React.FC<IEducationInfoProps> = ({ educations }) => {
                     >
                       {`${item.title.charAt(0).toUpperCase() + item.title.slice(1)}`}
                     </Typography>
-                    <Typography
-                      sx={{ color: '#868686', fontWeight: 400, fontSize: '14px', lineHeight: '21px' }}
-                    >
+                    <Typography sx={{ color: '#868686', fontWeight: 400, fontSize: '14px', lineHeight: '21px' }}>
                       {item?.start_date && item?.end_date
                         ? format(new Date(item?.start_date), 'LLL yyyy') +
                           ' - ' +

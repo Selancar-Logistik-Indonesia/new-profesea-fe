@@ -20,7 +20,8 @@ import {
   Card,
   InputAdornment,
   Typography,
-  FormControl
+  FormControl,
+  createFilterOptions
 } from '@mui/material'
 
 // import DatePicker from 'react-datepicker'
@@ -53,7 +54,7 @@ import DialogAddDocument from 'src/pages/candidate/DialogAddDocument'
 import DialogEditBanner from 'src/pages/candidate/DialogEditBanner'
 import DialogEditProfile from 'src/pages/candidate/DialogEditProfile'
 // import RoleLevel from 'src/contract/models/role_level'
-import RoleType from 'src/contract/models/role_type'
+import { RoleTypeAutocomplete } from 'src/contract/models/role_type'
 import VesselType from 'src/contract/models/vessel_type'
 import RegionTravel from 'src/contract/models/regional_travel'
 import Province from 'src/contract/models/province'
@@ -112,6 +113,8 @@ type compProps = {
 let ship: any = []
 let opp: any = []
 let tampilkanship: any = ''
+
+const filter = createFilterOptions<RoleTypeAutocomplete>()
 
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 120,
@@ -269,23 +272,27 @@ const CandidateProfile = (props: compProps) => {
       getComboProvince(code)
     })
 
-    HttpClient.get(`/job-category?search=&page=1&take=250&employee_type=${user?.employee_type}`).then(response => {
-      if (response.status != 200) {
-        throw response.data.message ?? 'Something went wrong!'
-      }
-      getJobCategory(response.data.categories.data)
-    })
-    const x = user?.employee_type
-    let z = ''
-    if (JC != 0) {
-      z = '&category_id=' + JC
-    }
-    HttpClient.get(AppConfig.baseUrl + '/public/data/role-type?page=1&take=100&search&employee_type=' + x + z).then(
-      response => {
+    HttpClient.get(`/job-category?search=&page=1&take=250&employee_type=${user?.employee_type}`)
+      .then(response => {
+        if (response.status != 200) {
+          throw response.data.message ?? 'Something went wrong!'
+        }
+        getJobCategory(response.data.categories.data)
+        const x = user?.employee_type
+        let z = ''
+        if (JC != 0) {
+          z = '&category_id=' + JC
+        }
+
+        return HttpClient.get(
+          AppConfig.baseUrl + '/public/data/role-type?page=1&take=100&search&employee_type=' + x + z
+        )
+      })
+      .then(response => {
         const code = response.data.roleTypes.data
+
         getComborolType(code)
-      }
-    )
+      })
 
     HttpClient.get(AppConfig.baseUrl + '/public/data/region-travel?page=1&take=100&search').then(response => {
       const code = response.data.regionTravels.data
@@ -580,7 +587,7 @@ const CandidateProfile = (props: compProps) => {
         if (tampilkanship == 'PELAUT') {
           const x = {
             // rolelevel_id: idcomborolLevel,
-            roletype_id: idcomborolType,
+            roletype_id: idcomborolType.id == 0 ? idcomborolType?.inputValue : idcomborolType?.id || idcomborolType,
             vesseltype_id: idcomboVessel,
             regiontravel_id: idcomboRegion,
             category_id: JC,
@@ -603,7 +610,7 @@ const CandidateProfile = (props: compProps) => {
         } else {
           const x = {
             // rolelevel_id: idcomborolLevel,
-            roletype_id: idcomborolType,
+            roletype_id: idcomborolType.id == 0 ? idcomborolType?.inputValue : idcomborolType?.id || idcomborolType,
             vesseltype_id: null,
             regiontravel_id: idcomboRegion,
             available_date: null,
@@ -1085,7 +1092,7 @@ const CandidateProfile = (props: compProps) => {
                   </Typography>
                   <Grid container item xs={12} justifyContent={'left'}>
                     <Typography variant='body2' sx={{ color: '#262525', fontSize: '12px' }}>
-                      Set your job preferences so companies can find the perfect fit.
+                      Set your job preferences so companies can find the perfect fit
                     </Typography>
                   </Grid>
                 </Grid>
@@ -1116,17 +1123,52 @@ const CandidateProfile = (props: compProps) => {
                 </Grid>
                 <Grid item md={4} xs={12}>
                   <Autocomplete
+                    sx={{ display: 'block' }}
                     disablePortal
-                    id='combo-box-demo'
+                    id='combo-box-job-title'
                     options={comboroleType}
-                    getOptionLabel={(option: any) => option.name}
                     defaultValue={props.datauser?.field_preference?.role_type}
                     renderInput={params => <TextField {...params} label='Job Title *' variant='standard' />}
-                    onChange={(event: any, newValue: RoleType | null) =>
-                      newValue?.id
-                        ? setComboRolType(newValue.id)
+                    onChange={(event: any, newValue: any) =>
+                      newValue
+                        ? setComboRolType(newValue)
                         : setComboRolType(props.datauser?.field_preference?.role_type?.id)
                     }
+                    getOptionLabel={(option: RoleTypeAutocomplete) => {
+                      // Value selected with enter, right from the input
+                      if (typeof option === 'string') {
+                        return option
+                      }
+                      // Add "xxx" option created dynamically
+                      if (option.inputValue) {
+                        return option.inputValue
+                      }
+
+                      // Regular option
+                      return option.name
+                    }}
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params)
+
+                      const { inputValue } = params
+
+                      // Suggest the creation of a new value
+                      const isExisting = options.some(option => inputValue === option.name)
+                      if (inputValue !== '' && !isExisting) {
+                        filtered.push({
+                          inputValue: inputValue,
+                          id: 0,
+                          category_id: 0,
+                          name: inputValue,
+                          category: JC,
+                          user: props.datauser,
+                          created_at: String(new Date()),
+                          updated_at: String(new Date())
+                        })
+                      }
+
+                      return filtered
+                    }}
                   />
                 </Grid>
                 <Grid item md={4} xs={12}>
@@ -1226,7 +1268,7 @@ const CandidateProfile = (props: compProps) => {
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid item md={6} xs={12}>
+                <Grid item md={4} xs={12}>
                   <Autocomplete
                     disablePortal
                     id='combo-box-demo'
@@ -1237,7 +1279,7 @@ const CandidateProfile = (props: compProps) => {
                     onChange={(event: any, newValue: any | null) => displayopp(newValue)}
                   />
                 </Grid>
-                <Grid item md={6} xs={12}>
+                <Grid item md={4} xs={12}>
                   <Autocomplete
                     sx={{ marginBottom: 2 }}
                     disablePortal
@@ -1251,6 +1293,57 @@ const CandidateProfile = (props: compProps) => {
                     }
                   />
                 </Grid>
+                <Grid item md={4} xs={12}>
+                  <Autocomplete
+                    sx={{ display: 'block' }}
+                    disablePortal
+                    id='combo-box-job-title'
+                    options={comboroleType}
+                    defaultValue={props.datauser?.field_preference?.role_type}
+                    renderInput={params => <TextField {...params} label='Job Title *' variant='standard' />}
+                    onChange={(event: any, newValue: any) =>
+                      newValue
+                        ? setComboRolType(newValue)
+                        : setComboRolType(props.datauser?.field_preference?.role_type?.id)
+                    }
+                    getOptionLabel={(option: RoleTypeAutocomplete) => {
+                      // Value selected with enter, right from the input
+                      if (typeof option === 'string') {
+                        return option
+                      }
+                      // Add "xxx" option created dynamically
+                      if (option.inputValue) {
+                        return option.inputValue
+                      }
+
+                      // Regular option
+                      return option.name
+                    }}
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params)
+
+                      const { inputValue } = params
+
+                      // Suggest the creation of a new value
+                      const isExisting = options.some(option => inputValue === option.name)
+                      if (inputValue !== '' && !isExisting) {
+                        filtered.push({
+                          inputValue: inputValue,
+                          id: 0,
+                          category_id: 0,
+                          name: inputValue,
+                          category: JC,
+                          user: props.datauser,
+                          created_at: String(new Date()),
+                          updated_at: String(new Date())
+                        })
+                      }
+
+                      return filtered
+                    }}
+                  />
+                </Grid>
+
                 {tampilkanship == 'PELAUT' ? (
                   <Grid item md={6} xs={12}>
                     <Autocomplete
@@ -1284,6 +1377,7 @@ const CandidateProfile = (props: compProps) => {
                     />
                   </Grid>
                 )}
+
                 <Grid item md={6} xs={12} display={'flex'} alignItems={'center'}>
                   <FormControl>
                     <InputLabel id='demo-multiple-chip-label'>LANGUAGE</InputLabel>

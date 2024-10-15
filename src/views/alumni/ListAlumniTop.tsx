@@ -19,7 +19,7 @@ const renderList = (listAlumni: any[]) => {
   if (!listAlumni || listAlumni.length == 0) {
     return
   }
-  
+
   return listAlumni?.map(item => {
     const userPhoto = item.user.photo != '' ? item.user.photo : '/images/avatars/default-user.png'
 
@@ -53,7 +53,7 @@ const renderList = (listAlumni: any[]) => {
 
 const ListAlumniTop = (props: Props) => {
   const { listAlumni } = props
- 
+
   return (
     <Grid container marginTop={'10px'}>
       <Grid item xs={12}>
@@ -67,8 +67,9 @@ const ListAlumniTop = (props: Props) => {
                       <Typography
                         align='left'
                         variant='body2'
-                        sx={{ color: '#32487A', fontFamily: 'Outfit', fontWeight: '600', mb: 1 }}
-                        fontSize={16}>
+                        sx={{ color: '#32487A', fontWeight: '600', mb: 1 }}
+                        fontSize={16}
+                      >
                         Member
                       </Typography>
                     </Box>

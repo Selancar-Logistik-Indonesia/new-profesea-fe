@@ -8,6 +8,9 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
+import secureLocalStorage from 'react-secure-storage'
+import { IUser } from 'src/contract/models/user'
+import localStorageKeys from 'src/configs/localstorage_keys'
 
 export type IData = {
   id: number
@@ -32,9 +35,12 @@ const Ceritificate = (props: Props) => {
   const { userId } = props
   const [data, setData] = useState<IData[]>([])
 
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+
+  const isDataHidden = userId == user?.id || user?.team_id === 3 ? false : true
+
   const loadData = () => {
     HttpClient.get(AppConfig.baseUrl + `/user/candidate-document/?user_id=${userId}`).then(response => {
-      console.log(response)
       const itemData = response.data.documents
 
       setData(itemData)
@@ -92,26 +98,27 @@ const Ceritificate = (props: Props) => {
                   >
                     {item?.issue_at ? 'Issued date ' + format(new Date(item?.issue_at), 'LLL yyyy') : 'Issued date -'}
                   </Typography>
-
-                  <Button
-                    sx={{
-                      width: '200px',
-                      height: '37px',
-                      textTransform: 'capitalize',
-                      fontWeight: 400,
-                      fontSize: '14px',
-                      lineHeight: '21px',
-                      padding: '8px 16px 8px 16px',
-                      textAlign: 'center'
-                    }}
-                    variant='outlined'
-                    color='primary'
-                    size='medium'
-                    href={process.env.NEXT_PUBLIC_BASE_URL + '/storage/' + item.path}
-                    target='_blank'
-                  >
-                    Show Credential
-                  </Button>
+                  {!isDataHidden && (
+                    <Button
+                      sx={{
+                        width: { sm: '100%', md: '160px' },
+                        height: '37px',
+                        borderColor: 'rgba(50, 73, 122, 1) !important',
+                        textTransform: 'capitalize',
+                        fontWeight: 400,
+                        fontSize: { sm: '14px', md: '14px' },
+                        lineHeight: '21px',
+                        color: 'rgba(50, 73, 122, 1) !important'
+                      }}
+                      variant='outlined'
+                      color='primary'
+                      size='medium'
+                      href={process.env.NEXT_PUBLIC_BASE_URL + '/storage/' + item.path}
+                      target='_blank'
+                    >
+                      Show Credential
+                    </Button>
+                  )}
                 </Box>
               </Box>
             ))

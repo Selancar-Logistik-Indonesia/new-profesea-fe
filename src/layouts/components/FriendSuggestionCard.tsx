@@ -148,7 +148,7 @@ const FriendSuggestionCard = ({
           <Divider sx={{ mx: '24px' }} />
           <Button
             endIcon={<Icon icon='mingcute:right-fill' style={{ fontSize: 18 }} />}
-            href={isStatusLink(`/profile/connections`)}
+            href={isStatusLink(`/connections`)}
             sx={{
               py: '18px',
               display: 'flex',

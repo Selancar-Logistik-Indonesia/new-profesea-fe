@@ -119,6 +119,29 @@ const CocSection: React.FC<ICocSectionProps> = ({ userId, userName }) => {
                       {isDataHidden ? '***** ***** *****' : item?.certificate_number}
                     </span>
                   </Typography>
+                  {!isDataHidden && item?.filename && (
+                    <Button
+                      variant='outlined'
+                      sx={{
+                        width: { sm: '100%', md: '160px' },
+                        height: '37px',
+                        borderColor: 'rgba(50, 73, 122, 1) !important',
+                        textTransform: 'capitalize',
+                        fontWeight: 400,
+                        fontSize: { sm: '14px', md: '14px' },
+                        lineHeight: '21px',
+                        color: 'rgba(50, 73, 122, 1) !important'
+                      }}
+                      onClick={() =>
+                        window.open(
+                          `${process.env.NEXT_PUBLIC_BASE_API}/public/data/competency/preview/${item?.id}`,
+                          '_blank'
+                        )
+                      }
+                    >
+                      Show Credential
+                    </Button>
+                  )}
                 </Box>
               </Box>
             ))
