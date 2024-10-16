@@ -223,11 +223,13 @@
       "for_seafarer": {
         "title": "Profesea for Seafarer",
         "description": "Set sail on your career journey with our global maritime job platform. We help you find seafaring opportunities worldwide, ensuring compliance with international regulations—so you can explore new horizons and advance your career seamlessly across the globe.",
+        "hide_salary": "Salary: to be discussed",
         "button": "Discover More Jobs"
       },
       "for_professional": {
         "title": "Profesea for Professional",
         "description": "Build your dream team with our global hiring solution for the maritime and logistics industry. We help you easily recruit top professionals while ensuring compliance with local regulations—so you can expand your operations seamlessly across the globe.",
+        "hide_salary": "Salary: to be discussed",
         "button": "Discover More Jobs"
       },
       "for_recruiter": {

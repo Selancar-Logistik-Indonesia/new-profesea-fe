@@ -27,6 +27,7 @@ const PartnerLogo = ({ img }: { img: string }) => {
         src={img}
         sx={{
           width: '100%',
+          maxWidth: '226px',
           height: '54px',
           opacity: '55%'
         }}
