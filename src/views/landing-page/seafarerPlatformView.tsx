@@ -10,6 +10,7 @@ import CarouselEvent from './carouselevent'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
 import landingPageStyle from 'src/@core/styles/landing-page/landing-page'
+import { TFunction } from 'i18next'
 
 const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
   if (salaryStart == 0) {
@@ -41,7 +42,7 @@ const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
   }
 }
 
-const JobCard = ({ job }: { job: Job }) => {
+const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
   const userPhoto = job.company?.photo ? job.company?.photo : '/images/avatars/default-user.png'
   const companyNameUrl = job.company.name.toLowerCase().split(' ').join('-')
   const jobTitleUrl = job.job_title ? job.job_title?.toLowerCase().split(' ').join('-') : ''
@@ -130,7 +131,9 @@ const JobCard = ({ job }: { job: Job }) => {
             </Box>
           </Box>
           <Typography sx={{ color: 'black', fontSize: { xs: 14, md: 12 }, fontWeight: 400 }}>
-            {renderSalary(job.salary_start, job.salary_end, job.currency as string)}
+            {job.hide_salary === true
+              ? t('landing_page.for_seafarer.hide_salary')
+              : renderSalary(job.salary_start, job.salary_end, job.currency as string)}
           </Typography>
           <Typography sx={{ color: '#525252', fontSize: { xs: 14, md: 12 }, fontWeight: 400 }}>
             Onboarding on{' '}
@@ -221,7 +224,7 @@ const SeafarerPlatformView = () => {
           {isXs ? (
             <CarouselEvent>
               {jobs.map((job, i) => (
-                <JobCard key={i} job={job} />
+                <JobCard key={i} job={job} t={t} />
               ))}
               <Grid
                 item
@@ -252,7 +255,7 @@ const SeafarerPlatformView = () => {
             <Grid container sx={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'space-between', gap: '17px' }}>
               <Grid item container spacing={4}>
                 {jobs.map((job, i) => (
-                  <JobCard key={i} job={job} />
+                  <JobCard key={i} job={job} t={t} />
                 ))}
               </Grid>
               <Box
