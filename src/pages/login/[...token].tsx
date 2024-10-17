@@ -11,7 +11,7 @@ const GoogleLogin = () => {
   const router = useRouter();
   const param = router.query.token as string;
   const accessToken = decodeURIComponent(param);
-  // console.log(accessToken);
+
   const auth = useAuth()
   auth.glogin({'accessToken': accessToken, 'namaevent': null})
 
