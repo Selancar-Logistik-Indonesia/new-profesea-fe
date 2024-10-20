@@ -19,7 +19,7 @@ const CopSection: React.FC<ICopSectionProps> = ({ userId, userName }) => {
   const [data, setData] = useState<ISeafarerProficiencyData[]>([])
   const [visibleCount, setVisibleCount] = useState<number>(3) // Number of visible items initially
   const [showMoreClicked, setShowMoreClicked] = useState(false)
-
+ 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   const isDataHidden = userId == user?.id || user?.team_id === 3 ? false : true
@@ -122,6 +122,29 @@ const CopSection: React.FC<ICopSectionProps> = ({ userId, userName }) => {
                       {isDataHidden ? '***** ***** *****' : item?.certificate_number}
                     </span>
                   </Typography>
+                  {!isDataHidden && item?.filename && (
+                    <Button
+                      variant='outlined'
+                      sx={{
+                        width: { sm: '100%', md: '160px' },
+                        height: '37px',
+                        borderColor: 'rgba(50, 73, 122, 1) !important',
+                        textTransform: 'capitalize',
+                        fontWeight: 400,
+                        fontSize: { sm: '14px', md: '14px' },
+                        lineHeight: '21px',
+                        color: 'rgba(50, 73, 122, 1) !important'
+                      }}
+                      onClick={() =>
+                        window.open(
+                          `${process.env.NEXT_PUBLIC_BASE_API}/public/data/proficiency/preview/${item?.id}`,
+                          '_blank'
+                        )
+                      }
+                    >
+                      Show Credential
+                    </Button>
+                  )}
                 </Box>
               </Box>
             ))

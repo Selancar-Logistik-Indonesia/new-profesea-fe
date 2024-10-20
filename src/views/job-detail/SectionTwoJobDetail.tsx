@@ -24,7 +24,7 @@ const SectionTwoJobDetail: React.FC<ISectionTwoJobDetailProps> = ({ jobDetail })
         </Typography>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
-        <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12} fontWeight={500} fontFamily={'Outfit'}>
+        <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12} fontWeight={500}>
           <strong>{jobDetail?.experience}</strong> &nbsp;
           {jobDetail?.category.employee_type == 'onship' ? 'Contract' : 'Years'}
         </Typography>
@@ -35,14 +35,7 @@ const SectionTwoJobDetail: React.FC<ISectionTwoJobDetailProps> = ({ jobDetail })
         </Typography>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
-        <Typography
-          sx={{ color: 'text.primary' }}
-          ml='0.5rem'
-          fontSize={12}
-          fontWeight={500}
-          fontFamily={'Outfit'}
-          textAlign={'justify'}
-        >
+        <Typography sx={{ color: 'text.primary' }} ml='0.5rem' fontSize={12} fontWeight={500} textAlign={'justify'}>
           {ReactHtmlParser(`${jobDetail?.description}`)}
         </Typography>
       </Box>
