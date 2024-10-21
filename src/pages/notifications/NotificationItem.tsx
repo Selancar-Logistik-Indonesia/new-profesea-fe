@@ -49,10 +49,12 @@ export type NotificationsTypeProps = {
 )
 
 const RenderAvatar = ({ notification }: { notification: NotificationsTypeProps }) => {
-  const { avatarAlt, avatarIcon, avatarText, avatarColor, payload } = notification
+  const { avatarAlt, avatarIcon, avatarText, avatarColor, payload, type } = notification
 
   if (payload?.photo) {
     return <Avatar sx={{ width: 54, height: 54 }} alt={avatarAlt} src={payload?.photo} />
+  } else if (type == 'App\\Notifications\\ApplicantApplied' || type == 'App\\Notifications\\NewApplicantNotification') {
+    return <Avatar sx={{ width: 54, height: 54 }} alt={avatarAlt} src={avatarIcon as any} />
   } else if (avatarIcon) {
     return (
       <Avatar sx={{ width: 54, height: 54 }} color={avatarColor}>

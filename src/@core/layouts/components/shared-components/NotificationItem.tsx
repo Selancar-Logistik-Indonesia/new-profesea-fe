@@ -50,10 +50,12 @@ const MenuItem = styled(MuiMenuItem)<MenuItemProps>(({ theme }) => ({
 }))
 
 const RenderAvatar = ({ notification }: { notification: NotificationsType }) => {
-  const { avatarAlt, avatarIcon, avatarText, avatarColor, payload } = notification
+  const { avatarAlt, avatarIcon, avatarText, avatarColor, payload, type } = notification
 
   if (payload?.photo) {
     return <Avatar alt={avatarAlt} src={payload?.photo} sx={{ width: '54px', height: '54px' }} />
+  } else if (type == 'App\\Notifications\\ApplicantApplied' || type == 'App\\Notifications\\NewApplicantNotification') {
+    return <Avatar sx={{ width: 54, height: 54 }} alt={avatarAlt} src={avatarIcon as any} />
   } else if (avatarIcon) {
     return (
       <Avatar skin='light' color={avatarColor} sx={{ width: '54px', height: '54px' }}>
