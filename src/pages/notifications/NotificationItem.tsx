@@ -49,10 +49,12 @@ export type NotificationsTypeProps = {
 )
 
 const RenderAvatar = ({ notification }: { notification: NotificationsTypeProps }) => {
-  const { avatarAlt, avatarIcon, avatarText, avatarColor, payload } = notification
+  const { avatarAlt, avatarIcon, avatarText, avatarColor, payload, type } = notification
 
   if (payload?.photo) {
     return <Avatar sx={{ width: 54, height: 54 }} alt={avatarAlt} src={payload?.photo} />
+  } else if (type == 'App\\Notifications\\ApplicantApplied' || type == 'App\\Notifications\\NewApplicantNotification') {
+    return <Avatar sx={{ width: 54, height: 54 }} alt={avatarAlt} src={avatarIcon as any} />
   } else if (avatarIcon) {
     return (
       <Avatar sx={{ width: 54, height: 54 }} color={avatarColor}>
@@ -72,7 +74,7 @@ export default function NotificationItem({ item, key, getNotifications }: Iprops
   const { user } = useAuth()
   const router = useRouter()
   const [dialogOpen, setDialogOpen] = useState(false)
-
+  const newApplicantJobId = item?.data?.job?.id
   const handleClick = async () => {
     setDialogOpen(true)
     getNotifications()
@@ -82,11 +84,11 @@ export default function NotificationItem({ item, key, getNotifications }: Iprops
 
     switch (item.type) {
       case NotificationType.applicantApplied:
-        router.push(`/candidate/find-job/?tabs=2`)
+        router.push(`/candidate/job/${toLinkCase(item?.data?.company?.name)}/${newApplicantJobId}/`)
+        //router.push(`/candidate/find-job/?tabs=2`)
         break
 
       case NotificationType.newApplicant:
-        const newApplicantJobId = item?.data?.job?.id
         const newApplicantName = item?.data?.candidate?.name
         if (!newApplicantJobId) {
           return
