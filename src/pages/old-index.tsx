@@ -13,7 +13,6 @@ import CarouselNewsView from 'src/views/landing-page/carouselnews'
 import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
 import Spinner from 'src/@core/components/spinner'
-// import CarouselEvent from 'src/views/landing-page/carouselevent'
 
 const Main = () => {
   const { t } = useTranslation()
@@ -49,17 +48,7 @@ const Main = () => {
       </Head>
 
       <Grid container sx={landingPageStyle.bannerHero}>
-        <Grid
-          item
-          md={12}
-          lg={8}
-          xl={6}
-          pt={5}
-          mt={20}
-          mb={10}
-          // sx={{ maxWidth: { xs: '80%' }, px: { xs: 5, md: 10 } }}
-          sx={{ px: { xs: 5, md: 10 } }}
-        >
+        <Grid item md={12} lg={8} xl={6} pt={5} mt={20} mb={10} sx={{ px: { xs: 5, md: 10 } }}>
           <Typography
             variant='h3'
             style={{ color: '#000' }}
