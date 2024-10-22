@@ -347,28 +347,28 @@ const normalizeContent = (content: string) => {
 }
 
 // Fungsi untuk menyensor kata buruk dengan *
-const censorBadWords = (content: string) => {
-  let censoredContent = content
-
-  for (let badWord of badwords['badwords']) {
-    const regex = new RegExp(badWord, 'gi') // Cari kata buruk secara case-insensitive
-    censoredContent = censoredContent.replace(regex, '*'.repeat(badWord.length)) // Ganti dengan *
-  }
-
-  return censoredContent
-}
-
 // const censorBadWords = (content: string) => {
 //   let censoredContent = content
 
 //   for (let badWord of badwords['badwords']) {
-//     // Regex untuk mencocokkan kata lengkap, menggunakan \b sebagai batas kata
-//     const regex = new RegExp(`\\b${badWord}\\b`, 'gi') // Cari kata lengkap secara case-insensitive
+//     const regex = new RegExp(badWord, 'gi') // Cari kata buruk secara case-insensitive
 //     censoredContent = censoredContent.replace(regex, '*'.repeat(badWord.length)) // Ganti dengan *
 //   }
 
 //   return censoredContent
 // }
+
+const censorBadWords = (content: string) => {
+  let censoredContent = content
+
+  for (let badWord of badwords['badwords']) {
+    // Regex untuk mencocokkan kata lengkap, menggunakan \b sebagai batas kata
+    const regex = new RegExp(`\\b${badWord}\\b`, 'gi') // Cari kata lengkap secara case-insensitive
+    censoredContent = censoredContent.replace(regex, '*'.repeat(badWord.length)) // Ganti dengan *
+  }
+
+  return censoredContent
+}
 
 const validateAutomatedContentModeration = (content: string) => {
   const normalizedContent = normalizeContent(content) // Normalisasi konten
