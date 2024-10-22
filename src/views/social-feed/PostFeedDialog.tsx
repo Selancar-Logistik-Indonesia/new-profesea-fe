@@ -16,7 +16,7 @@ import {
 import React, { forwardRef, ReactElement, Ref, useCallback, useEffect, useState } from 'react'
 import Icon from 'src/@core/components/icon'
 import { IUser } from 'src/contract/models/user'
-import { getUserAvatar } from 'src/utils/helpers'
+import { getUserAvatar, validateAutomatedContentModeration } from 'src/utils/helpers'
 import { useDropzone, Accept } from 'react-dropzone'
 import styles from '../../../styles/scss/Dropzone.module.scss'
 
@@ -113,7 +113,12 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
   })
 
   const handleOnClickPost = () => {
-    handleUpdateStatus(contentType, content, attachments)
+    const { errorMessage, censoredContent } = validateAutomatedContentModeration(content)
+    if (errorMessage !== null) {
+      handleUpdateStatus(contentType, censoredContent, attachments)
+    } else {
+      handleUpdateStatus(contentType, content, attachments)
+    }
 
     setTimeout(() => {
       onClose()
