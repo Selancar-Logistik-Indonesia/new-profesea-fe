@@ -58,7 +58,6 @@ import { store } from 'src/store'
 import GoogleAnalytics from 'src/views/GoogleAnalytics'
 import Hotjar from 'src/services/hotjar'
 
-// ** Extend App Props with Emotion
 type ExtendedAppProps = AppProps & {
   Component: NextPage
   emotionCache: EmotionCache
@@ -72,7 +71,6 @@ type GuardProps = {
 
 const clientSideEmotionCache = createEmotionCache()
 
-// ** Pace Loader
 if (themeConfig.routingLoader) {
   Router.events.on('routeChangeStart', () => {
     NProgress.start()
@@ -113,13 +111,6 @@ const App = (props: ExtendedAppProps) => {
       <Hotjar />
       <Provider store={store}>
         <CacheProvider value={emotionCache}>
-          {/* <Head>
-            <title>{`${themeConfig.templateName}`}</title>
-            <meta name='description' content={`${themeConfig.templateName}`} />
-            <meta name='keywords' content='' />
-            <meta name='viewport' content='initial-scale=0.8, width=device-width' />
-          </Head> */}
-
           <AuthProvider>
             <I18nextProvider i18n={i18n}>
               <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
