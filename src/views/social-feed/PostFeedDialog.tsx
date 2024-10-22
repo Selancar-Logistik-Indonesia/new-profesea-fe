@@ -209,7 +209,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
                 value={content}
                 onChange={e => setContent(e.target.value)}
                 id='outlined-multiline-static'
-                placeholder='Start a Post, Share Your Thoughts...'
+                placeholder='Start a post, share your thoughts...'
                 rows={6}
                 style={{
                   border: 0,
@@ -220,7 +220,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
                   fontWeight: 400,
                   fontSize: '14px',
                   color: 'rgba(102, 102, 102, 1)',
-                  fontFamily: 'Outfit'
+                  fontFamily: 'Figtree'
                 }}
               />
             </Box>
