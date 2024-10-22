@@ -50,9 +50,14 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data.candidate.name,
-      title: `You've Applied for "${e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name}"`,
-      avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
-      subtitle: <span>Check your application status.</span>,
+      title: e.data.company.name,
+      avatarIcon: e?.data?.company?.photo,
+      subtitle: (
+        <span>
+          {'Application Submitted: You’ve Applied for '}
+          {e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name}!
+        </span>
+      ),
       type: e.type,
       read_at: e.read_at,
       data: e.data
@@ -64,11 +69,11 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data.candidate.name,
-      title: 'You Have New Applicant',
-      avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
+      title: e.data.candidate.name,
+      avatarIcon: e?.data?.candidate?.photo,
       subtitle: (
         <span>
-          <b className='name'>{e.data.candidate.name}</b> Applied for
+          <b className='name'>{e.data.candidate.name}</b> {' Applied for '}
           {e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name}.
         </span>
       ),
