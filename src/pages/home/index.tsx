@@ -25,30 +25,18 @@ const Home = () => {
       />
     )
   } else {
-    if (user?.role == 'Company') {
-      if (user?.build_profile_at == null) {
-        return <Company />
-      } else {
-        return <SocialFeed />
-      }
-    }
+    if (user?.role == 'admin') return <AdminHomePage />
 
-    if (user?.role == 'Trainer') {
-      if (user?.build_profile_at == null) {
+    if (user?.last_step === 'completed') {
+      return <SocialFeed />
+    } else {
+      if (user?.role == 'Company') {
+        return <Company />
+      } else if (user?.role == 'Trainer') {
         return <Trainer />
-      } else {
-        return <SocialFeed />
-      }
-    }
-    if (user?.role == 'Seafarer') {
-      if (user?.build_profile_at == null) {
+      } else if (user?.role == 'Seafarer') {
         return <Candidate />
-      } else {
-        return <SocialFeed />
       }
-    }
-    if (user?.role == 'admin') {
-      return <AdminHomePage />
     }
   }
 

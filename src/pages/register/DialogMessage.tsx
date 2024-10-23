@@ -32,9 +32,9 @@ const DialogMessage = (props: BlockDialog) => {
         </IconButton>
         <Box sx={{ textAlign: 'center' }}>
           <Typography variant='h6' color={'#32487A'} fontWeight='600'>
-            Oops
+            Info
           </Typography>
-          <Typography variant='body2'>Your email hasn't been registered, Please register</Typography>
+          <Typography variant='body2'>Your email has been registered, Please Log in</Typography>
         </Box>
       </DialogContent>
       <DialogActions
@@ -50,9 +50,9 @@ const DialogMessage = (props: BlockDialog) => {
           sx={{ mr: 2 }}
           type='button'
           size='small'
-          href={`/register/v2/?check=1&email=${props.email}`}
+          href={`/login/v2/?check=1&email=${props.email}`}
         >
-          Register
+          Log in
         </Button>
         <Button onClick={handleClose} variant='contained' color='error' sx={{ mr: 2 }} type='button' size='small'>
           Cancel

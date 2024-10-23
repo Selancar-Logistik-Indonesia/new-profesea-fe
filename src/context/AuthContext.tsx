@@ -76,11 +76,13 @@ const AuthProvider = ({ children }: Props) => {
     HttpClient.post(authConfig.loginEndpoint, params)
       .then(async response => {
         setLoading(false)
-        const returnUrl = router.query.returnUrl
         setUser({ ...response.data.user })
+
+        const returnUrl = router.query.returnUrl
         localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
         secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+
         initAuth()
 
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'

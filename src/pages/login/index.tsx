@@ -28,8 +28,8 @@ import DialogGoogleLogin from './DialogGoogleLogin'
 
 import { useSearchParams } from 'next/navigation'
 // import { toast } from 'react-hot-toast'
+// import DialogMessage from './DialogMessage'
 import DialogSuccess from '../loginevent/DialogSuccess'
-import DialogMessage from './DialogMessage'
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -77,7 +77,7 @@ interface FormData {
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false)
-  const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
+  //   const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
   const auth = useAuth()
   const theme = useTheme()
   const { settings } = useSettings()
@@ -89,11 +89,11 @@ const LoginPage = () => {
   const namaevent = searchParams.get('event')
   const acc = searchParams.get('account')
 
-  useEffect(() => {
-    if (acc != null) {
-      setOpenDialogMessage(true)
-    }
-  }, [acc])
+  //   useEffect(() => {
+  //     if (acc != null) {
+  //       setOpenDialogMessage(true)
+  //     }
+  //   }, [acc])
 
   const { t } = useTranslation()
   const schema = getSchema(t)
@@ -326,12 +326,12 @@ const LoginPage = () => {
           setOpenModalGoogle(!openModalGoogle)
         }}
       />
-      <DialogMessage
+      {/* <DialogMessage
         visible={openDialogMessage}
         onCloseClick={() => {
           setOpenDialogMessage(!openDialogMessage)
         }}
-      />
+      /> */}
     </>
   )
 }
