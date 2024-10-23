@@ -108,7 +108,8 @@ const Registration = (props: any) => {
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(
       () => {
         toast.success('Successfully submited!')
-        router.push('/registersuccess')
+        // router.push('/registersuccess')
+        router.push('/home')
       },
       error => {
         setError(error.response.data.errors)

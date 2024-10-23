@@ -113,7 +113,8 @@ const RegistrationEvent = (props: any) => {
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(
       () => {
         toast.success('data tersebut akan otomatis terdaftar sebagai user profesea')
-        router.push('/registersuccess/?event=true')
+        // router.push('/registersuccess/?event=true')
+        router.push('/home/?event=true')
       },
       error => {
         toast.error('Registrastion Failed ' + error.response.data.message)
