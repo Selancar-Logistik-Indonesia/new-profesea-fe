@@ -39,12 +39,12 @@ import * as yup from 'yup'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { removeFirstZeroChar } from 'src/utils/helpers'
 
 import { styled } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from 'src/hooks/useAuth'
 
 interface FormData {
   password2: string
@@ -81,7 +81,7 @@ const schemaSeafarer = yup.object().shape({
 })
 
 const Registration = (props: any) => {
-  const router = useRouter()
+  const auth = useAuth()
   const { t } = useTranslation()
   const { tipereg, type } = props
 
@@ -107,8 +107,13 @@ const Registration = (props: any) => {
   const save = (json: any) => {
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(
       () => {
-        toast.success('Successfully submited!')
-        router.push('/registersuccess')
+        toast.success('Successfully Registered!')
+
+        const loginJson = {
+          email: json.email,
+          password: json.password
+        }
+        auth.login({ ...loginJson })
       },
       error => {
         setError(error.response.data.errors)
