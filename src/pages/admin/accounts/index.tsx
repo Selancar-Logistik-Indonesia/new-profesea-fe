@@ -20,6 +20,8 @@ import { Icon } from '@iconify/react'
 import ITeam from 'src/contract/models/team'
 import DialogImport from './DialogImport'
 import DialogView from './DialogView'
+import DialogCalculateAllUserPoint from './DialogCalculateAllUserPoint'
+import CalculateIcon from '@mui/icons-material/Calculate';
 
 const UserScreen = () => {
   const translate: any = {
@@ -41,6 +43,7 @@ const UserScreen = () => {
   const [openDelModal, setOpenDelModal] = useState(false)
   const [openEditModal, setOpenEditModal] = useState(false)
   const [openViewModal, setOpenViewModal] = useState(false)
+  const [openDialogCalculate, setOpenDialogCalculate] = useState(false)
   const [dataSheet, setDataSheet] = useState<RowItem[]>([])
   const [selectedItem, setSelectedItem] = useState<Account | null>(null)
   const [teams, getTeams] = useState<any[]>([])
@@ -275,6 +278,19 @@ const UserScreen = () => {
                     </Button>
                   </Box>
                 </Grid>
+                <Grid item sx={{ mr: 6 }}>
+                  <Box>
+                    <Button variant='contained' size='small' onClick={() => setOpenDialogCalculate(!openDialogCalculate)}>
+                      <CalculateIcon
+                        fontSize='large'
+                      
+                        color={'info'}
+                        style={{ fontSize: '14px', margin: 3 }}
+                      />{' '}
+                      Calculate All Users
+                    </Button>
+                  </Box>
+                </Grid>
               </Grid>
 
               <AccountDatagrid
@@ -322,8 +338,13 @@ const UserScreen = () => {
             onCloseClick={() => setOpenViewModal(!openViewModal)}
             onStateChange={() => setHookSignature(v4())}
           />
+         
         </>
       )}
+       <DialogCalculateAllUserPoint 
+        visible={openDialogCalculate} 
+        onCloseClick={() => setOpenDialogCalculate(!openDialogCalculate)}  
+      />
     </>
   )
 }
