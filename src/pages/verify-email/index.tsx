@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { Box, Button, Grid, Hidden, Link, Typography } from '@mui/material'
 import { HttpClient } from 'src/services'
@@ -10,6 +10,12 @@ import { useAuth } from 'src/hooks/useAuth'
 const VerifyEmail = () => {
   const router = useRouter()
   const { user } = useAuth()
+
+  useEffect(() => {
+    if (user?.verified_at !== null) {
+      router.replace('/home')
+    }
+  }, [user])
 
   const [onLoading, setOnLoading] = useState(false)
   const [canResend, setCanResend] = useState(true)
