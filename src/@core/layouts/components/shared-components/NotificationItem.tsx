@@ -50,10 +50,12 @@ const MenuItem = styled(MuiMenuItem)<MenuItemProps>(({ theme }) => ({
 }))
 
 const RenderAvatar = ({ notification }: { notification: NotificationsType }) => {
-  const { avatarAlt, avatarIcon, avatarText, avatarColor, payload } = notification
+  const { avatarAlt, avatarIcon, avatarText, avatarColor, payload, type } = notification
 
   if (payload?.photo) {
     return <Avatar alt={avatarAlt} src={payload?.photo} sx={{ width: '54px', height: '54px' }} />
+  } else if (type == 'App\\Notifications\\ApplicantApplied' || type == 'App\\Notifications\\NewApplicantNotification') {
+    return <Avatar sx={{ width: 54, height: 54 }} alt={avatarAlt} src={avatarIcon as any} />
   } else if (avatarIcon) {
     return (
       <Avatar skin='light' color={avatarColor} sx={{ width: '54px', height: '54px' }}>
@@ -74,6 +76,7 @@ const NotificationItem = (props: { item: NotificationsType }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
   const { user } = useAuth()
   const router = useRouter()
+  const newApplicantJobId = item?.data?.job?.id
 
   const handleClick = async () => {
     setDialogOpen(true)
@@ -83,11 +86,11 @@ const NotificationItem = (props: { item: NotificationsType }) => {
 
     switch (item.type) {
       case NotificationType.applicantApplied:
-        router.push(`/candidate/find-job/?tabs=2`)
+        router.push(`/candidate/job/${toLinkCase(item?.data?.company?.name)}/${newApplicantJobId}/`)
+        // router.push(`/candidate/find-job/?tabs=2`)
         break
 
       case NotificationType.newApplicant:
-        const newApplicantJobId = item?.data?.job?.id
         const newApplicantName = item?.data?.candidate?.name
         if (!newApplicantJobId) {
           return

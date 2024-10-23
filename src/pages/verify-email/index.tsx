@@ -18,6 +18,7 @@ const VerifyEmail = () => {
   const resendVerification = async () => {
     if (!user || !user.email) {
       toast.error('Email not found!')
+
       return
     }
 
@@ -31,6 +32,7 @@ const VerifyEmail = () => {
           clearInterval(countdown)
           setCanResend(true)
         }
+
         return prev - 1
       })
     }, 1000)
@@ -48,6 +50,7 @@ const VerifyEmail = () => {
   const checkEmailVerification = async () => {
     if (!user || !user.email) {
       toast.error('Email not found!')
+
       return
     }
 
