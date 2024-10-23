@@ -85,6 +85,7 @@ const Registration = (props: any) => {
   const { t } = useTranslation()
   const { tipereg, type } = props
 
+  const [onLoading, setOnLoading] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [error, setError] = useState<any>(null)
   const [combocode, getCombocode] = useState<any>([])
@@ -122,7 +123,8 @@ const Registration = (props: any) => {
     )
   }
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
+    setOnLoading(true)
     const { password, password2, username, name, email, tos } = data
     const lowerCaseEmail = email.toLowerCase()
 
@@ -161,9 +163,11 @@ const Registration = (props: any) => {
 
     try {
       setError(null)
-      save(json)
+      await save(json)
+      setOnLoading(false)
     } catch (e) {
       alert(e)
+      setOnLoading(false)
     }
   }
 
@@ -371,6 +375,7 @@ const Registration = (props: any) => {
             type='submit'
             variant='contained'
             sx={{ mt: 5 }}
+            disabled={onLoading}
             endIcon={<Icon icon={'solar:double-alt-arrow-right-bold-duotone'} />}
           >
             {t('button_4')}
