@@ -9,13 +9,19 @@ import { useAuth } from 'src/hooks/useAuth'
 
 const VerifyEmail = () => {
   const router = useRouter()
-  const { user } = useAuth()
+  const { user, refetch } = useAuth()
 
-  useEffect(() => {
+  const checkingVerifyEmail = async () => {
+    await refetch()
+
     if (user?.verified_at !== null) {
       router.replace('/home')
     }
-  }, [user])
+  }
+
+  useEffect(() => {
+    checkingVerifyEmail()
+  }, [])
 
   const [onLoading, setOnLoading] = useState(false)
   const [canResend, setCanResend] = useState(true)
