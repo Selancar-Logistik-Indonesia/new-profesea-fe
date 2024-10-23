@@ -17,7 +17,8 @@ const defaultProvider: AuthValuesType = {
   glogin: () => Promise.resolve(),
   login: () => Promise.resolve(),
   loginSilent: () => Promise.resolve(),
-  logout: () => Promise.resolve()
+  logout: () => Promise.resolve(),
+  refetch: () => Promise.resolve()
 }
 
 const AuthContext = createContext(defaultProvider)
@@ -160,7 +161,8 @@ const AuthProvider = ({ children }: Props) => {
     glogin: handleGoogleLogin,
     login: handleLogin,
     logout: handleLogout,
-    loginSilent: handleLoginSilent
+    loginSilent: handleLoginSilent,
+    refetch: initAuth
   }
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
