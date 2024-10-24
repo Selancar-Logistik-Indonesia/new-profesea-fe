@@ -96,7 +96,7 @@ const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
                 {job.company.name}
               </Typography>
               <Typography sx={{ color: '#868686', fontSize: { xs: 14, md: 12 }, fontWeight: 400 }}>
-                {job.city.city_name}, {job.country.nicename}
+                {job?.city?.city_name}, {job?.country?.nicename}
               </Typography>
             </Box>
           </Box>

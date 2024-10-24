@@ -39,12 +39,12 @@ import * as yup from 'yup'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { removeFirstZeroChar } from 'src/utils/helpers'
 
 import { styled } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from 'src/hooks/useAuth'
 
 interface FormData {
   password2: string
@@ -81,10 +81,11 @@ const schemaSeafarer = yup.object().shape({
 })
 
 const Registration = (props: any) => {
-  const router = useRouter()
+  const auth = useAuth()
   const { t } = useTranslation()
   const { tipereg, type } = props
 
+  const [onLoading, setOnLoading] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [error, setError] = useState<any>(null)
   const [combocode, getCombocode] = useState<any>([])
@@ -105,19 +106,29 @@ const Registration = (props: any) => {
   })
 
   const save = (json: any) => {
+    setOnLoading(true)
+
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(
-      () => {
-        toast.success('Successfully submited!')
-        router.push('/registersuccess')
+      async () => {
+        toast.success('Successfully Registered!')
+
+        const loginJson = {
+          email: json.email,
+          password: json.password
+        }
+        await auth.login({ ...loginJson })
+
+        setOnLoading(false)
       },
       error => {
+        setOnLoading(false)
         setError(error.response.data.errors)
         toast.error('Registrastion Failed ' + error.response.data.message)
       }
     )
   }
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     const { password, password2, username, name, email, tos } = data
     const lowerCaseEmail = email.toLowerCase()
 
@@ -366,6 +377,7 @@ const Registration = (props: any) => {
             type='submit'
             variant='contained'
             sx={{ mt: 5 }}
+            disabled={onLoading}
             endIcon={<Icon icon={'solar:double-alt-arrow-right-bold-duotone'} />}
           >
             {t('button_4')}

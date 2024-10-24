@@ -44,9 +44,9 @@ import { toast } from 'react-hot-toast'
 import Link from 'next/link'
 import { removeFirstZeroChar } from 'src/utils/helpers'
 
-import { useRouter } from 'next/router'
 import { styled } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from 'src/hooks/useAuth'
 
 interface FormData {
   password2: string
@@ -79,7 +79,7 @@ const RegistrationEvent = (props: any) => {
   const { vonchangeEmployee } = props
   const { disabledcombo } = props
   const { event } = props
-  const router = useRouter()
+  const auth = useAuth()
   const { t } = useTranslation()
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [combocode, getCombocode] = useState<any>([])
@@ -113,7 +113,12 @@ const RegistrationEvent = (props: any) => {
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(
       () => {
         toast.success('data tersebut akan otomatis terdaftar sebagai user profesea')
-        router.push('/registersuccess/?event=true')
+
+        const loginJson = {
+          email: json.email,
+          password: json.password
+        }
+        auth.login({ ...loginJson })
       },
       error => {
         toast.error('Registrastion Failed ' + error.response.data.message)
