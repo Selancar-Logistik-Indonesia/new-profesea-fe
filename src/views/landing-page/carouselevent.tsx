@@ -51,7 +51,7 @@ const CarouselEvent = ({ children }: { children: React.ReactNode[] | null }) => 
         sx={{
           display: 'flex',
           alignItems: 'center',
-          transition: 'transform 0.5s ease',
+          transition: 'transform 1s ease-in-out',
           transform: `translateX(calc(-${currentIndex * 100}% - ${currentIndex * 24}px))`,
           gap: '24px'
         }}
