@@ -102,7 +102,7 @@ const VerifyEmail = () => {
             sx={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}
           >
             <Typography sx={{ color: '#404040', fontSize: { xs: 24, md: 32 }, fontWeight: 700 }}>
-              Verifikasi email anda
+              Verifikasi email Anda
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <Typography sx={{ color: '#525252', fontSize: { xs: 12, md: 14 }, fontWeight: 400 }}>
@@ -120,8 +120,9 @@ const VerifyEmail = () => {
                 fontWeight: 400
               }}
             >
-              Silakan klik tautan yang kami kirimkan melalui email untuk menyelesaikan proses pendaftaran Anda. Jika
-              tidak menemukannya, mohon periksa juga <b>folder Junk / Spam</b> Anda.
+              Silakan klik link yang kami kirimkan melalui email Anda untuk menyelesaikan proses pendaftaran. Jika tidak
+              menemukannya, mohon periksa juga <b>folder Junk/Spam</b>. Atau klik <b>continue</b> jika telah berhasil
+              memverifikasi email Anda.
             </Typography>
             <Box sx={{ display: 'flex', gap: '2px' }}>
               <Typography sx={{ ml: '2px', color: '#404040', fontSize: 12, fontWeight: 400 }}>

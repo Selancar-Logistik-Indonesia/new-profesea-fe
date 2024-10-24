@@ -106,17 +106,22 @@ const Registration = (props: any) => {
   })
 
   const save = (json: any) => {
+    setOnLoading(true)
+
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(
-      () => {
+      async () => {
         toast.success('Successfully Registered!')
 
         const loginJson = {
           email: json.email,
           password: json.password
         }
-        auth.login({ ...loginJson })
+        await auth.login({ ...loginJson })
+
+        setOnLoading(false)
       },
       error => {
+        setOnLoading(false)
         setError(error.response.data.errors)
         toast.error('Registrastion Failed ' + error.response.data.message)
       }
@@ -124,7 +129,6 @@ const Registration = (props: any) => {
   }
 
   const onSubmit = async (data: FormData) => {
-    setOnLoading(true)
     const { password, password2, username, name, email, tos } = data
     const lowerCaseEmail = email.toLowerCase()
 
@@ -163,11 +167,9 @@ const Registration = (props: any) => {
 
     try {
       setError(null)
-      await save(json)
-      setOnLoading(false)
+      save(json)
     } catch (e) {
       alert(e)
-      setOnLoading(false)
     }
   }
 
