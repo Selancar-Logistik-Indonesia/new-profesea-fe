@@ -85,6 +85,7 @@ const Registration = (props: any) => {
   const { t } = useTranslation()
   const { tipereg, type } = props
 
+  const [onLoading, setOnLoading] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [error, setError] = useState<any>(null)
   const [combocode, getCombocode] = useState<any>([])
@@ -105,24 +106,29 @@ const Registration = (props: any) => {
   })
 
   const save = (json: any) => {
+    setOnLoading(true)
+
     HttpClient.post(AppConfig.baseUrl + '/auth/register', json).then(
-      () => {
+      async () => {
         toast.success('Successfully Registered!')
 
         const loginJson = {
           email: json.email,
           password: json.password
         }
-        auth.login({ ...loginJson })
+        await auth.login({ ...loginJson })
+
+        setOnLoading(false)
       },
       error => {
+        setOnLoading(false)
         setError(error.response.data.errors)
         toast.error('Registrastion Failed ' + error.response.data.message)
       }
     )
   }
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     const { password, password2, username, name, email, tos } = data
     const lowerCaseEmail = email.toLowerCase()
 
@@ -371,6 +377,7 @@ const Registration = (props: any) => {
             type='submit'
             variant='contained'
             sx={{ mt: 5 }}
+            disabled={onLoading}
             endIcon={<Icon icon={'solar:double-alt-arrow-right-bold-duotone'} />}
           >
             {t('button_4')}
