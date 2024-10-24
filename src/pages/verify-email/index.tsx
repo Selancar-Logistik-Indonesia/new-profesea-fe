@@ -14,7 +14,7 @@ const VerifyEmail = () => {
   const checkingVerifyEmail = async () => {
     await refetch()
 
-    if (user?.verified_at !== null) {
+    if (user?.email_verified_at !== null) {
       router.replace('/home')
     }
   }
