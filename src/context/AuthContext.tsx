@@ -45,7 +45,8 @@ const AuthProvider = ({ children }: Props) => {
           secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
           secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
 
-          if (response.data.user.verified_at === null) {
+          console.log({ ...response.data.user })
+          if (response.data.user.email_verified_at === null) {
             router.replace(`/verify-email/`)
           }
         })
