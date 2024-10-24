@@ -46,7 +46,7 @@ const AuthProvider = ({ children }: Props) => {
           secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
 
           if (response.data.user.verified_at === null) {
-            router.push(`/verify-email/`)
+            router.replace(`/verify-email/`)
           }
         })
         .catch(error => {
