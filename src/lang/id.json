@@ -224,11 +224,13 @@
       "for_seafarer": {
         "title": "Profesea untuk Pelaut",
         "description": "Mulailah perjalanan karir Anda dengan platform pekerjaan maritim global kami. Kami membantu Anda menemukan peluang pelayaran di seluruh dunia, memastikan kepatuhan terhadap regulasi internasional—sehingga Anda dapat menjelajahi cakrawala baru dan mengembangkan karir Anda dengan lancar di seluruh dunia.",
+        "hide_salary": "Gaji: akan dibahas lebih lanjut",
         "button": "Temukan Lebih Banyak Pekerjaan"
       },
       "for_professional": {
         "title": "Profesea untuk Profesional",
         "description": "Bangun tim impian Anda dengan solusi perekrutan global kami untuk industri maritim dan logistik. Kami membantu Anda merekrut profesional terbaik dengan mudah sambil memastikan kepatuhan terhadap regulasi lokal—sehingga Anda dapat memperluas operasi Anda dengan lancar di seluruh dunia.",
+        "hide_salary": "Gaji: akan dibahas lebih lanjut",
         "button": "Temukan Lebih Banyak Pekerjaan"
       },
       "for_recruiter": {

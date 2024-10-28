@@ -317,7 +317,6 @@ const LoginPage = () => {
         visible={openBlockModal}
         onCloseClick={() => {
           setOpenBlockModal(!openBlockModal)
-          // window.location.replace('/home')
         }}
       />
       <DialogGoogleLogin

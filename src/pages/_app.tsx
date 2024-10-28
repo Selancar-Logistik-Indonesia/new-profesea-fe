@@ -7,11 +7,6 @@ import { Router } from 'next/router'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 
-
-
-// ** Fake-DB Import
-
-
 // ** Loader Import
 import NProgress from 'nprogress'
 
@@ -20,7 +15,6 @@ import { CacheProvider } from '@emotion/react'
 import type { EmotionCache } from '@emotion/cache'
 
 // ** Config Imports
-
 import { defaultACLObj } from 'src/configs/acl'
 import themeConfig from 'src/configs/themeConfig'
 
@@ -62,8 +56,8 @@ import i18n from 'src/i18next'
 import { Provider } from 'react-redux'
 import { store } from 'src/store'
 import GoogleAnalytics from 'src/views/GoogleAnalytics'
+import Hotjar from 'src/services/hotjar'
 
-// ** Extend App Props with Emotion
 type ExtendedAppProps = AppProps & {
   Component: NextPage
   emotionCache: EmotionCache
@@ -77,7 +71,6 @@ type GuardProps = {
 
 const clientSideEmotionCache = createEmotionCache()
 
-// ** Pace Loader
 if (themeConfig.routingLoader) {
   Router.events.on('routeChangeStart', () => {
     NProgress.start()
@@ -100,13 +93,13 @@ const Guard = ({ children, authGuard, guestGuard }: GuardProps) => {
   }
 }
 
-// ** Configure JSS & ClassName
 const App = (props: ExtendedAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
   // Variables
   const contentHeightFixed = Component.contentHeightFixed ?? false
-  const getLayout = Component.getLayout ?? (page => <UserLayout contentHeightFixed={contentHeightFixed}>{page}</UserLayout>)
+  const getLayout =
+    Component.getLayout ?? (page => <UserLayout contentHeightFixed={contentHeightFixed}>{page}</UserLayout>)
 
   const setConfig = Component.setConfig ?? undefined
   const authGuard = Component.authGuard ?? true
@@ -115,15 +108,9 @@ const App = (props: ExtendedAppProps) => {
 
   return (
     <>
+      <Hotjar />
       <Provider store={store}>
         <CacheProvider value={emotionCache}>
-          {/* <Head>
-            <title>{`${themeConfig.templateName}`}</title>
-            <meta name='description' content={`${themeConfig.templateName}`} />
-            <meta name='keywords' content='' />
-            <meta name='viewport' content='initial-scale=0.8, width=device-width' />
-          </Head> */}
-
           <AuthProvider>
             <I18nextProvider i18n={i18n}>
               <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>

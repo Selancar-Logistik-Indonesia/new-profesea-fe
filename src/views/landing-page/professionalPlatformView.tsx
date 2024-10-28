@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react'
 import { Avatar, Box, Divider, Grid, IconButton, Paper, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { TFunction } from 'i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -40,7 +41,7 @@ const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
   }
 }
 
-const JobCard = ({ job }: { job: Job }) => {
+const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
   const userPhoto = job.company?.photo ? job.company?.photo : '/images/avatars/default-user.png'
   const companyNameUrl = job.company.name.toLowerCase().split(' ').join('-')
   const jobTitleUrl = job.job_title ? job.job_title?.toLowerCase().split(' ').join('-') : ''
@@ -129,7 +130,9 @@ const JobCard = ({ job }: { job: Job }) => {
             </Box>
           </Box>
           <Typography sx={{ color: 'black', fontSize: { xs: 14, md: 12 }, fontWeight: 400 }}>
-            {renderSalary(job.salary_start, job.salary_end, job.currency as string)}
+            {job.hide_salary === true
+              ? t('landing_page.for_professional.hide_salary')
+              : renderSalary(job.salary_start, job.salary_end, job.currency as string)}
           </Typography>
           <Typography sx={{ color: '#525252', fontSize: { xs: 14, md: 12 }, fontWeight: 400 }}>
             Requirement <span style={{ color: '#32497A', fontWeight: 700 }}>{job.degree?.name ?? '-'}</span>
@@ -217,7 +220,7 @@ const ProfessionalPlatformView = () => {
           {isXs ? (
             <CarouselEvent>
               {jobs.map((job, i) => (
-                <JobCard key={i} job={job} />
+                <JobCard key={i} job={job} t={t} />
               ))}
               <Grid
                 item
@@ -248,7 +251,7 @@ const ProfessionalPlatformView = () => {
             <Grid container sx={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'space-between', gap: '17px' }}>
               <Grid item container spacing={4}>
                 {jobs.map((job, i) => (
-                  <JobCard key={i} job={job} />
+                  <JobCard key={i} job={job} t={t} />
                 ))}
               </Grid>
               <Box
