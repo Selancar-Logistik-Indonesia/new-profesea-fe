@@ -177,7 +177,7 @@ function Notification() {
           </Grid>
         </Grid>
         <Grid item lg={2} md={2} xs={12}>
-          <SideAd adslocation='home-page' />
+          <SideAd adslocation='notifications-page' />
         </Grid>
       </Grid>
       <DialogMarkConfirmation
