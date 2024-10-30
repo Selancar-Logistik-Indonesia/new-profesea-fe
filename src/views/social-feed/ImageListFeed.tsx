@@ -105,7 +105,13 @@ const ImageListFeed = ({ item }: { item: ISocialFeed }) => {
         </ImageList>
       ) : item.content_type === 'videos' ? (
         <CardMedia
-          sx={{ width: '100%' }}
+          sx={{
+            objectFit: 'contain',
+            width: '100%',
+            maxHeight: '450px',
+            backgroundColor: '#1B1F23',
+            cursor: 'pointer'
+          }}
           component='video'
           controls
           src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments![0]}`}
@@ -117,7 +123,13 @@ const ImageListFeed = ({ item }: { item: ISocialFeed }) => {
           alt={item.content}
           loading='lazy'
           onClick={() => setOpenPopUp(!openPopUp)}
-          sx={{ objectFit: 'contain', height: '100%', backgroundColor: 'gray', cursor: 'pointer' }}
+          sx={{
+            objectFit: 'contain',
+            height: '100%',
+            maxHeight: '450px',
+            backgroundColor: '#1B1F23',
+            cursor: 'pointer'
+          }}
         />
       )}
 
