@@ -8,7 +8,7 @@ const CarouselEvent = ({ children }: { children: React.ReactNode[] | null }) => 
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex(prevIndex => (prevIndex === (children?.length ?? 0) - 1 ? 0 : prevIndex + 1))
+      setCurrentIndex(prevIndex => (prevIndex === React.Children.count(children) - 1 ? 0 : prevIndex + 1))
     }, 5000)
 
     return () => clearInterval(interval)
@@ -23,17 +23,17 @@ const CarouselEvent = ({ children }: { children: React.ReactNode[] | null }) => 
   }
 
   const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return
+    if (touchStart !== null && touchEnd !== null) {
+      const distance = touchStart - touchEnd
+      const swipeThreshold = 50
 
-    const distance = touchStart - touchEnd
-    const swipeThreshold = 50
+      if (distance > swipeThreshold) {
+        setCurrentIndex(prevIndex => Math.min(prevIndex + 1, React.Children.count(children) - 1))
+      }
 
-    if (distance > swipeThreshold) {
-      setCurrentIndex(prevIndex => Math.min(prevIndex + 1, (children?.length ?? 1) - 1))
-    }
-
-    if (distance < -swipeThreshold) {
-      setCurrentIndex(prevIndex => Math.max(prevIndex - 1, 0))
+      if (distance < -swipeThreshold) {
+        setCurrentIndex(prevIndex => Math.max(prevIndex - 1, 0))
+      }
     }
 
     setTouchStart(null)
@@ -50,25 +50,26 @@ const CarouselEvent = ({ children }: { children: React.ReactNode[] | null }) => 
       <Box
         sx={{
           display: 'flex',
-          transition: 'transform 0.5s ease',
+          alignItems: 'center',
+          transition: 'transform 1s ease-in-out',
           transform: `translateX(calc(-${currentIndex * 100}% - ${currentIndex * 24}px))`,
           gap: '24px'
         }}
       >
-        {children?.map((item, index) => (
+        {React.Children.map(children, (child, index) => (
           <Box key={index} sx={{ minWidth: '100%' }}>
-            {item}
+            {child}
           </Box>
         ))}
       </Box>
-      <Box sx={{ mt: '12px', display: 'flex', gap: '8px', justifyContent: 'center' }}>
-        {children?.map((_, index) => (
+      <Box sx={{ mt: '24px', display: 'flex', gap: '8px', justifyContent: 'center' }}>
+        {React.Children.map(children, (_, index) => (
           <Box
             key={index}
             onClick={() => setCurrentIndex(index)}
             sx={{
-              width: '12px',
-              height: '12px',
+              width: '10px',
+              height: '10px',
               borderRadius: '50%',
               backgroundColor: currentIndex === index ? 'primary.main' : 'grey.400',
               cursor: 'pointer'

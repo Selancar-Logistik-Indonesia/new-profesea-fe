@@ -11,13 +11,12 @@ import {
   IconButton,
   ImageList,
   ImageListItem,
-  TextField,
   Typography
 } from '@mui/material'
 import React, { forwardRef, ReactElement, Ref, useCallback, useEffect, useState } from 'react'
 import Icon from 'src/@core/components/icon'
 import { IUser } from 'src/contract/models/user'
-import { getUserAvatar } from 'src/utils/helpers'
+import { getUserAvatar, validateAutomatedContentModeration } from 'src/utils/helpers'
 import { useDropzone, Accept } from 'react-dropzone'
 import styles from '../../../styles/scss/Dropzone.module.scss'
 
@@ -114,7 +113,12 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
   })
 
   const handleOnClickPost = () => {
-    handleUpdateStatus(contentType, content, attachments)
+    const { errorMessage, censoredContent } = validateAutomatedContentModeration(content)
+    if (errorMessage !== null) {
+      handleUpdateStatus(contentType, censoredContent, attachments)
+    } else {
+      handleUpdateStatus(contentType, content, attachments)
+    }
 
     setTimeout(() => {
       onClose()
@@ -173,12 +177,10 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
         <DialogContent
           sx={{
             position: 'relative',
-            pb: theme => `${theme.spacing(8)} !important`,
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(8)} !important`],
-            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            padding: '16px'
           }}
         >
-          <IconButton size='small' onClick={handleOnClose} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
+          <IconButton size='small' onClick={handleOnClose} sx={{ position: 'absolute', right: '8px', top: '8px' }}>
             <Icon icon='mdi:close' />
           </IconButton>
           <Box sx={{ pb: 4, textAlign: 'center', borderBottom: '1px solid rgba(219, 219, 219, 1)' }}>
@@ -191,7 +193,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
               Create Post
             </Typography>
           </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', mt: '20px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px', mt: '20px' }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3 }}>
               <Box>
                 <Avatar src={getUserAvatar(user!)} alt='profile-picture' sx={{ height: 50, width: 50 }} />
@@ -208,14 +210,23 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
               </Box>
             </Box>
             <Box>
-              <TextField
+              <textarea
                 value={content}
                 onChange={e => setContent(e.target.value)}
-                sx={{ width: '100%' }}
                 id='outlined-multiline-static'
-                placeholder='Start a Post, Share Your Thoughts...'
-                multiline
+                placeholder='Start a post, share your thoughts...'
                 rows={6}
+                style={{
+                  border: 0,
+                  width: '100%',
+                  resize: 'none',
+                  outline: 'none',
+                  boxShadow: 'none',
+                  fontWeight: 400,
+                  fontSize: '14px',
+                  color: 'rgba(102, 102, 102, 1)',
+                  fontFamily: 'Figtree'
+                }}
               />
             </Box>
             {isUploadFile && total > 0 && (
@@ -349,7 +360,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
               </Box>
             )}
 
-            <Box sx={{ display: 'flex', gap: '20px' }}>
+            <Box sx={{ display: 'flex', gap: '20px', marginBottom: '16px', alignItems: 'center' }}>
               <Typography
                 variant='h3'
                 color={'rgba(48, 48, 48, 1)'}
@@ -358,24 +369,20 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
               >
                 Add to your post
               </Typography>
-              <Box>
-                <Icon
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => handleOpenDropZoneFile('images')}
-                  icon='icon-park-outline:picture-album'
-                  fontSize={24}
-                  color='#4CAF50'
-                />
-              </Box>
-              <Box>
-                <Icon
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => handleOpenDropZoneFile('videos')}
-                  icon='icon-park-outline:video'
-                  fontSize={24}
-                  color='#FF5722'
-                />
-              </Box>
+              <Icon
+                style={{ cursor: 'pointer' }}
+                onClick={() => handleOpenDropZoneFile('images')}
+                icon='icon-park-outline:picture-album'
+                fontSize={24}
+                color='#4CAF50'
+              />
+              <Icon
+                style={{ cursor: 'pointer' }}
+                onClick={() => handleOpenDropZoneFile('videos')}
+                icon='icon-park-outline:video'
+                fontSize={24}
+                color='#FF5722'
+              />
             </Box>
           </Box>
           <Box>

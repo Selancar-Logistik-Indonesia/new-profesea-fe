@@ -17,7 +17,8 @@ const defaultProvider: AuthValuesType = {
   glogin: () => Promise.resolve(),
   login: () => Promise.resolve(),
   loginSilent: () => Promise.resolve(),
-  logout: () => Promise.resolve()
+  logout: () => Promise.resolve(),
+  refetch: () => Promise.resolve()
 }
 
 const AuthContext = createContext(defaultProvider)
@@ -43,6 +44,10 @@ const AuthProvider = ({ children }: Props) => {
           setAbilities(response.data.abilities)
           secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
           secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+
+          if (response.data.user.email_verified_at === null) {
+            router.replace(`/verify-email/`)
+          }
         })
         .catch(error => {
           localStorage.removeItem('userData')
@@ -64,7 +69,6 @@ const AuthProvider = ({ children }: Props) => {
 
   useEffect(() => {
     initAuth()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType, noReturn?: boolean) => {
@@ -79,7 +83,8 @@ const AuthProvider = ({ children }: Props) => {
         secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
         initAuth()
-        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home' // console.log(`redirectURL: ${redirectURL}`);
+
+        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
         if (!noReturn) {
           if (params.namaevent != null) {
             await router.replace('/home/?event=true' as string)
@@ -115,7 +120,6 @@ const AuthProvider = ({ children }: Props) => {
     params: { accessToken: string; namaevent: any },
     errorCallback?: ErrCallbackType
   ) => {
-    // console.log(params.accessToken)
     localStorage.setItem(authConfig.storageTokenKeyName, params.accessToken)
     HttpClient.get(authConfig.meEndpoint)
       .then(async response => {
@@ -127,7 +131,7 @@ const AuthProvider = ({ children }: Props) => {
         secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
         initAuth()
-        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home' // console.log(`redirectURL: ${redirectURL}`);
+        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
         if (params.namaevent != null) {
           await router.replace('/home/?event=true' as string)
         } else {
@@ -156,7 +160,8 @@ const AuthProvider = ({ children }: Props) => {
     glogin: handleGoogleLogin,
     login: handleLogin,
     logout: handleLogout,
-    loginSilent: handleLoginSilent
+    loginSilent: handleLoginSilent,
+    refetch: initAuth
   }
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>

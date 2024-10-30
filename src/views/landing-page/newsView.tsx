@@ -4,9 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { HttpClient } from 'src/services'
 import INews from 'src/contract/models/news'
 import { Icon } from '@iconify/react'
-import moment from 'moment'
 import { useRouter } from 'next/router'
-import CarouselEvent from './carouselEvent'
+import moment from 'moment'
+import CarouselEvent from './carouselevent'
+import Link from 'next/link'
 
 const NewsCard = ({ item }: { item: INews }) => {
   const router = useRouter()
@@ -31,13 +32,15 @@ const NewsCard = ({ item }: { item: INews }) => {
           }}
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400, textTransform: 'capitalize' }}>
-            {item.category.name}
+          <Typography
+            sx={{ color: '#999', fontSize: { xs: 16, md: 14 }, fontWeight: 400, textTransform: 'capitalize' }}
+          >
+            {item?.category?.name}
           </Typography>
           <Typography
             sx={{
               color: '#303030',
-              fontSize: 18,
+              fontSize: { xs: 20, md: 18 },
               fontWeight: 700,
               textTransform: 'capitalize',
               whiteSpace: 'nowrap',
@@ -57,7 +60,7 @@ const NewsCard = ({ item }: { item: INews }) => {
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
               color: '#5E5E5E',
-              fontSize: '14px',
+              fontSize: { xs: 16, md: 14 },
               fontWeight: 400
             }}
           >
@@ -103,12 +106,14 @@ const NewsView = () => {
   return (
     <Grid container sx={{ px: { xs: '24px', md: 0 }, display: 'flex', flexDirection: 'row', gap: '24px' }}>
       <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography sx={{ fontSize: 24, fontWeight: 700 }}>Read Our Articles</Typography>
+        <Typography sx={{ fontSize: 24, fontWeight: 700 }}>{t('landing_page.news.title')}</Typography>
         <Button
+          component={Link}
+          href='/news'
           endIcon={<Icon icon='mdi:chevron-right' />}
-          sx={{ color: 'black', fontSize: 14, fontWeight: 400, textTransform: 'none' }}
+          sx={{ color: 'black', fontSize: { xs: 16, md: 14 }, fontWeight: 400, textTransform: 'none' }}
         >
-          {t('button_6')}
+          {t('landing_page.news.button')}
         </Button>
       </Grid>
 

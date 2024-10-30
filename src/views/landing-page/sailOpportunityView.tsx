@@ -1,6 +1,6 @@
 import { Button, Typography, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import landingPageStyle from 'src/@core/styles/landing-page/landing-page-letssail'
+import landingPageStyle from 'src/@core/styles/landing-page/landing-page'
 import Link from 'next/link'
 
 const SailOpportunity = () => {
@@ -10,7 +10,7 @@ const SailOpportunity = () => {
     <Grid
       container
       sx={{
-        ...landingPageStyle.bannerHero,
+        ...landingPageStyle.SailOpportunity,
         p: { xs: '22px 24px', md: '0px 30px' },
         borderRadius: { xs: 0, md: '20px' },
         display: 'flex',
@@ -23,13 +23,14 @@ const SailOpportunity = () => {
       <Typography
         sx={{
           color: '#FFFFFF',
-          fontSize: { xs: 18, md: 48 },
+          fontSize: { xs: 24, md: 48 },
           fontWeight: 700,
           lineHeight: 'normal',
-          width: { xs: '100%', md: '600px' }
+          width: { xs: '100%', md: '600px' },
+          textAlign: { xs: 'center', md: 'left' }
         }}
       >
-        {t('landing_lets_sail')}
+        {t('landing_page.lets_sail.title')}
       </Typography>
       <Button
         component={Link}
@@ -40,11 +41,13 @@ const SailOpportunity = () => {
           backgroundColor: '#FFF',
           color: '#1F57C3',
           textTransform: 'none',
+          fontSize: { xs: 18, md: 14 },
+          fontWeight: 400,
           '&:hover': { backgroundColor: '#f0f0f0' },
           width: { xs: '100%', md: 'fit-content' }
         }}
       >
-        {t('landing_join_now_1')}
+        {t('landing_page.lets_sail.button')}
       </Button>
     </Grid>
   )

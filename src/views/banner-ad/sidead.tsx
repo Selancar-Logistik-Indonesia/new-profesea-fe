@@ -18,7 +18,12 @@ import Ads from 'src/contract/models/Ads'
 const Slides = (Ads: Ads[]) => {
   const components: JSX.Element[] = []
 
-  const handleOnClickCTA = (cta: string) => {
+  const handleOnClickCTA = (cta: string, id: number) => {
+    HttpClient.post(`/public/data/ads/update-ctr/${id}`).then(response => {
+      if (response.status != 200) {
+        throw response.data.message ?? 'Something went wrong!'
+      }
+    })
     if (cta) {
       window.open(cta, '_blank')
     }
@@ -37,7 +42,7 @@ const Slides = (Ads: Ads[]) => {
             boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
             cursor: 'pointer'
           }}
-          onClick={() => handleOnClickCTA(item.cta as unknown as string)}
+          onClick={() => handleOnClickCTA(item.cta as unknown as string, item?.id)}
         />
       </Box>
     )
@@ -68,7 +73,13 @@ const SideAd: React.FC<ISideAdProps> = ({ adslocation = 'home-page' }) => {
     })
   }
 
-  const handleOnClickCTA = (cta: string) => {
+  const handleOnClickCTA = async (cta: string, id: number) => {
+    HttpClient.post(`/public/data/ads/update-ctr/${id}`).then(response => {
+      if (response.status != 200) {
+        throw response.data.message ?? 'Something went wrong!'
+      }
+    })
+
     if (cta) {
       window.open(cta, '_blank')
     }
@@ -153,7 +164,7 @@ const SideAd: React.FC<ISideAdProps> = ({ adslocation = 'home-page' }) => {
             boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
             cursor: 'pointer'
           }}
-          onClick={() => handleOnClickCTA(Ads[0].cta as unknown as string)}
+          onClick={() => handleOnClickCTA(Ads[0].cta as unknown as string, Ads[0].id)}
         />
       </Box>
     )

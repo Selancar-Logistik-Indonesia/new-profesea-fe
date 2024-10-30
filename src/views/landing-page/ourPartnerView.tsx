@@ -1,4 +1,5 @@
 import { Box, Grid, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 const logos = [
   { img: '/images/logos/samudera-black.png' },
@@ -25,8 +26,9 @@ const PartnerLogo = ({ img }: { img: string }) => {
         component='img'
         src={img}
         sx={{
-          width: '100%',
           height: '54px',
+          width: 'auto',
+          maxWidth: '226px',
           opacity: '55%'
         }}
       />
@@ -35,6 +37,8 @@ const PartnerLogo = ({ img }: { img: string }) => {
 }
 
 const OurPartnerView = () => {
+  const { t } = useTranslation()
+
   return (
     <Grid
       container
@@ -49,8 +53,8 @@ const OurPartnerView = () => {
         gap: '32px'
       }}
     >
-      <Typography sx={{ fontSize: { xs: 18, md: 32 }, fontWeight: 700, lineHeight: '38px' }}>
-        Partnering with Industry Leaders
+      <Typography sx={{ fontSize: { xs: 22, md: 32 }, fontWeight: 700, lineHeight: '38px', textAlign: 'center' }}>
+        {t('landing_page.our_partner')}
       </Typography>
       <Box
         sx={{

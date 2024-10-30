@@ -7,6 +7,7 @@ import authConfig from 'src/configs/auth'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import moment from 'moment'
+import badwords from './badwords.json'
 
 const getCleanErrorMessage = (error: any) => {
     let errorMessage = 'Something went wrong!'
@@ -103,7 +104,7 @@ function formatIDR(amount: number, isIdr?: boolean) {
     const price = new Intl.NumberFormat('id-ID', options).format(amount)
 
     if (isIdr) {
-        return price.replace('Rp', 'IDR');
+        return price.replace('Rp', 'IDR')
     }
 
     return price
@@ -176,7 +177,6 @@ function subscribev(id: string[]) {
         newValue = abilities?.items.find((e: any) => e.code == id[i])
         if (newValue != undefined) break
     }
-    console.log('here 1', newValue)
 
     return newValue ? true : false
 }
@@ -216,14 +216,21 @@ const calculateAge = (dob: any) => {
 }
 
 const MONTH_NAMES = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-];
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+]
 
-const shortMonthNames = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-];
+const shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 const getMonthYear = (date: string | null, shortMoths?: boolean) => {
     if (!date) return null
@@ -239,60 +246,59 @@ const getMonthYear = (date: string | null, shortMoths?: boolean) => {
 }
 
 function getFormattedDate(date: any, prefomattedDate: any = false, hideYear: any = false) {
-    const day = date.getDate();
-    const month = MONTH_NAMES[date.getMonth()];
-    const year = date.getFullYear();
-    const hours = date.getHours();
-    let minutes = date.getMinutes();
+    const day = date.getDate()
+    const month = MONTH_NAMES[date.getMonth()]
+    const year = date.getFullYear()
+    const hours = date.getHours()
+    let minutes = date.getMinutes()
 
     if (minutes < 10) {
-        minutes = `0${minutes}`;
+        minutes = `0${minutes}`
     }
 
     if (prefomattedDate) {
-        return `${prefomattedDate} at ${hours}:${minutes}`;
+        return `${prefomattedDate} at ${hours}:${minutes}`
     }
 
     if (hideYear) {
-        return `${day}. ${month} at ${hours}:${minutes}`;
+        return `${day}. ${month} at ${hours}:${minutes}`
     }
 
-    return `${day}. ${month} ${year}. at ${hours}:${minutes}`;
+    return `${day}. ${month} ${year}. at ${hours}:${minutes}`
 }
 
 function timeAgo(dateParam: any) {
     if (!dateParam) {
-        return null;
+        return null
     }
 
-    const date = typeof dateParam === 'object' ? dateParam : new Date(dateParam);
-    const DAY_IN_MS = 86400000; // 24 * 60 * 60 * 1000
-    const today = new Date();
-    const yesterday = new Date(today as any - DAY_IN_MS);
-    const seconds = Math.round((today as any - date) / 1000);
-    const minutes = Math.round(seconds / 60);
-    const isToday = today.toDateString() === date.toDateString();
-    const isYesterday = yesterday.toDateString() === date.toDateString();
-    const isThisYear = today.getFullYear() === date.getFullYear();
-
+    const date = typeof dateParam === 'object' ? dateParam : new Date(dateParam)
+    const DAY_IN_MS = 86400000 // 24 * 60 * 60 * 1000
+    const today = new Date()
+    const yesterday = new Date((today as any) - DAY_IN_MS)
+    const seconds = Math.round(((today as any) - date) / 1000)
+    const minutes = Math.round(seconds / 60)
+    const isToday = today.toDateString() === date.toDateString()
+    const isYesterday = yesterday.toDateString() === date.toDateString()
+    const isThisYear = today.getFullYear() === date.getFullYear()
 
     if (seconds < 5) {
-        return 'now';
+        return 'now'
     } else if (seconds < 60) {
-        return `${seconds} seconds ago`;
+        return `${seconds} seconds ago`
     } else if (seconds < 90) {
-        return 'about a minute ago';
+        return 'about a minute ago'
     } else if (minutes < 60) {
-        return `${minutes} minutes ago`;
+        return `${minutes} minutes ago`
     } else if (isToday) {
-        return getFormattedDate(date, 'Today');
+        return getFormattedDate(date, 'Today')
     } else if (isYesterday) {
-        return getFormattedDate(date, 'Yesterday');
+        return getFormattedDate(date, 'Yesterday')
     } else if (isThisYear) {
-        return getFormattedDate(date, false, true);
+        return getFormattedDate(date, false, true)
     }
 
-    return getFormattedDate(date);
+    return getFormattedDate(date)
 }
 
 function timeCreated(createdAt: any, type?: string) {
@@ -303,10 +309,10 @@ function timeCreated(createdAt: any, type?: string) {
     const secondDifferent = now.diff(createdTime, 'seconds')
     const monthsDifferent = now.diff(createdTime, 'months')
 
-    const secondsInMinute = 60;
-    const secondsInHour = 3600;
-    const secondsInDay = 86400;
-    const secondsInWeek = 604800;
+    const secondsInMinute = 60
+    const secondsInHour = 3600
+    const secondsInDay = 86400
+    const secondsInWeek = 604800
 
     if (type === 'feed') {
         if (secondDifferent < secondsInMinute) {
@@ -323,10 +329,63 @@ function timeCreated(createdAt: any, type?: string) {
     }
 
     if (monthsDifferent >= 3) {
-        return "several months ago"
+        return 'several months ago'
     } else {
         return createdTime.fromNow()
     }
+}
+
+const normalizeContent = (content: string) => {
+    return (
+        content
+            .replace(/[@]/g, 'a') // Ganti @ dengan a
+            // .replace(/[!]/g, 'i') // Ganti ! dengan i
+            .replace(/[$]/g, 's') // Ganti $ dengan s
+            .replace(/[#]/g, 'h') // Ganti # dengan h
+        //   .replace(/\s+/g, '') // Hilangkan semua spasi antar huruf
+    )
+}
+
+// Fungsi untuk menyensor kata buruk dengan *
+// const censorBadWords = (content: string) => {
+//   let censoredContent = content
+
+//   for (let badWord of badwords['badwords']) {
+//     const regex = new RegExp(badWord, 'gi') // Cari kata buruk secara case-insensitive
+//     censoredContent = censoredContent.replace(regex, '*'.repeat(badWord.length)) // Ganti dengan *
+//   }
+
+//   return censoredContent
+// }
+
+const censorBadWords = (content: string) => {
+    let censoredContent = content
+
+    for (const badWord of badwords['badwords']) {
+        // Regex untuk mencocokkan kata lengkap, menggunakan \b sebagai batas kata
+        const regex = new RegExp(`\\b${badWord}\\b`, 'gi') // Cari kata lengkap secara case-insensitive
+        censoredContent = censoredContent.replace(regex, '*'.repeat(badWord.length)) // Ganti dengan *
+    }
+
+    return censoredContent
+}
+
+const validateAutomatedContentModeration = (content: string) => {
+    const normalizedContent = normalizeContent(content) // Normalisasi konten
+
+    let errorMessage = null
+    // Jika ada kata buruk yang terdeteksi
+    for (const badWord of badwords['badwords']) {
+        if (normalizedContent.toLowerCase().includes(badWord.toLowerCase())) {
+            errorMessage =
+                'Your post contains language that may not align with our community guidelines. For a positive community experience, please review and remove any offensive content before submitting.'
+            break
+        }
+    }
+
+    const censoredContent = censorBadWords(normalizedContent) // Ganti kata buruk dengan *
+
+    return { errorMessage, censoredContent }
 }
 
 export {
@@ -354,5 +413,6 @@ export {
     calculateAge,
     getMonthYear,
     timeAgo,
-    timeCreated
+    timeCreated,
+    validateAutomatedContentModeration
 }

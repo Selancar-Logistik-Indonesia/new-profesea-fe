@@ -101,7 +101,7 @@ const SeafarerTravelDocument: React.FC<ISeafarerTravelDocumentProps> = ({ userId
                     <Button
                       variant='outlined'
                       sx={{
-                        width: { sm: '100%', md: '152px' },
+                        width: { sm: '100%', md: '160px' },
                         height: '37px',
                         borderColor: 'rgba(50, 73, 122, 1) !important',
                         textTransform: 'capitalize',
