@@ -1,5 +1,5 @@
 import { ImageList, ImageListItem, Box, Typography, CardMedia } from '@mui/material'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { AppConfig } from 'src/configs/api'
 import ISocialFeed from 'src/contract/models/social_feed'
 import PopUpFeed from './PopUpFeed'
@@ -13,6 +13,15 @@ const srcset = (image: string) => {
 
 const ImageListFeed = ({ item }: { item: ISocialFeed }) => {
   const [openPopUp, setOpenPopUp] = useState(false)
+  const bgVideoRef = useRef<HTMLVideoElement>(null)
+  const mainVideoRef = useRef<HTMLVideoElement>(null)
+
+  const handlePlay = () => {
+    bgVideoRef.current?.play()
+  }
+  const handlePause = () => {
+    bgVideoRef.current?.pause()
+  }
 
   if (!item.attachments) return null
   const attachments = item.attachments
@@ -104,18 +113,41 @@ const ImageListFeed = ({ item }: { item: ISocialFeed }) => {
           )}
         </ImageList>
       ) : item.content_type === 'videos' ? (
-        <CardMedia
-          sx={{
-            objectFit: 'contain',
-            width: '100%',
-            maxHeight: '450px',
-            backgroundColor: '#1B1F23',
-            cursor: 'pointer'
-          }}
-          component='video'
-          controls
-          src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments![0]}`}
-        />
+        <Box sx={{ position: 'relative', width: '100%', maxHeight: '450px', overflow: 'hidden' }}>
+          <CardMedia
+            component='video'
+            ref={bgVideoRef}
+            muted
+            src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments![0]}`}
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              filter: 'blur(25px)',
+              objectFit: 'cover',
+              zIndex: 1
+            }}
+          />
+          <CardMedia
+            component='video'
+            src={`${AppConfig.baseUrl}/public/data/streaming?video=${attachments![0]}`}
+            ref={mainVideoRef}
+            onPlay={handlePlay}
+            onPause={handlePause}
+            controls
+            sx={{
+              position: 'relative',
+              zIndex: 2,
+              objectFit: 'contain',
+              width: '100%',
+              maxHeight: '450px',
+              backgroundColor: 'transparent',
+              cursor: 'pointer'
+            }}
+          />
+        </Box>
       ) : (
         <CardMedia
           component='img'
@@ -127,7 +159,7 @@ const ImageListFeed = ({ item }: { item: ISocialFeed }) => {
             objectFit: 'contain',
             height: '100%',
             maxHeight: '450px',
-            backgroundColor: '#1B1F23',
+            backgroundColor: '#F0F0F0',
             cursor: 'pointer'
           }}
         />
