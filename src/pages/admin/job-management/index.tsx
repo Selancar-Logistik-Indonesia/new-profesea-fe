@@ -164,6 +164,21 @@ const JobScreen = () => {
                     getOptionLabel={(option: RoleType) => option.name}
                     renderInput={params => <TextField {...params} label='Job Title' />}
                     onChange={(event: any, newValue: RoleType | null) => (newValue?.id ? setJT(newValue.id) : setJT(0))}
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params);
+              
+                      const { inputValue } = params;
+                      // Suggest the creation of a new value
+                      const isExisting = options.some((option) => inputValue === option.title);
+                      if (inputValue !== '' && !isExisting) {
+                        filtered.push({
+                          inputValue,
+                          title: `Add "${inputValue}"`,
+                        });
+                      }
+              
+                      return filtered;
+                    }}
                   />
                 </Grid>
                 <Grid item>

@@ -22,6 +22,10 @@ const columns: GridColDef[] = [
             ? 'Candidate Profile Page'
             : row.ads_location == 'company-profile-page'
             ? 'Company Profile Page'
+            : row?.ads_location == 'connections-page'
+            ? 'Connections Page'
+            : row?.ads_location == 'notifications-page'
+            ? 'Notifications Page'
             : '-'}
         </>
       )
