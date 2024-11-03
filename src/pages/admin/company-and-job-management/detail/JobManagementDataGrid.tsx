@@ -1,6 +1,7 @@
 import { Button, IconButton } from '@mui/material'
 import { Box } from '@mui/system'
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid'
+import IOSSwitch from 'src/layouts/components/IOSSwitch'
 import React from 'react'
 import Icon from 'src/@core/components/icon'
 
@@ -73,7 +74,30 @@ const JobManagementDataGrid = (props: RoleGridProps) => {
         )
       }
     },
-    { field: 'status', headerName: 'Status', sortable: false, minWidth: 150 },
+    {
+      field: 'status',
+      headerName: 'Status',
+      sortable: false,
+      minWidth: 150
+    },
+    {
+      field: 'active',
+      headerName: 'active',
+      sortable: false,
+      minWidth: 150,
+      renderCell: cell => {
+        const { row } = cell
+
+        return (
+          <IOSSwitch
+            value={row.active}
+            onClick={() => {
+              alert('')
+            }}
+          />
+        )
+      }
+    },
     {
       field: 'action',
       headerName: 'Action',
