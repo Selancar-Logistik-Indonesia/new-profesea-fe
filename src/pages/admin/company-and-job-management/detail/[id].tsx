@@ -199,6 +199,7 @@ const CompanyAndJobManagementDetail = () => {
           </CardActions>
         </Card>
         <JobManagementDataGrid
+          handleGetListJob={handleGetListJob}
           page={page - 1}
           rowCount={rowCount}
           pageSize={perPage}
