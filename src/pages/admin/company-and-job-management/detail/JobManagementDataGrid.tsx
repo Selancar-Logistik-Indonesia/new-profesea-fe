@@ -81,7 +81,7 @@ const JobManagementDataGrid = (props: RoleGridProps) => {
       minWidth: 150
     },
     {
-      field: 'active',
+      field: 'is_active',
       headerName: 'active',
       sortable: false,
       minWidth: 150,
@@ -90,9 +90,17 @@ const JobManagementDataGrid = (props: RoleGridProps) => {
 
         return (
           <IOSSwitch
-            value={row.active}
-            onClick={() => {
-              alert('')
+            value={row.is_active}
+            onClick={(e:any) => {
+              const c = confirm('Are you sure want to update Job Active status ? ')
+              alert(e.target.checked)
+              // alert(e.target.value)
+              if(c === true){
+                e.target.checked = e.target.checked
+              } else {
+                e.target.checked = !e.target.checked
+              }
+
             }}
           />
         )
