@@ -1,8 +1,12 @@
 import { Button, IconButton } from '@mui/material'
 import { Box } from '@mui/system'
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid'
+import IOSSwitch from 'src/layouts/components/IOSSwitch'
 import React from 'react'
 import Icon from 'src/@core/components/icon'
+import { HttpClient } from 'src/services'
+import toast from 'react-hot-toast'
+import { AxiosError } from 'axios'
 
 type RoleGridProps = {
   rows: RowItem[]
@@ -11,6 +15,7 @@ type RoleGridProps = {
   page: number
   rowCount: number
   onPageChange: (model: GridPaginationModel, details: GridCallbackDetails) => void
+  handleGetListJob: () => void
 }
 
 interface RowItem {
@@ -28,6 +33,30 @@ interface RowItem {
 }
 
 export { type RowItem }
+
+const handleChangeStatus = async (selectedId: number, is_active: boolean) => {
+  try {
+    const response = await HttpClient.patch(`/job/change-status/${selectedId}`, {
+      is_active
+    })
+
+    if (response.status != 200) {
+      throw response.data.message ?? 'Something went wrong!'
+    }
+  } catch (error) {
+    let errorMessage = 'Something went wrong!'
+
+    if (error instanceof AxiosError) {
+      errorMessage = error?.response?.data?.message ?? errorMessage
+    }
+
+    if (typeof error == 'string') {
+      errorMessage = error
+    }
+
+    toast.error(`Opps ${errorMessage}`)
+  }
+}
 
 const JobManagementDataGrid = (props: RoleGridProps) => {
   const columns: GridColDef[] = [
@@ -73,7 +102,38 @@ const JobManagementDataGrid = (props: RoleGridProps) => {
         )
       }
     },
-    { field: 'status', headerName: 'Status', sortable: false, minWidth: 150 },
+    {
+      field: 'status',
+      headerName: 'Status',
+      sortable: false,
+      minWidth: 150
+    },
+    {
+      field: 'is_active',
+      headerName: 'active',
+      sortable: false,
+      minWidth: 150,
+      renderCell: cell => {
+        const { row } = cell
+
+        return (
+          <IOSSwitch
+            checked={row.active}
+            onClick={(e: any) => {
+              const c = confirm('Are you sure want to update Job Active status ? ')
+              // alert(e.target.value)
+              if (c === true) {
+                e.target.checked = e.target.checked
+                handleChangeStatus(row.id, e.target.checked)
+                props.handleGetListJob()
+              } else {
+                e.target.checked = !e.target.checked
+              }
+            }}
+          />
+        )
+      }
+    },
     {
       field: 'action',
       headerName: 'Action',
