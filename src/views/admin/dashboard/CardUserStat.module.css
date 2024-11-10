@@ -1,0 +1,47 @@
+.total-user-label{
+    font-family: Inter;
+    color: #00000080;
+    font-size: 14px;
+}
+
+.total-user-number{
+    font-size: 32px;
+    font-weight: 700;
+    color: black;
+    font-family: Inter;
+}
+
+.total-secondary-user-label{
+    font-family: Inter;
+    color: #00000099;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.total-secondary-user-number{
+    font-size: 24px;
+    font-weight: 700;
+    color: black;
+    font-family: Inter;
+}
+
+.total-third-user-number {
+    font-size: 20px;
+    font-weight: 700;
+    color:#00000099;
+    font-family: Inter;
+}
+
+.from {
+    color: #696969;
+    font-family: Inter; 
+    font-weight:  600; 
+    font-size:  12px;
+}
+
+.time-info {
+    color:black;
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 12px;
+}

@@ -10,10 +10,10 @@ const Home = () => {
   return (
     <Grid container spacing={6} className='match-height'>
       <Grid container spacing={6} item xs={12} sm={12} md={12}>
-        <Grid item xs={12} sm={6} md={6}>
+        <Grid item xs={12} sm={7} md={7}>
           <CardUserStat />
         </Grid>
-        <Grid item xs={12} sm={6} md={6}>
+        <Grid item xs={12} sm={5} md={5}>
           <CardActiveAds />
         </Grid>
       </Grid>

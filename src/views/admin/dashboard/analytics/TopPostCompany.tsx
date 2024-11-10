@@ -29,9 +29,7 @@ const TopPostCompany = () => {
 
 const renderList = (arr: any[]) => {
   if (arr && arr.length) {
-
     return arr.map((item, index: number) => {
-
       return (
         <Box
           key={item.name}
@@ -42,9 +40,7 @@ const renderList = (arr: any[]) => {
           }}
         >
           {/* <img width={34} height={34} alt={item.name} src={item.photo} /> */}
-          <Box
-            sx={{ ml: 3, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-          >
+          <Box sx={{ ml: 3, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box sx={{ mr: 2, display: 'flex', flexDirection: 'column' }}>
               <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
                 {item.name}
@@ -73,23 +69,21 @@ const renderList = (arr: any[]) => {
 }
 
 const TopPostCompanyApp = () => {
-  const { statTopList } = useDashboard();
+  const { statTopList } = useDashboard()
 
   useEffect(() => {
-    statTopList({ contribType: 'jobpost' });
-  }, []);
+    statTopList({ contribType: 'jobpost' })
+  }, [])
 
   return (
     <DashboardContext.Consumer>
       {({ dataTopCompany, onLoading }) => {
-
         if (onLoading) {
-
           return (
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <CircularProgress sx={{ mt: 20 }} />
             </Box>
-          );
+          )
         }
 
         return (
@@ -97,7 +91,7 @@ const TopPostCompanyApp = () => {
             <CardHeader
               title={
                 <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
-                  Top Posted Company
+                  Employer
                 </Typography>
               }
               titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}
@@ -126,11 +120,9 @@ const TopPostCompanyApp = () => {
             </CardContent>
           </Card>
         )
-
       }}
     </DashboardContext.Consumer>
-
-  );
+  )
 }
 
 export default TopPostCompany
