@@ -135,7 +135,7 @@ const DashboardProvider = (props: Props) => {
 
   const statTopList = async (payload: { contribType: string; segment?: any }) => {
     // only trigger in page 1
-
+    setDataTopCompany([])
     setOnLoading(true)
 
     try {
