@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -13,7 +15,6 @@ import Grid from '@mui/material/Grid'
 
 // ** Custom Components Imports
 // import CustomChip from 'src/@core/components/mui/chip'
-import OptionsMenu from 'src/@core/components/option-menu'
 import DashboardContext, { DashboardProvider } from 'src/context/DashboardContext'
 import { useDashboard } from 'src/hooks/useDashboard'
 import { useEffect } from 'react'
@@ -132,7 +133,7 @@ const TopPostCompanyApp = () => {
             <Divider component='div' />
             <CardActionArea>
               <CardContent style={{ textAlign: 'center' }}>
-                <a href='#'>View All Employees</a>
+                <Link href='/admin/company-and-job-management/'>View All Employees</Link>
               </CardContent>
             </CardActionArea>
           </Card>
