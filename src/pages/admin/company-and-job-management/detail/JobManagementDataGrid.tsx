@@ -106,7 +106,13 @@ const JobManagementDataGrid = (props: RoleGridProps) => {
       field: 'status',
       headerName: 'Status',
       sortable: false,
-      minWidth: 150
+      minWidth: 150, 
+      renderCell: (cell:any) => {
+        const { row } = cell 
+
+        return (<div>{row.active == true ? row.status : "Non Active"} </div>)
+
+      }
     },
     {
       field: 'is_active',
