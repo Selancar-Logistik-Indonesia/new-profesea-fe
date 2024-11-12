@@ -1,7 +1,8 @@
 import { Ref, forwardRef, ReactElement } from 'react'
 import { FadeProps } from '@mui/material/Fade'
-import Icon from 'src/@core/components/icon'
-import { Box, Button, Dialog, DialogActions, DialogContent, Fade, Grid, IconButton, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogContent, Fade, Typography } from '@mui/material'
+import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -17,47 +18,58 @@ type BlockDialog = {
 }
 
 const DialogMessage = (props: BlockDialog) => {
+  const { t } = useTranslation()
   const handleClose = async () => {
     props.onCloseClick()
   }
+
   return (
     <Dialog maxWidth='sm' open={props.visible} onClose={props.onCloseClick} TransitionComponent={Transition}>
-      <DialogContent
-        sx={{
-          position: 'relative'
-        }}
-      >
-        <IconButton size='small' onClick={props.onCloseClick} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
-          <Icon icon='mdi:close' />
-        </IconButton>
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography variant='h6' color={'#32487A'} fontWeight='600'>
-            Oops
-          </Typography>
-          <Typography variant='body2'>Your email hasn't been registered, Please register</Typography>
+      <DialogContent sx={{ p: '24px', width: '400px', textAlign: 'center' }}>
+        <Typography sx={{ fontSize: 16, fontWeight: 700 }}>{t('login_page.dialog.title')}</Typography>
+        <Typography sx={{ mt: '6px', fontSize: 14, fontWeight: 400 }}>{t('login_page.dialog.description')}</Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            mt: '16px'
+          }}
+        >
+          <Button
+            fullWidth
+            variant='contained'
+            sx={{
+              h: '33px',
+              backgroundColor: '#D8E6FF',
+              color: '#32497A',
+              textTransform: 'none',
+              fontSize: 14,
+              fontWeight: 400,
+              '&:hover': { backgroundColor: '#A6C6FF' }
+            }}
+            onClick={handleClose}
+          >
+            {t('login_page.dialog.cancel')}
+          </Button>
+          <Button
+            fullWidth
+            variant='contained'
+            component={Link}
+            href={`/register/v2/?email=${props.email}&checked=1`}
+            sx={{
+              h: '33px',
+              backgroundColor: '#32497A',
+              color: 'white',
+              textTransform: 'none',
+              fontSize: 14,
+              fontWeight: 400
+            }}
+          >
+            {t('login_page.dialog.continue')}
+          </Button>
         </Box>
       </DialogContent>
-      <DialogActions
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '12px'
-        }}
-      >
-        <Button
-          variant='contained'
-          color='info'
-          sx={{ mr: 2 }}
-          type='button'
-          size='small'
-          href={`/register/v2/?check=1&email=${props.email}`}
-        >
-          Register
-        </Button>
-        <Button onClick={handleClose} variant='contained' color='error' sx={{ mr: 2 }} type='button' size='small'>
-          Cancel
-        </Button>
-      </DialogActions>
     </Dialog>
   )
 }

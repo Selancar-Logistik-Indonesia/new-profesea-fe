@@ -30,6 +30,7 @@ import { useSearchParams } from 'next/navigation'
 import DialogGoogleLogin from './DialogGoogleLogin'
 import DialogMessage from './DialogMessage'
 import { AppConfig } from 'src/configs/api'
+import { useRouter } from 'next/router'
 
 const LinkStyled = styled(Link)(({ theme }) => ({
   display: 'flex',
@@ -66,28 +67,31 @@ const LoginPage = () => {
   const { t } = useTranslation()
   const schema = getSchema(t)
   const auth = useAuth()
+  const router = useRouter()
 
   const searchParams = useSearchParams()
   const email = searchParams.get('email')
-  const check = searchParams.get('check')
+  const checked = searchParams.get('checked')
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false)
   const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
-
   const [onLoading, setOnLoading] = useState<boolean>(false)
-  const [checkEmail, setCheckEmail] = useState<boolean>(check ? check === '1' : false)
+  const [checkEmail, setCheckEmail] = useState<boolean>(false)
 
   useEffect(() => {
     if (email && email !== '') {
       setValue('email', email)
     }
-  }, [email])
+    if (checked && checked === '1') {
+      setCheckEmail(true)
+    }
+  }, [email, checked])
 
   const {
     control,
-    getValues,
     setValue,
+    getValues,
     setError,
     handleSubmit,
     formState: { errors }
@@ -113,6 +117,7 @@ const LoginPage = () => {
         type: 'manual',
         message: `${t('input_label_error_1')}`
       })
+
       return
     }
 
@@ -121,13 +126,12 @@ const LoginPage = () => {
     const result: CheckEmailResponse = await response.json()
 
     if (!result.available) {
-      setOnLoading(false)
       setCheckEmail(true)
     } else {
-      setOnLoading(false)
       setCheckEmail(false)
       setOpenDialogMessage(true)
     }
+    setOnLoading(false)
   }
 
   return (
@@ -167,26 +171,54 @@ const LoginPage = () => {
               <Link href='/'>
                 <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
               </Link>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignContent: 'center',
-                  gap: '6px'
-                }}
-              >
-                <Typography
-                  sx={{ textAlign: 'center', color: '#404040', fontSize: 32, fontWeight: 700, lineHeight: '38.4px' }}
+              {checkEmail ? (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '12px'
+                  }}
                 >
-                  Welcome to Profesea!
-                </Typography>
-                <Typography
-                  sx={{ textAlign: 'center', color: '#999', fontSize: 16, fontWeight: 400, lineHeight: '21px' }}
+                  <IconButton
+                    sx={{ backgroundColor: '#F0F0F0', '&:hover': { backgroundColor: '#E0E0E0' } }}
+                    onClick={() => {
+                      setValue('email', '')
+                      setValue('password', '')
+                      setCheckEmail(false)
+                      router.replace(router.pathname)
+                    }}
+                  >
+                    <Icon icon='mdi:chevron-left' fontSize={24} />
+                  </IconButton>
+                  <Typography
+                    sx={{ textAlign: 'center', color: '#404040', fontSize: 32, fontWeight: 700, lineHeight: '38.4px' }}
+                  >
+                    {t('login_page.title_2')}
+                  </Typography>
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    gap: '6px'
+                  }}
                 >
-                  Log in and start sail with us!
-                </Typography>
-              </Box>
+                  <Typography
+                    sx={{ textAlign: 'center', color: '#404040', fontSize: 32, fontWeight: 700, lineHeight: '38.4px' }}
+                  >
+                    {t('login_page.title_2')}
+                  </Typography>
+                  <Typography
+                    sx={{ textAlign: 'center', color: '#999', fontSize: 16, fontWeight: 400, lineHeight: '21px' }}
+                  >
+                    {t('login_page.description')}
+                  </Typography>
+                </Box>
+              )}
             </Box>
             <Box
               sx={{
@@ -216,11 +248,12 @@ const LoginPage = () => {
                       render={({ field: { value, onChange, onBlur } }) => (
                         <TextField
                           autoFocus
-                          label={t('input_label_1')}
+                          label={t('input.email')}
                           value={value}
                           onBlur={onBlur}
                           onChange={onChange}
                           error={Boolean(errors.email)}
+                          InputLabelProps={{ shrink: checkEmail || Boolean(getValues('email')) }}
                         />
                       )}
                     />
@@ -233,7 +266,7 @@ const LoginPage = () => {
                   {checkEmail && (
                     <FormControl fullWidth>
                       <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                        {t('input_label_2')}
+                        {t('input.password')}
                       </InputLabel>
                       <Controller
                         name='password'
@@ -243,7 +276,7 @@ const LoginPage = () => {
                           <OutlinedInput
                             value={value}
                             onBlur={onBlur}
-                            label={t('input_label_2')}
+                            label={t('input.password')}
                             onChange={onChange}
                             id='auth-login-v2-password'
                             error={Boolean(errors.password)}
@@ -271,14 +304,14 @@ const LoginPage = () => {
                         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', marginTop: '2%' }}
                       >
                         <LinkStyled href='/forgot-password'>
-                          <span>{t('login_text_4')}</span>
+                          <span>{t('input.forgot_password')}</span>
                         </LinkStyled>
                       </Typography>
                     </FormControl>
                   )}
                   {checkEmail ? (
                     <Button disabled={auth.loading} fullWidth size='large' type='submit' variant='contained'>
-                      {auth.loading ? <CircularProgress color='primary' /> : 'Log in'}
+                      {auth.loading ? <CircularProgress color='primary' /> : t('input.login')}
                     </Button>
                   ) : (
                     <Button
@@ -292,14 +325,14 @@ const LoginPage = () => {
                         onChecking(emailValue)
                       }}
                     >
-                      {onLoading ? <CircularProgress color='primary' /> : 'Continue'}
+                      {onLoading ? <CircularProgress color='primary' /> : t('input.continue')}
                     </Button>
                   )}
                   {!checkEmail && (
                     <>
                       <Divider role='presentation'>
                         <Typography sx={{ mx: '10px', textAlign: 'center', fontSize: 14, fontWeight: 400 }}>
-                          {t('login_text_5')}
+                          {t('input.or')}
                         </Typography>
                       </Divider>
                       <Button
@@ -310,7 +343,7 @@ const LoginPage = () => {
                         href='https://apifix.profesea.id/auth/google?team_id=1&type=onship'
                         startIcon={<Icon icon='devicon:google' fontSize={20} />}
                       >
-                        Continue with Google
+                        {t('input.g_login')}
                       </Button>
                     </>
                   )}
@@ -329,10 +362,10 @@ const LoginPage = () => {
                     }}
                   >
                     <Typography sx={{ textAlign: 'center', fontSize: 12, fontWeight: 400, color: '#404040' }}>
-                      Didn't have an account?
+                      {t('login_page.account')}
                     </Typography>
                     <Typography component={Link} href='/register/v2' sx={{ color: '#0B58A6', fontWeight: 700 }}>
-                      Register here
+                      {t('input.register')}
                     </Typography>
                   </Box>
                 )}
@@ -345,14 +378,25 @@ const LoginPage = () => {
                   }}
                 >
                   <Typography sx={{ color: '#404040', fontSize: 12, fontWeight: 400 }}>
-                    By signing up, you acknowledge that you have read and understood, and agree to Profesea's{' '}
-                    <Box component='span' sx={{ color: '#0B58A6', fontWeight: 400 }}>
-                      Terms{' '}
-                    </Box>{' '}
-                    and{' '}
-                    <Box component='span' sx={{ color: '#0B58A6', fontWeight: 400 }}>
-                      Privacy Policy.
+                    {t('tos.tos_start')}
+                    <Box
+                      component={Link}
+                      href='/term'
+                      target='_blank'
+                      sx={{ mx: '3px', color: '#0B58A6', fontWeight: 400 }}
+                    >
+                      {t('tos.tos_terms')}
                     </Box>
+                    {t('tos.tos_and')}
+                    <Box
+                      component={Link}
+                      href='/privacy'
+                      target='_blank'
+                      sx={{ mx: '3px', color: '#0B58A6', fontWeight: 400 }}
+                    >
+                      {t('tos.tos_privacy')}
+                    </Box>
+                    {t('tos.tos_end')}
                   </Typography>
                 </Box>
               </Box>

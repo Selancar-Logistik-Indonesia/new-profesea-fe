@@ -23,7 +23,6 @@ const AppbarSearchUser = () => {
         search: search
       })
       const { contents } = (await resp.data) as { contents: ISearchContent[] }
-      console.log(contents)
 
       setListFriends(contents)
       setNoResults(contents.length === 0 && search.length >= 4)
