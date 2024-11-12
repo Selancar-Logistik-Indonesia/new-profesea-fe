@@ -135,7 +135,6 @@ const AuthProvider = ({ children }: Props) => {
     params: { accessToken: string; namaevent: any },
     errorCallback?: ErrCallbackType
   ) => {
-    // console.log(params.accessToken)
     localStorage.setItem(authConfig.storageTokenKeyName, params.accessToken)
     HttpClient.get(authConfig.meEndpoint)
       .then(async response => {
@@ -147,7 +146,7 @@ const AuthProvider = ({ children }: Props) => {
         secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
         initAuth()
-        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home' // console.log(`redirectURL: ${redirectURL}`);
+        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
         if (params.namaevent != null) {
           await router.replace('/home/?event=true' as string)
         } else {

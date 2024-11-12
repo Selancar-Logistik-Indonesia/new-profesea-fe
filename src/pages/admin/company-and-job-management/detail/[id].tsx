@@ -81,6 +81,7 @@ const CompanyAndJobManagementDetail = () => {
           roleLevel:
             row?.vesseltype_id && row?.vesseltype_id !== null ? row?.role_type?.name : row?.rolelevel?.levelName,
           status: new Date(row?.onboard_at) > new Date() ? 'Active' : 'Non Active',
+          active: row?.is_active,
           applicantApplied: row?.count_applicant,
           actions: {
             onShowListApplicant: () => handleShowListApplicant(row),
@@ -198,6 +199,7 @@ const CompanyAndJobManagementDetail = () => {
           </CardActions>
         </Card>
         <JobManagementDataGrid
+          handleGetListJob={handleGetListJob}
           page={page - 1}
           rowCount={rowCount}
           pageSize={perPage}

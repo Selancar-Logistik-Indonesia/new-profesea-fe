@@ -45,6 +45,8 @@ interface Job {
   hide_salary?: boolean
   currency?: string
   rotational?: boolean
+  is_active:boolean
+  deleted_at: string
 }
 
 export default Job
