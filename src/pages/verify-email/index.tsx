@@ -9,10 +9,10 @@ import { useAuth } from 'src/hooks/useAuth'
 
 const VerifyEmail = () => {
   const router = useRouter()
-  const { user, refetch } = useAuth()
+  const { user, refreshSession } = useAuth()
 
   const checkingVerifyEmail = async () => {
-    await refetch()
+    await refreshSession()
 
     if (user?.email_verified_at !== null) {
       router.replace('/home')
@@ -70,7 +70,7 @@ const VerifyEmail = () => {
     try {
       await HttpClient.get(AppConfig.baseUrl + '/user-management/check-email-verified', { email: user.email })
       toast.success('Email verified!')
-      router.replace('/home')
+      router.replace('/role-selection')
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'An error occurred while verifying the email.')
     } finally {
@@ -157,6 +157,9 @@ const VerifyEmail = () => {
 }
 
 VerifyEmail.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
-VerifyEmail.guestGuard = true
+VerifyEmail.acl = {
+  action: 'read',
+  subject: 'on-boarding'
+}
 
 export default VerifyEmail

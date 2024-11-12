@@ -7,6 +7,7 @@ import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import IAbilities from 'src/contract/models/abilities'
+import { getOnboardingLink } from 'src/utils/helpers'
 
 const defaultProvider: AuthValuesType = {
   user: null,
@@ -18,7 +19,7 @@ const defaultProvider: AuthValuesType = {
   login: () => Promise.resolve(),
   loginSilent: () => Promise.resolve(),
   logout: () => Promise.resolve(),
-  refetch: () => Promise.resolve()
+  refreshSession: () => Promise.resolve()
 }
 
 const AuthContext = createContext(defaultProvider)
@@ -45,8 +46,11 @@ const AuthProvider = ({ children }: Props) => {
           secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
           secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
 
-          if (response.data.user.email_verified_at === null) {
+          const tempUser = response.data.user
+          if (tempUser.email_verified_at === null) {
             router.replace(`/verify-email/`)
+          } else if (tempUser.last_step !== 'completed') {
+            router.replace(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
           }
         })
         .catch(error => {
@@ -71,17 +75,28 @@ const AuthProvider = ({ children }: Props) => {
     initAuth()
   }, [])
 
+  const handleRefreshSession = async () => {
+    await HttpClient.get(authConfig.meEndpoint).then(async response => {
+      secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
+      secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+      setUser({ ...response.data.user })
+      setAbilities(response.data.abilities)
+    })
+  }
+
   const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType, noReturn?: boolean) => {
     setLoading(true)
 
     HttpClient.post(authConfig.loginEndpoint, params)
       .then(async response => {
         setLoading(false)
-        const returnUrl = router.query.returnUrl
         setUser({ ...response.data.user })
+
+        const returnUrl = router.query.returnUrl
         localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
         secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+
         initAuth()
 
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
@@ -161,7 +176,7 @@ const AuthProvider = ({ children }: Props) => {
     login: handleLogin,
     logout: handleLogout,
     loginSilent: handleLoginSilent,
-    refetch: initAuth
+    refreshSession: handleRefreshSession
   }
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>

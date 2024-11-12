@@ -383,7 +383,9 @@ const FormAddSeafarer: React.FC<IFormAddSeafarerProps> = ({ dialogProps, alignme
               options={combocity}
               getOptionLabel={(option: City) => option.city_name}
               renderInput={params => <TextField {...params} label='Interview Location ' />}
-              onChange={(event: any, newValue: City | null) => (newValue?.id ? setCitId(newValue?.id) : setCitId(''))}
+              onChange={(event: any, newValue: City | null) =>
+                newValue?.id ? setCitId(newValue?.id.toString()) : setCitId('')
+              }
             />
           </Grid>
           <Grid item md={3} xs={12} sx={{ mb: 1 }}>

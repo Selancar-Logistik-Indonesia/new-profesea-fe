@@ -35,5 +35,5 @@ export type AuthValuesType = {
     glogin: (params: { accessToken: string, namaevent: any }, errorCallback?: ErrCallbackType) => void
     login: (params: LoginParams, errorCallback?: ErrCallbackType, noReturn?: boolean) => void
     loginSilent: (params: LoginSilentParams) => void
-    refetch: () => void
+    refreshSession: () => void
 }

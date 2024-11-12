@@ -1,4 +1,4 @@
-import { useState, ReactNode, useEffect } from 'react'
+import { useState, ReactNode } from 'react'
 import Link from 'next/link'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -27,9 +27,7 @@ import { useTranslation } from 'react-i18next'
 import DialogGoogleLogin from './DialogGoogleLogin'
 
 import { useSearchParams } from 'next/navigation'
-// import { toast } from 'react-hot-toast'
 import DialogSuccess from '../loginevent/DialogSuccess'
-import DialogMessage from './DialogMessage'
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -77,7 +75,6 @@ interface FormData {
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false)
-  const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
   const auth = useAuth()
   const theme = useTheme()
   const { settings } = useSettings()
@@ -87,13 +84,6 @@ const LoginPage = () => {
   const searchParams = useSearchParams()
 
   const namaevent = searchParams.get('event')
-  const acc = searchParams.get('account')
-
-  useEffect(() => {
-    if (acc != null) {
-      setOpenDialogMessage(true)
-    }
-  }, [acc])
 
   const { t } = useTranslation()
   const schema = getSchema(t)
@@ -323,12 +313,6 @@ const LoginPage = () => {
         visible={openModalGoogle}
         onCloseClick={() => {
           setOpenModalGoogle(!openModalGoogle)
-        }}
-      />
-      <DialogMessage
-        visible={openDialogMessage}
-        onCloseClick={() => {
-          setOpenDialogMessage(!openDialogMessage)
         }}
       />
     </>
