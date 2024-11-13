@@ -54,7 +54,7 @@ const AuthProvider = ({ children }: Props) => {
           //     router.replace(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
           //   }
           //   if (tempUser.last_step === 'role-selection') {
-          //     router.replace(`/onboarding/${tempUser.last_step}`)
+          //     router.replace(`/${tempUser.last_step}`)
           //   }
         })
         .catch(error => {
