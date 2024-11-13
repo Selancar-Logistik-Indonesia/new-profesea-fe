@@ -13,6 +13,8 @@ const defaultValue: DashboardContextType = {
   dataTopCommunity: [],
   dataTopTraining: [],
   dataChartSubs: [],
+  dataLastJob: [],
+  dataTopCategory: [],
   totalUsers: 0,
   totalSeafarer: 0,
   totalSeafarerVerified: 0,
@@ -27,7 +29,9 @@ const defaultValue: DashboardContextType = {
   statOfUserByRole: () => Promise.resolve(),
   statTopList: () => Promise.resolve(),
   chartSubscriptions: () => Promise.resolve(),
-  userOverview: () => Promise.resolve()
+  userOverview: () => Promise.resolve(),
+  dataLastJobList: () => Promise.resolve(),
+  dataTopCategoryList: () => Promise.resolve()
 }
 
 const DashboardContext = createContext(defaultValue)
@@ -37,8 +41,10 @@ const DashboardProvider = (props: Props) => {
   const [dataOnship, setDataOnship] = useState<any[]>([])
   const [dataTotalUser, setDataTotalUser] = useState<any[]>([])
   const [dataTopCompany, setDataTopCompany] = useState<any[]>([])
+  const [dataTopCategory, setDataTopCategory] = useState<any[]>([])
   const [dataTopCommunity, setDataTopCommunity] = useState<any[]>([])
   const [dataTopTraining, setDataTopTraining] = useState<any[]>([])
+  const [dataLastJob, setDataLastJob] = useState<any[]>([])
   const [dataChartSubs, setDataChartSubs] = useState<any>()
   const [onLoading, setOnLoading] = useState(false)
 
@@ -223,6 +229,44 @@ const DashboardProvider = (props: Props) => {
     setOnLoading(false)
   }
 
+  const dataLastJobList = async () => {
+    // only trigger in page 1
+    setDataLastJob([])
+    setOnLoading(true)
+
+    try {
+      const response = await HttpClient.get(AppConfig.baseUrl + `/dashboard/users/last-job`)
+
+      if (response.status == 200) {
+        const result = response.data as { data: any[] }
+        setDataLastJob(result.data)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+
+    setOnLoading(false)
+  }
+
+  const dataTopCategoryList = async () => {
+    // only trigger in page 1
+    setDataTopCategory([])
+    setOnLoading(true)
+
+    try {
+      const response = await HttpClient.get(AppConfig.baseUrl + `/dashboard/categories/top-category`)
+
+      if (response.status == 200) {
+        const result = response.data as { data: any[] }
+        setDataTopCategory(result.data)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+
+    setOnLoading(false)
+  }
+
   const values = useMemo(
     () => ({
       onLoading,
@@ -242,12 +286,16 @@ const DashboardProvider = (props: Props) => {
       totalCompanyVerified,
       totalTrainer,
       totalTrainerVerified,
+      dataLastJob,
+      dataTopCategory,
       statOfCandidateOff,
       statOfCandidateOn,
       statOfUserByRole,
       statTopList,
       chartSubscriptions,
-      userOverview
+      userOverview,
+      dataLastJobList,
+      dataTopCategoryList
     }),
     [
       onLoading,
@@ -265,12 +313,16 @@ const DashboardProvider = (props: Props) => {
       totalCompanyVerified,
       totalTrainer,
       totalTrainerVerified,
+      dataLastJob,
+      dataTopCategory,
       statOfCandidateOff,
       statOfCandidateOn,
       statOfUserByRole,
       statTopList,
       chartSubscriptions,
-      userOverview
+      userOverview,
+      dataLastJobList,
+      dataTopCategoryList
     ]
   )
 

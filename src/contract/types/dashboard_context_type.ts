@@ -7,6 +7,8 @@ type DashboardContextType = {
     dataTopCommunity: any[],
     dataTopTraining: any[],
     dataChartSubs: any,
+    dataLastJob: any[],
+    dataTopCategory: any[],
     totalUsers: number,
     totalSeafarer: number,
     totalSeafarerVerified: number,
@@ -21,7 +23,9 @@ type DashboardContextType = {
     statOfUserByRole: () => Promise<void>,
     statTopList: (payload: { contribType: string, segment?: any }) => Promise<void>,
     chartSubscriptions: (payload: { data_type: string, range?: any }) => Promise<void>,
-    userOverview: () => Promise<void>
+    userOverview: () => Promise<void>,
+    dataLastJobList: () => Promise<void>,
+    dataTopCategoryList: () => Promise<void>,
 }
 
 export default DashboardContextType;
