@@ -89,12 +89,12 @@ const TopLastJobApp = () => {
               }
               titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}
             />
-            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important` }}>
+            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt:15, mb:22 }}>
               {renderList(dataLastJob)}
             </CardContent>
-            <Divider component='div' />
-            <CardActionArea>
-              <CardContent style={{ textAlign: 'center' }}>
+            <CardActionArea sx={{ height: 80}}>
+              <Divider component='div' />
+              <CardContent style={{ textAlign: 'center', height:80 }}>
                 <Link href='/admin/company-and-job-management/'>View All Jobs</Link>
               </CardContent>
             </CardActionArea>

@@ -30,7 +30,7 @@ const renderList = (arr: any[]) => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            mb: index !== arr.length - 1 ? 10.3 : undefined
+            mb: index !== arr.length - 1 ? 16 : undefined
           }}
         >
           {/* <img width={34} height={34} alt={item.name} src={item.photo} /> */}
@@ -86,7 +86,7 @@ const TopCategoryApp = () => {
               }
               titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}
             />
-            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important` }}>
+            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt:15, mb:42 }}>
               {renderList(dataTopCategory)}
             </CardContent>
             <Divider component='div' />

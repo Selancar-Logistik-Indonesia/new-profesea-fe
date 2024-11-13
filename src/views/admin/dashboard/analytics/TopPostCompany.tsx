@@ -43,11 +43,11 @@ const renderList = (arr: any[]) => {
           {/* <img width={34} height={34} alt={item.name} src={item.photo} /> */}
           <Box sx={{ ml: 1, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex', mr: 2, flexDirection: 'column' }}>
-              <Grid container sx={{ width: 320, gap: 3 }}>
+              <Grid container sx={{ width: 200, gap: 3 }}>
                 <Grid item md={2} sx={{}}>
                   <Avatar sx={{ height: 50, width: 50 }} src={item.photo}></Avatar>
                 </Grid>
-                <Grid item md={8} sx={{}}>
+                <Grid item md={8} sx={{ marginLeft:'20px'}}>
                   <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
                     {item.name}
                   </Typography>
@@ -114,7 +114,7 @@ const TopPostCompanyApp = () => {
               //   />
               // }
             />
-            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important` }}>
+            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt:15, }}>
               {/* <Box sx={{ mb: 0.5, display: 'flex', alignItems: 'center', '& svg': { mr: 0.5, color: 'success.main' } }}>
                     <Typography variant='h5' sx={{ mr: 0.5 }}>
                       28,468
