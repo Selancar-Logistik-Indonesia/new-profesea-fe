@@ -15,6 +15,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import moment from 'moment'
 import Countries from 'src/contract/models/country'
 import { toast } from 'react-hot-toast'
+import { removeFirstZeroChar } from 'src/utils/helpers'
 
 type FormData = {
   fullname: string
@@ -221,9 +222,12 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
             )}
           />
         </FormControl>
-        <Box>
-          <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography sx={{ mb: '2px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
             Phone Number <span style={{ color: '#F22' }}>*</span>
+          </Typography>
+          <Typography sx={{ mb: '6px', color: '#666666', fontSize: 12, fontWeight: 400, fontStyle: 'italic' }}>
+            Your phone number must be connected to WhatsApp so our team can reach you easily.
           </Typography>
           <Box sx={{ display: 'flex', gap: '12px' }}>
             <FormControl error={!!errors.country}>
@@ -252,10 +256,14 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    placeholder='Enter your phone number'
+                    placeholder='e.g: 812345678'
                     error={!!errors.phone}
                     helperText={errors.phone?.message}
                     sx={{ flexGrow: 1 }}
+                    onChange={event => {
+                      const newValue = removeFirstZeroChar(event.target.value)
+                      field.onChange(newValue)
+                    }}
                   />
                 )}
               />

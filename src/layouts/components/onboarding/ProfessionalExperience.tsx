@@ -123,7 +123,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
 
   const onSubmit = (data: FormData) => {
     setOnLoading(true)
-    HttpClient.patch(AppConfig.baseUrl + '/onboarding/experience-professional', {
+    HttpClient.post(AppConfig.baseUrl + '/onboarding/experience-professional', {
       no_experience: data.noExperience,
       position: data.position,
       institution: data.company,
