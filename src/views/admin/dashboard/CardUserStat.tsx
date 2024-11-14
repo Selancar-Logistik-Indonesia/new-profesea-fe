@@ -25,11 +25,16 @@ const CardUserStatApp = () => {
   const [timeframe, setTimeFrame] = useState('all')
 
   // ** Vars
-  const { userOverview } = useDashboard()
+  const { userOverview, userProgressiveOverview } = useDashboard()
 
   useEffect(() => {
+    userProgressiveOverview(timeframe)
     userOverview()
   }, [])
+
+  useEffect(() => {
+    userProgressiveOverview(timeframe)
+  }, [timeframe])
 
   return (
     <DashboardContext.Consumer>
@@ -43,7 +48,12 @@ const CardUserStatApp = () => {
         totalProfessional,
         totalProfessionalVerified,
         totalTrainer,
-        totalTrainerVerified
+        totalTrainerVerified,
+        progressTotalUsers,
+        progressTotalSeafarer,
+        progressTotalProfessional,
+        progressTotalCompany,
+        progressTotalTrainer
       }) => {
         if (onLoading) {
           return (
@@ -55,6 +65,11 @@ const CardUserStatApp = () => {
 
         const h = '140px'
         const pd = '10px'
+
+        const upIcon = <img src='/images/arrow-up.svg' style={{ width: '15px', height: '15px' }} />
+        const downIcon = <img src='/images/arrow-down.svg' style={{ width: '15px', height: '15px' }} />
+        const upColor = '#1FE08F'
+        const downColor = '#FF0027'
 
         return (
           <Card sx={{ border: 0, boxShadow: 0, color: 'black', backgroundColor: '#FFFFFF' }}>
@@ -72,10 +87,16 @@ const CardUserStatApp = () => {
                 <Grid item height={h} md={6} sm={12} lg={6} sx={{ padding: pd }}>
                   <div className={style['total-user-label']}>Total Users</div>
                   <div className={style['total-user-number']}>{totalUsers}</div>
-                  <div>
-                    <span>+5</span> <span className={style['from']}>From</span>{' '}
-                    <span className={style['time-info']}>Yesterday</span>
-                  </div>
+                  {timeframe != 'all' && (
+                    <div>
+                      <span color={progressTotalUsers >= 0 ? (progressTotalUsers > 0 ? upColor : '') : downColor}>
+                        {progressTotalUsers >= 0 ? (progressTotalUsers > 0 ? upIcon : '') : downIcon}&nbsp;
+                        {progressTotalUsers} &nbsp;
+                      </span>
+                      <span className={style['from']}>From </span>
+                      <span className={style['time-info']}>{timeframe} </span>
+                    </div>
+                  )}
                 </Grid>
                 <Grid item height={h} md={6} sm={12} lg={6}>
                   <Select
@@ -108,20 +129,37 @@ const CardUserStatApp = () => {
                   <div className={style['total-secondary-user-number']}>{totalSeafarerVerified}</div>
                   <div className={style['total-secondary-user-label']}>Total Registration</div>
                   <div className={style['total-third-user-number']}>{totalSeafarer}</div>
-                  <div>
-                    <span>+5</span> <span className={style['from']}>From</span>{' '}
-                    <span className={style['time-info']}>Yesterday</span>
-                  </div>
+                  {timeframe != 'all' && (
+                    <div>
+                      <span color={progressTotalSeafarer >= 0 ? (progressTotalSeafarer > 0 ? upColor : '') : downColor}>
+                        {progressTotalSeafarer >= 0 ? (progressTotalSeafarer > 0 ? upIcon : '') : downIcon} &nbsp;
+                        {progressTotalSeafarer} &nbsp;
+                      </span>
+                      <span className={style['from']}>From </span>
+                      <span className={style['time-info']}>{timeframe} </span>
+                    </div>
+                  )}
                 </Grid>
                 <Grid item height={h} md={6} sm={12} lg={6} sx={{ padding: pd }}>
                   <div className={style['total-secondary-user-label']}>Total Verified Professional</div>
                   <div className={style['total-secondary-user-number']}>{totalProfessionalVerified}</div>
                   <div className={style['total-secondary-user-label']}>Total Registration</div>
                   <div className={style['total-third-user-number']}>{totalProfessional}</div>
-                  <div>
-                    <span>+5</span> <span className={style['from']}>From</span>{' '}
-                    <span className={style['time-info']}>Yesterday</span>
-                  </div>
+                  {timeframe != 'all' && (
+                    <div>
+                      <span
+                        color={
+                          progressTotalProfessional >= 0 ? (progressTotalProfessional > 0 ? upColor : '') : downColor
+                        }
+                      >
+                        {progressTotalProfessional >= 0 ? (progressTotalProfessional > 0 ? upIcon : '') : downIcon}
+                        &nbsp;
+                        {progressTotalProfessional} &nbsp;
+                      </span>
+                      <span className={style['from']}>From </span>
+                      <span className={style['time-info']}>{timeframe} </span>
+                    </div>
+                  )}
                 </Grid>
               </Grid>
               <Grid
@@ -148,20 +186,32 @@ const CardUserStatApp = () => {
                   <div className={style['total-secondary-user-number']}>{totalCompanyVerified}</div>
                   <div className={style['total-secondary-user-label']}>Total Registration</div>
                   <div className={style['total-third-user-number']}>{totalCompany}</div>
-                  <div>
-                    <span>+5</span> <span className={style['from']}>From</span>{' '}
-                    <span className={style['time-info']}>Yesterday</span>
-                  </div>
+                  {timeframe != 'all' && (
+                    <div>
+                      <span color={progressTotalCompany >= 0 ? (progressTotalCompany > 0 ? upColor : '') : downColor}>
+                        {progressTotalCompany >= 0 ? (progressTotalCompany > 0 ? upIcon : '') : downIcon}&nbsp;
+                        {progressTotalCompany} &nbsp;
+                      </span>
+                      <span className={style['from']}>From </span>
+                      <span className={style['time-info']}>{timeframe} </span>
+                    </div>
+                  )}
                 </Grid>
                 <Grid item height={h} md={6} sm={12} lg={6} sx={{ padding: pd }}>
                   <div className={style['total-secondary-user-label']}>Total Verified Training Center</div>
                   <div className={style['total-secondary-user-number']}>{totalTrainerVerified}</div>
                   <div className={style['total-secondary-user-label']}>Total Registration</div>
                   <div className={style['total-third-user-number']}>{totalTrainer}</div>
-                  <div>
-                    <span>+5</span> <span className={style['from']}>From</span>{' '}
-                    <span className={style['time-info']}>Yesterday</span>
-                  </div>
+                  {timeframe != 'all' && (
+                    <div>
+                      <span color={progressTotalTrainer >= 0 ? (progressTotalTrainer > 0 ? upColor : '') : downColor}>
+                        {progressTotalTrainer >= 0 ? (progressTotalTrainer > 0 ? upIcon : '') : downIcon}&nbsp;
+                        {progressTotalTrainer} &nbsp;
+                      </span>
+                      <span className={style['from']}>From </span>
+                      <span className={style['time-info']}>{timeframe} </span>
+                    </div>
+                  )}
                 </Grid>
               </Grid>
             </CardContent>

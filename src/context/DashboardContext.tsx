@@ -15,6 +15,7 @@ const defaultValue: DashboardContextType = {
   dataChartSubs: [],
   dataLastJob: [],
   dataTopCategory: [],
+  dataAds: [],
   totalUsers: 0,
   totalSeafarer: 0,
   totalSeafarerVerified: 0,
@@ -24,6 +25,11 @@ const defaultValue: DashboardContextType = {
   totalCompanyVerified: 0,
   totalTrainer: 0,
   totalTrainerVerified: 0,
+  progressTotalUsers: 0,
+  progressTotalSeafarer: 0,
+  progressTotalProfessional: 0,
+  progressTotalCompany: 0,
+  progressTotalTrainer: 0,
   statOfCandidateOff: () => Promise.resolve(),
   statOfCandidateOn: () => Promise.resolve(),
   statOfUserByRole: () => Promise.resolve(),
@@ -31,7 +37,9 @@ const defaultValue: DashboardContextType = {
   chartSubscriptions: () => Promise.resolve(),
   userOverview: () => Promise.resolve(),
   dataLastJobList: () => Promise.resolve(),
-  dataTopCategoryList: () => Promise.resolve()
+  dataTopCategoryList: () => Promise.resolve(),
+  dataAdsList: () => Promise.resolve(),
+  userProgressiveOverview: () => Promise.resolve()
 }
 
 const DashboardContext = createContext(defaultValue)
@@ -44,7 +52,15 @@ const DashboardProvider = (props: Props) => {
   const [dataTopCategory, setDataTopCategory] = useState<any[]>([])
   const [dataTopCommunity, setDataTopCommunity] = useState<any[]>([])
   const [dataTopTraining, setDataTopTraining] = useState<any[]>([])
+
+  const [progressTotalUsers, setProgressTotalUsers] = useState(0)
+  const [progressTotalSeafarer, setProgressTotalSeafarer] = useState(0)
+  const [progressTotalProfessional, setProgressTotalProfessional] = useState(0)
+  const [progressTotalCompany, setProgressTotalCompany] = useState(0)
+  const [progressTotalTrainer, setProgressTotalTrainer] = useState(0)
+
   const [dataLastJob, setDataLastJob] = useState<any[]>([])
+  const [dataAds, setDataAds] = useState<any[]>([])
   const [dataChartSubs, setDataChartSubs] = useState<any>()
   const [onLoading, setOnLoading] = useState(false)
 
@@ -229,6 +245,30 @@ const DashboardProvider = (props: Props) => {
     setOnLoading(false)
   }
 
+  const userProgressiveOverview = async (timeframe: string) => {
+    setOnLoading(true)
+
+    try {
+      const response = await HttpClient.get(
+        AppConfig.baseUrl + `/dashboard/users/total-progressive?timeframe=${timeframe}`
+      )
+
+      if (response.status == 200) {
+        const result = response.data
+
+        setProgressTotalUsers(result.data.progressTotalUsers)
+        setProgressTotalSeafarer(result.data.progressTotalSeafarer)
+        setProgressTotalProfessional(result.data.progressTotalProfessional)
+        setProgressTotalCompany(result.data.progressTotalCompany)
+        setProgressTotalTrainer(result.data.progressTotalTrainer)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+
+    setOnLoading(false)
+  }
+
   const dataLastJobList = async () => {
     // only trigger in page 1
     setDataLastJob([])
@@ -267,6 +307,25 @@ const DashboardProvider = (props: Props) => {
     setOnLoading(false)
   }
 
+  const dataAdsList = async () => {
+    // only trigger in page 1
+    setDataAds([])
+    setOnLoading(true)
+
+    try {
+      const response = await HttpClient.get(AppConfig.baseUrl + `/dashboard/ads`)
+
+      if (response.status == 200) {
+        const result = response.data as { data: any[] }
+        setDataAds(result.data)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+
+    setOnLoading(false)
+  }
+
   const values = useMemo(
     () => ({
       onLoading,
@@ -286,8 +345,14 @@ const DashboardProvider = (props: Props) => {
       totalCompanyVerified,
       totalTrainer,
       totalTrainerVerified,
+      progressTotalUsers,
+      progressTotalSeafarer,
+      progressTotalProfessional,
+      progressTotalCompany,
+      progressTotalTrainer,
       dataLastJob,
       dataTopCategory,
+      dataAds,
       statOfCandidateOff,
       statOfCandidateOn,
       statOfUserByRole,
@@ -295,7 +360,9 @@ const DashboardProvider = (props: Props) => {
       chartSubscriptions,
       userOverview,
       dataLastJobList,
-      dataTopCategoryList
+      dataTopCategoryList,
+      dataAdsList,
+      userProgressiveOverview
     }),
     [
       onLoading,
@@ -313,8 +380,14 @@ const DashboardProvider = (props: Props) => {
       totalCompanyVerified,
       totalTrainer,
       totalTrainerVerified,
+      progressTotalUsers,
+      progressTotalSeafarer,
+      progressTotalProfessional,
+      progressTotalCompany,
+      progressTotalTrainer,
       dataLastJob,
       dataTopCategory,
+      dataAds,
       statOfCandidateOff,
       statOfCandidateOn,
       statOfUserByRole,
@@ -322,7 +395,9 @@ const DashboardProvider = (props: Props) => {
       chartSubscriptions,
       userOverview,
       dataLastJobList,
-      dataTopCategoryList
+      dataTopCategoryList,
+      dataAdsList,
+      userProgressiveOverview
     ]
   )
 

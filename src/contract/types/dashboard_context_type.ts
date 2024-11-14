@@ -9,6 +9,7 @@ type DashboardContextType = {
     dataChartSubs: any,
     dataLastJob: any[],
     dataTopCategory: any[],
+    dataAds: any[],
     totalUsers: number,
     totalSeafarer: number,
     totalSeafarerVerified: number,
@@ -18,6 +19,11 @@ type DashboardContextType = {
     totalCompanyVerified: number,
     totalTrainer: number,
     totalTrainerVerified: number,
+    progressTotalUsers: number,
+    progressTotalSeafarer: number,
+    progressTotalProfessional: number,
+    progressTotalCompany: number,
+    progressTotalTrainer: number,
     statOfCandidateOff: () => Promise<void>,
     statOfCandidateOn: () => Promise<void>,
     statOfUserByRole: () => Promise<void>,
@@ -26,6 +32,8 @@ type DashboardContextType = {
     userOverview: () => Promise<void>,
     dataLastJobList: () => Promise<void>,
     dataTopCategoryList: () => Promise<void>,
+    dataAdsList: () => Promise<void>,
+    userProgressiveOverview: (timeframe: string) => Promise<void>,
 }
 
 export default DashboardContextType;
