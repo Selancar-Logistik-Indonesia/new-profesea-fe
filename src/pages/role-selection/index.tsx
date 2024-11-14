@@ -64,7 +64,7 @@ const Shader = ({ employeeType, value }: { employeeType: string; value: string }
         top: 0,
         left: 0,
         backgroundColor: 'black',
-        opacity: employeeType === value || employeeType === '' ? 0.3 : 0.7,
+        opacity: employeeType === value || employeeType === '' ? 0.1 : 0.5,
         zIndex: 2
       }}
     />

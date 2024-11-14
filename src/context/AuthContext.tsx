@@ -48,13 +48,13 @@ const AuthProvider = ({ children }: Props) => {
 
           const tempUser = response.data.user
           if (tempUser.email_verified_at === null) {
-            router.replace(`/verify-email/`)
+            await router.replace(`/verify-email/`)
           }
           if (tempUser.last_step !== 'completed' && tempUser.last_step !== 'role-selection') {
-            router.replace(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
+            await router.replace(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
           }
           if (tempUser.last_step === 'role-selection') {
-            router.replace(`/${tempUser.last_step}`)
+            await router.replace(`/${tempUser.last_step}`)
           }
         })
         .catch(error => {
@@ -144,12 +144,19 @@ const AuthProvider = ({ children }: Props) => {
       .then(async response => {
         setLoading(false)
 
-        const returnUrl = router.query.returnUrl
         setUser({ ...response.data.user })
         setAbilities(response.data.abilities)
         secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+
+        const tempUser = response.data.user
+        if (tempUser.email_verified_at === null) {
+          await router.replace(`/set-password/${tempUser.rememberToken}/${tempUser.email}`)
+        }
+
         initAuth()
+
+        const returnUrl = router.query.returnUrl
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
         if (params.namaevent != null) {
           await router.replace('/home/?event=true' as string)

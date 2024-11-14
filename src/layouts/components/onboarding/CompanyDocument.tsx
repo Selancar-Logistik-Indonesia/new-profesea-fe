@@ -144,7 +144,7 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
 
   const onSubmit = (data: FormData) => {
     setOnLoading(true)
-    HttpClient.patch(AppConfig.baseUrl + '/onboarding/isCrewing', {
+    HttpClient.post(AppConfig.baseUrl + '/onboarding/isCrewing', {
       is_crewing: data.isCrewing
     })
       .then(

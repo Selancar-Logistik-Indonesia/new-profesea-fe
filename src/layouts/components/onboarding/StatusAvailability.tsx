@@ -44,6 +44,7 @@ const StatusAvailability = ({ beforeLink, nextLink }: { beforeLink: string; next
   const { user, refreshSession } = useAuth()
 
   const isOpen = watch('openToWork') === 1
+  const time = new Date()
   const [onLoading, setOnLoading] = useState(false)
 
   const firstLoad = async () => {
@@ -158,6 +159,7 @@ const StatusAvailability = ({ beforeLink, nextLink }: { beforeLink: string; next
                       format='DD/MM/YYYY'
                       openTo='year'
                       views={['year', 'month', 'day']}
+                      minDate={moment(time)}
                       value={moment(field.value)}
                       slotProps={{
                         textField: {

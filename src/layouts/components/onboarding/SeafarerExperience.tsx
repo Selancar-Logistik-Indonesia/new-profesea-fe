@@ -119,7 +119,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
 
   const onSubmit = (data: FormData) => {
     setOnLoading(true)
-    HttpClient.patch(AppConfig.baseUrl + '/onboarding/experience-seafarer', {
+    HttpClient.post(AppConfig.baseUrl + '/onboarding/experience-seafarer', {
       no_experience: data.noExperience,
       rank_id: data.roleType,
       vesseltype_id: data.vessel,

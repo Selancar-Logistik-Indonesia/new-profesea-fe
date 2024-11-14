@@ -34,7 +34,6 @@ import Head from 'next/head'
 import { FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
 import { useRouter } from 'next/router'
 
-
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.up('md')]: {
@@ -74,13 +73,12 @@ type FormData = {
 }
 
 const ResetPassword = () => {
-  const router = useRouter();
-  const param = router.query.manage as any[];
-  const token = (param != undefined) ? param[0] : null;
-  const email = (param != undefined) ? param[1] : null;
+  const router = useRouter()
+  const param = router.query.manage as any[]
+  const token = param != undefined ? param[0] : null
+  const email = param != undefined ? param[1] : null
 
-
-  console.log(token);
+  console.log(token)
   // ** Hooks
   const theme = useTheme()
   const { settings } = useSettings()
@@ -92,34 +90,34 @@ const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const {
-      register,
-      handleSubmit,
-      formState: { errors },
+    register,
+    handleSubmit,
+    formState: { errors }
   } = useForm<FormData>({
-      mode: 'onBlur',
-      resolver: yupResolver(schema)
+    mode: 'onBlur',
+    resolver: yupResolver(schema)
   })
 
   const onSubmit = async (data: FormData) => {
-      const { password, password_confirmation } = data
-      const json = {
-          "token": token,
-          "email": email,
-          "password": password,
-          "password_confirmation": password_confirmation,
-      };
+    const { password, password_confirmation } = data
+    const json = {
+      token: token,
+      email: email,
+      password: password,
+      password_confirmation: password_confirmation
+    }
 
-      try {
-          const response = await HttpClient.post('/auth/set-password', json);
-          if (response.status != 200) {
-              alert(response.data?.message ?? "Something went wrong");
-          }
-
-          toast.success("Account has been registered successfully");
-          router.push('/login')
-      } catch (error) {
-          toast.error(`Opps ${getCleanErrorMessage(error)}`);
+    try {
+      const response = await HttpClient.post('/auth/set-password', json)
+      if (response.status != 200) {
+        alert(response.data?.message ?? 'Something went wrong')
       }
+
+      toast.success('Account has been registered successfully')
+      router.replace('/role-selection')
+    } catch (error) {
+      toast.error(`Opps ${getCleanErrorMessage(error)}`)
+    }
   }
 
   // ** Vars
@@ -131,119 +129,126 @@ const ResetPassword = () => {
       <Head>
         <title>{`${themeConfig.templateName} - Forgot Password Page`}</title>
       </Head>
-      <Box sx={{
-        position: 'fit',
-        width: '100%',
-        height: '100%',
-        backgroundImage: "url(/images/bglogin.jpg)",
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-      }}>
-      <Box className='content-right'>
-        {!hidden ? (
-          <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-            
-          </Box>
-        ) : null}
-        <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
-          <Box
-            sx={{
-              p: 7,
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'background.paper'
-            }}
-          >
-            <BoxWrapper>
-              <Box sx={{ mb: 10, maxWidth: '100%', justifyContent: 'center', alignContent: 'center', textAlign: 'center' }}>
-                <Link href='/'>
-                  <Box
-                    component="img"
-                    src='/images/logosamudera.png'
-                    sx={{ width: 225, mt: 5 }}
-                  >
-                  </Box>
-                </Link>
-              </Box>
-              <Box sx={{ mb: 6 }}>
-                <TypographyStyled variant='h5'>Set New Password !</TypographyStyled>
-                <Typography variant='body2'>
-                  Enter your new password
-                </Typography>
-              </Box>
-              <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-                <FormControl fullWidth sx={{mb:5}}>
+      <Box
+        sx={{
+          position: 'fit',
+          width: '100%',
+          height: '100%',
+          backgroundImage: 'url(/images/bglogin.jpg)',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <Box className='content-right'>
+          {!hidden ? (
+            <Box
+              sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}
+            ></Box>
+          ) : null}
+          <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
+            <Box
+              sx={{
+                p: 7,
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'background.paper'
+              }}
+            >
+              <BoxWrapper>
+                <Box
+                  sx={{
+                    mb: 10,
+                    maxWidth: '100%',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    textAlign: 'center'
+                  }}
+                >
+                  <Link href='/'>
+                    <Box component='img' src='/images/logosamudera.png' sx={{ width: 225, mt: 5 }}></Box>
+                  </Link>
+                </Box>
+                <Box sx={{ mb: 6 }}>
+                  <TypographyStyled variant='h5'>Set New Password !</TypographyStyled>
+                  <Typography variant='body2'>Enter your new password</Typography>
+                </Box>
+                <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+                  <FormControl fullWidth sx={{ mb: 5 }}>
                     <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                        New Password
+                      New Password
                     </InputLabel>
                     <OutlinedInput
-                        sx={{ mb: 3 }}
-                        label='New Password'
-                        id='password'
-                        error={Boolean(errors.password)}
-                        type={showPassword ? 'text' : 'password'}
-                        {...register("password")}
-                        endAdornment={
-                            <InputAdornment position='end'>
-                                <IconButton
-                                    edge='end'
-                                    onMouseDown={e => e.preventDefault()}
-                                    onClick={() => setShowPassword(!showPassword)}
-                                >
-                                    <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                                </IconButton>
-                            </InputAdornment>
-                        }
+                      sx={{ mb: 3 }}
+                      label='New Password'
+                      id='password'
+                      error={Boolean(errors.password)}
+                      type={showPassword ? 'text' : 'password'}
+                      {...register('password')}
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <IconButton
+                            edge='end'
+                            onMouseDown={e => e.preventDefault()}
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                          </IconButton>
+                        </InputAdornment>
+                      }
                     />
                     {errors.password && (
-                        <FormHelperText sx={{ color: 'error.main' }} id=''>
-                            {(errors as any).password?.message}
-                        </FormHelperText>
+                      <FormHelperText sx={{ color: 'error.main' }} id=''>
+                        {(errors as any).password?.message}
+                      </FormHelperText>
                     )}
-                </FormControl>
-                <FormControl fullWidth sx={{mb:5}}>
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mb: 5 }}>
                     <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password_confirmation)}>
-                        Confirm Password
+                      Confirm Password
                     </InputLabel>
                     <OutlinedInput
-                        sx={{ mb: 3 }}
-                        label='Password'
-                        id='password_confirmation'
-                        error={Boolean(errors.password_confirmation)}
-                        type={showPassword ? 'text' : 'password'}
-                        {...register("password_confirmation")}
-                        endAdornment={
-                            <InputAdornment position='end'>
-                                <IconButton edge='end' onMouseDown={e => e.preventDefault()} onClick={() => setShowPassword(!showPassword)}>
-                                    <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                                </IconButton>
-                            </InputAdornment>
-                        }
+                      sx={{ mb: 3 }}
+                      label='Password'
+                      id='password_confirmation'
+                      error={Boolean(errors.password_confirmation)}
+                      type={showPassword ? 'text' : 'password'}
+                      {...register('password_confirmation')}
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <IconButton
+                            edge='end'
+                            onMouseDown={e => e.preventDefault()}
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                          </IconButton>
+                        </InputAdornment>
+                      }
                     />
                     {errors.password_confirmation && (
-                        <FormHelperText sx={{ color: 'error.main' }} id=''>
-                            {(errors as any).password_confirmation?.message}
-                        </FormHelperText>
+                      <FormHelperText sx={{ color: 'error.main' }} id=''>
+                        {(errors as any).password_confirmation?.message}
+                      </FormHelperText>
                     )}
-                </FormControl>
-                <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 5.25 }}>
-                  Submit
-                </Button>
-                <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <LinkStyled href='/login'>
-                    <Icon icon='mdi:chevron-left' fontSize='2rem' />
-                    <span>Back to login</span>
-                  </LinkStyled>
-                </Typography>
-              </form>
-            </BoxWrapper>
-          </Box>
-        </RightWrapper>
+                  </FormControl>
+                  <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 5.25 }}>
+                    Submit
+                  </Button>
+                  <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <LinkStyled href='/login'>
+                      <Icon icon='mdi:chevron-left' fontSize='2rem' />
+                      <span>Back to login</span>
+                    </LinkStyled>
+                  </Typography>
+                </form>
+              </BoxWrapper>
+            </Box>
+          </RightWrapper>
+        </Box>
       </Box>
-    </Box>
     </>
   )
 }

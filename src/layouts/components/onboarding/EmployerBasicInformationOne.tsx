@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import Countries from 'src/contract/models/country'
 import { toast } from 'react-hot-toast'
 import Industry from 'src/contract/models/industry'
+import { removeFirstZeroChar } from 'src/utils/helpers'
 
 type FormData = {
   companyName: string
@@ -242,10 +243,14 @@ const EmployerBasicInformationOne = ({ nextLink }: { nextLink: string }) => {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    placeholder='Enter your phone number'
+                    placeholder='e.g: 812345678'
                     error={!!errors.phone}
                     helperText={errors.phone?.message}
                     sx={{ flexGrow: 1 }}
+                    onChange={event => {
+                      const newValue = removeFirstZeroChar(event.target.value)
+                      field.onChange(newValue)
+                    }}
                   />
                 )}
               />
