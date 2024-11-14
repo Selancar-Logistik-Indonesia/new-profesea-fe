@@ -49,8 +49,12 @@ const AuthProvider = ({ children }: Props) => {
           const tempUser = response.data.user
           if (tempUser.email_verified_at === null) {
             router.replace(`/verify-email/`)
-          } else if (tempUser.last_step !== 'completed') {
+          }
+          if (tempUser.last_step !== 'completed' && tempUser.last_step !== 'role-selection') {
             router.replace(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
+          }
+          if (tempUser.last_step === 'role-selection') {
+            router.replace(`/${tempUser.last_step}`)
           }
         })
         .catch(error => {
