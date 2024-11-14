@@ -91,7 +91,7 @@ const CardUserStatApp = () => {
                     <div>
                       <span color={progressTotalUsers >= 0 ? (progressTotalUsers > 0 ? upColor : '') : downColor}>
                         {progressTotalUsers >= 0 ? (progressTotalUsers > 0 ? upIcon : '') : downIcon}&nbsp;
-                        {progressTotalUsers} &nbsp;
+                        {progressTotalUsers > 0 ? ' +' + progressTotalUsers : progressTotalUsers} &nbsp;
                       </span>
                       <span className={style['from']}>From </span>
                       <span className={style['time-info']}>{timeframe} </span>
@@ -133,7 +133,7 @@ const CardUserStatApp = () => {
                     <div>
                       <span color={progressTotalSeafarer >= 0 ? (progressTotalSeafarer > 0 ? upColor : '') : downColor}>
                         {progressTotalSeafarer >= 0 ? (progressTotalSeafarer > 0 ? upIcon : '') : downIcon} &nbsp;
-                        {progressTotalSeafarer} &nbsp;
+                        {progressTotalSeafarer > 0 ? ' +' + progressTotalSeafarer : progressTotalSeafarer} &nbsp;
                       </span>
                       <span className={style['from']}>From </span>
                       <span className={style['time-info']}>{timeframe} </span>
@@ -190,7 +190,7 @@ const CardUserStatApp = () => {
                     <div>
                       <span color={progressTotalCompany >= 0 ? (progressTotalCompany > 0 ? upColor : '') : downColor}>
                         {progressTotalCompany >= 0 ? (progressTotalCompany > 0 ? upIcon : '') : downIcon}&nbsp;
-                        {progressTotalCompany} &nbsp;
+                        {progressTotalCompany > 0 ? ' +' + progressTotalCompany : progressTotalCompany} &nbsp;
                       </span>
                       <span className={style['from']}>From </span>
                       <span className={style['time-info']}>{timeframe} </span>
@@ -206,7 +206,7 @@ const CardUserStatApp = () => {
                     <div>
                       <span color={progressTotalTrainer >= 0 ? (progressTotalTrainer > 0 ? upColor : '') : downColor}>
                         {progressTotalTrainer >= 0 ? (progressTotalTrainer > 0 ? upIcon : '') : downIcon}&nbsp;
-                        {progressTotalTrainer} &nbsp;
+                        {progressTotalTrainer > 0 ? ' +' + progressTotalTrainer : progressTotalTrainer} &nbsp;
                       </span>
                       <span className={style['from']}>From </span>
                       <span className={style['time-info']}>{timeframe} </span>
