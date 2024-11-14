@@ -46,16 +46,16 @@ const AuthProvider = ({ children }: Props) => {
           secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
           secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
 
-          //   const tempUser = response.data.user
-          //   if (tempUser.email_verified_at === null) {
-          //     router.replace(`/verify-email/`)
-          //   }
-          //   if (tempUser.last_step !== 'completed' && tempUser.last_step !== 'role-selection') {
-          //     router.replace(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
-          //   }
-          //   if (tempUser.last_step === 'role-selection') {
-          //     router.replace(`/${tempUser.last_step}`)
-          //   }
+          const tempUser = response.data.user
+          if (tempUser.email_verified_at === null) {
+            router.replace(`/verify-email/`)
+          }
+          if (tempUser.last_step !== 'completed' && tempUser.last_step !== 'role-selection') {
+            router.replace(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
+          }
+          if (tempUser.last_step === 'role-selection') {
+            router.replace(`/${tempUser.last_step}`)
+          }
         })
         .catch(error => {
           localStorage.removeItem('userData')
