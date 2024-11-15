@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import landingPageStyle from 'src/@core/styles/landing-page/landing-page-role-selection'
 import { AppConfig } from 'src/configs/api'
+import { useAuth } from 'src/hooks/useAuth'
 import { HttpClient } from 'src/services'
 import { getOnboardingLink } from 'src/utils/helpers'
 
@@ -72,6 +73,7 @@ const Shader = ({ employeeType, value }: { employeeType: string; value: string }
 
 const RoleSelection = () => {
   const router = useRouter()
+  const { user } = useAuth()
   const [employeeType, setEmployeeType] = useState('')
 
   function handleChangeType(value: string) {
@@ -90,6 +92,17 @@ const RoleSelection = () => {
       },
       error => {
         toast.error('Failed to save role selection: ' + error.response.data.message)
+        if (user) {
+          if (user.last_step === 'completed') {
+            router.push('/home')
+          }
+          if (user.last_step !== 'completed' && user.last_step !== 'role-selection') {
+            router.push(`/onboarding/${getOnboardingLink(user)}/${user.last_step}`)
+          }
+          if (user.last_step === 'role-selection') {
+            router.push(`/${user.last_step}`)
+          }
+        }
       }
     )
   }

@@ -110,7 +110,7 @@ const DialogLogin = (props: BlockDialog) => {
 
   const onSubmit = (data: FormData) => {
     const { email, password } = data
-    const noReturn = true
+    const isReturn = true
     auth.login(
       { email, password, namaevent },
       () => {
@@ -119,7 +119,7 @@ const DialogLogin = (props: BlockDialog) => {
           message: `${t('input_label_error_4')}`
         })
       },
-      noReturn
+      isReturn
     )
   }
 
