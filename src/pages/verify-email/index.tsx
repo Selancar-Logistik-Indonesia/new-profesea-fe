@@ -11,18 +11,6 @@ const VerifyEmail = () => {
   const router = useRouter()
   const { user, refreshSession } = useAuth()
 
-  const checkingVerifyEmail = async () => {
-    await refreshSession()
-
-    if (user?.email_verified_at !== null) {
-      router.replace('/home')
-    }
-  }
-
-  useEffect(() => {
-    checkingVerifyEmail()
-  }, [])
-
   const [onLoading, setOnLoading] = useState(false)
   const [canResend, setCanResend] = useState(true)
   const [timer, setTimer] = useState(0)
@@ -60,6 +48,7 @@ const VerifyEmail = () => {
   }
 
   const checkEmailVerification = async () => {
+    refreshSession()
     if (!user || !user.email) {
       toast.error('Email not found!')
 
@@ -70,7 +59,9 @@ const VerifyEmail = () => {
     try {
       await HttpClient.get(AppConfig.baseUrl + '/user-management/check-email-verified', { email: user.email })
       toast.success('Email verified!')
-      router.replace('/role-selection')
+      if (user.last_step === 'completed') {
+        router.push('/home')
+      } else router.push('/role-selection')
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'An error occurred while verifying the email.')
     } finally {
@@ -91,7 +82,7 @@ const VerifyEmail = () => {
       }}
     >
       <Hidden mdDown>
-        <Box component={Link} href='/' sx={{ position: 'absolute', left: '120px', top: '44px' }}>
+        <Box sx={{ position: 'absolute', left: '120px', top: '44px' }}>
           <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
         </Box>
       </Hidden>

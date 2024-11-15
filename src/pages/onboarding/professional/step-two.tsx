@@ -32,8 +32,8 @@ const Onboarding = () => {
           <Box sx={{ my: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <ProgressBar current={2} total={5} />
             <StatusAvailability
-              beforeLink='/onboarding/seafarer/step-one/2'
-              nextLink='/onboarding/seafarer/step-three'
+              beforeLink='/onboarding/professional/step-one/2'
+              nextLink='/onboarding/professional/step-three'
             />
           </Box>
         </Box>

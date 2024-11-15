@@ -115,6 +115,7 @@ const VesselPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLi
         <Button
           type='submit'
           variant='contained'
+          disabled={onLoading}
           sx={{
             width: '120px',
             boxShadow: 0,
@@ -123,7 +124,7 @@ const VesselPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLi
             '&:hover': { backgroundColor: '#BFBFBF' }
           }}
         >
-          {onLoading ? <CircularProgress size={14} /> : 'Continue'}
+          {onLoading ? <CircularProgress size={22} /> : 'Continue'}
         </Button>
       </Box>
     </form>

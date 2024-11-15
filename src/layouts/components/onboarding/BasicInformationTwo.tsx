@@ -173,6 +173,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
         <Button
           type='submit'
           variant='contained'
+          disabled={onLoading}
           sx={{
             width: '120px',
             boxShadow: 0,
@@ -181,7 +182,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
             '&:hover': { backgroundColor: '#BFBFBF' }
           }}
         >
-          {onLoading ? <CircularProgress size={14} /> : 'Continue'}
+          {onLoading ? <CircularProgress size={22} /> : 'Continue'}
         </Button>
       </Box>
     </form>

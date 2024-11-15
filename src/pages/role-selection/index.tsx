@@ -7,8 +7,8 @@ import { toast } from 'react-hot-toast'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import landingPageStyle from 'src/@core/styles/landing-page/landing-page-role-selection'
 import { AppConfig } from 'src/configs/api'
-import { useAuth } from 'src/hooks/useAuth'
 import { HttpClient } from 'src/services'
+import { getOnboardingLink } from 'src/utils/helpers'
 
 const OptionBox = ({
   icon,
@@ -72,7 +72,6 @@ const Shader = ({ employeeType, value }: { employeeType: string; value: string }
 }
 
 const RoleSelection = () => {
-  const { refreshSession } = useAuth()
   const router = useRouter()
   const [employeeType, setEmployeeType] = useState('')
 
@@ -85,10 +84,10 @@ const RoleSelection = () => {
   const save = (data: { team_id: number; employee_type?: string }) => {
     const roleData = { ...data, next_step: 'step-one/1' }
     HttpClient.patch(AppConfig.baseUrl + '/onboarding/role-selection', roleData).then(
-      async () => {
+      async response => {
+        const tempUser = response.data.user
         toast.success('Successfully save role selection!')
-        await refreshSession()
-        router.push(`/onboarding/${employeeType}/step-one`)
+        router.push(`/onboarding/${getOnboardingLink(tempUser!)}/${tempUser!.last_step}`)
       },
       error => {
         toast.error('Failed to save role selection: ' + error.response.data.message)
@@ -127,9 +126,7 @@ const RoleSelection = () => {
     <Grid container sx={{ height: '100vh' }}>
       <Grid item xs={12} md={6} sx={{ pt: '44px', display: 'flex', justifyContent: 'center' }}>
         <Box sx={{ width: '480px', display: 'flex', flexDirection: 'column' }}>
-          <Box component={Link} href='/'>
-            <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
-          </Box>
+          <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
           <Box sx={{ my: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
