@@ -1,6 +1,5 @@
 import { Icon } from '@iconify/react'
 import { Box, Button, Grid, Hidden, Typography } from '@mui/material'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
 import { toast } from 'react-hot-toast'
