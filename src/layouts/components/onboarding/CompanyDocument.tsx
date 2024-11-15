@@ -144,7 +144,7 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
 
   const onSubmit = (data: FormData) => {
     setOnLoading(true)
-    HttpClient.post(AppConfig.baseUrl + '/onboarding/isCrewing', {
+    HttpClient.patch(AppConfig.baseUrl + '/onboarding/isCrewing', {
       is_crewing: data.isCrewing
     })
       .then(
@@ -286,6 +286,7 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
             <Button
               type='submit'
               variant='contained'
+              disabled={onLoading}
               sx={{
                 width: '120px',
                 boxShadow: 0,
@@ -294,7 +295,7 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
                 '&:hover': { backgroundColor: '#BFBFBF' }
               }}
             >
-              {onLoading ? <CircularProgress size={14} /> : 'Continue'}
+              {onLoading ? <CircularProgress size={22} /> : 'Continue'}
             </Button>
           </Box>
         </Box>

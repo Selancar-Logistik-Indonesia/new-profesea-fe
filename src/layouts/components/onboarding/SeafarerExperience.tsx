@@ -18,15 +18,15 @@ import { toast } from 'react-hot-toast'
 
 type FormData = {
   noExperience: boolean
-  company: string
-  roleType: number
-  vessel: number
-  vesselName: string
-  grt: number
-  dwt: number
-  mePower: number
-  signIn: string
-  signOff: string
+  company: string | null
+  roleType: number | null
+  vessel: number | null
+  vesselName: string | null
+  grt: number | null
+  dwt: number | null
+  mePower: number | null
+  signIn: string | null
+  signOff: string | null
 }
 
 const schema = yup.object().shape({
@@ -71,12 +71,22 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
     control,
     watch,
     setValue,
-    reset,
     handleSubmit,
     formState: { errors }
   } = useForm<FormData>({
     mode: 'onSubmit',
-    defaultValues: { noExperience: true },
+    defaultValues: {
+      noExperience: true,
+      company: null,
+      roleType: null,
+      vessel: null,
+      vesselName: null,
+      grt: null,
+      dwt: null,
+      mePower: null,
+      signIn: null,
+      signOff: null
+    },
     resolver: yupResolver(schema)
   })
 
@@ -113,7 +123,15 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
 
   useEffect(() => {
     if (noExperience === true) {
-      reset(undefined, { keepDirtyValues: true })
+      setValue('company', null)
+      setValue('roleType', null)
+      setValue('vessel', null)
+      setValue('vesselName', null)
+      setValue('grt', null)
+      setValue('dwt', null)
+      setValue('mePower', null)
+      setValue('signIn', null)
+      setValue('signOff', null)
     }
   }, [noExperience])
 
@@ -418,6 +436,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
           <Button
             type='submit'
             variant='contained'
+            disabled={onLoading}
             sx={{
               width: '120px',
               boxShadow: 0,
@@ -426,7 +445,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
               '&:hover': { backgroundColor: '#BFBFBF' }
             }}
           >
-            {onLoading ? <CircularProgress size={14} /> : 'Continue'}
+            {onLoading ? <CircularProgress size={22} /> : 'Continue'}
           </Button>
         </Box>
       </Box>

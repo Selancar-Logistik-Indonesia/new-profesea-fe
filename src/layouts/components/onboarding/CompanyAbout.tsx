@@ -52,7 +52,7 @@ const CompanyAbout = ({ beforeLink, nextLink }: { beforeLink: string; nextLink: 
 
   const onSubmit = (data: FormData) => {
     setOnLoading(true)
-    HttpClient.patch(AppConfig.baseUrl + '/onboarding/address', {
+    HttpClient.patch(AppConfig.baseUrl + '/onboarding/company-about', {
       website: data.website,
       about: data.about,
       next_step: 'step-three'
@@ -124,6 +124,7 @@ const CompanyAbout = ({ beforeLink, nextLink }: { beforeLink: string; nextLink: 
         <Button
           type='submit'
           variant='contained'
+          disabled={onLoading}
           sx={{
             width: '120px',
             boxShadow: 0,
@@ -132,7 +133,7 @@ const CompanyAbout = ({ beforeLink, nextLink }: { beforeLink: string; nextLink: 
             '&:hover': { backgroundColor: '#BFBFBF' }
           }}
         >
-          {onLoading ? <CircularProgress size={14} /> : 'Continue'}
+          {onLoading ? <CircularProgress size={22} /> : 'Continue'}
         </Button>
       </Box>
     </form>

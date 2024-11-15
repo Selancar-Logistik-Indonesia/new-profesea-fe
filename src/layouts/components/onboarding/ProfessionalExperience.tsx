@@ -28,12 +28,12 @@ import RoleType from 'src/contract/models/role_type'
 
 type FormData = {
   noExperience: boolean
-  position: string
-  company: string
-  isCurrent: boolean
+  position: string | null
+  company: string | null
+  isCurrent: boolean | null
   signIn: string
   signOff: string
-  description: string
+  description: string | null
 }
 
 const schema = yup.object().shape({
@@ -75,12 +75,19 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
     control,
     watch,
     setValue,
-    reset,
     handleSubmit,
     formState: { errors }
   } = useForm<FormData>({
     mode: 'onSubmit',
-    defaultValues: { noExperience: true },
+    defaultValues: {
+      noExperience: true,
+      position: null,
+      company: null,
+      isCurrent: null,
+      signIn: '',
+      signOff: '',
+      description: null
+    },
     resolver: yupResolver(schema)
   })
 
@@ -113,7 +120,12 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
 
   useEffect(() => {
     if (noExperience === true) {
-      reset(undefined)
+      setValue('position', null)
+      setValue('company', null)
+      setValue('isCurrent', null)
+      setValue('signIn', '')
+      setValue('signOff', '')
+      setValue('description', null)
     }
 
     if (isCurrent === true) {
@@ -357,6 +369,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
           <Button
             type='submit'
             variant='contained'
+            disabled={onLoading}
             sx={{
               width: '120px',
               boxShadow: 0,
@@ -365,7 +378,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
               '&:hover': { backgroundColor: '#BFBFBF' }
             }}
           >
-            {onLoading ? <CircularProgress size={14} /> : 'Continue'}
+            {onLoading ? <CircularProgress size={22} /> : 'Continue'}
           </Button>
         </Box>
       </Box>

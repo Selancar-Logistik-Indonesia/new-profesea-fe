@@ -191,6 +191,7 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
           <Button
             type='submit'
             variant='contained'
+            disabled={onLoading}
             sx={{
               width: '120px',
               boxShadow: 0,
@@ -199,7 +200,7 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
               '&:hover': { backgroundColor: '#BFBFBF' }
             }}
           >
-            {onLoading ? <CircularProgress size={14} /> : 'Continue'}
+            {onLoading ? <CircularProgress size={22} /> : 'Continue'}
           </Button>
         </Box>
       </Box>

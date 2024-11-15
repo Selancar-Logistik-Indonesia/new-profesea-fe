@@ -90,6 +90,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
       if (acceptedFiles[0].type === 'video/mp4') {
         if (acceptedFiles[0].size > maxVideoSize) {
           setErrMaxFileVideo(true)
+
           return
         }
 
@@ -103,6 +104,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
         for (const file of acceptedFiles) {
           if (file.size > maxImageSize) {
             setErrMaxFileImage(true)
+
             return
           }
         }
