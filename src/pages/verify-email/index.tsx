@@ -150,7 +150,7 @@ const VerifyEmail = () => {
 VerifyEmail.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
 VerifyEmail.acl = {
   action: 'read',
-  subject: 'on-boarding'
+  subject: 'verify-email'
 }
 
 export default VerifyEmail
