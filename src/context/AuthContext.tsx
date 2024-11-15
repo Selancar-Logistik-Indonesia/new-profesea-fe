@@ -77,7 +77,7 @@ const AuthProvider = ({ children }: Props) => {
     })
   }
 
-  const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType, noReturn?: boolean) => {
+  const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType, isReturn?: boolean) => {
     setLoading(true)
 
     HttpClient.post(authConfig.loginEndpoint, params)
@@ -91,19 +91,21 @@ const AuthProvider = ({ children }: Props) => {
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
 
         initAuth()
+
         const tempUser = response.data.user
         if (tempUser.email_verified_at === null) {
-          await router.push(`/verify-email/`)
-        }
-        if (tempUser.last_step !== 'completed' && tempUser.last_step !== 'role-selection') {
-          await router.push(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
-        }
-        if (tempUser.last_step === 'role-selection') {
-          await router.push(`/${tempUser.last_step}`)
+          router.push(`/verify-email/`)
+        } else if (tempUser.email_verified_at !== null) {
+          if (tempUser.last_step !== 'completed' && tempUser.last_step !== 'role-selection') {
+            router.push(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
+          }
+          if (tempUser.last_step === 'role-selection') {
+            router.push(`/${tempUser.last_step}`)
+          }
         }
 
-        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
-        if (!noReturn) {
+        if (isReturn) {
+          const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
           if (params.namaevent != null) {
             await router.replace('/home/?event=true' as string)
           } else {
@@ -148,18 +150,19 @@ const AuthProvider = ({ children }: Props) => {
         secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
 
+        initAuth()
+
         const tempUser = response.data.user
         if (tempUser.email_verified_at === null) {
           await router.replace(`/set-password/${tempUser.rememberToken}/${tempUser.email}`)
+        } else if (tempUser.email_verified_at !== null) {
+          if (tempUser.last_step !== 'completed' && tempUser.last_step !== 'role-selection') {
+            router.push(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
+          }
+          if (tempUser.last_step === 'role-selection') {
+            router.push(`/${tempUser.last_step}`)
+          }
         }
-        if (tempUser.last_step !== 'completed' && tempUser.last_step !== 'role-selection') {
-          await router.push(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
-        }
-        if (tempUser.last_step === 'role-selection') {
-          await router.push(`/${tempUser.last_step}`)
-        }
-
-        initAuth()
 
         const returnUrl = router.query.returnUrl
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
