@@ -47,7 +47,7 @@ const renderList = (arr: any[]) => {
                 <Grid item md={2} sx={{}}>
                   <Avatar sx={{ height: 50, width: 50 }} src={item.photo}></Avatar>
                 </Grid>
-                <Grid item md={8} sx={{ marginLeft:'20px'}}>
+                <Grid item md={8} sx={{ marginLeft: '20px' }}>
                   <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
                     {item.name}
                   </Typography>
@@ -61,7 +61,10 @@ const renderList = (arr: any[]) => {
             </Box>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'flex-end' }}>
               <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
-                {item.active_job} Jobs
+                {item.active_job} &nbsp;
+              </Typography>
+              <Typography variant='body2' sx={{ fontWeight: 600, color: '#00000080' }}>
+                Jobs
               </Typography>
               {/* <CustomChip
                     skin='light'
@@ -114,7 +117,7 @@ const TopPostCompanyApp = () => {
               //   />
               // }
             />
-            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt:15, }}>
+            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt: 15 }}>
               {/* <Box sx={{ mb: 0.5, display: 'flex', alignItems: 'center', '& svg': { mr: 0.5, color: 'success.main' } }}>
                     <Typography variant='h5' sx={{ mr: 0.5 }}>
                       28,468

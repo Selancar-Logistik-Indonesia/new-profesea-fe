@@ -29,11 +29,12 @@ const CardUserStatApp = () => {
 
   useEffect(() => {
     userProgressiveOverview(timeframe)
-    userOverview()
+    userOverview(timeframe)
   }, [])
 
   useEffect(() => {
     userProgressiveOverview(timeframe)
+    userOverview(timeframe)
   }, [timeframe])
 
   return (

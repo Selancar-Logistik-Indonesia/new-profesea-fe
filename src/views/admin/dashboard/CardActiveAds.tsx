@@ -50,7 +50,10 @@ const renderList = (arr: any[]) => {
             </Box>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'flex-end' }}>
               <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
-                {item.ctr ? item.ctr : 0} Clicks
+                {item.ctr ? item.ctr : 0} &nbsp;
+              </Typography>
+              <Typography variant='body2' sx={{ fontWeight: 600, color: '#00000080' }}>
+                Clicks
               </Typography>
             </Box>
           </Box>
