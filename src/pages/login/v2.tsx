@@ -101,14 +101,16 @@ const LoginPage = () => {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
+    setOnLoading(true)
     const { email, password } = data
-    auth.login({ email, password }, () => {
+    await auth.login({ email, password }, () => {
       setError('email', {
         type: 'manual',
         message: `${t('input_label_error_4')}`
       })
     })
+    setOnLoading(false)
   }
 
   const onChecking = async (email: string) => {
@@ -126,12 +128,13 @@ const LoginPage = () => {
     const result: CheckEmailResponse = await response.json()
 
     if (!result.available) {
+      await setOnLoading(false)
       setCheckEmail(true)
     } else {
+      await setOnLoading(false)
       setCheckEmail(false)
       setOpenDialogMessage(true)
     }
-    setOnLoading(false)
   }
 
   return (
@@ -310,8 +313,8 @@ const LoginPage = () => {
                     </FormControl>
                   )}
                   {checkEmail ? (
-                    <Button disabled={auth.loading} fullWidth size='large' type='submit' variant='contained'>
-                      {auth.loading ? <CircularProgress color='primary' /> : t('input.login')}
+                    <Button disabled={onLoading} fullWidth size='large' type='submit' variant='contained'>
+                      {onLoading ? <CircularProgress color='primary' /> : t('input.login')}
                     </Button>
                   ) : (
                     <Button

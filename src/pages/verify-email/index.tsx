@@ -57,6 +57,7 @@ const VerifyEmail = () => {
 
     setOnLoading(true)
     try {
+      await refreshSession()
       await HttpClient.get(AppConfig.baseUrl + '/user-management/check-email-verified', { email: user.email })
       toast.success('Email verified!')
       if (user.last_step === 'completed') {
