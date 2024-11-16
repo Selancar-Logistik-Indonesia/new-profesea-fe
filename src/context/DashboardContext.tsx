@@ -219,11 +219,11 @@ const DashboardProvider = (props: Props) => {
     setOnLoading(false)
   }
 
-  const userOverview = async () => {
+  const userOverview = async (timeframe: string) => {
     setOnLoading(true)
 
     try {
-      const response = await HttpClient.get(AppConfig.baseUrl + `/dashboard/users/overview`)
+      const response = await HttpClient.get(AppConfig.baseUrl + `/dashboard/users/overview?timeframe=${timeframe}`)
 
       if (response.status == 200) {
         const result = response.data

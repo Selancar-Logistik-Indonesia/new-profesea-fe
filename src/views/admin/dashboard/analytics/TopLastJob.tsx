@@ -49,7 +49,10 @@ const renderList = (arr: any[]) => {
             </Box>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'flex-end' }}>
               <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
-                {item.total_applicants} Applicants
+                {item.total_applicants} &nbsp;
+              </Typography>
+              <Typography variant='body2' sx={{ fontWeight: 600, color: '#00000080' }}>
+                Applicants
               </Typography>
             </Box>
           </Box>
@@ -89,12 +92,12 @@ const TopLastJobApp = () => {
               }
               titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}
             />
-            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt:15, mb:22 }}>
+            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt: 15, mb: 22 }}>
               {renderList(dataLastJob)}
             </CardContent>
-            <CardActionArea sx={{ height: 80}}>
+            <CardActionArea sx={{ height: 80 }}>
               <Divider component='div' />
-              <CardContent style={{ textAlign: 'center', height:80 }}>
+              <CardContent style={{ textAlign: 'center', height: 80 }}>
                 <Link href='/admin/company-and-job-management/'>View All Jobs</Link>
               </CardContent>
             </CardActionArea>
