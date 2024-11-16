@@ -104,7 +104,8 @@ const DialogAdd = (props: DialogProps) => {
   const [files, setFiles] = useState<File[]>([])
   const [adsLocation, setAdsLocation] = useState<string>('')
   const [adsPlacement, setAdsPlacement] = useState<string>('')
-  // const [submitError, setSubmitError] = useState<any>(null)
+
+  //   const [submitError, setSubmitError] = useState<any>(null)
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
