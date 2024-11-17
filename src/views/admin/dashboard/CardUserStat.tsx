@@ -39,11 +39,11 @@ const CardUserStatApp = () => {
 
   const formatTimeframe = (timeframe: string) => {
     if (timeframe == 'daily') {
-      return 'yesterday'
+      return 'Yesterday'
     } else if (timeframe == 'weekly') {
-      return 'last week'
+      return 'Last Week'
     } else if (timeframe == 'monthly') {
-      return 'last month'
+      return 'Last Month'
     }
 
     return ''
