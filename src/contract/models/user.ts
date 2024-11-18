@@ -97,4 +97,5 @@ export interface IUser {
     total_experience_in_years?: number
     last_coc?: seafarer_competency
     is_agree_policy_post?: boolean
+    last_step: string
 }
