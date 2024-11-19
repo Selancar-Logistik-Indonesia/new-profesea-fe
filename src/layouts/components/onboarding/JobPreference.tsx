@@ -153,7 +153,7 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
         </Box>
         <FormControl fullWidth error={!!errors.roleType}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Job Rank <span style={{ color: '#F22' }}>*</span>
+            {user?.employee_type === 'offship' ? 'Job Title' : 'Job Rank'} <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='roleType'

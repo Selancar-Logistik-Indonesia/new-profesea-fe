@@ -15,6 +15,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import moment from 'moment'
 import { toast } from 'react-hot-toast'
+import { toLinkCase } from 'src/utils/helpers'
 
 type FormData = {
   noExperience: boolean
@@ -51,9 +52,9 @@ const schema = yup.object().shape({
     then: schema => schema.required(),
     otherwise: schema => schema.notRequired()
   }),
-  grt: yup.number().nullable(),
-  dwt: yup.number().nullable(),
-  mePower: yup.string().nullable(),
+  grt: yup.number().nullable().notRequired(),
+  dwt: yup.number().nullable().notRequired(),
+  mePower: yup.string().nullable().notRequired(),
   signIn: yup.string().when('noExperience', {
     is: false,
     then: schema => schema.required(),
@@ -153,7 +154,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
         async () => {
           toast.success('Successfully save profile')
           await refreshSession()
-          router.push(`/profile/${user?.id}/${user?.username}`)
+          router.push(`/profile/${user?.id}/${toLinkCase(user?.username)}/?onboarding=completed`)
         },
         error => {
           toast.error('Failed to save profile: ' + error.response.data.message)
@@ -165,7 +166,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
   const onSkip = () => {
     HttpClient.patch(AppConfig.baseUrl + '/onboarding/complete').then(async response => {
       await toast.success(response.data.message)
-      router.push(`/profile/${user?.id}/${user?.username}`)
+      router.push(`/profile/${user?.id}/${toLinkCase(user?.username)}/?onboarding=completed`)
     })
   }
 
@@ -301,7 +302,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
               </FormControl>
               <Box>
                 <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Vessel Information <span style={{ color: '#F22' }}>*</span>
+                  Vessel Information
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '6px' }}>
                   <FormControl error={!!errors.grt}>
