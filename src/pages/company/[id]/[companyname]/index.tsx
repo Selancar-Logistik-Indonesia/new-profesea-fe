@@ -21,6 +21,7 @@ import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 import DialogLogin from 'src/@core/components/login-modal'
 import { useAuth } from 'src/hooks/useAuth'
 import FooterView from 'src/views/landing-page/footerView'
+import CompleteOnboarding from 'src/views/onboarding/CompleteOnboarding'
 
 const ProfileCompany = () => {
   return (
@@ -33,6 +34,7 @@ const ProfileCompany = () => {
 const UserFeedApp = () => {
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [openDialog, setOpenDialog] = useState(true)
+  const [openCompleteOnboard, setOpenCompleteOnboard] = useState(false)
   const { user: isLoggedin } = useAuth()
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const params = useSearchParams()
@@ -74,6 +76,13 @@ const UserFeedApp = () => {
       </Box>
     )
 
+  let onboarding = params.get('onboarding')
+  useEffect(() => {
+    if (onboarding == 'completed') {
+      setOpenCompleteOnboard(true)
+    }
+  }, [onboarding])
+
   return (
     <>
       <Grid
@@ -107,6 +116,7 @@ const UserFeedApp = () => {
           }}
         />
       )}
+      <CompleteOnboarding openDialog={openCompleteOnboard} setOpenDialog={setOpenCompleteOnboard} />
     </>
   )
 }

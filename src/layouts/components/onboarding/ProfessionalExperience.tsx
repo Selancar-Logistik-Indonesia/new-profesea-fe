@@ -25,6 +25,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import moment from 'moment'
 import { toast } from 'react-hot-toast'
 import RoleType from 'src/contract/models/role_type'
+import { toLinkCase } from 'src/utils/helpers'
 
 type FormData = {
   noExperience: boolean
@@ -63,11 +64,7 @@ const schema = yup.object().shape({
     then: schema => schema.nullable(),
     otherwise: schema => schema.notRequired()
   }),
-  description: yup.string().when('noExperience', {
-    is: false,
-    then: schema => schema.required(),
-    otherwise: schema => schema.notRequired()
-  })
+  description: yup.string().notRequired()
 })
 
 const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
@@ -148,7 +145,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
         async () => {
           toast.success('Successfully save profile')
           await refreshSession()
-          router.push(`/profile/${user?.id}/${user?.username}`)
+          router.push(`/profile/${user?.id}/${toLinkCase(user?.username)}/?onboarding=completed`)
         },
         error => {
           toast.error('Failed to save profile: ' + error.response.data.message)
@@ -160,7 +157,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
   const onSkip = () => {
     HttpClient.patch(AppConfig.baseUrl + '/onboarding/complete').then(async response => {
       await toast.success(response.data.message)
-      router.push(`/profile/${user?.id}/${user?.username}`)
+      router.push(`/profile/${user?.id}/${toLinkCase(user?.username)}/?onboarding=completed`)
     })
   }
 
