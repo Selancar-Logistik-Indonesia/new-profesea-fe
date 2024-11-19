@@ -63,6 +63,13 @@ const UserFeedApp = () => {
     }
   }
 
+  const onboarding = params.get('onboarding')
+  useEffect(() => {
+    if (onboarding == 'completed') {
+      setOpenCompleteOnboard(true)
+    }
+  }, [onboarding])
+
   useEffect(() => {
     if (selectedId && selectedName) {
       firstload()
@@ -75,13 +82,6 @@ const UserFeedApp = () => {
         <CircularProgress sx={{ my: 20 }} />
       </Box>
     )
-
-  let onboarding = params.get('onboarding')
-  useEffect(() => {
-    if (onboarding == 'completed') {
-      setOpenCompleteOnboard(true)
-    }
-  }, [onboarding])
 
   return (
     <>

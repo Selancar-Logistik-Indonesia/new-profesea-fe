@@ -62,7 +62,7 @@ const UserFeedApp = () => {
 
   const params = useSearchParams()
   let username = linkToTitleCase(params.get('username'))
-  let onboarding = params.get('onboarding')
+  const onboarding = params.get('onboarding')
 
   useEffect(() => {
     if (onboarding == 'completed') {

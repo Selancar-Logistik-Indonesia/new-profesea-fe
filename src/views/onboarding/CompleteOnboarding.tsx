@@ -34,6 +34,7 @@ const CompleteOnboarding = (props: Prop) => {
       { shallow: true }
     )
     setOpenDialog(false)
+    console.log('remove', onboarding)
   }
   useEffect(() => {
     if (user) {

@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
 import { Box, Grid } from '@mui/material'
-import Link from 'next/link'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import SeafarerProfileCard from 'src/views/onboarding/ProfileCard'
 import ProgressBar from 'src/views/onboarding/ProgressBar'
