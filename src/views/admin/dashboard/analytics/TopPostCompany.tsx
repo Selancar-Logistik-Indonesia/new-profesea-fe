@@ -37,7 +37,7 @@ const renderList = (arr: any[]) => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            mb: index !== arr.length - 1 ? 7.25 : undefined
+            mb: index !== arr.length - 1 ? 14 : undefined
           }}
         >
           {/* <img width={34} height={34} alt={item.name} src={item.photo} /> */}
@@ -117,7 +117,7 @@ const TopPostCompanyApp = () => {
               //   />
               // }
             />
-            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt: 15 }}>
+            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt: 3 }}>
               {/* <Box sx={{ mb: 0.5, display: 'flex', alignItems: 'center', '& svg': { mr: 0.5, color: 'success.main' } }}>
                     <Typography variant='h5' sx={{ mr: 0.5 }}>
                       28,468
