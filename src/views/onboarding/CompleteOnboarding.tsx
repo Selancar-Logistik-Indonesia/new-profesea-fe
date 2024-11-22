@@ -1,5 +1,17 @@
 import { Icon } from '@iconify/react'
-import { Box, Button, Dialog, DialogContent, Fade, FadeProps, Grid, IconButton, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  Fade,
+  FadeProps,
+  Grid,
+  IconButton,
+  Typography,
+  useMediaQuery,
+  useTheme
+} from '@mui/material'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { forwardRef, ReactElement, Ref, useEffect, useState } from 'react'
@@ -20,6 +32,9 @@ const Transition = forwardRef(function Transition(
 const CompleteOnboarding = (props: Prop) => {
   const router = useRouter()
   const { user } = useAuth()
+  const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.down('md'))
+
   const { openDialog, setOpenDialog } = props
   const [employeeType, setEmployeeType] = useState<string | null>(null)
 
@@ -36,6 +51,7 @@ const CompleteOnboarding = (props: Prop) => {
     setOpenDialog(false)
     console.log('remove', onboarding)
   }
+
   useEffect(() => {
     if (user) {
       if (user.team_id === 3) {
@@ -57,6 +73,7 @@ const CompleteOnboarding = (props: Prop) => {
       onClose={() => handleCloseDialog()}
       TransitionComponent={Transition}
       maxWidth='md'
+      sx={{ zIndex: 10000000000 }}
     >
       <DialogContent>
         <Box
@@ -67,7 +84,7 @@ const CompleteOnboarding = (props: Prop) => {
             width: '100%',
             height: '100%',
             backgroundImage: "url('/images/complete-onboard.png')",
-            backgroundSize: '100%',
+            backgroundSize: isXs ? 'cover' : '100%',
             backgroundPosition: 'center',
             zIndex: 0,
             '&::before': {
@@ -82,20 +99,23 @@ const CompleteOnboarding = (props: Prop) => {
             }
           }}
         />
-
+        <IconButton
+          size='small'
+          onClick={() => handleCloseDialog()}
+          sx={{ position: 'absolute', right: isXs ? '8px' : '32', top: isXs ? '8px' : '41' }}
+        >
+          <Icon icon='mdi:close' color='white' fontSize={isXs ? 24 : 32} />
+        </IconButton>
         <Grid
           container
           sx={{
             position: 'relative',
-            p: '32px 41px !important',
+            p: isXs ? '12px' : '32px 41px',
             display: 'flex',
             flexDirection: 'column',
             gap: '16px'
           }}
         >
-          <IconButton size='small' onClick={() => handleCloseDialog()} sx={{ position: 'absolute', right: 0, top: 0 }}>
-            <Icon icon='mdi:close' color='white' fontSize={32} />
-          </IconButton>
           <Box display='flex' flexDirection='column' gap='24px'>
             <Typography sx={{ color: '#FAFAFA', fontSize: 40, fontWeight: 700 }}>Yay! 🎉 You're all set!</Typography>
             <Box display='flex' flexDirection='column' gap='16px'>
@@ -168,8 +188,16 @@ const CompleteOnboarding = (props: Prop) => {
           <Typography sx={{ color: '#FFF', fontSize: 18, fontWeight: 700 }}>
             The more you complete, the better your profile will stand out!
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '24px' }}>
-            <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDialog(false)}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: isXs ? 'row-reverse' : null,
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              gap: '24px'
+            }}
+          >
+            <Box sx={{ cursor: 'pointer' }} onClick={() => handleCloseDialog()}>
               <Typography
                 sx={{ color: '#FAFAFA', fontSize: 14, fontWeight: 700, '&:hover': { textDecoration: 'underline' } }}
               >

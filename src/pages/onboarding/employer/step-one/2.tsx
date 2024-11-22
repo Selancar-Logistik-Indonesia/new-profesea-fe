@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
-import SeafarerProfileCard from 'src/views/onboarding/ProfileCard'
+import { EmployerProfileCard } from 'src/views/onboarding/ProfileCard'
 import ProgressBar from 'src/views/onboarding/ProgressBar'
 import BasicInformationTwo from 'src/layouts/components/onboarding/BasicInformationTwo'
 
@@ -53,7 +53,7 @@ const Onboarding = () => {
           alignItems: 'center'
         }}
       >
-        <SeafarerProfileCard />
+        <EmployerProfileCard />
       </Grid>
     </Grid>
   )
