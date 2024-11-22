@@ -13,7 +13,7 @@ const EmptyData = () => {
   return <Box sx={{ flexGrow: 1, height: '100%', backgroundColor: '#F0F0F0', borderRadius: '4px' }} />
 }
 
-const SeafarerProfileCard = (tempData: any) => {
+const SeafarerProfileCard = () => {
   const user = UserData()
 
   return (
@@ -118,8 +118,9 @@ const SeafarerProfileCard = (tempData: any) => {
   )
 }
 
-const ProfessionalProfileCard = (tempData: any) => {
+const ProfessionalProfileCard = () => {
   const user = UserData()
+
   return (
     <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '381px', p: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -212,12 +213,13 @@ const ProfessionalProfileCard = (tempData: any) => {
   )
 }
 
-const EmployerProfileCard = (tempData: any) => {
+const EmployerProfileCard = () => {
   const user = UserData()
   const formatUrl = (url: string) => {
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       return `https://${url}`
     }
+
     return url
   }
 
