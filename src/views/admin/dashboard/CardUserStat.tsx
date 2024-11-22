@@ -167,7 +167,7 @@ const CardUserStatApp = () => {
                       >
                         {progressTotalProfessional >= 0 ? (progressTotalProfessional > 0 ? upIcon : '') : downIcon}
                         &nbsp;
-                        {progressTotalProfessional} &nbsp;
+                        {progressTotalProfessional > 0 ? ' +'+progressTotalProfessional : progressTotalProfessional} &nbsp;
                       </span>
                       <span className={style['from']}>From </span>
                       <span className={style['time-info']}>{formatTimeframe(timeframe)} </span>
