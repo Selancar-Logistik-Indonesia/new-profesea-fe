@@ -55,7 +55,7 @@ const defineRulesFor = (role: string, subject: string) => {
     } else if (role === 'Trainer') {
         can(['read'], ['home', 'user-community', 'profile-company', 'company-activities', 'user-training-management', 'feed-detail', 'user-my-participant', 'select-type', 'verify-email', 'on-boarding']);
     } else {
-        can(['read'], ['home', 'job-detail', 'seafarer-jobs', 'profile-company', 'company-activities', 'verify-email', 'select-type']);
+        can(['read'], ['home', 'job-detail', 'seafarer-jobs', 'profile-company', 'company-activities', 'verify-email', 'select-type', 'on-boarding']);
     }
 
     return rules
