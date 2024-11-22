@@ -102,23 +102,24 @@ const TopPostCompanyApp = () => {
         }
 
         return (
-          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-            <CardHeader
-              title={
-                <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
-                  Employer
-                </Typography>
-              }
-              titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}
-              // action={
-              //   <OptionsMenu
-              //     options={['Last 28 Days', 'Last Month', 'Last Year']}
-              //     iconButtonProps={{ size: 'small', className: 'card-more-options' }}
-              //   />
-              // }
-            />
-            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt: 3 }}>
-              {/* <Box sx={{ mb: 0.5, display: 'flex', alignItems: 'center', '& svg': { mr: 0.5, color: 'success.main' } }}>
+          <>
+            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+              <CardHeader
+                title={
+                  <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
+                    Employer
+                  </Typography>
+                }
+                titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}
+                // action={
+                //   <OptionsMenu
+                //     options={['Last 28 Days', 'Last Month', 'Last Year']}
+                //     iconButtonProps={{ size: 'small', className: 'card-more-options' }}
+                //   />
+                // }
+              />
+              <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt: 3 }}>
+                {/* <Box sx={{ mb: 0.5, display: 'flex', alignItems: 'center', '& svg': { mr: 0.5, color: 'success.main' } }}>
                     <Typography variant='h5' sx={{ mr: 0.5 }}>
                       28,468
                     </Typography>
@@ -128,18 +129,22 @@ const TopPostCompanyApp = () => {
                     </Typography>
                   </Box> */}
 
-              {/* <Typography component='p' variant='caption' sx={{ mb: 5 }}>
+                {/* <Typography component='p' variant='caption' sx={{ mb: 5 }}>
                     Last 1 Year Visits
                   </Typography> */}
-              {renderList(dataTopCompany)}
-            </CardContent>
-            <Divider component='div' />
-            <CardActionArea>
-              <CardContent style={{ textAlign: 'center' }}>
-                <Link href='/admin/company-and-job-management/'>View All Employees</Link>
+                {renderList(dataTopCompany)}
               </CardContent>
-            </CardActionArea>
-          </Card>
+            </Card>
+            <div style={{ backgroundColor: 'white' }}>
+              <Divider component='div' />
+              <CardActionArea>
+                <CardContent style={{ textAlign: 'center' }}>
+                  <Link href='/admin/company-and-job-management/'>View All Employees</Link>
+                </CardContent>
+              </CardActionArea>
+            </div>
+            <div style={{ height: 50 }}></div>
+          </>
         )
       }}
     </DashboardContext.Consumer>
