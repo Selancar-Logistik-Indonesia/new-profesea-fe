@@ -1,8 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Box, Grid } from '@mui/material'
-import Link from 'next/link'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
-import SeafarerProfileCard from 'src/views/onboarding/ProfileCard'
+import { ProfessionalProfileCard } from 'src/views/onboarding/ProfileCard'
 import ProgressBar from 'src/views/onboarding/ProgressBar'
 import StatusAvailability from 'src/layouts/components/onboarding/StatusAvailability'
 
@@ -26,9 +25,7 @@ const Onboarding = () => {
         }}
       >
         <Box sx={{ width: '480px', display: 'flex', flexDirection: 'column' }}>
-          <Box component={Link} href='/'>
-            <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
-          </Box>
+          <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
           <Box sx={{ my: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <ProgressBar current={2} total={5} />
             <StatusAvailability
@@ -48,7 +45,7 @@ const Onboarding = () => {
           alignItems: 'center'
         }}
       >
-        <SeafarerProfileCard />
+        <ProfessionalProfileCard />
       </Grid>
     </Grid>
   )

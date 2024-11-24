@@ -29,7 +29,6 @@ const SocialMedia = (props: { icon: string; type: string; link?: string }) => {
 }
 
 const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
-  console.log(dataUser)
   const { user } = useAuth()
   const [openShare, setOpenShare] = useState(false)
   const [connections, setConnections] = useState<number>(0)

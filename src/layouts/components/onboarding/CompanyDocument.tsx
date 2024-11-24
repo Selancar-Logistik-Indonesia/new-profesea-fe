@@ -11,6 +11,7 @@ import { toast } from 'react-hot-toast'
 import { AppConfig } from 'src/configs/api'
 import { useDropzone } from 'react-dropzone'
 import { Icon } from '@iconify/react'
+import { toLinkCase } from 'src/utils/helpers'
 
 type FormData = {
   isCrewing: number
@@ -150,7 +151,7 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
       .then(
         async () => {
           const uploadPromises = []
-          if (data.nib !== null) {
+          if (data.nib && data.nib !== null) {
             uploadPromises.push(
               HttpClient.postFile('/user/document', {
                 user_document: data.nib[0],
@@ -159,7 +160,7 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
               })
             )
           }
-          if (data.menkumham !== null) {
+          if (data.menkumham && data.menkumham !== null) {
             uploadPromises.push(
               HttpClient.postFile('/user/document', {
                 user_document: data.menkumham[0],
@@ -168,7 +169,7 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
               })
             )
           }
-          if (data.siupakk !== null) {
+          if (data.siupakk && data.siupakk !== null) {
             uploadPromises.push(
               HttpClient.postFile('/user/document', {
                 user_document: data.siupakk[0],
@@ -183,7 +184,7 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
           await Promise.all(uploadPromises)
           await refreshSession()
           toast.success('Successfully save profile')
-          router.push(`/company/${user?.id}/${user?.username}`)
+          router.push(`/company/${user?.id}/${toLinkCase(user?.username)}/?onboarding=completed`)
         },
         error => {
           toast.error('Failed to save profile: ' + error.response.data.message)
@@ -195,7 +196,7 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
   const onSkip = () => {
     HttpClient.patch(AppConfig.baseUrl + '/onboarding/complete').then(async response => {
       await toast.success(response.data.message)
-      router.push(`/company/${user?.id}/${user?.username}`)
+      router.push(`/company/${user?.id}/${toLinkCase(user?.username)}/?onboarding=completed`)
     })
   }
 

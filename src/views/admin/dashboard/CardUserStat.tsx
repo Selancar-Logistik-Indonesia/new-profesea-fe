@@ -37,6 +37,18 @@ const CardUserStatApp = () => {
     userOverview(timeframe)
   }, [timeframe])
 
+  const formatTimeframe = (timeframe: string) => {
+    if (timeframe == 'daily') {
+      return 'Yesterday'
+    } else if (timeframe == 'weekly') {
+      return 'Last Week'
+    } else if (timeframe == 'monthly') {
+      return 'Last Month'
+    }
+
+    return ''
+  }
+
   return (
     <DashboardContext.Consumer>
       {({
@@ -95,7 +107,7 @@ const CardUserStatApp = () => {
                         {progressTotalUsers > 0 ? ' +' + progressTotalUsers : progressTotalUsers} &nbsp;
                       </span>
                       <span className={style['from']}>From </span>
-                      <span className={style['time-info']}>{timeframe} </span>
+                      <span className={style['time-info']}>{formatTimeframe(timeframe)} </span>
                     </div>
                   )}
                 </Grid>
@@ -137,7 +149,7 @@ const CardUserStatApp = () => {
                         {progressTotalSeafarer > 0 ? ' +' + progressTotalSeafarer : progressTotalSeafarer} &nbsp;
                       </span>
                       <span className={style['from']}>From </span>
-                      <span className={style['time-info']}>{timeframe} </span>
+                      <span className={style['time-info']}>{formatTimeframe(timeframe)} </span>
                     </div>
                   )}
                 </Grid>
@@ -155,10 +167,10 @@ const CardUserStatApp = () => {
                       >
                         {progressTotalProfessional >= 0 ? (progressTotalProfessional > 0 ? upIcon : '') : downIcon}
                         &nbsp;
-                        {progressTotalProfessional} &nbsp;
+                        {progressTotalProfessional > 0 ? ' +'+progressTotalProfessional : progressTotalProfessional} &nbsp;
                       </span>
                       <span className={style['from']}>From </span>
-                      <span className={style['time-info']}>{timeframe} </span>
+                      <span className={style['time-info']}>{formatTimeframe(timeframe)} </span>
                     </div>
                   )}
                 </Grid>
@@ -194,7 +206,7 @@ const CardUserStatApp = () => {
                         {progressTotalCompany > 0 ? ' +' + progressTotalCompany : progressTotalCompany} &nbsp;
                       </span>
                       <span className={style['from']}>From </span>
-                      <span className={style['time-info']}>{timeframe} </span>
+                      <span className={style['time-info']}>{formatTimeframe(timeframe)} </span>
                     </div>
                   )}
                 </Grid>
@@ -210,7 +222,7 @@ const CardUserStatApp = () => {
                         {progressTotalTrainer > 0 ? ' +' + progressTotalTrainer : progressTotalTrainer} &nbsp;
                       </span>
                       <span className={style['from']}>From </span>
-                      <span className={style['time-info']}>{timeframe} </span>
+                      <span className={style['time-info']}>{formatTimeframe(timeframe)} </span>
                     </div>
                   )}
                 </Grid>

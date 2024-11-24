@@ -30,7 +30,7 @@ const renderList = (arr: any[]) => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            mb: index !== arr.length - 1 ? 10.3 : undefined
+            mb: index !== arr.length - 1 ? 16 : undefined
           }}
         >
           {/* <img width={34} height={34} alt={item.name} src={item.photo} /> */}
@@ -83,25 +83,29 @@ const TopLastJobApp = () => {
         }
 
         return (
-          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-            <CardHeader
-              title={
-                <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
-                  Last Job
-                </Typography>
-              }
-              titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}
-            />
-            <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt: 15, mb: 22 }}>
-              {renderList(dataLastJob)}
-            </CardContent>
-            <CardActionArea sx={{ height: 80 }}>
-              <Divider component='div' />
-              <CardContent style={{ textAlign: 'center', height: 80 }}>
-                <Link href='/admin/company-and-job-management/'>View All Jobs</Link>
+          <>
+            <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+              <CardHeader
+                title={
+                  <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
+                    Last Job
+                  </Typography>
+                }
+                titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}
+              />
+              <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt: 3 }}>
+                {renderList(dataLastJob)}
               </CardContent>
-            </CardActionArea>
-          </Card>
+            </Card>
+            <div style={{ backgroundColor: 'white' }}>
+              <Divider component='div' />
+              <CardActionArea>
+                <CardContent style={{ textAlign: 'center' }}>
+                  <Link href='/admin/company-and-job-management/'>View All Jobs</Link>
+                </CardContent>
+              </CardActionArea>
+            </div>
+          </>
         )
       }}
     </DashboardContext.Consumer>

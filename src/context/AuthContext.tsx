@@ -94,12 +94,18 @@ const AuthProvider = ({ children }: Props) => {
         const tempUser = response.data.user
         if (tempUser.email_verified_at === null) {
           router.push(`/verify-email/`)
+
+          return
         } else if (tempUser.email_verified_at !== null) {
           if (tempUser.last_step !== 'completed' && tempUser.last_step !== 'role-selection') {
             router.push(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
+
+            return
           }
           if (tempUser.last_step === 'role-selection') {
             router.push(`/${tempUser.last_step}`)
+
+            return
           }
         }
 
@@ -110,9 +116,9 @@ const AuthProvider = ({ children }: Props) => {
           } else {
             router.replace(returnUrl as string)
           }
+        } else {
+          router.push('/home')
         }
-
-        router.push('/home')
       })
       .catch(err => {
         setLoading(false)
@@ -156,12 +162,18 @@ const AuthProvider = ({ children }: Props) => {
         const tempUser = response.data.user
         if (tempUser.email_verified_at === null) {
           await router.replace(`/set-password/${tempUser.rememberToken}/${tempUser.email}`)
+
+          return
         } else if (tempUser.email_verified_at !== null) {
           if (tempUser.last_step !== 'completed' && tempUser.last_step !== 'role-selection') {
             router.push(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
+
+            return
           }
           if (tempUser.last_step === 'role-selection') {
             router.push(`/${tempUser.last_step}`)
+
+            return
           }
         }
 
