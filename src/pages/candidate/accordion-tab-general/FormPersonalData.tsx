@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup'
+// import { yupResolver } from '@hookform/resolvers/yup'
 import {
   Grid,
   TextField,
@@ -27,8 +27,6 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import moment from 'moment'
 import { useTheme } from '@mui/material/styles'
 import toast from 'react-hot-toast'
-
-interface IFormPersonalData {}
 
 type TFormPersonalData = {
   fullName: string
@@ -77,7 +75,7 @@ const GENDER_OPTIONS = [
   }
 ]
 
-const FormPersonalData: React.FC<IFormPersonalData> = () => {
+const FormPersonalData: React.FC = () => {
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const [loadingSubmit, setLoadingSubmit] = useState(false)
@@ -168,41 +166,49 @@ const FormPersonalData: React.FC<IFormPersonalData> = () => {
 
     if (!fullName) {
       toast.error('Full name is required')
+
       return
     }
 
     if (!gender) {
       toast.error('Gender is required')
+
       return
     }
 
     if (!userCountry) {
       toast.error('Country is required')
+
       return
     }
 
     if (!userCity) {
       toast.error('City is required')
+
       return
     }
 
     if (!address) {
       toast.error('Address is required')
+
       return
     }
 
     if (!userPhoneCodeNumber && !userPhone) {
       toast.error('Phone Number is required')
+
       return
     }
 
     if (!userDOB) {
       toast.error('Date Of Birth is required')
+
       return
     }
 
     if (!userEmail) {
       toast.error('Email is required')
+
       return
     }
 

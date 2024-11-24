@@ -6,14 +6,16 @@ import {
   Grid,
   Dialog,
   DialogContent,
-  DialogTitle,
   DialogActions,
   Button,
   IconButton,
   Fade,
   FadeProps,
   Typography,
-  TextField
+  TextField,
+  useMediaQuery,
+  InputLabel,
+  SwipeableDrawer
 } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { HttpClient } from 'src/services'
@@ -29,6 +31,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 import moment from 'moment'
+import { useTheme } from '@mui/material/styles'
 
 const ExperienceSchema = Yup.object().shape({
   user_id: Yup.number(),
@@ -57,6 +60,9 @@ const Transition = forwardRef(function Transition(
 })
 
 const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
+  const Theme = useTheme()
+  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
+
   const { type, seafarerExperience, showModal, user_id, handleModalForm, loadExperience } = props
   const id = seafarerExperience?.id
 
@@ -64,7 +70,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
     type == 'edit'
       ? {
           id: seafarerExperience?.rank_id,
-          name: seafarerExperience?.rank
+          name: seafarerExperience?.rank?.name
         }
       : {}
   )
@@ -72,7 +78,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
     type == 'edit'
       ? {
           id: seafarerExperience?.vessel_type_id,
-          name: seafarerExperience?.vessel_type
+          name: seafarerExperience?.vessel_type?.name
         }
       : {}
   )
@@ -252,61 +258,106 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
     }
   }
 
-  return (
-    <Dialog fullWidth open={showModal} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
+  const renderForm = () => {
+    return (
       <form
         onSubmit={formik.handleSubmit}
         onReset={() => {
           formik.resetForm()
         }}
       >
-        <DialogTitle>
-          <IconButton
-            size='small'
-            sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-            onClick={() => props.handleModalForm(type, undefined)}
-          >
-            <Icon width='24' height='24' icon='mdi:close' />
-          </IconButton>
-          <Box sx={{ mb: 2, textAlign: 'center' }}>
-            <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
-              {type == 'create' ? 'Add new ' : 'Update '} experience
-            </Typography>
-            <Typography variant='body2'>Fulfill your Experience Info here</Typography>
-          </Box>
-        </DialogTitle>
-        <DialogContent
-          dividers
-          sx={{
-            position: 'relative',
-            pb: theme => `${theme.spacing(5)} !important`,
-            px: theme => [`${theme.spacing(3)} !important`, `${theme.spacing(10)} !important`],
-            pt: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(7.5)} !important`],
-            height: '500px'
-          }}
-        >
-          <Grid container md={12} xs={12}>
-            <Grid item md={12} xs={12} mb={5}>
+        <DialogContent>
+          {!isMobile && (
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Box>
+                <Typography color={'#32487A'} fontWeight='700' fontSize={18}>
+                  {type == 'create' ? 'Add  Sea Experience' : 'Edit Sea Experience'}
+                </Typography>
+              </Box>
+              <IconButton
+                size='small'
+                onClick={() => {
+                  props.handleModalForm(type, undefined)
+                  resetState()
+                }}
+              >
+                <Icon icon='mdi:close' fontSize={'16px'} />
+              </IconButton>
+            </Box>
+          )}
+
+          <Grid container spacing={6} py={'24px'}>
+            <Grid item xs={12} md={12}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Vessel Type
+              </InputLabel>
               <Autocomplete
                 id='autocomplete-vessel-type'
                 disablePortal
                 options={vesselTypes}
                 getOptionLabel={(option: any) => option.name || ''}
-                defaultValue={vesselTypeId?.id ? vesselTypeId : ''}
+                // defaultValue={vesselTypeId?.id ? vesselTypeId : ''}
+                defaultValue={vesselTypeId}
                 renderInput={params => (
-                  <TextField
-                    {...params}
-                    error={formik.errors.vessel_type_id ? true : false}
-                    label='Vessel Type * '
-                    variant='standard'
-                  />
+                  <TextField {...params} error={formik.errors.vessel_type_id ? true : false} variant='outlined' />
                 )}
                 onChange={(event: any, newValue: any) =>
                   newValue?.id ? setVesselTypeId(newValue) : setVesselTypeId('')
                 }
               />
             </Grid>
-            <Grid item md={12} xs={12} mb={5}>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Vessel Name
+              </InputLabel>
+              <TextField
+                error={formik.errors.vessel_name ? true : false}
+                value={formik.values.vessel_name}
+                defaultValue={type == 'edit' ? seafarerExperience?.vessel_name : ''}
+                id='vessel_name'
+                name={'vessel_name'}
+                variant='outlined'
+                onChange={formik.handleChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Rank / Position
+              </InputLabel>
               <Autocomplete
                 id='autocomplete-rank'
                 disablePortal
@@ -314,121 +365,182 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
                 getOptionLabel={(option: any) => option.name || ''}
                 defaultValue={rankId?.id ? rankId : ''}
                 renderInput={params => (
-                  <TextField
-                    {...params}
-                    error={formik.errors.rank_id ? true : false}
-                    label='Rank / Position * '
-                    variant='standard'
-                  />
+                  <TextField {...params} error={formik.errors.rank_id ? true : false} variant='outlined' />
                 )}
                 onChange={(event: any, newValue: any) => (newValue?.id ? setRankId(newValue) : setRankId(''))}
               />
             </Grid>
-            <Grid item md={12} xs={12} mb={5}>
-              <TextField
-                error={formik.errors.vessel_name ? true : false}
-                value={formik.values.vessel_name}
-                defaultValue={type == 'edit' ? seafarerExperience?.vessel_name : ''}
-                id='vessel_name'
-                name={'vessel_name'}
-                label='Vessel Name * '
-                variant='standard'
-                onChange={formik.handleChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid item container md={12} xs={12} mb={5}>
-              <Grid item md={4} xs={12}>
+
+            <Grid container item xs={12} md={12} spacing={6}>
+              <Grid item xs={12} md={4}>
+                <InputLabel
+                  sx={{
+                    fontFamily: 'Figtree',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    mb: '12px',
+                    '& .MuiFormLabel-asterisk': {
+                      color: 'red'
+                    }
+                  }}
+                >
+                  GRT
+                </InputLabel>
                 <TextField
                   defaultValue={type == 'edit' ? seafarerExperience?.grt : ''}
                   id='grt'
                   name={'grt'}
-                  label='GRT'
-                  variant='standard'
+                  variant='outlined'
                   onChange={formik.handleChange}
                   fullWidth
                 />
               </Grid>
-              <Grid item md={4}>
+              <Grid item xs={12} md={4}>
+                <InputLabel
+                  sx={{
+                    fontFamily: 'Figtree',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    mb: '12px',
+                    '& .MuiFormLabel-asterisk': {
+                      color: 'red'
+                    }
+                  }}
+                >
+                  DWT
+                </InputLabel>
                 <TextField
                   defaultValue={type == 'edit' ? seafarerExperience?.dwt : ''}
                   id='dwt'
                   name={'dwt'}
-                  label='DWT'
-                  variant='standard'
+                  variant='outlined'
                   onChange={formik.handleChange}
                   fullWidth
                 />
               </Grid>
-              <Grid item md={4}>
+              <Grid item xs={12} md={4}>
+                <InputLabel
+                  sx={{
+                    fontFamily: 'Figtree',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    mb: '12px',
+                    '& .MuiFormLabel-asterisk': {
+                      color: 'red'
+                    }
+                  }}
+                >
+                  ME Power
+                </InputLabel>
                 <TextField
                   defaultValue={type == 'edit' ? seafarerExperience?.me_power : ''}
                   id='me_power'
                   name={'me_power'}
-                  label='ME Power'
-                  variant='standard'
+                  variant='outlined'
                   onChange={formik.handleChange}
                   fullWidth
                 />
               </Grid>
             </Grid>
-            <Grid item container md={12} xs={12} mb={5}>
-              <LocalizationProvider dateAdapter={AdapterMoment}>
-                <DatePicker
-                  format='DD/MM/YYYY'
-                  openTo='month'
-                  views={['year', 'month', 'day']}
-                  className='sign_in'
-                  name='sign_in'
-                  label={'Sign In Date *'}
-                  onChange={date => setSignIn(date)}
-                  value={signIn ? moment(signIn) : null}
-                  slotProps={{
-                    textField: {
-                      variant: 'standard',
-                      fullWidth: true,
-                      id: 'basic-input',
-                      'aria-readonly': true,
-                      name: 'sign_in',
-                      error: formik.errors.sign_in ? true : false
+            <Grid container item md={12} xs={12} spacing={6}>
+              <Grid item xs={12} md={6}>
+                <InputLabel
+                  required
+                  sx={{
+                    fontFamily: 'Figtree',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    mb: '12px',
+                    '& .MuiFormLabel-asterisk': {
+                      color: 'red'
                     }
                   }}
-                />
-              </LocalizationProvider>
-            </Grid>
-            <Grid item container md={12} xs={12} mb={5}>
-              <LocalizationProvider dateAdapter={AdapterMoment}>
-                <DatePicker
-                  format='DD/MM/YYYY'
-                  openTo='month'
-                  views={['year', 'month', 'day']}
-                  className='sign_off'
-                  name='sign_off'
-                  label={'Sign Off Date *'}
-                  onChange={date => setSignOff(date)}
-                  value={signOff ? moment(signOff) : null}
-                  slotProps={{
-                    textField: {
-                      variant: 'standard',
-                      fullWidth: true,
-                      id: 'basic-input',
-                      'aria-readonly': true,
-                      name: 'sign_off',
-                      error: formik.errors.sign_off ? true : false
+                >
+                  Sign In Date
+                </InputLabel>
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                  <DatePicker
+                    format='DD/MM/YYYY'
+                    openTo='month'
+                    views={['year', 'month', 'day']}
+                    className='sign_in'
+                    name='sign_in'
+                    onChange={date => setSignIn(date)}
+                    value={signIn ? moment(signIn) : null}
+                    slotProps={{
+                      textField: {
+                        variant: 'outlined',
+                        fullWidth: true,
+                        id: 'basic-input',
+                        'aria-readonly': true,
+                        name: 'sign_in',
+                        error: formik.errors.sign_in ? true : false
+                      }
+                    }}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <InputLabel
+                  required
+                  sx={{
+                    fontFamily: 'Figtree',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    mb: '12px',
+                    '& .MuiFormLabel-asterisk': {
+                      color: 'red'
                     }
                   }}
-                />
-              </LocalizationProvider>
+                >
+                  Sign Off Date
+                </InputLabel>
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                  <DatePicker
+                    format='DD/MM/YYYY'
+                    openTo='month'
+                    views={['year', 'month', 'day']}
+                    className='sign_off'
+                    name='sign_off'
+                    onChange={date => setSignOff(date)}
+                    value={signOff ? moment(signOff) : null}
+                    slotProps={{
+                      textField: {
+                        variant: 'outlined',
+                        fullWidth: true,
+                        id: 'basic-input',
+                        'aria-readonly': true,
+                        name: 'sign_off',
+                        error: formik.errors.sign_off ? true : false
+                      }
+                    }}
+                  />
+                </LocalizationProvider>
+              </Grid>
             </Grid>
-            <Grid item container md={12} xs={12} mb={5}>
+
+            <Grid item xs={12} md={12}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Company
+              </InputLabel>
               <TextField
                 error={formik.errors.company ? true : false}
                 value={formik.values.company}
                 defaultValue={type == 'edit' ? seafarerExperience?.company : ''}
                 id='company'
                 name={'company'}
-                label='Company * '
-                variant='standard'
+                variant='outlined'
                 onChange={formik.handleChange}
                 fullWidth
               />
@@ -437,30 +549,59 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
         </DialogContent>
         <DialogActions>
           <Button
-            type='reset'
-            variant='contained'
-            style={{ margin: '10px 10px', backgroundColor: 'grey' }}
-            size='small'
-          >
-            Reset
-          </Button>
-          <Button
             disabled={Object.keys(formik.errors).length > 0 ? true : false}
             type='submit'
             variant='contained'
-            style={{ margin: '10px 0' }}
-            size='small'
+            style={{ textTransform: 'capitalize' }}
           >
-            <Icon
-              fontSize='small'
-              icon={'solar:add-circle-bold-duotone'}
-              color={'success'}
-              style={{ fontSize: '18px' }}
-            />
-            <div> {type == 'edit' ? 'Update ' : 'Create '} Experience</div>
+            <div> {type == 'edit' ? 'Save Changes' : 'Save'}</div>
           </Button>
         </DialogActions>
       </form>
+    )
+  }
+
+  if (isMobile) {
+    return (
+      <>
+        <SwipeableDrawer
+          anchor='bottom'
+          open={showModal}
+          onClose={() => {
+            props.handleModalForm(type, undefined)
+            resetState()
+          }}
+          onOpen={() => {
+            props.handleModalForm(type, undefined)
+            resetState()
+          }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ padding: '16px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Typography fontSize={16} fontWeight={700} color={'#32497A'}>
+                {type == 'create' ? 'Add  Travel Document' : 'Edit Travel Document'}
+              </Typography>
+              <IconButton
+                size='small'
+                sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
+                onClick={() => {
+                  props.handleModalForm(type, undefined)
+                  resetState()
+                }}
+              >
+                <Icon icon='mdi:close' />
+              </IconButton>
+            </Box>
+            <Box sx={{ px: '16px', py: '24px', marginBottom: '60px' }}>{renderForm()}</Box>
+          </Box>
+        </SwipeableDrawer>
+      </>
+    )
+  }
+
+  return (
+    <Dialog fullWidth open={showModal} maxWidth='md' scroll='body' TransitionComponent={Transition}>
+      {renderForm()}
     </Dialog>
   )
 }

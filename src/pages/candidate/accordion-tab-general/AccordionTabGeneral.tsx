@@ -1,17 +1,43 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography, useMediaQuery } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdExpandMore } from 'react-icons/md'
 import { useTheme } from '@mui/material/styles'
 import FormPersonalData from './FormPersonalData'
 import FormSocialMedia from './FormSocialMedia'
+import { IUser } from 'src/contract/models/user'
+import { HttpClient } from 'src/services'
+import { AppConfig } from 'src/configs/api'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import FormPreference from './FormPreference'
 
-interface IAccordionTabGeneral {}
-
-const AccordionTabGeneral: React.FC<IAccordionTabGeneral> = () => {
+const AccordionTabGeneral: React.FC = () => {
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
+  const userLocalStorage = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [show1, setShow1] = useState(false)
   const [show2, setShow2] = useState(false)
+  const [show3, setShow3] = useState(false)
+  const [user, setUser] = useState<IUser | null>(null)
+  const [loadingUser, setLoadingUser] = useState(false)
+
+  const fetchUser = () => {
+    setLoadingUser(true)
+    HttpClient.get(AppConfig.baseUrl + '/user/' + userLocalStorage.id)
+      .then(response => {
+        const resUser = response.data.user as IUser
+        console.log(resUser)
+        setUser(resUser)
+      })
+      .finally(() => {
+        setLoadingUser(false)
+      })
+  }
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
+
   return (
     <>
       <Accordion sx={{ boxShadow: 'none' }}>
@@ -78,10 +104,27 @@ const AccordionTabGeneral: React.FC<IAccordionTabGeneral> = () => {
           aria-controls='panel3-content'
           id='panel3-header'
           sx={{ color: '#32497A', fontSize: isMobile ? '14px' : '16px', fontWeight: 700, fontFamily: 'Figtree' }}
+          onClick={() => setShow3(!show3)}
         >
-          Preferences
+          <Box>
+            <Typography
+              sx={{
+                color: '#32497A',
+                fontSize: isMobile ? '14px' : '16px',
+                fontWeight: 700,
+                fontFamily: 'Figtree'
+              }}
+            >
+              Preferences
+            </Typography>
+            {show3 && (
+              <Typography sx={{ fontFamily: 'Figtree', fontSize: '14px', fontWeight: 400 }}>
+                See your job preference so company can find the perfect fit
+              </Typography>
+            )}
+          </Box>
         </AccordionSummary>
-        <AccordionDetails></AccordionDetails>
+        <AccordionDetails>{loadingUser ? 'Loading...' : <FormPreference dataUser={user} />}</AccordionDetails>
       </Accordion>
     </>
   )

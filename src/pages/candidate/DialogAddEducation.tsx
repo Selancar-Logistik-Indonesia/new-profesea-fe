@@ -164,8 +164,8 @@ const DialogAddEducation = (props: DialogProps) => {
     } catch (error) {
       // throw   'Something went wrong!';
 
-      alert(`Opps ${getCleanErrorMessage(error)}`)
-      // toast.error(`Opps ${getCleanErrorMessage(error)}`);
+      // alert(`Opps ${getCleanErrorMessage(error)}`)
+      toast.error(`Opps ${getCleanErrorMessage(error)}`);
     }
 
     setOnLoading('')

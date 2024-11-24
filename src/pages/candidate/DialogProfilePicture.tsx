@@ -62,9 +62,9 @@ const DialogProfilePicture: React.FC<IDialogProfilePicture> = ({ isOpen, onClose
 
     setLoading(true)
     try {
-      let json = new FormData()
+      const json = new FormData()
       json.append('photo', profilePicFile)
-      const response = await HttpClient.post(AppConfig.baseUrl + '/user/update-photo', json)
+      await HttpClient.post(AppConfig.baseUrl + '/user/update-photo', json)
       handleOnClose()
       toast.success('Photo Profile Upload Successfully')
     } catch (error) {

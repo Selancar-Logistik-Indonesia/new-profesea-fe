@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import { useMediaQuery, Typography, Avatar, IconButton, Button, Tabs, Tab } from '@mui/material'
+import { useMediaQuery, Typography, Avatar, IconButton, Tabs, Tab } from '@mui/material'
 import { Grid } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { useTheme } from '@mui/material/styles'
@@ -12,11 +12,14 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import CandidateProfile from 'src/layouts/components/CandidateProfile'
+// import CandidateProfile from 'src/layouts/components/CandidateProfile'
 import { Icon } from '@iconify/react'
 import DialogProfilePicture from './DialogProfilePicture'
 import AccordionTabGeneral from './accordion-tab-general/AccordionTabGeneral'
 import EducationTab from './education-tab/EducationTab'
+import TravelDocumentTab from './travel-document-tab/TravelDocumentTab'
+import SeaExperienceTab from './sea-experience-tab/SeaExperienceTab'
+import CertificateTab from './certificate-tab/CertificateTab'
 
 type FormData = {
   companyName: string
@@ -82,7 +85,6 @@ const Candidate = () => {
   function Firstload() {
     HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
       const resUser = response.data.user as IUser
-      console.log(resUser)
       setSelectedUser(resUser)
       setProfilePic(resUser?.photo ? resUser?.photo : null)
     })
@@ -190,7 +192,8 @@ const Candidate = () => {
                   </IconButton>
                 </Box>
 
-                <Button
+                {/* todo next sprint */}
+                {/* <Button
                   aria-label='download'
                   sx={{
                     display: 'flex',
@@ -209,7 +212,7 @@ const Candidate = () => {
                 >
                   <Icon icon='material-symbols-light:download-sharp' fontSize={isMobile ? '20px' : '24px'} />
                   Download Resume
-                </Button>
+                </Button> */}
               </Box>
               <Box sx={{ marginTop: '40px' }}>
                 <Typography
@@ -217,10 +220,11 @@ const Candidate = () => {
                     fontSize: isMobile ? '14px' : '24px',
                     fontWeight: 700,
                     fontFamily: 'Figtree',
-                    color: '#404040'
+                    color: '#404040',
+                    textTransform: 'capitalize'
                   }}
                 >
-                  Salma Ariesandy
+                  {selectedUser?.name}
                 </Typography>
                 <Typography
                   sx={{
@@ -230,7 +234,7 @@ const Candidate = () => {
                     color: '#404040'
                   }}
                 >
-                  Deck Supervisor
+                  {selectedUser?.role == 'Seafarer' ? selectedUser?.field_preference?.job_category?.name : '-'}
                 </Typography>
               </Box>
             </Grid>
@@ -258,13 +262,13 @@ const Candidate = () => {
                 <EducationTab />
               </TabPanel>
               <TabPanel value={tabsValue} index={2}>
-                Travel Document
+                <TravelDocumentTab />
               </TabPanel>
               <TabPanel value={tabsValue} index={3}>
-                Sea Experience
+                <SeaExperienceTab />
               </TabPanel>
               <TabPanel value={tabsValue} index={4}>
-                Certificate
+                <CertificateTab />
               </TabPanel>
             </Grid>
           </Grid>

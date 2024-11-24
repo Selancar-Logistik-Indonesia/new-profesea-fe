@@ -157,6 +157,7 @@ const FormEducation: React.FC<IFormEducation> = ({ onClose, getUserEducation }) 
   useEffect(() => {
     if (!selectedFileLogo) {
       setPreviewLogo(undefined)
+
       return
     }
 
@@ -165,6 +166,7 @@ const FormEducation: React.FC<IFormEducation> = ({ onClose, getUserEducation }) 
 
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFileLogo])
+
   return (
     <>
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
