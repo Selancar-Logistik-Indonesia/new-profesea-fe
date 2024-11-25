@@ -41,7 +41,7 @@ import { AppConfig } from 'src/configs/api'
 import { useRouter } from 'next/router'
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
-  <Tooltip {...props} classes={{ popper: className }} placement='bottom-start' />
+  <Tooltip {...props} classes={{ popper: className }} placement='top-start' />
 ))(() => ({
   [`& .${tooltipClasses.tooltip}`]: {
     backgroundColor: '#F2F8FE',
@@ -197,7 +197,6 @@ const LoginPage = () => {
       <Grid container sx={{ height: '100vh' }}>
         <Grid
           item
-          xs={12}
           md={6}
           sx={{
             backgroundImage: `url(/images/bg-login.jpeg)`,

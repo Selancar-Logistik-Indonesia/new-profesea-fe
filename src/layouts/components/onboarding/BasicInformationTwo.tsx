@@ -94,7 +94,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <FormControl error={!!errors.country}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Country <span style={{ color: '#F22' }}>*</span>
+            Negara <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='country'
@@ -114,7 +114,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
         </FormControl>
         <FormControl error={!!errors.city}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            City <span style={{ color: '#F22' }}>*</span>
+            Kota <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='city'
@@ -122,7 +122,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
             render={({ field }) => (
               <Select {...field} value={field.value || 0}>
                 <MenuItem value={0} disabled>
-                  Choose city
+                  Pilih Kota
                 </MenuItem>
                 {city &&
                   city.map((item, index) => (
@@ -136,7 +136,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
         </FormControl>
         <FormControl fullWidth error={!!errors.address}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Address <span style={{ color: '#F22' }}>*</span>
+            Alamat <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='address'
@@ -146,7 +146,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
                 {...field}
                 multiline
                 maxRows={3}
-                placeholder='Enter your address'
+                placeholder='Masukan alamat lengkap anda'
                 error={!!errors.address}
                 helperText={errors.address?.message}
                 sx={{ flexGrow: 1 }}

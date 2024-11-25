@@ -151,7 +151,6 @@ const LoginPage = () => {
       <Grid container sx={{ height: '100vh' }}>
         <Grid
           item
-          xs={12}
           md={6}
           sx={{
             backgroundImage: `url(/images/bg-login.jpeg)`,

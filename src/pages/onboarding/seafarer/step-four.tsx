@@ -13,7 +13,7 @@ const Onboarding = () => {
         xs={12}
         md={6}
         sx={{
-          py: '44px',
+          p: '44px 32px',
           height: '100%',
           backgroundColor: '#FAFAFA',
           display: 'flex',
@@ -29,9 +29,9 @@ const Onboarding = () => {
           <Box sx={{ my: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <ProgressBar current={4} total={6} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>Select Your Vessel Type</Typography>
+              <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>Pilih Tipe Kapal Anda</Typography>
               <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
-                Choose your vessel type to receive customized job recommendations based on your experience.
+                Pilih tipe kapal Anda untuk menerima rekomendasi pekerjaan yang disesuaikan berdasarkan pengalaman Anda.
               </Typography>
             </Box>
             <VesselPreference beforeLink='/onboarding/seafarer/step-three' nextLink='/onboarding/seafarer/step-five' />

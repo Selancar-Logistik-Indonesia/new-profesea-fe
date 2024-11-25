@@ -13,7 +13,7 @@ const Onboarding = () => {
         xs={12}
         md={6}
         sx={{
-          py: '44px',
+          p: '44px 32px',
           height: '100%',
           backgroundColor: '#FAFAFA',
           display: 'flex',
@@ -30,10 +30,11 @@ const Onboarding = () => {
             <ProgressBar current={6} total={6} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-                Tell Us About Your Sea Experience
+                Bagikan Pengalaman Maritim Anda
               </Typography>
               <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
-                By sharing your most recent job, we'll help you find roles that suit your skills and goals.
+                Dengan menginformasikan pekerjaan terkini atau pengalaman terakhir Anda, kami akan membantu Anda
+                menemukan peluang yang disesuaikan dengan keterampilan dan keinginan Anda.
               </Typography>
             </Box>
             <SeafarerExperience beforeLink='/onboarding/seafarer/step-five' />

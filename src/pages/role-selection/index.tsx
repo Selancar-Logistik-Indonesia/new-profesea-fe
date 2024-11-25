@@ -115,12 +115,12 @@ const RoleSelection = () => {
     }
 
     let data
-    if (employeeType === 'seafarer') {
+    if (employeeType === 'pelaut') {
       data = {
         team_id: 2,
         employee_type: 'onship'
       }
-    } else if (employeeType === 'professional') {
+    } else if (employeeType === 'profesional') {
       data = {
         team_id: 2,
         employee_type: 'offship'
@@ -136,46 +136,47 @@ const RoleSelection = () => {
 
   return (
     <Grid container sx={{ height: '100vh' }}>
-      <Grid item xs={12} md={6} sx={{ pt: '44px', display: 'flex', justifyContent: 'center' }}>
+      <Grid item xs={12} md={6} sx={{ p: '44px 32px', display: 'flex', justifyContent: 'center' }}>
         <Box sx={{ width: '480px', display: 'flex', flexDirection: 'column' }}>
           <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
           <Box sx={{ my: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-                Personalize your experience based on your role.
+                Personalisasi pengalaman Anda sesuai dengan peran Anda.
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap', gap: '8px' }}>
                 <Box sx={{ flexShrink: 0 }}>
                   <Icon icon='ph:warning' color='red' fontSize={35} />
                 </Box>
                 <Typography>
-                  Once you select your user type, you will not be able to change modes, and your email will remain
-                  linked to this choice. To access other modes, you will need to use a different email.
+                  Setelah memilih jenis pengguna, Anda tidak dapat mengubah mode, dan <i>email</i> Anda akan tetap
+                  terhubung pada pilihan tersebut. Untuk mengakses mode lain, Anda perlu menggunakan <i>email</i> yang
+                  berbeda.
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <Box onClick={() => handleChangeType('seafarer')} sx={{ cursor: 'pointer' }}>
+                <Box onClick={() => handleChangeType('pelaut')} sx={{ cursor: 'pointer' }}>
                   <OptionBox
                     icon='ph:anchor'
-                    value='seafarer'
-                    active={employeeType === 'seafarer'}
-                    description='For maritime professionals working at sea. Find jobs, training, and career resources specific to your seafaring role.'
+                    value='pelaut'
+                    active={employeeType === 'pelaut'}
+                    description='Untuk profesional maritim yang bekerja di laut. Temukan lowongan kerja, pelatihan, dan sumber daya karier khusus untuk karir pelaut Anda.'
                   />
                 </Box>
-                <Box onClick={() => handleChangeType('professional')} sx={{ cursor: 'pointer' }}>
+                <Box onClick={() => handleChangeType('profesional')} sx={{ cursor: 'pointer' }}>
                   <OptionBox
                     icon='ph:briefcase'
-                    value='professional'
-                    active={employeeType === 'professional'}
-                    description='For offshore professionals in the maritime industry. Access relevant job listings and opportunities tailored to your expertise.'
+                    value='profesional'
+                    active={employeeType === 'profesional'}
+                    description='Untuk profesional non-pelaut atau bekerja di industri logistic & maritime. Akses daftar pekerjaan dan peluang yang sesuai dengan keahlian Anda'
                   />
                 </Box>
-                <Box onClick={() => handleChangeType('employer')} sx={{ cursor: 'pointer' }}>
+                <Box onClick={() => handleChangeType('perusahaan')} sx={{ cursor: 'pointer' }}>
                   <OptionBox
                     icon='ph:handshake'
-                    value='employer'
-                    active={employeeType === 'employer'}
-                    description='Post jobs and connect with qualified maritime and offshore professionals to meet your recruitment needs.'
+                    value='perusahaan'
+                    active={employeeType === 'perusahaan'}
+                    description='Untuk perusahaan, Iklankan lowongan pekerjaan dan terhubung dengan profesional maritim dan logistik (pelaut & non-pelaut) yang berkualitas untuk memenuhi kebutuhan rekrutmen Anda'
                   />
                 </Box>
               </Box>
