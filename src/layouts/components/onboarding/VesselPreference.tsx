@@ -76,7 +76,7 @@ const VesselPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLi
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <FormControl error={!!errors.vessel}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Vessel Type <span style={{ color: '#F22' }}>*</span>
+            Tipe Kapal <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='vessel'
@@ -84,7 +84,7 @@ const VesselPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLi
             render={({ field }) => (
               <Select {...field} value={field.value || 0}>
                 <MenuItem value={0} disabled>
-                  Choose Vessel Type
+                  Pilih Tipe Kapal Anda
                 </MenuItem>
                 {vessel &&
                   vessel.map((item, index) => (

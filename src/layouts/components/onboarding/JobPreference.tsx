@@ -60,7 +60,7 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
     if (user && user.jobcategory) {
       setValue('jobCategory', user.jobcategory.id)
     }
-    if (user && user.field_preference) {
+    if (user && user.field_preference && user.field_preference.role_type) {
       setValue('roleType', user.field_preference.role_type.id)
     }
   }
@@ -111,17 +111,19 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-            {user?.employee_type === 'onship' ? 'Your Job Department Preference' : 'Set your job category preference'}
+            {user?.employee_type === 'onship'
+              ? 'Atur Preferensi Departemen Pekerjaan Anda'
+              : 'Atur Preferensi Kategori Pekerjaan Anda'}
           </Typography>
           <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
             {user?.employee_type === 'onship'
-              ? 'Select your specific seafarer role, whether on deck, cruise, engine, or in other departments, to receive personalized job recommendations and networking opportunities that match your skills.'
-              : 'Select your professional field—offshore, engineering, management, or others—to receive tailored job recommendations and networking opportunities.'}
+              ? 'Tentukan peran spesifik Anda sebagai Pelaut, baik di dek, kapal pesiar, mesin, atau departemen lainnya, untuk mendapatkan rekomendasi pekerjaan yang disesuaikan dan kesempatan jaringan sesuai dengan keterampilan Anda.'
+              : 'Pilih bidang profesional Anda—lepas pantai, teknik, manajemen, atau lainnya—untuk menerima rekomendasi pekerjaan dan peluang jaringan yang disesuaikan.'}
           </Typography>
         </Box>
         <FormControl fullWidth error={!!errors.jobCategory}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Job Category <span style={{ color: '#F22' }}>*</span>
+            Kategori Pekerjaan <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='jobCategory'
@@ -129,7 +131,7 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
             render={({ field }) => (
               <Select {...field} value={field.value || 0}>
                 <MenuItem value={0} disabled>
-                  Choose Job Category
+                  Pilih Departemen Pekerjaan
                 </MenuItem>
                 {jobCategory &&
                   jobCategory.map(item => (
@@ -143,17 +145,18 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
         </FormControl>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-            Set Up Your Preferences to Work
+            Atur Preferensi Anda untuk Bekerja
           </Typography>
           <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
-            {user?.employee_type
-              ? 'Set your job title preference. Choose your seafarer job title to help us customize job recommendations and networking opportunities to macth your expertise.'
-              : 'Select your job title. Choose your specific professional role to help us customize job recommendations and networking opportunities that align with your expertise.'}
+            {user?.employee_type === 'onship'
+              ? 'Tentukan preferensi judul pekerjaan Anda. Pilih judul pekerjaan Anda untuk membantu kami menyesuaikan rekomendasi pekerjaan dan peluang jaringan yang sesuai dengan keahlian Anda.'
+              : 'Pilih jabatan Anda. Tentukan peran profesional spesifik Anda untuk membantu kami menyesuaikan rekomendasi pekerjaan dan peluang jaringan yang sesuai dengan keahlian Anda.'}
           </Typography>
         </Box>
         <FormControl fullWidth error={!!errors.roleType}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            {user?.employee_type === 'offship' ? 'Job Title' : 'Job Rank'} <span style={{ color: '#F22' }}>*</span>
+            {user?.employee_type === 'onship' ? 'Pangkat Pekerjaan' : 'Jabatan'}
+            <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='roleType'
@@ -161,7 +164,7 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
             render={({ field }) => (
               <Select {...field} value={field.value || 0}>
                 <MenuItem value={0} disabled>
-                  {user?.employee_type ? 'Choose Job Rank' : 'Choose Job Title'}
+                  {user?.employee_type === 'onship' ? 'Pilih Pangkat Pekerjaan' : 'Pilih Jabatan'}
                 </MenuItem>
                 {roleType &&
                   roleType.map(item => (

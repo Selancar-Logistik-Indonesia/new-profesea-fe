@@ -89,11 +89,11 @@ const StatusAvailability = ({ beforeLink, nextLink }: { beforeLink: string; next
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-            Set Your Availability Status.
+            Atur Status Ketersediaan Anda.
           </Typography>
           <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
-            Let us know if you are currently available for work so that we can personalize job recommendations and
-            networking opportunities for you.
+            Beri tahu kami jika Anda saat ini tersedia untuk bekerja, agar kami dapat menyesuaikan rekomendasi pekerjaan
+            dan peluang jaringan yang tepat bagi Anda.
           </Typography>
         </Box>
         <FormControl fullWidth error={!!errors.openToWork}>
@@ -116,7 +116,7 @@ const StatusAvailability = ({ beforeLink, nextLink }: { beforeLink: string; next
                   }}
                 >
                   <Typography sx={{ color: value === 1 ? '#0B58A6' : '#BFBFBF', fontSize: 14, fontWeight: 400 }}>
-                    Open to Work
+                    Terbuka untuk Bekerja
                   </Typography>
                 </Box>
                 <Box
@@ -130,7 +130,7 @@ const StatusAvailability = ({ beforeLink, nextLink }: { beforeLink: string; next
                   }}
                 >
                   <Typography sx={{ color: value === 0 ? '#0B58A6' : '#BFBFBF', fontSize: 14, fontWeight: 400 }}>
-                    Unavailable
+                    Tidak Tersedia
                   </Typography>
                 </Box>
               </Box>
@@ -140,14 +140,16 @@ const StatusAvailability = ({ beforeLink, nextLink }: { beforeLink: string; next
         {isOpen && user?.employee_type === 'onship' && (
           <>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>Set Your Sail Date</Typography>
+              <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
+                Atur Tanggal Berlayar Anda
+              </Typography>
               <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
-                Let us know when you're ready to start your next voyage.
+                Beri tahu kami kapan Anda siap untuk memulai pelayaran berikutnya.
               </Typography>
             </Box>
             <FormControl fullWidth error={!!errors.availableDate}>
               <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                Available Date
+                Tanggal Tersedia
               </Typography>
               <Controller
                 name='availableDate'

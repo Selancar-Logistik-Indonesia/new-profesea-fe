@@ -13,7 +13,7 @@ const Onboarding = () => {
         xs={12}
         md={6}
         sx={{
-          py: '44px',
+          p: '44px 32px',
           height: '100%',
           backgroundColor: '#FAFAFA',
           display: 'flex',
@@ -30,10 +30,11 @@ const Onboarding = () => {
             <ProgressBar current={5} total={5} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-                Tell Us About Your Experience
+                Ceritakan Pengalaman Anda
               </Typography>
               <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
-                The more we know, the better we can connect you with the right jobs.
+                Semakin lengkap informasi yang Anda berikan, semakin efektif kami dapat menghubungkan Anda dengan
+                pekerjaan yang sesuai.
               </Typography>
             </Box>
             <ProfessionalExperience beforeLink='/onboarding/professional/step-four' />

@@ -13,7 +13,7 @@ const Onboarding = () => {
         xs={12}
         md={6}
         sx={{
-          py: '44px',
+          p: '44px 32px',
           height: '100%',
           backgroundColor: '#FAFAFA',
           display: 'flex',
@@ -30,11 +30,11 @@ const Onboarding = () => {
             <ProgressBar current={3} total={3} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-                Upload Your Company Documents
+                Unggah Dokumen Perusahaan Anda
               </Typography>
               <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
-                Submit the necessary documents for verification to gain the ability to post jobs and connect with
-                potential candidates.
+                Kirimkan dokumen yang diperlukan untuk verifikasi agar Anda dapat mempublikasikan lowongan pekerjaan dan
+                terhubung dengan kandidat yang potensial.
               </Typography>
             </Box>
             <CompanyDocument beforeLink='/onboarding/employer/step-two' />

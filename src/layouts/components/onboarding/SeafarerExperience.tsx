@@ -175,7 +175,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <FormControl error={!!errors.noExperience}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Experience <span style={{ color: '#F22' }}>*</span>
+            Pengalaman <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='noExperience'
@@ -193,7 +193,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value ? '#BFBFBF' : '#0B58A6', fontSize: 14, fontWeight: 400 }}>
-                    Yes, I have experience.
+                    Ya, saya memiliki pengalaman
                   </Typography>
                 </Box>
                 <Box
@@ -207,7 +207,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value ? '#0B58A6' : '#BFBFBF', fontSize: 14, fontWeight: 400 }}>
-                    No, I have no experience.
+                    Tidak, saya tidak memiliki pengalaman.
                   </Typography>
                 </Box>
               </Box>
@@ -217,12 +217,13 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
         {!noExperience && (
           <>
             <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 700 }}>
-              Please fill in the details of your sea experience so we can connect you with the right jobs at sea.
+              Silakan isi rincian pengalaman maritim Anda agar kami dapat menghubungkan Anda dengan pekerjaan yang tepat
+              di bidang ini.
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <FormControl fullWidth error={!!errors.company}>
                 <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Company <span style={{ color: '#F22' }}>*</span>
+                  Perusahaan <span style={{ color: '#F22' }}>*</span>
                 </Typography>
                 <Controller
                   name='company'
@@ -231,7 +232,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                     <TextField
                       {...field}
                       fullWidth
-                      placeholder='Enter the company name'
+                      placeholder='Masukan nama perusahaan anda'
                       error={!!errors.company}
                       helperText={errors.company?.message}
                     />
@@ -240,7 +241,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
               </FormControl>
               <FormControl fullWidth error={!!errors.roleType}>
                 <Typography sx={{ mb: '6px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Job Rank <span style={{ color: '#F22' }}>*</span>
+                  Pangkat atau Posisi <span style={{ color: '#F22' }}>*</span>
                 </Typography>
                 <Controller
                   name='roleType'
@@ -248,7 +249,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                   render={({ field }) => (
                     <Select {...field} value={field.value || 0}>
                       <MenuItem value={0} disabled>
-                        Choose Job Rank
+                        Pilih Pangkat Pekerjaan
                       </MenuItem>
                       {roleType &&
                         roleType.map(item => (
@@ -262,7 +263,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
               </FormControl>
               <FormControl fullWidth error={!!errors.vessel}>
                 <Typography sx={{ mb: '6px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Type of Vessel <span style={{ color: '#F22' }}>*</span>
+                  Tipe Kapal <span style={{ color: '#F22' }}>*</span>
                 </Typography>
                 <Controller
                   name='vessel'
@@ -270,7 +271,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                   render={({ field }) => (
                     <Select {...field} value={field.value || 0}>
                       <MenuItem value={0} disabled>
-                        Choose Vessel
+                        Pilih Kapal
                       </MenuItem>
                       {vessel &&
                         vessel.map(item => (
@@ -284,7 +285,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
               </FormControl>
               <FormControl fullWidth error={!!errors.vesselName}>
                 <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Vessel Name <span style={{ color: '#F22' }}>*</span>
+                  Nama Kapal <span style={{ color: '#F22' }}>*</span>
                 </Typography>
                 <Controller
                   name='vesselName'
@@ -293,7 +294,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                     <TextField
                       {...field}
                       fullWidth
-                      placeholder='Enter the name of the vessel'
+                      placeholder='Masukkan nama perusahaan'
                       error={!!errors.vesselName}
                       helperText={errors.vesselName?.message}
                     />
@@ -302,7 +303,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
               </FormControl>
               <Box>
                 <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Vessel Information
+                  Informasi Kapal
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '6px' }}>
                   <FormControl error={!!errors.grt}>
@@ -313,7 +314,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                         <TextField
                           {...field}
                           fullWidth
-                          placeholder='Enter GRT'
+                          placeholder='Masukan GRT'
                           error={!!errors.grt}
                           helperText={errors.grt?.message}
                         />
@@ -328,7 +329,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                         <TextField
                           {...field}
                           fullWidth
-                          placeholder='Enter DWT'
+                          placeholder='Masukan DWT'
                           error={!!errors.dwt}
                           helperText={errors.dwt?.message}
                         />
@@ -343,7 +344,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                         <TextField
                           {...field}
                           fullWidth
-                          placeholder='Enter Me power'
+                          placeholder='Masukan Daya ME'
                           error={!!errors.mePower}
                           helperText={errors.mePower?.message}
                         />
@@ -354,7 +355,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
               </Box>
               <FormControl fullWidth error={!!errors.signIn}>
                 <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Sign in date <span style={{ color: '#F22' }}>*</span>
+                  Tanggal Masuk <span style={{ color: '#F22' }}>*</span>
                 </Typography>
                 <Controller
                   name='signIn'
@@ -382,7 +383,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
               </FormControl>
               <FormControl fullWidth error={!!errors.signOff}>
                 <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Sign off date <span style={{ color: '#F22' }}>*</span>
+                  Tanggal Keluar <span style={{ color: '#F22' }}>*</span>
                 </Typography>
                 <Controller
                   name='signOff'

@@ -166,7 +166,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <FormControl error={!!errors.noExperience}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Experience <span style={{ color: '#F22' }}>*</span>
+            Pengalaman <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='noExperience'
@@ -184,7 +184,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value ? '#BFBFBF' : '#0B58A6', fontSize: 14, fontWeight: 400 }}>
-                    Yes, I have experience.
+                    Ya, saya memiliki pengalaman
                   </Typography>
                 </Box>
                 <Box
@@ -198,7 +198,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value ? '#0B58A6' : '#BFBFBF', fontSize: 14, fontWeight: 400 }}>
-                    No, I have no experience.
+                    Tidak, saya tidak memiliki pengalaman.
                   </Typography>
                 </Box>
               </Box>
@@ -208,12 +208,13 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
         {!noExperience && (
           <>
             <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 700 }}>
-              Please fill in the details of your experience so we can connect you with the right jobs.
+              Jika Anda memiliki pengalaman, Harap isi detail pengalaman pekerjaan Anda agar kami dapat menghubungkan
+              Anda dengan pekerjaan yang tepat.
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <FormControl fullWidth error={!!errors.position}>
                 <Typography sx={{ mb: '6px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Position <span style={{ color: '#F22' }}>*</span>
+                  Jabatan <span style={{ color: '#F22' }}>*</span>
                 </Typography>
                 <Controller
                   name='position'
@@ -221,7 +222,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
                   render={({ field }) => (
                     <Select {...field} value={field.value || 0}>
                       <MenuItem value={0} disabled>
-                        Choose Job Category
+                        Pilih Jabatan
                       </MenuItem>
                       {position &&
                         position.map(item => (
@@ -235,7 +236,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
               </FormControl>
               <FormControl fullWidth error={!!errors.company}>
                 <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Company <span style={{ color: '#F22' }}>*</span>
+                  Perusahaan <span style={{ color: '#F22' }}>*</span>
                 </Typography>
                 <Controller
                   name='company'
@@ -244,7 +245,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
                     <TextField
                       {...field}
                       fullWidth
-                      placeholder='Enter the company name'
+                      placeholder='Masukan nama perusahaan anda'
                       error={!!errors.company}
                       helperText={errors.company?.message}
                     />
@@ -255,13 +256,13 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <Controller name='isCurrent' control={control} render={({ field }) => <Checkbox {...field} />} />
                   <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>
-                    I'm currently working in this role and company
+                    Saya saat ini bekerja di posisi dan perusahaan ini
                   </Typography>
                 </Box>
               </FormControl>
               <FormControl fullWidth error={!!errors.signIn}>
                 <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Start date <span style={{ color: '#F22' }}>*</span>
+                  Tanggal Mulai <span style={{ color: '#F22' }}>*</span>
                 </Typography>
                 <Controller
                   name='signIn'
@@ -290,7 +291,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
               {!isCurrent && (
                 <FormControl fullWidth error={!!errors.signOff}>
                   <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                    End date <span style={{ color: '#F22' }}>*</span>
+                    Tanggal Berhenti <span style={{ color: '#F22' }}>*</span>
                   </Typography>
                   <Controller
                     name='signOff'
@@ -317,9 +318,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
                 </FormControl>
               )}
               <FormControl fullWidth error={!!errors.description}>
-                <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Description
-                </Typography>
+                <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>Deskripsi</Typography>
                 <Controller
                   name='description'
                   control={control}
@@ -328,7 +327,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
                       {...field}
                       multiline
                       maxRows={3}
-                      placeholder='Write a description...'
+                      placeholder='Tulis deskirpsi pekerjaan anda...'
                       error={!!errors.description}
                       helperText={errors.description?.message}
                       sx={{ flexGrow: 1 }}

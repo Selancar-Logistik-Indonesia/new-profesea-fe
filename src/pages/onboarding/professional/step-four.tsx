@@ -13,7 +13,7 @@ const Onboarding = () => {
         xs={12}
         md={6}
         sx={{
-          py: '44px',
+          p: '44px 32px',
           height: '100%',
           backgroundColor: '#FAFAFA',
           display: 'flex',
@@ -30,11 +30,11 @@ const Onboarding = () => {
             <ProgressBar current={4} total={5} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-                Where Would You Like to Work?
+                Di Mana Anda Ingin Bekerja?
               </Typography>
               <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
-                Select the locations where you prefer to work to receive personalized job opportunities tailored to your
-                preferences.
+                Pilih lokasi yang Anda inginkan untuk bekerja, sehingga Anda dapat menerima peluang pekerjaan yang
+                sesuai dengan keinginan Anda.
               </Typography>
             </Box>
             <LocationPreference
