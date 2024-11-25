@@ -1,15 +1,19 @@
-import { useState } from 'react'
+import { forwardRef, ReactElement, Ref, useState } from 'react'
 import {
   Button,
   Box,
   Grid,
-  DialogTitle,
   Typography,
   TextField,
   Dialog,
   DialogContent,
   DialogActions,
-  IconButton
+  IconButton,
+  useMediaQuery,
+  InputLabel,
+  FadeProps,
+  Fade,
+  SwipeableDrawer
 } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { HttpClient } from 'src/services'
@@ -18,13 +22,23 @@ import { toast } from 'react-hot-toast'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { ISeafarerRecommendationForm } from 'src/contract/types/seafarer_recommendation_type'
+import { useTheme } from '@mui/material/styles'
 
 const ProficiencySchema = Yup.object().shape({
   company: Yup.string().required('Company is required'),
   email: Yup.string().email().required('Email is required')
 })
 
+const Transition = forwardRef(function Transition(
+  props: FadeProps & { children?: ReactElement<any, any> },
+  ref: Ref<unknown>
+) {
+  return <Fade ref={ref} {...props} />
+})
+
 const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
+  const Theme = useTheme()
+  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const { user_id, handleModalForm, showModal, type, loadRecommendation, seafarerRecommendation } = props
   const [loading, setLoading] = useState(false)
   const id = seafarerRecommendation?.id
@@ -95,117 +109,188 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
     }
   }
 
-  return (
-    <Grid item container md={12}>
-      <Grid item container xs={12} md={6} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-        <Dialog open={showModal}>
-          <form
-            onSubmit={formik.handleSubmit}
-            onReset={() => {
-              formik.resetForm()
-            }}
-            method='post'
-          >
-            <DialogTitle>
+  const renderForm = () => {
+    return (
+      <form
+        onSubmit={formik.handleSubmit}
+        onReset={() => {
+          formik.resetForm()
+        }}
+        method='post'
+      >
+        <DialogContent>
+          {!isMobile && (
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Box>
+                <Typography color={'#32487A'} fontWeight='700' fontSize={18}>
+                  {type == 'create' ? 'Add Reference Verification' : 'Edit Reference Verification'}
+                </Typography>
+              </Box>
+              <IconButton
+                size='small'
+                onClick={() => {
+                  props.handleModalForm(type, undefined)
+                }}
+              >
+                <Icon icon='mdi:close' fontSize={'16px'} />
+              </IconButton>
+            </Box>
+          )}
+          <Grid container spacing={6} py={'24px'}>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Company
+              </InputLabel>
+              <TextField
+                error={formik.errors.company ? true : false}
+                fullWidth
+                id='company'
+                name='company'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.company}
+                defaultValue={type == 'edit' ? seafarerRecommendation?.company : ''}
+                variant='outlined'
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Name / Position
+              </InputLabel>
+              <TextField
+                fullWidth
+                id='position'
+                name='position'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.position}
+                defaultValue={type == 'edit' ? seafarerRecommendation?.position : ''}
+                variant='outlined'
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Email
+              </InputLabel>
+              <TextField
+                error={formik.errors.email ? true : false}
+                fullWidth
+                id='email'
+                name='email'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+                defaultValue={type == 'edit' ? seafarerRecommendation?.email : ''}
+                variant='outlined'
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Phone
+              </InputLabel>
+              <TextField
+                fullWidth
+                id='phone_number'
+                name='phone_number'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.phone_number}
+                defaultValue={type == 'edit' ? seafarerRecommendation?.phone_number : ''}
+                variant='outlined'
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions style={{ textAlign: 'center' }}>
+          <Button disabled={loading} type='submit' variant='contained' style={{ textTransform: 'capitalize' }}>
+            <div> {type == 'edit' ? 'Save Changes' : 'Save'}</div>
+          </Button>
+        </DialogActions>
+      </form>
+    )
+  }
+
+  if (isMobile) {
+    return (
+      <>
+        <SwipeableDrawer
+          anchor='bottom'
+          open={showModal}
+          onClose={() => {
+            props.handleModalForm(type, undefined)
+          }}
+          onOpen={() => {
+            props.handleModalForm(type, undefined)
+          }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ padding: '16px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Typography fontSize={16} fontWeight={700} color={'#32497A'}>
+                {type == 'create' ? 'Add Reference Verification' : 'Edit Reference Verification'}
+              </Typography>
               <IconButton
                 size='small'
                 sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-                onClick={() => handleModalForm(type, undefined)}
+                onClick={() => {
+                  props.handleModalForm(type, undefined)
+                }}
               >
-                <Icon width='24' height='24' icon='mdi:close' />
+                <Icon icon='mdi:close' />
               </IconButton>
-              <Box sx={{ mb: 2, textAlign: 'center' }}>
-                <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
-                  Previous Company
-                </Typography>
-                <Typography variant='body2'>For Getting references</Typography>
-              </Box>
-            </DialogTitle>
-            <DialogContent>
-              <Grid container md={12} xs={12}>
-                <Grid gap={8} item container md={12} xs={12} style={{ marginBottom: 10 }}>
-                  <Grid item md={5} xs={12}>
-                    <TextField
-                      error={formik.errors.company ? true : false}
-                      fullWidth
-                      id='company'
-                      name='company'
-                      label='Company * '
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.company}
-                      defaultValue={type == 'edit' ? seafarerRecommendation?.company : ''}
-                      variant='standard'
-                    />
-                  </Grid>
-                  <Grid item md={5} xs={12}>
-                    <TextField
-                      fullWidth
-                      id='position'
-                      name='position'
-                      label='Name/Position'
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.position}
-                      defaultValue={type == 'edit' ? seafarerRecommendation?.position : ''}
-                      variant='standard'
-                    />
-                  </Grid>
-                </Grid>
-                <Grid gap={8} item container md={12} xs={12}>
-                  <Grid item md={5} xs={12}>
-                    <TextField
-                      error={formik.errors.email ? true : false}
-                      fullWidth
-                      id='email'
-                      name='email'
-                      label='Email * '
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.email}
-                      defaultValue={type == 'edit' ? seafarerRecommendation?.email : ''}
-                      variant='standard'
-                    />
-                  </Grid>
-                  <Grid item md={5} xs={12}>
-                    <TextField
-                      fullWidth
-                      id='phone_number'
-                      name='phone_number'
-                      label='Phone'
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.phone_number}
-                      defaultValue={type == 'edit' ? seafarerRecommendation?.phone_number : ''}
-                      variant='standard'
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-            </DialogContent>
-            <DialogActions style={{ textAlign: 'center' }}>
-              <Button
-                type='reset'
-                variant='contained'
-                style={{ margin: '10px 10px', backgroundColor: 'grey' }}
-                size='small'
-              >
-                Reset
-              </Button>
-              <Button disabled={loading} type='submit' variant='contained' style={{ margin: '10px 0' }} size='small'>
-                <Icon
-                  fontSize='small'
-                  icon={'solar:add-circle-bold-duotone'}
-                  color={'success'}
-                  style={{ fontSize: '18px' }}
-                />
-                <div> Save</div>
-              </Button>
-            </DialogActions>
-          </form>
-        </Dialog>
-      </Grid>
-    </Grid>
+            </Box>
+            <Box sx={{ px: '16px', py: '24px', marginBottom: '60px' }}>{renderForm()}</Box>
+          </Box>
+        </SwipeableDrawer>
+      </>
+    )
+  }
+
+  return (
+    <Dialog fullWidth open={showModal} maxWidth='md' scroll='body' TransitionComponent={Transition}>
+      {renderForm()}
+    </Dialog>
   )
 }
 

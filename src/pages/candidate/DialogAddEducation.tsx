@@ -14,7 +14,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { CircularProgress, Divider, FormControlLabel, Checkbox } from '@mui/material'
+import { CircularProgress, FormControlLabel, Checkbox, useMediaQuery, InputLabel } from '@mui/material'
 import { Autocomplete } from '@mui/material'
 
 import Degree from 'src/contract/models/degree'
@@ -28,6 +28,7 @@ import { AppConfig } from 'src/configs/api'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { useTheme } from '@mui/material/styles'
 
 import moment from 'moment'
 
@@ -59,6 +60,8 @@ type FormData = {
 }
 
 const DialogAddEducation = (props: DialogProps) => {
+  const Theme = useTheme()
+  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [onLoading, setOnLoading] = useState<'form' | 'institution' | ''>('')
   const [dateAwal, setDateAwal] = useState<any>(null)
@@ -141,7 +144,7 @@ const DialogAddEducation = (props: DialogProps) => {
       major: major,
       degree: EduId,
       logo: selectedFile,
-      still_here: 0,
+      still_here: isCurrentEducation ? 1 : 0,
       start_date: moment(dateAwal).format('YYYY-MM-DD') || null,
       end_date: !isCurrentEducation && dateAkhir ? moment(dateAkhir).format('YYYY-MM-DD') : null,
       is_current: isCurrentEducation
@@ -161,8 +164,8 @@ const DialogAddEducation = (props: DialogProps) => {
     } catch (error) {
       // throw   'Something went wrong!';
 
-      alert(`Opps ${getCleanErrorMessage(error)}`)
-      // toast.error(`Opps ${getCleanErrorMessage(error)}`);
+      // alert(`Opps ${getCleanErrorMessage(error)}`)
+      toast.error(`Opps ${getCleanErrorMessage(error)}`);
     }
 
     setOnLoading('')
@@ -181,38 +184,36 @@ const DialogAddEducation = (props: DialogProps) => {
   }
 
   return (
-    <Dialog fullWidth open={props.visible} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
+    <Dialog fullWidth open={props.visible} maxWidth='md' scroll='body' TransitionComponent={Transition}>
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent
-          sx={{
-            position: 'relative',
-            pb: (theme: { spacing: (arg0: number) => any }) => `${theme.spacing(8)} !important`,
-            px: (theme: { spacing: (arg0: number) => any }) => [
-              `${theme.spacing(5)} !important`,
-              `${theme.spacing(15)} !important`
-            ],
-            pt: (theme: { spacing: (arg0: number) => any }) => [
-              `${theme.spacing(8)} !important`,
-              `${theme.spacing(12.5)} !important`
-            ]
-          }}
-        >
-          <IconButton
-            size='small'
-            sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-            onClick={props.onCloseClick}
-          >
-            <Icon icon='mdi:close' />
-          </IconButton>
-          <Box sx={{ mb: 6, textAlign: 'center' }}>
-            <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
-              Add Education
-            </Typography>
-            <Typography variant='body2'>Enhance your profile by adding your education</Typography>
+        <DialogContent>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box>
+              <Typography color={'#32487A'} fontWeight='700' fontSize={18}>
+                Add Educational Info
+              </Typography>
+            </Box>
+            <IconButton size='small' onClick={props.onCloseClick}>
+              <Icon icon='mdi:close' fontSize={'16px'} />
+            </IconButton>
           </Box>
 
-          <Grid container rowSpacing={'4'}>
-            <Grid item md={12} xs={12}>
+          <Grid container spacing={6} py={'24px'}>
+            <Grid item xs={12} md={12}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Institution Name
+              </InputLabel>
               <Autocomplete
                 freeSolo
                 id='combo-box-demo'
@@ -222,8 +223,7 @@ const DialogAddEducation = (props: DialogProps) => {
                   <TextField
                     {...register('title')}
                     {...params}
-                    label='Institution Name *'
-                    variant='standard'
+                    variant='outlined'
                     onChange={e => {
                       setOnLoading('institution')
                       handleSearchInstitutions(e.target.value)
@@ -232,51 +232,104 @@ const DialogAddEducation = (props: DialogProps) => {
                 )}
               />
             </Grid>
-
-            <Grid item md={12} xs={12}>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Education
+              </InputLabel>
               <Autocomplete
                 disablePortal
                 id='combo-box-demo'
                 options={Education}
                 {...register('degree')}
                 getOptionLabel={(option: Degree) => option.name}
-                renderInput={params => <TextField {...params} label='Education *' variant='standard' />}
+                renderInput={params => <TextField {...params} variant='outlined' />}
                 onChange={(event: any, newValue: Degree | null) =>
                   newValue?.name ? setEduId(newValue.name) : setEduId('')
                 }
               />
             </Grid>
-            <Grid item md={12} xs={12}>
-              <TextField id='major' label='Major *' variant='standard' fullWidth {...register('major')} />
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Major
+              </InputLabel>
+              <TextField id='major' variant='outlined' fullWidth {...register('major')} />
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Start Date
+              </InputLabel>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
-                  label={'Start Date *'}
                   views={['month', 'year']}
                   onChange={(date: any) => setDateAwal(date)}
                   value={dateAwal ? moment(dateAwal) : null}
                   slotProps={{
-                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('startdate') }
+                    textField: { variant: 'outlined', fullWidth: true, id: 'basic-input', ...register('startdate') }
                   }}
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                End Date
+              </InputLabel>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
-                  label={'End Date'}
                   views={['month', 'year']}
                   onChange={(date: any) => setDateAkhir(date)}
                   value={!isCurrentEducation && dateAkhir ? moment(dateAkhir) : null}
                   slotProps={{
-                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('enddate') }
+                    textField: { variant: 'outlined', fullWidth: true, id: 'basic-input', ...register('enddate') }
                   }}
                   disabled={isCurrentEducation}
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid>
+            <Grid item xs={12} md={12}>
               <FormControlLabel
                 sx={{ width: '100%' }}
                 control={
@@ -291,78 +344,71 @@ const DialogAddEducation = (props: DialogProps) => {
                 label="I'm currently studying"
               />
             </Grid>
-            <Grid item md={12} xs={12} mt={2}>
-              <Grid item xs={12} md={12} container justifyContent={'left'}>
-                <Grid xs={6}>
-                  <label htmlFor='x'>
-                    <img
-                      alt='logo'
-                      src={preview ? preview : '/images/avatar.png'}
-                      style={{
-                        maxWidth: '100%',
-                        height: '120px',
-                        padding: 0,
-                        margin: 0
-                      }}
-                    />
+            <Grid item xs={12} md={12}>
+              <Grid container item xs={12} md={12}>
+                <Grid item xs={2} md={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <label htmlFor='input-logo-desktop'>
+                    {preview ? (
+                      <img
+                        alt='logo'
+                        src={preview}
+                        style={{
+                          maxWidth: '100%',
+                          width: isMobile ? '60px' : '100px',
+                          height: isMobile ? '60px' : '100px',
+                          padding: 0,
+                          margin: 0
+                        }}
+                      />
+                    ) : (
+                      <>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: isMobile ? '60px' : '100px',
+                            height: isMobile ? '60px' : '100px',
+                            borderRadius: '6px',
+                            background: '#DADADA'
+                          }}
+                        >
+                          <Icon icon='iconoir:camera' fontSize={'26px'} />
+                        </Box>
+                      </>
+                    )}
                   </label>
                   <input
                     accept='image/*'
                     style={{ display: 'none' }}
-                    id='x'
+                    id='input-logo-desktop'
                     onChange={onSelectFile}
                     type='file'
                   ></input>
                 </Grid>
-                <Grid xs={6}>
-                  <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
-                    <Typography
-                      variant='body2'
-                      sx={{ textAlign: 'left', color: '#262525', fontSize: '10px', mb: '5px' }}
-                    >
-                      <strong>Click Image to change Institution Logo.</strong>
-                    </Typography>
-                    <Divider></Divider>
-                    <Typography
-                      variant='body2'
-                      sx={{ textAlign: 'left', color: '#262525', fontSize: '10px', mt: '5px' }}
-                    >
-                      Allowed JPG, GIF or PNG.
-                    </Typography>
-                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                      Max size of 800K. Aspect Ratio 1:1
-                    </Typography>
-                  </Box>
+                <Grid
+                  item
+                  xs={10}
+                  md={10}
+                  sx={{ display: 'flex', flexDirection: 'column', gap: '3px', justifyContent: 'center' }}
+                >
+                  <Typography fontSize={12} fontWeight={700} color={'#404040'}>
+                    Click Image to change Institution Logo
+                  </Typography>
+                  <Typography fontSize={12} fontWeight={400} color={'#404040'}>
+                    Allowed JPG, GIF or PNG
+                  </Typography>
+                  <Typography fontSize={12} fontWeight={400} color={'#F22'}>
+                    Max size of 800k
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions
-          sx={{
-            justifyContent: 'center',
-            px: (theme: { spacing: (arg0: number) => any }) => [
-              `${theme.spacing(5)} !important`,
-              `${theme.spacing(15)} !important`
-            ],
-            pb: (theme: { spacing: (arg0: number) => any }) => [
-              `${theme.spacing(8)} !important`,
-              `${theme.spacing(12.5)} !important`
-            ]
-          }}
-        >
-          <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>
-            <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
-            {onLoading == 'form' ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
-          </Button>
-          <Button variant='outlined' size='small' color='error' onClick={props.onCloseClick}>
-            <Icon
-              fontSize='large'
-              icon={'material-symbols:cancel-outline'}
-              color={'info'}
-              style={{ fontSize: '18px' }}
-            />
-            Cancel
+        <DialogActions>
+          <Button variant='contained' type='submit' sx={{ textTransform: 'capitalize', width: '120px !important' }}>
+            {onLoading == 'form' ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Save'}
           </Button>
         </DialogActions>
       </form>
