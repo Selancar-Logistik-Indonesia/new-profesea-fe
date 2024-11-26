@@ -13,7 +13,7 @@ const Onboarding = () => {
         xs={12}
         md={6}
         sx={{
-          py: '44px',
+          p: '44px 32px',
           height: '100%',
           backgroundColor: '#FAFAFA',
           display: 'flex',
@@ -30,10 +30,11 @@ const Onboarding = () => {
             <ProgressBar current={5} total={6} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-                Where Would You Like to Sail?
+                Ke Mana Anda Ingin Berlayar?
               </Typography>
               <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
-                Select the regions where you prefer to work to get personalized job opportunities.
+                Pilih lokasi yang Anda inginkan untuk bekerja dan dapatkan kesempatan pekerjaan yang disesuaikan dengan
+                preferensi Anda.
               </Typography>
             </Box>
             <RegionPreference beforeLink='/onboarding/seafarer/step-four' nextLink='/onboarding/seafarer/step-six' />

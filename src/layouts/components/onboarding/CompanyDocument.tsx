@@ -84,15 +84,15 @@ const FileUpload = ({ name, control, setValue }: { name: string; control: any; s
           >
             <input {...getInputProps()} />
             {isDragActive ? (
-              <Typography>Drop files here...</Typography>
+              <Typography>Taruh dokumen disini...</Typography>
             ) : (
               <>
                 <Icon icon='ph:upload' fontSize={24} />
                 <Typography sx={{ color: '#303030', fontSize: 14, fontWeight: 700 }}>
-                  Choose a file or drag & drop it here
+                  Telusuri dokumen atau seret dan lepas di sini
                 </Typography>
                 <Typography sx={{ color: '#999999', fontSize: 12, fontWeight: 400 }}>
-                  JPEG, PNG, and PDF formats, up to 3MB
+                  Format JPEG, PNG, and PDF, hingga 3MB
                 </Typography>
               </>
             )}
@@ -205,7 +205,7 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <FormControl fullWidth error={!!errors.isCrewing}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Are you a crewing company? <span style={{ color: '#F22' }}>*</span>
+            Apakah Anda perusahaan <i>crewing</i>? <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='isCrewing'
@@ -223,7 +223,7 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value === 1 ? '#0B58A6' : '#BFBFBF', fontSize: 14, fontWeight: 400 }}>
-                    Yes
+                    Ya
                   </Typography>
                 </Box>
                 <Box
@@ -237,7 +237,7 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value === 0 ? '#0B58A6' : '#BFBFBF', fontSize: 14, fontWeight: 400 }}>
-                    No
+                    Tidak
                   </Typography>
                 </Box>
               </Box>

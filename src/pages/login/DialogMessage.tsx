@@ -1,6 +1,6 @@
 import { Ref, forwardRef, ReactElement } from 'react'
 import { FadeProps } from '@mui/material/Fade'
-import { Box, Button, Dialog, DialogContent, Fade, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogContent, Fade, Typography, useMediaQuery, useTheme } from '@mui/material'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 
@@ -18,6 +18,8 @@ type BlockDialog = {
 }
 
 const DialogMessage = (props: BlockDialog) => {
+  const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.down('md'))
   const { t } = useTranslation()
   const handleClose = async () => {
     props.onCloseClick()
@@ -25,7 +27,7 @@ const DialogMessage = (props: BlockDialog) => {
 
   return (
     <Dialog maxWidth='sm' open={props.visible} onClose={props.onCloseClick} TransitionComponent={Transition}>
-      <DialogContent sx={{ p: '24px', width: '400px', textAlign: 'center' }}>
+      <DialogContent sx={{ p: '24px', maxWidth: isXs ? '100%' : '400px', textAlign: 'center' }}>
         <Typography sx={{ fontSize: 16, fontWeight: 700 }}>{t('login_page.dialog.title')}</Typography>
         <Typography sx={{ mt: '6px', fontSize: 14, fontWeight: 400 }}>{t('login_page.dialog.description')}</Typography>
         <Box

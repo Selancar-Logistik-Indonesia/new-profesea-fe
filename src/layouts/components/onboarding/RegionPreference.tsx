@@ -44,7 +44,7 @@ const RegionPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLi
       setRegion(data)
     })
 
-    if (user && user.field_preference) {
+    if (user && user.field_preference && user.field_preference.region_travel) {
       setValue('region', user.field_preference.region_travel.id)
     }
   }
@@ -77,7 +77,7 @@ const RegionPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLi
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <FormControl error={!!errors.region}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Region of Travel <span style={{ color: '#F22' }}>*</span>
+            Wilayah Perjalanan <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='region'
@@ -85,7 +85,7 @@ const RegionPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLi
             render={({ field }) => (
               <Select {...field} value={field.value || 0}>
                 <MenuItem value={0} disabled>
-                  Choose Region of Travel
+                  Pilih Wilayah Perjalanan
                 </MenuItem>
                 {region &&
                   region.map((item, index) => (

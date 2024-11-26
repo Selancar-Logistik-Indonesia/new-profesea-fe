@@ -13,7 +13,7 @@ const Onboarding = () => {
         xs={12}
         md={6}
         sx={{
-          py: '44px',
+          p: '44px 32px',
           height: '100%',
           backgroundColor: '#FAFAFA',
           display: 'flex',
@@ -29,11 +29,11 @@ const Onboarding = () => {
           <Box sx={{ my: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <ProgressBar current={1} total={5} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>Basic Information (2/2)</Typography>
+              <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>Informasi Dasar (2/2)</Typography>
               <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
-                Complete the basic information to build a more complete and professional profile. Include essential
-                details to make your profile more accessible to companies, thereby improving visibility and facilitating
-                communication.
+                Lengkapi informasi dasar untuk membangun profil yang lebih lengkap dan profesional. Sertakan detail
+                penting agar profil Anda lebih mudah diakses oleh perusahaan, sehingga dapat meningkatkan visibilitas
+                dan mempermudah komunikasi.
               </Typography>
             </Box>
             <BasicInformationTwo

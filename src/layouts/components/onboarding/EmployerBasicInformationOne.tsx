@@ -140,7 +140,7 @@ const EmployerBasicInformationOne = ({ nextLink }: { nextLink: string }) => {
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <FormControl fullWidth error={!!errors.companyName}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Company Name <span style={{ color: '#F22' }}>*</span>
+            Nama Perusahaan <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='companyName'
@@ -149,7 +149,7 @@ const EmployerBasicInformationOne = ({ nextLink }: { nextLink: string }) => {
               <TextField
                 {...field}
                 fullWidth
-                placeholder="Enter your company's name"
+                placeholder='Masukan nama perusahaan anda'
                 error={!!errors.companyName}
                 helperText={errors.companyName?.message}
               />
@@ -158,7 +158,7 @@ const EmployerBasicInformationOne = ({ nextLink }: { nextLink: string }) => {
         </FormControl>
         <FormControl fullWidth error={!!errors.username}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            User Name <span style={{ color: '#F22' }}>*</span>
+            Nama Pengguna <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='username'
@@ -167,11 +167,11 @@ const EmployerBasicInformationOne = ({ nextLink }: { nextLink: string }) => {
               <TextField
                 {...field}
                 fullWidth
-                placeholder='Enter your username'
+                placeholder='masukan nama pengguna anda'
                 error={!!errors.username}
                 helperText={
                   usernameAvailable && !onLoadingCheck ? (
-                    <span style={{ color: 'green' }}>Username is available</span>
+                    <span style={{ color: 'green' }}>Nama pengguna tersedia</span>
                   ) : (
                     errors.username?.message
                   )
@@ -189,7 +189,7 @@ const EmployerBasicInformationOne = ({ nextLink }: { nextLink: string }) => {
         </FormControl>
         <FormControl error={!!errors.industry}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Industry Category <span style={{ color: '#F22' }}>*</span>
+            Kategori Industri <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='industry'
@@ -197,7 +197,7 @@ const EmployerBasicInformationOne = ({ nextLink }: { nextLink: string }) => {
             render={({ field }) => (
               <Select {...field} value={field.value || 0}>
                 <MenuItem value={0} disabled>
-                  Choose Indusrty Category
+                  Pilih Kategori Industri
                 </MenuItem>
                 {industry &&
                   industry.map((item, index) => (
@@ -211,10 +211,10 @@ const EmployerBasicInformationOne = ({ nextLink }: { nextLink: string }) => {
         </FormControl>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography sx={{ mb: '2px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Phone Number <span style={{ color: '#F22' }}>*</span>
+            Nomor Telepon <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Typography sx={{ mb: '6px', color: '#666666', fontSize: 12, fontWeight: 400, fontStyle: 'italic' }}>
-            Your phone number must be connected to WhatsApp so our team can reach you easily.
+            Nomor telepon Anda harus terhubung dengan WhatsApp agar tim kami dapat menghubungi Anda dengan mudah.
           </Typography>
           <Box sx={{ display: 'flex', gap: '12px' }}>
             <FormControl error={!!errors.country}>
@@ -224,7 +224,7 @@ const EmployerBasicInformationOne = ({ nextLink }: { nextLink: string }) => {
                 render={({ field }) => (
                   <Select {...field} value={field.value || 0}>
                     <MenuItem value={0} disabled>
-                      Country
+                      Negara
                     </MenuItem>
                     {country &&
                       country.map((item, index) => (

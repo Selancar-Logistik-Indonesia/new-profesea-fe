@@ -147,7 +147,7 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <FormControl fullWidth error={!!errors.fullname}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Full Name <span style={{ color: '#F22' }}>*</span>
+            Nama Lengkap <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='fullname'
@@ -156,7 +156,7 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
               <TextField
                 {...field}
                 fullWidth
-                placeholder='Enter your full name'
+                placeholder='Masukan nama lengkap anda'
                 error={!!errors.fullname}
                 helperText={errors.fullname?.message}
               />
@@ -165,7 +165,7 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
         </FormControl>
         <FormControl fullWidth error={!!errors.username}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            User Name <span style={{ color: '#F22' }}>*</span>
+            Nama Pengguna <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='username'
@@ -174,11 +174,11 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
               <TextField
                 {...field}
                 fullWidth
-                placeholder='Enter your username'
+                placeholder='Masukan nama pengguna anda'
                 error={!!errors.username}
                 helperText={
                   usernameAvailable && !onLoadingCheck ? (
-                    <span style={{ color: 'green' }}>Username is available</span>
+                    <span style={{ color: 'green' }}>Nama pengguna tersedia</span>
                   ) : (
                     errors.username?.message
                   )
@@ -196,7 +196,7 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
         </FormControl>
         <FormControl fullWidth error={!!errors.dateOfBirth}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Date of Birth <span style={{ color: '#F22' }}>*</span>
+            Tanggal Lahir <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='dateOfBirth'
@@ -224,10 +224,10 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
         </FormControl>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography sx={{ mb: '2px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Phone Number <span style={{ color: '#F22' }}>*</span>
+            Nomor Telepon <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Typography sx={{ mb: '6px', color: '#666666', fontSize: 12, fontWeight: 400, fontStyle: 'italic' }}>
-            Your phone number must be connected to WhatsApp so our team can reach you easily.
+            Nomor telepon Anda harus terhubung dengan WhatsApp agar perusahaan dapat menghubungi Anda dengan mudah.
           </Typography>
           <Box sx={{ display: 'flex', gap: '12px' }}>
             <FormControl error={!!errors.country}>
@@ -237,7 +237,7 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
                 render={({ field }) => (
                   <Select {...field} value={field.value || 0}>
                     <MenuItem value={0} disabled>
-                      Country
+                      Negara
                     </MenuItem>
                     {country &&
                       country.map((item, index) => (
@@ -272,7 +272,7 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
         </Box>
         <FormControl fullWidth error={!!errors.gender}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Gender <span style={{ color: '#F22' }}>*</span>
+            Jenis Kelamin <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='gender'
@@ -290,7 +290,7 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value === 'm' ? '#0B58A6' : '#BFBFBF', fontSize: 14, fontWeight: 400 }}>
-                    Male
+                    Pria
                   </Typography>
                 </Box>
                 <Box
@@ -304,7 +304,7 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value === 'f' ? '#0B58A6' : '#BFBFBF', fontSize: 14, fontWeight: 400 }}>
-                    Female
+                    Wanita
                   </Typography>
                 </Box>
               </Box>

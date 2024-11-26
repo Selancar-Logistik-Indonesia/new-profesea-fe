@@ -102,7 +102,7 @@ const CompleteOnboarding = (props: Prop) => {
         <IconButton
           size='small'
           onClick={() => handleCloseDialog()}
-          sx={{ position: 'absolute', right: isXs ? '8px' : '32', top: isXs ? '8px' : '41' }}
+          sx={{ position: 'absolute', right: isXs ? '8px' : '32px', top: isXs ? '8px' : '41px', zIndex: 10000000001 }}
         >
           <Icon icon='mdi:close' color='white' fontSize={isXs ? 24 : 32} />
         </IconButton>
@@ -117,24 +117,24 @@ const CompleteOnboarding = (props: Prop) => {
           }}
         >
           <Box display='flex' flexDirection='column' gap='24px'>
-            <Typography sx={{ color: '#FAFAFA', fontSize: 40, fontWeight: 700 }}>Yay! 🎉 You're all set!</Typography>
+            <Typography sx={{ color: '#FAFAFA', fontSize: 40, fontWeight: 700 }}>Yay! Anda sudah siap! 🎉</Typography>
             <Box display='flex' flexDirection='column' gap='16px'>
               <Typography sx={{ color: '#FFF', fontSize: 20, fontWeight: 700 }}>
-                Welcome on board, {user?.name}!
+                Selamat bergabung, {user?.name}!
               </Typography>
               {employeeType === 'employer' ? (
                 <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
-                  You've successfully completed the onboarding process. Now, it's time to get Noticed by candidates!
+                  Proses onboarding Anda telah selesai. Kini saatnya menarik perhatian kandidat!
                   <br />
-                  Complete your profile to improve your chances of landing the right candidates. Here's what you need to
-                  fill in:
+                  Lengkapi profil perusahaan Anda untuk meningkatkan peluang mendapatkan kandidat yang sesuai dengan
+                  kebutuhan perusahaan anda. Berikut adalah hal-hal yang perlu Anda lengkapi:
                 </Typography>
               ) : (
                 <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
-                  You've successfully completed the onboarding process. Now, it's time to get Noticed by employers!
+                  Proses onboarding Anda telah selesai. Kini saatnya menarik perhatian perusahaan!
                   <br />
-                  Complete your profile to improve your chances of landing the right job opportunities. Here's what you
-                  need to fill in:
+                  Lengkapi profil Anda untuk meningkatkan peluang mendapatkan kesempatan kerja yang tepat. Berikut
+                  adalah hal-hal yang perlu Anda lengkapi:
                 </Typography>
               )}
             </Box>
@@ -143,18 +143,18 @@ const CompleteOnboarding = (props: Prop) => {
             {employeeType === 'employer' ? (
               user?.photo === null && (
                 <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
-                  • <b>Profile Picture</b>: Help candidates put a face to your name.
+                  • <b>Foto Profil</b>: Bantu kandidat mengenali Anda dengan menambahkan foto.
                 </Typography>
               )
             ) : (
               <>
                 {user?.photo === null && (
                   <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
-                    • <b>Profile Picture</b>: Help employers put a face to your name.
+                    • <b>Foto Profil</b>: Bantu perusahaan mengenali Anda dengan menambahkan foto.
                   </Typography>
                 )}
                 <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
-                  • <b>Education</b>: Showcase your academic background.
+                  • <b>Pendidikan</b>: Tampilkan latar belakang akademik Anda.
                 </Typography>
               </>
             )}
@@ -162,32 +162,52 @@ const CompleteOnboarding = (props: Prop) => {
               <>
                 {user?.no_experience === true && (
                   <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
-                    • <b>Sea Experience</b>: Share your maritime journey and roles.
+                    • <b>Pengalaman di Laut</b>: Ceritakan perjalanan karier maritim Anda dan peran yang pernah
+                    dijalani.
                   </Typography>
                 )}
                 <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
-                  • <b>Upload Sea Book</b>: Verify your sea service history.
+                  • <b>Unggah Buku Pelaut</b>: Verifikasi riwayat pengalaman Anda di laut.
                 </Typography>
               </>
             )}
             {employeeType === 'professional' && user?.no_experience === true && (
               <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
-                • <b>Experience</b>: Share your journey and experience.
+                • <b>Pengalaman Bekerja</b>: Ceritakan perjalanan karier Anda dan peran yang pernah dijalani.
               </Typography>
             )}
             {employeeType === 'employer' ? (
               <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
                 • <b>Upload Document</b>: Highlight your qualifications and credentials.
               </Typography>
+            ) : employeeType === 'seafarer' ? (
+              <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
+                • <b>Unggah Sertifikat</b>: Tunjukkan kualifikasi dan kredensial Anda.
+              </Typography>
             ) : (
               <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
-                • <b>Upload Certificates</b>: Highlight your qualifications and credentials.
+                • <b>Unggah Sertifikat</b>: Tunjukkan sertifikasi profesional Anda agar tampil lebih dibandingkan
+                kandidat lain.
               </Typography>
             )}
           </Box>
-          <Typography sx={{ color: '#FFF', fontSize: 18, fontWeight: 700 }}>
-            The more you complete, the better your profile will stand out!
-          </Typography>
+          {employeeType === 'employer' ? (
+            <Typography sx={{ color: '#FFF', fontSize: 18, fontWeight: 700 }}>
+              Semakin lengkap profil perusahaan Anda, semakin besar peluang untuk <b>lebih terlihat oleh kandidat!</b>
+            </Typography>
+          ) : employeeType === 'seafarer' ? (
+            <Typography sx={{ color: '#FFF', fontSize: 18, fontWeight: 700 }}>
+              Semakin lengkap profil Anda, semakin besar peluang untuk{' '}
+              <b>
+                lebih terlihat oleh perusahaan <i>crewing</i>!
+              </b>
+            </Typography>
+          ) : (
+            <Typography sx={{ color: '#FFF', fontSize: 18, fontWeight: 700 }}>
+              Semakin lengkap profil Anda, semakin besar peluang untuk <b>lebih terlihat oleh perusahaan!</b>
+            </Typography>
+          )}
+
           <Box
             sx={{
               display: 'flex',

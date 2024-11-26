@@ -75,7 +75,7 @@ const CompanyAbout = ({ beforeLink, nextLink }: { beforeLink: string; nextLink: 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <FormControl fullWidth error={!!errors.website}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            Website <span style={{ color: '#F22' }}>*</span>
+            Situs Web <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='website'
@@ -83,7 +83,7 @@ const CompanyAbout = ({ beforeLink, nextLink }: { beforeLink: string; nextLink: 
             render={({ field }) => (
               <TextField
                 {...field}
-                placeholder='Enter your website'
+                placeholder='Masukkan Situs Web perusahaan Anda'
                 error={!!errors.website}
                 helperText={errors.website?.message}
               />
@@ -91,14 +91,16 @@ const CompanyAbout = ({ beforeLink, nextLink }: { beforeLink: string; nextLink: 
           />
         </FormControl>
         <FormControl fullWidth error={!!errors.about}>
-          <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>About Company</Typography>
+          <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+            Tentang Perusahaan
+          </Typography>
           <Controller
             name='about'
             control={control}
             render={({ field }) => (
               <TextField
                 {...field}
-                placeholder='Enter your about'
+                placeholder='Tulis sesuatu tentang perusahaan Anda....'
                 error={!!errors.about}
                 helperText={errors.about?.message}
               />

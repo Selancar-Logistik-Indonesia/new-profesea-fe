@@ -13,7 +13,7 @@ const Onboarding = () => {
         xs={12}
         md={6}
         sx={{
-          py: '44px',
+          p: '44px 32px',
           height: '100%',
           backgroundColor: '#FAFAFA',
           display: 'flex',

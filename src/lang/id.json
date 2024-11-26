@@ -208,47 +208,47 @@
       }
     },
     "input": {
-      "login": "Log in",
-      "g_login": "Continue with Google",
-      "register": "Register",
-      "email": "Email Address",
-      "password": "Password",
-      "password_2": "Confirm Password",
+      "login": "Masuk",
+      "g_login": "Masuk dengan Google",
+      "register": "Registrasi",
+      "email": "Alamat Email",
+      "password": "Kata Sandi",
+      "password_2": "Konfirmasi Kata Sandi",
       "password_tip": "Minimal 8 karakter. Gunakan kombinasi angka, huruf, simbol, serta huruf besar dan kecil.",
-      "forgot_password": "Forgot Password?",
-      "continue": "Continue",
-      "or": "or",
-      "resend_verification": "Resend verification email"
+      "forgot_password": "Lupa Password?",
+      "continue": "Lanjutkan",
+      "or": "atau",
+      "resend_verification": "Kirim ulang verifikasi alamat email"
     },
     "tos": {
-      "tos_me": "I agree to the",
-      "tos_start": "By signing up, you acknowledge that you have read and understood, and agree to Profesea's",
-      "tos_terms": "Terms",
-      "tos_and": "and",
-      "tos_privacy": "Privacy Policy.",
-      "tos_end": ""
+      "tos_me": "Saya menyetujui",
+      "tos_start": "Dengan mendaftar, Anda mengakui bahwa Anda telah membaca, memahami, dan menyetujui",
+      "tos_terms": "Ketentuan",
+      "tos_and": "dan",
+      "tos_privacy": "Kebijakan Privasi",
+      "tos_end": "Profesea."
     },
     "login_page": {
-      "title_1": "Log in to Profesea!",
-      "title_2": "Log in to Profesea",
-      "description": "And start sail with us!",
+      "title_1": "Masuk ke Profesea!",
+      "title_2": "Masuk ke Profesea",
+      "description": "Dan mulai berlayar bersama kami!",
       "dialog": {
-        "title": "Oops! It seems the email you entered is not registered.",
-        "description": "Please check your email or register for a new account.",
-        "continue": "Continue to Registration",
-        "cancel": "Cancel"
+        "title": "Oops! Sepertinya email yang Anda masukkan belum terdaftar.",
+        "description": "Silakan periksa email Anda atau daftar untuk akun baru.",
+        "continue": "Lanjutkan ke Pendaftaran",
+        "cancel": "Batalkan"
       },
-      "account": "Don't have an account?"
+      "account": "Belum punya akun?"
     },
     "register_page": {
-      "title_1": "Register to Profesea!",
-      "title_2": "Fill the Registration Form",
-      "description": "And start sail with us!",
+      "title_1": "Daftar ke Profesea!",
+      "title_2": "Isi Formulir Pendaftaran",
+      "description": "Dan mulai berlayar bersama kami!",
       "dialog": {
-        "title": "Oops! It seems the email you entered is already registered.",
-        "description": "Please check your email or login to your account.",
-        "continue": "Continue to Log in",
-        "cancel": "Cancel"
+        "title": "Oops! Sepertinya email yang Anda masukkan sudah terdaftar.",
+        "description": "Silakan periksa email Anda atau masuk menggunakan akun Anda.",
+        "continue": "Lanjutkan ke Log in",
+        "cancel": "Batalkan"
       },
       "return_dialog": {
         "title": "Batalkan proses pendaftaran?",
@@ -256,7 +256,7 @@
         "continue": "Lanjutkan Pendaftaran",
         "cancel": "Ya, Batalkan"
       },
-      "account": "Already have an account?"
+      "account": "Sudah punya akun?"
     },
     "landing_page": {
       "title": "Solusi Ekosistem Maritim & Logistik",

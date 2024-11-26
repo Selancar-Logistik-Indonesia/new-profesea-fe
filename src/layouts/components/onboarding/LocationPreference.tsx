@@ -43,7 +43,7 @@ const LocationPreference = ({ beforeLink, nextLink }: { beforeLink: string; next
       setCity(data)
     })
 
-    if (user && user.field_preference) {
+    if (user && user.field_preference && user.field_preference.city) {
       setValue('city', user.field_preference.city.id)
     }
   }
@@ -76,7 +76,7 @@ const LocationPreference = ({ beforeLink, nextLink }: { beforeLink: string; next
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <FormControl error={!!errors.city}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-            City <span style={{ color: '#F22' }}>*</span>
+            Kota <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
             name='city'
@@ -84,7 +84,7 @@ const LocationPreference = ({ beforeLink, nextLink }: { beforeLink: string; next
             render={({ field }) => (
               <Select {...field} value={field.value || 0}>
                 <MenuItem value={0} disabled>
-                  Choose city
+                  Pilih Kota
                 </MenuItem>
                 {city &&
                   city.map((item, index) => (

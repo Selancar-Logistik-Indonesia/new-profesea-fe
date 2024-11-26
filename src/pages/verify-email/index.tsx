@@ -6,10 +6,12 @@ import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
+import { useTranslation } from 'react-i18next'
 
 const VerifyEmail = () => {
   const router = useRouter()
   const { user, refreshSession } = useAuth()
+  const { t } = useTranslation()
 
   const [onLoading, setOnLoading] = useState(false)
   const [canResend, setCanResend] = useState(true)
@@ -113,7 +115,7 @@ const VerifyEmail = () => {
               }}
             >
               Silakan klik link yang kami kirimkan melalui email Anda untuk menyelesaikan proses pendaftaran. Jika tidak
-              menemukannya, mohon periksa juga <b>folder Junk/Spam</b>. Atau klik <b>continue</b> jika telah berhasil
+              menemukannya, mohon periksa juga <b>folder Junk/Spam</b>. Atau klik <b>Lanjutkan</b> jika telah berhasil
               memverifikasi email Anda.
             </Typography>
             <Box sx={{ display: 'flex', gap: '2px' }}>
@@ -140,7 +142,7 @@ const VerifyEmail = () => {
             sx={{ textTransform: 'none', fontSize: 14 }}
             onClick={() => checkEmailVerification()}
           >
-            Continue
+            {t('input.continue')}
           </Button>
         </Box>
       </Grid>
