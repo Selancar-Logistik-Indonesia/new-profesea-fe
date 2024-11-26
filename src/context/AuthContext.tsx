@@ -73,6 +73,7 @@ const AuthProvider = ({ children }: Props) => {
       } else {
         await router.replace(`/verify-email/`)
       }
+
       return
     }
 
@@ -81,10 +82,12 @@ const AuthProvider = ({ children }: Props) => {
 
       if (user.last_step === 'role-selection') {
         await router.replace(`/${user.last_step}`)
+
         return
       }
 
       await router.replace(`/onboarding/${onboardingLink}/${user.last_step}`)
+
       return
     }
   }

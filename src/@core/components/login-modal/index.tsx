@@ -31,7 +31,6 @@ import DialogSuccess from 'src/pages/loginevent/DialogSuccess'
 // import DialogGoogleLogin from './DialogGoogleLogin'
 import DialogMessage from './DialogMessage'
 import { useTheme } from '@mui/material'
-import { useRouter } from 'next/router'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -74,7 +73,6 @@ interface FormData {
 }
 
 const DialogLogin = (props: BlockDialog) => {
-  const router = useRouter()
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.down('md'))
   const isMd = useMediaQuery(theme.breakpoints.down('lg'))
