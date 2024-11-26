@@ -206,66 +206,90 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
           />
         </FormControl>
         {!noExperience && (
-          <>
-            <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 700 }}>
-              Jika Anda memiliki pengalaman, Harap isi detail pengalaman pekerjaan Anda agar kami dapat menghubungkan
-              Anda dengan pekerjaan yang tepat.
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <FormControl fullWidth error={!!errors.position}>
-                <Typography sx={{ mb: '6px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Jabatan <span style={{ color: '#F22' }}>*</span>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <FormControl fullWidth error={!!errors.position}>
+              <Typography sx={{ mb: '6px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Jabatan <span style={{ color: '#F22' }}>*</span>
+              </Typography>
+              <Controller
+                name='position'
+                control={control}
+                render={({ field }) => (
+                  <Select {...field} value={field.value || 0}>
+                    <MenuItem value={0} disabled>
+                      Pilih Jabatan
+                    </MenuItem>
+                    {position &&
+                      position.map(item => (
+                        <MenuItem key={item.id} value={item.name}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                )}
+              />
+            </FormControl>
+            <FormControl fullWidth error={!!errors.company}>
+              <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Perusahaan <span style={{ color: '#F22' }}>*</span>
+              </Typography>
+              <Controller
+                name='company'
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    placeholder='Masukan nama perusahaan anda'
+                    error={!!errors.company}
+                    helperText={errors.company?.message}
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl fullWidth error={!!errors.isCurrent}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Controller name='isCurrent' control={control} render={({ field }) => <Checkbox {...field} />} />
+                <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>
+                  Saya saat ini bekerja di posisi dan perusahaan ini
                 </Typography>
-                <Controller
-                  name='position'
-                  control={control}
-                  render={({ field }) => (
-                    <Select {...field} value={field.value || 0}>
-                      <MenuItem value={0} disabled>
-                        Pilih Jabatan
-                      </MenuItem>
-                      {position &&
-                        position.map(item => (
-                          <MenuItem key={item.id} value={item.name}>
-                            {item.name}
-                          </MenuItem>
-                        ))}
-                    </Select>
-                  )}
-                />
-              </FormControl>
-              <FormControl fullWidth error={!!errors.company}>
-                <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Perusahaan <span style={{ color: '#F22' }}>*</span>
-                </Typography>
-                <Controller
-                  name='company'
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
+              </Box>
+            </FormControl>
+            <FormControl fullWidth error={!!errors.signIn}>
+              <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Tanggal Mulai <span style={{ color: '#F22' }}>*</span>
+              </Typography>
+              <Controller
+                name='signIn'
+                control={control}
+                render={({ field }) => (
+                  <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <DatePicker
                       {...field}
-                      fullWidth
-                      placeholder='Masukan nama perusahaan anda'
-                      error={!!errors.company}
-                      helperText={errors.company?.message}
+                      format='DD/MM/YYYY'
+                      openTo='year'
+                      views={['year', 'month', 'day']}
+                      maxDate={moment(time)}
+                      value={moment(field.value)}
+                      slotProps={{
+                        textField: {
+                          fullWidth: true,
+                          error: !!errors.signIn,
+                          helperText: errors.signIn?.message
+                        }
+                      }}
                     />
-                  )}
-                />
-              </FormControl>
-              <FormControl fullWidth error={!!errors.isCurrent}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Controller name='isCurrent' control={control} render={({ field }) => <Checkbox {...field} />} />
-                  <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>
-                    Saya saat ini bekerja di posisi dan perusahaan ini
-                  </Typography>
-                </Box>
-              </FormControl>
-              <FormControl fullWidth error={!!errors.signIn}>
+                  </LocalizationProvider>
+                )}
+              />
+            </FormControl>
+            {!isCurrent && (
+              <FormControl fullWidth error={!!errors.signOff}>
                 <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Tanggal Mulai <span style={{ color: '#F22' }}>*</span>
+                  Tanggal Berhenti <span style={{ color: '#F22' }}>*</span>
                 </Typography>
                 <Controller
-                  name='signIn'
+                  name='signOff'
                   control={control}
                   render={({ field }) => (
                     <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -274,13 +298,12 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
                         format='DD/MM/YYYY'
                         openTo='year'
                         views={['year', 'month', 'day']}
-                        maxDate={moment(time)}
                         value={moment(field.value)}
                         slotProps={{
                           textField: {
                             fullWidth: true,
-                            error: !!errors.signIn,
-                            helperText: errors.signIn?.message
+                            error: !!errors.signOff,
+                            helperText: errors.signOff?.message
                           }
                         }}
                       />
@@ -288,55 +311,26 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
                   )}
                 />
               </FormControl>
-              {!isCurrent && (
-                <FormControl fullWidth error={!!errors.signOff}>
-                  <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                    Tanggal Berhenti <span style={{ color: '#F22' }}>*</span>
-                  </Typography>
-                  <Controller
-                    name='signOff'
-                    control={control}
-                    render={({ field }) => (
-                      <LocalizationProvider dateAdapter={AdapterMoment}>
-                        <DatePicker
-                          {...field}
-                          format='DD/MM/YYYY'
-                          openTo='year'
-                          views={['year', 'month', 'day']}
-                          value={moment(field.value)}
-                          slotProps={{
-                            textField: {
-                              fullWidth: true,
-                              error: !!errors.signOff,
-                              helperText: errors.signOff?.message
-                            }
-                          }}
-                        />
-                      </LocalizationProvider>
-                    )}
+            )}
+            <FormControl fullWidth error={!!errors.description}>
+              <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>Deskripsi</Typography>
+              <Controller
+                name='description'
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    multiline
+                    maxRows={3}
+                    placeholder='Tulis deskirpsi pekerjaan anda...'
+                    error={!!errors.description}
+                    helperText={errors.description?.message}
+                    sx={{ flexGrow: 1 }}
                   />
-                </FormControl>
-              )}
-              <FormControl fullWidth error={!!errors.description}>
-                <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>Deskripsi</Typography>
-                <Controller
-                  name='description'
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      multiline
-                      maxRows={3}
-                      placeholder='Tulis deskirpsi pekerjaan anda...'
-                      error={!!errors.description}
-                      helperText={errors.description?.message}
-                      sx={{ flexGrow: 1 }}
-                    />
-                  )}
-                />
-              </FormControl>
-            </Box>
-          </>
+                )}
+              />
+            </FormControl>
+          </Box>
         )}
       </Box>
       <Box sx={{ my: '32px', display: 'flex', justifyContent: 'space-between' }}>
