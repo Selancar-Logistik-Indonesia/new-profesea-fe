@@ -83,7 +83,7 @@ const CompleteOnboarding = (props: Prop) => {
             left: 0,
             width: '100%',
             height: '100%',
-            backgroundImage: "url('/images/complete-onboard.png')",
+            backgroundImage: "url('/images/complete-onboard.jpg')",
             backgroundSize: isXs ? 'cover' : '100%',
             backgroundPosition: 'center',
             zIndex: 0,
@@ -160,25 +160,29 @@ const CompleteOnboarding = (props: Prop) => {
             )}
             {employeeType === 'seafarer' && (
               <>
-                {user?.no_experience === true && (
-                  <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
-                    • <b>Pengalaman di Laut</b>: Ceritakan perjalanan karier maritim Anda dan peran yang pernah
-                    dijalani.
-                  </Typography>
-                )}
+                <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
+                  • <b>Pengalaman di Laut</b>: Ceritakan lebih banyak perjalanan karier maritim Anda dan peran yang
+                  pernah dijalani.
+                </Typography>
                 <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
                   • <b>Unggah Buku Pelaut</b>: Verifikasi riwayat pengalaman Anda di laut.
                 </Typography>
               </>
             )}
-            {employeeType === 'professional' && user?.no_experience === true && (
+            {employeeType === 'professional' && (
               <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
-                • <b>Pengalaman Bekerja</b>: Ceritakan perjalanan karier Anda dan peran yang pernah dijalani.
+                • <b>Pengalaman Bekerja</b>: Ceritakan lebih banyak perjalanan karier Anda dan peran yang pernah
+                dijalani.
+              </Typography>
+            )}
+            {employeeType === 'employer' && !user?.about && (
+              <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
+                • <b>Tentang Perusahaan</b>: Tampilkan latar belakang dan bisnis perusahaan Anda.
               </Typography>
             )}
             {employeeType === 'employer' ? (
               <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>
-                • <b>Upload Document</b>: Highlight your qualifications and credentials.
+                • <b>Unggah Lowongan Kerja</b>: Mulai buat lowongan kerja di Profesea!
               </Typography>
             ) : employeeType === 'seafarer' ? (
               <Typography sx={{ color: '#FFF', fontSize: 16, fontWeight: 400 }}>

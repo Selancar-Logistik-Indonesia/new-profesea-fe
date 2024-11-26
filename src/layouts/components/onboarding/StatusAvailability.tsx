@@ -89,11 +89,11 @@ const StatusAvailability = ({ beforeLink, nextLink }: { beforeLink: string; next
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-            Atur Status Ketersediaan Anda.
+            Beritahu kami kapan Anda siap bekerja
           </Typography>
           <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
-            Beri tahu kami jika Anda saat ini tersedia untuk bekerja, agar kami dapat menyesuaikan rekomendasi pekerjaan
-            dan peluang jaringan yang tepat bagi Anda.
+            Pilih waktu kapan Anda bersedia untuk bekerja, agar kami dapat menyesuaikan rekomendasi pekerjaan dan
+            peluang jaringan yang tepat bagi Anda.
           </Typography>
         </Box>
         <FormControl fullWidth error={!!errors.openToWork}>
@@ -116,7 +116,7 @@ const StatusAvailability = ({ beforeLink, nextLink }: { beforeLink: string; next
                   }}
                 >
                   <Typography sx={{ color: value === 1 ? '#0B58A6' : '#BFBFBF', fontSize: 14, fontWeight: 400 }}>
-                    Terbuka untuk Bekerja
+                    Siap Bekerja
                   </Typography>
                 </Box>
                 <Box
@@ -130,7 +130,7 @@ const StatusAvailability = ({ beforeLink, nextLink }: { beforeLink: string; next
                   }}
                 >
                   <Typography sx={{ color: value === 0 ? '#0B58A6' : '#BFBFBF', fontSize: 14, fontWeight: 400 }}>
-                    Tidak Tersedia
+                    Belum Siap
                   </Typography>
                 </Box>
               </Box>

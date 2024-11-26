@@ -193,7 +193,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value ? '#BFBFBF' : '#0B58A6', fontSize: 14, fontWeight: 400 }}>
-                    Ya, saya memiliki pengalaman
+                    Ya, saya memiliki pengalaman bekerja
                   </Typography>
                 </Box>
                 <Box
@@ -207,7 +207,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value ? '#0B58A6' : '#BFBFBF', fontSize: 14, fontWeight: 400 }}>
-                    Tidak, saya tidak memiliki pengalaman.
+                    Tidak, saya belum memiliki pengalaman bekerja
                   </Typography>
                 </Box>
               </Box>
@@ -294,7 +294,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                     <TextField
                       {...field}
                       fullWidth
-                      placeholder='Masukkan nama perusahaan'
+                      placeholder='Masukkan nama kapal anda'
                       error={!!errors.vesselName}
                       helperText={errors.vesselName?.message}
                     />
