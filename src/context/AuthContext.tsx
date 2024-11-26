@@ -34,7 +34,7 @@ const AuthProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
   const router = useRouter()
 
-  const initAuth = async (): Promise<void> => {
+  const initAuth = async (thirdParty?: string): Promise<void> => {
     const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
     if (storedToken) {
       setLoading(true)
@@ -45,6 +45,8 @@ const AuthProvider = ({ children }: Props) => {
           setAbilities(response.data.abilities)
           secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
           secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+
+          handleRedirection(response.data.user, thirdParty)
         })
         .catch(error => {
           localStorage.removeItem('userData')
@@ -61,6 +63,32 @@ const AuthProvider = ({ children }: Props) => {
         })
     } else {
       setLoading(false)
+    }
+  }
+
+  const handleRedirection = async (user: any, thirdParty?: string) => {
+    if (!user.email_verified_at) {
+      if (thirdParty) {
+        await router.replace(`/set-password/${user.rememberToken}/${user.email}`)
+      } else {
+        await router.replace(`/verify-email/`)
+      }
+
+      return
+    }
+
+    if (user.last_step !== 'completed') {
+      const onboardingLink = getOnboardingLink(user)
+
+      if (user.last_step === 'role-selection') {
+        await router.replace(`/${user.last_step}`)
+
+        return
+      }
+
+      await router.replace(`/onboarding/${onboardingLink}/${user.last_step}`)
+
+      return
     }
   }
 
@@ -92,22 +120,7 @@ const AuthProvider = ({ children }: Props) => {
         initAuth()
 
         const tempUser = response.data.user
-        if (tempUser.email_verified_at === null) {
-          router.push(`/verify-email/`)
-
-          return
-        } else if (tempUser.email_verified_at !== null) {
-          if (tempUser.last_step !== 'completed' && tempUser.last_step !== 'role-selection') {
-            router.push(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
-
-            return
-          }
-          if (tempUser.last_step === 'role-selection') {
-            router.push(`/${tempUser.last_step}`)
-
-            return
-          }
-        }
+        handleRedirection(tempUser)
 
         if (isReturn) {
           const returnUrl = router.query.returnUrl
@@ -157,25 +170,10 @@ const AuthProvider = ({ children }: Props) => {
         secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
 
-        initAuth()
+        initAuth('google')
 
         const tempUser = response.data.user
-        if (tempUser.email_verified_at === null) {
-          await router.replace(`/set-password/${tempUser.rememberToken}/${tempUser.email}`)
-
-          return
-        } else if (tempUser.email_verified_at !== null) {
-          if (tempUser.last_step !== 'completed' && tempUser.last_step !== 'role-selection') {
-            router.push(`/onboarding/${getOnboardingLink(tempUser)}/${tempUser.last_step}`)
-
-            return
-          }
-          if (tempUser.last_step === 'role-selection') {
-            router.push(`/${tempUser.last_step}`)
-
-            return
-          }
-        }
+        handleRedirection(tempUser, 'google')
 
         const returnUrl = router.query.returnUrl
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'

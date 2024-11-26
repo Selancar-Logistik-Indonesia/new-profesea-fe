@@ -26,7 +26,7 @@ const Onboarding = () => {
       >
         <Box sx={{ width: '480px', display: 'flex', flexDirection: 'column' }}>
           <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
-          <Box sx={{ my: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <Box sx={{ mt: '32px', pb: '100px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <ProgressBar current={3} total={5} />
             <JobPreference
               beforeLink='/onboarding/professional/step-two'

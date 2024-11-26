@@ -16,8 +16,8 @@ type FormData = {
 }
 
 const schema = yup.object().shape({
-  website: yup.string().required(),
-  about: yup.string().optional()
+  website: yup.string().notRequired(),
+  about: yup.string().notRequired()
 })
 
 const CompanyAbout = ({ beforeLink, nextLink }: { beforeLink: string; nextLink: string }) => {
@@ -100,6 +100,8 @@ const CompanyAbout = ({ beforeLink, nextLink }: { beforeLink: string; nextLink: 
             render={({ field }) => (
               <TextField
                 {...field}
+                multiline
+                maxRows={3}
                 placeholder='Tulis sesuatu tentang perusahaan Anda....'
                 error={!!errors.about}
                 helperText={errors.about?.message}

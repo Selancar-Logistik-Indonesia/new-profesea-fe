@@ -30,7 +30,7 @@ const Onboarding = () => {
             <ProgressBar current={6} total={6} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-                Bagikan Pengalaman Maritim Anda
+                Bagikan Pengalaman Terakhir Maritim Anda
               </Typography>
               <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
                 Dengan menginformasikan pekerjaan terkini atau pengalaman terakhir Anda, kami akan membantu Anda

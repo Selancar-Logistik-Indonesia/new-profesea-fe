@@ -111,9 +111,9 @@ const JobDetail = () => {
       "@type": "Place",
         "address": {
         "@type": "PostalAddress",
-        "streetAddress": "${jobDetail?.company.address.address}",
-        "addressLocality": "${jobDetail?.company.address.city.city_name}",
-        "addressCountry": "${jobDetail?.country.iso}"
+        "streetAddress": "${jobDetail?.company.address?.address}",
+        "addressLocality": "${jobDetail?.company.address?.city?.city_name}",
+        "addressCountry": "${jobDetail?.country?.iso}"
         }
       },
       "baseSalary": {

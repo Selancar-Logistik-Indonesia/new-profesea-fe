@@ -17,7 +17,7 @@ const SeafarerProfileCard = () => {
   const user = UserData()
 
   return (
-    <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '381px', p: '24px' }}>
+    <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '435px', p: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <Avatar
@@ -122,7 +122,7 @@ const ProfessionalProfileCard = () => {
   const user = UserData()
 
   return (
-    <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '381px', p: '24px' }}>
+    <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '435px', p: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <Avatar
@@ -224,7 +224,7 @@ const EmployerProfileCard = () => {
   }
 
   return (
-    <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '381px', p: '24px' }}>
+    <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '435px', p: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <Avatar
