@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react'
-import { Box, Button, CircularProgress, Divider, Grid, IconButton, Typography } from '@mui/material'
+import { Alert, AlertTitle, Box, Button, CircularProgress, Divider, Grid, IconButton, Typography } from '@mui/material'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -67,6 +67,17 @@ const TrainingDetailPage = () => {
       >
         <Grid item xs={12} md={7}>
           <Box sx={{ p: 10, backgroundColor: '#FFFFFF' }}>
+            {new Date() > new Date(training?.schedule) && (
+              <Box sx={{ mb: 5 }}>
+                <Alert severity='warning' sx={{ border: '3px solid orange' }}>
+                  <AlertTitle sx={{ fontSize: 20, color: 'black !important', fontWeight: 'bold' }}>
+                    Enrollment closed for this training
+                  </AlertTitle>
+                  Don't worry, this course will be available in the next session! Stay tuned for updates and be the
+                  first to secure your spot.
+                </Alert>
+              </Box>
+            )}
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Grid
                 sx={{
@@ -180,7 +191,12 @@ const TrainingDetailPage = () => {
                   Joined
                 </Button>
               ) : (
-                <Button variant='contained' size='small' onClick={handleEnrollClick} disabled={!training?.cta}>
+                <Button
+                  variant='contained'
+                  size='small'
+                  onClick={handleEnrollClick}
+                  disabled={!training?.cta || new Date() > new Date(training?.schedule)}
+                >
                   Enroll Now
                 </Button>
               )}
