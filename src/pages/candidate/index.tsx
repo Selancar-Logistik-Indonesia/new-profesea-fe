@@ -12,7 +12,7 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-// import CandidateProfile from 'src/layouts/components/CandidateProfile'
+import CandidateProfile from 'src/layouts/components/CandidateProfile'
 import { Icon } from '@iconify/react'
 import DialogProfilePicture from './DialogProfilePicture'
 import AccordionTabGeneral from './accordion-tab-general/AccordionTabGeneral'
@@ -116,6 +116,48 @@ const Candidate = () => {
     // setOpenPreview(false)
     Firstload()
   }, [])
+
+  if (selectedUser?.employee_type == 'offship') {
+    return (
+      <>
+        <Grid item xs={12}>
+          <Grid
+            container
+            item
+            xs={12}
+            sx={{
+              borderBottom: 1,
+              borderColor: 'divider',
+              boxSizing: 'border-box',
+              border: '1px solid rgba(76, 78, 100, 0.12)',
+              borderRadius: '5px',
+              backgroundColor: '#FFFFFF',
+              marginTop: '10px',
+              direction: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'top',
+              alignContent: 'top',
+              padding: '20px'
+            }}
+          >
+            <Grid item xs={12}>
+              <Grid container item xs={12} marginBottom={'10px'}>
+                <Grid container item xs={12} justifyContent={'left'}>
+                  <Typography variant='h3' color={'#32487A'} fontWeight='800' fontSize={18}>
+                    {' '}
+                    Resume Builder
+                  </Typography>
+                </Grid>
+              </Grid>
+              {selectedUser != null && (
+                <CandidateProfile visible={true} datauser={selectedUser} address={selectedUser.address} />
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
+      </>
+    )
+  }
 
   return (
     <>
@@ -273,42 +315,6 @@ const Candidate = () => {
             </Grid>
           </Grid>
         </Box>
-
-        {/* <Grid item xs={12}>
-          <Grid
-            container
-            item
-            xs={12}
-            sx={{
-              borderBottom: 1,
-              borderColor: 'divider',
-              boxSizing: 'border-box',
-              border: '1px solid rgba(76, 78, 100, 0.12)',
-              borderRadius: '5px',
-              backgroundColor: '#FFFFFF',
-              marginTop: '10px',
-              direction: 'row',
-              justifyContent: 'flex-start',
-              alignItems: 'top',
-              alignContent: 'top',
-              padding: '20px'
-            }}
-          >
-            <Grid item xs={12}>
-              <Grid container item xs={12} marginBottom={'10px'}>
-                <Grid container item xs={12} justifyContent={'left'}>
-                  <Typography variant='h3' color={'#32487A'} fontWeight='800' fontSize={18}>
-                    {' '}
-                    Resume Builder
-                  </Typography>
-                </Grid>
-              </Grid>
-              {selectedItem != null && (
-                  <CandidateProfile visible={true} datauser={selectedItem} address={selectedItem.address} />
-                )}
-            </Grid>
-          </Grid>
-        </Grid> */}
       </Grid>
     </>
   )
