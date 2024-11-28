@@ -149,7 +149,7 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
           </Typography>
           <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
             {user?.employee_type === 'onship'
-              ? 'Tentukan preferensi judul pekerjaan Anda. Pilih judul pekerjaan Anda untuk membantu kami menyesuaikan rekomendasi pekerjaan dan peluang jaringan yang sesuai dengan keahlian Anda.'
+              ? 'Pilih jabatan yang Anda inginkan untuk membantu kami menyesuaikan rekomendasi pekerjaan dan peluang jaringan yang sesuai dengan keahlian Anda.'
               : 'Pilih jabatan Anda. Tentukan peran profesional spesifik Anda untuk membantu kami menyesuaikan rekomendasi pekerjaan dan peluang jaringan yang sesuai dengan keahlian Anda.'}
           </Typography>
         </Box>

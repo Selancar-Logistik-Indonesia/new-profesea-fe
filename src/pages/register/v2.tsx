@@ -443,7 +443,7 @@ const LoginPage = () => {
                         size='large'
                         variant='outlined'
                         component={Link}
-                        href='https://apifix.profesea.id/auth/google?team_id=1&type=onship'
+                        href='https://apifix.profesea.id/auth/google'
                         startIcon={<Icon icon='devicon:google' fontSize={20} />}
                       >
                         {t('input.g_login')}

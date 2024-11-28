@@ -54,22 +54,22 @@ const OptionBox = ({
   )
 }
 
-const Shader = ({ employeeType, value }: { employeeType: string; value: string }) => {
-  return (
-    <Box
-      sx={{
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        top: 0,
-        left: 0,
-        backgroundColor: 'black',
-        opacity: employeeType === value || employeeType === '' ? 0.1 : 0.5,
-        zIndex: 2
-      }}
-    />
-  )
-}
+// const Shader = ({ employeeType, value }: { employeeType: string; value: string }) => {
+//   return (
+//     <Box
+//       sx={{
+//         position: 'absolute',
+//         width: '100%',
+//         height: '100%',
+//         top: 0,
+//         left: 0,
+//         backgroundColor: 'black',
+//         opacity: employeeType === value || employeeType === '' ? 0.1 : 0.5,
+//         zIndex: 2
+//       }}
+//     />
+//   )
+// }
 
 const RoleSelection = () => {
   const router = useRouter()
@@ -136,22 +136,35 @@ const RoleSelection = () => {
 
   return (
     <Grid container sx={{ height: '100vh' }}>
-      <Grid item xs={12} md={6} sx={{ p: '44px 32px', display: 'flex', justifyContent: 'center' }}>
+      <Grid
+        item
+        xs={12}
+        md={6}
+        sx={{
+          p: '44px 32px',
+          height: '100%',
+          backgroundColor: '#FAFAFA',
+          display: 'flex',
+          justifyContent: 'center',
+          overflowY: 'auto',
+          '&::-webkit-scrollbar': {
+            display: 'none'
+          }
+        }}
+      >
         <Box sx={{ width: '480px', display: 'flex', flexDirection: 'column' }}>
           <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
           <Box sx={{ my: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-                Personalisasi pengalaman Anda sesuai dengan peran Anda.
+                Silakan pilih peran yang paling sesuai.
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap', gap: '8px' }}>
                 <Box sx={{ flexShrink: 0 }}>
                   <Icon icon='ph:warning' color='red' fontSize={35} />
                 </Box>
                 <Typography>
-                  Setelah memilih jenis pengguna, Anda tidak dapat mengubah mode, dan <i>email</i> Anda akan tetap
-                  terhubung pada pilihan tersebut. Untuk mengakses mode lain, Anda perlu menggunakan <i>email</i> yang
-                  berbeda.
+                  Setiap pilihan peran hanya berlaku untuk satu akun/email dan tidak dapat diganti.
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -182,7 +195,7 @@ const RoleSelection = () => {
               </Box>
             </Box>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Box sx={{ pb: '85px', display: 'flex', justifyContent: 'flex-end' }}>
             <Button variant='contained' onClick={onSubmit} sx={{ width: '170px', textTransform: 'none' }}>
               Continue
             </Button>
@@ -190,11 +203,11 @@ const RoleSelection = () => {
         </Box>
       </Grid>
       <Hidden mdDown>
-        <Grid item container xs={6} direction='column'>
-          <Grid
-            item
+        <Grid item md={6} direction='column' sx={{ height: '100vh' }}>
+          <Box
             sx={{
-              height: employeeType === 'seafarer' ? '50vh' : employeeType === '' ? '33.33vh' : '25vh',
+              // height: employeeType === 'seafarer' ? '50vh' : employeeType === '' ? '33.33vh' : '25vh',
+              height: 1 / 3,
               ...landingPageStyle.Seafarer,
               display: 'display',
               alignContent: 'center',
@@ -203,7 +216,7 @@ const RoleSelection = () => {
               overflow: 'hidden'
             }}
           >
-            <Shader employeeType={employeeType} value='seafarer' />
+            {/* <Shader employeeType={employeeType} value='seafarer' /> */}
             <Typography
               sx={{
                 zIndex: employeeType === 'seafarer' ? 3 : 1,
@@ -216,11 +229,11 @@ const RoleSelection = () => {
             >
               Seafarer
             </Typography>
-          </Grid>
-          <Grid
-            item
+          </Box>
+          <Box
             sx={{
-              height: employeeType === 'professional' ? '50vh' : employeeType === '' ? '33.33vh' : '25vh',
+              // height: employeeType === 'professional' ? '50vh' : employeeType === '' ? '33.33vh' : '25vh',
+              height: 1 / 3,
               ...landingPageStyle.Professional,
               display: 'display',
               alignContent: 'center',
@@ -229,7 +242,7 @@ const RoleSelection = () => {
               overflow: 'hidden'
             }}
           >
-            <Shader employeeType={employeeType} value='professional' />
+            {/* <Shader employeeType={employeeType} value='professional' /> */}
             <Typography
               sx={{
                 zIndex: employeeType === 'professional' ? 3 : 1,
@@ -242,11 +255,11 @@ const RoleSelection = () => {
             >
               Professional
             </Typography>
-          </Grid>
-          <Grid
-            item
+          </Box>
+          <Box
             sx={{
-              height: employeeType === 'employer' ? '50vh' : employeeType === '' ? '33.33vh' : '25vh',
+              // height: employeeType === 'employer' ? '50vh' : employeeType === '' ? '33.33vh' : '25vh',
+              height: 1 / 3,
               ...landingPageStyle.Recruiter,
               display: 'display',
               alignContent: 'center',
@@ -255,7 +268,7 @@ const RoleSelection = () => {
               overflow: 'hidden'
             }}
           >
-            <Shader employeeType={employeeType} value='employer' />
+            {/* <Shader employeeType={employeeType} value='employer' /> */}
             <Typography
               sx={{
                 zIndex: employeeType === 'employer' ? 3 : 1,
@@ -268,7 +281,7 @@ const RoleSelection = () => {
             >
               Employer
             </Typography>
-          </Grid>
+          </Box>
         </Grid>
       </Hidden>
     </Grid>

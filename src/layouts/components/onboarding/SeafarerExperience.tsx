@@ -193,7 +193,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value ? '#BFBFBF' : '#0B58A6', fontSize: 14, fontWeight: 400 }}>
-                    Ya, saya memiliki pengalaman
+                    Ya, saya memiliki pengalaman bekerja
                   </Typography>
                 </Box>
                 <Box
@@ -207,7 +207,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value ? '#0B58A6' : '#BFBFBF', fontSize: 14, fontWeight: 400 }}>
-                    Tidak, saya tidak memiliki pengalaman.
+                    Tidak, saya belum memiliki pengalaman bekerja
                   </Typography>
                 </Box>
               </Box>
@@ -215,201 +215,195 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
           />
         </FormControl>
         {!noExperience && (
-          <>
-            <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 700 }}>
-              Silakan isi rincian pengalaman maritim Anda agar kami dapat menghubungkan Anda dengan pekerjaan yang tepat
-              di bidang ini.
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <FormControl fullWidth error={!!errors.company}>
-                <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Perusahaan <span style={{ color: '#F22' }}>*</span>
-                </Typography>
-                <Controller
-                  name='company'
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      fullWidth
-                      placeholder='Masukan nama perusahaan anda'
-                      error={!!errors.company}
-                      helperText={errors.company?.message}
-                    />
-                  )}
-                />
-              </FormControl>
-              <FormControl fullWidth error={!!errors.roleType}>
-                <Typography sx={{ mb: '6px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Pangkat atau Posisi <span style={{ color: '#F22' }}>*</span>
-                </Typography>
-                <Controller
-                  name='roleType'
-                  control={control}
-                  render={({ field }) => (
-                    <Select {...field} value={field.value || 0}>
-                      <MenuItem value={0} disabled>
-                        Pilih Pangkat Pekerjaan
-                      </MenuItem>
-                      {roleType &&
-                        roleType.map(item => (
-                          <MenuItem key={item.id} value={item.id}>
-                            {item.name}
-                          </MenuItem>
-                        ))}
-                    </Select>
-                  )}
-                />
-              </FormControl>
-              <FormControl fullWidth error={!!errors.vessel}>
-                <Typography sx={{ mb: '6px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Tipe Kapal <span style={{ color: '#F22' }}>*</span>
-                </Typography>
-                <Controller
-                  name='vessel'
-                  control={control}
-                  render={({ field }) => (
-                    <Select {...field} value={field.value || 0}>
-                      <MenuItem value={0} disabled>
-                        Pilih Kapal
-                      </MenuItem>
-                      {vessel &&
-                        vessel.map(item => (
-                          <MenuItem key={item.id} value={item.id}>
-                            {item.name}
-                          </MenuItem>
-                        ))}
-                    </Select>
-                  )}
-                />
-              </FormControl>
-              <FormControl fullWidth error={!!errors.vesselName}>
-                <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Nama Kapal <span style={{ color: '#F22' }}>*</span>
-                </Typography>
-                <Controller
-                  name='vesselName'
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      fullWidth
-                      placeholder='Masukkan nama perusahaan'
-                      error={!!errors.vesselName}
-                      helperText={errors.vesselName?.message}
-                    />
-                  )}
-                />
-              </FormControl>
-              <Box>
-                <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Informasi Kapal
-                </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '6px' }}>
-                  <FormControl error={!!errors.grt}>
-                    <Controller
-                      name='grt'
-                      control={control}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          fullWidth
-                          placeholder='Masukan GRT'
-                          error={!!errors.grt}
-                          helperText={errors.grt?.message}
-                        />
-                      )}
-                    />
-                  </FormControl>
-                  <FormControl error={!!errors.dwt}>
-                    <Controller
-                      name='dwt'
-                      control={control}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          fullWidth
-                          placeholder='Masukan DWT'
-                          error={!!errors.dwt}
-                          helperText={errors.dwt?.message}
-                        />
-                      )}
-                    />
-                  </FormControl>
-                  <FormControl error={!!errors.mePower}>
-                    <Controller
-                      name='mePower'
-                      control={control}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          fullWidth
-                          placeholder='Masukan Daya ME'
-                          error={!!errors.mePower}
-                          helperText={errors.mePower?.message}
-                        />
-                      )}
-                    />
-                  </FormControl>
-                </Box>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <FormControl fullWidth error={!!errors.company}>
+              <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Perusahaan <span style={{ color: '#F22' }}>*</span>
+              </Typography>
+              <Controller
+                name='company'
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    placeholder='Masukan nama perusahaan anda'
+                    error={!!errors.company}
+                    helperText={errors.company?.message}
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl fullWidth error={!!errors.roleType}>
+              <Typography sx={{ mb: '6px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Pangkat atau Posisi <span style={{ color: '#F22' }}>*</span>
+              </Typography>
+              <Controller
+                name='roleType'
+                control={control}
+                render={({ field }) => (
+                  <Select {...field} value={field.value || 0}>
+                    <MenuItem value={0} disabled>
+                      Pilih Pangkat Pekerjaan
+                    </MenuItem>
+                    {roleType &&
+                      roleType.map(item => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                )}
+              />
+            </FormControl>
+            <FormControl fullWidth error={!!errors.vessel}>
+              <Typography sx={{ mb: '6px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Tipe Kapal <span style={{ color: '#F22' }}>*</span>
+              </Typography>
+              <Controller
+                name='vessel'
+                control={control}
+                render={({ field }) => (
+                  <Select {...field} value={field.value || 0}>
+                    <MenuItem value={0} disabled>
+                      Pilih Kapal
+                    </MenuItem>
+                    {vessel &&
+                      vessel.map(item => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                )}
+              />
+            </FormControl>
+            <FormControl fullWidth error={!!errors.vesselName}>
+              <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Nama Kapal <span style={{ color: '#F22' }}>*</span>
+              </Typography>
+              <Controller
+                name='vesselName'
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    placeholder='Masukkan nama kapal anda'
+                    error={!!errors.vesselName}
+                    helperText={errors.vesselName?.message}
+                  />
+                )}
+              />
+            </FormControl>
+            <Box>
+              <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Informasi Kapal
+              </Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '6px' }}>
+                <FormControl error={!!errors.grt}>
+                  <Controller
+                    name='grt'
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        fullWidth
+                        placeholder='Masukan GRT'
+                        error={!!errors.grt}
+                        helperText={errors.grt?.message}
+                      />
+                    )}
+                  />
+                </FormControl>
+                <FormControl error={!!errors.dwt}>
+                  <Controller
+                    name='dwt'
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        fullWidth
+                        placeholder='Masukan DWT'
+                        error={!!errors.dwt}
+                        helperText={errors.dwt?.message}
+                      />
+                    )}
+                  />
+                </FormControl>
+                <FormControl error={!!errors.mePower}>
+                  <Controller
+                    name='mePower'
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        fullWidth
+                        placeholder='Masukan Daya ME'
+                        error={!!errors.mePower}
+                        helperText={errors.mePower?.message}
+                      />
+                    )}
+                  />
+                </FormControl>
               </Box>
-              <FormControl fullWidth error={!!errors.signIn}>
-                <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Tanggal Masuk <span style={{ color: '#F22' }}>*</span>
-                </Typography>
-                <Controller
-                  name='signIn'
-                  control={control}
-                  render={({ field }) => (
-                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                      <DatePicker
-                        {...field}
-                        format='DD/MM/YYYY'
-                        openTo='year'
-                        views={['year', 'month', 'day']}
-                        maxDate={moment(time)}
-                        value={moment(field.value)}
-                        slotProps={{
-                          textField: {
-                            fullWidth: true,
-                            error: !!errors.signIn,
-                            helperText: errors.signIn?.message
-                          }
-                        }}
-                      />
-                    </LocalizationProvider>
-                  )}
-                />
-              </FormControl>
-              <FormControl fullWidth error={!!errors.signOff}>
-                <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                  Tanggal Keluar <span style={{ color: '#F22' }}>*</span>
-                </Typography>
-                <Controller
-                  name='signOff'
-                  control={control}
-                  render={({ field }) => (
-                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                      <DatePicker
-                        {...field}
-                        format='DD/MM/YYYY'
-                        openTo='year'
-                        views={['year', 'month', 'day']}
-                        value={moment(field.value)}
-                        slotProps={{
-                          textField: {
-                            fullWidth: true,
-                            error: !!errors.signOff,
-                            helperText: errors.signOff?.message
-                          }
-                        }}
-                      />
-                    </LocalizationProvider>
-                  )}
-                />
-              </FormControl>
             </Box>
-          </>
+            <FormControl fullWidth error={!!errors.signIn}>
+              <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Tanggal Masuk <span style={{ color: '#F22' }}>*</span>
+              </Typography>
+              <Controller
+                name='signIn'
+                control={control}
+                render={({ field }) => (
+                  <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <DatePicker
+                      {...field}
+                      format='DD/MM/YYYY'
+                      openTo='year'
+                      views={['year', 'month', 'day']}
+                      maxDate={moment(time)}
+                      value={moment(field.value)}
+                      slotProps={{
+                        textField: {
+                          fullWidth: true,
+                          error: !!errors.signIn,
+                          helperText: errors.signIn?.message
+                        }
+                      }}
+                    />
+                  </LocalizationProvider>
+                )}
+              />
+            </FormControl>
+            <FormControl fullWidth error={!!errors.signOff}>
+              <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Tanggal Keluar <span style={{ color: '#F22' }}>*</span>
+              </Typography>
+              <Controller
+                name='signOff'
+                control={control}
+                render={({ field }) => (
+                  <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <DatePicker
+                      {...field}
+                      format='DD/MM/YYYY'
+                      openTo='year'
+                      views={['year', 'month', 'day']}
+                      value={moment(field.value)}
+                      slotProps={{
+                        textField: {
+                          fullWidth: true,
+                          error: !!errors.signOff,
+                          helperText: errors.signOff?.message
+                        }
+                      }}
+                    />
+                  </LocalizationProvider>
+                )}
+              />
+            </FormControl>
+          </Box>
         )}
       </Box>
       <Box sx={{ my: '32px', display: 'flex', justifyContent: 'space-between' }}>

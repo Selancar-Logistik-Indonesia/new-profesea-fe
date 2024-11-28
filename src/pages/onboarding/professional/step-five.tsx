@@ -26,11 +26,11 @@ const Onboarding = () => {
       >
         <Box sx={{ width: '480px', display: 'flex', flexDirection: 'column' }}>
           <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
-          <Box sx={{ my: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <Box sx={{ mt: '32px', pb: '100px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <ProgressBar current={5} total={5} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-                Ceritakan Pengalaman Anda
+                Ceritakan Pengalaman Terakhir Anda
               </Typography>
               <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
                 Semakin lengkap informasi yang Anda berikan, semakin efektif kami dapat menghubungkan Anda dengan

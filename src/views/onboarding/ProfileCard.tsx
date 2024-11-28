@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react'
 import { Avatar, Box, Divider, Grid, Typography } from '@mui/material'
-import Link from 'next/link'
 import { useAuth } from 'src/hooks/useAuth'
+import Link from 'next/link'
 
 const UserData = () => {
   const { user } = useAuth()
@@ -17,7 +17,7 @@ const SeafarerProfileCard = () => {
   const user = UserData()
 
   return (
-    <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '381px', p: '24px' }}>
+    <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '435px', p: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <Avatar
@@ -122,7 +122,7 @@ const ProfessionalProfileCard = () => {
   const user = UserData()
 
   return (
-    <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '381px', p: '24px' }}>
+    <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '435px', p: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <Avatar
@@ -224,7 +224,7 @@ const EmployerProfileCard = () => {
   }
 
   return (
-    <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '381px', p: '24px' }}>
+    <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '435px', p: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <Avatar
@@ -286,7 +286,7 @@ const EmployerProfileCard = () => {
                   textOverflow: 'ellipsis'
                 }}
               >
-                sdncindsicsidcnisnciwnciunwiucnw iunciuewnciwenciuwneciunewc
+                {user.website}
               </Typography>
             ) : (
               <EmptyData />
@@ -295,7 +295,24 @@ const EmployerProfileCard = () => {
           <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Icon icon='ph:buildings' style={{ flexShrink: 0, fontSize: 20, color: '#32497A' }} />
             {user && user.about ? (
-              <Typography sx={{ color: '#868686', fontSize: 14, fontWeight: 400 }}>{user.about}</Typography>
+              <Typography
+                sx={{
+                  display: '-webkit-box',
+                  WebkitBoxOrient: 'vertical',
+                  WebkitLineClamp: 2,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'normal',
+                  maxHeight: '2.4em',
+                  minHeight: '1.2em',
+                  lineHeight: '1.2em',
+                  color: '#868686',
+                  fontSize: 14,
+                  fontWeight: 400
+                }}
+              >
+                {user.about}
+              </Typography>
             ) : (
               <EmptyData />
             )}
