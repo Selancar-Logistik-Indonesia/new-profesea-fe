@@ -251,7 +251,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Controller name='isCurrent' control={control} render={({ field }) => <Checkbox {...field} />} />
                 <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>
-                  Saya saat ini bekerja di posisi dan perusahaan ini
+                  Saya saat ini bekerja di perusahaan ini
                 </Typography>
               </Box>
             </FormControl>
