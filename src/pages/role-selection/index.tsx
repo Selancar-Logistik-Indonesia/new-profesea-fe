@@ -141,8 +141,9 @@ const RoleSelection = () => {
         xs={12}
         md={6}
         sx={{
-          p: '44px 32px 100px',
-          height: 'fit-content',
+          p: '44px 32px',
+          height: '100%',
+          backgroundColor: '#FAFAFA',
           display: 'flex',
           justifyContent: 'center',
           overflowY: 'auto',
@@ -156,15 +157,14 @@ const RoleSelection = () => {
           <Box sx={{ my: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-                Pilih peran dibawah ini sesuai dengan karir Anda sekarang.
+                Silakan pilih peran yang paling sesuai.
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap', gap: '8px' }}>
                 <Box sx={{ flexShrink: 0 }}>
                   <Icon icon='ph:warning' color='red' fontSize={35} />
                 </Box>
                 <Typography>
-                  Pilihan peran ini hanya berlaku untuk satu akun/email. Dan tidak dapat diganti. Jika Anda ingin
-                  pilihan lainya anda dapat melakukan registrasi kembali dengan email yang berbeda.
+                  Setiap pilihan peran hanya berlaku untuk satu akun/email dan tidak dapat diganti.
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -195,7 +195,7 @@ const RoleSelection = () => {
               </Box>
             </Box>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Box sx={{ pb: '85px', display: 'flex', justifyContent: 'flex-end' }}>
             <Button variant='contained' onClick={onSubmit} sx={{ width: '170px', textTransform: 'none' }}>
               Continue
             </Button>
@@ -203,9 +203,8 @@ const RoleSelection = () => {
         </Box>
       </Grid>
       <Hidden mdDown>
-        <Grid item container md={6} direction='column' sx={{ height: '100vh' }}>
-          <Grid
-            item
+        <Grid item md={6} direction='column' sx={{ height: '100vh' }}>
+          <Box
             sx={{
               // height: employeeType === 'seafarer' ? '50vh' : employeeType === '' ? '33.33vh' : '25vh',
               height: 1 / 3,
@@ -230,9 +229,8 @@ const RoleSelection = () => {
             >
               Seafarer
             </Typography>
-          </Grid>
-          <Grid
-            item
+          </Box>
+          <Box
             sx={{
               // height: employeeType === 'professional' ? '50vh' : employeeType === '' ? '33.33vh' : '25vh',
               height: 1 / 3,
@@ -257,9 +255,8 @@ const RoleSelection = () => {
             >
               Professional
             </Typography>
-          </Grid>
-          <Grid
-            item
+          </Box>
+          <Box
             sx={{
               // height: employeeType === 'employer' ? '50vh' : employeeType === '' ? '33.33vh' : '25vh',
               height: 1 / 3,
@@ -284,7 +281,7 @@ const RoleSelection = () => {
             >
               Employer
             </Typography>
-          </Grid>
+          </Box>
         </Grid>
       </Hidden>
     </Grid>

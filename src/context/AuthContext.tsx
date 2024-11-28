@@ -117,7 +117,7 @@ const AuthProvider = ({ children }: Props) => {
         secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
 
-        initAuth()
+        await initAuth()
 
         const tempUser = response.data.user
         handleRedirection(tempUser)
@@ -170,7 +170,7 @@ const AuthProvider = ({ children }: Props) => {
         secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
 
-        initAuth('google')
+        await initAuth('google')
 
         const tempUser = response.data.user
         handleRedirection(tempUser, 'google')
