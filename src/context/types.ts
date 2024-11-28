@@ -33,7 +33,7 @@ export type AuthValuesType = {
     setLoading: (value: boolean) => void
     setUser: (value: IUser | null) => void
     glogin: (params: { accessToken: string, namaevent: any }, errorCallback?: ErrCallbackType) => void
-    login: (params: LoginParams, errorCallback?: ErrCallbackType, noReturn?: boolean) => void
+    login: (params: LoginParams, errorCallback?: ErrCallbackType, isReturn?: boolean) => void
     loginSilent: (params: LoginSilentParams) => void
-    refetch: () => void
+    refreshSession: () => void
 }

@@ -207,6 +207,57 @@
         "subtitle": "Tampilkan status ketersediaan Anda dan dapatkan sorotan dari perekrut segera."
       }
     },
+    "input": {
+      "login": "Masuk",
+      "g_login": "Masuk dengan Google",
+      "register": "Registrasi",
+      "email": "Alamat Email",
+      "password": "Kata Sandi",
+      "password_2": "Konfirmasi Kata Sandi",
+      "password_tip": "Minimal 8 karakter. Gunakan kombinasi angka, huruf, simbol, serta huruf besar dan kecil.",
+      "forgot_password": "Lupa Password?",
+      "continue": "Lanjutkan",
+      "or": "atau",
+      "resend_verification": "Kirim ulang verifikasi alamat email"
+    },
+    "tos": {
+      "tos_me": "Saya menyetujui",
+      "tos_start": "Dengan mendaftar, Anda mengakui bahwa Anda telah membaca, memahami, dan menyetujui",
+      "tos_terms": "Ketentuan",
+      "tos_and": "dan",
+      "tos_privacy": "Kebijakan Privasi",
+      "tos_end": "Profesea."
+    },
+    "login_page": {
+      "title_1": "Masuk ke Profesea!",
+      "title_2": "Masuk ke Profesea",
+      "description": "Dan mulai berlayar bersama kami!",
+      "dialog": {
+        "title": "Oops! Sepertinya email yang Anda masukkan belum terdaftar.",
+        "description": "Silakan periksa email Anda atau daftar untuk akun baru.",
+        "continue": "Lanjutkan ke Pendaftaran",
+        "cancel": "Batalkan"
+      },
+      "account": "Belum punya akun?"
+    },
+    "register_page": {
+      "title_1": "Daftar ke Profesea!",
+      "title_2": "Isi Formulir Pendaftaran",
+      "description": "Dan mulai berlayar bersama kami!",
+      "dialog": {
+        "title": "Oops! Sepertinya email yang Anda masukkan sudah terdaftar.",
+        "description": "Silakan periksa email Anda atau masuk menggunakan akun Anda.",
+        "continue": "Lanjutkan ke Log in",
+        "cancel": "Batalkan"
+      },
+      "return_dialog": {
+        "title": "Batalkan proses pendaftaran?",
+        "description": "Jika proses ini dibatalkan, Anda akan mengisi semua detail akun anda dari awal.",
+        "continue": "Lanjutkan Pendaftaran",
+        "cancel": "Ya, Batalkan"
+      },
+      "account": "Sudah punya akun?"
+    },
     "landing_page": {
       "title": "Solusi Ekosistem Maritim & Logistik",
       "description": "Temukan peluang tak terbatas dengan platform all-in-one media sosial inovatif kami, yang menghubungkan Anda ke jaringan luas komunitas maritim dan logistik.",

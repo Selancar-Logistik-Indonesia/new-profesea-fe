@@ -37,6 +37,7 @@ import CopSection from 'src/views/profile/copSection'
 import CocSection from 'src/views/profile/cocSection'
 import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
 import SideAdProfile from 'src/views/banner-ad/sideAdProfile'
+import CompleteOnboarding from 'src/views/onboarding/CompleteOnboarding'
 
 const ProfileCompany = () => {
   return (
@@ -54,11 +55,20 @@ const UserFeedApp = () => {
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [arrVacany, setArrVacancy] = useState<any>([])
   const [arrVacany2, setArrVacancy2] = useState<any>([])
+  const [openCompleteOnboard, setOpenCompleteOnboard] = useState(false)
   // const [itemData, getItemdata] = useState<any[]>([])
   const iduser: any = user.id
   //let { username } = router.query as { username: string }
+
   const params = useSearchParams()
   let username = linkToTitleCase(params.get('username'))
+  const onboarding = params.get('onboarding')
+
+  useEffect(() => {
+    if (onboarding == 'completed') {
+      setOpenCompleteOnboard(true)
+    }
+  }, [onboarding])
 
   const firstload = async () => {
     let url = ''
@@ -164,6 +174,7 @@ const UserFeedApp = () => {
           </Box>
         </Grid>
       </Grid>
+      <CompleteOnboarding openDialog={openCompleteOnboard} setOpenDialog={setOpenCompleteOnboard} />
     </>
   )
 }

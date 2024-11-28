@@ -206,6 +206,57 @@
         "subtitle": "Display your availability status and get spotlight from the recruiters right away."
       }
     },
+    "input": {
+      "login": "Log in",
+      "g_login": "Continue with Google",
+      "register": "Register",
+      "email": "Email Address",
+      "password": "Password",
+      "password_2": "Confirm Password",
+      "password_tip": "Minimal 8 karakter. Gunakan kombinasi angka, huruf, simbol, serta huruf besar dan kecil.",
+      "forgot_password": "Forgot Password?",
+      "continue": "Continue",
+      "or": "or",
+      "resend_verification": "Resend verification email"
+    },
+    "tos": {
+      "tos_me": "I agree to the",
+      "tos_start": "By signing up, you acknowledge that you have read and understood, and agree to Profesea's",
+      "tos_terms": "Terms",
+      "tos_and": "and",
+      "tos_privacy": "Privacy Policy.",
+      "tos_end": ""
+    },
+    "login_page": {
+      "title_1": "Log in to Profesea!",
+      "title_2": "Log in to Profesea",
+      "description": "And start sail with us!",
+      "dialog": {
+        "title": "Oops! It seems the email you entered is not registered.",
+        "description": "Please check your email or register for a new account.",
+        "continue": "Continue to Registration",
+        "cancel": "Cancel"
+      },
+      "account": "Don't have an account?"
+    },
+    "register_page": {
+      "title_1": "Register to Profesea!",
+      "title_2": "Fill the Registration Form",
+      "description": "And start sail with us!",
+      "dialog": {
+        "title": "Oops! It seems the email you entered is already registered.",
+        "description": "Please check your email or login to your account.",
+        "continue": "Continue to Log in",
+        "cancel": "Cancel"
+      },
+      "return_dialog": {
+        "title": "Cancel Registration Process?",
+        "description": "If you cancel this process, you will need to re-enter all your account details from the beginning.",
+        "continue": "Continue Registration",
+        "cancel": "Yes, Cancel"
+      },
+      "account": "Already have an account?"
+    },
     "landing_page": {
       "title": "Maritime & Logistics Ecosystem Solutions",
       "description": "Discover limitless opportunities with our innovative all-in-one social media platform, connecting you to a vast network of maritime and logistics communities.",

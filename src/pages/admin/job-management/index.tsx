@@ -4,6 +4,8 @@ import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import { Autocomplete, Box, Button, Typography } from '@mui/material'
+import { createFilterOptions } from '@mui/material/Autocomplete'
+import { RoleTypeAutocomplete } from 'src/contract/models/role_type'
 import { useCallback, useEffect, useState } from 'react'
 import DialogAdd from './DialogAdd'
 import JobDatagrid, { RowItem } from './JobDatagrid'
@@ -20,6 +22,13 @@ import { Icon } from '@iconify/react'
 import RoleType from 'src/contract/models/role_type'
 import JobCategory from 'src/contract/models/job_category'
 import RoleLevel from 'src/contract/models/role_level'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import { IUser } from 'src/contract/models/user'
+
+const filter = createFilterOptions<RoleTypeAutocomplete>()
+
+const session = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
 const JobScreen = () => {
   const [hookSignature, setHookSignature] = useState(v4())
@@ -161,9 +170,32 @@ const JobScreen = () => {
                     sx={{ mb: 2, width: '150px', mr: 2 }}
                     id='jobtitle'
                     options={RoleType}
-                    getOptionLabel={(option: RoleType) => option.name}
+                    getOptionLabel={(option: RoleTypeAutocomplete | RoleType) => option.name}
                     renderInput={params => <TextField {...params} label='Job Title' />}
-                    onChange={(event: any, newValue: RoleType | null) => (newValue?.id ? setJT(newValue.id) : setJT(0))}
+                    onChange={(event: any, newValue: RoleTypeAutocomplete | RoleType | null) =>
+                      newValue?.id ? setJT(newValue.id) : setJT(0)
+                    }
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params)
+
+                      const { inputValue } = params
+                      // Suggest the creation of a new value
+                      const isExisting = options.some(option => inputValue === option.name)
+                      if (inputValue !== '' && !isExisting) {
+                        filtered.push({
+                          inputValue,
+                          id: 0,
+                          category_id: 0,
+                          name: inputValue,
+                          category: 0,
+                          user: session.id,
+                          created_at: String(new Date()),
+                          updated_at: String(new Date())
+                        })
+                      }
+
+                      return filtered
+                    }}
                   />
                 </Grid>
                 <Grid item>

@@ -7,6 +7,7 @@ import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import IAbilities from 'src/contract/models/abilities'
+import { getOnboardingLink } from 'src/utils/helpers'
 
 const defaultProvider: AuthValuesType = {
   user: null,
@@ -18,7 +19,7 @@ const defaultProvider: AuthValuesType = {
   login: () => Promise.resolve(),
   loginSilent: () => Promise.resolve(),
   logout: () => Promise.resolve(),
-  refetch: () => Promise.resolve()
+  refreshSession: () => Promise.resolve()
 }
 
 const AuthContext = createContext(defaultProvider)
@@ -33,7 +34,7 @@ const AuthProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
   const router = useRouter()
 
-  const initAuth = async (): Promise<void> => {
+  const initAuth = async (thirdParty?: string): Promise<void> => {
     const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
     if (storedToken) {
       setLoading(true)
@@ -45,9 +46,7 @@ const AuthProvider = ({ children }: Props) => {
           secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
           secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
 
-          if (response.data.user.email_verified_at === null) {
-            router.replace(`/verify-email/`)
-          }
+          handleRedirection(response.data.user, thirdParty)
         })
         .catch(error => {
           localStorage.removeItem('userData')
@@ -67,30 +66,71 @@ const AuthProvider = ({ children }: Props) => {
     }
   }
 
+  const handleRedirection = async (user: any, thirdParty?: string) => {
+    if (!user.email_verified_at) {
+      if (thirdParty) {
+        await router.replace(`/set-password/${user.rememberToken}/${user.email}`)
+      } else {
+        await router.replace(`/verify-email/`)
+      }
+
+      return
+    }
+
+    if (user.last_step !== 'completed') {
+      const onboardingLink = getOnboardingLink(user)
+
+      if (user.last_step === 'role-selection') {
+        await router.replace(`/${user.last_step}`)
+
+        return
+      }
+
+      await router.replace(`/onboarding/${onboardingLink}/${user.last_step}`)
+
+      return
+    }
+  }
+
   useEffect(() => {
     initAuth()
   }, [])
 
-  const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType, noReturn?: boolean) => {
+  const handleRefreshSession = async () => {
+    await HttpClient.get(authConfig.meEndpoint).then(async response => {
+      secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
+      secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+      setUser({ ...response.data.user })
+      setAbilities(response.data.abilities)
+    })
+  }
+
+  const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType, isReturn?: boolean) => {
     setLoading(true)
 
     HttpClient.post(authConfig.loginEndpoint, params)
       .then(async response => {
         setLoading(false)
-        const returnUrl = router.query.returnUrl
         setUser({ ...response.data.user })
+
         localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
         secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
-        initAuth()
 
-        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
-        if (!noReturn) {
+        await initAuth()
+
+        const tempUser = response.data.user
+        handleRedirection(tempUser)
+
+        if (isReturn) {
+          const returnUrl = router.query.returnUrl
           if (params.namaevent != null) {
             await router.replace('/home/?event=true' as string)
           } else {
-            router.replace(redirectURL as string)
+            router.replace(returnUrl as string)
           }
+        } else {
+          router.push('/home')
         }
       })
       .catch(err => {
@@ -125,12 +165,17 @@ const AuthProvider = ({ children }: Props) => {
       .then(async response => {
         setLoading(false)
 
-        const returnUrl = router.query.returnUrl
         setUser({ ...response.data.user })
         setAbilities(response.data.abilities)
         secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
-        initAuth()
+
+        await initAuth('google')
+
+        const tempUser = response.data.user
+        handleRedirection(tempUser, 'google')
+
+        const returnUrl = router.query.returnUrl
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
         if (params.namaevent != null) {
           await router.replace('/home/?event=true' as string)
@@ -161,7 +206,7 @@ const AuthProvider = ({ children }: Props) => {
     login: handleLogin,
     logout: handleLogout,
     loginSilent: handleLoginSilent,
-    refetch: initAuth
+    refreshSession: handleRefreshSession
   }
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>

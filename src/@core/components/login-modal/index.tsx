@@ -28,7 +28,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import { useSearchParams } from 'next/navigation'
 import { yupResolver } from '@hookform/resolvers/yup'
 import DialogSuccess from 'src/pages/loginevent/DialogSuccess'
-import DialogGoogleLogin from './DialogGoogleLogin'
+// import DialogGoogleLogin from './DialogGoogleLogin'
 import DialogMessage from './DialogMessage'
 import { useTheme } from '@mui/material'
 
@@ -79,7 +79,7 @@ const DialogLogin = (props: BlockDialog) => {
   const isBanner = props?.isBanner ?? true
   const variant = props?.variant ?? 'training'
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false)
+  //   const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false)
   const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
   const [openBlockModal, setOpenBlockModal] = useState(false)
   const auth = useAuth()
@@ -110,7 +110,7 @@ const DialogLogin = (props: BlockDialog) => {
 
   const onSubmit = (data: FormData) => {
     const { email, password } = data
-    const noReturn = true
+    const isReturn = true
     auth.login(
       { email, password, namaevent },
       () => {
@@ -119,7 +119,7 @@ const DialogLogin = (props: BlockDialog) => {
           message: `${t('input_label_error_4')}`
         })
       },
-      noReturn
+      isReturn
     )
   }
 
@@ -131,7 +131,7 @@ const DialogLogin = (props: BlockDialog) => {
       onClose={props.onCloseClick}
       TransitionComponent={Transition}
       maxWidth='md'
-      sx={{ opacity: openModalGoogle ? '0%' : '100%' }}
+      //   sx={{ opacity: openModalGoogle ? '0%' : '100%' }}
     >
       <DialogContent
         sx={{
@@ -304,15 +304,11 @@ const DialogLogin = (props: BlockDialog) => {
                 </Box>
                 <Divider sx={{ textAlign: 'center', fontSize: '16px' }}>{t('login_text_5')}</Divider>
                 <Box sx={{ marginTop: '5%' }}>
-                  <Button
-                    fullWidth
-                    size='large'
-                    variant='outlined'
-                    sx={{ mb: 3 }}
-                    onClick={() => setOpenModalGoogle(true)}
-                  >
-                    {t('login_text_1_G')} Google <Icon icon={'devicon:google'} style={{ marginLeft: 7 }} />
-                  </Button>
+                  <Link href={`https://apifix.profesea.id/auth/google`} passHref legacyBehavior>
+                    <Button fullWidth size='large' variant='outlined' sx={{ mb: 3 }}>
+                      {t('login_text_1_G')} Google <Icon icon={'devicon:google'} style={{ marginLeft: 7 }} />
+                    </Button>
+                  </Link>
                 </Box>
                 <Divider
                   sx={{
@@ -354,12 +350,12 @@ const DialogLogin = (props: BlockDialog) => {
           // window.location.replace('/home')
         }}
       />
-      <DialogGoogleLogin
+      {/* <DialogGoogleLogin
         visible={openModalGoogle}
         onCloseClick={() => {
           setOpenModalGoogle(!openModalGoogle)
         }}
-      />
+      /> */}
       <DialogMessage
         visible={openDialogMessage}
         onCloseClick={() => {

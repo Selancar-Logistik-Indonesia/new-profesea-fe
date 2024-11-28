@@ -6,7 +6,6 @@ import {
   Grid,
   Dialog,
   DialogContent,
-  DialogTitle,
   IconButton,
   Fade,
   FadeProps,
@@ -16,10 +15,11 @@ import {
   DialogActions,
   Checkbox,
   FormControlLabel,
-  FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  useMediaQuery,
+  SwipeableDrawer
 } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { HttpClient } from 'src/services'
@@ -27,6 +27,7 @@ import { AppConfig } from 'src/configs/api'
 import { toast } from 'react-hot-toast'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useTheme } from '@mui/material/styles'
 
 import { ISeafarerTravelDocumentForm } from '../../../contract/types/seafarer_travel_document_type'
 
@@ -44,7 +45,7 @@ const Transition = forwardRef(function Transition(
 })
 
 const TravelDocumentSchema = Yup.object().shape({
-  document: Yup.string().required('Document is required'),
+  document: Yup.string().optional(),
   no: Yup.string().required('Document Number is required'),
   date_of_issue: Yup.string().required('Date of Issue is required'),
   country_of_issue: Yup.object().shape({
@@ -61,6 +62,9 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
   const { type, user_id, seafarerTravelDocument, showModal, handleModalForm, loadTravelDocument } = props
   const id = seafarerTravelDocument?.id
 
+  const Theme = useTheme()
+  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
+
   const [countries, setCountries] = useState<{ id?: number; name: string }[]>([])
 
   const [countryOfIssue, setCountryOfIssue] = useState<any>(
@@ -74,6 +78,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
 
   const [validDateState, setValidDateState] = useState<any>()
   const [preview, setPreview] = useState<any>()
+  console.log(preview)
   const [dateOfIssue, setDateOfIssue] = useState<any>()
   const [attachment, setAttachment] = useState<any>()
 
@@ -229,25 +234,6 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     }
   }, [validDateState])
 
-  // useEffect(() => {
-  //   if (countryOfIssue) {
-  //     formik.setValues({
-  //       ...formik.values,
-  //       country_of_issue: countryOfIssue
-  //     })
-  //   }
-  // }, [countryOfIssue])
-
-  // useEffect(() => {
-  //   formik.setValues({
-  //     ...formik.values,
-  //     document:
-  //       formik.values.required_document === 'other'
-  //         ? 'Please input document'
-  //         : requiredDocumentType.find(item => item.id == formik.values.required_document)?.name
-  //   })
-  // }, [formik.values.required_document])
-
   const handleChangeRequireDocument = (e: any) => {
     let documentName: string | undefined = 'Please Input document'
 
@@ -292,8 +278,8 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     }
   }
 
-  return (
-    <Dialog fullWidth open={showModal} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
+  const renderForm = () => {
+    return (
       <form
         noValidate
         onSubmit={formik.handleSubmit}
@@ -301,33 +287,42 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
           formik.resetForm()
         }}
       >
-        <DialogTitle>
-          <IconButton
-            size='small'
-            sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-            onClick={() => props.handleModalForm(type, undefined)}
-          >
-            <Icon width='24' height='24' icon='mdi:close' />
-          </IconButton>
-          <Box sx={{ mb: 2, textAlign: 'center' }}>
-            <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
-              {type == 'create' ? 'Add new ' : 'Update '} Travel Document
-            </Typography>
-            <Typography variant='body2'>Fulfill your Document Info here</Typography>
-          </Box>
-        </DialogTitle>
-        <DialogContent
-          dividers
-          sx={{
-            position: 'relative',
-            pb: theme => `${theme.spacing(5)} !important`,
-            px: theme => [`${theme.spacing(3)} !important`, `${theme.spacing(10)} !important`],
-            pt: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(7.5)} !important`],
-            height: '500px'
-          }}
-        >
-          <Grid container>
-            <Grid item md={12} xs={12} mb={5}>
+        <DialogContent>
+          {!isMobile && (
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Box>
+                <Typography color={'#32487A'} fontWeight='700' fontSize={18}>
+                  {type == 'create' ? 'Add  Travel Document' : 'Edit Travel Document'}
+                </Typography>
+              </Box>
+              <IconButton
+                size='small'
+                onClick={() => {
+                  props.handleModalForm(type, undefined)
+                  resetState()
+                }}
+              >
+                <Icon icon='mdi:close' fontSize={'16px'} />
+              </IconButton>
+            </Box>
+          )}
+
+          <Grid container spacing={6} py={'24px'}>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Country of Issue
+              </InputLabel>
               <Autocomplete
                 disablePortal
                 id='autocomplete-country-of-issue'
@@ -335,44 +330,63 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
                 getOptionLabel={option => option.name || ''}
                 renderInput={(params: any) => (
-                  <TextField
-                    {...params}
-                    error={formik.errors.country_of_issue ? true : false}
-                    label='Country of Issue * '
-                    variant='standard'
-                  />
+                  <TextField {...params} error={formik.errors.country_of_issue ? true : false} variant='outlined' />
                 )}
                 onChange={(event: any, newValue: string | null) =>
                   newValue ? setCountryOfIssue(newValue) : setCountryOfIssue('')
                 }
               />
             </Grid>
-            <Grid item md={12} xs={12} mb={5}>
-              <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }} fullWidth>
-                <InputLabel>Required Document</InputLabel>
-                <Select
-                  error={formik.errors.required_document ? true : false}
-                  fullWidth
-                  value={formik.values.required_document}
-                  label='Required Document * '
-                  onChange={e => {
-                    formik.handleChange(e)
-                    handleChangeRequireDocument(e)
-                  }}
-                  onBlur={formik.handleBlur}
-                  name='required_document'
-                  id={'required_document'}
-                  variant={'standard'}
-                >
-                  <MenuItem value={'seaman_book'}>Seaman Book</MenuItem>
-                  <MenuItem value={'usa_visa'}>USA Visa</MenuItem>
-                  <MenuItem value={'schengen_visa'}>Schengen Visa</MenuItem>
-                  <MenuItem value={'passport'}>Passport</MenuItem>
-                  <MenuItem value={'other'}>Other</MenuItem>
-                </Select>
-              </FormControl>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Required Document
+              </InputLabel>
+
+              <Select
+                error={formik.errors.required_document ? true : false}
+                fullWidth
+                value={formik.values.required_document}
+                onChange={e => {
+                  formik.handleChange(e)
+                  handleChangeRequireDocument(e)
+                }}
+                onBlur={formik.handleBlur}
+                name='required_document'
+                id={'required_document'}
+                variant={'outlined'}
+              >
+                <MenuItem value={'seaman_book'}>Seaman Book</MenuItem>
+                <MenuItem value={'usa_visa'}>USA Visa</MenuItem>
+                <MenuItem value={'schengen_visa'}>Schengen Visa</MenuItem>
+                <MenuItem value={'passport'}>Passport</MenuItem>
+                <MenuItem value={'other'}>Other</MenuItem>
+              </Select>
             </Grid>
-            <Grid item md={12} xs={12} mb={5}>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Document
+              </InputLabel>
               <TextField
                 error={formik.errors.document ? true : false}
                 name='document'
@@ -381,12 +395,25 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 onBlur={formik.handleBlur}
                 disabled={formik.values.required_document != 'other' ? true : false}
                 id='document'
-                label='Document * '
-                variant='standard'
+                variant='outlined'
                 fullWidth
               />
             </Grid>
-            <Grid item md={12} xs={12} mb={5}>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Document Number
+              </InputLabel>
               <TextField
                 error={formik.errors.no ? true : false}
                 name='no'
@@ -394,12 +421,25 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 id='no'
-                label='Document Number * '
-                variant='standard'
+                variant='outlined'
                 fullWidth
               />
             </Grid>
-            <Grid item md={12} xs={12} mb={5}>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Date of Issue
+              </InputLabel>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
                   format='DD/MM/YYYY'
@@ -407,12 +447,11 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                   views={['year', 'month', 'day']}
                   className='date_of_issue'
                   name='date_of_issue'
-                  label={'Date of Issue *'}
                   onChange={date => setDateOfIssue(date)}
                   value={dateOfIssue ? moment(dateOfIssue) : null}
                   slotProps={{
                     textField: {
-                      variant: 'standard',
+                      variant: 'outlined',
                       fullWidth: true,
                       id: 'basic-input',
                       'aria-readonly': true,
@@ -423,7 +462,20 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item md={12} xs={12} mb={5}>
+            <Grid item xs={12} md={6}>
+              <InputLabel
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Valid Date
+              </InputLabel>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
                   disabled={formik.values.is_lifetime ? true : false}
@@ -432,12 +484,11 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                   views={['year', 'month', 'day']}
                   className='valid-date-datepicker'
                   name='valid_date'
-                  label={'Valid Date'}
                   onChange={date => setValidDateState(date)}
                   value={validDateState ? moment(validDateState) : null}
                   slotProps={{
                     textField: {
-                      variant: 'standard',
+                      variant: 'outlined',
                       fullWidth: true,
                       id: 'basic-input',
                       'aria-readonly': true,
@@ -461,52 +512,84 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 label='Lifetime'
               />
             </Grid>
-            <Grid item md={12} xs={12} mt={2}>
-              <Grid item xs={12} md={12} container justifyContent={'left'}>
-                <Grid xs={4}>
-                  <label htmlFor='x'>
-                    {preview?.split('.').pop() == 'pdf' ? (
-                      <>
-                        <a style={{ textDecoration: 'underline', cursor: 'pointer' }}> change file </a>
-                        <object data={preview ? preview : null} width='150' height='200'></object>
-                      </>
-                    ) : (
-                      <img
-                        alt='logo'
-                        src={preview ? preview : '/images/uploadimage.jpeg'}
-                        style={{
-                          maxWidth: '100%',
-                          height: '120px',
-                          padding: 0,
-                          margin: 0
+            <Grid item xs={12} md={12}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <Typography sx={{ textAlign: 'left', color: '#262525', fontSize: '12px', fontWeight: 700 }}>
+                  <strong>Click to change Document File.</strong>
+                </Typography>
+                <Box sx={{ display: 'flex', gap: '15px' }}>
+                  {/* <Box>
+                    <label htmlFor='file-upload'>
+                      <Button
+                        variant='contained'
+                        sx={{
+                          background: '#F8F8F7',
+                          textTransform: 'capitalize',
+                          color: 'black',
+                          padding: '8px',
+                          width: '100%'
                         }}
+                      >
+                        <Icon
+                          icon={'material-symbols-light:upload-sharp'}
+                          fontSize={'16px'}
+                          style={{ marginRight: '10px' }}
+                        />
+                        <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>Upload Document</Typography>
+                      </Button>
+                    </label>
+                    <input
+                      accept='application/pdf,,image/*'
+                      style={{ display: 'none' }}
+                      id='file-upload'
+                      name='attachment'
+                      onChange={e => setAttachment(e.target?.files ? e.target?.files[0] : null)}
+                      type='file'
+                    ></input>
+                    <div>{attachment?.name}</div>
+                  </Box> */}
+                  <div>
+                    <Button
+                      variant='contained'
+                      sx={{
+                        background: '#F8F8F7',
+                        textTransform: 'capitalize',
+                        color: 'black',
+                        padding: '8px',
+                        width: '100%',
+                        zIndex: 1
+                      }}
+                    >
+                      <Icon
+                        icon='material-symbols-light:upload-sharp'
+                        fontSize='16px'
+                        style={{ marginRight: '10px' }}
                       />
-                    )}
-                  </label>
-                  <input
-                    accept='application/pdf,,image/*'
-                    style={{ display: 'none' }}
-                    id='x'
-                    name='attachment'
-                    onChange={e => setAttachment(e.target?.files ? e.target?.files[0] : null)}
-                    type='file'
-                  ></input>
-                  <div>{attachment?.name}</div>
-                </Grid>
-                <Grid xs={4}>
-                  <Box sx={{ marginTop: '20px', marginLeft: '5px' }}>
+                      <input
+                        accept='application/pdf,image/*'
+                        style={{
+                          position: 'absolute',
+                          opacity: 0,
+                          cursor: 'pointer',
+                          zIndex: 2
+                        }}
+                        onChange={e => setAttachment(e.target?.files ? e.target?.files[0] : null)}
+                        type='file'
+                      />
+                      <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>Upload Document</Typography>
+                    </Button>
+                  </div>
+                  <Box>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                      <strong>Click to change Document File.</strong>
+                      Allowed JPG, PNG, or PDF.
                     </Typography>
                     <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                      Allowed PDF.
+                      <span style={{ color: 'red' }}>Max size of 800K.</span>
                     </Typography>
-                    <Typography variant='body2' sx={{ textAlign: 'left', color: '#262525', fontSize: '10px' }}>
-                      Max size of 800K. Aspect Ratio 1:1
-                    </Typography>
+                    <div>{attachment?.name}</div>
                   </Box>
-                </Grid>
-              </Grid>
+                </Box>
+              </Box>
             </Grid>
             <Grid item md={12} xs={12} mb={5} sx={{ color: 'red', margin: '-10px -25px' }}>
               <ul>
@@ -520,30 +603,59 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
         </DialogContent>
         <DialogActions>
           <Button
-            type='reset'
-            variant='contained'
-            style={{ margin: '10px 10px', backgroundColor: 'grey' }}
-            size='small'
-          >
-            Reset
-          </Button>
-          <Button
             disabled={Object.keys(formik.errors).length > 0 ? true : false}
             type='submit'
             variant='contained'
-            style={{ margin: '10px 0' }}
-            size='small'
+            sx={{ textTransform: 'capitalize' }}
           >
-            <Icon
-              fontSize='small'
-              icon={'solar:add-circle-bold-duotone'}
-              color={'success'}
-              style={{ fontSize: '18px' }}
-            />
-            <div> {type == 'edit' ? 'Update ' : 'Create '} Travel Document </div>
+            {type == 'edit' ? 'Save Changes' : 'Save'}
           </Button>
         </DialogActions>
       </form>
+    )
+  }
+
+  if (isMobile) {
+    return (
+      <>
+        <SwipeableDrawer
+          anchor='bottom'
+          open={showModal}
+          onClose={() => {
+            props.handleModalForm(type, undefined)
+            resetState()
+          }}
+          onOpen={() => {
+            props.handleModalForm(type, undefined)
+            resetState()
+          }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ padding: '16px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Typography fontSize={16} fontWeight={700} color={'#32497A'}>
+                {type == 'create' ? 'Add  Travel Document' : 'Edit Travel Document'}
+              </Typography>
+              <IconButton
+                size='small'
+                sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
+                onClick={() => {
+                  props.handleModalForm(type, undefined)
+                  resetState()
+                }}
+              >
+                <Icon icon='mdi:close' />
+              </IconButton>
+            </Box>
+            <Box sx={{ px: '16px', py: '24px', marginBottom: '60px' }}>{renderForm()}</Box>
+          </Box>
+        </SwipeableDrawer>
+      </>
+    )
+  }
+
+  return (
+    <Dialog fullWidth open={showModal} maxWidth='md' scroll='body' TransitionComponent={Transition}>
+      {renderForm()}
     </Dialog>
   )
 }

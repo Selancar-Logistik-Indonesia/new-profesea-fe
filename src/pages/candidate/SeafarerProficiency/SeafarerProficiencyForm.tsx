@@ -73,7 +73,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
     type == 'edit'
       ? {
           id: seafarerProficiency?.country_id,
-          name: seafarerProficiency?.country
+          name: seafarerProficiency?.country?.name
         }
       : ''
   )

@@ -120,7 +120,7 @@ function ProfileConnection() {
           </Grid>
         </Grid>
         <Grid item lg={2} md={2} xs={12}>
-          <SideAd adslocation='home-page' />
+          <SideAd adslocation='connections-page' />
         </Grid>
       </Grid>
     </Box>

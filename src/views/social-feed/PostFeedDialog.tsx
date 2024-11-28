@@ -56,6 +56,8 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
   const [isUploadFile, setIsUploadFile] = useState(false)
   const [imagePreviewUrls, setPreviewUrls] = useState<string[]>([])
   const [attachments, setAttachments] = useState<any[]>([])
+  const [errMaxFileImage, setErrMaxFileImage] = useState(false)
+  const [errMaxFileVideo, setErrMaxFileVideo] = useState(false)
 
   useEffect(() => {
     if (contentTypeFromParent != 'text') {
@@ -79,15 +81,34 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       // Do something with the files
+      setErrMaxFileImage(false)
+      setErrMaxFileVideo(false)
+      const maxImageSize = 3 * 1024 * 1024 // 3MB in bytes
+      const maxVideoSize = 110 * 1024 * 1024 // 110MB in bytes``
 
       // for video preview
       if (acceptedFiles[0].type === 'video/mp4') {
+        if (acceptedFiles[0].size > maxVideoSize) {
+          setErrMaxFileVideo(true)
+
+          return
+        }
+
         const objURL = URL.createObjectURL(acceptedFiles[0])
 
         setAttachments(acceptedFiles)
         setPreviewUrls([objURL])
       } else {
         const urls: React.SetStateAction<string[]> = []
+
+        for (const file of acceptedFiles) {
+          if (file.size > maxImageSize) {
+            setErrMaxFileImage(true)
+
+            return
+          }
+        }
+
         for (const file of acceptedFiles) {
           urls.push(URL.createObjectURL(file))
         }
@@ -127,6 +148,8 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
       setIsUploadFile(false)
       setPreviewUrls([])
       setAttachments([])
+      setErrMaxFileImage(false)
+      setErrMaxFileVideo(false)
     }, 1000)
   }
 
@@ -149,6 +172,22 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
     setIsUploadFile(false)
     setPreviewUrls([])
     setAttachments([])
+  }
+
+  const handleDisabledButton = (): boolean => {
+    if (contentType == 'text') {
+      if (content.length == 0) {
+        return true
+      }
+    }
+
+    if (contentType == 'images' || contentType == 'videos') {
+      if (imagePreviewUrls.length == 0 || content.length == 0) {
+        return true
+      }
+    }
+
+    return false
   }
 
   // variable for
@@ -352,11 +391,25 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
                       {contentType === 'images' ? (
                         <p style={{ fontSize: '14px', fontWeight: 400 }}>JPEG, PNG, and PDF formats, up to 3MB</p>
                       ) : (
-                        <p style={{ fontSize: '14px', fontWeight: 400 }}>MP4 formats up to 3MB</p>
+                        <p style={{ fontSize: '14px', fontWeight: 400 }}>MP4 formats up to 110MB</p>
                       )}
                     </div>
                   )}
                 </div>
+                {errMaxFileImage && (
+                  <Box>
+                    <Typography variant='body2' color={'red'} sx={{ fontSize: '14px' }}>
+                      Image file size must be less than 3MB.
+                    </Typography>
+                  </Box>
+                )}
+                {errMaxFileVideo && (
+                  <Box>
+                    <Typography variant='body2' color={'red'} sx={{ fontSize: '14px' }}>
+                      Video file size must be less than 110MB.
+                    </Typography>
+                  </Box>
+                )}
               </Box>
             )}
 
@@ -387,7 +440,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
           </Box>
           <Box>
             <Button
-              disabled={(contentType == 'images' || contentType == 'videos') && imagePreviewUrls.length == 0}
+              disabled={handleDisabledButton()}
               sx={{ width: '100%', textTransform: 'capitalize', fontSize: '14px', fontWeight: 400, color: 'white' }}
               variant='contained'
               onClick={handleOnClickPost}

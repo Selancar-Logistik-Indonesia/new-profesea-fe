@@ -57,7 +57,7 @@ const DialogGoogleLogin = (props: BlockDialog) => {
       >
         <Grid container spacing={2} direction='column' justifyContent='center' alignItems='center'>
           <Grid item>
-            <Link href={`https://apifix.profesea.id/auth/google?team_id=2&type=onship`} passHref legacyBehavior>
+            <Link href={`https://apifix.profesea.id/auth/google`} passHref legacyBehavior>
               <Button
                 variant='contained'
                 fullWidth
@@ -70,7 +70,7 @@ const DialogGoogleLogin = (props: BlockDialog) => {
             </Link>
           </Grid>
           <Grid item>
-            <Link href={`https://apifix.profesea.id/auth/google?team_id=2&type=offship`} passHref legacyBehavior>
+            <Link href={`https://apifix.profesea.id/auth/google`} passHref legacyBehavior>
               <Button
                 variant='contained'
                 fullWidth
@@ -83,7 +83,7 @@ const DialogGoogleLogin = (props: BlockDialog) => {
             </Link>
           </Grid>
           <Grid item>
-            <Link href={`https://apifix.profesea.id/auth/google?team_id=3&type=null`} passHref legacyBehavior>
+            <Link href={`https://apifix.profesea.id/auth/google`} passHref legacyBehavior>
               <Button
                 variant='contained'
                 fullWidth
@@ -96,7 +96,7 @@ const DialogGoogleLogin = (props: BlockDialog) => {
             </Link>
           </Grid>
           {/* <Grid item>
-            <Link href={`https://apifix.profesea.id/auth/google?team_id=4&type=null`} passHref legacyBehavior>
+            <Link href={`https://apifix.profesea.id/auth/google`} passHref legacyBehavior>
               <Button
                 variant='contained'
                 fullWidth

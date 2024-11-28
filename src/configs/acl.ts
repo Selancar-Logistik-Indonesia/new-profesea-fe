@@ -49,13 +49,13 @@ const defineRulesFor = (role: string, subject: string) => {
             'admin-feeds-management'
         ])
     } else if (role === 'Seafarer') {
-        can(['read'], ['home', 'user-community', 'profile-company', 'company-activities', 'user-alumni', 'seafarer-training', 'seafarer', 'seafarer-jobs', 'feed-detail', 'candidate/profile', 'seafarer-job-applied', 'PricingPage'])
+        can(['read'], ['home', 'user-community', 'profile-company', 'company-activities', 'user-alumni', 'seafarer-training', 'seafarer', 'seafarer-jobs', 'feed-detail', 'candidate/profile', 'seafarer-job-applied', 'PricingPage', 'select-type', 'verify-email', 'on-boarding'])
     } else if (role === 'Company') {
-        can(['read'], ['home', 'company', 'profile-company', 'company-activities', 'user-community', 'user-job-management', 'user-find-candidate', 'user-job-detail', 'find-candidate', 'feed-detail', 'company-job-applied', 'PricingPage']);
+        can(['read'], ['home', 'company', 'profile-company', 'company-activities', 'user-community', 'user-job-management', 'user-find-candidate', 'user-job-detail', 'find-candidate', 'feed-detail', 'company-job-applied', 'PricingPage', 'select-type', 'verify-email', 'on-boarding']);
     } else if (role === 'Trainer') {
-        can(['read'], ['home', 'user-community', 'profile-company', 'company-activities', 'user-training-management', 'feed-detail', 'user-my-participant']);
+        can(['read'], ['home', 'user-community', 'profile-company', 'company-activities', 'user-training-management', 'feed-detail', 'user-my-participant', 'select-type', 'verify-email', 'on-boarding']);
     } else {
-        can(['read'], ['home', 'job-detail', 'seafarer-jobs', 'profile-company', 'company-activities']);
+        can(['read'], ['home', 'job-detail', 'seafarer-jobs', 'profile-company', 'company-activities', 'verify-email', 'select-type', 'on-boarding']);
     }
 
     return rules

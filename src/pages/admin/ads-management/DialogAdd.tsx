@@ -64,6 +64,14 @@ const ADS_LOCATION_OPTIONS = [
   {
     label: 'Company Profile Page',
     value: 'company-profile-page'
+  },
+  {
+    label: 'Connections Page',
+    value: 'connections-page'
+  },
+  {
+    label: 'Notifications Page',
+    value: 'notifications-page'
   }
 ]
 
@@ -96,6 +104,8 @@ const DialogAdd = (props: DialogProps) => {
   const [files, setFiles] = useState<File[]>([])
   const [adsLocation, setAdsLocation] = useState<string>('')
   const [adsPlacement, setAdsPlacement] = useState<string>('')
+  
+  //   const [submitError, setSubmitError] = useState<any>(null)
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
@@ -161,6 +171,7 @@ const DialogAdd = (props: DialogProps) => {
       setAdsPlacement('')
       reset()
     } catch (error) {
+      props.onCloseClick()
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
 

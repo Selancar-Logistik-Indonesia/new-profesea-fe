@@ -55,6 +55,7 @@ const JobManagementScreen = () => {
           category_name: row.category?.name,
           degree: row.degree?.name,
           license: license.map(e => e.title).join(', '),
+          is_active: row.is_active,
           actions: {
             onDelete: () => deleteHandler(row),
             onUpdate: () => updateHandler(row)
@@ -195,6 +196,7 @@ const JobManagementScreen = () => {
                 loading={onLoading}
                 onPageChange={model => onPageChange(model)}
                 rows={dataSheet}
+                getListJob={getListJob}
                 // onRowClick={params => handleOnRowClick(params)}
               />
             </CardContent>

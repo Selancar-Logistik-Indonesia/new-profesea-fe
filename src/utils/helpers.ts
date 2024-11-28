@@ -96,6 +96,18 @@ function getUserRoleName(team?: ITeam) {
     return newValue ? newValue.value : teamName
 }
 
+function getOnboardingLink(user: IUser) {
+    if (user.team_id === 2) {
+        if (user.employee_type === 'onship') {
+            return 'seafarer'
+        } else return 'professional'
+    } else if (user.team_id === 3) {
+        return 'employer'
+    }
+
+    return null
+}
+
 function formatIDR(amount: number, isIdr?: boolean) {
     const options: Intl.NumberFormatOptions = {
         style: 'currency',
@@ -397,6 +409,7 @@ export {
     textEllipsis,
     getUserAvatar,
     getUserRoleName,
+    getOnboardingLink,
     formatIDR,
     isStaging,
     isDevelopment,
