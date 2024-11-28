@@ -1,195 +1,558 @@
-import { ReactNode } from 'react'
+import { useState, ReactNode, useEffect } from 'react'
 import Link from 'next/link'
-import Button from '@mui/material/Button'
-import Box, { BoxProps } from '@mui/material/Box'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { styled, useTheme } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
-import Icon from 'src/@core/components/icon'
+import {
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  Grid,
+  IconButton,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+  Typography,
+  InputAdornment,
+  Tooltip,
+  tooltipClasses,
+  TooltipProps,
+  Checkbox,
+  Dialog,
+  DialogContent
+} from '@mui/material'
+import { styled } from '@mui/material/styles'
+
+import * as yup from 'yup'
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useAuth } from 'src/hooks/useAuth'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
-import { useSettings } from 'src/@core/hooks/useSettings'
 import Head from 'next/head'
+import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from 'react-i18next'
-// import DialogGoogleLogin from './DialogGoogleLogin'
+import { Icon } from '@iconify/react'
+import { useSearchParams } from 'next/navigation'
 
-const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-  width: '100%',
-  [theme.breakpoints.up('md')]: {
-    maxWidth: 400
-  },
-  [theme.breakpoints.up('lg')]: {
-    maxWidth: 450
+import DialogMessage from './DialogMessage'
+import { HttpClient } from 'src/services'
+import { toast } from 'react-hot-toast'
+import { AppConfig } from 'src/configs/api'
+import { useRouter } from 'next/router'
+
+const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} placement='top-start' />
+))(() => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: '#F2F8FE',
+    padding: '12px',
+    width: '447px',
+    maxWidth: '447px'
   }
 }))
 
-const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-  width: '70%',
-  [theme.breakpoints.down('md')]: {
-    maxWidth: 500
-  }
-}))
-
-const onHiddenBox = {
-  p: 7,
-  height: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: 'background.paper'
+const getSchema = (t: any) => {
+  return yup.object().shape({
+    email: yup.string().email(t('input_label_error_3')).required(t('input_label_error_1')),
+    password: yup.string().min(8, t('input_label_error_2')).required(t('input_label_error_1')),
+    password2: yup.string().required(t('input_label_error_1'))
+  })
 }
 
-const regularBox = {
-  boxSizing: 'border-box',
-  maxWidth: '100%',
-  marginTop: '10%',
-  margin: '10%',
-  background: '#FFFFFF',
-  border: '1px solid rgba(76, 78, 100, 0.12)',
-  borderRadius: '20px',
-  p: 7,
-  height: '80%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
+interface FormData {
+  email: string
+  password: string
+  password2: string
+  tos: string
 }
 
-const Register = () => {
-  const theme = useTheme()
-  const { settings } = useSettings()
-  const hidden = useMediaQuery(theme.breakpoints.down('md'))
-  // const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false);
-  const { skin } = settings
+interface CheckEmailResponse {
+  available: boolean
+  message: string
+}
 
+const LoginPage = () => {
   const { t } = useTranslation()
+  const schema = getSchema(t)
+  const auth = useAuth()
+  const router = useRouter()
+
+  const searchParams = useSearchParams()
+  const email = searchParams.get('email')
+  const checked = searchParams.get('checked')
+
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showPassword2, setShowPassword2] = useState<boolean>(false)
+  const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
+  const [openDialogReturn, setOpenDialogReturn] = useState<boolean>(false)
+  const [onLoading, setOnLoading] = useState<boolean>(false)
+  const [checkEmail, setCheckEmail] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (email && email !== '') {
+      setValue('email', email)
+    }
+    if (checked && checked === '1') {
+      setCheckEmail(true)
+    }
+  }, [email, checked])
+
+  const {
+    control,
+    register,
+    setValue,
+    getValues,
+    setError,
+    watch,
+    formState: { errors },
+    handleSubmit
+  } = useForm<FormData>({
+    mode: 'onBlur',
+    resolver: yupResolver(schema)
+  })
+
+  const emailValue = watch('email')
+
+  const post = async (json: any) => {
+    setOnLoading(true)
+
+    HttpClient.post(AppConfig.baseUrl + '/auth/register/v2', json).then(
+      async () => {
+        toast.success('Successfully Registered!')
+        const loginJson = {
+          email: json.email,
+          password: json.password
+        }
+        await auth.login({ ...loginJson })
+        setOnLoading(false)
+      },
+      error => {
+        setOnLoading(false)
+        toast.error('Registrastion Failed ' + error.response.data.message)
+      }
+    )
+  }
+
+  const onSubmit = (data: FormData) => {
+    const { email, password, password2, tos } = data
+    const lowerCaseEmail = email.toLowerCase()
+
+    if (tos == '') {
+      toast.error(`${t('input_label_error_5')}`)
+
+      return
+    } else if (password !== password2) {
+      toast.error(`${t('input_label_error_6')}`)
+
+      return
+    }
+
+    try {
+      post({
+        email: lowerCaseEmail,
+        password: password,
+        password_confirmation: password2
+      })
+    } catch (e) {
+      alert(e)
+    }
+  }
+
+  const onChecking = async (email: string) => {
+    if (!email && email === '') {
+      setError('email', {
+        type: 'manual',
+        message: `${t('input_label_error_1')}`
+      })
+
+      return
+    }
+
+    setOnLoading(true)
+    const response = await fetch(AppConfig.baseUrl + `/public/data/check-email?email=${email}`)
+    const result: CheckEmailResponse = await response.json()
+
+    if (result.available) {
+      setOnLoading(false)
+      setCheckEmail(true)
+    } else {
+      setOnLoading(false)
+      setCheckEmail(false)
+      setOpenDialogMessage(true)
+    }
+  }
 
   return (
     <>
       <Head>
-        <title>{t('register_title')}</title>
-        <meta name='description' content={`${t('register_description')}`} />
-        <meta name='keywords' content='tos, term of service, term and condition' />
+        <title>{`${themeConfig.templateName} - ${t('register_title')}`}</title>
+        <meta name='description' content={`${themeConfig.templateName} - ${t('register_description')}`} />
+        <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
-        <meta property='og:title' content={`${t('register_title')}`} />
-        <meta property='og:description' content={`${t('register_description')}`} />
+        <meta property='og:title' content={`${themeConfig.templateName} - ${t('register_title')}`} />
+        <meta property='og:description' content={`${themeConfig.templateName} - ${t('register_description')}`} />
         <meta property='og:image' content='images/logosamudera.png' />
       </Head>
-      <Box
-        sx={{
-          position: 'fit',
-          width: '100%',
-          height: '100%',
-          backgroundImage: 'url(/images/register-00.jpg)',
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
-        }}
-      >
-        <Box className='content-right'>
-          {!hidden ? (
-            <Box
-              sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}
-            ></Box>
-          ) : null}
-
-          <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
-            <Box sx={!hidden ? regularBox : onHiddenBox}>
-              <BoxWrapper>
+      <Grid container sx={{ height: '100vh' }}>
+        <Grid
+          item
+          md={6}
+          sx={{
+            backgroundImage: `url(/images/bg-login.jpeg)`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '150%',
+            backgroundPosition: '60% 0%'
+          }}
+        />
+        <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '20px',
+              width: '495px'
+            }}
+          >
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+              <Link href='/'>
+                <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
+              </Link>
+              {checkEmail ? (
                 <Box
                   sx={{
-                    mb: 3,
-                    maxWidth: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '12px'
+                  }}
+                >
+                  <IconButton
+                    sx={{ backgroundColor: '#F0F0F0', '&:hover': { backgroundColor: '#E0E0E0' } }}
+                    onClick={() => setOpenDialogReturn(true)}
+                  >
+                    <Icon icon='mdi:chevron-left' fontSize={24} />
+                  </IconButton>
+                  <Typography
+                    sx={{ textAlign: 'center', color: '#404040', fontSize: 32, fontWeight: 700, lineHeight: '38.4px' }}
+                  >
+                    {t('register_page.title_2')}
+                  </Typography>
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
                     justifyContent: 'center',
                     alignContent: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <Typography
+                    sx={{ textAlign: 'center', color: '#404040', fontSize: 32, fontWeight: 700, lineHeight: '38.4px' }}
+                  >
+                    {t('register_page.title_1')}
+                  </Typography>
+                  <Typography
+                    sx={{ textAlign: 'center', color: '#999', fontSize: 16, fontWeight: 400, lineHeight: '21px' }}
+                  >
+                    {t('register_page.description')}
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+            <Box
+              sx={{
+                height: '444px',
+                p: '24px',
+                backgroundColor: 'white',
+                borderRadius: '8px',
+                boxShadow: 3,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}
+            >
+              <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '18px'
+                  }}
+                >
+                  <FormControl fullWidth>
+                    <TextField
+                      autoFocus
+                      disabled={checkEmail}
+                      label={t('input.email')}
+                      {...register('email')}
+                      error={Boolean(errors.email)}
+                      InputLabelProps={{ shrink: checkEmail || Boolean(emailValue) }}
+                    />
+                    {errors.email && (
+                      <Typography sx={{ color: 'error.main', m: '6px 4px 0', fontSize: 12 }}>
+                        {errors.email.message}
+                      </Typography>
+                    )}
+                  </FormControl>
+                  {checkEmail && (
+                    <>
+                      <LightTooltip
+                        title={
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexWrap: 'nowrap',
+                              alignItems: 'center',
+                              gap: '6px'
+                            }}
+                          >
+                            <Box sx={{ flexShrink: 0 }}>
+                              <Icon icon='ph:warning-circle' color='#32497A' fontSize={24} />
+                            </Box>
+                            <Typography sx={{ flexGrow: 1, color: '#32497A', fontSize: 14, fontWeight: 400 }}>
+                              Minimal 8 karakter. Gunakan kombinasi angka, huruf, simbol, serta huruf besar dan kecil.
+                            </Typography>
+                          </Box>
+                        }
+                      >
+                        <FormControl fullWidth>
+                          <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
+                            {t('input.password')}
+                          </InputLabel>
+                          <OutlinedInput
+                            {...register('password')}
+                            label={t('input.password')}
+                            error={Boolean(errors.password)}
+                            type={showPassword ? 'text' : 'password'}
+                            endAdornment={
+                              <InputAdornment position='end'>
+                                <IconButton
+                                  edge='end'
+                                  onMouseDown={e => e.preventDefault()}
+                                  onClick={() => setShowPassword(!showPassword)}
+                                >
+                                  <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                                </IconButton>
+                              </InputAdornment>
+                            }
+                          />
+                          {errors.password && (
+                            <Typography sx={{ color: 'error.main', ml: '4px', fontSize: 12 }}>
+                              {errors.password.message}
+                            </Typography>
+                          )}
+                        </FormControl>
+                      </LightTooltip>
+                      <FormControl fullWidth>
+                        <InputLabel htmlFor='auth-login-v2-password2' error={Boolean(errors.password2)}>
+                          {t('input.password_2')}
+                        </InputLabel>
+                        <OutlinedInput
+                          {...register('password2')}
+                          label={t('input.password_2')}
+                          error={Boolean(errors.password2)}
+                          type={showPassword2 ? 'text' : 'password'}
+                          endAdornment={
+                            <InputAdornment position='end'>
+                              <IconButton
+                                edge='end'
+                                onMouseDown={e => e.preventDefault()}
+                                onClick={() => setShowPassword2(!showPassword2)}
+                              >
+                                <Icon icon={showPassword2 ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                        />
+                        {errors.password2 && (
+                          <Typography sx={{ color: 'error.main', ml: '4px', fontSize: 12 }}>
+                            {errors.password2.message}
+                          </Typography>
+                        )}
+                      </FormControl>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'left',
+                          alignItems: 'center',
+                          flexWrap: 'wrap',
+                          gap: '2px'
+                        }}
+                      >
+                        <Controller
+                          name='tos'
+                          control={control}
+                          render={({ field }) => <Checkbox {...field} {...register('tos')} />}
+                        />
+                        <Typography sx={{ color: '#404040', fontSize: 12, fontWeight: 400 }}>
+                          {t('tos.tos_me')}
+                          <Box
+                            component={Link}
+                            href='/term'
+                            target='_blank'
+                            sx={{ mx: '3px', color: '#0B58A6', fontWeight: 400 }}
+                          >
+                            {t('tos.tos_terms')}
+                          </Box>
+                          {t('tos.tos_and')}
+                          <Box
+                            component={Link}
+                            href='/privacy'
+                            target='_blank'
+                            sx={{ mx: '3px', color: '#0B58A6', fontWeight: 400 }}
+                          >
+                            {t('tos.tos_privacy')}
+                          </Box>
+                          {t('tos.tos_end')}
+                        </Typography>
+                      </Box>
+                    </>
+                  )}
+                  {checkEmail ? (
+                    <Button disabled={auth.loading} fullWidth size='large' type='submit' variant='contained'>
+                      {auth.loading ? <CircularProgress color='primary' /> : t('input.register')}
+                    </Button>
+                  ) : (
+                    <Button
+                      fullWidth
+                      disabled={onLoading}
+                      size='large'
+                      type='button'
+                      variant='contained'
+                      onClick={() => {
+                        const emailValue = getValues('email')
+                        onChecking(emailValue)
+                      }}
+                    >
+                      {onLoading ? <CircularProgress color='primary' /> : t('input.continue')}
+                    </Button>
+                  )}
+                </Box>
+              </form>
+
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                {!checkEmail && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexWrap: 'wrap',
+                      gap: '2px'
+                    }}
+                  >
+                    <Typography sx={{ textAlign: 'center', fontSize: 12, fontWeight: 400, color: '#404040' }}>
+                      {t('register_page.account')}
+                    </Typography>
+                    <Typography component={Link} href='/login/v2' sx={{ color: '#0B58A6', fontWeight: 700 }}>
+                      {t('input.login')}
+                    </Typography>
+                  </Box>
+                )}
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     textAlign: 'center'
                   }}
                 >
-                  <Link href='/'>
-                    <Box component='img' src='/images/logosamudera.png' sx={{ width: 125, mt: 5, mb: 5 }}></Box>
-                  </Link>
-                  {/* <Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#262525" }}>Register</Typography> */}
-                  <Typography variant='body2' sx={{ textAlign: 'center', color: '#262525', mb: 8 }}>
-                    {`${t('register_text_1_1')} \n ${t('register_text_1_2')}`}
-                  </Typography>
-                </Box>
-
-                <Link href='/register/seafareronship' passHref legacyBehavior>
-                  <Button
-                    variant='contained'
-                    fullWidth
-                    sx={{ mb: 6, height: '70px', color: 'white' }}
-                    style={{ textTransform: 'none' }}
-                    startIcon={<Icon icon={'solar:shield-user-broken'} />}
-                  >
-                    {t('register_text_4_1')}
-                  </Button>
-                </Link>
-                <Link href='/register/seafareroffship' passHref legacyBehavior>
-                  <Button
-                    variant='contained'
-                    fullWidth
-                    sx={{ mb: 6, height: '70px', color: 'white' }}
-                    style={{ textTransform: 'none' }}
-                    startIcon={<Icon icon={'solar:user-hands-bold-duotone'} />}
-                  >
-                    {t('register_text_4_2')}
-                  </Button>
-                </Link>
-                <Link href='/register/recruiter' passHref legacyBehavior>
-                  <Button
-                    variant='contained'
-                    fullWidth
-                    sx={{ mb: 6, height: '70px', color: 'white' }}
-                    style={{ textTransform: 'none' }}
-                    startIcon={<Icon icon={'solar:buildings-3-bold-duotone'} />}
-                  >
-                    {t('register_text_5')}
-                  </Button>
-                </Link>
-                {/* <Link href='/register/trainer' passHref legacyBehavior>
-                  <Button
-                    variant='contained'
-                    fullWidth
-                    sx={{ mb: 6, height: '70px', color: 'white' }}
-                    style={{ textTransform: 'none' }}
-                    startIcon={<Icon icon={'solar:user-hand-up-bold-duotone'} />}
-                  >
-                    {t('register_text_6')}
-                  </Button>
-                </Link> */}
-
-                {/* <Box sx={{ marginTop: '2.5%' }}>
-                    <Button
-                      fullWidth
-                      size='medium'
-                      variant='outlined'
-                      sx={{ mb: 3 }}
-                      onClick={() => setOpenModalGoogle(true)}
+                  <Typography sx={{ color: '#404040', fontSize: 12, fontWeight: 400 }}>
+                    {t('tos.tos_start')}
+                    <Box
+                      component={Link}
+                      href='/term'
+                      target='_blank'
+                      sx={{ mx: '3px', color: '#0B58A6', fontWeight: 400 }}
                     >
-                      {t('register_text_2A')} Google <Icon icon={'devicon:google'} style={{ marginLeft: 5 }} />
-                    </Button>
-                  </Box> */}
-
-                <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                  <Typography sx={{ mr: 2, color: '#262525' }}>{t('register_text_2')} </Typography>
-                  <Typography href='/login' component={Link} sx={{ color: 'primary.main', fontWeight: 'bold' }}>
-                    {t('register_text_3')}
+                      {t('tos.tos_terms')}
+                    </Box>
+                    {t('tos.tos_and')}
+                    <Box
+                      component={Link}
+                      href='/privacy'
+                      target='_blank'
+                      sx={{ mx: '3px', color: '#0B58A6', fontWeight: 400 }}
+                    >
+                      {t('tos.tos_privacy')}
+                    </Box>
+                    {t('tos.tos_end')}
                   </Typography>
                 </Box>
-              </BoxWrapper>
+              </Box>
             </Box>
-          </RightWrapper>
-        </Box>
-      </Box>
-      {/* <DialogGoogleLogin
-        visible={openModalGoogle}
+          </Box>
+        </Grid>
+      </Grid>
+      <DialogMessage
+        email={getValues('email')}
+        visible={openDialogMessage}
         onCloseClick={() => {
-          setOpenModalGoogle(!openModalGoogle)
+          setOpenDialogMessage(!openDialogMessage)
         }}
-      /> */}
+      />
+      <Dialog maxWidth='sm' open={openDialogReturn}>
+        <DialogContent sx={{ p: '24px', width: '400px', textAlign: 'center' }}>
+          <Typography sx={{ fontSize: 16, fontWeight: 700 }}>{t('register_page.return_dialog.title')}</Typography>
+          <Typography sx={{ mt: '6px', fontSize: 14, fontWeight: 400 }}>
+            {t('register_page.return_dialog.description')}
+          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px',
+              mt: '16px'
+            }}
+          >
+            <Button
+              fullWidth
+              variant='contained'
+              onClick={() => {
+                setValue('email', '')
+                setValue('password', '')
+                setValue('password2', '')
+                setValue('tos', '')
+                setCheckEmail(false)
+                setOpenDialogReturn(false)
+                router.replace(router.pathname)
+              }}
+              sx={{
+                h: '33px',
+                backgroundColor: '#D8E6FF',
+                color: '#32497A',
+                textTransform: 'none',
+                fontSize: 14,
+                fontWeight: 400,
+                '&:hover': { backgroundColor: '#A6C6FF' }
+              }}
+            >
+              {t('register_page.return_dialog.cancel')}
+            </Button>
+            <Button
+              fullWidth
+              variant='contained'
+              onClick={() => setOpenDialogReturn(false)}
+              sx={{
+                h: '33px',
+                backgroundColor: '#32497A',
+                color: 'white',
+                textTransform: 'none',
+                fontSize: 14,
+                fontWeight: 400
+              }}
+            >
+              {t('register_page.return_dialog.continue')}
+            </Button>
+          </Box>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }
 
-Register.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
-Register.guestGuard = true
-export default Register
+LoginPage.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+LoginPage.guestGuard = true
+
+export default LoginPage

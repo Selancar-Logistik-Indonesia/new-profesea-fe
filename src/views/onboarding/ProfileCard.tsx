@@ -189,9 +189,9 @@ const ProfessionalProfileCard = () => {
           </Grid>
           <Grid item xs={6} sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Icon icon='ph:globe-hemisphere-east' style={{ flexShrink: 0, fontSize: 20, color: '#32497A' }} />
-            {user && user.field_preference && user.field_preference.city ? (
+            {user && user.location_province ? (
               <Typography sx={{ color: '#868686', fontSize: 14, fontWeight: 400 }}>
-                {user.field_preference.city.city_name}
+                {user.location_province.province_name}
               </Typography>
             ) : (
               <EmptyData />
