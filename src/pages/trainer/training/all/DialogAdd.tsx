@@ -65,6 +65,7 @@ const DialogAdd = (props: DialogProps) => {
   const [CatId, setCatId] = useState(0)
   const [date, setDate] = useState<DateType>(new Date())
   const [files, setFiles] = useState<File[]>([])
+  const [currency, setCurrency] = useState('')
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
@@ -162,7 +163,7 @@ const DialogAdd = (props: DialogProps) => {
   }
 
   return (
-    <Dialog fullWidth open={props.visible} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
+    <Dialog fullWidth open={props.visible} maxWidth='md' scroll='body' TransitionComponent={Transition}>
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
         <DialogContent
           sx={{
@@ -186,8 +187,11 @@ const DialogAdd = (props: DialogProps) => {
             <Typography variant='body2'>Fulfill your Training Info here</Typography>
           </Box>
 
-          <Grid container columnSpacing={'2'} rowSpacing={'3'}>
+          <Grid container columnSpacing={3} rowSpacing={4}>
             <Grid item xs={12}>
+              <TextField id='title' label='Title' variant='outlined' fullWidth {...register('title')} />
+            </Grid>
+            <Grid item xs={8}>
               <Autocomplete
                 disablePortal
                 id='combo-box-demo'
@@ -200,10 +204,7 @@ const DialogAdd = (props: DialogProps) => {
                 }
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField id='title' label='Title' variant='outlined' fullWidth {...register('title')} />
-            </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={4}>
               <DatePickerWrapper>
                 <DatePicker
                   showTimeSelect
@@ -243,21 +244,37 @@ const DialogAdd = (props: DialogProps) => {
                 error={Boolean(errors.requirements)}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={2}>
+              <InputLabel htmlFor='outlined-adornment-amount'>Currency</InputLabel>
+              <Autocomplete
+                fullWidth
+                disablePortal
+                id='outlined-adornment-amount'
+                options={[
+                  { value: 'IDR', label: 'IDR' }
+                  //   { value: 'USD', label: 'USD' }
+                ]}
+                getOptionLabel={(option: any) => option.label}
+                defaultValue={{ value: 'IDR', label: 'IDR' }}
+                renderInput={params => <TextField {...params} variant='outlined' />}
+                onChange={(event: any, newValue: any | null) => setCurrency(newValue ? newValue.value : '')}
+              />
+            </Grid>
+            <Grid item xs={5}>
               <InputLabel htmlFor='outlined-adornment-amount'>Price</InputLabel>
               <OutlinedInput
                 id='outlined-adornment-amount'
-                startAdornment={<InputAdornment position='start'>Rp.</InputAdornment>}
+                startAdornment={<InputAdornment position='start'>{currency === 'USD' ? 'USD' : 'Rp.'}</InputAdornment>}
                 label='Price'
                 fullWidth
                 {...register('price')}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <InputLabel htmlFor='outlined-adornment-amount'>Discounted Price</InputLabel>
               <OutlinedInput
                 id='outlined-adornment-amount'
-                startAdornment={<InputAdornment position='start'>Rp.</InputAdornment>}
+                startAdornment={<InputAdornment position='start'>{currency === 'USD' ? 'USD' : 'Rp.'}</InputAdornment>}
                 label='Discounted Price'
                 fullWidth
                 {...register('discounted_price')}

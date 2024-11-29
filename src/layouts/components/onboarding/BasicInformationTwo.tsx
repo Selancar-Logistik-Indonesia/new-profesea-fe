@@ -72,7 +72,8 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
     setOnLoading(true)
     HttpClient.patch(AppConfig.baseUrl + '/onboarding/address', {
       country_id: data.country,
-      city_id: data.city,
+      //   city_id: data.city,
+      city_id: 156,
       address: data.address,
       next_step: 'step-two'
     })
@@ -112,7 +113,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
             )}
           />
         </FormControl>
-        <FormControl error={!!errors.city}>
+        {/* <FormControl error={!!errors.city}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
             Kota <span style={{ color: '#F22' }}>*</span>
           </Typography>
@@ -133,7 +134,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
               </Select>
             )}
           />
-        </FormControl>
+        </FormControl> */}
         <FormControl fullWidth error={!!errors.address}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
             Alamat <span style={{ color: '#F22' }}>*</span>
