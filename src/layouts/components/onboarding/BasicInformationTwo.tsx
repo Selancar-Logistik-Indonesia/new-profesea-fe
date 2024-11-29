@@ -9,7 +9,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 // import Countries from 'src/contract/models/country'
-import City from 'src/contract/models/city'
+// import City from 'src/contract/models/city'
 import { toast } from 'react-hot-toast'
 
 type FormData = {
@@ -43,7 +43,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
   const router = useRouter()
   const { user, refreshSession } = useAuth()
   //   const [country, setCountry] = useState<Countries[] | null>(null)
-  const [city, setCity] = useState<City[] | null>(null)
+  //   const [city, setCity] = useState<City[] | null>(null)
 
   const [onLoading, setOnLoading] = useState(false)
 
@@ -52,14 +52,14 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
     //   const data = response.data.countries
     //   setCountry(data)
     // })
-    await HttpClient.get(AppConfig.baseUrl + '/public/data/city?country_id=100').then(response => {
-      const data = response.data.cities
-      setCity(data)
-    })
+    // await HttpClient.get(AppConfig.baseUrl + '/public/data/city?country_id=100').then(response => {
+    //   const data = response.data.cities
+    //   setCity(data)
+    // })
 
     if (user && user.address) {
       //   setValue('country', user.address.country_id)
-      setValue('city', user.address.city_id)
+      //   setValue('city', user.address.city_id)
       setValue('address', user.address.address)
     }
   }
