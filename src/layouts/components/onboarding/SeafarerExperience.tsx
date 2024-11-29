@@ -193,7 +193,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value ? '#BFBFBF' : '#0B58A6', fontSize: 14, fontWeight: 400 }}>
-                    Ya, saya memiliki pengalaman bekerja
+                    Ya, saya memiliki pengalaman berlayar
                   </Typography>
                 </Box>
                 <Box
@@ -207,7 +207,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
                   }}
                 >
                   <Typography sx={{ color: value ? '#0B58A6' : '#BFBFBF', fontSize: 14, fontWeight: 400 }}>
-                    Tidak, saya belum memiliki pengalaman bekerja
+                    Tidak, saya belum memiliki pengalaman berlayar
                   </Typography>
                 </Box>
               </Box>

@@ -7,16 +7,15 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
-import City from 'src/contract/models/city'
 import Link from 'next/link'
 import { toast } from 'react-hot-toast'
 
 type FormData = {
-  city: number
+  province: number
 }
 
 const schema = yup.object().shape({
-  city: yup.number().required()
+  province: yup.number().required()
 })
 
 const LocationPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink: string }) => {
@@ -27,24 +26,24 @@ const LocationPreference = ({ beforeLink, nextLink }: { beforeLink: string; next
     formState: { errors }
   } = useForm<FormData>({
     mode: 'onSubmit',
-    defaultValues: { city: 0 },
+    defaultValues: { province: 0 },
     resolver: yupResolver(schema)
   })
 
   const router = useRouter()
   const { user, refreshSession } = useAuth()
 
-  const [city, setCity] = useState<City[]>()
+  const [province, setProvince] = useState<any[]>()
   const [onLoading, setOnLoading] = useState(false)
 
   const firstLoad = async () => {
-    await HttpClient.get(AppConfig.baseUrl + '/public/data/city?country_id=100').then(response => {
-      const data = response.data.cities
-      setCity(data)
+    await HttpClient.get(AppConfig.baseUrl + '/public/data/province?country_id=100').then(response => {
+      const data = response.data.provinces
+      setProvince(data)
     })
 
-    if (user && user.field_preference && user.field_preference.city) {
-      setValue('city', user.field_preference.city.id)
+    if (user && user.location_province) {
+      setValue('province', user.location_province.id)
     }
   }
 
@@ -55,7 +54,7 @@ const LocationPreference = ({ beforeLink, nextLink }: { beforeLink: string; next
   const onSubmit = (data: FormData) => {
     setOnLoading(true)
     HttpClient.patch(AppConfig.baseUrl + '/onboarding/preference-location', {
-      city_id: data.city,
+      province_id: data.province,
       next_step: 'step-five'
     })
       .then(
@@ -74,22 +73,22 @@ const LocationPreference = ({ beforeLink, nextLink }: { beforeLink: string; next
   return (
     <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <FormControl error={!!errors.city}>
+        <FormControl error={!!errors.province}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
             Kota <span style={{ color: '#F22' }}>*</span>
           </Typography>
           <Controller
-            name='city'
+            name='province'
             control={control}
             render={({ field }) => (
               <Select {...field} value={field.value || 0}>
                 <MenuItem value={0} disabled>
                   Pilih Kota
                 </MenuItem>
-                {city &&
-                  city.map((item, index) => (
+                {province &&
+                  province.map((item, index) => (
                     <MenuItem key={index} value={item.id}>
-                      {item.city_name}
+                      {item.province_name}
                     </MenuItem>
                   ))}
               </Select>
