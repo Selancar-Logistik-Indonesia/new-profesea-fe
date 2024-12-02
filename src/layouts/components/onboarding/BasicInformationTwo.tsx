@@ -14,13 +14,13 @@ import { toast } from 'react-hot-toast'
 
 type FormData = {
   country: number
-  city: number
+  //   city: number
   address: string
 }
 
 const schema = yup.object().shape({
   country: yup.number().required(),
-  city: yup.number().required().moreThan(0, 'Please select a valid city'),
+  //   city: yup.number().required().moreThan(0, 'Please select a valid city'),
   address: yup.string().required()
 })
 
@@ -34,7 +34,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
     mode: 'onSubmit',
     defaultValues: {
       country: 100,
-      city: 0,
+      //   city: 0,
       address: ''
     },
     resolver: yupResolver(schema)

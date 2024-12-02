@@ -195,10 +195,10 @@ const EmployerBasicInformationOne = ({ nextLink }: { nextLink: string }) => {
             name='industry'
             control={control}
             render={({ field }) => (
-              <Select {...field} value={100}>
-                {/* <MenuItem value={0} disabled>
-                      Negara
-                    </MenuItem> */}
+              <Select {...field} value={field.value || 0}>
+                <MenuItem value={0} disabled>
+                  Pilih Kategori Industri
+                </MenuItem>
                 {industry &&
                   industry.map((item, index) => (
                     <MenuItem key={index} value={item.id}>
@@ -222,10 +222,10 @@ const EmployerBasicInformationOne = ({ nextLink }: { nextLink: string }) => {
                 name='country'
                 control={control}
                 render={({ field }) => (
-                  <Select {...field} value={100}>
-                    {/* <MenuItem value={0} disabled>
+                  <Select {...field} value={field.value ? field.value : country ? 100 : 0}>
+                    <MenuItem value={0} disabled>
                       Negara
-                    </MenuItem> */}
+                    </MenuItem>
                     {country &&
                       country.map((item, index) => (
                         <MenuItem key={index} value={item.id}>
