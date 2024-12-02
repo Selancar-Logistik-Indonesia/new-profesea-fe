@@ -54,7 +54,7 @@ const SeafarerProfileCard = () => {
           </Grid>
           <Grid item xs={6} sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Icon icon='ph:map-pin' style={{ flexShrink: 0, fontSize: 20, color: '#32497A' }} />
-            {user && user.address ? (
+            {user && user.address && user.address.city ? (
               <Typography sx={{ color: '#868686', fontSize: 14, fontWeight: 400 }}>
                 {user.address.city.city_name}, {user.address.country.nicename}
               </Typography>
@@ -159,7 +159,7 @@ const ProfessionalProfileCard = () => {
           </Grid>
           <Grid item xs={6} sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Icon icon='ph:map-pin' style={{ flexShrink: 0, fontSize: 20, color: '#32497A' }} />
-            {user && user.address ? (
+            {user && user.address && user.address.city ? (
               <Typography sx={{ color: '#868686', fontSize: 14, fontWeight: 400 }}>
                 {user.address.city.city_name}, {user.address.country.nicename}
               </Typography>
@@ -261,7 +261,7 @@ const EmployerProfileCard = () => {
           </Grid>
           <Grid item xs={6} sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Icon icon='ph:map-pin' style={{ flexShrink: 0, fontSize: 20, color: '#32497A' }} />
-            {user && user.address ? (
+            {user && user.address && user.address.city ? (
               <Typography sx={{ color: '#868686', fontSize: 14, fontWeight: 400 }}>
                 {user.address.city.city_name}, {user.address.country.nicename}
               </Typography>
