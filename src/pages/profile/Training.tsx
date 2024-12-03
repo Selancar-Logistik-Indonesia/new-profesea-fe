@@ -19,7 +19,6 @@ interface Props {
 
 const renderList = (arr: ParamJobVacncy[]) => {
   if (arr && arr.length) {
-
     return arr.map((item, index) => {
       return (
         <Box
@@ -38,14 +37,12 @@ const renderList = (arr: ParamJobVacncy[]) => {
               {`${item.title?.charAt(0).toUpperCase() + item.title?.slice(1)}`}
             </Typography>
             <Typography sx={{ color: '#262525', fontWeight: 400 }}>
-              {item.category.category.charAt(0).toUpperCase() + item.category.category.slice(1)}
+              {item.category?.category.charAt(0).toUpperCase() + item.category?.category.slice(1)}
             </Typography>
 
             <Grid xs={12} display='flex'>
               <Box>
-                <Typography variant='body1'>
-                  Schedule
-                </Typography>
+                <Typography variant='body1'>Schedule</Typography>
               </Box>
               <Box>
                 <Typography variant='body1'> &nbsp; - &nbsp; </Typography>
@@ -65,17 +62,16 @@ const renderList = (arr: ParamJobVacncy[]) => {
   }
 }
 
-
 const ListTraining = (props: Props) => {
   const { vacancy } = props
 
   return (
-    <Grid container marginTop={'10px'} >
+    <Grid container marginTop={'10px'}>
       <Grid item xs={12}>
-      <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+        <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
           <CardContent>
             <Box sx={{ mb: 7 }}>
-              <Typography variant='body2' sx={{ mb: 4, color: "#262525", textTransform: 'uppercase', fontWeight: 600 }}>
+              <Typography variant='body2' sx={{ mb: 4, color: '#262525', textTransform: 'uppercase', fontWeight: 600 }}>
                 List Training
               </Typography>
               {renderList(vacancy)}
@@ -86,11 +82,9 @@ const ListTraining = (props: Props) => {
               </Typography>
               {renderList(contacts)}
             </Box> */}
-
           </CardContent>
         </Card>
       </Grid>
-
     </Grid>
   )
 }
