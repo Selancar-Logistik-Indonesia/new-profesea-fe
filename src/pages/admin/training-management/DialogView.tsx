@@ -66,7 +66,7 @@ const DialogView = (props: ViewProps) => {
               <TextField defaultValue={props.selectedItem.trainer.name} fullWidth disabled />
             </Grid>
             <Grid item md={6} xs={12}>
-              <TextField defaultValue={props.selecteditem.category?.category} fullWidth disabled />
+              <TextField defaultValue={props.selectedItem.category?.category} fullWidth disabled />
             </Grid>
             <Grid item md={12} xs={12}>
               <TextField defaultValue={props.selectedItem.title} fullWidth disabled />

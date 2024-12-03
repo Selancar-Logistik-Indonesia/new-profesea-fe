@@ -1,27 +1,23 @@
 // ** React Imports
-import { ReactNode } from 'react'
-import Box from '@mui/material/Box'
+import { ReactNode, useEffect } from 'react'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
-import { CircularProgress} from '@mui/material'
 import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
-
+import Spinner from 'src/@core/components/spinner'
 
 const GoogleLogin = () => {
-  const router = useRouter();
-  const param = router.query.token as string;
-  const accessToken = decodeURIComponent(param);
-  // console.log(accessToken);
   const auth = useAuth()
-  auth.glogin({'accessToken': accessToken, 'namaevent': null})
+  const router = useRouter()
+  const { token } = router.query
 
-  if (auth.loading) {
-    return (
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <CircularProgress sx={{ mt: 20 }} />
-      </Box>
-    )
-  }
+  useEffect(() => {
+    if (token) {
+      const accessToken = decodeURIComponent(token as string)
+      auth.glogin({ accessToken, namaevent: null })
+    }
+  }, [token])
+
+  return <Spinner />
 }
 
 GoogleLogin.guestGuard = true
