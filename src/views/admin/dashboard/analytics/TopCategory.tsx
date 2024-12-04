@@ -82,7 +82,7 @@ const TopCategoryApp = () => {
               <CardHeader
                 title={
                   <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
-                    Category
+                    Company Category
                   </Typography>
                 }
                 titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}
@@ -95,7 +95,7 @@ const TopCategoryApp = () => {
               <Divider component='div' />
               <CardActionArea>
                 <CardContent style={{ textAlign: 'center' }}>
-                  <Link href='/admin/company-and-job-management/'>View All Jobs</Link>
+                  <Link href='/admin/company-and-job-management/'>View All Company Category</Link>
                 </CardContent>
               </CardActionArea>
             </div>

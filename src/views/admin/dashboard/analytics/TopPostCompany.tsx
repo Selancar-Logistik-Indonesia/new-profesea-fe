@@ -111,12 +111,11 @@ const TopPostCompanyApp = () => {
                   </Typography>
                 }
                 titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}
-                // action={
-                //   <OptionsMenu
-                //     options={['Last 28 Days', 'Last Month', 'Last Year']}
-                //     iconButtonProps={{ size: 'small', className: 'card-more-options' }}
-                //   />
-                // }
+                action={
+                  <Typography variant='body2' style={{ fontSize: '14px', fontWeight: '600', color: 'darkgrey' }}>
+                    Active Job
+                  </Typography>
+                }
               />
               <CardContent sx={{ pb: theme => `${theme.spacing(6.5)} !important`, mt: 3 }}>
                 {/* <Box sx={{ mb: 0.5, display: 'flex', alignItems: 'center', '& svg': { mr: 0.5, color: 'success.main' } }}>
