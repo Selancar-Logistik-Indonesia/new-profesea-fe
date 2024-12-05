@@ -10,6 +10,7 @@ import {
   Fade,
   FadeProps,
   IconButton,
+  Tooltip,
   Typography,
   useMediaQuery
 } from '@mui/material'
@@ -19,7 +20,7 @@ import ISeafarerProficiencyData from '../../../contract/models/seafarer_proficie
 import { useTheme } from '@mui/material/styles'
 import Image from 'next/image'
 import { Icon } from '@iconify/react'
-import { format } from 'date-fns'
+import { differenceInDays, format } from 'date-fns'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import secureLocalStorage from 'react-secure-storage'
@@ -138,6 +139,50 @@ const CertificateTab = () => {
     }
   }
 
+  const handlerTooltip = (e: any) => {
+    const validUntil = e?.valid_until ? new Date(e.valid_until) : null
+    const daysLeft = validUntil ? differenceInDays(validUntil, new Date()) : null
+
+    // Tentukan warna berdasarkan kondisi
+    const iconColor =
+      daysLeft !== null
+        ? daysLeft <= 0
+          ? 'red' // Expired
+          : daysLeft <= 30
+          ? '#FFA500' // Warning (H-30)
+          : undefined
+        : undefined
+
+    return (
+      <Typography
+        sx={{
+          color: '#868686',
+          fontWeight: 400,
+          fontSize: '14px',
+          lineHeight: '21px',
+          flex: '30%',
+          display: 'flex', // For aligning tooltip and text
+          alignItems: 'center',
+          gap: '4px'
+        }}
+      >
+        {validUntil && daysLeft !== null && daysLeft <= 30 && (
+          <Tooltip
+            title={
+              daysLeft <= 0
+                ? `Your certificate is no longer valid. Please renew to ensure your profile remains accurate`
+                : '`This certificate is nearing expiration. Renew it to maintain profile validity`'
+            }
+            arrow
+          >
+            <Icon icon='ion:warning' fontSize={'16px'} color={iconColor} />
+          </Tooltip>
+        )}
+        {validUntil ? `Valid until ${format(validUntil, 'LLL yyyy')}` : 'Valid Lifetime'}
+      </Typography>
+    )
+  }
+
   useEffect(() => {
     loadCompetency()
     loadProficiency()
@@ -231,7 +276,7 @@ const CertificateTab = () => {
                 gap: '24px'
               }}
             >
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '151px', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
                 <Image src={'/images/clarity_certificate-line.png'} alt={'mdl2'} width={'64'} height={'65'} />
                 <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040', textAlign: 'center' }}>
                   No certificate yet
@@ -306,19 +351,7 @@ const CertificateTab = () => {
                     <Typography fontSize={14} fontWeight={400} color={'#404040'}>
                       {e?.country ? e?.country?.nicename : '-'}
                     </Typography>
-                    <Typography
-                      sx={{
-                        color: '#868686',
-                        fontWeight: 400,
-                        fontSize: '14px',
-                        lineHeight: '21px',
-                        flex: '30%'
-                      }}
-                    >
-                      {e?.valid_until
-                        ? 'Valid until ' + format(new Date(e?.valid_until), 'LLL yyyy')
-                        : 'Valid Lifetime'}
-                    </Typography>
+                    {handlerTooltip(e)}
                   </Box>
                   <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '24px' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'end' }}>
@@ -436,7 +469,7 @@ const CertificateTab = () => {
                 gap: '24px'
               }}
             >
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '151px', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
                 <Image src={'/images/clarity_certificate-line.png'} alt={'mdl2'} width={'64'} height={'65'} />
                 <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040', textAlign: 'center' }}>
                   No certificate yet
@@ -511,7 +544,8 @@ const CertificateTab = () => {
                     <Typography fontSize={14} fontWeight={400} color={'#404040'}>
                       {e?.country ? e?.country?.nicename : '-'}
                     </Typography>
-                    <Typography
+                    {handlerTooltip(e)}
+                    {/* <Typography
                       sx={{
                         color: '#868686',
                         fontWeight: 400,
@@ -523,7 +557,7 @@ const CertificateTab = () => {
                       {e?.valid_until
                         ? 'Valid until ' + format(new Date(e?.valid_until), 'LLL yyyy')
                         : 'Valid Lifetime'}
-                    </Typography>
+                    </Typography> */}
                   </Box>
                   <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '24px' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'end' }}>

@@ -26,7 +26,6 @@ const AccordionTabGeneral: React.FC = () => {
     HttpClient.get(AppConfig.baseUrl + '/user/' + userLocalStorage.id)
       .then(response => {
         const resUser = response.data.user as IUser
-        console.log(resUser)
         setUser(resUser)
       })
       .finally(() => {
@@ -40,7 +39,7 @@ const AccordionTabGeneral: React.FC = () => {
 
   return (
     <>
-      <Accordion sx={{ boxShadow: 'none' }}>
+      <Accordion sx={{ boxShadow: 'none' }} defaultExpanded>
         <AccordionSummary
           expandIcon={<MdExpandMore size={24} />}
           aria-controls='panel1-content'
@@ -69,7 +68,7 @@ const AccordionTabGeneral: React.FC = () => {
           <FormPersonalData />
         </AccordionDetails>
       </Accordion>
-      <Accordion sx={{ boxShadow: 'none' }}>
+      <Accordion sx={{ boxShadow: 'none' }} defaultExpanded>
         <AccordionSummary
           expandIcon={<MdExpandMore size={24} />}
           aria-controls='panel2-content'
@@ -98,7 +97,7 @@ const AccordionTabGeneral: React.FC = () => {
           <FormSocialMedia />
         </AccordionDetails>
       </Accordion>
-      <Accordion sx={{ boxShadow: 'none' }}>
+      <Accordion sx={{ boxShadow: 'none' }} defaultExpanded>
         <AccordionSummary
           expandIcon={<MdExpandMore size={24} />}
           aria-controls='panel3-content'
