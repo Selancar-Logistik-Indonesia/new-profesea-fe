@@ -66,6 +66,7 @@ const DialogEdit = (props: EditProps) => {
   const [CatId, setCatId] = useState(props.selectedItem?.category_id)
   const [date, setDate] = useState<DateType>(new Date(props.selectedItem?.schedule))
   const [files, setFiles] = useState<File[]>([])
+  const [currency, setCurrency] = useState('')
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
@@ -168,7 +169,7 @@ const DialogEdit = (props: EditProps) => {
     <Dialog
       fullWidth
       open={props.visible}
-      maxWidth='sm'
+      maxWidth='md'
       scroll='body'
       onClose={props.onCloseClick}
       TransitionComponent={Transition}
@@ -195,8 +196,18 @@ const DialogEdit = (props: EditProps) => {
             </Typography>
             <Typography variant='body2'>Fulfill your Training Info here</Typography>
           </Box>
-          <Grid container columnSpacing={'2'} rowSpacing={'3'}>
+          <Grid container columnSpacing={3} rowSpacing={4}>
             <Grid item xs={12}>
+              <TextField
+                defaultValue={props.selectedItem?.title}
+                id='title'
+                label='Title'
+                variant='outlined'
+                fullWidth
+                {...register('title')}
+              />
+            </Grid>
+            <Grid item xs={8}>
               <Autocomplete
                 disablePortal
                 id='combo-box-demo'
@@ -210,17 +221,7 @@ const DialogEdit = (props: EditProps) => {
                 }
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                defaultValue={props.selectedItem?.title}
-                id='title'
-                label='Title'
-                variant='outlined'
-                fullWidth
-                {...register('title')}
-              />
-            </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={4}>
               <DatePickerWrapper>
                 <DatePicker
                   showTimeSelect
@@ -262,25 +263,41 @@ const DialogEdit = (props: EditProps) => {
                 error={Boolean(errors.requirements)}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={2}>
+              <InputLabel htmlFor='outlined-adornment-amount'>Currency</InputLabel>
+              <Autocomplete
+                fullWidth
+                disablePortal
+                id='outlined-adornment-amount'
+                options={[
+                  { value: 'IDR', label: 'IDR' }
+                  //   { value: 'USD', label: 'USD' }
+                ]}
+                getOptionLabel={(option: any) => option.label}
+                defaultValue={{ value: 'IDR', label: 'IDR' }}
+                renderInput={params => <TextField {...params} variant='outlined' />}
+                onChange={(event: any, newValue: any | null) => setCurrency(newValue ? newValue.value : '')}
+              />
+            </Grid>
+            <Grid item xs={5}>
               <InputLabel htmlFor='outlined-adornment-amount'>Price</InputLabel>
               <OutlinedInput
                 defaultValue={props.selectedItem?.price}
                 placeholder='10000'
                 id='outlined-adornment-amount'
-                startAdornment={<InputAdornment position='start'>Rp.</InputAdornment>}
+                startAdornment={<InputAdornment position='start'>{currency === 'USD' ? 'USD' : 'Rp.'}</InputAdornment>}
                 label='Price'
                 fullWidth
                 {...register('price')}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <InputLabel htmlFor='outlined-adornment-amount'>Discounted Price</InputLabel>
               <OutlinedInput
                 defaultValue={props.selectedItem?.discounted_price}
                 placeholder='10000'
                 id='outlined-adornment-amount'
-                startAdornment={<InputAdornment position='start'>Rp.</InputAdornment>}
+                startAdornment={<InputAdornment position='start'>{currency === 'USD' ? 'USD' : 'Rp.'}</InputAdornment>}
                 label='Discounted Price'
                 fullWidth
                 {...register('discounted_price')}

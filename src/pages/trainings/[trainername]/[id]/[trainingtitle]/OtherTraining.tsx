@@ -50,7 +50,7 @@ const renderList = (arr: Training[] | null) => {
                       <Typography color='#32487A' fontWeight='bold' fontSize={16}>
                         {item.title}
                       </Typography>
-                      <Typography fontSize={12}>{item.category.category}</Typography>
+                      <Typography fontSize={12}>{item.category?.category}</Typography>
                       <Typography fontSize={12}>{formatIDR(item.price)}</Typography>
                     </Grid>
                   </Grid>

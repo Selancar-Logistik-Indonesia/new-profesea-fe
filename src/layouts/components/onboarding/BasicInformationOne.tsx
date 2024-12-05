@@ -235,7 +235,7 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
                 name='country'
                 control={control}
                 render={({ field }) => (
-                  <Select {...field} value={field.value || 0}>
+                  <Select {...field} value={field.value ? field.value : country ? 100 : 0}>
                     <MenuItem value={0} disabled>
                       Negara
                     </MenuItem>

@@ -1,43 +1,34 @@
-import { useState, ReactNode } from 'react'
+import { useState, ReactNode, useEffect } from 'react'
 import Link from 'next/link'
-import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import TextField from '@mui/material/TextField'
-import InputLabel from '@mui/material/InputLabel'
-import IconButton from '@mui/material/IconButton'
-import Box, { BoxProps } from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import { styled, useTheme } from '@mui/material/styles'
-import InputAdornment from '@mui/material/InputAdornment'
-import Typography from '@mui/material/Typography'
-import Icon from 'src/@core/components/icon'
+import {
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  Grid,
+  IconButton,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+  Typography,
+  InputAdornment
+} from '@mui/material'
+import { styled } from '@mui/material/styles'
+
 import * as yup from 'yup'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useAuth } from 'src/hooks/useAuth'
-import { useSettings } from 'src/@core/hooks/useSettings'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
-import { CircularProgress } from '@mui/material'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from 'react-i18next'
-
-import DialogGoogleLogin from './DialogGoogleLogin'
-
+import { Icon } from '@iconify/react'
 import { useSearchParams } from 'next/navigation'
-import DialogSuccess from '../loginevent/DialogSuccess'
 
-const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-  width: '100%',
-  [theme.breakpoints.up('md')]: {
-    maxWidth: 400
-  },
-  [theme.breakpoints.up('lg')]: {
-    maxWidth: 450
-  }
-}))
+import DialogMessage from './DialogMessage'
+import { AppConfig } from 'src/configs/api'
+import { useRouter } from 'next/router'
 
 const LinkStyled = styled(Link)(({ theme }) => ({
   display: 'flex',
@@ -46,13 +37,6 @@ const LinkStyled = styled(Link)(({ theme }) => ({
   textDecoration: 'none',
   justifyContent: 'center',
   color: theme.palette.primary.main
-}))
-
-const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-  width: '100%',
-  [theme.breakpoints.down('md')]: {
-    maxWidth: 400
-  }
 }))
 
 const getSchema = (t: any) => {
@@ -72,24 +56,39 @@ interface FormData {
   password: string
 }
 
+interface CheckEmailResponse {
+  available: boolean
+  message: string
+}
+
 const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false)
-  const auth = useAuth()
-  const theme = useTheme()
-  const { settings } = useSettings()
-  const hidden = useMediaQuery(theme.breakpoints.down('md'))
-  const { skin } = settings
-  const [openBlockModal, setOpenBlockModal] = useState(false)
-  const searchParams = useSearchParams()
-
-  const namaevent = searchParams.get('event')
-
   const { t } = useTranslation()
   const schema = getSchema(t)
+  const auth = useAuth()
+  const router = useRouter()
+
+  const searchParams = useSearchParams()
+  const email = searchParams.get('email')
+  const checked = searchParams.get('checked')
+
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
+  const [onLoading, setOnLoading] = useState<boolean>(false)
+  const [checkEmail, setCheckEmail] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (email && email !== '') {
+      setValue('email', email)
+    }
+    if (checked && checked === '1') {
+      setCheckEmail(true)
+    }
+  }, [email, checked])
 
   const {
     control,
+    setValue,
+    getValues,
     setError,
     handleSubmit,
     formState: { errors }
@@ -99,14 +98,40 @@ const LoginPage = () => {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
+    setOnLoading(true)
     const { email, password } = data
-    auth.login({ email, password, namaevent }, () => {
+    await auth.login({ email, password }, () => {
       setError('email', {
         type: 'manual',
         message: `${t('input_label_error_4')}`
       })
     })
+    setOnLoading(false)
+  }
+
+  const onChecking = async (email: string) => {
+    if (!email && email === '') {
+      setError('email', {
+        type: 'manual',
+        message: `${t('input_label_error_1')}`
+      })
+
+      return
+    }
+
+    setOnLoading(true)
+    const response = await fetch(AppConfig.baseUrl + `/public/data/check-email?email=${email}`)
+    const result: CheckEmailResponse = await response.json()
+
+    if (!result.available) {
+      await setOnLoading(false)
+      setCheckEmail(true)
+    } else {
+      await setOnLoading(false)
+      setCheckEmail(false)
+      setOpenDialogMessage(true)
+    }
   }
 
   return (
@@ -120,68 +145,101 @@ const LoginPage = () => {
         <meta property='og:description' content={`${themeConfig.templateName} - ${t('login_description')}`} />
         <meta property='og:image' content='images/logosamudera.png' />
       </Head>
-      <Box
-        sx={{
-          position: 'fit',
-          width: '100%',
-          height: '100%',
-          backgroundImage: 'url(/images/bglogin.jpg)',
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
-        }}
-      >
-        <Box className='content-right' sx={{ display: 'flex', alignItems: 'center' }}>
-          <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: '1px solid ${theme.palette.divider}' } : {}}>
-            <Box
-              sx={
-                !hidden
-                  ? {
-                      boxSizing: 'border-box',
-                      maxWidth: '100%',
-                      marginLeft: '10%',
-                      background: '#FFFFFF',
-                      border: '1px solid rgba(76, 78, 100, 0.12)',
-                      borderRadius: '20px',
-                      px: 7,
-                      py: 15,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'background.paper'
-                    }
-                  : {
-                      p: 7,
-                      height: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'background.paper'
-                    }
-              }
-            >
-              <BoxWrapper>
+      <Grid container sx={{ height: '100vh' }}>
+        <Grid
+          item
+          md={6}
+          sx={{
+            backgroundImage: `url(/images/bg-login.jpeg)`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '150%',
+            backgroundPosition: '60% 0%'
+          }}
+        />
+        <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '20px',
+              width: '495px'
+            }}
+          >
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+              <Link href='/'>
+                <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
+              </Link>
+              {checkEmail ? (
                 <Box
                   sx={{
-                    mb: 3,
-                    maxWidth: '100%',
+                    display: 'flex',
                     justifyContent: 'center',
-                    alignContent: 'center',
-                    textAlign: 'center'
+                    alignItems: 'center',
+                    gap: '12px'
                   }}
                 >
-                  <Link href='/'>
-                    <Box component='img' src='/images/logosamudera.png' sx={{ width: 125 }}></Box>
-                  </Link>
-                  <Typography
-                    variant='h5'
-                    sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: '#262525' }}
+                  <IconButton
+                    sx={{ backgroundColor: '#F0F0F0', '&:hover': { backgroundColor: '#E0E0E0' } }}
+                    onClick={() => {
+                      setValue('email', '')
+                      setValue('password', '')
+                      setCheckEmail(false)
+                      router.replace(router.pathname)
+                    }}
                   >
-                    {t('login_text_1')}
+                    <Icon icon='mdi:chevron-left' fontSize={24} />
+                  </IconButton>
+                  <Typography
+                    sx={{ textAlign: 'center', color: '#404040', fontSize: 32, fontWeight: 700, lineHeight: '38.4px' }}
+                  >
+                    {t('login_page.title_2')}
                   </Typography>
                 </Box>
-                <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-                  <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
+              ) : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <Typography
+                    sx={{ textAlign: 'center', color: '#404040', fontSize: 32, fontWeight: 700, lineHeight: '38.4px' }}
+                  >
+                    {t('login_page.title_2')}
+                  </Typography>
+                  <Typography
+                    sx={{ textAlign: 'center', color: '#999', fontSize: 16, fontWeight: 400, lineHeight: '21px' }}
+                  >
+                    {t('login_page.description')}
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+            <Box
+              sx={{
+                height: '444px',
+                p: '24px',
+                backgroundColor: 'white',
+                borderRadius: '8px',
+                boxShadow: 3,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}
+            >
+              <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '24px'
+                  }}
+                >
+                  <FormControl fullWidth>
                     <Controller
                       name='email'
                       control={control}
@@ -189,130 +247,148 @@ const LoginPage = () => {
                       render={({ field: { value, onChange, onBlur } }) => (
                         <TextField
                           autoFocus
-                          label={t('input_label_1')}
+                          label={t('input.email')}
                           value={value}
                           onBlur={onBlur}
                           onChange={onChange}
                           error={Boolean(errors.email)}
+                          InputLabelProps={{ shrink: checkEmail || Boolean(getValues('email')) }}
                         />
                       )}
                     />
                     {errors.email && (
-                      <Typography sx={{ color: 'error.main', ml: '4px', fontSize: 12 }}>
+                      <Typography sx={{ color: 'error.main', m: '6px 4px 0', fontSize: 12 }}>
                         {errors.email.message}
                       </Typography>
                     )}
                   </FormControl>
-                  <FormControl fullWidth>
-                    <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                      {t('input_label_2')}
-                    </InputLabel>
-                    <Controller
-                      name='password'
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field: { value, onChange, onBlur } }) => (
-                        <OutlinedInput
-                          value={value}
-                          onBlur={onBlur}
-                          label={t('input_label_2')}
-                          onChange={onChange}
-                          id='auth-login-v2-password'
-                          error={Boolean(errors.password)}
-                          type={showPassword ? 'text' : 'password'}
-                          endAdornment={
-                            <InputAdornment position='end'>
-                              <IconButton
-                                edge='end'
-                                onMouseDown={e => e.preventDefault()}
-                                onClick={() => setShowPassword(!showPassword)}
-                              >
-                                <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                              </IconButton>
-                            </InputAdornment>
-                          }
-                        />
+                  {checkEmail && (
+                    <FormControl fullWidth>
+                      <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
+                        {t('input.password')}
+                      </InputLabel>
+                      <Controller
+                        name='password'
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field: { value, onChange, onBlur } }) => (
+                          <OutlinedInput
+                            value={value}
+                            onBlur={onBlur}
+                            label={t('input.password')}
+                            onChange={onChange}
+                            id='auth-login-v2-password'
+                            error={Boolean(errors.password)}
+                            type={showPassword ? 'text' : 'password'}
+                            endAdornment={
+                              <InputAdornment position='end'>
+                                <IconButton
+                                  edge='end'
+                                  onMouseDown={e => e.preventDefault()}
+                                  onClick={() => setShowPassword(!showPassword)}
+                                >
+                                  <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                                </IconButton>
+                              </InputAdornment>
+                            }
+                          />
+                        )}
+                      />
+                      {errors.password && (
+                        <Typography sx={{ color: 'error.main', ml: '4px', fontSize: 12 }} id=''>
+                          {errors.password.message}
+                        </Typography>
                       )}
-                    />
-                    {errors.password && (
-                      <Typography sx={{ color: 'error.main', ml: '4px', fontSize: 12 }} id=''>
-                        {errors.password.message}
+                      <Typography
+                        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', marginTop: '2%' }}
+                      >
+                        <LinkStyled href='/forgot-password'>
+                          <span>{t('input.forgot_password')}</span>
+                        </LinkStyled>
                       </Typography>
-                    )}
-                  </FormControl>
-                  <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', marginTop: '2%' }}>
-                    <LinkStyled href='/forgot-password'>
-                      <span>{t('login_text_4')}</span>
-                    </LinkStyled>
-                  </Typography>
-                  <Box sx={{ marginTop: '5%' }}>
+                    </FormControl>
+                  )}
+                  {checkEmail ? (
+                    <Button disabled={onLoading} fullWidth size='large' type='submit' variant='contained'>
+                      {onLoading ? <CircularProgress color='primary' /> : t('input.login')}
+                    </Button>
+                  ) : (
                     <Button
-                      disabled={auth.loading}
                       fullWidth
+                      disabled={onLoading}
                       size='large'
-                      type='submit'
+                      type='button'
                       variant='contained'
-                      sx={{ mb: 4 }}
+                      onClick={() => {
+                        const emailValue = getValues('email')
+                        onChecking(emailValue)
+                      }}
                     >
-                      {auth.loading ? <CircularProgress color='primary' /> : `${t('button_1')}`}
+                      {onLoading ? <CircularProgress color='primary' /> : t('input.continue')}
                     </Button>
-                  </Box>
-                  <Divider sx={{ textAlign: 'center', fontSize: '16px' }}>{t('login_text_5')}</Divider>
-                  <Box sx={{ marginTop: '5%' }}>
-                    <Button
-                      fullWidth
-                      size='large'
-                      variant='outlined'
-                      sx={{ mb: 3 }}
-                      onClick={() => setOpenModalGoogle(true)}
-                    >
-                      {t('login_text_1_G')} Google <Icon icon={'devicon:google'} style={{ marginLeft: 7 }} />
-                    </Button>
-                  </Box>
-                  <Divider
-                    sx={{
-                      '& .MuiDivider-wrapper': { px: 4 },
-                      mt: theme => `${theme.spacing(5)} !important`,
-                      mb: theme => `${theme.spacing(7.5)} !important`
-                    }}
-                  ></Divider>
-                  <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                    <Typography sx={{ mr: 2, color: '#262525' }}>{t('login_text_2')}</Typography>
+                  )}
+                </Box>
+              </form>
 
-                    {namaevent ? (
-                      <Typography
-                        href={'/register/event/' + namaevent}
-                        component={Link}
-                        sx={{ color: 'primary.main', fontWeight: 'bold', textDecoration: 'none' }}
-                      >
-                        {t('login_text_3')}
-                      </Typography>
-                    ) : (
-                      <Typography
-                        href='/register'
-                        component={Link}
-                        sx={{ color: 'primary.main', fontWeight: 'bold', textDecoration: 'none' }}
-                      >
-                        {t('login_text_3')}
-                      </Typography>
-                    )}
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                {!checkEmail && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexWrap: 'wrap',
+                      gap: '2px'
+                    }}
+                  >
+                    <Typography sx={{ textAlign: 'center', fontSize: 12, fontWeight: 400, color: '#404040' }}>
+                      {t('login_page.account')}
+                    </Typography>
+                    <Typography component={Link} href='/register/v2' sx={{ color: '#0B58A6', fontWeight: 700 }}>
+                      {t('input.register')}
+                    </Typography>
                   </Box>
-                </form>
-              </BoxWrapper>
+                )}
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center'
+                  }}
+                >
+                  <Typography sx={{ color: '#404040', fontSize: 12, fontWeight: 400 }}>
+                    {t('tos.tos_start')}
+                    <Box
+                      component={Link}
+                      href='/term'
+                      target='_blank'
+                      sx={{ mx: '3px', color: '#0B58A6', fontWeight: 400 }}
+                    >
+                      {t('tos.tos_terms')}
+                    </Box>
+                    {t('tos.tos_and')}
+                    <Box
+                      component={Link}
+                      href='/privacy'
+                      target='_blank'
+                      sx={{ mx: '3px', color: '#0B58A6', fontWeight: 400 }}
+                    >
+                      {t('tos.tos_privacy')}
+                    </Box>
+                    {t('tos.tos_end')}
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
-          </RightWrapper>
-        </Box>
-      </Box>
-      <DialogSuccess
-        visible={openBlockModal}
+          </Box>
+        </Grid>
+      </Grid>
+      <DialogMessage
+        email={getValues('email')}
+        visible={openDialogMessage}
         onCloseClick={() => {
-          setOpenBlockModal(!openBlockModal)
-        }}
-      />
-      <DialogGoogleLogin
-        visible={openModalGoogle}
-        onCloseClick={() => {
-          setOpenModalGoogle(!openModalGoogle)
+          setOpenDialogMessage(!openDialogMessage)
         }}
       />
     </>

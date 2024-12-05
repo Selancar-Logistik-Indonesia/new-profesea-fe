@@ -156,37 +156,40 @@ const AuthProvider = ({ children }: Props) => {
       })
   }
 
-  const handleGoogleLogin = async (
-    params: { accessToken: string; namaevent: any },
-    errorCallback?: ErrCallbackType
-  ) => {
-    localStorage.setItem(authConfig.storageTokenKeyName, params.accessToken)
-    HttpClient.get(authConfig.meEndpoint)
-      .then(async response => {
-        setLoading(false)
+  const handleGoogleLogin = async (params: { accessToken: string; namaevent: any }) => {
+    try {
+      setLoading(true)
+      try {
+        await localStorage.setItem(authConfig.storageTokenKeyName, params.accessToken)
+      } catch (storageError) {
+        console.error('Failed to save token to localStorage:', storageError)
+      }
 
-        setUser({ ...response.data.user })
-        setAbilities(response.data.abilities)
-        secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
-        secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+      const response = await HttpClient.get(authConfig.meEndpoint)
+      const { user, abilities } = response.data
 
-        await initAuth('google')
+      setUser({ ...user })
+      setAbilities(abilities)
+      secureLocalStorage.setItem(localStorageKeys.userData, user)
+      secureLocalStorage.setItem(localStorageKeys.abilities, abilities)
 
-        const tempUser = response.data.user
-        handleRedirection(tempUser, 'google')
+      await initAuth('google')
+      handleRedirection(user, 'google')
 
-        const returnUrl = router.query.returnUrl
-        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
-        if (params.namaevent != null) {
-          await router.replace('/home/?event=true' as string)
-        } else {
-          await router.replace(redirectURL as string)
-        }
-      })
-      .catch(err => {
-        setLoading(false)
-        if (errorCallback) errorCallback(err)
-      })
+      const returnUrl = router.query.returnUrl as string
+      const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
+
+      if (params.namaevent) {
+        await router.replace('/home/?event=true')
+      } else {
+        await router.replace(redirectURL)
+      }
+    } catch (error) {
+      setLoading(false)
+      console.log('Google Login Failed:', { error, params })
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleLogout = async () => {
