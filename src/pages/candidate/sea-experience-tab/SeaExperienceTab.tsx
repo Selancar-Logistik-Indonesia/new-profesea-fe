@@ -260,7 +260,7 @@ const SeaExperienceTab = () => {
                 gap: '24px'
               }}
             >
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '151px', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
                 <Image src={'/images/kapal-icon.png'} alt={'mdl2'} width={'64'} height={'65'} />
                 <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040', textAlign: 'center' }}>
                   No sea experience yet
@@ -485,7 +485,7 @@ const SeaExperienceTab = () => {
                 gap: '24px'
               }}
             >
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '151px', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
                 <Image src={'/images/kapal-icon.png'} alt={'mdl2'} width={'64'} height={'65'} />
                 <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040', textAlign: 'center' }}>
                   No reference verification yet
@@ -680,12 +680,14 @@ const SeaExperienceTab = () => {
           />
         </BottomNavigation>
 
-        <Box>
-          <FormControlLabel
-            control={<Checkbox checked={noExperience} onChange={handleChange} />}
-            label='I have no experience'
-          />
-        </Box>
+        {userSeaExprerience.length == 0 && (
+          <Box>
+            <FormControlLabel
+              control={<Checkbox checked={noExperience} onChange={handleChange} />}
+              label='I have no experience'
+            />
+          </Box>
+        )}
       </Box>
 
       {value == 0 ? renderSeaExperience() : renderReferenceVerification()}

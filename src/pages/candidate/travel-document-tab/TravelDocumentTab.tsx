@@ -171,6 +171,7 @@ const TravelDocumentTab = () => {
         >
           <Box
             sx={{
+              width: '100%',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
@@ -178,8 +179,8 @@ const TravelDocumentTab = () => {
               gap: '24px'
             }}
           >
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '151px', alignItems: 'center' }}>
-              <Image src={'/images/fluent-mdl2_education.png'} alt={'mdl2'} width={'64'} height={'65'} />
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+              <Image src={'/images/travel-outline.png'} alt={'mdl2'} width={'64'} height={'65'} />
               <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040', textAlign: 'center' }}>
                 No travel document yet
               </Typography>
