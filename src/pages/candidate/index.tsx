@@ -87,8 +87,10 @@ function CircularProgressWithLabel(props: CircularProgressProps & { value: numbe
   const getColor = (value: number) => {
     if (value <= 30) return 'red'
     if (value <= 70) return 'yellow'
+
     return 'green'
   }
+
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
       {/* CircularProgress Background */}
