@@ -79,7 +79,7 @@ export interface IUser {
     industry: Industry
     address: Address
     field_preference?: FieldPreference
-    friendship_status?: string
+    frienship_status?: string
     blocked_at?: string
     items?: any
     gender?: any

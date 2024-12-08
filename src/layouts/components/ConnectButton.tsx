@@ -40,7 +40,7 @@ const ConnectButton = (props: ConnectButtonProps) => {
         setUser(old => {
           return {
             ...old,
-            friendship_status: 'WA'
+            frienship_status: 'WA'
           }
         })
       }
@@ -52,7 +52,7 @@ const ConnectButton = (props: ConnectButtonProps) => {
   }
 
   const buildConnectText = () => {
-    if (user.friendship_status == 'AP') {
+    if (user.frienship_status == 'AP') {
       if (userLogin.team_id == 2 && user.team_id == 2) {
         // setConnectionType('Connected')
 
@@ -82,7 +82,7 @@ const ConnectButton = (props: ConnectButtonProps) => {
       }
     }
 
-    if (user.friendship_status == 'WA') {
+    if (user.frienship_status == 'WA') {
       // setConnectionType('Requested')
 
       return 'Requested'
@@ -97,13 +97,13 @@ const ConnectButton = (props: ConnectButtonProps) => {
     <>
       {showButton && (
         <Button
-          disabled={isLoading || !!user.friendship_status}
+          disabled={isLoading || !!user.frienship_status}
           onClick={() => {
             isLoggedIn ? onConnectRequest(user) : setOpenDialog(!openDialog)
           }}
-          variant={user.friendship_status ? 'outlined' : 'contained'}
+          variant={user.frienship_status ? 'outlined' : 'contained'}
           startIcon={
-            !isLoading && <Icon icon='solar:link-linear' color={user.friendship_status ? '#26252542' : 'white'} />
+            !isLoading && <Icon icon='solar:link-linear' color={user.frienship_status ? '#26252542' : 'white'} />
           }
           size='small'
           sx={{ fontSize: 14, textTransform: 'none', width: 'fit-content', fontWeight: 300, p: '8px 12px' }}
