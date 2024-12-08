@@ -60,7 +60,7 @@ const FriendshipIssuingDialog = (props: {
             <Typography variant='caption'>{friend.email}</Typography>
 
             <Box sx={{ mt: 3, textAlign: 'left' }}>
-              {friend.frienship_status == 'WA' && (
+              {friend.friendship_status == 'WA' && (
                 <>
                   <Button
                     onClick={() => handleIssuing('AP')}
@@ -84,13 +84,13 @@ const FriendshipIssuingDialog = (props: {
                 </>
               )}
 
-              {friend.frienship_status == 'AP' && (
+              {friend.friendship_status == 'AP' && (
                 <Button disabled={true} variant='text'>
                   Approved
                 </Button>
               )}
 
-              {friend.frienship_status == 'RJ' && (
+              {friend.friendship_status == 'RJ' && (
                 <Button disabled={true} variant='text'>
                   Rejected
                 </Button>

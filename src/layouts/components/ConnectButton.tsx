@@ -7,29 +7,40 @@ import { IUser } from 'src/contract/models/user'
 import { useAuth } from 'src/hooks/useAuth'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import secureLocalStorage from 'react-secure-storage'
 
 interface ConnectButtonProps {
   user: IUser
 }
 
 const ConnectButton = (props: ConnectButtonProps) => {
+  const userLogin = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+
   const [user, setUser] = useState(props.user)
   const [isLoading, setIsLoading] = useState(false)
   const { user: isLoggedIn } = useAuth()
   const [openDialog, setOpenDialog] = useState(false)
+  const [showButton, setShowButton] = useState(true)
 
   const onConnectRequest = async (user: IUser) => {
     setIsLoading(true)
     try {
+      let connectionType = 'Connected'
+      if (userLogin.team_id == 2 && (user.team_id == 4 || user.team_id == 3)) {
+        connectionType = 'Followed'
+      }
+
       const response = await HttpClient.post('/friendship/request-connect', {
-        friend_id: user.id
+        friend_id: user.id,
+        connection_type: connectionType
       })
 
       if (response.status == 200) {
         setUser(old => {
           return {
             ...old,
-            frienship_status: 'WA'
+            friendship_status: 'WA'
           }
         })
       }
@@ -41,33 +52,66 @@ const ConnectButton = (props: ConnectButtonProps) => {
   }
 
   const buildConnectText = () => {
-    if (user.frienship_status == 'AP') {
-      return 'Connected'
+    if (user.friendship_status == 'AP') {
+      if (userLogin.team_id == 2 && user.team_id == 2) {
+        // setConnectionType('Connected')
+
+        return 'Connected'
+      } else if (userLogin.team_id == 2 && user.team_id == 3) {
+        // setConnectionType('Followed')
+
+        return 'Followed'
+      } else if (userLogin.team_id == 2 && user.team_id == 4) {
+        // setConnectionType('Followed')
+
+        return 'Followed'
+      }
+    } else {
+      if (userLogin.team_id == 2 && user.team_id == 2) {
+        // setConnectionType('Connected')
+
+        return 'Connect'
+      } else if (userLogin.team_id == 2 && user.team_id == 3) {
+        // setConnectionType('Followed')
+
+        return 'Follow'
+      } else if (userLogin.team_id == 2 && user.team_id == 4) {
+        // setConnectionType('Followed')
+
+        return 'Follow'
+      }
     }
 
-    if (user.frienship_status == 'WA') {
+    if (user.friendship_status == 'WA') {
+      // setConnectionType('Requested')
+
       return 'Requested'
     }
 
-    return 'Connect'
+    if (userLogin.team_id == 3 || userLogin.team_id == 4) {
+      setShowButton(false)
+    }
   }
 
   return (
     <>
-      <Button
-        disabled={isLoading || !!user.frienship_status}
-        onClick={() => {
-          isLoggedIn ? onConnectRequest(user) : setOpenDialog(!openDialog)
-        }}
-        variant={user.frienship_status ? 'outlined' : 'contained'}
-        startIcon={
-          !isLoading && <Icon icon='solar:link-linear' color={user.frienship_status ? '#26252542' : 'white'} />
-        }
-        size='small'
-        sx={{ fontSize: 14, textTransform: 'none', width: 'fit-content', fontWeight: 300, p: '8px 12px' }}
-      >
-        {isLoading ? <CircularProgress size={22} /> : buildConnectText()}
-      </Button>
+      {showButton && (
+        <Button
+          disabled={isLoading || !!user.friendship_status}
+          onClick={() => {
+            isLoggedIn ? onConnectRequest(user) : setOpenDialog(!openDialog)
+          }}
+          variant={user.friendship_status ? 'outlined' : 'contained'}
+          startIcon={
+            !isLoading && <Icon icon='solar:link-linear' color={user.friendship_status ? '#26252542' : 'white'} />
+          }
+          size='small'
+          sx={{ fontSize: 14, textTransform: 'none', width: 'fit-content', fontWeight: 300, p: '8px 12px' }}
+        >
+          {isLoading ? <CircularProgress size={22} /> : buildConnectText()}
+        </Button>
+      )}
+
       {!isLoggedIn && openDialog && (
         <DialogLogin
           isBanner={false}

@@ -21,10 +21,10 @@ const MessageButton = (props: MessageButtonProps) => {
   // const abilities = secureLocalStorage.getItem(localStorageKeys.abilities) as IUser
 
   const buildConnectIcon = () => {
-    if (user.frienship_status == 'AP') {
+    if (user.friendship_status == 'AP') {
       return 'solar:chat-round-dots-bold'
     }
-    if (user.frienship_status == 'WA') {
+    if (user.friendship_status == 'WA') {
       return 'solar:chat-round-dots-bold-duotone'
     }
 
@@ -33,11 +33,13 @@ const MessageButton = (props: MessageButtonProps) => {
 
   return (
     <Button
-      disabled={!user.frienship_status}
+      disabled={!user.friendship_status}
       onClick={() => onMessage(user)}
       variant='contained'
       sx={{ py: '8px', px: '16x', fontSize: '14px', color: '#FCFCFA', textTransform: 'none', maxWidth: 'fit-content' }}
-      startIcon={!isLoading && <Icon icon={buildConnectIcon()} color={user.frienship_status ? 'white' : '#26252542'} />}
+      startIcon={
+        !isLoading && <Icon icon={buildConnectIcon()} color={user.friendship_status ? 'white' : '#26252542'} />
+      }
     >
       {isLoading ? <CircularProgress size={22} /> : 'Message'}
     </Button>
