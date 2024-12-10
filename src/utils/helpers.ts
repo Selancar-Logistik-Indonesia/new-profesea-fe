@@ -32,6 +32,8 @@ const removeFirstZeroChar = (input: string) => {
 }
 
 function toTitleCase(text: string) {
+    if (!text) return null
+
     const words = text.split(' ')
     const capitalizedWords = words.map(word => {
         const firstLetter = word.charAt(0).toUpperCase()
