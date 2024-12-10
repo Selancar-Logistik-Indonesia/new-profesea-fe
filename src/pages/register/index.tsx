@@ -445,7 +445,7 @@ const LoginPage = () => {
                     <Typography sx={{ textAlign: 'center', fontSize: 12, fontWeight: 400, color: '#404040' }}>
                       {t('register_page.account')}
                     </Typography>
-                    <Typography component={Link} href='/login/v2' sx={{ color: '#0B58A6', fontWeight: 700 }}>
+                    <Typography component={Link} href='/login' sx={{ color: '#0B58A6', fontWeight: 700 }}>
                       {t('input.login')}
                     </Typography>
                   </Box>

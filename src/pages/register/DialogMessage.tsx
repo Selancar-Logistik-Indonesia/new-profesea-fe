@@ -60,7 +60,7 @@ const DialogMessage = (props: BlockDialog) => {
             fullWidth
             variant='contained'
             component={Link}
-            href={`/login/v2/?email=${props.email}&checked=1`}
+            href={`/login/?email=${props.email}&checked=1`}
             sx={{
               h: '33px',
               backgroundColor: '#32497A',

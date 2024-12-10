@@ -34,7 +34,7 @@ const AuthProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
   const router = useRouter()
 
-  const initAuth = async (thirdParty?: string): Promise<void> => {
+  const initAuth = async (): Promise<void> => {
     const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
     if (storedToken) {
       setLoading(true)
@@ -46,7 +46,7 @@ const AuthProvider = ({ children }: Props) => {
           secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
           secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
 
-          handleRedirection(response.data.user, thirdParty)
+          handleRedirection(response.data.user)
         })
         .catch(error => {
           localStorage.removeItem('userData')
@@ -66,13 +66,9 @@ const AuthProvider = ({ children }: Props) => {
     }
   }
 
-  const handleRedirection = async (user: any, thirdParty?: string) => {
+  const handleRedirection = async (user: any) => {
     if (!user.email_verified_at) {
-      if (thirdParty) {
-        await router.replace(`/set-password/${user.rememberToken}/${user.email}`)
-      } else {
-        await router.replace(`/verify-email/`)
-      }
+      await router.replace(`/verify-email/`)
 
       return
     }
@@ -118,9 +114,6 @@ const AuthProvider = ({ children }: Props) => {
         secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
 
         await initAuth()
-
-        const tempUser = response.data.user
-        handleRedirection(tempUser)
 
         if (isReturn) {
           const returnUrl = router.query.returnUrl
@@ -173,8 +166,7 @@ const AuthProvider = ({ children }: Props) => {
       secureLocalStorage.setItem(localStorageKeys.userData, user)
       secureLocalStorage.setItem(localStorageKeys.abilities, abilities)
 
-      await initAuth('google')
-      handleRedirection(user, 'google')
+      await initAuth()
 
       const returnUrl = router.query.returnUrl as string
       const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/home'
