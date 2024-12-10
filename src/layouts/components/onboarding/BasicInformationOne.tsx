@@ -80,7 +80,7 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
       setValue('fullname', user.name)
       setValue('username', user.username)
       setValue('phone', user.phone)
-      setValue('country', user.country_id)
+      setValue('country', user.country_id ?? 100)
       setValue('gender', user.gender)
       setValue('dateOfBirth', user.date_of_birth)
     }
@@ -235,7 +235,7 @@ const BasicInformationOne = ({ nextLink }: { nextLink: string }) => {
                 name='country'
                 control={control}
                 render={({ field }) => (
-                  <Select {...field} value={field.value ? field.value : country ? 100 : 0}>
+                  <Select {...field} value={field.value || 0} disabled={!country}>
                     <MenuItem value={0} disabled>
                       Negara
                     </MenuItem>
