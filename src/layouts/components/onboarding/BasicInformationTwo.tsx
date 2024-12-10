@@ -71,7 +71,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
   const onSubmit = (data: FormData) => {
     setOnLoading(true)
     HttpClient.patch(AppConfig.baseUrl + '/onboarding/address', {
-      country_id: data.country,
+      country_id: 100,
       //   city_id: data.city,
       city_id: 156,
       address: data.address,
