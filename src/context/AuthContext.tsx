@@ -68,23 +68,16 @@ const AuthProvider = ({ children }: Props) => {
 
   const handleRedirection = async (user: any) => {
     if (!user.email_verified_at) {
-      await router.replace(`/verify-email/`)
-
-      return
+      return router.replace(`/verify-email/`)
     }
 
     if (user.last_step !== 'completed') {
       const onboardingLink = getOnboardingLink(user)
-
       if (user.last_step === 'role-selection') {
-        await router.replace(`/${user.last_step}`)
-
-        return
+        return router.replace(`/${user.last_step}`)
       }
 
-      await router.replace(`/onboarding/${onboardingLink}/${user.last_step}`)
-
-      return
+      return router.replace(`/onboarding/${onboardingLink}/${user.last_step}`)
     }
   }
 
