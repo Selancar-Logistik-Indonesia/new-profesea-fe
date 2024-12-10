@@ -32,7 +32,7 @@ const removeFirstZeroChar = (input: string) => {
 }
 
 function toTitleCase(text: string) {
-    if (!text) return null
+    if (!text) return ''
 
     const words = text.split(' ')
     const capitalizedWords = words.map(word => {
