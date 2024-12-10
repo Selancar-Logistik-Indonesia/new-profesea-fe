@@ -1,4 +1,4 @@
-import { forwardRef, ReactElement, Ref, useState } from 'react'
+import { forwardRef, ReactElement, Ref, useEffect, useState } from 'react'
 import {
   Button,
   Box,
@@ -13,7 +13,8 @@ import {
   InputLabel,
   FadeProps,
   Fade,
-  SwipeableDrawer
+  SwipeableDrawer,
+  Autocomplete
 } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { HttpClient } from 'src/services'
@@ -36,11 +37,18 @@ const Transition = forwardRef(function Transition(
   return <Fade ref={ref} {...props} />
 })
 
+interface ISeaExperienceOptions {
+  id: number
+  name: string
+}
+
 const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const { user_id, handleModalForm, showModal, type, loadRecommendation, seafarerRecommendation } = props
   const [loading, setLoading] = useState(false)
+  const [seaExperienceOptions, setSeaExperienceOptions] = useState<ISeaExperienceOptions[]>([])
+  const [experienceId, setExperienceId] = useState<any>(null)
   const id = seafarerRecommendation?.id
 
   const formik = useFormik({
@@ -49,7 +57,8 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
       company: type == 'edit' ? seafarerRecommendation?.company : '',
       email: type == 'edit' ? seafarerRecommendation?.email : '',
       position: type == 'edit' ? seafarerRecommendation?.position : '',
-      phone_number: type == 'edit' ? seafarerRecommendation?.phone_number : ''
+      phone_number: type == 'edit' ? seafarerRecommendation?.phone_number : '',
+      experience_id: type == 'edit' ? seafarerRecommendation?.experience_id : ''
     },
     enableReinitialize: true,
     validationSchema: ProficiencySchema,
@@ -61,7 +70,11 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
 
   const createRecommendation = (values: any) => {
     setLoading(true)
+
+    console.log(experienceId)
+
     HttpClient.post(AppConfig.baseUrl + '/seafarer-recommendations/', {
+      experience_id: experienceId?.id,
       user_id: values.user_id,
       company: values.company,
       email: values.email,
@@ -109,6 +122,26 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
     }
   }
 
+  const handleFetchChooseSeaExperience = () => {
+    HttpClient.get(AppConfig.baseUrl + '/seafarer-experiences/user-id/' + user_id).then(response => {
+      const result: ISeaExperienceOptions[] = response.data.data.map((item: any) => {
+        return {
+          id: item?.id,
+          name: item?.rank?.name
+        }
+      })
+      setSeaExperienceOptions(result)
+
+      if (type == 'edit') {
+        setExperienceId(result?.find(r => r?.id == seafarerRecommendation?.experience_id))
+      }
+    })
+  }
+
+  useEffect(() => {
+    handleFetchChooseSeaExperience()
+  }, [])
+
   const renderForm = () => {
     return (
       <form
@@ -137,6 +170,35 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
             </Box>
           )}
           <Grid container spacing={6} py={'24px'}>
+            <Grid item xs={12} md={12}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Choose Sea Experience
+              </InputLabel>
+              <Autocomplete
+                disablePortal
+                id='choose-sea-experience'
+                options={seaExperienceOptions}
+                getOptionLabel={(option: ISeaExperienceOptions) => option.name}
+                value={experienceId}
+                renderInput={params => (
+                  <TextField {...params} error={formik.errors.experience_id ? true : false} variant='outlined' />
+                )}
+                onChange={(event: any, newValue: any) =>
+                  newValue?.id ? setExperienceId(newValue) : setExperienceId(null)
+                }
+              />
+            </Grid>
             <Grid item xs={12} md={6}>
               <InputLabel
                 required

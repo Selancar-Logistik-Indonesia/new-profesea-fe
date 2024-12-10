@@ -373,7 +373,6 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <InputLabel
-          required
           sx={{
             fontFamily: 'Figtree',
             fontSize: '12px',

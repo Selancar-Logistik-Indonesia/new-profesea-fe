@@ -2,8 +2,19 @@
 import React, { useEffect, useState } from 'react'
 
 // ** MUI Components
-import Box from '@mui/material/Box'
-import { useMediaQuery, Typography, Avatar, IconButton, Tabs, Tab } from '@mui/material'
+import {
+  useMediaQuery,
+  Typography,
+  Avatar,
+  IconButton,
+  Tabs,
+  Tab,
+  Button,
+  CircularProgressProps,
+  CircularProgress,
+  Box,
+  Popper
+} from '@mui/material'
 import { Grid } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { useTheme } from '@mui/material/styles'
@@ -14,12 +25,15 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import CandidateProfile from 'src/layouts/components/CandidateProfile'
 import { Icon } from '@iconify/react'
-import DialogProfilePicture from './DialogProfilePicture'
+// import DialogProfilePicture from './DialogProfilePicture'
 import AccordionTabGeneral from './accordion-tab-general/AccordionTabGeneral'
 import EducationTab from './education-tab/EducationTab'
 import TravelDocumentTab from './travel-document-tab/TravelDocumentTab'
 import SeaExperienceTab from './sea-experience-tab/SeaExperienceTab'
 import CertificateTab from './certificate-tab/CertificateTab'
+import { IDetailPercentage, IUserProfilePercentage } from 'src/contract/models/user_profile_percentage'
+import DialogEditBanner from './DialogEditBanner'
+import DialogEditProfile from './DialogEditProfile'
 
 type FormData = {
   companyName: string
@@ -70,6 +84,55 @@ function a11yProps(index: number) {
   }
 }
 
+function CircularProgressWithLabel(props: CircularProgressProps & { value: number }) {
+  const getColor = (value: number) => {
+    if (value <= 30) return 'red'
+    if (value <= 70) return '#FF9800'
+
+    return 'green'
+  }
+
+  return (
+    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+      {/* CircularProgress Background */}
+      <CircularProgress
+        thickness={3}
+        size={60}
+        variant='determinate'
+        value={100} // Full circle for background
+        sx={{ color: '#e0e0e0', position: 'absolute' }} // Abu-abu
+      />
+      {/* CircularProgress Utama */}
+      <CircularProgress
+        thickness={3}
+        size={60}
+        variant='determinate'
+        {...props} // Nilai progress utama
+        sx={{
+          color: getColor(props.value) // Warna progress utama (bisa disesuaikan)
+        }}
+      />
+      {/* Label di tengah */}
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: 'absolute',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Typography variant='caption' component='div' sx={{ color: getColor(props.value) }}>
+          {`${Math.round(props.value)}%`}
+        </Typography>
+      </Box>
+    </Box>
+  )
+}
+
 const Candidate = () => {
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
@@ -81,6 +144,12 @@ const Candidate = () => {
   const [profilePic, setProfilePic] = useState<any>(null)
   const [openUpateProfilePic, setOpenUpdateProfilePic] = useState(false)
   const [tabsValue, setTabsValue] = useState(0)
+  const [userProfileCompletion, setUserProfileCompletion] = useState(0)
+  const [userDetailPercentage, setUserDetailPercentage] = useState<IDetailPercentage | null>(null)
+  const [openEditModalBanner, setOpenEditModalBanner] = useState(false)
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const [defaultValue, setDefaultValue] = useState(0)
+  const open = Boolean(anchorEl)
 
   function Firstload() {
     HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
@@ -88,28 +157,371 @@ const Candidate = () => {
       setSelectedUser(resUser)
       setProfilePic(resUser?.photo ? resUser?.photo : null)
     })
+
+    HttpClient.get(AppConfig.baseUrl + '/public/data/user/calculate-percentage/' + user?.id).then(response => {
+      const { detail_percentage, percentage } = response?.data as IUserProfilePercentage
+      setUserProfileCompletion(percentage)
+      setUserDetailPercentage(detail_percentage)
+    })
   }
 
-  const handleDefaultBanner = (): string => {
-    if (AppConfig.appEnv === 'DEV') {
-      return selectedUser?.team_id == 3
-        ? '/images/banner/employer-banner.png'
-        : selectedUser?.employee_type == 'onship'
-        ? '/images/banner/seafarer-banner.png'
-        : '/images/banner/professional-banner.png'
+  const handleDefaultBanner = () => {
+    if (selectedUser?.banner != '') {
+      return (
+        <Box
+          component='div'
+          sx={{
+            width: '100%',
+            height: isMobile ? '81px' : '191px',
+            backgroundImage: `url(${selectedUser?.banner})`, // Replace `yourImageSrc` with the actual image source
+            backgroundSize: 'cover', // Ensure the image covers the entire box
+            backgroundPosition: 'center', // Center the image
+            borderRadius: '0 !important',
+            display: 'flex',
+            justifyContent: 'end'
+          }}
+        >
+          <Box
+            sx={{
+              margin: isMobile ? '20px' : '32px',
+              padding: '8px 12px',
+              display: 'flex',
+              gap: '12px',
+              borderRadius: '6px',
+              border: '1px solid #F0F0F0',
+              background: '#FFF',
+              height: 'fit-content',
+              cursor: 'pointer'
+            }}
+            onClick={() => setOpenEditModalBanner(!openEditModalBanner)}
+          >
+            <Box>
+              <Icon icon='iconoir:camera' fontSize={isMobile ? '16px' : '24px'} color='#404040' />
+            </Box>
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: isMobile ? '12px' : '16px',
+                  fontWeight: 700,
+                  backgroundColor: 'transparent',
+                  color: '#404040'
+                }}
+              >
+                Change Cover
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      )
     }
 
-    return selectedUser?.banner
-      ? selectedUser?.banner
-      : selectedUser?.team_id == 3
-      ? '/images/banner/employer-banner.png'
-      : selectedUser?.employee_type == 'onship'
-      ? '/images/banner/seafarer-banner.png'
-      : '/images/banner/professional-banner.png'
+    return (
+      <Box
+        component='div'
+        sx={{
+          width: '100%',
+          objectFit: 'cover',
+          height: isMobile ? '81px' : '191px',
+          background: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
+          borderRadius: '0 !important',
+          display: 'flex',
+          justifyContent: 'end'
+        }}
+      >
+        <Box
+          sx={{
+            margin: isMobile ? '20px' : '32px',
+            padding: '8px 12px',
+            display: 'flex',
+            gap: '12px',
+            borderRadius: '6px',
+            border: '1px solid #FFF',
+            background: 'rgba(255, 255, 255, 0.20)',
+            height: 'fit-content',
+            cursor: 'pointer'
+          }}
+          onClick={() => setOpenEditModalBanner(!openEditModalBanner)}
+        >
+          <Box>
+            <Icon icon='iconoir:camera' fontSize={isMobile ? '16px' : '24px'} color='#FFF' />
+          </Box>
+          <Box>
+            <Typography
+              sx={{
+                fontSize: isMobile ? '12px' : '16px',
+                fontWeight: 700,
+                color: '#FFF',
+                backgroundColor: 'transparent'
+              }}
+            >
+              Change Cover
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+    )
   }
 
   const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
     setTabsValue(newValue)
+  }
+
+  const handleDownloadResume = () => {
+    HttpClient.get(`/user/${selectedUser?.id}/profile/resume`).then(response => {
+      if (response.status != 200) {
+        throw response.data.message ?? 'Something went wrong!'
+      }
+
+      window.open(`${response.data?.path}`, '_blank', 'noreferrer')
+    })
+  }
+
+  const handleClickPopper = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget)
+  }
+
+  const renderPopper = () => {
+    // for pelaut
+    if (selectedUser?.team_id == 2 && selectedUser?.employee_type == 'onship') {
+      return (
+        <Popper id='popper-profile-completion' open={open} anchorEl={anchorEl}>
+          <Box
+            sx={{
+              padding: '12px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              gap: '12px',
+              background: '#FFF',
+              borderRadius: '6px'
+            }}
+          >
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  color: '#404040'
+                }}
+              >
+                Enhance Profile
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {userDetailPercentage?.total_photo_percentage == 0 && (
+                <Box
+                  component={'div'}
+                  onClick={() => setOpenUpdateProfilePic(true)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '8px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+                    Add profile picture
+                  </Typography>
+                  <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+                </Box>
+              )}
+
+              {userDetailPercentage?.total_seafarer_education_percentage == 0 && (
+                <Box
+                  component={'div'}
+                  onClick={() => setTabsValue(1)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '8px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add education</Typography>
+                  <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+                </Box>
+              )}
+            </Box>
+            {userDetailPercentage?.travel_document_percentage == 0 && (
+              <Box
+                component={'div'}
+                onClick={() => setTabsValue(2)}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '8px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+                  Add travel document
+                </Typography>
+                <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+              </Box>
+            )}
+            {userDetailPercentage?.experience_percentage == 0 && (
+              <Box
+                component={'div'}
+                onClick={() => {
+                  setTabsValue(3)
+                  setDefaultValue(0)
+                }}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '8px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add sea experience</Typography>
+                <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+              </Box>
+            )}
+            {userDetailPercentage?.recommendation_percentage == 0 && (
+              <Box
+                component={'div'}
+                onClick={() => {
+                  setTabsValue(3)
+                  setDefaultValue(1)
+                }}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '8px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add reference</Typography>
+                <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+              </Box>
+            )}
+            {userDetailPercentage?.competency_percentage == 0 && (
+              <Box
+                component={'div'}
+                onClick={() => {
+                  setTabsValue(4)
+                  setDefaultValue(0)
+                }}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '8px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+                  Add certification of competency
+                </Typography>
+                <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+              </Box>
+            )}
+            {userDetailPercentage?.proficiency_percentage == 0 && (
+              <Box
+                component={'div'}
+                onClick={() => {
+                  setTabsValue(4)
+                  setDefaultValue(1)
+                }}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '8px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+                  Add certification of proficiency
+                </Typography>
+                <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+              </Box>
+            )}
+          </Box>
+        </Popper>
+      )
+    }
+
+    // for non-pelaut (profesionals)
+
+    // if (selectedUser?.team_id == 2 && selectedUser?.employee_type == 'offship') {
+    //   return (
+    //     <Popper id='popper-profile-completion' open={open} anchorEl={anchorEl}>
+    //       <Box
+    //         sx={{
+    //           padding: '12px',
+    //           display: 'flex',
+    //           flexDirection: 'column',
+    //           justifyContent: 'center',
+    //           gap: '12px',
+    //           background: '#FFF',
+    //           borderRadius: '6px'
+    //         }}
+    //       >
+    //         <Box>
+    //           <Typography
+    //             sx={{
+    //               fontSize: '14px',
+    //               fontWeight: 700,
+    //               color: '#404040'
+    //             }}
+    //           >
+    //             Enhance Profile
+    //           </Typography>
+    //         </Box>
+    //         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    //           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+    //             <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+    //               Add Profile Picture
+    //             </Typography>
+    //             <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+    //           </Box>
+    //         </Box>
+    //       </Box>
+    //     </Popper>
+    //   )
+    // }
+
+    // for company
+    return null
+    // return (
+    //   <Popper id='popper-profile-completion' open={open} anchorEl={anchorEl}>
+    //     <Box
+    //       sx={{
+    //         padding: '12px',
+    //         display: 'flex',
+    //         flexDirection: 'column',
+    //         justifyContent: 'center',
+    //         gap: '12px',
+    //         background: '#FFF',
+    //         borderRadius: '6px'
+    //       }}
+    //     >
+    //       <Box>
+    //         <Typography
+    //           sx={{
+    //             fontSize: '14px',
+    //             fontWeight: 700,
+    //             color: '#404040'
+    //           }}
+    //         >
+    //           Enhance Profile
+    //         </Typography>
+    //       </Box>
+    //       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    //         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+    //           <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add Profile Picture</Typography>
+    //           <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+    //         </Box>
+    //       </Box>
+    //     </Box>
+    //   </Popper>
+    // )
   }
 
   useEffect(() => {
@@ -117,6 +529,7 @@ const Candidate = () => {
     Firstload()
   }, [])
 
+  // still using resume builder old version for offship user
   if (selectedUser?.employee_type == 'offship') {
     return (
       <>
@@ -161,9 +574,20 @@ const Candidate = () => {
 
   return (
     <>
-      <DialogProfilePicture
+      <DialogEditBanner
+        visible={openEditModalBanner}
+        onCloseClick={() => setOpenEditModalBanner(!openEditModalBanner)}
+        previewBanner={selectedUser?.banner}
+      />
+      {/* <DialogProfilePicture
         isOpen={openUpateProfilePic}
         onClose={() => setOpenUpdateProfilePic(!openUpateProfilePic)}
+      /> */}
+
+      <DialogEditProfile
+        visible={openUpateProfilePic}
+        onCloseClick={() => setOpenUpdateProfilePic(!openUpateProfilePic)}
+        previewProfile={profilePic}
       />
       <Grid
         container
@@ -184,17 +608,7 @@ const Candidate = () => {
         }
       >
         <Box sx={{ width: '100%', borderRadius: '12px', boxShadow: 3, backgroundColor: '#FFFFFF', overflow: 'hidden' }}>
-          <Box
-            component='img'
-            alt='profile-header'
-            src={handleDefaultBanner()}
-            sx={{
-              width: '100%',
-              objectFit: 'cover',
-              height: isMobile ? '81px' : '',
-              borderRadius: '0 !important'
-            }}
-          />
+          {handleDefaultBanner()}
           <Grid container sx={{ p: isMobile ? '16px' : '32px', display: 'flex', gap: '12px' }}>
             <Grid
               item
@@ -211,7 +625,7 @@ const Candidate = () => {
                   alignItems: 'center',
                   position: 'absolute',
                   padding: '4px',
-                  bottom: isMobile ? '50px' : '70px'
+                  bottom: isMobile ? '120px' : '125px'
                 }}
               >
                 <Box sx={{ position: 'relative', display: 'inline-block' }}>
@@ -235,7 +649,7 @@ const Candidate = () => {
                 </Box>
 
                 {/* todo next sprint */}
-                {/* <Button
+                <Button
                   aria-label='download'
                   sx={{
                     display: 'flex',
@@ -251,33 +665,118 @@ const Candidate = () => {
                     alignSelf: 'flex-end',
                     border: isMobile ? '0.387px solid #F0F0F0' : '1px solid #F0F0F0'
                   }}
+                  onClick={handleDownloadResume}
                 >
                   <Icon icon='material-symbols-light:download-sharp' fontSize={isMobile ? '20px' : '24px'} />
                   Download Resume
-                </Button> */}
+                </Button>
               </Box>
-              <Box sx={{ marginTop: '40px' }}>
-                <Typography
+              <Box
+                sx={{
+                  marginTop: '40px',
+                  display: 'flex',
+                  flexDirection: isMobile ? 'column' : 'row',
+                  justifyContent: 'space-between',
+                  alignItems: isMobile ? 'flex-start' : 'center',
+                  gap: '16px'
+                }}
+              >
+                <Box>
+                  <Typography
+                    sx={{
+                      fontSize: isMobile ? '14px' : '24px',
+                      fontWeight: 700,
+                      fontFamily: 'Figtree',
+                      color: '#404040',
+                      textTransform: 'capitalize'
+                    }}
+                  >
+                    {selectedUser?.name}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: isMobile ? '14px' : '18px',
+                      fontWeight: 400,
+                      fontFamily: 'Figtree',
+                      color: '#404040'
+                    }}
+                  >
+                    {selectedUser?.employee_type == 'onship' ? selectedUser?.field_preference?.job_category?.name : '-'}
+                  </Typography>
+                </Box>
+                <Box
                   sx={{
-                    fontSize: isMobile ? '14px' : '24px',
-                    fontWeight: 700,
-                    fontFamily: 'Figtree',
-                    color: '#404040',
-                    textTransform: 'capitalize'
+                    width: isMobile ? '100%' : null
                   }}
                 >
-                  {selectedUser?.name}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: isMobile ? '14px' : '18px',
-                    fontWeight: 400,
-                    fontFamily: 'Figtree',
-                    color: '#404040'
-                  }}
-                >
-                  {selectedUser?.role == 'Seafarer' ? selectedUser?.field_preference?.job_category?.name : '-'}
-                </Typography>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      background: '#F8F8F7',
+                      borderRadius: '6px',
+                      padding: isMobile ? '4px 12px' : '16px 24px',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      gap: '20px'
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040' }}>
+                          Profile Completion
+                        </Typography>
+                        <IconButton onClick={handleClickPopper}>
+                          <Icon icon='quill:info' fontSize={isMobile ? '20px' : '16px'} color='orange' />
+                        </IconButton>
+                        {renderPopper()}
+                        {/* <Popper id='popper-profile-completion' open={open} anchorEl={anchorEl}>
+                          <Box
+                            sx={{
+                              padding: '12px',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'center',
+                              gap: '12px',
+                              background: '#FFF',
+                              borderRadius: '6px'
+                            }}
+                          >
+                            <Box>
+                              <Typography
+                                sx={{
+                                  fontSize: '14px',
+                                  fontWeight: 700,
+                                  color: '#404040'
+                                }}
+                              >
+                                Enhance Profile
+                              </Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+                                  Add Profile Picture
+                                </Typography>
+                                <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+                              </Box>
+                            </Box>
+                          </Box>
+                        </Popper> */}
+                      </Box>
+                      {!isMobile && (
+                        <Box>
+                          <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#404040' }}>
+                            Complete your profile to unlock more <br /> opportunities and highlight your skills
+                          </Typography>
+                        </Box>
+                      )}
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <CircularProgressWithLabel value={userProfileCompletion} />
+                    </Box>
+                  </Box>
+                </Box>
               </Box>
             </Grid>
             <Grid item xs={12}>
@@ -290,12 +789,56 @@ const Candidate = () => {
                 scrollButtons={isMobile ? true : false}
                 allowScrollButtonsMobile={isMobile ? true : false}
                 aria-label='full width tabs example'
+                sx={{ borderBottom: '1.5px solid #DADADA' }}
               >
                 <Tab sx={{ textTransform: 'capitalize' }} label='General' {...a11yProps(0)} />
-                <Tab sx={{ textTransform: 'capitalize' }} label='Education' {...a11yProps(1)} />
-                <Tab sx={{ textTransform: 'capitalize' }} label='Travel Document' {...a11yProps(2)} />
-                <Tab sx={{ textTransform: 'capitalize' }} label='Sea Experience' {...a11yProps(3)} />
-                <Tab sx={{ textTransform: 'capitalize' }} label='Certificate' {...a11yProps(4)} />
+                <Tab
+                  sx={{
+                    textTransform: 'capitalize'
+                  }}
+                  icon={
+                    userDetailPercentage?.total_seafarer_education_percentage == 0 ? (
+                      <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
+                    ) : undefined
+                  }
+                  iconPosition='end'
+                  label='Education'
+                  {...a11yProps(1)}
+                />
+                <Tab
+                  sx={{ textTransform: 'capitalize' }}
+                  icon={
+                    userDetailPercentage?.travel_document_percentage == 0 ? (
+                      <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
+                    ) : undefined
+                  }
+                  iconPosition='end'
+                  label='Travel Document'
+                  {...a11yProps(2)}
+                />
+                <Tab
+                  sx={{ textTransform: 'capitalize' }}
+                  icon={
+                    userDetailPercentage?.experience_percentage == 0 ? (
+                      <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
+                    ) : undefined
+                  }
+                  iconPosition='end'
+                  label='Sea Experience'
+                  {...a11yProps(3)}
+                />
+                <Tab
+                  sx={{ textTransform: 'capitalize' }}
+                  icon={
+                    userDetailPercentage?.competency_percentage == 0 ||
+                    userDetailPercentage?.proficiency_percentage == 0 ? (
+                      <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
+                    ) : undefined
+                  }
+                  iconPosition='end'
+                  label='Certificate'
+                  {...a11yProps(4)}
+                />
               </Tabs>
               <TabPanel value={tabsValue} index={0}>
                 <AccordionTabGeneral />
@@ -307,10 +850,10 @@ const Candidate = () => {
                 <TravelDocumentTab />
               </TabPanel>
               <TabPanel value={tabsValue} index={3}>
-                <SeaExperienceTab />
+                <SeaExperienceTab defaultValue={defaultValue} />
               </TabPanel>
               <TabPanel value={tabsValue} index={4}>
-                <CertificateTab />
+                <CertificateTab defaultValue={defaultValue} />
               </TabPanel>
             </Grid>
           </Grid>
