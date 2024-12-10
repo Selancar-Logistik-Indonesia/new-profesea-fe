@@ -7,10 +7,13 @@ import Candidate from '../candidate'
 import DialogSuccess from '../loginevent/DialogSuccess'
 import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { getOnboardingLink } from 'src/utils/helpers'
+import { useRouter } from 'next/router'
 
 const Home = () => {
   const [openBlockModal, setOpenBlockModal] = useState(true)
   const { user } = useAuth()
+  const router = useRouter()
   const searchParams = useSearchParams()
   const event = searchParams.get('event')
 
@@ -25,17 +28,30 @@ const Home = () => {
       />
     )
   } else {
-    if (user?.role == 'admin') return <AdminHomePage />
+    if (user) {
+      if (!user.email_verified_at) {
+        return router.replace(`/verify-email/`)
+      }
 
-    if (user?.last_step === 'completed') {
-      return <SocialFeed />
-    } else {
-      if (user?.role == 'Company') {
-        return <Company />
-      } else if (user?.role == 'Trainer') {
-        return <Trainer />
-      } else if (user?.role == 'Seafarer') {
-        return <Candidate />
+      if (user.role == 'admin') return <AdminHomePage />
+
+      if (user.last_step === 'completed') {
+        return <SocialFeed />
+      } else {
+        if (user.role == 'Company') {
+          return <Company />
+        } else if (user.role == 'Trainer') {
+          return <Trainer />
+        } else if (user.role == 'Seafarer') {
+          return <Candidate />
+        }
+
+        const onboardingLink = getOnboardingLink(user)
+        if (user.last_step === 'role-selection') {
+          return router.replace(`/${user.last_step}`)
+        }
+
+        return router.replace(`/onboarding/${onboardingLink}/${user.last_step}`)
       }
     }
   }
