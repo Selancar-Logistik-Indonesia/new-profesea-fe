@@ -39,11 +39,15 @@ const Transition = forwardRef(function Transition(
   return <Fade ref={ref} {...props} />
 })
 
-const SeaExperienceTab = () => {
+interface ISeaExperienceTabProps {
+  defaultValue?: number
+}
+
+const SeaExperienceTab: React.FC<ISeaExperienceTabProps> = ({ defaultValue = 0 }) => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
-  const [value, setValue] = useState(0)
+  const [value, setValue] = useState(defaultValue)
   const [noExperience, setNoExperience] = useState(user?.no_experience)
   const [userSeaExprerience, setUserSeaExperience] = useState<ISeafarerExperienceData[]>([])
   const [seafarerExperience, setSeafarerExperience] = useState()
@@ -260,7 +264,7 @@ const SeaExperienceTab = () => {
                 gap: '24px'
               }}
             >
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '151px', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
                 <Image src={'/images/kapal-icon.png'} alt={'mdl2'} width={'64'} height={'65'} />
                 <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040', textAlign: 'center' }}>
                   No sea experience yet
@@ -485,7 +489,7 @@ const SeaExperienceTab = () => {
                 gap: '24px'
               }}
             >
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '151px', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
                 <Image src={'/images/kapal-icon.png'} alt={'mdl2'} width={'64'} height={'65'} />
                 <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040', textAlign: 'center' }}>
                   No reference verification yet
@@ -680,63 +684,17 @@ const SeaExperienceTab = () => {
           />
         </BottomNavigation>
 
-        <Box>
-          <FormControlLabel
-            control={<Checkbox checked={noExperience} onChange={handleChange} />}
-            label='I have no experience'
-          />
-        </Box>
+        {userSeaExprerience.length == 0 && (
+          <Box>
+            <FormControlLabel
+              control={<Checkbox checked={noExperience} onChange={handleChange} />}
+              label='I have no experience'
+            />
+          </Box>
+        )}
       </Box>
 
       {value == 0 ? renderSeaExperience() : renderReferenceVerification()}
-
-      {/* {userSeaExprerience.length == 0 ? (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            py: isMobile ? '64px' : '78px',
-            px: isMobile ? '24px' : '360px'
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '24px'
-            }}
-          >
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '151px', alignItems: 'center' }}>
-              <Image src={'/images/kapal-icon.png'} alt={'mdl2'} width={'64'} height={'65'} />
-              <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040', textAlign: 'center' }}>
-                No sea experience yet
-              </Typography>
-              <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#404040', textAlign: 'center' }}>
-                Share your career journey to highlight your expertise
-              </Typography>
-            </Box>
-            {!noExperience && (
-              <Box>
-                <Button
-                  sx={{ fontSize: '14px', fontWeight: 400, textTransform: 'capitalize' }}
-                  variant='outlined'
-                  // onClick={() => (isMobile ? toggleDrawer(true) : toggleModal())}
-                >
-                  <Icon icon={'mdi-light:plus'} fontSize={16} style={{ marginRight: '10px' }} />
-                  Add sea experience
-                </Button>
-              </Box>
-            )}
-          </Box>
-        </Box>
-      ) : loading ? (
-        <div>loading...</div>
-      ) : (
-        <div>test</div>
-      )} */}
     </>
   )
 }

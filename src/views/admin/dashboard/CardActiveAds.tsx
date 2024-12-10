@@ -1,3 +1,4 @@
+import Link from 'next/link'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -8,7 +9,7 @@ import { CardHeader, CircularProgress } from '@mui/material'
 import DashboardContext, { DashboardProvider } from 'src/context/DashboardContext'
 import { useDashboard } from 'src/hooks/useDashboard'
 import { useEffect } from 'react'
-import { Avatar } from '@mui/material'
+import { Avatar, CardActionArea, Divider } from '@mui/material'
 
 const CardActiveAds = () => {
   return (
@@ -27,7 +28,7 @@ const renderList = (arr: any[]) => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            mb: index !== arr.length - 1 ? 7.25 : undefined
+            mb: index !== arr.length - 1 ? 3 : undefined
           }}
         >
           {/* <img width={34} height={34} alt={item.name} src={item.photo} /> */}
@@ -85,7 +86,9 @@ const CardActiveAdsApp = () => {
         }
 
         return (
-          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+          <Card
+            sx={{ position: 'relative', border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}
+          >
             <CardHeader
               title={
                 <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
@@ -94,6 +97,14 @@ const CardActiveAdsApp = () => {
               }
             ></CardHeader>
             <CardContent>{renderList(dataAds)}</CardContent>
+            <div style={{ backgroundColor: 'white', height: 50, position: 'absolute', bottom: 0, width: '100%' }}>
+              <Divider component='div' />
+              <CardActionArea>
+                <CardContent style={{ textAlign: 'center' }}>
+                  <Link href='/admin/ads-management/'>View All Ads</Link>
+                </CardContent>
+              </CardActionArea>
+            </div>
           </Card>
         )
       }}
