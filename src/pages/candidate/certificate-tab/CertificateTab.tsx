@@ -37,11 +37,15 @@ const Transition = forwardRef(function Transition(
   return <Fade ref={ref} {...props} />
 })
 
-const CertificateTab = () => {
+interface ICertificateTabProps {
+  defaultValue?: number
+}
+
+const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
-  const [value, setValue] = useState(0)
+  const [value, setValue] = useState(defaultValue)
 
   // data user coc
   const [loadingCOC, setLoadingCOC] = useState(false)

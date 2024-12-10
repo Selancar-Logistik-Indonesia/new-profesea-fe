@@ -12,7 +12,8 @@ import {
   Button,
   CircularProgressProps,
   CircularProgress,
-  Box
+  Box,
+  Popper
 } from '@mui/material'
 import { Grid } from '@mui/material'
 import { useForm } from 'react-hook-form'
@@ -86,7 +87,7 @@ function a11yProps(index: number) {
 function CircularProgressWithLabel(props: CircularProgressProps & { value: number }) {
   const getColor = (value: number) => {
     if (value <= 30) return 'red'
-    if (value <= 70) return 'yellow'
+    if (value <= 70) return '#FF9800'
 
     return 'green'
   }
@@ -146,6 +147,9 @@ const Candidate = () => {
   const [userProfileCompletion, setUserProfileCompletion] = useState(0)
   const [userDetailPercentage, setUserDetailPercentage] = useState<IDetailPercentage | null>(null)
   const [openEditModalBanner, setOpenEditModalBanner] = useState(false)
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const [defaultValue, setDefaultValue] = useState(0)
+  const open = Boolean(anchorEl)
 
   function Firstload() {
     HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
@@ -272,11 +276,260 @@ const Candidate = () => {
     })
   }
 
+  const handleClickPopper = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget)
+  }
+
+  const renderPopper = () => {
+    // for pelaut
+    if (selectedUser?.team_id == 2 && selectedUser?.employee_type == 'onship') {
+      return (
+        <Popper id='popper-profile-completion' open={open} anchorEl={anchorEl}>
+          <Box
+            sx={{
+              padding: '12px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              gap: '12px',
+              background: '#FFF',
+              borderRadius: '6px'
+            }}
+          >
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  color: '#404040'
+                }}
+              >
+                Enhance Profile
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {userDetailPercentage?.total_photo_percentage == 0 && (
+                <Box
+                  component={'div'}
+                  onClick={() => setOpenUpdateProfilePic(true)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '8px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+                    Add profile picture
+                  </Typography>
+                  <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+                </Box>
+              )}
+
+              {userDetailPercentage?.total_seafarer_education_percentage == 0 && (
+                <Box
+                  component={'div'}
+                  onClick={() => setTabsValue(1)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '8px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add education</Typography>
+                  <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+                </Box>
+              )}
+            </Box>
+            {userDetailPercentage?.travel_document_percentage == 0 && (
+              <Box
+                component={'div'}
+                onClick={() => setTabsValue(2)}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '8px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+                  Add travel document
+                </Typography>
+                <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+              </Box>
+            )}
+            {userDetailPercentage?.experience_percentage == 0 && (
+              <Box
+                component={'div'}
+                onClick={() => {
+                  setTabsValue(3)
+                  setDefaultValue(0)
+                }}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '8px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add sea experience</Typography>
+                <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+              </Box>
+            )}
+            {userDetailPercentage?.recommendation_percentage == 0 && (
+              <Box
+                component={'div'}
+                onClick={() => {
+                  setTabsValue(3)
+                  setDefaultValue(1)
+                }}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '8px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add reference</Typography>
+                <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+              </Box>
+            )}
+            {userDetailPercentage?.competency_percentage == 0 && (
+              <Box
+                component={'div'}
+                onClick={() => {
+                  setTabsValue(4)
+                  setDefaultValue(0)
+                }}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '8px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+                  Add certification of competency
+                </Typography>
+                <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+              </Box>
+            )}
+            {userDetailPercentage?.proficiency_percentage == 0 && (
+              <Box
+                component={'div'}
+                onClick={() => {
+                  setTabsValue(4)
+                  setDefaultValue(1)
+                }}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '8px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+                  Add certification of proficiency
+                </Typography>
+                <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+              </Box>
+            )}
+          </Box>
+        </Popper>
+      )
+    }
+
+    // for non-pelaut (profesionals)
+
+    // if (selectedUser?.team_id == 2 && selectedUser?.employee_type == 'offship') {
+    //   return (
+    //     <Popper id='popper-profile-completion' open={open} anchorEl={anchorEl}>
+    //       <Box
+    //         sx={{
+    //           padding: '12px',
+    //           display: 'flex',
+    //           flexDirection: 'column',
+    //           justifyContent: 'center',
+    //           gap: '12px',
+    //           background: '#FFF',
+    //           borderRadius: '6px'
+    //         }}
+    //       >
+    //         <Box>
+    //           <Typography
+    //             sx={{
+    //               fontSize: '14px',
+    //               fontWeight: 700,
+    //               color: '#404040'
+    //             }}
+    //           >
+    //             Enhance Profile
+    //           </Typography>
+    //         </Box>
+    //         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    //           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+    //             <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+    //               Add Profile Picture
+    //             </Typography>
+    //             <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+    //           </Box>
+    //         </Box>
+    //       </Box>
+    //     </Popper>
+    //   )
+    // }
+
+    // for company
+    return null
+    // return (
+    //   <Popper id='popper-profile-completion' open={open} anchorEl={anchorEl}>
+    //     <Box
+    //       sx={{
+    //         padding: '12px',
+    //         display: 'flex',
+    //         flexDirection: 'column',
+    //         justifyContent: 'center',
+    //         gap: '12px',
+    //         background: '#FFF',
+    //         borderRadius: '6px'
+    //       }}
+    //     >
+    //       <Box>
+    //         <Typography
+    //           sx={{
+    //             fontSize: '14px',
+    //             fontWeight: 700,
+    //             color: '#404040'
+    //           }}
+    //         >
+    //           Enhance Profile
+    //         </Typography>
+    //       </Box>
+    //       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    //         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+    //           <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add Profile Picture</Typography>
+    //           <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+    //         </Box>
+    //       </Box>
+    //     </Box>
+    //   </Popper>
+    // )
+  }
+
   useEffect(() => {
     // setOpenPreview(false)
     Firstload()
   }, [])
 
+  // still using resume builder old version for offship user
   if (selectedUser?.employee_type == 'offship') {
     return (
       <>
@@ -473,9 +726,43 @@ const Candidate = () => {
                         <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040' }}>
                           Profile Completion
                         </Typography>
-                        <IconButton>
+                        <IconButton onClick={handleClickPopper}>
                           <Icon icon='quill:info' fontSize={isMobile ? '20px' : '16px'} color='orange' />
                         </IconButton>
+                        {renderPopper()}
+                        {/* <Popper id='popper-profile-completion' open={open} anchorEl={anchorEl}>
+                          <Box
+                            sx={{
+                              padding: '12px',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'center',
+                              gap: '12px',
+                              background: '#FFF',
+                              borderRadius: '6px'
+                            }}
+                          >
+                            <Box>
+                              <Typography
+                                sx={{
+                                  fontSize: '14px',
+                                  fontWeight: 700,
+                                  color: '#404040'
+                                }}
+                              >
+                                Enhance Profile
+                              </Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+                                  Add Profile Picture
+                                </Typography>
+                                <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+                              </Box>
+                            </Box>
+                          </Box>
+                        </Popper> */}
                       </Box>
                       {!isMobile && (
                         <Box>
@@ -563,10 +850,10 @@ const Candidate = () => {
                 <TravelDocumentTab />
               </TabPanel>
               <TabPanel value={tabsValue} index={3}>
-                <SeaExperienceTab />
+                <SeaExperienceTab defaultValue={defaultValue} />
               </TabPanel>
               <TabPanel value={tabsValue} index={4}>
-                <CertificateTab />
+                <CertificateTab defaultValue={defaultValue} />
               </TabPanel>
             </Grid>
           </Grid>
