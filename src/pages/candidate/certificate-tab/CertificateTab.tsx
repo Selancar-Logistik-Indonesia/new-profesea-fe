@@ -29,6 +29,9 @@ import { IUser } from 'src/contract/models/user'
 import SeafarerCompetencyForm from '../SeafarerCompetency/SeafarerCompetencyForm'
 import toast from 'react-hot-toast'
 import SeafarerProficiencyForm from '../SeafarerProficiency/SeafarerProficiencyForm'
+import { IDocument } from 'src/contract/models/document'
+import DialogAddDocument from '../DialogAddDocument'
+import DialogEditDocument from '../DialogEditDocument'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -39,6 +42,20 @@ const Transition = forwardRef(function Transition(
 
 interface ICertificateTabProps {
   defaultValue?: number
+}
+
+export type IData = {
+  id: number
+  user_id: number
+  document_name: string
+  document_number: string
+  organization: string
+  path: string
+  issue_at: string
+  expired_at: string
+  created_at: string
+  updated_at: string
+  is_lifetime: any
 }
 
 const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) => {
@@ -67,6 +84,13 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
   const [copId, setCopId] = useState<any>(null)
   const [onLoadingDeleteTwo, setOnLoadingDeleteTwo] = useState(false)
 
+  // certificate for profesionals
+  const [itemData, getItemdata] = useState<IData[]>([])
+  const [loadingCertificate, setLoadingCertificate] = useState(false)
+  const [openAddModalDoc, setOpenAddModalDoc] = useState(false)
+  const [openEditModalDoc, setOpenEditModalDoc] = useState(false)
+  const [selectedItem, setSelectedItem] = useState<any>()
+
   const loadCompetency = () => {
     setLoadingCOC(true)
     HttpClient.get(AppConfig.baseUrl + '/seafarer-competencies/user-id/' + user?.id).then(response => {
@@ -92,6 +116,16 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
 
       setUserCOP(result)
       setLoadingCOP(false)
+    })
+  }
+
+  const loadCertificate = () => {
+    setLoadingCertificate(true)
+    HttpClient.get(AppConfig.baseUrl + `/user/candidate-document/?user_id=${user?.id}`).then(response => {
+      const itemData = response.data.documents
+
+      getItemdata(itemData)
+      setLoadingCertificate(false)
     })
   }
 
@@ -143,6 +177,20 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
     }
   }
 
+  const deleteDocument = async (id: any) => {
+    const resp = await HttpClient.del(`/user/candidate-document/` + id)
+    if (resp.status != 200) {
+      throw resp.data.message ?? 'Something went wrong!'
+    }
+    loadCertificate()
+    toast.success(`deleted successfully!`)
+  }
+
+  const editDocument = (item: any) => {
+    setSelectedItem(item)
+    setOpenEditModalDoc(!openEditModalDoc)
+  }
+
   const handlerTooltip = (e: any) => {
     const validUntil = e?.valid_until ? new Date(e.valid_until) : null
     const daysLeft = validUntil ? differenceInDays(validUntil, new Date()) : null
@@ -190,6 +238,7 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
   useEffect(() => {
     loadCompetency()
     loadProficiency()
+    loadCertificate()
   }, [])
 
   const renderCOC = () => {
@@ -591,8 +640,180 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
     )
   }
 
+  const renderProfesionalsCertificate = () => {
+    return (
+      <>
+        {itemData.length == 0 ? (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              py: isMobile ? '64px' : '78px',
+              px: isMobile ? '24px' : '360px'
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '24px'
+              }}
+            >
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+                <Image src={'/images/clarity_certificate-line.png'} alt={'mdl2'} width={'64'} height={'65'} />
+                <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040', textAlign: 'center' }}>
+                  No certificate yet
+                </Typography>
+                <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#404040', textAlign: 'center' }}>
+                  Add your certificates to showcase your qualifications
+                </Typography>
+              </Box>
+              <Box>
+                <Button
+                  sx={{ fontSize: '14px', fontWeight: 400, textTransform: 'capitalize' }}
+                  variant='outlined'
+                  onClick={() => setOpenAddModalDoc(true)}
+                >
+                  <Icon icon={'mdi-light:plus'} fontSize={16} style={{ marginRight: '10px' }} />
+                  Add Certificate
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        ) : loadingCertificate ? (
+          <div>loading...</div>
+        ) : (
+          <div>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginBottom: '32px',
+                gap: isMobile ? '40px' : 0,
+                marginTop: '56px'
+              }}
+            >
+              <Box>
+                <Typography fontSize={16} fontWeight={700} color={'#32497A'}>
+                  Certificate
+                </Typography>
+                <Typography fontSize={14} fontWeight={400} color={'#404040'}>
+                  Add your certificates to showcase your qualifications
+                </Typography>
+              </Box>
+              <Box>
+                <Button
+                  sx={{ fontSize: '14px', fontWeight: 400, textTransform: 'capitalize' }}
+                  variant='outlined'
+                  onClick={() => setOpenAddModalDoc(true)}
+                >
+                  <Icon icon={'mdi-light:plus'} fontSize={16} style={{ marginRight: '10px' }} />
+                  Add
+                </Button>
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {itemData?.map((e, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    borderRadius: '8px',
+                    boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)',
+                    background: '#FFF',
+                    padding: '24px'
+                  }}
+                >
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <Typography fontSize={16} fontWeight={700} color={'#404040'}>
+                      {e?.document_name}
+                    </Typography>
+                    <Typography fontSize={14} fontWeight={400} color={'#404040'}>
+                      {e?.organization ? e?.organization : '-'}
+                    </Typography>
+                    <Typography sx={{ color: '#868686', fontWeight: 400, fontSize: '14px', lineHeight: '21px' }}>
+                      {e?.issue_at ? 'Issued date ' + format(new Date(e?.issue_at), 'LLL yyyy') : 'Issued date -'}
+                    </Typography>
+                    <Button
+                      sx={{
+                        width: { sm: '100%', md: '160px' },
+                        height: '37px',
+                        borderColor: 'rgba(50, 73, 122, 1) !important',
+                        textTransform: 'capitalize',
+                        fontWeight: 400,
+                        fontSize: { sm: '14px', md: '14px' },
+                        lineHeight: '21px',
+                        color: 'rgba(50, 73, 122, 1) !important'
+                      }}
+                      variant='outlined'
+                      color='primary'
+                      size='medium'
+                      href={process.env.NEXT_PUBLIC_BASE_URL + '/storage/' + e?.path}
+                      target='_blank'
+                    >
+                      Show Credential
+                    </Button>
+                  </Box>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '24px' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+                      <Icon
+                        icon={'ph:pencil-simple-line-light'}
+                        fontSize={24}
+                        style={{ marginRight: '10px', cursor: 'pointer' }}
+                        onClick={() => editDocument(e)}
+                      />
+                      <Icon
+                        icon={'material-symbols-light:delete-outline'}
+                        fontSize={24}
+                        style={{ marginRight: '10px', color: 'red', cursor: 'pointer' }}
+                        onClick={() => {
+                          deleteDocument(e?.id)
+                        }}
+                      />
+                    </Box>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          </div>
+        )}
+      </>
+    )
+  }
+
+  const renderComponent = () => {
+    if (user?.employee_type == 'onship' && value == 0) {
+      return renderCOC()
+    } else if (user?.employee_type == 'onship' && value == 1) {
+      return renderCOP()
+    } else {
+      return renderProfesionalsCertificate()
+    }
+  }
+
   return (
     <>
+      <DialogEditDocument
+        key={selectedItem?.id}
+        selectedItem={selectedItem}
+        visible={openEditModalDoc}
+        onCloseClick={() => setOpenEditModalDoc(!openEditModalDoc)}
+        onStateChange={() => {}}
+      />
+
+      <DialogAddDocument
+        visible={openAddModalDoc}
+        getCandidateDocument={loadCertificate}
+        onStateChange={() => {}}
+        onCloseClick={() => setOpenAddModalDoc(!openAddModalDoc)}
+      />
+
       <SeafarerProficiencyForm
         user_id={user?.id}
         key={seafarerProficiency ? seafarerProficiency['id'] : 0}
@@ -611,62 +832,67 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
         loadCompetency={loadCompetency}
         showModal={modalFormOpen}
       />
-      <Box
-        sx={{
-          display: 'flex',
-          width: '100%',
-          justifyContent: 'flex-start',
-          alignItems: 'center'
-        }}
-      >
-        <BottomNavigation
-          showLabels
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue)
-          }}
-          sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}
-        >
-          <BottomNavigationAction
-            label='Certification of Competency'
-            sx={{
-              height: '40px',
-              display: 'inline',
-              padding: '10px',
-              borderRadius: '6px',
-              border: value == 0 ? '1.5px solid #0B58A6' : '1.5px solid #DADADA',
-              background: value == 0 ? '#CBE2F9' : '#F8F8F7',
-              fontSize: '14',
-              fontWeight: 700,
-              color: '#BFBFBF',
-              maxWidth: 'max-content',
-              '& .Mui-selected': {
-                color: '#0B58A6'
-              }
-            }}
-          />
-          <BottomNavigationAction
-            label='Certification of Proficiency'
-            sx={{
-              height: '40px',
-              display: 'inline',
-              padding: '10px',
-              borderRadius: '6px',
-              border: value == 1 ? '1.5px solid #0B58A6' : '1.5px solid #DADADA',
-              background: value == 1 ? '#CBE2F9' : '#F8F8F7',
-              fontSize: '14',
-              fontWeight: 700,
-              color: '#BFBFBF',
-              maxWidth: 'max-content',
-              '& .Mui-selected': {
-                color: '#0B58A6'
-              }
-            }}
-          />
-        </BottomNavigation>
-      </Box>
 
-      {value == 0 ? renderCOC() : renderCOP()}
+      {user?.employee_type == 'onship' && (
+        <Box
+          sx={{
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'flex-start',
+            alignItems: 'center'
+          }}
+        >
+          <BottomNavigation
+            showLabels
+            value={value}
+            onChange={(event, newValue) => {
+              setValue(newValue)
+            }}
+            sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}
+          >
+            <BottomNavigationAction
+              label='Certification of Competency'
+              sx={{
+                height: '40px',
+                display: 'inline',
+                padding: '10px',
+                borderRadius: '6px',
+                border: value == 0 ? '1.5px solid #0B58A6' : '1.5px solid #DADADA',
+                background: value == 0 ? '#CBE2F9' : '#F8F8F7',
+                fontSize: '14',
+                fontWeight: 700,
+                color: '#BFBFBF',
+                maxWidth: 'max-content',
+                '& .Mui-selected': {
+                  color: '#0B58A6'
+                }
+              }}
+            />
+            <BottomNavigationAction
+              label='Certification of Proficiency'
+              sx={{
+                height: '40px',
+                display: 'inline',
+                padding: '10px',
+                borderRadius: '6px',
+                border: value == 1 ? '1.5px solid #0B58A6' : '1.5px solid #DADADA',
+                background: value == 1 ? '#CBE2F9' : '#F8F8F7',
+                fontSize: '14',
+                fontWeight: 700,
+                color: '#BFBFBF',
+                maxWidth: 'max-content',
+                '& .Mui-selected': {
+                  color: '#0B58A6'
+                }
+              }}
+            />
+          </BottomNavigation>
+        </Box>
+      )}
+
+      {/* {value == 0 ? renderCOC() : renderCOP()} */}
+
+      {renderComponent()}
     </>
   )
 }

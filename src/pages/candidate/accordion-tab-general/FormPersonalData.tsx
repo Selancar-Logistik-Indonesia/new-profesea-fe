@@ -217,7 +217,7 @@ const FormPersonalData: React.FC = () => {
     // const phoneCode = countryOptions.find(c => c?.id === userPhoneCodeNumber)?.phonecode
     const json: IPayloadPersonalDataSeafarer = {
       country_id: userCountry?.id,
-      employee_type: 'onship',
+      employee_type: user?.employee_type as string,
       name: fullName,
       gender: gender?.title,
       phone: userPhone,
