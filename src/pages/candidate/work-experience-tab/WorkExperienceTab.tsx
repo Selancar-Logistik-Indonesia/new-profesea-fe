@@ -144,7 +144,7 @@ const WorkExperienceTab: React.FC<IWorkExperienceTabProps> = ({ dataUser }) => {
             }}
           >
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
-              <Image src={'/images/image-230.png'} alt={'mdl2'} width={'64'} height={'65'} />
+              <Image src={'/images/mask-group.png'} alt={'mdl2'} width={'64'} height={'65'} />
               <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040', textAlign: 'center' }}>
                 No sea experience yet
               </Typography>

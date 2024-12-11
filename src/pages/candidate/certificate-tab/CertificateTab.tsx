@@ -29,7 +29,6 @@ import { IUser } from 'src/contract/models/user'
 import SeafarerCompetencyForm from '../SeafarerCompetency/SeafarerCompetencyForm'
 import toast from 'react-hot-toast'
 import SeafarerProficiencyForm from '../SeafarerProficiency/SeafarerProficiencyForm'
-import { IDocument } from 'src/contract/models/document'
 import DialogAddDocument from '../DialogAddDocument'
 import DialogEditDocument from '../DialogEditDocument'
 
