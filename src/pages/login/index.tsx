@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Divider,
   FormControl,
   Grid,
   IconButton,
@@ -26,6 +27,7 @@ import { useTranslation } from 'react-i18next'
 import { Icon } from '@iconify/react'
 import { useSearchParams } from 'next/navigation'
 
+import DialogGoogleLogin from './DialogGoogleLogin'
 import DialogMessage from './DialogMessage'
 import { AppConfig } from 'src/configs/api'
 import { useRouter } from 'next/router'
@@ -72,6 +74,7 @@ const LoginPage = () => {
   const checked = searchParams.get('checked')
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false)
   const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
   const [onLoading, setOnLoading] = useState<boolean>(false)
   const [checkEmail, setCheckEmail] = useState<boolean>(false)
@@ -327,6 +330,25 @@ const LoginPage = () => {
                       {onLoading ? <CircularProgress color='primary' /> : t('input.continue')}
                     </Button>
                   )}
+                  {!checkEmail && (
+                    <>
+                      <Divider role='presentation'>
+                        <Typography sx={{ mx: '10px', textAlign: 'center', fontSize: 14, fontWeight: 400 }}>
+                          {t('input.or')}
+                        </Typography>
+                      </Divider>
+                      <Button
+                        fullWidth
+                        size='large'
+                        variant='outlined'
+                        component={Link}
+                        href='https://apifix.profesea.id/auth/google'
+                        startIcon={<Icon icon='devicon:google' fontSize={20} />}
+                      >
+                        {t('input.g_login')}
+                      </Button>
+                    </>
+                  )}
                 </Box>
               </form>
 
@@ -384,6 +406,12 @@ const LoginPage = () => {
           </Box>
         </Grid>
       </Grid>
+      <DialogGoogleLogin
+        visible={openModalGoogle}
+        onCloseClick={() => {
+          setOpenModalGoogle(!openModalGoogle)
+        }}
+      />
       <DialogMessage
         email={getValues('email')}
         visible={openDialogMessage}
