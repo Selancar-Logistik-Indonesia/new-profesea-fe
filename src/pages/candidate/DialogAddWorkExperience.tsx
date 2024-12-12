@@ -14,7 +14,15 @@ import Icon from 'src/@core/components/icon'
 import { useForm } from 'react-hook-form'
 import { HttpClient } from 'src/services'
 import { getCleanErrorMessage } from 'src/utils/helpers'
-import { Autocomplete, CircularProgress, FormControlLabel, Checkbox } from '@mui/material'
+import {
+  Autocomplete,
+  CircularProgress,
+  FormControlLabel,
+  Checkbox,
+  useMediaQuery,
+  InputLabel,
+  SwipeableDrawer
+} from '@mui/material'
 
 import { AppConfig } from 'src/configs/api'
 import VesselType from 'src/contract/models/vessel_type'
@@ -25,6 +33,7 @@ import { IUser } from 'src/contract/models/user'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { useTheme } from '@mui/material/styles'
 
 import moment from 'moment'
 
@@ -56,6 +65,8 @@ type FormData = {
 }
 
 const DialogAddWorkExperience = (props: DialogProps) => {
+  const Theme = useTheme()
+  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [onLoading, setOnLoading] = useState(false)
   const [dateAwal, setDateAwal] = useState<any>(null)
@@ -93,7 +104,8 @@ const DialogAddWorkExperience = (props: DialogProps) => {
   const {
     register,
     // formState: { errors },
-    handleSubmit
+    handleSubmit,
+    reset
   } = useForm<FormData>({
     mode: 'onBlur'
     // resolver: yupResolver(schema)
@@ -117,7 +129,6 @@ const DialogAddWorkExperience = (props: DialogProps) => {
     setOnLoading(true)
 
     try {
-      console.log(json)
       const resp = await HttpClient.postFile('/user/experience', json)
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'
@@ -125,6 +136,10 @@ const DialogAddWorkExperience = (props: DialogProps) => {
 
       props.onCloseClick()
       props.getUserExperience()
+      reset()
+      setDateAwal(null)
+      setDateAkhir(null)
+      setIsCurrentExperience(false)
       toast.success(` Work Experience submited successfully!`)
     } catch (error) {
       alert(`Opps ${getCleanErrorMessage(error)}`)
@@ -144,80 +159,144 @@ const DialogAddWorkExperience = (props: DialogProps) => {
     setSelectedFile(e.target.files[0])
   }
 
-  return (
-    <Dialog fullWidth open={props.visible} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
+  const renderForm = () => {
+    return (
       <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent
-          sx={{
-            position: 'relative',
-            pb: (theme: { spacing: (arg0: number) => any }) => `${theme.spacing(8)} !important`,
-            px: (theme: { spacing: (arg0: number) => any }) => [
-              `${theme.spacing(5)} !important`,
-              `${theme.spacing(15)} !important`
-            ],
-            pt: (theme: { spacing: (arg0: number) => any }) => [
-              `${theme.spacing(8)} !important`,
-              `${theme.spacing(12.5)} !important`
-            ]
-          }}
-        >
-          <IconButton
-            size='small'
-            sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-            onClick={props.onCloseClick}
-          >
-            <Icon icon='mdi:close' />
-          </IconButton>
-          <Box sx={{ mb: 6, textAlign: 'center' }}>
-            <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
-              Add Work Experience
-            </Typography>
-            <Typography variant='body2'>
-              Fill in the details below to highlight your professional background and achievements
-            </Typography>
-          </Box>
+        <DialogContent>
+          {!isMobile && (
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Box>
+                <Typography color={'#32487A'} fontWeight='700' fontSize={18}>
+                  Add Work Experience
+                </Typography>
+              </Box>
+              <IconButton
+                size='small'
+                onClick={() => {
+                  props.onCloseClick()
+                  reset()
+                  setDateAwal(null)
+                  setDateAkhir(null)
+                  setIsCurrentExperience(false)
+                }}
+              >
+                <Icon icon='mdi:close' fontSize={'16px'} />
+              </IconButton>
+            </Box>
+          )}
 
-          <Grid container rowSpacing={'4'}>
-            <Grid item md={12} xs={12}>
-              <TextField
-                id='institution'
-                label='Company Name *'
-                variant='standard'
-                fullWidth
-                {...register('institution')}
-              />
+          <Grid container spacing={6} py={'24px'}>
+            <Grid item md={6} xs={12}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Company Name
+              </InputLabel>
+              <TextField id='institution' variant='outlined' fullWidth {...register('institution')} />
             </Grid>
-            <Grid item md={12} xs={12}>
-              <TextField id='Position' label='Position *' variant='standard' fullWidth {...register('position')} />
+            <Grid item md={6} xs={12}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Position
+              </InputLabel>
+              <TextField id='Position' label='Position *' variant='outlined' fullWidth {...register('position')} />
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item md={6} xs={12}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Start Date
+              </InputLabel>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
-                  label={'Start Date *'}
                   views={['month', 'year']}
                   onChange={(date: any) => setDateAwal(date)}
                   value={dateAwal ? moment(dateAwal) : null}
                   slotProps={{
-                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('startdate') }
+                    textField: { variant: 'outlined', fullWidth: true, id: 'basic-input', ...register('startdate') }
+                  }}
+                />
+              </LocalizationProvider>
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                End Date
+              </InputLabel>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  disabled={isCurrentExperience}
+                  views={['month', 'year']}
+                  onChange={(date: any) => setDateAkhir(date)}
+                  value={dateAkhir ? moment(dateAkhir) : null}
+                  slotProps={{
+                    textField: { variant: 'outlined', fullWidth: true, id: 'basic-input', ...register('enddate') }
                   }}
                 />
               </LocalizationProvider>
             </Grid>
             <Grid item md={12} xs={12}>
-              <LocalizationProvider dateAdapter={AdapterMoment}>
-                <DatePicker
-                  disabled={isCurrentExperience}
-                  label={'End Date'}
-                  views={['month', 'year']}
-                  onChange={(date: any) => setDateAkhir(date)}
-                  value={dateAkhir ? moment(dateAkhir) : null}
-                  slotProps={{
-                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', ...register('enddate') }
-                  }}
-                />
-              </LocalizationProvider>
+              <InputLabel
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Description
+              </InputLabel>
+              <TextField
+                id='short_description'
+                variant='outlined'
+                multiline
+                maxRows={4}
+                fullWidth
+                {...register('short_description')}
+              />
             </Grid>
-            <Grid>
+            <Grid item xs={12}>
               <FormControlLabel
                 sx={{ width: '100%' }}
                 control={
@@ -248,18 +327,68 @@ const DialogAddWorkExperience = (props: DialogProps) => {
               </Grid>
             )}
 
-            <Grid item md={12} xs={12}>
-              <TextField
-                id='short_description'
-                label='Description'
-                variant='standard'
-                multiline
-                maxRows={4}
-                fullWidth
-                {...register('short_description')}
-              />
+            <Grid item xs={12} md={12}>
+              <Grid container item xs={12} md={12}>
+                <Grid item xs={2} md={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <label htmlFor='input-logo-desktop'>
+                    {preview ? (
+                      <img
+                        alt='logo'
+                        src={preview}
+                        style={{
+                          maxWidth: '100%',
+                          width: isMobile ? '60px' : '100px',
+                          height: isMobile ? '60px' : '100px',
+                          padding: 0,
+                          margin: 0
+                        }}
+                      />
+                    ) : (
+                      <>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: isMobile ? '60px' : '100px',
+                            height: isMobile ? '60px' : '100px',
+                            borderRadius: '6px',
+                            background: '#DADADA'
+                          }}
+                        >
+                          <Icon icon='iconoir:camera' fontSize={'26px'} />
+                        </Box>
+                      </>
+                    )}
+                  </label>
+                  <input
+                    accept='image/*'
+                    style={{ display: 'none' }}
+                    id='input-logo-desktop'
+                    onChange={onSelectFile}
+                    type='file'
+                  ></input>
+                </Grid>
+                <Grid
+                  item
+                  xs={10}
+                  md={10}
+                  sx={{ display: 'flex', flexDirection: 'column', gap: '3px', justifyContent: 'center' }}
+                >
+                  <Typography fontSize={12} fontWeight={700} color={'#404040'}>
+                    Click Image to change Institution Logo
+                  </Typography>
+                  <Typography fontSize={12} fontWeight={400} color={'#404040'}>
+                    Allowed JPG, GIF or PNG
+                  </Typography>
+                  <Typography fontSize={12} fontWeight={400} color={'#F22'}>
+                    Max size of 800k
+                  </Typography>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item md={12} xs={12}>
+
+            {/* <Grid item md={12} xs={12}>
               <Grid item xs={12} md={8} container justifyContent={'left'}>
                 <Grid xs={6}>
                   <label htmlFor='x'>
@@ -296,37 +425,71 @@ const DialogAddWorkExperience = (props: DialogProps) => {
                   </Box>
                 </Grid>
               </Grid>
-            </Grid>
+            </Grid> */}
           </Grid>
         </DialogContent>
-        <DialogActions
-          sx={{
-            justifyContent: 'center',
-            px: (theme: { spacing: (arg0: number) => any }) => [
-              `${theme.spacing(5)} !important`,
-              `${theme.spacing(15)} !important`
-            ],
-            pb: (theme: { spacing: (arg0: number) => any }) => [
-              `${theme.spacing(8)} !important`,
-              `${theme.spacing(12.5)} !important`
-            ]
-          }}
-        >
-          <Button variant='contained' size='small' sx={{ mr: 2 }} type='submit'>
-            <Icon fontSize='large' icon={'solar:diskette-bold-duotone'} color={'info'} style={{ fontSize: '18px' }} />
-            {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Submit'}
-          </Button>
-          <Button variant='outlined' size='small' color='error' onClick={props.onCloseClick}>
-            <Icon
-              fontSize='large'
-              icon={'material-symbols:cancel-outline'}
-              color={'info'}
-              style={{ fontSize: '18px' }}
-            />
-            Cancel
+        <DialogActions>
+          <Button variant='contained' type='submit' style={{ textTransform: 'capitalize', width: '109px' }}>
+            {onLoading ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Save'}
           </Button>
         </DialogActions>
       </form>
+    )
+  }
+
+  if (isMobile) {
+    return (
+      <>
+        <SwipeableDrawer
+          anchor='bottom'
+          open={props?.visible}
+          onClose={() => {
+            props.onCloseClick()
+            reset()
+            setDateAwal(null)
+            setDateAkhir(null)
+            setIsCurrentExperience(false)
+            reset()
+          }}
+          onOpen={() => {
+            props.onCloseClick()
+            reset()
+            setDateAwal(null)
+            setDateAkhir(null)
+            setIsCurrentExperience(false)
+            reset()
+          }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ padding: '16px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Typography fontSize={16} fontWeight={700} color={'#32497A'}>
+                Add Travel Document
+              </Typography>
+              <IconButton
+                size='small'
+                sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
+                onClick={() => {
+                  props.onCloseClick()
+                  reset()
+                  setDateAwal(null)
+                  setDateAkhir(null)
+                  setIsCurrentExperience(false)
+                  reset()
+                }}
+              >
+                <Icon icon='mdi:close' />
+              </IconButton>
+            </Box>
+            <Box sx={{ px: '16px', py: '24px', marginBottom: '60px' }}>{renderForm()}</Box>
+          </Box>
+        </SwipeableDrawer>
+      </>
+    )
+  }
+
+  return (
+    <Dialog fullWidth open={props.visible} maxWidth='md' scroll='body' TransitionComponent={Transition}>
+      {renderForm()}
     </Dialog>
   )
 }
