@@ -15,6 +15,9 @@ export interface IDetailPercentage {
   experience_percentage: number
   recommendation_percentage: number
   total_seafarer_education_percentage: number
+  total_professional_education_percentage: number
+  total_experience_percentage: number
+  total_certificate_percentage: number
 }
 
 export interface IUserProfilePercentage {
