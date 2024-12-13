@@ -35,9 +35,9 @@ const LandingPageLayout = (props: LandingPageLayoutProps) => {
         setIsNavigating(false)
       }, 2000)
     }
-  }, [auth.loading])
+  }, [auth, auth.loading])
 
-  if (isNavigating || auth.loading) return <Spinner />
+  if (isNavigating) return <Spinner />
 
   return (
     <LandingPageLayoutWrapper>
