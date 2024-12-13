@@ -35,7 +35,7 @@ const NewsCard = ({ item }: { item: INews }) => {
           <Typography
             sx={{ color: '#999', fontSize: { xs: 16, md: 14 }, fontWeight: 400, textTransform: 'capitalize' }}
           >
-            {item?.category?.name || 'N/A'}
+            {item?.category?.name ?? 'N/A'}
           </Typography>
           <Typography
             sx={{
@@ -48,7 +48,7 @@ const NewsCard = ({ item }: { item: INews }) => {
               textOverflow: 'ellipsis'
             }}
           >
-            {item.title.toLowerCase()}
+            {item?.title?.toLowerCase() ?? 'Untitled'}
           </Typography>
           <Typography
             fontWeight={300}
@@ -64,7 +64,7 @@ const NewsCard = ({ item }: { item: INews }) => {
               fontWeight: 400
             }}
           >
-            {item.snap_content
+            {item?.snap_content
               ? `${item.snap_content.toString().charAt(0).toUpperCase() + item.snap_content.toString().slice(1)}`
               : ''}
           </Typography>
