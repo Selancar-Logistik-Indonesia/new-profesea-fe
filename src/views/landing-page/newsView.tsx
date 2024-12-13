@@ -35,7 +35,7 @@ const NewsCard = ({ item }: { item: INews }) => {
           <Typography
             sx={{ color: '#999', fontSize: { xs: 16, md: 14 }, fontWeight: 400, textTransform: 'capitalize' }}
           >
-            {item?.category?.name}
+            {item?.category?.name || 'N/A'}
           </Typography>
           <Typography
             sx={{
