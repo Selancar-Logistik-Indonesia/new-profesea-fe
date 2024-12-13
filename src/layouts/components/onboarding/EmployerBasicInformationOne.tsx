@@ -1,5 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Box, Button, CircularProgress, FormControl, MenuItem, Select, TextField, Typography } from '@mui/material'
+import {
+  Autocomplete,
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  MenuItem,
+  TextField,
+  Typography
+} from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -195,17 +204,29 @@ const EmployerBasicInformationOne = ({ nextLink }: { nextLink: string }) => {
             name='industry'
             control={control}
             render={({ field }) => (
-              <Select {...field} value={field.value || 0}>
-                <MenuItem value={0} disabled>
-                  Pilih Kategori Industri
-                </MenuItem>
-                {industry &&
-                  industry.map((item, index) => (
-                    <MenuItem key={index} value={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-              </Select>
+              <Autocomplete
+                {...field}
+                autoHighlight
+                options={industry || []}
+                getOptionLabel={option => option.name || ''}
+                value={industry?.find(industry => industry.id === field.value) || null}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    placeholder='Pilih Kategori Industri'
+                    error={!!errors.industry}
+                    helperText={errors.industry?.message}
+                  />
+                )}
+                renderOption={(props, option) => (
+                  <MenuItem {...props} key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                )}
+                noOptionsText='Hasil pencaian tidak ditemukan. Coba gunakan kata kunci lain atau periksa kembali pencarian Anda'
+              />
             )}
           />
         </FormControl>
@@ -217,22 +238,35 @@ const EmployerBasicInformationOne = ({ nextLink }: { nextLink: string }) => {
             Nomor telepon Anda harus terhubung dengan WhatsApp agar tim kami dapat menghubungi Anda dengan mudah.
           </Typography>
           <Box sx={{ display: 'flex', gap: '12px' }}>
-            <FormControl error={!!errors.country}>
+            <FormControl error={!!errors.country} sx={{ width: '180px' }}>
               <Controller
                 name='country'
                 control={control}
                 render={({ field }) => (
-                  <Select {...field} value={field.value || 0} disabled={!country}>
-                    <MenuItem value={0} disabled>
-                      Negara
-                    </MenuItem>
-                    {country &&
-                      country.map((item, index) => (
-                        <MenuItem key={index} value={item.id}>
-                          {item.iso} (+{item.phonecode})
-                        </MenuItem>
-                      ))}
-                  </Select>
+                  <Autocomplete
+                    {...field}
+                    autoHighlight
+                    disableClearable
+                    options={country || []}
+                    getOptionLabel={option => `${option.iso} (+${option.phonecode})` || ''}
+                    value={country?.find(country => country.id === (field.value ?? 100))}
+                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        fullWidth
+                        placeholder='Negara'
+                        error={!!errors.country}
+                        helperText={errors.country?.message}
+                      />
+                    )}
+                    renderOption={(props, option) => (
+                      <MenuItem {...props} key={option.id} value={option.id}>
+                        {`${option.iso} (+${option.phonecode})`}
+                      </MenuItem>
+                    )}
+                    noOptionsText='Kode negara tidak ditemukan'
+                  />
                 )}
               />
             </FormControl>

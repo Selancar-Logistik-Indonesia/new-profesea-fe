@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, CircularProgress, FormControl, MenuItem, Select, Typography } from '@mui/material'
+import {
+  Autocomplete,
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  MenuItem,
+  TextField,
+  Typography
+} from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -81,17 +90,28 @@ const LocationPreference = ({ beforeLink, nextLink }: { beforeLink: string; next
             name='province'
             control={control}
             render={({ field }) => (
-              <Select {...field} value={field.value || 0}>
-                <MenuItem value={0} disabled>
-                  Pilih Kota
-                </MenuItem>
-                {province &&
-                  province.map((item, index) => (
-                    <MenuItem key={index} value={item.id}>
-                      {item.province_name}
-                    </MenuItem>
-                  ))}
-              </Select>
+              <Autocomplete
+                {...field}
+                autoHighlight
+                options={province || []}
+                getOptionLabel={option => option.province_name || ''}
+                value={province?.find(province => province.id === field.value) || null}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={field => (
+                  <TextField
+                    {...field}
+                    placeholder='Pilih kota'
+                    error={!!errors.province}
+                    helperText={errors.province?.message}
+                  />
+                )}
+                renderOption={(props, option) => (
+                  <MenuItem {...props} key={option.id} value={option.id}>
+                    {option.province_name}
+                  </MenuItem>
+                )}
+                noOptionsText='Hasil pencaian tidak ditemukan. Coba gunakan kata kunci lain atau periksa kembali pencarian Anda'
+              />
             )}
           />
         </FormControl>
