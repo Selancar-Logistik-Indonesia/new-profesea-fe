@@ -44,7 +44,7 @@ const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
 
 const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
   const userPhoto = job.company?.photo ? job.company?.photo : '/images/avatars/default-user.png'
-  const companyNameUrl = job.company.name.toLowerCase().split(' ').join('-') || '-'
+  const companyNameUrl = job.company.name.toLowerCase().split(' ').join('-') ?? '-'
   const jobTitleUrl = job.job_title ? job.job_title?.toLowerCase().split(' ').join('-') : ''
   const link = `/job/${companyNameUrl}/${job.id}/${jobTitleUrl}`
 
@@ -83,7 +83,7 @@ const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
               textOverflow: 'ellipsis'
             }}
           >
-            {job.job_title || 'N/A'}
+            {job.job_title ?? 'N/A'}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Avatar
@@ -93,10 +93,10 @@ const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
             />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <Typography sx={{ color: '#2D3436', fontSize: { xs: 14, md: 12 }, fontWeight: 700 }}>
-                {job.company.name || 'N/A'}
+                {job.company.name ?? 'N/A'}
               </Typography>
               <Typography sx={{ color: '#868686', fontSize: { xs: 14, md: 12 }, fontWeight: 400 }}>
-                {job?.city?.city_name || 'N/A'}, {job?.country?.nicename || 'N/A'}
+                {job?.city?.city_name ?? 'N/A'}, {job?.country?.nicename ?? 'N/A'}
               </Typography>
             </Box>
           </Box>
@@ -112,7 +112,7 @@ const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
               <Typography
                 sx={{ color: '#32497A', fontSize: { xs: 12, md: 10 }, fontWeight: 400, whiteSpace: 'nowrap' }}
               >
-                {job.role_type?.name || 'N/A'}
+                {job.role_type?.name ?? 'N/A'}
               </Typography>
             </Box>
             <Box
@@ -126,7 +126,7 @@ const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
               <Typography
                 sx={{ color: '#32497A', fontSize: { xs: 12, md: 10 }, fontWeight: 400, whiteSpace: 'nowrap' }}
               >
-                {job.vessel_type.name || 'N/A'}
+                {job.vessel_type.name ?? 'N/A'}
               </Typography>
             </Box>
           </Box>
@@ -138,7 +138,7 @@ const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
           <Typography sx={{ color: '#525252', fontSize: { xs: 14, md: 12 }, fontWeight: 400 }}>
             Onboarding on{' '}
             <span style={{ color: '#32497A', fontWeight: 700 }}>
-              {format(new Date(job.onboard_at), 'dd MMMM yyyy') || 'N/A'}
+              {format(new Date(job.onboard_at), 'dd MMMM yyyy') ?? 'N/A'}
             </span>
           </Typography>
         </Box>
