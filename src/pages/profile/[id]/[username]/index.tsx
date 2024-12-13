@@ -152,7 +152,9 @@ const UserFeedApp = () => {
           {selectedUser?.employee_type == 'onship' && <SeafarerTravelDocument userId={selectedUser?.id} />}
 
           {/* seafarer experience */}
-          {selectedUser?.employee_type == 'onship' && <SeafarerExperience userId={selectedUser?.id} />}
+          {selectedUser?.employee_type == 'onship' && (
+            <SeafarerExperience userId={selectedUser?.id} userName={selectedUser?.name} />
+          )}
 
           {/* seafarer cop */}
           {selectedUser?.employee_type == 'onship' && (

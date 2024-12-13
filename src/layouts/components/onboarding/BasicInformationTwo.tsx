@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, CircularProgress, FormControl, MenuItem, Select, TextField, Typography } from '@mui/material'
+import {
+  Autocomplete,
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  MenuItem,
+  Select,
+  TextField,
+  Typography
+} from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -9,18 +19,18 @@ import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 // import Countries from 'src/contract/models/country'
-// import City from 'src/contract/models/city'
+import City from 'src/contract/models/city'
 import { toast } from 'react-hot-toast'
 
 type FormData = {
   country: number
-  //   city: number
+  city: number
   address: string
 }
 
 const schema = yup.object().shape({
   country: yup.number().required(),
-  //   city: yup.number().required().moreThan(0, 'Please select a valid city'),
+  city: yup.number().required().moreThan(0, 'Please select a valid city'),
   address: yup.string().required()
 })
 
@@ -34,7 +44,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
     mode: 'onSubmit',
     defaultValues: {
       country: 100,
-      //   city: 0,
+      city: 0,
       address: ''
     },
     resolver: yupResolver(schema)
@@ -43,7 +53,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
   const router = useRouter()
   const { user, refreshSession } = useAuth()
   //   const [country, setCountry] = useState<Countries[] | null>(null)
-  //   const [city, setCity] = useState<City[] | null>(null)
+  const [city, setCity] = useState<City[] | null>(null)
 
   const [onLoading, setOnLoading] = useState(false)
 
@@ -52,14 +62,14 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
     //   const data = response.data.countries
     //   setCountry(data)
     // })
-    // await HttpClient.get(AppConfig.baseUrl + '/public/data/city?country_id=100').then(response => {
-    //   const data = response.data.cities
-    //   setCity(data)
-    // })
+    await HttpClient.get(AppConfig.baseUrl + '/public/data/city?country_id=100').then(response => {
+      const data = response.data.cities
+      setCity(data)
+    })
 
     if (user && user.address) {
       //   setValue('country', user.address.country_id)
-      //   setValue('city', user.address.city_id)
+      setValue('city', user.address.city_id)
       setValue('address', user.address.address)
     }
   }
@@ -72,8 +82,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
     setOnLoading(true)
     HttpClient.patch(AppConfig.baseUrl + '/onboarding/address', {
       country_id: 100,
-      //   city_id: data.city,
-      city_id: 156,
+      city_id: data.city,
       address: data.address,
       next_step: 'step-two'
     })
@@ -113,7 +122,7 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
             )}
           />
         </FormControl>
-        {/* <FormControl error={!!errors.city}>
+        <FormControl fullWidth error={!!errors.city}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
             Kota <span style={{ color: '#F22' }}>*</span>
           </Typography>
@@ -121,20 +130,31 @@ const BasicInformationTwo = ({ beforeLink, nextLink }: { beforeLink: string; nex
             name='city'
             control={control}
             render={({ field }) => (
-              <Select {...field} value={field.value || 0}>
-                <MenuItem value={0} disabled>
-                  Pilih Kota
-                </MenuItem>
-                {city &&
-                  city.map((item, index) => (
-                    <MenuItem key={index} value={item.id}>
-                      {item.city_name}
-                    </MenuItem>
-                  ))}
-              </Select>
+              <Autocomplete
+                {...field}
+                autoHighlight
+                options={city || []}
+                getOptionLabel={option => option.city_name || ''}
+                value={city?.find(city => city.id === field.value) || null}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={field => (
+                  <TextField
+                    {...field}
+                    placeholder='Pilih kota'
+                    error={!!errors.city}
+                    helperText={errors.city?.message}
+                  />
+                )}
+                renderOption={(props, option) => (
+                  <MenuItem {...props} key={option.id} value={option.id}>
+                    {option.city_name}
+                  </MenuItem>
+                )}
+                noOptionsText='Hasil pencaian tidak ditemukan. Coba gunakan kata kunci lain atau periksa kembali pencarian Anda'
+              />
             )}
           />
-        </FormControl> */}
+        </FormControl>
         <FormControl fullWidth error={!!errors.address}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
             Alamat <span style={{ color: '#F22' }}>*</span>

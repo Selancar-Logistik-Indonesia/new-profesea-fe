@@ -23,7 +23,7 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import CandidateProfile from 'src/layouts/components/CandidateProfile'
+// import CandidateProfile from 'src/layouts/components/CandidateProfile'
 import { Icon } from '@iconify/react'
 // import DialogProfilePicture from './DialogProfilePicture'
 import AccordionTabGeneral from './accordion-tab-general/AccordionTabGeneral'
@@ -34,6 +34,7 @@ import CertificateTab from './certificate-tab/CertificateTab'
 import { IDetailPercentage, IUserProfilePercentage } from 'src/contract/models/user_profile_percentage'
 import DialogEditBanner from './DialogEditBanner'
 import DialogEditProfile from './DialogEditProfile'
+import WorkExperienceTab from './work-experience-tab/WorkExperienceTab'
 
 type FormData = {
   companyName: string
@@ -448,44 +449,105 @@ const Candidate = () => {
     }
 
     // for non-pelaut (profesionals)
-
-    // if (selectedUser?.team_id == 2 && selectedUser?.employee_type == 'offship') {
-    //   return (
-    //     <Popper id='popper-profile-completion' open={open} anchorEl={anchorEl}>
-    //       <Box
-    //         sx={{
-    //           padding: '12px',
-    //           display: 'flex',
-    //           flexDirection: 'column',
-    //           justifyContent: 'center',
-    //           gap: '12px',
-    //           background: '#FFF',
-    //           borderRadius: '6px'
-    //         }}
-    //       >
-    //         <Box>
-    //           <Typography
-    //             sx={{
-    //               fontSize: '14px',
-    //               fontWeight: 700,
-    //               color: '#404040'
-    //             }}
-    //           >
-    //             Enhance Profile
-    //           </Typography>
-    //         </Box>
-    //         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-    //           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-    //             <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
-    //               Add Profile Picture
-    //             </Typography>
-    //             <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
-    //           </Box>
-    //         </Box>
-    //       </Box>
-    //     </Popper>
-    //   )
-    // }
+    if (selectedUser?.team_id == 2 && selectedUser?.employee_type == 'offship') {
+      return (
+        <Popper id='popper-profile-completion' open={open} anchorEl={anchorEl}>
+          <Box
+            sx={{
+              padding: '12px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              gap: '12px',
+              background: '#FFF',
+              borderRadius: '6px'
+            }}
+          >
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  color: '#404040'
+                }}
+              >
+                Enhance Profile
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {userDetailPercentage?.total_photo_percentage == 0 && (
+                <Box
+                  component={'div'}
+                  onClick={() => setOpenUpdateProfilePic(true)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '8px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+                    Add profile picture
+                  </Typography>
+                  <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+                </Box>
+              )}
+              {userDetailPercentage?.total_professional_education_percentage == 0 && (
+                <Box
+                  component={'div'}
+                  onClick={() => setTabsValue(1)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '8px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add education</Typography>
+                  <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+                </Box>
+              )}
+              {userDetailPercentage?.total_experience_percentage == 0 && (
+                <Box
+                  component={'div'}
+                  onClick={() => setTabsValue(2)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '8px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
+                    Add work experience
+                  </Typography>
+                  <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+                </Box>
+              )}
+              {userDetailPercentage?.total_certificate_percentage == 0 && (
+                <Box
+                  component={'div'}
+                  onClick={() => setTabsValue(3)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '8px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add certificate</Typography>
+                  <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
+                </Box>
+              )}
+            </Box>
+          </Box>
+        </Popper>
+      )
+    }
 
     // for company
     return null
@@ -530,47 +592,47 @@ const Candidate = () => {
   }, [])
 
   // still using resume builder old version for offship user
-  if (selectedUser?.employee_type == 'offship') {
-    return (
-      <>
-        <Grid item xs={12}>
-          <Grid
-            container
-            item
-            xs={12}
-            sx={{
-              borderBottom: 1,
-              borderColor: 'divider',
-              boxSizing: 'border-box',
-              border: '1px solid rgba(76, 78, 100, 0.12)',
-              borderRadius: '5px',
-              backgroundColor: '#FFFFFF',
-              marginTop: '10px',
-              direction: 'row',
-              justifyContent: 'flex-start',
-              alignItems: 'top',
-              alignContent: 'top',
-              padding: '20px'
-            }}
-          >
-            <Grid item xs={12}>
-              <Grid container item xs={12} marginBottom={'10px'}>
-                <Grid container item xs={12} justifyContent={'left'}>
-                  <Typography variant='h3' color={'#32487A'} fontWeight='800' fontSize={18}>
-                    {' '}
-                    Resume Builder
-                  </Typography>
-                </Grid>
-              </Grid>
-              {selectedUser != null && (
-                <CandidateProfile visible={true} datauser={selectedUser} address={selectedUser.address} />
-              )}
-            </Grid>
-          </Grid>
-        </Grid>
-      </>
-    )
-  }
+  // if (selectedUser?.employee_type == 'offship') {
+  //   return (
+  //     <>
+  //       <Grid item xs={12}>
+  //         <Grid
+  //           container
+  //           item
+  //           xs={12}
+  //           sx={{
+  //             borderBottom: 1,
+  //             borderColor: 'divider',
+  //             boxSizing: 'border-box',
+  //             border: '1px solid rgba(76, 78, 100, 0.12)',
+  //             borderRadius: '5px',
+  //             backgroundColor: '#FFFFFF',
+  //             marginTop: '10px',
+  //             direction: 'row',
+  //             justifyContent: 'flex-start',
+  //             alignItems: 'top',
+  //             alignContent: 'top',
+  //             padding: '20px'
+  //           }}
+  //         >
+  //           <Grid item xs={12}>
+  //             <Grid container item xs={12} marginBottom={'10px'}>
+  //               <Grid container item xs={12} justifyContent={'left'}>
+  //                 <Typography variant='h3' color={'#32487A'} fontWeight='800' fontSize={18}>
+  //                   {' '}
+  //                   Resume Builder
+  //                 </Typography>
+  //               </Grid>
+  //             </Grid>
+  //             {selectedUser != null && (
+  //               <CandidateProfile visible={true} datauser={selectedUser} address={selectedUser.address} />
+  //             )}
+  //           </Grid>
+  //         </Grid>
+  //       </Grid>
+  //     </>
+  //   )
+  // }
 
   return (
     <>
@@ -701,7 +763,9 @@ const Candidate = () => {
                       color: '#404040'
                     }}
                   >
-                    {selectedUser?.employee_type == 'onship' ? selectedUser?.field_preference?.job_category?.name : '-'}
+                    {selectedUser?.employee_type == 'onship'
+                      ? selectedUser?.field_preference?.job_category?.name
+                      : selectedUser?.field_preference?.job_category?.name}
                   </Typography>
                 </Box>
                 <Box
@@ -730,39 +794,6 @@ const Candidate = () => {
                           <Icon icon='quill:info' fontSize={isMobile ? '20px' : '16px'} color='orange' />
                         </IconButton>
                         {renderPopper()}
-                        {/* <Popper id='popper-profile-completion' open={open} anchorEl={anchorEl}>
-                          <Box
-                            sx={{
-                              padding: '12px',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              justifyContent: 'center',
-                              gap: '12px',
-                              background: '#FFF',
-                              borderRadius: '6px'
-                            }}
-                          >
-                            <Box>
-                              <Typography
-                                sx={{
-                                  fontSize: '14px',
-                                  fontWeight: 700,
-                                  color: '#404040'
-                                }}
-                              >
-                                Enhance Profile
-                              </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>
-                                  Add Profile Picture
-                                </Typography>
-                                <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
-                              </Box>
-                            </Box>
-                          </Box>
-                        </Popper> */}
                       </Box>
                       {!isMobile && (
                         <Box>
@@ -792,53 +823,101 @@ const Candidate = () => {
                 sx={{ borderBottom: '1.5px solid #DADADA' }}
               >
                 <Tab sx={{ textTransform: 'capitalize' }} label='General' {...a11yProps(0)} />
-                <Tab
-                  sx={{
-                    textTransform: 'capitalize'
-                  }}
-                  icon={
-                    userDetailPercentage?.total_seafarer_education_percentage == 0 ? (
-                      <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
-                    ) : undefined
-                  }
-                  iconPosition='end'
-                  label='Education'
-                  {...a11yProps(1)}
-                />
-                <Tab
-                  sx={{ textTransform: 'capitalize' }}
-                  icon={
-                    userDetailPercentage?.travel_document_percentage == 0 ? (
-                      <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
-                    ) : undefined
-                  }
-                  iconPosition='end'
-                  label='Travel Document'
-                  {...a11yProps(2)}
-                />
-                <Tab
-                  sx={{ textTransform: 'capitalize' }}
-                  icon={
-                    userDetailPercentage?.experience_percentage == 0 ? (
-                      <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
-                    ) : undefined
-                  }
-                  iconPosition='end'
-                  label='Sea Experience'
-                  {...a11yProps(3)}
-                />
-                <Tab
-                  sx={{ textTransform: 'capitalize' }}
-                  icon={
-                    userDetailPercentage?.competency_percentage == 0 ||
-                    userDetailPercentage?.proficiency_percentage == 0 ? (
-                      <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
-                    ) : undefined
-                  }
-                  iconPosition='end'
-                  label='Certificate'
-                  {...a11yProps(4)}
-                />
+
+                {selectedUser?.employee_type == 'onship' ? (
+                  <Tab
+                    sx={{
+                      textTransform: 'capitalize'
+                    }}
+                    icon={
+                      userDetailPercentage?.total_seafarer_education_percentage == 0 ? (
+                        <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
+                      ) : undefined
+                    }
+                    iconPosition='end'
+                    label='Education'
+                    {...a11yProps(1)}
+                  />
+                ) : (
+                  <Tab
+                    sx={{
+                      textTransform: 'capitalize'
+                    }}
+                    icon={
+                      userDetailPercentage?.total_professional_education_percentage == 0 ? (
+                        <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
+                      ) : undefined
+                    }
+                    iconPosition='end'
+                    label='Education'
+                    {...a11yProps(1)}
+                  />
+                )}
+                {selectedUser?.employee_type == 'onship' ? (
+                  <Tab
+                    sx={{ textTransform: 'capitalize' }}
+                    icon={
+                      userDetailPercentage?.travel_document_percentage == 0 ? (
+                        <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
+                      ) : undefined
+                    }
+                    iconPosition='end'
+                    label='Travel Document'
+                    {...a11yProps(2)}
+                  />
+                ) : (
+                  <Tab
+                    sx={{ textTransform: 'capitalize' }}
+                    icon={
+                      userDetailPercentage?.total_experience_percentage == 0 ? (
+                        <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
+                      ) : undefined
+                    }
+                    iconPosition='end'
+                    label='Work Experience'
+                    {...a11yProps(2)}
+                  />
+                )}
+                {selectedUser?.employee_type == 'onship' && (
+                  <Tab
+                    sx={{ textTransform: 'capitalize' }}
+                    icon={
+                      userDetailPercentage?.experience_percentage == 0 ? (
+                        <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
+                      ) : undefined
+                    }
+                    iconPosition='end'
+                    label='Sea Experience'
+                    {...a11yProps(3)}
+                  />
+                )}
+
+                {selectedUser?.employee_type == 'onship' ? (
+                  <Tab
+                    sx={{ textTransform: 'capitalize' }}
+                    icon={
+                      userDetailPercentage?.competency_percentage == 0 ||
+                      userDetailPercentage?.proficiency_percentage == 0 ? (
+                        <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
+                      ) : undefined
+                    }
+                    iconPosition='end'
+                    label='Certificate'
+                    {...a11yProps(4)}
+                  />
+                ) : (
+                  <Tab
+                    sx={{ textTransform: 'capitalize' }}
+                    icon={
+                      userDetailPercentage?.total_certificate_percentage == 0 ? (
+                        <Icon icon='mdi:dot' width={'25px'} height={'25px'} color='red' />
+                      ) : undefined
+                    }
+                    iconPosition='end'
+                    label='Certificate'
+                    {...a11yProps(4)}
+                  />
+                )}
               </Tabs>
               <TabPanel value={tabsValue} index={0}>
                 <AccordionTabGeneral />
@@ -847,12 +926,19 @@ const Candidate = () => {
                 <EducationTab />
               </TabPanel>
               <TabPanel value={tabsValue} index={2}>
-                <TravelDocumentTab />
+                {selectedUser?.employee_type == 'onship' ? (
+                  <TravelDocumentTab />
+                ) : (
+                  <WorkExperienceTab dataUser={selectedUser as unknown as IUser} />
+                )}
               </TabPanel>
-              <TabPanel value={tabsValue} index={3}>
-                <SeaExperienceTab defaultValue={defaultValue} />
-              </TabPanel>
-              <TabPanel value={tabsValue} index={4}>
+              {selectedUser?.employee_type == 'onship' && (
+                <TabPanel value={tabsValue} index={3}>
+                  <SeaExperienceTab defaultValue={defaultValue} />
+                </TabPanel>
+              )}
+              <TabPanel value={tabsValue} index={selectedUser?.employee_type == 'onship' ? 4 : 3}>
+                {/* {selectedUser?.employee_type == 'onship' ? <CertificateTab defaultValue={defaultValue} /> : <>test 1</>} */}
                 <CertificateTab defaultValue={defaultValue} />
               </TabPanel>
             </Grid>

@@ -2,15 +2,24 @@ import React, { useEffect, useState } from 'react'
 import ISeafarerExperienceData from '../../contract/models/seafarer_experience'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import { Box, Typography } from '@mui/material'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import { IUser } from 'src/contract/models/user'
+import { Button, Box, Typography, Divider } from '@mui/material'
 import { format } from 'date-fns'
+import { Icon } from '@iconify/react'
 
 export interface ISeafarerExperienceProps {
   userId: number
+  userName: string
 }
 
-const SeafarerExperience: React.FC<ISeafarerExperienceProps> = ({ userId }) => {
+const SeafarerExperience: React.FC<ISeafarerExperienceProps> = ({ userId, userName }) => {
   const [data, setData] = useState<ISeafarerExperienceData[]>([])
+  const [visibleCount, setVisibleCount] = useState<number>(5) // Number of visible items initially
+  const [showMoreClicked, setShowMoreClicked] = useState(false)
+
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   const loadExperience = () => {
     HttpClient.get(AppConfig.baseUrl + '/seafarer-experiences/user-id/' + userId).then(response => {
@@ -28,6 +37,11 @@ const SeafarerExperience: React.FC<ISeafarerExperienceProps> = ({ userId }) => {
     })
   }
 
+  const handleShowMore = () => {
+    setVisibleCount(data.length)
+    setShowMoreClicked(true)
+  }
+
   useEffect(() => {
     loadExperience()
   }, [userId])
@@ -37,6 +51,17 @@ const SeafarerExperience: React.FC<ISeafarerExperienceProps> = ({ userId }) => {
       <Box sx={{ p: '24px' }}>
         <Typography sx={{ mb: '20px', color: 'black', fontSize: 20, fontWeight: 'bold', textTransform: 'capitalize' }}>
           Sea Experience
+        </Typography>
+        <Typography sx={{ mb: '10px', color: 'black', fontSize: 14, fontWeight: '400' }}>
+          {userId === user?.id ? (
+            <>
+              You Have <span style={{ color: 'rgba(50, 73, 122, 1)' }}>{data.length} Experiences.</span>
+            </>
+          ) : (
+            <>
+              {userName} has <span style={{ color: 'rgba(50, 73, 122, 1)' }}>{data.length} Experiences.</span>
+            </>
+          )}
         </Typography>
         {data && data.length > 0
           ? data.map((item, index) => (
@@ -113,6 +138,54 @@ const SeafarerExperience: React.FC<ISeafarerExperienceProps> = ({ userId }) => {
               </Box>
             ))
           : null}
+
+        <Divider sx={{ mx: '24px' }} />
+        {visibleCount < data.length && (
+          <Button
+            onClick={handleShowMore}
+            endIcon={<Icon icon='mingcute:down-fill' style={{ fontSize: 12 }} />}
+            sx={{
+              width: '100%',
+              py: '14px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              textTransform: 'none',
+              color: 'rgba(50, 73, 122, 1)',
+              fontSize: 14,
+              fontWeight: '400',
+              borderRadius: '0 !important',
+              lineHeight: '21px'
+            }}
+          >
+            Show More
+          </Button>
+        )}
+
+        {visibleCount === data?.length && showMoreClicked && (
+          <Button
+            onClick={() => {
+              setVisibleCount(3)
+              setShowMoreClicked(false)
+            }}
+            endIcon={<Icon icon='mingcute:up-fill' style={{ fontSize: 12 }} />}
+            sx={{
+              width: '100%',
+              py: '14px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              textTransform: 'none',
+              color: 'rgba(50, 73, 122, 1)',
+              fontSize: 14,
+              fontWeight: '400',
+              borderRadius: '0 !important',
+              lineHeight: '21px'
+            }}
+          >
+            Show Less
+          </Button>
+        )}
       </Box>
     </Box>
   )

@@ -241,7 +241,13 @@ const EducationTab = () => {
       ) : (
         <div>
           <Box
-            sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '32px', gap: isMobile ? '40px' : 0 }}
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: '32px',
+              gap: isMobile ? '40px' : 0,
+              marginTop: '32px'
+            }}
           >
             <Box>
               <Typography fontSize={16} fontWeight={700} color={'#32497A'}>
@@ -290,7 +296,7 @@ const EducationTab = () => {
                     <Icon
                       icon={'ph:pencil-simple-line-light'}
                       fontSize={24}
-                      style={{ marginRight: '10px' }}
+                      style={{ marginRight: '10px', cursor: 'pointer' }}
                       onClick={() => editEducation(e)}
                     />
                     <Icon

@@ -32,6 +32,7 @@ import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import toast from 'react-hot-toast'
 import { refreshsession } from 'src/utils/helpers'
+import Province from 'src/contract/models/province'
 
 interface IFormPreference {
   dataUser: IUser | null
@@ -75,6 +76,7 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
   const [comboroleType, getComborolType] = useState<any>([])
   const [comboRegion, getComboroRegion] = useState<any>([])
   const [comboVessel, getComborVessel] = useState<any>([])
+  const [comboProvince, getComboProvince] = useState<any>([])
 
   // data user
   const [idOPP, setOpp] = useState<any>(dataUser?.field_preference?.open_to_opp)
@@ -88,9 +90,17 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
     dataUser?.field_preference?.spoken_langs ? dataUser?.field_preference?.spoken_langs : []
   )
 
+  const [idcomboProvince, setComboProvince] = useState<any>(dataUser?.location_province?.id)
+
   const [loadingSubmit, setLoadingSubmit] = useState(false)
 
   const comboBox = () => {
+    HttpClient.get(AppConfig.baseUrl + '/public/data/province?search=&country_id=100').then(response => {
+      const code = response.data.provinces
+
+      getComboProvince(code)
+    })
+
     HttpClient.get(`/job-category?search=&page=1&take=250&employee_type=${user?.employee_type}`)
       .then(response => {
         if (response.status != 200) {
@@ -151,14 +161,45 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
   const handleSubmitFormPreference = async () => {
     setLoadingSubmit(true)
     try {
-      const data = {
-        roletype_id: idcomborolType.id == 0 ? idcomborolType?.inputValue : idcomborolType?.id || idcomborolType,
-        vesseltype_id: idcomboVessel,
-        regiontravel_id: idcomboRegion,
-        category_id: JC,
-        available_date: availableDate,
-        spoken_langs: spokenLangs,
-        open_to_opp: +idOPP
+      let data
+      if (dataUser?.employee_type == 'onship') {
+        data = {
+          roletype_id: idcomborolType.id == 0 ? idcomborolType?.inputValue : idcomborolType?.id || idcomborolType,
+          vesseltype_id: idcomboVessel,
+          regiontravel_id: idcomboRegion,
+          category_id: JC,
+          available_date: availableDate,
+          spoken_langs: spokenLangs,
+          open_to_opp: +idOPP
+        }
+      } else {
+        data = {
+          roletype_id: idcomborolType.id == 0 ? idcomborolType?.inputValue : idcomborolType?.id || idcomborolType,
+          vesseltype_id: null,
+          regiontravel_id: idcomboRegion,
+          available_date: null,
+          spoken_langs: spokenLangs,
+          open_to_opp: idOPP,
+          category_id: JC
+        }
+
+        const json = {
+          country_id: user?.country_id,
+          employee_type: user?.employee_type,
+          name: user?.name,
+          phone: user?.phone,
+          date_of_birth: user?.date_of_birth || null,
+          website: user?.website,
+          about: user?.about,
+          address_country_id: user?.address?.country_id,
+          address_city_id: user?.address?.city_id,
+          address_address: user?.address?.address,
+          gender: user?.gender,
+          location_province_id: idcomboProvince,
+          no_experience: user?.no_experience
+        }
+
+        await HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json)
       }
 
       await HttpClient.post(AppConfig.baseUrl + '/user/field-preference', data)
@@ -176,6 +217,215 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
   useEffect(() => {
     comboBox()
   }, [JC])
+
+  if (dataUser?.employee_type == 'offship') {
+    return (
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={6}>
+          <InputLabel
+            required
+            sx={{
+              fontFamily: 'Figtree',
+              fontSize: '12px',
+              fontWeight: 700,
+              mb: '12px',
+              '& .MuiFormLabel-asterisk': {
+                color: 'red'
+              }
+            }}
+          >
+            Status
+          </InputLabel>
+          <Autocomplete
+            id='combo-box-status'
+            options={!comboOPP ? [{ label: 'Loading...', id: 0 }] : comboOPP}
+            defaultValue={opp}
+            getOptionLabel={(option: any) => option.label}
+            renderInput={params => <TextField {...params} variant='outlined' />}
+            onChange={(event: any, newValue: any | null) => displayopp(newValue)}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <InputLabel
+            required
+            sx={{
+              fontFamily: 'Figtree',
+              fontSize: '12px',
+              fontWeight: 700,
+              mb: '12px',
+              '& .MuiFormLabel-asterisk': {
+                color: 'red'
+              }
+            }}
+          >
+            Job Category
+          </InputLabel>
+          <Autocomplete
+            sx={{ marginBottom: 2 }}
+            disablePortal
+            id='combo-box-level'
+            options={JobCategory}
+            defaultValue={dataUser?.field_preference?.job_category}
+            getOptionLabel={(option: JobCategory) => option.name}
+            renderInput={params => <TextField {...params} variant='outlined' />}
+            onChange={(event: any, newValue: JobCategory | null) => (newValue?.id ? setJC(newValue?.id) : setJC(0))}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <InputLabel
+            required
+            sx={{
+              fontFamily: 'Figtree',
+              fontSize: '12px',
+              fontWeight: 700,
+              mb: '12px',
+              '& .MuiFormLabel-asterisk': {
+                color: 'red'
+              }
+            }}
+          >
+            Job Title
+          </InputLabel>
+          <Autocomplete
+            sx={{ display: 'block' }}
+            disablePortal
+            id='combo-box-job-title'
+            options={comboroleType}
+            defaultValue={dataUser?.field_preference?.role_type}
+            renderInput={params => <TextField {...params} variant='outlined' />}
+            onChange={(event: any, newValue: any) =>
+              newValue ? setComboRolType(newValue) : setComboRolType(dataUser?.field_preference?.role_type?.id)
+            }
+            getOptionLabel={(option: RoleTypeAutocomplete) => {
+              // Value selected with enter, right from the input
+              if (typeof option === 'string') {
+                return option
+              }
+              // Add "xxx" option created dynamically
+              if (option.inputValue) {
+                return option.inputValue
+              }
+
+              // Regular option
+              return option.name
+            }}
+            filterOptions={(options, params) => {
+              const filtered = filter(options, params)
+
+              const { inputValue } = params
+
+              // Suggest the creation of a new value
+              const isExisting = options.some(option => inputValue === option.name)
+              if (inputValue !== '' && !isExisting) {
+                filtered.push({
+                  inputValue: inputValue,
+                  id: 0,
+                  category_id: 0,
+                  name: inputValue,
+                  category: JC,
+                  user: dataUser,
+                  created_at: String(new Date()),
+                  updated_at: String(new Date())
+                })
+              }
+
+              return filtered
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <InputLabel
+            required
+            sx={{
+              fontFamily: 'Figtree',
+              fontSize: '12px',
+              fontWeight: 700,
+              mb: '12px',
+              '& .MuiFormLabel-asterisk': {
+                color: 'red'
+              }
+            }}
+          >
+            Location
+          </InputLabel>
+          <Autocomplete
+            disablePortal
+            id='combo-box-demo'
+            options={comboProvince}
+            getOptionLabel={(option: any) => option.province_name}
+            defaultValue={dataUser?.location_province}
+            renderInput={params => <TextField {...params} variant='outlined' />}
+            onChange={(event: any, newValue: Province | null) =>
+              newValue?.id ? setComboProvince(newValue.id) : setComboProvince(dataUser?.location_province?.id)
+            }
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <InputLabel
+            sx={{
+              fontFamily: 'Figtree',
+              fontSize: '12px',
+              fontWeight: 700,
+              mb: '12px',
+              '& .MuiFormLabel-asterisk': {
+                color: 'red'
+              }
+            }}
+          >
+            Language
+          </InputLabel>
+          <Select
+            labelId='demo-multiple-chip-label'
+            id='demo-multiple-chip'
+            multiple
+            value={spokenLangs}
+            onChange={handleChange}
+            sx={{ fontSize: '18px', height: 50.2, width: '100%' }}
+            input={
+              <OutlinedInput
+                id='select-multiple-chip'
+                label='Chip'
+                defaultValue={dataUser?.field_preference?.spoken_langs}
+                sx={{ fontSize: '8px' }}
+              />
+            }
+            renderValue={selected => (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontSize: '8px' }}>
+                {selected.map(value => (
+                  <Chip key={value} label={value} />
+                ))}
+              </Box>
+            )}
+            MenuProps={MenuProps}
+          >
+            {languages.map(l => (
+              <MenuItem key={l} value={l} style={getStyles(l, spokenLangs, theme)}>
+                {l}
+              </MenuItem>
+            ))}
+          </Select>
+        </Grid>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+          <Button
+            type='button'
+            variant='contained'
+            sx={{
+              width: isMobile ? '140px !important' : '212px !important',
+              px: '16px',
+              py: '8px',
+              textTransform: 'capitalize',
+              fontSize: '14px',
+              fontWeight: 400
+            }}
+            disabled={loadingSubmit}
+            onClick={handleSubmitFormPreference}
+          >
+            {loadingSubmit ? <CircularProgress /> : ' Save Changes'}
+          </Button>
+        </Box>
+      </Grid>
+    )
+  }
 
   return (
     <Grid container spacing={4}>

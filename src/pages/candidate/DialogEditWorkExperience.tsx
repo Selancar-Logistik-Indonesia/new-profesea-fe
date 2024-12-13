@@ -124,7 +124,6 @@ const DialogEditWorkExperience = (props: DialogProps) => {
     setOnLoading(true)
 
     try {
-      console.log(json)
       const resp = await HttpClient.postFile('/user/experience/' + props.selectedItem.id, json)
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'

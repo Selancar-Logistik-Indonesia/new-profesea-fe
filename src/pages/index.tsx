@@ -25,20 +25,15 @@ const Main = () => {
   const auth = useAuth()
   const [isNavigating, setIsNavigating] = useState(true)
 
-  const firstLoad = async () => {
-    if (auth.user) {
-      await router.replace('/home')
-    }
-    setIsNavigating(false)
-  }
-
   useEffect(() => {
-    if (!auth.loading) {
-      firstLoad()
+    if (auth.user) {
+      router.replace('/home')
+    } else {
+      setIsNavigating(false)
     }
-  }, [auth, router])
+  }, [auth])
 
-  if (isNavigating || auth.loading) return <Spinner />
+  if (isNavigating) return <Spinner />
 
   return (
     <>
