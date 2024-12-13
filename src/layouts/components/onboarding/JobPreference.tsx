@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, CircularProgress, FormControl, MenuItem, Select, Typography } from '@mui/material'
+import {
+  Autocomplete,
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  MenuItem,
+  TextField,
+  Typography
+} from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -57,8 +66,8 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
       setJobCategory(data)
     })
 
-    if (user && user.jobcategory) {
-      setValue('jobCategory', user.jobcategory.id)
+    if (user && user.field_preference && user.field_preference.job_category) {
+      setValue('jobCategory', user.field_preference.job_category.id)
     }
     if (user && user.field_preference && user.field_preference.role_type) {
       setValue('roleType', user.field_preference.role_type.id)
@@ -129,17 +138,29 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
             name='jobCategory'
             control={control}
             render={({ field }) => (
-              <Select {...field} value={field.value || 0}>
-                <MenuItem value={0} disabled>
-                  Pilih Departemen Pekerjaan
-                </MenuItem>
-                {jobCategory &&
-                  jobCategory.map(item => (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-              </Select>
+              <Autocomplete
+                {...field}
+                autoHighlight
+                options={jobCategory || []}
+                getOptionLabel={option => option.name || ''}
+                value={jobCategory?.find(jobCategory => jobCategory.id === field.value) || null}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    placeholder='Pilih Departemen Pekerjaan'
+                    error={!!errors.jobCategory}
+                    helperText={errors.jobCategory?.message}
+                  />
+                )}
+                renderOption={(props, option) => (
+                  <MenuItem {...props} key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                )}
+                noOptionsText='Hasil pencaian tidak ditemukan. Coba gunakan kata kunci lain atau periksa kembali pencarian Anda'
+              />
             )}
           />
         </FormControl>
@@ -162,17 +183,29 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
             name='roleType'
             control={control}
             render={({ field }) => (
-              <Select {...field} value={field.value || 0}>
-                <MenuItem value={0} disabled>
-                  {user?.employee_type === 'onship' ? 'Pilih Pangkat Pekerjaan' : 'Pilih Jabatan'}
-                </MenuItem>
-                {roleType &&
-                  roleType.map(item => (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-              </Select>
+              <Autocomplete
+                {...field}
+                autoHighlight
+                options={roleType || []}
+                getOptionLabel={option => option.name || ''}
+                value={roleType?.find(roleType => roleType.id === field.value) || null}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    placeholder={user?.employee_type === 'onship' ? 'Pilih Pangkat Pekerjaan' : 'Pilih Jabatan'}
+                    error={!!errors.roleType}
+                    helperText={errors.roleType?.message}
+                  />
+                )}
+                renderOption={(props, option) => (
+                  <MenuItem {...props} key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                )}
+                noOptionsText='Hasil pencaian tidak ditemukan. Coba gunakan kata kunci lain atau periksa kembali pencarian Anda'
+              />
             )}
           />
         </FormControl>
