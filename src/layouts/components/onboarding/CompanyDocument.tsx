@@ -103,7 +103,15 @@ const FileUpload = ({ name, control, setValue }: { name: string; control: any; s
   )
 }
 
-const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
+const CompanyDocument = ({
+  beforeLink,
+  isEditCompany = false,
+  onClose = () => {}
+}: {
+  beforeLink: string
+  isEditCompany?: boolean
+  onClose?: () => void
+}) => {
   const {
     control,
     watch,
@@ -145,6 +153,8 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
 
   const onSubmit = (data: FormData) => {
     setOnLoading(true)
+    console.log(data.isCrewing)
+
     HttpClient.patch(AppConfig.baseUrl + '/onboarding/isCrewing', {
       is_crewing: data.isCrewing
     })
@@ -184,7 +194,12 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
           await Promise.all(uploadPromises)
           await refreshSession()
           toast.success('Successfully save profile')
-          router.push(`/company/${user?.id}/${toLinkCase(user?.username)}/?onboarding=completed`)
+
+          if (isEditCompany) {
+            onClose()
+          } else {
+            router.push(`/company/${user?.id}/${toLinkCase(user?.username)}/?onboarding=completed`)
+          }
         },
         error => {
           toast.error('Failed to save profile: ' + error.response.data.message)
@@ -261,29 +276,34 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
             </FormControl>
           </>
         )}
-        <Box sx={{ my: '32px', display: 'flex', justifyContent: 'space-between' }}>
-          <Button
-            component={Link}
-            href={beforeLink}
-            variant='outlined'
-            sx={{
-              width: '120px',
-              boxShadow: 0,
-              color: '#32497A',
-              textTransform: 'none',
-              '&:hover': { backgroundColor: '#BFBFBF' }
-            }}
-          >
-            Back
-          </Button>
+        <Box sx={{ my: '32px', display: 'flex', justifyContent: isEditCompany ? 'flex-end' : 'space-between' }}>
+          {isEditCompany != true && (
+            <Button
+              component={Link}
+              href={beforeLink}
+              variant='outlined'
+              sx={{
+                width: '120px',
+                boxShadow: 0,
+                color: '#32497A',
+                textTransform: 'none',
+                '&:hover': { backgroundColor: '#BFBFBF' }
+              }}
+            >
+              Back
+            </Button>
+          )}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-            <Box sx={{ cursor: 'pointer' }} onClick={() => onSkip()}>
-              <Typography
-                sx={{ color: '#999999', fontSize: 14, fontWeight: 700, '&:hover': { textDecoration: 'underline' } }}
-              >
-                Skip for now
-              </Typography>
-            </Box>
+            {isEditCompany != true && (
+              <Box sx={{ cursor: 'pointer' }} onClick={() => onSkip()}>
+                <Typography
+                  sx={{ color: '#999999', fontSize: 14, fontWeight: 700, '&:hover': { textDecoration: 'underline' } }}
+                >
+                  Skip for now
+                </Typography>
+              </Box>
+            )}
+
             <Button
               type='submit'
               variant='contained'
@@ -296,7 +316,7 @@ const CompanyDocument = ({ beforeLink }: { beforeLink: string }) => {
                 '&:hover': { backgroundColor: '#BFBFBF' }
               }}
             >
-              {onLoading ? <CircularProgress size={22} /> : 'Continue'}
+              {onLoading ? <CircularProgress size={22} /> : isEditCompany ? 'Submit' : 'Continue'}
             </Button>
           </Box>
         </Box>
