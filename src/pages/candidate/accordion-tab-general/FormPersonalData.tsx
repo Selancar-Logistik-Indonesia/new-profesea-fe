@@ -27,6 +27,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import moment from 'moment'
 import { useTheme } from '@mui/material/styles'
 import toast from 'react-hot-toast'
+import Industry from 'src/contract/models/industry'
 
 type TFormPersonalData = {
   fullName: string
@@ -93,11 +94,14 @@ const FormPersonalData: React.FC = () => {
   const [userDOB, setUserDOB] = useState<any>(null)
   const [userEmail, setUserEmail] = useState('')
   const [userAboutMe, setUserAboutMe] = useState('')
+  const [userWebsite, setUserWebsite] = useState('')
 
   // all options
   const [countryOptions, setCountryOptions] = useState<any[]>([])
   const [codeOptions, setCodeOptions] = useState<any[]>([])
   const [cityOptions, setCityOptions] = useState<any[]>([])
+  const [comboindustry, getComboIndustry] = useState<any>([])
+  const [idindustry, setIndustry] = useState<any>()
 
   const { register, handleSubmit, setValue } = useForm<TFormPersonalData>({
     mode: 'onBlur'
@@ -122,6 +126,11 @@ const FormPersonalData: React.FC = () => {
       setUserEmail(resUser?.email || '')
       setUserAboutMe(resUser?.about || '')
 
+      if (resUser?.role === 'Company') {
+        setIndustry(resUser?.industry)
+        setUserWebsite(resUser?.website as string)
+      }
+
       // set value for useForm
       setValue('fullName', resUser?.name || '')
       setValue('address', resUser?.address?.address || '')
@@ -134,6 +143,11 @@ const FormPersonalData: React.FC = () => {
       const code = response.data.countries
       setCountryOptions(code)
       setCodeOptions(code)
+    })
+
+    HttpClient.get(AppConfig.baseUrl + '/public/data/industry?search=').then(response => {
+      const code = response.data.industries
+      getComboIndustry(code)
     })
   }
 
@@ -162,7 +176,7 @@ const FormPersonalData: React.FC = () => {
   }
 
   const onSubmit = (data: TFormPersonalData) => {
-    const { fullName, address, about } = data
+    const { fullName, address, about, website } = data
 
     if (!fullName) {
       toast.error('Full name is required')
@@ -200,7 +214,7 @@ const FormPersonalData: React.FC = () => {
       return
     }
 
-    if (!userDOB) {
+    if (user?.role !== 'Company' && !userDOB) {
       toast.error('Date Of Birth is required')
 
       return
@@ -215,7 +229,27 @@ const FormPersonalData: React.FC = () => {
     setLoadingSubmit(true)
 
     // const phoneCode = countryOptions.find(c => c?.id === userPhoneCodeNumber)?.phonecode
-    const json: IPayloadPersonalDataSeafarer = {
+
+    let jsonDataCompany: any
+
+    if (user?.role === 'Company') {
+      // for company
+      jsonDataCompany = {
+        country_id: userCountry?.id,
+        industry_id: idindustry?.id,
+        name: fullName,
+        phone: userPhone,
+        website: website,
+        about: about,
+        address_country_id: userCountry?.id,
+        address_city_id: userCity?.id,
+        address_address: address,
+        date_of_birth: null
+        //team_id:props.datauser.team_id
+      }
+    }
+
+    const jsonDataSeafarer: IPayloadPersonalDataSeafarer = {
       country_id: userCountry?.id,
       employee_type: user?.employee_type as string,
       name: fullName,
@@ -229,7 +263,12 @@ const FormPersonalData: React.FC = () => {
       about: about
     }
 
-    HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
+    console.log(jsonDataCompany)
+
+    HttpClient.patch(
+      AppConfig.baseUrl + '/user/update-profile',
+      user?.role === 'Company' ? jsonDataCompany : jsonDataSeafarer
+    ).then(
       response => {
         console.log(response)
         setLoadingSubmit(false)
@@ -275,7 +314,7 @@ const FormPersonalData: React.FC = () => {
                   }
                 }}
               >
-                Full Name
+                {user?.role === 'Company' ? 'Company Name' : 'Full Name'}
               </InputLabel>
               <TextField
                 id='fullName'
@@ -288,34 +327,67 @@ const FormPersonalData: React.FC = () => {
                 onChange={e => setUserFullname(e.target.value)}
               />
             </Grid>
-            <Grid item md={6} xs={12}>
-              <InputLabel
-                required
-                sx={{
-                  fontFamily: 'Figtree',
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  mb: '12px',
-                  '& .MuiFormLabel-asterisk': {
-                    color: 'red'
+
+            {user?.role == 'Company' ? (
+              <Grid item md={6} xs={12}>
+                <InputLabel
+                  required
+                  sx={{
+                    fontFamily: 'Figtree',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    mb: '12px',
+                    '& .MuiFormLabel-asterisk': {
+                      color: 'red'
+                    }
+                  }}
+                >
+                  Industry
+                </InputLabel>
+                <Autocomplete
+                  disablePortal
+                  id='combo-box-demo'
+                  options={comboindustry}
+                  value={idindustry}
+                  getOptionLabel={(option: any) => option.name}
+                  renderInput={params => <TextField {...params} variant='outlined' />}
+                  onChange={(event: any, newValue: Industry | null) =>
+                    newValue?.id ? setIndustry(newValue) : setIndustry(user?.industry)
                   }
-                }}
-              >
-                Gender
-              </InputLabel>
-              <Autocomplete
-                disablePortal
-                id='gender-combo-box'
-                options={GENDER_OPTIONS}
-                isOptionEqualToValue={(option, value) => option?.title === value?.title}
-                value={gender}
-                getOptionLabel={options => options.label}
-                renderInput={params => (
-                  <TextField {...params} required id='gender' variant='outlined' {...register('gender')} />
-                )}
-                onChange={(event, newValue) => (newValue ? handleOnChangeGender(newValue) : handleOnChangeGender(null))}
-              />
-            </Grid>
+                />
+              </Grid>
+            ) : (
+              <Grid item md={6} xs={12}>
+                <InputLabel
+                  required
+                  sx={{
+                    fontFamily: 'Figtree',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    mb: '12px',
+                    '& .MuiFormLabel-asterisk': {
+                      color: 'red'
+                    }
+                  }}
+                >
+                  Gender
+                </InputLabel>
+                <Autocomplete
+                  disablePortal
+                  id='gender-combo-box'
+                  options={GENDER_OPTIONS}
+                  isOptionEqualToValue={(option, value) => option?.title === value?.title}
+                  value={gender}
+                  getOptionLabel={options => options.label}
+                  renderInput={params => (
+                    <TextField {...params} required id='gender' variant='outlined' {...register('gender')} />
+                  )}
+                  onChange={(event, newValue) =>
+                    newValue ? handleOnChangeGender(newValue) : handleOnChangeGender(null)
+                  }
+                />
+              </Grid>
+            )}
           </Grid>
           <Grid container spacing={4}>
             <Grid item xs={12} md={6}>
@@ -451,32 +523,60 @@ const FormPersonalData: React.FC = () => {
             </Grid>
           </Grid>
           <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <InputLabel
-                required
-                sx={{
-                  fontFamily: 'Figtree',
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  mb: '12px',
-                  '& .MuiFormLabel-asterisk': {
-                    color: 'red'
-                  }
-                }}
-              >
-                Date Of Birth
-              </InputLabel>
-              <LocalizationProvider dateAdapter={AdapterMoment}>
-                <DatePicker
-                  format='DD/MM/YYYY'
-                  openTo='month'
-                  views={['year', 'month', 'day']}
-                  onChange={(date: any) => handleOnChangeDateOfBirth(date)}
-                  value={moment(userDOB)}
-                  slotProps={{ textField: { variant: 'outlined', fullWidth: true, id: 'input-dob' } }}
+            {user?.role === 'Company' ? (
+              <Grid item xs={12} md={6}>
+                <InputLabel
+                  sx={{
+                    fontFamily: 'Figtree',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    mb: '12px',
+                    '& .MuiFormLabel-asterisk': {
+                      color: 'red'
+                    }
+                  }}
+                >
+                  Website
+                </InputLabel>
+                <TextField
+                  id='website'
+                  value={userWebsite}
+                  defaultValue={userWebsite}
+                  variant='outlined'
+                  fullWidth
+                  {...register('website')}
+                  onChange={e => setUserWebsite(e.target.value)}
                 />
-              </LocalizationProvider>
-            </Grid>
+              </Grid>
+            ) : (
+              <Grid item xs={12} md={6}>
+                <InputLabel
+                  required
+                  sx={{
+                    fontFamily: 'Figtree',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    mb: '12px',
+                    '& .MuiFormLabel-asterisk': {
+                      color: 'red'
+                    }
+                  }}
+                >
+                  Date Of Birth
+                </InputLabel>
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                  <DatePicker
+                    format='DD/MM/YYYY'
+                    openTo='month'
+                    views={['year', 'month', 'day']}
+                    onChange={(date: any) => handleOnChangeDateOfBirth(date)}
+                    value={moment(userDOB)}
+                    slotProps={{ textField: { variant: 'outlined', fullWidth: true, id: 'input-dob' } }}
+                  />
+                </LocalizationProvider>
+              </Grid>
+            )}
+
             <Grid item xs={12} md={6}>
               <InputLabel
                 required
@@ -514,7 +614,7 @@ const FormPersonalData: React.FC = () => {
                   mb: '12px'
                 }}
               >
-                About Me
+                {user?.role === 'Company' ? 'About Company' : 'About Me'}
               </InputLabel>
               <TextField
                 id='about-me'

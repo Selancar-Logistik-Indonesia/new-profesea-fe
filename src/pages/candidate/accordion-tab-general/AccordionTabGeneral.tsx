@@ -97,34 +97,37 @@ const AccordionTabGeneral: React.FC = () => {
           <FormSocialMedia />
         </AccordionDetails>
       </Accordion>
-      <Accordion sx={{ boxShadow: 'none' }} defaultExpanded>
-        <AccordionSummary
-          expandIcon={<MdExpandMore size={24} />}
-          aria-controls='panel3-content'
-          id='panel3-header'
-          sx={{ color: '#32497A', fontSize: isMobile ? '14px' : '16px', fontWeight: 700, fontFamily: 'Figtree' }}
-          onClick={() => setShow3(!show3)}
-        >
-          <Box>
-            <Typography
-              sx={{
-                color: '#32497A',
-                fontSize: isMobile ? '14px' : '16px',
-                fontWeight: 700,
-                fontFamily: 'Figtree'
-              }}
-            >
-              Preferences
-            </Typography>
-            {show3 && (
-              <Typography sx={{ fontFamily: 'Figtree', fontSize: '14px', fontWeight: 400 }}>
-                See your job preference so company can find the perfect fit
+
+      {user?.role !== 'Company' && (
+        <Accordion sx={{ boxShadow: 'none' }} defaultExpanded>
+          <AccordionSummary
+            expandIcon={<MdExpandMore size={24} />}
+            aria-controls='panel3-content'
+            id='panel3-header'
+            sx={{ color: '#32497A', fontSize: isMobile ? '14px' : '16px', fontWeight: 700, fontFamily: 'Figtree' }}
+            onClick={() => setShow3(!show3)}
+          >
+            <Box>
+              <Typography
+                sx={{
+                  color: '#32497A',
+                  fontSize: isMobile ? '14px' : '16px',
+                  fontWeight: 700,
+                  fontFamily: 'Figtree'
+                }}
+              >
+                Preferences
               </Typography>
-            )}
-          </Box>
-        </AccordionSummary>
-        <AccordionDetails>{loadingUser ? 'Loading...' : <FormPreference dataUser={user} />}</AccordionDetails>
-      </Accordion>
+              {show3 && (
+                <Typography sx={{ fontFamily: 'Figtree', fontSize: '14px', fontWeight: 400 }}>
+                  See your job preference so company can find the perfect fit
+                </Typography>
+              )}
+            </Box>
+          </AccordionSummary>
+          <AccordionDetails>{loadingUser ? 'Loading...' : <FormPreference dataUser={user} />}</AccordionDetails>
+        </Accordion>
+      )}
     </>
   )
 }
