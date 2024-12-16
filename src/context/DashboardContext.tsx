@@ -25,6 +25,10 @@ const defaultValue: DashboardContextType = {
   totalCompanyVerified: 0,
   totalTrainer: 0,
   totalTrainerVerified: 0,
+  totalCPGreen:0,
+  totalCPOrange:0,
+  totalCPRed:0,
+  totalCandidate:0,
   progressTotalUsers: 0,
   progressTotalSeafarer: 0,
   progressTotalProfessional: 0,
@@ -39,7 +43,8 @@ const defaultValue: DashboardContextType = {
   dataLastJobList: () => Promise.resolve(),
   dataTopCategoryList: () => Promise.resolve(),
   dataAdsList: () => Promise.resolve(),
-  userProgressiveOverview: () => Promise.resolve()
+  userProgressiveOverview: () => Promise.resolve(),
+  userCompletionPercentage: () => Promise.resolve()
 }
 
 const DashboardContext = createContext(defaultValue)
@@ -64,7 +69,12 @@ const DashboardProvider = (props: Props) => {
   const [dataChartSubs, setDataChartSubs] = useState<any>()
   const [onLoading, setOnLoading] = useState(false)
 
-  const [totalUsers, setTotalUsers] = useState(9857)
+  const [totalCPGreen, setTotalCPGreen] = useState(0)
+  const [totalCPOrange, setTotalCPOrange] = useState(0)
+  const [totalCPRed, setTotalCPRed] = useState(0)
+  const [totalCandidate, setTotalCandidate] = useState(0)
+
+  const [totalUsers, setTotalUsers] = useState(0)
   const [totalSeafarer, setTotalSeafarer] = useState(0)
   const [totalSeafarerVerified, setTotalSeafarerVerified] = useState(0)
   const [totalProfessional, setTotalProfessional] = useState(0)
@@ -326,6 +336,31 @@ const DashboardProvider = (props: Props) => {
     setOnLoading(false)
   }
 
+  const userCompletionPercentage = async (candidate:string) => {
+
+    setOnLoading(true)
+    try {
+      const response = await HttpClient.get(AppConfig.baseUrl + `/dashboard/user-cp/?candidate=${candidate}`)
+
+      if(response.status == 200){
+        const result = response.data as { data:any }
+        setTotalCPGreen(result?.data?.totalCPGreen || 50)
+        setTotalCPOrange(result?.data?.totalCPOrange || 30)
+        setTotalCPRed(result?.data?.totalCPRed || 20)
+        setTotalCandidate(result?.data?.totalCandidate || 100)
+      }
+
+    }catch(err) { 
+      console.log(err)
+      setTotalCPGreen(50)
+      setTotalCPOrange(30)
+      setTotalCPRed(20)
+      setTotalCandidate(100)
+    }
+    setOnLoading(false)
+
+  }
+
   const values = useMemo(
     () => ({
       onLoading,
@@ -345,6 +380,10 @@ const DashboardProvider = (props: Props) => {
       totalCompanyVerified,
       totalTrainer,
       totalTrainerVerified,
+      totalCPGreen,
+      totalCPOrange,
+      totalCPRed,
+      totalCandidate,
       progressTotalUsers,
       progressTotalSeafarer,
       progressTotalProfessional,
@@ -362,7 +401,8 @@ const DashboardProvider = (props: Props) => {
       dataLastJobList,
       dataTopCategoryList,
       dataAdsList,
-      userProgressiveOverview
+      userProgressiveOverview,
+      userCompletionPercentage
     }),
     [
       onLoading,
@@ -380,6 +420,10 @@ const DashboardProvider = (props: Props) => {
       totalCompanyVerified,
       totalTrainer,
       totalTrainerVerified,
+      totalCPGreen,
+      totalCPOrange,
+      totalCPRed,
+      totalCandidate,
       progressTotalUsers,
       progressTotalSeafarer,
       progressTotalProfessional,
@@ -397,7 +441,8 @@ const DashboardProvider = (props: Props) => {
       dataLastJobList,
       dataTopCategoryList,
       dataAdsList,
-      userProgressiveOverview
+      userProgressiveOverview,
+      userCompletionPercentage
     ]
   )
 

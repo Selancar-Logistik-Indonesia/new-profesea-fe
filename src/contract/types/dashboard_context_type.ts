@@ -19,6 +19,10 @@ type DashboardContextType = {
     totalCompanyVerified: number,
     totalTrainer: number,
     totalTrainerVerified: number,
+    totalCPGreen:number,
+    totalCPOrange:number,
+    totalCPRed:number,
+    totalCandidate:number,
     progressTotalUsers: number,
     progressTotalSeafarer: number,
     progressTotalProfessional: number,
@@ -34,6 +38,7 @@ type DashboardContextType = {
     dataTopCategoryList: () => Promise<void>,
     dataAdsList: () => Promise<void>,
     userProgressiveOverview: (timeframe: string) => Promise<void>,
+    userCompletionPercentage: (candidate:string) => Promise<void>,
 }
 
 export default DashboardContextType;
