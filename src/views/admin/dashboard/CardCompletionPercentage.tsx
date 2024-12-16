@@ -26,11 +26,11 @@ function LinearProgressWithLabel(props: LinearProgressProps & { value: number })
       <Box sx={{ width: '100%', mr: 1 }}>
         <LinearProgress variant="determinate" {...props}  />
       </Box>
-      <Box sx={{ minWidth:35}}>
+      <Box sx={{ minWidth:50}}>
         <Typography
           variant="body1"
-          sx={{ color: 'text.secondary' }}
-        > {`${props.value}`} %</Typography>
+          sx={{ color: 'text.secondary', fontSize:'14px' }}
+        > ( {`${props.value}`}% )</Typography>
       </Box>
     </Box>
   );
