@@ -25,7 +25,7 @@ export type NotificationsTypeProps = {
   id: string
   meta: string
   title: string
-  subtitle: JSX.Element
+  subtitle: any
   type: string
   read_at?: string
   payload?: any
