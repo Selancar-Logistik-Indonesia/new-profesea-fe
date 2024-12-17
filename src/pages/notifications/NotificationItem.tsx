@@ -144,7 +144,9 @@ export default function NotificationItem({ item, key, getNotifications }: Iprops
           className={style['list-item-text']}
           primary={
             <React.Fragment>
-              <div className={style['title']}>{item.subtitle}</div>
+              <div className={style['title']}>
+                <span style={{ fontWeight: 700 }}>{item.title}</span> {item.subtitle}
+              </div>
             </React.Fragment>
           }
           secondary={
