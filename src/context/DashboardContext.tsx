@@ -350,10 +350,6 @@ const DashboardProvider = (props: Props) => {
       }
     } catch (err) {
       console.log(err)
-      setTotalCPGreen(50)
-      setTotalCPOrange(30)
-      setTotalCPRed(20)
-      setTotalCandidate(100)
     }
     setOnLoading(false)
   }
