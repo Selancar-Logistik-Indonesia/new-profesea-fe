@@ -1,10 +1,12 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid'
-import { Button, IconButton } from '@mui/material'
+import { Button, IconButton, Typography } from '@mui/material'
+import { styled } from '@mui/material/styles'
 import Icon from 'src/@core/components/icon'
 import { format } from 'date-fns'
 import { useAuth } from 'src/hooks/useAuth'
+import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress'
 
 type RoleGridProps = {
   rows: RowItem[]
@@ -23,7 +25,7 @@ interface RowItem {
   role: string
   plan: string
   point: number
-  completion_percentage: number,
+  completion_percentage: number
   resend: {
     resend: VoidFunction
   }
@@ -33,6 +35,27 @@ interface RowItem {
     docView: VoidFunction
   }
 }
+
+function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ width: '50px', mr: 1 }}>
+        <LinearProgress variant='determinate' {...props} />
+      </Box>
+      <Box sx={{ minWidth: 100 }}>
+        <Typography variant='body1' sx={{ color: 'text.primary', fontSize: '14px' }}>
+          {' '}
+          ( {`${props.value}`}% )
+        </Typography>
+      </Box>
+    </Box>
+  )
+}
+
+const BorderLinearProgress = styled(LinearProgressWithLabel)(() => ({
+  height: 10,
+  borderRadius: 5
+}))
 
 export { type RowItem }
 
@@ -48,16 +71,27 @@ export default function AccountDatagrid(props: RoleGridProps) {
     { field: 'type', headerName: 'Type', sortable: true, minWidth: 100 },
     { field: 'plan', headerName: 'Plan', sortable: true, minWidth: 100 },
     { field: 'point', headerName: 'Point', sortable: true, minWidth: 100 },
-    { field: 'cp', 
-      headerName: 'CP', 
+    {
+      field: 'cp',
+      headerName: 'CP',
       sortable: true,
-      minWidth: 100,
-      renderCell: (cell) => {
+      minWidth: 150,
+      renderCell: cell => {
+        const { row } = cell
+        let color: any = ''
+        if (row.cp >= 0 && row.cp <= 30) {
+          color = 'error'
+        } else if (row.cp >= 31 && row.cp <= 69) {
+          color = 'warning'
+        } else if (row.cp >= 70 && row.cp <= 100) {
+          color = 'success'
+        }
 
-        const { row } = cell 
-
-        return <div>{row.cp}</div>
-
+        return (
+          <>
+            <BorderLinearProgress value={row.cp} color={color} />
+          </>
+        )
       }
     },
     {
