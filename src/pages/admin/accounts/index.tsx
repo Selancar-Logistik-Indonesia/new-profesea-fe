@@ -77,6 +77,7 @@ const UserScreen = () => {
           type: translate[row.employee_type],
           plan: row.plan_type,
           point: row.point,
+          cp: row.completion_percentage,
           verified_at: row.verified_at,
           registered_at: row.created_at,
           resend: {

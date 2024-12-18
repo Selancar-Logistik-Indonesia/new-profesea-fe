@@ -23,6 +23,7 @@ interface RowItem {
   role: string
   plan: string
   point: number
+  completion_percentage: number,
   resend: {
     resend: VoidFunction
   }
@@ -47,6 +48,18 @@ export default function AccountDatagrid(props: RoleGridProps) {
     { field: 'type', headerName: 'Type', sortable: true, minWidth: 100 },
     { field: 'plan', headerName: 'Plan', sortable: true, minWidth: 100 },
     { field: 'point', headerName: 'Point', sortable: true, minWidth: 100 },
+    { field: 'cp', 
+      headerName: 'CP', 
+      sortable: true,
+      minWidth: 100,
+      renderCell: (cell) => {
+
+        const { row } = cell 
+
+        return <div>{row.cp}</div>
+
+      }
+    },
     {
       field: 'registered_at',
       headerName: 'Registered At',
