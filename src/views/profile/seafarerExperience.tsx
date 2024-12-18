@@ -165,7 +165,7 @@ const SeafarerExperience: React.FC<ISeafarerExperienceProps> = ({ userId, userNa
         {visibleCount === data?.length && showMoreClicked && (
           <Button
             onClick={() => {
-              setVisibleCount(3)
+              setVisibleCount(5)
               setShowMoreClicked(false)
             }}
             endIcon={<Icon icon='mingcute:up-fill' style={{ fontSize: 12 }} />}
