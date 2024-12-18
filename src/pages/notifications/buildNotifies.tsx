@@ -13,13 +13,9 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data.liker.name,
-      title: 'New like on your feed',
+      title: e.data.liker.name,
       avatarIcon: <Icon icon='ic:baseline-thumb-up-off-alt' />,
-      subtitle: (
-        <span>
-          <b className='name'>{e.data.liker.name}</b> like your feed
-        </span>
-      ),
+      subtitle: 'like your feed.',
       type: e.type,
       read_at: e.read_at,
       data: e.data
@@ -31,13 +27,9 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data.friend.name,
-      title: 'Connect Request',
+      title: e.data.friend.name,
       avatarIcon: <Icon icon='ic:baseline-person-add-alt' />,
-      subtitle: (
-        <span>
-          <b className='name'>{e.data.friend.name}</b> request to connect with You.
-        </span>
-      ),
+      subtitle: 'request to connect with You.',
       type: e.type,
       payload: e.data.friend,
       read_at: e.read_at,
@@ -50,14 +42,9 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data.candidate.name,
-      title: e.data.company.name,
+      title: 'Application Submitted:',
       avatarIcon: e?.data?.company?.photo,
-      subtitle: (
-        <span>
-          {'Application Submitted: You’ve Applied for '}
-          {e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name}!
-        </span>
-      ),
+      subtitle: `You've Applied for ${e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name}!`,
       type: e.type,
       read_at: e.read_at,
       data: e.data
@@ -71,12 +58,7 @@ const buildNotifies = (e: INotification) => {
       avatarAlt: e.data.candidate.name,
       title: e.data.candidate.name,
       avatarIcon: e?.data?.candidate?.photo,
-      subtitle: (
-        <span>
-          <b className='name'>{e.data.candidate.name}</b> {' Applied for '}
-          {e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name}.
-        </span>
-      ),
+      subtitle: `applied for ${e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name}.`,
       type: e.type,
       read_at: e.read_at,
       data: e.data
@@ -88,13 +70,9 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data.friend.name,
-      title: 'Connect request approved',
+      title: e.data.friend.name,
       avatarIcon: <Icon icon='ic:round-check-circle-outline' />,
-      subtitle: (
-        <span>
-          <b className='name'>{e.data.friend.name}</b> approved your connect request.
-        </span>
-      ),
+      subtitle: 'approved your connect request.',
       type: e.type,
       read_at: e.read_at,
       data: e.data
@@ -106,13 +84,9 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data.friend.name,
-      title: 'Connect request rejected',
+      title: e.data.friend.name,
       avatarIcon: <Icon icon='ic:baseline-remove-circle-outline' />,
-      subtitle: (
-        <span>
-          <b className='name'>{e.data.friend.name}</b> rejected your connect request.
-        </span>
-      ),
+      subtitle: 'rejected your connect request.',
       type: e.type,
       read_at: e.read_at,
       data: e.data
@@ -124,7 +98,7 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data.user.name,
-      title: 'Please complete your profile',
+      title: 'Please complete your profile:',
       avatarIcon: <Icon icon='ph:confetti' />,
       subtitle: (
         <span>
@@ -146,7 +120,7 @@ const buildNotifies = (e: INotification) => {
       avatarAlt: e.data.user.name,
       title: 'Congratulations!',
       avatarIcon: <Icon icon='ic:baseline-mark-email-read' />,
-      subtitle: <span>Your Company Registration on Profesea Has Been Approved!</span>,
+      subtitle: 'Your Company Registration on Profesea Has Been Approved!',
       type: e.type,
       read_at: e.read_at,
       data: e.data
@@ -160,7 +134,7 @@ const buildNotifies = (e: INotification) => {
       avatarAlt: e.data.user.name,
       title: 'Complete Registration on Profesea!',
       avatarIcon: <Icon icon='ic:baseline-mark-email-read' />,
-      subtitle: <span>Upload your document to complete Registration</span>,
+      subtitle: 'Upload your document to complete Registration',
       type: e.type,
       read_at: e.read_at,
       data: e.data
@@ -172,13 +146,9 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data?.user?.name,
-      title: `Check your application status`,
+      title: e?.data?.company?.name,
       avatarIcon: <Icon icon='fluent:people-search-24-regular' />,
-      subtitle: (
-        <span>
-          <b className='name'>{e?.data?.company?.name}</b> has been viewed your application!
-        </span>
-      ),
+      subtitle: 'has viewed your application!',
       type: e.type,
       read_at: e.read_at,
       data: e.data
@@ -190,12 +160,12 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data?.user?.name,
-      title: `Check your application status`,
+      title: `Check your application status:`,
       avatarIcon: <Icon icon='icon-park-outline:people-delete' />,
       subtitle: (
         <span>
           Your Application for
-          {e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName} – Rejected{' '}
+          {e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName} – Rejected
         </span>
       ),
       type: e.type,
@@ -209,7 +179,7 @@ const buildNotifies = (e: INotification) => {
       id: e.id,
       meta: hDiff,
       avatarAlt: e.data?.user?.name,
-      title: `Check your application status`,
+      title: `Check your application status:`,
       avatarIcon: <Icon icon='fluent:people-checkmark-24-regular' />,
       subtitle: (
         <span>
