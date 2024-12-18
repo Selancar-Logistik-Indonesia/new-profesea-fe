@@ -25,10 +25,10 @@ const defaultValue: DashboardContextType = {
   totalCompanyVerified: 0,
   totalTrainer: 0,
   totalTrainerVerified: 0,
-  totalCPGreen:0,
-  totalCPOrange:0,
-  totalCPRed:0,
-  totalCandidate:0,
+  totalCPGreen: 0,
+  totalCPOrange: 0,
+  totalCPRed: 0,
+  totalCandidate: 0,
   progressTotalUsers: 0,
   progressTotalSeafarer: 0,
   progressTotalProfessional: 0,
@@ -336,21 +336,19 @@ const DashboardProvider = (props: Props) => {
     setOnLoading(false)
   }
 
-  const userCompletionPercentage = async (candidate:string) => {
-
+  const userCompletionPercentage = async (candidate: string) => {
     setOnLoading(true)
     try {
-      const response = await HttpClient.get(AppConfig.baseUrl + `/dashboard/user-cp/?candidate=${candidate}`)
+      const response = await HttpClient.get(AppConfig.baseUrl + `/dashboard/user-cp/total/?candidate=${candidate}`)
 
-      if(response.status == 200){
-        const result = response.data as { data:any }
-        setTotalCPGreen(result?.data?.totalCPGreen || 50)
-        setTotalCPOrange(result?.data?.totalCPOrange || 30)
-        setTotalCPRed(result?.data?.totalCPRed || 20)
-        setTotalCandidate(result?.data?.totalCandidate || 100)
+      if (response.status == 200) {
+        const result = response.data as any
+        setTotalCPGreen(result?.totalCPGreen)
+        setTotalCPOrange(result?.totalCPOrange)
+        setTotalCPRed(result?.totalCPRed)
+        setTotalCandidate(result?.totalCandidate)
       }
-
-    }catch(err) { 
+    } catch (err) {
       console.log(err)
       setTotalCPGreen(50)
       setTotalCPOrange(30)
@@ -358,7 +356,6 @@ const DashboardProvider = (props: Props) => {
       setTotalCandidate(100)
     }
     setOnLoading(false)
-
   }
 
   const values = useMemo(
