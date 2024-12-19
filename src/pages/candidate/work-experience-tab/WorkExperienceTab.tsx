@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel, Typography, useMediaQuery } from '@mui/material'
+import { Button, Checkbox, CircularProgress, FormControlLabel, Typography, useMediaQuery } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { AppConfig } from 'src/configs/api'
@@ -31,7 +31,7 @@ export function calculateYearsAndMonths(startDate: any, endDate: any) {
 const WorkExperienceTab: React.FC<IWorkExperienceTabProps> = ({ dataUser }) => {
   const [noExperience, setNoExperience] = useState(dataUser?.no_experience)
   const [userWorkExperience, setUserWorkExperience] = useState<any[]>([])
-  const [loadingWorkExperience, setLoadingWorkExperience] = useState(false)
+  const [loadingWorkExperience, setLoadingWorkExperience] = useState(true)
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const [openAddModalWE, setOpenAddModalWE] = useState(false)
@@ -89,6 +89,16 @@ const WorkExperienceTab: React.FC<IWorkExperienceTabProps> = ({ dataUser }) => {
   useEffect(() => {
     loadExperience()
   }, [hookSignature])
+
+  if (loadingWorkExperience) {
+    return (
+      <>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <CircularProgress />
+        </Box>
+      </>
+    )
+  }
 
   return (
     <>
@@ -174,9 +184,9 @@ const WorkExperienceTab: React.FC<IWorkExperienceTabProps> = ({ dataUser }) => {
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              marginBottom: '32px',
+              marginBottom: '20px',
               gap: isMobile ? '40px' : 0,
-              marginTop: '32px'
+              marginTop: '20px'
             }}
           >
             <Box>

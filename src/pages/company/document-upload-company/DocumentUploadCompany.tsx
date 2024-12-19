@@ -1,7 +1,9 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Dialog,
+  DialogActions,
   DialogContent,
   Fade,
   FadeProps,
@@ -31,6 +33,9 @@ const DocumentUploadCompany = () => {
   const [documents, setDocuments] = useState<IDocument[]>([])
   const [loading, setLoading] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
+  const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
+  const [onLoadingDelete, setOnLoadingDelete] = useState(false)
+  const [docId, setDocId] = useState(null)
 
   const firstLoad = () => {
     setLoading(true)
@@ -51,12 +56,20 @@ const DocumentUploadCompany = () => {
     })
   }
 
-  const handleDeleteDocument = async (id: any) => {
-    const resp = await HttpClient.del(`/user/document/` + id)
+  const handleDeleteDocument = async () => {
+    setOnLoadingDelete(true)
+    const resp = await HttpClient.del(`/user/document/` + docId)
     if (resp.status != 200) {
       throw resp.data.message ?? 'Something went wrong!'
     }
     firstLoad()
+    setModalDeleteOpen(false)
+    setOnLoadingDelete(false)
+  }
+
+  const openModalDelete = (id: any) => {
+    setDocId(id)
+    setModalDeleteOpen(true)
   }
 
   useEffect(() => {
@@ -65,6 +78,73 @@ const DocumentUploadCompany = () => {
 
   return (
     <>
+      <Dialog open={modalDeleteOpen} maxWidth='sm' TransitionComponent={Transition}>
+        <DialogContent sx={{ padding: '0px' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '16px' }}>
+            <Box>
+              <Typography color={'#32487A'} fontWeight='700' fontSize={18}>
+                Delete Document
+              </Typography>
+            </Box>
+            <IconButton size='small' onClick={() => setModalDeleteOpen(!modalDeleteOpen)}>
+              <Icon icon='mdi:close' fontSize={'16px'} />
+            </IconButton>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              py: '32px',
+              px: '16px',
+              borderTop: '1px solid #F0F0F0',
+              borderBottom: '1px solid #F0F0F0'
+            }}
+          >
+            <Typography>Are you sure you want to delete this document?</Typography>
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ padding: '0px', display: 'flex', alignItems: 'center' }}>
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '16px',
+              gap: 4
+            }}
+          >
+            <Button
+              variant='contained'
+              size='small'
+              onClick={() => setModalDeleteOpen(!modalDeleteOpen)}
+              sx={{
+                background: '#DDD',
+                flex: 1,
+                border: 'none',
+                textTransform: 'capitalize',
+                color: '#404040',
+                '&:hover': {
+                  backgroundColor: 'initial'
+                }
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant='contained'
+              size='small'
+              onClick={() => handleDeleteDocument()}
+              sx={{ background: 'red', textTransform: 'capitalize', flex: 1 }}
+            >
+              {onLoadingDelete ? <CircularProgress size={25} style={{ color: 'white' }} /> : 'Delete'}
+            </Button>
+          </Box>
+        </DialogActions>
+      </Dialog>
+
       <Dialog fullWidth open={openDialog} maxWidth='md' scroll='body' TransitionComponent={Transition}>
         <DialogContent>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -192,7 +272,7 @@ const DocumentUploadCompany = () => {
                           </Typography>
                         </Box>
                       </Box>
-                      <IconButton onClick={() => handleDeleteDocument(d?.id)}>
+                      <IconButton onClick={() => openModalDelete(d?.id)}>
                         <Icon icon='ic:baseline-clear' />
                       </IconButton>
                     </Box>
@@ -227,7 +307,7 @@ const DocumentUploadCompany = () => {
                           </Typography>
                         </Box>
                       </Box>
-                      <IconButton onClick={() => handleDeleteDocument(d?.id)}>
+                      <IconButton onClick={() => openModalDelete(d?.id)}>
                         <Icon icon='ic:baseline-clear' />
                       </IconButton>
                     </Box>
@@ -262,7 +342,7 @@ const DocumentUploadCompany = () => {
                           </Typography>
                         </Box>
                       </Box>
-                      <IconButton onClick={() => handleDeleteDocument(d?.id)}>
+                      <IconButton onClick={() => openModalDelete(d?.id)}>
                         <Icon icon='ic:baseline-clear' />
                       </IconButton>
                     </Box>
