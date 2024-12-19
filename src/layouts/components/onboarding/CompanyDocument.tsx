@@ -133,7 +133,7 @@ const CompanyDocument = ({
   const [onLoading, setOnLoading] = useState(false)
 
   const firstLoad = async () => {
-    if (user && user.field_preference) {
+    if (user) {
       setValue('isCrewing', user.is_crewing)
     }
   }
