@@ -49,6 +49,7 @@ const EducationTab = () => {
 
   const [selectedItem, setSelectedItem] = useState<any>()
   const [openEditModal, setOpenEditModal] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const toggleDrawer = (toggle: boolean) => {
     setOpenDrawer(toggle)
@@ -59,10 +60,12 @@ const EducationTab = () => {
   }
 
   const fetchUserEducations = () => {
+    setLoading(true)
     HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100').then(response => {
       const educations = response?.data.educations
 
       setUserEducations(educations)
+      setLoading(false)
     })
   }
 
@@ -91,6 +94,16 @@ const EducationTab = () => {
   useEffect(() => {
     fetchUserEducations()
   }, [hookSignature])
+
+  if (loading) {
+    return (
+      <>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <CircularProgress />
+        </Box>
+      </>
+    )
+  }
 
   return (
     <>
@@ -205,7 +218,7 @@ const EducationTab = () => {
             justifyContent: 'center',
             alignItems: 'center',
             py: isMobile ? '64px' : '78px',
-            px: isMobile ? '24px' : '470px'
+            px: isMobile ? '24px' : '40px'
           }}
         >
           <Box
@@ -244,9 +257,9 @@ const EducationTab = () => {
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              marginBottom: '32px',
+              marginBottom: '20px',
               gap: isMobile ? '40px' : 0,
-              marginTop: '32px'
+              marginTop: '20px'
             }}
           >
             <Box>

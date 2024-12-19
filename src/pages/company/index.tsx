@@ -230,7 +230,7 @@ const Company = () => {
               }
         }
       >
-        <Box sx={{ marginBottom: '44px', marginTop: '20px' }}>
+        <Box sx={{ marginBottom: '20px' }}>
           <Typography color={'#32497A'} fontWeight='700' fontSize={32}>
             Company Builder
           </Typography>
