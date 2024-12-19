@@ -549,41 +549,7 @@ const Candidate = () => {
       )
     }
 
-    // for company
     return null
-    // return (
-    //   <Popper id='popper-profile-completion' open={open} anchorEl={anchorEl}>
-    //     <Box
-    //       sx={{
-    //         padding: '12px',
-    //         display: 'flex',
-    //         flexDirection: 'column',
-    //         justifyContent: 'center',
-    //         gap: '12px',
-    //         background: '#FFF',
-    //         borderRadius: '6px'
-    //       }}
-    //     >
-    //       <Box>
-    //         <Typography
-    //           sx={{
-    //             fontSize: '14px',
-    //             fontWeight: 700,
-    //             color: '#404040'
-    //           }}
-    //         >
-    //           Enhance Profile
-    //         </Typography>
-    //       </Box>
-    //       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-    //         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-    //           <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add Profile Picture</Typography>
-    //           <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
-    //         </Box>
-    //       </Box>
-    //     </Box>
-    //   </Popper>
-    // )
   }
 
   useEffect(() => {

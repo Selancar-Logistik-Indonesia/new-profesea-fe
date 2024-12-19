@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles'
 import StyledBadge from 'src/pages/notifications/StyleBadge'
 
 import MuiMenuItem, { MenuItemProps } from '@mui/material/MenuItem'
-import { Box, TypographyProps, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import { CustomAvatarProps } from 'src/@core/components/mui/avatar/types'
 import { getInitials } from 'src/@core/utils/get-initials'
@@ -16,24 +16,6 @@ import NotificationType from 'src/contract/types/notification_type'
 import NotificationsType from './NotificationsType'
 
 import FriendshipIssuingDialog from './FriendshipIssuingDialog'
-
-// ** Styled component for the subtitle in MenuItems
-const MenuItemSubtitle = styled(Typography)<TypographyProps>({
-  flex: '1 1 100%',
-  whiteSpace: 'break-spaces',
-  fontSize: '11px'
-})
-
-// ** Styled component for the title in MenuItems
-const MenuItemTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
-  fontWeight: 600,
-  flex: '1 1 100%',
-  overflow: 'hidden',
-  fontSize: '0.875rem',
-  whiteSpace: 'nowrap',
-  textOverflow: 'ellipsis',
-  marginBottom: theme.spacing(0.75)
-}))
 
 // ** Styled Avatar component
 const Avatar = styled(CustomAvatar)<CustomAvatarProps>({
@@ -53,18 +35,18 @@ const RenderAvatar = ({ notification }: { notification: NotificationsType }) => 
   const { avatarAlt, avatarIcon, avatarText, avatarColor, payload, type } = notification
 
   if (payload?.photo) {
-    return <Avatar alt={avatarAlt} src={payload?.photo} sx={{ width: '54px', height: '54px' }} />
+    return <Avatar alt={avatarAlt} src={payload?.photo} sx={{ width: 54, height: 54 }} />
   } else if (type == 'App\\Notifications\\ApplicantApplied' || type == 'App\\Notifications\\NewApplicantNotification') {
     return <Avatar sx={{ width: 54, height: 54 }} alt={avatarAlt} src={avatarIcon as any} />
   } else if (avatarIcon) {
     return (
-      <Avatar skin='light' color={avatarColor} sx={{ width: '54px', height: '54px' }}>
+      <Avatar skin='light' color={avatarColor} sx={{ width: 54, height: 54 }}>
         {avatarIcon}
       </Avatar>
     )
   } else {
     return (
-      <Avatar skin='light' color={avatarColor} sx={{ width: '54px', height: '54px' }}>
+      <Avatar skin='light' color={avatarColor} sx={{ width: 54, height: 54 }}>
         {getInitials(avatarText as string)}
       </Avatar>
     )
@@ -126,7 +108,7 @@ const NotificationItem = (props: { item: NotificationsType }) => {
   return (
     <>
       <MenuItem key={item.id} onClick={() => handleClick()}>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+        <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center', width: '100%' }}>
           {!item.read_at ? (
             <StyledBadge overlap='circular' anchorOrigin={{ vertical: 'top', horizontal: 'right' }} variant='dot'>
               <RenderAvatar notification={item} />
@@ -134,17 +116,49 @@ const NotificationItem = (props: { item: NotificationsType }) => {
           ) : (
             <RenderAvatar notification={item} />
           )}
-          <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Box sx={{ mx: 4 }}>
-              <MenuItemTitle sx={{ fontSize: '14px', fontWeight: 400, wordBreak: 'break-all', width: '85%' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'left',
+              gap: '6px'
+            }}
+          >
+            <Box
+              component='span'
+              sx={{
+                display: 'inline-block',
+                overflow: 'hidden',
+                whiteSpace: 'normal',
+                wordBreak: 'break-word'
+              }}
+            >
+              <Typography
+                component='span'
+                sx={{
+                  color: '#1F1F1F',
+                  fontSize: 14,
+                  fontWeight: 700
+                }}
+              >
+                {item.title}{' '}
+              </Typography>
+              <Typography
+                component='span'
+                sx={{
+                  color: '#1F1F1F',
+                  fontSize: 14,
+                  fontWeight: 400
+                }}
+              >
                 {item.subtitle}
-              </MenuItemTitle>
-              <MenuItemSubtitle variant='body2'> {item.meta}</MenuItemSubtitle>
+              </Typography>
             </Box>
+
+            <Typography sx={{ color: '#525252', fontSize: 12, fontWeight: 400 }}>{item.meta}</Typography>
           </Box>
         </Box>
       </MenuItem>
-
       {dialogOpen && item.type == NotificationType.connectRequest && (
         <FriendshipIssuingDialog item={item} dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} />
       )}

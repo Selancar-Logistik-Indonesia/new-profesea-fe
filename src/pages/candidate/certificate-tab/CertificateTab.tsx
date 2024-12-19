@@ -642,7 +642,11 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
   const renderProfesionalsCertificate = () => {
     return (
       <>
-        {itemData.length == 0 ? (
+        {loadingCertificate ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <CircularProgress />
+          </Box>
+        ) : itemData.length == 0 ? (
           <Box
             sx={{
               display: 'flex',
@@ -682,17 +686,15 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
               </Box>
             </Box>
           </Box>
-        ) : loadingCertificate ? (
-          <div>loading...</div>
         ) : (
           <div>
             <Box
               sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                marginBottom: '32px',
+                marginBottom: '20px',
                 gap: isMobile ? '40px' : 0,
-                marginTop: '56px'
+                marginTop: '20px'
               }}
             >
               <Box>

@@ -5,6 +5,7 @@ import CardUserStat from 'src/views/admin/dashboard/CardUserStat'
 import CardActiveAds from 'src/views/admin/dashboard/CardActiveAds'
 import TopLastJob from 'src/views/admin/dashboard/analytics/TopLastJob'
 import TopCategory from 'src/views/admin/dashboard/analytics/TopCategory'
+import CardCompletionPercetage from 'src/views/admin/dashboard/CardCompletionPercentage'
 
 const Home = () => {
   return (
@@ -14,7 +15,7 @@ const Home = () => {
           <CardUserStat />
         </Grid>
         <Grid item xs={12} sm={5} md={5}>
-          <CardActiveAds />
+          <CardCompletionPercetage />
         </Grid>
       </Grid>
 
@@ -27,6 +28,16 @@ const Home = () => {
       <Grid item xs={12} sm={6} md={4}>
         <TopCategory />
       </Grid>
+
+      <Grid container spacing={6} item xs={12} sm={12} md={12}>
+        <Grid item xs={12} sm={7} md={7}>
+          <CardActiveAds />
+        </Grid>
+        <Grid item xs={12} sm={5} md={5}>
+        
+        </Grid>
+      </Grid>
+
     </Grid>
   )
 }
