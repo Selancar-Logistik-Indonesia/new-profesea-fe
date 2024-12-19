@@ -78,7 +78,7 @@ const NotificationDropdown = (props: Props) => {
             fontSize: '14px',
             fontWeight: 700,
             borderRadius: '12px',
-            marginRight: '18px',
+            marginRight: '10px',
             ':hover': {
               cursor: 'pointer'
             }
@@ -90,11 +90,12 @@ const NotificationDropdown = (props: Props) => {
     return (
       <Typography
         sx={{
+          px: '8px',
           lineHeight: '16.8px',
           fontSize: '14px',
           fontWeight: 700,
           borderRadius: '12px',
-          marginRight: '18px',
+          marginRight: '10px',
           ':hover': {
             cursor: 'pointer'
           }
@@ -120,9 +121,7 @@ const NotificationDropdown = (props: Props) => {
     })
 
     if (response.status != 200) {
-      alert(response.data?.message ?? 'Unknow error')
-
-      return
+      return alert(response.data?.message ?? 'Unknown error')
     }
 
     const { notifications } = response.data as { notifications: { data: INotification[] } }
@@ -137,9 +136,7 @@ const NotificationDropdown = (props: Props) => {
     })
 
     if (response.status != 200) {
-      alert(response.data?.message ?? 'Unknow error')
-
-      return
+      return alert(response.data?.message ?? 'Unknown error')
     }
 
     const { notifications } = response.data as { notifications: { data: INotification[] } }
@@ -172,29 +169,30 @@ const NotificationDropdown = (props: Props) => {
         onClose={handleDropdownClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: direction === 'ltr' ? 'right' : 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: direction === 'ltr' ? 'right' : 'left' }}
+        sx={{ width: '379px', height: '596px' }}
       >
         <MenuItem
           disableRipple
           disableTouchRipple
-          sx={{ cursor: 'default', userSelect: 'auto', backgroundColor: 'transparent !important' }}
+          sx={{ cursor: 'default', backgroundColor: 'transparent !important' }}
         >
-          <Box sx={{ display: 'flex', justifyContent: 'left', alignItems: 'center', width: '100%' }}>
-            <Typography sx={{ cursor: 'text', fontWeight: 700, marginRight: '10px', fontSize: '16px' }}>
-              Notifications
-            </Typography>
+          <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center', width: '100%' }}>
+            <Typography sx={{ cursor: 'text', fontSize: '16px', fontWeight: 700 }}>Notifications</Typography>
             <CustomChip
               skin='light'
               size='small'
               color='primary'
               label={`${notifies.filter(e => !e.read_at).length}`}
-              sx={{ lineHeight: '16.8px', fontSize: '14px', fontWeight: 700, borderRadius: '5px' }}
+              sx={{ heigth: '25px', fontSize: '14px', fontWeight: 700, borderRadius: '3px' }}
             />
           </Box>
-          <Box>
-            <Button sx={{ textTransform: 'none' }} size='small' onClick={() => setShowMarkConfirm(!showMarkConfirm)}>
-              Mark as read
-            </Button>
-          </Box>
+          <Button
+            sx={{ textTransform: 'none', width: 'fit-content', px: '12px' }}
+            size='small'
+            onClick={() => setShowMarkConfirm(!showMarkConfirm)}
+          >
+            Mark as read
+          </Button>
         </MenuItem>
         <MenuItem
           disableRipple
@@ -224,11 +222,7 @@ const NotificationDropdown = (props: Props) => {
             </span>
           </Box>
           <Box>
-            <Button
-              sx={{ textTransform: 'none', fontSize: '14px', fontWeight: 400 }}
-              size='small'
-              href='/notifications'
-            >
+            <Button sx={{ textTransform: 'none', width: 'fit-content', px: '12px' }} size='small' href='/notifications'>
               See all
             </Button>
           </Box>
