@@ -170,7 +170,11 @@ const DocumentUploadCompany = () => {
         </DialogContent>
       </Dialog>
 
-      {documents?.length == 0 ? (
+      {loading ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <CircularProgress />
+        </Box>
+      ) : documents?.length == 0 ? (
         <Box
           sx={{
             display: 'flex',
@@ -211,8 +215,6 @@ const DocumentUploadCompany = () => {
             </Box>
           </Box>
         </Box>
-      ) : loading ? (
-        <div>loading...</div>
       ) : (
         <div>
           <Box
@@ -244,111 +246,117 @@ const DocumentUploadCompany = () => {
             </Box>
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <Box>
-              <Typography sx={{ color: '#303030', fontSize: 14, fontWeight: 700, mb: '6px' }}>NIB</Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                {documents
-                  .filter(d => d.document_type === 'M1')
-                  .map((d, index) => (
-                    <Box
-                      key={index}
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: '12px',
-                        background: '#FAFAFA',
-                        border: '1px solid #BFBFBF',
-                        borderRadius: '8px'
-                      }}
-                    >
-                      <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                        <Icon icon='ph:file-text' fontSize={24} />
-                        <Box
-                          onClick={() => window.open(d?.path, '_blank')}
-                          sx={{ display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
-                        >
-                          <Typography sx={{ color: '#303030', fontSize: 14, fontWeight: 700 }}>
-                            {d?.document_name}
-                          </Typography>
+            {documents.filter(d => d.document_type == 'M1').length != 0 && (
+              <Box>
+                <Typography sx={{ color: '#303030', fontSize: 14, fontWeight: 700, mb: '6px' }}>NIB</Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  {documents
+                    .filter(d => d.document_type === 'M1')
+                    .map((d, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          padding: '12px',
+                          background: '#FAFAFA',
+                          border: '1px solid #BFBFBF',
+                          borderRadius: '8px'
+                        }}
+                      >
+                        <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                          <Icon icon='ph:file-text' fontSize={24} />
+                          <Box
+                            onClick={() => window.open(d?.path, '_blank')}
+                            sx={{ display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
+                          >
+                            <Typography sx={{ color: '#303030', fontSize: 14, fontWeight: 700 }}>
+                              {d?.document_name}
+                            </Typography>
+                          </Box>
                         </Box>
+                        <IconButton onClick={() => openModalDelete(d?.id)}>
+                          <Icon icon='ic:baseline-clear' />
+                        </IconButton>
                       </Box>
-                      <IconButton onClick={() => openModalDelete(d?.id)}>
-                        <Icon icon='ic:baseline-clear' />
-                      </IconButton>
-                    </Box>
-                  ))}
+                    ))}
+                </Box>
               </Box>
-            </Box>
-            <Box>
-              <Typography sx={{ color: '#303030', fontSize: 14, fontWeight: 700, mb: '6px' }}>Menkumham</Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                {documents
-                  .filter(d => d.document_type === 'M2')
-                  .map((d, index) => (
-                    <Box
-                      key={index}
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: '12px',
-                        background: '#FAFAFA',
-                        border: '1px solid #BFBFBF',
-                        borderRadius: '8px'
-                      }}
-                    >
-                      <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                        <Icon icon='ph:file-text' fontSize={24} />
-                        <Box
-                          onClick={() => window.open(d?.path, '_blank')}
-                          sx={{ display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
-                        >
-                          <Typography sx={{ color: '#303030', fontSize: 14, fontWeight: 700 }}>
-                            {d?.document_name}
-                          </Typography>
+            )}
+            {documents.filter(d => d.document_type == 'M2').length != 0 && (
+              <Box>
+                <Typography sx={{ color: '#303030', fontSize: 14, fontWeight: 700, mb: '6px' }}>Menkumham</Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  {documents
+                    .filter(d => d.document_type === 'M2')
+                    .map((d, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          padding: '12px',
+                          background: '#FAFAFA',
+                          border: '1px solid #BFBFBF',
+                          borderRadius: '8px'
+                        }}
+                      >
+                        <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                          <Icon icon='ph:file-text' fontSize={24} />
+                          <Box
+                            onClick={() => window.open(d?.path, '_blank')}
+                            sx={{ display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
+                          >
+                            <Typography sx={{ color: '#303030', fontSize: 14, fontWeight: 700 }}>
+                              {d?.document_name}
+                            </Typography>
+                          </Box>
                         </Box>
+                        <IconButton onClick={() => openModalDelete(d?.id)}>
+                          <Icon icon='ic:baseline-clear' />
+                        </IconButton>
                       </Box>
-                      <IconButton onClick={() => openModalDelete(d?.id)}>
-                        <Icon icon='ic:baseline-clear' />
-                      </IconButton>
-                    </Box>
-                  ))}
+                    ))}
+                </Box>
               </Box>
-            </Box>
-            <Box>
-              <Typography sx={{ color: '#303030', fontSize: 14, fontWeight: 700, mb: '6px' }}>SIUPAKK</Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                {documents
-                  .filter(d => d.document_type === 'M3')
-                  .map((d, index) => (
-                    <Box
-                      key={index}
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: '12px',
-                        background: '#FAFAFA',
-                        border: '1px solid #BFBFBF',
-                        borderRadius: '8px'
-                      }}
-                    >
-                      <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                        <Icon icon='ph:file-text' fontSize={24} />
-                        <Box
-                          onClick={() => window.open(d?.path, '_blank')}
-                          sx={{ display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
-                        >
-                          <Typography sx={{ color: '#303030', fontSize: 14, fontWeight: 700 }}>
-                            {d?.document_name}
-                          </Typography>
+            )}
+            {documents.filter(d => d.document_type == 'M3').length != 0 && (
+              <Box>
+                <Typography sx={{ color: '#303030', fontSize: 14, fontWeight: 700, mb: '6px' }}>SIUPAKK</Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  {documents
+                    .filter(d => d.document_type === 'M3')
+                    .map((d, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          padding: '12px',
+                          background: '#FAFAFA',
+                          border: '1px solid #BFBFBF',
+                          borderRadius: '8px'
+                        }}
+                      >
+                        <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                          <Icon icon='ph:file-text' fontSize={24} />
+                          <Box
+                            onClick={() => window.open(d?.path, '_blank')}
+                            sx={{ display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
+                          >
+                            <Typography sx={{ color: '#303030', fontSize: 14, fontWeight: 700 }}>
+                              {d?.document_name}
+                            </Typography>
+                          </Box>
                         </Box>
+                        <IconButton onClick={() => openModalDelete(d?.id)}>
+                          <Icon icon='ic:baseline-clear' />
+                        </IconButton>
                       </Box>
-                      <IconButton onClick={() => openModalDelete(d?.id)}>
-                        <Icon icon='ic:baseline-clear' />
-                      </IconButton>
-                    </Box>
-                  ))}
+                    ))}
+                </Box>
               </Box>
-            </Box>
+            )}
           </Box>
         </div>
       )}
