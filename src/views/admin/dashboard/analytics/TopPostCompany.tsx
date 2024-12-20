@@ -142,7 +142,6 @@ const TopPostCompanyApp = () => {
                 </CardContent>
               </CardActionArea>
             </div>
-            <div style={{ height: 50 }}></div>
           </>
         )
       }}
