@@ -85,6 +85,8 @@ export default function AccountDatagrid(props: RoleGridProps) {
           color = 'warning'
         } else if (row.cp >= 70 && row.cp <= 100) {
           color = 'success'
+        } else {
+          color = 'error'
         }
 
         return (
