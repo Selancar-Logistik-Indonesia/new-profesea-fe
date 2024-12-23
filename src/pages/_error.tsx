@@ -46,7 +46,7 @@ const Error = ({ statusCode, error }: { statusCode: number; error?: any }) => {
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
         <BoxWrapper>
           <Typography variant='h1' sx={{ mb: 2.5 }}>
-            {statusCode || 401}
+            {statusCode || 500}
           </Typography>
           <Typography variant='h5' sx={{ mb: 2.5, fontSize: '1.5rem !important' }}>
             You are not authorized! 🔐
@@ -65,7 +65,8 @@ const Error = ({ statusCode, error }: { statusCode: number; error?: any }) => {
 
 Error.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
 Error.getInitialProps = async ({ res, err }: { res?: any; err?: any }) => {
-  const statusCode = res?.statusCode || err?.statusCode || 401
+  const statusCode = res?.statusCode || err?.statusCode || 500
+
   return { statusCode, error: err }
 }
 
