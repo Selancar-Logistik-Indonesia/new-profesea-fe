@@ -36,7 +36,7 @@ const Img = styled('img')(({ theme }) => ({
   }
 }))
 
-const Error401 = ({ statusCode, error }: { statusCode: number; error?: any }) => {
+const Error401 = ({ statusCode, error }: { statusCode?: number; error?: any }) => {
   if (error) {
     console.error('An error occurred:', error)
   }
