@@ -31,6 +31,7 @@ export default function DialogCalculateAllUserCP(props: IDialogCalculateAllUserP
     setLoading(true)
     try {
       const response = await HttpClient.get(`/public/data/usersId/`, {
+        type:"cp",
         limit: limit
       })
       const userResponse = response?.data?.data?.map((item: any) => {
