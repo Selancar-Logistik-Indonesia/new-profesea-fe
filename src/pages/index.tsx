@@ -40,7 +40,7 @@ const Main = () => {
         element.scrollIntoView({ behavior: 'smooth' })
       }, 2000)
     }
-  })
+  }, [])
 
   if (isNavigating) return <Spinner />
 
