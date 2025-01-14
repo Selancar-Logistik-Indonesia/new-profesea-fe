@@ -77,7 +77,11 @@ const OurBenefitView = () => {
   const { t } = useTranslation()
 
   return (
-    <Grid container sx={{ px: { xs: '24px', md: 0 }, display: 'flex', flexDirection: 'column', gap: '44px' }}>
+    <Grid
+      id='discoverSection'
+      container
+      sx={{ px: { xs: '24px', md: 0 }, display: 'flex', flexDirection: 'column', gap: '44px' }}
+    >
       <Typography sx={{ color: '#2D3436', fontSize: { xs: 22, md: 32 }, fontWeight: 700 }} align='center'>
         {t('landing_page.our_benefit.title')}
       </Typography>

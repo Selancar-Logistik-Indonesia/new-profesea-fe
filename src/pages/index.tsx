@@ -33,6 +33,15 @@ const Main = () => {
     }
   }, [auth])
 
+  useEffect(() => {
+    const element = document.getElementById('discoverSection')
+    if (element) {
+      setTimeout(() => {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }, 2000)
+    }
+  })
+
   if (isNavigating) return <Spinner />
 
   return (
