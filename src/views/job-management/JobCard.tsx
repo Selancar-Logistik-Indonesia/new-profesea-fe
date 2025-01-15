@@ -87,61 +87,26 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
       <Box sx={{ p: '16px', border: '1.5px solid #E7E7E7', borderRadius: '6px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              {job.category.employee_type === 'onship' ? (
-                <>
-                  <Typography sx={{ fontSize: 18, fontWeight: 700, textTransform: 'capitalize' }}>
-                    {job.job_title?.toLowerCase() || 'N/A'}
-                  </Typography>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                      <Icon icon='ph:anchor' fontSize={16} color='#32497A' />
-                      <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
-                        {job.category.name}, {job.role_type?.name ?? 'N/A'}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                      <Icon icon='ph:files-duotone' fontSize={16} color='#32497A' />
-                      <Typography sx={{ fontSize: 14, fontWeight: 400 }}>{job.contract_duration} months</Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                      <Icon icon='ph:sailboat-duotone' fontSize={16} color='#32497A' />
-                      <Typography sx={{ fontSize: 14, fontWeight: 400 }}>{job.vessel_type?.name ?? ''}</Typography>
-                    </Box>
-                  </Box>
-                </>
-              ) : (
-                <>
-                  <Typography sx={{ fontSize: 18, fontWeight: 700, textTransform: 'capitalize' }}>
-                    {job.job_title
-                      ? job.job_title.toLowerCase()
-                      : job.role_type.name
-                      ? job.role_type.name?.toLowerCase()
-                      : 'No Name'}
-                  </Typography>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                      <Icon icon='ph:circles-three-plus-duotone' fontSize={16} color='#32497A' />
-                      <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
-                        {job.rolelevel.levelName}, {job.category.name}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                      <Icon icon='ph:clock-duotone' fontSize={16} color='#32497A' />
-                      <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
-                        {job.work_arrangement}, {job.employment_type}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                      <Icon icon='ph:map-pin-duotone' fontSize={16} color='#32497A' />
-                      <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
-                        {job.city?.city_name}, {job.country.nicename}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </>
-              )}
-            </Box>
+            <Typography
+              sx={{
+                fontSize: 18,
+                fontWeight: 700,
+                textTransform: 'capitalize',
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                lineHeight: 1.4,
+                minHeight: '2.8em'
+              }}
+            >
+              {job.job_title
+                ? job.job_title.toLowerCase()
+                : job.role_type.name
+                ? job.role_type.name?.toLowerCase()
+                : 'N/A'}
+            </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Box
                 onClick={() => handleStatus(job.id, job.is_active)}
@@ -216,6 +181,61 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
               </Menu>
             </Box>
           </Box>
+          {job.category.employee_type === 'onship' ? (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <Icon icon='ph:anchor' fontSize={16} color='#32497A' style={{ flexShrink: 0 }} />
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    fontWeight: 400,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                  }}
+                >
+                  {job.category.name}, {job.role_type?.name ?? 'N/A'}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <Icon icon='ph:files-duotone' fontSize={16} color='#32497A' />
+                <Typography sx={{ fontSize: 14, fontWeight: 400 }}>{job.contract_duration} months</Typography>
+              </Box>
+              <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <Icon icon='ph:sailboat-duotone' fontSize={16} color='#32497A' />
+                <Typography sx={{ fontSize: 14, fontWeight: 400 }}>{job.vessel_type?.name ?? ''}</Typography>
+              </Box>
+            </Box>
+          ) : (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <Icon icon='ph:circles-three-plus-duotone' fontSize={16} color='#32497A' style={{ flexShrink: 0 }} />
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    fontWeight: 400,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                  }}
+                >
+                  {job.rolelevel.levelName}, {job.category.name}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <Icon icon='ph:clock-duotone' fontSize={16} color='#32497A' />
+                <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
+                  {job.work_arrangement}, {job.employment_type}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <Icon icon='ph:map-pin-duotone' fontSize={16} color='#32497A' />
+                <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
+                  {job.city?.city_name}, {job.country.nicename}
+                </Typography>
+              </Box>
+            </Box>
+          )}
           <Grid
             container
             sx={{
