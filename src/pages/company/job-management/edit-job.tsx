@@ -12,8 +12,6 @@ const EditJob = () => {
   const searchParams = useSearchParams()
   const id = searchParams.get('id')
   const router = useRouter()
-
-  if (!id) return router.back()
   const [job, setJob] = useState<Job | null>(null)
 
   const firstLoad = () => {
@@ -27,6 +25,8 @@ const EditJob = () => {
   useEffect(() => {
     firstLoad()
   }, [])
+
+  if (!id) return router.back()
 
   return (
     <>

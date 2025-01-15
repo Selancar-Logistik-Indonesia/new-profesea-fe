@@ -419,6 +419,7 @@ const calculateDaysDifference = (start: any, end: any) => {
 
     const diffInMs = end - start;
     const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+
     return diffInDays;
 }
 

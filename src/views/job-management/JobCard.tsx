@@ -20,7 +20,7 @@ interface StatusCardProps {
 }
 
 const StatusCard = (props: StatusCardProps) => {
-  const { id, label, total, backgroundColor, icon, iconColor, link } = props
+  const { id, label, total, backgroundColor, icon, iconColor } = props
 
   return (
     <Grid item sx={{ flexBasis: '33%', p: '16px 20px' }} flexDirection='column'>
@@ -91,7 +91,7 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
               {job.category.employee_type === 'onship' ? (
                 <>
                   <Typography sx={{ fontSize: 18, fontWeight: 700, textTransform: 'capitalize' }}>
-                    {job.job_title?.toLowerCase() || ''}
+                    {job.job_title?.toLowerCase() || 'N/A'}
                   </Typography>
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
