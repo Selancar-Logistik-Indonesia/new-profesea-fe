@@ -246,17 +246,27 @@ const MONTH_NAMES = [
 
 const shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-const getMonthYear = (date: string | null, shortMoths?: boolean) => {
+const getMonthYear = (date: string | null, shortMonths?: boolean) => {
     if (!date) return null
 
     const newString = date.split('-')
     const year = newString[0]
     const monthIndex = parseInt(newString[1], 10)
     if (!isNaN(monthIndex) && monthIndex >= 1 && monthIndex <= 12) {
-        return `${shortMoths ? shortMonthNames[monthIndex - 1] : MONTH_NAMES[monthIndex - 1]} ${year}`
+        return `${shortMonths ? shortMonthNames[monthIndex - 1] : MONTH_NAMES[monthIndex - 1]} ${year}`
     } else {
         return date
     }
+}
+
+const getDateMonth = (date: Date | null, shortMonths?: boolean, withYear?: boolean) => {
+    if (!date) return null
+
+    const today = date.getDate()
+    const month = date.getMonth()
+    const year = date.getFullYear()
+
+    return `${today} ${shortMonths ? shortMonthNames[month] : MONTH_NAMES[month]} ${withYear ? year : ''}`
 }
 
 function getFormattedDate(date: any, prefomattedDate: any = false, hideYear: any = false) {
@@ -402,6 +412,30 @@ const validateAutomatedContentModeration = (content: string) => {
     return { errorMessage, censoredContent }
 }
 
+const calculateDaysDifference = (start: any, end: any) => {
+    if (!start || !end) return null
+
+    if (start > end) return 'Expired'
+
+    const diffInMs = end - start;
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+
+    return diffInDays;
+}
+
+const dateProgress = (start: Date, end: Date) => {
+    if (!start || !end) return null
+
+    const current = Date.now()
+
+    const totalDuration = end.getTime() - start.getTime()
+    const elapsedDuration = Math.max(0, current - start.getTime())
+
+    const progress = (elapsedDuration / totalDuration) * 100
+
+    return Math.min(100, progress)
+}
+
 export {
     getCleanErrorMessage,
     removeFirstZeroChar,
@@ -427,7 +461,10 @@ export {
     toMegaByte,
     calculateAge,
     getMonthYear,
+    getDateMonth,
     timeAgo,
     timeCreated,
-    validateAutomatedContentModeration
+    validateAutomatedContentModeration,
+    calculateDaysDifference,
+    dateProgress
 }
