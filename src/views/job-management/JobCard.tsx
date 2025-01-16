@@ -92,20 +92,29 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
                 fontSize: 18,
                 fontWeight: 700,
                 textTransform: 'capitalize',
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
+                display: 'flex',
+                alignItems: 'center',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-                lineHeight: 1.4,
-                minHeight: '2.8em'
+                lineHeight: 1.3,
+                minHeight: '2.6em',
+                '& > span': {
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  width: '100%'
+                }
               }}
             >
-              {job.job_title
-                ? job.job_title.toLowerCase()
-                : job.role_type.name
-                ? job.role_type.name?.toLowerCase()
-                : 'N/A'}
+              <span>
+                {job.category.employee_type === 'onship'
+                  ? job.role_type?.name ?? 'N/A'
+                  : job.job_title
+                  ? job.job_title.toLowerCase()
+                  : job.role_type?.name
+                  ? job.role_type.name.toLowerCase()
+                  : 'N/A'}
+              </span>
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Box
@@ -194,7 +203,7 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
                     textOverflow: 'ellipsis'
                   }}
                 >
-                  {job.category.name}, {job.role_type?.name ?? 'N/A'}
+                  {job.category?.name ?? 'N/A'}, {job.job_title ?? 'N/A'}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
@@ -219,19 +228,19 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
                     textOverflow: 'ellipsis'
                   }}
                 >
-                  {job.rolelevel.levelName}, {job.category.name}
+                  {job.rolelevel?.levelName ?? 'N/A'}, {job.category?.name ?? 'N/A'}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                 <Icon icon='ph:clock-duotone' fontSize={16} color='#32497A' />
                 <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
-                  {job.work_arrangement}, {job.employment_type}
+                  {job.work_arrangement ?? 'N/A'}, {job.employment_type ?? 'N/A'}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                 <Icon icon='ph:map-pin-duotone' fontSize={16} color='#32497A' />
                 <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
-                  {job.city?.city_name}, {job.country.nicename}
+                  {job.city?.city_name ?? 'N/A'}, {job.country.nicename ?? 'N/A'}
                 </Typography>
               </Box>
             </Box>
@@ -291,7 +300,7 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
                   borderRadius: '8px',
                   width: `${dateProgress(posted_at, expired_at)}%`,
                   height: '6px',
-                  backgroundColor: progress == 'Expired' ? '#D1D1D1' : '#0B58A6'
+                  backgroundColor: progress === 'Expired' || job.is_active === false ? '#868686' : '#0B58A6'
                 }}
               />
             </Box>
