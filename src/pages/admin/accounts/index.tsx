@@ -3,7 +3,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
-import { Autocomplete, Box, Button, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, Typography, Menu, MenuItem } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import DialogAdd from './DialogAdd'
 import AccountDatagrid, { RowItem } from './AccountDatagrid'
@@ -21,6 +21,7 @@ import ITeam from 'src/contract/models/team'
 import DialogImport from './DialogImport'
 import DialogView from './DialogView'
 import DialogCalculateAllUserPoint from './DialogCalculateAllUserPoint'
+import DialogCalculateAllUserCP from './DialogCalculateAllUserCP'
 import CalculateIcon from '@mui/icons-material/Calculate'
 
 const UserScreen = () => {
@@ -36,6 +37,15 @@ const UserScreen = () => {
     { employee_type: 'offship', label: 'Off-Ship' }
   ]
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const openMenuCalculation = Boolean(anchorEl)
+  const handleClickClaculation = (event: any) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleCloseCalculation = () => {
+    setAnchorEl(null)
+  }
+
   const [hookSignature, setHookSignature] = useState(v4())
   const [onLoading, setOnLoading] = useState(false)
   const [openAddModal, setOpenAddModal] = useState(false)
@@ -44,6 +54,7 @@ const UserScreen = () => {
   const [openEditModal, setOpenEditModal] = useState(false)
   const [openViewModal, setOpenViewModal] = useState(false)
   const [openDialogCalculate, setOpenDialogCalculate] = useState(false)
+  const [openDialogCP, setOpenDialogCP] = useState(false)
   const [dataSheet, setDataSheet] = useState<RowItem[]>([])
   const [selectedItem, setSelectedItem] = useState<Account | null>(null)
   const [teams, getTeams] = useState<any[]>([])
@@ -77,6 +88,7 @@ const UserScreen = () => {
           type: translate[row.employee_type],
           plan: row.plan_type,
           point: row.point,
+          cp: row.completion_percentage,
           verified_at: row.verified_at,
           registered_at: row.created_at,
           resend: {
@@ -280,14 +292,24 @@ const UserScreen = () => {
                 </Grid>
                 <Grid item sx={{ mr: 6 }}>
                   <Box>
-                    <Button
-                      variant='contained'
-                      size='small'
-                      onClick={() => setOpenDialogCalculate(!openDialogCalculate)}
-                    >
-                      <CalculateIcon fontSize='large' color={'info'} style={{ fontSize: '14px', margin: 3 }} />{' '}
-                      Calculate Point
+                    <Button variant='contained' size='small' onClick={handleClickClaculation}>
+                      <CalculateIcon fontSize='large' color={'info'} style={{ fontSize: '14px', margin: 3 }} /> User
+                      Calculation
                     </Button>
+                    <Menu
+                      id='calculation-menu'
+                      anchorEl={anchorEl}
+                      open={openMenuCalculation}
+                      onClose={handleCloseCalculation}
+                      MenuListProps={{
+                        'aria-labelledby': 'basic-button'
+                      }}
+                    >
+                      <MenuItem onClick={() => setOpenDialogCalculate(!openDialogCalculate)}>Calculate Point </MenuItem>
+                      <MenuItem onClick={() => setOpenDialogCP(!openDialogCP)}>
+                        Calculate Percentage Completion
+                      </MenuItem>
+                    </Menu>
                   </Box>
                 </Grid>
               </Grid>
@@ -343,6 +365,7 @@ const UserScreen = () => {
         visible={openDialogCalculate}
         onCloseClick={() => setOpenDialogCalculate(!openDialogCalculate)}
       />
+      <DialogCalculateAllUserCP visible={openDialogCP} onCloseClick={() => setOpenDialogCP(!openDialogCP)} />
     </>
   )
 }

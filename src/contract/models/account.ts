@@ -27,6 +27,7 @@ interface Account {
     team: ITeam
     documents: any,
     point: number,
+    completion_percentage:number
 }
 
 export default Account;
