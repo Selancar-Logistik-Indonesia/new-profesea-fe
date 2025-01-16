@@ -10,6 +10,7 @@ import { Button, CircularProgress, DialogActions } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { toast } from 'react-hot-toast'
 import Job from 'src/contract/models/job'
+import { isAxiosError } from 'axios'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -43,9 +44,16 @@ const CompleteDialog = (props: ViewProps) => {
       setOnLoading(false)
       props.onClose()
     } catch (error) {
+      if (isAxiosError(error)) {
+        if (error?.response?.status === 400) {
+          toast.error(`${error?.response?.data?.message}`)
+        }
+      } else {
+        toast.error('An error occurred while applying.')
+      }
       props.setApply(false)
       setOnLoading(false)
-      toast.error('An error occurred while applying.')
+      props.onClose()
     }
   }
 
