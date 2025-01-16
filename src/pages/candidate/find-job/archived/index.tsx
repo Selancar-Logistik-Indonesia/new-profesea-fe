@@ -50,8 +50,8 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
 
 const JobArchived = () => {
   // pagination
-  const take = 15
-  const [page, setPage] = useState(1)
+  const take = 999
+  const page = 1
 
   // breakpoint
   const theme = useTheme()
