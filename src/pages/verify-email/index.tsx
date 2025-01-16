@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 
 const VerifyEmail = () => {
   const router = useRouter()
-  const { user, refreshSession } = useAuth()
+  const { user } = useAuth()
   const { t } = useTranslation()
 
   const [onLoading, setOnLoading] = useState(false)
@@ -50,7 +50,6 @@ const VerifyEmail = () => {
   }
 
   const checkEmailVerification = async () => {
-    refreshSession()
     if (!user || !user.email) {
       toast.error('Email not found!')
 
@@ -59,7 +58,6 @@ const VerifyEmail = () => {
 
     setOnLoading(true)
     try {
-      await refreshSession()
       await HttpClient.get(AppConfig.baseUrl + '/user-management/check-email-verified', { email: user.email })
       toast.success('Email verified!')
       if (user.last_step === 'completed') {
