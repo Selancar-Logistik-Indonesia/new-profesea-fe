@@ -4,11 +4,13 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { useAuth } from 'src/hooks/useAuth'
 
-export default function ButtonFollowCompany(props: {
+interface IPropsButtonFollowComapny {
   user_id: number
   friend_id: number
-  getConnections: () => void | undefined
-}) {
+  getConnections?: () => void
+}
+
+export default function ButtonFollowCompany(props: IPropsButtonFollowComapny) {
   const [isLoading, setIsLoading] = useState(false)
   const [checkFollowship, setCheckFollowship] = useState<any>(null)
   const { user } = useAuth()
