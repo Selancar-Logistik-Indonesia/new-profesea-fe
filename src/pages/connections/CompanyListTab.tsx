@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import {
   Avatar,
   Box,
-  Button,
   Divider,
   TextField,
   Typography,
@@ -18,19 +17,16 @@ import {
 } from '@mui/material'
 
 import SearchIcon from '@mui/icons-material/Search'
-
-import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-import DialogRemoveConnection from './DialogRemoveConnection'
+
+import ButtonFollowCompany from 'src/layouts/components/ButtonFollowCompany'
 
 export default function CompanyListTab(props: any) {
   const [page, setPage] = React.useState(1)
   const [connections, setConnections] = useState([])
   const [totalConnection, setTotalConnection] = useState(0)
   const [search, setSearch] = useState('')
-  const [selectedUser, setSelectedUser] = useState<IUser>()
-  const [showRemoveConnectionDialog, setShowRemoveConnectionDialog] = useState(false)
 
   const getConnections = () => {
     HttpClient.get(AppConfig.baseUrl + '/user/followed-companies/', {
@@ -145,16 +141,11 @@ export default function CompanyListTab(props: any) {
                   }
                 />
                 <Box>
-                  <Button
-                    variant='contained'
-                    size='small'
-                    sx={{ marginRight: 2, fontSize: 14, textTransform: 'none', fontWeight: 300, p: '8px 12px' }}
-                    onClick={() => {
-                      setSelectedUser(item)
-                    }}
-                  >
-                    Following
-                  </Button>
+                  <ButtonFollowCompany
+                    friend_id={Number(item?.friend_id)}
+                    user_id={Number(item?.user_id)}
+                    getConnections={getConnections}
+                  />
                 </Box>
               </ListItem>
               <Divider variant='inset' component='hr' sx={{ ml: '10px' }} />
@@ -188,13 +179,6 @@ export default function CompanyListTab(props: any) {
           </Stack>
         </Grid>
       </Grid>
-
-      <DialogRemoveConnection
-        selectedItem={selectedUser}
-        visible={showRemoveConnectionDialog}
-        onCloseClick={() => setShowRemoveConnectionDialog(!showRemoveConnectionDialog)}
-        loadConnection={getConnections}
-      />
     </>
   )
 }
