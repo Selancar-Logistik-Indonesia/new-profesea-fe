@@ -321,7 +321,7 @@ const JobSaved = () => {
             </Box>
             {item?.job?.category?.employee_type === 'onship' ? (
               <Box sx={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', gap: '20px' }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '80px' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   <Typography fontSize={14} fontWeight={400} color={'#999'}>
                     {item?.job?.contract_duration ? `${item?.job?.contract_duration} months` : '-'}
                   </Typography>
@@ -335,7 +335,7 @@ const JobSaved = () => {
               </Box>
             ) : (
               <Box sx={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', gap: '20px' }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '80px' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   <Typography fontSize={14} fontWeight={400} color={'#999'}>
                     {item?.job?.work_arrangement ? item?.job?.work_arrangement : '-'}
                   </Typography>
@@ -372,34 +372,64 @@ const JobSaved = () => {
 
     if (dataSaved.length == 0) {
       return (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh'
-          }}
-        >
-          <Box sx={{ textAlign: 'center' }}>
-            <Image
-              src={'/images/rafiki.png'}
-              alt='assets-applied'
-              width={isMobile ? 300 : 350}
-              height={isMobile ? 200 : 260}
-              style={{
-                margin: '0 auto'
-              }}
-            />
-            <Typography
-              sx={{ fontSize: '18px', fontWeight: 700, color: '#32497A', marginTop: '40px', marginBottom: '24px' }}
-            >
-              You haven’t save for any jobs yet
-            </Typography>
-            <Button variant='outlined' size='small' sx={{ textTransform: 'capitalize' }} onClick={handleBrowseJob}>
-              Browse Job
-            </Button>
+        <CardContent>
+          <Grid container spacing={4} sx={{ marginBottom: '32px' }}>
+            <Grid item xs={12} md={9}>
+              <TextField
+                variant='outlined'
+                size='small'
+                placeholder='Search'
+                onChange={e => handleSearch(e.target.value)}
+                sx={{ width: isMobile ? '100%' : '80%' }}
+              />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                <Typography width={'80px'}>Sort By :</Typography>
+                <FormControl fullWidth>
+                  <Select
+                    labelId='demo-simple-select-label'
+                    id='demo-simple-select'
+                    value={sortBy}
+                    onChange={handleChangeSelect}
+                    size='small'
+                  >
+                    <MenuItem value={'desc'}>Newest to Oldest </MenuItem>
+                    <MenuItem value={'asc'}>Oldest to Newest</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            </Grid>
+          </Grid>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100vh'
+            }}
+          >
+            <Box sx={{ textAlign: 'center' }}>
+              <Image
+                src={'/images/rafiki.png'}
+                alt='assets-applied'
+                width={isMobile ? 300 : 350}
+                height={isMobile ? 200 : 260}
+                style={{
+                  margin: '0 auto'
+                }}
+              />
+              <Typography
+                sx={{ fontSize: '18px', fontWeight: 700, color: '#32497A', marginTop: '40px', marginBottom: '24px' }}
+              >
+                You haven’t save for any jobs yet
+              </Typography>
+              <Button variant='outlined' size='small' sx={{ textTransform: 'capitalize' }} onClick={handleBrowseJob}>
+                Browse Job
+              </Button>
+            </Box>
           </Box>
-        </Box>
+        </CardContent>
       )
     }
 

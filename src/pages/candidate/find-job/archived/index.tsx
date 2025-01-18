@@ -76,7 +76,6 @@ const JobArchived = () => {
         `/job/applicant/archives?page=${page}&take=${take}&search=${search}&sort=${sortBy}`
       )
 
-      console.log(response)
       setDataArchived(response?.data?.data?.data)
     } catch (error) {
       console.error('Error fetching data:', error)
@@ -160,57 +159,6 @@ const JobArchived = () => {
                   </TruncatedTypography>
                 </Box>
               </Box>
-              <Box
-                ml={1}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'right',
-                  gap: '2px'
-                }}
-              >
-                {/* <Icon
-                  icon={'iconoir:bookmark-solid'}
-                  color='rgba(50, 73, 122, 1)'
-                  fontSize={'20px'}
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => handleDeleteJobSave(item?.id)}
-                />
-                <IconButton
-                  aria-label='dot-menu'
-                  size='small'
-                  type='button'
-                  onClick={event => handleClick(event, item.id)}
-                >
-                  <Icon icon={'ph:dots-three-bold'} color='rgba(50, 73, 122, 1)' fontSize={'20px'} />
-                </IconButton> */}
-                {/* <Popper
-                  id={`popper-${item.id}`}
-                  open={openPopperId === item.id}
-                  anchorEl={openPopperId === item.id ? anchorEl : null}
-                  placement='bottom-end'
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '10px',
-                      padding: '8px',
-                      borderRadius: '4px',
-                      background: '#FFF',
-                      boxShadow: '2px 2px 5px -1px rgba(0, 0, 0, 0.08)'
-                    }}
-                  >
-                    <Box
-                      onClick={() => handleApply(item?.id, item?.job?.license, item?.job?.category, item?.job)}
-                      sx={{ display: 'flex', gap: '10px', cursor: 'pointer' }}
-                    >
-                      <Icon icon={'clarity:cursor-hand-click-line'} width={20} height={20} />
-                      <Typography>Apply Job</Typography>
-                    </Box>
-                  </Box>
-                </Popper> */}
-              </Box>
             </Box>
             {item?.job?.category?.employee_type === 'onship' ? (
               <Box sx={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', gap: '20px' }}>
@@ -265,34 +213,64 @@ const JobArchived = () => {
 
     if (dataArchived.length == 0) {
       return (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh'
-          }}
-        >
-          <Box sx={{ textAlign: 'center' }}>
-            <Image
-              src={'/images/rafiki.png'}
-              alt='assets-applied'
-              width={isMobile ? 300 : 350}
-              height={isMobile ? 200 : 260}
-              style={{
-                margin: '0 auto'
-              }}
-            />
-            <Typography
-              sx={{ fontSize: '18px', fontWeight: 700, color: '#32497A', marginTop: '40px', marginBottom: '24px' }}
-            >
-              You haven’t save for any jobs yet
-            </Typography>
-            <Button variant='outlined' size='small' sx={{ textTransform: 'capitalize' }} onClick={handleBrowseJob}>
-              Browse Job
-            </Button>
+        <CardContent>
+          <Grid container spacing={4} sx={{ marginBottom: '32px' }}>
+            <Grid item xs={12} md={9}>
+              <TextField
+                variant='outlined'
+                size='small'
+                placeholder='Search'
+                onChange={e => handleSearch(e.target.value)}
+                sx={{ width: isMobile ? '100%' : '80%' }}
+              />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                <Typography width={'80px'}>Sort By :</Typography>
+                <FormControl fullWidth>
+                  <Select
+                    labelId='demo-simple-select-label'
+                    id='demo-simple-select'
+                    value={sortBy}
+                    onChange={handleChangeSelect}
+                    size='small'
+                  >
+                    <MenuItem value={'desc'}>Newest to Oldest </MenuItem>
+                    <MenuItem value={'asc'}>Oldest to Newest</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            </Grid>
+          </Grid>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100vh'
+            }}
+          >
+            <Box sx={{ textAlign: 'center' }}>
+              <Image
+                src={'/images/rafiki.png'}
+                alt='assets-applied'
+                width={isMobile ? 300 : 350}
+                height={isMobile ? 200 : 260}
+                style={{
+                  margin: '0 auto'
+                }}
+              />
+              <Typography
+                sx={{ fontSize: '18px', fontWeight: 700, color: '#32497A', marginTop: '40px', marginBottom: '24px' }}
+              >
+                You haven’t save for any jobs yet
+              </Typography>
+              <Button variant='outlined' size='small' sx={{ textTransform: 'capitalize' }} onClick={handleBrowseJob}>
+                Browse Job
+              </Button>
+            </Box>
           </Box>
-        </Box>
+        </CardContent>
       )
     }
 

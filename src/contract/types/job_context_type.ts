@@ -26,7 +26,7 @@ type JobContextType = {
     sortBy?: any
   }) => Promise<void>
   handleJobSave: (jobId: any) => Promise<void>
-  handleDeleteJobSave: (jobId: any) => Promise<void>
+  handleDeleteJobSave: (jobId: any, jobjobSaveId: any) => Promise<void>
 }
 
 export default JobContextType

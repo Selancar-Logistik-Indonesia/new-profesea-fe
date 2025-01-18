@@ -162,7 +162,7 @@ const CustomPaginationItem = (props: any) => {
 }
 
 const AllJobApplied = () => {
-  const pageItems = 10
+  const pageItems = 9
   const router = useRouter()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -274,7 +274,7 @@ const AllJobApplied = () => {
       const companyPhoto = item?.job?.company?.photo ? item?.job?.company?.photo : '/images/avatars/default-user.png'
       const companyNameUrl = item?.job?.company.name.toLowerCase().split(' ').join('-')
       const jobTitleUrl = item?.job?.job_title ? item?.job?.job_title?.toLowerCase().split(' ').join('-') : ''
-      
+
       return (
         <Grid item xs={12} md={6} lg={4} key={item?.id}>
           <Paper
@@ -313,7 +313,7 @@ const AllJobApplied = () => {
                     marginLeft: '20px'
                   }}
                 >
-                  <Link href={`/candidate/job/applied/${companyNameUrl}/${item?.id}/${jobTitleUrl}`}>
+                  <Link href={`/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`}>
                     <TruncatedTypography line={2} fontWeight='bold' mb={0.5} textTransform='capitalize'>
                       {item?.job?.role_type?.name ?? '-'}
                     </TruncatedTypography>
@@ -370,8 +370,15 @@ const AllJobApplied = () => {
               )}
             </Box>
             {item?.job?.category?.employee_type === 'onship' ? (
-              <Box sx={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', gap: '20px' }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '80px' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: isMobile ? 'row' : 'column',
+                  gap: '20px',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   <Typography fontSize={14} fontWeight={400} color={'#999'}>
                     {item?.job?.contract_duration ? `${item?.job?.contract_duration} months` : '-'}
                   </Typography>
@@ -390,16 +397,22 @@ const AllJobApplied = () => {
                     borderRadius: '4px',
                     background: statusColor(item?.status)?.bgColor,
                     color: statusColor(item?.status)?.textColor,
-                    alignSelf: isMobile ? 'end' : 'auto',
-                    textAlign: 'center',
-                    marginLeft: isMobile ? '0px' : '80px'
+                    alignSelf: 'end',
+                    textAlign: 'center'
                   }}
                 >
                   {ApplicantStatusOptions.find(a => a.status === item?.status)?.title}
                 </Box>
               </Box>
             ) : (
-              <Box sx={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', gap: '20px' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: isMobile ? 'row' : 'column',
+                  gap: '20px',
+                  justifyContent: 'space-between'
+                }}
+              >
                 <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '80px' }}>
                   <Typography fontSize={14} fontWeight={400} color={'#999'}>
                     {item?.job?.work_arrangement ? item?.job?.work_arrangement : '-'}
@@ -419,9 +432,8 @@ const AllJobApplied = () => {
                     borderRadius: '4px',
                     background: statusColor(item?.status)?.bgColor,
                     color: statusColor(item?.status)?.textColor,
-                    alignSelf: isMobile ? 'end' : 'auto',
-                    textAlign: 'center',
-                    marginLeft: isMobile ? '0px' : '80px'
+                    alignSelf: 'end',
+                    textAlign: 'center'
                   }}
                 >
                   {ApplicantStatusOptions.find(a => a.status === item?.status)?.title}
@@ -457,36 +469,93 @@ const AllJobApplied = () => {
       )
     }
 
-    if (dataApplied.length == 0 && !applicantStatusFilter) {
+    if (dataApplied.length == 0) {
       return (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh'
-          }}
-        >
-          <Box sx={{ textAlign: 'center' }}>
-            <Image
-              src={'/images/rafiki.png'}
-              alt='assets-applied'
-              width={isMobile ? 300 : 350}
-              height={isMobile ? 200 : 260}
-              style={{
-                margin: '0 auto'
+        <>
+          <CardContent>
+            <Grid container spacing={4} sx={{ marginBottom: '32px' }}>
+              <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                <TextField
+                  fullWidth
+                  variant='outlined'
+                  size='small'
+                  placeholder='Search'
+                  onChange={e => handleSearch(e.target.value)}
+                />
+                <Autocomplete
+                  id='applicant-status'
+                  disablePortal
+                  options={ApplicantStatusOptions}
+                  getOptionLabel={option => option.title}
+                  renderInput={params => <TextField {...params} size='small' label='Applicant Status' />}
+                  value={applicantStatusFilter}
+                  onChange={(event: any, newValue) => {
+                    setPage(1)
+                    newValue ? setApplicantStatusFilter(newValue) : setApplicantStatusFilter(null)
+                  }}
+                  sx={{ width: isMobile ? '100%' : '50%' }}
+                />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ color: 'black' }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'flex-end' }}>
+                    <Box sx={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                      <Typography width={'80px'}>Sort By :</Typography>
+                      <FormControl fullWidth>
+                        <Select
+                          labelId='demo-simple-select-label'
+                          id='demo-simple-select'
+                          value={sortBy}
+                          onChange={handleChangeSelect}
+                          size='small'
+                        >
+                          <MenuItem value={'desc'}>Newest to Oldest </MenuItem>
+                          <MenuItem value={'asc'}>Oldest to Newest</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Box>
+                    <Button
+                      variant='outlined'
+                      size='small'
+                      sx={{ textTransform: 'capitalize' }}
+                      onClick={handleClearFilter}
+                    >
+                      Clear Filter
+                    </Button>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh'
               }}
-            />
-            <Typography
-              sx={{ fontSize: '18px', fontWeight: 700, color: '#32497A', marginTop: '40px', marginBottom: '24px' }}
             >
-              You haven’t applied for any jobs yet
-            </Typography>
-            <Button variant='outlined' size='small' sx={{ textTransform: 'capitalize' }} onClick={handleBrowseJob}>
-              Browse Job
-            </Button>
-          </Box>
-        </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <Image
+                  src={'/images/rafiki.png'}
+                  alt='assets-applied'
+                  width={isMobile ? 300 : 350}
+                  height={isMobile ? 200 : 260}
+                  style={{
+                    margin: '0 auto'
+                  }}
+                />
+                <Typography
+                  sx={{ fontSize: '18px', fontWeight: 700, color: '#32497A', marginTop: '40px', marginBottom: '24px' }}
+                >
+                  You haven’t applied for any jobs yet
+                </Typography>
+                <Button variant='outlined' size='small' sx={{ textTransform: 'capitalize' }} onClick={handleBrowseJob}>
+                  Browse Job
+                </Button>
+              </Box>
+            </Box>
+          </CardContent>
+        </>
       )
     }
 
