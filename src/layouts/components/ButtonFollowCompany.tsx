@@ -2,12 +2,16 @@ import { useState, useEffect } from 'react'
 import { Button } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-// import { useAuth } from 'src/hooks/useAuth'
+import { useAuth } from 'src/hooks/useAuth'
 
-export default function ButtonFollowCompany(props: { user_id: number; friend_id: number; getConnections: () => void }) {
+export default function ButtonFollowCompany(props: {
+  user_id: number
+  friend_id: number
+  getConnections: () => void | undefined
+}) {
   const [isLoading, setIsLoading] = useState(false)
   const [checkFollowship, setCheckFollowship] = useState<any>(null)
-  // const { user } = useAuth()
+  const { user } = useAuth()
   const { user_id, friend_id, getConnections } = props
 
   const followCompany = () => {
@@ -17,7 +21,10 @@ export default function ButtonFollowCompany(props: { user_id: number; friend_id:
       company_id: user_id
     })
       .then(() => {
-        getConnections()
+        if (getConnections) {
+          getConnections()
+        }
+
         setIsLoading(false)
       })
       .catch(() => {
@@ -32,7 +39,9 @@ export default function ButtonFollowCompany(props: { user_id: number; friend_id:
       company_id: user_id
     })
       .then(() => {
-        getConnections()
+        if (getConnections) {
+          getConnections()
+        }
         setIsLoading(false)
       })
       .catch(err => {
@@ -65,7 +74,7 @@ export default function ButtonFollowCompany(props: { user_id: number; friend_id:
     }
   }, [])
 
-  if (checkFollowship) {
+  if (checkFollowship && user?.id == friend_id) {
     return (
       <Button
         disabled={isLoading}
@@ -79,7 +88,9 @@ export default function ButtonFollowCompany(props: { user_id: number; friend_id:
         {isLoading ? 'Unfollowing ...' : 'Following'}
       </Button>
     )
-  } else {
+  }
+
+  if (checkFollowship && user?.id == friend_id) {
     return (
       <Button
         disabled={isLoading}
@@ -91,8 +102,9 @@ export default function ButtonFollowCompany(props: { user_id: number; friend_id:
         }}
       >
         {isLoading ? 'Following ...' : 'Follow'}
-        {JSON.stringify(checkFollowShip)}
       </Button>
     )
   }
+
+  return <></>
 }
