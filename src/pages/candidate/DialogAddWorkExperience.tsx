@@ -36,6 +36,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { useTheme } from '@mui/material/styles'
 
 import moment from 'moment'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -65,6 +66,7 @@ type FormData = {
 }
 
 const DialogAddWorkExperience = (props: DialogProps) => {
+  const { refetch, setRefetch } = useProfileCompletion()
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -140,6 +142,7 @@ const DialogAddWorkExperience = (props: DialogProps) => {
       setDateAwal(null)
       setDateAkhir(null)
       setIsCurrentExperience(false)
+      setRefetch(!refetch)
       toast.success(` Work Experience submited successfully!`)
     } catch (error) {
       alert(`Opps ${getCleanErrorMessage(error)}`)

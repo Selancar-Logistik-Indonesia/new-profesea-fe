@@ -31,6 +31,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { useTheme } from '@mui/material/styles'
 
 import moment from 'moment'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -60,6 +61,7 @@ type FormData = {
 }
 
 const DialogAddEducation = (props: DialogProps) => {
+  const { refetch, setRefetch } = useProfileCompletion()
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -160,12 +162,13 @@ const DialogAddEducation = (props: DialogProps) => {
 
       props.onCloseClick()
       props.getUserEducation()
+      setRefetch(!refetch)
       toast.success(` Education submited successfully!`)
     } catch (error) {
       // throw   'Something went wrong!';
 
       // alert(`Opps ${getCleanErrorMessage(error)}`)
-      toast.error(`Opps ${getCleanErrorMessage(error)}`);
+      toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
 
     setOnLoading('')

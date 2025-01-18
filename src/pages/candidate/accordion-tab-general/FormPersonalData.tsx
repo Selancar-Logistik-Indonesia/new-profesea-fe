@@ -28,6 +28,7 @@ import moment from 'moment'
 import { useTheme } from '@mui/material/styles'
 import toast from 'react-hot-toast'
 import Industry from 'src/contract/models/industry'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 type TFormPersonalData = {
   fullName: string
@@ -77,6 +78,8 @@ const GENDER_OPTIONS = [
 ]
 
 const FormPersonalData: React.FC = () => {
+  const { refetch, setRefetch } = useProfileCompletion()
+
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const [loadingSubmit, setLoadingSubmit] = useState(false)
@@ -263,19 +266,16 @@ const FormPersonalData: React.FC = () => {
       about: about
     }
 
-    console.log(jsonDataCompany)
-
     HttpClient.patch(
       AppConfig.baseUrl + '/user/update-profile',
       user?.role === 'Company' ? jsonDataCompany : jsonDataSeafarer
     ).then(
       response => {
-        console.log(response)
+        setRefetch(!refetch)
         setLoadingSubmit(false)
         toast.success(response?.data?.message)
       },
       error => {
-        console.log('Failed Update Profile :', error)
         setLoadingSubmit(false)
         toast.error(' Failed Update Profile : ' + error.response.data.message)
       }

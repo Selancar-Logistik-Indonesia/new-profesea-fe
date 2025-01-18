@@ -32,6 +32,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 import moment from 'moment'
 import { useTheme } from '@mui/material/styles'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 const ExperienceSchema = Yup.object().shape({
   user_id: Yup.number(),
@@ -60,6 +61,8 @@ const Transition = forwardRef(function Transition(
 })
 
 const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
+  const { refetch, setRefetch } = useProfileCompletion()
+
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
 
@@ -188,6 +191,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
         toast.success('create experience success')
         handleModalForm(type, undefined)
         loadExperience()
+        setRefetch(!refetch)
       })
       .catch(err => {
         toast.error(JSON.stringify(err))
@@ -211,6 +215,7 @@ const SeafarerExperienceForm = (props: ISeafarerExperienceForm) => {
         toast.success('update experience success')
         handleModalForm(type, undefined)
         loadExperience()
+        setRefetch(!refetch)
       })
       .catch(err => {
         toast.error(JSON.stringify(err))

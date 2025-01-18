@@ -34,6 +34,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 import moment from 'moment'
 import { useTheme } from '@mui/material/styles'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 const CompetencySchema = Yup.object().shape({
   user_id: Yup.number().required('User Data is required'),
@@ -57,6 +58,8 @@ const Transition = forwardRef(function Transition(
 })
 
 const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
+  const { refetch, setRefetch } = useProfileCompletion()
+
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const { type, seafarerCompetency, showModal, user_id, loadCompetency, handleModalForm } = props
@@ -164,6 +167,7 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
         toast.success('create competency success')
         loadCompetency()
         handleModalForm(type, undefined)
+        setRefetch(!refetch)
       })
       .catch(err => {
         toast.error(JSON.stringify(err.response.data.message || err.message), {

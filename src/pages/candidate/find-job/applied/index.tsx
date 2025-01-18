@@ -63,10 +63,6 @@ const ApplicantStatusOptions = [
   {
     status: 'WD',
     title: 'Withdrawn'
-  },
-  {
-    status: 'AP',
-    title: 'Approved'
   }
 ]
 

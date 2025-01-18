@@ -30,6 +30,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 import moment from 'moment'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 const ProficiencySchema = Yup.object().shape({
   user_id: Yup.number().required('User Data is required'),
@@ -54,6 +55,8 @@ const Transition = forwardRef(function Transition(
 })
 
 const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
+  const { refetch, setRefetch } = useProfileCompletion()
+
   const { type, seafarerProficiency, showModal, user_id, loadProficiency, handleModalForm } = props
   const id = seafarerProficiency?.id
 
@@ -159,6 +162,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         toast.success('create proficiency success')
         loadProficiency()
         handleModalForm(type, undefined)
+        setRefetch(!refetch)
       })
       .catch(err => {
         toast.error(JSON.stringify(err.response.data.message || err.message))
