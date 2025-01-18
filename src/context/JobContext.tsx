@@ -129,9 +129,9 @@ const JobProvider = (props: Props) => {
     }
   }
 
-  const handleDeleteJobSave = async (jobId: any) => {
+  const handleDeleteJobSave = async (jobId: any, jobSaveId: any) => {
     try {
-      const response = await HttpClient.del(`/job/save/${jobId}`)
+      const response = await HttpClient.del(`/job/save/${jobSaveId}`)
 
       if (response?.status === 200) {
         setJobs(prevState => prevState.map(p => (p.id === jobId ? { ...p, job_save: null } : p)))

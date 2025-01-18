@@ -41,7 +41,7 @@ import City from 'src/contract/models/city'
 import VesselType from 'src/contract/models/vessel_type'
 import JobContext, { JobProvider } from 'src/context/JobContext'
 import { useJob } from 'src/hooks/useJob'
-import InfiniteScroll from 'react-infinite-scroll-component'
+// import InfiniteScroll from 'react-infinite-scroll-component'
 import RecomendedView from 'src/views/find-job/RecomendedView'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { linkToTitleCase } from 'src/utils/helpers'
@@ -120,7 +120,7 @@ const SeafarerJob = () => {
 }
 
 const SeafarerJobApp = () => {
-  const { setPage, fetchJobs, totalJob, hasNextPage, page } = useJob()
+  const { setPage, fetchJobs, totalJob, page } = useJob()
   const pageItems = 9
   const { t } = useTranslation()
   const router = useRouter()

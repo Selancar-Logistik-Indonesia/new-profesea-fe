@@ -48,6 +48,7 @@ const JobsValue = (props: { icon: string; children: any }) => {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const renderSalary = (salaryStart: any, salaryEnd: any, currency: any) => {
   if (salaryEnd.toString() == '0') {
     return (
@@ -95,6 +96,7 @@ const renderList = (listJob: Job[]) => {
 
   function renderTimeAgo(dateString: string): string {
     const date = new Date(dateString) // Parse the date string
+
     return `${formatDistanceToNow(date)} ago`
   }
 
@@ -168,7 +170,7 @@ const renderList = (listJob: Job[]) => {
                 color='rgba(50, 73, 122, 1)'
                 fontSize={'16px'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => (isSaved ? handleDeleteJobSave(item?.id) : handleSavedJob(item?.id))}
+                onClick={() => (isSaved ? handleDeleteJobSave(item?.id, item?.job_save?.id) : handleSavedJob(item?.id))}
               />
             </Box>
           </Box>
