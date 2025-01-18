@@ -98,7 +98,8 @@ const JobManagement = () => {
         category_id: jobCategoryFilter?.id,
         vesseltype_id: vesselTypeFilter?.id,
         employment_type: employmentTypeFilter,
-        sort: sort
+        sort: sort,
+        is_active: statusFilter === 'active'
       })
       const data = response.data.jobs.data
       setJobs(data)

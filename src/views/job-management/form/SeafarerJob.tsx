@@ -266,6 +266,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       : undefined
 
     const json = {
+      is_active: true,
       employment_type: 'contract',
       work_arrangement: 'On-Site',
       category_id: jobCategory,
