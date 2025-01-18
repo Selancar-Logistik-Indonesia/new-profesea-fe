@@ -67,6 +67,12 @@ const employmentType = [
   { value: 'Full-Time', label: 'Full-Time' }
 ]
 
+const checkStatus = (status: string) => {
+  if (status === 'active') return true
+  else if (status === 'inactive') return false
+  else return null
+}
+
 const JobManagement = () => {
   const [refetch, setRefetch] = useState(v4())
   const [onLoading, setOnLoading] = useState<boolean>(false)
@@ -99,7 +105,7 @@ const JobManagement = () => {
         vesseltype_id: vesselTypeFilter?.id,
         employment_type: employmentTypeFilter,
         sort: sort,
-        is_active: statusFilter === 'active'
+        is_active: checkStatus(statusFilter)
       })
       const data = response.data.jobs.data
       setJobs(data)
