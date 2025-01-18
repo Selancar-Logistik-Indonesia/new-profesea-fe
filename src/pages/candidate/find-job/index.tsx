@@ -210,15 +210,15 @@ const SeafarerJobApp = () => {
   const workArrangementOptions = [
     {
       name: 'Onsite',
-      key: 'onsite'
+      key: 'On-Site'
     },
     {
       name: 'Hybrid',
-      key: 'hybrid'
+      key: 'Remote'
     },
     {
       name: 'Remote',
-      key: 'remote'
+      key: 'Hybrid'
     }
   ]
 
@@ -276,20 +276,7 @@ const SeafarerJobApp = () => {
   }
   useEffect(() => {
     getdatapencarian()
-  }, [
-    JC,
-    searchJob,
-    RL,
-    RT,
-    idcity,
-    idvessel,
-    employmentType,
-    employeeType,
-    company,
-    workArrangement,
-    page,
-    sortBy
-  ])
+  }, [JC, searchJob, RL, RT, idcity, idvessel, employmentType, employeeType, company, workArrangement, page, sortBy])
 
   return (
     <>
@@ -657,22 +644,22 @@ const SeafarerJobApp = () => {
                                   )
                                 }
 
-                                if (hidden) {
-                                  return (
-                                    <InfiniteScroll
-                                      dataLength={totalJob}
-                                      next={() => getdatapencarian()}
-                                      hasMore={hasNextPage}
-                                      loader={
-                                        <Typography mt={5} color={'text.secondary'}>
-                                          Loading..
-                                        </Typography>
-                                      }
-                                    >
-                                      <RecomendedView listJob={listJobs} />
-                                    </InfiniteScroll>
-                                  )
-                                }
+                                // if (hidden) {
+                                //   return (
+                                //     <InfiniteScroll
+                                //       dataLength={totalJob}
+                                //       next={() => getdatapencarian()}
+                                //       hasMore={hasNextPage}
+                                //       loader={
+                                //         <Typography mt={5} color={'text.secondary'}>
+                                //           Loading..
+                                //         </Typography>
+                                //       }
+                                //     >
+                                //       <RecomendedView listJob={listJobs} />
+                                //     </InfiniteScroll>
+                                //   )
+                                // }
 
                                 return (
                                   <>
@@ -681,7 +668,7 @@ const SeafarerJobApp = () => {
                                       sx={{
                                         width: 'full',
                                         display: 'flex',
-                                        justifyContent: 'end',
+                                        justifyContent: 'center',
                                         marginTop: '50px',
                                         marginBottom: '40px'
                                       }}
