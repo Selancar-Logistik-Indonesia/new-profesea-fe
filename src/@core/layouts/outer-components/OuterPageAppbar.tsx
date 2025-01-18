@@ -35,7 +35,7 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
 
   const homeNavItems = [
     { title: t('landing_menu_1'), path: '/find-job' },
-    { title: t('landing_menu_2'), path: '/#discoverSection' },
+    { title: t('landing_menu_2'), path: '/#discoverSection'},
     { title: t('landing_menu_3'), path: '/faqs' },
     { title: t('landing_menu_4'), path: '/employer' },
     { title: t('landing_menu_5'), path: '/trainings' },
@@ -132,11 +132,23 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
               }}
             >
               {homeNavItems.map(el => (
-                <Link key={el.path} href={el.path}>
+                <Link key={el.path} href={el.path} onClick={() => {
+                  if(el.path == "/#discoverSection"){
+                    setTimeout(() => {
+                      const element = document.getElementById('')
+                      if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' })
+                      }
+                    }, 2000)
+
+                    return false 
+                  }
+                }}>
                   <Button
                     sx={{ fontWeight: router.asPath == el.path ? 'bold' : undefined, textTransform: 'capitalize' }}
                     variant='text'
                     color='secondary'
+                   
                   >
                     {el.title}
                   </Button>
@@ -148,8 +160,8 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
               {!user ? (
                 navItems.map(item => (
                   <Link href={item.onClick} key={item.title} locale={locale}>
-                    <Button size='small' type='button' variant={item.variant} sx={{ ...item.sx, mr: 2, ml: 2 }}>
-                      {item.title}
+                    <Button  onClick={() => { alert('hehe') }} size='small' type='button' variant={item.variant} sx={{ ...item.sx, mr: 2, ml: 2 }}>
+                      {item.title} 
                     </Button>
                   </Link>
                 ))

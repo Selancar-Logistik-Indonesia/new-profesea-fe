@@ -20,6 +20,7 @@ import RequestTab from './RequestTab'
 import SideAd from 'src/views/banner-ad/sidead'
 
 import style from './../../../styles/css/ConnectionPage.module.css'
+import CompanyListTab from './CompanyListTab'
 
 function ProfileConnection() {
   const { dispatch } = useBreadcrumbsConnection()
@@ -96,6 +97,11 @@ function ProfileConnection() {
                           />
                           <Tab label='Companies for you' value='3' sx={{ display: 'none' }} />
                           <Tab
+                            label='Company you follow'
+                            value='3'
+                            sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold' }}
+                          />
+                          <Tab
                             label='Suggestions'
                             value='4'
                             sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold' }}
@@ -108,7 +114,9 @@ function ProfileConnection() {
                       <TabPanel value='2' className={style['tabpanel']}>
                         <ConnectionTab iduser={iduser} />
                       </TabPanel>
-                      <TabPanel value='3' className={style['tabpanel']}></TabPanel>
+                      <TabPanel value='3' className={style['tabpanel']}>
+                        <CompanyListTab iduser={iduser} />
+                      </TabPanel>
                       <TabPanel value='4' className={style['tabpanel']}>
                         <SuggestionTab iduser={iduser} />
                       </TabPanel>

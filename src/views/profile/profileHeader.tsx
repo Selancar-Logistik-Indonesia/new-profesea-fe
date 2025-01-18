@@ -9,9 +9,10 @@ import Link from 'next/link'
 import { getUserAvatar } from 'src/utils/helpers'
 import { useAuth } from 'src/hooks/useAuth'
 import DialogShare from './shareDialog'
-import ConnectButton from 'src/layouts/components/ConnectButton'
+// import ConnectButton from 'src/layouts/components/ConnectButton'
 import { useRouter } from 'next/navigation'
 import TextOverImage from './photoprofile'
+import ButtonFollowCompany from 'src/layouts/components/ButtonFollowCompany'
 
 // import MessageButton from 'src/layouts/components/MessageButton'
 
@@ -149,7 +150,8 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
             {isVisitor === true ? (
               <Box sx={{ display: 'flex', gap: '12px' }}>
                 {/* <MessageButton user={dataUser} /> */}
-                <ConnectButton user={dataUser} />
+                {/* <ConnectButton user={dataUser} /> */}
+                <ButtonFollowCompany user_id={dataUser.id} friend_id={Number(user?.id)} />
               </Box>
             ) : (
               <Button variant='contained' sx={{ textTransform: 'none' }} LinkComponent={Link} href={editProfileLink}>
