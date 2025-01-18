@@ -26,7 +26,7 @@ export default function ButtonFollowCompany(props: IPropsButtonFollowComapny) {
         if (getConnections) {
           getConnections()
         }
-
+        checkFollowShip()
         setIsLoading(false)
       })
       .catch(() => {
@@ -44,6 +44,8 @@ export default function ButtonFollowCompany(props: IPropsButtonFollowComapny) {
         if (getConnections) {
           getConnections()
         }
+
+        setCheckFollowship(null)
         setIsLoading(false)
       })
       .catch(err => {
@@ -67,7 +69,7 @@ export default function ButtonFollowCompany(props: IPropsButtonFollowComapny) {
         .catch(err => {
           console.log('err button follow company', err)
         })
-    }, 2000)
+    }, 0)
   }
 
   useEffect(() => {
@@ -92,7 +94,7 @@ export default function ButtonFollowCompany(props: IPropsButtonFollowComapny) {
     )
   }
 
-  if (checkFollowship && user?.id == friend_id) {
+  if (!checkFollowship && user?.id == friend_id) {
     return (
       <Button
         disabled={isLoading}
