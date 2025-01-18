@@ -36,6 +36,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 import moment from 'moment'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -59,6 +60,7 @@ const TravelDocumentSchema = Yup.object().shape({
 })
 
 const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
+  const { refetch, setRefetch } = useProfileCompletion()
   const { type, user_id, seafarerTravelDocument, showModal, handleModalForm, loadTravelDocument } = props
   const id = seafarerTravelDocument?.id
 
@@ -173,6 +175,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
         toast.success('create travel document success')
         handleModalForm(type, undefined)
         loadTravelDocument()
+        setRefetch(!refetch)
       })
       .catch(err => {
         toast.error(JSON.stringify(err.response.data.message || err.message))

@@ -13,6 +13,7 @@ import DialogAddWorkExperience from '../DialogAddWorkExperience'
 import { v4 } from 'uuid'
 import toast from 'react-hot-toast'
 import DialogEditWorkExperience from '../DialogEditWorkExperience'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 interface IWorkExperienceTabProps {
   dataUser: IUser
@@ -29,6 +30,7 @@ export function calculateYearsAndMonths(startDate: any, endDate: any) {
 }
 
 const WorkExperienceTab: React.FC<IWorkExperienceTabProps> = ({ dataUser }) => {
+  const { refetch, setRefetch } = useProfileCompletion()
   const [noExperience, setNoExperience] = useState(dataUser?.no_experience)
   const [userWorkExperience, setUserWorkExperience] = useState<any[]>([])
   const [loadingWorkExperience, setLoadingWorkExperience] = useState(true)
@@ -78,6 +80,7 @@ const WorkExperienceTab: React.FC<IWorkExperienceTabProps> = ({ dataUser }) => {
       throw resp.data.message ?? 'Something went wrong!'
     }
     loadExperience()
+    setRefetch(!refetch)
     toast.success(`  deleted successfully!`)
   }
 

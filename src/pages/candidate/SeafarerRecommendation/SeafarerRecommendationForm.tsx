@@ -24,6 +24,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { ISeafarerRecommendationForm } from 'src/contract/types/seafarer_recommendation_type'
 import { useTheme } from '@mui/material/styles'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 const ProficiencySchema = Yup.object().shape({
   company: Yup.string().required('Company is required'),
@@ -43,6 +44,7 @@ interface ISeaExperienceOptions {
 }
 
 const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
+  const { refetch, setRefetch } = useProfileCompletion()
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const { user_id, handleModalForm, showModal, type, loadRecommendation, seafarerRecommendation } = props
@@ -71,8 +73,6 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
   const createRecommendation = (values: any) => {
     setLoading(true)
 
-    console.log(experienceId)
-
     HttpClient.post(AppConfig.baseUrl + '/seafarer-recommendations/', {
       experience_id: experienceId?.id,
       user_id: values.user_id,
@@ -86,6 +86,7 @@ const SeafarerProficiencyForm = (props: ISeafarerRecommendationForm) => {
         handleModalForm(type, undefined)
         setLoading(false)
         loadRecommendation()
+        setRefetch(!refetch)
       })
       .catch(err => {
         toast.error(JSON.stringify(err.message))

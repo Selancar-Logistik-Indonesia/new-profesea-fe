@@ -5,8 +5,11 @@ import { AppConfig } from 'src/configs/api'
 import { HttpClient } from 'src/services'
 import { useTheme } from '@mui/material/styles'
 import toast from 'react-hot-toast'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 const FormSocialMedia = () => {
+  const { refetch, setRefetch } = useProfileCompletion()
+
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const [instagram, setInstagram] = useState('')
@@ -71,6 +74,7 @@ const FormSocialMedia = () => {
           console.log('Success add social media (instagram):', data)
           statusig = data.sosmed.id
           setDisabledInstagram(true)
+          setRefetch(!refetch)
         },
         error => {
           console.log('Failed add social media (instagram): ', error)
@@ -108,6 +112,7 @@ const FormSocialMedia = () => {
           console.log('Success add social media (linkedIn):', data)
           statuslinkedin = data.sosmed.id
           setDisabledLinkedin(true)
+          setRefetch(!refetch)
         },
         error => {
           console.log('Failed add social media (linkedIn): ', error)
@@ -145,6 +150,7 @@ const FormSocialMedia = () => {
         ({ data }) => {
           statusfb = data.sosmed.id
           setDisabledFacebook(true)
+          setRefetch(!refetch)
         },
         error => {
           toast.error('Failed add social media (facebook): ' + error.response.data.message)

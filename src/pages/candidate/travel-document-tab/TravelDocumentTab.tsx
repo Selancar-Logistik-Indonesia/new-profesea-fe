@@ -10,6 +10,7 @@ import {
   Fade,
   FadeProps,
   IconButton,
+  Tooltip,
   Typography,
   useMediaQuery
 } from '@mui/material'
@@ -23,9 +24,10 @@ import { AppConfig } from 'src/configs/api'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
-import { format } from 'date-fns'
+import { differenceInDays, format } from 'date-fns'
 import toast from 'react-hot-toast'
 import SeafarerTravelDocumentForm from '../SeafarerTravelDocument/SeafarerTravelDocumentForm'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -35,6 +37,7 @@ const Transition = forwardRef(function Transition(
 })
 
 const TravelDocumentTab = () => {
+  const { refetch, setRefetch } = useProfileCompletion()
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -62,6 +65,7 @@ const TravelDocumentTab = () => {
 
       toast.success('delete travel document success')
       handleFetchTravelDocument()
+      setRefetch(!refetch)
     } catch (err) {
       toast.error(JSON.stringify(err), { icon: 'danger' })
     } finally {
@@ -75,6 +79,50 @@ const TravelDocumentTab = () => {
     setTravelDocument(type == 'edit' ? data : {})
     setModalFormType(type)
     setOpenModalAdd(openModalAdd ? false : true)
+  }
+
+  const handlerTooltip = (e: any) => {
+    const validUntil = !e?.is_lifetime ? new Date(e.valid_date) : null
+    const daysLeft = validUntil ? differenceInDays(validUntil, new Date()) : null
+
+    // Tentukan warna berdasarkan kondisi
+    const iconColor =
+      daysLeft !== null
+        ? daysLeft <= 0
+          ? 'red' // Expired
+          : daysLeft <= 30
+          ? '#FFA500' // Warning (H-30)
+          : undefined
+        : undefined
+
+    return (
+      <Typography
+        sx={{
+          color: '#868686',
+          fontWeight: 400,
+          fontSize: '14px',
+          lineHeight: '21px',
+          flex: '30%',
+          display: 'flex', // For aligning tooltip and text
+          alignItems: 'center',
+          gap: '4px'
+        }}
+      >
+        {validUntil && daysLeft !== null && daysLeft <= 30 && (
+          <Tooltip
+            title={
+              daysLeft <= 0
+                ? `Your travel document is no longer valid. Please renew to ensure your profile remains accurate`
+                : '`This travel document is nearing expiration. Renew it to maintain profile validity`'
+            }
+            arrow
+          >
+            <Icon icon='ion:warning' fontSize={'16px'} color={iconColor} />
+          </Tooltip>
+        )}
+        {validUntil ? `Valid until ${format(validUntil, 'dd LLL yyyy')}` : 'Valid Lifetime'}
+      </Typography>
+    )
   }
 
   useEffect(() => {
@@ -246,11 +294,7 @@ const TravelDocumentTab = () => {
                   <Typography
                     sx={{ color: 'rgba(82, 82, 82, 1)', fontWeight: 400, fontSize: '14px', lineHeight: '21px' }}
                   >
-                    {e?.is_lifetime
-                      ? 'Valid Lifetime'
-                      : e?.valid_date
-                      ? 'Valid until ' + format(new Date(e?.valid_date), 'dd LLL yyyy')
-                      : 'Valid until -'}
+                    {handlerTooltip(e)}
                   </Typography>
                   <Button
                     variant='outlined'

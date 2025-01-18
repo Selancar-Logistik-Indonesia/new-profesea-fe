@@ -31,6 +31,7 @@ import toast from 'react-hot-toast'
 import SeafarerProficiencyForm from '../SeafarerProficiency/SeafarerProficiencyForm'
 import DialogAddDocument from '../DialogAddDocument'
 import DialogEditDocument from '../DialogEditDocument'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -58,6 +59,8 @@ export type IData = {
 }
 
 const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) => {
+  const { refetch, setRefetch } = useProfileCompletion()
+
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
@@ -152,6 +155,7 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
 
       toast.success('delete competency success')
       loadCompetency()
+      setRefetch(!refetch)
     } catch (err) {
       toast.error(JSON.stringify(err))
     } finally {
@@ -167,6 +171,7 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
 
       toast.success('delete proficiency success')
       loadProficiency()
+      setRefetch(!refetch)
     } catch (err) {
       toast.error(JSON.stringify(err), { icon: 'danger' })
     } finally {
@@ -182,6 +187,7 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
       throw resp.data.message ?? 'Something went wrong!'
     }
     loadCertificate()
+    setRefetch(!refetch)
     toast.success(`deleted successfully!`)
   }
 

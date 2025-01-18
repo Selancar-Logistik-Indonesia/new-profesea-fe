@@ -33,6 +33,7 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import toast from 'react-hot-toast'
 import { refreshsession } from 'src/utils/helpers'
 import Province from 'src/contract/models/province'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 interface IFormPreference {
   dataUser: IUser | null
@@ -62,6 +63,8 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 }
 
 const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
+  const { refetch, setRefetch } = useProfileCompletion()
+
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -206,6 +209,7 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
 
       toast.success('Submit Field Preference Successfully!')
       refreshsession()
+      setRefetch(!refetch)
     } catch (error: any) {
       console.log('field preference failed', error)
       toast.error('Submit Field Preference Failed ' + error?.response?.data.message)

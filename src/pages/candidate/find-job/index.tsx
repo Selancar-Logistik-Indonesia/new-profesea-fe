@@ -276,7 +276,21 @@ const SeafarerJobApp = () => {
   }
   useEffect(() => {
     getdatapencarian()
-  }, [JC, searchJob, RL, RT, idcity, idvessel, employmentType, employeeType, company, workArrangement, page, sortBy])
+  }, [
+    JC,
+    searchJob,
+    RL,
+    RT,
+    idcity,
+    idvessel,
+    employmentType,
+    employeeType,
+    company,
+    workArrangement,
+    page,
+    sortBy,
+    tabs
+  ])
 
   return (
     <>
@@ -643,23 +657,6 @@ const SeafarerJobApp = () => {
                                     </Box>
                                   )
                                 }
-
-                                // if (hidden) {
-                                //   return (
-                                //     <InfiniteScroll
-                                //       dataLength={totalJob}
-                                //       next={() => getdatapencarian()}
-                                //       hasMore={hasNextPage}
-                                //       loader={
-                                //         <Typography mt={5} color={'text.secondary'}>
-                                //           Loading..
-                                //         </Typography>
-                                //       }
-                                //     >
-                                //       <RecomendedView listJob={listJobs} />
-                                //     </InfiniteScroll>
-                                //   )
-                                // }
 
                                 return (
                                   <>
