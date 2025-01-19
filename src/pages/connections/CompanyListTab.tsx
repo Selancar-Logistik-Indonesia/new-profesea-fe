@@ -156,7 +156,7 @@ export default function CompanyListTab(props: any) {
         <>
           <div style={{ textAlign: 'center', margin: '40px 0' }}>
             <img src='/images/no-connection-request.png' />
-            <p style={{ fontSize: 14, fontWeight: 300, color: '#868686' }}>You have no connection </p>
+            <p style={{ fontSize: 14, fontWeight: 300, color: '#868686' }}>You haven't followed any companies yet</p>
           </div>
         </>
       )}
