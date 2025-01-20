@@ -112,6 +112,8 @@ const JobArchived = () => {
   const renderList = (data: any[]) => {
     return data.map(item => {
       const companyPhoto = item?.job?.company?.photo ? item?.job?.company?.photo : '/images/avatars/default-user.png'
+      const companyNameUrl = item?.job?.company.name.toLowerCase().split(' ').join('-')
+      const jobTitleUrl = item?.job?.job_title ? item?.job?.job_title?.toLowerCase().split(' ').join('-') : ''
 
       return (
         <Grid item xs={12} md={6} lg={4} key={item?.id}>
@@ -123,9 +125,11 @@ const JobArchived = () => {
               '&:hover': { borderColor: 'primary.main' },
               display: 'flex',
               flexDirection: 'column',
-              gap: '10px'
+              gap: '10px',
+              cursor: 'pointer'
             }}
             elevation={0}
+            onClick={() => router.push(`/candidate/job/${companyNameUrl}/${item?.job_id}/${jobTitleUrl}`)}
           >
             <Box
               sx={{

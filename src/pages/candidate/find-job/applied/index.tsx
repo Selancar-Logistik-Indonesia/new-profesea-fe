@@ -32,7 +32,6 @@ import {
 import { useTheme } from '@mui/material/styles'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import Icon from 'src/@core/components/icon'
 import { formatDistanceToNow } from 'date-fns'
 import toast from 'react-hot-toast'
@@ -281,9 +280,11 @@ const AllJobApplied = () => {
               '&:hover': { borderColor: 'primary.main' },
               display: 'flex',
               flexDirection: 'column',
-              gap: '10px'
+              gap: '10px',
+              cursor: 'pointer'
             }}
             elevation={0}
+            onClick={() => router.push(`/candidate/job/${companyNameUrl}/${item?.job_id}/${jobTitleUrl}`)}
           >
             <Box
               sx={{
@@ -309,14 +310,12 @@ const AllJobApplied = () => {
                     marginLeft: '20px'
                   }}
                 >
-                  <Link href={`/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`}>
-                    <TruncatedTypography line={2} fontWeight='bold' mb={0.5} textTransform='capitalize'>
-                      {item?.job?.role_type?.name ?? '-'}
-                    </TruncatedTypography>
-                    <TruncatedTypography fontSize={14} color={'#404040'}>
-                      {item?.job?.company?.name ?? '-'}
-                    </TruncatedTypography>
-                  </Link>
+                  <TruncatedTypography line={2} fontWeight='bold' mb={0.5} textTransform='capitalize'>
+                    {item?.job?.role_type?.name ?? '-'}
+                  </TruncatedTypography>
+                  <TruncatedTypography fontSize={14} color={'#404040'}>
+                    {item?.job?.company?.name ?? '-'}
+                  </TruncatedTypography>
                 </Box>
               </Box>
               {item?.status === 'WR' && (
@@ -332,7 +331,10 @@ const AllJobApplied = () => {
                     aria-label='dot-menu'
                     size='small'
                     type='button'
-                    onClick={event => handleClick(event, item.id)}
+                    onClick={event => {
+                      event.stopPropagation()
+                      handleClick(event, item.id)
+                    }}
                   >
                     <Icon icon={'ph:dots-three-bold'} color='rgba(50, 73, 122, 1)' fontSize={'20px'} />
                   </IconButton>
