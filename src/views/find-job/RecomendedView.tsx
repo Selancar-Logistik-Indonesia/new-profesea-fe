@@ -90,6 +90,7 @@ interface Props {
 const renderList = (listJob: Job[]) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { handleJobSave, handleDeleteJobSave } = useJob()
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter()
   const handleSavedJob = async (id: any) => {
     await handleJobSave(id)
