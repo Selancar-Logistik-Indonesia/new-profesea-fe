@@ -23,7 +23,13 @@ const StatusCard = (props: StatusCardProps) => {
   const { id, label, total, backgroundColor, icon, iconColor } = props
 
   return (
-    <Grid item sx={{ flexBasis: '33%', p: '16px 20px' }} flexDirection='column'>
+    <Grid
+      item
+      component={Link}
+      href={`/company/job/?tabs=2&id=${id}`}
+      sx={{ flexBasis: '33%', p: '16px 20px' }}
+      flexDirection='column'
+    >
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: '12px' }}>
         <Box
           sx={{
@@ -36,7 +42,7 @@ const StatusCard = (props: StatusCardProps) => {
         >
           <Icon icon={icon} color={iconColor} fontSize={16} />
         </Box>
-        <IconButton component={Link} href={`/company/job/?tabs=2&id=${id}`}>
+        <IconButton>
           <Icon icon='ph:arrow-right-bold' fontSize={16} color='#404040' />
         </IconButton>
       </Box>

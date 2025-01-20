@@ -103,32 +103,32 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   const [fixPrice, setFixPrice] = useState<boolean>(false)
   const [hidePrice, setHidePrice] = useState<boolean>(false)
 
-  const clearDraft = () => {
-    if (type === 'create') {
-      localStorage.removeItem(DRAFT_KEY)
-    }
-  }
+  //   const clearDraft = () => {
+  //     if (type === 'create') {
+  //     localStorage.removeItem(DRAFT_KEY)
+  //     }
+  //   }
 
   const populateData = () => {
     if (type === 'create') {
-      const draftData = localStorage.getItem(DRAFT_KEY)
-      if (draftData) {
-        const isPopulate = confirm('Lanjutkan draft job posting anda?')
-        if (isPopulate) {
-          const parsedData = JSON.parse(draftData)
-          Object.keys(parsedData).forEach(key => {
-            setValue(key as keyof FormData, parsedData[key])
-          })
-          if (parsedData.jobDescription) {
-            const contentState = ContentState.createFromText(parsedData.jobDescription)
-            setJobDescription(EditorState.createWithContent(contentState))
-          }
-          setFixPrice(parsedData.fixPrice || false)
-          setHidePrice(parsedData.hidePrice || false)
-        } else {
-          clearDraft()
-        }
-      }
+      //   const draftData = localStorage.getItem(DRAFT_KEY)
+      //   if (draftData) {
+      //     const isPopulate = confirm('Lanjutkan draft job posting anda?')
+      //     if (isPopulate) {
+      //       const parsedData = JSON.parse(draftData)
+      //       Object.keys(parsedData).forEach(key => {
+      //         setValue(key as keyof FormData, parsedData[key])
+      //       })
+      //       if (parsedData.jobDescription) {
+      //         const contentState = ContentState.createFromText(parsedData.jobDescription)
+      //         setJobDescription(EditorState.createWithContent(contentState))
+      //       }
+      //       setFixPrice(parsedData.fixPrice || false)
+      //       setHidePrice(parsedData.hidePrice || false)
+      //     } else {
+      //       clearDraft()
+      //     }
+      //   }
     } else if (type === 'edit' && job) {
       setValue('jobCategory', job.category_id)
       setValue('jobTitle', job.job_title ?? job.role_type.name)
@@ -210,18 +210,18 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
     }
   }, [fixPrice])
 
-  const watchedDraft = watch()
-  useEffect(() => {
-    if (type === 'create') {
-      const saveDraft = {
-        ...watchedDraft,
-        jobDescription: jobDescription.getCurrentContent().getPlainText(),
-        fixPrice,
-        hidePrice
-      }
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(saveDraft))
-    }
-  }, [watchedDraft, jobDescription, fixPrice, hidePrice])
+  //   const watchedDraft = watch()
+  //   useEffect(() => {
+  //     if (type === 'create') {
+  //       const saveDraft = {
+  //         ...watchedDraft,
+  //         jobDescription: jobDescription.getCurrentContent().getPlainText(),
+  //         fixPrice,
+  //         hidePrice
+  //       }
+  //       localStorage.setItem(DRAFT_KEY, JSON.stringify(saveDraft))
+  //     }
+  //   }, [watchedDraft, jobDescription, fixPrice, hidePrice])
 
   const onSubmit = (data: FormData) => {
     const {
@@ -288,6 +288,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       HttpClient.post('/job', json)
         .then(
           () => {
+            // clearDraft()
             toast.success(`${jobTitle} submited successfully!`)
             router.push('/company/job-management/v2')
           },
