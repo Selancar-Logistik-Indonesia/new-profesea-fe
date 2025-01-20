@@ -56,7 +56,7 @@ const CustomPaginationItem = (props: any) => {
     />
   )
 }
-const pageItems = 4
+const pageItems = 6
 const tabsOption = [
   { value: 'onship', label: 'Seafarer' },
   { value: 'offship', label: 'Professional' }
