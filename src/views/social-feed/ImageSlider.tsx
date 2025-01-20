@@ -11,8 +11,7 @@ const Slides = ({ items, currentIndex }: { items: string[]; currentIndex: number
       loading='lazy'
       sx={{
         objectFit: 'contain',
-        // width: '100%',
-        maxHeight: '530px'
+        maxHeight: '100%'
       }}
     />
   )
@@ -39,35 +38,40 @@ const ImageSlider = ({ items }: { items: string[] | undefined }) => {
           justifyContent: 'center',
           alignItems: 'center',
           width: '100%',
+          height: '100%',
           flexGrow: 1,
           position: 'relative'
         }}
       >
-        <IconButton
-          onClick={handlePrev}
-          sx={{
-            borderRadius: '200px',
-            backgroundColor: '#0A0C0F',
-            zIndex: 3,
-            position: 'absolute',
-            left: '24px'
-          }}
-        >
-          <Icon icon='mdi:chevron-left' fontSize={24} color='white' />
-        </IconButton>
+        {currentIndex > 0 && (
+          <IconButton
+            onClick={handlePrev}
+            sx={{
+              borderRadius: '200px',
+              backgroundColor: '#0A0C0F',
+              zIndex: 3,
+              position: 'absolute',
+              left: '24px'
+            }}
+          >
+            <Icon icon='mdi:chevron-left' fontSize={20} color='white' />
+          </IconButton>
+        )}
         <Slides items={items} currentIndex={currentIndex} />
-        <IconButton
-          onClick={handleNext}
-          sx={{
-            backgroundColor: '#0A0C0F',
-            borderRadius: '200px',
-            zIndex: 3,
-            position: 'absolute',
-            right: '24px'
-          }}
-        >
-          <Icon icon='mdi:chevron-right' fontSize={24} color='white' />
-        </IconButton>
+        {currentIndex < items.length - 1 && (
+          <IconButton
+            onClick={handleNext}
+            sx={{
+              backgroundColor: '#0A0C0F',
+              borderRadius: '200px',
+              zIndex: 3,
+              position: 'absolute',
+              right: '24px'
+            }}
+          >
+            <Icon icon='mdi:chevron-right' fontSize={20} color='white' />
+          </IconButton>
+        )}
       </Box>
     </Grid>
   )

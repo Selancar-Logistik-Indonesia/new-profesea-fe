@@ -9,7 +9,9 @@ import {
   FadeProps,
   Grid,
   IconButton,
-  Typography
+  Typography,
+  useMediaQuery,
+  useTheme
 } from '@mui/material'
 import moment from 'moment'
 import Link from 'next/link'
@@ -35,6 +37,9 @@ const Transition = forwardRef(function Transition(
 
 const PopUpFeed = (props: Prop) => {
   const { feed, openDialog, setOpenDialog } = props
+  const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.down('md'))
+
   const [openComment, setOpenComment] = useState(false)
   const profileLink = `/${feed.user?.role === 'Seafarer' ? 'profile' : 'company'}/${feed.user?.id}/${toLinkCase(
     feed.user?.username
@@ -42,33 +47,38 @@ const PopUpFeed = (props: Prop) => {
 
   return (
     <Dialog
-      fullWidth
+      fullScreen={isXs}
+      fullWidth={!isXs}
       open={openDialog}
       onClose={() => setOpenDialog(!openDialog)}
       TransitionComponent={Transition}
       maxWidth='lg'
+      PaperProps={{ sx: { borderRadius: isXs ? '0 !important' : '' } }}
     >
       <DialogContent sx={{ position: 'relative', p: '0 !important' }}>
         <IconButton
           size='small'
           onClick={() => setOpenDialog(!openDialog)}
-          sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
+          sx={{ position: 'absolute', zIndex: 2, right: '12px', top: '12px' }}
         >
-          <Icon icon='mdi:close' />
+          <Icon icon='mdi:close' color={isXs ? 'white' : ''} />
         </IconButton>
-        <Grid container sx={{ display: 'flex', flexWrap: 'nowrap' }}>
-          <Grid item sx={{ flexGrow: 1, backgroundColor: '#1B1F23' }}>
+        <Grid
+          container
+          sx={{ display: 'flex', flexDirection: isXs ? 'column' : null, flexWrap: isXs ? 'wrap' : 'nowrap' }}
+        >
+          <Grid item sx={{ flexGrow: 1, backgroundColor: '#1B1F23', height: isXs ? '250px' : '530px' }}>
             <ImageSlider items={feed.attachments} />
           </Grid>
           <Grid
             item
             sx={{
-              padding: 5,
+              flexShrink: 0,
+              padding: '20px',
               display: 'flex',
               flexDirection: 'column',
-              width: '400px',
-              height: '530px',
-              flexShrink: 0,
+              width: isXs ? '100%' : '400px',
+              height: isXs ? 'fit-content' : '530px',
               gap: '16px',
               overflow: 'auto',
               '&::-webkit-scrollbar': {

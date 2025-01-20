@@ -10,6 +10,7 @@ import { Button, CircularProgress, DialogActions } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { toast } from 'react-hot-toast'
 import Job from 'src/contract/models/job'
+import { isAxiosError } from 'axios'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -43,9 +44,16 @@ const CompleteDialog = (props: ViewProps) => {
       setOnLoading(false)
       props.onClose()
     } catch (error) {
+      if (isAxiosError(error)) {
+        if (error?.response?.status === 400) {
+          toast.error(`${error?.response?.data?.message}`)
+        }
+      } else {
+        toast.error('An error occurred while applying.')
+      }
       props.setApply(false)
       setOnLoading(false)
-      toast.error('An error occurred while applying.')
+      props.onClose()
     }
   }
 
@@ -59,59 +67,49 @@ const CompleteDialog = (props: ViewProps) => {
       TransitionComponent={Transition}
     >
       <form noValidate>
-        <DialogContent
-          sx={{
-            position: 'relative',
-            pb: theme => `${theme.spacing(8)} !important`,
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-          }}
-        >
-          <IconButton size='small' onClick={props.onClose} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
-            <Icon icon='mdi:close' />
-          </IconButton>
+        <DialogContent>
+          <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+            <IconButton size='small' onClick={props.onClose}>
+              <Icon icon='mdi:close' fontSize={'16px'} />
+            </IconButton>
+          </Box>
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant='h6' color={'#32487A'} fontWeight='600'>
+            <Typography color={'#404040'} fontSize={16} fontWeight='700' sx={{ marginBottom: '28px' }}>
               Complete Apply for Job
             </Typography>
-            <Typography variant='body2'>
-              Are you sure complete this job's from {props.selectedItem?.company?.name}?
+            <Typography color={'#404040'} fontSize={16} fontWeight='400'>
+              Are you sure you want to apply for this job?
             </Typography>
           </Box>
         </DialogContent>
         <DialogActions
           sx={{
+            display: 'flex',
+            flexDirection: 'row',
             justifyContent: 'center',
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            alignItems: 'center',
+            borderTop: '1px solid #F0F0F0',
+            paddingTop: '16px !important'
           }}
         >
           <Button
+            variant='outlined'
+            size='small'
+            color='secondary'
+            onClick={props.onClose}
+            sx={{ textTransform: 'capitalize', flex: 1 }}
+          >
+            Cancel
+          </Button>
+          <Button
             onClick={handleApprove}
             variant='contained'
-            color='success'
-            sx={{ mr: 2 }}
             type='button'
             size='small'
             disabled={onLoading}
-            startIcon={
-              onLoading ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Icon fontSize='large' icon={'material-symbols:recommend'} color={'info'} style={{ margin: 3 }} />
-              )
-            }
+            sx={{ textTransform: 'capitalize', flex: 1 }}
           >
-            Yes
-          </Button>
-          <Button variant='outlined' size='small' color='secondary' onClick={props.onClose}>
-            <Icon
-              fontSize='large'
-              icon={'material-symbols:cancel-outline'}
-              color={'info'}
-              style={{ fontSize: '18px', margin: 3 }}
-            />
-            No
+            {onLoading ? <CircularProgress /> : 'Apply Job'}
           </Button>
         </DialogActions>
       </form>

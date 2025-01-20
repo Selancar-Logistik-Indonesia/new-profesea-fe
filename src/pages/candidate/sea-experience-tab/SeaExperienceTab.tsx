@@ -31,6 +31,7 @@ import SeafarerExperienceForm from '../SeafarerExperience/SeafarerExperienceForm
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
 import SeafarerRecommendationForm from '../SeafarerRecommendation/SeafarerRecommendationForm'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -44,6 +45,7 @@ interface ISeaExperienceTabProps {
 }
 
 const SeaExperienceTab: React.FC<ISeaExperienceTabProps> = ({ defaultValue = 0 }) => {
+  const { refetch, setRefetch } = useProfileCompletion()
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
@@ -146,6 +148,7 @@ const SeaExperienceTab: React.FC<ISeaExperienceTabProps> = ({ defaultValue = 0 }
 
       toast.success('delete travel document success')
       loadExperience()
+      setRefetch(!refetch)
     } catch (err) {
       toast.error(JSON.stringify(err), { icon: 'danger' })
     } finally {
@@ -162,6 +165,7 @@ const SeaExperienceTab: React.FC<ISeaExperienceTabProps> = ({ defaultValue = 0 }
 
       toast.success('delete reference verification success')
       loadRecommendation()
+      setRefetch(!refetch)
     } catch (err) {
       toast.error(JSON.stringify(err), { icon: 'danger' })
     } finally {

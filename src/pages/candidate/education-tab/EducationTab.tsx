@@ -25,6 +25,7 @@ import { v4 } from 'uuid'
 import DialogAddEducation from '../DialogAddEducation'
 import toast from 'react-hot-toast'
 import DialogEditEducation from '../DialogEditEducation'
+import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -34,6 +35,7 @@ const Transition = forwardRef(function Transition(
 })
 
 const EducationTab = () => {
+  const { refetch, setRefetch } = useProfileCompletion()
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const [hookSignature, setHookSignature] = useState(v4())
@@ -75,6 +77,7 @@ const EducationTab = () => {
       const response = await HttpClient.del('/user/education/' + id)
       if (response?.status === 200) {
         fetchUserEducations()
+        setRefetch(!refetch)
         toast.success(`Deleted Successfully!`)
       }
     } catch (error) {

@@ -49,7 +49,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
 
   useEffect(() => {
     const baseAddress1 = '/find-job'
-    const baseAddress2 = '/#discoverSection'
+    const baseAddress2 = '/#discoverSectionLink'
     const baseAddress3 = '/faqs'
     const baseAddress4 = '/employer'
     const baseAddress5 = '/trainings'
@@ -171,11 +171,23 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
               }}
             >
               {homeNavItems.map(el => (
-                <Link key={el.path} href={el.path}>
+                <Link key={el.path} href={el.path} onClick={() => {
+                  
+                  if(el.path == "/#discoverSectionLink"){
+                  
+                    const element = document.getElementById('discoverSection')
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' })
+                    }
+                    
+                    return false
+                  }
+                }}>
                   <Button
                     sx={{ fontWeight: router.asPath == el.path ? 'bold' : undefined, textTransform: 'capitalize' }}
                     variant='text'
                     color='secondary'
+
                   >
                     {el.title}
                   </Button>
@@ -225,7 +237,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                     alt='The Profesea logo'
                     title='Profesea'
                     src='/images/logosamudera.png'
-                  />
+                  /> 
                 </Link>
               </Box>
             )}

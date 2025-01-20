@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
 import { Avatar, Paper } from '@mui/material'
 import Job from 'src/contract/models/job'
-import Link from 'next/link'
-import { format } from 'date-fns'
-import { timeCreated } from 'src/utils/helpers'
+import { format, formatDistanceToNow } from 'date-fns'
+import { useJob } from 'src/hooks/useJob'
+import { useRouter } from 'next/navigation'
 
 const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
   const { children, line, ...rest } = props
@@ -37,10 +37,10 @@ const JobsValue = (props: { icon: string; children: any }) => {
   const { icon, children } = props
 
   return (
-    <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, mb: 1.5 }}>
+    <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
       <Icon icon={icon} color='#32487A' fontSize={'20px'} />
       <Grid item xs={true} sx={{ flexGrow: 1 }}>
-        <TruncatedTypography line={1} fontSize={16}>
+        <TruncatedTypography line={1} fontSize={14} fontWeight={400} color={'#666'}>
           {children}
         </TruncatedTypography>
       </Grid>
@@ -48,24 +48,27 @@ const JobsValue = (props: { icon: string; children: any }) => {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const renderSalary = (salaryStart: any, salaryEnd: any, currency: any) => {
   if (salaryEnd.toString() == '0') {
     return (
-      <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-        {salaryStart ? `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (${currency})` : '-'}
+      <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
+        {salaryStart ? `Rp. ${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}` : '-'}
       </Typography>
     )
   }
 
   if (salaryStart.toString() !== '0' && salaryEnd.toString() !== '0') {
     return (
-      <Typography sx={{ color: 'text.primary' }} fontSize={16}>
+      <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
         {salaryStart && salaryEnd
           ? `${
+              'Rp. ' +
               salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
               ' - ' +
+              'Rp. ' +
               salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-            } (${currency})`
+            }`
           : '-'}
       </Typography>
     )
@@ -85,6 +88,20 @@ interface Props {
 }
 
 const renderList = (listJob: Job[]) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { handleJobSave, handleDeleteJobSave } = useJob()
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const router = useRouter()
+  const handleSavedJob = async (id: any) => {
+    await handleJobSave(id)
+  }
+
+  function renderTimeAgo(dateString: string): string {
+    const date = new Date(dateString) // Parse the date string
+
+    return `${formatDistanceToNow(date)} ago`
+  }
+
   if (!listJob || listJob.length == 0) {
     return null
   }
@@ -93,151 +110,205 @@ const renderList = (listJob: Job[]) => {
     const userPhoto = item?.company?.photo ? item?.company?.photo : '/images/avatars/default-user.png'
     const companyNameUrl = item.company.name.toLowerCase().split(' ').join('-')
     const jobTitleUrl = item.job_title ? item.job_title?.toLowerCase().split(' ').join('-') : ''
+    const isSaved = item?.job_save === null ? false : true
 
     return (
       <Grid item xs={12} md={6} lg={4} key={item?.id}>
-        <Link href={`/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`}>
-          <Paper
+        <Paper
+          sx={{
+            p: '24px',
+            border: '2px solid #eee',
+            transition: 'border-color 0.2s ease-in-out, color 0.2s ease-in-out',
+            '&:hover': { borderColor: 'primary.main' },
+            cursor: 'pointer'
+          }}
+          elevation={0}
+          onClick={() => router.push(`/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`)}
+        >
+          <Box
             sx={{
-              p: 4,
-              border: '2px solid #eee',
-              transition: 'border-color 0.2s ease-in-out, color 0.2s ease-in-out',
-              '&:hover': { borderColor: 'primary.main' }
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              height: '4em',
+              mb: 3
             }}
-            elevation={0}
           >
             <Box
               sx={{
                 display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                height: '4em',
-                mb: 3
+                alignItems: 'center',
+                flexGrow: 1
               }}
             >
+              <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50, mr: 2 }} />
               <Box
                 sx={{
                   display: 'flex',
-                  alignItems: 'center',
-                  flexGrow: 1
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  marginLeft: '20px'
                 }}
               >
-                <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 50, height: 50, mr: 2 }} />
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center'
-                  }}
-                >
-                  <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
-                    {item?.role_type?.name ?? '-'}
-                  </TruncatedTypography>
-                  <TruncatedTypography fontSize={14} color={'#0a66c2'}>
-                    {item?.company?.name ?? '-'}
-                  </TruncatedTypography>
-                </Box>
-              </Box>
-              <Box
-                ml={1}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  justifyContent: 'right',
-                  width: { sm: '100px', md: '80px', lg: '100px' }
-                }}
-              >
-                <Typography align='right' sx={{ color: 'text.primary' }} fontSize={12}>
-                  {item?.created_at ? timeCreated(item.created_at) : '-'}
-                </Typography>
+                <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
+                  {item?.role_type?.name ?? '-'}
+                </TruncatedTypography>
+                <TruncatedTypography fontSize={14} color={'#0a66c2'}>
+                  {item?.company?.name ?? '-'}
+                </TruncatedTypography>
               </Box>
             </Box>
-            <Grid item container>
-              {item?.category?.employee_type == 'onship' ? (
-                <>
-                  <JobsValue icon='solar:case-minimalistic-bold-duotone'>
+            <Box
+              ml={1}
+              sx={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'right'
+              }}
+            >
+              <Icon
+                icon={isSaved ? 'iconoir:bookmark-solid' : 'iconoir:bookmark'}
+                color='rgba(50, 73, 122, 1)'
+                fontSize={'16px'}
+                style={{ cursor: 'pointer' }}
+                onClick={e => {
+                  e.stopPropagation()
+                  isSaved ? handleDeleteJobSave(item?.id, item?.job_save?.id) : handleSavedJob(item?.id)
+                }}
+              />
+            </Box>
+          </Box>
+          <Grid item>
+            {item?.category?.employee_type == 'onship' ? (
+              <>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <JobsValue icon='ph:anchor-light'>
                     {`${item?.category?.name ?? '-'} | `}
                     {item?.job_title ?? ''}
                   </JobsValue>
-                  <JobsValue icon='ri:ship-fill'>{item?.vessel_type?.name ?? '-'}</JobsValue>
-                  <JobsValue icon='ri:calendar-fill'>
+                  <JobsValue icon='ph:calendar-dots-duotone'>
                     {format(new Date(item?.onboard_at), 'dd MMMM yyyy') ?? '-'}
                   </JobsValue>
-                  <JobsValue icon='mdi:timer-sand'>
+                  <JobsValue icon='ph:clock-duotone'>
                     {item?.contract_duration ? `${item?.contract_duration} months` : '-'}
                   </JobsValue>
-                  <Grid
-                    container
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 2,
-                      mb: 1.5,
-                      opacity: item?.hide_salary ? 0 : 100
-                    }}
-                  >
-                    <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
-                    <Grid item xs={true} sx={{ flexGrow: 1 }}>
-                      <TruncatedTypography line={1} fontSize={16}>
-                        {item?.currency == 'IDR' ? (
-                          item?.salary_start && item?.salary_end ? (
-                            renderSalary(item?.salary_start, item?.salary_end, item?.currency)
-                          ) : null
-                        ) : item?.salary_start && item?.salary_end ? (
-                          <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                            {item?.salary_end.toString() !== '0'
-                              ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
-                              : `${item?.salary_start} (${item?.currency})`}
-                          </Typography>
-                        ) : null}
-                      </TruncatedTypography>
+                  <JobsValue icon='ph:sailboat-light'>{item?.vessel_type?.name ?? '-'}</JobsValue>
+                  {item?.hide_salary ? (
+                    <Grid
+                      container
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 2
+                      }}
+                    >
+                      <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                      <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
+                        Salary undisclosed
+                      </Typography>
                     </Grid>
-                  </Grid>
-                </>
-              ) : (
-                <>
-                  <JobsValue icon='solar:case-minimalistic-bold-duotone'>
+                  ) : (
+                    <Grid
+                      container
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 2
+                      }}
+                    >
+                      <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                      <Grid item xs={true} sx={{ flexGrow: 1 }}>
+                        <TruncatedTypography line={1} fontSize={14} fontWeight={400} color={'#666'}>
+                          {item?.currency == 'IDR' ? (
+                            item?.salary_start && item?.salary_end ? (
+                              renderSalary(item?.salary_start, item?.salary_end, item?.currency)
+                            ) : null
+                          ) : item?.salary_start && item?.salary_end ? (
+                            <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
+                              {item?.salary_end.toString() !== '0'
+                                ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
+                                : `${item?.salary_start} (${item?.currency})`}
+                            </Typography>
+                          ) : null}
+                        </TruncatedTypography>
+                      </Grid>
+                    </Grid>
+                  )}
+
+                  <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+                    <Typography sx={{ fontSize: 12, fontWeight: 400, color: '#999' }}>
+                      {item?.applied_at != null ? 'Applied' : renderTimeAgo(item?.created_at)}
+                    </Typography>
+                  </Box>
+                </Box>
+              </>
+            ) : (
+              <>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <JobsValue icon='ph:briefcase-duotone'>
                     {`${item?.category?.name ?? '-'} | `}
                     {item?.rolelevel?.levelName ?? ''}
                   </JobsValue>
-                  <JobsValue icon='solar:square-academic-cap-bold-duotone'>{item?.degree?.name ?? '-'}</JobsValue>
-                  <JobsValue icon='mdi:location'>
-                    {item?.city?.city_name ?? '-'} | {item?.employment_type ?? '-'}
-                  </JobsValue>
-                  <Grid
-                    container
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 2,
-                      mb: 1.5,
-                      opacity: item?.hide_salary ? 0 : 100
-                    }}
-                  >
-                    <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
-                    <Grid item xs={true} sx={{ flexGrow: 1 }}>
-                      <TruncatedTypography line={1} fontSize={16}>
-                        {item?.currency == 'IDR' ? (
-                          item?.salary_start && item?.salary_end ? (
-                            renderSalary(item?.salary_start, item?.salary_end, item?.currency)
-                          ) : null
-                        ) : item?.salary_start && item?.salary_end ? (
-                          <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                            {item?.salary_end.toString() !== '0'
-                              ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
-                              : `${item?.salary_start} (${item?.currency})`}
-                          </Typography>
-                        ) : null}
-                      </TruncatedTypography>
+                  {/* <JobsValue icon='solar:square-academic-cap-bold-duotone'>{item?.degree?.name ?? '-'}</JobsValue> */}
+                  <JobsValue icon='ph:clock-duotone'>{item?.employment_type ?? '-'}</JobsValue>
+                  <JobsValue icon='ph:map-pin-duotone'>{item?.city?.city_name ?? '-'}</JobsValue>
+                  {item?.hide_salary ? (
+                    <Grid
+                      container
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 2
+                      }}
+                    >
+                      <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                      <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
+                        Salary undisclosed
+                      </Typography>
                     </Grid>
-                  </Grid>
-                </>
-              )}
-            </Grid>
-          </Paper>
-        </Link>
+                  ) : (
+                    <Grid
+                      container
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 2
+                      }}
+                    >
+                      <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                      <Grid item xs={true} sx={{ flexGrow: 1 }}>
+                        <TruncatedTypography line={1} fontSize={14} fontWeight={400} color={'#666'}>
+                          {item?.currency == 'IDR' ? (
+                            item?.salary_start && item?.salary_end ? (
+                              renderSalary(item?.salary_start, item?.salary_end, item?.currency)
+                            ) : null
+                          ) : item?.salary_start && item?.salary_end ? (
+                            <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
+                              {item?.salary_end.toString() !== '0'
+                                ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
+                                : `${item?.salary_start} (${item?.currency})`}
+                            </Typography>
+                          ) : null}
+                        </TruncatedTypography>
+                      </Grid>
+                    </Grid>
+                  )}
+
+                  <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+                    <Typography sx={{ fontSize: 12, fontWeight: 400, color: '#999' }}>
+                      {item?.applied_at != null ? 'Applied' : renderTimeAgo(item?.created_at)}
+                    </Typography>
+                  </Box>
+                </Box>
+              </>
+            )}
+          </Grid>
+        </Paper>
+        {/* </Link> */}
       </Grid>
     )
   })
@@ -247,7 +318,7 @@ const RecomendedView = (props: Props) => {
   const { listJob } = props
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={6}>
       {renderList(listJob)}
     </Grid>
   )
