@@ -220,6 +220,8 @@ const JobSaved = () => {
   const renderList = (data: IJobSaved[]) => {
     return data.map(item => {
       const companyPhoto = item?.job?.company?.photo ? item?.job?.company?.photo : '/images/avatars/default-user.png'
+      const companyNameUrl = item?.job?.company.name.toLowerCase().split(' ').join('-')
+      const jobTitleUrl = item?.job?.job_title ? item?.job?.job_title?.toLowerCase().split(' ').join('-') : ''
 
       return (
         <Grid item xs={12} md={6} lg={4} key={item?.id}>
@@ -231,9 +233,11 @@ const JobSaved = () => {
               '&:hover': { borderColor: 'primary.main' },
               display: 'flex',
               flexDirection: 'column',
-              gap: '10px'
+              gap: '10px',
+              cursor: 'pointer'
             }}
             elevation={0}
+            onClick={() => router.push(`/candidate/job/${companyNameUrl}/${item?.job_id}/${jobTitleUrl}`)}
           >
             <Box
               sx={{
@@ -281,13 +285,19 @@ const JobSaved = () => {
                   color='rgba(50, 73, 122, 1)'
                   fontSize={'20px'}
                   style={{ cursor: 'pointer' }}
-                  onClick={() => handleDeleteJobSave(item?.id)}
+                  onClick={e => {
+                    e.stopPropagation()
+                    handleDeleteJobSave(item?.id)
+                  }}
                 />
                 <IconButton
                   aria-label='dot-menu'
                   size='small'
                   type='button'
-                  onClick={event => handleClick(event, item.id)}
+                  onClick={event => {
+                    event.stopPropagation()
+                    handleClick(event, item.id)
+                  }}
                 >
                   <Icon icon={'ph:dots-three-bold'} color='rgba(50, 73, 122, 1)' fontSize={'20px'} />
                 </IconButton>

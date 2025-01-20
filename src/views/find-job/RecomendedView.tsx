@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
 import { Avatar, Paper } from '@mui/material'
 import Job from 'src/contract/models/job'
-import Link from 'next/link'
 import { format, formatDistanceToNow } from 'date-fns'
 import { useJob } from 'src/hooks/useJob'
+import { useRouter } from 'next/navigation'
 
 const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
   const { children, line, ...rest } = props
@@ -90,6 +90,7 @@ interface Props {
 const renderList = (listJob: Job[]) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { handleJobSave, handleDeleteJobSave } = useJob()
+  const router = useRouter()
   const handleSavedJob = async (id: any) => {
     await handleJobSave(id)
   }
@@ -112,15 +113,16 @@ const renderList = (listJob: Job[]) => {
 
     return (
       <Grid item xs={12} md={6} lg={4} key={item?.id}>
-        {/* <Link href={`/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`}> */}
         <Paper
           sx={{
             p: '24px',
             border: '2px solid #eee',
             transition: 'border-color 0.2s ease-in-out, color 0.2s ease-in-out',
-            '&:hover': { borderColor: 'primary.main' }
+            '&:hover': { borderColor: 'primary.main' },
+            cursor: 'pointer'
           }}
           elevation={0}
+          onClick={() => router.push(`/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`)}
         >
           <Box
             sx={{
@@ -147,14 +149,12 @@ const renderList = (listJob: Job[]) => {
                   marginLeft: '20px'
                 }}
               >
-                <Link href={`/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`}>
-                  <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
-                    {item?.role_type?.name ?? '-'}
-                  </TruncatedTypography>
-                  <TruncatedTypography fontSize={14} color={'#0a66c2'}>
-                    {item?.company?.name ?? '-'}
-                  </TruncatedTypography>
-                </Link>
+                <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
+                  {item?.role_type?.name ?? '-'}
+                </TruncatedTypography>
+                <TruncatedTypography fontSize={14} color={'#0a66c2'}>
+                  {item?.company?.name ?? '-'}
+                </TruncatedTypography>
               </Box>
             </Box>
             <Box
@@ -170,7 +170,10 @@ const renderList = (listJob: Job[]) => {
                 color='rgba(50, 73, 122, 1)'
                 fontSize={'16px'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => (isSaved ? handleDeleteJobSave(item?.id, item?.job_save?.id) : handleSavedJob(item?.id))}
+                onClick={e => {
+                  e.stopPropagation()
+                  isSaved ? handleDeleteJobSave(item?.id, item?.job_save?.id) : handleSavedJob(item?.id)
+                }}
               />
             </Box>
           </Box>
@@ -189,7 +192,22 @@ const renderList = (listJob: Job[]) => {
                     {item?.contract_duration ? `${item?.contract_duration} months` : '-'}
                   </JobsValue>
                   <JobsValue icon='ph:sailboat-light'>{item?.vessel_type?.name ?? '-'}</JobsValue>
-                  {!item?.hide_salary && (
+                  {item?.hide_salary ? (
+                    <Grid
+                      container
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 2
+                      }}
+                    >
+                      <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                      <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
+                        Salary undisclosed
+                      </Typography>
+                    </Grid>
+                  ) : (
                     <Grid
                       container
                       sx={{
@@ -220,7 +238,7 @@ const renderList = (listJob: Job[]) => {
 
                   <Box sx={{ display: 'flex', justifyContent: 'end' }}>
                     <Typography sx={{ fontSize: 12, fontWeight: 400, color: '#999' }}>
-                      {renderTimeAgo(item?.created_at)}
+                      {item?.applied_at != null ? 'Applied' : renderTimeAgo(item?.created_at)}
                     </Typography>
                   </Box>
                 </Box>
