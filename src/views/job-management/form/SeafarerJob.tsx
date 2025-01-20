@@ -79,7 +79,7 @@ const schema = yup.object().shape({
     .required()
 })
 
-const DRAFT_KEY = 'create-job-seafarer'
+// const DRAFT_KEY = 'create-job-seafarer'
 
 const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   const {
@@ -105,32 +105,32 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   const [fixPrice, setFixPrice] = useState<boolean>(false)
   const [hidePrice, setHidePrice] = useState<boolean>(false)
 
-  const clearDraft = () => {
-    if (type === 'create') {
-      localStorage.removeItem(DRAFT_KEY)
-    }
-  }
+  //   const clearDraft = () => {
+  //     if (type === 'create') {
+  //       localStorage.removeItem(DRAFT_KEY)
+  //     }
+  //   }
 
   const populateData = () => {
     if (type === 'create') {
-      const draftData = localStorage.getItem(DRAFT_KEY)
-      if (draftData) {
-        const isPopulate = confirm('Lanjutkan draft job posting anda?')
-        if (isPopulate) {
-          const parsedData = JSON.parse(draftData)
-          Object.keys(parsedData).forEach(key => {
-            setValue(key as keyof FormData, parsedData[key])
-          })
-          if (parsedData.jobDescription) {
-            const contentState = ContentState.createFromText(parsedData.jobDescription)
-            setJobDescription(EditorState.createWithContent(contentState))
-          }
-          setFixPrice(parsedData.fixPrice || false)
-          setHidePrice(parsedData.hidePrice || false)
-        } else {
-          clearDraft()
-        }
-      }
+      //   const draftData = localStorage.getItem(DRAFT_KEY)
+      //   if (draftData) {
+      //     const isPopulate = confirm('Lanjutkan draft job posting anda?')
+      //     if (isPopulate) {
+      //       const parsedData = JSON.parse(draftData)
+      //       Object.keys(parsedData).forEach(key => {
+      //         setValue(key as keyof FormData, parsedData[key])
+      //       })
+      //       if (parsedData.jobDescription) {
+      //         const contentState = ContentState.createFromText(parsedData.jobDescription)
+      //         setJobDescription(EditorState.createWithContent(contentState))
+      //       }
+      //       setFixPrice(parsedData.fixPrice || false)
+      //       setHidePrice(parsedData.hidePrice || false)
+      //     } else {
+      //       clearDraft()
+      //     }
+      //   }
     } else if (type === 'edit' && job) {
       setValue('jobCategory', job.category_id)
       setValue('jobTitle', job.job_title)
@@ -216,22 +216,22 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
 
   useEffect(() => {
     if (fixPrice) {
-      setValue('maximum', watch('minimum'))
+      setValue('maximum', undefined)
     }
   }, [fixPrice])
 
-  const watchedDraft = watch()
-  useEffect(() => {
-    if (type === 'create') {
-      const saveDraft = {
-        ...watchedDraft,
-        jobDescription: jobDescription.getCurrentContent().getPlainText(),
-        fixPrice,
-        hidePrice
-      }
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(saveDraft))
-    }
-  }, [watchedDraft, jobDescription, fixPrice, hidePrice])
+  //   const watchedDraft = watch()
+  //   useEffect(() => {
+  //     if (type === 'create') {
+  //       const saveDraft = {
+  //         ...watchedDraft,
+  //         jobDescription: jobDescription.getCurrentContent().getPlainText(),
+  //         fixPrice,
+  //         hidePrice
+  //       }
+  //       localStorage.setItem(DRAFT_KEY, JSON.stringify(saveDraft))
+  //     }
+  //   }, [watchedDraft, jobDescription, fixPrice, hidePrice])
 
   const onSubmit = (data: FormData) => {
     const {
@@ -305,8 +305,8 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       HttpClient.post('/job', json)
         .then(
           () => {
+            // clearDraft()
             toast.success(`${jobTitle} submited successfully!`)
-            clearDraft()
             router.push('/company/job-management/v2')
           },
           error => {
@@ -328,7 +328,9 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
         <Grid item container flexDirection='column' gap='24px'>
           <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '24px' }}>
             <FormControl fullWidth error={!!errors.jobCategory}>
-              <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>Job Category</Typography>
+              <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Job Category<span style={{ color: '#F22' }}>*</span>
+              </Typography>
               <Controller
                 name='jobCategory'
                 control={control}
@@ -360,7 +362,9 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
               />
             </FormControl>
             <FormControl fullWidth error={!!errors.jobTitle}>
-              <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>Job Title</Typography>
+              <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Job Title<span style={{ color: '#F22' }}>*</span>
+              </Typography>
               <Controller
                 name='jobTitle'
                 control={control}
@@ -449,7 +453,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
           <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '24px' }}>
             <FormControl fullWidth error={!!errors.experience}>
               <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                Duration of Sea Service
+                Sea Service<span style={{ color: '#F22' }}>*</span>
               </Typography>
               <Controller
                 name='experience'
@@ -460,7 +464,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
                     fullWidth
                     value={field.value || ''}
                     size='small'
-                    placeholder='Duration of Sea Service (Contracts)'
+                    placeholder='Sea Service Requirement Contracts'
                     type='number'
                     inputProps={{ min: 0 }}
                     error={!!errors.experience}
@@ -562,7 +566,9 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
           </Box>
           <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '24px' }}>
             <FormControl fullWidth error={!!errors.dateOnBoard}>
-              <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>Date of Board</Typography>
+              <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Date of Board<span style={{ color: '#F22' }}>*</span>
+              </Typography>
               <Controller
                 name='dateOnBoard'
                 control={control}
@@ -731,7 +737,9 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
           <Typography sx={{ color: '#404040', fontSize: 16, fontWeight: 700 }}>Salary</Typography>
           <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '24px' }}>
             <FormControl fullWidth error={!!errors.currency}>
-              <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>Currency</Typography>
+              <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Currency<span style={{ color: '#F22' }}>*</span>
+              </Typography>
               <Controller
                 name='currency'
                 control={control}
@@ -768,6 +776,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             <FormControl fullWidth error={!!errors.minimum}>
               <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
                 {fixPrice ? 'Salary' : 'Minimum Salary'}
+                <span style={{ color: '#F22' }}>*</span>
               </Typography>
               <Controller
                 name='minimum'
