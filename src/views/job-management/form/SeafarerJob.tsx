@@ -216,7 +216,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
 
   useEffect(() => {
     if (fixPrice) {
-      setValue('maximum', undefined)
+      setValue('maximum', 0)
     }
   }, [fixPrice])
 
