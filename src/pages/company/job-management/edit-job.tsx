@@ -44,7 +44,7 @@ const EditJob = () => {
                 Homepage
               </Typography>
             </Link>
-            <Link key='2' href='/company/job-management/v2' sx={{ textDecoration: 'none' }}>
+            <Link key='2' href='/company/job-management' sx={{ textDecoration: 'none' }}>
               <Typography
                 sx={{
                   color: '#32497A',

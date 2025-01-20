@@ -1,249 +1,374 @@
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import Grid from '@mui/material/Grid'
-import TextField from '@mui/material/TextField'
-import { Box, Button, Typography } from '@mui/material'
-import { useCallback, useEffect, useState } from 'react'
-import DialogAdd from './DialogAdd'
-import JobDatagrid, { RowItem } from './JobDatagrid'
-import { HttpClient } from 'src/services'
-import { AxiosError } from 'axios'
-import { toast } from 'react-hot-toast'
-import Job from 'src/contract/models/job'
-import debounce from 'src/utils/debounce'
-import { GridPaginationModel } from '@mui/x-data-grid'
-import DialogDelete from './DialogDelete'
-import DialogEdit from './DialogEdit'
-import { v4 } from 'uuid'
 import { Icon } from '@iconify/react'
-import { useAuth } from 'src/hooks/useAuth'
-import DialogBlock from './DialogBlock'
+import {
+  Autocomplete,
+  Box,
+  Breadcrumbs,
+  Button,
+  Grid,
+  InputAdornment,
+  Link,
+  MenuItem,
+  Pagination,
+  PaginationItem,
+  Select,
+  TextField,
+  Typography
+} from '@mui/material'
+import { useEffect, useState } from 'react'
+import { MdNavigateNext } from 'react-icons/md'
+import AnimatedTabs from 'src/@core/components/animated-tabs'
+import Job from 'src/contract/models/job'
+import JobCategory from 'src/contract/models/job_category'
+import VesselType from 'src/contract/models/vessel_type'
+import { HttpClient } from 'src/services'
+import DialogCreate from 'src/views/job-management/DialogCreate'
+import JobCard from 'src/views/job-management/JobCard'
+import JobCardSkeleton from 'src/views/job-management/JobCardSkeleton'
+import { v4 } from 'uuid'
 
-const JobManagementScreen = () => {
-  const [hookSignature, setHookSignature] = useState(v4())
-  const [onLoading, setOnLoading] = useState(false)
-  const [openAddModal, setOpenAddModal] = useState(false)
-  const [openDelModal, setOpenDelModal] = useState(false)
-  const [openEditModal, setOpenEditModal] = useState(false)
-  const [openBlockModal, setOpenBlockModal] = useState(false)
+const CustomPaginationItem = (props: any) => {
+  const { selected, ...other } = props
 
-  const [dataSheet, setDataSheet] = useState<RowItem[]>([])
-  const [selectedItem, setSelectedItem] = useState<Job | null>(null)
-  const { user } = useAuth()
-
-  const [page, setPage] = useState(1)
-  const [rowCount, setRowCount] = useState(0)
-  const [search, setSearch] = useState('')
-
-  const [perPage, setPerPage] = useState(10)
-  const getListJob = async () => {
-    try {
-      const resp = await HttpClient.get(`/job?search=${search}&page=${page}&take=${perPage}`)
-      if (resp.status != 200) {
-        throw resp.data.message ?? 'Something went wrong!'
-      }
-
-      const rows = resp.data.jobs.data as Job[]
-      const items = rows.map((row, index) => {
-        const license: any[] = Object.values(row.license)
-
-        return {
-          no: index + 1,
-          id: row.id,
-          role_type: row.role_type?.name,
-          level_name: row.rolelevel?.levelName,
-          category_name: row.category?.name,
-          degree: row.degree?.name,
-          license: license.map(e => e.title).join(', '),
-          is_active: row.is_active,
-          actions: {
-            onDelete: () => deleteHandler(row),
-            onUpdate: () => updateHandler(row)
-          }
-        } as RowItem
-      })
-
-      setRowCount(resp?.data?.jobs?.total ?? 0)
-      setDataSheet(items)
-    } catch (error) {
-      let errorMessage = 'Something went wrong!'
-
-      if (error instanceof AxiosError) {
-        errorMessage = error?.response?.data?.message ?? errorMessage
-      }
-
-      if (typeof error == 'string') {
-        errorMessage = error
-      }
-
-      toast.error(`Opps ${errorMessage}`)
-    }
-  }
-
-  const cekDocument = async () => {
-    try {
-      if (user?.is_crewing === 1) {
-        const resp = await HttpClient.get(`/user/document?siup=1`)
-        if (resp.status != 200) {
-          throw resp.data.message ?? 'Something went wrong!'
-        }
-        const siupakk = resp.data.documents as any[]
-
-        if (siupakk.length === 0 || user?.verified_at === null) {
-          setOpenBlockModal(true)
-        }
-      } else {
-        const resp = await HttpClient.get(`/user/document`)
-        if (resp.status != 200) {
-          throw resp.data.message ?? 'Something went wrong!'
-        }
-        const document = resp.data.documents as any[]
-
-        if (document.length === 0 || user?.verified_at === null) {
-          setOpenBlockModal(true)
-        }
-      }
-    } catch (error) {
-      let errorMessage = 'Something went wrong!'
-
-      if (error instanceof AxiosError) {
-        errorMessage = error?.response?.data?.message ?? errorMessage
-      }
-
-      if (typeof error == 'string') {
-        errorMessage = error
-      }
-
-      toast.error(`Opps ${errorMessage}`)
-    }
-  }
-
-  const handleSearch = useCallback(
-    debounce((value: string) => {
-      setSearch(value)
-    }, 500),
-    []
+  return (
+    <PaginationItem
+      {...other}
+      sx={{
+        border: 'none',
+        fontWeight: 400,
+        borderRadius: '4px',
+        margin: '0 4px',
+        ...(selected
+          ? {
+              backgroundColor: '#32497A',
+              color: '#FFFFFF',
+              '&:hover': {
+                backgroundColor: '#32497A'
+              }
+            }
+          : {
+              backgroundColor: '#DDDDDD',
+              color: '#000000',
+              '&:hover': {
+                backgroundColor: '#CCCCCC'
+              }
+            })
+      }}
+    />
   )
+}
+const pageItems = 6
+const tabsOption = [
+  { value: 'onship', label: 'Seafarer' },
+  { value: 'offship', label: 'Professional' }
+]
+const employmentType = [
+  { value: 'Intern', label: 'Intern' },
+  { value: 'Contract', label: 'Contract' },
+  { value: 'Full-Time', label: 'Full-Time' }
+]
 
-  const onPageChange = (model: GridPaginationModel) => {
-    const mPage = model.page + 1
-    setPage(mPage)
-    setPerPage(model.pageSize)
+const checkStatus = (status: string) => {
+  if (status === 'active') return true
+  else if (status === 'inactive') return false
+  else return null
+}
+
+const JobManagement = () => {
+  const [refetch, setRefetch] = useState(v4())
+  const [onLoading, setOnLoading] = useState<boolean>(false)
+  const [jobs, setJobs] = useState<Job[] | null>(null)
+  const [createJob, setCreateJob] = useState(false)
+
+  const [totalJobs, setTotalJobs] = useState(0)
+  const [activeTab, setActiveTab] = useState('onship')
+  const [page, setPage] = useState(1)
+
+  const [jobCategory, getJobCategory] = useState<JobCategory[] | null>(null)
+  const [vesselType, getVesselType] = useState<VesselType[] | null>(null)
+
+  const [search, setSearch] = useState('')
+  const [sort, setSort] = useState('post')
+  const [jobCategoryFilter, setJobCategoryFilter] = useState<JobCategory | null>(null)
+  const [statusFilter, setStatusFilter] = useState<string>('')
+  const [vesselTypeFilter, setVesselTypeFilter] = useState<VesselType | null>(null)
+  const [employmentTypeFilter, setEmploymentTypeFilter] = useState<string>('')
+
+  const getJobs = async () => {
+    setOnLoading(true)
+    try {
+      const response = await HttpClient.get('/job', {
+        search: search,
+        page: page,
+        take: pageItems,
+        employee_type: activeTab,
+        category_id: jobCategoryFilter?.id,
+        vesseltype_id: vesselTypeFilter?.id,
+        employment_type: employmentTypeFilter,
+        sort: sort,
+        is_active: checkStatus(statusFilter)
+      })
+      const data = response.data.jobs.data
+      setJobs(data)
+      setTotalJobs(response.data.jobs.total)
+    } catch (error) {
+      console.error('Error fetching jobs:', error)
+    } finally {
+      setOnLoading(false)
+    }
   }
 
-  const deleteHandler = (row: Job) => {
-    setSelectedItem(row)
-    setOpenDelModal(true)
+  const firstLoad = () => {
+    //job category, status, vessel type (seafarer), employement type (professional)
+    HttpClient.get('/job-category?page=1&take=1000').then(async response => {
+      const data: JobCategory[] = await response.data.categories.data
+      getJobCategory(data.filter(d => d.employee_type == activeTab))
+    })
+    HttpClient.get('/public/data/vessel-type?page=1&take=1000').then(async response => {
+      const data: VesselType[] = await response.data.vesselTypes.data
+      getVesselType(data)
+    })
   }
 
-  const updateHandler = (row: Job) => {
-    setSelectedItem(row)
-    setOpenEditModal(true)
+  const clearFilters = () => {
+    setSearch('')
+    setSort('post')
+    setJobCategoryFilter(null)
+    setStatusFilter('')
+    setVesselTypeFilter(null)
+    setEmploymentTypeFilter('')
+    setPage(1)
   }
-
-  // const handleOnRowClick = (params: GridRowParams) => {
-  //   const jobId = params.row?.id
-  //   router.push(`/company/job/?id=${jobId}`)
-  // }
 
   useEffect(() => {
-    setOnLoading(true)
-    cekDocument()
-    getListJob().then(() => {
-      setOnLoading(false)
-    })
-  }, [page, search, hookSignature, perPage])
+    firstLoad()
+  }, [activeTab])
+
+  useEffect(() => {
+    getJobs()
+  }, [refetch, activeTab, search, page, jobCategoryFilter, statusFilter, vesselTypeFilter, employmentTypeFilter, sort])
 
   return (
     <>
-      <Grid container spacing={6} className='match-height'>
-        <Grid item xs={12} sm={6} md={12}>
-          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-            {/* <CardHeader title='List Jobs' /> */}
-
-            <CardContent>
-              <Typography variant='h6' color={'#32487A'} fontWeight='600'>
-                List Jobs
+      <Grid container sx={{ display: 'flex', justifyContent: 'center', gap: '24px', pb: '48px' }}>
+        <Grid item xs={11}>
+          <Breadcrumbs separator={<MdNavigateNext fontSize={'17px'} color='black' />} aria-label='breadcrumb'>
+            <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
+              <Typography
+                sx={{
+                  color: '#32497A',
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
+                Home
               </Typography>
-              <Grid container justifyContent='flex-end'>
-                <Grid item>
-                  <TextField
-                    size='small'
-                    sx={{ mr: 6, mb: 2 }}
-                    placeholder='Search'
-                    onChange={e => handleSearch(e.target.value)}
+            </Link>
+            <Typography
+              key='2'
+              sx={{
+                color: '#949EA2',
+                fontSize: '14px',
+                fontWeight: 400,
+                cursor: 'pointer'
+              }}
+            >
+              Job Management
+            </Typography>
+          </Breadcrumbs>
+        </Grid>
+        <Grid item xs={11} sx={{ borderRadius: '8px', p: '26px', backgroundColor: '#FFF' }}>
+          <Box sx={{ pb: '24px', display: 'flex', justifyContent: 'space-between' }}>
+            <Typography sx={{ color: '#32497A', lineHeight: '38px', fontSize: '32px', fontWeight: 700 }}>
+              Job Management
+            </Typography>
+            <Button
+              onClick={() => setCreateJob(!createJob)}
+              size='small'
+              variant='contained'
+              endIcon={<Icon icon='ph:plus' />}
+              sx={{ height: '38px', padding: '8px 12px', textTransform: 'none' }}
+            >
+              Create Job
+            </Button>
+          </Box>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <AnimatedTabs tabs={tabsOption} activeTab={activeTab} setActiveTab={setActiveTab} />
+            <Box sx={{ display: 'flex', gap: '70px' }}>
+              <TextField
+                sx={{ flexGrow: 1 }}
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                variant='outlined'
+                placeholder='Search'
+                size='small'
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start' sx={{ marginRight: '8px' }}>
+                      <Icon icon='ph:magnifying-glass' fontSize={16} />
+                    </InputAdornment>
+                  )
+                }}
+              />
+              <Box sx={{ width: '230px', display: 'flex', gap: '6px', alignItems: 'center', justifyContent: 'right' }}>
+                <Icon icon='ph:funnel' fontSize={16} fontWeight={700} />
+                <Typography sx={{ fontSize: 14, fontWeight: 700 }}>Sort by :</Typography>
+                <Select
+                  size='small'
+                  defaultValue='post'
+                  value={sort}
+                  onChange={e => setSort(e.target.value)}
+                  sx={{
+                    border: 'none',
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      border: 'none'
+                    }
+                  }}
+                >
+                  <MenuItem value='modified'>Date Modified</MenuItem>
+                  <MenuItem value='post'>Date Posted</MenuItem>
+                </Select>
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', gap: '70px' }}>
+              <Grid container spacing={6}>
+                <Grid item xs={4}>
+                  <Autocomplete
+                    autoHighlight
+                    options={jobCategory || []}
+                    getOptionLabel={option => option.name || ''}
+                    value={jobCategory?.find(category => category.id === jobCategoryFilter?.id) || null}
+                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                    onChange={(_, newValue) => {
+                      setJobCategoryFilter(newValue ? newValue : null)
+                    }}
+                    renderInput={field => <TextField {...field} placeholder='Job Category' size='small' />}
+                    renderOption={(props, option) => (
+                      <MenuItem {...props} key={option.id} value={option.id}>
+                        {option.name}
+                      </MenuItem>
+                    )}
+                    noOptionsText='Job Category not found'
                   />
                 </Grid>
-                <Grid item sx={{ mr: 6, mb: 2 }}>
-                  <Box>
-                    <Button variant='contained' size='small' onClick={() => setOpenAddModal(!openAddModal)}>
-                      <Icon
-                        fontSize='large'
-                        icon={'zondicons:add-outline'}
-                        color={'info'}
-                        style={{ fontSize: '14px', margin: 3 }}
-                      />
-                      Add
-                    </Button>
-                  </Box>
+                <Grid item xs={4}>
+                  <Select
+                    fullWidth
+                    size='small'
+                    value={statusFilter}
+                    onChange={e => setStatusFilter(e.target.value)}
+                    displayEmpty
+                  >
+                    <MenuItem value=''>
+                      <Typography sx={{ color: '#949EA2', fontWeight: 400 }}>Status</Typography>
+                    </MenuItem>
+                    <MenuItem value='active'>Active</MenuItem>
+                    <MenuItem value='inactive'>Inactive</MenuItem>
+                  </Select>
+                </Grid>
+                <Grid item xs={4}>
+                  {activeTab === 'onship' ? (
+                    <Autocomplete
+                      autoHighlight
+                      options={vesselType || []}
+                      getOptionLabel={option => option.name || ''}
+                      value={vesselType?.find(vessel => vessel.id === vesselTypeFilter?.id) || null}
+                      isOptionEqualToValue={(option, value) => option.id === value.id}
+                      onChange={(_, newValue) => {
+                        setVesselTypeFilter(newValue ? newValue : null)
+                      }}
+                      renderInput={field => <TextField {...field} placeholder='Vessel Type' size='small' />}
+                      renderOption={(props, option) => (
+                        <MenuItem {...props} key={option.id} value={option.id}>
+                          {option.name}
+                        </MenuItem>
+                      )}
+                      noOptionsText='Vessel Type not found'
+                    />
+                  ) : (
+                    <Select
+                      fullWidth
+                      size='small'
+                      value={employmentTypeFilter}
+                      onChange={e => setEmploymentTypeFilter(e.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem value=''>
+                        <Typography sx={{ color: '#949EA2', fontWeight: 400 }}>Employment Type</Typography>
+                      </MenuItem>
+                      {employmentType.map((type, i) => (
+                        <MenuItem key={i} value={type.value}>
+                          {type.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
                 </Grid>
               </Grid>
-
-              <JobDatagrid
-                page={page - 1} // di MUI page pertama = 0
-                rowCount={rowCount}
-                pageSize={perPage}
-                loading={onLoading}
-                onPageChange={model => onPageChange(model)}
-                rows={dataSheet}
-                getListJob={getListJob}
-                // onRowClick={params => handleOnRowClick(params)}
-              />
-            </CardContent>
-          </Card>
+              <Box sx={{ flexShrink: 0, display: 'flex', width: '230px', justifyContent: 'right' }}>
+                <Button
+                  onClick={() => clearFilters()}
+                  variant='outlined'
+                  size='small'
+                  sx={{
+                    padding: '6px 12px',
+                    fontSize: 14,
+                    fontWeight: 400,
+                    textTransform: 'none'
+                  }}
+                >
+                  Clear Filter
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+          <Grid container sx={{ my: '8px' }} spacing={6}>
+            {onLoading ? (
+              Array(4)
+                .fill(0)
+                .map((_, i) => (
+                  <Grid item key={i} xs={6}>
+                    <JobCardSkeleton />
+                  </Grid>
+                ))
+            ) : jobs && jobs.length > 0 ? (
+              jobs.map((job, i) => (
+                <Grid item key={i} xs={6}>
+                  <JobCard job={job} refetch={() => setRefetch(v4())} />
+                </Grid>
+              ))
+            ) : (
+              <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                <Box component='img' src='/images/no-connection-request.png' sx={{ height: '160px', width: '160px' }} />
+                <Typography sx={{ color: '#949EA2', fontSize: 12, fontWeight: 400 }}>
+                  You have no job available right now
+                </Typography>
+              </Grid>
+            )}
+          </Grid>
+        </Grid>
+        <Grid item xs={11} container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Typography sx={{ color: '#949EA2', fontSize: 12, fontWeight: 400 }}>{`Showing ${
+            page * pageItems < totalJobs ? page * pageItems : totalJobs
+          } out of ${totalJobs} results`}</Typography>
+          <Pagination
+            size='small'
+            count={Math.ceil(totalJobs / pageItems)}
+            page={page}
+            onChange={(_, newValue) => setPage(newValue)}
+            variant='outlined'
+            shape='rounded'
+            renderItem={item => <CustomPaginationItem {...item} />}
+          />
         </Grid>
       </Grid>
-
-      <DialogAdd
-        visible={openAddModal}
-        onStateChange={() => setHookSignature(v4())}
-        onCloseClick={() => setOpenAddModal(!openAddModal)}
-      />
-      {selectedItem && (
-        <>
-          <DialogDelete
-            selectedItem={selectedItem}
-            visible={openDelModal}
-            onStateChange={() => setHookSignature(v4())}
-            onCloseClick={() => setOpenDelModal(!openDelModal)}
-          />
-          <DialogEdit
-            key={selectedItem.id}
-            selectedItem={selectedItem}
-            visible={openEditModal}
-            onCloseClick={() => {
-              setOpenEditModal(!openEditModal)
-              setSelectedItem(null)
-            }}
-            onStateChange={() => setHookSignature(v4())}
-          />
-        </>
-      )}
-
-      <DialogBlock
-        visible={openBlockModal}
-        onCloseClick={() => {
-          setOpenBlockModal(!openBlockModal)
-          window.location.replace('/home')
-        }}
-      />
+      {createJob && <DialogCreate visible={createJob} onCloseClick={() => setCreateJob(false)} />}
     </>
   )
 }
 
-JobManagementScreen.acl = {
+JobManagement.acl = {
   action: 'read',
   subject: 'user-job-management'
 }
 
-export default JobManagementScreen
+export default JobManagement

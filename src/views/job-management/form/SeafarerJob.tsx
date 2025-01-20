@@ -294,7 +294,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
         .then(
           () => {
             toast.success(`${jobTitle} edited successfully!`)
-            router.push('/company/job-management/v2')
+            router.push('/company/job-management')
           },
           error => {
             toast.error('Failed to save job: ' + error.response.data.message)
@@ -307,7 +307,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
           () => {
             // clearDraft()
             toast.success(`${jobTitle} submited successfully!`)
-            router.push('/company/job-management/v2')
+            router.push('/company/job-management')
           },
           error => {
             toast.error('Failed to save job: ' + error.response.data.message)
