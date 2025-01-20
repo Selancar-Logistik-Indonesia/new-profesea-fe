@@ -78,7 +78,7 @@ const schema = yup.object().shape({
     .required()
 })
 
-const DRAFT_KEY = 'create-job-professional'
+// const DRAFT_KEY = 'create-job-professional'
 
 const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   const {
