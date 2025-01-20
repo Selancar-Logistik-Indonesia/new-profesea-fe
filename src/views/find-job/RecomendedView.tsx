@@ -254,7 +254,22 @@ const renderList = (listJob: Job[]) => {
                   {/* <JobsValue icon='solar:square-academic-cap-bold-duotone'>{item?.degree?.name ?? '-'}</JobsValue> */}
                   <JobsValue icon='ph:clock-duotone'>{item?.employment_type ?? '-'}</JobsValue>
                   <JobsValue icon='ph:map-pin-duotone'>{item?.city?.city_name ?? '-'}</JobsValue>
-                  {!item?.hide_salary && (
+                  {item?.hide_salary ? (
+                    <Grid
+                      container
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 2
+                      }}
+                    >
+                      <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                      <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
+                        Salary undisclosed
+                      </Typography>
+                    </Grid>
+                  ) : (
                     <Grid
                       container
                       sx={{
@@ -285,7 +300,7 @@ const renderList = (listJob: Job[]) => {
 
                   <Box sx={{ display: 'flex', justifyContent: 'end' }}>
                     <Typography sx={{ fontSize: 12, fontWeight: 400, color: '#999' }}>
-                      {renderTimeAgo(item?.created_at)}
+                      {item?.applied_at != null ? 'Applied' : renderTimeAgo(item?.created_at)}
                     </Typography>
                   </Box>
                 </Box>

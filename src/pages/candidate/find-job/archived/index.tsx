@@ -115,6 +115,33 @@ const JobArchived = () => {
       const companyNameUrl = item?.job?.company.name.toLowerCase().split(' ').join('-')
       const jobTitleUrl = item?.job?.job_title ? item?.job?.job_title?.toLowerCase().split(' ').join('-') : ''
 
+      const renderStatus = (onboard_at: any, is_active: boolean, deleted_at: any) => {
+        const today = new Date()
+        const onboardDate = new Date(onboard_at)
+
+        if (today > onboardDate) {
+          return (
+            <Typography fontSize={14} fontWeight={400} color={'#999'}>
+              No longer accepting applications
+            </Typography>
+          )
+        } else if (!is_active) {
+          return (
+            <Typography fontSize={14} fontWeight={400} color={'#999'}>
+              No longer accepting applications
+            </Typography>
+          )
+        } else if (deleted_at) {
+          return (
+            <Typography fontSize={14} fontWeight={400} color={'#999'}>
+              No longer available
+            </Typography>
+          )
+        } else {
+          return null
+        }
+      }
+
       return (
         <Grid item xs={12} md={6} lg={4} key={item?.id}>
           <Paper
@@ -176,6 +203,7 @@ const JobArchived = () => {
                   <Typography fontSize={14} fontWeight={400} color={'#999'}>
                     {item?.created_at ? getAppliedDuration(item?.created_at) : '-'}
                   </Typography>
+                  {renderStatus(item?.job?.onboard_at, item?.job?.is_active, item?.job?.deleted_at)}
                 </Box>
               </Box>
             ) : (
@@ -190,6 +218,7 @@ const JobArchived = () => {
                   <Typography fontSize={14} fontWeight={400} color={'#999'}>
                     {item?.created_at ? getAppliedDuration(item?.created_at) : '-'}
                   </Typography>
+                  {renderStatus(item?.job?.onboard_at, item?.job?.is_active, item?.job?.deleted_at)}
                 </Box>
               </Box>
             )}
