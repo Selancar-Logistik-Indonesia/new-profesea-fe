@@ -424,9 +424,11 @@ const calculateDaysDifference = (start: any, end: any) => {
         return `${diffInDays} Day${diffInDays > 1 ? 's' : ''}`;
     } else if (diffInDays < 365) {
         const diffInMonths = Math.ceil(diffInDays / 30);
+
         return `${diffInMonths} Month${diffInMonths > 1 ? 's' : ''}`;
     } else {
         const diffInYears = Math.ceil(diffInDays / 365);
+
         return `${diffInYears} Year${diffInYears > 1 ? 's' : ''}`;
     }
 }
