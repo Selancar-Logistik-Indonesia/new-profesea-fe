@@ -297,7 +297,7 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
                 </Typography>
               </Box>
               <Typography sx={{ fontSize: 12, fontWeight: 700 }}>
-                {progress === 'Expired' ? progress : `${progress} Days to go`}
+                {progress === 'Expired' ? progress : `${progress} Left`}
               </Typography>
             </Box>
             <Box sx={{ width: '100%', backgroundColor: '#DBDBDB', borderRadius: '100px' }}>

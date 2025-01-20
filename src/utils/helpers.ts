@@ -420,7 +420,17 @@ const calculateDaysDifference = (start: any, end: any) => {
     const diffInMs = end - start;
     const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
 
-    return diffInDays;
+    if (diffInDays < 30) {
+        return `${diffInDays} Day${diffInDays > 1 ? 's' : ''}`;
+    } else if (diffInDays < 365) {
+        const diffInMonths = Math.ceil(diffInDays / 30);
+
+        return `${diffInMonths} Month${diffInMonths > 1 ? 's' : ''}`;
+    } else {
+        const diffInYears = Math.ceil(diffInDays / 365);
+
+        return `${diffInYears} Year${diffInYears > 1 ? 's' : ''}`;
+    }
 }
 
 const dateProgress = (start: Date, end: Date) => {
