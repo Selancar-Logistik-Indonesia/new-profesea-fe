@@ -51,6 +51,7 @@ import themeConfig from 'src/configs/themeConfig'
 import { useTranslation } from 'react-i18next'
 import JobSaved from './saved'
 import JobArchived from './archived'
+import Image from 'next/image'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -331,9 +332,7 @@ const SeafarerJobApp = () => {
                 boxSizing: 'border-box',
                 color: 'common.white',
                 backgroundColor: '#FFFFFF',
-                borderRadius: '8px 8px 0px 0px',
-                marginBottom: '12px',
-                paddingTop: '18px'
+                borderRadius: '8px 8px 0px 0px'
               }}
             >
               <Tabs
@@ -349,10 +348,33 @@ const SeafarerJobApp = () => {
                     fontSize: '16px',
                     fontWeight: 700,
                     color: +value === 1 ? '#404040' : '#BFBFBF',
-                    textTransform: 'capitalize'
+                    textTransform: 'capitalize',
+                    minHeight: '60px !important'
                   }}
                   {...a11yProps(1)}
                   value='1'
+                  icon={
+                    hidden ? (
+                      <></>
+                    ) : (
+                      <Box
+                        sx={{
+                          fontWeight: 700,
+                          fontSize: '10px',
+                          color: '#FFF',
+                          textAlign: 'center',
+                          padding: '2px 4px',
+                          background: '#F22',
+                          borderRadius: '100px',
+                          marginLeft: '10px !important',
+                          marginBottom: '10px !important'
+                        }}
+                      >
+                        New
+                      </Box>
+                    )
+                  }
+                  iconPosition='end'
                 />
                 <Tab
                   label='Job Applied'
@@ -360,7 +382,8 @@ const SeafarerJobApp = () => {
                     fontSize: '16px',
                     fontWeight: 700,
                     color: +value === 2 ? '#404040' : '#BFBFBF',
-                    textTransform: 'capitalize'
+                    textTransform: 'capitalize',
+                    minHeight: '60px !important'
                   }}
                   {...a11yProps(2)}
                   value='2'
@@ -371,7 +394,8 @@ const SeafarerJobApp = () => {
                     fontSize: '16px',
                     fontWeight: 700,
                     color: +value === 3 ? '#404040' : '#BFBFBF',
-                    textTransform: 'capitalize'
+                    textTransform: 'capitalize',
+                    minHeight: '60px !important'
                   }}
                   {...a11yProps(3)}
                   value='3'
@@ -382,7 +406,8 @@ const SeafarerJobApp = () => {
                     fontSize: '16px',
                     fontWeight: 700,
                     color: +value === 4 ? '#404040' : '#BFBFBF',
-                    textTransform: 'capitalize'
+                    textTransform: 'capitalize',
+                    minHeight: '60px !important'
                   }}
                   {...a11yProps(4)}
                   value='4'
@@ -654,6 +679,42 @@ const SeafarerJobApp = () => {
                                   return (
                                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                       <CircularProgress sx={{ mt: 20 }} />
+                                    </Box>
+                                  )
+                                }
+                                if (listJobs.length == 0) {
+                                  return (
+                                    <Box
+                                      sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        height: '100vh'
+                                      }}
+                                    >
+                                      <Box sx={{ textAlign: 'center' }}>
+                                        <Image
+                                          src={'/images/rafiki.png'}
+                                          alt='assets-applied'
+                                          width={hidden ? 300 : 350}
+                                          height={hidden ? 200 : 260}
+                                          style={{
+                                            margin: '0 auto'
+                                          }}
+                                        />
+                                        <Typography
+                                          sx={{
+                                            fontSize: '18px',
+                                            fontWeight: 700,
+                                            color: '#32497A',
+                                            marginTop: '40px',
+                                            marginBottom: '24px'
+                                          }}
+                                        >
+                                          Oops! Looks like there are no jobs matching your search. Try exploring other
+                                          options!
+                                        </Typography>
+                                      </Box>
                                     </Box>
                                   )
                                 }

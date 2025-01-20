@@ -34,6 +34,7 @@ const JobDetail = () => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [license, setLicense] = useState<any[] | undefined>()
   const router = useRouter()
+ 
   const params = useSearchParams()
   const jobId = params.get('id')
   const companyname = linkToTitleCase(params.get('companyname'))
@@ -138,6 +139,10 @@ const JobDetail = () => {
     }
   }
 
+  const handleBackPage = () => {
+    router.back()
+  }
+
   if (isLoading) {
     return (
       <Box textAlign={'center'} mt={10}>
@@ -159,7 +164,7 @@ const JobDetail = () => {
       </Head>
       <Box>
         <Grid container sx={{ position: 'fixed' }}>
-          <IconButton onClick={() => router.push('/candidate/find-job')}>
+          <IconButton onClick={handleBackPage}>
             <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
           </IconButton>
         </Grid>
