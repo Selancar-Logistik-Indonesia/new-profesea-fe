@@ -137,13 +137,11 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
                   
                   if(el.path == "/#discoverSectionLink"){
                     
-                    setTimeout(() => {
-                      const element = document.getElementById('discoverSection')
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' })
-                      }
-                    }, 2000)
-
+                    const element = document.getElementById('discoverSection')
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' })
+                    }
+                  
                     return false
                   }
                 }}>
