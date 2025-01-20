@@ -96,7 +96,7 @@ const CardActiveAdsApp = () => {
                 </Typography>
               }
             ></CardHeader>
-            <CardContent>{renderList(dataAds)}</CardContent>
+            <CardContent sx={{ height: 375 }}>{renderList(dataAds)}</CardContent>
             <div style={{ backgroundColor: 'white', height: 50, position: 'absolute', bottom: 0, width: '100%' }}>
               <Divider component='div' />
               <CardActionArea>

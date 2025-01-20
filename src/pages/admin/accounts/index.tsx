@@ -24,14 +24,35 @@ import DialogCalculateAllUserPoint from './DialogCalculateAllUserPoint'
 import DialogCalculateAllUserCP from './DialogCalculateAllUserCP'
 import CalculateIcon from '@mui/icons-material/Calculate'
 
-const UserScreen = () => {
-  const translate: any = {
-    onship: 'On-Ship',
-    offship: 'Off-Ship',
-    null: '',
-    trainer: 'Trainer'
+const getRole = (row: Account) => {
+  if (row.team_id === 1) {
+    return 'Admin'
+  }
+  if (row.team_id === 2) {
+    return 'Candidate'
+  }
+  if (row.team_id === 3) {
+    return 'Company'
+  }
+  if (row.team_id === 4) {
+    return 'Trainer'
   }
 
+  return "Hasn't picked role"
+}
+
+const getType = (row: Account) => {
+  if (row.employee_type === 'onship') {
+    return 'Seafarer'
+  }
+  if (row.employee_type === 'offship') {
+    return 'Professional'
+  }
+
+  return '-'
+}
+
+const UserScreen = () => {
   const EmployeeType = [
     { employee_type: 'onship', label: 'On-Ship' },
     { employee_type: 'offship', label: 'Off-Ship' }
@@ -42,6 +63,7 @@ const UserScreen = () => {
   const handleClickClaculation = (event: any) => {
     setAnchorEl(event.currentTarget)
   }
+
   const handleCloseCalculation = () => {
     setAnchorEl(null)
   }
@@ -81,15 +103,15 @@ const UserScreen = () => {
         return {
           no: index + 1,
           id: row.id,
-          name: row.name,
+          name: row.name ?? 'N/A',
           email: row.email,
-          phone: row.phone,
-          role: row.employee_type != 'offship' ? row.role : 'Candidate',
-          type: translate[row.employee_type],
+          phone: row.phone ?? 'N/A',
+          role: getRole(row),
+          type: getType(row),
           plan: row.plan_type,
           point: row.point,
           cp: row.completion_percentage,
-          verified_at: row.verified_at,
+          verified_at: row.verified_at ?? 'Not verified',
           registered_at: row.created_at,
           resend: {
             onResend: () => resendchat(row)
