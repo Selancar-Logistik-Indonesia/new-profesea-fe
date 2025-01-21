@@ -150,8 +150,8 @@ const ProfileHeader = ({ dataUser }: { dataUser: IUser }) => {
             {isVisitor === true ? (
               <Box sx={{ display: 'flex', gap: '12px' }}>
                 {/* <MessageButton user={dataUser} /> */}
-                {user?.team_id == 2 && dataUser.team_id == 2 && (<ConnectButton user={dataUser} />)}
-                {user?.team_id == 2 && dataUser.team_id == 3 && (<ButtonFollowCompany user_id={dataUser.id} friend_id={Number(user?.id)} />)}
+                {(user?.team_id == 2 && dataUser.team_id == 2) && (<ConnectButton user={dataUser} />)}
+                {(user?.team_id == 2 && dataUser.team_id == 3) && (<ButtonFollowCompany user_id={dataUser.id} friend_id={Number(user?.id)} />)}
               </Box>
             ) : (
               <Button variant='contained' sx={{ textTransform: 'none' }} LinkComponent={Link} href={editProfileLink}>
