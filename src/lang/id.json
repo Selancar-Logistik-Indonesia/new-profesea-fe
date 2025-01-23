@@ -210,6 +210,7 @@
     "input": {
       "login": "Masuk",
       "g_login": "Masuk dengan Google",
+      "f_login": "Masuk dengan Facebook",
       "register": "Registrasi",
       "email": "Alamat Email",
       "password": "Kata Sandi",

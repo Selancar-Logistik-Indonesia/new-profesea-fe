@@ -209,6 +209,7 @@
     "input": {
       "login": "Log in",
       "g_login": "Continue with Google",
+      "f_login": "Continue with Facebook",
       "register": "Register",
       "email": "Email Address",
       "password": "Password",
