@@ -340,7 +340,7 @@ const LoginPage = () => {
                         size='large'
                         variant='outlined'
                         component={Link}
-                        href={process.env.NEXT_PUBLIC_BASE_SOCIALITE + '/auth/google'}
+                        href='https://apifix.profesea.id/auth/google'
                         startIcon={<Icon icon='devicon:google' fontSize={20} />}
                       >
                         {t('input.g_login')}
@@ -350,7 +350,7 @@ const LoginPage = () => {
                         size='large'
                         variant='outlined'
                         component={Link}
-                        href={process.env.NEXT_PUBLIC_BASE_SOCIALITE + '/auth/facebook'}
+                        href='https://apifix.profesea.id/auth/facebook'
                         startIcon={<Icon icon='devicon:facebook' fontSize={20} />}
                       >
                         {t('input.f_login')}
