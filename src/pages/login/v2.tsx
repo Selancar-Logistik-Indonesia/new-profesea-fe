@@ -27,7 +27,6 @@ import { useTranslation } from 'react-i18next'
 import { Icon } from '@iconify/react'
 import { useSearchParams } from 'next/navigation'
 
-import DialogGoogleLogin from './DialogGoogleLogin'
 import DialogMessage from './DialogMessage'
 import { AppConfig } from 'src/configs/api'
 import { useRouter } from 'next/router'
@@ -74,7 +73,6 @@ const LoginPage = () => {
   const checked = searchParams.get('checked')
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false)
   const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
   const [onLoading, setOnLoading] = useState<boolean>(false)
   const [checkEmail, setCheckEmail] = useState<boolean>(false)
