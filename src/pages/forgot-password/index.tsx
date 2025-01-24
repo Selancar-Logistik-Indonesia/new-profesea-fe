@@ -147,7 +147,7 @@ const ForgotPassword = () => {
                   }}
                 >
                   <Link href='/'>
-                    <Box component='img' src='/images/logosamudera.png' sx={{ width: 225, mt: 5 }}></Box>
+                    <Box component='img' src='/images/logoprofesea.png' sx={{ width: 225, mt: 5 }}></Box>
                   </Link>
                 </Box>
                 {message == '' ? (
