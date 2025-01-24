@@ -24,7 +24,7 @@ const Main = () => {
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
         <meta name='og:title' content={`${themeConfig.templateName} - ${t('landing_training_title')}`} />
         <meta name='og:description' content={`${themeConfig.templateName} - ${t('landing_training_description')}`} />
-        <meta property='og:image' content='images/logosamudera.png' />
+        <meta property='og:image' content='images/logoprofesea.png' />
       </Head>
       <Box>
         <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
