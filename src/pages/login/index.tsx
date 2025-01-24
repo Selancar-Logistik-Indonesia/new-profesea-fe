@@ -153,10 +153,10 @@ const LoginPage = () => {
           item
           md={6}
           sx={{
-            backgroundImage: `url(/images/bg-login.jpeg)`,
+            backgroundImage: `url(/images/bg-login.jpg)`,
             backgroundRepeat: 'no-repeat',
-            backgroundSize: '150%',
-            backgroundPosition: '60% 0%'
+            backgroundSize: '100% auto',
+            backgroundPosition: '20% 45%'
           }}
         />
         <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

@@ -448,6 +448,16 @@ const LoginPage = () => {
                       >
                         {t('input.g_login')}
                       </Button>
+                      <Button
+                        fullWidth
+                        size='large'
+                        variant='outlined'
+                        component={Link}
+                        href='https://apifix.profesea.id/auth/facebook'
+                        startIcon={<Icon icon='devicon:facebook' fontSize={20} />}
+                      >
+                        {t('input.f_login')}
+                      </Button>
                     </>
                   )}
                 </Box>
