@@ -143,7 +143,7 @@ const LoginPage = () => {
 									<Link href='/'>
 										<Box
 											component="img"
-											src='/images/logosamudera.png'
+											src='/images/logoprofesea.png'
 											sx={{ width: 125, mt: 5 }}
 										>
 										</Box>

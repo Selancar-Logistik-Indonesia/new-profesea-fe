@@ -138,7 +138,7 @@ const NewsPage = () => {
         <title>{`${themeConfig.templateName} - ${t('landing_news_title')}`}</title>
         <meta property='og:title' content={`${themeConfig.templateName} - ${t('landing_news_title')}`} />
         <meta property='og:description' content={`${t('landing_news_description')}`} />
-        <meta property='og:image' content='images/logosamudera.png' />
+        <meta property='og:image' content='images/logoprofesea.png' />
         <meta name='description' content={`${t('landing_news_description')}`} />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />

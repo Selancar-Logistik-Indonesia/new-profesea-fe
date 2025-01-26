@@ -45,7 +45,7 @@ const FooterView = () => {
             sx={{ width: 145 }}
             alt='The Profesea logo'
             title='Profesea'
-            src='/images/logosamudera.png'
+            src='/images/logoprofesea.png'
           />
           <Typography sx={{ color: '#1F1F1F', fontSize: '14px', fontWeight: 400 }}>
             {t('landing_footer_title')}

@@ -96,7 +96,7 @@ const LoginPage = () => {
                     <BoxWrapper>
                         <Box sx={{ mb: 3, maxWidth: '100%', textAlign: 'center' }}>
                             <Link href={"/"}>
-                                <img alt='logo' src='/images/logosamudera.png' style={{
+                                <img alt='logo' src='/images/logoprofesea.png' style={{
                                     width: 125,
                                     padding: 0,
                                     marginBottom: 10,

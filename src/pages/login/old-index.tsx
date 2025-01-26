@@ -118,7 +118,7 @@ const LoginPage = () => {
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
         <meta property='og:title' content={`${themeConfig.templateName} - ${t('login_title')}`} />
         <meta property='og:description' content={`${themeConfig.templateName} - ${t('login_description')}`} />
-        <meta property='og:image' content='images/logosamudera.png' />
+        <meta property='og:image' content='images/logoprofesea.png' />
       </Head>
       <Box
         sx={{
@@ -171,7 +171,7 @@ const LoginPage = () => {
                   }}
                 >
                   <Link href='/'>
-                    <Box component='img' src='/images/logosamudera.png' sx={{ width: 125 }}></Box>
+                    <Box component='img' src='/images/logoprofesea.png' sx={{ width: 125 }}></Box>
                   </Link>
                   <Typography
                     variant='h5'

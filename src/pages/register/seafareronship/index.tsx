@@ -105,7 +105,7 @@ const Register = () => {
           property='og:description'
           content={`${themeConfig.templateName} - ${t('register_seafarer_description')}`}
         />
-        <meta property='og:image' content='images/logosamudera.png' />
+        <meta property='og:image' content='images/logoprofesea.png' />
       </Head>
       <Box className='content-right'>
         {!hidden ? (
