@@ -1,5 +1,5 @@
 // ** React Import
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -62,8 +62,8 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
           id='select-language'
           select
           variant='standard'
-          defaultValue={localStorage.user_locale}
           size='small'
+          defaultValue={'id'}
           onChange={e => {
             handleLangItemClick(e.target.value)
             saveSettings({ ...settings, direction: 'ltr' })
