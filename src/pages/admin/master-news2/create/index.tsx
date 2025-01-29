@@ -58,6 +58,7 @@ const MasterNewsScreen = () => {
   const [charSlug, setSlug] = useState('0')
   const [charSnap, setCharSnap] = useState('0')
   const [desc, setDesc] = useState(EditorState.createEmpty())
+  const [descEnglish, setDescEnglish] = useState(EditorState.createEmpty())
   const [files, setFiles] = useState<File[]>([])
   const [postingDate, setPostingDate] = useState<DateType>(new Date())
   const { getRootProps, getInputProps } = useDropzone({
@@ -119,12 +120,14 @@ const MasterNewsScreen = () => {
   }
 
   const onCreate = async (formData: any) => {
-    const { title, slug, meta, snapContent } = formData
+    const { title, titleEnglish, slug, meta, snapContent } = formData
 
     const json = {
       imgnews: files,
       title: title,
+      titleEnglish: titleEnglish,
       content: draftToHtml(convertToRaw(desc?.getCurrentContent())),
+      contentEnglish: draftToHtml(convertToRaw(descEnglish?.getCurrentContent())),
       type: 'News',
       slug: slug,
       meta: meta,
@@ -150,6 +153,12 @@ const MasterNewsScreen = () => {
     setOnLoading(false)
   }
   const handleChangetitle = (event: { target: { value: any } }) => {
+    // Update the 'value' state when the input value changes.
+
+    const newValue = event.target.value.length
+    setType(newValue)
+  }
+  const handleChangeEnglishTitle = (event: { target: { value: any } }) => {
     // Update the 'value' state when the input value changes.
 
     const newValue = event.target.value.length
@@ -239,6 +248,27 @@ const MasterNewsScreen = () => {
                       {...register('title')}
                       error={Boolean(errors.title)}
                       onChange={handleChangetitle}
+                      fullWidth
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <Typography>{charType} character / 60</Typography>
+                        </InputAdornment>
+                      }
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} md={6}>
+                <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.title)}>
+                      English Title
+                    </InputLabel>
+                    <OutlinedInput
+                      sx={{ mb: 1 }}
+                      label='English Title'
+                      id='titleEnglish'
+                      {...register('titleEnglish')}
+                      error={Boolean(errors.titleEnglish)}
+                      onChange={handleChangeEnglishTitle}
                       fullWidth
                       endAdornment={
                         <InputAdornment position='end'>
@@ -397,7 +427,11 @@ const MasterNewsScreen = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
+                 
                   <EditorWrapper>
+                    <Typography>
+                      Indonesia Content : 
+                    </Typography>
                     <EditorArea
                       editorState={desc}
                       onEditorStateChange={data => setDesc(data)}
@@ -408,7 +442,23 @@ const MasterNewsScreen = () => {
                           alt: { present: true, mandatory: false }
                         }
                       }}
-                      placeholder='Write a news/event'
+                      placeholder='Write a news/event in Bahasa Indonesia'
+                    />
+                    <hr style={{ margin:"30px 0"}} />
+                    <Typography>
+                      English Content : 
+                    </Typography>
+                    <EditorArea
+                      editorState={descEnglish}
+                      onEditorStateChange={data => setDescEnglish(data)}
+                      toolbar={{
+                        image: {
+                          uploadCallback: uploadCallback,
+                          previewImage: true,
+                          alt: { present: true, mandatory: false }
+                        }
+                      }}
+                      placeholder='Write a news/event in English'
                     />
                     {/* {errors.desc && (
                       <FormHelperText sx={{ color: 'error.main' }} id=''>
