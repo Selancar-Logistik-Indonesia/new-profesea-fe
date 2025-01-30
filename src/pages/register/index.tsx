@@ -427,6 +427,7 @@ const LoginPage = () => {
                         const emailValue = getValues('email')
                         onChecking(emailValue)
                       }}
+                      sx={{ textTransform: 'none' }}
                     >
                       {onLoading ? <CircularProgress color='primary' /> : t('input.continue')}
                     </Button>
@@ -445,8 +446,20 @@ const LoginPage = () => {
                         component={Link}
                         href='https://apifix.profesea.id/auth/google'
                         startIcon={<Icon icon='devicon:google' fontSize={20} />}
+                        sx={{ textTransform: 'none' }}
                       >
                         {t('input.g_login')}
+                      </Button>
+                      <Button
+                        fullWidth
+                        size='large'
+                        variant='outlined'
+                        component={Link}
+                        href='https://apifix.profesea.id/auth/facebook'
+                        startIcon={<Icon icon='devicon:facebook' fontSize={20} />}
+                        sx={{ textTransform: 'none' }}
+                      >
+                        {t('input.f_login')}
                       </Button>
                     </>
                   )}
