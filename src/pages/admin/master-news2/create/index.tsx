@@ -91,6 +91,7 @@ const MasterNewsScreen = () => {
   const schema = yup.object().shape({
     // desc: yup.string().min(1).required(),
     title: yup.string().min(1).max(60).required('maximum 60 character'),
+    title_eng: yup.string().min(1).max(60).required('maximum 60 character'),
     meta: yup.string().min(1).max(160).required('maximum 160 character'),
     snapContent: yup.string().min(1).max(250).required('maximum 250 character')
   })
@@ -120,14 +121,14 @@ const MasterNewsScreen = () => {
   }
 
   const onCreate = async (formData: any) => {
-    const { title, titleEnglish, slug, meta, snapContent } = formData
+    const { title, title_eng, slug, meta, snapContent } = formData
 
     const json = {
       imgnews: files,
       title: title,
-      titleEnglish: titleEnglish,
+      title_eng: title_eng,
       content: draftToHtml(convertToRaw(desc?.getCurrentContent())),
-      contentEnglish: draftToHtml(convertToRaw(descEnglish?.getCurrentContent())),
+      content_eng: draftToHtml(convertToRaw(descEnglish?.getCurrentContent())),
       type: 'News',
       slug: slug,
       meta: meta,
@@ -258,16 +259,16 @@ const MasterNewsScreen = () => {
                   </Grid>
                 </Grid>
                 <Grid item container xs={12} md={6}>
-                <Grid container md={12}>
-                    <InputLabel htmlFor='x' error={Boolean(errors.title)}>
+                  <Grid container md={12}>
+                    <InputLabel htmlFor='x' error={Boolean(errors.title_eng)}>
                       English Title
                     </InputLabel>
                     <OutlinedInput
                       sx={{ mb: 1 }}
                       label='English Title'
-                      id='titleEnglish'
-                      {...register('titleEnglish')}
-                      error={Boolean(errors.titleEnglish)}
+                      id='title_eng'
+                      {...register('title_eng')}
+                      error={Boolean(errors.title_eng)}
                       onChange={handleChangeEnglishTitle}
                       fullWidth
                       endAdornment={
@@ -427,11 +428,8 @@ const MasterNewsScreen = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                 
                   <EditorWrapper>
-                    <Typography>
-                      Indonesia Content : 
-                    </Typography>
+                    <Typography>Indonesia Content :</Typography>
                     <EditorArea
                       editorState={desc}
                       onEditorStateChange={data => setDesc(data)}
@@ -444,10 +442,8 @@ const MasterNewsScreen = () => {
                       }}
                       placeholder='Write a news/event in Bahasa Indonesia'
                     />
-                    <hr style={{ margin:"30px 0"}} />
-                    <Typography>
-                      English Content : 
-                    </Typography>
+                    <hr style={{ margin: '30px 0' }} />
+                    <Typography>English Content :</Typography>
                     <EditorArea
                       editorState={descEnglish}
                       onEditorStateChange={data => setDescEnglish(data)}
