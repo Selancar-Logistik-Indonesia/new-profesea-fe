@@ -58,6 +58,7 @@ const MasterNewsScreen = () => {
   const [charSlug, setSlug] = useState('0')
   const [charSnap, setCharSnap] = useState('0')
   const [desc, setDesc] = useState(EditorState.createEmpty())
+  const [descEnglish, setDescEnglish] = useState(EditorState.createEmpty())
   const [files, setFiles] = useState<File[]>([])
   const [postingDate, setPostingDate] = useState<DateType>(new Date())
   const { getRootProps, getInputProps } = useDropzone({
@@ -119,12 +120,14 @@ const MasterNewsScreen = () => {
   }
 
   const onCreate = async (formData: any) => {
-    const { title, slug, meta, snapContent } = formData
+    const { title, titleEnglish, slug, meta, snapContent } = formData
 
     const json = {
       imgnews: files,
       title: title,
+      titleEnglish: titleEnglish,
       content: draftToHtml(convertToRaw(desc?.getCurrentContent())),
+      contentEnglish: draftToHtml(convertToRaw(descEnglish?.getCurrentContent())),
       type: 'News',
       slug: slug,
       meta: meta,
@@ -397,7 +400,9 @@ const MasterNewsScreen = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
+                 
                   <EditorWrapper>
+               
                     <EditorArea
                       editorState={desc}
                       onEditorStateChange={data => setDesc(data)}
@@ -408,7 +413,20 @@ const MasterNewsScreen = () => {
                           alt: { present: true, mandatory: false }
                         }
                       }}
-                      placeholder='Write a news/event'
+                      placeholder='Write a news/event in Bahasa Indonesia'
+                    />
+
+<EditorArea
+                      editorState={descEnglish}
+                      onEditorStateChange={data => setDescEnglish(data)}
+                      toolbar={{
+                        image: {
+                          uploadCallback: uploadCallback,
+                          previewImage: true,
+                          alt: { present: true, mandatory: false }
+                        }
+                      }}
+                      placeholder='Write a news/event in English'
                     />
                     {/* {errors.desc && (
                       <FormHelperText sx={{ color: 'error.main' }} id=''>

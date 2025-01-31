@@ -71,7 +71,7 @@ const Register = () => {
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
         <meta property='og:title' content={`${t('register_title')}`} />
         <meta property='og:description' content={`${t('register_description')}`} />
-        <meta property='og:image' content='images/logosamudera.png' />
+        <meta property='og:image' content='images/logoprofesea.png' />
       </Head>
       <Box
         sx={{
@@ -104,7 +104,7 @@ const Register = () => {
                   }}
                 >
                   <Link href='/'>
-                    <Box component='img' src='/images/logosamudera.png' sx={{ width: 125, mt: 5, mb: 5 }}></Box>
+                    <Box component='img' src='/images/logoprofesea.png' sx={{ width: 125, mt: 5, mb: 5 }}></Box>
                   </Link>
                   {/* <Typography variant='h5' sx={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold', color: "#262525" }}>Register</Typography> */}
                   <Typography variant='body2' sx={{ textAlign: 'center', color: '#262525', mb: 8 }}>

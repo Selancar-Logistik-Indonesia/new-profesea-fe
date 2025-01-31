@@ -144,7 +144,7 @@ const LoginPage = () => {
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
         <meta property='og:title' content={`${themeConfig.templateName} - ${t('login_title')}`} />
         <meta property='og:description' content={`${themeConfig.templateName} - ${t('login_description')}`} />
-        <meta property='og:image' content='images/logosamudera.png' />
+        <meta property='og:image' content='images/logoprofesea.png' />
       </Head>
       <Grid container sx={{ height: '100vh' }}>
         <Grid
@@ -169,7 +169,7 @@ const LoginPage = () => {
           >
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
               <Link href='/'>
-                <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
+                <Box component='img' src='/images/logoprofesea.png' sx={{ width: '143px', height: 'auto' }} />
               </Link>
               {checkEmail ? (
                 <Box

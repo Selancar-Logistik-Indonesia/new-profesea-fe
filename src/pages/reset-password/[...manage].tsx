@@ -163,7 +163,7 @@ const ResetPassword = () => {
                 <Link href='/'>
                   <Box
                     component="img"
-                    src='/images/logosamudera.png'
+                    src='/images/logoprofesea.png'
                     sx={{ width: 225, mt: 5 }}
                   >
                   </Box>
