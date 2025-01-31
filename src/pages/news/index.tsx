@@ -26,7 +26,7 @@ interface INewsCategory {
 
 const NewsPage = () => {
   const { dispatch } = useBreadcrumbsNews()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [tabValue, setTabValue] = useState<any>(null)
   const [newsCategories, setNewsCategories] = useState<INewsCategory[]>([])
   const [news, setNews] = useState<INews[]>([])
@@ -429,7 +429,11 @@ const NewsPage = () => {
                             }}
                             color={'black'}
                           >
-                            {n?.title}
+                            {i18n.language == 'en'
+                              ? n?.title_eng != ''
+                                ? n?.title_eng
+                                : 'English title not provided'
+                              : n?.title}
                           </Typography>
                         </Link>
                         <Typography fontWeight={400} fontSize={16}>
