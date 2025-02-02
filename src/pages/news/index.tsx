@@ -429,11 +429,7 @@ const NewsPage = () => {
                             }}
                             color={'black'}
                           >
-                            {i18n.language == 'en'
-                              ? n?.title_eng != ''
-                                ? n?.title_eng
-                                : 'English title not provided'
-                              : n?.title}
+                            {i18n.language == 'en' ? (n?.title_eng != '' ? n?.title_eng : n?.title) : n?.title}
                           </Typography>
                         </Link>
                         <Typography fontWeight={400} fontSize={16}>

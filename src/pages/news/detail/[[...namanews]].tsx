@@ -366,11 +366,7 @@ const ThreadApp = () => {
                         }}
                       >
                         <TruncatedTypography line={2} fontSize={18} fontWeight={700} color='black' minHeight={'50px'}>
-                          {i18n?.language == 'en'
-                            ? o?.title_eng != ''
-                              ? o?.title_eng
-                              : 'No English Title Provide'
-                            : o?.title}
+                          {i18n?.language == 'en' ? (o?.title_eng != '' ? o?.title_eng : o?.title) : o?.title}
                         </TruncatedTypography>
                       </Link>
                       <TruncatedTypography line={3} fontWeight={400} fontSize={14}>
