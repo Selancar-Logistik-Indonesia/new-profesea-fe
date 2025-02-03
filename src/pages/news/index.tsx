@@ -191,7 +191,7 @@ const NewsPage = () => {
                   <HighlightedCardNews
                     key={d?.category?.name + i}
                     category={d?.category?.name}
-                    title={d?.title}
+                    title={i18n?.language == 'en' ? d?.title_eng ? d?.title_eng : d?.title : d?.title}
                     description={d?.snap_content}
                     image={d?.imgnews[0]}
                     postDate={d?.posting_at}
