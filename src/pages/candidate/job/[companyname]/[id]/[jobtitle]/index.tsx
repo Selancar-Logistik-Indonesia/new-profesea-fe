@@ -34,7 +34,7 @@ const JobDetail = () => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [license, setLicense] = useState<any[] | undefined>()
   const router = useRouter()
- 
+
   const params = useSearchParams()
   const jobId = params.get('id')
   const companyname = linkToTitleCase(params.get('companyname'))
@@ -47,9 +47,9 @@ const JobDetail = () => {
       const resp = await HttpClient.get(`/job/${companyname}/${jobId}/${jobTitle}`)
       const job = resp.data.job
       await setTitle(
-        `Lowongan ${job.category.employee_type == 'onship' ? job.job_title ?? '' : job.rolelevel?.levelName ?? ''} ${
-          job.role_type.name
-        } di Profesea`
+        `Lowongan ${
+          job.category.employee_type == 'onship' ? job.role_type.name ?? '' : job.job_title ?? job.role_type.name
+        } ${job.category.name} di Profesea`
       )
 
       const resp2 = await HttpClient.get(`/user/${user.id}`)
@@ -100,9 +100,9 @@ const JobDetail = () => {
       "@type" : "JobPosting",
       "title" : "Lowongan ${
         jobDetail?.category.employee_type == 'onship'
-          ? jobDetail?.job_title ?? ''
-          : jobDetail?.rolelevel?.levelName ?? ''
-      } ${jobDetail?.role_type.name} di Profesea",
+          ? jobDetail?.role_type.name ?? ''
+          : jobDetail?.job_title ?? jobDetail?.role_type.name
+      } ${jobDetail?.category?.name} di Profesea",
       "description" : "${jobDetail?.description}",
       "identifier": {
         "@type": "PropertyValue",

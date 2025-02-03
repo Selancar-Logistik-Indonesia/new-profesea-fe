@@ -36,30 +36,19 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
 
 const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) => {
   const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
-    if (+salaryStart == 0) {
+    if (salaryStart == 0) {
       return '-'
     }
 
-    if (salaryStart && salaryEnd) {
-      if (currency == 'IDR') {
-        // IDR
-        if (+salaryEnd == 0) {
-          return `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (${currency})`
-        } else {
-          return `${
-            salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-            ' - ' +
-            salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-          } (${currency})`
-        }
-      } else {
-        // USD
-        if (+salaryEnd == 0) {
-          return `${salaryStart} (${currency})`
-        } else {
-          return `${salaryStart} - ${salaryEnd} (${currency})`
-        }
-      }
+    if (salaryStart) {
+      return (
+        <>
+          {`${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${currency}`}
+          {salaryEnd !== null &&
+            salaryEnd !== salaryStart &&
+            ` - ${salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${currency}`}
+        </>
+      )
     } else {
       return '-'
     }

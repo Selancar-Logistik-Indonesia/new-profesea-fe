@@ -25,6 +25,7 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
         minHeight: '1.2em',
         lineHeight: '1.2em',
         fontSize: '16px',
+        textTransform: 'capitalize',
         ...rest
       }}
     >
@@ -88,10 +89,8 @@ interface Props {
 }
 
 const renderList = (listJob: Job[]) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { handleJobSave, handleDeleteJobSave } = useJob()
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter()
+  const { handleJobSave, handleDeleteJobSave } = useJob()
   const handleSavedJob = async (id: any) => {
     await handleJobSave(id)
   }
@@ -150,9 +149,15 @@ const renderList = (listJob: Job[]) => {
                   marginLeft: '20px'
                 }}
               >
-                <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
-                  {item?.role_type?.name ?? '-'}
-                </TruncatedTypography>
+                {item?.category?.employee_type == 'onship' ? (
+                  <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
+                    {item?.role_type?.name ?? '-'}
+                  </TruncatedTypography>
+                ) : (
+                  <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
+                    {item.job_title ?? item?.role_type?.name ?? '-'}
+                  </TruncatedTypography>
+                )}
                 <TruncatedTypography fontSize={14} color={'#0a66c2'}>
                   {item?.company?.name ?? '-'}
                 </TruncatedTypography>
@@ -221,17 +226,10 @@ const renderList = (listJob: Job[]) => {
                       <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
                       <Grid item xs={true} sx={{ flexGrow: 1 }}>
                         <TruncatedTypography line={1} fontSize={14} fontWeight={400} color={'#666'}>
-                          {item?.currency == 'IDR' ? (
-                            item?.salary_start && item?.salary_end ? (
-                              renderSalary(item?.salary_start, item?.salary_end, item?.currency)
-                            ) : null
-                          ) : item?.salary_start && item?.salary_end ? (
-                            <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
-                              {item?.salary_end.toString() !== '0'
-                                ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
-                                : `${item?.salary_start} (${item?.currency})`}
-                            </Typography>
-                          ) : null}
+                          {`${item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${item?.currency}`}
+                          {item?.salary_end !== null &&
+                            item?.salary_end !== item?.salary_start &&
+                            ` - ${item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${item?.currency}`}
                         </TruncatedTypography>
                       </Grid>
                     </Grid>
@@ -282,17 +280,10 @@ const renderList = (listJob: Job[]) => {
                       <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
                       <Grid item xs={true} sx={{ flexGrow: 1 }}>
                         <TruncatedTypography line={1} fontSize={14} fontWeight={400} color={'#666'}>
-                          {item?.currency == 'IDR' ? (
-                            item?.salary_start && item?.salary_end ? (
-                              renderSalary(item?.salary_start, item?.salary_end, item?.currency)
-                            ) : null
-                          ) : item?.salary_start && item?.salary_end ? (
-                            <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
-                              {item?.salary_end.toString() !== '0'
-                                ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
-                                : `${item?.salary_start} (${item?.currency})`}
-                            </Typography>
-                          ) : null}
+                          {`${item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${item?.currency}`}
+                          {item?.salary_end !== null &&
+                            item?.salary_end !== item?.salary_start &&
+                            ` - ${item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${item?.currency}`}
                         </TruncatedTypography>
                       </Grid>
                     </Grid>
