@@ -26,7 +26,7 @@ const Onboarding = () => {
         }}
       >
         <Box sx={{ width: '480px', display: 'flex', flexDirection: 'column' }}>
-          <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
+          <Box component='img' src='/images/logoprofesea.png' sx={{ width: '143px', height: 'auto' }} />
           <Box sx={{ mt: '32px', pb: '85px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <ProgressBar current={1} total={6} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>

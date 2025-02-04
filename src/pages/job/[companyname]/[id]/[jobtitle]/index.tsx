@@ -145,7 +145,7 @@ const JobDetail = () => {
         <title>{title}</title>
         <meta property='og:title' content={title} />
         <meta property='og:description' content={jobDetail?.description} />
-        <meta property='og:image' content='images/logosamudera.png' />
+        <meta property='og:image' content='images/logoprofesea.png' />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
         <script type='application/ld+json' dangerouslySetInnerHTML={addProductJsonLd()} key='product-jsonld' />
