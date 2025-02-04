@@ -26,7 +26,7 @@ interface INewsCategory {
 
 const NewsPage = () => {
   const { dispatch } = useBreadcrumbsNews()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [tabValue, setTabValue] = useState<any>(null)
   const [newsCategories, setNewsCategories] = useState<INewsCategory[]>([])
   const [news, setNews] = useState<INews[]>([])
@@ -191,7 +191,7 @@ const NewsPage = () => {
                   <HighlightedCardNews
                     key={d?.category?.name + i}
                     category={d?.category?.name}
-                    title={d?.title}
+                    title={i18n?.language == 'en' ? d?.title_eng ? d?.title_eng : d?.title : d?.title}
                     description={d?.snap_content}
                     image={d?.imgnews[0]}
                     postDate={d?.posting_at}
@@ -429,7 +429,7 @@ const NewsPage = () => {
                             }}
                             color={'black'}
                           >
-                            {n?.title}
+                            {i18n.language == 'en' ? (n?.title_eng != '' ? n?.title_eng : n?.title) : n?.title}
                           </Typography>
                         </Link>
                         <Typography fontWeight={400} fontSize={16}>

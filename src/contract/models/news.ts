@@ -3,9 +3,11 @@ interface INews {
   forum_id: number
   user_id: number
   title: string
+  title_eng: string
   imgnews: any
   snap_content: any
   content: any
+  content_eng: any
   type: any
   posting_at: any
   created_at: string

@@ -61,6 +61,7 @@ const EditNewsScreen = () => {
   const [sforumCode, setForumCode] = useState<any>([])
   const [sforum, setForum] = useState<any>([])
   const [sTitle, setTitle] = useState<any>([])
+  const [sTitleEnglish, setTitleEnglish] = useState<any>([])
   const [sSlug, setSlug] = useState<any>([])
   const [sMeta, setMeta] = useState<any>([])
 
@@ -70,6 +71,7 @@ const EditNewsScreen = () => {
   const [charSnap, setCharSnap] = useState('0')
   //const [newsDetail, setThreadDetail] = useState<Thread>()
   const [desc, setDesc] = useState(EditorState.createEmpty())
+  const [descEnglish, setDescEnglish] = useState(EditorState.createEmpty())
   const [files, setFiles] = useState<File[]>([])
   const [postingDate, setPostingDate] = useState<DateType>(new Date())
   const [urlFile, getUrlFile] = useState<any>()
@@ -103,6 +105,7 @@ const EditNewsScreen = () => {
 
   const schema = yup.object().shape({
     title: yup.string().min(1).max(60).required('maximum 60 character'),
+    title_eng: yup.string().min(1).max(60).required('maximum 60 character'),
     meta: yup.string().min(1).max(160).required('maximum 160 character'),
     snapContent: yup.string().min(1).max(250).required('maximum 250 character')
   })
@@ -122,10 +125,15 @@ const EditNewsScreen = () => {
     HttpClient.get(AppConfig.baseUrl + '/news/id/' + params.get('id')).then(resp => {
       const news: any = resp.data.news
       const contenDesc = convertFromHTML(news?.content).contentBlocks
+      const contenEnglishDesc = convertFromHTML(news?.content_eng).contentBlocks
       const contentState = ContentState.createFromBlockArray(contenDesc)
+      const contentEnglishState = ContentState.createFromBlockArray(contenEnglishDesc)
       const editorState = EditorState.createWithContent(contentState)
+      const editorEnglishState = EditorState.createWithContent(contentEnglishState)
       setDesc(editorState)
+      setDescEnglish(editorEnglishState)
       setTitle(news?.title)
+      setTitleEnglish(news?.title_eng)
       setType(news?.title?.length)
       setSlug(news?.slug)
       setSlug2(news?.slug?.length)
@@ -138,6 +146,7 @@ const EditNewsScreen = () => {
 
       // useform setvalue
       setValue('title', news?.title)
+      setValue('title_eng', news?.title_eng)
       setValue('meta', news?.meta)
       setValue('snapContent', news?.snap_content)
 
@@ -181,7 +190,9 @@ const EditNewsScreen = () => {
     const json = {
       imgnews: files,
       title: sTitle,
+      title_eng: sTitleEnglish,
       content: draftToHtml(convertToRaw(desc?.getCurrentContent())),
+      content_eng: draftToHtml(convertToRaw(descEnglish?.getCurrentContent())),
       type: sforumCode,
       postingdate: postingDate,
       slug: sSlug,
@@ -210,6 +221,13 @@ const EditNewsScreen = () => {
     const newValue = event.target.value.length
     setType(newValue)
     setTitle(event.target.value)
+  }
+  const handleChangeEnglishTitle = (event: { target: { value: any } }) => {
+    // Update the 'value' state when the input value changes.
+
+    const newValue = event.target.value.length
+    setType(newValue)
+    setTitleEnglish(event.target.value)
   }
   const handleChangeslug = (event: { target: { value: any } }) => {
     // Update the 'value' state when the input value changes.
@@ -315,6 +333,26 @@ const EditNewsScreen = () => {
                     fullWidth
                     sx={{ mb: 1 }}
                     onChange={handleChangetitle}
+                    endAdornment={
+                      <InputAdornment position='end'>
+                        <Typography>{charType} character / 60</Typography>
+                      </InputAdornment>
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <InputLabel htmlFor='x' error={Boolean(errors.title_eng)}>
+                    English Title
+                  </InputLabel>
+                  <OutlinedInput
+                    id='title_eng'
+                    {...register('title_eng')}
+                    error={Boolean(errors.title_eng)}
+                    value={sTitleEnglish}
+                    label='English Title'
+                    fullWidth
+                    sx={{ mb: 1 }}
+                    onChange={handleChangeEnglishTitle}
                     endAdornment={
                       <InputAdornment position='end'>
                         <Typography>{charType} character / 60</Typography>
@@ -482,9 +520,24 @@ const EditNewsScreen = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <EditorWrapper>
+                    <Typography>Indonesia Content :</Typography>
                     <EditorArea
                       editorState={desc}
                       onEditorStateChange={data => setDesc(data)}
+                      toolbar={{
+                        image: {
+                          uploadCallback: uploadCallback,
+                          previewImage: true,
+                          alt: { present: true, mandatory: false }
+                        }
+                      }}
+                      placeholder='Write a news'
+                    />
+                    <hr style={{ margin: '30px 0' }} />
+                    <Typography>English Content :</Typography>
+                    <EditorArea
+                      editorState={descEnglish}
+                      onEditorStateChange={data => setDescEnglish(data)}
                       toolbar={{
                         image: {
                           uploadCallback: uploadCallback,
