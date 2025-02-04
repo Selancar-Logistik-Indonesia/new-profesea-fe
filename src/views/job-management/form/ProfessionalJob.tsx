@@ -10,7 +10,8 @@ import {
   Checkbox,
   FormControl,
   MenuItem,
-  Divider
+  Divider,
+  Tooltip
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -37,6 +38,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { toast } from 'react-hot-toast'
+import { Icon } from '@iconify/react'
 
 const employmentType = [
   { id: 'Intern', label: 'Intern' },
@@ -346,7 +348,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             </FormControl>
             <FormControl fullWidth error={!!errors.jobTitle}>
               <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                Job Title<span style={{ color: '#F22' }}>*</span>
+                Job Title <span style={{ color: '#F22' }}>*</span>
               </Typography>
               <Controller
                 name='jobTitle'
@@ -558,7 +560,14 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             </FormControl>
             <FormControl fullWidth error={!!errors.experience}>
               <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                Work Experience<span style={{ color: '#F22' }}>*</span>
+                Work Experience{' '}
+                <Tooltip
+                  title='Minimum number of years the candidate must have completed to qualify for this job.'
+                  placement='top-start'
+                >
+                  <Icon icon='ph:info-bold' />
+                </Tooltip>{' '}
+                <span style={{ color: '#F22' }}>*</span>
               </Typography>
               <Controller
                 name='experience'
@@ -582,7 +591,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
           <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '24px' }}>
             <FormControl fullWidth error={!!errors.jobExpired}>
               <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                Job Post Until<span style={{ color: '#F22' }}>*</span>
+                Job Post Until <span style={{ color: '#F22' }}>*</span>
               </Typography>
               <Controller
                 name='jobExpired'
@@ -672,7 +681,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             </FormControl>
             <FormControl fullWidth error={!!errors.minimum}>
               <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                {fixPrice ? 'Salary' : 'Minimum Salary'}
+                {fixPrice ? 'Salary ' : 'Minimum Salary '}
                 <span style={{ color: '#F22' }}>*</span>
               </Typography>
               <Controller
@@ -694,7 +703,9 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
               />
             </FormControl>
             <FormControl fullWidth error={!!errors.maximum}>
-              <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>Maximum</Typography>
+              <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Maximum <span style={{ color: '#F22' }}>*</span>
+              </Typography>
               <Controller
                 name='maximum'
                 control={control}
