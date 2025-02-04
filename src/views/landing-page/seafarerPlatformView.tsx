@@ -4,43 +4,13 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import Job from 'src/contract/models/job'
 import { HttpClient } from 'src/services'
-import { timeCreated } from 'src/utils/helpers'
+import { renderSalary, timeCreated } from 'src/utils/helpers'
 import { format } from 'date-fns'
 import CarouselEvent from './carouselevent'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
 import landingPageStyle from 'src/@core/styles/landing-page/landing-page'
 import { TFunction } from 'i18next'
-
-const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
-  if (salaryStart == 0) {
-    return '-'
-  }
-
-  if (salaryStart && salaryEnd) {
-    if (currency == 'IDR') {
-      if (salaryEnd == 0) {
-        return `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (${currency})`
-      } else {
-        return `${
-          salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-          ' - ' +
-          salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-        } (${currency})`
-      }
-    } else {
-      if (salaryEnd == 0) {
-        return `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (${currency})`
-      } else {
-        return `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} - ${salaryEnd
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (${currency})`
-      }
-    }
-  } else {
-    return '-'
-  }
-}
 
 const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
   const userPhoto = job?.company?.photo ? job.company?.photo : '/images/avatars/default-user.png'
@@ -133,7 +103,7 @@ const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
           <Typography sx={{ color: 'black', fontSize: { xs: 14, md: 12 }, fontWeight: 400 }}>
             {job.hide_salary === true
               ? t('landing_page.for_seafarer.hide_salary')
-              : renderSalary(job.salary_start, job.salary_end, job.currency as string)}
+              : renderSalary(job?.salary_start, job?.salary_end, job?.currency as string)}
           </Typography>
           <Typography sx={{ color: '#525252', fontSize: { xs: 14, md: 12 }, fontWeight: 400 }}>
             Onboarding on{' '}

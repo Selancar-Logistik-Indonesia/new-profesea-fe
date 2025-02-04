@@ -27,9 +27,15 @@ const HeaderJobDetail: React.FC<IHeaderJobDetailProps> = ({ jobDetail, onApplied
       <Box sx={{ width: '70%' }}>
         <Grid container>
           <Grid item xs={12}>
-            <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={25}>
-              <strong>{jobDetail?.role_type?.name}</strong>
-            </Typography>
+            {jobDetail?.category?.employee_type == 'onship' ? (
+              <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={25}>
+                <strong>{jobDetail?.role_type?.name}</strong>
+              </Typography>
+            ) : (
+              <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={25}>
+                <strong>{jobDetail?.job_title ?? jobDetail?.role_type?.name ?? '-'}</strong>
+              </Typography>
+            )}
             <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>
               {jobDetail?.company?.name} | {jobDetail?.city?.city_name}, {jobDetail?.country?.name}
             </Typography>
@@ -67,7 +73,15 @@ const HeaderJobDetail: React.FC<IHeaderJobDetailProps> = ({ jobDetail, onApplied
               )}
             </Grid>
             <Grid item xs={12} md={6} textAlign={'end'}>
-              <ShareArea subject={`Job For ${jobDetail?.role_type?.name}.`} url={shareUrl} clean={true} />
+              <ShareArea
+                subject={`Job For ${
+                  jobDetail?.employee_type === 'onship'
+                    ? jobDetail?.role_type?.name
+                    : jobDetail?.job_title ?? jobDetail?.role_type?.name ?? '-'
+                }.`}
+                url={shareUrl}
+                clean={true}
+              />
             </Grid>
           </Grid>
         </Box>

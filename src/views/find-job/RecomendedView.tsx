@@ -7,6 +7,7 @@ import Job from 'src/contract/models/job'
 import { format, formatDistanceToNow } from 'date-fns'
 import { useJob } from 'src/hooks/useJob'
 import { useRouter } from 'next/navigation'
+import { renderSalary } from 'src/utils/helpers'
 
 const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
   const { children, line, ...rest } = props
@@ -25,6 +26,7 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
         minHeight: '1.2em',
         lineHeight: '1.2em',
         fontSize: '16px',
+        textTransform: 'capitalize',
         ...rest
       }}
     >
@@ -48,35 +50,6 @@ const JobsValue = (props: { icon: string; children: any }) => {
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const renderSalary = (salaryStart: any, salaryEnd: any, currency: any) => {
-  if (salaryEnd.toString() == '0') {
-    return (
-      <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
-        {salaryStart ? `Rp. ${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}` : '-'}
-      </Typography>
-    )
-  }
-
-  if (salaryStart.toString() !== '0' && salaryEnd.toString() !== '0') {
-    return (
-      <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
-        {salaryStart && salaryEnd
-          ? `${
-              'Rp. ' +
-              salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-              ' - ' +
-              'Rp. ' +
-              salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-            }`
-          : '-'}
-      </Typography>
-    )
-  }
-
-  return '-'
-}
-
 export type ParamMain = {
   name: string
   skill: string
@@ -87,11 +60,9 @@ interface Props {
   listJob: Job[]
 }
 
-const renderList = (listJob: Job[]) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { handleJobSave, handleDeleteJobSave } = useJob()
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+const RenderList = (listJob: Job[]) => {
   const router = useRouter()
+  const { handleJobSave, handleDeleteJobSave } = useJob()
   const handleSavedJob = async (id: any) => {
     await handleJobSave(id)
   }
@@ -150,9 +121,15 @@ const renderList = (listJob: Job[]) => {
                   marginLeft: '20px'
                 }}
               >
-                <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
-                  {item?.role_type?.name ?? '-'}
-                </TruncatedTypography>
+                {item?.category?.employee_type == 'onship' ? (
+                  <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
+                    {item?.role_type?.name ?? '-'}
+                  </TruncatedTypography>
+                ) : (
+                  <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
+                    {item.job_title ?? item?.role_type?.name ?? '-'}
+                  </TruncatedTypography>
+                )}
                 <TruncatedTypography fontSize={14} color={'#0a66c2'}>
                   {item?.company?.name ?? '-'}
                 </TruncatedTypography>
@@ -221,17 +198,7 @@ const renderList = (listJob: Job[]) => {
                       <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
                       <Grid item xs={true} sx={{ flexGrow: 1 }}>
                         <TruncatedTypography line={1} fontSize={14} fontWeight={400} color={'#666'}>
-                          {item?.currency == 'IDR' ? (
-                            item?.salary_start && item?.salary_end ? (
-                              renderSalary(item?.salary_start, item?.salary_end, item?.currency)
-                            ) : null
-                          ) : item?.salary_start && item?.salary_end ? (
-                            <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
-                              {item?.salary_end.toString() !== '0'
-                                ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
-                                : `${item?.salary_start} (${item?.currency})`}
-                            </Typography>
-                          ) : null}
+                          {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
                         </TruncatedTypography>
                       </Grid>
                     </Grid>
@@ -282,17 +249,7 @@ const renderList = (listJob: Job[]) => {
                       <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
                       <Grid item xs={true} sx={{ flexGrow: 1 }}>
                         <TruncatedTypography line={1} fontSize={14} fontWeight={400} color={'#666'}>
-                          {item?.currency == 'IDR' ? (
-                            item?.salary_start && item?.salary_end ? (
-                              renderSalary(item?.salary_start, item?.salary_end, item?.currency)
-                            ) : null
-                          ) : item?.salary_start && item?.salary_end ? (
-                            <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
-                              {item?.salary_end.toString() !== '0'
-                                ? `${item?.salary_start + ' - ' + item?.salary_end} (${item?.currency})`
-                                : `${item?.salary_start} (${item?.currency})`}
-                            </Typography>
-                          ) : null}
+                          {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
                         </TruncatedTypography>
                       </Grid>
                     </Grid>
@@ -319,7 +276,7 @@ const RecomendedView = (props: Props) => {
 
   return (
     <Grid container spacing={6}>
-      {renderList(listJob)}
+      {RenderList(listJob)}
     </Grid>
   )
 }

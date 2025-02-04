@@ -20,8 +20,10 @@ import AnimatedTabs from 'src/@core/components/animated-tabs'
 import Job from 'src/contract/models/job'
 import JobCategory from 'src/contract/models/job_category'
 import VesselType from 'src/contract/models/vessel_type'
+import { useAuth } from 'src/hooks/useAuth'
 import { HttpClient } from 'src/services'
 import DialogCreate from 'src/views/job-management/DialogCreate'
+import DialogUpload from 'src/views/job-management/DialogUpload'
 import JobCard from 'src/views/job-management/JobCard'
 import JobCardSkeleton from 'src/views/job-management/JobCardSkeleton'
 import { v4 } from 'uuid'
@@ -74,10 +76,13 @@ const checkStatus = (status: string) => {
 }
 
 const JobManagement = () => {
+  const { user } = useAuth()
   const [refetch, setRefetch] = useState(v4())
   const [onLoading, setOnLoading] = useState<boolean>(false)
   const [jobs, setJobs] = useState<Job[] | null>(null)
   const [createJob, setCreateJob] = useState(false)
+  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [document, setDocument] = useState<any[]>([])
 
   const [totalJobs, setTotalJobs] = useState(0)
   const [activeTab, setActiveTab] = useState('onship')
@@ -127,6 +132,18 @@ const JobManagement = () => {
       const data: VesselType[] = await response.data.vesselTypes.data
       getVesselType(data)
     })
+
+    if (user?.is_crewing === 1) {
+      HttpClient.get(`/user/document?siup=1`).then(async response => {
+        const data = await response.data.documents
+        setDocument(data)
+      })
+    } else {
+      HttpClient.get(`/user/document`).then(async response => {
+        const data = await response.data.documents
+        setDocument(data)
+      })
+    }
   }
 
   const clearFilters = () => {
@@ -186,6 +203,7 @@ const JobManagement = () => {
               size='small'
               variant='contained'
               endIcon={<Icon icon='ph:plus' />}
+              disabled={user?.verified_at === null && document.length === 0}
               sx={{ height: '38px', padding: '8px 12px', textTransform: 'none' }}
             >
               Create Job
@@ -330,6 +348,26 @@ const JobManagement = () => {
                     <JobCardSkeleton />
                   </Grid>
                 ))
+            ) : user?.verified_at === null && document.length === 0 ? (
+              <>
+                <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <Box component='img' src='/images/no-image.jpg' sx={{ width: '320px' }} />
+                  <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 400, textAlign: 'center' }}>
+                    You are currently not eligible to create a job.
+                    <br /> Please{' '}
+                    <Link
+                      onClick={() => {
+                        setOpenModal(!openModal)
+                        console.log('open')
+                      }}
+                      sx={{ cursor: 'pointer' }}
+                    >
+                      upload the required document
+                    </Link>{' '}
+                    for verification or wait for our approval.
+                  </Typography>
+                </Grid>
+              </>
             ) : jobs && jobs.length > 0 ? (
               jobs.map((job, i) => (
                 <Grid item key={i} xs={6}>
@@ -361,7 +399,8 @@ const JobManagement = () => {
           />
         </Grid>
       </Grid>
-      {createJob && <DialogCreate visible={createJob} onCloseClick={() => setCreateJob(false)} />}
+      <DialogCreate visible={createJob} onCloseClick={() => setCreateJob(false)} />
+      <DialogUpload visible={openModal} onCloseClick={() => setOpenModal(false)} />
     </>
   )
 }
