@@ -39,6 +39,7 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import { toast } from 'react-hot-toast'
 import { Icon } from '@iconify/react'
+import { FormDataProfessional } from 'src/contract/types/create_job_type'
 
 const employmentType = [
   { id: 'Intern', label: 'Intern' },
@@ -57,21 +58,6 @@ const currency = [
   { id: 'USD', label: 'USD' }
 ]
 
-interface FormData {
-  jobCategory?: number
-  jobTitle?: string
-  roleLevel?: number
-  employmentType?: string
-  workArrangement?: string
-  city?: number
-  education?: number
-  experience?: number
-  jobExpired?: string
-  currency?: string
-  minimum?: number
-  maximum?: number
-}
-
 const schema = yup.object().shape({
   jobTitle: yup
     .string()
@@ -89,7 +75,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
     watch,
     handleSubmit,
     formState: { errors }
-  } = useForm<FormData>({
+  } = useForm<FormDataProfessional>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
@@ -119,7 +105,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       //     if (isPopulate) {
       //       const parsedData = JSON.parse(draftData)
       //       Object.keys(parsedData).forEach(key => {
-      //         setValue(key as keyof FormData, parsedData[key])
+      //         setValue(key as keyof FormDataProfessional, parsedData[key])
       //       })
       //       if (parsedData.jobDescription) {
       //         const contentState = ContentState.createFromText(parsedData.jobDescription)
@@ -225,7 +211,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   //     }
   //   }, [watchedDraft, jobDescription, fixPrice, hidePrice])
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: FormDataProfessional) => {
     const {
       jobCategory,
       jobTitle,
@@ -578,7 +564,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
                     fullWidth
                     value={field.value || ''}
                     size='small'
-                    placeholder='Work Experience Required'
+                    placeholder='Work Experience Required Years'
                     type='number'
                     inputProps={{ min: 0 }}
                     error={!!errors.experience}
