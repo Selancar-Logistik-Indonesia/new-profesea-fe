@@ -9,7 +9,7 @@ import { format } from 'date-fns'
 import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 import { useAuth } from 'src/hooks/useAuth'
-import { timeCreated } from 'src/utils/helpers'
+import { renderSalary, timeCreated } from 'src/utils/helpers'
 
 const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
   const { children, line, ...rest } = props
@@ -27,7 +27,7 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
         maxHeight: `calc(${maxLine} * 1.2em)`,
         minHeight: '1.2em',
         lineHeight: '1.2em',
-        fontSize: '16px',
+        fontSize: '14px',
         ...rest
       }}
     >
@@ -43,7 +43,7 @@ const JobsValue = (props: { icon: string; children: any }) => {
     <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, mb: 1.5 }}>
       <Icon icon={icon} color='#32487A' fontSize={'20px'} />
       <Grid item xs={true} sx={{ flexGrow: 1 }}>
-        <TruncatedTypography line={1} fontSize={16}>
+        <TruncatedTypography line={1} fontSize={14}>
           {children}
         </TruncatedTypography>
       </Grid>
@@ -62,42 +62,14 @@ const renderList = (listJobs: Job[] | null) => {
     return <></>
   }
 
-  const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
-    if (+salaryStart == 0) {
-      return '-'
-    }
-
-    if (salaryStart && salaryEnd) {
-      if (currency == 'IDR') {
-        // IDR
-        if (+salaryEnd == 0) {
-          return `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (${currency})`
-        } else {
-          return `${
-            salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-            ' - ' +
-            salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-          } (${currency})`
-        }
-      } else {
-        // USD
-        if (+salaryEnd == 0) {
-          return `${salaryStart} (${currency})`
-        } else {
-          return `${salaryStart} - ${salaryEnd} (${currency})`
-        }
-      }
-    } else {
-      return '-'
-    }
-  }
-
   return listJobs.map(item => {
     const { user } = useAuth()
 
     const userPhoto = item?.company?.photo ? item?.company?.photo : '/images/avatars/default-user.png'
     const companyNameUrl = item.company.name.toLowerCase().split(' ').join('-')
-    const jobTitleUrl = item.job_title ? item.job_title?.toLowerCase().split(' ').join('-') : ''
+    const jobTitleUrl = item.job_title
+      ? item.job_title?.toLowerCase().split(' ').join('-')
+      : item.role_type?.name?.toLowerCase().split(' ').join('-')
     const link = user
       ? `/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`
       : `/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`
@@ -138,9 +110,15 @@ const renderList = (listJobs: Job[] | null) => {
                     justifyContent: 'center'
                   }}
                 >
-                  <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
-                    {item?.role_type?.name ?? '-'}
-                  </TruncatedTypography>
+                  {item?.category?.employee_type == 'onship' ? (
+                    <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
+                      {item?.role_type?.name ?? '-'}
+                    </TruncatedTypography>
+                  ) : (
+                    <TruncatedTypography line={2} fontWeight='bold' mb={0.5}>
+                      {item.job_title ?? item?.role_type?.name ?? '-'}
+                    </TruncatedTypography>
+                  )}
                   <TruncatedTypography fontSize={14} color={'#0a66c2'}>
                     {item?.company?.name ?? '-'}
                   </TruncatedTypography>
@@ -174,26 +152,37 @@ const renderList = (listJobs: Job[] | null) => {
                   <JobsValue icon='mdi:timer-sand'>
                     {item?.contract_duration ? `${item?.contract_duration} months` : '-'}
                   </JobsValue>
-                  <Grid
-                    container
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 2,
-                      mb: 1.5,
-                      opacity: item?.hide_salary ? 0 : 100
-                    }}
-                  >
-                    <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
-                    <Grid item xs={true} sx={{ flexGrow: 1 }}>
-                      <TruncatedTypography line={1} fontSize={16}>
-                        <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                          {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
-                        </Typography>
-                      </TruncatedTypography>
+                  {item?.hide_salary ? (
+                    <Grid
+                      container
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 2
+                      }}
+                    >
+                      <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                      <Typography fontSize={14}>Salary undisclosed</Typography>
                     </Grid>
-                  </Grid>
+                  ) : (
+                    <Grid
+                      container
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 2
+                      }}
+                    >
+                      <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                      <Grid item xs={true} sx={{ flexGrow: 1 }}>
+                        <TruncatedTypography line={1} fontSize={14}>
+                          {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
+                        </TruncatedTypography>
+                      </Grid>
+                    </Grid>
+                  )}
                 </>
               ) : (
                 <>
@@ -205,26 +194,37 @@ const renderList = (listJobs: Job[] | null) => {
                   <JobsValue icon='mdi:location'>
                     {item?.city?.city_name ?? '-'} | {item?.employment_type ?? '-'}
                   </JobsValue>
-                  <Grid
-                    container
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 2,
-                      mb: 1.5,
-                      opacity: item?.hide_salary ? 0 : 100
-                    }}
-                  >
-                    <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
-                    <Grid item xs={true} sx={{ flexGrow: 1 }}>
-                      <TruncatedTypography line={1} fontSize={16}>
-                        <Typography sx={{ color: 'text.primary' }} fontSize={16}>
-                          {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
-                        </Typography>
-                      </TruncatedTypography>
+                  {item?.hide_salary ? (
+                    <Grid
+                      container
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 2
+                      }}
+                    >
+                      <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                      <Typography fontSize={14}>Salary undisclosed</Typography>
                     </Grid>
-                  </Grid>
+                  ) : (
+                    <Grid
+                      container
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 2
+                      }}
+                    >
+                      <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                      <Grid item xs={true} sx={{ flexGrow: 1 }}>
+                        <TruncatedTypography line={1} fontSize={14}>
+                          {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
+                        </TruncatedTypography>
+                      </Grid>
+                    </Grid>
+                  )}
                 </>
               )}
             </Grid>

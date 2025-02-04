@@ -8,38 +8,8 @@ import { useTranslation } from 'react-i18next'
 import landingPageStyle from 'src/@core/styles/landing-page/landing-page'
 import Job from 'src/contract/models/job'
 import { HttpClient } from 'src/services'
-import { timeCreated } from 'src/utils/helpers'
+import { renderSalary, timeCreated } from 'src/utils/helpers'
 import CarouselEvent from './carouselevent'
-
-const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
-  if (salaryStart == 0) {
-    return '-'
-  }
-
-  if (salaryStart && salaryEnd) {
-    if (currency == 'IDR') {
-      if (salaryEnd == 0) {
-        return `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (${currency})`
-      } else {
-        return `${
-          salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-          ' - ' +
-          salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-        } (${currency})`
-      }
-    } else {
-      if (salaryEnd == 0) {
-        return `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (${currency})`
-      } else {
-        return `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} - ${salaryEnd
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (${currency})`
-      }
-    }
-  } else {
-    return '-'
-  }
-}
 
 const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
   const userPhoto = job?.company?.photo ? job.company?.photo : '/images/avatars/default-user.png'

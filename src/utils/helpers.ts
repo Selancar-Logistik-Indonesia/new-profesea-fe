@@ -446,6 +446,20 @@ const dateProgress = (start: Date, end: Date) => {
     return Math.min(100, progress)
 }
 
+const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
+    if (salaryStart == 0) {
+        return '-'
+    }
+
+    if (salaryStart) {
+        return `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${salaryEnd !== null && salaryEnd !== salaryStart && salaryEnd != 0
+            ? `- ${salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${currency}`
+            : currency}`
+    } else {
+        return '-'
+    }
+}
+
 export {
     getCleanErrorMessage,
     removeFirstZeroChar,
@@ -476,5 +490,6 @@ export {
     timeCreated,
     validateAutomatedContentModeration,
     calculateDaysDifference,
-    dateProgress
+    dateProgress,
+    renderSalary
 }

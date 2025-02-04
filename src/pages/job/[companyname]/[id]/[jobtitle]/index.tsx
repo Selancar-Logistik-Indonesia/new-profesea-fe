@@ -52,9 +52,9 @@ const JobDetail = () => {
       const resp = await HttpClient.get(`/public/data/job/${companyname}/${jobId}/${jobTitle}`)
       const job = await resp.data.job
       await setTitle(
-        `Lowongan ${job.category.employee_type == 'onship' ? job.job_title ?? '' : job.rolelevel?.levelName ?? ''} ${
-          job.role_type.name
-        } di Profesea`
+        `Lowongan ${
+          job.category.employee_type == 'onship' ? job.role_type.name ?? '' : job.job_title ?? job.role_type.name
+        } ${job.category.name} di Profesea`
       )
       setJobDetail(job)
       setIsLoading(false)
@@ -92,9 +92,9 @@ const JobDetail = () => {
       "@type" : "JobPosting",
       "title" : "Lowongan ${
         jobDetail?.category.employee_type == 'onship'
-          ? jobDetail?.job_title ?? ''
-          : jobDetail?.rolelevel?.levelName ?? ''
-      } ${jobDetail?.role_type.name} di Profesea",
+          ? jobDetail?.role_type.name ?? ''
+          : jobDetail?.job_title ?? jobDetail?.role_type.name
+      } ${jobDetail?.category?.name} di Profesea",
       "description" : "${jobDetail?.description}",
       "identifier": {
         "@type": "PropertyValue",

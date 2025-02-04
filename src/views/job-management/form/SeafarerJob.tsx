@@ -10,7 +10,8 @@ import {
   Checkbox,
   FormControl,
   MenuItem,
-  Divider
+  Divider,
+  Tooltip
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -37,6 +38,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { toast } from 'react-hot-toast'
+import { Icon } from '@iconify/react'
 
 const sailRegion = [
   { id: 'ncv', label: 'Near Coastal Voyage (NCV)' },
@@ -329,7 +331,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
           <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '24px' }}>
             <FormControl fullWidth error={!!errors.jobCategory}>
               <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                Job Category<span style={{ color: '#F22' }}>*</span>
+                Job Category <span style={{ color: '#F22' }}>*</span>
               </Typography>
               <Controller
                 name='jobCategory'
@@ -363,7 +365,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             </FormControl>
             <FormControl fullWidth error={!!errors.jobTitle}>
               <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                Job Title<span style={{ color: '#F22' }}>*</span>
+                Job Title <span style={{ color: '#F22' }}>*</span>
               </Typography>
               <Controller
                 name='jobTitle'
@@ -453,7 +455,14 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
           <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '24px' }}>
             <FormControl fullWidth error={!!errors.experience}>
               <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                Sea Service<span style={{ color: '#F22' }}>*</span>
+                Sea Service{' '}
+                <Tooltip
+                  title='Minimum number of contracts the candidate must have completed to qualify for this job.'
+                  placement='top-start'
+                >
+                  <Icon icon='ph:info-bold' />
+                </Tooltip>{' '}
+                <span style={{ color: '#F22' }}>*</span>
               </Typography>
               <Controller
                 name='experience'
@@ -464,7 +473,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
                     fullWidth
                     value={field.value || ''}
                     size='small'
-                    placeholder='Sea Service Requirement Contracts'
+                    placeholder='Minimum Number of Contracts Required'
                     type='number'
                     inputProps={{ min: 0 }}
                     error={!!errors.experience}
@@ -511,7 +520,10 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
           <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '24px' }}>
             <FormControl fullWidth error={!!errors.contractDuration}>
               <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                Contract Duration
+                Contract Duration{' '}
+                <Tooltip title='Specify the duration of the contract in months period.' placement='top-start'>
+                  <Icon icon='ph:info-bold' />
+                </Tooltip>{' '}
               </Typography>
               <Controller
                 name='contractDuration'
@@ -567,7 +579,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
           <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '24px' }}>
             <FormControl fullWidth error={!!errors.dateOnBoard}>
               <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                Date of Board<span style={{ color: '#F22' }}>*</span>
+                Date of Board <span style={{ color: '#F22' }}>*</span>
               </Typography>
               <Controller
                 name='dateOnBoard'
@@ -738,7 +750,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
           <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '24px' }}>
             <FormControl fullWidth error={!!errors.currency}>
               <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                Currency<span style={{ color: '#F22' }}>*</span>
+                Currency <span style={{ color: '#F22' }}>*</span>
               </Typography>
               <Controller
                 name='currency'
@@ -775,7 +787,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             </FormControl>
             <FormControl fullWidth error={!!errors.minimum}>
               <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
-                {fixPrice ? 'Salary' : 'Minimum Salary'}
+                {fixPrice ? 'Salary ' : 'Minimum Salary '}
                 <span style={{ color: '#F22' }}>*</span>
               </Typography>
               <Controller
@@ -797,7 +809,9 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
               />
             </FormControl>
             <FormControl fullWidth error={!!errors.maximum}>
-              <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>Maximum</Typography>
+              <Typography sx={{ mb: '8px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
+                Maximum <span style={{ color: '#F22' }}>*</span>
+              </Typography>
               <Controller
                 name='maximum'
                 control={control}
