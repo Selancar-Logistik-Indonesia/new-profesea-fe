@@ -83,7 +83,8 @@ const AppbarSearchUser = () => {
     <Autocomplete
       freeSolo
       fullWidth
-      sx={{ minWidth: '150px', maxWidth: '238px' }}
+      sx={{ minWidth: '200px', maxWidth: '300px' }}
+      // sx={}
       size='small'
       options={options()}
       getOptionLabel={option => (option as ISearchContent).title}

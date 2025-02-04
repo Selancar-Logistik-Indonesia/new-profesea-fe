@@ -1,5 +1,5 @@
 // ** React Import
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'

@@ -24,8 +24,8 @@ const Navigation = (props: Props) => {
         display: 'flex',
         flexWrap: 'wrap',
         alignItems: 'center',
+        gap: '10px',
         '& > *': {
-          '&:not(:last-child)': { mr: 2 },
           ...(themeConfig.menuTextTruncate && { maxWidth: 220 })
         }
       }}

@@ -95,9 +95,9 @@ const HorizontalLayout = (props: LayoutProps) => {
             transition: 'border-bottom 0.2s ease-in-out, backdrop-filter .25s ease-in-out, box-shadow .25s ease-in-out',
             ...(appBar === 'fixed'
               ? appBarBlur && {
-                backdropFilter: 'blur(8px)',
-                backgroundColor: theme => hexToRGBA(theme.palette.background.paper, 0.9)
-              }
+                  backdropFilter: 'blur(8px)',
+                  backgroundColor: theme => hexToRGBA(theme.palette.background.paper, 0.9)
+                }
               : {}),
             ...userAppBarStyle
           }}
@@ -116,7 +116,8 @@ const HorizontalLayout = (props: LayoutProps) => {
               sx={{
                 mx: 'auto',
                 ...(contentWidth === 'boxed' && { '@media (min-width:1440px)': { maxWidth: 1440 } }),
-                minHeight: theme => `${(theme.mixins.toolbar.minHeight as number) - 1}px !important`
+                minHeight: theme => `${(theme.mixins.toolbar.minHeight as number) - 1}px !important`,
+                px: { xs: '20px !important', lg: '120px !important' }
               }}
             >
               <AppBarContent
