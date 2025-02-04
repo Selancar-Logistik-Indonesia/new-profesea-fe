@@ -7,6 +7,7 @@ import Job from 'src/contract/models/job'
 import { format, formatDistanceToNow } from 'date-fns'
 import { useJob } from 'src/hooks/useJob'
 import { useRouter } from 'next/navigation'
+import { renderSalary } from 'src/utils/helpers'
 
 const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
   const { children, line, ...rest } = props
@@ -49,35 +50,6 @@ const JobsValue = (props: { icon: string; children: any }) => {
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const renderSalary = (salaryStart: any, salaryEnd: any, currency: any) => {
-  if (salaryEnd.toString() == '0') {
-    return (
-      <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
-        {salaryStart ? `Rp. ${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}` : '-'}
-      </Typography>
-    )
-  }
-
-  if (salaryStart.toString() !== '0' && salaryEnd.toString() !== '0') {
-    return (
-      <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
-        {salaryStart && salaryEnd
-          ? `${
-              'Rp. ' +
-              salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-              ' - ' +
-              'Rp. ' +
-              salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-            }`
-          : '-'}
-      </Typography>
-    )
-  }
-
-  return '-'
-}
-
 export type ParamMain = {
   name: string
   skill: string
@@ -88,7 +60,7 @@ interface Props {
   listJob: Job[]
 }
 
-const renderList = (listJob: Job[]) => {
+const RenderList = (listJob: Job[]) => {
   const router = useRouter()
   const { handleJobSave, handleDeleteJobSave } = useJob()
   const handleSavedJob = async (id: any) => {
@@ -226,10 +198,7 @@ const renderList = (listJob: Job[]) => {
                       <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
                       <Grid item xs={true} sx={{ flexGrow: 1 }}>
                         <TruncatedTypography line={1} fontSize={14} fontWeight={400} color={'#666'}>
-                          {`${item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${item?.currency}`}
-                          {item?.salary_end !== null &&
-                            item?.salary_end !== item?.salary_start &&
-                            ` - ${item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${item?.currency}`}
+                          {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
                         </TruncatedTypography>
                       </Grid>
                     </Grid>
@@ -280,10 +249,7 @@ const renderList = (listJob: Job[]) => {
                       <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
                       <Grid item xs={true} sx={{ flexGrow: 1 }}>
                         <TruncatedTypography line={1} fontSize={14} fontWeight={400} color={'#666'}>
-                          {`${item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${item?.currency}`}
-                          {item?.salary_end !== null &&
-                            item?.salary_end !== item?.salary_start &&
-                            ` - ${item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${item?.currency}`}
+                          {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
                         </TruncatedTypography>
                       </Grid>
                     </Grid>
@@ -310,7 +276,7 @@ const RecomendedView = (props: Props) => {
 
   return (
     <Grid container spacing={6}>
-      {renderList(listJob)}
+      {RenderList(listJob)}
     </Grid>
   )
 }

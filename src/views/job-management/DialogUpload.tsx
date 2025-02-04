@@ -1,19 +1,11 @@
 import { Icon } from '@iconify/react'
-import { Box, Dialog, DialogContent, Fade, FadeProps, IconButton, Typography } from '@mui/material'
-import { forwardRef, ReactElement, Ref } from 'react'
+import { Box, Dialog, DialogContent, IconButton, Typography } from '@mui/material'
 import CompanyDocument from 'src/layouts/components/onboarding/CompanyDocument'
 
 type DialogProps = {
   visible: boolean
   onCloseClick: VoidFunction
 }
-
-const Transition = forwardRef(function Transition(
-  props: FadeProps & { children?: ReactElement<any, any> },
-  ref: Ref<unknown>
-) {
-  return <Fade ref={ref} {...props} />
-})
 
 const DialogUpload = (props: DialogProps) => {
   const { visible, onCloseClick } = props

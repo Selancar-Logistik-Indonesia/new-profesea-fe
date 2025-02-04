@@ -3,7 +3,7 @@ import { Avatar, Box, Card, Grid, Paper, Typography } from '@mui/material'
 import { format } from 'date-fns'
 import Link from 'next/link'
 import Job from 'src/contract/models/job'
-import { textEllipsis } from 'src/utils/helpers'
+import { renderSalary, textEllipsis } from 'src/utils/helpers'
 
 interface IRelatedJobViewProps {
   jobDetailSugestion: Job[]
@@ -35,25 +35,6 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
 }
 
 const RelatedJobView: React.FC<IRelatedJobViewProps> = ({ jobDetailSugestion }) => {
-  const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
-    if (salaryStart == 0) {
-      return '-'
-    }
-
-    if (salaryStart) {
-      return (
-        <>
-          {`${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${currency}`}
-          {salaryEnd !== null &&
-            salaryEnd !== salaryStart &&
-            ` - ${salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${currency}`}
-        </>
-      )
-    } else {
-      return '-'
-    }
-  }
-
   return (
     <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
       <Grid sx={{ padding: 3 }} container>

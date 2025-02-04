@@ -9,7 +9,7 @@ import { format } from 'date-fns'
 import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 import { useAuth } from 'src/hooks/useAuth'
-import { timeCreated } from 'src/utils/helpers'
+import { renderSalary, timeCreated } from 'src/utils/helpers'
 
 const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
   const { children, line, ...rest } = props
@@ -60,36 +60,6 @@ export type ParamMain = {
 const renderList = (listJobs: Job[] | null) => {
   if (!listJobs || listJobs.length == 0) {
     return <></>
-  }
-
-  const renderSalary = (salaryStart: any, salaryEnd: any, currency: string) => {
-    if (+salaryStart == 0) {
-      return '-'
-    }
-
-    if (salaryStart && salaryEnd) {
-      if (currency == 'IDR') {
-        // IDR
-        if (+salaryEnd == 0) {
-          return `${salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (${currency})`
-        } else {
-          return `${
-            salaryStart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-            ' - ' +
-            salaryEnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-          } (${currency})`
-        }
-      } else {
-        // USD
-        if (+salaryEnd == 0) {
-          return `${salaryStart} (${currency})`
-        } else {
-          return `${salaryStart} - ${salaryEnd} (${currency})`
-        }
-      }
-    } else {
-      return '-'
-    }
   }
 
   return listJobs.map(item => {
@@ -208,10 +178,7 @@ const renderList = (listJobs: Job[] | null) => {
                       <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
                       <Grid item xs={true} sx={{ flexGrow: 1 }}>
                         <TruncatedTypography line={1} fontSize={14}>
-                          {`${item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${item?.currency}`}
-                          {item?.salary_end !== null &&
-                            item?.salary_end !== item?.salary_start &&
-                            ` - ${item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${item?.currency}`}
+                          {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
                         </TruncatedTypography>
                       </Grid>
                     </Grid>
@@ -253,10 +220,7 @@ const renderList = (listJobs: Job[] | null) => {
                       <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
                       <Grid item xs={true} sx={{ flexGrow: 1 }}>
                         <TruncatedTypography line={1} fontSize={14}>
-                          {`${item?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${item?.currency}`}
-                          {item?.salary_end !== null &&
-                            item?.salary_end !== item?.salary_start &&
-                            ` - ${item?.salary_end.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${item?.currency}`}
+                          {renderSalary(item?.salary_start, item?.salary_end, item?.currency as string)}
                         </TruncatedTypography>
                       </Grid>
                     </Grid>
