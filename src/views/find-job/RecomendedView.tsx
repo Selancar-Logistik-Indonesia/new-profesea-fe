@@ -4,10 +4,10 @@ import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
 import { Avatar, Paper } from '@mui/material'
 import Job from 'src/contract/models/job'
-import { format, formatDistanceToNow } from 'date-fns'
+import { format } from 'date-fns'
 import { useJob } from 'src/hooks/useJob'
 import { useRouter } from 'next/navigation'
-import { renderSalary } from 'src/utils/helpers'
+import { renderSalary, renderTimeAgo } from 'src/utils/helpers'
 
 const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
   const { children, line, ...rest } = props
@@ -35,7 +35,7 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
   )
 }
 
-const JobsValue = (props: { icon: string; children: any }) => {
+export const JobsValue = (props: { icon: string; children: any }) => {
   const { icon, children } = props
 
   return (
@@ -65,12 +65,6 @@ const RenderList = (listJob: Job[]) => {
   const { handleJobSave, handleDeleteJobSave } = useJob()
   const handleSavedJob = async (id: any) => {
     await handleJobSave(id)
-  }
-
-  function renderTimeAgo(dateString: string): string {
-    const date = new Date(dateString) // Parse the date string
-
-    return `${formatDistanceToNow(date)} ago`
   }
 
   if (!listJob || listJob.length == 0) {

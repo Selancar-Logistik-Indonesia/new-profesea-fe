@@ -356,7 +356,10 @@ const AllJobApplied = () => {
                       }}
                     >
                       <Box
-                        onClick={() => handleClickOpen(item?.id)}
+                        onClick={event => {
+                          event.stopPropagation()
+                          handleClickOpen(item?.id)
+                        }}
                         sx={{ display: 'flex', gap: '10px', cursor: 'pointer' }}
                       >
                         <Image src={'/images/HandWithdraw.png'} alt='icon-hand-with-draw' width={20} height={20} />
