@@ -203,7 +203,7 @@ const JobManagement = () => {
               size='small'
               variant='contained'
               endIcon={<Icon icon='ph:plus' />}
-              disabled={user?.verified_at === null && document.length === 0}
+              disabled={user?.verified_at === null || document.length === 0}
               sx={{ height: '38px', padding: '8px 12px', textTransform: 'none' }}
             >
               Create Job
@@ -348,7 +348,7 @@ const JobManagement = () => {
                     <JobCardSkeleton />
                   </Grid>
                 ))
-            ) : user?.verified_at === null && document.length === 0 ? (
+            ) : user?.verified_at === null || document.length === 0 ? (
               <>
                 <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Box component='img' src='/images/no-image.jpg' sx={{ width: '320px' }} />
