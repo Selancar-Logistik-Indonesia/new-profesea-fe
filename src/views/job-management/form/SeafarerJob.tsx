@@ -41,6 +41,7 @@ import { toast } from 'react-hot-toast'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import { FormDataSeafarer } from 'src/contract/types/create_job_type'
+import { HotJobBoost, JobDraft } from '../Component'
 
 const sailRegion = [
   { id: 'ncv', label: 'Near Coastal Voyage (NCV)' },
@@ -58,11 +59,7 @@ const rotational = [
 ]
 
 const schema = yup.object().shape({
-  jobTitle: yup
-    .string()
-    .min(3, 'Job title must be 3 characters or more')
-    .matches(/^[a-zA-Z0-9 ]*$/, 'Job title must only be alphabetic and numeric characters only')
-    .required()
+  jobCategory: yup.number().required()
 })
 
 // const DRAFT_KEY = 'create-job-seafarer'
@@ -91,6 +88,12 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   const [fixPrice, setFixPrice] = useState<boolean>(false)
   const [hidePrice, setHidePrice] = useState<boolean>(false)
   const [isDraft, setIsDraft] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (job && job.is_draft === true) {
+      setIsDraft(true)
+    }
+  }, [])
 
   //   const clearDraft = () => {
   //     if (type === 'create') {
@@ -269,7 +272,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       onboard_at: onboardDate,
       rotational,
       license: [...(licenseCOC || []), ...(licenseCOP || [])],
-      description: description.hasText() ? draftToHtml(convertToRaw(description)) : '',
+      description: description.hasText() ? draftToHtml(convertToRaw(description)) : '<p></p>',
       currency: currency,
       salary_start: minimum,
       salary_end: maximum,
@@ -281,7 +284,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       HttpClient.patch(`/job/${job.id}`, json)
         .then(
           () => {
-            toast.success(`${jobTitle} edited successfully!`)
+            toast.success(`${isDraft ? 'Draft' : jobTitle} edited successfully!`)
             router.push('/company/job-management')
           },
           error => {
@@ -294,7 +297,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
         .then(
           () => {
             // clearDraft()
-            toast.success(`${jobTitle} submited successfully!`)
+            toast.success(`${isDraft ? 'Draft' : jobTitle} submited successfully!`)
             router.push('/company/job-management')
           },
           error => {
@@ -313,30 +316,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
         gap='40px'
         sx={{ backgroundColor: '#FFF', borderRadius: '8px', p: '24px' }}
       >
-        {type === 'edit' && job?.is_draft === true && (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              mb: '-20px',
-              gap: '10px',
-              p: '16px',
-              backgroundColor: '#F8F8F7',
-              borderRadius: '8px'
-            }}
-          >
-            <Icon icon='ph:file-dashed' color='#868686' fontSize={32} />
-            <Box flexDirection='column'>
-              <Typography sx={{ color: '#404040', fontWeight: 700 }}>
-                This job is in draft mode and hasn't been posted yet.
-              </Typography>
-              <Typography sx={{ color: '#525252' }}>
-                To publish this job and make it visible to candidates,{' '}
-                <span style={{ color: '#32497A', fontWeight: 'bold' }}>complete the required details.</span>
-              </Typography>
-            </Box>
-          </Box>
-        )}
+        {type === 'edit' && job?.is_draft === true && <JobDraft />}
         <Grid item container flexDirection='column' gap='24px'>
           <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '24px' }}>
             <FormControl fullWidth error={!!errors.jobCategory}>
@@ -853,45 +833,38 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             label='Hide Salary'
           />
         </Grid>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            p: '16px',
-            border: '1px solid #0B58A6',
-            backgroundColor: '#F2F8FE',
-            borderRadius: '8px'
-          }}
-        >
-          <Icon icon='ph:lightning' color='#32497A' fontSize={32} />
-          <Box flexDirection='column'>
-            <Typography sx={{ color: '#303030', fontWeight: 700 }}>Boost Job Visibility</Typography>
-            <Typography sx={{ color: '#303030', fontWeight: 400 }}>
-              Active and highlight this job post to appear prominently and attract more candidates.
-            </Typography>
-          </Box>
-        </Box>
+        {false && <HotJobBoost />}
         <Grid item container sx={{ display: 'flex', gap: '24px', alignItems: 'center', justifyContent: 'right' }}>
           <Typography component={Link} href='/company/job-management' sx={{ color: '#868686', fontSize: 14 }}>
             Cancel
           </Typography>
-          <Button
-            type='button'
-            onClick={() => {
-              setIsDraft(true)
-              handleSubmit(onSubmit)
-            }}
-            variant='outlined'
-            size='small'
-            disabled={onLoading}
-            sx={{ color: '#0B58A6', fontSize: 14, fontWeight: 400, border: '1px solid #0B58A6', textTransform: 'none' }}
-          >
-            {onLoading ? <CircularProgress size={22} /> : 'Save as Draft'}
-          </Button>
+          {(type === 'create' || isDraft === true) && (
+            <Button
+              type='submit'
+              onClick={async () => {
+                await setIsDraft(true)
+                handleSubmit(onSubmit)
+              }}
+              variant='outlined'
+              size='small'
+              disabled={onLoading}
+              sx={{
+                color: '#0B58A6',
+                fontSize: 14,
+                fontWeight: 400,
+                border: '1px solid #0B58A6',
+                textTransform: 'none'
+              }}
+            >
+              {onLoading ? <CircularProgress size={22} /> : 'Save as Draft'}
+            </Button>
+          )}
           <Button
             type='submit'
-            onClick={handleSubmit(onSubmit)}
+            onClick={async () => {
+              await setIsDraft(false)
+              handleSubmit(onSubmit)
+            }}
             variant='contained'
             size='small'
             disabled={onLoading}
