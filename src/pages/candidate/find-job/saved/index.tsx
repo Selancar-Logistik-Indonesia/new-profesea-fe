@@ -33,7 +33,9 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import CertificateDialog from '../../job/CertificateDialog'
 import CompleteDialog from '../../job/CompleteDialog'
-import { formatDistanceToNow } from 'date-fns'
+import { format } from 'date-fns'
+import { JobsValue } from 'src/views/find-job/RecomendedView'
+import { renderSalary, renderTimeAgo } from 'src/utils/helpers'
 
 interface IJobSaved {
   id: number
@@ -205,14 +207,6 @@ const JobSaved = () => {
     }
   }
 
-  function getAppliedDuration(createdAt: any) {
-    // Menghitung jarak waktu dari sekarang
-    const distance = formatDistanceToNow(new Date(createdAt), { addSuffix: true })
-
-    // Menghasilkan teks dengan format "Applied 3mo ago"
-    return `Applied ${distance}`
-  }
-
   useEffect(() => {
     handleFetchJobSavedList()
   }, [page, search, sortBy])
@@ -283,7 +277,7 @@ const JobSaved = () => {
                 <Icon
                   icon={'iconoir:bookmark-solid'}
                   color='rgba(50, 73, 122, 1)'
-                  fontSize={'20px'}
+                  fontSize={'16px'}
                   style={{ cursor: 'pointer' }}
                   onClick={e => {
                     e.stopPropagation()
@@ -319,7 +313,10 @@ const JobSaved = () => {
                     }}
                   >
                     <Box
-                      onClick={() => handleApply(item?.id, item?.job?.license, item?.job?.category, item?.job)}
+                      onClick={event => {
+                        event.stopPropagation()
+                        handleApply(item?.id, item?.job?.license, item?.job?.category, item?.job)
+                      }}
                       sx={{ display: 'flex', gap: '10px', cursor: 'pointer' }}
                     >
                       <Icon icon={'clarity:cursor-hand-click-line'} width={20} height={20} />
@@ -329,35 +326,123 @@ const JobSaved = () => {
                 </Popper>
               </Box>
             </Box>
-            {item?.job?.category?.employee_type === 'onship' ? (
-              <Box sx={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', gap: '20px' }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography fontSize={14} fontWeight={400} color={'#999'}>
-                    {item?.job?.contract_duration ? `${item?.job?.contract_duration} months` : '-'}
-                  </Typography>
-                  <Typography fontSize={14} fontWeight={400} color={'#999'}>
-                    {item?.job?.vessel_type ? item?.job?.vessel_type?.name : '-'}
-                  </Typography>
-                  <Typography fontSize={14} fontWeight={400} color={'#999'}>
-                    {item?.created_at ? getAppliedDuration(item?.created_at) : '-'}
-                  </Typography>
-                </Box>
-              </Box>
-            ) : (
-              <Box sx={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', gap: '20px' }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography fontSize={14} fontWeight={400} color={'#999'}>
-                    {item?.job?.work_arrangement ? item?.job?.work_arrangement : '-'}
-                  </Typography>
-                  <Typography fontSize={14} fontWeight={400} color={'#999'}>
-                    {item?.job?.employment_type ? item?.job?.employment_type : '-'}
-                  </Typography>
-                  <Typography fontSize={14} fontWeight={400} color={'#999'}>
-                    {item?.created_at ? getAppliedDuration(item?.created_at) : '-'}
-                  </Typography>
-                </Box>
-              </Box>
-            )}
+            <Grid item>
+              {item?.job?.category?.employee_type == 'onship' ? (
+                <>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <JobsValue icon='ph:anchor-light'>
+                      {`${item?.job?.category?.name ?? '-'} | `}
+                      {item?.job?.job_title ?? ''}
+                    </JobsValue>
+                    <JobsValue icon='ph:calendar-dots-duotone'>
+                      {format(new Date(item?.job?.onboard_at), 'dd MMMM yyyy') ?? '-'}
+                    </JobsValue>
+                    <JobsValue icon='ph:clock-duotone'>
+                      {item?.job?.contract_duration ? `${item?.job?.contract_duration} months` : '-'}
+                    </JobsValue>
+                    <JobsValue icon='ph:sailboat-light'>{item?.job?.vessel_type?.name ?? '-'}</JobsValue>
+                    {item?.job?.hide_salary ? (
+                      <Grid
+                        container
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          gap: 2
+                        }}
+                      >
+                        <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                        <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
+                          Salary undisclosed
+                        </Typography>
+                      </Grid>
+                    ) : (
+                      <Grid
+                        container
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          gap: 2
+                        }}
+                      >
+                        <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                        <Grid item xs={true} sx={{ flexGrow: 1 }}>
+                          <TruncatedTypography line={1} fontSize={14} fontWeight={400} color={'#666'}>
+                            {renderSalary(
+                              item?.job?.salary_start,
+                              item?.job?.salary_end,
+                              item?.job?.currency as string
+                            )}
+                          </TruncatedTypography>
+                        </Grid>
+                      </Grid>
+                    )}
+
+                    <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+                      <Typography sx={{ fontSize: 12, fontWeight: 400, color: '#999' }}>
+                        {item?.created_at != null ? 'Saved ' + renderTimeAgo(item?.created_at) : null}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </>
+              ) : (
+                <>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <JobsValue icon='ph:briefcase-duotone'>
+                      {`${item?.job?.category?.name ?? '-'} | `}
+                      {item?.job?.rolelevel?.levelName ?? ''}
+                    </JobsValue>
+                    <JobsValue icon='ph:clock-duotone'>{item?.job?.employment_type ?? '-'}</JobsValue>
+                    <JobsValue icon='ph:map-pin-duotone'>{item?.job?.city?.city_name ?? '-'}</JobsValue>
+                    {item?.job?.hide_salary ? (
+                      <Grid
+                        container
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          gap: 2
+                        }}
+                      >
+                        <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                        <Typography sx={{ color: '#666', fontWeight: 400 }} fontSize={14}>
+                          Salary undisclosed
+                        </Typography>
+                      </Grid>
+                    ) : (
+                      <Grid
+                        container
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          gap: 2
+                        }}
+                      >
+                        <Icon icon='ph:money-bold' color='#32487A' fontSize={'20px'} />
+                        <Grid item xs={true} sx={{ flexGrow: 1 }}>
+                          <TruncatedTypography line={1} fontSize={14} fontWeight={400} color={'#666'}>
+                            {renderSalary(
+                              item?.job?.salary_start,
+                              item?.job?.salary_end,
+                              item?.job?.currency as string
+                            )}
+                          </TruncatedTypography>
+                        </Grid>
+                      </Grid>
+                    )}
+                    <Typography sx={{ opacity: 0 }}>blank space</Typography>
+
+                    <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+                      <Typography sx={{ fontSize: 12, fontWeight: 400, color: '#999' }}>
+                        {item?.created_at != null ? 'Saved ' + renderTimeAgo(item?.created_at) : null}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </>
+              )}
+            </Grid>
           </Paper>
         </Grid>
       )
