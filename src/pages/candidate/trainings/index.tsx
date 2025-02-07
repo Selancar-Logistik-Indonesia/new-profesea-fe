@@ -1,10 +1,9 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import { Tabs, Tab, useMediaQuery, Grid, Typography, Stack } from '@mui/material'
+import { Tabs, Tab, useMediaQuery, Grid, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import AllTrainingScreen from './all'
 import OngoingTrainingScreen from './ongoing'
-import SeafarerInstantTraining from './in-house'
 import { Icon } from '@iconify/react'
 import TrainingPartner from 'src/views/training/TrainingPartner'
 

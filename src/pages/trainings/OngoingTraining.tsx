@@ -17,6 +17,7 @@ import { IUser } from 'src/contract/models/user'
 
 const SeafarerOngoingTraining = () => {
   const { user } = useAuth()
+
   return (
     <TrainingProvider>
       <OngoingTrainingScreen user={user} />
