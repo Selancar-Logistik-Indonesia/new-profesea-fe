@@ -7,13 +7,13 @@ import FooterView from 'src/views/landing-page/footerView'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
-import { Stack } from '@mui/system'
-import OngoingTrainingScreen from './OngoingTraining'
+import TrainingPartner from 'src/views/training/TrainingPartner'
+import SeafarerOngoingTraining from './OngoingTraining'
 
 const Main = () => {
   const { t } = useTranslation()
   const theme = useTheme()
-  const hidden = useMediaQuery(theme.breakpoints.down('md'))
+  const isXs = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
     <>
@@ -27,7 +27,7 @@ const Main = () => {
         <meta property='og:image' content='images/logosamudera.png' />
       </Head>
       <Box>
-        <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Grid container sx={{ display: 'flex', justifyContent: 'center', gap: '8px' }}>
           <Grid
             item
             xs={12}
@@ -75,50 +75,17 @@ const Main = () => {
               },
               mx: 12,
               justifyContent: 'center',
-              gap: 2
+              gap: 4
             }}
           >
-            <Grid item xs={12} md={2.5}>
-              <Box
-                sx={{
-                  p: 4,
-                  my: 2,
-                  borderColor: 'divider',
-                  boxSizing: 'border-box',
-                  backgroundColor: '#FFFFFF',
-                  borderRadius: '4px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  overflow: 'hidden'
-                }}
-              >
-                <Typography sx={{ fontWeight: 'bold', color: 'text.primary' }} fontSize={18}>
-                  Training Partners
-                </Typography>
-                <Stack spacing={2} mt={2}>
-                  <Grid item sx={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <img
-                      alt='logo'
-                      src={'/images/training-partner1.jpg'}
-                      style={{
-                        width: '100%',
-                        aspectRatio: '1',
-                        objectFit: 'cover',
-                        borderRadius: '8px',
-                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                      }}
-                    />
-                  </Grid>
-                </Stack>
-              </Box>
+            <Grid item sx={{ width: { xs: '100%', md: '200px' } }}>
+              <TrainingPartner />
             </Grid>
             <Grid
               item
-              xs={12}
-              md={9.5}
+              xs={true}
               sx={
-                !hidden
+                isXs
                   ? {
                       direction: 'row',
                       justifyContent: 'flex-start',
@@ -126,11 +93,14 @@ const Main = () => {
                       alignContent: 'top',
                       marginBottom: '10px'
                     }
-                  : {}
+                  : {
+                      flexGrow: 1,
+                      marginBottom: '10px'
+                    }
               }
             >
               <Grid>
-                <OngoingTrainingScreen />
+                <SeafarerOngoingTraining />
               </Grid>
             </Grid>
           </Grid>
