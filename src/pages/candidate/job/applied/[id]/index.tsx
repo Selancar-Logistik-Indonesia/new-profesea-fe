@@ -192,7 +192,6 @@ const JobDetailApplied = () => {
   const [jobDetail, setJobDetail] = useState<JobApplied | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [loadingWithDraw, setLoadingWithDraw] = useState(false)
-  const [license, setLicense] = useState<any[] | undefined>()
   const [onApplied, setOnApplied] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
   const [jobAppliedId, setJobAppliedId] = useState(0)
@@ -213,14 +212,11 @@ const JobDetailApplied = () => {
             : JobDetailApplied?.job.job_title ?? JobDetailApplied?.job?.role_type.name
         } ${JobDetailApplied?.job?.category.name} di Profesea`
       )
-      const response2 = await HttpClient.get(`/user/${user?.id}`)
-      const applicant = response2.data.user
 
       if (JobDetailApplied?.job?.applied_at != null) {
         setOnApplied(true)
       }
 
-      setLicense(applicant.seafarer_competencies.concat(applicant.seafarer_proficiencies))
       setJobDetail(JobDetailApplied)
       setIsLoading(false)
     } catch (error) {

@@ -267,8 +267,6 @@ const AllJobApplied = () => {
   const renderList = (data: Applied[]) => {
     return data.map(item => {
       const companyPhoto = item?.job?.company?.photo ? item?.job?.company?.photo : '/images/avatars/default-user.png'
-      const companyNameUrl = item?.job?.company.name.toLowerCase().split(' ').join('-')
-      const jobTitleUrl = item?.job?.job_title ? item?.job?.job_title?.toLowerCase().split(' ').join('-') : ''
 
       return (
         <Grid item xs={12} md={6} lg={4} key={item?.id}>
