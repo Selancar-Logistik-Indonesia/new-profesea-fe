@@ -22,7 +22,7 @@ const AppBarContent = (props: Props) => {
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Navigation {...props} horizontalNavItems={HorizontalNavItems()} />
-        <Box sx={{ marginLeft: '106px !important' }}>
+        <Box sx={{ display: 'flex', gap: '4px' }}>
           <NotificationDropdown settings={settings} />
           <UserDropdown settings={settings} />
         </Box>
