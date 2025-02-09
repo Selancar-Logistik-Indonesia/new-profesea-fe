@@ -284,7 +284,7 @@ const AllJobApplied = () => {
               cursor: 'pointer'
             }}
             elevation={0}
-            onClick={() => router.push(`/candidate/job/${companyNameUrl}/${item?.job_id}/${jobTitleUrl}`)}
+            onClick={() => router.push(`/candidate/job/applied/${item?.id}`)}
           >
             <Box
               sx={{
