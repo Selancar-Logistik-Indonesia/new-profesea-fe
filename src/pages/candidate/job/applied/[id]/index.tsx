@@ -747,6 +747,8 @@ const JobDetailApplied = () => {
               </Box>
             </Card>
           </Grid>
+
+          {/* right component */}
           <Grid
             item
             xs={12}

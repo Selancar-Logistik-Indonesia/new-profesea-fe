@@ -6,8 +6,8 @@ import { Paper, Popper, ClickAwayListener, MenuList, MenuItem, Grow, IconButton 
 
 import { Icon } from '@iconify/react'
 
-import Grid from '@mui/material/Grid'
 import { toast } from 'react-hot-toast'
+import { Box } from '@mui/system'
 // import Link from 'next/link'
 
 const ShareArea = (props: { url: string; subject: any; clean?: boolean }) => {
@@ -44,12 +44,12 @@ const ShareArea = (props: { url: string; subject: any; clean?: boolean }) => {
 
   return (
     <>
-      <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
-        <Grid sx={{ width: '100%' }}>
+      <Box>
+        <Box>
           <IconButton ref={anchorRef} size='small' onClick={handleToggle}>
             <Icon icon='material-symbols-light:share-outline' fontSize={20} color='rgba(50, 73, 122, 1)' />
           </IconButton>
-        </Grid>
+        </Box>
         <Popper
           sx={{
             zIndex: 1
@@ -81,7 +81,7 @@ const ShareArea = (props: { url: string; subject: any; clean?: boolean }) => {
             </Grow>
           )}
         </Popper>
-      </Grid>
+      </Box>
     </>
   )
 }
