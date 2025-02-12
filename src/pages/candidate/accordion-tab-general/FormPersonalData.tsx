@@ -187,7 +187,7 @@ const FormPersonalData: React.FC = () => {
       return
     }
 
-    if (!gender) {
+    if (!gender && user?.role === 'Company') {
       toast.error('Gender is required')
 
       return
