@@ -11,7 +11,6 @@ import ListItem from '@mui/material/ListItem'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Box, { BoxProps } from '@mui/material/Box'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemButton from '@mui/material/ListItemButton'
 
 // ** Third Party Imports
@@ -31,7 +30,7 @@ import { NavGroup, LayoutProps } from 'src/@core/layouts/types'
 
 // ** Custom Components Imports
 import VerticalNavItems from './VerticalNavItems'
-import UserIcon from 'src/layouts/components/UserIcon'
+// import UserIcon from 'src/layouts/components/UserIcon'
 import Translations from 'src/layouts/components/Translations'
 import CanViewNavGroup from 'src/layouts/components/acl/CanViewNavGroup'
 
@@ -175,7 +174,7 @@ const VerticalNavGroup = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navHover])
 
-  const icon = parent && !item.icon ? themeConfig.navSubItemIcon : item.icon
+  // const icon = parent && !item.icon ? themeConfig.navSubItemIcon : item.icon
 
   const menuGroupCollapsedStyles = navCollapsed && !navHover ? { opacity: 0 } : { opacity: 1 }
 
@@ -207,10 +206,10 @@ const VerticalNavGroup = (props: Props) => {
               transition: 'padding-left .25s ease-in-out',
               pr: navCollapsed && !navHover ? (collapsedNavWidth - navigationBorderWidth - 24 - 16) / 8 : 3,
               pl: navCollapsed && !navHover ? (collapsedNavWidth - navigationBorderWidth - 24 - 16) / 8 : 4,
-              '&.Mui-selected': {
-                backgroundColor: 'action.selected',
+              '&.Mui-selected':  {
+                backgroundColor: 'transparent',
                 '&:hover': {
-                  backgroundColor: 'action.selected'
+                  backgroundColor: 'transparent'
                 }
               },
               '&.Mui-selected.Mui-focusVisible': {
@@ -218,27 +217,19 @@ const VerticalNavGroup = (props: Props) => {
                 '&:hover': {
                   backgroundColor: 'action.focus'
                 }
+              },
+              '&:hover': {
+                backgroundColor: 'transparent'
               }
             }}
           >
-            {isSubToSub ? null : (
-              <ListItemIcon
-                sx={{
-                  transition: 'margin .25s ease-in-out',
-                  ...(parent && navCollapsed && !navHover ? {} : { mr: 2 }),
-                  ...(navCollapsed && !navHover ? { mr: 0 } : {}), // this condition should come after (parent && navCollapsed && !navHover) condition for proper styling
-                  ...(parent && item.children ? { ml: 2, mr: 4 } : {}),
-                  color: parent && item.children ? 'text.secondary' : 'text.primary'
-                }}
-              >
-                <UserIcon icon={icon as string} {...(parent && { fontSize: '0.5rem' })} />
-              </ListItemIcon>
-            )}
+            
             <MenuItemTextWrapper sx={{ ...menuGroupCollapsedStyles, ...(isSubToSub ? { ml: 8 } : {}) }}>
               <Typography
                 {...((themeConfig.menuTextTruncate || (!themeConfig.menuTextTruncate && navCollapsed && !navHover)) && {
                   noWrap: true
                 })}
+                sx={{...(groupActive.includes(item.title) )&& { color: 'primary.main' }}}
               >
                 <Translations text={item.title} />
               </Typography>
