@@ -59,6 +59,12 @@ interface TabPanelProps {
   value: number
 }
 
+
+
+const getCpText = (percentage: number) => {
+  return percentage === 100 ? <>Your profile looks great! You can add <br/> more details to increase visibility.</> : <> Complete your profile to unlock more <br /> opportunities and highlight your skills.</>
+}
+
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props
 
@@ -701,28 +707,29 @@ const Candidate = () => {
                             sx={{
                               display: 'flex',
                               flexDirection: 'row',
-                              background: '#F8F8F7',
+                              background: percentage === 100 ? '#F4FEF2' : '#F8F8F7',
                               borderRadius: '6px',
+                              border:percentage === 100 ? '1px solid #4CAF50': '' ,
                               padding: isMobile ? '4px 12px' : '16px 24px',
                               justifyContent: 'space-between',
                               alignItems: 'center',
                               gap: '20px'
                             }}
                           >
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px'}}>
                               <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                                 <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040' }}>
                                   Profile Completion
                                 </Typography>
-                                <IconButton onClick={handleClickPopper}>
+                                {percentage !== 100 && (<IconButton onClick={handleClickPopper}>
                                   <Icon icon='quill:info' fontSize={isMobile ? '20px' : '16px'} color='orange' />
-                                </IconButton>
+                                </IconButton>)}
                                 {renderPopper(detail_percentage)}
                               </Box>
                               {!isMobile && (
                                 <Box>
                                   <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#404040' }}>
-                                    Complete your profile to unlock more <br /> opportunities and highlight your skills
+                                    {getCpText(percentage)}
                                   </Typography>
                                 </Box>
                               )}
