@@ -11,6 +11,7 @@ import ListItem from '@mui/material/ListItem'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Box, { BoxProps } from '@mui/material/Box'
+import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemButton, { ListItemButtonProps } from '@mui/material/ListItemButton'
 
 // ** Configs Import
@@ -21,7 +22,7 @@ import { NavLink, NavGroup } from 'src/@core/layouts/types'
 import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Custom Components Imports
-// import UserIcon from 'src/layouts/components/UserIcon'
+import UserIcon from 'src/layouts/components/UserIcon'
 import Translations from 'src/layouts/components/Translations'
 import CanViewNavLink from 'src/layouts/components/acl/CanViewNavLink'
 
@@ -81,7 +82,7 @@ const VerticalNavLink = ({
   isSubToSub,
   collapsedNavWidth,
   toggleNavVisibility,
-  navigationBorderWidth,
+  navigationBorderWidth
 }: Props) => {
   // ** Hooks
   const router = useRouter()
@@ -89,7 +90,7 @@ const VerticalNavLink = ({
   // ** Vars
   const { navCollapsed } = settings
 
-  // const icon = parent && !item.icon ? themeConfig.navSubItemIcon : item.icon
+  const icon = parent && !item.icon ? themeConfig.navSubItemIcon : item.icon
 
   const isNavLinkActive = () => {
     if (router.pathname === item.path || handleURLQueries(router, item.path)) {
@@ -132,9 +133,26 @@ const VerticalNavLink = ({
             ...(item.disabled ? { pointerEvents: 'none' } : { cursor: 'pointer' }),
             pr: navCollapsed && !navHover ? (collapsedNavWidth - navigationBorderWidth - 24 - 16) / 8 : 3,
             pl: navCollapsed && !navHover ? (collapsedNavWidth - navigationBorderWidth - 24 - 16) / 8 : 4,
-            ...(parent ? {pl : 6}: '')
           }}
         >
+          {isSubToSub || !parent ? null : (
+            <ListItemIcon
+              sx={{
+                transition: 'margin .25s ease-in-out',
+                color:'text.secondary',
+                ...(navCollapsed && !navHover ? { mr: 0 } : { mr: 2 }),
+                // This line should be after (navCollapsed && !navHover) condition for proper styling
+                ml: 2, 
+                mr: 4, 
+                '& svg': {
+                  ...(!parent ? { fontSize: '1.5rem' } : { fontSize: '0.5rem' }),
+                  ...(parent && item.icon ? { fontSize: '0.875rem' } : {})
+                }
+              }}
+            >
+              <UserIcon icon={icon as string} />
+            </ListItemIcon>
+          )}
          
 
           <MenuItemTextMetaWrapper

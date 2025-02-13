@@ -30,7 +30,6 @@ import { NavGroup, LayoutProps } from 'src/@core/layouts/types'
 
 // ** Custom Components Imports
 import VerticalNavItems from './VerticalNavItems'
-// import UserIcon from 'src/layouts/components/UserIcon'
 import Translations from 'src/layouts/components/Translations'
 import CanViewNavGroup from 'src/layouts/components/acl/CanViewNavGroup'
 
@@ -173,8 +172,6 @@ const VerticalNavGroup = (props: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navHover])
-
-  // const icon = parent && !item.icon ? themeConfig.navSubItemIcon : item.icon
 
   const menuGroupCollapsedStyles = navCollapsed && !navHover ? { opacity: 0 } : { opacity: 1 }
 
