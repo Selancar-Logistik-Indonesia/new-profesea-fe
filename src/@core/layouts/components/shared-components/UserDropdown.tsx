@@ -126,9 +126,11 @@ const UserDropdown = (props: Props) => {
         {userData && userData.role != 'admin' && (
           <div>
             <Link
-              href={`/${userData.role === 'Seafarer' ? 'profile' : 'company'}/${userData.id}/${toLinkCase(
-                userData.username
-              )}`}
+              href={`/${
+                userData.role === 'Seafarer'
+                  ? 'profile/' + toLinkCase(userData.username)
+                  : 'company' + userData.id + '/' + toLinkCase(userData.username)
+              }`}
             >
               <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
                 <Box sx={styles}>
