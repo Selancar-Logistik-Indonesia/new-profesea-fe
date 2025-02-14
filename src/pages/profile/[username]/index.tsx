@@ -36,6 +36,7 @@ import SeafarerExperience from 'src/views/profile/seafarerExperience'
 import CopSection from 'src/views/profile/copSection'
 import CocSection from 'src/views/profile/cocSection'
 import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
+import UsernameChange from "src/layouts/components/UsernameChange"
 import SideAdProfile from 'src/views/banner-ad/sideAdProfile'
 import CompleteOnboarding from 'src/views/onboarding/CompleteOnboarding'
 
@@ -170,6 +171,9 @@ const UserFeedApp = () => {
           {selectedUser?.employee_type == 'offship' && <Ceritificate userId={selectedUser?.id} />}
         </Grid>
         <Grid item xs={12} md={3}>
+          {selectedUser.id === user?.id && (<Box sx={{ mb: '24px'}}>
+             <UsernameChange userId={selectedUser?.id} username={selectedUser?.username} />
+          </Box>)}
           <FriendSuggestionCard location='profile' dataUser={selectedUser} status={true} />
           <Box sx={{ my: '24px', position: 'sticky', top: '70px' }}>
             <SideAdProfile />
