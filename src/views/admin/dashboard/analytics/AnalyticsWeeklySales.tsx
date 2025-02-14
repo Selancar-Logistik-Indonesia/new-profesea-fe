@@ -20,20 +20,18 @@ import { useDashboard } from 'src/hooks/useDashboard'
 
 const AnalyticsWeeklySales = () => {
   return (
-      <DashboardProvider>
-          <AnalyticsWeeklySalesApp />
-      </DashboardProvider>
+    <DashboardProvider>
+      <AnalyticsWeeklySalesApp />
+    </DashboardProvider>
   )
 }
 
 const AnalyticsWeeklySalesApp = () => {
-  // ** Hook
   const theme = useTheme()
-  const { chartSubscriptions, dataChartSubs } = useDashboard();
-  // console.log(dataChartSubs?.series)
+  const { chartSubscriptions, dataChartSubs } = useDashboard()
   useEffect(() => {
-    chartSubscriptions({data_type:'by-value'});
-  }, []);
+    chartSubscriptions({ data_type: 'by-value' })
+  }, [])
 
   const options: ApexOptions = {
     chart: {
@@ -84,8 +82,8 @@ const AnalyticsWeeklySalesApp = () => {
     xaxis: {
       axisTicks: { show: false },
       axisBorder: { show: false },
-      categories: (dataChartSubs) ? dataChartSubs?.categories : [],
-      labels: {        
+      categories: dataChartSubs ? dataChartSubs?.categories : [],
+      labels: {
         style: {
           fontWeight: 600,
           fontSize: '0.875rem',
@@ -95,7 +93,7 @@ const AnalyticsWeeklySalesApp = () => {
     },
     yaxis: {
       labels: {
-        align: theme.direction === 'rtl' ? 'right' : 'left',        
+        align: theme.direction === 'rtl' ? 'right' : 'left',
         formatter: val => `Rp. ${Number(val) / 1000}`,
         style: {
           fontSize: '0.875rem',
@@ -107,53 +105,57 @@ const AnalyticsWeeklySalesApp = () => {
 
   return (
     <DashboardContext.Consumer>
-        {({ dataChartSubs, onLoading }) => {
-          // console.log(dataChartSubs);
-            if (onLoading) {
-            
-                return (
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <CircularProgress sx={{ mt: 20 }} />
-                        </Box>
-                    );
-            }
-            
-            return (
-              <Card sx={{ border: 0, boxShadow: 0}}>
-                <CardHeader
-                  title={
-                    <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
-                      Subscription Realtime Sales
-                    </Typography>
-                  }
-                  subheader={`Total Rp. ${(dataChartSubs?.series)?
-                    dataChartSubs?.series[0].data.reduce((a :any , b :any) => a + b, 0) : 0 } 
-                  `}
-                  subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
-                  titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
-                  
-                />
-                <CardContent
-                  sx={{
-                    p: '0 !important',
-                    '& .apexcharts-canvas .apexcharts-yaxis-label': { fontSize: '0.875rem', fontWeight: 600 },
-                    '& .apexcharts-canvas .apexcharts-xaxis-label': { fontSize: '0.875rem', fill: theme.palette.text.disabled },
-                    '& .apexcharts-data-labels .apexcharts-datalabel': {
-                      fontWeight: 500,
-                      fontSize: '0.875rem',
-                      fill: theme.palette.common.white
-                    }
-                  }}
-                >
-                  <ReactApexcharts type='bar' height={338} series={ (dataChartSubs) ? dataChartSubs?.series : []} options={options} />
-                </CardContent>
-              </Card>
-            )
+      {({ dataChartSubs, onLoading }) => {
+        if (onLoading) {
+          return (
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <CircularProgress sx={{ mt: 20 }} />
+            </Box>
+          )
+        }
 
-          }}
-        </DashboardContext.Consumer>
-      
-        );
-  }
+        return (
+          <Card sx={{ border: 0, boxShadow: 0 }}>
+            <CardHeader
+              title={
+                <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#32487A' }}>
+                  Subscription Realtime Sales
+                </Typography>
+              }
+              subheader={`Total Rp. ${
+                dataChartSubs?.series ? dataChartSubs?.series[0].data.reduce((a: any, b: any) => a + b, 0) : 0
+              }
+                  `}
+              subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
+              titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
+            />
+            <CardContent
+              sx={{
+                p: '0 !important',
+                '& .apexcharts-canvas .apexcharts-yaxis-label': { fontSize: '0.875rem', fontWeight: 600 },
+                '& .apexcharts-canvas .apexcharts-xaxis-label': {
+                  fontSize: '0.875rem',
+                  fill: theme.palette.text.disabled
+                },
+                '& .apexcharts-data-labels .apexcharts-datalabel': {
+                  fontWeight: 500,
+                  fontSize: '0.875rem',
+                  fill: theme.palette.common.white
+                }
+              }}
+            >
+              <ReactApexcharts
+                type='bar'
+                height={338}
+                series={dataChartSubs ? dataChartSubs?.series : []}
+                options={options}
+              />
+            </CardContent>
+          </Card>
+        )
+      }}
+    </DashboardContext.Consumer>
+  )
+}
 
 export default AnalyticsWeeklySales
