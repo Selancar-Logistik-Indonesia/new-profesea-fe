@@ -78,7 +78,7 @@ const RegularNavHeader = (props: { hidden: boolean; toggleNavVisibility: () => v
           sx={{ width: 125 }}
           alt='The Profesea logo'
           title='Profesea'
-          src='/images/logosamudera.png'
+          src='/images/logoprofesea.png'
         />
       </LinkStyled>
 

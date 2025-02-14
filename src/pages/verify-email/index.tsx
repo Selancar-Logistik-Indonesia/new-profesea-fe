@@ -84,7 +84,7 @@ const VerifyEmail = () => {
     >
       <Hidden mdDown>
         <Box sx={{ position: 'absolute', left: '120px', top: '44px' }}>
-          <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
+          <Box component='img' src='/images/logoprofesea.png' sx={{ width: '143px', height: 'auto' }} />
         </Box>
       </Hidden>
       <Grid item sx={{ width: '481px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>

@@ -12,6 +12,7 @@ import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 import { NewsProvider } from 'src/context/NewsContext'
 import { useNews } from 'src/hooks/useNews'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
 // import DetailNews from 'src/views/news/detailnews';
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -107,6 +108,7 @@ const Thread = () => {
 
 const ThreadApp = () => {
   const { dispatch } = useBreadcrumbsNews()
+  const { i18n } = useTranslation()
   const { fetchComments, fetchNews } = useNews()
   const [threadDetail, setthreadDetail] = useState<any>([])
   const [otherNews, setOtherNews] = useState<INews[]>([])
@@ -277,7 +279,7 @@ const ThreadApp = () => {
               style={{ color: '#FFFFFF', fontSize: '32px', fontWeight: '700' }}
               sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4, whiteSpace: 'null' }, zIndex: 2 }}
             >
-              {threadDetail?.title}
+              {i18n?.language == 'en' ? threadDetail?.title_eng : threadDetail?.title}
             </Typography>
             <Typography
               variant='h2'
@@ -291,7 +293,9 @@ const ThreadApp = () => {
           <Grid item xs={12} sx={{ my: 4, ...detailContentWrapper, gap: 8 }}>
             <Box sx={{ ...detailContentLeft, background: '#FFF', padding: '24px', borderRadius: '16px' }}>
               <Box fontSize={14} style={{ color: '#424242' }}>
-                {ReactHtmlParser(`${threadDetail?.content}`)}
+                {i18n?.language == 'en'
+                  ? ReactHtmlParser(`${threadDetail?.content_eng}`)
+                  : ReactHtmlParser(`${threadDetail?.content}`)}
               </Box>
             </Box>
             <Box sx={{ ...detailContentRight, position: 'relative' }}>
@@ -362,7 +366,7 @@ const ThreadApp = () => {
                         }}
                       >
                         <TruncatedTypography line={2} fontSize={18} fontWeight={700} color='black' minHeight={'50px'}>
-                          {o?.title}
+                          {i18n?.language == 'en' ? (o?.title_eng != '' ? o?.title_eng : o?.title) : o?.title}
                         </TruncatedTypography>
                       </Link>
                       <TruncatedTypography line={3} fontWeight={400} fontSize={14}>

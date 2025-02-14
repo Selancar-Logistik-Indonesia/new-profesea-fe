@@ -115,7 +115,7 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
                 sx={{ width: 125 }}
                 alt='The Profesea logo'
                 title='Profesea'
-                src='/images/logosamudera.png'
+                src='/images/logoprofesea.png'
               />
               
             </Link>
@@ -219,7 +219,7 @@ const OuterPageAppbar = (props: { appBarElevation?: number }) => {
                     sx={{ width: 125 }}
                     alt='The Profesea logo'
                     title='Profesea'
-                    src='/images/logosamudera.png'
+                    src='/images/logoprofesea.png'
                   />
                 </Link>
               </Box>

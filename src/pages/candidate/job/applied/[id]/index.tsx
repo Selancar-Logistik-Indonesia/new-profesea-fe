@@ -1,34 +1,97 @@
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import Box from '@mui/material/Box'
-import { Avatar, Card, Typography, CircularProgress, IconButton, useMediaQuery, Button } from '@mui/material'
-import { HttpClient } from 'src/services'
-import Job from 'src/contract/models/job'
-import { toast } from 'react-hot-toast'
-import Grid from '@mui/material/Grid'
-import { Icon } from '@iconify/react'
-
-import RelatedJobView from 'src/views/find-job/RelatedJobView'
-import localStorageKeys from 'src/configs/localstorage_keys'
-import secureLocalStorage from 'react-secure-storage'
-import { IUser } from 'src/contract/models/user'
-import CompleteDialog from 'src/pages/candidate/job/CompleteDialog'
-// import HeaderJobDetail from 'src/views/job-detail/HeaderJobDetail'
-// import SectionOneJobDetail from 'src/views/job-detail/SectionOneJobDetail'
-// import SectionTwoJobDetail from 'src/views/job-detail/SectionTwoJobDetail'
-import SectionThreeJobDetail from 'src/views/job-detail/SectionThreeJobDetal'
-import CertificateDialog from 'src/pages/candidate/job/CertificateDialog'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import {
+  Avatar,
+  Button,
+  Card,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  Grid,
+  IconButton,
+  Typography,
+  useMediaQuery
+} from '@mui/material'
+import { Box } from '@mui/system'
 import Head from 'next/head'
-import { useSearchParams } from 'next/navigation'
-import { linkToTitleCase, renderSalary } from 'src/utils/helpers'
+import React, { useEffect, useState } from 'react'
+import JobApplied from 'src/contract/models/applicant'
+import { useRouter } from 'next/router'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useTheme } from '@mui/material/styles'
-import ShareArea from '../../../ShareArea'
+import { useSearchParams } from 'next/navigation'
+import { HttpClient } from 'src/services'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import { IUser } from 'src/contract/models/user'
+import { Icon } from '@iconify/react'
+import ShareArea from '../../ShareArea'
 import { format } from 'date-fns'
+import { renderSalary } from 'src/utils/helpers'
 import ReactHtmlParser from 'react-html-parser'
 import Licensi from 'src/contract/models/licensi'
 import ButtonFollowCompany from 'src/layouts/components/ButtonFollowCompany'
+import toast from 'react-hot-toast'
+
+const ApplicantStatusOptions = [
+  {
+    status: 'WR',
+    title: 'Applied'
+  },
+  {
+    status: 'VD',
+    title: 'Viewed'
+  },
+  {
+    status: 'PR',
+    title: 'Proceed'
+  },
+  {
+    status: 'RJ',
+    title: 'Not Suitable'
+  },
+  {
+    status: 'WD',
+    title: 'Withdrawn'
+  }
+]
+
+const statusColor = (status: string) => {
+  switch (status) {
+    case 'WR':
+      return {
+        bgColor: '#FFEBCF',
+        textColor: '#FE9602'
+      }
+    case 'VD':
+      return {
+        bgColor: '#CBE2F9',
+        textColor: '#0B58A6'
+      }
+    case 'PR':
+      return {
+        bgColor: '#D9F2DA',
+        textColor: '#4CAF50'
+      }
+    case 'RJ':
+      return {
+        bgColor: '#FFD9D9',
+        textColor: '#F22'
+      }
+    case 'WD':
+      return {
+        bgColor: '#F0F0F0',
+        textColor: '#999'
+      }
+
+    case 'AP':
+      return {
+        bgColor: '#D9F2DA',
+        textColor: '#4CAF50'
+      }
+  }
+}
 
 const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
   const { children, line, ...rest } = props
@@ -55,123 +118,155 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
   )
 }
 
-const JobDetail = () => {
-  const Theme = useTheme()
-  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
-  const [title, setTitle] = useState<string>()
-  const [onApplied, setOnApplied] = useState(false)
-  const [jobDetail, setJobDetail] = useState<Job | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [openDialog, setOpenDialog] = useState(false)
-  const [openCertificateDialog, setOpenCertificateDialog] = useState(false)
+const ApplicationStatus = (
+  statusApplied?: string,
+  appliedDate?: any,
+  otherStatus?: string,
+  otherStatusDate?: any,
+  statusMsg?: string
+) => {
+  if (statusApplied == 'WR') {
+    return (
+      <Box sx={{ display: 'flex', gap: '10px' }}>
+        <Box>
+          <Icon icon='twemoji:radio-button' fontSize={'16px'} style={{ marginTop: '3px' }} />
+        </Box>
+        <Box>
+          <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>Applied</Typography>
+          <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#868686' }}>
+            {format(new Date(appliedDate), 'd MMMM yyyy')} | {format(new Date(appliedDate), 'HH:mm a')}
+          </Typography>
+        </Box>
+      </Box>
+    )
+  }
 
-  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  const [license, setLicense] = useState<any[] | undefined>()
+  return (
+    <>
+      <Box sx={{ display: 'flex', gap: '10px' }}>
+        <Box>
+          <Icon icon='twemoji:radio-button' fontSize={'16px'} style={{ marginTop: '3px' }} />
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>{statusMsg}</Typography>
+          <Box
+            sx={{
+              width: '110px',
+              height: '27px',
+              padding: '4px 6px',
+              borderRadius: '4px',
+              background: statusColor(otherStatus as string)?.bgColor,
+              color: statusColor(otherStatus as string)?.textColor,
+              textAlign: 'center'
+            }}
+          >
+            {ApplicantStatusOptions.find(a => a.status === otherStatus)?.title}
+          </Box>
+          <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#868686' }}>
+            {format(new Date(otherStatusDate), 'd MMMM yyyy')} | {format(new Date(otherStatusDate), 'HH:mm a')}
+          </Typography>
+        </Box>
+      </Box>
+      <Box sx={{ display: 'flex', gap: '10px' }}>
+        <Box>
+          <Icon icon='twemoji:radio-button' fontSize={'16px'} style={{ marginTop: '3px' }} />
+        </Box>
+        <Box>
+          <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>Applied</Typography>
+          <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#868686' }}>
+            {format(new Date(appliedDate), 'd MMMM yyyy')} | {format(new Date(appliedDate), 'HH:mm a')}
+          </Typography>
+        </Box>
+      </Box>
+    </>
+  )
+}
+
+const JobDetailApplied = () => {
   const router = useRouter()
-
   const params = useSearchParams()
   const jobId = params.get('id')
-  const companyname = linkToTitleCase(params.get('companyname'))
-  const jobtitle = params.get('jobtitle')
-
-  const [jobDetailSugestion, setJobDetailSugestion] = useState<Job[]>([])
-
+  const Theme = useTheme()
+  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
+  const [title, setTitle] = useState<string>('')
+  const [jobDetail, setJobDetail] = useState<JobApplied | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [loadingWithDraw, setLoadingWithDraw] = useState(false)
+  const [onApplied, setOnApplied] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
+  const [jobAppliedId, setJobAppliedId] = useState(0)
   const shareUrl = window.location.href
 
-  const firstload = async (companyname: any, jobId: any, jobTitle: any) => {
+  // user local
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+
+  const firstload = async (jobId: any) => {
     try {
-      const resp = await HttpClient.get(`/job/${companyname}/${jobId}/${jobTitle}`)
-      const job = resp.data.job
-      await setTitle(
+      const response = await HttpClient.get(`/job/applicant/detail/${jobId}`)
+      const JobDetailApplied = response?.data?.data as JobApplied
+
+      setTitle(
         `Lowongan ${
-          job.category.employee_type == 'onship' ? job.role_type.name ?? '' : job.job_title ?? job.role_type.name
-        } ${job.category.name} di Profesea`
+          JobDetailApplied?.job.category.employee_type == 'onship'
+            ? JobDetailApplied?.job?.role_type.name ?? ''
+            : JobDetailApplied?.job.job_title ?? JobDetailApplied?.job?.role_type.name
+        } ${JobDetailApplied?.job?.category.name} di Profesea`
       )
 
-      const resp2 = await HttpClient.get(`/user/${user.id}`)
-      const applicant = resp2.data.user
-
-      if (job?.applied_at != null) {
+      if (JobDetailApplied?.job?.applied_at != null) {
         setOnApplied(true)
       }
 
-      setLicense(applicant.seafarer_competencies.concat(applicant.seafarer_proficiencies))
-      setJobDetail(job)
+      setJobDetail(JobDetailApplied)
       setIsLoading(false)
     } catch (error) {
       setIsLoading(false)
-      alert(error)
-    }
-  }
-
-  useEffect(() => {
-    if (jobDetail) {
-      HttpClient.get(`/job?search=&take=4&page=1&username=${jobDetail?.company.username}`).then(response => {
-        const jobs = response.data.jobs.data
-        setJobDetailSugestion(jobs)
-      })
-    }
-  }, [jobDetail])
-
-  useEffect(() => {
-    firstload(companyname, jobId, jobtitle)
-  }, [companyname, jobId, jobtitle])
-
-  const handleApply = async () => {
-    if (user.license != null && user.photo != '' && user.address.city_id != null) {
-      if (license?.length === 0 && jobDetail?.license.length !== 0 && jobDetail?.category.employee_type == 'onship') {
-        setOpenCertificateDialog(!openCertificateDialog)
-      } else {
-        setOpenDialog(!openDialog)
-      }
-    } else {
-      toast.error(`Please complete your resume !`)
     }
   }
 
   function addProductJsonLd() {
     return {
       __html: `{
-      "@context" : "https://schema.org/",
-      "@type" : "JobPosting",
-      "title" : "Lowongan ${
-        jobDetail?.category.employee_type == 'onship'
-          ? jobDetail?.role_type.name ?? ''
-          : jobDetail?.job_title ?? jobDetail?.role_type.name
-      } ${jobDetail?.category?.name} di Profesea",
-      "description" : "${jobDetail?.description}",
-      "identifier": {
-        "@type": "PropertyValue",
-        "name": "${jobDetail?.company.name}"
-      },
-      "datePosted" : "${jobDetail?.created_at}",
-      "employmentType" : "${jobDetail?.employment_type}",
-      "hiringOrganization" : {
-        "@type" : "Organization",
-        "name" : "${jobDetail?.company.name}",
-        "logo" : "${jobDetail?.company.photo}"
-      },
-      "jobLocation": {
-      "@type": "Place",
-        "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "${jobDetail?.company.address?.address}",
-        "addressLocality": "${jobDetail?.company.address?.city.city_name}",
-        "addressCountry": "${jobDetail?.country.iso}"
+          "@context" : "https://schema.org/",
+          "@type" : "JobPosting",
+          "title" : "Lowongan ${
+            jobDetail?.job?.category.employee_type == 'onship'
+              ? jobDetail?.job?.role_type.name ?? ''
+              : jobDetail?.job?.job_title ?? jobDetail?.job?.role_type.name
+          } ${jobDetail?.job?.category?.name} di Profesea",
+          "description" : "${jobDetail?.job?.description}",
+          "identifier": {
+            "@type": "PropertyValue",
+            "name": "${jobDetail?.job?.company.name}"
+          },
+          "datePosted" : "${jobDetail?.job?.created_at}",
+          "employmentType" : "${jobDetail?.job?.employment_type}",
+          "hiringOrganization" : {
+            "@type" : "Organization",
+            "name" : "${jobDetail?.job?.company.name}",
+            "logo" : "${jobDetail?.job?.company.photo}"
+          },
+          "jobLocation": {
+          "@type": "Place",
+            "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "${jobDetail?.job?.company.address?.address}",
+            "addressLocality": "${jobDetail?.job?.company.address?.city.city_name}",
+            "addressCountry": "${jobDetail?.job?.country.iso}"
+            }
+          },
+          "baseSalary": {
+            "@type": "MonetaryAmount",
+            "currency": "IDR",
+            "value": {
+              "@type": "QuantitativeValue",
+              "minValue": ${jobDetail?.job?.salary_start},
+              "maxValue": ${jobDetail?.job?.salary_end},
+              "unitText": "MONTH"
+            }
+          }
         }
-      },
-      "baseSalary": {
-        "@type": "MonetaryAmount",
-        "currency": "IDR",
-        "value": {
-          "@type": "QuantitativeValue",
-          "minValue": ${jobDetail?.salary_start},
-          "maxValue": ${jobDetail?.salary_end},
-          "unitText": "MONTH"
-        }
-      }
-    }
-  `
+      `
     }
   }
 
@@ -186,6 +281,38 @@ const JobDetail = () => {
     return [coc, cop]
   }
 
+  const handleWithDraw = async () => {
+    setLoadingWithDraw(true)
+
+    try {
+      const response = await HttpClient.put(`/job/applicant/${jobAppliedId}/withdraw`)
+      if (response?.status === 200) {
+        firstload(jobId)
+      }
+    } catch (error) {
+      console.error('Error withdrawing application:', error)
+      toast.error('Error withdrawing application')
+      // Optionally show an error notification to the user
+    } finally {
+      setLoadingWithDraw(false)
+      setJobAppliedId(0)
+      setOpenDialog(false)
+    }
+  }
+
+  const handleClickOpen = (id: any) => {
+    setJobAppliedId(id)
+    setOpenDialog(true)
+  }
+
+  const handleClose = () => {
+    setOpenDialog(false)
+  }
+
+  useEffect(() => {
+    firstload(jobId)
+  }, [jobId])
+
   if (isLoading) {
     return (
       <Box textAlign={'center'} mt={10}>
@@ -199,17 +326,65 @@ const JobDetail = () => {
       <Head>
         <title>{title}</title>
         <meta property='og:title' content={title} />
-        <meta property='og:description' content={jobDetail?.description} />
+        <meta property='og:description' content={jobDetail?.job?.description} />
         <meta property='og:image' content='images/logoprofesea.png' />
         <meta name='keywords' content='Job, candidate, Recruiter, Maritime industry jobs, Career, Seafarer' />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
         <script type='application/ld+json' dangerouslySetInnerHTML={addProductJsonLd()} key='product-jsonld' />
       </Head>
 
+      <Dialog
+        open={openDialog}
+        onClose={handleClose}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+        maxWidth='sm'
+      >
+        <DialogContent sx={{ padding: '0px' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'end', padding: '16px' }}>
+            <IconButton size='small' onClick={handleClose}>
+              <Icon icon='mdi:close' fontSize={'16px'} />
+            </IconButton>
+          </Box>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '28px', px: '16px', paddingBottom: '32px' }}>
+            <DialogContentText sx={{ textAlign: 'center', fontSize: '16px', fontWeight: 700, color: '#404040' }}>
+              Withdraw Application
+            </DialogContentText>
+            <DialogContentText
+              id='alert-dialog-description'
+              sx={{ textAlign: 'center', fontSize: '16px', fontWeight: 400, color: '#404040' }}
+            >
+              Are you sure you want to withdraw this application?
+            </DialogContentText>
+          </Box>
+        </DialogContent>
+        <DialogActions
+          sx={{ display: 'flex', justifyContent: 'center', borderTop: '1px solid #F0F0F0', padding: '16px !important' }}
+        >
+          <Button
+            sx={{ flex: 1, textTransform: 'capitalize', background: '#F0F0F0', color: '#999' }}
+            variant='contained'
+            onClick={handleClose}
+            color='inherit'
+          >
+            Cancel
+          </Button>
+          <Button
+            variant='contained'
+            sx={{ flex: 1, textTransform: 'capitalize', background: '#F22', color: '#FFF' }}
+            onClick={handleWithDraw}
+            color='error'
+            disabled={loadingWithDraw}
+          >
+            {loadingWithDraw ? <CircularProgress size={'16px'} /> : ' Withdraw'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px', px: isMobile ? 0 : '96px' }}>
         <Box>
           <IconButton onClick={handleBackPage}>
-            <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
+            <FontAwesomeIcon icon={faArrowLeft} size={'sm'} color='text.primary' />
           </IconButton>
         </Box>
         <Grid
@@ -245,51 +420,32 @@ const JobDetail = () => {
                   sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', alignItems: 'center' }}
                 >
                   <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <Avatar src={jobDetail?.company?.photo} sx={{ width: 24, height: 24 }} />
+                    <Avatar src={jobDetail?.job?.company?.photo} sx={{ width: 24, height: 24 }} />
                     <TruncatedTypography fontSize={14} fontWeight={400} color={'#404040'}>
-                      {jobDetail?.company?.name ?? '-'}
+                      {jobDetail?.job?.company?.name ?? '-'}
                     </TruncatedTypography>
                   </Box>
                   <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    {onApplied == false ? (
-                      <>
-                        <Button
-                          onClick={handleApply}
-                          variant='contained'
-                          color='primary'
-                          size='small'
-                          startIcon={<Icon icon='clarity:cursor-hand-click-line' fontSize={10} />}
-                          sx={{
-                            fontSize: '14px',
-                            fontWeight: 400,
-                            textTransform: 'capitalize'
-                          }}
-                        >
-                          Apply Job
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        <Box
-                          sx={{
-                            py: '8px',
-                            px: '12px',
-                            fontSize: '14px',
-                            fontWeight: 400,
-                            color: '#999',
-                            backgroundColor: '#F0F0F0',
-                            borderRadius: '4px'
-                          }}
-                        >
-                          Applied
-                        </Box>
-                      </>
+                    {onApplied && (
+                      <Box
+                        sx={{
+                          py: '8px',
+                          px: '12px',
+                          fontSize: '14px',
+                          fontWeight: 400,
+                          color: '#999',
+                          backgroundColor: '#F0F0F0',
+                          borderRadius: '4px'
+                        }}
+                      >
+                        Applied
+                      </Box>
                     )}
                     <ShareArea
                       subject={`Job For ${
-                        jobDetail?.employee_type === 'onship'
-                          ? jobDetail?.role_type?.name
-                          : jobDetail?.job_title ?? jobDetail?.role_type?.name ?? '-'
+                        jobDetail?.job?.employee_type === 'onship'
+                          ? jobDetail?.job?.role_type?.name
+                          : jobDetail?.job?.job_title ?? jobDetail?.job?.role_type?.name ?? '-'
                       }.`}
                       url={shareUrl}
                       clean={true}
@@ -297,17 +453,17 @@ const JobDetail = () => {
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', justifyContent: 'flex-start' }}>
-                  {jobDetail?.category?.employee_type == 'onship' ? (
+                  {jobDetail?.job?.category?.employee_type == 'onship' ? (
                     <Typography sx={{ fontWeight: 'bold', color: '#32497A' }} fontSize={isMobile ? 20 : 24}>
-                      <strong>{jobDetail?.role_type?.name}</strong>
+                      <strong>{jobDetail?.job?.role_type?.name}</strong>
                     </Typography>
                   ) : (
                     <Typography sx={{ fontWeight: 'bold', color: '#32497A' }} fontSize={isMobile ? 20 : 24}>
-                      <strong>{jobDetail?.job_title ?? jobDetail?.role_type?.name ?? '-'}</strong>
+                      <strong>{jobDetail?.job?.job_title ?? jobDetail?.job?.role_type?.name ?? '-'}</strong>
                     </Typography>
                   )}
                   <Typography sx={{ color: 'text.primary' }} fontSize={12}>
-                    {jobDetail?.city?.city_name}, {jobDetail?.country?.name}
+                    {jobDetail?.job?.city?.city_name}, {jobDetail?.job?.country?.name}
                   </Typography>
                 </Box>
               </Box>
@@ -323,7 +479,7 @@ const JobDetail = () => {
                 }}
               >
                 <Grid container spacing={4}>
-                  {jobDetail?.category?.employee_type == 'onship' ? (
+                  {jobDetail?.job?.category?.employee_type == 'onship' ? (
                     <>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='ph:anchor' color='#32487A' fontSize={'16px'} />
@@ -332,7 +488,7 @@ const JobDetail = () => {
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.category.name || '-'}
+                        : {jobDetail?.job?.category.name || '-'}
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='material-symbols-light:globe' color='#32487A' fontSize={'16px'} />
@@ -341,14 +497,14 @@ const JobDetail = () => {
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.sailing_region || '-'}
+                        : {jobDetail?.job?.sailing_region || '-'}
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='ph:briefcase-fill' color='#32487A' fontSize={'16px'} />
                         <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>Experience</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.experience || '-'} years
+                        : {jobDetail?.job?.experience || '-'} years
                       </Grid>
                       <Grid item xs={6}></Grid>
                       <Grid item xs={6}></Grid>
@@ -362,14 +518,14 @@ const JobDetail = () => {
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.job_title || '-'}
+                        : {jobDetail?.job?.job_title || '-'}
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='ph:steps-duotone' color='#32487A' fontSize={'16px'} />
                         <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>Role Level</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.rolelevel?.levelName || '-'}
+                        : {jobDetail?.job?.rolelevel?.levelName || '-'}
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='ph:laptop-thin' color='#32487A' fontSize={'16px'} />
@@ -378,7 +534,7 @@ const JobDetail = () => {
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.work_arrangement || '-'}
+                        : {jobDetail?.job?.work_arrangement || '-'}
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='ph:clock-duotone' color='#32487A' fontSize={'16px'} />
@@ -387,13 +543,13 @@ const JobDetail = () => {
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.employment_type || '-'}
+                        : {jobDetail?.job?.employment_type || '-'}
                       </Grid>
                     </>
                   )}
                 </Grid>
                 <Grid container spacing={4}>
-                  {jobDetail?.category?.employee_type == 'onship' ? (
+                  {jobDetail?.job?.category?.employee_type == 'onship' ? (
                     <>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='ph:files-light' color='#32487A' fontSize={'16px'} />
@@ -402,7 +558,7 @@ const JobDetail = () => {
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.contract_duration || '-'} months
+                        : {jobDetail?.job?.contract_duration || '-'} months
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='ph:calendar-dots-duotone' color='#32487A' fontSize={'16px'} />
@@ -411,7 +567,7 @@ const JobDetail = () => {
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {format(new Date(jobDetail?.onboard_at), 'dd/MM/yy') ?? '-'}
+                        : {format(new Date(jobDetail?.job?.onboard_at), 'dd/MM/yy') ?? '-'}
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='ph:sailboat' color='#32487A' fontSize={'16px'} />
@@ -420,14 +576,19 @@ const JobDetail = () => {
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.vessel_type.name || '-'}
+                        : {jobDetail?.job?.vessel_type.name || '-'}
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='ant-design:dollar-outlined' color='#32487A' fontSize={'16px'} />
                         <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>Salary</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {renderSalary(jobDetail?.salary_start, jobDetail?.salary_end, jobDetail?.currency as string)}
+                        :{' '}
+                        {renderSalary(
+                          jobDetail?.job?.salary_start,
+                          jobDetail?.job?.salary_end,
+                          jobDetail?.job?.currency as string
+                        )}
                       </Grid>
                     </>
                   ) : (
@@ -437,14 +598,19 @@ const JobDetail = () => {
                         <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>Salary</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {renderSalary(jobDetail?.salary_start, jobDetail?.salary_end, jobDetail?.currency as string)}
+                        :{' '}
+                        {renderSalary(
+                          jobDetail?.job?.salary_start,
+                          jobDetail?.job?.salary_end,
+                          jobDetail?.job?.currency as string
+                        )}
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='cil:education' color='#32487A' fontSize={'16px'} />
                         <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>Education</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.degree?.name || '-'}
+                        : {jobDetail?.job?.degree?.name || '-'}
                       </Grid>
                       <Grid item xs={6}></Grid>
                       <Grid item xs={6}></Grid>
@@ -483,13 +649,12 @@ const JobDetail = () => {
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['center', 'flex-start'] }}>
                   <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#404040' }}>
-                    {ReactHtmlParser(`${jobDetail?.description}`)}
+                    {ReactHtmlParser(`${jobDetail?.job?.description}`)}
                   </Typography>
                 </Box>
               </Box>
-
               {/* Certificate */}
-              {jobDetail?.category?.employee_type == 'onship' && (
+              {jobDetail?.job?.category?.employee_type == 'onship' && (
                 <>
                   <Box>
                     <Typography
@@ -508,7 +673,7 @@ const JobDetail = () => {
                           Certificate of Competency
                         </Typography>
                         <ol>
-                          {filterCertificates(jobDetail?.license)[0].map((l, index) => (
+                          {filterCertificates(jobDetail?.job?.license)[0].map((l, index) => (
                             <li key={index}>{l.title}</li>
                           ))}
                         </ol>
@@ -518,7 +683,7 @@ const JobDetail = () => {
                           Certificate of Proficiency
                         </Typography>
                         <ol>
-                          {filterCertificates(jobDetail?.license)[1].map((l, index) => (
+                          {filterCertificates(jobDetail?.job?.license)[1].map((l, index) => (
                             <li key={index}>{l.title}</li>
                           ))}
                         </ol>
@@ -527,77 +692,7 @@ const JobDetail = () => {
                   </Box>
                 </>
               )}
-              {/* 
-              <Grid container>
-                <Grid item xs={12} sx={{ py: '20px' }}>
-                  <CardContent>
-                    <HeaderJobDetail jobDetail={jobDetail} onApplied={onApplied} handleApply={handleApply} />
-                    <SectionOneJobDetail jobDetail={jobDetail} />
-                    <SectionTwoJobDetail jobDetail={jobDetail} />
-                    {jobDetail?.category?.employee_type == 'onship' && (
-                      <SectionThreeJobDetail jobDetail={jobDetail} license={license} />
-                    )}
-                  </CardContent>
-                  <Grid item xs={12} sx={{ display: 'flex', alignItems: 'left', flexDirection: 'column', px: '20px' }}>
-                    <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#32487A' }}>
-                      <CardContent sx={{ p: 2 }}>
-                        <Box
-                          height={65}
-                          sx={{
-                            display: 'flex',
-                            alignContent: 'center',
-                            '& svg': { color: 'text.secondary' }
-                          }}
-                        >
-                          <Box sx={{ display: 'flex', justifyContent: 'center' }} mt={2} ml={2} mr={3}>
-                            <Avatar
-                              src={jobDetail?.company?.photo}
-                              alt='profile-picture'
-                              sx={{ width: 50, height: 50 }}
-                            />
-                          </Box>
-                          <Box
-                            sx={{ display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}
-                            marginTop={2}
-                          >
-                            <Typography sx={{ color: 'common.white', mb: 1 }} fontSize={20}>
-                              <strong>{jobDetail?.company?.name ?? '-'}</strong>
-                            </Typography>
-                          </Box>
-                        </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left' }} mx={2} mt={2}>
-                          <Typography
-                            sx={{ color: 'common.white', fontSize: '16px', fontWeight: '600' }}
-                            variant='body2'
-                          >
-                            About Recruiter
-                          </Typography>
-                          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
-                            <Typography
-                              sx={{
-                                mt: 1,
-                                color: 'common.white',
-                                fontSize: 14,
-                                fontWeight: 400,
-                                whiteSpace: 'pre-line'
-                              }}
-                              textAlign={'justify'}
-                            >
-                              {jobDetail?.company?.about}
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                </Grid>
-              </Grid> */}
-
-              {jobDetail?.category?.employee_type == 'onship' && (
-                <SectionThreeJobDetail jobDetail={jobDetail} license={license} />
-              )}
             </Card>
-
             <Card sx={{ border: 0, boxShadow: 0, backgroundColor: '#FFFFFF', padding: isMobile ? '24px' : '32px' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <Box>
@@ -620,19 +715,21 @@ const JobDetail = () => {
                   }}
                 >
                   <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <Avatar src={jobDetail?.company?.photo} sx={{ width: 51, height: 51 }} />
+                    <Avatar src={jobDetail?.job?.company?.photo} sx={{ width: 51, height: 51 }} />
                     <Box
                       sx={{ cursor: 'pointer' }}
-                      onClick={() => router.push(`/company/${jobDetail?.company?.id}/${jobDetail?.company?.username}`)}
+                      onClick={() =>
+                        router.push(`/company/${jobDetail?.job?.company?.id}/${jobDetail?.job?.company?.username}`)
+                      }
                     >
                       <TruncatedTypography fontSize={14} fontWeight={700} color={'#303030'}>
-                        {jobDetail?.company?.name ?? '-'}
+                        {jobDetail?.job?.company?.name ?? '-'}
                       </TruncatedTypography>
                       {/* industry company belum ada di api */}
                       {/* todo add industry company */}
                     </Box>
                   </Box>
-                  <ButtonFollowCompany user_id={jobDetail?.company?.id as number} friend_id={Number(user?.id)} />
+                  <ButtonFollowCompany user_id={jobDetail?.job?.company?.id as number} friend_id={Number(user?.id)} />
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: ['left', 'flex-start'] }}>
                   <Typography
@@ -644,64 +741,106 @@ const JobDetail = () => {
                     }}
                     textAlign={'justify'}
                   >
-                    {jobDetail?.company?.about}
+                    {jobDetail?.job?.company?.about}
                   </Typography>
                 </Box>
               </Box>
             </Card>
           </Grid>
 
-          {jobDetailSugestion.length !== 0 && (
-            <Grid
-              item
-              xs={12}
-              md={4}
+          {/* right component */}
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{
+              padding: '0px !important'
+            }}
+          >
+            <Card
               sx={{
-                padding: '0px !important'
+                border: 0,
+                boxShadow: 0,
+                backgroundColor: '#FFFFFF',
+                py: '16px',
+                px: '24px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '20px'
               }}
             >
+              <Box>
+                <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#32497A' }}>Application Status</Typography>
+              </Box>
               <Box
                 sx={{
                   display: 'flex',
-                  justifyContent: 'left',
-                  alignItems: 'center',
-                  padding: '10px',
-                  width: '100%',
-                  bgcolor: '#d5e7f7',
-                  color: '#5ea1e2'
+                  flexDirection: 'column',
+                  gap: '24px',
+                  borderTop: '1px solid #EDEDED',
+                  paddingTop: '10px'
                 }}
               >
-                Jobs post by the company
+                {jobDetail?.status === 'WR'
+                  ? ApplicationStatus(jobDetail?.status, jobDetail?.created_at)
+                  : jobDetail?.status === 'VD'
+                  ? ApplicationStatus(
+                      '',
+                      jobDetail?.created_at,
+                      'VD',
+                      jobDetail?.updated_at,
+                      'CV Reviewed: Ready for the Next Step'
+                    )
+                  : jobDetail?.status === 'WD'
+                  ? ApplicationStatus(
+                      '',
+                      jobDetail?.created_at,
+                      'WD',
+                      jobDetail?.updated_at,
+                      'Application Succesfully Withdrawn'
+                    )
+                  : jobDetail?.status === 'PR'
+                  ? ApplicationStatus(
+                      '',
+                      jobDetail?.created_at,
+                      'PR',
+                      jobDetail?.updated_at,
+                      'Application Accepted: Next Phase Starts'
+                    )
+                  : jobDetail?.status === 'RJ'
+                  ? ApplicationStatus(
+                      '',
+                      jobDetail?.created_at,
+                      'RJ',
+                      jobDetail?.updated_at,
+                      'Unfortunately, You`ve Not Been Selected'
+                    )
+                  : null}
               </Box>
-              <RelatedJobView jobDetailSugestion={jobDetailSugestion} />
-            </Grid>
-          )}
-
-          {openDialog && (
-            <CompleteDialog
-              onClose={() => setOpenDialog(!openDialog)}
-              selectedItem={jobDetail}
-              openDialog={openDialog}
-              setApply={setOnApplied}
-            />
-          )}
-
-          {openCertificateDialog && (
-            <CertificateDialog
-              selectedItem={undefined}
-              onClose={() => setOpenCertificateDialog(!openCertificateDialog)}
-              openDialog={openCertificateDialog}
-            />
-          )}
+              {jobDetail?.status == 'WR' && (
+                <Box>
+                  <Button
+                    onClick={() => handleClickOpen(jobDetail?.id)}
+                    fullWidth
+                    variant='contained'
+                    color='error'
+                    sx={{ textTransform: 'capitalize' }}
+                  >
+                    Withdraw Job Applicant
+                  </Button>
+                </Box>
+              )}
+            </Card>
+          </Grid>
         </Grid>
       </Box>
     </>
   )
 }
 
-JobDetail.acl = {
+JobDetailApplied.acl = {
   action: 'read',
   subject: 'seafarer-jobs'
 }
 
-export default JobDetail
+export default JobDetailApplied

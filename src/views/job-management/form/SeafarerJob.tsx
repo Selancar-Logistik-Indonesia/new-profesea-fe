@@ -39,6 +39,9 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import { toast } from 'react-hot-toast'
 import { Icon } from '@iconify/react'
+import Link from 'next/link'
+import { FormDataSeafarer } from 'src/contract/types/create_job_type'
+import { HotJobBoost, JobDraft } from '../Component'
 
 const sailRegion = [
   { id: 'ncv', label: 'Near Coastal Voyage (NCV)' },
@@ -55,30 +58,8 @@ const rotational = [
   { id: 'no', label: 'No' }
 ]
 
-interface FormData {
-  jobCategory?: number
-  jobTitle?: string
-  roleType?: number
-  sailRegion?: string
-  experience?: number
-  city?: number
-  contractDuration?: number
-  vessel?: number
-  dateOnBoard?: string
-  rotational?: string
-  licenseCOC?: any[]
-  licenseCOP?: any[]
-  currency?: string
-  minimum?: number
-  maximum?: number
-}
-
 const schema = yup.object().shape({
-  jobTitle: yup
-    .string()
-    .min(3, 'Job title must be 3 characters or more')
-    .matches(/^[a-zA-Z0-9 ]*$/, 'Job title must only be alphabetic and numeric characters only')
-    .required()
+  jobCategory: yup.number().required()
 })
 
 // const DRAFT_KEY = 'create-job-seafarer'
@@ -90,7 +71,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
     watch,
     handleSubmit,
     formState: { errors }
-  } = useForm<FormData>({
+  } = useForm<FormDataSeafarer>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
@@ -106,6 +87,13 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   const [licenseCOP, setLicenseCOP] = useState<Licensi[] | null>()
   const [fixPrice, setFixPrice] = useState<boolean>(false)
   const [hidePrice, setHidePrice] = useState<boolean>(false)
+  const [isDraft, setIsDraft] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (job && job.is_draft === true) {
+      setIsDraft(true)
+    }
+  }, [])
 
   //   const clearDraft = () => {
   //     if (type === 'create') {
@@ -121,7 +109,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       //     if (isPopulate) {
       //       const parsedData = JSON.parse(draftData)
       //       Object.keys(parsedData).forEach(key => {
-      //         setValue(key as keyof FormData, parsedData[key])
+      //         setValue(key as keyof FormDataSeafarer, parsedData[key])
       //       })
       //       if (parsedData.jobDescription) {
       //         const contentState = ContentState.createFromText(parsedData.jobDescription)
@@ -235,7 +223,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   //     }
   //   }, [watchedDraft, jobDescription, fixPrice, hidePrice])
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: FormDataSeafarer) => {
     const {
       jobCategory,
       jobTitle,
@@ -268,7 +256,8 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       : undefined
 
     const json = {
-      is_active: true,
+      is_draft: isDraft,
+      is_active: isDraft ? false : true,
       employment_type: 'contract',
       work_arrangement: 'On-Site',
       category_id: jobCategory,
@@ -283,7 +272,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       onboard_at: onboardDate,
       rotational,
       license: [...(licenseCOC || []), ...(licenseCOP || [])],
-      description: description.hasText() ? draftToHtml(convertToRaw(description)) : '',
+      description: description.hasText() ? draftToHtml(convertToRaw(description)) : '<p></p>',
       currency: currency,
       salary_start: minimum,
       salary_end: maximum,
@@ -295,7 +284,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       HttpClient.patch(`/job/${job.id}`, json)
         .then(
           () => {
-            toast.success(`${jobTitle} edited successfully!`)
+            toast.success(`${isDraft ? 'Draft' : jobTitle} edited successfully!`)
             router.push('/company/job-management')
           },
           error => {
@@ -308,7 +297,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
         .then(
           () => {
             // clearDraft()
-            toast.success(`${jobTitle} submited successfully!`)
+            toast.success(`${isDraft ? 'Draft' : jobTitle} submited successfully!`)
             router.push('/company/job-management')
           },
           error => {
@@ -327,6 +316,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
         gap='40px'
         sx={{ backgroundColor: '#FFF', borderRadius: '8px', p: '24px' }}
       >
+        {type === 'edit' && job?.is_draft === true && <JobDraft />}
         <Grid item container flexDirection='column' gap='24px'>
           <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '24px' }}>
             <FormControl fullWidth error={!!errors.jobCategory}>
@@ -843,16 +833,44 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             label='Hide Salary'
           />
         </Grid>
-        <Grid item container sx={{ display: 'flex', justifyContent: 'right' }}>
+        {false && <HotJobBoost />}
+        <Grid item container sx={{ display: 'flex', gap: '24px', alignItems: 'center', justifyContent: 'right' }}>
+          <Typography component={Link} href='/company/job-management' sx={{ color: '#868686', fontSize: 14 }}>
+            Cancel
+          </Typography>
+          {(type === 'create' || isDraft === true) && (
+            <Button
+              type='submit'
+              onClick={async () => {
+                await setIsDraft(true)
+                handleSubmit(onSubmit)
+              }}
+              variant='outlined'
+              size='small'
+              disabled={onLoading}
+              sx={{
+                color: '#0B58A6',
+                fontSize: 14,
+                fontWeight: 400,
+                border: '1px solid #0B58A6',
+                textTransform: 'none'
+              }}
+            >
+              {onLoading ? <CircularProgress size={22} /> : 'Save as Draft'}
+            </Button>
+          )}
           <Button
             type='submit'
-            onClick={handleSubmit(onSubmit)}
+            onClick={async () => {
+              await setIsDraft(false)
+              handleSubmit(onSubmit)
+            }}
             variant='contained'
             size='small'
-            // disabled={onLoading}
+            disabled={onLoading}
             sx={{ fontSize: 14, fontWeight: 400, textTransform: 'none' }}
           >
-            {onLoading ? <CircularProgress size={22} /> : 'Save Job'}
+            {onLoading ? <CircularProgress size={22} /> : 'Post Job'}
           </Button>
         </Grid>
       </Grid>

@@ -22,10 +22,10 @@ const Navigation = (props: Props) => {
       className='menu-content'
       sx={{
         display: 'flex',
-        flexWrap: 'wrap',
+        // flexWrap: 'wrap',
         alignItems: 'center',
+        gap: '10px',
         '& > *': {
-          '&:not(:last-child)': { mr: 2 },
           ...(themeConfig.menuTextTruncate && { maxWidth: 220 })
         }
       }}

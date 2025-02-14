@@ -14,6 +14,7 @@ import {
   TextField,
   Typography
 } from '@mui/material'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { MdNavigateNext } from 'react-icons/md'
 import AnimatedTabs from 'src/@core/components/animated-tabs'
@@ -77,6 +78,7 @@ const checkStatus = (status: string) => {
 
 const JobManagement = () => {
   const { user } = useAuth()
+  const router = useRouter()
   const [refetch, setRefetch] = useState(v4())
   const [onLoading, setOnLoading] = useState<boolean>(false)
   const [jobs, setJobs] = useState<Job[] | null>(null)
@@ -85,6 +87,7 @@ const JobManagement = () => {
   const [document, setDocument] = useState<any[]>([])
 
   const [totalJobs, setTotalJobs] = useState(0)
+  const [isCrewing, setIsCrewing] = useState(false)
   const [activeTab, setActiveTab] = useState('onship')
   const [page, setPage] = useState(1)
 
@@ -121,6 +124,16 @@ const JobManagement = () => {
       setOnLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (user && user.is_crewing === 0) {
+      setIsCrewing(false)
+      setActiveTab('offship')
+    } else {
+      setIsCrewing(true)
+      setActiveTab('onship')
+    }
+  }, [])
 
   const firstLoad = () => {
     //job category, status, vessel type (seafarer), employement type (professional)
@@ -199,7 +212,11 @@ const JobManagement = () => {
               Job Management
             </Typography>
             <Button
-              onClick={() => setCreateJob(!createJob)}
+              onClick={() =>
+                isCrewing
+                  ? setCreateJob(!createJob)
+                  : router.push('/company/job-management/create-job?type=professional')
+              }
               size='small'
               variant='contained'
               endIcon={<Icon icon='ph:plus' />}
@@ -210,7 +227,7 @@ const JobManagement = () => {
             </Button>
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <AnimatedTabs tabs={tabsOption} activeTab={activeTab} setActiveTab={setActiveTab} />
+            {isCrewing && <AnimatedTabs tabs={tabsOption} activeTab={activeTab} setActiveTab={setActiveTab} />}
             <Box sx={{ display: 'flex', gap: '70px' }}>
               <TextField
                 sx={{ flexGrow: 1 }}
