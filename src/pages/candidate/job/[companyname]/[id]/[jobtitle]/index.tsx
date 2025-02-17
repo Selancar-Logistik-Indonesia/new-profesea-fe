@@ -179,6 +179,61 @@ const JobDetail = () => {
     router.back()
   }
 
+  const handleJobSave = async (jobId: any) => {
+    try {
+      const response = await HttpClient.post('/job/save', {
+        job_id: jobId
+      })
+      if (response?.status === 201) {
+        setJobDetailSugestion(prevState =>
+          prevState.map(p => (p.id === jobId ? { ...p, job_save: response?.data?.data } : p))
+        )
+        toast(
+          t => (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+              <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                <Icon
+                  style={{ cursor: 'pointer' }}
+                  icon={'charm:cross'}
+                  fontSize={'16px'}
+                  onClick={() => toast.dismiss(t.id)}
+                />
+              </Box>
+              <Typography sx={{ fontSize: '16px', fontWeight: 700 }}>
+                You’ve saved this job{' '}
+                <span
+                  onClick={() => window.location.replace('/candidate/find-job/?tabs=3')}
+                  style={{ fontSize: '16px', fontWeight: 700, color: '#0B58A6', cursor: 'pointer' }}
+                >
+                  See saved jobs
+                </span>
+              </Typography>
+            </Box>
+          ),
+          {
+            position: 'bottom-left'
+          }
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error('Error save job')
+    }
+  }
+  const handleDeleteJobSave = async (jobId: any, jobSaveId: any) => {
+    try {
+      const response = await HttpClient.del(`/job/save/${jobSaveId}`)
+
+      if (response?.status === 200) {
+        setJobDetailSugestion(prevState => prevState.map(p => (p.id === jobId ? { ...p, job_save: null } : p)))
+        toast.success('Success unsaved job')
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error('Error unsaved job')
+    }
+  }
+
   const filterCertificates = (license: Licensi[]) => {
     const coc = license.filter(l => l.parent === 'COC')
     const cop = license.filter(l => l.parent === 'COP')
@@ -348,10 +403,17 @@ const JobDetail = () => {
                         <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>Experience</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.experience || '-'} years
+                        : {jobDetail?.experience || '-'} contract
                       </Grid>
-                      <Grid item xs={6}></Grid>
-                      <Grid item xs={6}></Grid>
+                      <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        <Icon icon='ph:chats-duotone' color='#32487A' fontSize={'16px'} />
+                        <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>
+                          Interview Location
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        : {jobDetail?.city?.city_name || '-'}
+                      </Grid>
                     </>
                   ) : (
                     <>
@@ -440,6 +502,15 @@ const JobDetail = () => {
                         : {renderSalary(jobDetail?.salary_start, jobDetail?.salary_end, jobDetail?.currency as string)}
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        <Icon icon='ph:briefcase-fill' color='#32487A' fontSize={'16px'} />
+                        <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>
+                          Work Experience
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        : {jobDetail?.experience || '-'} years
+                      </Grid>
+                      <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='cil:education' color='#32487A' fontSize={'16px'} />
                         <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>Education</Typography>
                       </Grid>
@@ -448,22 +519,6 @@ const JobDetail = () => {
                       </Grid>
                       <Grid item xs={6}></Grid>
                       <Grid item xs={6}></Grid>
-
-                      {/* work experience belum ada dari API */}
-                      {/* <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                        <Icon icon='ep:suitcase' color='#32487A' fontSize={'16px'} />
-                        <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>
-                          Work Experience
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        :{' '}
-                        {renderSalary(
-                          jobDetail?.job?.salary_start,
-                          jobDetail?.job?.salary_end,
-                          jobDetail?.job?.currency as string
-                        )}
-                      </Grid> */}
                       <Grid item xs={6}></Grid>
                       <Grid item xs={6}></Grid>
                     </>
@@ -507,9 +562,11 @@ const JobDetail = () => {
                         <Typography sx={{ fontSize: '14px', fontWeight: 700, color: '#303030' }}>
                           Certificate of Competency
                         </Typography>
-                        <ol>
+                        <ol style={{ paddingInlineStart: '20px' }}>
                           {filterCertificates(jobDetail?.license)[0].map((l, index) => (
-                            <li key={index}>{l.title}</li>
+                            <li key={index} style={{ fontSize: '14px', fontWeight: 400 }}>
+                              {l.title}
+                            </li>
                           ))}
                         </ol>
                       </Box>
@@ -517,9 +574,11 @@ const JobDetail = () => {
                         <Typography sx={{ fontSize: '14px', fontWeight: 700, color: '#303030' }}>
                           Certificate of Proficiency
                         </Typography>
-                        <ol>
+                        <ol style={{ paddingInlineStart: '20px' }}>
                           {filterCertificates(jobDetail?.license)[1].map((l, index) => (
-                            <li key={index}>{l.title}</li>
+                            <li key={index} style={{ fontSize: '14px', fontWeight: 400 }}>
+                              {l.title}
+                            </li>
                           ))}
                         </ol>
                       </Box>
@@ -622,7 +681,7 @@ const JobDetail = () => {
                   <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                     <Avatar src={jobDetail?.company?.photo} sx={{ width: 51, height: 51 }} />
                     <Box
-                      sx={{ cursor: 'pointer' }}
+                      sx={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '8px' }}
                       onClick={() => router.push(`/company/${jobDetail?.company?.id}/${jobDetail?.company?.username}`)}
                     >
                       <TruncatedTypography fontSize={14} fontWeight={700} color={'#303030'}>
@@ -630,6 +689,9 @@ const JobDetail = () => {
                       </TruncatedTypography>
                       {/* industry company belum ada di api */}
                       {/* todo add industry company */}
+                      <TruncatedTypography fontSize={14} fontWeight={400} color={'#868686'}>
+                        {jobDetail?.company?.industry?.name ?? '-'}
+                      </TruncatedTypography>
                     </Box>
                   </Box>
                   <ButtonFollowCompany user_id={jobDetail?.company?.id as number} friend_id={Number(user?.id)} />
@@ -673,7 +735,11 @@ const JobDetail = () => {
               >
                 Jobs post by the company
               </Box>
-              <RelatedJobView jobDetailSugestion={jobDetailSugestion} />
+              <RelatedJobView
+                jobDetailSugestion={jobDetailSugestion}
+                handleJobSave={handleJobSave}
+                handleDeleteJobSave={handleDeleteJobSave}
+              />
             </Grid>
           )}
 
