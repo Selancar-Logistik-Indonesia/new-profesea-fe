@@ -620,7 +620,7 @@ const Candidate = () => {
                           bottom: isMobile ? '120px' : '125px'
                         }}
                       >
-                        <Box sx={{ position: 'relative', display: 'inline-block' }}>
+                        <Box sx={{ position: 'relative', display: 'inline-block' , '@media (min-width: 390px)': {mb: isMobile && percentage === 100 ? '16px' : isMobile &&  percentage !== 100 ? '40px' : ''}}}>
                           <Avatar
                             src={profilePic ? profilePic : '/images/default-user-new.png'}
                             sx={{ width: isMobile ? 64 : 160, height: isMobile ? 64 : 160 }}
@@ -718,7 +718,7 @@ const Candidate = () => {
                           >
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px'}}>
                               <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040' }}>
+                                <Typography sx={{ fontSize:'16px', fontWeight: 700, color: '#404040' }}>
                                   Profile Completion
                                 </Typography>
                                 {percentage !== 100 && (<IconButton onClick={handleClickPopper}>
@@ -726,13 +726,13 @@ const Candidate = () => {
                                 </IconButton>)}
                                 {renderPopper(detail_percentage)}
                               </Box>
-                              {!isMobile && (
+                              
                                 <Box>
-                                  <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#404040' }}>
+                                  <Typography sx={{ fontSize: isMobile ? '12px' : '14px', fontWeight: 400, color: '#404040','@media (min-width: 390px)' : { display: 'block'}, display: 'none', whiteSpace: 'nowrap' }}>
                                     {getCpText(percentage)}
                                   </Typography>
                                 </Box>
-                              )}
+                              
                             </Box>
                             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                               <CircularProgressWithLabel value={percentage} />
