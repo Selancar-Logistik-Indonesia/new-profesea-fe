@@ -79,8 +79,8 @@ const UserFeedApp = () => {
       url = '/user/' + toLinkCase(iduser)
       username = user.username
     } else {
-      url = '/user/?username=' + username
-      filter = '&username=' + username
+      url = '/user/' + username
+      filter = ''
       // filterdoc = '?username=' + username
     }
 
@@ -94,7 +94,7 @@ const UserFeedApp = () => {
 
       const user = response.data.user as IUser
       if (user.role === 'Company' || user.role === 'Trainer') {
-        router.push(`/company/${user.id}/${toLinkCase(user.username)}`)
+        router.push(`/company/${toLinkCase(user.username)}`)
       }
       setSelectedUser(user)
 

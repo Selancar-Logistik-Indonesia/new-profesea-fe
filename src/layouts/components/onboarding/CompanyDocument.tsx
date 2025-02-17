@@ -198,7 +198,7 @@ const CompanyDocument = ({
           if (isEditCompany) {
             onClose()
           } else {
-            router.push(`/company/${user?.id}/${toLinkCase(user?.username)}/?onboarding=completed`)
+            router.push(`/company/${toLinkCase(user?.username)}/?onboarding=completed`)
           }
         },
         error => {
@@ -211,7 +211,7 @@ const CompanyDocument = ({
   const onSkip = () => {
     HttpClient.patch(AppConfig.baseUrl + '/onboarding/complete').then(async response => {
       await toast.success(response.data.message)
-      router.push(`/company/${user?.id}/${toLinkCase(user?.username)}/?onboarding=completed`)
+      router.push(`/company/${toLinkCase(user?.username)}/?onboarding=completed`)
     })
   }
 

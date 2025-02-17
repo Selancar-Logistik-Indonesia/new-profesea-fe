@@ -6,8 +6,10 @@ import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import toast from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
+import { useAuth } from 'src/hooks/useAuth'
 
 const UsernameChange = (props: { userId: number; username: string }) => {
+  const { user } = useAuth()
   const { userId, username } = props
   const [editable, setEditable] = useState(false)
   const [myUsername, setMyUsername] = useState(username)
@@ -22,7 +24,10 @@ const UsernameChange = (props: { userId: number; username: string }) => {
       if (response.status == 200) {
         toast.success('Username update success')
         setMyUsername(myUsername)
-        location.href = '/profile/' + myUsername
+        setTimeout(() => {
+          location.href = (user?.team_id == 2 ? '/profile/' : '/company/') + myUsername
+        },2000)
+       
       } else {
         toast.error(response.data.message)
         setMyUsername(username)

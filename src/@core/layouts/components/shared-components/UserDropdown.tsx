@@ -129,7 +129,7 @@ const UserDropdown = (props: Props) => {
               href={`/${
                 userData.role === 'Seafarer'
                   ? 'profile/' + toLinkCase(userData.username)
-                  : 'company' + userData.id + '/' + toLinkCase(userData.username)
+                  : 'company' + '/' + toLinkCase(userData.username)
               }`}
             >
               <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
