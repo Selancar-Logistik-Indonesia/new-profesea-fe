@@ -245,7 +245,11 @@ const JobDetail = () => {
               >
                 Jobs post by the company
               </Box>
-              <RelatedJobView jobDetailSugestion={jobDetailSugestion} />
+              <RelatedJobView
+                jobDetailSugestion={jobDetailSugestion}
+                handleDeleteJobSave={async () => {}}
+                handleJobSave={async () => {}}
+              />
             </Grid>
           )}
 

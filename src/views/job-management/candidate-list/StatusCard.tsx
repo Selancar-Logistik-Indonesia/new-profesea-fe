@@ -1,7 +1,6 @@
 import { Icon } from '@iconify/react'
 import { Box, Grid, Typography } from '@mui/material'
 
-
 interface StatusCardProps {
   label: string
   total: number
