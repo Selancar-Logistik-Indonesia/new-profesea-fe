@@ -19,7 +19,7 @@ i18n.use(initReactI18next)
 
 i18n.use(LanguageDetector).init({
         detection: {
-            order: ['localStorage'],
+            order: ['localStorage', 'htmlTag', 'querystring','sessionStorage', 'path'],
             lookupLocalStorage: localStorageKeys.userLocale,
             caches: ['localStorage'],
         },
