@@ -620,7 +620,7 @@ const Candidate = () => {
                           bottom: isMobile ? '120px' : '125px'
                         }}
                       >
-                        <Box sx={{ position: 'relative', display: 'inline-block' , '@media (min-width: 390px)': {mb: isMobile && percentage === 100 ? '16px' : isMobile &&  percentage !== 100 ? '40px' : ''}}}>
+                        <Box sx={{ position: 'relative', display: 'inline-block' , ...(percentage === 100 ? {mb: {xs: 10, sm: 15, md: 0}} : {mb: {xs: 15, sm: 20, md: 0}})}}>
                           <Avatar
                             src={profilePic ? profilePic : '/images/default-user-new.png'}
                             sx={{ width: isMobile ? 64 : 160, height: isMobile ? 64 : 160 }}
@@ -710,7 +710,7 @@ const Candidate = () => {
                               background: percentage === 100 ? '#F4FEF2' : '#F8F8F7',
                               borderRadius: '6px',
                               border:percentage === 100 ? '1px solid #4CAF50': '' ,
-                              padding: isMobile ? '4px 12px' : '16px 24px',
+                              padding: isMobile ? '12px' : '16px 24px',
                               justifyContent: 'space-between',
                               alignItems: 'center',
                               gap: '20px'
@@ -718,7 +718,7 @@ const Candidate = () => {
                           >
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px'}}>
                               <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                <Typography sx={{ fontSize:'16px', fontWeight: 700, color: '#404040' }}>
+                                <Typography sx={{ fontSize:{xs: '12px', sm: '16px'}, fontWeight: 700, color: '#404040' }}>
                                   Profile Completion
                                 </Typography>
                                 {percentage !== 100 && (<IconButton onClick={handleClickPopper}>
@@ -728,7 +728,7 @@ const Candidate = () => {
                               </Box>
                               
                                 <Box>
-                                  <Typography sx={{ fontSize: isMobile ? '12px' : '14px', fontWeight: 400, color: '#404040','@media (min-width: 390px)' : { display: 'block'}, display: 'none', whiteSpace: 'nowrap' }}>
+                                  <Typography sx={{ fontSize: {xs: '12px', sm: '14px'}, fontWeight: 400, color: '#404040', whiteSpace: 'nowrap' }}>
                                     {getCpText(percentage)}
                                   </Typography>
                                 </Box>
