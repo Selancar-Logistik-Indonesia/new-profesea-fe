@@ -36,6 +36,8 @@ const CustomSelectLanguage = styled(TextField)({
   }
 })
 
+
+
 const LanguageDropdown = ({ settings, saveSettings }: Props) => {
   // ** Hook
   const { i18n } = useTranslation()
@@ -63,7 +65,7 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
           select
           variant='standard'
           size='small'
-          defaultValue={'id'}
+          defaultValue={i18n.language}
           onChange={e => {
             handleLangItemClick(e.target.value)
             saveSettings({ ...settings, direction: 'ltr' })
