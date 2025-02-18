@@ -54,7 +54,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
 
     return (
       <Grid item xs={12} key={item.id}>
-        <Link href={`/profile/${item.id}/${toLinkCase(item.username)}`} target='_blank'>
+        <Link href={`/profile/${toLinkCase(item.username)}`} target='_blank'>
           <Paper
             sx={{
               marginTop: '24px',
