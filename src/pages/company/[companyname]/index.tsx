@@ -45,8 +45,8 @@ const UserFeedApp = () => {
   const firstload = async () => {
     setSelectedUser(null)
     let url: any = process.env.NEXT_PUBLIC_BASE_URL
-    if ( selectedName) {
-      url = `/public/data/user/${selectedName}`
+    if (selectedName) {
+      url = `/public/data/user/?username=${selectedName}`
     }
 
     try {
@@ -76,14 +76,14 @@ const UserFeedApp = () => {
     }
   }, [selectedName])
 
-  if (!selectedUser){
+  if (!selectedUser) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <CircularProgress sx={{ my: 20 }} />
       </Box>
     )
   }
-    
+
   return (
     <>
       <Grid
@@ -100,9 +100,11 @@ const UserFeedApp = () => {
           <CenterAd adsLocation='company-profile-page' />
         </Grid>
         <Grid item xs={12} md={3}>
-          {selectedUser.id === user?.id && (<Box sx={{ mb: '24px'}}>
-             <UsernameChange userId={selectedUser?.id} username={selectedUser?.username} />
-          </Box>)}
+          {selectedUser.id === user?.id && (
+            <Box sx={{ mb: '24px' }}>
+              <UsernameChange userId={selectedUser?.id} username={selectedUser?.username} />
+            </Box>
+          )}
           <FriendSuggestionCard location='profile' dataUser={selectedUser} status={status} />
           <Box sx={{ my: '24px', position: 'sticky', top: '70px' }}>
             <SideAdProfile />
