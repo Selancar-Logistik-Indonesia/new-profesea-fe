@@ -33,6 +33,7 @@ import { useTheme } from '@mui/material/styles'
 import { Icon } from '@iconify/react'
 import { MdNavigateNext } from 'react-icons/md'
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
+import CustomPaginationItem from 'src/@core/components/pagination/item'
 
 const FindCandidate = () => {
   return (
@@ -42,35 +43,6 @@ const FindCandidate = () => {
   )
 }
 
-const CustomPaginationItem = (props: any) => {
-  const { selected, ...other } = props
-
-  return (
-    <PaginationItem
-      {...other}
-      sx={{
-        ...(selected
-          ? {
-              backgroundColor: '#32497A',
-              color: '#FFFFFF',
-              '&:hover': {
-                backgroundColor: '#32497A'
-              }
-            }
-          : {
-              backgroundColor: '#DDDDDD',
-              color: '#000000',
-              '&:hover': {
-                backgroundColor: '#CCCCCC'
-              }
-            }),
-        fontWeight: 300,
-        borderRadius: '4px',
-        margin: '0 2px'
-      }}
-    />
-  )
-}
 const pageItems = 15
 
 const FindCandidateApp = () => {

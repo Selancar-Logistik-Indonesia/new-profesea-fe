@@ -18,6 +18,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { MdNavigateNext } from 'react-icons/md'
 import AnimatedTabs from 'src/@core/components/animated-tabs'
+import CustomPaginationItem from 'src/@core/components/pagination/item'
 import Job from 'src/contract/models/job'
 import JobCategory from 'src/contract/models/job_category'
 import VesselType from 'src/contract/models/vessel_type'
@@ -29,36 +30,6 @@ import JobCard from 'src/views/job-management/JobCard'
 import JobCardSkeleton from 'src/views/job-management/JobCardSkeleton'
 import { v4 } from 'uuid'
 
-const CustomPaginationItem = (props: any) => {
-  const { selected, ...other } = props
-
-  return (
-    <PaginationItem
-      {...other}
-      sx={{
-        border: 'none',
-        fontWeight: 400,
-        borderRadius: '4px',
-        margin: '0 4px',
-        ...(selected
-          ? {
-              backgroundColor: '#32497A',
-              color: '#FFFFFF',
-              '&:hover': {
-                backgroundColor: '#32497A'
-              }
-            }
-          : {
-              backgroundColor: '#DDDDDD',
-              color: '#000000',
-              '&:hover': {
-                backgroundColor: '#CCCCCC'
-              }
-            })
-      }}
-    />
-  )
-}
 const pageItems = 6
 const tabsOption = [
   { value: 'onship', label: 'Seafarer' },

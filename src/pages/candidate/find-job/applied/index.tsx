@@ -35,6 +35,7 @@ import { useRouter } from 'next/router'
 import Icon from 'src/@core/components/icon'
 import { formatDistanceToNow } from 'date-fns'
 import toast from 'react-hot-toast'
+import CustomPaginationItem from 'src/@core/components/pagination/item'
 
 // Applied => Waiting Review => WR
 // Reviewed => Viewed => VD
@@ -123,36 +124,6 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
     >
       {children}
     </Typography>
-  )
-}
-
-const CustomPaginationItem = (props: any) => {
-  const { selected, ...other } = props
-
-  return (
-    <PaginationItem
-      {...other}
-      sx={{
-        ...(selected
-          ? {
-              backgroundColor: '#32497A',
-              color: '#FFFFFF',
-              '&:hover': {
-                backgroundColor: '#32497A'
-              }
-            }
-          : {
-              backgroundColor: '#DDDDDD',
-              color: '#000000',
-              '&:hover': {
-                backgroundColor: '#CCCCCC'
-              }
-            }),
-        fontWeight: 300,
-        borderRadius: '4px',
-        margin: '0 2px'
-      }}
-    />
   )
 }
 

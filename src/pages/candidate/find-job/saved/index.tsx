@@ -36,6 +36,7 @@ import CompleteDialog from '../../job/CompleteDialog'
 import { format } from 'date-fns'
 import { JobsValue } from 'src/views/find-job/RecomendedView'
 import { renderSalary, renderTimeAgo } from 'src/utils/helpers'
+import CustomPaginationItem from 'src/@core/components/pagination/item'
 
 interface IJobSaved {
   id: number
@@ -68,36 +69,6 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
     >
       {children}
     </Typography>
-  )
-}
-
-const CustomPaginationItem = (props: any) => {
-  const { selected, ...other } = props
-
-  return (
-    <PaginationItem
-      {...other}
-      sx={{
-        ...(selected
-          ? {
-              backgroundColor: '#32497A',
-              color: '#FFFFFF',
-              '&:hover': {
-                backgroundColor: '#32497A'
-              }
-            }
-          : {
-              backgroundColor: '#DDDDDD',
-              color: '#000000',
-              '&:hover': {
-                backgroundColor: '#CCCCCC'
-              }
-            }),
-        fontWeight: 300,
-        borderRadius: '4px',
-        margin: '0 2px'
-      }}
-    />
   )
 }
 

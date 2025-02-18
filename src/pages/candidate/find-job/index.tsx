@@ -52,6 +52,7 @@ import { useTranslation } from 'react-i18next'
 import JobSaved from './saved'
 import JobArchived from './archived'
 import Image from 'next/image'
+import CustomPaginationItem from 'src/@core/components/pagination/item'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -72,36 +73,6 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
     </div>
-  )
-}
-
-const CustomPaginationItem = (props: any) => {
-  const { selected, ...other } = props
-
-  return (
-    <PaginationItem
-      {...other}
-      sx={{
-        ...(selected
-          ? {
-              backgroundColor: '#32497A',
-              color: '#FFFFFF',
-              '&:hover': {
-                backgroundColor: '#32497A'
-              }
-            }
-          : {
-              backgroundColor: '#DDDDDD',
-              color: '#000000',
-              '&:hover': {
-                backgroundColor: '#CCCCCC'
-              }
-            }),
-        fontWeight: 300,
-        borderRadius: '4px',
-        margin: '0 2px'
-      }}
-    />
   )
 }
 
