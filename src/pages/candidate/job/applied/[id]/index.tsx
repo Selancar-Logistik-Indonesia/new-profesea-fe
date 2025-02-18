@@ -504,10 +504,17 @@ const JobDetailApplied = () => {
                         <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>Experience</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.job?.experience || '-'} years
+                        : {jobDetail?.job?.experience || '-'} contract
                       </Grid>
-                      <Grid item xs={6}></Grid>
-                      <Grid item xs={6}></Grid>
+                      <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        <Icon icon='ph:chats-duotone' color='#32487A' fontSize={'16px'} />
+                        <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>
+                          Interview Location
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        : {jobDetail?.job?.city?.city_name || '-'}
+                      </Grid>
                     </>
                   ) : (
                     <>
@@ -606,6 +613,15 @@ const JobDetailApplied = () => {
                         )}
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        <Icon icon='ph:briefcase-fill' color='#32487A' fontSize={'16px'} />
+                        <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>
+                          Work Experience
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        : {jobDetail?.job?.experience || '-'} years
+                      </Grid>
+                      <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='cil:education' color='#32487A' fontSize={'16px'} />
                         <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>Education</Typography>
                       </Grid>
@@ -614,22 +630,6 @@ const JobDetailApplied = () => {
                       </Grid>
                       <Grid item xs={6}></Grid>
                       <Grid item xs={6}></Grid>
-
-                      {/* work experience belum ada dari API */}
-                      {/* <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                        <Icon icon='ep:suitcase' color='#32487A' fontSize={'16px'} />
-                        <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>
-                          Work Experience
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        :{' '}
-                        {renderSalary(
-                          jobDetail?.job?.salary_start,
-                          jobDetail?.job?.salary_end,
-                          jobDetail?.job?.currency as string
-                        )}
-                      </Grid> */}
                       <Grid item xs={6}></Grid>
                       <Grid item xs={6}></Grid>
                     </>
@@ -672,9 +672,11 @@ const JobDetailApplied = () => {
                         <Typography sx={{ fontSize: '14px', fontWeight: 700, color: '#303030' }}>
                           Certificate of Competency
                         </Typography>
-                        <ol>
+                        <ol style={{ paddingInlineStart: '20px' }}>
                           {filterCertificates(jobDetail?.job?.license)[0].map((l, index) => (
-                            <li key={index}>{l.title}</li>
+                            <li key={index} style={{ fontSize: '14px', fontWeight: 400 }}>
+                              {l.title}
+                            </li>
                           ))}
                         </ol>
                       </Box>
@@ -682,9 +684,11 @@ const JobDetailApplied = () => {
                         <Typography sx={{ fontSize: '14px', fontWeight: 700, color: '#303030' }}>
                           Certificate of Proficiency
                         </Typography>
-                        <ol>
+                        <ol style={{ paddingInlineStart: '20px' }}>
                           {filterCertificates(jobDetail?.job?.license)[1].map((l, index) => (
-                            <li key={index}>{l.title}</li>
+                            <li key={index} style={{ fontSize: '14px', fontWeight: 400 }}>
+                              {l.title}
+                            </li>
                           ))}
                         </ol>
                       </Box>

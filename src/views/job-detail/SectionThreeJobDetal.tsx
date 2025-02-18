@@ -72,10 +72,9 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
       return (
         <Typography
           key={index}
-          sx={{ color: '#4CAF50', display: 'flex', alignItems: 'center', gap: 2 }}
+          sx={{ color: '#4CAF50', display: 'flex', alignItems: 'center', gap: 2, fontSize: '14px', fontWeight: 400 }}
           ml='0.5rem'
           mt='0.2rem'
-          fontSize={10}
         >
           <Icon icon='ion:checkbox-outline' color='#4CAF50' fontSize={'18px'} /> {title}
         </Typography>
@@ -85,10 +84,9 @@ const SectionThreeJobDetail: React.FC<ISectionThreeJobDetailProps> = ({ jobDetai
     return (
       <Typography
         key={index}
-        sx={{ color: 'text.primary', display: 'flex', alignItems: 'center', gap: 2 }}
+        sx={{ color: 'text.primary', display: 'flex', alignItems: 'center', gap: 2, fontSize: '14px', fontWeight: 400 }}
         ml='0.5rem'
         mt='0.2rem'
-        fontSize={10}
       >
         <Icon icon='carbon:checkbox' color='#32487A' fontSize={'18px'} /> {title}
       </Typography>
