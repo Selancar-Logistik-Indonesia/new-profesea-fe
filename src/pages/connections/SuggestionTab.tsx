@@ -81,7 +81,7 @@ export default function SuggestionTab(props: any) {
                     variant='body2'
                     color='text.primary'
                   >
-                    <Link href={'/profile/' + item.id + '/' + item.username}>{item?.name}</Link>
+                    <Link href={'/profile/' + item.username}>{item?.name}</Link>
                   </Typography>
                 }
                 secondary={

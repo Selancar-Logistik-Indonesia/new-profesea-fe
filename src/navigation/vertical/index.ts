@@ -91,9 +91,10 @@ const navigation = (): VerticalNavItemsType => {
     //   action: 'read',
     //   subject: 'user-my-participant'
     // },
+
     // admin section
     {
-      path: '/admin/accounts/',
+      path: '/admin/accounts',
       title: 'Accounts',
       icon: 'solar:user-bold-duotone',
       action: 'read',
@@ -107,7 +108,7 @@ const navigation = (): VerticalNavItemsType => {
     //     subject: 'admin-job-management'
     // },
     {
-      path: '/admin/company-and-job-management/',
+      path: '/admin/company-and-job-management',
       title: 'Company And Job Management',
       icon: 'solar:buildings-2-bold',
       action: 'read',
@@ -122,55 +123,55 @@ const navigation = (): VerticalNavItemsType => {
       children: [
         {
           title: 'Training',
-          path: '/admin/training-management/',
+          path: '/admin/training-management',
           subject: 'admin-training-management',
           action: 'read'
         },
         {
           title: 'Instant',
-          path: '/admin/training-management-instant/',
+          path: '/admin/training-management-instant',
           subject: 'admin-training-management',
           action: 'read'
         }
       ]
     },
     {
-      path: '/admin/subcription-management/',
+      path: '/admin/subcription-management',
       title: 'Subcription Management',
       icon: 'solar:leaf-bold-duotone',
       action: 'read',
       subject: 'admin-subcription-management'
     },
     {
-      path: '/admin/ads-management/',
+      path: '/admin/ads-management',
       title: 'Ads Management',
       icon: 'solar:presentation-graph-bold-duotone',
       action: 'read',
       subject: 'admin-ads-management'
     },
     {
-      path: '/admin/feeds-management/',
+      path: '/admin/feeds-management',
       title: 'Feeds Management',
       icon: 'solar:feed-bold-duotone',
       action: 'read',
       subject: 'admin-feeds-management'
     },
     {
-      path: '/admin/community-management/',
+      path: '/admin/community-management',
       title: 'Community Management',
       icon: 'solar:users-group-two-rounded-bold-duotone',
       action: 'read',
       subject: 'admin-community-management'
     },
     {
-      path: '/admin/master-news2/',
+      path: '/admin/master-news2',
       title: 'News Management',
       icon: 'solar:card-2-bold-duotone',
       action: 'read',
       subject: 'admin-master-news'
     },
     {
-      path: '/admin/alumni/',
+      path: '/admin/alumni',
       title: 'Alumni Management',
       icon: 'ic:twotone-school',
       action: 'read',
@@ -184,13 +185,13 @@ const navigation = (): VerticalNavItemsType => {
       subject: 'admin-master-event',
       children: [
         {
-          path: '/admin/master-event/',
+          path: '/admin/master-event',
           title: 'List Event',
           action: 'read',
           subject: 'admin-master-event'
         },
         {
-          path: '/admin/list-eventregister/',
+          path: '/admin/list-eventregister',
           title: 'Event Participant',
           action: 'read',
           subject: 'admin-list-eventregister'
@@ -199,7 +200,7 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       path: '#',
-      title: 'Master Dataa',
+      title: 'Master Data',
       icon: 'solar:notes-bold-duotone',
       action: 'read',
       subject: 'admin-master-data',

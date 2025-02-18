@@ -154,7 +154,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
         async () => {
           toast.success('Successfully save profile')
           await refreshSession()
-          router.push(`/profile/${user?.id}/${toLinkCase(user?.username)}/?onboarding=completed`)
+          router.push(`/profile/${toLinkCase(user?.username)}/?onboarding=completed`)
         },
         error => {
           toast.error('Failed to save profile: ' + error.response.data.message)
@@ -166,7 +166,7 @@ const SeafarerExperience = ({ beforeLink }: { beforeLink: string }) => {
   const onSkip = () => {
     HttpClient.patch(AppConfig.baseUrl + '/onboarding/complete').then(async response => {
       await toast.success(response.data.message)
-      router.push(`/profile/${user?.id}/${toLinkCase(user?.username)}/?onboarding=completed`)
+      router.push(`/profile/${toLinkCase(user?.username)}/?onboarding=completed`)
     })
   }
 

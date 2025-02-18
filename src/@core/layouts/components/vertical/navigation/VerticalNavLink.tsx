@@ -46,23 +46,21 @@ const MenuNavLink = styled(ListItemButton)<
   ListItemButtonProps & { component?: ElementType; href: string; target?: '_blank' | undefined }
 >(({ theme }) => ({
   width: '100%',
-  borderRadius: 8,
+  // borderRadius: 8,
   transition: 'padding-left .25s ease-in-out',
   '&.active': {
-    '&, &:hover': {
-      backgroundColor: theme.palette.primary.light,
-      '&.Mui-focusVisible': {
-        backgroundColor: theme.palette.primary.main
-      }
+    '& .MuiTypography-root, & .MuiListItemIcon-root': {
+      color: `${theme.palette.primary.main} !important`,
+      fontWeight: 700
     },
-    '& .MuiTypography-root': {
-      fontWeight: 500,
-      color: `${theme.palette.common.white} !important`
+  },
+  '&:focus-visible': {
+      outline: 0,
+      backgroundColor: theme.palette.action.focus,
     },
-    '& .MuiListItemIcon-root': {
-      color: `${theme.palette.common.white} !important`
+  '&:hover': {
+      backgroundColor: 'transparent'
     }
-  }
 }))
 
 const MenuItemTextMetaWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -111,7 +109,8 @@ const VerticalNavLink = ({
         sx={{
           mt: 1.5,
           transition: 'padding .25s ease-in-out',
-          px: theme => (parent ? '0 !important' : `${theme.spacing(navCollapsed && !navHover ? 2 : 3)} !important`)
+          px: theme => (parent ? '0 !important' : `${theme.spacing(navCollapsed && !navHover ? 2 : 3)} !important`),
+          
         }}
       >
         <MenuNavLink
@@ -133,16 +132,18 @@ const VerticalNavLink = ({
             py: 2.25,
             ...(item.disabled ? { pointerEvents: 'none' } : { cursor: 'pointer' }),
             pr: navCollapsed && !navHover ? (collapsedNavWidth - navigationBorderWidth - 24 - 16) / 8 : 3,
-            pl: navCollapsed && !navHover ? (collapsedNavWidth - navigationBorderWidth - 24 - 16) / 8 : 4
+            pl: navCollapsed && !navHover ? (collapsedNavWidth - navigationBorderWidth - 24 - 16) / 8 : 4,
           }}
         >
-          {isSubToSub ? null : (
+          {isSubToSub || !parent ? null : (
             <ListItemIcon
               sx={{
                 transition: 'margin .25s ease-in-out',
-                color: parent ? 'text.secondary' : 'text.primary',
+                color:'text.secondary',
                 ...(navCollapsed && !navHover ? { mr: 0 } : { mr: 2 }),
-                ...(parent ? { ml: 2, mr: 4 } : {}), // This line should be after (navCollapsed && !navHover) condition for proper styling
+                // This line should be after (navCollapsed && !navHover) condition for proper styling
+                ml: 2, 
+                mr: 4, 
                 '& svg': {
                   ...(!parent ? { fontSize: '1.5rem' } : { fontSize: '0.5rem' }),
                   ...(parent && item.icon ? { fontSize: '0.875rem' } : {})
@@ -152,6 +153,7 @@ const VerticalNavLink = ({
               <UserIcon icon={icon as string} />
             </ListItemIcon>
           )}
+         
 
           <MenuItemTextMetaWrapper
             sx={{
@@ -163,6 +165,7 @@ const VerticalNavLink = ({
               {...((themeConfig.menuTextTruncate || (!themeConfig.menuTextTruncate && navCollapsed && !navHover)) && {
                 noWrap: true
               })}
+              className={isNavLinkActive() ? 'active' : ''}
             >
               <Translations text={item.title} />
             </Typography>

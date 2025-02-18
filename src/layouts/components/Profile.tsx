@@ -86,7 +86,7 @@ const Profile = (props: userProps) => {
     return '/'
   }
 
-  const link = `${props.datauser?.role === 'Seafarer' ? '/profile' : '/company'}/${props.datauser?.id}/${toLinkCase(
+  const link = `${props.datauser?.role === 'Seafarer' ? '/profile' : '/company'}/${toLinkCase(
     props.datauser?.username
   )}`
 
