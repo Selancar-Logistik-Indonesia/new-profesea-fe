@@ -87,9 +87,7 @@ export default function Request(props: any) {
                           variant='body2'
                           color='text.primary'
                         >
-                          <Link href={'/profile/' + item.friend.id + '/' + item.friend.username}>
-                            {item?.friend?.name}
-                          </Link>
+                          <Link href={'/profile/' + item.friend.username}>{item?.friend?.name}</Link>
                         </Typography>
                       </React.Fragment>
                     }

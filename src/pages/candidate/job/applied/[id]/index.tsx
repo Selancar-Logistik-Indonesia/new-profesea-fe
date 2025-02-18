@@ -724,7 +724,7 @@ const JobDetailApplied = () => {
                     <Box
                       sx={{ cursor: 'pointer' }}
                       onClick={() =>
-                        router.push(`/company/${jobDetail?.job?.company?.id}/${jobDetail?.job?.company?.username}`)
+                        router.push(`/company/${jobDetail?.job?.company?.username}`)
                       }
                     >
                       <TruncatedTypography fontSize={14} fontWeight={700} color={'#303030'}>

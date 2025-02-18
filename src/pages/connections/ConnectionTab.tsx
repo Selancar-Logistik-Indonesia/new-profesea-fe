@@ -141,9 +141,7 @@ export default function ConnectionTab(props: any) {
                         color='text.primary'
                         sx={{ display: 'inline', fontSize: 16, fontWeight: 'bold' }}
                       >
-                        <Link href={'/profile/' + item.friend.id + '/' + item.friend.username}>
-                          {item?.friend?.name}
-                        </Link>
+                        <Link href={'/profile/' + item.friend.username}>{item?.friend?.name}</Link>
                       </Typography>
                     </React.Fragment>
                   }

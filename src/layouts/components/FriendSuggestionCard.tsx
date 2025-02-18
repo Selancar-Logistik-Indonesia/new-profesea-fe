@@ -40,7 +40,7 @@ const renderList = (arr: IUser[]) => {
             <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <Link
                 style={{ textDecoration: 'none' }}
-                href={`/${item.role === 'Seafarer' ? 'profile' : 'company'}/${item.id}/${toLinkCase(item.username)}`}
+                href={`/${item.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(item.username)}`}
                 target='_blank'
               >
                 <Typography
