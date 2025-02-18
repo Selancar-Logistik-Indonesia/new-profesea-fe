@@ -623,7 +623,7 @@ const JobDetail = () => {
                     <Avatar src={jobDetail?.company?.photo} sx={{ width: 51, height: 51 }} />
                     <Box
                       sx={{ cursor: 'pointer' }}
-                      onClick={() => router.push(`/company/${jobDetail?.company?.id}/${jobDetail?.company?.username}`)}
+                      onClick={() => router.push(`/company/${jobDetail?.company?.username}`)}
                     >
                       <TruncatedTypography fontSize={14} fontWeight={700} color={'#303030'}>
                         {jobDetail?.company?.name ?? '-'}
