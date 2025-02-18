@@ -28,7 +28,7 @@ const StatusCard = (props: StatusCardProps) => {
     <Grid
       item
       component={draft ? 'div' : Link}
-      href={`/company/job/?tabs=2&id=${id}`}
+      href={`/company/job-management/${id}`}
       sx={{ flexBasis: '33%', p: '16px 20px' }}
       flexDirection='column'
     >
