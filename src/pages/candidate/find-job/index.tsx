@@ -54,8 +54,6 @@ import JobArchived from './archived'
 import Image from 'next/image'
 import Link from 'next/link'
 
-//icons form phospohore
-import { MagnifyingGlass } from '@phosphor-icons/react'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -672,13 +670,13 @@ const SeafarerJobApp = () => {
                   </Grid>
                   <Box px={5} pb={5}>
                     <Alert
-                      icon={<MagnifyingGlass size={32} color='rgba(93, 63, 211, 1)' />}
+                      icon={<Icon icon='ph:magnifying-glass' fontSize={32} color='#5D3FD3' />}
                       sx={{
-                        backgroundColor: 'rgba(249, 241, 255, 1)',
+                        backgroundColor: '#F9F1FF',
                         color: '#303030',
                         fontWeight: '400',
                         fontSize: '14 !important',
-                        border: '1px solid rgba(93, 63, 211, 1)',
+                        border: '1px solid #5D3FD3',
                         display: 'flex',
                         alignItems: 'center'
                       }}
@@ -686,7 +684,7 @@ const SeafarerJobApp = () => {
                       <AlertTitle sx={{ color: '#5D3FD3 !important', fontWeight: '700' }}>
                         Temukan & Lamar Pekerjaan Impian Anda
                       </AlertTitle>
-                      Sesuai dengan <Link href={link}><Typography variant='body2' sx={{fontWeight: '700',color: 'rgba(50, 73, 122, 1)' , display: 'inline-block'}}>profil</Typography></Link> dan <Link href='/candidate/?tabs=2'><Typography variant='body2' sx={{fontWeight: '700',color: 'rgba(50, 73, 122, 1)' , display: 'inline-block'}}>pengalaman</Typography></Link> Anda.
+                      Sesuai dengan <Link href={link}><Typography variant='body2' sx={{fontWeight: '700',color: '#32497A' , display: 'inline-block'}}>profil</Typography></Link> dan <Link href='/candidate/?tabs=2'><Typography variant='body2' sx={{fontWeight: '700',color: '#32497A' , display: 'inline-block'}}>pengalaman</Typography></Link> Anda.
                     </Alert>
                   </Box>
                   <Box px={5} pb={5}>
