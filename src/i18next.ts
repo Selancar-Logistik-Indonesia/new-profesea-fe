@@ -6,7 +6,6 @@ import localStorageKeys from "./configs/localstorage_keys";
 import LanguageDetector from 'i18next-browser-languagedetector';
 // import { lookup } from "dns";
 
-
 i18n.use(initReactI18next)
     .init({
         resources: {
@@ -19,13 +18,13 @@ i18n.use(initReactI18next)
     });
 
 i18n.use(LanguageDetector).init({
-        detection: {
-            order: ['localStorage', 'htmlTag', 'navigator','querystring'],
-            lookupLocalStorage: localStorageKeys.userLocale,
-            lookupQuerystring: 'lng',
-            caches: ['localStorage'],
-        },
-      });
+    detection: {
+        order: ['localStorage', 'htmlTag', 'navigator', 'querystring'],
+        lookupLocalStorage: localStorageKeys.userLocale,
+        lookupQuerystring: 'lng',
+        caches: ['localStorage'],
+    },
+});
 
 
 export default i18n;
