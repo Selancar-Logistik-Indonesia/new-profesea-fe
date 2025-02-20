@@ -58,7 +58,7 @@ const UserFeedApp = () => {
       username = user.username
     } else {
       url = '/user/?username=' + username
-      filter = '&username=' + username
+      filter = ''
       // filterdoc = '?username=' + username
     }
 
