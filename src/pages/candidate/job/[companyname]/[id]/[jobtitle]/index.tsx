@@ -396,7 +396,7 @@ const JobDetail = () => {
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.sailing_region || '-'}
+                        : {jobDetail?.sailing_region === 'iv' ? 'International Voyage' : 'Near Coastal Voyage (NCV)'}
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='ph:briefcase-fill' color='#32487A' fontSize={'16px'} />

@@ -6,7 +6,6 @@ import localStorageKeys from "./configs/localstorage_keys";
 import LanguageDetector from 'i18next-browser-languagedetector';
 // import { lookup } from "dns";
 
-
 i18n.use(initReactI18next)
     .init({
         resources: {

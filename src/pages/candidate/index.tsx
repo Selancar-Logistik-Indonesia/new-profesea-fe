@@ -36,6 +36,7 @@ import DialogEditBanner from './DialogEditBanner'
 import DialogEditProfile from './DialogEditProfile'
 import WorkExperienceTab from './work-experience-tab/WorkExperienceTab'
 import ProfileCompletionContext, { ProfileCompletionProvider } from 'src/context/ProfileCompletionContext'
+import { useSearchParams } from 'next/navigation'
 
 type FormData = {
   companyName: string
@@ -156,6 +157,9 @@ const Candidate = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [defaultValue, setDefaultValue] = useState(0)
   const open = Boolean(anchorEl)
+
+  const params = useSearchParams()
+  const tabs = params.get('tabs')
 
   function Firstload() {
     HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
@@ -554,6 +558,9 @@ const Candidate = () => {
   useEffect(() => {
     // setOpenPreview(false)
     Firstload()
+    if(tabs){
+      setTabsValue(Number(tabs))
+    }
   }, [])
 
   return (
