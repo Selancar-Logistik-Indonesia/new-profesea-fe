@@ -46,8 +46,8 @@ const renderList = (feeds: ISocialFeed[]) => {
     components.push(<FeedCard item={item} key={`feedItem${item.id}`} />)
 
     if ((index + 1) % 6 === 0) {
-      components.push(
-        <Box sx={{ mt: 2 }}>
+       components.push(
+        <Box  sx={{ mt: 2, width: '100%' }}>
           <CenterAd key={`adsComponent${index}`} />
         </Box>
       )
