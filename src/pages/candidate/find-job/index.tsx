@@ -675,16 +675,16 @@ const SeafarerJobApp = () => {
                         backgroundColor: '#F9F1FF',
                         color: '#303030',
                         fontWeight: '400',
-                        fontSize: '14 !important',
+                        fontSize: '14px ',
                         border: '1px solid #5D3FD3',
                         display: 'flex',
                         alignItems: 'center'
                       }}
                     >
-                      <AlertTitle sx={{ color: '#5D3FD3 !important', fontWeight: '700' }}>
-                        Temukan & Lamar Pekerjaan Impian Anda
+                      <AlertTitle sx={{ color: '#5D3FD3 !important', fontSize: '14px !important',fontWeight: '700' }}>
+                        Temukan & Lamar Pekerjaan Impian
                       </AlertTitle>
-                      Sesuai dengan <Link href={link}><Typography variant='body2' sx={{fontWeight: '700',color: '#32497A' , display: 'inline-block'}}>profil</Typography></Link> dan <Link href='/candidate/?tabs=2'><Typography variant='body2' sx={{fontWeight: '700',color: '#32497A' , display: 'inline-block'}}>pengalaman</Typography></Link> Anda.
+                      Sesuai dengan <Link href={link}><Typography variant='body2' sx={{fontWeight: '700',color: '#32497A' , display: 'inline-block'}}>profil</Typography></Link> dan <Link href={`/candidate/?tabs=${user.employee_type === 'onship' ? '3' : '2'}`}><Typography variant='body2' sx={{fontWeight: '700',color: '#32497A' , display: 'inline-block'}}>pengalaman</Typography></Link> anda.
                     </Alert>
                   </Box>
                   <Box px={5} pb={5}>
