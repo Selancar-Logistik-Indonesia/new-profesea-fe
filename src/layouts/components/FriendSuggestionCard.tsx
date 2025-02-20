@@ -36,7 +36,7 @@ const renderList = (arr: IUser[]) => {
           }}
         >
           <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 44, height: 44 }} />
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <Link
                 style={{ textDecoration: 'none' }}
@@ -128,7 +128,7 @@ const FriendSuggestionCard = ({
           sx={{
             mb: '24px',
             color: 'black',
-            fontSize: location === 'profile' ? 20 : 14,
+            fontSize: location === 'profile' ? 20 : 18,
             fontWeight: 'bold',
             textTransform: 'capitalize'
           }}
@@ -143,28 +143,29 @@ const FriendSuggestionCard = ({
           renderList(listFriends)
         )}
       </Box>
-      {location === 'profile' && (
-        <>
-          <Divider sx={{ mx: '24px' }} />
-          <Button
-            endIcon={<Icon icon='mingcute:right-fill' style={{ fontSize: 18 }} />}
-            href={isStatusLink(`/connections`)}
-            sx={{
-              py: '18px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              textTransform: 'none',
-              color: 'primary.main',
-              fontSize: 14,
-              fontWeight: 'bold',
-              borderRadius: '0 !important'
-            }}
-          >
-            Show all
-          </Button>
-        </>
-      )}
+      {location === 'profile' ||
+        (location === 'home' && (
+          <>
+            <Divider sx={{ mx: '24px' }} />
+            <Button
+              endIcon={<Icon icon='mingcute:right-fill' style={{ fontSize: 18 }} />}
+              href={isStatusLink(`/connections`)}
+              sx={{
+                py: '18px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                textTransform: 'none',
+                color: 'primary.main',
+                fontSize: 14,
+                fontWeight: 'bold',
+                borderRadius: '0 !important'
+              }}
+            >
+              Show all
+            </Button>
+          </>
+        ))}
     </Box>
   )
 }
