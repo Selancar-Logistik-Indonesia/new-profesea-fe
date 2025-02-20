@@ -35,7 +35,7 @@ export type activities = {
 
 type userProps = {
   datauser: IUser | null
-  activities: activities | undefined
+  activities?: activities | undefined
 }
 
 const ProfilePicture = styled('img')(({ theme }) => ({
