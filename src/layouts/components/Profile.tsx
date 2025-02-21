@@ -5,15 +5,15 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
-import { Alert, CardMedia, Divider } from '@mui/material'
+import { CardMedia, useMediaQuery } from '@mui/material'
 import { HttpClient } from 'src/services'
-import { AppConfig } from 'src/configs/api'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { IUser } from 'src/contract/models/user'
 import FieldPreference from 'src/contract/models/field_preference'
 import { getUserAvatar, toLinkCase } from 'src/utils/helpers'
-import { useAuth } from 'src/hooks/useAuth'
+
+import { useTheme } from '@mui/material/styles'
 
 export type ParamJobVacncy = {
   judul: string
@@ -22,51 +22,41 @@ export type ParamJobVacncy = {
   waktu: string
 }
 
-type activities = {
+export type activities = {
   total_connected: string
   total_visitor: string
   total_post_feed: string
   total_post_job: string
   total_applied_job: string
   total_post_thread: string
+  total_followed: string
+  total_followers: string
 }
 
 type userProps = {
   datauser: IUser | null
+  activities?: activities | undefined
 }
 
 const ProfilePicture = styled('img')(({ theme }) => ({
   width: 85,
   height: 85,
   borderRadius: '50%',
-  border: `5px solid ${theme.palette.common.white}`,
+  border: `2px solid ${theme.palette.common.white}`,
   [theme.breakpoints.down('md')]: {
     marginBottom: theme.spacing(4)
   }
 }))
 
 const Profile = (props: userProps) => {
+  const Theme = useTheme()
+  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const [selectedItem, setSelectedItem] = useState<FieldPreference | null>(null)
-  const [activities, getActivities] = useState<activities>()
-  const [documents, setDocuments] = useState<any[]>([])
-
-  const { user } = useAuth()
 
   useEffect(() => {
     HttpClient.get('/user/field-preference', { user_id: props.datauser?.id }).then(response => {
       const { fieldPreference } = response.data as { fieldPreference: FieldPreference }
       setSelectedItem(fieldPreference)
-    })
-
-    HttpClient.get('/user/statistics?user_id=' + user?.id).then(response => {
-      const code = response.data
-      getActivities(code)
-    })
-
-    HttpClient.get(AppConfig.baseUrl + '/user/candidate-document').then(response => {
-      const itemData = response.data.documents
-
-      setDocuments(itemData)
     })
   }, [props.datauser])
 
@@ -113,7 +103,7 @@ const Profile = (props: userProps) => {
               marginBottom: '-80px'
             }}
           />
-          <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
+          <CardContent>
             <Box
               sx={{
                 display: 'flex',
@@ -125,87 +115,117 @@ const Profile = (props: userProps) => {
               <Link href={link}>
                 <ProfilePicture
                   src={getUserAvatar(props.datauser!)}
-                  sx={{ width: 100, height: 100, objectFit: 'cover', my: 2 }}
+                  sx={{
+                    width: isMobile ? 62 : 100,
+                    height: isMobile ? 62 : 100,
+                    objectFit: 'cover',
+                    marginTop: isMobile ? '25px' : '40px'
+                  }}
                   alt='profile-picture'
                 />
               </Link>
             </Box>
             <Box sx={{ mb: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Link href={link}>
-                <Typography variant='body2' sx={{ color: '#32487A', fontWeight: 800, fontSize: '20px' }}>
+                <Typography
+                  sx={{ color: '#2D3436', fontWeight: isMobile ? 600 : 400, fontSize: isMobile ? '14px' : '16px' }}
+                >
                   {props.datauser?.name}
                 </Typography>
               </Link>
               {props.datauser?.role === 'Seafarer' ? (
-                <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '16px', marginTop: '5px' }}>
-                  {`${selectedItem?.open_to_opp === 0 ? '' : 'Open to Work'}${
+                <Typography sx={{ color: '#999', fontSize: '14px', fontWeight: 400 }}>
+                  {`${
                     props.datauser?.employee_type === 'onship'
                       ? selectedItem?.role_type?.name
-                        ? ' | ' + selectedItem?.role_type?.name
+                        ? selectedItem?.role_type?.name
                         : ''
                       : selectedItem?.job_category?.name
-                      ? ' | ' + selectedItem?.job_category?.name
+                      ? selectedItem?.job_category?.name
                       : ''
                   }`}
                 </Typography>
               ) : (
-                <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '16px', marginTop: '5px' }}>
-                  {props.datauser?.role} Account
+                <Typography sx={{ color: '#999', fontSize: '14px', fontWeight: 400 }}>
+                  {props.datauser?.industry?.name}
                 </Typography>
               )}
             </Box>
-            {props.datauser?.role == 'Company' && (
-              <Box sx={{ width: '100%', marginBottom: '20px' }}>
-                {props.datauser?.verified_at == null && documents.length == 0 && (
-                  <Alert
-                    severity='info'
-                    sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}
-                  >
-                    <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
-                      Please Upload your document to verify your company
-                    </Typography>
-                  </Alert>
-                )}
 
-                {props.datauser?.verified_at == null && documents.length > 0 && (
-                  <Alert
-                    severity='info'
-                    sx={{ marginTop: 2, marginBottom: 2, width: '100%', borderRadius: '0px !important' }}
-                  >
-                    <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
-                      Please wait for admin to verify
-                    </Typography>
-                  </Alert>
-                )}
+            {props?.datauser?.role === 'Seafarer' ? (
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderTop: '1px solid #F0F0F0',
+                  borderBottom: '1px solid #F0F0F0'
+                }}
+              >
+                <Box
+                  sx={{
+                    py: '8px',
+                    px: '16px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    borderRight: '1px solid #F0F0F0'
+                  }}
+                >
+                  <Typography sx={{ fontSize: '14px', fontFamily: 700, color: '#2D3436', textAlign: 'center' }}>
+                    {props?.activities?.total_connected}
+                  </Typography>
+                  <Typography sx={{ fontSize: '14px', fontFamily: 400, color: '#999', textAlign: 'center' }}>
+                    Connections
+                  </Typography>
+                </Box>
+                <Box sx={{ py: '8px', px: '16px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <Typography sx={{ fontSize: '14px', fontFamily: 700, color: '#2D3436', textAlign: 'center' }}>
+                    {props?.activities?.total_followed}
+                  </Typography>
+                  <Typography sx={{ fontSize: '14px', fontFamily: 400, color: '#999', textAlign: 'center' }}>
+                    Following
+                  </Typography>
+                </Box>
+              </Box>
+            ) : (
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderTop: '1px solid #F0F0F0',
+                  borderBottom: '1px solid #F0F0F0'
+                }}
+              >
+                <Box
+                  sx={{
+                    py: '8px',
+                    px: '16px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px'
+                  }}
+                >
+                  <Typography sx={{ fontSize: '14px', fontFamily: 700, color: '#2D3436', textAlign: 'center' }}>
+                    {props?.activities?.total_followers || 0}
+                  </Typography>
+                  <Typography sx={{ fontSize: '14px', fontFamily: 400, color: '#999', textAlign: 'center' }}>
+                    Followers
+                  </Typography>
+                </Box>
               </Box>
             )}
 
-            <Divider sx={{ my: 3, borderBottomWidth: '3px' }} />
-            <Box display='flex' justifyContent='left' alignItems='center'>
-              <Link href={resolveEditHref(props.datauser?.role)}>
-                <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '14px', fontWeight: '600', ml: 3 }}>
-                  Edit Profile
-                </Typography>
-              </Link>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '16px' }}>
+              <Typography sx={{ fontSize: '14px', fontWeight: 700, color: '#32497A', cursor: 'pointer' }}>
+                <Link href={resolveEditHref(props.datauser?.role)} style={{ color: 'inherit' }}>
+                  View My Profile
+                </Link>
+              </Typography>
             </Box>
-            <Divider sx={{ my: 3, borderBottomWidth: '3px' }} />
-            <Box display='flex' justifyContent='left' alignItems='center' marginBottom={2}>
-              <Link href={link}>
-                <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '800', ml: 3 }}>
-                  Profile
-                </Typography>
-              </Link>
-            </Box>
-            <Link href='/connections'>
-              <Box display='flex' justifyContent='space-between' alignItems='center' marginBottom={4}>
-                <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '16px', fontWeight: '800', ml: 3 }}>
-                  Connections
-                </Typography>
-                <Typography variant='body2' sx={{ color: '#262525', fontSize: '16px', mr: 3 }}>
-                  {activities?.total_connected}
-                </Typography>
-              </Box>
-            </Link>
           </CardContent>
         </Card>
       </Grid>
