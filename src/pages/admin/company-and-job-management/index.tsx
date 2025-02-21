@@ -110,10 +110,19 @@ const CompanyAndJobManagement = () => {
       throw response.data.message ?? 'Something went wrong!'
     }
 
-    const rows = response.data?.companies.data as ICompanyAndManagement[]
+    let rows = response.data?.companies.data as ICompanyAndManagement[]
     const total = response?.data?.companies.total ?? 0
 
-    const items = rows?.map((row, index) => {
+    //change rows to array if it's object
+    if(!Array.isArray(rows)){
+      const temp : ICompanyAndManagement[] = []
+      for (const value of Object.values(rows)){
+        temp.push(value as ICompanyAndManagement)
+      }
+      rows = temp
+    }
+
+     const items = rows?.map((row, index) => {
       return {
         no: index + 1,
         id: row?.id,
