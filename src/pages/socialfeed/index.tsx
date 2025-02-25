@@ -205,7 +205,7 @@ const SocialFeedApp = () => {
   }, [user])
 
   return (
-    <Box>
+    <Grid container xs={12} md={11} lg={9}>
       {user?.role === 'Company' && show && renderAlertDocumentsForCompany(activities)}
       <Grid container spacing={6}>
         <Grid item xs={12} md={5} lg={3}>
@@ -293,7 +293,7 @@ const SocialFeedApp = () => {
           </Box>
         </Grid>
       </Grid>
-    </Box>
+    </Grid>
   )
 }
 
