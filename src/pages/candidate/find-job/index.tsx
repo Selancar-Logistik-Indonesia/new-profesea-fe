@@ -8,7 +8,6 @@ import {
   Tab,
   useMediaQuery,
   Autocomplete,
-  // TextField,
   Typography,
   Alert,
   AlertTitle,
@@ -31,14 +30,12 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import { Icon } from '@iconify/react'
 import AllJobApplied from './applied'
-// import Degree from 'src/contract/models/degree'
 import JobCategory from 'src/contract/models/job_category'
 import RoleLevel from 'src/contract/models/role_level'
 import City from 'src/contract/models/city'
 import VesselType from 'src/contract/models/vessel_type'
 import JobContext, { JobProvider } from 'src/context/JobContext'
 import { useJob } from 'src/hooks/useJob'
-// import InfiniteScroll from 'react-infinite-scroll-component'
 import RecomendedView from 'src/views/find-job/RecomendedView'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { linkToTitleCase, toLinkCase } from 'src/utils/helpers'
