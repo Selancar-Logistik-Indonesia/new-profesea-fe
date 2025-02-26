@@ -4,6 +4,7 @@ import FieldPreference from './field_preference'
 import Industry from './industry'
 import JobCategory from './job_category'
 import Province from './province'
+import RoleType from './role_type'
 import seafarer_competency from './seafarer_competency'
 import ITeam from './team'
 import VesselType from './vessel_type'
@@ -24,6 +25,8 @@ export interface ILastExperience {
 }
 
 export interface ILastSeaExperience {
+    vessel_type: VesselType
+    rank: RoleType
     id: number
     vessel_name: string
     grt: number

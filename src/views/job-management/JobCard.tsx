@@ -17,18 +17,18 @@ interface StatusCardProps {
   backgroundColor: string
   icon: string
   iconColor: string
-  link?: string
+  tabs: string
   draft: boolean
 }
 
 const StatusCard = (props: StatusCardProps) => {
-  const { id, label, total, backgroundColor, icon, iconColor, draft } = props
+  const { id, label, total, backgroundColor, icon, iconColor, tabs, draft } = props
 
   return (
     <Grid
       item
       component={draft ? 'div' : Link}
-      href={`/company/job/?tabs=2&id=${id}`}
+      href={`/company/job-management/${id}?tabs=${tabs}`}
       sx={{ flexBasis: '33%', p: '16px 20px' }}
       flexDirection='column'
     >
@@ -303,6 +303,7 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
               backgroundColor='#CBE2F9'
               icon='ph:user-check-bold'
               iconColor='#32497A'
+              tabs='all'
               draft={job.is_draft}
             />
             <Divider sx={{ borderWidth: '1px', bgcolor: '#E7E7E7' }} />
@@ -313,6 +314,7 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
               backgroundColor='#D9F2DA'
               icon='ph:files-bold'
               iconColor='#4CAF50'
+              tabs='PR'
               draft={job.is_draft}
             />
             <Divider sx={{ borderWidth: '1px', bgcolor: '#E7E7E7' }} />
@@ -323,6 +325,7 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
               backgroundColor='#FFD9D9'
               icon='ph:thumbs-down-bold'
               iconColor='#FF2222'
+              tabs='RJ'
               draft={job.is_draft}
             />
           </Grid>
