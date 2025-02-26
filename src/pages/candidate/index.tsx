@@ -1,5 +1,5 @@
 // ** React Imports
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 // ** MUI Components
 import {
@@ -36,6 +36,8 @@ import DialogEditBanner from './DialogEditBanner'
 import DialogEditProfile from './DialogEditProfile'
 import WorkExperienceTab from './work-experience-tab/WorkExperienceTab'
 import ProfileCompletionContext, { ProfileCompletionProvider } from 'src/context/ProfileCompletionContext'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 
 type FormData = {
   companyName: string
@@ -151,11 +153,19 @@ const Candidate = () => {
   })
   const [profilePic, setProfilePic] = useState<any>(null)
   const [openUpateProfilePic, setOpenUpdateProfilePic] = useState(false)
-  const [tabsValue, setTabsValue] = useState(0)
+
   const [openEditModalBanner, setOpenEditModalBanner] = useState(false)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [defaultValue, setDefaultValue] = useState(0)
   const open = Boolean(anchorEl)
+
+  const router = useRouter()
+  const pathname = usePathname()
+  const params = useSearchParams()
+  const tabs = Number(params.get('tabs'))
+  const [tabsValue, setTabsValue] = useState<number>(tabs || 0)
+
+  
 
   function Firstload() {
     HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
@@ -264,7 +274,18 @@ const Candidate = () => {
 
   const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
     setTabsValue(newValue)
+    router.push(`${pathname}?${createQueryString('tabs', newValue.toString())}`)
   }
+
+  const createQueryString = useCallback(
+      (name: string, value: string) => {
+        const searchParams = new URLSearchParams(params.toString())
+        searchParams.set(name, value)
+  
+        return searchParams.toString()
+      },
+      [params]
+    )
 
   const handleDownloadResume = () => {
     HttpClient.get(`/user/${selectedUser?.id}/profile/resume`).then(response => {
@@ -552,8 +573,19 @@ const Candidate = () => {
   }
 
   useEffect(() => {
+      if(tabs){
+        setTabsValue(tabs)
+      }
+    }, [tabs])
+
+  useEffect(() => {
     // setOpenPreview(false)
     Firstload()
+
+    //create tabs query string if there is none
+    if (tabs === null || tabs === 0) {
+      router.push(`${pathname}?${createQueryString('tabs', '0')}`)
+    }
   }, [])
 
   return (
