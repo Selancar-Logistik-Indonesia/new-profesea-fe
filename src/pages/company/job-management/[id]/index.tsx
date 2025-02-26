@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Divider, Grid, Link, Typography } from '@mui/material'
+import { Breadcrumbs, Grid, Link, Typography } from '@mui/material'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { MdNavigateNext } from 'react-icons/md'
@@ -10,7 +10,6 @@ import JobCard from 'src/views/job-management/candidate-list/JobCard'
 const CandidateList = () => {
   const params = useSearchParams()
   const jobId = params.get('id')
-  const tabs = params.get('tabs')
 
   const [job, setJob] = useState<Job>()
   const [onLoading, setOnLoading] = useState<boolean>()

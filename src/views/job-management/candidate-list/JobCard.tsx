@@ -22,36 +22,41 @@ const JobCard = ({ job }: { job: Job }) => {
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-        <Box>
-          <Typography
-            sx={{
-              fontSize: 18,
-              fontWeight: 700,
-              textTransform: 'capitalize',
-              display: 'flex',
-              alignItems: 'center',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              lineHeight: 1.3,
-              minHeight: '2.6em',
-              '& > span': {
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                width: '100%'
-              }
-            }}
-          >
-            <span>
-              {job.category.employee_type === 'onship'
-                ? job.role_type?.name ?? 'Unnamed Job'
-                : job.job_title
-                ? job.job_title.toLowerCase()
-                : job.role_type?.name
-                ? job.role_type.name.toLowerCase()
-                : 'Unnamed Job'}
-            </span>
-          </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <Box flexDirection='column'>
+            <Typography
+              sx={{
+                fontSize: 18,
+                fontWeight: 700,
+                textTransform: 'capitalize',
+                display: 'flex',
+                alignItems: 'center',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                lineHeight: 1.3,
+                minHeight: '2.6em',
+                '& > span': {
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  width: '100%'
+                }
+              }}
+            >
+              <span>
+                {job.category.employee_type === 'onship'
+                  ? job.role_type?.name ?? 'Unnamed Job'
+                  : job.job_title
+                  ? job.job_title.toLowerCase()
+                  : job.role_type?.name
+                  ? job.role_type.name.toLowerCase()
+                  : 'Unnamed Job'}
+              </span>
+            </Typography>
+            <Typography
+              sx={{ color: '#868686', fontSize: 14, fontWeight: 600 }}
+            >{`(${job.total_applied} Candidate Applied)`}</Typography>
+          </Box>
           {job.category.employee_type === 'onship' ? (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
@@ -118,7 +123,7 @@ const JobCard = ({ job }: { job: Job }) => {
         >
           <StatusCard
             label='Waiting for Review'
-            total={job.total_applied ?? 0}
+            total={job.total_waiting_review ?? 0}
             backgroundColor='#FFEBCF'
             icon='ph:hourglass-high-bold'
             iconColor='#FE9602'
@@ -126,7 +131,7 @@ const JobCard = ({ job }: { job: Job }) => {
           <Divider sx={{ borderWidth: '1px', bgcolor: '#E7E7E7' }} />
           <StatusCard
             label='CV Reviewed'
-            total={job.total_proceed ?? 0}
+            total={job.total_viewed ?? 0}
             backgroundColor='#CBE2F9'
             icon='fluent:document-checkmark-24-regular'
             iconColor='#32497A'
@@ -134,7 +139,7 @@ const JobCard = ({ job }: { job: Job }) => {
           <Divider sx={{ borderWidth: '1px', bgcolor: '#E7E7E7' }} />
           <StatusCard
             label='Proceed'
-            total={job.total_rejected ?? 0}
+            total={job.total_proceed ?? 0}
             backgroundColor='#D9F2DA'
             icon='ph:files-bold'
             iconColor='#4CAF50'

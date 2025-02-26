@@ -9,7 +9,6 @@ import {
   Link,
   MenuItem,
   Pagination,
-  PaginationItem,
   Select,
   TextField,
   Typography
@@ -215,7 +214,7 @@ const JobManagement = () => {
                   )
                 }}
               />
-              <Box sx={{ width: '230px', display: 'flex', gap: '6px', alignItems: 'center', justifyContent: 'right' }}>
+              <Box sx={{ width: '240px', display: 'flex', gap: '6px', alignItems: 'center', justifyContent: 'right' }}>
                 <Icon icon='ph:funnel' fontSize={16} fontWeight={700} />
                 <Typography sx={{ fontSize: 14, fontWeight: 700 }}>Sort by :</Typography>
                 <Select
@@ -310,7 +309,7 @@ const JobManagement = () => {
                   )}
                 </Grid>
               </Grid>
-              <Box sx={{ flexShrink: 0, display: 'flex', width: '230px', justifyContent: 'right' }}>
+              <Box sx={{ flexShrink: 0, display: 'flex', width: '240px', justifyContent: 'right' }}>
                 <Button
                   onClick={() => clearFilters()}
                   variant='outlined'

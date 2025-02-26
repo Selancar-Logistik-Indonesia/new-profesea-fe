@@ -22,7 +22,6 @@ import {
   IconButton,
   MenuItem,
   Pagination,
-  PaginationItem,
   Paper,
   Popper,
   Select,

@@ -17,8 +17,7 @@ import {
   Tabs,
   Tab,
   Link,
-  Pagination,
-  PaginationItem
+  Pagination
 } from '@mui/material'
 import CandidateContext, { CandidateProvider } from 'src/context/CandidateContext'
 import { useRouter } from 'next/router'
