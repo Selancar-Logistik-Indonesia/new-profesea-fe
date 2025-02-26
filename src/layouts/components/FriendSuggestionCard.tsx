@@ -55,7 +55,6 @@ const renderList = (arr: IUser[]) => {
                 </Typography>
               </Link>
               <Typography sx={{ color: '#949EA2', fontSize: 14 }}>
-                {/* {item.employee_type != 'offship' ? item.role : 'Candidate'} */}
                 {`${
                   item?.employee_type === 'onship'
                     ? item?.field_preference?.role_type?.name
@@ -99,11 +98,11 @@ const FriendSuggestionCard = ({
 
       const resp = await HttpClient.get('/public/data/friendship/suggestion/?' + 'user_id=' + user_id, {
         page: 1,
-        take: location === 'profile' ? 3 : 3
+        take: 3
       })
 
       const { data } = resp.data as { data: IUser[] }
-      console.log('ini data', data)
+
       setIsLoading(false)
       setListFriends(data)
     } catch (error) {

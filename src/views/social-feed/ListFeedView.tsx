@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import { Button, Card, CircularProgress } from '@mui/material'
+import { Button, Card, CircularProgress, useMediaQuery } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import ISocialFeed from 'src/contract/models/social_feed'
 import SocialFeedContext from 'src/context/SocialFeedContext'
@@ -10,6 +10,7 @@ import FeedCard from './FeedCard'
 import { useEffect } from 'react'
 import CenterAd from '../banner-ad/CenterAd'
 import { Icon } from '@iconify/react'
+import { useTheme } from '@mui/material/styles'
 
 const renderList = (feeds: ISocialFeed[]) => {
   const components: JSX.Element[] = []
@@ -60,6 +61,8 @@ const renderList = (feeds: ISocialFeed[]) => {
 
 const ListFeedView = ({ username }: { username?: any }) => {
   const { fetchFeeds, hasNextPage, totalFeed } = useSocialFeed()
+  const Theme = useTheme()
+  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
 
   useEffect(() => {
     fetchFeeds({ take: 7, username })
@@ -76,35 +79,40 @@ const ListFeedView = ({ username }: { username?: any }) => {
           )
         }
 
+        if (isMobile) {
+          return (
+            <>
+              <Grid container>{renderList(feeds)}</Grid>
+              {hasNextPage && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: '20px' }}>
+                  <Button
+                    fullWidth
+                    variant='outlined'
+                    sx={{ textTransform: 'capitalize', display: 'flex', gap: '10px' }}
+                    onClick={() => fetchFeeds({ take: 7, username })}
+                  >
+                    Show More Feeds
+                    <Icon icon={'fe:arrow-down'} />
+                  </Button>
+                </Box>
+              )}
+            </>
+          )
+        }
+
         return (
-          <>
+          <InfiniteScroll
+            dataLength={totalFeed}
+            next={() => fetchFeeds({ take: 7, username })}
+            hasMore={hasNextPage}
+            loader={
+              <Typography mt={5} color={'text.secondary'}>
+                Loading..
+              </Typography>
+            }
+          >
             <Grid container>{renderList(feeds)}</Grid>
-            {hasNextPage && (
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: '20px' }}>
-                <Button
-                  fullWidth
-                  variant='outlined'
-                  sx={{ textTransform: 'capitalize', display: 'flex', gap: '10px' }}
-                  onClick={() => fetchFeeds({ take: 7, username })}
-                >
-                  Show More Feeds
-                  <Icon icon={'fe:arrow-down'} />
-                </Button>
-              </Box>
-            )}
-          </>
-          // <InfiniteScroll
-          //   dataLength={totalFeed}
-          //   next={() => fetchFeeds({ take: 7, username })}
-          //   hasMore={hasNextPage}
-          //   loader={
-          //     <Typography mt={5} color={'text.secondary'}>
-          //       Loading..
-          //     </Typography>
-          //   }
-          // >
-          //   <Grid container>{renderList(feeds)}</Grid>
-          // </InfiniteScroll>
+          </InfiniteScroll>
         )
       }}
     </SocialFeedContext.Consumer>
