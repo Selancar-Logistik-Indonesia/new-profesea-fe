@@ -1,6 +1,9 @@
+import { Icon } from '@iconify/react'
 import {
   Avatar,
   Box,
+  Button,
+  Grid,
   Paper,
   styled,
   Table,
@@ -15,7 +18,9 @@ import {
 import { format } from 'date-fns'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { toast } from 'react-hot-toast'
 import Applicant from 'src/contract/models/applicant'
+import { HttpClient } from 'src/services'
 import { calculateAge, getMonthYear } from 'src/utils/helpers'
 import MenuAction from './MenuAction'
 
@@ -49,9 +54,11 @@ const StatusBox = ({ applicantStatus }: { applicantStatus: 'WR' | 'WD' | 'VD' | 
   }
 
   return (
-    <Box sx={{ backgroundColor: bgColor, p: '4px 6px', borderRadius: '4px' }}>
-      <Typography sx={{ fontSize: 12, color: fontColor }}>{label}</Typography>
-    </Box>
+    <Grid container justifyContent='center'>
+      <Box sx={{ backgroundColor: bgColor, p: '8px 12px', borderRadius: '4px', width: 'fit-content' }}>
+        <Typography sx={{ fontSize: 12, color: fontColor }}>{label}</Typography>
+      </Box>
+    </Grid>
   )
 }
 
@@ -59,6 +66,36 @@ const Candidate = (props: CandidateProps) => {
   const { candidates, refetch } = props
   const params = useSearchParams()
   const tabs = params.get('tabs') ?? 'all'
+
+  const handleViewCV = async (candidate: Applicant) => {
+    if (candidate.status === 'WR') {
+      await handleViewed(candidate)
+    }
+
+    HttpClient.get(`/user/${candidate.user_id}/profile/resume`).then(
+      response => {
+        window.open(`${response.data?.path}`, '_blank', 'noreferrer')
+      },
+      error => {
+        toast.error(`Failed to view candidate CV: ` + error.response.data.message)
+      }
+    )
+  }
+
+  const handleViewed = (candidate: Applicant) => {
+    HttpClient.patch(`/job/appllicant/resume/view`, { applicant_id: candidate.id })
+      .then(
+        async () => {
+          toast.success(`Successfully saved applicant: ${candidate.user.name}`)
+        },
+        error => {
+          toast.error(`Failed to change ${candidate.user.name} status: ` + error.response.data.message)
+
+          return
+        }
+      )
+      .finally(() => refetch())
+  }
 
   return (
     <TableContainer component={Paper} sx={{ overflowX: 'auto', maxWidth: '100%' }}>
@@ -82,7 +119,7 @@ const Candidate = (props: CandidateProps) => {
             </TableCellStyled>
             <TableCellStyled
               align='center'
-              width={80}
+              width={190}
               sx={{
                 position: 'sticky',
                 right: 0,
@@ -223,7 +260,18 @@ const Candidate = (props: CandidateProps) => {
                     boxShadow: 3
                   }}
                 >
-                  <MenuAction candidate={candidate} refetch={refetch} />
+                  <Box sx={{ display: 'flex', gap: '8px' }}>
+                    <Button
+                      variant='outlined'
+                      size='small'
+                      onClick={() => handleViewCV(candidate)}
+                      sx={{ width: 'fit-content', textTransform: 'none' }}
+                    >
+                      <Icon icon='ph:eye' fontSize={22} style={{ marginRight: 8 }} />
+                      <Typography sx={{ fontSize: 12, color: 'inherit' }}>View CV</Typography>
+                    </Button>
+                    <MenuAction candidate={candidate} refetch={refetch} />
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}

@@ -6,16 +6,17 @@ import Job from 'src/contract/models/job'
 import { HttpClient } from 'src/services'
 import CandidateListTabs from 'src/views/job-management/candidate-list/CandidateListTabs'
 import JobCard from 'src/views/job-management/candidate-list/JobCard'
+import { v4 } from 'uuid'
 
 const CandidateList = () => {
   const params = useSearchParams()
   const jobId = params.get('id')
 
   const [job, setJob] = useState<Job>()
-  const [onLoading, setOnLoading] = useState<boolean>()
+  const [onLoading, setOnLoading] = useState<boolean>(false)
+  const [count, setCount] = useState(v4())
 
-  const firstLoad = async () => {
-    setOnLoading(true)
+  const getJobs = async () => {
     await HttpClient.get('/job/' + jobId)
       .then(response => {
         const data = response.data.job
@@ -25,8 +26,13 @@ const CandidateList = () => {
   }
 
   useEffect(() => {
-    firstLoad()
+    setOnLoading(true)
+    getJobs()
   }, [jobId])
+
+  useEffect(() => {
+    getJobs()
+  }, [count])
 
   if (!job || onLoading) return null
 
@@ -73,7 +79,7 @@ const CandidateList = () => {
         <JobCard job={job} />
       </Grid>
       <Grid item xs={11}>
-        <CandidateListTabs job={job} />
+        <CandidateListTabs count={() => setCount(v4())} />
       </Grid>
     </Grid>
   )

@@ -5,7 +5,6 @@ import ns2 from 'src/lang/en.json';
 import localStorageKeys from "./configs/localstorage_keys";
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-
 i18n.use(initReactI18next)
     .init({
         resources: {
