@@ -188,7 +188,7 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
                 <MenuItem
                   component={Link}
                   disabled={job.is_draft}
-                  href={`/company/job/?tabs=1&id=${job.id}`}
+                  href={`/company/job/${job.id}`}
                   sx={{ color: '#428FDC' }}
                 >
                   <Icon icon='tabler:eye-filled' fontSize={20} style={{ marginRight: 8 }} />

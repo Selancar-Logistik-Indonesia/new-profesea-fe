@@ -25,6 +25,8 @@ const JobCard = ({ job }: { job: Job }) => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <Box flexDirection='column'>
             <Typography
+              component='a'
+              href={`/company/job/${job.id}`}
               sx={{
                 fontSize: 18,
                 fontWeight: 700,
@@ -35,6 +37,7 @@ const JobCard = ({ job }: { job: Job }) => {
                 textOverflow: 'ellipsis',
                 lineHeight: 1.3,
                 minHeight: '2.6em',
+                textDecoration: 'underline',
                 '& > span': {
                   display: '-webkit-box',
                   WebkitLineClamp: 2,
