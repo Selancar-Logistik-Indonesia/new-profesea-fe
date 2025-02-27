@@ -31,7 +31,7 @@ const tabItems = [
   { label: 'Candidate List', value: 'all' },
   { label: 'Waiting to Review', value: 'WR' },
   { label: 'CV Reviewed', value: 'VD' },
-  { label: 'Proceed', value: 'AP' },
+  { label: 'Proceed', value: 'PR' },
   { label: 'Completed', value: 'completed' }
 ]
 
@@ -40,10 +40,10 @@ const completedTabs = [
   { label: 'Not Suitable', value: 'RJ' }
 ]
 
-const CandidateListTabs = ({ job }: { job: Job }) => {
+const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
   const params = useSearchParams()
   const tabStatus = params.get('tabs')
-  const id = params.get('id')
+  const jobId = params.get('id')
   const router = useRouter()
 
   const [refetch, setRefetch] = useState(v4())
@@ -64,7 +64,7 @@ const CandidateListTabs = ({ job }: { job: Job }) => {
   const [vesselTypeFilter, setVesselTypeFilter] = useState<VesselType | null>(null)
 
   const firstLoad = async () => {
-    await HttpClient.get(`${AppConfig.baseUrl}/job/${job.id}/appllicants`, {
+    await HttpClient.get(`${AppConfig.baseUrl}/job/${jobId}/appllicants`, {
       page,
       take: pageItems,
       status: tabs === 'all' ? statusFilter : tabs === 'completed' ? statusFilter : tabs,
@@ -89,8 +89,8 @@ const CandidateListTabs = ({ job }: { job: Job }) => {
     setIsLoading(true)
     firstLoad()
 
-    if (id) {
-      const updatedPathname = `/company/job-management/${id}`
+    if (jobId) {
+      const updatedPathname = `/company/job-management/${jobId}`
       const newQuery = new URLSearchParams(params.toString())
 
       newQuery.delete('id')
@@ -128,6 +128,10 @@ const CandidateListTabs = ({ job }: { job: Job }) => {
     setVesselTypeFilter(null)
     setPage(1)
   }
+
+  useEffect(() => {
+    count()
+  }, [refetch])
 
   return (
     <Box

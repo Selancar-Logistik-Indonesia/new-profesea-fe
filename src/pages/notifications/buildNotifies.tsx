@@ -58,7 +58,11 @@ const buildNotifies = (e: INotification) => {
       avatarAlt: e.data.candidate.name,
       title: e.data.candidate.name,
       avatarIcon: e?.data?.candidate?.photo,
-      subtitle: `applied for ${e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name}.`,
+      subtitle: `applied for ${
+        e.data.job.category?.employee_type == 'onship'
+          ? e.data.job.role_type.name ?? ''
+          : e.data.job.job_title ?? e.data.job.role_type.name
+      }.`,
       type: e.type,
       read_at: e.read_at,
       data: e.data
@@ -165,7 +169,7 @@ const buildNotifies = (e: INotification) => {
       subtitle: (
         <span>
           Your Application for
-          {e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName} – Rejected
+          {e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName} - Rejected
         </span>
       ),
       type: e.type,
@@ -184,7 +188,7 @@ const buildNotifies = (e: INotification) => {
       subtitle: (
         <span>
           Your Application for
-          {e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName} – Approved
+          {e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName} - Approved
         </span>
       ),
       type: e.type,
