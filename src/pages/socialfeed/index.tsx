@@ -39,7 +39,7 @@ const SocialFeedApp = () => {
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const { user } = useAuth()
   const [show, setShow] = useState(true)
-  const [documents, setDocuments] = useState<any[]>([])
+  // const [documents, setDocuments] = useState<any[]>([])
   const [activities, getActivities] = useState<activities>()
 
   const handleRouterPushUploadDocument = () => {
@@ -99,7 +99,7 @@ const SocialFeedApp = () => {
       )
     }
 
-    if (user?.verified_at == null && documents.length > 0) {
+    if (user?.verified_at == null && user?.documents && user?.documents.length > 0) {
       return (
         <Box
           sx={{
@@ -141,7 +141,7 @@ const SocialFeedApp = () => {
       )
     }
 
-    if (user?.verified_at == null && documents.length == 0) {
+    if (user?.verified_at == null && user?.documents && user?.documents.length == 0) {
       return (
         <Box
           sx={{
@@ -193,10 +193,10 @@ const SocialFeedApp = () => {
   }
 
   useEffect(() => {
-    HttpClient.get(AppConfig.baseUrl + '/user/candidate-document').then(response => {
-      const documents = response.data.documents
-      setDocuments(documents)
-    })
+    // HttpClient.get(AppConfig.baseUrl + '/user/candidate-document').then(response => {
+    //   const documents = response.data.documents
+    //   setDocuments(documents)
+    // })
 
     HttpClient.get('/user/statistics?user_id=' + user?.id).then(response => {
       const code = response.data
