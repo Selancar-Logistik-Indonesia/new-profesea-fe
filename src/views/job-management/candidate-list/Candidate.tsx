@@ -221,9 +221,9 @@ const Candidate = (props: CandidateProps) => {
                       </Typography>
                       <Typography sx={{ color: '#666', fontSize: 14, fontWeight: 400, whiteSpace: 'nowrap' }}>
                         {`${getMonthYear(candidate.user.last_experience.start_date, true) ?? '-'} - ${
-                          candidate.user.last_experience?.still_here
+                          candidate.user.last_experience?.still_here === 1
                             ? 'Present'
-                            : getMonthYear(candidate.user.last_experience.end_date, true)
+                            : getMonthYear(candidate.user.last_experience.end_date, true) ?? 'Present'
                         }`}
                       </Typography>
                     </Box>
@@ -240,10 +240,10 @@ const Candidate = (props: CandidateProps) => {
                   ) : (
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
                       <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap' }}>
-                        {candidate.user.last_education.degree}
+                        {candidate.user.last_education.major}
                       </Typography>
                       <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400, whiteSpace: 'nowrap' }}>
-                        {candidate.user.last_education.title}
+                        {candidate.user.last_education.title}, {candidate.user.last_education.degree}
                       </Typography>
                       <Typography sx={{ color: '#666', fontSize: 14, fontWeight: 400, whiteSpace: 'nowrap' }}>
                         {`${getMonthYear(candidate.user.last_education.start_date, true) ?? '-'} - ${
