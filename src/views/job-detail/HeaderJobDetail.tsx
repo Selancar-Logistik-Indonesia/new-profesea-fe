@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react'
 import { Box, Button, Grid, Typography } from '@mui/material'
+import Link from 'next/link'
 import React from 'react'
 import Job from 'src/contract/models/job'
 import ShareArea from 'src/pages/candidate/job/ShareArea'
@@ -8,9 +9,10 @@ interface IHeaderJobDetailProps {
   jobDetail: Job | null
   onApplied?: boolean
   handleApply?: () => void
+  isCompany?: boolean
 }
 
-const HeaderJobDetail: React.FC<IHeaderJobDetailProps> = ({ jobDetail, onApplied, handleApply }) => {
+const HeaderJobDetail: React.FC<IHeaderJobDetailProps> = ({ jobDetail, onApplied, handleApply, isCompany }) => {
   const shareUrl = window.location.href
 
   return (
@@ -24,24 +26,36 @@ const HeaderJobDetail: React.FC<IHeaderJobDetailProps> = ({ jobDetail, onApplied
         borderBottom: theme => `1px solid ${theme.palette.divider}`
       }}
     >
-      <Box sx={{ width: '70%' }}>
-        <Grid container>
-          <Grid item xs={12}>
-            {jobDetail?.category?.employee_type == 'onship' ? (
-              <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={25}>
-                <strong>{jobDetail?.role_type?.name}</strong>
-              </Typography>
-            ) : (
-              <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={25}>
-                <strong>{jobDetail?.job_title ?? jobDetail?.role_type?.name ?? '-'}</strong>
-              </Typography>
-            )}
-            <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>
-              {jobDetail?.company?.name} | {jobDetail?.city?.city_name}, {jobDetail?.country?.name}
+      <Grid item container xs={12} justifyContent='space-between'>
+        <Box flexDirection='column'>
+          {jobDetail?.category?.employee_type == 'onship' ? (
+            <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={25}>
+              <strong>{jobDetail?.role_type?.name}</strong>
             </Typography>
-          </Grid>
-        </Grid>
-      </Box>
+          ) : (
+            <Typography ml='0.7rem' mt='0.2rem' sx={{ fontWeight: 'bold', color: '#0a66c2' }} fontSize={25}>
+              <strong>{jobDetail?.job_title ?? jobDetail?.role_type?.name ?? '-'}</strong>
+            </Typography>
+          )}
+          <Typography sx={{ color: 'text.primary' }} ml='0.7rem' mt='0.2rem' fontSize={12}>
+            {jobDetail?.company?.name} | {jobDetail?.city?.city_name}, {jobDetail?.country?.name}
+          </Typography>
+        </Box>
+        {isCompany === true && (
+          <Box alignContent='center'>
+            <Button
+              component={Link}
+              href={`/company/job-management/${jobDetail?.id}/?tabs=all`}
+              variant='contained'
+              size='small'
+              endIcon={<Icon icon='mdi:chevron-right' />}
+              sx={{ textTransform: 'none' }}
+            >
+              Candidate List
+            </Button>
+          </Box>
+        )}
+      </Grid>
       {onApplied != undefined && (
         <Box sx={{ width: '30%' }}>
           <Grid container spacing={2}>

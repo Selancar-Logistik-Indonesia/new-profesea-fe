@@ -140,9 +140,7 @@ const HorizontalLayout = (props: LayoutProps) => {
             ...(contentWidth === 'boxed' && {
               mx: 'auto',
               '@media (min-width:1440px)': { maxWidth: 1640 },
-              '@media (min-width:1600px)': { maxWidth: '100%' },
-              display: 'flex',
-              justifyContent: 'center'
+              '@media (min-width:1600px)': { maxWidth: '100%' }
             })
           }}
         >

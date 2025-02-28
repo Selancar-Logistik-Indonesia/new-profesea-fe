@@ -205,92 +205,94 @@ const SocialFeedApp = () => {
   }, [user])
 
   return (
-    <Grid container xs={12} md={11} lg={9}>
-      {user?.role === 'Company' && show && renderAlertDocumentsForCompany(activities)}
-      <Grid container spacing={6}>
-        <Grid item xs={12} md={5} lg={3}>
-          <Box>
-            <Profile datauser={user} activities={activities} />
-          </Box>
-        </Grid>
-        <Grid item xs={12} md={7} lg={6}>
-          <Grid container spacing={6}>
-            <Grid item xs={12}>
-              <Postfeed />
-              <ListFeedView />
+    <Grid container justifyContent='center'>
+      <Grid item xs={12} md={11}>
+        {user?.role === 'Company' && show && renderAlertDocumentsForCompany(activities)}
+        <Grid container spacing={6}>
+          <Grid item xs={12} md={5} lg={3}>
+            <Box>
+              <Profile datauser={user} activities={activities} />
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={7} lg={6}>
+            <Grid container spacing={6}>
+              <Grid item xs={12}>
+                <Postfeed />
+                <ListFeedView />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12} lg={3}>
-          {/* <Box>
+          <Grid item xs={12} lg={3}>
+            {/* <Box>
             <ProfileViewerCard />
           </Box> */}
-          <Card>
-            <FriendSuggestionCard location='home' />
-          </Card>
-          <Box my={4} sx={{ position: 'sticky', top: '70px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <SideAd adslocation='home-page' />
-            <Box
-              sx={{
-                my: '24px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '24px'
-              }}
-            >
-              <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '16px' }}>
-                <LinkStyled href={'/news'}>
-                  <Typography sx={{ color: '#525252', fontSize: 14, fontWeight: 400 }}>
-                    {t('landing_footer_menu_10')}
-                  </Typography>
-                </LinkStyled>
-                <LinkStyled href={'/term'}>
-                  <Typography sx={{ color: '#525252', fontSize: 14, fontWeight: 400 }}>
-                    {t('landing_footer_menu_3')}
-                  </Typography>
-                </LinkStyled>
-              </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '16px' }}>
-                <LinkStyled href={'/privacy'}>
-                  <Typography sx={{ color: '#525252', fontSize: 14, fontWeight: 400 }}>
-                    {t('landing_footer_menu_4')}
-                  </Typography>
-                </LinkStyled>
-                <LinkStyled href={'/faqs'}>
-                  <Typography sx={{ color: '#525252', fontSize: 14, fontWeight: 400 }}>
-                    {t('landing_footer_menu_5')}
-                  </Typography>
-                </LinkStyled>
-              </Box>
-              <Box sx={{ display: 'flex', flexDirection: 'row', gap: '4px', justifyContent: 'center' }}>
-                <IconButton href='https://www.facebook.com/profesea.id' target='_blank'>
-                  <Icon icon='ph:facebook-logo' color='#303030' />
-                </IconButton>
-                <IconButton href='https://www.instagram.com/profesea_id' target='_blank'>
-                  <Icon icon='ph:instagram-logo' color='#303030' />
-                </IconButton>
-                <IconButton href='https://www.linkedin.com/company/profesea-indonesia/' target='_blank'>
-                  <Icon icon='ph:linkedin-logo' color='#303030' />
-                </IconButton>
-                <IconButton href='https://www.tiktok.com/@profesea_id' target='_blank'>
-                  <Icon icon='ph:tiktok-logo' color='#303030' />
-                </IconButton>
-              </Box>
-              <Box sx={{ display: 'flex', flexDirection: 'row', gap: '12px', justifyContent: 'center' }}>
-                <Box
-                  component='img'
-                  sx={{ width: 85 }}
-                  alt='The Profesea logo'
-                  title='Profesea'
-                  src='/images/logoprofesea.png'
-                />
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '4px' }}>
-                  <Icon icon='ph:copyright' fontSize={14} />
-                  <Typography sx={{ color: '#525252', fontSize: '12px', fontWeight: 400 }}>2024 Profesea.</Typography>
+            <Card>
+              <FriendSuggestionCard location='home' />
+            </Card>
+            <Box my={4} sx={{ position: 'sticky', top: '70px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              <SideAd adslocation='home-page' />
+              <Box
+                sx={{
+                  my: '24px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '24px'
+                }}
+              >
+                <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '16px' }}>
+                  <LinkStyled href={'/news'}>
+                    <Typography sx={{ color: '#525252', fontSize: 14, fontWeight: 400 }}>
+                      {t('landing_footer_menu_10')}
+                    </Typography>
+                  </LinkStyled>
+                  <LinkStyled href={'/term'}>
+                    <Typography sx={{ color: '#525252', fontSize: 14, fontWeight: 400 }}>
+                      {t('landing_footer_menu_3')}
+                    </Typography>
+                  </LinkStyled>
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '16px' }}>
+                  <LinkStyled href={'/privacy'}>
+                    <Typography sx={{ color: '#525252', fontSize: 14, fontWeight: 400 }}>
+                      {t('landing_footer_menu_4')}
+                    </Typography>
+                  </LinkStyled>
+                  <LinkStyled href={'/faqs'}>
+                    <Typography sx={{ color: '#525252', fontSize: 14, fontWeight: 400 }}>
+                      {t('landing_footer_menu_5')}
+                    </Typography>
+                  </LinkStyled>
+                </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'row', gap: '4px', justifyContent: 'center' }}>
+                  <IconButton href='https://www.facebook.com/profesea.id' target='_blank'>
+                    <Icon icon='ph:facebook-logo' color='#303030' />
+                  </IconButton>
+                  <IconButton href='https://www.instagram.com/profesea_id' target='_blank'>
+                    <Icon icon='ph:instagram-logo' color='#303030' />
+                  </IconButton>
+                  <IconButton href='https://www.linkedin.com/company/profesea-indonesia/' target='_blank'>
+                    <Icon icon='ph:linkedin-logo' color='#303030' />
+                  </IconButton>
+                  <IconButton href='https://www.tiktok.com/@profesea_id' target='_blank'>
+                    <Icon icon='ph:tiktok-logo' color='#303030' />
+                  </IconButton>
+                </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'row', gap: '12px', justifyContent: 'center' }}>
+                  <Box
+                    component='img'
+                    sx={{ width: 85 }}
+                    alt='The Profesea logo'
+                    title='Profesea'
+                    src='/images/logoprofesea.png'
+                  />
+                  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '4px' }}>
+                    <Icon icon='ph:copyright' fontSize={14} />
+                    <Typography sx={{ color: '#525252', fontSize: '12px', fontWeight: 400 }}>2024 Profesea.</Typography>
+                  </Box>
                 </Box>
               </Box>
             </Box>
-          </Box>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

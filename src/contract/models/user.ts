@@ -4,6 +4,7 @@ import FieldPreference from './field_preference'
 import Industry from './industry'
 import JobCategory from './job_category'
 import Province from './province'
+import RoleType from './role_type'
 import seafarer_competency from './seafarer_competency'
 import ITeam from './team'
 import VesselType from './vessel_type'
@@ -24,19 +25,21 @@ export interface ILastExperience {
 }
 
 export interface ILastSeaExperience {
-  id: number
-  vessel_name: string
-  grt: number
-  dwt: number
-  me_power: number
-  company: string
-  sign_in: string | null
-  sign_off: string | null
-  created_at: string
-  updated_at: string
-  user_id: number
-  rank_id: number | null
-  vessel_type_id: number | null
+    vessel_type: VesselType
+    rank: RoleType
+    id: number
+    vessel_name: string
+    grt: number
+    dwt: number
+    me_power: number
+    company: string
+    sign_in: string | null
+    sign_off: string | null
+    created_at: string
+    updated_at: string
+    user_id: number
+    rank_id: number | null
+    vessel_type_id: number | null
 }
 
 export interface ILastEducation {

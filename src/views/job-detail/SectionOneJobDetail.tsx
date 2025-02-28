@@ -3,6 +3,7 @@ import { Box, Grid, Typography } from '@mui/material'
 import { format } from 'date-fns'
 import React from 'react'
 import Job from 'src/contract/models/job'
+import { renderSalary } from 'src/utils/helpers'
 
 interface ISectionOneJobDetailProps {
   jobDetail: Job | null
@@ -118,13 +119,8 @@ const SectionOneJobDetail: React.FC<ISectionOneJobDetailProps> = ({ jobDetail })
           </Grid>
           <Grid item xs={11} flexDirection='column'>
             <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-              {`${jobDetail?.salary_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${jobDetail?.currency}`}
+              {renderSalary(jobDetail?.salary_start, jobDetail?.salary_end, jobDetail?.currency as string)}
             </Typography>
-            {jobDetail?.salary_end !== null && jobDetail?.salary_end !== jobDetail?.salary_start && (
-              <Typography sx={{ color: 'text.primary' }} ml='0.5rem' mt='0.2rem' fontSize={12}>
-                {` - ${jobDetail?.salary_end?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} ${jobDetail?.currency}`}
-              </Typography>
-            )}
           </Grid>
         </Grid>
       )}
