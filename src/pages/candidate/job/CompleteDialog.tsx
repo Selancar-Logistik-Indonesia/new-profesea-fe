@@ -39,7 +39,13 @@ const CompleteDialog = (props: ViewProps) => {
         throw new Error(resp.data.message ?? 'Something went wrong!')
       }
 
-      toast.success(`${props.selectedItem?.role_type?.name} applied successfully!`)
+      toast.success(
+        `${
+          props.selectedItem?.category.employee_type === 'onship'
+            ? props.selectedItem?.role_type?.name
+            : props.selectedItem?.job_title ?? props.selectedItem?.role_type?.name
+        } applied successfully!`
+      )
       props.setApply(true)
       setOnLoading(false)
       props.onClose()

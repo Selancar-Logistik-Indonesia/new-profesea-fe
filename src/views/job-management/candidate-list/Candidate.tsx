@@ -18,6 +18,7 @@ import {
 import { format } from 'date-fns'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 import { toast } from 'react-hot-toast'
 import Applicant from 'src/contract/models/applicant'
 import { HttpClient } from 'src/services'
@@ -63,9 +64,21 @@ const StatusBox = ({ applicantStatus }: { applicantStatus: 'WR' | 'WD' | 'VD' | 
 }
 
 const Candidate = (props: CandidateProps) => {
-  const { candidates, refetch } = props
+  const router = useRouter()
   const params = useSearchParams()
+  const jobId = params.get('id')
   const tabs = params.get('tabs') ?? 'all'
+  const { candidates, refetch } = props
+
+  const changeParams = (params?: string) => {
+    if (!params) return
+    const updatedPathname = `/company/job-management/${jobId}`
+    const newQuery = new URLSearchParams(params.toString())
+
+    newQuery.delete('id')
+    newQuery.set('tabs', params)
+    router.replace(`${updatedPathname}?${newQuery.toString()}`, undefined, { shallow: true, scroll: false })
+  }
 
   const handleViewCV = async (candidate: Applicant) => {
     if (candidate.status === 'WR') {
@@ -94,7 +107,7 @@ const Candidate = (props: CandidateProps) => {
           return
         }
       )
-      .finally(() => refetch())
+      .finally(() => changeParams('VD'))
   }
 
   return (
@@ -102,7 +115,9 @@ const Candidate = (props: CandidateProps) => {
       <Table sx={{ minWidth: 1500 }}>
         <TableHead>
           <TableRow>
-            <TableCellStyled align='center'>Name</TableCellStyled>
+            <TableCellStyled align='center' width={300}>
+              Name
+            </TableCellStyled>
             <TableCellStyled align='center'>Email</TableCellStyled>
             <TableCellStyled align='center'>Last Experience</TableCellStyled>
             <TableCellStyled align='center' width={160}>
@@ -270,7 +285,7 @@ const Candidate = (props: CandidateProps) => {
                       <Icon icon='ph:eye' fontSize={22} style={{ marginRight: 8 }} />
                       <Typography sx={{ fontSize: 12, color: 'inherit' }}>View CV</Typography>
                     </Button>
-                    <MenuAction candidate={candidate} refetch={refetch} />
+                    <MenuAction candidate={candidate} refetch={refetch} changeParams={changeParams} />
                   </Box>
                 </TableCell>
               </TableRow>

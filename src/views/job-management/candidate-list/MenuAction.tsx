@@ -7,7 +7,15 @@ import { HttpClient } from 'src/services'
 import ProceedDialog from './ProceedDialog'
 import RejectDialog from './RejectDialog'
 
-const MenuAction = ({ candidate, refetch }: { candidate: Applicant; refetch: VoidFunction }) => {
+const MenuAction = ({
+  candidate,
+  refetch,
+  changeParams
+}: {
+  candidate: Applicant
+  refetch: VoidFunction
+  changeParams: (value?: string) => void
+}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const [openRejectApplicant, setOpenRejectReasonApplicant] = useState(false)
@@ -56,36 +64,6 @@ const MenuAction = ({ candidate, refetch }: { candidate: Applicant; refetch: Voi
     window.open(whatsappUrl, '_blank')
   }
 
-  const handleViewCV = async () => {
-    if (candidate.status === 'WR') {
-      await handleViewed()
-    }
-
-    HttpClient.get(`/user/${candidate.user_id}/profile/resume`).then(
-      response => {
-        window.open(`${response.data?.path}`, '_blank', 'noreferrer')
-      },
-      error => {
-        toast.error(`Failed to view candidate CV: ` + error.response.data.message)
-      }
-    )
-  }
-
-  const handleViewed = () => {
-    HttpClient.patch(`/job/appllicant/resume/view`, { applicant_id: candidate.id })
-      .then(
-        async () => {
-          toast.success(`Successfully saved applicant: ${candidate.user.name}`)
-        },
-        error => {
-          toast.error(`Failed to change ${candidate.user.name} status: ` + error.response.data.message)
-
-          return
-        }
-      )
-      .finally(() => refetch())
-  }
-
   return (
     <>
       <IconButton onClick={handleOpen}>
@@ -98,10 +76,6 @@ const MenuAction = ({ candidate, refetch }: { candidate: Applicant; refetch: Voi
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={() => handleViewCV()} sx={{ color: '#428FDC' }}>
-          <Icon icon='ph:eye' fontSize={20} style={{ marginRight: 8 }} />
-          View CV
-        </MenuItem>
         {(candidate.status === 'WR' || candidate.status === 'VD') && (
           <MenuItem onClick={() => setOpenProceedApplicant(true)} sx={{ color: '#4CAF50' }}>
             <Icon icon='ph:check-bold' fontSize={20} style={{ marginRight: 8 }} />
@@ -140,7 +114,7 @@ const MenuAction = ({ candidate, refetch }: { candidate: Applicant; refetch: Voi
           candidate={candidate}
           visible={openRejectApplicant}
           onCloseClick={() => setOpenRejectReasonApplicant(false)}
-          refetch={refetch}
+          changeParams={changeParams}
         />
       )}
       {openProceedApplicant && (
@@ -148,7 +122,7 @@ const MenuAction = ({ candidate, refetch }: { candidate: Applicant; refetch: Voi
           candidate={candidate}
           visible={openProceedApplicant}
           onCloseClick={() => setOpenProceedApplicant(false)}
-          refetch={refetch}
+          changeParams={changeParams}
         />
       )}
     </>

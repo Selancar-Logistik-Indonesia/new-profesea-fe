@@ -27,11 +27,11 @@ type DialogProps = {
   candidate: Applicant
   visible: boolean
   onCloseClick: VoidFunction
-  refetch: VoidFunction
+  changeParams: (value?: string) => void
 }
 
 const ProceedDialog = (props: DialogProps) => {
-  const { candidate, visible, onCloseClick, refetch } = props
+  const { candidate, visible, onCloseClick, changeParams } = props
   const [onLoading, setOnLoading] = useState(false)
 
   const handleProceed = async () => {
@@ -50,7 +50,7 @@ const ProceedDialog = (props: DialogProps) => {
       .finally(async () => {
         setOnLoading(false)
         await onCloseClick()
-        refetch()
+        changeParams(candidate.status === 'PR' ? 'AP' : 'PR')
       })
   }
 

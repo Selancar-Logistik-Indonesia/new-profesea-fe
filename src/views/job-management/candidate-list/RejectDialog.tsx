@@ -32,11 +32,11 @@ type DialogProps = {
   candidate: Applicant
   visible: boolean
   onCloseClick: VoidFunction
-  refetch: VoidFunction
+  changeParams: (value?: string) => void
 }
 
 const RejectDialog = (props: DialogProps) => {
-  const { candidate, visible, onCloseClick, refetch } = props
+  const { candidate, visible, onCloseClick, changeParams } = props
   const [rejectReasons, getRejectReasons] = useState<Reject_Reason[] | null>(null)
   const [onLoading, setOnLoading] = useState(false)
 
@@ -67,7 +67,7 @@ const RejectDialog = (props: DialogProps) => {
       .finally(async () => {
         setOnLoading(false)
         await onCloseClick()
-        refetch()
+        changeParams('RJ')
       })
   }
 
