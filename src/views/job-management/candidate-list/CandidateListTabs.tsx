@@ -63,10 +63,11 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
   const [vesselTypeFilter, setVesselTypeFilter] = useState<VesselType | null>(null)
 
   const firstLoad = async () => {
+    const statusParam = tabs === 'all' ? statusFilter : tabs === 'completed' ? statusFilter : tabs
     await HttpClient.get(`${AppConfig.baseUrl}/job/${jobId}/appllicants`, {
       page,
       take: pageItems,
-      status: tabs === 'all' ? statusFilter : tabs === 'completed' ? statusFilter : tabs,
+      status: statusParam,
       vesseltype_id: vesselTypeFilter?.id,
       city_id: cityFilter?.id
     }).then(response => {
@@ -104,8 +105,10 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
 
   useEffect(() => {
     clearFilters()
-    if (tabs === 'completed' && tabStatus !== 'RJ') {
-      setStatusFilter('AP')
+    if (tabs === 'completed') {
+      if (tabStatus !== 'RJ') {
+        setStatusFilter('AP')
+      }
     }
   }, [tabs])
 

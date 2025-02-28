@@ -62,6 +62,7 @@ interface Job {
     total_viewed: number
     total_proceed?: number
     total_rejected?: number
+    total_hired?: number
 
     job_save?: null | IJobSave
 }

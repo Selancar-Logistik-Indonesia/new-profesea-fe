@@ -143,17 +143,17 @@ const JobCard = ({ job }: { job: Job }) => {
           <StatusCard
             label='Proceed'
             total={job.total_proceed ?? 0}
-            backgroundColor='#D9F2DA'
+            backgroundColor='#CBE2F9'
             icon='ph:files-bold'
-            iconColor='#4CAF50'
+            iconColor='#0B58A6'
           />
           <Divider sx={{ borderWidth: '1px', bgcolor: '#E7E7E7' }} />
           <StatusCard
-            label='Not Suitable'
-            total={job.total_rejected ?? 0}
-            backgroundColor='#FFD9D9'
-            icon='ph:thumbs-down-bold'
-            iconColor='#FF2222'
+            label='Hired'
+            total={job.total_hired ?? 0}
+            backgroundColor='#D9F2DA'
+            icon='ph:thumbs-up-bold'
+            iconColor='#4CAF50'
           />
         </Box>
       </Box>
