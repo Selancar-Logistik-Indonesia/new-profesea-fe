@@ -8,7 +8,6 @@ import {
   Tab,
   useMediaQuery,
   Autocomplete,
-  // TextField,
   Typography,
   Alert,
   AlertTitle,
@@ -17,13 +16,10 @@ import {
   ToggleButton,
   InputAdornment,
   FormControl,
-  // InputLabel,
   Select,
   MenuItem,
   Button,
-  Pagination,
-  PaginationItem
-  // Tooltip
+  Pagination
 } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import { Grid } from '@mui/material'
@@ -34,17 +30,15 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import { Icon } from '@iconify/react'
 import AllJobApplied from './applied'
-// import Degree from 'src/contract/models/degree'
 import JobCategory from 'src/contract/models/job_category'
 import RoleLevel from 'src/contract/models/role_level'
 import City from 'src/contract/models/city'
 import VesselType from 'src/contract/models/vessel_type'
 import JobContext, { JobProvider } from 'src/context/JobContext'
 import { useJob } from 'src/hooks/useJob'
-// import InfiniteScroll from 'react-infinite-scroll-component'
 import RecomendedView from 'src/views/find-job/RecomendedView'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { linkToTitleCase } from 'src/utils/helpers'
+import { linkToTitleCase, toLinkCase } from 'src/utils/helpers'
 import RoleType from 'src/contract/models/role_type'
 import { useRouter } from 'next/router'
 import themeConfig from 'src/configs/themeConfig'
@@ -52,6 +46,8 @@ import { useTranslation } from 'react-i18next'
 import JobSaved from './saved'
 import JobArchived from './archived'
 import Image from 'next/image'
+import CustomPaginationItem from 'src/@core/components/pagination/item'
+import Link from 'next/link'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -72,36 +68,6 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
     </div>
-  )
-}
-
-const CustomPaginationItem = (props: any) => {
-  const { selected, ...other } = props
-
-  return (
-    <PaginationItem
-      {...other}
-      sx={{
-        ...(selected
-          ? {
-              backgroundColor: '#32497A',
-              color: '#FFFFFF',
-              '&:hover': {
-                backgroundColor: '#32497A'
-              }
-            }
-          : {
-              backgroundColor: '#DDDDDD',
-              color: '#000000',
-              '&:hover': {
-                backgroundColor: '#CCCCCC'
-              }
-            }),
-        fontWeight: 300,
-        borderRadius: '4px',
-        margin: '0 2px'
-      }}
-    />
   )
 }
 
@@ -154,6 +120,8 @@ const SeafarerJobApp = () => {
   const [employmentType, setEmplymentType] = useState<any>()
   const [workArrangement, setWorkArrangement] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState('dsc')
+
+  const link = `${user?.role === 'Seafarer' ? '/profile' : '/company'}/${toLinkCase(user?.username)}`
 
   const handleEmployeeType = () => {
     if (employeeType === 'onship') {
@@ -428,10 +396,6 @@ const SeafarerJobApp = () => {
                         gap: '24px'
                       }}
                     >
-                      <Alert severity='info' color='warning'>
-                        <AlertTitle>Find & Apply to Your Dream Job</AlertTitle>
-                        Based on <strong>your profile</strong> and <strong>experience</strong>
-                      </Alert>
                       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                         <ToggleButtonGroup
                           fullWidth
@@ -668,6 +632,43 @@ const SeafarerJobApp = () => {
                       </Box>
                     </Box>
                   </Grid>
+                  <Box px={5} pb={5}>
+                    <Alert
+                      icon={<Icon icon='ph:magnifying-glass' fontSize={32} color='#5D3FD3' />}
+                      sx={{
+                        backgroundColor: '#F9F1FF',
+                        color: '#303030',
+                        fontWeight: '400',
+                        fontSize: '14px ',
+                        border: '1px solid #5D3FD3',
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <AlertTitle sx={{ color: '#5D3FD3 !important', fontSize: '14px !important', fontWeight: '700' }}>
+                        Temukan & Lamar Pekerjaan Impian
+                      </AlertTitle>
+                      Sesuai dengan{' '}
+                      <Link href={link}>
+                        <Typography
+                          variant='body2'
+                          sx={{ fontWeight: '700', color: '#32497A', display: 'inline-block' }}
+                        >
+                          profil
+                        </Typography>
+                      </Link>{' '}
+                      dan{' '}
+                      <Link href={`/candidate/?tabs=${user.employee_type === 'onship' ? '3' : '2'}`}>
+                        <Typography
+                          variant='body2'
+                          sx={{ fontWeight: '700', color: '#32497A', display: 'inline-block' }}
+                        >
+                          pengalaman
+                        </Typography>
+                      </Link>{' '}
+                      anda.
+                    </Alert>
+                  </Box>
                   <Box px={5} pb={5}>
                     <Grid container spacing={2}>
                       <Grid item xs={12} sx={!hidden ? { alignItems: 'stretch' } : {}}>

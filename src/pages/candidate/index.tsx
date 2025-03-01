@@ -1,5 +1,5 @@
 // ** React Imports
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 // ** MUI Components
 import {
@@ -36,6 +36,8 @@ import DialogEditBanner from './DialogEditBanner'
 import DialogEditProfile from './DialogEditProfile'
 import WorkExperienceTab from './work-experience-tab/WorkExperienceTab'
 import ProfileCompletionContext, { ProfileCompletionProvider } from 'src/context/ProfileCompletionContext'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 
 type FormData = {
   companyName: string
@@ -57,6 +59,12 @@ interface TabPanelProps {
   dir?: string
   index: number
   value: number
+}
+
+
+
+const getCpText = (percentage: number) => {
+  return percentage === 100 ? <>Your profile looks great! You can add <br/> more details to increase visibility.</> : <> Complete your profile to unlock more <br /> opportunities and highlight your skills.</>
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -145,11 +153,19 @@ const Candidate = () => {
   })
   const [profilePic, setProfilePic] = useState<any>(null)
   const [openUpateProfilePic, setOpenUpdateProfilePic] = useState(false)
-  const [tabsValue, setTabsValue] = useState(0)
+
   const [openEditModalBanner, setOpenEditModalBanner] = useState(false)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [defaultValue, setDefaultValue] = useState(0)
   const open = Boolean(anchorEl)
+
+  const router = useRouter()
+  const pathname = usePathname()
+  const params = useSearchParams()
+  const tabs = Number(params.get('tabs'))
+  const [tabsValue, setTabsValue] = useState<number>(tabs || 0)
+
+  
 
   function Firstload() {
     HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
@@ -258,7 +274,18 @@ const Candidate = () => {
 
   const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
     setTabsValue(newValue)
+    router.push(`${pathname}?${createQueryString('tabs', newValue.toString())}`)
   }
+
+  const createQueryString = useCallback(
+      (name: string, value: string) => {
+        const searchParams = new URLSearchParams(params.toString())
+        searchParams.set(name, value)
+  
+        return searchParams.toString()
+      },
+      [params]
+    )
 
   const handleDownloadResume = () => {
     HttpClient.get(`/user/${selectedUser?.id}/profile/resume`).then(response => {
@@ -546,8 +573,19 @@ const Candidate = () => {
   }
 
   useEffect(() => {
+      if(tabs){
+        setTabsValue(tabs)
+      }
+    }, [tabs])
+
+  useEffect(() => {
     // setOpenPreview(false)
     Firstload()
+
+    //create tabs query string if there is none
+    if (tabs === null || tabs === 0) {
+      router.push(`${pathname}?${createQueryString('tabs', '0')}`)
+    }
   }, [])
 
   return (
@@ -614,7 +652,7 @@ const Candidate = () => {
                           bottom: isMobile ? '120px' : '125px'
                         }}
                       >
-                        <Box sx={{ position: 'relative', display: 'inline-block' }}>
+                        <Box sx={{ position: 'relative', display: 'inline-block' , ...(percentage === 100 ? {mb: {xs: 10, sm: 15, md: 0}} : {mb: {xs: 15, sm: 20, md: 0}})}}>
                           <Avatar
                             src={profilePic ? profilePic : '/images/default-user-new.png'}
                             sx={{ width: isMobile ? 64 : 160, height: isMobile ? 64 : 160 }}
@@ -701,31 +739,32 @@ const Candidate = () => {
                             sx={{
                               display: 'flex',
                               flexDirection: 'row',
-                              background: '#F8F8F7',
+                              background: percentage === 100 ? '#F4FEF2' : '#F8F8F7',
                               borderRadius: '6px',
-                              padding: isMobile ? '4px 12px' : '16px 24px',
+                              border:percentage === 100 ? '1px solid #4CAF50': '' ,
+                              padding: isMobile ? '12px' : '16px 24px',
                               justifyContent: 'space-between',
                               alignItems: 'center',
                               gap: '20px'
                             }}
                           >
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px'}}>
                               <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040' }}>
+                                <Typography sx={{ fontSize:{xs: '12px', sm: '16px'}, fontWeight: 700, color: '#404040' }}>
                                   Profile Completion
                                 </Typography>
-                                <IconButton onClick={handleClickPopper}>
+                                {percentage !== 100 && (<IconButton onClick={handleClickPopper}>
                                   <Icon icon='quill:info' fontSize={isMobile ? '20px' : '16px'} color='orange' />
-                                </IconButton>
+                                </IconButton>)}
                                 {renderPopper(detail_percentage)}
                               </Box>
-                              {!isMobile && (
+                              
                                 <Box>
-                                  <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#404040' }}>
-                                    Complete your profile to unlock more <br /> opportunities and highlight your skills
+                                  <Typography sx={{ fontSize: {xs: '12px', sm: '14px'}, fontWeight: 400, color: '#404040', whiteSpace: 'nowrap' }}>
+                                    {getCpText(percentage)}
                                   </Typography>
                                 </Box>
-                              )}
+                              
                             </Box>
                             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                               <CircularProgressWithLabel value={percentage} />

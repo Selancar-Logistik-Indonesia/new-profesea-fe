@@ -58,8 +58,11 @@ interface Job {
     is_active: boolean
     deleted_at: string
     total_applied?: number
+    total_waiting_review: number
+    total_viewed: number
     total_proceed?: number
     total_rejected?: number
+    total_hired?: number
 
     job_save?: null | IJobSave
 }

@@ -18,7 +18,7 @@ const AnimatedTabs = (props: AnimatedTabsProps) => {
   }
 
   return (
-    <Box sx={{ position: 'relative' }}>
+    <Box sx={{ position: 'relative', width: '100%' }}>
       <Tabs
         variant='fullWidth'
         value={activeTab}
@@ -45,7 +45,10 @@ const AnimatedTabs = (props: AnimatedTabsProps) => {
         sx={{
           position: 'absolute',
           top: '4px',
-          left: `calc(4px + ${tabs.findIndex(tab => tab.value === activeTab)} * ${100 / tabs.length}%)`,
+          left: `calc(4px + ${Math.max(
+            tabs.findIndex(tab => tab.value === activeTab),
+            0
+          )} * ${100 / tabs.length}%)`,
           width: `calc(${100 / tabs.length}% - 8px)`,
           height: 'calc(100% - 8px)',
           backgroundColor: '#F2F8FE',

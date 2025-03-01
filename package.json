@@ -57,7 +57,7 @@
     "draftjs-to-html": "^0.9.1",
     "html-to-draftjs": "^1.5.0",
     "i18next": "22.4.11",
-    "i18next-browser-languagedetector": "7.0.1",
+    "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "2.2.0",
     "jsonwebtoken": "8.5.1",
     "keen-slider": "6.8.5",

@@ -858,7 +858,7 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
             sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}
           >
             <BottomNavigationAction
-              label='Certification of Competency'
+              label='Certificate of Competency'
               sx={{
                 height: '40px',
                 display: 'inline',
@@ -876,7 +876,7 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
               }}
             />
             <BottomNavigationAction
-              label='Certification of Proficiency'
+              label='Certificate of Proficiency'
               sx={{
                 height: '40px',
                 display: 'inline',

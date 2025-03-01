@@ -19,6 +19,8 @@ import DialogEditProfile from './DialogEditProfile'
 import AccordionTabGeneral from '../candidate/accordion-tab-general/AccordionTabGeneral'
 import DocumentUploadCompany from './document-upload-company/DocumentUploadCompany'
 
+import { useSearchParams } from 'next/navigation'
+
 type FormData = {
   companyName: string
   industryType: string
@@ -69,11 +71,12 @@ function a11yProps(index: number) {
 }
 
 const Company = () => {
+  const params = useSearchParams()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   // const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  const [tabsValue, setTabsValue] = useState(0)
+  const [tabsValue, setTabsValue] = useState(params.get('tab') ? 1 : 0)
   const [selectedItem, setSelectedItem] = useState<IUser | null>(null)
   const [openEditModalBanner, setOpenEditModalBanner] = useState(false)
 
