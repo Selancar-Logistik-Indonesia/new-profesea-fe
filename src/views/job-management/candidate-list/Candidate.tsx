@@ -19,6 +19,7 @@ import { format } from 'date-fns'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import Applicant from 'src/contract/models/applicant'
 import { HttpClient } from 'src/services'
@@ -70,6 +71,9 @@ const Candidate = (props: CandidateProps) => {
   const tabs = params.get('tabs') ?? 'all'
   const { candidates, refetch } = props
 
+  const [showShadow, setShowShadow] = useState(false)
+  const tableContainerRef = useRef<HTMLDivElement>(null)
+
   const changeParams = (params?: string) => {
     if (!params) return
     const updatedPathname = `/company/job-management/${jobId}`
@@ -79,6 +83,24 @@ const Candidate = (props: CandidateProps) => {
     newQuery.set('tabs', params)
     router.replace(`${updatedPathname}?${newQuery.toString()}`, undefined, { shallow: true, scroll: false })
   }
+
+  const handleScroll = () => {
+    if (tableContainerRef.current) {
+      const container = tableContainerRef.current
+      const isScrolledToEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 5
+      setShowShadow(!isScrolledToEnd)
+    }
+  }
+
+  useEffect(() => {
+    const container = tableContainerRef.current
+    if (container) {
+      container.addEventListener('scroll', handleScroll)
+      handleScroll()
+
+      return () => container.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   const handleViewCV = async (candidate: Applicant) => {
     if (candidate.status === 'WR') {
@@ -111,7 +133,7 @@ const Candidate = (props: CandidateProps) => {
   }
 
   return (
-    <TableContainer component={Paper} sx={{ overflowX: 'auto', maxWidth: '100%' }}>
+    <TableContainer component={Paper} sx={{ overflowX: 'auto', maxWidth: '100%' }} ref={tableContainerRef}>
       <Table sx={{ minWidth: 1500 }}>
         <TableHead>
           <TableRow>
@@ -138,8 +160,18 @@ const Candidate = (props: CandidateProps) => {
               sx={{
                 position: 'sticky',
                 right: 0,
-                background: '#fff',
-                zIndex: 2
+                backgroundColor: '#FFF',
+                zIndex: 2,
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: '6px',
+                  boxShadow: showShadow ? '-3px 0 5px -1px rgba(0,0,0,0.1)' : 'none',
+                  pointerEvents: 'none'
+                }
               }}
             >
               Action
@@ -270,9 +302,18 @@ const Candidate = (props: CandidateProps) => {
                   sx={{
                     position: 'sticky',
                     right: 0,
-                    backgroundColor: 'inherit',
+                    backgroundColor: i % 2 !== 0 ? '#f0f0f0' : '#FFF',
                     zIndex: 2,
-                    boxShadow: 3
+                    '&::after': {
+                      content: '""',
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      bottom: 0,
+                      width: '6px',
+                      boxShadow: showShadow ? '-3px 0 5px -1px rgba(0,0,0,0.1)' : 'none',
+                      pointerEvents: 'none'
+                    }
                   }}
                 >
                   <Box sx={{ display: 'flex', gap: '8px' }}>

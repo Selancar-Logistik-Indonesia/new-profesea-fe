@@ -143,7 +143,8 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
         backgroundColor: '#FFF',
         display: 'flex',
         flexDirection: 'column',
-        gap: '24px'
+        gap: '24px',
+        overflow: 'hidden'
       }}
     >
       <CustomTabs tabs={tabs} setTabs={setTabs} tabItems={tabItems} />
