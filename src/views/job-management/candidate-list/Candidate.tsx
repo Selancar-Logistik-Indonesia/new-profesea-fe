@@ -97,6 +97,7 @@ const Candidate = (props: CandidateProps) => {
     if (container) {
       container.addEventListener('scroll', handleScroll)
       handleScroll()
+
       return () => container.removeEventListener('scroll', handleScroll)
     }
   }, [])
