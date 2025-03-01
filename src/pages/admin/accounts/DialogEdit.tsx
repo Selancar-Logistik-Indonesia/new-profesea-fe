@@ -131,8 +131,6 @@ const DialogEdit = (props: EditProps) => {
     props.onStateChange()
   }
 
-  // console.log(props)
-
   return (
     <Dialog
       fullWidth

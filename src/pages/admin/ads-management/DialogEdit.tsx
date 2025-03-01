@@ -125,7 +125,6 @@ const DialogEdit = (props: EditProps) => {
 
     setOnLoading(true)
     try {
-      // console.log(json);
       const resp = await HttpClient.postFile(`/ads/${props.selectedItem.id}`, json)
       if (resp.status != 200) {
         throw resp.data.message ?? 'Something went wrong!'
@@ -140,8 +139,6 @@ const DialogEdit = (props: EditProps) => {
     setOnLoading(false)
     props.onStateChange()
   }
-
-  // console.log(props)
 
   return (
     <Dialog
