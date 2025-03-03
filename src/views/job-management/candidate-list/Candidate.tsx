@@ -140,23 +140,23 @@ const Candidate = (props: CandidateProps) => {
             <TableCellStyled align='center' width={300}>
               Name
             </TableCellStyled>
+            <TableCellStyled align='center' width={150}>
+              Status
+            </TableCellStyled>
             <TableCellStyled align='center'>Email</TableCellStyled>
             <TableCellStyled align='center'>Last Experience</TableCellStyled>
-            <TableCellStyled align='center' width={160}>
-              Application Date
-            </TableCellStyled>
             <TableCellStyled align='center'>Education</TableCellStyled>
             {tabs === 'RJ' && (
               <TableCellStyled align='center' width={350}>
                 Reason
               </TableCellStyled>
             )}
-            <TableCellStyled align='center' width={150}>
-              Status
+            <TableCellStyled align='center' width={160}>
+              Application Date
             </TableCellStyled>
             <TableCellStyled
               align='center'
-              width={190}
+              width={220}
               sx={{
                 position: 'sticky',
                 right: 0,
@@ -187,14 +187,14 @@ const Candidate = (props: CandidateProps) => {
                   backgroundColor: i % 2 !== 0 ? '#f0f0f0' : '#FFF'
                 }}
               >
-                <TableCell align='center'>
+                <TableCell align='left'>
                   <Box
                     component={Link}
                     href={`/profile/${candidate.user.username}`}
                     target='_blank'
-                    sx={{ display: 'flex', justifyContent: 'center', gap: '16px', alignItems: 'center' }}
+                    sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' }}
                   >
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '6px', mr: '16px' }}>
                       <Avatar alt={candidate.user.name} src={candidate.user.photo} sx={{ width: 46, height: 46 }} />
                       {candidate.is_saved && (
                         <Box
@@ -223,6 +223,9 @@ const Candidate = (props: CandidateProps) => {
                       </Typography>
                     </Box>
                   </Box>
+                </TableCell>
+                <TableCell align='center'>
+                  <StatusBox applicantStatus={candidate.status} />
                 </TableCell>
                 <TableCell align='center'>
                   <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>
@@ -263,9 +266,6 @@ const Candidate = (props: CandidateProps) => {
                     '-'
                   )}
                 </TableCell>
-                <TableCell align='center' sx={{ whiteSpace: 'nowrap' }}>
-                  {format(new Date(candidate.created_at!), 'dd/MM/yy')}
-                </TableCell>
                 <TableCell align='left'>
                   {candidate.user.last_education === null && candidate.user.last_education === null ? (
                     '-'
@@ -294,8 +294,8 @@ const Candidate = (props: CandidateProps) => {
                       : candidate.reject_reasons?.reason ?? '-'}
                   </TableCell>
                 )}
-                <TableCell align='center'>
-                  <StatusBox applicantStatus={candidate.status} />
+                <TableCell align='center' sx={{ whiteSpace: 'nowrap' }}>
+                  {format(new Date(candidate.created_at!), 'dd/MM/yy')}
                 </TableCell>
                 <TableCell
                   align='center'
@@ -316,7 +316,7 @@ const Candidate = (props: CandidateProps) => {
                     }
                   }}
                 >
-                  <Box sx={{ display: 'flex', gap: '8px' }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'center', gap: '8px' }}>
                     <Button
                       variant='outlined'
                       size='small'

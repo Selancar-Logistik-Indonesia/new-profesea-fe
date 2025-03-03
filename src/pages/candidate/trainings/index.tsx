@@ -1,11 +1,11 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import { Tabs, Tab, useMediaQuery, Grid, Typography, Stack } from '@mui/material'
+import { Tabs, Tab, useMediaQuery, Grid, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import AllTrainingScreen from './all'
 import OngoingTrainingScreen from './ongoing'
-import SeafarerInstantTraining from './in-house'
 import { Icon } from '@iconify/react'
+import TrainingPartner from 'src/views/training/TrainingPartner'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -53,7 +53,7 @@ const SeafarerTraining = () => {
     <Box>
       <Grid
         container
-        spacing={3}
+        spacing={4}
         sx={{
           display: 'flex',
           flexDirection: {
@@ -64,40 +64,7 @@ const SeafarerTraining = () => {
         }}
       >
         <Grid item xs={12} md={2}>
-          <Box
-            sx={{
-              p: 4,
-              border: 0,
-              boxShadow: 0,
-              borderColor: 'divider',
-              boxSizing: 'border-box',
-              backgroundColor: '#FFFFFF',
-              borderRadius: '2px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              overflow: 'hidden'
-            }}
-          >
-            <Typography sx={{ fontWeight: 'bold', color: 'text.primary' }} fontSize={18}>
-              Training Partners
-            </Typography>
-            <Stack spacing={2} mt={2}>
-              <Grid item sx={{ alignItems: 'center', justifyContent: 'center' }}>
-                <img
-                  alt='logo'
-                  src={'/images/training-partner1.jpg'}
-                  style={{
-                    width: '100%',
-                    aspectRatio: '1',
-                    objectFit: 'cover',
-                    borderRadius: '8px',
-                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                  }}
-                />
-              </Grid>
-            </Stack>
-          </Box>
+          <TrainingPartner />
         </Grid>
         <Grid
           item
@@ -166,9 +133,9 @@ const SeafarerTraining = () => {
               <TabPanel value={value} index={1}>
                 <AllTrainingScreen />
               </TabPanel>
-              <TabPanel value={value} index={2}>
+              {/* <TabPanel value={value} index={2}>
                 <SeafarerInstantTraining />
-              </TabPanel>
+              </TabPanel> */}
             </Grid>
           </Grid>
         </Grid>
