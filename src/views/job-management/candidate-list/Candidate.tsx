@@ -156,7 +156,7 @@ const Candidate = (props: CandidateProps) => {
             </TableCellStyled>
             <TableCellStyled
               align='center'
-              width={190}
+              width={220}
               sx={{
                 position: 'sticky',
                 right: 0,
@@ -316,7 +316,7 @@ const Candidate = (props: CandidateProps) => {
                     }
                   }}
                 >
-                  <Box sx={{ display: 'flex', gap: '8px' }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'center', gap: '8px' }}>
                     <Button
                       variant='outlined'
                       size='small'
