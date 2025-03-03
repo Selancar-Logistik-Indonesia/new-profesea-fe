@@ -62,8 +62,28 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
   const [cityFilter, setCityFilter] = useState<City | null>(null)
   const [vesselTypeFilter, setVesselTypeFilter] = useState<VesselType | null>(null)
 
+  const clearFilters = () => {
+    setSearch('')
+    setSort('asc')
+    setStatusFilter('')
+    setVesselTypeFilter(null)
+    setPage(1)
+  }
+
   const firstLoad = async () => {
-    const statusParam = tabs === 'all' ? statusFilter : tabs === 'completed' ? statusFilter : tabs
+    HttpClient.get('/public/data/vessel-type?page=1&take=1000').then(async response => {
+      const data: VesselType[] = await response.data.vesselTypes.data
+      getVesselType(data)
+    })
+    await HttpClient.get(AppConfig.baseUrl + '/public/data/city?country_id=100').then(response => {
+      const data = response.data.cities
+      getCity(data)
+    })
+  }
+
+  const getJobs = async () => {
+    const statusParam = tabs === 'all' ? statusFilter : tabs === 'completed' ? statusFilter || 'AP' : tabs
+
     await HttpClient.get(`${AppConfig.baseUrl}/job/${jobId}/appllicants`, {
       page,
       take: pageItems,
@@ -74,43 +94,12 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
       setCandidateList(response.data.applicants.data)
       setTotalCandidates(response.data.applicants.total)
     })
-    HttpClient.get('/public/data/vessel-type?page=1&take=1000').then(async response => {
-      const data: VesselType[] = await response.data.vesselTypes.data
-      getVesselType(data)
-    })
-    await HttpClient.get(AppConfig.baseUrl + '/public/data/city?country_id=100').then(response => {
-      const data = response.data.cities
-      getCity(data)
-    })
     setIsLoading(false)
   }
 
   useEffect(() => {
-    setIsLoading(true)
     firstLoad()
-
-    if (jobId) {
-      const updatedPathname = `/company/job-management/${jobId}`
-      const newQuery = new URLSearchParams(params.toString())
-
-      newQuery.delete('id')
-      if (tabs === 'completed') {
-        newQuery.set('tabs', statusFilter)
-      } else {
-        newQuery.set('tabs', tabs)
-      }
-      router.replace(`${updatedPathname}?${newQuery.toString()}`, undefined, { shallow: true, scroll: false })
-    }
-  }, [tabs, page, pageItems, statusFilter, vesselTypeFilter, cityFilter, refetch])
-
-  useEffect(() => {
-    clearFilters()
-    if (tabs === 'completed') {
-      if (tabStatus !== 'RJ') {
-        setStatusFilter('AP')
-      }
-    }
-  }, [tabs])
+  }, [])
 
   useEffect(() => {
     if (tabStatus === 'all' || tabStatus === 'RJ' || tabStatus === 'AP') {
@@ -121,15 +110,29 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
     } else if (tabStatus) {
       setTabs(tabStatus)
     }
-  }, [tabStatus])
+  }, [])
 
-  const clearFilters = () => {
-    setSearch('')
-    setSort('asc')
-    setStatusFilter('')
-    setVesselTypeFilter(null)
-    setPage(1)
-  }
+  useEffect(() => {
+    setIsLoading(true)
+    getJobs()
+
+    if (jobId) {
+      const updatedPathname = `/company/job-management/${jobId}`
+      const newQuery = new URLSearchParams(params.toString())
+
+      newQuery.delete('id')
+      if (tabs === 'completed') {
+        newQuery.set('tabs', statusFilter || 'AP')
+      } else {
+        newQuery.set('tabs', tabs)
+      }
+      router.replace(`${updatedPathname}?${newQuery.toString()}`, undefined, { shallow: true, scroll: false })
+    }
+  }, [tabs, page, pageItems, statusFilter, vesselTypeFilter, cityFilter, refetch])
+
+  useEffect(() => {
+    clearFilters()
+  }, [tabs])
 
   useEffect(() => {
     count()

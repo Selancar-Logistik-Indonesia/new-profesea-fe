@@ -199,6 +199,7 @@ const Candidate = (props: CandidateProps) => {
                       {candidate.is_saved && (
                         <Box
                           sx={{
+                            textAlign: 'center',
                             borderRadius: '4px',
                             p: '3px 4px',
                             backgroundImage: 'linear-gradient(180deg, #F9D976 0%, #F39C12 100%)',
