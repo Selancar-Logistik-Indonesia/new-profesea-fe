@@ -11,7 +11,6 @@ import HeaderJobDetail from 'src/views/job-detail/HeaderJobDetail'
 import SectionOneJobDetail from 'src/views/job-detail/SectionOneJobDetail'
 import SectionTwoJobDetail from 'src/views/job-detail/SectionTwoJobDetail'
 import SectionThreeJobDetail from 'src/views/job-detail/SectionThreeJobDetal'
-import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 import { usePathname } from 'next/navigation'
 import { useAuth } from 'src/hooks/useAuth'
 import DialogLogin from 'src/@core/components/login-modal'
@@ -21,6 +20,7 @@ import Head from 'next/head'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'next/navigation'
 import { linkToTitleCase } from 'src/utils/helpers'
+import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 
 const JobDetail = () => {
   const router = useRouter()
@@ -275,6 +275,6 @@ JobDetail.acl = {
 
 JobDetail.guestGuard = false
 JobDetail.authGuard = false
-JobDetail.getLayout = (page: ReactNode) => <OuterPageLayout>{page}</OuterPageLayout>
+JobDetail.getLayout = (page: ReactNode) => <LandingPageLayout>{page}</LandingPageLayout>
 
 export default JobDetail
