@@ -26,20 +26,22 @@ const TrainingProvider = (props: Props) => {
   const [hasNextPage, setHasNextPage] = useState(true)
   const [totalTraining, setTotalTraining] = useState(0)
 
-  const fetchTrainings = async (payload: {
-    take: number
-    ongoing?: any
-    instant?: any
-    category_id?: any
-    search?: any
-    username?: any
-  }) => {
+  const fetchTrainings = async (
+    payload: {
+      take: number
+      ongoing?: any
+      instant?: any
+      category_id?: any
+      search?: any
+      username?: any
+    },
+    isPublic?: boolean
+  ) => {
     // only trigger in page 1
-
     if (page == 1) setOnLoading(true)
 
     try {
-      const response = await HttpClient.get(AppConfig.baseUrl + '/training', {
+      const response = await HttpClient.get(AppConfig.baseUrl + isPublic ? 'public/data/training' : '/training', {
         page: page,
         ...payload
       })

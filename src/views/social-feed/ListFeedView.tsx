@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import { Card, CircularProgress } from '@mui/material'
+import { Button, Card, CircularProgress, useMediaQuery } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import ISocialFeed from 'src/contract/models/social_feed'
 import SocialFeedContext from 'src/context/SocialFeedContext'
@@ -9,6 +9,8 @@ import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import FeedCard from './FeedCard'
 import { useEffect } from 'react'
 import CenterAd from '../banner-ad/CenterAd'
+import { Icon } from '@iconify/react'
+import { useTheme } from '@mui/material/styles'
 
 const renderList = (feeds: ISocialFeed[]) => {
   const components: JSX.Element[] = []
@@ -46,8 +48,8 @@ const renderList = (feeds: ISocialFeed[]) => {
     components.push(<FeedCard item={item} key={`feedItem${item.id}`} />)
 
     if ((index + 1) % 6 === 0) {
-       components.push(
-        <Box  sx={{ mt: 2, width: '100%' }}>
+      components.push(
+        <Box sx={{ mt: 2, width: '100%' }}>
           <CenterAd key={`adsComponent${index}`} />
         </Box>
       )
@@ -59,6 +61,8 @@ const renderList = (feeds: ISocialFeed[]) => {
 
 const ListFeedView = ({ username }: { username?: any }) => {
   const { fetchFeeds, hasNextPage, totalFeed } = useSocialFeed()
+  const Theme = useTheme()
+  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
 
   useEffect(() => {
     fetchFeeds({ take: 7, username })
@@ -72,6 +76,27 @@ const ListFeedView = ({ username }: { username?: any }) => {
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <CircularProgress sx={{ mt: 20 }} />
             </Box>
+          )
+        }
+
+        if (isMobile) {
+          return (
+            <>
+              <Grid container>{renderList(feeds)}</Grid>
+              {hasNextPage && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: '20px' }}>
+                  <Button
+                    fullWidth
+                    variant='outlined'
+                    sx={{ textTransform: 'capitalize', display: 'flex', gap: '10px' }}
+                    onClick={() => fetchFeeds({ take: 7, username })}
+                  >
+                    Show More Feeds
+                    <Icon icon={'fe:arrow-down'} />
+                  </Button>
+                </Box>
+              )}
+            </>
           )
         }
 
