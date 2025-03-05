@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Avatar, Card, CardContent, Typography, CircularProgress } from '@mui/material'
+import { Avatar, Card, CardContent, Typography, CircularProgress, useMediaQuery, useTheme } from '@mui/material'
 import { HttpClient } from 'src/services'
 import Job from 'src/contract/models/job'
 import { toast } from 'react-hot-toast'
@@ -19,6 +19,7 @@ import SectionTwoJobDetail from 'src/views/job-detail/SectionTwoJobDetail'
 import SectionThreeJobDetail from 'src/views/job-detail/SectionThreeJobDetal'
 import CertificateDialog from './CertificateDialog'
 
+
 const JobDetail = () => {
   // const url = window.location.href
   const [onApplied, setOnApplied] = useState(false)
@@ -27,6 +28,9 @@ const JobDetail = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [openDialog, setOpenDialog] = useState(false)
   const [openCertificateDialog, setOpenCertificateDialog] = useState(false)
+
+  const Theme = useTheme()
+  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   // const [open, setOpen] = React.useState(false)
@@ -263,6 +267,7 @@ const JobDetail = () => {
               selectedItem={jobDetail}
               openDialog={openDialog}
               setApply={setOnApplied}
+              isMobile={isMobile}
             />
           )}
 
