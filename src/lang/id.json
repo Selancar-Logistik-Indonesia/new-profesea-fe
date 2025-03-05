@@ -129,6 +129,8 @@
     "landing_menu_4": "Perusahaan",
     "landing_menu_5": "Pusat Pelatihan",
     "landing_menu_6": "Berita",
+    "landing_menu_7": "Produk",
+    "landing_menu_8": "Pricing",
     "button_1": "Masuk",
     "button_2": "Keluar",
     "button_3": "Dashboard",
@@ -331,6 +333,18 @@
       "lets_sail": {
         "title": "Berlayar Menuju Kesempatan Berikutnya",
         "button": "Bergabunglah dengan Profesea"
+      }
+    },
+    "employer_page":{
+      "our_partner": "Bekerja Sama dengan 500+ Para Pemimpin Industri",
+      "hero_1": "Rekrut Talenta Maritim Terbaik. <br/>Lebih Praktis dan Tanpa Menunggu Lama.",
+      "hero_2": "Dengan Profesea, Anda mendapatkan akses instan ke talent pool pelaut dan<br/>tenaga profesional berkualitas sesuai kebutuhan Anda.",
+      "hero_button": "Gabung Sekarang",
+      "faq": {
+          "1":{
+            "summary": "Apa itu Profesea",
+            "detail": "Profesea merupakan platform all in one untuk menawarkan pekerjaan dari perusahaan Anda"
+          }
       }
     }
   }

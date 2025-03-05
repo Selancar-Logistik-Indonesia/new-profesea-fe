@@ -128,6 +128,8 @@
     "landing_menu_4": "Company",
     "landing_menu_5": "Training Center",
     "landing_menu_6": "News",
+    "landing_menu_7": "Products",
+    "landing_menu_8": "Pricing",
     "button_1": "Login",
     "button_2": "Logout",
     "button_3": "Dashboard",
@@ -331,6 +333,9 @@
         "title": "Sail into Your Next Opportunity",
         "button": "Join Profesea"
       }
+    },
+    "employer_page":{
+      "our_partner": "Partnering with 500+ Industry Leaders"
     }
   }
 }
