@@ -209,7 +209,7 @@ const SocialFeedApp = () => {
         {user?.role === 'Company' && show && renderAlertDocumentsForCompany(activities)}
         <Grid container spacing={6}>
           <Grid item xs={12} md={5} lg={3}>
-            <Box>
+            <Box sx={{ position: 'sticky', top: '70px' }}>
               <Profile datauser={user} activities={activities} />
             </Box>
           </Grid>
