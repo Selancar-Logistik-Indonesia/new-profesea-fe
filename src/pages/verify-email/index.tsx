@@ -58,11 +58,16 @@ const VerifyEmail = () => {
 
     setOnLoading(true)
     try {
-      await HttpClient.get(AppConfig.baseUrl + '/user-management/check-email-verified', { email: user.email })
-      toast.success('Email verified!')
-      if (user.last_step === 'completed') {
-        router.push('/home')
-      } else router.push('/role-selection')
+      await HttpClient.get(AppConfig.baseUrl + '/user-management/check-email-verified', { email: user.email }).then(
+        () => {
+          toast.success('Email verified!')
+          if (user.last_step === 'completed') {
+            router.push('/home')
+          } else if (user.team_id === 3) {
+            router.push('/onboarding/employer/step-one/1')
+          } else router.push('/role-selection')
+        }
+      )
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'An error occurred while verifying the email.')
     } finally {
