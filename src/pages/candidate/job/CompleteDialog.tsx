@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import Fade, { FadeProps } from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
 import Icon from 'src/@core/components/icon'
-import { Button, Card, CardContent, CircularProgress, DialogActions, Drawer, Grid } from '@mui/material'
+import { Button, Card, CardContent, CircularProgress, DialogActions, Drawer, Grid, useMediaQuery, useTheme } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { toast } from 'react-hot-toast'
 import Job from 'src/contract/models/job'
@@ -14,6 +14,9 @@ import { isAxiosError } from 'axios'
 import { AppConfig } from 'src/configs/api'
 import { useRouter } from 'next/router'
 import { usePathname } from 'next/navigation'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import { IUser } from 'src/contract/models/user'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -27,8 +30,6 @@ type ViewProps = {
   openDialog: boolean
   setApply: (value: boolean) => void
   onClose: () => void
-  isMobile: boolean
-  user:any
 }
 
 type contentProps = {
@@ -44,13 +45,17 @@ const CompleteDialog = (props: ViewProps) => {
 
   const router = useRouter()
   const pathname = usePathname()
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   const handleApprove = async () => {
     setOnLoading(true)
 
     if(selectedResume === 'uploaded'){
       try {
-        const res = await HttpClient.get(AppConfig.baseUrl + `/user/download-cv/${props.user.id}`)
+        const res = await HttpClient.get(AppConfig.baseUrl + `/user/download-cv/${user.id}`)
         if (!res.data.filename || res.data.filename === '') {
           router.push('/candidate/?tabs=0&resume=true&fallbackUrl=' + pathname)
 
@@ -64,7 +69,7 @@ const CompleteDialog = (props: ViewProps) => {
 
 
     try {
-      const resp = await HttpClient.get(`/job/${props.selectedItem?.id}/apply`)
+      const resp = await HttpClient.get(`/job/${props.selectedItem?.id}/apply?resume_type=${selectedResume}`)
 
       if (resp.status !== 200) {
         props.setApply(false)
@@ -96,10 +101,10 @@ const CompleteDialog = (props: ViewProps) => {
   }
 
 
-  if(props.isMobile){
+  if(isMobile){
     return (
       <Drawer open={props.openDialog} anchor='bottom' onClose={props.onClose}>
-        <Content selectedResume={selectedResume} setSelectedResume={setSelectedResume} isMobile={props.isMobile} onClose={props.onClose}/>
+        <Content selectedResume={selectedResume} setSelectedResume={setSelectedResume} isMobile={isMobile} onClose={props.onClose}/>
         <Box sx={{display:'flex', flexDirection:'column', padding:'24px', gap:'8px'}}>
           <Button variant='contained' color='primary' onClick={handleApprove} sx={{ textTransform: 'capitalize', padding:'8px 12px', fontSize:'14px', fontWeight:400 }}>{onLoading ? <CircularProgress /> : 'Apply Job'}</Button>
           <Button variant='outlined' color='secondary' onClick={props.onClose} sx={{ textTransform: 'capitalize', border:'1px solid #0B58A6' , color:'#0B58A6', padding:'8px 12px', fontSize:'14px', fontWeight:400}}>Cancel</Button>
@@ -118,7 +123,7 @@ const CompleteDialog = (props: ViewProps) => {
     >
       <form noValidate>
         <DialogContent sx={{ padding: 0 }}>
-          <Content selectedResume={selectedResume} setSelectedResume={setSelectedResume} isMobile={props.isMobile} onClose={props.onClose}/>
+          <Content selectedResume={selectedResume} setSelectedResume={setSelectedResume} isMobile={isMobile} onClose={props.onClose}/>
         </DialogContent>
         <DialogActions
           sx={{
@@ -191,14 +196,14 @@ const Content = ({onClose, selectedResume, setSelectedResume, isMobile} : conten
               <Card
               variant='outlined'
                 onClick={() => {
-                  setSelectedResume('uploaded')
+                  setSelectedResume('upload')
                 }}
                 sx={{
                   padding: '12px',
                   textAlign: 'center',
                   cursor: 'pointer',
                   borderRadius:'8px !important',
-                  ...(selectedResume === 'uploaded'
+                  ...(selectedResume === 'upload'
                     ? { border: '1px solid #0B58A6', backgroundColor: '#F2F8FE' }
                     : { border: '1px solid #868686' })
                 }}
@@ -207,7 +212,7 @@ const Content = ({onClose, selectedResume, setSelectedResume, isMobile} : conten
                   <Typography
                     fontSize={'16px'}
                     fontWeight={700}
-                    color={selectedResume === 'uploaded' ? '#32497A' : '#303030'}
+                    color={selectedResume === 'upload' ? '#32497A' : '#303030'}
                   >
                     Uploaded Resume
                   </Typography>

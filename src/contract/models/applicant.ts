@@ -13,6 +13,7 @@ interface Applicant {
     is_saved: boolean
     created_at?: string
     updated_at?: string
+    resume_type?: string
 }
 
 export default Applicant

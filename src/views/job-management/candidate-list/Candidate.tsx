@@ -107,6 +107,19 @@ const Candidate = (props: CandidateProps) => {
       await handleViewed(candidate)
     }
 
+    if(candidate.resume_type === 'upload'){
+      HttpClient.get(`/user/download-cv/${candidate.user_id}`).then(
+        response => {
+          window.open(`${response.data?.file}`, '_blank', 'noreferrer')
+        },
+        error => {
+          toast.error(`Failed to view candidate CV: ` + error.response.data.message)
+        }
+      )
+
+      return
+    }
+
     HttpClient.get(`/user/${candidate.user_id}/profile/resume`).then(
       response => {
         window.open(`${response.data?.path}`, '_blank', 'noreferrer')

@@ -683,8 +683,6 @@ const JobDetail = () => {
               selectedItem={jobDetail}
               openDialog={openDialog}
               setApply={setOnApplied}
-              isMobile={isMobile}
-              user={user}
             />
           )}
 
