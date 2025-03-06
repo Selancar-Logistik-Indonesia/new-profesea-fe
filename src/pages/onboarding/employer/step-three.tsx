@@ -3,7 +3,6 @@ import { Box, Grid, Typography } from '@mui/material'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { EmployerProfileCard } from 'src/views/onboarding/ProfileCard'
 import ProgressBar from 'src/views/onboarding/ProgressBar'
-import CompanyDocument from 'src/layouts/components/onboarding/CompanyDocument'
 import CompanyCrewing from 'src/layouts/components/onboarding/CompanyCrewing'
 
 const Onboarding = () => {
