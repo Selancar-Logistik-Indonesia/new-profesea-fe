@@ -686,6 +686,7 @@ const JobDetail = () => {
             />
           )}
 
+
           {openCertificateDialog && (
             <CertificateDialog
               selectedItem={undefined}
