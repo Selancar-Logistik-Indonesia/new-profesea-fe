@@ -13,7 +13,7 @@ import {
   CircularProgressProps,
   CircularProgress,
   Box,
-  Popper
+  Popper,
 } from '@mui/material'
 import { Grid } from '@mui/material'
 import { useForm } from 'react-hook-form'
@@ -38,6 +38,7 @@ import WorkExperienceTab from './work-experience-tab/WorkExperienceTab'
 import ProfileCompletionContext, { ProfileCompletionProvider } from 'src/context/ProfileCompletionContext'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
+import DialogResumeBuilder from './DialogResumeBuilder'
 
 type FormData = {
   companyName: string
@@ -147,6 +148,7 @@ const Candidate = () => {
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+  const userPlan = false
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const {} = useForm<FormData>({
     mode: 'onBlur'
@@ -159,13 +161,24 @@ const Candidate = () => {
   const [defaultValue, setDefaultValue] = useState(0)
   const open = Boolean(anchorEl)
 
+  //dialog state
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
   const router = useRouter()
   const pathname = usePathname()
   const params = useSearchParams()
   const tabs = Number(params.get('tabs'))
   const [tabsValue, setTabsValue] = useState<number>(tabs || 0)
 
+  //query for resume builder
+  const isUploadResume = params.get('resume')
+
   
+
+  function handleCloseDialog(){
+    setIsOpen(false)
+  }
+
 
   function Firstload() {
     HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
@@ -582,6 +595,9 @@ const Candidate = () => {
     // setOpenPreview(false)
     Firstload()
 
+    if(isUploadResume){
+      setIsOpen(true)
+    }
     //create tabs query string if there is none
     if (tabs === null || tabs === 0) {
       router.push(`${pathname}?${createQueryString('tabs', '0')}`)
@@ -673,17 +689,42 @@ const Candidate = () => {
                         </Box>
 
                         {/* todo next sprint */}
+                        <Box sx={{display: 'flex', gap: isMobile ? '9px' : '12px', flexDirection: isMobile ? 'column' : 'row', mt: {xs: 5, sm: 0, md: 28}, ml: {xs: '6px !important', sm: 0, md: 0}}}>
+                        <Button aria-label='upload' sx={{display: 'flex',
+                            justifyContent: 'space-around',
+                            width:isMobile ? '100%' : 'fit-content',
+                            flexDirection: 'row',
+                            gap: isMobile ? '8px' : '12px',
+                            padding: isMobile ? '6px 8px !important' : '8px 12px !important',
+                            alignItems: 'center',
+                            fontFamily: 'Figtree',
+                            fontSize: isMobile ? '12px' : '14px',
+                            fontWeight: 400,
+                            whiteSpace: 'nowrap',
+                            color: userPlan ? '#FFFFFF' : '#404040',
+                            backgroundImage: userPlan ? 'linear-gradient(to left,#2561EB, #968BEB)' : '',
+                            textTransform: 'capitalize',
+                            alignSelf: 'flex-end',
+                            border: isMobile ? '0.387px solid #F0F0F0' : '1px solid #F0F0F0'}}
+                            onClick={() => setIsOpen(true)}
+                            >
+                          <Icon color={userPlan ? '#FFFFFF' : '#404040'}  icon={userPlan ? 'ph:crown-simple-fill' : 'material-symbols-light:upload-sharp' } fontSize={isMobile ? '14px' : '20px'} />
+                          {userPlan ? isMobile ? 'Unlock Upload Resume' : 'Unlock Pro to Upload Resume' : 'Upload Resume'}
+                        </Button>
                         <Button
                           aria-label='download'
                           sx={{
+                            width: isMobile ? '100%':'fit-content',
                             display: 'flex',
                             flexDirection: 'row',
-                            gap: '6px',
-                            padding: isMobile ? '4px !important' : '8px 12px !important',
+                            justifyContent: 'space-around',
+                            gap: isMobile ? '8px' : '12px',
+                            padding: isMobile ? '6px 8px !important' : '8px 12px !important',
                             alignItems: 'center',
                             fontFamily: 'Figtree',
-                            fontSize: isMobile ? '10px' : '16px',
+                            fontSize: isMobile ? '12px' : '14px',
                             fontWeight: 400,
+                            whiteSpace: 'nowrap',
                             color: '#404040',
                             textTransform: 'capitalize',
                             alignSelf: 'flex-end',
@@ -691,10 +732,12 @@ const Candidate = () => {
                           }}
                           onClick={handleDownloadResume}
                         >
-                          <Icon icon='material-symbols-light:download-sharp' fontSize={isMobile ? '20px' : '24px'} />
+                          <Icon icon='material-symbols-light:download-sharp' fontSize={isMobile ? '14px' : '20px'} />
                           Download Resume
                         </Button>
+                        </Box>
                       </Box>
+                      <DialogResumeBuilder isSubs={!userPlan} isMobile={isMobile} isOpen={isOpen} handleClose={handleCloseDialog}/>
                       <Box
                         sx={{
                           marginTop: '40px',
