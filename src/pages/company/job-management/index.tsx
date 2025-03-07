@@ -326,7 +326,7 @@ const JobManagement = () => {
               </Box>
             </Box>
           </Box>
-          <Grid container sx={{ my: '8px' }} spacing={6}>
+          <Grid container sx={{ mt: 0, mb: '8px' }} spacing={6}>
             {onLoading ? (
               Array(4)
                 .fill(0)
