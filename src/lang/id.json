@@ -337,15 +337,19 @@
     },
     "employer_page":{
       "our_partner": "Bekerja Sama dengan 500+ Para Pemimpin Industri",
-      "hero_1": "Rekrut Talenta Maritim Terbaik. <br/>Lebih Praktis dan Tanpa Menunggu Lama.",
-      "hero_2": "Dengan Profesea, Anda mendapatkan akses instan ke talent pool pelaut dan<br/>tenaga profesional berkualitas sesuai kebutuhan Anda.",
+      "hero_1": "Rekrut Talenta Maritim Terbaik. <br/>Mudah, Cepat, Tanpa Ribet!",
+      "hero_2": "Di Profesea, Anda mendapatkan akses instan ke <i>talent pool</i> pelaut<br/> dan tenaga profesional berkualitas sesuai kebutuhan Anda.",
       "hero_button": "Gabung Sekarang",
-      "faq": {
-          "1":{
-            "summary": "Apa itu Profesea",
-            "detail": "Profesea merupakan platform all in one untuk menawarkan pekerjaan dari perusahaan Anda"
-          }
-      }
+      "benefit_title": "Satu Platform, <span style=\"background-image: linear-gradient(170deg,#0049C6, #CDF4FF); color: transparent; background-clip: text;\">Solusi untuk<br/>Industri Maritim.</span>",
+      "benefit_1": "Talent Pool & Management",
+      "benefit_2": "Pasang Lowongan Kerja",
+      "benefit_3": "Forum Komunitas",
+      "benefit_4": "Media Sosial",
+      "benefit_1_detail": "Akses cepat ke kandidat berkualitas tanpa harus menyaring ratusan CV.",
+      "benefit_2_detail": "Pasang lowongan dan temukan kandidat potensial dalam hitungan jam.",
+      "benefit_3_detail": "Terhubung dengan profesional industri dan perluas jaringan rekrutmen.",
+      "benefit_4_detail": "Perkuat <i>employer branding</i> dan tingkatkan visibilitas perusahaan Anda."
+
     }
   }
 }

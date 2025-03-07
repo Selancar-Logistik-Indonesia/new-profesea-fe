@@ -335,7 +335,19 @@
       }
     },
     "employer_page":{
-      "our_partner": "Partnering with 500+ Industry Leaders"
+      "our_partner": "Partnering with 500+ Industry Leaders",
+      "hero_1": "Hire the Best Maritime Talent.<br/>Fast, Easy, No Hassle!",
+      "hero_2": "With Profesea, you get instant access to a talent pool of skilled<br/>seafarers and maritime professionals tailored to your needs.",
+      "hero_button": "Join Now",
+      "benefit_title": "One Platform, <span style=\"color: #FE9602\">One Maritime Solution.</span>",
+      "benefit_1": "Talent Pool & Management",
+      "benefit_2": "Job Posting",
+      "benefit_3": "Community Forum",
+      "benefit_4": "Social Media",
+      "benefit_1_detail": "Quick access to top-quality candidates without sorting through countless resumes.",
+      "benefit_2_detail": "Post job openings and connect with potential candidates within hours.",
+      "benefit_3_detail": "Engage with industry professionals and expand your recruitment network.",
+      "benefit_4_detail": "Strengthens your employer's branding and increases its visibility."
     }
   }
 }

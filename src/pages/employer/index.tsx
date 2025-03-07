@@ -4,6 +4,7 @@ import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 import themeConfig from 'src/configs/themeConfig'
+import BenefitSection from 'src/views/employer/BenefitSection'
 import FaqSection from 'src/views/employer/FaqSection'
 
 //component
@@ -29,6 +30,7 @@ const Main = () => {
       </Head>
       <HeroSection/>
       <OurPartner/>
+      <BenefitSection/>
       <FaqSection/>
     </>
   )
