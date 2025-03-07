@@ -79,7 +79,6 @@ const JobDetail = () => {
                 gap: isMobile ? '10px' : '32px',
                 py: '24px',
                 ml: '8px',
-                borderTop: '1px solid #EDEDED',
                 borderBottom: '1px solid #EDEDED'
               }}
             >
@@ -215,16 +214,12 @@ const JobDetail = () => {
                     <Grid item xs={6}>
                       : {job?.degree?.name || '-'}
                     </Grid>
-                    <Grid item xs={6}></Grid>
-                    <Grid item xs={6}></Grid>
-                    <Grid item xs={6}></Grid>
-                    <Grid item xs={6}></Grid>
                   </>
                 )}
               </Grid>
             </Box>
             {/* Description */}
-            <Box sx={{ ml: '8px' }}>
+            <Box sx={{ ml: '8px', py: '24px', borderBottom: '1px solid #EDEDED' }}>
               <Typography
                 sx={{
                   fontSize: '16px',
@@ -243,7 +238,7 @@ const JobDetail = () => {
 
             {/* Certificate */}
             {job?.category?.employee_type == 'onship' && (
-              <Box sx={{ ml: '8px' }}>
+              <Box sx={{ ml: '8px', py: '24px' }}>
                 <Typography
                   sx={{
                     fontSize: '16px',
