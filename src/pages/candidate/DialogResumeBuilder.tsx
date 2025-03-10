@@ -137,13 +137,13 @@ const DialogResumeBuilder = ({ isSubs, isOpen, handleClose, isMobile }: dialogPr
     >
       <DialogContent sx={{ padding: 0 }}>
         <Box
-          padding={isSubs ? '16px 64px' : '32px 64px'}
+          padding={isSubs ? '16px 32px' : '32px 32px'}
           sx={{
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            boxShadow: '0px 0px 0px 0px , 0px 2px 10px 0px rgba(0, 0, 0, 0.08)'
+            alignItems: 'center',
+            boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)'
           }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -346,9 +346,9 @@ const SubscriberContent = ({ handleClose, isMobile }: { handleClose: VoidFunctio
   return (
     <>
       <Box
-        padding={isMobile ? '24px' : '16px 64px'}
+        padding={isMobile ? '24px' : '16px 32px'}
         sx={{
-          backgroundColor: '#FAFAFA',
+          backgroundColor: '#FFFFFF',
           display: 'flex',
           flexDirection: 'column',
           gap: '20px',
@@ -427,7 +427,7 @@ const SubscriberContent = ({ handleClose, isMobile }: { handleClose: VoidFunctio
         />
       </Box>
       <Box
-        padding={isMobile ? '16px 24px' : '16px 64px'}
+        padding={isMobile ? '16px 24px' : '16px 32px'}
         sx={{
           display: 'flex',
           flexDirection: isMobile ? 'column-reverse' : 'row',

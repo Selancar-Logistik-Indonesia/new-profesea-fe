@@ -53,10 +53,10 @@ const CompleteDialog = (props: ViewProps) => {
   const handleApprove = async () => {
     setOnLoading(true)
 
-    if(selectedResume === 'uploaded'){
+    if(selectedResume === 'upload'){
       try {
         const res = await HttpClient.get(AppConfig.baseUrl + `/user/download-cv/${user.id}`)
-        if (!res.data.filename || res.data.filename === '') {
+        if (!res.data.file || res.data.filename === '') {
           router.push('/candidate/?tabs=0&resume=true&fallbackUrl=' + pathname)
 
           return
@@ -64,6 +64,9 @@ const CompleteDialog = (props: ViewProps) => {
         
       } catch (error) {
         console.log(error)
+        router.push('/candidate/?tabs=0&resume=true&fallbackUrl=' + pathname)
+        
+        return
       }
     }
 
@@ -132,7 +135,7 @@ const CompleteDialog = (props: ViewProps) => {
             justifyContent: 'space-between',
             alignItems: 'center',
             borderTop: '1px solid #F0F0F0',
-            padding: '16px 64px !important'
+            padding: '16px 32px !important'
           }}
         >
           <Button
@@ -171,7 +174,7 @@ const Content = ({onClose, selectedResume, setSelectedResume, isMobile} : conten
               justifyContent: 'space-between',
               alignItems:'center',
               boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)',
-              padding: isMobile ? '24px' : '16px 64px'
+              padding: isMobile ? '24px' : '16px 32px'
             }}
           >
             <Box>
@@ -183,7 +186,7 @@ const Content = ({onClose, selectedResume, setSelectedResume, isMobile} : conten
               <Icon icon='mdi:close' fontSize={24} />
             </IconButton>
           </Box>
-          <Box sx={{ display: 'flex', gap: '8px', flexDirection: 'column', padding: isMobile ? '16px 24px' : '16px 64px' }}>
+          <Box sx={{ display: 'flex', gap: '8px', flexDirection: 'column', padding: isMobile ? '16px 24px' : '16px 32px' }}>
             <Typography color={'#404040'} fontSize={16} fontWeight='700'>
               How would you like to proceed
             </Typography>
@@ -191,7 +194,7 @@ const Content = ({onClose, selectedResume, setSelectedResume, isMobile} : conten
               Choose the resume you'd like to use for this {isMobile && <br/>} application:
             </Typography>
           </Box>
-          <Grid spacing={4} container sx={{ padding: isMobile ? '16px 24px' : '16px 64px', gridRow:1 }}>
+          <Grid spacing={4} container sx={{ padding: isMobile ? '16px 24px' : '16px 32px', gridRow:1 }}>
             <Grid item xs={12} md={6}>
               <Card
               variant='outlined'
@@ -205,7 +208,10 @@ const Content = ({onClose, selectedResume, setSelectedResume, isMobile} : conten
                   borderRadius:'8px !important',
                   ...(selectedResume === 'upload'
                     ? { border: '1px solid #0B58A6', backgroundColor: '#F2F8FE' }
-                    : { border: '1px solid #868686' })
+                    : { border: '1px solid #868686' }),
+                    '&:hover': {
+                      backgroundColor: selectedResume === 'upload' ? '#F2F8FE' : '#FAFAFA'
+                    }
                 }}
               >
                 <CardContent sx={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
@@ -235,7 +241,10 @@ const Content = ({onClose, selectedResume, setSelectedResume, isMobile} : conten
                   borderRadius:'8px !important',
                   ...(selectedResume === 'platform'
                     ? { border: '1px solid #0B58A6', backgroundColor: '#F2F8FE' }
-                    : { border: '1px solid #868686' })
+                    : { border: '1px solid #868686' }),
+                    '&:hover': {
+                      backgroundColor: selectedResume === 'platform' ? '#F2F8FE' : '#FAFAFA'
+                    }
                 }}
               >
                 <CardContent sx={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
