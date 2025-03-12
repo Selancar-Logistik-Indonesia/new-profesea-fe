@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next'
 import FooterView from 'src/views/landing-page/footerView'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
-import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 import fsPromises from 'fs/promises'
 import path from 'path'
+import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 
 export async function getServerSideProps() {
   const filePath = path.join(process.cwd(), 'assets/faq/id.html')
@@ -35,7 +35,7 @@ const FAQS = (props: { tosContent: string }) => {
       </Head>
 
       <Grid container>
-        <Grid item xs={12}>
+        <Grid item xs={12} p={5}>
           <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', padding: 5 }}>
             <CardHeader
               title={
@@ -58,6 +58,6 @@ const FAQS = (props: { tosContent: string }) => {
 
 FAQS.guestGuard = false
 FAQS.authGuard = false
-FAQS.getLayout = (page: ReactNode) => <OuterPageLayout>{page}</OuterPageLayout>
+FAQS.getLayout = (page: ReactNode) => <LandingPageLayout>{page}</LandingPageLayout>
 
 export default FAQS
