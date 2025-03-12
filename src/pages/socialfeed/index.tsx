@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box'
-import { Button, Card, Grid, IconButton, Typography, useMediaQuery } from '@mui/material'
+import { Button, Grid, IconButton, Typography, useMediaQuery } from '@mui/material'
 import Profile, { activities } from 'src/layouts/components/Profile'
 import { useAuth } from 'src/hooks/useAuth'
 import Postfeed from 'src/views/social-feed/Postfeed'

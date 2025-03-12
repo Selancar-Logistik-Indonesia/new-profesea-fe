@@ -383,7 +383,7 @@ const JobDetailApplied = () => {
 
       <Box sx={{ position: 'relative' }}>
         <Grid container sx={{ position: 'absolute', top: '12px', left: '-72px' }}>
-          <IconButton onClick={() => router.push(`/candidate/trainings`)}>
+          <IconButton onClick={handleBackPage}>
             <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
           </IconButton>
         </Grid>

@@ -1,7 +1,6 @@
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Box, CardContent, CircularProgress, Grid, IconButton } from '@mui/material'
-import Link from 'next/link'
+import { Box, CircularProgress, Grid, IconButton } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'

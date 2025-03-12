@@ -11,7 +11,7 @@ interface Props {
   appBarBranding: NonNullable<NonNullable<LayoutProps['horizontalLayoutProps']>['appBar']>['branding']
 }
 
-const LinkStyled = styled(Link)(({ theme }) => ({
+const LinkStyled = styled(Link)(() => ({
   display: 'flex',
   alignItems: 'center',
   textDecoration: 'none',
