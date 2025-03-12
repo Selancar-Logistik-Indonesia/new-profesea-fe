@@ -17,9 +17,7 @@ const AppBarContent = (props: Props) => {
 
   return (
     <Grid container sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mx: '20px' }}>
-        <AppbarSearchUser />
-      </Box>
+      <AppbarSearchUser />
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Navigation {...props} horizontalNavItems={HorizontalNavItems()} />
         <Box sx={{ display: 'flex', gap: '4px' }}>

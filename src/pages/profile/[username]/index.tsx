@@ -130,19 +130,8 @@ const UserFeedApp = () => {
 
   return (
     <>
-      <Grid
-        container
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          mt: '10px',
-          mb: '20px',
-          gap: '32px',
-          paddingLeft: { lg: '96px' },
-          paddingRight: { lg: '96px' }
-        }}
-      >
-        <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      <Grid container spacing={6} sx={{ display: 'flex', justifyContent: 'center', mb: '20px' }}>
+        <Grid item xs={12} md={9} sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <ProfileHeader dataUser={selectedUser as unknown as IUser} />
           {selectedUser.id === user?.id && <Analytics dataUser={selectedUser} />}
           <AboutMe dataUser={selectedUser} />

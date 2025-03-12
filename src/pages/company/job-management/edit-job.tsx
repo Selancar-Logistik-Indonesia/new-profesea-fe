@@ -31,7 +31,7 @@ const EditJob = () => {
   return (
     <>
       <Grid container sx={{ display: 'flex', justifyContent: 'center', gap: '24px', pb: '48px' }}>
-        <Grid item xs={11}>
+        <Grid item xs={12}>
           <Breadcrumbs separator={<MdNavigateNext fontSize={'17px'} color='black' />} aria-label='breadcrumb'>
             <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
               <Typography
@@ -68,7 +68,7 @@ const EditJob = () => {
             </Typography>
           </Breadcrumbs>
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={12}>
           {job === null ? null : job.category.employee_type === 'onship' ? (
             <SeafarerJob job={job} type='edit' />
           ) : (

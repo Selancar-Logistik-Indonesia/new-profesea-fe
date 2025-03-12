@@ -86,12 +86,8 @@ const UserFeedApp = () => {
 
   return (
     <>
-      <Grid
-        container
-        spacing={6}
-        sx={{ display: 'flex', justifyContent: 'center', mt: status ? '10px' : 0, mb: '20px' }}
-      >
-        <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <Grid container spacing={6} sx={{ display: 'flex', justifyContent: 'center', mb: '20px' }}>
+        <Grid item xs={12} md={9} sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <ProfileHeader dataUser={selectedUser} />
           {selectedUser?.id === user?.id && status && <Analytics dataUser={selectedUser} />}
           <AboutMe dataUser={selectedUser} />

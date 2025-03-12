@@ -381,17 +381,13 @@ const JobDetailApplied = () => {
         </DialogActions>
       </Dialog>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px', px: isMobile ? 0 : '96px' }}>
-        <Box>
+      <Box sx={{ position: 'relative' }}>
+        <Grid container sx={{ position: 'absolute', top: '12px', left: '-72px' }}>
           <IconButton onClick={handleBackPage}>
-            <FontAwesomeIcon icon={faArrowLeft} size={'sm'} color='text.primary' />
+            <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
           </IconButton>
-        </Box>
-        <Grid
-          container
-          gap={isMobile ? '16px' : '32px'}
-          sx={{ flexWrap: 'nowrap', flexDirection: isMobile ? 'column' : 'row' }}
-        >
+        </Grid>
+        <Grid container gap='24px' sx={{ flexWrap: 'nowrap', flexDirection: isMobile ? 'column' : 'row' }}>
           <Grid
             item
             xs={12}
@@ -723,9 +719,7 @@ const JobDetailApplied = () => {
                     <Avatar src={jobDetail?.job?.company?.photo} sx={{ width: 51, height: 51 }} />
                     <Box
                       sx={{ cursor: 'pointer' }}
-                      onClick={() =>
-                        router.push(`/company/${jobDetail?.job?.company?.username}`)
-                      }
+                      onClick={() => router.push(`/company/${jobDetail?.job?.company?.username}`)}
                     >
                       <TruncatedTypography fontSize={14} fontWeight={700} color={'#303030'}>
                         {jobDetail?.job?.company?.name ?? '-'}
