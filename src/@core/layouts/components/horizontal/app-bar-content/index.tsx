@@ -15,7 +15,7 @@ const LinkStyled = styled(Link)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   textDecoration: 'none',
-  marginRight: theme.spacing(8)
+  marginRight: '24px'
 }))
 
 const AppBarContent = (props: Props) => {

@@ -38,21 +38,14 @@ const FeedDetail = () => {
   }, [feedId])
 
   return (
-    <Box p={4}>
-      <Grid container sx={{ position: 'fixed' }}>
-        <IconButton LinkComponent={Link} href='/home'>
+    <Box sx={{ position: 'relative' }}>
+      <Grid container sx={{ position: 'absolute', top: '12px', left: '-72px' }}>
+        <IconButton onClick={() => router.push(`/candidate/trainings`)}>
           <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
         </IconButton>
       </Grid>
-      <Grid
-        container
-        spacing={2}
-        sx={{
-          display: 'flex',
-          justifyContent: 'center'
-        }}
-      >
-        <CardContent>{feed ? <FeedCard item={feed} /> : <CircularProgress />}</CardContent>
+      <Grid item xs={12}>
+        {feed ? <FeedCard item={feed} type='page' /> : <CircularProgress />}
       </Grid>
     </Box>
   )

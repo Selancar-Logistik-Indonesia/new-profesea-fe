@@ -38,7 +38,7 @@ const CandidateList = () => {
 
   return (
     <Grid container sx={{ display: 'flex', justifyContent: 'center', gap: '24px', pb: '48px' }}>
-      <Grid item xs={11}>
+      <Grid item xs={12}>
         <Breadcrumbs separator={<MdNavigateNext fontSize={'17px'} color='black' />} aria-label='breadcrumb'>
           <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
             <Typography
@@ -75,10 +75,10 @@ const CandidateList = () => {
           </Typography>
         </Breadcrumbs>
       </Grid>
-      <Grid item xs={11}>
+      <Grid item xs={12}>
         <JobCard job={job} />
       </Grid>
-      <Grid item xs={11}>
+      <Grid item xs={12}>
         <CandidateListTabs count={() => setCount(v4())} />
       </Grid>
     </Grid>

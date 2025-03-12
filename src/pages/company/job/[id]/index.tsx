@@ -30,7 +30,7 @@ const JobDetail = () => {
 
   return (
     <Grid container sx={{ display: 'flex', justifyContent: 'center', gap: '24px' }}>
-      <Grid item xs={11}>
+      <Grid item xs={12}>
         <Breadcrumbs separator={<MdNavigateNext fontSize={'17px'} color='black' />} aria-label='breadcrumb'>
           <Link key='1' href='/company/job-management' sx={{ textDecoration: 'none' }}>
             <Typography
@@ -56,7 +56,7 @@ const JobDetail = () => {
           </Typography>
         </Breadcrumbs>
       </Grid>
-      <Grid item xs={11} sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF' }}>
+      <Grid item xs={12} sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF' }}>
         <Grid container>
           <CardContent>
             <HeaderJobDetail jobDetail={job as unknown as Job} isCompany={true} />
