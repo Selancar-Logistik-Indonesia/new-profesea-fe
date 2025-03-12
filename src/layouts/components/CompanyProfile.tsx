@@ -164,11 +164,9 @@ const CompanyProfile = (props: compProps) => {
     })
     HttpClient.get(AppConfig.baseUrl + '/user/' + props.datauser.id).then(response => {
       const code = response.data.user
-      // let reason = 'Please wait for admin to verify'
       let reason = ''
       if (code.reason != null) reason = code.reason
       setReason(reason)
-      // setVerified(code.verified_at)
       setPreview(code.photo)
       setPreviewBanner(code.banner)
     })
@@ -192,7 +190,6 @@ const CompanyProfile = (props: compProps) => {
           arr.push({ id: element.id, name: element.document_type })
         }
       }
-      // getArrayHead(arr)
       getItemdata(itemData)
     })
   }
@@ -205,12 +202,7 @@ const CompanyProfile = (props: compProps) => {
     const code = resp.data.cities
     getComboCity(code)
   }
-  // useEffect(() => {
-  //   combobox()
-  //   if (props.datauser.address != undefined) {
-  //     searchcity(props.datauser.country_id)
-  //   }
-  // }, [])
+
   useEffect(() => {
     combobox()
     if (props.datauser.address != undefined) {
@@ -234,7 +226,6 @@ const CompanyProfile = (props: compProps) => {
       address_city_id: idcity,
       address_address: address,
       date_of_birth: null
-      //team_id:props.datauser.team_id
     }
     HttpClient.patch(AppConfig.baseUrl + '/user/update-profile', json).then(
       ({ data }) => {
@@ -245,7 +236,7 @@ const CompanyProfile = (props: compProps) => {
       },
       error => {
         console.log('here 1', error)
-        toast.error('Registrastion Failed ' + error.response.data.message)
+        toast.error('Save Profile failed: Please fill in the required data')
       }
     )
   }
@@ -849,7 +840,7 @@ const CompanyProfile = (props: compProps) => {
                   <Grid item md={6} xs={12}>
                     <TextField
                       id='address'
-                      label='Address'
+                      label='Address *'
                       defaultValue={props.datauser.address?.address}
                       variant='standard'
                       fullWidth

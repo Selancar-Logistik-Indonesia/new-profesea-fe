@@ -79,7 +79,7 @@ const CandidateList = () => {
         <JobCard job={job} />
       </Grid>
       <Grid item xs={11}>
-        <CandidateListTabs count={() => setCount(v4())} />
+        <CandidateListTabs jobType={job.category.employee_type} count={() => setCount(v4())} />
       </Grid>
     </Grid>
   )
