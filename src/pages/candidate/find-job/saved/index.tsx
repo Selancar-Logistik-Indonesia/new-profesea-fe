@@ -586,8 +586,6 @@ const JobSaved = () => {
           selectedItem={jobDetail}
           openDialog={openDialog}
           setApply={() => {}}
-          isMobile={isMobile}
-          user={user}
         />
       )}
 
