@@ -200,7 +200,7 @@ const JobDetail = () => {
                 />
               </Box>
               <Typography sx={{ fontSize: '16px', fontWeight: 700 }}>
-                You’ve saved this job{' '}
+                You've saved this job{' '}
                 <span
                   onClick={() => window.location.replace('/candidate/find-job/?tabs=3')}
                   style={{ fontSize: '16px', fontWeight: 700, color: '#0B58A6', cursor: 'pointer' }}
@@ -261,12 +261,12 @@ const JobDetail = () => {
         <script type='application/ld+json' dangerouslySetInnerHTML={addProductJsonLd()} key='product-jsonld' />
       </Head>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px', px: isMobile ? 0 : '96px' }}>
-        <Box>
+      <Box sx={{ position: 'relative' }}>
+        <Grid container sx={{ position: 'absolute', top: '12px', left: '-72px' }}>
           <IconButton onClick={handleBackPage}>
             <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
           </IconButton>
-        </Box>
+        </Grid>
         <Grid
           container
           gap={isMobile ? '16px' : '32px'}
@@ -683,11 +683,8 @@ const JobDetail = () => {
               selectedItem={jobDetail}
               openDialog={openDialog}
               setApply={setOnApplied}
-              isMobile={isMobile}
-              user={user}
             />
           )}
-
 
           {openCertificateDialog && (
             <CertificateDialog

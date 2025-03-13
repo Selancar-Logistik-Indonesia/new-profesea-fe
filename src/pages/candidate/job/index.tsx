@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { Avatar, Card, CardContent, Typography, CircularProgress, useMediaQuery, useTheme } from '@mui/material'
+import { Avatar, Card, CardContent, Typography, CircularProgress } from '@mui/material'
 import { HttpClient } from 'src/services'
 import Job from 'src/contract/models/job'
 import { toast } from 'react-hot-toast'
@@ -29,8 +29,8 @@ const JobDetail = () => {
   const [openDialog, setOpenDialog] = useState(false)
   const [openCertificateDialog, setOpenCertificateDialog] = useState(false)
 
-  const Theme = useTheme()
-  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
+
+
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   // const [open, setOpen] = React.useState(false)
@@ -267,8 +267,6 @@ const JobDetail = () => {
               selectedItem={jobDetail}
               openDialog={openDialog}
               setApply={setOnApplied}
-              isMobile={isMobile}
-              user={user}
             />
           )}
 

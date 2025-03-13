@@ -93,9 +93,11 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
   return (
     <>
       <Box sx={{ p: '16px', border: '1.5px solid #E7E7E7', borderRadius: '6px' }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
             <Typography
+              component={job.is_draft ? Box : Link}
+              {...(job.is_draft ? {} : { href: `/company/job/${job.id}` })}
               sx={{
                 fontSize: 18,
                 fontWeight: 700,
@@ -179,20 +181,20 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
               >
                 <MenuItem
                   component={Link}
-                  href={`/company/job-management/edit-job/?id=${job.id}`}
-                  sx={{ color: '#404040' }}
-                >
-                  <Icon icon='tabler:edit' fontSize={20} style={{ marginRight: 8 }} />
-                  Edit
-                </MenuItem>
-                <MenuItem
-                  component={Link}
                   disabled={job.is_draft}
                   href={`/company/job/${job.id}`}
                   sx={{ color: '#428FDC' }}
                 >
                   <Icon icon='tabler:eye-filled' fontSize={20} style={{ marginRight: 8 }} />
                   View Job Detail
+                </MenuItem>
+                <MenuItem
+                  component={Link}
+                  href={`/company/job-management/edit-job/?id=${job.id}`}
+                  sx={{ color: '#404040' }}
+                >
+                  <Icon icon='tabler:edit' fontSize={20} style={{ marginRight: 8 }} />
+                  Edit
                 </MenuItem>
                 <MenuItem
                   onClick={() => {

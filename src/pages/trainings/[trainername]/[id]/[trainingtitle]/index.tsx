@@ -12,8 +12,8 @@ import OtherTraining from './OtherTraining'
 import { useAuth } from 'src/hooks/useAuth'
 import DialogLogin from 'src/@core/components/login-modal'
 import { useTranslation } from 'react-i18next'
-import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 import { usePathname } from 'next/navigation'
+import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 
 const TrainingDetailPage = () => {
   const router = useRouter()
@@ -230,6 +230,6 @@ const TrainingDetailPage = () => {
 
 TrainingDetailPage.guestGuard = false
 TrainingDetailPage.authGuard = false
-TrainingDetailPage.getLayout = (page: ReactNode) => <OuterPageLayout>{page}</OuterPageLayout>
+TrainingDetailPage.getLayout = (page: ReactNode) => <LandingPageLayout>{page}</LandingPageLayout>
 
 export default TrainingDetailPage

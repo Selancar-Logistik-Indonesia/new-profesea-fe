@@ -137,13 +137,13 @@ const DialogResumeBuilder = ({ isSubs, isOpen, handleClose, isMobile }: dialogPr
     >
       <DialogContent sx={{ padding: 0 }}>
         <Box
-          padding={isSubs ? '16px 64px' : '32px 64px'}
+          padding={isSubs ? '16px 32px' : '32px 32px'}
           sx={{
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            boxShadow: '0px 0px 0px 0px , 0px 2px 10px 0px rgba(0, 0, 0, 0.08)'
+            alignItems: 'center',
+            boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)'
           }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -263,11 +263,10 @@ const SubscriberContent = ({ handleClose, isMobile }: { handleClose: VoidFunctio
         toast.error('There is something wrong when uploading your file. Please try again later.')
       }
       setIsLoading(false)
-      
-      
 
       handleClose()
       toast.success('Your resume has been successfully uploaded.')
+
       if(fallbackUrl){
         router.push(fallbackUrl)
       }
@@ -338,28 +337,18 @@ const SubscriberContent = ({ handleClose, isMobile }: { handleClose: VoidFunctio
 
           return
         }
-        console.log(response)
         setPrevAttachment({ ...response.data })
-      })
-      .catch(err => {
-        if(err.response.status === 404) {
-          setIsError(true)
-          setErrorType('fileNotFound')
-          setIsErrorModalOpen(true)
-        } else{
-          setIsError(true)
-          setErrorType('tiemout')
-          setIsErrorModalOpen(true)
-        }
+      }).catch(err => {
+        console.log(err)
       })
   }, [])
 
   return (
     <>
       <Box
-        padding={isMobile ? '24px' : '16px 64px'}
+        padding={isMobile ? '24px' : '16px 32px'}
         sx={{
-          backgroundColor: '#FAFAFA',
+          backgroundColor: '#FFFFFF',
           display: 'flex',
           flexDirection: 'column',
           gap: '20px',
@@ -389,7 +378,7 @@ const SubscriberContent = ({ handleClose, isMobile }: { handleClose: VoidFunctio
                   {(attachment && attachment.name) || (prevAttachment && prevAttachment.filename)}
                 </Typography>
                 <Typography variant='body2' fontSize={'12px'} fontWeight={400} color={'#999999'}>
-                  {attachment && (attachment?.size / (1024 * 1024)).toFixed(2) + 'MB'}
+                  {attachment && (attachment?.size / (1024 * 1024)).toFixed(2) + 'MB' || prevAttachment && prevAttachment?.size + 'MB'}
                 </Typography>
               </Box>
             </Box>
@@ -438,7 +427,7 @@ const SubscriberContent = ({ handleClose, isMobile }: { handleClose: VoidFunctio
         />
       </Box>
       <Box
-        padding={isMobile ? '16px 24px' : '16px 64px'}
+        padding={isMobile ? '16px 24px' : '16px 32px'}
         sx={{
           display: 'flex',
           flexDirection: isMobile ? 'column-reverse' : 'row',

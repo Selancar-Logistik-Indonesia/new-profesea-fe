@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box'
-import { Button, Card, Grid, IconButton, Typography, useMediaQuery } from '@mui/material'
+import { Button, Grid, IconButton, Typography, useMediaQuery } from '@mui/material'
 import Profile, { activities } from 'src/layouts/components/Profile'
 import { useAuth } from 'src/hooks/useAuth'
 import Postfeed from 'src/views/social-feed/Postfeed'
@@ -205,29 +205,20 @@ const SocialFeedApp = () => {
 
   return (
     <Grid container justifyContent='center'>
-      <Grid item xs={12} md={11}>
+      <Grid item xs={12}>
         {user?.role === 'Company' && show && renderAlertDocumentsForCompany(activities)}
         <Grid container spacing={6}>
           <Grid item xs={12} md={5} lg={3}>
-            <Box>
+            <Box sx={{ position: 'sticky', top: '70px' }}>
               <Profile datauser={user} activities={activities} />
             </Box>
           </Grid>
           <Grid item xs={12} md={7} lg={6}>
-            <Grid container spacing={6}>
-              <Grid item xs={12}>
-                <Postfeed />
-                <ListFeedView />
-              </Grid>
-            </Grid>
+            <Postfeed />
+            <ListFeedView />
           </Grid>
           <Grid item xs={12} lg={3}>
-            {/* <Box>
-            <ProfileViewerCard />
-          </Box> */}
-            <Card>
-              <FriendSuggestionCard location='home' />
-            </Card>
+            <FriendSuggestionCard location='home' />
             <Box my={4} sx={{ position: 'sticky', top: '70px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
               <SideAd adslocation='home-page' />
               <Box

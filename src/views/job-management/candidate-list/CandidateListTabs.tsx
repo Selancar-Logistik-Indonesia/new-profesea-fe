@@ -14,7 +14,7 @@ import {
 } from '@mui/material'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import AnimatedTabs from 'src/@core/components/animated-tabs'
 import CustomTabs from 'src/@core/components/custom-tabs'
 import CustomPaginationItem from 'src/@core/components/pagination/item'
@@ -39,9 +39,10 @@ const completedTabs = [
   { label: 'Not Suitable', value: 'RJ' }
 ]
 
-const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
+const CandidateListTabs = ({ jobType, count }: { jobType: string; count: VoidFunction }) => {
   const params = useSearchParams()
   const tabStatus = params.get('tabs')
+  const prevTabStatus = useRef(tabStatus)
   const jobId = params.get('id')
   const router = useRouter()
 
@@ -86,6 +87,7 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
 
     await HttpClient.get(`${AppConfig.baseUrl}/job/${jobId}/appllicants`, {
       page,
+      search,
       take: pageItems,
       status: statusParam,
       vesseltype_id: vesselTypeFilter?.id,
@@ -126,9 +128,14 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
       } else {
         newQuery.set('tabs', tabs)
       }
-      router.replace(`${updatedPathname}?${newQuery.toString()}`, undefined, { shallow: true, scroll: false })
+
+      if (prevTabStatus.current !== tabStatus) {
+        prevTabStatus.current = tabStatus
+      } else {
+        router.replace(`${updatedPathname}?${newQuery.toString()}`, undefined, { shallow: true, scroll: false })
+      }
     }
-  }, [tabs, page, pageItems, statusFilter, vesselTypeFilter, cityFilter, refetch])
+  }, [tabs, page, pageItems, search, statusFilter, vesselTypeFilter, cityFilter, tabStatus, refetch])
 
   useEffect(() => {
     clearFilters()
@@ -213,25 +220,27 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
                 </Select>
               </Grid>
             )}
-            <Grid item xs={4}>
-              <Autocomplete
-                autoHighlight
-                options={vesselType || []}
-                getOptionLabel={option => option.name || ''}
-                value={vesselType?.find(vessel => vessel.id === vesselTypeFilter?.id) || null}
-                isOptionEqualToValue={(option, value) => option.id === value.id}
-                onChange={(_, newValue) => {
-                  setVesselTypeFilter(newValue ? newValue : null)
-                }}
-                renderInput={field => <TextField {...field} placeholder='Vessel Type' size='small' />}
-                renderOption={(props, option) => (
-                  <MenuItem {...props} key={option.id} value={option.id}>
-                    {option.name}
-                  </MenuItem>
-                )}
-                noOptionsText='Hasil pencaian tidak ditemukan. Coba gunakan kata kunci lain atau periksa kembali pencarian Anda'
-              />
-            </Grid>
+            {jobType === 'onship' && (
+              <Grid item xs={4}>
+                <Autocomplete
+                  autoHighlight
+                  options={vesselType || []}
+                  getOptionLabel={option => option.name || ''}
+                  value={vesselType?.find(vessel => vessel.id === vesselTypeFilter?.id) || null}
+                  isOptionEqualToValue={(option, value) => option.id === value.id}
+                  onChange={(_, newValue) => {
+                    setVesselTypeFilter(newValue ? newValue : null)
+                  }}
+                  renderInput={field => <TextField {...field} placeholder='Vessel Type' size='small' />}
+                  renderOption={(props, option) => (
+                    <MenuItem {...props} key={option.id} value={option.id}>
+                      {option.name}
+                    </MenuItem>
+                  )}
+                  noOptionsText='Hasil pencaian tidak ditemukan. Coba gunakan kata kunci lain atau periksa kembali pencarian Anda'
+                />
+              </Grid>
+            )}
             <Grid item xs={4}>
               <Autocomplete
                 autoHighlight
