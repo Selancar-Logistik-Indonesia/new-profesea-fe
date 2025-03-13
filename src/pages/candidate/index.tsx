@@ -172,7 +172,6 @@ const Candidate = () => {
 
   //query for resume builder
   const isUploadResume = params.get('resume')
-  const fallbackUrl = params.get('fallbackUrl')
 
   
 
@@ -738,7 +737,7 @@ const Candidate = () => {
                         </Button>
                         </Box>
                       </Box>
-                      <DialogResumeBuilder fallbackUrl={fallbackUrl as string} isSubs={!userPlan} isMobile={isMobile} isOpen={isOpen} handleClose={handleCloseDialog}/>
+                      <DialogResumeBuilder isSubs={!userPlan} isMobile={isMobile} isOpen={isOpen} handleClose={handleCloseDialog}/>
                       <Box
                         sx={{
                           marginTop: '40px',

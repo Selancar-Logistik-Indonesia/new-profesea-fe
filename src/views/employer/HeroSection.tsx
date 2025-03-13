@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import Lottie from 'lottie-react'
-import heroImageBig from 'public/animated-images/smooth2.json'
+
 
 const HeroSection = () => {
   const { t } = useTranslation()
@@ -48,7 +48,7 @@ const HeroSection = () => {
       </Box>
 
       <Box sx={{width:'50%'}}>
-        <Lottie animationData={heroImageBig} />
+        <Lottie animationData={require('/public/animated-images/smooth2.json')} />
       </Box>
     </Box>
   )

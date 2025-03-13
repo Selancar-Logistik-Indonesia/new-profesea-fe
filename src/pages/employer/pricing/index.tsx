@@ -1,4 +1,3 @@
-import { Icon } from '@iconify/react'
 import { Box, Button, Typography } from '@mui/material'
 import { ReactNode } from 'react'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
