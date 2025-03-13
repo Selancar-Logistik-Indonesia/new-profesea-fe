@@ -1,4 +1,3 @@
-import { useMediaQuery, useTheme } from '@mui/material'
 import Head from 'next/head'
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,16 +5,20 @@ import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 import themeConfig from 'src/configs/themeConfig'
 import BenefitSection from 'src/views/employer/BenefitSection'
 import FaqSection from 'src/views/employer/FaqSection'
+import FindSection from 'src/views/employer/FindSection'
+import FooterBanner from 'src/views/employer/FooterBanner'
 
 //component
 import HeroSection from 'src/views/employer/HeroSection'
+import JoinSection from 'src/views/employer/JoinSection'
 import OurPartner from 'src/views/employer/OurPartner'
+import TestimonySection from 'src/views/employer/TestimonySection'
+import FooterView from 'src/views/landing-page/footerView'
 
 
 const Main = () => {
   const { t } = useTranslation()
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
 
   return (
     <>
@@ -31,7 +34,12 @@ const Main = () => {
       <HeroSection/>
       <OurPartner/>
       <BenefitSection/>
+      <JoinSection/>
+      <FindSection/>
+      <TestimonySection/>
       <FaqSection/>
+      <FooterBanner/>
+      <FooterView/>
     </>
   )
 }

@@ -57,8 +57,8 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const baseAddress5 = '/trainings'
     const baseAddress6 = '/news'
 
-    const baseAddress7 = 'employer/product'
-    const baseAddress8 = 'employer/pricing'
+    const baseAddress7 = '/employer'
+    const baseAddress8 = '/employer/pricing'
 
     setNavItems([
       { title: t('button_1'), variant: 'outlined', onClick: '/login', sx: { textTransform: 'capitalize' } },
@@ -70,7 +70,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
       }
     ])
 
-    if(path === '/employer/'){
+    if(path === '/employer/' || path === '/employer/pricing/'){
       setHomeNavItems([
         { title: t('landing_menu_7'), path: baseAddress7 },
         { title: t('landing_menu_8'), path: baseAddress8 },
@@ -160,7 +160,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
             }}
           >
             <Box sx={{ display: 'flex', gap: 4 }}>
-              <Link href={path === '/employer/' ? '/employer' : '/'}>
+              <Link href='/'>
                 <Box sx={{ display: 'flex', flexDirection:'column', width: 'fit-content' }}>
                 <Box
                   component='img'
