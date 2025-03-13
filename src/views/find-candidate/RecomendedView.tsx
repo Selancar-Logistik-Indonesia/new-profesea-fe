@@ -84,12 +84,13 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                   <Box sx={{ display: 'flex', alignItems: 'flex-start', flexWrap: 'nowrap', gap: '16px' }}>
                     {!isXs && (
                       <Button
-                        disabled={true || !item.phone}
+                        disabled={!item.phone}
                         variant='contained'
                         onClick={() => handleChatWhatsapp(item.phone ?? '')}
+                        startIcon={<Icon icon='ph:whatsapp-logo' />}
                         sx={{ height: '34px', textTransform: 'none', fontSize: 14, fontWeight: 300 }}
                       >
-                        Message
+                        Message to Whatsapp
                       </Button>
                     )}
                     {/* {isXs ? (
@@ -276,12 +277,13 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
               )}
               {isXs && (
                 <Button
-                  disabled={true || !item.phone}
+                  disabled={!item.phone}
                   variant='contained'
                   onClick={() => handleChatWhatsapp(item.phone ?? '')}
+                  startIcon={<Icon icon='ph:whatsapp-logo' />}
                   sx={{ width: '100%', textTransform: 'none', fontSize: 14, fontWeight: 300 }}
                 >
-                  Message
+                  Message to Whatsapp
                 </Button>
               )}
             </Box>
