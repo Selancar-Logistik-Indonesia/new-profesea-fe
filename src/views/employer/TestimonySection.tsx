@@ -29,7 +29,7 @@ const TestimonySection = ({isMobile} : {isMobile : boolean}) =>{
                 {Array.from({ length: 3 }, (_, index) => (<TestiItems key={index} />))}
             </Box>
 
-            <Button variant="contained" sx={{textTransform:'none', fontSize:'.95rem', fontWeight:700, color:'#FAFAFA', width:isMobile ? '100%' :'50%'}}>Gabung Sekarang</Button>
+            <Button variant="contained" sx={{textTransform:'none', fontSize:'.95rem', fontWeight:700, color:'#FAFAFA', width:isMobile ? '100%' :'60%'}}>Gabung Sekarang</Button>
         </Box>
     )
 }

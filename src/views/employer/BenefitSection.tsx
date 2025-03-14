@@ -142,7 +142,7 @@ const BenefitSection = ({ isMobile }: { isMobile: boolean }) => {
             })}
           </Box>
           <Link href='/register/employer' locale={locale}>
-          <Button variant='contained' size='small' sx={{textTransform:'none'}}>
+          <Button variant='contained' size='small' sx={{textTransform:'none', width:'100%'}}>
             {t('employer_page.hero_button')}
           </Button>
           </Link>
