@@ -1,20 +1,27 @@
-import { ReactNode } from 'react'
-import { useTheme } from '@mui/material/styles'
-import { Box, Button, Grid, Link, Typography, useMediaQuery } from '@mui/material'
-import themeConfig from 'src/configs/themeConfig'
-import { useTranslation } from 'react-i18next'
+import { useMediaQuery, useTheme } from '@mui/material'
 import Head from 'next/head'
-import FooterView from 'src/views/landing-page/footerView'
-import landingPageStyle from 'src/@core/styles/landing-page/landing-page-employer'
+import { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
-import SectionTwo from 'src/views/employer/sectionTwo'
-import SectionThree from 'src/views/employer/sectionThree'
-import SectionFour from 'src/views/employer/sectionFour'
+import themeConfig from 'src/configs/themeConfig'
+import BenefitSection from 'src/views/employer/BenefitSection'
+import FaqSection from 'src/views/employer/FaqSection'
+import FindSection from 'src/views/employer/FindSection'
+import FooterBanner from 'src/views/employer/FooterBanner'
+
+//component
+import HeroSection from 'src/views/employer/HeroSection'
+import JoinSection from 'src/views/employer/JoinSection'
+import OurPartner from 'src/views/employer/OurPartner'
+// import TestimonySection from 'src/views/employer/TestimonySection'
+import FooterView from 'src/views/landing-page/footerView'
+
 
 const Main = () => {
   const { t } = useTranslation()
-  const theme = useTheme()
-  const isXs = useMediaQuery(theme.breakpoints.down('md'))
+  const Theme = useTheme()
+  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
+
 
   return (
     <>
@@ -27,65 +34,16 @@ const Main = () => {
         <meta name='og:description' content={`${themeConfig.templateName} - ${t('landing_employer_description')}`} />
         <meta property='og:image' content='images/logoprofesea.png' />
       </Head>
-      <Grid container>
-        <Grid item container sx={landingPageStyle.bannerHero}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center'
-            }}
-          >
-            <Box sx={{ zIndex: 2, mt: { xs: -10, lg: -20 }, mx: 12 }}>
-              <Typography
-                variant='h1'
-                sx={{ mb: 2, maxWidth: 700, fontSize: { xs: 32, md: 48 }, textShadow: '1px 1px 12px black' }}
-                style={{ letterSpacing: 0.8, color: 'white', fontWeight: '800' }}
-              >
-                {t('landing_company_banner_hero')}
-              </Typography>
-              <Typography
-                variant='h2'
-                sx={{ mb: 5, maxWidth: 800, fontSize: { xs: 16, md: 20 }, textShadow: '1px 1px 12px black' }}
-                style={{ letterSpacing: 0.8, color: 'white' }}
-                dangerouslySetInnerHTML={{ __html: t('landing_company_banner_description') }}
-              />
-              <Link href='/register/recruiter'>
-                <Button
-                  style={{ backgroundColor: '#ef6c00', color: 'white' }}
-                  sx={{ boxShadow: '1px 1px 5px black' }}
-                  variant='contained'
-                >
-                  {t('landing_join_now_1')}
-                </Button>
-              </Link>
-            </Box>
-          </Box>
-          {!isXs && <Box sx={landingPageStyle.bannerAsset} />}
-        </Grid>
-        <SectionTwo />
-        <SectionThree />
-        <SectionFour />
-        <Grid item container sx={landingPageStyle.bannerBottom}>
-          <Box sx={{ pr: 12, position: 'absolute', top: { xs: '25%', lg: '30%' }, left: '40%' }}>
-            <Typography
-              variant='h2'
-              sx={{ mb: 2, maxWidth: 700, fontSize: { xs: 32, md: 48 }, textShadow: '1px 1px 12px black' }}
-              style={{ letterSpacing: 0.8, color: 'white', fontWeight: '800' }}
-              dangerouslySetInnerHTML={{ __html: t('landing_company_banner_bottom') }}
-            />
-            <Link href='/register/recruiter'>
-              <Button
-                style={{ backgroundColor: '#ef6c00', color: 'white' }}
-                sx={{ boxShadow: '1px 1px 5px black' }}
-                variant='contained'
-              >
-                {t('landing_join_now_2')}
-              </Button>
-            </Link>
-          </Box>
-        </Grid>
-      </Grid>
-      <FooterView />
+      <HeroSection/>
+      <OurPartner/>
+      <BenefitSection isMobile={isMobile}/>
+      <JoinSection isMobile={isMobile}/>
+      <FindSection isMobile={isMobile}/>
+      {/* Testimony masih di hide dulu untuk sementara */}
+      {/* <TestimonySection isMobile={isMobile}/> */}
+      <FaqSection isMobile={isMobile}/>
+      <FooterBanner isMobile={isMobile}/>
+      <FooterView/>
     </>
   )
 }
