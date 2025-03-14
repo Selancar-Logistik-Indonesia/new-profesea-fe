@@ -85,7 +85,7 @@ const FindSection = ({isMobile} : {isMobile: boolean}) => {
             })}
           </Box>
           <Link href='/register/employer' locale={locale}>
-          <Button variant='contained' sx={{ textTransform: 'none', fontWeight: 700, fontSize: '16px' }}>
+          <Button variant='contained' sx={{ textTransform: 'none', fontWeight: 700, fontSize: '16px', width:'100%' }}>
             {t('employer_page.hero_button')}
           </Button>
           </Link>
