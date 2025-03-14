@@ -52,7 +52,7 @@ const OurPartner = () => {
         gap: '32px'
       }}
     >
-      <Typography sx={{ fontSize: { xs: 16}, fontWeight: 700, color:'#32497A', lineHeight: '38px', textAlign: 'center' }}>
+      <Typography sx={{ fontSize: { xs: 16 }, fontWeight: 700, color:'#32497A', lineHeight: '38px', textAlign: 'center' }}>
         {t('employer_page.our_partner')}
       </Typography>
       <Box

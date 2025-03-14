@@ -2,18 +2,18 @@ import { Avatar, AvatarGroup, Box, Button, Divider, Typography } from "@mui/mate
 
 
 
-const TestimonySection = () =>{
+const TestimonySection = ({isMobile} : {isMobile : boolean}) =>{
 
 
 
     return(
-        <Box sx={{padding:'5.7rem 7.1rem', backgroundColor:'#F2F8FE', gap:11.5, display:'flex', flexDirection:'column', alignItems:'center'}}>
-            <Box sx={{display:'flex', flexDirection:'row', justifyContent:'space-between', gap:4, width:'100%'}}>
-                <Typography variant="body2" sx={{fontSize:'1.9rem', fontWeight:700}}>
+        <Box sx={{padding:isMobile ? '2.85rem 1.45rem' :'5.7rem 7.1rem', backgroundColor:'#F2F8FE', gap:11.5, display:'flex', flexDirection:'column', alignItems:'center'}}>
+            <Box sx={{display:'flex', flexDirection:isMobile ? 'column':'row', justifyContent:'space-between', gap:4, width:'100%', alignItems:isMobile ? 'center' : ''}}>
+                <Typography variant="body2" sx={{fontSize:isMobile ? '1.45rem' :'1.9rem', fontWeight:700}}>
                     Testimoni dari <span style={{backgroundImage:'linear-gradient(283.95deg,#0049C6 -12.57%, #CDF4FF 126.88%)', color:'transparent', backgroundClip:'text'}}>Klien Kami</span>
                 </Typography>
                 <Box sx={{display:'flex', flexDirection:'column', gap:2}}>
-                    <Box sx={{display:'flex', alignItems:'flex-end', justifyContent:'flex-end', width:'100%'}}>
+                    <Box sx={{display:'flex', alignItems:'flex-end', justifyContent:isMobile ? 'center' :'flex-end', width:'100%'}}>
                         <AvatarGroup sx={{}} spacing='small'>
                             <Avatar alt='avatar_1' src="/images/avatars/Ellipse 36.png" sx={{width:'47px', height:'47px', border:'2px solid #F2F8FE'}}/>
                             <Avatar alt='avatar_2' src="/images/avatars/Ellipse 37.png" sx={{width:'47px', height:'47px', border:'2px solid #F2F8FE'}}/>
@@ -25,11 +25,11 @@ const TestimonySection = () =>{
                 </Box>
             </Box>
 
-            <Box sx={{display:'flex', flexDirection:'row', justifyContent:'space-around', gap:3, width:'100%'}}>
+            <Box sx={{display:'flex', flexDirection:isMobile ? 'column' :'row', justifyContent:'space-around', gap:isMobile ? 5.7 :3, width:'100%'}}>
                 {Array.from({ length: 3 }, (_, index) => (<TestiItems key={index} />))}
             </Box>
 
-            <Button variant="contained" sx={{textTransform:'none', fontSize:'.95rem', fontWeight:700, color:'#FAFAFA', width:'50%'}}>Gabung Sekarang</Button>
+            <Button variant="contained" sx={{textTransform:'none', fontSize:'.95rem', fontWeight:700, color:'#FAFAFA', width:isMobile ? '100%' :'50%'}}>Gabung Sekarang</Button>
         </Box>
     )
 }

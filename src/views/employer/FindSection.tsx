@@ -1,9 +1,12 @@
 import { Icon } from '@iconify/react'
 import { Box, Button, Typography } from '@mui/material'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 
-const FindSection = () => {
+const FindSection = ({isMobile} : {isMobile: boolean}) => {
   const { t } = useTranslation()
+  const {locale} = useRouter()
 
   const rightItems = [
     {
@@ -29,7 +32,7 @@ const FindSection = () => {
   ]
 
   return (
-    <Box sx={{ padding: '2.85rem 7.1rem', backgroundColor: '#FAFAFA' }}>
+    <Box sx={{ padding: '2.85rem 7.1rem', backgroundColor: '#FAFAFA', display: isMobile ? 'none' : '' }}>
       <Box
         sx={{
           border: '1px solid #F0F0F0',
@@ -81,9 +84,11 @@ const FindSection = () => {
               )
             })}
           </Box>
+          <Link href='/register/employer' locale={locale}>
           <Button variant='contained' sx={{ textTransform: 'none', fontWeight: 700, fontSize: '16px' }}>
             {t('employer_page.hero_button')}
           </Button>
+          </Link>
         </Box>
       </Box>
     </Box>

@@ -9,14 +9,14 @@ const Main = () => {
       <Box
         sx={{
           backgroundImage: 'linear-gradient(180deg, #FAFAFA 2.44%, rgba(161, 191, 234, 0.66) 38.56%, #3777D6 86.63%)',
-          padding: '4rem 7.1rem',
-          height: '100vh',
+          padding: {md:'4rem 7.1rem', xs:'0px'},
+          height: {md:'100vh', xs:'150vh'},
           width: '100vw',
         }}
       >
         <Box
           sx={{
-            padding: '2.4rem',
+            padding: {md:'2.4rem', xs:'2.4rem 0px'},
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -25,8 +25,8 @@ const Main = () => {
             textAlign: 'center'
           }}
         >
-          <Typography sx={{ fontSize: '1.9rem', fontWeight: 700, color: '#404040' }}>
-            Rekrutmen Lebih Efisien,{' '}
+          <Typography sx={{ fontSize: {md:'1.9rem', xs:'1.45rem'}, fontWeight: 700, color: '#404040' }}>
+            Rekrutmen Lebih Efisien,
             <span
               style={{
                 backgroundImage: 'linear-gradient(283.95deg, #0049C6 -12.57%, #CDF4FF 126.88%)',
@@ -37,7 +37,7 @@ const Main = () => {
               Biaya Lebih Hemat
             </span>
           </Typography>
-          <Typography sx={{ fontSize: '.95rem', fontWeight: 400, color: '#5E5E5E', width:'60%' }}>
+          <Typography sx={{ fontSize: '.95rem', fontWeight: 400, color: '#5E5E5E', width:{md:'60%', xs:'90%'} }}>
             Jangkau kandidat terbaik tanpa menguras anggaran. Kami menawarkan solusi rekrutmen fleksibel yang dirancang
             untuk industri maritim & logistik.
           </Typography>
@@ -46,16 +46,16 @@ const Main = () => {
       <Box
         sx={{
           position: 'absolute',
-          marginBottom: 20,
+          marginBottom: {md:20, xs:125},
           backgroundColor: '#FFFFFF',
           boxShadow: '0px 2px 10px 0px #00000014',
-          padding: '2.6rem',
+          padding: {md:'2.6rem', xs:'.95rem'},
           gap: 4,
           borderRadius: '14px',
           display:'flex',
-          flexDirection:'row',
+          flexDirection:{md:'row', xs:'column'},
           alignItems:'center',
-          width:'70%',
+          width:{md:'70%', xs:'90%'},
         }}
       >
         {/* Basic */}
@@ -162,7 +162,7 @@ const Main = () => {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ height: '80vh' }}></Box>
+      <Box sx={{ height: {md:'80vh', xs:'100vh'} }}></Box>
       <FooterView />
     </Box>
   )

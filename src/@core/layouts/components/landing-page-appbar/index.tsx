@@ -58,22 +58,27 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const baseAddress6 = '/news'
 
     const baseAddress7 = '/employer'
-    const baseAddress8 = '/employer/pricing'
+    // untuk sementara pricing di hide dulu
+    // const baseAddress8 = '/employer/pricing'
+    const baseAddress9 = '/'
+
 
     setNavItems([
       { title: t('button_1'), variant: 'outlined', onClick: '/login', sx: { textTransform: 'capitalize' } },
       {
         title: t('button_4'),
         variant: 'contained',
-        onClick: '/register',
+        onClick: path === '/employer/' || path === '/employer/pricing/' ? '/register/employer' : '/register',
         sx: { backgroundColor: '#32497A', textTransform: 'capitalize' }
       }
     ])
 
     if(path === '/employer/' || path === '/employer/pricing/'){
       setHomeNavItems([
+        { title: t('landing_menu_9'), path: baseAddress9 },
         { title: t('landing_menu_7'), path: baseAddress7 },
-        { title: t('landing_menu_8'), path: baseAddress8 },
+        // untuk sementara pricing di hide dulu
+        // { title: t('landing_menu_8'), path: baseAddress8 },
       ])
     }else{
       setHomeNavItems([

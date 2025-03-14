@@ -1,6 +1,8 @@
 import { Icon } from '@iconify/react'
 import { Box, Button, Fade, Typography, Zoom } from '@mui/material'
-import { useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type ItemProps = {
@@ -13,61 +15,71 @@ type ItemProps = {
   img: string
 }
 
-const BenefitSection = () => {
+const BenefitSection = ({ isMobile }: { isMobile: boolean }) => {
   const { t } = useTranslation()
-  // const img =
-  const [itemState, setItemState] = useState<any[]>([
-    {
-      id: 1,
-      hover: false,
-      active: true,
-      title: t('employer_page.benefit_1'),
-      detail: t('employer_page.benefit_1_detail'),
-      icon: 'mdi:user-group',
-      img: ['/images/benefitSection/talent_1.png', '/images/benefitSection/talent_2.png'],
-      scale: '110%'
-    },
-    {
-      id: 2,
-      hover: false,
-      active: false,
-      title: t('employer_page.benefit_2'),
-      detail: t('employer_page.benefit_2_detail'),
-      icon: 'material-symbols:cases-rounded',
-      img: '/images/benefitSection/Job Posting.png',
-      scale: '100%'
-    },
-    {
-      id: 3,
-      hover: false,
-      active: false,
-      title: t('employer_page.benefit_3'),
-      detail: t('employer_page.benefit_3_detail'),
-      icon: 'healthicons:forum',
-      img: [
-        '/images/benefitSection/pisah_1.png',
-        '/images/benefitSection/pisah_2.png',
-        '/images/benefitSection/pisah_3.png',
-        '/images/benefitSection/pisah_4.png'
-      ],
-      scale: '100%'
-    },
-    {
-      id: 4,
-      hover: false,
-      active: false,
-      title: t('employer_page.benefit_4'),
-      detail: t('employer_page.benefit_4_detail'),
-      icon: 'famicons:share-social',
-      img: '/images/benefitSection/Media Sosial.png',
-      scale: '100%'
-    }
-  ])
-  const [prevActive, setPrevActive] = useState<ItemProps>(itemState[0])
+  const {locale} = useRouter()
+
+  const [itemState, setItemState] = useState<any[]>()
+  const [prevActive, setPrevActive] = useState<ItemProps>(itemState?.[0])
+
+  useEffect(() => {
+      setItemState([
+        {
+          id: 1,
+          hover: false,
+          active: true,
+          title: t('employer_page.benefit_1'),
+          detail: t('employer_page.benefit_1_detail'),
+          icon: 'mdi:user-group',
+          img: isMobile ? '/images/benefitSection/mobile/Talent Pool.png' : ['/images/benefitSection/talent_1.png', '/images/benefitSection/talent_2.png'],
+          scale: '110%'
+        },
+        {
+          id: 2,
+          hover: false,
+          active: false,
+          title: t('employer_page.benefit_2'),
+          detail: t('employer_page.benefit_2_detail'),
+          icon: 'material-symbols:cases-rounded',
+          img: isMobile ? '/images/benefitSection/mobile/Job Posting.png' : '/images/benefitSection/Job Posting.png',
+          scale: '100%'
+        },
+        {
+          id: 3,
+          hover: false,
+          active: false,
+          title: t('employer_page.benefit_3'),
+          detail: t('employer_page.benefit_3_detail'),
+          icon: 'healthicons:forum',
+          img: isMobile ? '/images/benefitSection/mobile/Community.png' : [
+            '/images/benefitSection/pisah_1.png',
+            '/images/benefitSection/pisah_2.png',
+            '/images/benefitSection/pisah_3.png',
+            '/images/benefitSection/pisah_4.png'
+          ],
+          scale: '100%'
+        },
+        {
+          id: 4,
+          hover: false,
+          active: false,
+          title: t('employer_page.benefit_4'),
+          detail: t('employer_page.benefit_4_detail'),
+          icon: 'famicons:share-social',
+          img: isMobile ? '/images/benefitSection/mobile/Media Sosial.png' : '/images/benefitSection/Media Sosial.png',
+          scale: '100%'
+        }
+      ])
+  }, [])
 
   const handleHover = (index: number, isHovering: boolean) => {
+    if(isMobile){
+
+      return
+    }
+    
     setItemState(prev => {
-      return prev.map(item => {
+      return prev?.map(item => {
         return item?.id === index ? { ...item, hover: isHovering, active:false } : { ...item, active: false }
       })
     })
@@ -75,7 +87,7 @@ const BenefitSection = () => {
 
   const handleClick = (index: number) => {
     setItemState(prev => {
-      return prev.map(item => {
+      return prev?.map(item => {
         if (item.id === index) {
           setPrevActive(item)
         }
@@ -88,8 +100,9 @@ const BenefitSection = () => {
   return (
     <Box
       sx={{
-        backgroundImage: 'url(/images/backgrounds/ship-blur-background.png)',
-        padding: '5.7rem 5.1rem',
+        backgroundImage: isMobile ? '' : 'url(/images/backgrounds/ship-blur-background.png)',
+        backgroundColor: {md:'', xs:'#FFFFFF'},
+        padding: {md:'5.7rem 5.1rem', xs:'2.85rem 1.45rem'},
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
       }}
@@ -97,49 +110,57 @@ const BenefitSection = () => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row',
+          flexDirection: {md:'row', xs:'column-reverse'},
           alignItems: 'center',
           justifyContent: 'space-around',
-          border: '1px solid #F0F0F0',
+          border: isMobile ? '' : '1px solid #F0F0F0',
           gap: 11.5,
-          padding: '2.85rem',
+          padding: {md:'2.85rem', xs:''},
           borderRadius: '24px',
-          boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)',
+          boxShadow: isMobile ? '' : '0px 2px 10px 0px rgba(0, 0, 0, 0.08)',
           backgroundColor: '#FFFFFF'
         }}
       >
+        <Typography
+            variant='h2'
+            sx={{ fontSize: {md:'32px !important', xs:24}, fontWeight: 700, display:{md:'none', xs:'inline'}, order:3 }}
+            dangerouslySetInnerHTML={{ __html: t('employer_page.benefit_title') }}
+          />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 11.5 }}>
           <Typography
             variant='h2'
-            sx={{ fontSize: '32px !important', fontWeight: 700 }}
+            sx={{ fontSize: {md:'32px !important', xs:24}, fontWeight: 700, display:{md:'inline', xs:'none'} }}
             dangerouslySetInnerHTML={{ __html: t('employer_page.benefit_title') }}
           />
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             {itemState?.map(item => {
               return (
                 <>
-                  <ItemContent item={item} handleHover={handleHover} handleClick={handleClick} prevItem={prevActive} />
+                  <ItemContent item={item} handleHover={handleHover} handleClick={handleClick} prevItem={prevActive} isMobile={isMobile}/>
                 </>
               )
             })}
           </Box>
-          <Button variant='contained' size='small'>
+          <Link href='/register/employer' locale={locale}>
+          <Button variant='contained' size='small' sx={{textTransform:'none'}}>
             {t('employer_page.hero_button')}
           </Button>
+          </Link>
         </Box>
         <Box
           sx={{
             backgroundColor: '#F2F8FE',
             borderRadius: '48px',
-            minWidth: '567px',
-            height: '699px',
-            display: { xs: 'none', md: 'flex' },
+            minWidth: {md:'567px', xs:'327px'},
+            minHeight: {md:'699px', xs:'327px'},
+            width:{xs:'90%', md:''},
+            display: { xs: 'flex', md: 'flex' },
             alignItems: 'center',
             justifyContent: 'center',
             position: 'relative',
           }}
         >
-          {itemState.map(item => {
+          {itemState?.map(item => {
             return (item.hover === true || item.active === true) && <ImageComponent item={item} />
           })}
         </Box>
@@ -152,12 +173,14 @@ function ItemContent({
   item,
   handleHover,
   handleClick,
-  prevItem
+  prevItem,
+  isMobile
 }: {
   item: ItemProps
   handleHover: (i: number, isHovering: boolean) => void
   handleClick: (i: number) => void
-  prevItem: ItemProps
+  prevItem: ItemProps,
+  isMobile: boolean
 }) {
   return (
     <Box
@@ -202,13 +225,14 @@ function ItemContent({
           sx={{
             backgroundColor: item.hover || item.active ? 'rgba(255, 255, 255, 0)' : 'rgba(255, 255, 255, 1)',
             padding: '12px',
+            borderRadius: '12px',
             transition: '1s ease'
           }}
         >
           <Icon
             icon={item?.icon}
             color={item.active || item.hover ? '#ffffff' : '#9E9E9E'}
-            fontSize={'2.6rem'}
+            fontSize={isMobile ? '1.5rem' : '2.6rem'}
             style={{ transition: '0.8s ease' }}
           />
         </Box>
@@ -219,8 +243,8 @@ function ItemContent({
         <Typography
           sx={{
             transition: '1s ease',
-            transform: item.hover || item.active ? 'translate(0px, 5px)' : 'translate(0px, 25px)',
-            fontSize: 16,
+            transform: item.hover || item.active ? {md:'translate(0px, 5px)', xs:'translate(0px, 5px)'} : {md:'translate(0px, 25px)', xs:'translate(0px, 25px)'},
+            fontSize: {md:16, xs:14},
             fontWeight: 600,
             color: item?.hover || item?.active ? '#1F1F1F' : '#999999'
           }}
@@ -231,7 +255,7 @@ function ItemContent({
           <Typography
             sx={{
               transform: item.hover || item.active ? 'translate(0px, -5px)' : 'translate(0px, 25px)',
-              fontSize: 16,
+              fontSize: {md:16, xs:14},
               fontWeight: 400,
               color: '#868686',
               transition: '0.8s ease-in-out !important'
@@ -327,8 +351,8 @@ function ImageComponent({ item }: { item: ItemProps }) {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          width: '400px', // Fixed container width
-          height: '400px', // Fixed container height
+          width: {md:'400px', xs:'100%'}, 
+          height: {md:'400px', xs:'220px'}, 
           alignItems: 'center',
           justifyContent: 'center',
           gap: '30px',
@@ -366,7 +390,7 @@ function ImageComponent({ item }: { item: ItemProps }) {
             />
           </>
         ) : (
-          // Case for Single Image
+          
           <Box
             component='img'
             src={item.img}

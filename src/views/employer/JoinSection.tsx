@@ -12,49 +12,49 @@ type ItemProps = {
 
 
 
-const JoinSection = () => {
+const JoinSection = ({isMobile} : {isMobile : boolean}) => {
     const { t } = useTranslation()
 
     const items: ItemProps[] =[
         {
             title: t('employer_page.join_1'),
             detail: t('employer_page.join_1_detail'),
-            img: '/images/joinSection/join_1.png',
+            img: isMobile ? '/images/joinSection/step 1 mobile.png' :'/images/joinSection/join_1.png',
             icon: '/images/icons/docs.png',
             num: 1
         },
         {
             title: t('employer_page.join_2'),
             detail: t('employer_page.join_2_detail'),
-            img: '/images/joinSection/join_2.png',
+            img: isMobile ? '/images/joinSection/step 2 mobile.png' :'/images/joinSection/join_2.png',
             icon: '/images/icons/suitcase2.png',
             num:2
         },
         {
             title: t('employer_page.join_3'),
             detail: t('employer_page.join_3_detail'),
-            img: '/images/joinSection/join_3.png',
+            img: isMobile ? '/images/joinSection/step 3 mobile.png' :'/images/joinSection/join_3.png',
             icon: '/images/icons/people.png',
             num:3
         }
     ]
 
     return(
-        <Box sx={{padding:'5.7rem 7.1rem', display:'flex', flexDirection:'column', gap:11.5, justifyContent:'center', alignItems:'center', backgroundImage: 'linear-gradient(180deg, #FAFAFA 43.66%, #5C86E0 100%)'
+        <Box sx={{padding: isMobile ? '2.85rem 1.45rem ' : '5.7rem 7.1rem', display:'flex', flexDirection:'column', gap:11.5, justifyContent:'center', alignItems:'center', backgroundImage: 'linear-gradient(180deg, #FAFAFA 43.66%, #5C86E0 100%)'
         }}>
             <Box sx={{textAlign:'center'}}>
-                <Typography variant="h2" sx={{fontSize:'1.9rem !important', fontWeight:700, color:'#404040', textAlign:'center'}} dangerouslySetInnerHTML={{ __html: t('employer_page.join_title') }}/>
+                <Typography variant="h2" sx={{fontSize:isMobile ? "1.45rem !important" :'1.9rem !important', fontWeight:700, color:'#404040', textAlign:'center'}} dangerouslySetInnerHTML={{ __html: t('employer_page.join_title') }}/>
             </Box>
-            <Box sx={{padding:'1.45rem',display:'flex', flexDirection:'row', justifyContent:'center', alignItems:'center', gap:11.5}}>
+            <Box sx={{padding:'1.45rem',display:'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent:'center', alignItems:'center', gap:11.5}}>
                 {items.map(item  => {
-                    return <><Content item={item}/></>
+                    return <><Content item={item} isMobile={isMobile}/></>
                 })}
             </Box>
         </Box>
     )
 }
 
-const Content = ({item} : {item: ItemProps}) =>{
+const Content = ({item, isMobile} : {item: ItemProps, isMobile:boolean}) =>{
 
     return(
         <Box sx={{ flex:1, padding:'1.45rem',gap:11.5, display:'flex', flexDirection:'column',alignItems:'center', justifyContent:'center', borderRadius:'24px', backgroundColor:'#FFFFFF', boxShadow:'0px 2px 10px rgba(0, 0, 0, 0.08)'}}>
@@ -66,8 +66,8 @@ const Content = ({item} : {item: ItemProps}) =>{
             </Box>   
             <Box sx={{display:'flex', flexDirection:'column',justifyContent:'center',gap:3, minHeight:'137px'}}>
                 <Box sx={{display:'flex', flexDirection:'row', alignItems:'center',gap:3}}>
-                    <Box  component='img' src={item.icon} sx={{width:'44px', height:'44px', objectFit:'contain'}}/>
-                    <Typography sx={{fontWeight:700, fontSize:'1.45rem', color:'#404040'}}>{item.title}</Typography>
+                    <Box  component='img' src={item.icon} sx={{width:isMobile ? '31px' :'44px', height:isMobile ? '31px' :'44px', objectFit:'contain'}}/>
+                    <Typography sx={{fontWeight:700, fontSize:isMobile ? '1.1rem' :'1.45rem', color:'#404040'}}>{item.title}</Typography>
                 </Box>
                 <Typography sx={{fontWeight:400, fontSize:'.95rem', color:'#525252'}} dangerouslySetInnerHTML={{ __html: item.detail }}/>
             </Box>

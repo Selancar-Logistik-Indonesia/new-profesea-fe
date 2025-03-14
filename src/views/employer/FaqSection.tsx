@@ -5,18 +5,21 @@ import {
   AccordionSummary,
   accordionSummaryClasses,
   Box,
+  Button,
   Fade,
   Typography
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 
-const FaqSection = () => {
+const FaqSection = ({isMobile} : {isMobile : boolean}) => {
+  const { t } = useTranslation()
+  
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 11, padding: '5.7rem 7.1rem' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 11, padding: isMobile ? '2.85rem 1.45rem' : '5.7rem 7.1rem' }}>
       <Typography
         variant='h2'
-        sx={{ fontSize: '2rem !important', fontWeight: 700, color: '#404040', textAlign: 'center' }}
+        sx={{ fontSize:isMobile ? '1.45rem !important' : '2rem !important', fontWeight: 700, color: '#404040', textAlign: 'center' }}
       >
         Frequently Asked Question
       </Typography>
@@ -25,6 +28,7 @@ const FaqSection = () => {
           <AccordionItem key={index} num={index} />
         ))}
       </Box>
+      <Button variant='contained' sx={{display:isMobile ? '' : 'none', textTransform: 'none', fontWeight: 700}}>{t('employer_page.hero_button')}</Button>
     </Box>
   )
 }
