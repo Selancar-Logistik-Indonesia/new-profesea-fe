@@ -70,7 +70,7 @@ const BenefitSection = ({ isMobile }: { isMobile: boolean }) => {
           scale: '100%'
         }
       ])
-  }, [])
+  }, [isMobile])
 
   const handleHover = (index: number, isHovering: boolean) => {
     if(isMobile){
@@ -187,7 +187,7 @@ function ItemContent({
       onMouseEnter={() => handleHover(item?.id, true)}
       onMouseLeave={() => {
         handleHover(item?.id, false)
-        handleClick(prevItem.id)
+        handleClick(prevItem?.id)
       }}
       onClick={() => handleClick(item.id)}
       sx={{

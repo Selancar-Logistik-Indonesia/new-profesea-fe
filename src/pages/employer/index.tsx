@@ -13,7 +13,7 @@ import FooterBanner from 'src/views/employer/FooterBanner'
 import HeroSection from 'src/views/employer/HeroSection'
 import JoinSection from 'src/views/employer/JoinSection'
 import OurPartner from 'src/views/employer/OurPartner'
-// import TestimonySection from 'src/views/employer/TestimonySection'
+import TestimonySection from 'src/views/employer/TestimonySection'
 import FooterView from 'src/views/landing-page/footerView'
 
 
@@ -39,8 +39,7 @@ const Main = () => {
       <BenefitSection isMobile={isMobile}/>
       <JoinSection isMobile={isMobile}/>
       <FindSection isMobile={isMobile}/>
-      {/* Testimony masih di hide dulu untuk sementara */}
-      {/* <TestimonySection isMobile={isMobile}/> */}
+      <TestimonySection isMobile={isMobile}/>
       <FaqSection isMobile={isMobile}/>
       <FooterBanner isMobile={isMobile}/>
       <FooterView/>
