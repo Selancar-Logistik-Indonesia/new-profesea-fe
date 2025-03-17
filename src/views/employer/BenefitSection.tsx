@@ -32,7 +32,7 @@ const BenefitSection = ({ isMobile }: { isMobile: boolean }) => {
         detail: t('employer_page.benefit_1_detail'),
         icon: 'mdi:user-group',
         img: isMobile
-          ? '/images/benefitSection/mobile/talent-pool.png'
+          ? '/images/benefitSection/Mobile/talent-pool.png'
           : ['/images/benefitSection/talent_1.png', '/images/benefitSection/talent_2.png'],
         scale: '110%'
       },
@@ -43,7 +43,7 @@ const BenefitSection = ({ isMobile }: { isMobile: boolean }) => {
         title: t('employer_page.benefit_2'),
         detail: t('employer_page.benefit_2_detail'),
         icon: 'material-symbols:cases-rounded',
-        img: isMobile ? '/images/benefitSection/mobile/job-posting.png' : '/images/benefitSection/job-posting.png',
+        img: isMobile ? '/images/benefitSection/Mobile/job-posting.png' : '/images/benefitSection/job-posting.png',
         scale: '100%'
       },
       {
@@ -54,7 +54,7 @@ const BenefitSection = ({ isMobile }: { isMobile: boolean }) => {
         detail: t('employer_page.benefit_3_detail'),
         icon: 'healthicons:forum',
         img: isMobile
-          ? '/images/benefitSection/mobile/community.png'
+          ? '/images/benefitSection/Mobile/community.png'
           : [
               '/images/benefitSection/pisah_1.png',
               '/images/benefitSection/pisah_2.png',
@@ -70,7 +70,7 @@ const BenefitSection = ({ isMobile }: { isMobile: boolean }) => {
         title: t('employer_page.benefit_4'),
         detail: t('employer_page.benefit_4_detail'),
         icon: 'famicons:share-social',
-        img: isMobile ? '/images/benefitSection/mobile/media-sosial.png' : '/images/benefitSection/media-sosial.png',
+        img: isMobile ? '/images/benefitSection/Mobile/media-sosial.png' : '/images/benefitSection/media-sosial.png',
         scale: '100%'
       }
     ])
