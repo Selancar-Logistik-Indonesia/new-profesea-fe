@@ -20,7 +20,7 @@ const FooterBanner = ({ isMobile }: { isMobile: boolean }) => {
     >
       <Box
         sx={{
-          backgroundImage: isMobile ? 'url("/images/footerBanner/banner_mobile.png")' : 'url("/images/footerBanner/footer_banner.jpg")',
+          backgroundImage: isMobile ? 'url("/images/footerBanner/banner-mobile.png")' : 'url("/images/footerBanner/footer-banner.jpg")',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           borderRadius: {md:4},
