@@ -17,70 +17,73 @@ type ItemProps = {
 
 const BenefitSection = ({ isMobile }: { isMobile: boolean }) => {
   const { t } = useTranslation()
-  const {locale} = useRouter()
+  const { locale } = useRouter()
 
   const [itemState, setItemState] = useState<any[]>()
   const [prevActive, setPrevActive] = useState<ItemProps>(itemState?.[0])
 
   useEffect(() => {
-      setItemState([
-        {
-          id: 1,
-          hover: false,
-          active: true,
-          title: t('employer_page.benefit_1'),
-          detail: t('employer_page.benefit_1_detail'),
-          icon: 'mdi:user-group',
-          img: isMobile ? '/images/benefitSection/mobile/Talent Pool.png' : ['/images/benefitSection/talent_1.png', '/images/benefitSection/talent_2.png'],
-          scale: '110%'
-        },
-        {
-          id: 2,
-          hover: false,
-          active: false,
-          title: t('employer_page.benefit_2'),
-          detail: t('employer_page.benefit_2_detail'),
-          icon: 'material-symbols:cases-rounded',
-          img: isMobile ? '/images/benefitSection/mobile/Job Posting.png' : '/images/benefitSection/Job Posting.png',
-          scale: '100%'
-        },
-        {
-          id: 3,
-          hover: false,
-          active: false,
-          title: t('employer_page.benefit_3'),
-          detail: t('employer_page.benefit_3_detail'),
-          icon: 'healthicons:forum',
-          img: isMobile ? '/images/benefitSection/mobile/Community.png' : [
-            '/images/benefitSection/pisah_1.png',
-            '/images/benefitSection/pisah_2.png',
-            '/images/benefitSection/pisah_3.png',
-            '/images/benefitSection/pisah_4.png'
-          ],
-          scale: '100%'
-        },
-        {
-          id: 4,
-          hover: false,
-          active: false,
-          title: t('employer_page.benefit_4'),
-          detail: t('employer_page.benefit_4_detail'),
-          icon: 'famicons:share-social',
-          img: isMobile ? '/images/benefitSection/mobile/Media Sosial.png' : '/images/benefitSection/Media Sosial.png',
-          scale: '100%'
-        }
-      ])
+    setItemState([
+      {
+        id: 1,
+        hover: false,
+        active: true,
+        title: t('employer_page.benefit_1'),
+        detail: t('employer_page.benefit_1_detail'),
+        icon: 'mdi:user-group',
+        img: isMobile
+          ? '/images/benefitSection/mobile/talent-pool.png'
+          : ['/images/benefitSection/talent_1.png', '/images/benefitSection/talent_2.png'],
+        scale: '110%'
+      },
+      {
+        id: 2,
+        hover: false,
+        active: false,
+        title: t('employer_page.benefit_2'),
+        detail: t('employer_page.benefit_2_detail'),
+        icon: 'material-symbols:cases-rounded',
+        img: isMobile ? '/images/benefitSection/mobile/job-posting.png' : '/images/benefitSection/job-posting.png',
+        scale: '100%'
+      },
+      {
+        id: 3,
+        hover: false,
+        active: false,
+        title: t('employer_page.benefit_3'),
+        detail: t('employer_page.benefit_3_detail'),
+        icon: 'healthicons:forum',
+        img: isMobile
+          ? '/images/benefitSection/mobile/community.png'
+          : [
+              '/images/benefitSection/pisah_1.png',
+              '/images/benefitSection/pisah_2.png',
+              '/images/benefitSection/pisah_3.png',
+              '/images/benefitSection/pisah_4.png'
+            ],
+        scale: '100%'
+      },
+      {
+        id: 4,
+        hover: false,
+        active: false,
+        title: t('employer_page.benefit_4'),
+        detail: t('employer_page.benefit_4_detail'),
+        icon: 'famicons:share-social',
+        img: isMobile ? '/images/benefitSection/mobile/media-sosial.png' : '/images/benefitSection/media-sosial.png',
+        scale: '100%'
+      }
+    ])
   }, [isMobile])
 
   const handleHover = (index: number, isHovering: boolean) => {
-    if(isMobile){
-
+    if (isMobile) {
       return
     }
-    
+
     setItemState(prev => {
       return prev?.map(item => {
-        return item?.id === index ? { ...item, hover: isHovering, active:false } : { ...item, active: false }
+        return item?.id === index ? { ...item, hover: isHovering, active: false } : { ...item, active: false }
       })
     })
   }
@@ -101,8 +104,8 @@ const BenefitSection = ({ isMobile }: { isMobile: boolean }) => {
     <Box
       sx={{
         backgroundImage: isMobile ? '' : 'url(/images/backgrounds/ship-blur-background.png)',
-        backgroundColor: {md:'', xs:'#FFFFFF'},
-        padding: {md:'5.7rem 5.1rem', xs:'2.85rem 1.45rem'},
+        backgroundColor: { md: '', xs: '#FFFFFF' },
+        padding: { md: '5.7rem 5.1rem', xs: '2.85rem 1.45rem' },
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
       }}
@@ -110,58 +113,69 @@ const BenefitSection = ({ isMobile }: { isMobile: boolean }) => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: {md:'row', xs:'column-reverse'},
+          // medium=column karena kalo row = gepeng
+          flexDirection: { lg: 'row', xs: 'column-reverse' },
           alignItems: 'center',
           justifyContent: 'space-around',
           border: isMobile ? '' : '1px solid #F0F0F0',
           gap: 11.5,
-          padding: {md:'2.85rem', xs:''},
+          padding: {lg:'2.85rem', md: '2.85rem 0px', xs: '' },
           borderRadius: '24px',
           boxShadow: isMobile ? '' : '0px 2px 10px 0px rgba(0, 0, 0, 0.08)',
           backgroundColor: '#FFFFFF'
         }}
       >
         <Typography
-            variant='h2'
-            sx={{ fontSize: {md:'32px !important', xs:24}, fontWeight: 700, display:{md:'none', xs:'inline'}, order:3 }}
-            dangerouslySetInnerHTML={{ __html: t('employer_page.benefit_title') }}
-          />
+          variant='h2'
+          sx={{
+            fontSize: { md: '32px !important', xs: 24 },
+            fontWeight: 700,
+            display: { lg: 'none', xs: 'inline' },
+            order: 3
+          }}
+          dangerouslySetInnerHTML={{ __html: t('employer_page.benefit_title') }}
+        />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 11.5 }}>
           <Typography
             variant='h2'
-            sx={{ fontSize: {md:'32px !important', xs:24}, fontWeight: 700, display:{md:'inline', xs:'none'} }}
+            sx={{ fontSize: { md: '32px !important', xs: 24 }, fontWeight: 700, display: { lg: 'inline', xs: 'none' } }}
             dangerouslySetInnerHTML={{ __html: t('employer_page.benefit_title') }}
           />
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            {itemState?.map(item => {
+            {itemState?.map((item, index) => {
               return (
-                <>
-                  <ItemContent item={item} handleHover={handleHover} handleClick={handleClick} prevItem={prevActive} isMobile={isMobile}/>
-                </>
+                <ItemContent
+                  key={index}
+                  item={item}
+                  handleHover={handleHover}
+                  handleClick={handleClick}
+                  prevItem={prevActive}
+                  isMobile={isMobile}
+                />
               )
             })}
           </Box>
           <Link href='/register/employer' locale={locale}>
-          <Button variant='contained' size='small' sx={{textTransform:'none', width:'100%'}}>
-            {t('employer_page.hero_button')}
-          </Button>
+            <Button variant='contained' size='small' sx={{ textTransform: 'none', width: '100%' }}>
+              {t('employer_page.hero_button')}
+            </Button>
           </Link>
         </Box>
         <Box
           sx={{
             backgroundColor: '#F2F8FE',
             borderRadius: '48px',
-            minWidth: {md:'567px', xs:'327px'},
-            minHeight: {md:'699px', xs:'327px'},
-            width:{xs:'90%', md:''},
+            minWidth: { md: '567px', xs: '327px' },
+            minHeight: { md: '699px', xs: '327px' },
+            width: { xs: '90%', md: '80%', lg:'' },
             display: { xs: 'flex', md: 'flex' },
             alignItems: 'center',
             justifyContent: 'center',
-            position: 'relative',
+            position: 'relative'
           }}
         >
-          {itemState?.map(item => {
-            return (item.hover === true || item.active === true) && <ImageComponent item={item} />
+          {itemState?.map((item, index) => {
+            return (item.hover === true || item.active === true) && <ImageComponent key={index} item={item} />
           })}
         </Box>
       </Box>
@@ -179,7 +193,7 @@ function ItemContent({
   item: ItemProps
   handleHover: (i: number, isHovering: boolean) => void
   handleClick: (i: number) => void
-  prevItem: ItemProps,
+  prevItem: ItemProps
   isMobile: boolean
 }) {
   return (
@@ -239,12 +253,15 @@ function ItemContent({
       </Box>
 
       {/* text */}
-      <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', gap:3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', gap: 3 }}>
         <Typography
           sx={{
             transition: '1s ease',
-            transform: item.hover || item.active ? {md:'translate(0px, 5px)', xs:'translate(0px, 5px)'} : {md:'translate(0px, 25px)', xs:'translate(0px, 25px)'},
-            fontSize: {md:16, xs:14},
+            transform:
+              item.hover || item.active
+                ? { md: 'translate(0px, 5px)', xs: 'translate(0px, 5px)' }
+                : { md: 'translate(0px, 25px)', xs: 'translate(0px, 25px)' },
+            fontSize: { md: 16, xs: 14 },
             fontWeight: 600,
             color: item?.hover || item?.active ? '#1F1F1F' : '#999999'
           }}
@@ -255,7 +272,7 @@ function ItemContent({
           <Typography
             sx={{
               transform: item.hover || item.active ? 'translate(0px, -5px)' : 'translate(0px, 25px)',
-              fontSize: {md:16, xs:14},
+              fontSize: { md: 16, xs: 14 },
               fontWeight: 400,
               color: '#868686',
               transition: '0.8s ease-in-out !important'
@@ -272,7 +289,7 @@ function ImageComponent({ item }: { item: ItemProps }) {
   if (item.img.length === 4) {
     return (
       <>
-        <Zoom in={item.hover || item.active} timeout={800} style={{scale:'.8', marginBottom:'5px'}}>
+        <Zoom in={item.hover || item.active} timeout={800} style={{ scale: '.8', marginBottom: '5px' }}>
           <Box
             component='img'
             src={item.img[3]}
@@ -285,12 +302,11 @@ function ImageComponent({ item }: { item: ItemProps }) {
               left: '93px',
               translate: item.active ? '107px 0px' : '',
               transition: '0.8s ease !important',
-              transform: item.active ? 'scale(1.3) !important' : '',
-              
+              transform: item.active ? 'scale(1.3) !important' : ''
             }}
           />
         </Zoom>
-        <Zoom in={item.hover || item.active} timeout={800} style={{scale:'.8'}}>
+        <Zoom in={item.hover || item.active} timeout={800} style={{ scale: '.8' }}>
           <Box
             component='img'
             src={item.img[2]}
@@ -307,7 +323,7 @@ function ImageComponent({ item }: { item: ItemProps }) {
             }}
           />
         </Zoom>
-        <Zoom in={item.hover || item.active} timeout={800} style={{scale:'.8'}}>
+        <Zoom in={item.hover || item.active} timeout={800} style={{ scale: '.8' }}>
           <Box
             component='img'
             src={item.img[1]}
@@ -324,7 +340,7 @@ function ImageComponent({ item }: { item: ItemProps }) {
             }}
           />
         </Zoom>
-        <Zoom in={item.hover || item.active} timeout={800} style={{scale:'.8'}}>
+        <Zoom in={item.hover || item.active} timeout={800} style={{ scale: '.8' }}>
           <Box
             component='img'
             src={item.img[0]}
@@ -351,8 +367,8 @@ function ImageComponent({ item }: { item: ItemProps }) {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          width: {md:'400px', xs:'100%'}, 
-          height: {md:'400px', xs:'220px'}, 
+          width: { md: '400px', xs: '100%' },
+          height: { md: '400px', xs: '220px' },
           alignItems: 'center',
           justifyContent: 'center',
           gap: '30px',
@@ -390,7 +406,6 @@ function ImageComponent({ item }: { item: ItemProps }) {
             />
           </>
         ) : (
-          
           <Box
             component='img'
             src={item.img}

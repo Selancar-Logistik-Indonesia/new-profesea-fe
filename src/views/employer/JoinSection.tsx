@@ -19,21 +19,21 @@ const JoinSection = ({isMobile} : {isMobile : boolean}) => {
         {
             title: t('employer_page.join_1'),
             detail: t('employer_page.join_1_detail'),
-            img: isMobile ? '/images/joinSection/step 1 mobile.png' :'/images/joinSection/join_1.png',
+            img: isMobile ? '/images/joinSection/join-1-mobile.png' :'/images/joinSection/join-1.png',
             icon: '/images/icons/docs.png',
             num: 1
         },
         {
             title: t('employer_page.join_2'),
             detail: t('employer_page.join_2_detail'),
-            img: isMobile ? '/images/joinSection/step 2 mobile.png' :'/images/joinSection/join_2.png',
+            img: isMobile ? '/images/joinSection/join-2-mobile.png' :'/images/joinSection/join-2.png',
             icon: '/images/icons/suitcase2.png',
             num:2
         },
         {
             title: t('employer_page.join_3'),
             detail: t('employer_page.join_3_detail'),
-            img: isMobile ? '/images/joinSection/step 3 mobile.png' :'/images/joinSection/join_3.png',
+            img: isMobile ? '/images/joinSection/join-3-mobile.png' :'/images/joinSection/join-3.png',
             icon: '/images/icons/people.png',
             num:3
         }
@@ -46,8 +46,8 @@ const JoinSection = ({isMobile} : {isMobile : boolean}) => {
                 <Typography variant="h2" sx={{fontSize:isMobile ? "1.45rem !important" :'1.9rem !important', fontWeight:700, color:'#404040', textAlign:'center'}} dangerouslySetInnerHTML={{ __html: t('employer_page.join_title') }}/>
             </Box>
             <Box sx={{padding:'1.45rem',display:'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent:'center', alignItems:'center', gap:11.5}}>
-                {items.map(item  => {
-                    return <><Content item={item} isMobile={isMobile}/></>
+                {items.map((item, index)  => {
+                    return <Content key={index} item={item} isMobile={isMobile}/>
                 })}
             </Box>
         </Box>

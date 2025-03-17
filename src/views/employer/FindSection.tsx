@@ -47,7 +47,8 @@ const FindSection = ({isMobile} : {isMobile: boolean}) => {
           justifyContent: 'space-around'
         }}
       >
-        <Box sx={{ minWidth: '528px', width:'100%',height: '559px' }}>
+        {/* medium=none karena kalo show = gepeng */}
+        <Box sx={{ minWidth: '528px', width:'100%',height: '559px', display:{xs:'none', lg:'block'} }}>
           <LeftImage />
         </Box>
 
@@ -159,7 +160,7 @@ const LeftImage = () => {
 
       <Box
         component='img'
-        src={'/images/findSection/real_man.png'}
+        src={'/images/findSection/real-man.png'}
         alt={'engineer man'}
         sx={{
           zIndex: 2,
@@ -173,7 +174,7 @@ const LeftImage = () => {
 
       <Box
         component='img'
-        src={'/images/findSection/smiling_woman.png'}
+        src={'/images/findSection/smiling-woman.png'}
         alt={'smiling woman'}
         sx={{
           zIndex: 1,
