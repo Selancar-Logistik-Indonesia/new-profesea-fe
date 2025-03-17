@@ -54,7 +54,7 @@ const BenefitSection = ({ isMobile }: { isMobile: boolean }) => {
         detail: t('employer_page.benefit_3_detail'),
         icon: 'healthicons:forum',
         img: isMobile
-          ? '/images/benefitSection/Mobile/community.png'
+          ? '/images/benefitSection/Mobile/Community.png'
           : [
               '/images/benefitSection/pisah_1.png',
               '/images/benefitSection/pisah_2.png',
