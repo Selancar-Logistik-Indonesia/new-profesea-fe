@@ -59,8 +59,8 @@ const TrainingDetailPage = () => {
         <title>{`${themeConfig.templateName} - ${training.title}`}</title>
         {new Date() > new Date(training?.schedule) && <meta name='robots' content='noindex,nofollow,noarchive' />}
       </Head>
-      <Box>
-        <Grid container sx={{ position: 'fixed' }}>
+      <Box sx={{ position: 'relative' }}>
+        <Grid container sx={{ position: 'absolute', top: '12px', left: '-72px' }}>
           <IconButton onClick={() => router.push(`/candidate/trainings`)}>
             <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
           </IconButton>
@@ -73,7 +73,7 @@ const TrainingDetailPage = () => {
             justifyContent: 'center'
           }}
         >
-          <Grid item xs={12} md={7}>
+          <Grid item xs={12} md={9}>
             <Box sx={{ p: 10, backgroundColor: '#FFFFFF' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Grid

@@ -21,10 +21,12 @@ import SideAd from 'src/views/banner-ad/sidead'
 
 import style from './../../../styles/css/ConnectionPage.module.css'
 import CompanyListTab from './CompanyListTab'
+import { useSearchParams } from 'next/navigation'
 
 function ProfileConnection() {
   const { dispatch } = useBreadcrumbsConnection()
-  const [value, setValue] = useState('1')
+  const params = useSearchParams()
+  const [value, setValue] = useState(params.get('tab') || '1')
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const iduser: any = user.id

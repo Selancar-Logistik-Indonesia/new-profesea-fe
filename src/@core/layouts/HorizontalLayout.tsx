@@ -29,26 +29,24 @@ const MainContentWrapper = styled(Box)<BoxProps>({
 })
 
 const Toolbar = styled(MuiToolbar)<ToolbarProps>(({ theme }) => ({
+  maxWidth: '1440px',
   width: '100%',
-  padding: `${theme.spacing(0, 6)} !important`,
-  [theme.breakpoints.down('sm')]: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(4)
-  },
-  [theme.breakpoints.down('xs')]: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2)
+  transition: 'padding .25s ease-in-out',
+  [theme.breakpoints.up('sm')]: {
+    paddingLeft: '120px',
+    paddingRight: '120px'
   }
 }))
 
 const ContentWrapper = styled('main')(({ theme }) => ({
-  flexGrow: 1,
+  maxWidth: '1440px',
   width: '100%',
-  padding: theme.spacing(6),
+  paddingTop: '24px',
+  paddingBottom: '24px',
   transition: 'padding .25s ease-in-out',
-  [theme.breakpoints.down('sm')]: {
-    paddingLeft: theme.spacing(4),
-    paddingRight: theme.spacing(4)
+  [theme.breakpoints.up('sm')]: {
+    paddingLeft: '120px',
+    paddingRight: '120px'
   }
 }))
 
@@ -116,8 +114,7 @@ const HorizontalLayout = (props: LayoutProps) => {
               sx={{
                 mx: 'auto',
                 ...(contentWidth === 'boxed' && { '@media (min-width:1440px)': { maxWidth: 1440 } }),
-                minHeight: theme => `${(theme.mixins.toolbar.minHeight as number) - 1}px !important`,
-                px: { xs: '20px !important', lg: '120px !important' }
+                minHeight: theme => `${(theme.mixins.toolbar.minHeight as number) - 1}px !important`
               }}
             >
               <AppBarContent
@@ -136,12 +133,12 @@ const HorizontalLayout = (props: LayoutProps) => {
         <ContentWrapper
           className='layout-page-content'
           sx={{
-            ...(contentHeightFixed && { display: 'flex', overflow: 'hidden' }),
-            ...(contentWidth === 'boxed' && {
-              mx: 'auto',
-              '@media (min-width:1440px)': { maxWidth: 1640 },
-              '@media (min-width:1600px)': { maxWidth: '100%' }
-            })
+            mx: 'auto',
+            ...(contentHeightFixed && { display: 'flex', overflow: 'hidden' })
+            // ...(contentWidth === 'boxed' && {
+            //   '@media (min-width:1440px)': { maxWidth: 1640 },
+            //   '@media (min-width:1600px)': { maxWidth: '100%' }
+            // })
           }}
         >
           {children}

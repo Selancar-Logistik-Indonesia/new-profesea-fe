@@ -17,7 +17,7 @@ type Prop = {
   item: ISocialFeed
   withBottomArea?: boolean
   user?: IUser
-  type?: 'repost'
+  type?: 'repost' | 'page'
 }
 
 const FeedCard = (props: Prop) => {

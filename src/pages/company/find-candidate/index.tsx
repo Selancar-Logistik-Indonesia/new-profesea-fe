@@ -201,7 +201,7 @@ const FindCandidateApp = () => {
 
   return (
     <Grid container spacing={6} justifyContent={'center'}>
-      <Grid item md={11} xs={12}>
+      <Grid item xs={12}>
         <Breadcrumbs separator={<MdNavigateNext fontSize={'17px'} color='black' />} aria-label='breadcrumb'>
           <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
             <Typography
@@ -238,7 +238,7 @@ const FindCandidateApp = () => {
           </Typography>
         </Breadcrumbs>
       </Grid>
-      <Grid item md={11} xs={12} sx={{ display: 'flex', flexDirection: hidden ? 'column' : 'row', gap: '24px' }}>
+      <Grid item xs={12} sx={{ display: 'flex', flexDirection: hidden ? 'column' : 'row', gap: '24px' }}>
         <Card
           sx={{
             borderRadius: 12,
@@ -264,7 +264,7 @@ const FindCandidateApp = () => {
             }
           />
           <Collapse in={collapsed}>
-            <CardContent>
+            <CardContent sx={{ flexShrink: 0 }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <Grid container gap='8px'>
                   <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Keyword</Typography>
