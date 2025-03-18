@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   CircularProgress,
-  Divider,
   FormControl,
   Grid,
   IconButton,
@@ -82,7 +81,6 @@ const LoginPage = () => {
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showPassword2, setShowPassword2] = useState<boolean>(false)
-  const [openModalGoogle, setOpenModalGoogle] = useState<boolean>(false)
   const [openDialogMessage, setOpenDialogMessage] = useState<boolean>(false)
   const [openDialogReturn, setOpenDialogReturn] = useState<boolean>(false)
   const [onLoading, setOnLoading] = useState<boolean>(false)

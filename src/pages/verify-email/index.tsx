@@ -53,6 +53,7 @@ const VerifyEmail = () => {
   const checkEmailVerification = async () => {
     if (!user || !user.email) {
       toast.error('Email not found!')
+
       return
     }
 
