@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react'
 import {
+  Alert,
   Autocomplete,
   Box,
   Breadcrumbs,
@@ -86,6 +87,7 @@ const JobManagement = () => {
         is_active: checkStatus(statusFilter)
       })
       const data = response.data.jobs.data
+      console.log(data)
       setJobs(data)
       setTotalJobs(response.data.jobs.total)
     } catch (error) {
@@ -177,6 +179,12 @@ const JobManagement = () => {
           </Breadcrumbs>
         </Grid>
         <Grid item xs={12} flexDirection='column' sx={{ borderRadius: '8px', p: '26px', backgroundColor: '#FFF' }}>
+          <Alert icon={<Icon icon='ph:lightning' fontSize={32} color="#32497A"/>} sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:2, backgroundColor:'#F2F8FE', border:'1px solid #0B58A6', borderRadius:'8px', mb:8}}>
+              <Box sx={{display:'flex', flexDirection:'column', gap:1}}>
+                  <Typography sx={{fontSize:14, fontWeight:700, color:'#32497A'}}>0/1 Job Boosted</Typography>
+                  <Typography sx={{fontSize:14, fontWeight:400, color:'#303030'}}>Active and highlight job post to appear prominently and attract more candidates.</Typography>
+              </Box>
+          </Alert>
           <Box sx={{ pb: '24px', display: 'flex', justifyContent: 'space-between' }}>
             <Typography sx={{ color: '#32497A', lineHeight: '38px', fontSize: '32px', fontWeight: 700 }}>
               Job Management

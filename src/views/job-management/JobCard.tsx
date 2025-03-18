@@ -92,8 +92,12 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
 
   return (
     <>
-      <Box sx={{ p: '16px', border: '1.5px solid #E7E7E7', borderRadius: '6px' }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <Box sx={{ p: '0px', border: '1.5px solid #E7E7E7', borderRadius: '6px' }}>
+        <Box sx={{backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)', display: job.is_boosted ?  'flex' : 'none', flexDirection:'row', alignItems:'center', gap:1, padding:'.5rem 1.45rem', borderRadius:'6px 6px 0px 0px'}}>
+            <Icon icon="ph:lightning-fill" color='#FFFFFF' fontSize={20}/>
+            <Typography sx={{color: '#fff', fontWeight: 700, fontSize:14}}>Hot Opportunity</Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px', padding:'16px' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
             <Typography
               component={job.is_draft ? Box : Link}
