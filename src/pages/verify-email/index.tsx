@@ -7,10 +7,11 @@ import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
 import { useTranslation } from 'react-i18next'
+import Spinner from 'src/@core/components/spinner'
 
 const VerifyEmail = () => {
   const router = useRouter()
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
   const { t } = useTranslation()
 
   const [onLoading, setOnLoading] = useState(false)
@@ -52,28 +53,30 @@ const VerifyEmail = () => {
   const checkEmailVerification = async () => {
     if (!user || !user.email) {
       toast.error('Email not found!')
-
       return
     }
 
     setOnLoading(true)
     try {
-      await HttpClient.get(AppConfig.baseUrl + '/user-management/check-email-verified', { email: user.email }).then(
-        () => {
-          toast.success('Email verified!')
-          if (user.last_step === 'completed') {
-            router.push('/home')
-          } else if (user.team_id === 3) {
-            router.push('/onboarding/employer/step-one/1')
-          } else router.push('/role-selection')
-        }
-      )
+      await HttpClient.get(AppConfig.baseUrl + '/user-management/check-email-verified', {
+        email: user.email
+      })
+      toast.success('Email verified!')
+      if (user.last_step === 'completed') {
+        router.push('/home')
+      } else if (user.team_id === 3) {
+        router.push('/onboarding/employer/step-one/1')
+      } else {
+        router.push('/role-selection')
+      }
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'An error occurred while verifying the email.')
     } finally {
       setOnLoading(false)
     }
   }
+
+  if (loading) return <Spinner />
 
   return (
     <Grid
