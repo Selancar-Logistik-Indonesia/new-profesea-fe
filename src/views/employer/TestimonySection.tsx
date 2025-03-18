@@ -53,13 +53,14 @@ const TestimonySection = ({isMobile} : {isMobile : boolean}) =>{
                 <Box sx={{display:'flex', flexDirection:'column', gap:2}}>
                     <Box sx={{display:'flex', alignItems:'flex-end', justifyContent:isMobile ? 'center' :'flex-end', width:'100%'}}>
                         <AvatarGroup sx={{}} spacing='small'>
-                            <Avatar alt='avatar_1' src="/images/avatars/Ellipse 36.png" sx={{width:'47px', height:'47px', border:'2px solid #F2F8FE'}}/>
-                            <Avatar alt='avatar_2' src="/images/avatars/Ellipse 37.png" sx={{width:'47px', height:'47px', border:'2px solid #F2F8FE'}}/>
-                            <Avatar alt='avatar_3' src="/images/avatars/Ellipse 38.png" sx={{width:'47px', height:'47px', border:'2px solid #F2F8FE'}}/>
-                            <Avatar alt='avatar_4' src="/images/avatars/Ellipse 39.png" sx={{width:'47px', height:'47px', border:'2px solid #F2F8FE'}}/>
+                            <Avatar alt='avatar_1' src="/images/logos/company/ads_profesea.png" sx={{width:'47px', height:'47px', border:'2px solid #F2F8FE', objectFit:'cover', backgroundColor:'#FFFFFF'}} imgProps={{style:{objectFit:'contain', width:'100%'}}}/>
+                            <Avatar alt='avatar_4' src="/images/logos/company/sachi.png" sx={{width:'47px', height:'47px', border:'2px solid #F2F8FE',objectFit:'contain', backgroundColor:'#FFFFFF'}} imgProps={{style:{objectFit:'contain', width:'100%'}}}/>
+                            <Avatar alt='avatar_2' src="/images/logos/company/aweidhia.png" sx={{width:'47px', height:'47px', border:'2px solid #F2F8FE', objectFit:'cover', backgroundColor:'#FFFFFF'}} imgProps={{style:{objectFit:'contain', width:'100%'}}}/>
+                            <Avatar alt='avatar_3' src="/images/logos/company/pt_spil.png" sx={{width:'47px', height:'47px', border:'2px solid #F2F8FE',objectFit:'contain', backgroundColor:'#FFFFFF'}} imgProps={{style:{objectFit:'contain', width:'100%'}}}/>
+                            <Avatar alt='avatar_4' src="/images/logos/company/samudera.png" sx={{width:'47px', height:'47px', border:'2px solid #F2F8FE', backgroundColor:'#FFFFFF'}}/>
                         </AvatarGroup>
                     </Box>
-                    <Typography sx={{fontSize:'.95rem', fontWeight:400, color:'#404040'}}>Dipercaya 1000+ Perusahaan</Typography>
+                    <Typography sx={{fontSize:'.95rem', fontWeight:400, color:'#404040'}}>Dipercaya 200+ Perusahaan</Typography>
                 </Box>
             </Box>
 
