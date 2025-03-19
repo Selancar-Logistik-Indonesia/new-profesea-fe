@@ -87,8 +87,8 @@ const JobManagement = () => {
         is_active: checkStatus(statusFilter)
       })
       const data = response.data.jobs.data
-      console.log(data)
       setJobs(data)
+      
       setTotalJobs(response.data.jobs.total)
     } catch (error) {
       console.error('Error fetching jobs:', error)
@@ -179,10 +179,10 @@ const JobManagement = () => {
           </Breadcrumbs>
         </Grid>
         <Grid item xs={12} flexDirection='column' sx={{ borderRadius: '8px', p: '26px', backgroundColor: '#FFF' }}>
-          <Alert icon={<Icon icon='ph:lightning' fontSize={32} color="#32497A"/>} sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:2, backgroundColor:'#F2F8FE', border:'1px solid #0B58A6', borderRadius:'8px', mb:8}}>
+          <Alert icon={<Icon icon='ph:lightning' fontSize={32} color="#32497A"/>} sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:2, backgroundColor:'#F8F8F7', border:'1px solid #BFBFBF', borderRadius:'8px', mb:8}}>
               <Box sx={{display:'flex', flexDirection:'column', gap:1}}>
-                  <Typography sx={{fontSize:14, fontWeight:700, color:'#32497A'}}>0/1 Job Boosted</Typography>
-                  <Typography sx={{fontSize:14, fontWeight:400, color:'#303030'}}>Active and highlight job post to appear prominently and attract more candidates.</Typography>
+                  <Typography sx={{fontSize:14, fontWeight:700, color:'#303030'}}>Boost Job Visibility</Typography>
+                  <Typography sx={{fontSize:14, fontWeight:400, color:'#525252'}}>Highlight this job to attract more candidates. You can only boost one job at a time. To highlight this job and attract more candidates, you'll need to deactivate any currently boosted job on job management.</Typography>
               </Box>
           </Alert>
           <Box sx={{ pb: '24px', display: 'flex', justifyContent: 'space-between' }}>

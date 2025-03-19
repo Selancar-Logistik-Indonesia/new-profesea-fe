@@ -41,7 +41,7 @@ import { toast } from 'react-hot-toast'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import { FormDataSeafarer } from 'src/contract/types/create_job_type'
-import { HotJobBoost, JobDraft } from '../Component'
+import {  JobDraft } from '../Component'
 import BoostJobAlert from '../BoostJobAlert'
 
 const sailRegion = [
@@ -837,8 +837,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             label='Hide Salary'
           />
         </Grid>
-        <BoostJobAlert isBoosted={isBoosted} setIsBoosted={setIsBoosted} />
-        {false && <HotJobBoost />}
+        <BoostJobAlert  setIsBoosted={setIsBoosted} currentJob={job} isBoosted={isBoosted}/>
         <Grid item container sx={{ display: 'flex', gap: '24px', alignItems: 'center', justifyContent: 'right' }}>
           <Typography component={Link} href='/company/job-management' sx={{ color: '#868686', fontSize: 14 }}>
             Cancel
