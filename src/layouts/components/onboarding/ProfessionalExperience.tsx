@@ -49,11 +49,6 @@ const schema = yup.object().shape({
     then: schema => schema.required(),
     otherwise: schema => schema.notRequired()
   }),
-  isCurrent: yup.boolean().when('noExperience', {
-    is: false,
-    then: schema => schema.required(),
-    otherwise: schema => schema.notRequired()
-  }),
   signIn: yup.string().when('noExperience', {
     is: false,
     then: schema => schema.required(),
@@ -136,7 +131,7 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
       no_experience: data.noExperience,
       position: data.position,
       institution: data.company,
-      is_current: data.isCurrent,
+      is_current: data.isCurrent === true ? true : false,
       start_date: data.signIn,
       end_date: data.signOff,
       description: data.description
@@ -249,7 +244,11 @@ const ProfessionalExperience = ({ beforeLink }: { beforeLink: string }) => {
             </FormControl>
             <FormControl fullWidth error={!!errors.isCurrent}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Controller name='isCurrent' control={control} render={({ field }) => <Checkbox {...field} />} />
+                <Controller
+                  name='isCurrent'
+                  control={control}
+                  render={({ field }) => <Checkbox {...field} defaultChecked={false} />}
+                />
                 <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>
                   Saya saat ini bekerja di perusahaan ini
                 </Typography>
