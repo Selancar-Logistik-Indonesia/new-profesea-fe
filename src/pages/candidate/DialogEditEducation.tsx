@@ -58,11 +58,11 @@ const DialogEditEducation = (props: DialogProps) => {
   const [onLoading, setOnLoading] = useState(false)
   const [dateAwal, setDateAwal] = useState<any>(props.selectedItem?.start_date || null)
   const [dateAkhir, setDateAkhir] = useState<any>(props.selectedItem?.end_date || null)
+  const [EduId, setEduId] = useState(props.selectedItem?.degree || '')
   const [isCurrentEducation, setIsCurrentEducation] = useState<any>(props.selectedItem?.is_current)
   const [preview, setPreview] = useState(props.selectedItem?.logo)
   const [Education, getEducation] = useState<any[]>([])
   const [selectedFile, setSelectedFile] = useState()
-  const [EduId, setEduId] = useState('')
 
   const combobox = async () => {
     let response
