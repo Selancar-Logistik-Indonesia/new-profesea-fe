@@ -42,7 +42,7 @@ import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import { FormDataSeafarer } from 'src/contract/types/create_job_type'
 import {  JobDraft } from '../Component'
-import BoostJobAlert from '../BoostJobAlert'
+
 
 const sailRegion = [
   { id: 'ncv', label: 'Near Coastal Voyage (NCV)' },
@@ -181,6 +181,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       setLicenseCOC(coc)
       setLicenseCOP(cop)
     })
+    setIsBoosted(false)
   }
 
   const selectJobCategory = watch('jobCategory') === 0 ? undefined : watch('jobCategory')
@@ -837,7 +838,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             label='Hide Salary'
           />
         </Grid>
-        <BoostJobAlert  setIsBoosted={setIsBoosted} currentJob={job} isBoosted={isBoosted}/>
+        {/* <BoostJobAlert  setIsBoosted={setIsBoosted} currentJob={job} isBoosted={isBoosted}/> */}
         <Grid item container sx={{ display: 'flex', gap: '24px', alignItems: 'center', justifyContent: 'right' }}>
           <Typography component={Link} href='/company/job-management' sx={{ color: '#868686', fontSize: 14 }}>
             Cancel

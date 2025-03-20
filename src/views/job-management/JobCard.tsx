@@ -85,7 +85,7 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
     }).then(
       () => {
         toast.success('Status successfully changed!')
-        setStatus(!currentStatus)
+        setBoosted(!currentStatus)
 
         setTimeout(() => {
           refetch()
