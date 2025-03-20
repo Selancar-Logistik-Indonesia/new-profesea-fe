@@ -1,19 +1,19 @@
 // ** React Imports
 import React from 'react'
 
-import { Button, Paper, ButtonGroup, Popper, ClickAwayListener, MenuList, MenuItem, Grow } from '@mui/material'
+import { Paper, Popper, ClickAwayListener, MenuList, MenuItem, Grow, IconButton } from '@mui/material'
 // ** Layout Import
 
 import { Icon } from '@iconify/react'
 
-import Grid from '@mui/material/Grid'
 import { toast } from 'react-hot-toast'
+import { Box } from '@mui/system'
 // import Link from 'next/link'
 
 const ShareArea = (props: { url: string; subject: any; clean?: boolean }) => {
   const options = ['Whatsapp', 'Email', 'Link']
   const [open, setOpen] = React.useState(false)
-  const anchorRef = React.useRef<HTMLDivElement>(null)
+  const anchorRef = React.useRef<any>(null)
   const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => {
     if (options[index] == 'Link') {
       navigator.clipboard.writeText(props.clean ? props.url : window.location.origin + props.url)
@@ -44,29 +44,12 @@ const ShareArea = (props: { url: string; subject: any; clean?: boolean }) => {
 
   return (
     <>
-      <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
-        <Grid sx={{ width: '100%' }}>
-          <ButtonGroup
-            variant='text'
-            ref={anchorRef}
-            aria-label='split button'
-            sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
-          >
-            <Button
-              variant='text'
-              color='secondary'
-              size='small'
-              aria-controls={open ? 'split-button-menu' : undefined}
-              aria-expanded={open ? 'true' : undefined}
-              aria-label='select merge strategy'
-              aria-haspopup='menu'
-              onClick={handleToggle}
-              startIcon={<Icon icon='uil:share' fontSize={10} />}
-            >
-              Share
-            </Button>
-          </ButtonGroup>
-        </Grid>
+      <Box>
+        <Box>
+          <IconButton ref={anchorRef} size='small' onClick={handleToggle}>
+            <Icon icon='material-symbols-light:share-outline' fontSize={20} color='rgba(50, 73, 122, 1)' />
+          </IconButton>
+        </Box>
         <Popper
           sx={{
             zIndex: 1
@@ -98,7 +81,7 @@ const ShareArea = (props: { url: string; subject: any; clean?: boolean }) => {
             </Grow>
           )}
         </Popper>
-      </Grid>
+      </Box>
     </>
   )
 }

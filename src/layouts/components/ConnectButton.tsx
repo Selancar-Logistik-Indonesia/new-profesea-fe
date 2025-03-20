@@ -1,4 +1,3 @@
-import { Icon } from '@iconify/react'
 import { Button, CircularProgress } from '@mui/material'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
@@ -102,11 +101,8 @@ const ConnectButton = (props: ConnectButtonProps) => {
             isLoggedIn ? onConnectRequest(user) : setOpenDialog(!openDialog)
           }}
           variant={user.frienship_status ? 'outlined' : 'contained'}
-          startIcon={
-            !isLoading && <Icon icon='solar:link-linear' color={user.frienship_status ? '#26252542' : 'white'} />
-          }
           size='small'
-          sx={{ fontSize: 14, textTransform: 'none', width: 'fit-content', fontWeight: 300, p: '8px 12px' }}
+          sx={{ fontSize: 14, textTransform: 'none', width: '100%', fontWeight: 400, p: '6px 16px' }}
         >
           {isLoading ? <CircularProgress size={22} /> : buildConnectText()}
         </Button>

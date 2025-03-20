@@ -9,12 +9,12 @@ import { AppConfig } from 'src/configs/api'
 // import UserProfileHeader from 'src/layouts/components/UserProfileHeader'
 import { IUser } from 'src/contract/models/user'
 import { toast } from 'react-hot-toast'
-import WorkeExperience from '../../Workexperience'
+import WorkeExperience from '../Workexperience'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSearchParams } from 'next/navigation'
 import { getCleanErrorMessage, linkToTitleCase, toLinkCase } from 'src/utils/helpers'
 // import EducationalInfo from '../../Educational'
-import Ceritificate from '../../Certificate'
+import Ceritificate from '../Certificate'
 // import ProfileViewerCard from 'src/layouts/components/ProfileViewerCard'
 import AboutMe from 'src/views/profile/aboutMe'
 // import ProfileFeedCard from '../../ProfileFeedCard'
@@ -36,6 +36,7 @@ import SeafarerExperience from 'src/views/profile/seafarerExperience'
 import CopSection from 'src/views/profile/copSection'
 import CocSection from 'src/views/profile/cocSection'
 import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
+import UsernameChange from 'src/layouts/components/UsernameChange'
 import SideAdProfile from 'src/views/banner-ad/sideAdProfile'
 import CompleteOnboarding from 'src/views/onboarding/CompleteOnboarding'
 
@@ -79,7 +80,7 @@ const UserFeedApp = () => {
       username = user.username
     } else {
       url = '/user/?username=' + username
-      filter = '&username=' + username
+      filter = ''
       // filterdoc = '?username=' + username
     }
 
@@ -93,7 +94,7 @@ const UserFeedApp = () => {
 
       const user = response.data.user as IUser
       if (user.role === 'Company' || user.role === 'Trainer') {
-        router.push(`/company/${user.id}/${toLinkCase(user.username)}`)
+        router.push(`/company/${toLinkCase(user.username)}`)
       }
       setSelectedUser(user)
 
@@ -129,19 +130,8 @@ const UserFeedApp = () => {
 
   return (
     <>
-      <Grid
-        container
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          mt: '10px',
-          mb: '20px',
-          gap: '32px',
-          paddingLeft: { lg: '96px' },
-          paddingRight: { lg: '96px' }
-        }}
-      >
-        <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      <Grid container spacing={6} sx={{ display: 'flex', justifyContent: 'center', mb: '20px' }}>
+        <Grid item xs={12} md={9} sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <ProfileHeader dataUser={selectedUser as unknown as IUser} />
           {selectedUser.id === user?.id && <Analytics dataUser={selectedUser} />}
           <AboutMe dataUser={selectedUser} />
@@ -170,6 +160,11 @@ const UserFeedApp = () => {
           {selectedUser?.employee_type == 'offship' && <Ceritificate userId={selectedUser?.id} />}
         </Grid>
         <Grid item xs={12} md={3}>
+          {selectedUser.id === user?.id && (
+            <Box sx={{ mb: '24px' }}>
+              <UsernameChange userId={selectedUser?.id} username={selectedUser?.username} />
+            </Box>
+          )}
           <FriendSuggestionCard location='profile' dataUser={selectedUser} status={true} />
           <Box sx={{ my: '24px', position: 'sticky', top: '70px' }}>
             <SideAdProfile />

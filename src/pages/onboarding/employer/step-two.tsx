@@ -25,9 +25,9 @@ const Onboarding = () => {
         }}
       >
         <Box sx={{ width: '480px', display: 'flex', flexDirection: 'column' }}>
-          <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
+          <Box component='img' src='/images/logoprofesea.png' sx={{ width: '143px', height: 'auto' }} />
           <Box sx={{ mt: '32px', pb: '100px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <ProgressBar current={2} total={3} />
+            <ProgressBar current={2} total={4} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
                 Tambahkan Biodata Perusahaan

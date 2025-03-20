@@ -101,14 +101,21 @@ const renderList = (arr: Training[]) => {
                   >
                     <Grid
                       container
-                      sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1.5, mb: 1 }}
+                      sx={{
+                        display: 'flex',
+                        flexWrap: 'nowrap',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 1.5,
+                        mb: 1
+                      }}
                     >
-                      <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' />
-                      <Grid item xs={true} sx={{ flexGrow: 1 }}>
-                        <TruncatedTypography fontSize={20} color={'#0a66c2'} textTransform>
-                          {item.title}
-                        </TruncatedTypography>
-                      </Grid>
+                      <Box sx={{ flexShrink: 0 }}>
+                        <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' />
+                      </Box>
+                      <TruncatedTypography fontSize={20} color={'#0a66c2'} textTransform>
+                        {item.title}
+                      </TruncatedTypography>
                     </Grid>
                   </Tooltip>
                   <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1.5, mb: 1 }}>

@@ -78,7 +78,7 @@ const UserDropdown = (props: Props) => {
       <Badge
         overlap='circular'
         onClick={handleDropdownOpen}
-        sx={{ ml: 2, cursor: 'pointer' }}
+        sx={{ cursor: 'pointer' }}
         badgeContent={<BadgeContentSpan />}
         anchorOrigin={{
           vertical: 'bottom',
@@ -126,9 +126,11 @@ const UserDropdown = (props: Props) => {
         {userData && userData.role != 'admin' && (
           <div>
             <Link
-              href={`/${userData.role === 'Seafarer' ? 'profile' : 'company'}/${userData.id}/${toLinkCase(
-                userData.username
-              )}`}
+              href={`/${
+                userData.role === 'Seafarer'
+                  ? 'profile/' + toLinkCase(userData.username)
+                  : 'company' + '/' + toLinkCase(userData.username)
+              }`}
             >
               <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
                 <Box sx={styles}>

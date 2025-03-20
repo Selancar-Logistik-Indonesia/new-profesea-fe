@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next'
 import FooterView from 'src/views/landing-page/footerView'
 import Head from 'next/head'
 import themeConfig from 'src/configs/themeConfig'
-import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 import fsPromises from 'fs/promises'
 import path from 'path'
+import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 
 export async function getServerSideProps() {
   const filePath = path.join(process.cwd(), 'assets/tos/en.html')
@@ -31,10 +31,10 @@ const Term = (props: { tosContent: string }) => {
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
         <meta property='og:title' content={`${themeConfig.templateName} - ${t('landing_term_title')}`} />
         <meta property='og:description' content={`${themeConfig.templateName} - ${t('landing_term_description')}`} />
-        <meta property='og:image' content='images/logosamudera.png' />
+        <meta property='og:image' content='images/logoprofesea.png' />
       </Head>
 
-      <Grid container>
+      <Grid container p={5}>
         <Grid item xs={12}>
           <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF', padding: 5 }}>
             <CardHeader
@@ -57,6 +57,6 @@ const Term = (props: { tosContent: string }) => {
 
 Term.guestGuard = false
 Term.authGuard = false
-Term.getLayout = (page: ReactNode) => <OuterPageLayout>{page}</OuterPageLayout>
+Term.getLayout = (page: ReactNode) => <LandingPageLayout>{page}</LandingPageLayout>
 
 export default Term

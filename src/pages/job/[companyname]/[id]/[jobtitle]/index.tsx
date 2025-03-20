@@ -11,7 +11,6 @@ import HeaderJobDetail from 'src/views/job-detail/HeaderJobDetail'
 import SectionOneJobDetail from 'src/views/job-detail/SectionOneJobDetail'
 import SectionTwoJobDetail from 'src/views/job-detail/SectionTwoJobDetail'
 import SectionThreeJobDetail from 'src/views/job-detail/SectionThreeJobDetal'
-import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 import { usePathname } from 'next/navigation'
 import { useAuth } from 'src/hooks/useAuth'
 import DialogLogin from 'src/@core/components/login-modal'
@@ -21,6 +20,7 @@ import Head from 'next/head'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'next/navigation'
 import { linkToTitleCase } from 'src/utils/helpers'
+import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 
 const JobDetail = () => {
   const router = useRouter()
@@ -145,7 +145,7 @@ const JobDetail = () => {
         <title>{title}</title>
         <meta property='og:title' content={title} />
         <meta property='og:description' content={jobDetail?.description} />
-        <meta property='og:image' content='images/logosamudera.png' />
+        <meta property='og:image' content='images/logoprofesea.png' />
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
         <script type='application/ld+json' dangerouslySetInnerHTML={addProductJsonLd()} key='product-jsonld' />
@@ -245,7 +245,11 @@ const JobDetail = () => {
               >
                 Jobs post by the company
               </Box>
-              <RelatedJobView jobDetailSugestion={jobDetailSugestion} />
+              <RelatedJobView
+                jobDetailSugestion={jobDetailSugestion}
+                handleDeleteJobSave={async () => {}}
+                handleJobSave={async () => {}}
+              />
             </Grid>
           )}
 
@@ -271,6 +275,6 @@ JobDetail.acl = {
 
 JobDetail.guestGuard = false
 JobDetail.authGuard = false
-JobDetail.getLayout = (page: ReactNode) => <OuterPageLayout>{page}</OuterPageLayout>
+JobDetail.getLayout = (page: ReactNode) => <LandingPageLayout>{page}</LandingPageLayout>
 
 export default JobDetail

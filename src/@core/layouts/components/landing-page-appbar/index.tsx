@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import { useTheme } from '@mui/material/styles'
 import { useSettings } from 'src/@core/hooks/useSettings'
-import { Box, Button, CircularProgress, Container, Divider, IconButton } from '@mui/material'
+import { Box, Button, CircularProgress, Container, IconButton, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import UserDropdown from '../shared-components/UserDropdown'
 import LanguageDropdown from '../shared-components/LanguageDropdown'
@@ -14,6 +14,7 @@ import themeConfig from 'src/configs/themeConfig'
 import Navigation from '../vertical/landing-navigation'
 import { useAuth } from 'src/hooks/useAuth'
 import { useTranslation } from 'react-i18next'
+import { usePathname } from 'next/navigation'
 
 const LandingPageAppBar = (props: { appBarElevation?: number }) => {
   const { user, loading } = useAuth()
@@ -22,6 +23,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
   const { locale } = useRouter()
   const { skin } = settings
   const router = useRouter()
+  const path = usePathname()
   const { t } = useTranslation()
   const [navItems, setNavItems] = useState<NavItemType[]>([])
 
@@ -50,35 +52,51 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
   useEffect(() => {
     const baseAddress1 = '/find-job'
     const baseAddress2 = '/#discoverSectionLink'
-    const baseAddress3 = '/faqs'
+    // const baseAddress3 = '/faqs'
     const baseAddress4 = '/employer'
     const baseAddress5 = '/trainings'
     const baseAddress6 = '/news'
 
+    const baseAddress7 = '/employer'
+
+    // pricing untuk sementara di hide dulu
+    // const baseAddress8 = '/employer/pricing'
+    const baseAddress9 = '/'
+
+
     setNavItems([
-      { title: t('button_1'), variant: 'contained', onClick: '/login' },
+      { title: t('button_1'), variant: 'outlined', onClick: '/login', sx: { textTransform: 'capitalize' } },
       {
         title: t('button_4'),
         variant: 'contained',
-        onClick: '/register',
-        sx: { backgroundColor: '#ffa000', ':hover': { backgroundColor: '#ef6c00' } }
+        onClick: path === '/employer/' || path === '/employer/pricing/' ? '/register/employer' : '/register',
+        sx: { backgroundColor: '#32497A', textTransform: 'capitalize' }
       }
     ])
 
-    setHomeNavItems([
-      { title: t('landing_menu_1'), path: baseAddress1 },
-      { title: t('landing_menu_2'), path: baseAddress2 },
-      { title: t('landing_menu_3'), path: baseAddress3 },
-      { title: t('landing_menu_4'), path: baseAddress4 },
-      { title: t('landing_menu_5'), path: baseAddress5 },
-      { title: t('landing_menu_6'), path: baseAddress6 }
-    ])
-  }, [t])
+    if(path === '/employer/' || path === '/employer/pricing/'){
+      setHomeNavItems([
+        { title: t('landing_menu_9'), path: baseAddress9 },
+        { title: t('landing_menu_7'), path: baseAddress7 },
+        // pricing untuk sementara di hide dulu
+        // { title: t('landing_menu_8'), path: baseAddress8 },
+      ])
+    }else{
+      setHomeNavItems([
+        { title: t('landing_menu_1'), path: baseAddress1 },
+        { title: t('landing_menu_4'), path: baseAddress4 },
+        { title: t('landing_menu_5'), path: baseAddress5 },
+        { title: t('landing_menu_6'), path: baseAddress6 },
+        { title: t('landing_menu_2'), path: baseAddress2 }
+        // { title: t('landing_menu_3'), path: baseAddress3 }
+      ])
+    }
+
+  }, [t, path])
 
   const buildAppbarActions = () => {
     return (
       <>
-        <Divider orientation='vertical' variant='middle' flexItem color='#ddd' />
         {!user ? (
           navItems.map(item => (
             <Link href={item.onClick} key={item.title} locale={locale}>
@@ -147,15 +165,58 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
               minHeight: `${(theme.mixins.toolbar.minHeight as number) - (skin === 'bordered' ? 1 : 0)}px !important`
             }}
           >
-            <Link href='/'>
+            <Box sx={{ display: 'flex', gap: 4 }}>
+              <Link href='/'>
+                <Box sx={{ display: 'flex', flexDirection:'column', width: 'fit-content' }}>
+                <Box
+                  component='img'
+                  sx={{ width: 125, marginLeft: 5 }}
+                  alt='The Profesea logo'
+                  title='Profesea'
+                  src='/images/logoprofesea.png'
+                />
+                <Typography sx={{ color: '#32497A', fontSize: '12px', fontWeight: 400, ml: 5 }}>{path === '/employer/' ? 'for Company' : ''}</Typography>
+                </Box>
+              </Link>
               <Box
-                component='img'
-                sx={{ width: 125, marginLeft: 5 }}
-                alt='The Profesea logo'
-                title='Profesea'
-                src='/images/logosamudera.png'
-              />
-            </Link>
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: 'fit-content',
+                  borderRadius: 1,
+                  bgcolor: 'background.paper',
+                  color: 'text.secondary',
+                  textTransform: 'capitalize',
+                  '& svg': { m: 1.5 },
+                  '& hr': { mx: 0.5 }
+                }}
+              >
+                {homeNavItems.map(el => (
+                  <Link
+                    key={el.path}
+                    href={el.path}
+                    onClick={() => {
+                      if (el.path == '/#discoverSectionLink') {
+                        const element = document.getElementById('discoverSection')
+                        if (element) {
+                          element.scrollIntoView({ behavior: 'smooth' })
+                        }
+
+                        return false
+                      }
+                    }}
+                  >
+                    <Button
+                      sx={{ fontWeight: router.asPath == el.path ? 'bold' : undefined, textTransform: 'capitalize' }}
+                      variant='text'
+                      color='secondary'
+                    >
+                      {el.title}
+                    </Button>
+                  </Link>
+                ))}
+              </Box>
+            </Box>
 
             <Box
               sx={{
@@ -170,32 +231,8 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                 '& hr': { mx: 0.5 }
               }}
             >
-              {homeNavItems.map(el => (
-                <Link key={el.path} href={el.path} onClick={() => {
-                  
-                  if(el.path == "/#discoverSectionLink"){
-                  
-                    const element = document.getElementById('discoverSection')
-                    if (element) {
-                      element.scrollIntoView({ behavior: 'smooth' })
-                    }
-                    
-                    return false
-                  }
-                }}>
-                  <Button
-                    sx={{ fontWeight: router.asPath == el.path ? 'bold' : undefined, textTransform: 'capitalize' }}
-                    variant='text'
-                    color='secondary'
-
-                  >
-                    {el.title}
-                  </Button>
-                </Link>
-              ))}
-              {loading ? <CircularProgress /> : buildAppbarActions()}
-              <Divider orientation='vertical' variant='middle' flexItem color='#ddd' />
               <LanguageDropdown settings={settings} saveSettings={saveSettings} />
+              {loading ? <CircularProgress /> : buildAppbarActions()}
             </Box>
           </Toolbar>
         </Container>
@@ -236,8 +273,8 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                     sx={{ width: 125 }}
                     alt='The Profesea logo'
                     title='Profesea'
-                    src='/images/logosamudera.png'
-                  /> 
+                    src='/images/logoprofesea.png'
+                  />
                 </Link>
               </Box>
             )}

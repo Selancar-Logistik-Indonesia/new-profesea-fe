@@ -3,7 +3,7 @@ import { Box, Grid, Typography } from '@mui/material'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { EmployerProfileCard } from 'src/views/onboarding/ProfileCard'
 import ProgressBar from 'src/views/onboarding/ProgressBar'
-import CompanyDocument from 'src/layouts/components/onboarding/CompanyDocument'
+import CompanyCrewing from 'src/layouts/components/onboarding/CompanyCrewing'
 
 const Onboarding = () => {
   return (
@@ -25,19 +25,19 @@ const Onboarding = () => {
         }}
       >
         <Box sx={{ width: '480px', display: 'flex', flexDirection: 'column' }}>
-          <Box component='img' src='/images/logosamudera.png' sx={{ width: '143px', height: 'auto' }} />
+          <Box component='img' src='/images/logoprofesea.png' sx={{ width: '143px', height: 'auto' }} />
           <Box sx={{ mt: '32px', pb: '100px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <ProgressBar current={3} total={3} />
+            <ProgressBar current={3} total={4} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-                Unggah Dokumen Perusahaan Anda
+                Apakah Anda perusahaan <i>crewing</i>? <span style={{ color: '#F22' }}>*</span>
               </Typography>
               <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
-                Kirimkan dokumen yang diperlukan untuk verifikasi agar Anda dapat mempublikasikan lowongan pekerjaan dan
-                terhubung dengan kandidat yang potensial.
+                Pilih jenis perusahaan Anda untuk mendapatkan fitur rekrutmen dan posting pekerjaan yang sesuai dengan
+                kebutuhan Anda.
               </Typography>
             </Box>
-            <CompanyDocument beforeLink='/onboarding/employer/step-two' />
+            <CompanyCrewing beforeLink='/onboarding/employer/step-two' nextLink='/onboarding/employer/step-four' />
           </Box>
         </Box>
       </Grid>

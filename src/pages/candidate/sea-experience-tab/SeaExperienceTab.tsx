@@ -496,7 +496,7 @@ const SeaExperienceTab: React.FC<ISeaExperienceTabProps> = ({ defaultValue = 0 }
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
                 <Image src={'/images/kapal-icon.png'} alt={'mdl2'} width={'64'} height={'65'} />
                 <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040', textAlign: 'center' }}>
-                  No reference verification yet
+                  No reference yet
                 </Typography>
                 <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#404040', textAlign: 'center' }}>
                   Verify your references to boost profile credibility
@@ -531,7 +531,7 @@ const SeaExperienceTab: React.FC<ISeaExperienceTabProps> = ({ defaultValue = 0 }
             >
               <Box>
                 <Typography fontSize={16} fontWeight={700} color={'#32497A'}>
-                  Reference Verification
+                  Reference
                 </Typography>
                 <Typography fontSize={14} fontWeight={400} color={'#404040'}>
                   Verify your references to boost profile credibility
@@ -670,7 +670,7 @@ const SeaExperienceTab: React.FC<ISeaExperienceTabProps> = ({ defaultValue = 0 }
             }}
           />
           <BottomNavigationAction
-            label='Reference Verification'
+            label='Reference'
             sx={{
               display: 'inline',
               padding: '10px',

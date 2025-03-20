@@ -214,7 +214,7 @@ const DialogLogin = (props: BlockDialog) => {
                 }}
               >
                 <Link href='/'>
-                  <Box component='img' src='/images/logosamudera.png' sx={{ width: 125 }}></Box>
+                  <Box component='img' src='/images/logoprofesea.png' sx={{ width: 125 }}></Box>
                 </Link>
                 {(!isBanner || isXs) && (
                   <Typography variant='body2' sx={{ textAlign: 'center', color: '#262525', marginTop: '10px' }}>

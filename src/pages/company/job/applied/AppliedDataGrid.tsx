@@ -18,7 +18,7 @@ const columns: GridColDef[] = [
 
       return (
         <>
-          <Link href={`/profile/${row.user_id}/${toLinkCase(row.username)}`} target='_blank'>
+          <Link href={`/profile/${toLinkCase(row.username)}`} target='_blank'>
             {row.name}
           </Link>
         </>

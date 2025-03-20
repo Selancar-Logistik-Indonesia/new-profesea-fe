@@ -86,9 +86,8 @@ const FormPersonalData: React.FC = () => {
   const userLocalStorage = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [user, setUser] = useState<IUser | null>(null)
   const [userFullname, setUserFullname] = useState('')
-  const [gender, setGender] = useState<any>(
-    user && user?.gender == 'f' ? { title: 'f', label: 'Female' } : { title: 'm', label: 'Male' }
-  )
+  const [gender, setGender] = useState<any>(null)
+
   const [userCountry, setUserCountry] = useState<any>(null)
   const [userCity, setUserCity] = useState<any>(null)
   const [userAddress, setUserAddress] = useState<any>('')
@@ -132,6 +131,10 @@ const FormPersonalData: React.FC = () => {
       if (resUser?.role === 'Company') {
         setIndustry(resUser?.industry)
         setUserWebsite(resUser?.website as string)
+      }
+
+      if (resUser?.gender) {
+        setGender(resUser?.gender == 'f' ? { title: 'f', label: 'Female' } : { title: 'm', label: 'Male' })
       }
 
       // set value for useForm
@@ -187,7 +190,7 @@ const FormPersonalData: React.FC = () => {
       return
     }
 
-    if (!gender) {
+    if (!gender && user?.role !== 'Company') {
       toast.error('Gender is required')
 
       return

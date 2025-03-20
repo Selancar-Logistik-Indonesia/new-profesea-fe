@@ -17,8 +17,7 @@ import {
   Tabs,
   Tab,
   Link,
-  Pagination,
-  PaginationItem
+  Pagination
 } from '@mui/material'
 import CandidateContext, { CandidateProvider } from 'src/context/CandidateContext'
 import { useRouter } from 'next/router'
@@ -33,6 +32,7 @@ import { useTheme } from '@mui/material/styles'
 import { Icon } from '@iconify/react'
 import { MdNavigateNext } from 'react-icons/md'
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
+import CustomPaginationItem from 'src/@core/components/pagination/item'
 
 const FindCandidate = () => {
   return (
@@ -42,35 +42,6 @@ const FindCandidate = () => {
   )
 }
 
-const CustomPaginationItem = (props: any) => {
-  const { selected, ...other } = props
-
-  return (
-    <PaginationItem
-      {...other}
-      sx={{
-        ...(selected
-          ? {
-              backgroundColor: '#32497A',
-              color: '#FFFFFF',
-              '&:hover': {
-                backgroundColor: '#32497A'
-              }
-            }
-          : {
-              backgroundColor: '#DDDDDD',
-              color: '#000000',
-              '&:hover': {
-                backgroundColor: '#CCCCCC'
-              }
-            }),
-        fontWeight: 300,
-        borderRadius: '4px',
-        margin: '0 2px'
-      }}
-    />
-  )
-}
 const pageItems = 15
 
 const FindCandidateApp = () => {
@@ -230,7 +201,7 @@ const FindCandidateApp = () => {
 
   return (
     <Grid container spacing={6} justifyContent={'center'}>
-      <Grid item md={11} xs={12}>
+      <Grid item xs={12}>
         <Breadcrumbs separator={<MdNavigateNext fontSize={'17px'} color='black' />} aria-label='breadcrumb'>
           <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
             <Typography
@@ -267,7 +238,7 @@ const FindCandidateApp = () => {
           </Typography>
         </Breadcrumbs>
       </Grid>
-      <Grid item md={11} xs={12} sx={{ display: 'flex', flexDirection: hidden ? 'column' : 'row', gap: '24px' }}>
+      <Grid item xs={12} sx={{ display: 'flex', flexDirection: hidden ? 'column' : 'row', gap: '24px' }}>
         <Card
           sx={{
             borderRadius: 12,
@@ -293,7 +264,7 @@ const FindCandidateApp = () => {
             }
           />
           <Collapse in={collapsed}>
-            <CardContent>
+            <CardContent sx={{ flexShrink: 0 }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <Grid container gap='8px'>
                   <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Keyword</Typography>

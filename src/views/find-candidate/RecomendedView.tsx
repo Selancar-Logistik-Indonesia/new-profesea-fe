@@ -26,16 +26,19 @@ const BoxedText = ({ children }: { children: string }) => {
 
   return (
     <Box
+      component='span'
       sx={{
+        display: 'inline-flex',
+        alignItems: 'center',
         border: '1px solid #32497A',
         backgroundColor: '#F1F6FF',
         color: 'primary.main',
         borderRadius: '4px',
-        py: '2.5px',
-        px: '8px',
+        padding: '2.5px 8px',
         fontSize: 14,
         fontWeight: 300,
-        whiteSpace: 'nowrap'
+        wordBreak: 'break-word',
+        flexShrink: 0
       }}
     >
       {children}
@@ -54,7 +57,7 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
 
     return (
       <Grid item xs={12} key={item.id}>
-        <Link href={`/profile/${item.id}/${toLinkCase(item.username)}`} target='_blank'>
+        <Link href={`/profile/${toLinkCase(item.username)}`} target='_blank'>
           <Paper
             sx={{
               marginTop: '24px',
@@ -84,9 +87,10 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                   <Box sx={{ display: 'flex', alignItems: 'flex-start', flexWrap: 'nowrap', gap: '16px' }}>
                     {!isXs && (
                       <Button
-                        disabled={true || !item.phone}
+                        disabled={!item.phone}
                         variant='contained'
                         onClick={() => handleChatWhatsapp(item.phone ?? '')}
+                        startIcon={<Icon icon='ph:whatsapp-logo' />}
                         sx={{ height: '34px', textTransform: 'none', fontSize: 14, fontWeight: 300 }}
                       >
                         Message
@@ -145,38 +149,28 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                   <Typography sx={{ width: '150px', fontSize: 16, fontWeight: 'bold', mb: isXs ? '4px' : 0 }}>
                     Last Experience
                   </Typography>
-                  <Box
+                  <Typography
                     sx={{
-                      display: 'flex',
-                      flexDirection: isXs ? 'column' : 'row',
-                      alignItems: isXs ? 'start' : 'center',
-                      gap: 1.5
+                      display: 'block',
+                      wordBreak: 'break-word'
                     }}
                   >
-                    <BoxedText>{item.last_sea_experience?.vessel_name ?? '-'}</BoxedText>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                      <Typography
-                        sx={{
-                          flexShrink: 1,
-                          fontSize: 14,
-                          fontWeight: 'bold',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap'
-                        }}
-                      >
-                        at {item.last_sea_experience?.company ?? '-'}
-                      </Typography>
-                      <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                      <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${
-                        getMonthYear(item.last_sea_experience.sign_in, true) ?? '-'
-                      } - ${
-                        item.last_education?.end_date
-                          ? getMonthYear(item.last_sea_experience?.sign_off, true)
-                          : 'Present'
-                      }`}</Typography>
-                    </Box>
-                  </Box>
+                    <BoxedText>{item.last_sea_experience?.vessel_name ?? '-'}</BoxedText>{' '}
+                    <span
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      at {item.last_sea_experience?.company ?? '-'}
+                    </span>{' '}
+                    <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />{' '}
+                    <span style={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${
+                      getMonthYear(item.last_sea_experience.sign_in, true) ?? '-'
+                    } - ${
+                      item.last_education?.end_date ? getMonthYear(item.last_sea_experience?.sign_off, true) : 'Present'
+                    }`}</span>
+                  </Typography>
                 </Box>
               )}
               {item.employee_type === 'offship' && item.last_experience && (
@@ -188,39 +182,33 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                     alignItems: 'start'
                   }}
                 >
-                  <Typography sx={{ width: '150px', fontSize: 16, fontWeight: 'bold', mb: isXs ? '4px' : 0 }}>
+                  <Typography
+                    sx={{ flexShrink: 0, width: '150px', fontSize: 16, fontWeight: 'bold', mb: isXs ? '4px' : 0 }}
+                  >
                     Last Experience
                   </Typography>
-                  <Box
+                  <Typography
                     sx={{
-                      display: 'flex',
-                      flexDirection: isXs ? 'column' : 'row',
-                      alignItems: isXs ? 'start' : 'center',
-                      gap: 1.5
+                      display: 'block',
+                      wordBreak: 'break-word'
                     }}
                   >
-                    <BoxedText>{item.last_experience.position ?? '-'}</BoxedText>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                      <Typography
-                        sx={{
-                          flexShrink: 1,
-                          fontSize: 14,
-                          fontWeight: 'bold',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap'
-                        }}
-                      >
-                        at {item.last_experience.institution ?? '-'}
-                      </Typography>
-                      <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                      <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${
-                        getMonthYear(item.last_experience.start_date, true) ?? '-'
-                      } - ${
-                        item.last_experience.end_date ? getMonthYear(item.last_experience.end_date, true) : 'Present'
-                      }`}</Typography>
-                    </Box>
-                  </Box>
+                    <BoxedText>{item.last_experience.position ?? '-'}</BoxedText>{' '}
+                    <span
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      at {item.last_experience.institution ?? '-'}
+                    </span>{' '}
+                    <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />{' '}
+                    <span style={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${
+                      getMonthYear(item.last_experience.start_date, true) ?? '-'
+                    } - ${
+                      item.last_experience.end_date ? getMonthYear(item.last_experience.end_date, true) : 'Present'
+                    }`}</span>
+                  </Typography>
                 </Box>
               )}
               {item.last_education && (
@@ -232,53 +220,58 @@ const renderList = (listCandidate: IUser[], isXs: boolean) => {
                     alignItems: 'start'
                   }}
                 >
-                  <Typography sx={{ width: '150px', fontSize: 16, fontWeight: 'bold', mb: isXs ? '4px' : 0 }}>
+                  <Typography
+                    sx={{ flexShrink: 0, width: '150px', fontSize: 16, fontWeight: 'bold', mb: isXs ? '4px' : 0 }}
+                  >
                     Education
                   </Typography>
-                  <Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                      <Typography
-                        sx={{
-                          flexShrink: 1,
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <Typography
+                      sx={{
+                        display: 'block',
+                        wordBreak: 'break-word'
+                      }}
+                    >
+                      <span
+                        style={{
                           fontSize: 14,
-                          fontWeight: 'bold',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap'
+                          fontWeight: 'bold'
                         }}
                       >
                         {item.last_education?.title ?? '-'}
-                      </Typography>
-                      <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />
-                      <Typography sx={{ flexShrink: 0, color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${
+                      </span>{' '}
+                      <Icon icon='ion:ellipse' fontSize={6} style={{ color: '#949EA2' }} />{' '}
+                      <span style={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`${
                         getMonthYear(item.last_education?.start_date, true) ?? '-'
                       } - ${
                         item.last_education?.end_date ? getMonthYear(item.last_education.end_date, true) : 'Present'
-                      }`}</Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mt: '4px' }}>
-                      <BoxedText>{item.last_education?.major ?? '-'}</BoxedText>
-                      <Typography
-                        sx={{
+                      }`}</span>
+                    </Typography>
+                    <Typography
+                      sx={{
+                        display: 'block',
+                        wordBreak: 'break-word'
+                      }}
+                    >
+                      <BoxedText>{item.last_education?.major ?? '-'}</BoxedText>{' '}
+                      <span
+                        style={{
                           fontSize: 14,
-                          fontWeight: 300,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                          flexShrink: 1
+                          fontWeight: 300
                         }}
                       >
                         {item.last_education?.degree ?? '-'}
-                      </Typography>
-                    </Box>
+                      </span>
+                    </Typography>
                   </Box>
                 </Box>
               )}
               {isXs && (
                 <Button
-                  disabled={true || !item.phone}
+                  disabled={!item.phone}
                   variant='contained'
                   onClick={() => handleChatWhatsapp(item.phone ?? '')}
+                  startIcon={<Icon icon='ph:whatsapp-logo' />}
                   sx={{ width: '100%', textTransform: 'none', fontSize: 14, fontWeight: 300 }}
                 >
                   Message

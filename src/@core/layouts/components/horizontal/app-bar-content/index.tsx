@@ -11,11 +11,11 @@ interface Props {
   appBarBranding: NonNullable<NonNullable<LayoutProps['horizontalLayoutProps']>['appBar']>['branding']
 }
 
-const LinkStyled = styled(Link)(({ theme }) => ({
+const LinkStyled = styled(Link)(() => ({
   display: 'flex',
   alignItems: 'center',
   textDecoration: 'none',
-  marginRight: theme.spacing(8)
+  marginRight: '24px'
 }))
 
 const AppBarContent = (props: Props) => {
@@ -32,7 +32,7 @@ const AppBarContent = (props: Props) => {
             sx={{ width: 125 }}
             alt='The Profesea logo'
             title='Profesea'
-            src='/images/logosamudera.png'
+            src='/images/logoprofesea.png'
           />
         </LinkStyled>
       )}

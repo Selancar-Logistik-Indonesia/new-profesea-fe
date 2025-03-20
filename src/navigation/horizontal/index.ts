@@ -53,7 +53,7 @@ const navigation = (): HorizontalNavItemsType => [
     },
     {
         path: '/candidate/find-job',
-        title: 'Find Job',
+        title: 'Job',
         icon: 'solar:boombox-bold-duotone',
         action: 'read',
         subject: 'seafarer-jobs'
@@ -65,13 +65,13 @@ const navigation = (): HorizontalNavItemsType => [
         action: 'read',
         subject: 'seafarer-training'
     },
-    {
-        path: '/list-group',
-        title: 'Group',
-        icon: 'el:group',
-        action: 'read',
-        subject: 'home'
-    }
+    //   {
+    //     path: '/list-group',
+    //     title: 'Group',
+    //     icon: 'el:group',
+    //     action: 'read',
+    //     subject: 'home'
+    //   }
     // {
     //   path: '/pricing',
     //   title: 'Pricing',

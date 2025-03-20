@@ -3,14 +3,27 @@ import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { Box, Button, CardMedia, CircularProgress, Divider, Tooltip } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Training from 'src/contract/models/training'
 import Avatar from 'src/@core/components/mui/avatar'
 import { formatIDR, getUserAvatar } from 'src/utils/helpers'
 import Icon from 'src/@core/components/icon'
-import { HttpClient } from 'src/services'
 import Link from 'next/link'
 import { useAuth } from 'src/hooks/useAuth'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { useTraining } from 'src/hooks/useTraining'
+import TrainingContext, { TrainingProvider } from 'src/context/TrainingContext'
+import { IUser } from 'src/contract/models/user'
+
+const SeafarerOngoingTraining = () => {
+  const { user } = useAuth()
+
+  return (
+    <TrainingProvider>
+      <OngoingTrainingScreen user={user} />
+    </TrainingProvider>
+  )
+}
 
 const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
   const { children, line, ...rest } = props
@@ -38,11 +51,9 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
   )
 }
 
-const renderList = (arr: Training[] | null) => {
+const renderList = (arr: Training[] | null, user: IUser | null) => {
   if (arr && arr.length) {
     return arr.map(item => {
-      const { user } = useAuth()
-
       const trainerNameUrl = item.trainer.name.toLowerCase().split(' ').join('-')
       const trainingTitleUrl = item.title ? item.title?.toLowerCase().split(' ').join('-') : ''
       const link = user
@@ -50,7 +61,7 @@ const renderList = (arr: Training[] | null) => {
         : `/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`
 
       return (
-        <Grid item xs={12} md={4} sx={{ marginTop: '-10px', marginBottom: '10px' }} key={item.id}>
+        <Grid item xs={12} md={4} key={item.id}>
           <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
             <CardContent>
               <Link href={link}>
@@ -80,14 +91,21 @@ const renderList = (arr: Training[] | null) => {
                   <Tooltip title={item.title} enterDelay={500} leaveDelay={200}>
                     <Grid
                       container
-                      sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1.5, mb: 1 }}
+                      sx={{
+                        display: 'flex',
+                        flexWrap: 'nowrap',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 1.5,
+                        mb: 1
+                      }}
                     >
-                      <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' />
-                      <Grid item xs={true} sx={{ flexGrow: 1 }}>
-                        <TruncatedTypography fontSize={20} color={'#0a66c2'}>
-                          {item.title}
-                        </TruncatedTypography>
-                      </Grid>
+                      <Box sx={{ flexShrink: 0 }}>
+                        <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' />
+                      </Box>
+                      <TruncatedTypography fontSize={20} color={'#0a66c2'} textTransform>
+                        {item.title}
+                      </TruncatedTypography>
                     </Grid>
                   </Tooltip>
                   <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1.5, mb: 1 }}>
@@ -143,49 +161,47 @@ const renderList = (arr: Training[] | null) => {
   }
 }
 
-const OngoingTrainingScreen = () => {
-  const [listTrainings, setTraining] = useState<Training[] | null>(null)
-  const [onLoading, setOnLoading] = useState(false)
-  const payload = { take: 12, page: 1, ongoing: 1 }
-
-  const fetchTrainings = async () => {
-    try {
-      setOnLoading(true)
-      const resp = await HttpClient.get(`/public/data/training`, { ...payload })
-
-      if (resp.status == 200) {
-        const data = resp.data.trainings.data
-        setTraining(data)
-      }
-    } catch (error) {
-      console.error(error)
-    }
-
-    setOnLoading(false)
-  }
+const OngoingTrainingScreen = ({ user }: { user: IUser | null }) => {
+  const { fetchTrainings, hasNextPage, totalTraining } = useTraining()
 
   useEffect(() => {
-    fetchTrainings()
-  }, [])
-
-  if (onLoading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <CircularProgress sx={{ my: 20 }} />
-      </Box>
-    )
-  }
+    fetchTrainings({ take: 12, instant: 0, ongoing: 1 }, true)
+  }, [hasNextPage])
 
   return (
-    <Grid container spacing={3} mt={1}>
-      {renderList(listTrainings)}
-    </Grid>
+    <TrainingContext.Consumer>
+      {({ listTrainings, onLoading }) => {
+        if (onLoading) {
+          return (
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <CircularProgress sx={{ mt: 20 }} />
+            </Box>
+          )
+        }
+
+        return (
+          <Box style={{ height: 'fit-content' }}>
+            <InfiniteScroll
+              style={{ overflow: 'visible' }}
+              dataLength={totalTraining}
+              next={() => fetchTrainings({ take: 12, instant: 0, ongoing: 1 })}
+              hasMore={hasNextPage}
+              loader={<CircularProgress sx={{ mt: 20 }} />}
+            >
+              <Grid container spacing={3}>
+                {renderList(listTrainings, user)}
+              </Grid>
+            </InfiniteScroll>
+          </Box>
+        )
+      }}
+    </TrainingContext.Consumer>
   )
 }
 
-OngoingTrainingScreen.acl = {
+SeafarerOngoingTraining.acl = {
   action: 'read',
   subject: 'seafarer-training-ongoing'
 }
 
-export default OngoingTrainingScreen
+export default SeafarerOngoingTraining

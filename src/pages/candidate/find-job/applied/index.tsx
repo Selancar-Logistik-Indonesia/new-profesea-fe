@@ -22,7 +22,6 @@ import {
   IconButton,
   MenuItem,
   Pagination,
-  PaginationItem,
   Paper,
   Popper,
   Select,
@@ -35,6 +34,7 @@ import { useRouter } from 'next/router'
 import Icon from 'src/@core/components/icon'
 import { formatDistanceToNow } from 'date-fns'
 import toast from 'react-hot-toast'
+import CustomPaginationItem from 'src/@core/components/pagination/item'
 
 // Applied => Waiting Review => WR
 // Reviewed => Viewed => VD
@@ -123,36 +123,6 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
     >
       {children}
     </Typography>
-  )
-}
-
-const CustomPaginationItem = (props: any) => {
-  const { selected, ...other } = props
-
-  return (
-    <PaginationItem
-      {...other}
-      sx={{
-        ...(selected
-          ? {
-              backgroundColor: '#32497A',
-              color: '#FFFFFF',
-              '&:hover': {
-                backgroundColor: '#32497A'
-              }
-            }
-          : {
-              backgroundColor: '#DDDDDD',
-              color: '#000000',
-              '&:hover': {
-                backgroundColor: '#CCCCCC'
-              }
-            }),
-        fontWeight: 300,
-        borderRadius: '4px',
-        margin: '0 2px'
-      }}
-    />
   )
 }
 
@@ -267,8 +237,6 @@ const AllJobApplied = () => {
   const renderList = (data: Applied[]) => {
     return data.map(item => {
       const companyPhoto = item?.job?.company?.photo ? item?.job?.company?.photo : '/images/avatars/default-user.png'
-      const companyNameUrl = item?.job?.company.name.toLowerCase().split(' ').join('-')
-      const jobTitleUrl = item?.job?.job_title ? item?.job?.job_title?.toLowerCase().split(' ').join('-') : ''
 
       return (
         <Grid item xs={12} md={6} lg={4} key={item?.id}>
@@ -284,7 +252,7 @@ const AllJobApplied = () => {
               cursor: 'pointer'
             }}
             elevation={0}
-            onClick={() => router.push(`/candidate/job/${companyNameUrl}/${item?.job_id}/${jobTitleUrl}`)}
+            onClick={() => router.push(`/candidate/job/applied/${item?.id}`)}
           >
             <Box
               sx={{
@@ -356,7 +324,10 @@ const AllJobApplied = () => {
                       }}
                     >
                       <Box
-                        onClick={() => handleClickOpen(item?.id)}
+                        onClick={event => {
+                          event.stopPropagation()
+                          handleClickOpen(item?.id)
+                        }}
                         sx={{ display: 'flex', gap: '10px', cursor: 'pointer' }}
                       >
                         <Image src={'/images/HandWithdraw.png'} alt='icon-hand-with-draw' width={20} height={20} />

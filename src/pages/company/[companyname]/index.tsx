@@ -22,6 +22,7 @@ import DialogLogin from 'src/@core/components/login-modal'
 import { useAuth } from 'src/hooks/useAuth'
 import FooterView from 'src/views/landing-page/footerView'
 import CompleteOnboarding from 'src/views/onboarding/CompleteOnboarding'
+import UsernameChange from 'src/layouts/components/UsernameChange'
 
 const ProfileCompany = () => {
   return (
@@ -39,14 +40,13 @@ const UserFeedApp = () => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const params = useSearchParams()
   const selectedName = linkToTitleCase(params.get('companyname'))
-  const selectedId = params.get('id')
   const status = Boolean(isLoggedin)
 
   const firstload = async () => {
     setSelectedUser(null)
     let url: any = process.env.NEXT_PUBLIC_BASE_URL
-    if (selectedId && selectedName) {
-      url = `/public/data/user/${selectedId}/?username=${selectedName}`
+    if (selectedName) {
+      url = `/public/data/user/?username=${selectedName}`
     }
 
     try {
@@ -71,34 +71,36 @@ const UserFeedApp = () => {
   }, [onboarding])
 
   useEffect(() => {
-    if (selectedId && selectedName) {
+    if (selectedName) {
       firstload()
     }
-  }, [selectedName, selectedId])
+  }, [selectedName])
 
-  if (!selectedUser)
+  if (!selectedUser) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <CircularProgress sx={{ my: 20 }} />
       </Box>
     )
+  }
 
   return (
     <>
-      <Grid
-        container
-        spacing={6}
-        sx={{ display: 'flex', justifyContent: 'center', mt: status ? '10px' : 0, mb: '20px' }}
-      >
-        <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <Grid container spacing={6} sx={{ display: 'flex', justifyContent: 'center', mb: '20px' }}>
+        <Grid item xs={12} md={9} sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <ProfileHeader dataUser={selectedUser} />
-          {selectedUser.id === user?.id && status && <Analytics dataUser={selectedUser} />}
+          {selectedUser?.id === user?.id && status && <Analytics dataUser={selectedUser} />}
           <AboutMe dataUser={selectedUser} />
           <Posting dataUser={selectedUser} status={status} />
           <Activity dataUser={selectedUser} status={status} />
           <CenterAd adsLocation='company-profile-page' />
         </Grid>
         <Grid item xs={12} md={3}>
+          {selectedUser.id === user?.id && (
+            <Box sx={{ mb: '24px' }}>
+              <UsernameChange userId={selectedUser?.id} username={selectedUser?.username} />
+            </Box>
+          )}
           <FriendSuggestionCard location='profile' dataUser={selectedUser} status={status} />
           <Box sx={{ my: '24px', position: 'sticky', top: '70px' }}>
             <SideAdProfile />

@@ -112,7 +112,7 @@ export default function CompanyListTab(props: any) {
                         color='text.primary'
                         sx={{ display: 'inline', fontSize: 16, fontWeight: 'bold' }}
                       >
-                        <Link href={'/profile/' + item.user.id + '/' + item.user.username}>{item?.user?.name}</Link>
+                        <Link href={'/profile/' + item.user.username}>{item?.user?.name}</Link>
                       </Typography>
                     </React.Fragment>
                   }
