@@ -56,6 +56,7 @@ const StatusCard = (props: StatusCardProps) => {
 
 const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
   const [status, setStatus] = useState(job.is_active)
+  const [boosted, setBoosted] = useState(job.is_boosted)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const [deleteJob, setDeleteJob] = useState(false)
@@ -67,6 +68,24 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
       () => {
         toast.success('Status successfully changed!')
         setStatus(!currentStatus)
+
+        setTimeout(() => {
+          refetch()
+        }, 500)
+      },
+      error => {
+        toast.error('Failed to change job status: ' + error.response.data.message)
+      }
+    )
+  }
+
+  const handleBoost = async (selectedId: number, currentStatus: boolean) => {
+    await HttpClient.patch(`/job/${selectedId}`, {
+      is_boosted: !currentStatus
+    }).then(
+      () => {
+        toast.success('Status successfully changed!')
+        setBoosted(!currentStatus)
 
         setTimeout(() => {
           refetch()
@@ -92,8 +111,22 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
 
   return (
     <>
-      <Box sx={{ p: '16px', border: '1.5px solid #E7E7E7', borderRadius: '6px' }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <Box sx={{ p: '0px', border: '1.5px solid #E7E7E7', borderRadius: '6px' }}>
+        <Box
+          sx={{
+            backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
+            display: job.is_boosted ? 'flex' : 'none',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 1,
+            padding: '.5rem 1.45rem',
+            borderRadius: '6px 6px 0px 0px'
+          }}
+        >
+          <Icon icon='ph:lightning-fill' color='#FFFFFF' fontSize={20} />
+          <Typography sx={{ color: '#fff', fontWeight: 700, fontSize: 14 }}>Hot Opportunity</Typography>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
             <Typography
               component={job.is_draft ? Box : Link}
@@ -126,87 +159,130 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
                   : 'Unnamed Job'}
               </span>
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              {job.is_draft ? (
-                <DraftToggle />
-              ) : (
-                <Box
-                  onClick={() => handleStatus(job.id, job.is_active)}
-                  sx={{
-                    position: 'relative',
-                    width: '84px',
-                    height: '22px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    pl: status ? '16px' : '22px',
-                    backgroundColor: status ? '#4CAF50' : '#868686',
-                    borderRadius: '100px',
-                    cursor: 'pointer',
-                    transition: 'background-color 0.3s ease, padding 0.5s ease'
-                  }}
-                >
-                  <Typography
+            <Box>
+              <Box sx={{ display: 'flex', alignItems:'center' ,gap: '6px', justifyContent: 'flex-end' }}>
+                {job.is_draft ? (
+                  <DraftToggle />
+                ) : (
+                  <Box
+                    onClick={() => handleStatus(job.id, job.is_active)}
                     sx={{
-                      color: '#FFF',
-                      userSelect: 'none',
-                      fontSize: 14,
-                      fontWeight: '400'
+                      position: 'relative',
+                      width: '84px',
+                      height: '22px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      pl: status ? '16px' : '22px',
+                      backgroundColor: status ? '#4CAF50' : '#868686',
+                      borderRadius: '100px',
+                      cursor: 'pointer',
+                      transition: 'background-color 0.3s ease, padding 0.5s ease'
                     }}
                   >
-                    {status ? 'Active' : 'Inactive'}
-                  </Typography>
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      backgroundColor: '#FFF',
-                      width: '14px',
-                      height: '14px',
-                      borderRadius: '50%',
-                      top: '4px',
-                      left: status ? 'calc(100% - 18px)' : '4px',
-                      transition: 'left 0.5s ease-in-out'
+                    <Typography
+                      sx={{
+                        color: '#FFF',
+                        userSelect: 'none',
+                        fontSize: 14,
+                        fontWeight: '400'
+                      }}
+                    >
+                      {status ? 'Active' : 'Inactive'}
+                    </Typography>
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        backgroundColor: '#FFF',
+                        width: '14px',
+                        height: '14px',
+                        borderRadius: '50%',
+                        top: '4px',
+                        left: status ? 'calc(100% - 18px)' : '4px',
+                        transition: 'left 0.5s ease-in-out'
+                      }}
+                    />
+                  </Box>
+                )}
+
+                <IconButton onClick={handleOpen}>
+                  <Icon icon='tabler:dots' fontSize={24} color='#868686' />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                >
+                  <MenuItem
+                    component={Link}
+                    disabled={job.is_draft}
+                    href={`/company/job/${job.id}`}
+                    sx={{ color: '#428FDC' }}
+                  >
+                    <Icon icon='tabler:eye-filled' fontSize={20} style={{ marginRight: 8 }} />
+                    View Job Detail
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    href={`/company/job-management/edit-job/?id=${job.id}`}
+                    sx={{ color: '#404040' }}
+                  >
+                    <Icon icon='tabler:edit' fontSize={20} style={{ marginRight: 8 }} />
+                    Edit
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setDeleteJob(true)
+                      handleClose()
                     }}
-                  />
-                </Box>
-              )}
-              <IconButton onClick={handleOpen}>
-                <Icon icon='tabler:dots' fontSize={24} color='#868686' />
-              </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    sx={{ color: '#FF2222' }}
+                  >
+                    <Icon icon='tabler:trash' fontSize={20} style={{ marginRight: 8 }} />
+                    Delete
+                  </MenuItem>
+                </Menu>
+              </Box>
+              <Box
+                onClick={() => handleBoost(job.id, job.is_boosted)}
+                sx={{
+                  position: 'relative',
+                  width: '188px',
+                  height: '22px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  pl: boosted ? '16px' : '22px',
+                  backgroundColor: boosted ? '' : '#868686',
+                  backgroundImage: boosted ? 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)' : '',
+                  borderRadius: '100px',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.3s ease, padding 0.5s ease',
+                  mr:10
+                }}
               >
-                <MenuItem
-                  component={Link}
-                  disabled={job.is_draft}
-                  href={`/company/job/${job.id}`}
-                  sx={{ color: '#428FDC' }}
-                >
-                  <Icon icon='tabler:eye-filled' fontSize={20} style={{ marginRight: 8 }} />
-                  View Job Detail
-                </MenuItem>
-                <MenuItem
-                  component={Link}
-                  href={`/company/job-management/edit-job/?id=${job.id}`}
-                  sx={{ color: '#404040' }}
-                >
-                  <Icon icon='tabler:edit' fontSize={20} style={{ marginRight: 8 }} />
-                  Edit
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    setDeleteJob(true)
-                    handleClose()
+                <Typography
+                  sx={{
+                    color: '#FFF',
+                    userSelect: 'none',
+                    fontSize: 14,
+                    fontWeight: '400'
                   }}
-                  sx={{ color: '#FF2222' }}
                 >
-                  <Icon icon='tabler:trash' fontSize={20} style={{ marginRight: 8 }} />
-                  Delete
-                </MenuItem>
-              </Menu>
+                  {boosted ? 'Boost Job Activated' : 'Boost Job Deactivated'}
+                </Typography>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    backgroundColor: '#FFF',
+                    width: '14px',
+                    height: '14px',
+                    borderRadius: '50%',
+                    top: '4px',
+                    left: boosted ? 'calc(100% - 18px)' : '4px',
+                    transition: 'left 0.5s ease-in-out'
+                  }}
+                />
+              </Box>
             </Box>
           </Box>
           {job.category.employee_type === 'onship' ? (

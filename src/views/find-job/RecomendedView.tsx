@@ -81,7 +81,7 @@ const RenderList = (listJob: Job[]) => {
       <Grid item xs={12} md={6} lg={4} key={item?.id}>
         <Paper
           sx={{
-            p: '24px',
+            p: item.is_boosted ? '0px' : '38px 20px',
             border: '2px solid #eee',
             transition: 'border-color 0.2s ease-in-out, color 0.2s ease-in-out',
             '&:hover': { borderColor: 'primary.main' },
@@ -90,13 +90,18 @@ const RenderList = (listJob: Job[]) => {
           elevation={0}
           onClick={() => router.push(`/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`)}
         >
+          <Box sx={{backgroundImage:'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)', display: item.is_boosted ? 'flex' : 'none' , flexDirection:'row', alignItems:'center', gap:1, padding:'.45rem 1.4rem', borderRadius:'3px 3px 0px 0px'}}>
+            <Icon icon="ph:lightning-fill" color='#FFFFFF' fontSize={20}/>
+            <Typography sx={{color: '#fff', fontWeight: 700, fontSize:14}}>Hot Opportunity</Typography>
+        </Box>
           <Box
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
               height: '4em',
-              mb: 3
+              mb: 3,
+              p: item.is_boosted ?  '24px' : '0px',
             }}
           >
             <Box
@@ -149,7 +154,7 @@ const RenderList = (listJob: Job[]) => {
               />
             </Box>
           </Box>
-          <Grid item>
+          <Grid item sx={{ p: item.is_boosted ? '24px' : '0px', mb:item.is_boosted ? '0px' : 2 }}>
             {item?.category?.employee_type == 'onship' ? (
               <>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

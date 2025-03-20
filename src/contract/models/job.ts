@@ -18,6 +18,7 @@ interface IJobSave {
 interface Job {
     id: number
     is_draft: boolean
+    is_boosted: boolean
     user_id: number
     rolelevel_id: number
     roletype_id: number
