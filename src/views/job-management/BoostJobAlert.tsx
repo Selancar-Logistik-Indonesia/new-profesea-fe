@@ -36,9 +36,12 @@ const BoostJobAlert = ({
         take: 50
       })
       const data = res.data.jobs.data
-
-     console.log(data)
+      data.forEach((item:Job) =>{
+        if(item.is_boosted) setBoostCount(prev => prev + 1)
+      })
+     
       setLoading(false)
+      setAvailableBoost(boostCount === 0 || (boostCount > 0 && currentJob?.is_boosted as boolean))
     } catch (error) {
       console.log(error)
       setLoading(false)
@@ -49,46 +52,47 @@ const BoostJobAlert = ({
     getJobs()
   }, [])
 
-  // const actionSwitch = () => {
-  //   if(loading) {<CircularProgress size={20}/>}
-  //   if (boostCount === 1 && !currentJob?.is_boosted) {
-  //     return (
-  //       <Link href='/company/job-management/'>
-  //         <Button
-  //           sx={{
-  //             border: '1px solid #0B58A6',
-  //             textTransform: 'none',
-  //             fontSize: 14,
-  //             color: '#0B58A6',
-  //             fontWeight: 400,
-  //             whiteSpace: 'nowrap'
-  //           }}
-  //         >
-  //           Go to Job Management
-  //         </Button>
-  //       </Link>
-  //     )
-  //   }
+  const actionSwitch = () => {
+    if(loading) {<CircularProgress size={20}/>}
 
-  //   return (
-  //     <Switch
-  //       // disabled={boostCount > 0 && !currentJob?.is_boosted}
-  //       // checked={isBoosted === currentJob?.is_boosted ? currentJob?.is_boosted : isBoosted}
-  //       inputProps={{ 'aria-label': 'controlled' }}
-  //       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-  //         setIsBoosted(e.target.checked)
-  //         setOpen(true)
-  //       }}
-  //       defaultChecked={currentJob?.is_boosted}
-  //     />
-  //   )
-  // }
+    if (!availableBoost) {
+      return (
+        <Link href='/company/job-management/'>
+          <Button
+            sx={{
+              border: '1px solid #0B58A6',
+              textTransform: 'none',
+              fontSize: 14,
+              color: '#0B58A6',
+              fontWeight: 400,
+              whiteSpace: 'nowrap'
+            }}
+          >
+            Go to Job Management
+          </Button>
+        </Link>
+      )
+    }
+
+    return (
+      <Switch
+        // disabled={boostCount > 0 && !currentJob?.is_boosted}
+        // checked={isBoosted === currentJob?.is_boosted ? currentJob?.is_boosted : isBoosted}
+        inputProps={{ 'aria-label': 'controlled' }}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setIsBoosted(e.target.checked)
+          setOpen(true)
+        }}
+        defaultChecked={currentJob?.is_boosted}
+      />
+    )
+  }
 
 
   return (
     <>
       <Alert
-        // action={actionSwitch()}
+        action={actionSwitch()}
         icon={<Icon icon='ph:lightning' fontSize={32} color='#32497A' />}
         sx={{
           display: 'flex',
