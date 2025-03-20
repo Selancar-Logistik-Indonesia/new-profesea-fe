@@ -59,7 +59,8 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
 
     const baseAddress7 = '/employer'
 
-    const baseAddress8 = '/employer/pricing'
+    // pricing untuk sementara di hide dulu
+    // const baseAddress8 = '/employer/pricing'
     const baseAddress9 = '/'
 
 
@@ -77,7 +78,8 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
       setHomeNavItems([
         { title: t('landing_menu_9'), path: baseAddress9 },
         { title: t('landing_menu_7'), path: baseAddress7 },
-        { title: t('landing_menu_8'), path: baseAddress8 },
+        // pricing untuk sementara di hide dulu
+        // { title: t('landing_menu_8'), path: baseAddress8 },
       ])
     }else{
       setHomeNavItems([
