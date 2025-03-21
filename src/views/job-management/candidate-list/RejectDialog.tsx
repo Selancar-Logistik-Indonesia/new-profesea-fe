@@ -74,7 +74,7 @@ const RejectDialog = (props: DialogProps) => {
   return (
     <Dialog fullWidth open={visible} maxWidth='xs' TransitionComponent={Transition}>
       <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography sx={{ fontSize: 16, fontWeight: 700 }}>Not Suitable</Typography>
+        <Typography sx={{ fontSize: 16, fontWeight: 700 }}>Tidak Sesuai</Typography>
         <IconButton size='small' onClick={onCloseClick}>
           <Icon icon='mdi:close' />
         </IconButton>
@@ -82,11 +82,11 @@ const RejectDialog = (props: DialogProps) => {
       <DialogContent sx={{ p: '40px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <Typography align='center' sx={{ fontSize: 14, fontWeight: 400 }}>
-            Why is this candidate not suitable for the position?
+            Mengapa kandidat ini tidak sesuai untuk posisi ini?
           </Typography>
           <Select displayEmpty size='small' value={reason} onChange={value => setReason(value.target.value)}>
             <MenuItem value='' disabled>
-              Choose Reason
+              Pilih Alasan
             </MenuItem>
             {rejectReasons &&
               rejectReasons.map(item => (
@@ -94,7 +94,7 @@ const RejectDialog = (props: DialogProps) => {
                   {item.reason}
                 </MenuItem>
               ))}
-            <MenuItem value='others'>Others</MenuItem>
+            <MenuItem value='others'>Lainnya</MenuItem>
           </Select>
           {reason === 'others' && (
             <TextField

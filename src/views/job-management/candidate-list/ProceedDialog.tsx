@@ -63,7 +63,7 @@ const ProceedDialog = (props: DialogProps) => {
       </DialogTitle>
       <DialogContent sx={{ p: '40px' }}>
         <Typography align='center' sx={{ fontSize: 14, fontWeight: 400 }}>
-          Would you like to proceed with this candidate to the next step?
+          Apakah Anda ingin melanjutkan kandidat ini ke tahap berikutnya?
         </Typography>
       </DialogContent>
       <DialogActions sx={{ p: '16px', display: 'flex', gap: '6px' }}>

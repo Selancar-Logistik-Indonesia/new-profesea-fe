@@ -43,10 +43,12 @@ import MuiBreadcrumb from './breadcrumbs'
 import MuiButtonGroup from './buttonGroup'
 import MuiAutocomplete from './autocomplete'
 import MuiToggleButton from './toggleButton'
+import {MuiPickersLayout, MuiPickersPopper} from './datePicker'
 
 const Overrides = (settings: Settings) => {
   const { skin, mode } = settings
 
+  
   const fab = MuiFab()
   const chip = MuiChip()
   const list = MuiList()
@@ -73,8 +75,12 @@ const Overrides = (settings: Settings) => {
   const snackbar = MuiSnackbar(skin)
   const pagination = MuiPagination()
   const autocomplete = MuiAutocomplete(skin)
+  const pickersLayout = MuiPickersLayout()
+  const pickersPopper = MuiPickersPopper()
 
   return Object.assign(
+    pickersLayout,
+    pickersPopper,
     fab,
     chip,
     list,

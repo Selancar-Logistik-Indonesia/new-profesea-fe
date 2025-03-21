@@ -173,20 +173,24 @@ const Profile = (props: userProps) => {
                     borderRight: '1px solid #F0F0F0'
                   }}
                 >
-                  <Typography sx={{ fontSize: '14px', fontFamily: 700, color: '#2D3436', textAlign: 'center' }}>
-                    {props?.activities?.total_connected}
-                  </Typography>
-                  <Typography sx={{ fontSize: '14px', fontFamily: 400, color: '#999', textAlign: 'center' }}>
-                    Connections
-                  </Typography>
+                  <Link href={'/connections?tab=2'}>
+                    <Typography sx={{ fontSize: '14px', fontFamily: 700, color: '#2D3436', textAlign: 'center' }}>
+                      {props?.activities?.total_connected}
+                    </Typography>
+                    <Typography sx={{ fontSize: '14px', fontFamily: 400, color: '#999', textAlign: 'center' }}>
+                      Connections
+                    </Typography>
+                  </Link>
                 </Box>
                 <Box sx={{ py: '8px', px: '16px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <Typography sx={{ fontSize: '14px', fontFamily: 700, color: '#2D3436', textAlign: 'center' }}>
-                    {props?.activities?.total_followed}
-                  </Typography>
-                  <Typography sx={{ fontSize: '14px', fontFamily: 400, color: '#999', textAlign: 'center' }}>
-                    Following
-                  </Typography>
+                  <Link href={'/connections?tab=3'}>
+                    <Typography sx={{ fontSize: '14px', fontFamily: 700, color: '#2D3436', textAlign: 'center' }}>
+                      {props?.activities?.total_followed}
+                    </Typography>
+                    <Typography sx={{ fontSize: '14px', fontFamily: 400, color: '#999', textAlign: 'center' }}>
+                      Following
+                    </Typography>
+                  </Link>
                 </Box>
               </Box>
             ) : (

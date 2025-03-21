@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react'
 import {
+  Alert,
   Autocomplete,
   Box,
   Breadcrumbs,
@@ -87,6 +88,7 @@ const JobManagement = () => {
       })
       const data = response.data.jobs.data
       setJobs(data)
+      
       setTotalJobs(response.data.jobs.total)
     } catch (error) {
       console.error('Error fetching jobs:', error)
@@ -150,7 +152,7 @@ const JobManagement = () => {
   return (
     <>
       <Grid container sx={{ display: 'flex', justifyContent: 'center', gap: '24px', pb: '48px' }}>
-        <Grid item xs={11}>
+        <Grid item xs={12}>
           <Breadcrumbs separator={<MdNavigateNext fontSize={'17px'} color='black' />} aria-label='breadcrumb'>
             <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
               <Typography
@@ -176,7 +178,13 @@ const JobManagement = () => {
             </Typography>
           </Breadcrumbs>
         </Grid>
-        <Grid item xs={11} sx={{ borderRadius: '8px', p: '26px', backgroundColor: '#FFF' }}>
+        <Grid item xs={12} flexDirection='column' sx={{ borderRadius: '8px', p: '26px', backgroundColor: '#FFF' }}>
+          <Alert icon={<Icon icon='ph:lightning' fontSize={32} color="#32497A"/>} sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:2, backgroundColor:'#F8F8F7', border:'1px solid #BFBFBF', borderRadius:'8px', mb:8}}>
+              <Box sx={{display:'flex', flexDirection:'column', gap:1}}>
+                  <Typography sx={{fontSize:14, fontWeight:700, color:'#303030'}}>Boost Job Visibility</Typography>
+                  <Typography sx={{fontSize:14, fontWeight:400, color:'#525252'}}>Highlight this job to attract more candidates. You can only boost one job at a time. To highlight this job and attract more candidates, you'll need to deactivate any currently boosted job on job management.</Typography>
+              </Box>
+          </Alert>
           <Box sx={{ pb: '24px', display: 'flex', justifyContent: 'space-between' }}>
             <Typography sx={{ color: '#32497A', lineHeight: '38px', fontSize: '32px', fontWeight: 700 }}>
               Job Management
@@ -326,7 +334,7 @@ const JobManagement = () => {
               </Box>
             </Box>
           </Box>
-          <Grid container sx={{ my: '8px' }} spacing={6}>
+          <Grid container sx={{ mt: 0, mb: '8px' }} spacing={6}>
             {onLoading ? (
               Array(4)
                 .fill(0)
@@ -371,7 +379,7 @@ const JobManagement = () => {
             )}
           </Grid>
         </Grid>
-        <Grid item xs={11} container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Typography sx={{ color: '#949EA2', fontSize: 12, fontWeight: 400 }}>{`Showing ${
             page * pageItems < totalJobs ? page * pageItems : totalJobs
           } out of ${totalJobs} results`}</Typography>

@@ -19,6 +19,7 @@ import SectionTwoJobDetail from 'src/views/job-detail/SectionTwoJobDetail'
 import SectionThreeJobDetail from 'src/views/job-detail/SectionThreeJobDetal'
 import CertificateDialog from './CertificateDialog'
 
+
 const JobDetail = () => {
   // const url = window.location.href
   const [onApplied, setOnApplied] = useState(false)
@@ -27,6 +28,9 @@ const JobDetail = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [openDialog, setOpenDialog] = useState(false)
   const [openCertificateDialog, setOpenCertificateDialog] = useState(false)
+
+
+
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   // const [open, setOpen] = React.useState(false)

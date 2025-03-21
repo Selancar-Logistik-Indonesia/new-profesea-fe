@@ -293,7 +293,7 @@ const FormEducation: React.FC<IFormEducation> = ({ onClose, getUserEducation }) 
               <DatePicker
                 views={['month', 'year']}
                 onChange={(date: any) => setEndDate(date)}
-                value={!isCurrentEducation && endDate}
+                value={!isCurrentEducation && endDate ? moment(endDate) : null}
                 slotProps={{
                   textField: { variant: 'outlined', fullWidth: true, id: 'input-enddate', ...register('enddate') }
                 }}
