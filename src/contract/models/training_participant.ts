@@ -1,15 +1,24 @@
-import Training from "./training"
-import { IUser } from "./user"
+import Training from './training'
+import { IUser } from './user'
 
 export interface ITrainingParticipant {
-    id: number
-    user_id: number
-    training_id: number
-    status: string
-    created_at: string
-    updated_at: string
-    user: IUser
-    training?: Training
+  id: number
+  user_id: number
+  training_id: number
+  status: string
+  created_at: string
+  updated_at: string
+  enroll_type?: string
+  fullname?: string
+  email?: string
+  whatsapp_number?: string
+  address?: string
+  cancel_reason?: string
+  self_enroll?: boolean
+  pic_name?: string
+  company_name?: string
+  user: IUser
+  training?: Training
 }
 
-export default ITrainingParticipant;
+export default ITrainingParticipant

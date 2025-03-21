@@ -1,23 +1,14 @@
-import { Box, Grid, Stack, Typography } from '@mui/material'
+import { Box, Card, Grid, Stack, Typography } from '@mui/material'
 
 const TrainingPartner = () => {
   return (
-    <Box>
-      <Box
-        sx={{
-          p: 4,
-          backgroundColor: '#FFF',
-          borderRadius: '8px',
-          display: 'flex',
-          justifyContent: 'center',
-          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-        }}
-      >
-        <Typography sx={{ fontWeight: 'bold', color: 'text.primary' }} fontSize={18}>
-          Training Partners
-        </Typography>
-      </Box>
-      <Stack spacing={3} mt={2}>
+    <Card>
+      <Stack direction={'column'} gap={'24px'} sx={{ padding: '24px' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Typography sx={{ fontWeight: 'bold', color: '#32497A' }} fontSize={16}>
+            Training Partners
+          </Typography>
+        </Box>
         <Grid item sx={{ alignItems: 'center', justifyContent: 'center' }}>
           <img
             alt='logo'
@@ -68,7 +59,7 @@ const TrainingPartner = () => {
           />
         </Grid>
       </Stack>
-    </Box>
+    </Card>
   )
 }
 

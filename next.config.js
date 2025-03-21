@@ -6,6 +6,22 @@ const path = require('path')
 // Remove this if you're not using Fullcalendar features
 
 module.exports = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.staging.profesea.id',
+        port: '',
+        pathname: '**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'apifix.profesea.id',
+        port: '',
+        pathname: '**'
+      }
+    ]
+  },
   async redirects() {
     return [
       {

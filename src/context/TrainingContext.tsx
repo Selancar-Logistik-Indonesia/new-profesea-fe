@@ -37,8 +37,9 @@ const TrainingProvider = (props: Props) => {
     },
     isPublic?: boolean
   ) => {
-    // only trigger in page 1
-    if (page == 1) setOnLoading(true)
+    if (onLoading) return // Prevent redundant calls
+
+    setOnLoading(true)
 
     try {
       const response = await HttpClient.get(AppConfig.baseUrl + isPublic ? 'public/data/training' : '/training', {
@@ -51,19 +52,34 @@ const TrainingProvider = (props: Props) => {
           trainings: { data: Training[]; next_page_url?: string; total: number }
         }
 
-        if (trainings.data.length && trainings.data.length > 0) {
-          setTrainings(old => {
-            const existingTrainingId = new Set(old.map(training => training.id))
-            const newTrainings = trainings.data.filter(job => !existingTrainingId.has(job.id))
-            const newItems = [...old, ...newTrainings]
-            setTotalTraining(newItems.length)
+        // setTrainings(old => {
+        //   const newTrainings = trainings.data.filter(t => !old.some(o => o.id === t.id))
+        //   return [...old, ...newTrainings]
+        // })
 
-            return newItems
-          })
-          // if(payload.take > 5){
-          setPage(page => page + 1)
-          // }
-        }
+        setTrainings(old => {
+          const newItems = page === 1 ? trainings.data : [...old, ...trainings.data]
+          setTotalTraining(newItems.length)
+
+          return newItems
+        })
+
+        // setTotalTraining(trainings.total)
+
+        // if (trainings.data.length && trainings.data.length > 0) {
+        //   setTrainings(old => {
+        //     const existingTrainingId = new Set(old.map(training => training.id))
+        //     const newTrainings = trainings.data.filter(job => !existingTrainingId.has(job.id))
+        //     const newItems = [...old, ...newTrainings]
+        //     setTotalTraining(newItems.length)
+
+        //     return newItems
+        //   })
+        //   // if(payload.take > 5){
+        //   // setPage(page => page + 1)
+        //   // }
+        // }
+        // setTotalTraining(trainings.total)
         setHasNextPage(trainings.next_page_url != null)
       }
     } catch (error) {
