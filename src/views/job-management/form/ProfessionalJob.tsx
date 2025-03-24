@@ -90,7 +90,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   const [fixPrice, setFixPrice] = useState<boolean>(false)
   const [hidePrice, setHidePrice] = useState<boolean>(false)
   const [isDraft, setIsDraft] = useState<boolean>(false)
-  const [isBoosted, setIsBoosted] = useState<boolean>(false)
+  const [isBoosted, setIsBoosted] = useState<boolean>(job?.is_boosted as boolean || false)
 
   useEffect(() => {
     if (job && job.is_draft === true) {

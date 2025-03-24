@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 
 import Job from 'src/contract/models/job'
-import Link from 'next/link'
 
 const BoostJobAlert = ({
   setIsBoosted,
@@ -18,7 +17,7 @@ const BoostJobAlert = ({
   const [boostCount, setBoostCount] = useState(0)
   const [open, setOpen] = useState(false)
   const [availableBoost, setAvailableBoost] = useState(true)
-  const[loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const handleCloseModal = () => {
     setOpen(false)
@@ -30,18 +29,22 @@ const BoostJobAlert = ({
 
   const getJobs = async () => {
     try {
-        setLoading(true)
+      setLoading(true)
       const res = await HttpClient.get('/job', {
         page: 1,
         take: 50
       })
       const data = res.data.jobs.data
-      data.forEach((item:Job) =>{
-        if(item.is_boosted) setBoostCount(prev => prev + 1)
-      })
-     
+
+      for (const item of data) {
+        if (item?.is_boosted) {
+          setBoostCount(boostCount + 1)
+
+          break;
+        }
+      }
+
       setLoading(false)
-      setAvailableBoost(boostCount === 0 || (boostCount > 0 && currentJob?.is_boosted as boolean))
     } catch (error) {
       console.log(error)
       setLoading(false)
@@ -50,44 +53,39 @@ const BoostJobAlert = ({
 
   useEffect(() => {
     getJobs()
+    
   }, [])
 
+  useEffect(() => {
+    if (boostCount > 0 && !currentJob?.is_boosted) {
+      setAvailableBoost(false)
+    }
+  }, [boostCount])
+
+
   const actionSwitch = () => {
-    if(loading) {<CircularProgress size={20}/>}
+    if (loading) {
+      return <CircularProgress size={20} />
+    }
 
     if (!availableBoost) {
-      return (
-        <Link href='/company/job-management/'>
-          <Button
-            sx={{
-              border: '1px solid #0B58A6',
-              textTransform: 'none',
-              fontSize: 14,
-              color: '#0B58A6',
-              fontWeight: 400,
-              whiteSpace: 'nowrap'
-            }}
-          >
-            Go to Job Management
-          </Button>
-        </Link>
-      )
+      
+      return 
     }
 
     return (
       <Switch
         // disabled={boostCount > 0 && !currentJob?.is_boosted}
-        // checked={isBoosted === currentJob?.is_boosted ? currentJob?.is_boosted : isBoosted}
+        checked={ isBoosted }
         inputProps={{ 'aria-label': 'controlled' }}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setIsBoosted(e.target.checked)
           setOpen(true)
         }}
-        defaultChecked={currentJob?.is_boosted}
+        // defaultChecked={currentJob?.is_boosted}
       />
     )
   }
-
 
   return (
     <>
@@ -105,13 +103,13 @@ const BoostJobAlert = ({
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <Typography sx={{ fontSize: 14, fontWeight: 700, color: '#303030' }}>Boost Job Visibility</Typography>
-            <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#303030' }}>
-              {availableBoost
-                ? 'Highlight this job to attract more candidates. You can highlight one job at a time for maximum visibility. Boosting lasts for 2 weeks—deactivate the current boost to switch.'
-                : "Highlight this job to attract more candidates. You can only boost one job at a time. To highlight this job and attract more candidates, you'll need to deactivate any currently boosted job on job management."}
-            </Typography>
-          </Box>
+          <Typography sx={{ fontSize: 14, fontWeight: 700, color: '#303030' }}>Boost Job Visibility</Typography>
+          <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#303030' }}>
+            {availableBoost
+              ? 'Highlight this job to attract more candidates. You can highlight one job at a time for maximum visibility. Boosting lasts for 2 weeks—deactivate the current boost to switch.'
+              : "Highlight this job to attract more candidates. You can only boost one job at a time. To highlight this job and attract more candidates, you'll need to deactivate any currently boosted job on job management."}
+          </Typography>
+        </Box>
       </Alert>
       <ConfirmationModal
         isOpen={open}
@@ -135,20 +133,23 @@ const ConfirmationModal = ({
   isBoosted: boolean
 }) => {
   return (
-    <Dialog open={isOpen} onClose={() => handleCloseModal()}>
+    <Dialog open={isOpen} onClose={() => handleCloseModal()} maxWidth={'xs'}>
       <DialogContent>
         <Box
           sx={{ display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'center', alignItems: 'center' }}
         >
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Typography textAlign={'center'} fontSize={'18px'} fontWeight={700}>
-              Are you sure you want to {isBoosted ? 'boost' : 'unboost'} this job?
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+            <Typography fontSize={'18px'} fontWeight={700}>
+              {isBoosted ? 'Activate Boost Job?' : 'Deactivate Current Boost?'}
             </Typography>
-            <Typography textAlign={'center'} fontSize={'16px'} fontWeight={400}>
-              This will switch the state of your job to {isBoosted ? 'boosted' : 'unboosted'}.
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px', }}>
+              <Box component="img" src='/images/amico.png' sx={{  objectFit:'contain' }}/>
+            </Box>
+            <Typography textAlign={'center'} fontSize={'14px'} fontWeight={400} color={"#999999"}>
+              {isBoosted ? "You can only have one boosted job at a time. Do you want to activate the boost for this job?" : 'You can only have one boosted job at a time. Do you want to deactivate the current boost?'}
             </Typography>
           </Box>
-          <Grid container spacing={2} sx={{}}>
+          <Grid container spacing={2}>
             <Grid item xs={6}>
               <Button
                 onClick={() => {
@@ -156,7 +157,7 @@ const ConfirmationModal = ({
                   handleCloseModal()
                 }}
                 variant='outlined'
-                sx={{ padding: '8px 12px', color: '#0B58A6', fontSize: '14px', textTransform: 'none', width: '100%' }}
+                sx={{  color: '#0B58A6', fontSize: '14px', textTransform: 'none', width: '100%' }}
               >
                 Yes
               </Button>
@@ -168,9 +169,9 @@ const ConfirmationModal = ({
                   handleConfirm(!isBoosted)
                 }}
                 variant='contained'
-                sx={{ padding: '8px 12px', color: '#FFFFFF', fontSize: '14px', textTransform: 'none', width: '100%' }}
+                sx={{ color: '#FFFFFF', fontSize: '14px', textTransform: 'none', width: '100%' }}
               >
-                Cancel
+                No
               </Button>
             </Grid>
           </Grid>
