@@ -1,7 +1,6 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import { Tabs, Tab, useMediaQuery, Grid, Typography } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { Tabs, Tab, Grid, Typography } from '@mui/material'
 import AllTrainingScreen from './all'
 import OngoingTrainingScreen from './ongoing'
 
@@ -35,7 +34,6 @@ function TabPanel(props: TabPanelProps) {
 }
 
 const SeafarerTraining = ({ pageView = 'candidate' }: { pageView?: string }) => {
-  const theme = useTheme()
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
 
