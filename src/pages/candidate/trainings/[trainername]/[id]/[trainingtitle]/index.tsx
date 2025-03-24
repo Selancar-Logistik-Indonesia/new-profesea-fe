@@ -93,11 +93,14 @@ const bannerHeroDetail: SxProps<Theme> = {
   minHeight: '444px'
 }
 
-const renderList = (arr: Training[] | undefined, trainer: IUser) => {
+const renderList = (pageView: string, arr: Training[] | undefined, trainer: IUser) => {
   if (arr && arr.length) {
     return arr.map((item, i) => {
       const trainerNameUrl = trainer?.name?.toLowerCase().split(' ').join('-')
       const trainingTitleUrl = item.title ? item.title?.toLowerCase().split(' ').join('-') : ''
+      const renderLink = `/${pageView === 'company' ? 'company' : 'candidate'}/trainings/${trainerNameUrl}/${
+        item.id
+      }/${trainingTitleUrl}`
 
       return (
         <Card sx={{ flex: 1 }} key={i}>
@@ -163,7 +166,7 @@ const renderList = (arr: Training[] | undefined, trainer: IUser) => {
                 LinkComponent={Link}
                 variant='contained'
                 color='primary'
-                href={`/candidate/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}
+                href={renderLink}
                 sx={{ textTransform: 'capitalize' }}
               >
                 Learn More
@@ -211,7 +214,7 @@ const TruncatedTypography = (props: { children: any; line?: number; textTransfor
   )
 }
 
-const TrainingDetailPage = () => {
+const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -1046,12 +1049,14 @@ const TrainingDetailPage = () => {
         </DialogContent>
       </Dialog>
 
-      <Box sx={{ width: isMobile ? '100%' : '90%', margin: 'auto' }}>
-        <Box sx={{ position: isMobile ? 'static' : 'fixed', left: '20px', top: '80px' }}>
-          <IconButton onClick={() => router.push(`/candidate/trainings`)}>
+      <Box sx={{ position: 'relative' }}>
+        <Grid container sx={{ position: 'absolute', top: '12px', left: '-72px' }}>
+          <IconButton
+            onClick={() => router.push(pageView === 'company' ? '/company/find-training' : '/candidate/trainings')}
+          >
             <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
           </IconButton>
-        </Box>
+        </Grid>
         <Grid
           container
           spacing={4}
@@ -1358,7 +1363,7 @@ const TrainingDetailPage = () => {
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '24px' }}>
-                  {renderList(training?.trainer?.training_list?.slice(1, 5), training?.trainer)}
+                  {renderList(pageView, training?.trainer?.training_list?.slice(1, 5), training?.trainer)}
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -1372,7 +1377,7 @@ const TrainingDetailPage = () => {
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '24px' }}>
-                  {renderList(training?.trainer?.training_list?.slice(1, 5), training?.trainer)}
+                  {renderList(pageView, training?.trainer?.training_list?.slice(1, 5), training?.trainer)}
                 </Box>
               </Box>
             </Box>
