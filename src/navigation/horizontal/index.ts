@@ -52,6 +52,13 @@ const navigation = (): HorizontalNavItemsType => [
         subject: 'user-find-candidate'
     },
     {
+        path: '/company/find-training',
+        title: 'Find Training',
+        icon: 'ic:round-person-search',
+        action: 'read',
+        subject: 'company-training'
+    },
+    {
         path: '/candidate/find-job',
         title: 'Job',
         icon: 'solar:boombox-bold-duotone',

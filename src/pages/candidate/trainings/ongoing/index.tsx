@@ -25,10 +25,10 @@ import { useSearchParams } from 'next/navigation'
 import { Icon } from '@iconify/react'
 import { useTheme } from '@mui/material/styles'
 
-const SeafarerOngoingTraining = () => {
+const SeafarerOngoingTraining = ({ pageView }: { pageView: string }) => {
   return (
     <TrainingProvider>
-      <OngoingTrainingApp />
+      <OngoingTrainingApp pageView={pageView} />
     </TrainingProvider>
   )
 }
@@ -66,11 +66,14 @@ const TruncatedTypography = (props: { children: any; line?: number; textTransfor
   )
 }
 
-const renderList = (arr: Training[]) => {
+const renderList = (pageView: string, arr: Training[]) => {
   if (arr && arr.length) {
     return arr.map(item => {
       const trainerNameUrl = item.trainer.name.toLowerCase().split(' ').join('-')
       const trainingTitleUrl = item.title ? item.title?.toLowerCase().split(' ').join('-') : ''
+      const renderLink = `/${pageView === 'company' ? 'company' : 'candidate'}/trainings/${trainerNameUrl}/${
+        item.id
+      }/${trainingTitleUrl}`
 
       return (
         <Grid item xs={12} md={4} key={item.id}>
@@ -137,7 +140,7 @@ const renderList = (arr: Training[]) => {
                   LinkComponent={Link}
                   variant='contained'
                   color='primary'
-                  href={`/candidate/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}
+                  href={renderLink}
                   sx={{ textTransform: 'capitalize' }}
                 >
                   Learn More
@@ -153,7 +156,7 @@ const renderList = (arr: Training[]) => {
   }
 }
 
-const OngoingTrainingApp = () => {
+const OngoingTrainingApp = ({ pageView }: { pageView: string }) => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const { fetchTrainings, hasNextPage, totalTraining, setPage, page } = useTraining()
@@ -261,7 +264,7 @@ const OngoingTrainingApp = () => {
                 }
               >
                 <Grid container spacing={4} sx={{ padding: '24px' }}>
-                  {renderList(listTrainings)}
+                  {renderList(pageView, listTrainings)}
                 </Grid>
               </InfiniteScroll>
             </Box>
