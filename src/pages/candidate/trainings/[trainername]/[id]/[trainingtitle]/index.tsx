@@ -168,51 +168,61 @@ const TrainingDetailPage = () => {
                 />
               </Box>
               <Divider sx={{ my: 6, borderBottomWidth: 2 }} />
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start'
-                }}
-              >
-                {training.discounted_price ? (
-                  <Box>
-                    <Typography fontSize={14} mt={1} sx={{ textDecoration: 'line-through', color: 'gray' }}>
-                      {formatIDR(training.price, true)}
-                    </Typography>
-                    <Typography fontSize={20} sx={{ color: 'primary.main' }}>
-                      {formatIDR(training.discounted_price, true)}
-                    </Typography>
-                    <Typography fontSize={8} sx={{ color: 'gray' }}>
-                      *harga belum termasuk PPN
-                    </Typography>
-                  </Box>
-                ) : (
-                  <Box>
-                    <Typography fontSize={20} sx={{ color: 'primary.main' }}>
-                      {formatIDR(training.price, true)}
-                    </Typography>
-                    <Typography fontSize={10} sx={{ color: 'gray' }}>
-                      *harga belum termasuk PPN
-                    </Typography>
-                  </Box>
-                )}
+              <Box flexDirection='column'>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start'
+                  }}
+                >
+                  {training.discounted_price ? (
+                    <Box>
+                      <Typography fontSize={14} mt={1} sx={{ textDecoration: 'line-through', color: 'gray' }}>
+                        {formatIDR(training.price, true)}
+                      </Typography>
+                      <Typography fontSize={20} sx={{ color: 'primary.main' }}>
+                        {formatIDR(training.discounted_price, true)}
+                      </Typography>
+                      <Typography fontSize={8} sx={{ color: 'gray' }}>
+                        *harga belum termasuk PPN
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Box>
+                      <Typography fontSize={20} sx={{ color: 'primary.main' }}>
+                        {formatIDR(training.price, true)}
+                      </Typography>
+                      <Typography fontSize={10} sx={{ color: 'gray' }}>
+                        *harga belum termasuk PPN
+                      </Typography>
+                    </Box>
+                  )}
 
-                {training.joined_at ? (
-                  <Button disabled={true} variant='contained' size='small'>
-                    Joined
-                  </Button>
-                ) : (
-                  <Button
-                    variant='contained'
-                    size='small'
-                    onClick={handleEnrollClick}
-                    disabled={!training?.cta || new Date() > new Date(training?.schedule)}
-                  >
-                    Enroll Now
-                  </Button>
-                )}
+                  {training.joined_at ? (
+                    <Button disabled={true} variant='contained' size='small'>
+                      Joined
+                    </Button>
+                  ) : (
+                    <Button
+                      variant='contained'
+                      size='small'
+                      onClick={handleEnrollClick}
+                      disabled={!training?.cta || new Date() > new Date(training?.schedule)}
+                    >
+                      Enroll Now
+                    </Button>
+                  )}
+                </Box>
+                <Box sx={{ maxWidth: '500px' }}>
+                  <Typography sx={{ mt: '24px', fontSize: 12, color: '#868686' }}>
+                    <b>Terms & Conditions</b>: Profesea adalah media promosi dan agregator untuk lembaga kursus atau
+                    training para pelaut. Kami hanya menyediakan platform untuk membantu pelaut menemukan pelatihan yang
+                    sesuai. Segala pelaksanaan, materi, biaya, dan sertifikasi sepenuhnya menjadi tanggung jawab lembaga
+                    penyelenggara, dan Profesea tidak terlibat dalam operasional atau aktivitas pelatihan.
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           </Grid>
