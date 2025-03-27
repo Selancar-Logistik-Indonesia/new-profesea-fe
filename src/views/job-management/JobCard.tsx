@@ -1,5 +1,19 @@
 import { Icon } from '@iconify/react'
-import { Box, Button, CircularProgress, Dialog, DialogContent, Divider, Grid, IconButton, Menu, MenuItem, Skeleton, Tooltip, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  Divider,
+  Grid,
+  IconButton,
+  Menu,
+  MenuItem,
+  Skeleton,
+  Tooltip,
+  Typography
+} from '@mui/material'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -88,16 +102,15 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
     )
   }
 
-  const handleBoost = async ( selectedId:number,boosted: boolean) => {
-
-    if(loading){
-      toast.loading("Please wait a moment.")
+  const handleBoost = async (selectedId: number, boosted: boolean) => {
+    if (loading) {
+      toast.loading('Please wait a moment.')
 
       return
     }
-    
-    if(!isAvailable){
-      toast.error("You can only boost one job at a time. Deactivate the current boost to switch.")
+
+    if (!isAvailable) {
+      toast.error('You can only boost one job at a time. Deactivate the current boost to switch.')
 
       return
     }
@@ -107,7 +120,9 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
     }).then(
       () => {
         setBoosted(!boosted)
-        const message = !boosted ? 'Your job boost has been successfully activated!' : 'Boost deactivated successfully! Your current boost job is no longer boosted.'
+        const message = !boosted
+          ? 'Your job boost has been successfully activated!'
+          : 'Boost deactivated successfully! Your current boost job is no longer boosted.'
         toast.success(message)
 
         setTimeout(() => {
@@ -133,19 +148,16 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
     try {
       const res = await HttpClient.get('/job', {
         page: 1,
-        take: 50
+        take: 50,
+        is_boosted: 1
       })
       const data = res.data.jobs.data
 
-      for (const item of data) {
-        if (item?.is_boosted && item?.id !== job.id) {
-          setIsAvailable(false)
-
-          break;
-        }
+      if (data.length > 0 && data[0]?.id !== job.id) {
+        setIsAvailable(false)
       }
-      setLoading(false)
 
+      setLoading(false)
     } catch (error) {
       console.log(error)
       setLoading(false)
@@ -164,25 +176,27 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
 
   return (
     <>
-      <Box sx={{ p: '0px', border: '1.5px solid #E7E7E7', borderRadius: '6px', position:'relative' }}>
+      <Box sx={{ p: '0px', border: '1.5px solid #E7E7E7', borderRadius: '6px', position: 'relative' }}>
         <Box
           sx={{
             backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
             display: job.is_boosted ? 'flex' : 'none',
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent:'space-between',
+            justifyContent: 'space-between',
             padding: '.5rem 1.45rem',
             borderRadius: '6px 6px 0px 0px'
           }}
         >
-          <Box sx={{display:'flex', gap:1}}>
-          <Icon icon='ph:lightning-fill' color='#FFFFFF' fontSize={20} />
-          <Typography sx={{ color: '#fff', fontWeight: 700, fontSize: 14 }}>Hot Opportunity</Typography>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Icon icon='ph:lightning-fill' color='#FFFFFF' fontSize={20} />
+            <Typography sx={{ color: '#fff', fontWeight: 700, fontSize: 14 }}>Hot Opportunity</Typography>
           </Box>
-          <Typography sx={{ color: '#fff', fontWeight: 400, fontSize: 12 , textTransform:'lowercase'}}>{boost_expired_at} left</Typography>
+          <Typography sx={{ color: '#fff', fontWeight: 400, fontSize: 12, textTransform: 'lowercase' }}>
+            {boost_expired_at} left
+          </Typography>
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: boosted ? '8px' : '18px', padding: '16px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: boosted ? '8px' : job.is_draft ? '34.5px' :'18px', padding: '16px' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
             <Typography
               component={job.is_draft ? Box : Link}
@@ -216,7 +230,7 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
               </span>
             </Typography>
             <Box>
-              <Box sx={{ display: 'flex', alignItems:'center' ,gap: '6px', justifyContent: 'flex-end' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'flex-end' }}>
                 {job.is_draft ? (
                   <DraftToggle />
                 ) : (
@@ -423,37 +437,52 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
               draft={job.is_draft}
             />
           </Grid>
-          <Tooltip title={(!boosted && !isAvailable) && "You can only boost one job at a time. Deactivate the current boost to switch."} sx={{pointerEvents:'all !important'}}>
-              <Button
-                onClick={() => {
-                  if(isAvailable) setIsOpen(true)
-                }}
-                size='small'
-                disabled = {!job.is_active || loading}
-                // variant={isAvailable && job.is_active ? 'outlined' : 'contained'}
-                sx={{
-                  display: job.is_draft ? 'none' : 'flex',
-                  flexDirection:'row',
-                  alignItems:'center',
-                  gap:1,
-                  textTransform:'none',
-                  cursor: isAvailable && job.is_active ? 'pointer' : 'unset',
-                  backgroundImage: isAvailable && job.is_active ?  'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)' : 'none' ,
-                  backgroundColor: isAvailable && job.is_active ? 'none' : '#F0F0F0 !important',
-                  backgroundClip:isAvailable && job.is_active ? 'text': "",
-                  color: isAvailable && job.is_active ? 'transparent' : '#999999',
-                  border: isAvailable && job.is_active ? '1px solid #968BEB' : '1px solid #F0F0F0',
-                  borderRadius:'4px',
-                  fontSize:14,
-                }}
-              >
-                {loading ? (<CircularProgress size={20}/>) : (<>
-                  <Icon icon='ph:lightning' fontSize={16} color={isAvailable && job.is_active ? '#968BEB' : '#999999'}/>
+          <Tooltip
+            title={
+              !boosted &&
+              !isAvailable &&
+              'You can only boost one job at a time. Deactivate the current boost to switch.'
+            }
+            sx={{ pointerEvents: 'all !important' }}
+          >
+            <Button
+              onClick={() => {
+                if (isAvailable) setIsOpen(true)
+              }}
+              size='small'
+              disabled={!job.is_active || loading}
+              // variant={isAvailable && job.is_active ? 'outlined' : 'contained'}
+              sx={{
+                display: job.is_draft ? 'none' : 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 1,
+                textTransform: 'none',
+                cursor: isAvailable && job.is_active ? 'pointer' : 'unset',
+                backgroundImage:
+                  isAvailable && job.is_active ? 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)' : 'none',
+                backgroundColor: isAvailable && job.is_active ? 'none' : '#F0F0F0 !important',
+                backgroundClip: isAvailable && job.is_active ? 'text' : '',
+                color: isAvailable && job.is_active ? 'transparent' : '#999999',
+                border: isAvailable && job.is_active ? '1px solid #968BEB' : '1px solid #F0F0F0',
+                borderRadius: '4px',
+                fontSize: 14
+              }}
+            >
+              {loading ? (
+                <CircularProgress size={20} />
+              ) : (
+                <>
+                  <Icon
+                    icon='ph:lightning'
+                    fontSize={16}
+                    color={isAvailable && job.is_active ? '#968BEB' : '#999999'}
+                  />
                   {boosted ? 'Deactivate boost job' : 'Boost job'}
-                </>)}
-                
-              </Button>
-              </Tooltip>
+                </>
+              )}
+            </Button>
+          </Tooltip>
           <Grid container sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {!job.is_draft && (
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -498,11 +527,16 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
       {deleteJob && (
         <DialogDelete job={job} visible={deleteJob} refetch={refetch} onCloseClick={() => setDeleteJob(false)} />
       )}
-      <ConfirmationModal selectedId={job.id} isBoosted={boosted} handleConfirm={handleBoost} isOpen={isOpen} handleCloseModal={handleCloseModal}/>
+      <ConfirmationModal
+        selectedId={job.id}
+        isBoosted={boosted}
+        handleConfirm={handleBoost}
+        isOpen={isOpen}
+        handleCloseModal={handleCloseModal}
+      />
     </>
   )
 }
-
 
 const ConfirmationModal = ({
   isOpen,
@@ -513,32 +547,47 @@ const ConfirmationModal = ({
 }: {
   isOpen: boolean
   handleCloseModal: () => void
-  handleConfirm: (selectedId:number,isBoost: boolean) => void
+  handleConfirm: (selectedId: number, isBoost: boolean) => void
   isBoosted: boolean
-  selectedId:number
+  selectedId: number
 }) => {
   return (
-    <Dialog open={isOpen} onClose={() => handleCloseModal()} maxWidth={'xs'}>
+    <Dialog open={isOpen} fullWidth onClose={() => handleCloseModal()} maxWidth={'xs'}>
       <DialogContent>
         <Box
           sx={{ display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'center', alignItems: 'center' }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
-            <Typography fontSize={'18px'} fontWeight={700}>
-              {isBoosted ? 'Deactivate Current Boost?' : 'Activate Boost Job?'}
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px', }}>
-              <Box component="img" src='/images/amico.png' sx={{  objectFit:'contain' }}/>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%'
+              }}
+            >
+              <Typography fontSize={'18px'} fontWeight={700} sx={{ mx: 'auto' }}>
+                {isBoosted ? 'Deactivate Current Boost?' : 'Activate Boost Job?'}
+              </Typography>
+              <IconButton onClick={handleCloseModal} sx={{}}>
+                <Icon icon={'mdi:close'} fontSize={18} color='#868686' />
+              </IconButton>
             </Box>
-            <Typography textAlign={'center'} fontSize={'14px'} fontWeight={400} color={"#999999"}>
-              {isBoosted ? 'You can only have one boosted job at a time. Do you want to deactivate the current boost?' : "You can only have one boosted job at a time. Do you want to activate the boost for this job?"}
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
+              <Box component='img' src='/images/amico.png' sx={{ objectFit: 'contain' }} />
+            </Box>
+            <Typography textAlign={'center'} fontSize={'14px'} fontWeight={400} color={'#999999'}>
+              {isBoosted
+                ? 'You can only have one boosted job at a time. Do you want to deactivate the current boost?'
+                : 'You can only have one boosted job at a time. Do you want to activate the boost for this job?'}
             </Typography>
           </Box>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <Button
                 onClick={() => {
-                  if(isBoosted) {
+                  if (isBoosted) {
                     handleConfirm(selectedId, isBoosted)
                     handleCloseModal()
 
@@ -547,7 +596,7 @@ const ConfirmationModal = ({
                   handleCloseModal()
                 }}
                 variant='outlined'
-                sx={{  color: '#0B58A6', fontSize: '14px', textTransform: 'none', width: '100%' }}
+                sx={{ color: '#0B58A6', fontSize: '14px', textTransform: 'none', width: '100%' }}
               >
                 {isBoosted ? 'Yes' : 'No'}
               </Button>
@@ -555,7 +604,7 @@ const ConfirmationModal = ({
             <Grid item xs={6}>
               <Button
                 onClick={() => {
-                  if(!isBoosted){
+                  if (!isBoosted) {
                     handleConfirm(selectedId, isBoosted)
                     handleCloseModal()
 

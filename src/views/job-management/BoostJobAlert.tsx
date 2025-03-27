@@ -1,5 +1,16 @@
 import { Icon } from '@iconify/react'
-import { Alert, Box, Button, CircularProgress, Dialog, DialogContent, Grid, Switch, Typography } from '@mui/material'
+import {
+  Alert,
+  Box,
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  Grid,
+  IconButton,
+  Switch,
+  Typography
+} from '@mui/material'
 import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 
@@ -32,16 +43,14 @@ const BoostJobAlert = ({
       setLoading(true)
       const res = await HttpClient.get('/job', {
         page: 1,
-        take: 50
+        take: 100,
+        is_boosted:1
       })
       const data = res.data.jobs.data
 
-      for (const item of data) {
-        if (item?.is_boosted) {
-          setBoostCount(boostCount + 1)
+      if (data[0]?.is_boosted) {
+        setBoostCount(boostCount + 1)
 
-          break;
-        }
       }
 
       setLoading(false)
@@ -53,7 +62,6 @@ const BoostJobAlert = ({
 
   useEffect(() => {
     getJobs()
-    
   }, [])
 
   useEffect(() => {
@@ -62,21 +70,19 @@ const BoostJobAlert = ({
     }
   }, [boostCount])
 
-
   const actionSwitch = () => {
     if (loading) {
       return <CircularProgress size={20} />
     }
 
     if (!availableBoost) {
-      
-      return 
+      return
     }
 
     return (
       <Switch
         // disabled={boostCount > 0 && !currentJob?.is_boosted}
-        checked={ isBoosted }
+        checked={isBoosted}
         inputProps={{ 'aria-label': 'controlled' }}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setIsBoosted(e.target.checked)
@@ -139,14 +145,29 @@ const ConfirmationModal = ({
           sx={{ display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'center', alignItems: 'center' }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
-            <Typography fontSize={'18px'} fontWeight={700}>
-              {isBoosted ? 'Activate Boost Job?' : 'Deactivate Current Boost?'}
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px', }}>
-              <Box component="img" src='/images/amico.png' sx={{  objectFit:'contain' }}/>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%'
+              }}
+            >
+              <Typography fontSize={'18px'} fontWeight={700} sx={{ mx: 'auto' }}>
+                {isBoosted ? 'Deactivate Current Boost?' : 'Activate Boost Job?'}
+              </Typography>
+              <IconButton onClick={handleCloseModal} sx={{}}>
+                <Icon icon={'mdi:close'} fontSize={18} color='#868686' />
+              </IconButton>
             </Box>
-            <Typography textAlign={'center'} fontSize={'14px'} fontWeight={400} color={"#999999"}>
-              {isBoosted ? "You can only have one boosted job at a time. Do you want to activate the boost for this job?" : 'You can only have one boosted job at a time. Do you want to deactivate the current boost?'}
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
+              <Box component='img' src='/images/amico.png' sx={{ objectFit: 'contain' }} />
+            </Box>
+            <Typography textAlign={'center'} fontSize={'14px'} fontWeight={400} color={'#999999'}>
+              {isBoosted
+                ? 'You can only have one boosted job at a time. Do you want to activate the boost for this job?'
+                : 'You can only have one boosted job at a time. Do you want to deactivate the current boost?'}
             </Typography>
           </Box>
           <Grid container spacing={2}>
@@ -157,7 +178,7 @@ const ConfirmationModal = ({
                   handleCloseModal()
                 }}
                 variant='outlined'
-                sx={{  color: '#0B58A6', fontSize: '14px', textTransform: 'none', width: '100%' }}
+                sx={{ color: '#0B58A6', fontSize: '14px', textTransform: 'none', width: '100%' }}
               >
                 Yes
               </Button>

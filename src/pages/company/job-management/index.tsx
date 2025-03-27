@@ -87,7 +87,6 @@ const JobManagement = () => {
         is_active: checkStatus(statusFilter)
       })
       const data = response.data.jobs.data
-      console.log(data)
       setJobs(data)
       
       setTotalJobs(response.data.jobs.total)
