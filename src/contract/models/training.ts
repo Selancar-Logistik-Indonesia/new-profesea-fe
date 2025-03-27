@@ -28,6 +28,8 @@ interface Training {
   booking_scheme: EBookingScheme
   start_date?: string | null
   end_date?: string | null
+  is_active?:boolean
+  currency?:string
 }
 
 export default Training

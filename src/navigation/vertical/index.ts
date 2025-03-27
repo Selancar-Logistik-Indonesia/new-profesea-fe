@@ -70,7 +70,7 @@ const navigation = (): VerticalNavItemsType => {
             subject: 'user-job-management'
         },
         {
-            path: '/trainer/training',
+            path: '/trainer/training-management',
             title: 'Manage Training',
             icon: 'solar:notebook-bookmark-bold-duotone',
             action: 'read',
