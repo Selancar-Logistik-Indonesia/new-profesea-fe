@@ -83,7 +83,13 @@ const navigation = (): VerticalNavItemsType => {
             action: 'read',
             subject: 'user-find-candidate'
         },
-
+        {
+            path: '/company/find-training',
+            title: 'Find Training',
+            icon: 'ic:round-person-search',
+            action: 'read',
+            subject: 'company-training'
+        },
         // {
         //   path: '/trainer/my-participant',
         //   title: 'List of Participant',

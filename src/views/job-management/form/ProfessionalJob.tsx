@@ -42,7 +42,7 @@ import { Icon } from '@iconify/react'
 import { FormDataProfessional } from 'src/contract/types/create_job_type'
 import {  JobDraft } from '../Component'
 import Link from 'next/link'
-import BoostJobAlert from '../BoostJobAlert'
+
 
 const employmentType = [
   { id: 'Intern', label: 'Intern' },
@@ -174,6 +174,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       const data: Degree[] = response.data.degrees
       setEducation(data)
     })
+    setIsBoosted(false)
   }
 
   const selectJobCategory = watch('jobCategory') === 0 ? undefined : watch('jobCategory')
@@ -733,7 +734,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             label='Hide Salary'
           />
         </Grid>
-        <BoostJobAlert  setIsBoosted={setIsBoosted} currentJob={job} isBoosted={isBoosted}/>
+        {/* <BoostJobAlert  setIsBoosted={setIsBoosted} currentJob={job} isBoosted={isBoosted}/> */}
         <Grid item container flexDirection='column' gap='12px'>
           {errors.jobCategory && (
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'end', mt: '-34px' }}>

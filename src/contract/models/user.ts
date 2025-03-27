@@ -7,6 +7,7 @@ import Province from './province'
 import RoleType from './role_type'
 import seafarer_competency from './seafarer_competency'
 import ITeam from './team'
+import Training from './training'
 import VesselType from './vessel_type'
 
 export interface ILastExperience {
@@ -25,21 +26,21 @@ export interface ILastExperience {
 }
 
 export interface ILastSeaExperience {
-    vessel_type: VesselType
-    rank: RoleType
-    id: number
-    vessel_name: string
-    grt: number
-    dwt: number
-    me_power: number
-    company: string
-    sign_in: string | null
-    sign_off: string | null
-    created_at: string
-    updated_at: string
-    user_id: number
-    rank_id: number | null
-    vessel_type_id: number | null
+  vessel_type: VesselType
+  rank: RoleType
+  id: number
+  vessel_name: string
+  grt: number
+  dwt: number
+  me_power: number
+  company: string
+  sign_in: string | null
+  sign_off: string | null
+  created_at: string
+  updated_at: string
+  user_id: number
+  rank_id: number | null
+  vessel_type_id: number | null
 }
 
 export interface ILastEducation {
@@ -102,4 +103,6 @@ export interface IUser {
   is_agree_policy_post?: boolean
   last_step: string
   documents: any[]
+  // for account trainer
+  training_list?: Training[]
 }
