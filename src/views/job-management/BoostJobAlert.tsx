@@ -52,7 +52,7 @@ const BoostJobAlert = ({
         setBoostCount(boostCount + 1)
 
       }
-
+      setIsBoosted(currentJob?.is_boosted as boolean)
       setLoading(false)
     } catch (error) {
       console.log(error)
@@ -62,6 +62,7 @@ const BoostJobAlert = ({
 
   useEffect(() => {
     getJobs()
+    
   }, [])
 
   useEffect(() => {
@@ -84,8 +85,7 @@ const BoostJobAlert = ({
         // disabled={boostCount > 0 && !currentJob?.is_boosted}
         checked={isBoosted}
         inputProps={{ 'aria-label': 'controlled' }}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setIsBoosted(e.target.checked)
+        onChange={() => {
           setOpen(true)
         }}
         // defaultChecked={currentJob?.is_boosted}
@@ -165,7 +165,7 @@ const ConfirmationModal = ({
               <Box component='img' src='/images/amico.png' sx={{ objectFit: 'contain' }} />
             </Box>
             <Typography textAlign={'center'} fontSize={'14px'} fontWeight={400} color={'#999999'}>
-              {isBoosted
+              {!isBoosted
                 ? 'You can only have one boosted job at a time. Do you want to activate the boost for this job?'
                 : 'You can only have one boosted job at a time. Do you want to deactivate the current boost?'}
             </Typography>
@@ -174,25 +174,26 @@ const ConfirmationModal = ({
             <Grid item xs={6}>
               <Button
                 onClick={() => {
-                  handleConfirm(isBoosted)
+                  if(isBoosted) handleConfirm(!isBoosted)
                   handleCloseModal()
                 }}
                 variant='outlined'
                 sx={{ color: '#0B58A6', fontSize: '14px', textTransform: 'none', width: '100%' }}
               >
-                Yes
+                {isBoosted ? 'Yes' : 'No'}
               </Button>
             </Grid>
             <Grid item xs={6}>
               <Button
                 onClick={() => {
+                  if(!isBoosted) handleConfirm(!isBoosted)
                   handleCloseModal()
-                  handleConfirm(!isBoosted)
+                  
                 }}
                 variant='contained'
                 sx={{ color: '#FFFFFF', fontSize: '14px', textTransform: 'none', width: '100%' }}
               >
-                No
+                {isBoosted ? 'No' : 'Yes'}
               </Button>
             </Grid>
           </Grid>
