@@ -80,17 +80,16 @@ const SeafarerTraining = ({ pageView = 'candidate' }: { pageView?: string }) => 
                 {...a11yProps(2)}
               /> */}
           </Tabs>
-          <Grid container>
-            <TabPanel value={value} index={0}>
-              <OngoingTrainingScreen pageView={pageView} />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <AllTrainingScreen />
-            </TabPanel>
-            {/* <TabPanel value={value} index={2}>
+          <TabPanel value={value} index={0}>
+            <OngoingTrainingScreen pageView={pageView} />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <AllTrainingScreen />
+          </TabPanel>
+
+          {/* <TabPanel value={value} index={2}>
                 <SeafarerInstantTraining />
               </TabPanel> */}
-          </Grid>
         </Box>
       </Grid>
     </Grid>
