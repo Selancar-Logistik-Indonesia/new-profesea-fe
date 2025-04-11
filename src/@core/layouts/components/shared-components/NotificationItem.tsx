@@ -85,7 +85,7 @@ const NotificationItem = (props: { item: NotificationsType }) => {
         break
 
       case NotificationType.completeProfileEncouragement:
-        router.push(`/${user?.role === 'Seafarer' ? 'profile' : 'company'}/${user?.id}/${toLinkCase(user?.username)}`)
+        router.push(`${user?.role === 'Seafarer' ? '/candidate/?tabs=0' : '/company'}`)
         break
 
       case NotificationType.applicantViewed:
