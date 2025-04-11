@@ -2,13 +2,17 @@ import { Breadcrumbs, Grid, Link, Typography } from '@mui/material'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { MdNavigateNext } from 'react-icons/md'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
 import Training from 'src/contract/models/training'
+import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'
 import CandidateListTabs from 'src/views/training-management/candidate-list/CandidateListTabs'
 import TrainingCard from 'src/views/training-management/candidate-list/TrainingCard'
 import { v4 } from 'uuid'
 
 const CandidateList = () => {
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const params = useSearchParams()
   const trainingId = params.get('id')
 
@@ -36,7 +40,6 @@ const CandidateList = () => {
 
   if (!training || onLoading) return null
 
-  console.log(training)
 
   return (
     <Grid container sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -53,7 +56,7 @@ const CandidateList = () => {
               Home
             </Typography>
           </Link>
-          <Link key='2' href='/trainer/training' sx={{ textDecoration: 'none' }}>
+          <Link key='2' href={user.role === 'Trainer' ? '/trainer/training-management' : '/admin/training-management'} sx={{ textDecoration: 'none' }}>
             {/* nanti ganti pake logic trainer/admin */}
             <Typography
               sx={{
