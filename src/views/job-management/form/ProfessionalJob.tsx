@@ -42,6 +42,7 @@ import { Icon } from '@iconify/react'
 import { FormDataProfessional } from 'src/contract/types/create_job_type'
 import {  JobDraft } from '../Component'
 import Link from 'next/link'
+import BoostJobAlert from '../BoostJobAlert'
 
 
 const employmentType = [
@@ -90,7 +91,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   const [fixPrice, setFixPrice] = useState<boolean>(false)
   const [hidePrice, setHidePrice] = useState<boolean>(false)
   const [isDraft, setIsDraft] = useState<boolean>(false)
-  const [isBoosted, setIsBoosted] = useState<boolean>(false)
+  const [isBoosted, setIsBoosted] = useState<boolean>(job?.is_boosted as boolean)
 
   useEffect(() => {
     if (job && job.is_draft === true) {
@@ -734,7 +735,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             label='Hide Salary'
           />
         </Grid>
-        {/* <BoostJobAlert  setIsBoosted={setIsBoosted} currentJob={job} isBoosted={isBoosted}/> */}
+        <BoostJobAlert  setIsBoosted={setIsBoosted} currentJob={job} isBoosted={isBoosted}/>
         <Grid item container flexDirection='column' gap='12px'>
           {errors.jobCategory && (
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'end', mt: '-34px' }}>

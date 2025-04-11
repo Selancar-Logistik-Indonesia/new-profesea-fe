@@ -1,7 +1,21 @@
 import { Icon } from '@iconify/react'
-import { Box, Button, Divider, Grid, IconButton, Menu, MenuItem, Skeleton, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  Divider,
+  Grid,
+  IconButton,
+  Menu,
+  MenuItem,
+  Skeleton,
+  Tooltip,
+  Typography
+} from '@mui/material'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { toast } from 'react-hot-toast'
 import Job from 'src/contract/models/job'
@@ -9,6 +23,7 @@ import { HttpClient } from 'src/services'
 import { calculateDaysDifference, dateProgress, getDateMonth } from 'src/utils/helpers'
 import DialogDelete from './DialogDelete'
 import { DraftToggle } from './Component'
+import { AppConfig } from 'src/configs/api'
 
 interface StatusCardProps {
   id: number
@@ -61,6 +76,14 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
   const open = Boolean(anchorEl)
   const [deleteJob, setDeleteJob] = useState(false)
 
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isAvailable, setIsAvailable] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const handleCloseModal = () => {
+    setIsOpen(false)
+  }
+
   const handleStatus = async (selectedId: number, currentStatus: boolean) => {
     await HttpClient.patch(`/job/change-status/${selectedId}`, {
       is_active: !currentStatus
@@ -79,20 +102,35 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
     )
   }
 
-  const handleBoost = async (selectedId: number, currentStatus: boolean) => {
-    await HttpClient.patch(`/job/${selectedId}`, {
-      is_boosted: !currentStatus
+  const handleBoost = async (selectedId: number, boosted: boolean) => {
+    if (loading) {
+      toast.loading('Please wait a moment.')
+
+      return
+    }
+
+    if (!isAvailable) {
+      toast.error('You can only boost one job at a time. Deactivate the current boost to switch.')
+
+      return
+    }
+
+    await HttpClient.post(AppConfig.baseUrl + `/job/${job.id}/change-job-boosted`, {
+      is_boosted: !boosted
     }).then(
       () => {
-        toast.success('Status successfully changed!')
-        setBoosted(!currentStatus)
+        setBoosted(!boosted)
+        const message = !boosted
+          ? 'Your job boost has been successfully activated!'
+          : 'Boost deactivated successfully! Your current boost job is no longer boosted.'
+        toast.success(message)
 
         setTimeout(() => {
           refetch()
         }, 500)
       },
       error => {
-        toast.error('Failed to change job status: ' + error.response.data.message)
+        toast.error('Failed to change boost job status: ' + error.response.data.message)
       }
     )
   }
@@ -105,28 +143,60 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
     setAnchorEl(null)
   }
 
+  const getJobs = async () => {
+    setLoading(true)
+    try {
+      const res = await HttpClient.get('/job', {
+        page: 1,
+        take: 50,
+        is_boosted: 1
+      })
+      const data = res.data.jobs.data
+
+      if (data.length > 0 && data[0]?.id !== job.id) {
+        setIsAvailable(false)
+      }
+
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getJobs()
+  }, [])
+
   const posted_at = new Date(job.created_at)
   const expired_at = new Date(job.onboard_at)
   const progress = calculateDaysDifference(Date.now(), expired_at)
+  const boost_end_date = new Date(job.end_booster_date)
+  const boost_expired_at = calculateDaysDifference(Date.now(), boost_end_date)
 
   return (
     <>
-      <Box sx={{ p: '0px', border: '1.5px solid #E7E7E7', borderRadius: '6px' }}>
+      <Box sx={{ p: '0px', border: '1.5px solid #E7E7E7', borderRadius: '6px', position: 'relative' }}>
         <Box
           sx={{
             backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
             display: job.is_boosted ? 'flex' : 'none',
             flexDirection: 'row',
             alignItems: 'center',
-            gap: 1,
+            justifyContent: 'space-between',
             padding: '.5rem 1.45rem',
             borderRadius: '6px 6px 0px 0px'
           }}
         >
-          <Icon icon='ph:lightning-fill' color='#FFFFFF' fontSize={20} />
-          <Typography sx={{ color: '#fff', fontWeight: 700, fontSize: 14 }}>Hot Opportunity</Typography>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Icon icon='ph:lightning-fill' color='#FFFFFF' fontSize={20} />
+            <Typography sx={{ color: '#fff', fontWeight: 700, fontSize: 14 }}>Hot Opportunity</Typography>
+          </Box>
+          <Typography sx={{ color: '#fff', fontWeight: 400, fontSize: 12, textTransform: 'lowercase' }}>
+            {boost_expired_at} left
+          </Typography>
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: boosted ? '8px' : job.is_draft ? '34.5px' :'18px', padding: '16px' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
             <Typography
               component={job.is_draft ? Box : Link}
@@ -160,7 +230,7 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
               </span>
             </Typography>
             <Box>
-              <Box sx={{ display: 'flex', alignItems:'center' ,gap: '6px', justifyContent: 'flex-end' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'flex-end' }}>
                 {job.is_draft ? (
                   <DraftToggle />
                 ) : (
@@ -242,46 +312,6 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
                     Delete
                   </MenuItem>
                 </Menu>
-              </Box>
-              <Box
-                onClick={() => handleBoost(job.id, job.is_boosted)}
-                sx={{
-                  position: 'relative',
-                  width: '188px',
-                  height: '22px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  pl: boosted ? '16px' : '22px',
-                  backgroundColor: boosted ? '' : '#868686',
-                  backgroundImage: boosted ? 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)' : '',
-                  borderRadius: '100px',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.3s ease, padding 0.5s ease',
-                  mr:10
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: '#FFF',
-                    userSelect: 'none',
-                    fontSize: 14,
-                    fontWeight: '400'
-                  }}
-                >
-                  {boosted ? 'Boost Job Activated' : 'Boost Job Deactivated'}
-                </Typography>
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    backgroundColor: '#FFF',
-                    width: '14px',
-                    height: '14px',
-                    borderRadius: '50%',
-                    top: '4px',
-                    left: boosted ? 'calc(100% - 18px)' : '4px',
-                    transition: 'left 0.5s ease-in-out'
-                  }}
-                />
               </Box>
             </Box>
           </Box>
@@ -407,6 +437,52 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
               draft={job.is_draft}
             />
           </Grid>
+          <Tooltip
+            title={
+              !boosted &&
+              !isAvailable &&
+              'You can only boost one job at a time. Deactivate the current boost to switch.'
+            }
+            sx={{ pointerEvents: 'all !important' }}
+          >
+            <Button
+              onClick={() => {
+                if (isAvailable) setIsOpen(true)
+              }}
+              size='small'
+              disabled={!job.is_active || loading}
+              // variant={isAvailable && job.is_active ? 'outlined' : 'contained'}
+              sx={{
+                display: job.is_draft ? 'none' : 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 1,
+                textTransform: 'none',
+                cursor: isAvailable && job.is_active ? 'pointer' : 'unset',
+                backgroundImage:
+                  isAvailable && job.is_active ? 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)' : 'none',
+                backgroundColor: isAvailable && job.is_active ? 'none' : '#F0F0F0 !important',
+                backgroundClip: isAvailable && job.is_active ? 'text' : '',
+                color: isAvailable && job.is_active ? 'transparent' : '#999999',
+                border: isAvailable && job.is_active ? '1px solid #968BEB' : '1px solid #F0F0F0',
+                borderRadius: '4px',
+                fontSize: 14
+              }}
+            >
+              {loading ? (
+                <CircularProgress size={20} />
+              ) : (
+                <>
+                  <Icon
+                    icon='ph:lightning'
+                    fontSize={16}
+                    color={isAvailable && job.is_active ? '#968BEB' : '#999999'}
+                  />
+                  {boosted ? 'Deactivate boost job' : 'Boost job'}
+                </>
+              )}
+            </Button>
+          </Tooltip>
           <Grid container sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {!job.is_draft && (
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -451,7 +527,101 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
       {deleteJob && (
         <DialogDelete job={job} visible={deleteJob} refetch={refetch} onCloseClick={() => setDeleteJob(false)} />
       )}
+      <ConfirmationModal
+        selectedId={job.id}
+        isBoosted={boosted}
+        handleConfirm={handleBoost}
+        isOpen={isOpen}
+        handleCloseModal={handleCloseModal}
+      />
     </>
+  )
+}
+
+const ConfirmationModal = ({
+  isOpen,
+  handleCloseModal,
+  handleConfirm,
+  isBoosted,
+  selectedId
+}: {
+  isOpen: boolean
+  handleCloseModal: () => void
+  handleConfirm: (selectedId: number, isBoost: boolean) => void
+  isBoosted: boolean
+  selectedId: number
+}) => {
+  return (
+    <Dialog open={isOpen} fullWidth onClose={() => handleCloseModal()} maxWidth={'xs'}>
+      <DialogContent>
+        <Box
+          sx={{ display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%'
+              }}
+            >
+              <Typography fontSize={'18px'} fontWeight={700} sx={{ mx: 'auto' }}>
+                {isBoosted ? 'Deactivate Current Boost?' : 'Activate Boost Job?'}
+              </Typography>
+              <IconButton onClick={handleCloseModal} sx={{}}>
+                <Icon icon={'mdi:close'} fontSize={18} color='#868686' />
+              </IconButton>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
+              <Box component='img' src='/images/amico.png' sx={{ objectFit: 'contain' }} />
+            </Box>
+            <Typography textAlign={'center'} fontSize={'14px'} fontWeight={400} color={'#999999'}>
+              {isBoosted
+                ? 'You can only have one boosted job at a time. Do you want to deactivate the current boost?'
+                : 'You can only have one boosted job at a time. Do you want to activate the boost for this job?'}
+            </Typography>
+          </Box>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Button
+                onClick={() => {
+                  if (isBoosted) {
+                    handleConfirm(selectedId, isBoosted)
+                    handleCloseModal()
+
+                    return
+                  }
+                  handleCloseModal()
+                }}
+                variant='outlined'
+                sx={{ color: '#0B58A6', fontSize: '14px', textTransform: 'none', width: '100%' }}
+              >
+                {isBoosted ? 'Yes' : 'No'}
+              </Button>
+            </Grid>
+            <Grid item xs={6}>
+              <Button
+                onClick={() => {
+                  if (!isBoosted) {
+                    handleConfirm(selectedId, isBoosted)
+                    handleCloseModal()
+
+                    return
+                  }
+                  handleCloseModal()
+                }}
+                variant='contained'
+                sx={{ color: '#FFFFFF', fontSize: '14px', textTransform: 'none', width: '100%' }}
+              >
+                {isBoosted ? 'No' : 'Yes'}
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </DialogContent>
+    </Dialog>
   )
 }
 
