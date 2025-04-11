@@ -2,10 +2,14 @@ import TrainingCategory from './training_category'
 import { IUser } from './user'
 
 export enum EBookingScheme {
-  INSTANT_ACCESS = 'instant_access',
-  QUOTA_BASED = 'quota_based',
-  FIXED_DATE = 'fixed_date'
+    INSTANT_ACCESS = 'instant_access',
+    QUOTA_BASED = 'quota_based',
+    FIXED_DATE = 'fixed_date'
 }
+
+// type countParticipantStatus = {
+//     completed: number, registered: number, on_hold: number, on_going: number
+// }
 
 interface Training {
   id: number

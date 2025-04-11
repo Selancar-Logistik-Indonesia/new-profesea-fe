@@ -111,7 +111,7 @@ const TrainingDetail = () => {
         <Grid item xs={3} sx={{position:'fixed', right:'150px'}}>
             <Box sx={{display:'flex', flexDirection:'column',backgroundColor:'#FFFFFF', boxShadow: '0px 2px 10px 0px #00000014', borderRadius:'8px', padding:'1.45rem', gap:2}}>
                 <Typography sx={{fontSize:16, fontWeight:700, color:'#1F1F1F'}}>Manage Training Details</Typography>
-                <Link href='#'><Button variant='contained' size='small' sx={{textTransform:'none', fontSize:14,fontWeight:400,width:'100%', display:'flex', flexDirection:'row', alignItems:'center', gap:2}}>View Participant List <Icon icon={'ph:arrow-right-bold'} fontSize={16}/></Button></Link>
+                <Link href={`/trainer/training-management/${training?.id}`}><Button variant='contained' size='small' sx={{textTransform:'none', fontSize:14,fontWeight:400,width:'100%', display:'flex', flexDirection:'row', alignItems:'center', gap:2}}>View Participant List <Icon icon={'ph:arrow-right-bold'} fontSize={16}/></Button></Link>
                 <Link href={`/trainer/training-management/edit-training?id=${training?.id}`} ><Button variant='outlined' size='small' sx={{textTransform:'none', fontSize:14, width:'100%'}}>Edit</Button></Link>
             </Box>
         </Grid>

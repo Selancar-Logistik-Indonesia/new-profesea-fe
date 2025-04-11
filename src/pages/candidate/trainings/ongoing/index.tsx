@@ -24,6 +24,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSearchParams } from 'next/navigation'
 import { Icon } from '@iconify/react'
 import { useTheme } from '@mui/material/styles'
+import { HttpClient } from 'src/services'
 
 const SeafarerOngoingTraining = ({ pageView }: { pageView: string }) => {
   return (
@@ -163,16 +164,48 @@ const OngoingTrainingApp = ({ pageView }: { pageView: string }) => {
   const params = useSearchParams()
   const trainer = linkToTitleCase(params.get('trainer'))
   const [searchJob, setSearchJob] = useState<any>()
-  // const [optionsCategory, setOptionsCategoru] = useState([])
-  // const [optionsTrainers, setOptionsTrainers] = useState([])
+  const [filterTrainer, setFilterTrainer] = useState<any>()
+  const [filterCategory, setFilterCategory] = useState<any>()
+  const [optionsCategory, setOptionsCategory] = useState([])
+  const [optionsTrainers, setOptionsTrainers] = useState([])
 
   const fetchTrainingsWithParams = () => {
-    fetchTrainings({ take: 12, instant: 0, ongoing: 1, username: trainer, search: searchJob })
+    fetchTrainings({
+      take: 12,
+      instant: 0,
+      ongoing: 1,
+      username: filterTrainer?.username,
+      search: searchJob,
+      category_id: filterCategory?.id
+    })
+  }
+
+  const fetchOptions = async () => {
+    HttpClient.get('/training/trainer?page=1&take=999').then(response => {
+      if (response.status != 200) {
+        throw response.data.message ?? 'Something went wrong!'
+      }
+      const { training } = response?.data
+      setOptionsTrainers(training?.data)
+    })
+
+    HttpClient.get('/training-category?page=1&take=999').then(response => {
+      if (response.status != 200) {
+        throw response.data.message ?? 'Something went wrong!'
+      }
+
+      const { trainingCategories } = response?.data
+      setOptionsCategory(trainingCategories?.data)
+    })
   }
 
   useEffect(() => {
+    fetchOptions()
+  }, [])
+
+  useEffect(() => {
     fetchTrainingsWithParams()
-  }, [trainer, searchJob, page])
+  }, [trainer, searchJob, page, filterTrainer, filterCategory])
 
   return (
     <>
@@ -206,36 +239,42 @@ const OngoingTrainingApp = ({ pageView }: { pageView: string }) => {
             fullWidth
             disablePortal
             id='training-center'
-            options={[]}
-            // getOptionLabel={(option: any) => option.city_name}
+            options={optionsTrainers}
+            getOptionLabel={(option: any) => option.name}
             renderInput={params => <TextField {...params} size='small' label='Training Center' />}
-            // value={idcity ? combocity.find(item => item.id === idcity) || null : null}
-            // onChange={(event: any, newValue: City | null) => {
-            //   setPage(1)
-            //   newValue?.id ? setCombocity(newValue.id) : setCombocity(null)
-            // }}
+            onChange={(_, newValue) => {
+              setPage(1)
+              setFilterTrainer(newValue)
+            }}
           />
           <Autocomplete
             fullWidth
             disablePortal
             id='category'
-            options={[]}
-            // getOptionLabel={(option: any) => option.city_name}
+            options={optionsCategory}
+            getOptionLabel={(option: any) => option.category}
             renderInput={params => <TextField {...params} size='small' label='Category' />}
-            // value={idcity ? combocity.find(item => item.id === idcity) || null : null}
-            // onChange={(event: any, newValue: City | null) => {
-            //   setPage(1)
-            //   newValue?.id ? setCombocity(newValue.id) : setCombocity(null)
-            // }}
+            onChange={(_, newValue) => {
+              setPage(1)
+              setFilterCategory(newValue)
+            }}
           />
         </Grid>
       </Grid>
       <TrainingContext.Consumer>
         {({ listTrainings, onLoading }) => {
-          if (onLoading && listTrainings.length === 0) {
+          if (onLoading) {
             return (
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <CircularProgress sx={{ mt: 20 }} />
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100vh'
+                }}
+              >
+                <CircularProgress />
               </Box>
             )
           }

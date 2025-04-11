@@ -13,7 +13,8 @@ type StatusProps = {
   iconColor: string
   bgColor: string
   total:number
-  status:string
+  status:string,
+  link: string
 }
 
 const elipsText = (text:string, maxLength:number) =>{
@@ -24,34 +25,40 @@ const elipsText = (text:string, maxLength:number) =>{
 }
 
 const TrainingCard = ({ role, trainingData, refetch }: { role?: string, trainingData:Training, refetch: VoidFunction }) => {
+
   const [statusItems, setStatusItems] = useState<StatusProps[]>([
     {
       icon: 'ph:user-check',
       iconColor:'#32497A',
       bgColor:'#CBE2F9',
       total: trainingData.count_participant_status.registered,
-      status: role === 'superadmin' ?  'Registered Participant' : 'Registered'
+      status: role === 'superadmin' ?  'Registered Participant' : 'Registered',
+      link: 'registered',
+      
     },
     {
       icon: 'material-symbols:pause-outline-rounded',
       iconColor:'#FE9602',
       bgColor:'#FCE9C8',
       total:trainingData.count_participant_status.on_hold,
-      status:'Onhold'
+      status:'Onhold',
+      link: 'onhold'
     },
     {
       icon: 'material-symbols:start',
       iconColor:'#7B61FF',
       bgColor:'#D7CBF9',
       total:trainingData.count_participant_status.on_going,
-      status:'Ongoing'
+      status:'Ongoing',
+      link: 'ongoing'
     },
     {
       icon: 'mingcute:check-fill',
       iconColor:'#4CAF50',
       bgColor:'#F4FEF2',
       total:trainingData.count_participant_status.completed,
-      status:role === 'superadmin' ?   'Completed Training' : 'Completed'
+      status:role === 'superadmin' ?   'Completed Training' : 'Completed',
+      link: 'complete'
     },
   ])
   const [category, setCategory] = useState<any>()
@@ -64,28 +71,32 @@ const TrainingCard = ({ role, trainingData, refetch }: { role?: string, training
         iconColor:'#32497A',
         bgColor:'#CBE2F9',
         total: trainingData.count_participant_status.registered,
-        status: role === 'superadmin' ?  'Registered Participant' : 'Registered'
+        status: role === 'superadmin' ?  'Registered Participant' : 'Registered',
+        link: 'registered',
       },
       {
         icon: 'material-symbols:pause-outline-rounded',
         iconColor:'#FE9602',
         bgColor:'#FCE9C8',
         total:trainingData.count_participant_status.on_hold,
-        status:'Onhold'
+        status:'Onhold',
+        link: 'onhold'
       },
       {
         icon: 'material-symbols:start',
         iconColor:'#7B61FF',
         bgColor:'#D7CBF9',
         total:trainingData.count_participant_status.on_going,
-        status:'Ongoing'
+        status:'Ongoing',
+        link: 'ongoing'
       },
       {
         icon: 'mingcute:check-fill',
         iconColor:'#4CAF50',
         bgColor:'#F4FEF2',
         total:trainingData.count_participant_status.completed,
-        status:role === 'superadmin' ?   'Completed Training' : 'Completed'
+        status:role === 'superadmin' ?   'Completed Training' : 'Completed',
+        link: 'complete'
       },
     ])
     HttpClient.get('/training-category',{
@@ -171,12 +182,12 @@ const TrainingCard = ({ role, trainingData, refetch }: { role?: string, training
 
           if(i === 3){
 
-            return <StatusCard key={i} item={item}/>
+            return <StatusCard key={i} item={item} training={trainingData}/>
           }
 
           return (
             <>
-              <StatusCard key={i} item={item}/>
+              <StatusCard key={i} item={item} training={trainingData}/>
               <Divider sx={{ borderWidth: '1px', bgcolor: '#E7E7E7' }} />
             </>
           )
@@ -305,7 +316,8 @@ const MenuOption = ({training, refetch} : {training: Training, refetch:VoidFunct
   )
 }
 
-const StatusCard = ({item} : {item : StatusProps}) => {
+const StatusCard = ({item, training} : {item : StatusProps, training: Training}) => {
+
   return (
     <Box sx={{ p: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px', flex:1 }}>
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems:'center' }}>
@@ -321,7 +333,7 @@ const StatusCard = ({item} : {item : StatusProps}) => {
         >
           <Icon icon={item.icon} color={item.iconColor} fontSize={16} />
         </Box>
-        <Link href='#'>
+        <Link href={`training-management/${training.id}?tabs=${item.link}`}>
           <Icon icon={'ph:arrow-right'} color={'#000'} fontSize={16} />
         </Link>
       </Box>
