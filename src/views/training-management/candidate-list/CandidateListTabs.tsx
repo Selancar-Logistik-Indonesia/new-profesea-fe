@@ -29,7 +29,7 @@ const tabItems = [
 
 const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
   const searchParams = useSearchParams()
-  const tabStatus = searchParams.get('tabs') ?? 'registered'
+  const tabStatus = searchParams.get('tabs')
   const trainingId = searchParams.get('id')
   const prevTabStatus = useRef(tabStatus)
   const router = useRouter()
@@ -38,7 +38,7 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
   const [candidateList, setCandidateList] = useState<ITrainingParticipant[]>([])
   const [totalCandidates, setTotalCandidates] = useState<number>(0)
 
-  const [tabs, setTabs] = useState<string>('registered')
+  const [tabs, setTabs] = useState<string>(tabStatus ?? 'registered')
   const [search, setSearch] = useState<string>('')
   const [page, setPage] = useState(1)
   const [pageItems, setPageItems] = useState<number>(10)
@@ -72,7 +72,7 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
   useEffect(() => {
     if (prevTabStatus.current !== tabStatus) {
       count()
-      setTabs(tabStatus)
+      setTabs(tabStatus ?? 'registered')
       prevTabStatus.current = tabStatus
     } else {
       router.replace(`/trainer/training-management/${trainingId}/?tabs=${tabs}`, undefined, {
@@ -80,7 +80,7 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
         scroll: false
       })
     }
-  }, [tabStatus])
+  }, [tabStatus, tabs])
 
   useEffect(() => {
     clearFilters()
