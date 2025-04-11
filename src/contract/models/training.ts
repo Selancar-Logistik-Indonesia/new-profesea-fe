@@ -30,6 +30,7 @@ interface Training {
   end_date?: string | null
   is_active?:boolean
   currency?:string
+  count_participant_status: {completed:number, on_going:number, on_hold:number, registered:number}
 }
 
 export default Training

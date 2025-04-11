@@ -10,22 +10,28 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import type Training from 'src/contract/models/training'
 import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'
-import JobCardSkeleton from 'src/views/job-management/JobCardSkeleton'
 import TrainingCard from 'src/views/training-management/TrainingCard'
+import TrainingCardSkeleton from 'src/views/training-management/TrainingCardSkeleton'
 import { v4 } from 'uuid'
 
 const tabsOption = [
   { value: 'activeTraining', label: 'Active Training' },
-  { value: 'trainingHistory', label: 'Training History' }
+  { value: 'inactiveTraining', label: 'Inactive Training' }
 ]
 
 const bookingTypeOption = [
-  { value: 'instant', label: 'Instant' },
-  { value: 'quotaBased', label: 'Quota Based' },
-  { value: 'fixedDate', label: 'Fixed Date' }
+  { value: 'instant_access', label: 'Instant' },
+  { value: 'quota_based', label: 'Quota Based' },
+  { value: 'fixed_date', label: 'Fixed Date' }
 ]
 
-const Training = () => {
+// const checkStatus = (status: string) => {
+//   if (status === 'active') return true
+//   else if (status === 'inactive') return false
+//   else return null
+// }
+
+const TrainingPage = () => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const router = useRouter()
 
@@ -38,13 +44,16 @@ const Training = () => {
 
   // filters settings
   const [search, setSearch] = useState<string>('')
-  const [sort, setSort] = useState<string>('newest')
-  const [status, setStatus] = useState<string>('')
+  const [sort, setSort] = useState<string>('desc')
+  const [status, setStatus] = useState<string | null>(null)
   const [bookingType, setBookingType] = useState<string>('')
 
   //datas
   const [trainings, setTrainings] = useState<Training[] | null>(null)
   const [totalTrainings, setTotalTrainings] = useState<number>(0)
+  const [totalShowedTraining, setTotalShowedTrainings] = useState<number>(0)
+  const [totalActiveTrainings, setTotalActiveTrainings] = useState<number>(0)
+  const [totalParticipant, setTotalParticipant] = useState<number>(0)
 
   const getTrainings = async () => {
     setLoading(true)
@@ -53,12 +62,15 @@ const Training = () => {
         username: user.username,
         search: search,
         take: pageItems,
-        page: page
+        page: page,
+        sort:sort,
+        booking_scheme: bookingType,
+        active: activeTab === 'activeTraining',
       })
       const data = res.data.trainings.data
-      
+
       setTrainings(data)
-      setTotalTrainings(res.data.trainings.total)
+      setTotalShowedTrainings(res.data.trainings.total)
     } catch (error) {
       console.log(error)
     } finally {
@@ -66,16 +78,58 @@ const Training = () => {
     }
   }
 
+  const onLoad = async () => {
+    try {
+      const res = await HttpClient.get('/training', {
+        take:1000,
+        page:1,
+        active: true
+      })
+      const data = res.data.trainings.data
+      setTotalActiveTrainings(data.length)
+    } catch (error) {
+      console.log(error)
+    }
+
+    try {
+      const res = await HttpClient.get('/training', {
+        take:1000,
+        page:1,
+      })
+      setTotalTrainings(res.data.trainings.total)
+    } catch (error) {
+      console.log(error)
+    }
+
+    try {
+      const res = await HttpClient.get(`/public/data/trainer/statistics/${user.id}`)
+      const data = res.data.data
+      const total = data.total_onhold + data.total_registered + data.total_complete + data.total_ongoing
+      setTotalParticipant(total)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+ 
   const clearFilters = () => {
     setSearch('')
-    setSort('')
-    setStatus('')
+    setSort('desc')
+    setStatus(null)
     setBookingType('')
   }
 
   useEffect(() => {
     getTrainings()
-  }, [sort, search, bookingType, status, page])
+  }, [sort, search, bookingType, status, page, refetch, activeTab])
+
+  useEffect(() => {
+    onLoad()
+  },[refetch])
+
+  useEffect(() => {
+    setPage(1)
+  },[activeTab])
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -101,7 +155,7 @@ const Training = () => {
               }}
             >
               <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#202224' }}>Total Participant</Typography>
-              <Typography sx={{ fontSize: 20, fontWeight: 700, color: '#202224' }}>2</Typography>
+              <Typography sx={{ fontSize: 20, fontWeight: 700, color: '#202224' }}>{totalParticipant}</Typography>
             </Box>
             <Box
               sx={{
@@ -115,7 +169,7 @@ const Training = () => {
               }}
             >
               <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#202224' }}>Active Training</Typography>
-              <Typography sx={{ fontSize: 20, fontWeight: 700, color: '#202224' }}>2</Typography>
+              <Typography sx={{ fontSize: 20, fontWeight: 700, color: '#202224' }}>{totalActiveTrainings}</Typography>
             </Box>
             <Box
               sx={{
@@ -129,7 +183,7 @@ const Training = () => {
               }}
             >
               <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#202224' }}>All Training</Typography>
-              <Typography sx={{ fontSize: 20, fontWeight: 700, color: '#202224' }}>2</Typography>
+              <Typography sx={{ fontSize: 20, fontWeight: 700, color: '#202224' }}>{totalTrainings}</Typography>
             </Box>
           </Box>
         </Box>
@@ -206,22 +260,13 @@ const Training = () => {
                   }
                 }}
               >
-                <MenuItem value='newest'>Newest to Oldest</MenuItem>
-                <MenuItem value='oldest'>Oldest to Newest</MenuItem>
+                <MenuItem value='desc'>Newest to Oldest</MenuItem>
+                <MenuItem value='asc'>Oldest to Newest</MenuItem>
               </Select>
             </Box>
           </Box>
           <Box sx={{ display: 'flex', gap: '70px' }}>
             <Grid container spacing={6}>
-              <Grid item xs={4}>
-                <Select fullWidth size='small' value={status} onChange={e => setStatus(e.target.value)} displayEmpty>
-                  <MenuItem value=''>
-                    <Typography sx={{ color: '#949EA2', fontWeight: 400 }}>Status</Typography>
-                  </MenuItem>
-                  <MenuItem value='active'>Active</MenuItem>
-                  <MenuItem value='inactive'>Inactive</MenuItem>
-                </Select>
-              </Grid>
               <Grid item xs={4}>
                 <Select
                   fullWidth
@@ -266,7 +311,7 @@ const Training = () => {
                 .fill(0)
                 .map((_, i) => (
                   <Grid item key={i} xs={6}>
-                    <JobCardSkeleton />
+                    <TrainingCardSkeleton />
                   </Grid>
                 ))
             ) : user?.verified_at === null ? (
@@ -274,7 +319,7 @@ const Training = () => {
                 <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Box component='img' src='/images/no-image.jpg' sx={{ width: '320px' }} />
                   <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 400, textAlign: 'center' }}>
-                    You are currently not eligible to create a job.
+                    You are currently not eligible to create a training.
                     <br /> Please{' '}
                     <Link
                     href="#"
@@ -293,14 +338,14 @@ const Training = () => {
             ) : trainings && trainings.length > 0 ? (
               trainings.map((training, i) => (
                 <Grid item key={i} xs={6}>
-                  <TrainingCard trainingData={training} />
+                  <TrainingCard trainingData={training} refetch={() => setRefetch(v4())}/>
                 </Grid>
               ))
             ) : (
               <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
                 <Box component='img' src='/images/no-connection-request.png' sx={{ height: '160px', width: '160px' }} />
                 <Typography sx={{ color: '#949EA2', fontSize: 12, fontWeight: 400 }}>
-                  You have no job available right now
+                  You have no training available right now
                 </Typography>
               </Grid>
             )}
@@ -309,11 +354,11 @@ const Training = () => {
           {/* pagination */}
           <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Typography sx={{ color: '#949EA2', fontSize: 12, fontWeight: 400 }}>{`Showing ${
-            page * pageItems < totalTrainings ? page * pageItems : totalTrainings
-          } out of ${totalTrainings} results`}</Typography>
+            page * pageItems < totalShowedTraining ? page * pageItems : totalShowedTraining
+          } out of ${totalShowedTraining} results`}</Typography>
           <Pagination
             size='small'
-            count={Math.ceil(totalTrainings / pageItems)}
+            count={Math.ceil(totalShowedTraining / pageItems)}
             page={page}
             onChange={(_, newValue) => setPage(newValue)}
             variant='outlined'
@@ -327,9 +372,9 @@ const Training = () => {
   )
 }
 
-Training.acl = {
+TrainingPage.acl = {
   action: 'read',
   subject: 'user-training-management'
 }
 
-export default Training
+export default TrainingPage

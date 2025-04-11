@@ -1,13 +1,24 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Icon } from '@iconify/react'
-import { Autocomplete, Box, Button, CircularProgress, FormControl, Grid, Link, MenuItem, TextField, Typography } from '@mui/material'
+import {
+  Autocomplete,
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  Grid,
+  Link,
+  MenuItem,
+  TextField,
+  Typography
+} from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { EditorState } from 'draft-js'
+import { ContentState, convertFromHTML, convertToRaw, EditorState } from 'draft-js'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
@@ -20,6 +31,10 @@ import { HttpClient } from 'src/services'
 import * as yup from 'yup'
 import { useDropzone } from 'react-dropzone'
 import styles from '../../../styles/scss/Dropzone.module.scss'
+import draftToHtml from 'draftjs-to-html'
+import { IUser } from 'src/contract/models/user'
+import localStorageKeys from 'src/configs/localstorage_keys'
+import secureLocalStorage from 'react-secure-storage'
 
 type schemeItemProps = {
   icon: string
@@ -60,41 +75,46 @@ const schema = yup.object().shape({
 
 //Dropdown Settings
 const acceptFile = {
-  'image/*': ['.png']
+  'image/*': ['.png', '.jpg', '.webp', '.jpeg']
 }
 
 const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?: Training }) => {
   const {
     control,
     setValue,
-    watch,
+    // watch,
     handleSubmit,
     formState: { errors }
   } = useForm<FormDataTraining>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
+
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+
   //   form items
   const [selectedScheme, setSelectedScheme] = useState<string>('')
-  const [categories, setCategories] = useState<TrainingCategory[]>()
+  const [categories, setCategories] = useState<TrainingCategory[] | null>(null)
   const [trainingDescription, setTrainingDescription] = useState(EditorState.createEmpty())
   const [trainingRequirement, setTrainingRequirement] = useState(EditorState.createEmpty())
-  const [isActive, setIsActive] = useState<boolean>(training ? (training.is_active as boolean) : true)
+  const [isActive, setIsActive] = useState<boolean | undefined>(true)
   const [attachment, setAttachment] = useState<any>()
+  const [attachmentUrl, setAttachmentUrl] = useState<any>()
 
+  //page setings
+  const inputRef = useRef<HTMLInputElement | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
 
-  //   const [isDraft, setIsDraft] = useState<boolean>(false)
 
-  //   useEffect(() => {
-  //       if (training && training.is_draft === true) {
-  //         setIsDraft(true)
-  //       }
-  //     }, [])
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const selectedFile: any = e.target.files
+      onDrop(selectedFile)
+    }
 
   const populateData = () => {
     if (type === 'edit' && training) {
+      setIsActive(training.is_active)
       setValue('trainingTitle', training.title)
       setValue('trainingCategory', training.category_id)
       setValue('price', training.price)
@@ -103,6 +123,24 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
       setValue('participants', training.participants)
       setValue('startDate', training.start_date as string)
       setValue('endDate', training.end_date as string)
+      setAttachmentUrl(training.thumbnail)
+      setSelectedScheme(training.booking_scheme)
+      if (training.short_description) {
+        const contentBlock = convertFromHTML(training.short_description).contentBlocks
+        if (contentBlock) {
+          const contentState = ContentState.createFromBlockArray(contentBlock)
+          const editorState = EditorState.createWithContent(contentState)
+          setTrainingDescription(editorState)
+        }
+      }
+      if (training.requirements) {
+        const contentBlock = convertFromHTML(training.requirements).contentBlocks
+        if (contentBlock) {
+          const contentState = ContentState.createFromBlockArray(contentBlock)
+          const editorState = EditorState.createWithContent(contentState)
+          setTrainingRequirement(editorState)
+        }
+      }
     }
   }
 
@@ -110,16 +148,14 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
     HttpClient.get('/training-category', {
       take: 10,
       page: 1
-    }).then(res => {
-      setCategories(res.data.trainingCategories.data)
+    }).then(async res => {
+      const data = await res.data.trainingCategories.data
+      setCategories(data)
     })
-
-    populateData()
   }
 
-  const selectTrainingCategory = watch('trainingCategory') === 0 ? undefined : watch('trainingCategory')
-
   useEffect(() => {
+    populateData()
     firstLoad()
   }, [training])
 
@@ -129,22 +165,60 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
     const description = trainingDescription.getCurrentContent()
     const requirement = trainingRequirement.getCurrentContent()
 
+    const date_start = startDate
+      ? new Date(startDate)
+          ?.toLocaleDateString('en-GB', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          })
+          .split('/')
+          .reverse()
+          .join('-')
+      : undefined
+
+    const date_end = endDate
+      ? new Date(endDate)
+          ?.toLocaleDateString('en-GB', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          })
+          .split('/')
+          .reverse()
+          .join('-')
+      : undefined
+
     const json = {
       booking_scheme: selectedScheme,
       title: trainingTitle,
       category_id: trainingCategory,
-      short_description: description,
-      requirement: requirement,
+      short_description: description.hasText() ? draftToHtml(convertToRaw(description)) : '<p></p>',
+      requirements: requirement.hasText() ? draftToHtml(convertToRaw(requirement)) : '<p></p>',
       price: price,
       currency: currency,
       discounted_price: discounted,
       participants: selectedScheme === 'quota_based' ? participants : 0,
-      start_date: selectedScheme === 'fixed_date' ? startDate : null,
-      end_date: selectedScheme === 'fixed_date' ? endDate : null
+      start_date: selectedScheme === 'fixed_date' ? date_start : null,
+      end_date: selectedScheme === 'fixed_date' ? date_end : null,
+      is_active: isActive ? '1' : '0',
+      user_id: user.id,
+      schedule: '2025-09-06'
     }
+
+    const formData = new FormData()
+
+    Object.entries(json).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        formData.append(key, value as any)
+      }
+    })
+
+    if (attachment) formData.append('thumbnail', attachment)
+
     setLoading(true)
     if (type === 'edit' && training) {
-      HttpClient.put(`/training/${training.id}`, json)
+      HttpClient.post(`/training/${training.id}`, formData)
         .then(
           () => {
             toast.success(`${training.title} edited successfully!`)
@@ -152,11 +226,12 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
           },
           error => {
             toast.error('Failed to save training: ' + error.response.data.message)
+            console.log(error)
           }
         )
         .finally(() => setLoading(false))
     } else {
-      HttpClient.post('/training', json)
+      HttpClient.post('/training', formData)
         .then(
           () => {
             toast.success(`${trainingTitle} submited successfully!`)
@@ -164,6 +239,7 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
           },
           error => {
             toast.error('Failed to save training: ' + error.response.data.message)
+            console.log(error)
           }
         )
         .finally(() => setLoading(false))
@@ -198,8 +274,9 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
 
       //   return
       // }
-
+      const fileUrl = URL.createObjectURL(acceptedFiles[0])
       setAttachment(acceptedFiles[0])
+      setAttachmentUrl(fileUrl)
       // setIsErrorModalOpen(false)
     },
     [attachment]
@@ -301,7 +378,7 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
                     autoHighlight
                     options={categories || []}
                     getOptionLabel={option => option.category || ''}
-                    value={categories?.find(data => data.id === field.value || null)}
+                    value={categories?.find(data => data.id == field.value || data.id)}
                     isOptionEqualToValue={(option, value) => option.id === value.id}
                     renderInput={field => (
                       <TextField
@@ -359,7 +436,7 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
                 <FormControl fullWidth error={!!errors.endDate}>
                   <Typography sx={{ mb: '8px', color: '#1F1F1F', fontSize: 16, fontWeight: 700 }}>End Date</Typography>
                   <Controller
-                    name='startDate'
+                    name='endDate'
                     control={control}
                     render={({ field }) => (
                       <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -504,19 +581,49 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
               </FormControl>
             </Grid>
           </Grid>
-          <div {...getRootProps({ className: styles['dropzone-wrapper'] })}>
-            <input {...getInputProps()} />
-            {isDragActive ? (
-              <p style={{ textAlign: 'center' }}>Drop the file here ...</p>
-            ) : (
-              <div style={{ textAlign: 'center' }}>
-                <Icon icon='uil:image-upload' fontSize={44} color={'#32497A'} />
-                <p style={{ fontSize: 14, fontWeight: 700, color: '#32497A' }}>Click to upload or drag and drop</p>
-                <p style={{ fontSize: 14, fontWeight: 400, color: '#999999' }}>Allowed JPEG, JPG, PNG Size up to 3MB</p>
-              </div>
-            )}
-          </div>
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', mt:5 }}>
+          {attachment || attachmentUrl ? (
+            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}>
+              <Box component='img' src={attachmentUrl} sx={{ width: '110px', height: '110px', objectFit: 'contain' }} />
+              <input type='file' ref={inputRef} style={{ display: 'none' }} onChange={(e) => handleChange(e)} accept=".jpg, .jpeg, .png"/>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Typography sx={{ fontSize: 16, fontWeight: 700, color: '#1F1F1F' }}>Thumbnail</Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 700, color: '#525252' }}>Recomended 500 x 500</Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center' }}>
+                  <Button onClick={() => inputRef?.current?.click()} variant='outlined' sx={{ textTransform: 'none' }}>
+                    Change Thumbnail
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setAttachment(null)
+                      setAttachmentUrl('')
+                    }}
+                    color='error'
+                    sx={{ textTransform: 'none' }}
+                  >
+                    Remove Thumbnail
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+          ) : (
+            <div {...getRootProps({ className: styles['dropzone-wrapper'] })}>
+              <input {...getInputProps()} />
+              {isDragActive ? (
+                <p style={{ textAlign: 'center' }}>Drop the file here ...</p>
+              ) : (
+                <div style={{ textAlign: 'center' }}>
+                  <Icon icon='uil:image-upload' fontSize={44} color={'#32497A'} />
+                  <p style={{ fontSize: 14, fontWeight: 700, color: '#32497A' }}>Click to upload or drag and drop</p>
+                  <p style={{ fontSize: 14, fontWeight: 400, color: '#999999' }}>
+                    Allowed JPEG, JPG, PNG Size up to 3MB
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+          <Box
+            sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', mt: 5 }}
+          >
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <Typography sx={{ color: '#1F1F1F', fontSize: 16, fontWeight: 700 }}>Activate Training</Typography>
               <Typography sx={{ color: '#1F1F1F', fontSize: 14, fontWeight: 400 }}>
@@ -535,7 +642,7 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
                 backgroundColor: isActive ? '#4CAF50' : '#868686',
                 borderRadius: '100px',
                 cursor: 'pointer',
-                transition: 'background-color 0.3s ease, padding 0.5s ease',
+                transition: 'background-color 0.3s ease, padding 0.5s ease'
               }}
             >
               <Typography
@@ -562,45 +669,29 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
               />
             </Box>
           </Box>
-          <Grid item container sx={{ display: 'flex', gap: '24px', alignItems: 'center', justifyContent: 'right', mt:5 }}>
-          <Typography component={Link} href='/trainer/training-management' sx={{ color: '#868686', fontSize: 14 }}>
-            Cancel
-          </Typography>
-          {(type === 'create') && (
+          <Grid
+            item
+            container
+            sx={{ display: 'flex', gap: '24px', alignItems: 'center', justifyContent: 'right', mt: 5 }}
+          >
+            <Typography component={Link} href='/trainer/training-management' sx={{ color: '#868686', fontSize: 14 }}>
+              Cancel
+            </Typography>
+
             <Button
               type='submit'
               onClick={async () => {
-                // await setIsDraft(true)
+                //   await setIsDraft(false)
                 handleSubmit(onSubmit)
               }}
-              variant='outlined'
+              variant='contained'
               size='small'
               disabled={loading}
-              sx={{
-                color: '#0B58A6',
-                fontSize: 14,
-                fontWeight: 400,
-                border: '1px solid #0B58A6',
-                textTransform: 'none'
-              }}
+              sx={{ fontSize: 14, fontWeight: 400, textTransform: 'none' }}
             >
-              {loading ? <CircularProgress size={22} /> : 'Save as Draft'}
+              {loading ? <CircularProgress size={22} /> : 'Save Training'}
             </Button>
-          )}
-          <Button
-            type='submit'
-            onClick={async () => {
-            //   await setIsDraft(false)
-              handleSubmit(onSubmit)
-            }}
-            variant='contained'
-            size='small'
-            disabled={loading}
-            sx={{ fontSize: 14, fontWeight: 400, textTransform: 'none' }}
-          >
-            {loading ? <CircularProgress size={22} /> : 'Save Training'}
-          </Button>
-        </Grid>
+          </Grid>
         </Box>
       </Box>
     </form>

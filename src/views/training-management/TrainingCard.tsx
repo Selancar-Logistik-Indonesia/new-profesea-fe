@@ -1,8 +1,10 @@
 import { Icon } from '@iconify/react'
-import { Box, Divider, Grid, IconButton, LinearProgress, Menu, MenuItem, Typography } from '@mui/material'
+import { Box, Divider, Grid, IconButton, LinearProgress, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import Training from 'src/contract/models/training'
+import { HttpClient } from 'src/services'
 import { calculateDaysDifference, dateProgress, getDateMonth } from 'src/utils/helpers'
 
 
@@ -14,37 +16,94 @@ type StatusProps = {
   status:string
 }
 
-const TrainingCard = ({ role, trainingData }: { role?: string, trainingData:Training }) => {
+const elipsText = (text:string, maxLength:number) =>{
+
+  if (text.length <= maxLength) return null
+
+  return text.slice(0, maxLength - 3) + '...'
+}
+
+const TrainingCard = ({ role, trainingData, refetch }: { role?: string, trainingData:Training, refetch: VoidFunction }) => {
   const [statusItems, setStatusItems] = useState<StatusProps[]>([
     {
       icon: 'ph:user-check',
       iconColor:'#32497A',
       bgColor:'#CBE2F9',
-      total:99,
+      total: trainingData.count_participant_status.registered,
       status: role === 'superadmin' ?  'Registered Participant' : 'Registered'
     },
     {
       icon: 'material-symbols:pause-outline-rounded',
       iconColor:'#FE9602',
       bgColor:'#FCE9C8',
-      total:99,
+      total:trainingData.count_participant_status.on_hold,
       status:'Onhold'
     },
     {
       icon: 'material-symbols:start',
       iconColor:'#7B61FF',
       bgColor:'#D7CBF9',
-      total:99,
+      total:trainingData.count_participant_status.on_going,
       status:'Ongoing'
     },
     {
       icon: 'mingcute:check-fill',
       iconColor:'#4CAF50',
       bgColor:'#F4FEF2',
-      total:99,
+      total:trainingData.count_participant_status.completed,
       status:role === 'superadmin' ?   'Completed Training' : 'Completed'
     },
   ])
+  const [category, setCategory] = useState<any>()
+
+
+  const onLoad = () =>{
+    setStatusItems([
+      {
+        icon: 'ph:user-check',
+        iconColor:'#32497A',
+        bgColor:'#CBE2F9',
+        total: trainingData.count_participant_status.registered,
+        status: role === 'superadmin' ?  'Registered Participant' : 'Registered'
+      },
+      {
+        icon: 'material-symbols:pause-outline-rounded',
+        iconColor:'#FE9602',
+        bgColor:'#FCE9C8',
+        total:trainingData.count_participant_status.on_hold,
+        status:'Onhold'
+      },
+      {
+        icon: 'material-symbols:start',
+        iconColor:'#7B61FF',
+        bgColor:'#D7CBF9',
+        total:trainingData.count_participant_status.on_going,
+        status:'Ongoing'
+      },
+      {
+        icon: 'mingcute:check-fill',
+        iconColor:'#4CAF50',
+        bgColor:'#F4FEF2',
+        total:trainingData.count_participant_status.completed,
+        status:role === 'superadmin' ?   'Completed Training' : 'Completed'
+      },
+    ])
+    HttpClient.get('/training-category',{
+      take:20,
+      page:1
+    }).then(res => {
+      const data = res.data.trainingCategories.data
+
+      data.forEach((item : any, ) => {
+        if(trainingData.category_id === item.id) setCategory(item)
+      })
+    })
+  }
+
+  useEffect(() => {
+    onLoad()
+  },[])
+
 
 
   return (
@@ -65,9 +124,15 @@ const TrainingCard = ({ role, trainingData }: { role?: string, trainingData:Trai
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         {/* gabmabr & title */}
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: 4.5, }}>
-          <Box component='img' src={trainingData.thumbnail} alt='gambar test' sx={{objectFit:'cover', borderRadius:'7.7px', width:'117px', height:'120px'}} />
+          <Box component='img' src={trainingData.thumbnail} alt={trainingData.title} sx={{objectFit:'contain', borderRadius:'7.7px', width:'117px', height:'120px'}} />
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-            <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#404040' }}>{trainingData?.title}</Typography>
+            {elipsText(trainingData.title, 20) ? (
+              <Tooltip title={trainingData.title} arrow placement='top'>
+                <Link href={`/trainer/training/${trainingData.id}`}><Typography sx={{ fontSize: 18, fontWeight: 700, color: '#404040' }}>{elipsText(trainingData.title, 20)}</Typography></Link>
+              </Tooltip>
+            ) : (
+              <Link href={`/trainer/training/${trainingData.id}`}><Typography sx={{ fontSize: 18, fontWeight: 700, color: '#404040' }}>{trainingData.title}</Typography></Link>
+            )}
             <Typography
               sx={{
                 fontSize: 14,
@@ -79,13 +144,13 @@ const TrainingCard = ({ role, trainingData }: { role?: string, trainingData:Trai
                 gap: 1
               }}
             >
-              <Icon icon={'material-symbols:anchor'} /> General
+              <Icon icon={'material-symbols:anchor'} /> {category?.category}
             </Typography>
             {role === 'superadmin' && <Typography>{trainingData.trainer.name}</Typography>}
           </Box>
         </Box>
         {/* switch & menu */}
-        <MenuOption training={trainingData}/>
+        <MenuOption training={trainingData} refetch={refetch}/>
       </Box>
       {/* bagian tengah (status) */}
       <Grid
@@ -124,10 +189,43 @@ const TrainingCard = ({ role, trainingData }: { role?: string, trainingData:Trai
   )
 }
 
-const MenuOption = ({training} : {training: Training}) => {
+const MenuOption = ({training, refetch} : {training: Training, refetch:VoidFunction}) => {
   const [status, setStatus] = useState<boolean>(training.is_active as boolean)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
+  
+
+  const handleStatus = async (selectedId: number, currentStatus: boolean|undefined) => {
+    await HttpClient.put(`/training/${selectedId}/update-status`, {
+      is_active: !currentStatus
+    }).then(
+      () => {
+        toast.success('Status successfully changed!')
+        setStatus(!currentStatus)
+
+        setTimeout(() => {
+          refetch()
+        }, 500)
+      },
+      error => {
+        toast.error('Failed to change training status: ' + error.response.data.message)
+
+      }
+    )
+  }
+
+  const handleDelete = async (selectedId: number) => {
+    try {
+      await HttpClient.del(`/training/${selectedId}`)
+      toast.success('Training deleted successfully')
+
+      setTimeout(() => {
+        refetch()
+      }, 500)
+    } catch (error:any) {
+      toast.error('Error when deleting traning: ' + error.response.data.message)
+    }
+  }
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -140,7 +238,7 @@ const MenuOption = ({training} : {training: Training}) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center',position:'relative' }}>
       <Box
-        onClick={() => setStatus(!status)}
+        onClick={() => handleStatus(training.id, training.is_active)}
         sx={{
           position: 'relative',
           width: '84px',
@@ -188,16 +286,13 @@ const MenuOption = ({training} : {training: Training}) => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem component={Link} href={`#`} sx={{ color: '#428FDC' }}>
-          <Icon icon='tabler:eye-filled' fontSize={20} style={{ marginRight: 8 }} />
-          View Training Detail
-        </MenuItem>
-        <MenuItem component={Link} href={`#`} sx={{ color: '#404040' }}>
+        <MenuItem component={Link} href={`training-management/edit-training?id=${training.id}`} sx={{ color: '#404040' }}>
           <Icon icon='tabler:edit' fontSize={20} style={{ marginRight: 8 }} />
           Edit
         </MenuItem>
         <MenuItem
           onClick={() => {
+            handleDelete(training.id)
             handleClose()
           }}
           sx={{ color: '#FF2222' }}
@@ -238,9 +333,9 @@ const StatusCard = ({item} : {item : StatusProps}) => {
   )
 }
 
-const BookingSchemaSection = ({schema, training} : {schema: string, training?: Training}) => {
+ const BookingSchemaSection = ({schema, training} : {schema: string, training?: Training}) => {
 
-  const participantPercentage = ((training?.count_participant as number) / (training?.participants as number)) * 100
+  const participantPercentage = (  (training?.count_participant as number)) / (training?.participants as number) * 100
 
   const currentDate =  Date.now()
   const startDate = new Date(training?.start_date as string)
@@ -271,7 +366,7 @@ const BookingSchemaSection = ({schema, training} : {schema: string, training?: T
             </Typography>
           </Box>
           <Typography sx={{fontSize:12, fontWeight:700, color:'#404040'}}>
-            {training?.count_participant}/{training?.participants} quotas filled
+           {training?.count_participant}/{training?.participants} quotas filled
           </Typography>
           </Box>
           <LinearProgress variant="determinate" value={participantPercentage}/>
@@ -291,7 +386,7 @@ const BookingSchemaSection = ({schema, training} : {schema: string, training?: T
             </Typography>
           </Box>
           <Typography sx={{fontSize:12, fontWeight:700, color:'#404040'}}>
-            {daysLeft} to go
+            {daysLeft} {daysLeft == 'Expired' ? '' : 'to go'}
           </Typography>
           </Box>
           <LinearProgress variant="determinate" value={dateProgress(startDate, endDate) as number}/>
