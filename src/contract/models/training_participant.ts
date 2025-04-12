@@ -12,6 +12,19 @@ export type TrainingParticipantStatus =
     | 'complete'
     | 'canceled'
 
+export interface ParticipantStatusCount {
+    all: number;
+    unregistered?: number;
+    contacted?: number;
+    unpaid?: number;
+    paid?: number;
+    registered: number;
+    onhold: number;
+    ongoing: number;
+    complete: number;
+    canceled?: number;
+}
+
 export interface ITrainingParticipant {
     id: number
     user_id: number

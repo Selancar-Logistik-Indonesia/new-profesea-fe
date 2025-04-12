@@ -22,7 +22,7 @@ const schemeStyles = {
   }
 }
 
-const TrainingCard = ({ training }: { training: Training }) => {
+const TrainingCard = ({ pageView = 'trainer', training }: { pageView?: string; training: Training }) => {
   const posted_at = new Date(training.start_date ?? '')
   const expired_at = new Date(training.end_date ?? '')
   const progress = calculateDaysDifference(Date.now(), expired_at)
@@ -87,14 +87,14 @@ const TrainingCard = ({ training }: { training: Training }) => {
                     <Box
                       sx={{
                         borderRadius: '8px',
-                        width: `${(10 / training.participants) * 100}%`,
+                        width: `${(training.count_participant / training.participants) * 100}%`,
                         height: '6px',
                         backgroundColor: progress === 'Expired' || training.is_active === false ? '#868686' : '#0B58A6'
                       }}
                     />
                   </Box>
                   <Typography sx={{ fontSize: 12, fontWeight: 700, fontColor: '#404040' }}>
-                    10/{training.participants} Quota Filled
+                    {training.count_participant}/{training.participants} Quota Filled
                   </Typography>
                 </Box>
               ) : training.booking_scheme === 'fixed_date' ? (
@@ -138,22 +138,26 @@ const TrainingCard = ({ training }: { training: Training }) => {
             iconColor='#32497A'
           />
           <Divider sx={{ borderWidth: '1px', bgcolor: '#E7E7E7' }} />
-          <StatusCard
-            label='Onhold'
-            total={training.count_participant_status.on_hold}
-            backgroundColor='#FCE9C8'
-            icon='material-symbols:pause-outline-rounded'
-            iconColor='#FE9602'
-          />
-          <Divider sx={{ borderWidth: '1px', bgcolor: '#E7E7E7' }} />
-          <StatusCard
-            label='Ongoing'
-            total={training.count_participant_status.on_going}
-            backgroundColor='#D7CBF9'
-            icon='material-symbols:start'
-            iconColor='#7B61FF'
-          />
-          <Divider sx={{ borderWidth: '1px', bgcolor: '#E7E7E7' }} />
+          {pageView === 'trainer' && (
+            <>
+              <StatusCard
+                label='Onhold'
+                total={training.count_participant_status.on_hold}
+                backgroundColor='#FCE9C8'
+                icon='material-symbols:pause-outline-rounded'
+                iconColor='#FE9602'
+              />
+              <Divider sx={{ borderWidth: '1px', bgcolor: '#E7E7E7' }} />
+              <StatusCard
+                label='Ongoing'
+                total={training.count_participant_status.on_going}
+                backgroundColor='#D7CBF9'
+                icon='material-symbols:start'
+                iconColor='#7B61FF'
+              />
+              <Divider sx={{ borderWidth: '1px', bgcolor: '#E7E7E7' }} />
+            </>
+          )}
           <StatusCard
             label='Completed'
             total={training.count_participant_status.completed}

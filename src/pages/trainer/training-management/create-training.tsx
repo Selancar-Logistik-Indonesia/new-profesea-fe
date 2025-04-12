@@ -2,14 +2,10 @@ import { Box, Breadcrumbs, Link, Typography } from '@mui/material'
 import { MdNavigateNext } from 'react-icons/md'
 import TrainingForm from 'src/views/training-management/TrainingForm'
 
-
-
 const CreateTraining = () => {
-    
-
   return (
     <Box>
-        {/* breadcrumbs */}
+      {/* breadcrumbs */}
       <Box>
         <Breadcrumbs separator={<MdNavigateNext fontSize={'17px'} color='black' />} aria-label='breadcrumb'>
           <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
@@ -48,12 +44,10 @@ const CreateTraining = () => {
         </Breadcrumbs>
       </Box>
       {/* create training card */}
-      <TrainingForm type="create"/>
+      <TrainingForm type='create' />
     </Box>
   )
 }
-
-
 
 CreateTraining.acl = {
   action: 'read',

@@ -16,18 +16,43 @@ import { useEffect, useRef, useState } from 'react'
 import CustomTabs from 'src/@core/components/custom-tabs'
 import CustomPaginationItem from 'src/@core/components/pagination/item'
 import { AppConfig } from 'src/configs/api'
+import Training from 'src/contract/models/training'
 import ITrainingParticipant from 'src/contract/models/training_participant'
 import { HttpClient } from 'src/services'
+import AdminCandidate from '../admin/AdminCandidate'
+import AdminStatusFilter from '../admin/AdminStatusFilter'
 import Candidate from './Candidate'
 
-const tabItems = [
+const tabItemsAdmin = (training: Training) => {
+  return [
+    { label: 'All', value: 'all', count: training.count_participant },
+    { label: 'Waiting', value: 'unregistered', count: training.count_participant_status.unregistered },
+    { label: 'Verifying', value: 'contacted', count: training.count_participant_status.contacted },
+    { label: 'Unpaid', value: 'unpaid', count: training.count_participant_status.unpaid },
+    { label: 'Paid', value: 'paid', count: training.count_participant_status.paid },
+    { label: 'Registered', value: 'registered', count: training.count_participant_status.registered },
+    { label: 'Onhold', value: 'onhold', count: training.count_participant_status.on_hold },
+    { label: 'Ongoing', value: 'ongoing', count: training.count_participant_status.on_going },
+    { label: 'Completed', value: 'complete', count: training.count_participant_status.completed }
+  ]
+}
+
+const tabItemsTrainer = [
   { label: 'Registered Participant', value: 'registered' },
   { label: 'Onhold', value: 'onhold' },
   { label: 'Ongoing', value: 'ongoing' },
   { label: 'Training Completed', value: 'complete' }
 ]
 
-const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
+const CandidateListTabs = ({
+  training,
+  pageView = 'trainer',
+  count
+}: {
+  training?: Training
+  pageView?: string
+  count: VoidFunction
+}) => {
   const searchParams = useSearchParams()
   const tabStatus = searchParams.get('tabs')
   const trainingId = searchParams.get('id')
@@ -56,7 +81,7 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
       take: pageItems,
       search,
       sort,
-      status: tabs
+      status: tabs !== 'all' ? tabs : null
     }).then(response => {
       setCandidateList(response.data.participants.data)
       setTotalCandidates(response.data.participants.total)
@@ -75,7 +100,7 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
       setTabs(tabStatus ?? 'registered')
       prevTabStatus.current = tabStatus
     } else {
-      router.replace(`/trainer/training-management/${trainingId}/?tabs=${tabs}`, undefined, {
+      router.replace(`/${pageView}/training-management/${trainingId}/?tabs=${tabs}`, undefined, {
         shallow: true,
         scroll: false
       })
@@ -98,7 +123,11 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
         overflow: 'hidden'
       }}
     >
-      <CustomTabs tabs={tabs} setTabs={setTabs} tabItems={tabItems} />
+      {pageView === 'admin' ? (
+        <AdminStatusFilter tabs={tabs} setTabs={setTabs} tabItems={tabItemsAdmin(training!)} />
+      ) : (
+        <CustomTabs tabs={tabs} setTabs={setTabs} tabItems={tabItemsTrainer} />
+      )}
       <Grid container sx={{ display: 'flex', px: '24px', flexDirection: 'column', gap: '24px' }}>
         <Box sx={{ display: 'flex', gap: '70px' }}>
           <TextField
@@ -172,7 +201,11 @@ const CandidateListTabs = ({ count }: { count: VoidFunction }) => {
         </Grid>
       ) : (
         <>
-          <Candidate candidates={candidateList} />
+          {pageView === 'admin' ? (
+            <AdminCandidate candidates={candidateList} />
+          ) : (
+            <Candidate candidates={candidateList} />
+          )}
           <Grid container justifyContent='center' sx={{ mb: '24px' }}>
             <Pagination
               size='small'
