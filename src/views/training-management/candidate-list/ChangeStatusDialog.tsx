@@ -41,10 +41,10 @@ const ChangeStatusDialog = (props: DialogProps) => {
     })
       .then(
         async () => {
-          toast.success(`Successfully proceed ${candidate.user.name}`)
+          toast.success(`Successfully proceed ${candidate.fullname}`)
         },
         error => {
-          toast.error(`Failed to change ${candidate.user.name} status: ` + error.response.data.message)
+          toast.error(`Failed to change ${candidate.fullname} status: ` + error.response.data.message)
         }
       )
       .finally(async () => {

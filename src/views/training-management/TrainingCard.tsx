@@ -1,5 +1,16 @@
 import { Icon } from '@iconify/react'
-import { Box, Divider, Grid, IconButton, LinearProgress, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
+import {
+  Avatar,
+  Box,
+  Divider,
+  Grid,
+  IconButton,
+  LinearProgress,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography
+} from '@mui/material'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -7,142 +18,161 @@ import Training from 'src/contract/models/training'
 import { HttpClient } from 'src/services'
 import { calculateDaysDifference, dateProgress, getDateMonth } from 'src/utils/helpers'
 
-
 type StatusProps = {
   icon: string
   iconColor: string
   bgColor: string
-  total:number
-  status:string,
+  total: number
+  status: string
   link: string
 }
 
-const elipsText = (text:string, maxLength:number) =>{
-
+const elipsText = (text: string, maxLength: number) => {
   if (text.length <= maxLength) return null
 
   return text.slice(0, maxLength - 3) + '...'
 }
 
-const TrainingCard = ({ role, trainingData, refetch }: { role?: string, trainingData:Training, refetch: VoidFunction }) => {
-
+const TrainingCard = ({
+  pageView = 'trainer',
+  trainingData,
+  refetch
+}: {
+  pageView?: string
+  trainingData: Training
+  refetch: VoidFunction
+}) => {
   const [statusItems, setStatusItems] = useState<StatusProps[]>([
     {
       icon: 'ph:user-check',
-      iconColor:'#32497A',
-      bgColor:'#CBE2F9',
+      iconColor: '#32497A',
+      bgColor: '#CBE2F9',
       total: trainingData.count_participant_status.registered,
-      status: role === 'superadmin' ?  'Registered Participant' : 'Registered',
-      link: 'registered',
-      
+      status: pageView === 'admin' ? 'Registered Participant' : 'Registered',
+      link: 'registered'
     },
     {
       icon: 'material-symbols:pause-outline-rounded',
-      iconColor:'#FE9602',
-      bgColor:'#FCE9C8',
-      total:trainingData.count_participant_status.on_hold,
-      status:'Onhold',
+      iconColor: '#FE9602',
+      bgColor: '#FCE9C8',
+      total: trainingData.count_participant_status.on_hold,
+      status: 'Onhold',
       link: 'onhold'
     },
     {
       icon: 'material-symbols:start',
-      iconColor:'#7B61FF',
-      bgColor:'#D7CBF9',
-      total:trainingData.count_participant_status.on_going,
-      status:'Ongoing',
+      iconColor: '#7B61FF',
+      bgColor: '#D7CBF9',
+      total: trainingData.count_participant_status.on_going,
+      status: 'Ongoing',
       link: 'ongoing'
     },
     {
       icon: 'mingcute:check-fill',
-      iconColor:'#4CAF50',
-      bgColor:'#F4FEF2',
-      total:trainingData.count_participant_status.completed,
-      status:role === 'superadmin' ?   'Completed Training' : 'Completed',
+      iconColor: '#4CAF50',
+      bgColor: '#F4FEF2',
+      total: trainingData.count_participant_status.completed,
+      status: pageView === 'admin' ? 'Completed Training' : 'Completed',
       link: 'complete'
-    },
+    }
   ])
-  const [category, setCategory] = useState<any>()
 
-
-  const onLoad = () =>{
+  const onLoad = () => {
     setStatusItems([
       {
         icon: 'ph:user-check',
-        iconColor:'#32497A',
-        bgColor:'#CBE2F9',
+        iconColor: '#32497A',
+        bgColor: '#CBE2F9',
         total: trainingData.count_participant_status.registered,
-        status: role === 'superadmin' ?  'Registered Participant' : 'Registered',
-        link: 'registered',
+        status: pageView === 'admin' ? 'Registered Participant' : 'Registered',
+        link: 'registered'
       },
       {
         icon: 'material-symbols:pause-outline-rounded',
-        iconColor:'#FE9602',
-        bgColor:'#FCE9C8',
-        total:trainingData.count_participant_status.on_hold,
-        status:'Onhold',
+        iconColor: '#FE9602',
+        bgColor: '#FCE9C8',
+        total: trainingData.count_participant_status.on_hold,
+        status: 'Onhold',
         link: 'onhold'
       },
       {
         icon: 'material-symbols:start',
-        iconColor:'#7B61FF',
-        bgColor:'#D7CBF9',
-        total:trainingData.count_participant_status.on_going,
-        status:'Ongoing',
+        iconColor: '#7B61FF',
+        bgColor: '#D7CBF9',
+        total: trainingData.count_participant_status.on_going,
+        status: 'Ongoing',
         link: 'ongoing'
       },
       {
         icon: 'mingcute:check-fill',
-        iconColor:'#4CAF50',
-        bgColor:'#F4FEF2',
-        total:trainingData.count_participant_status.completed,
-        status:role === 'superadmin' ?   'Completed Training' : 'Completed',
+        iconColor: '#4CAF50',
+        bgColor: '#F4FEF2',
+        total: trainingData.count_participant_status.completed,
+        status: pageView === 'admin' ? 'Completed Training' : 'Completed',
         link: 'complete'
-      },
+      }
     ])
-    HttpClient.get('/training-category',{
-      take:20,
-      page:1
-    }).then(res => {
-      const data = res.data.trainingCategories.data
-
-      data.forEach((item : any, ) => {
-        if(trainingData.category_id === item.id) setCategory(item)
-      })
-    })
   }
 
   useEffect(() => {
     onLoad()
-  },[])
-
-
+  }, [])
 
   return (
     <Box
       sx={{
-        padding:'.4rem 1rem',
-        backgroundColor:'#FFFFFF',
+        padding: '16px',
+        backgroundColor: '#FFFFFF',
         display: 'flex',
         flexDirection: 'column',
         gap: 3,
         border: '1px solid #E7E7E7',
         borderRadius: '8px',
         boxShadow: '0px 2px 10px 0px #00000014',
-        flex:1
+        flex: 1
       }}
     >
       {/* bagian atas */}
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        {/* gabmabr & title */}
-        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 4.5, }}>
-          <Box component='img' src={trainingData.thumbnail} alt={trainingData.title} sx={{objectFit:'contain', borderRadius:'7.7px', width:'117px', height:'120px'}} />
+        {/* gambar & title */}
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 4.5 }}>
+          <Box
+            component='img'
+            src={trainingData.thumbnail}
+            alt={trainingData.title}
+            sx={{
+              objectFit: 'contain',
+              borderRadius: '7.7px',
+              width: '117px',
+              height: '120px',
+              backgroundColor: '#E7E7E7'
+            }}
+          />
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             {elipsText(trainingData.title, 20) ? (
               <Tooltip title={trainingData.title} arrow placement='top'>
-                <Link href={`/trainer/training/${trainingData.id}`}><Typography sx={{ fontSize: 18, fontWeight: 700, color: '#404040' }}>{elipsText(trainingData.title, 20)}</Typography></Link>
+                <Link
+                  href={
+                    pageView === 'admin'
+                      ? `/admin/training-management/${trainingData.id}/?tabs=all`
+                      : `/trainer/training/${trainingData.id}`
+                  }
+                >
+                  <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#404040' }}>
+                    {elipsText(trainingData.title, 20)}
+                  </Typography>
+                </Link>
               </Tooltip>
             ) : (
-              <Link href={`/trainer/training/${trainingData.id}`}><Typography sx={{ fontSize: 18, fontWeight: 700, color: '#404040' }}>{trainingData.title}</Typography></Link>
+              <Link
+                href={
+                  pageView === 'admin'
+                    ? `/admin/training-management/${trainingData.id}/?tabs=all`
+                    : `/trainer/training/${trainingData.id}`
+                }
+              >
+                <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#404040' }}>{trainingData.title}</Typography>
+              </Link>
             )}
             <Typography
               sx={{
@@ -155,13 +185,18 @@ const TrainingCard = ({ role, trainingData, refetch }: { role?: string, training
                 gap: 1
               }}
             >
-              <Icon icon={'material-symbols:anchor'} /> {category?.category}
+              <Icon icon={'material-symbols:anchor'} /> {trainingData.category.category}
             </Typography>
-            {role === 'superadmin' && <Typography>{trainingData.trainer.name}</Typography>}
+            {pageView === 'admin' && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Avatar sx={{ width: 16, height: 16 }} src={trainingData.trainer.photo} />
+                <Typography sx={{ fontSize: 14, color: '#2D3436' }}>{trainingData.trainer.name}</Typography>
+              </Box>
+            )}
           </Box>
         </Box>
         {/* switch & menu */}
-        <MenuOption training={trainingData} refetch={refetch}/>
+        <MenuOption training={trainingData} refetch={refetch} />
       </Box>
       {/* bagian tengah (status) */}
       <Grid
@@ -175,38 +210,34 @@ const TrainingCard = ({ role, trainingData, refetch }: { role?: string, training
         }}
       >
         {statusItems.map((item, i) => {
-          if(role === 'superadmin' && (i === 1 || i === 2)){
-
+          if (pageView === 'admin' && (i === 1 || i === 2)) {
             return <></>
           }
 
-          if(i === 3){
-
-            return <StatusCard key={i} item={item} training={trainingData}/>
+          if (i === 3) {
+            return <StatusCard key={i} item={item} training={trainingData} />
           }
 
           return (
             <>
-              <StatusCard key={i} item={item} training={trainingData}/>
+              <StatusCard key={i} item={item} training={trainingData} />
               <Divider sx={{ borderWidth: '1px', bgcolor: '#E7E7E7' }} />
             </>
           )
         })}
-        
       </Grid>
       {/* bagian bawah (booking schema) */}
-      <BookingSchemaSection schema={trainingData.booking_scheme} training={trainingData}/>
+      <BookingSchemaSection schema={trainingData.booking_scheme} training={trainingData} />
     </Box>
   )
 }
 
-const MenuOption = ({training, refetch} : {training: Training, refetch:VoidFunction}) => {
+const MenuOption = ({ training, refetch }: { training: Training; refetch: VoidFunction }) => {
   const [status, setStatus] = useState<boolean>(training.is_active as boolean)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
-  
 
-  const handleStatus = async (selectedId: number, currentStatus: boolean|undefined) => {
+  const handleStatus = async (selectedId: number, currentStatus: boolean | undefined) => {
     await HttpClient.put(`/training/${selectedId}/update-status`, {
       is_active: !currentStatus
     }).then(
@@ -220,7 +251,6 @@ const MenuOption = ({training, refetch} : {training: Training, refetch:VoidFunct
       },
       error => {
         toast.error('Failed to change training status: ' + error.response.data.message)
-
       }
     )
   }
@@ -233,7 +263,7 @@ const MenuOption = ({training, refetch} : {training: Training, refetch:VoidFunct
       setTimeout(() => {
         refetch()
       }, 500)
-    } catch (error:any) {
+    } catch (error: any) {
       toast.error('Error when deleting traning: ' + error.response.data.message)
     }
   }
@@ -247,7 +277,7 @@ const MenuOption = ({training, refetch} : {training: Training, refetch:VoidFunct
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center',position:'relative' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center', position: 'relative' }}>
       <Box
         onClick={() => handleStatus(training.id, training.is_active)}
         sx={{
@@ -261,7 +291,7 @@ const MenuOption = ({training, refetch} : {training: Training, refetch:VoidFunct
           borderRadius: '100px',
           cursor: 'pointer',
           transition: 'background-color 0.3s ease, padding 0.5s ease',
-          top:-45
+          top: -45
         }}
       >
         <Typography
@@ -287,7 +317,7 @@ const MenuOption = ({training, refetch} : {training: Training, refetch:VoidFunct
           }}
         />
       </Box>
-      <IconButton onClick={handleOpen} sx={{top:-45, position:'relative'}}>
+      <IconButton onClick={handleOpen} sx={{ top: -45, position: 'relative' }}>
         <Icon icon='tabler:dots' fontSize={24} color='#868686' />
       </IconButton>
       <Menu
@@ -297,7 +327,11 @@ const MenuOption = ({training, refetch} : {training: Training, refetch:VoidFunct
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem component={Link} href={`training-management/edit-training?id=${training.id}`} sx={{ color: '#404040' }}>
+        <MenuItem
+          component={Link}
+          href={`training-management/edit-training?id=${training.id}`}
+          sx={{ color: '#404040' }}
+        >
           <Icon icon='tabler:edit' fontSize={20} style={{ marginRight: 8 }} />
           Edit
         </MenuItem>
@@ -316,11 +350,10 @@ const MenuOption = ({training, refetch} : {training: Training, refetch:VoidFunct
   )
 }
 
-const StatusCard = ({item, training} : {item : StatusProps, training: Training}) => {
-
+const StatusCard = ({ item, training }: { item: StatusProps; training: Training }) => {
   return (
-    <Box sx={{ p: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px', flex:1 }}>
-      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems:'center' }}>
+    <Box sx={{ p: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box
           sx={{
             width: 'fit-content',
@@ -345,66 +378,64 @@ const StatusCard = ({item, training} : {item : StatusProps, training: Training})
   )
 }
 
- const BookingSchemaSection = ({schema, training} : {schema: string, training?: Training}) => {
+const BookingSchemaSection = ({ schema, training }: { schema: string; training?: Training }) => {
+  const participantPercentage = ((training?.count_participant as number) / (training?.participants as number)) * 100
 
-  const participantPercentage = (  (training?.count_participant as number)) / (training?.participants as number) * 100
-
-  const currentDate =  Date.now()
+  const currentDate = Date.now()
   const startDate = new Date(training?.start_date as string)
   const endDate = new Date(training?.end_date as string)
   const daysLeft = calculateDaysDifference(currentDate, endDate)
 
-  return(
-    <Box sx={{display:'flex', flexDirection:'column', gap:2, padding:'1rem'}}>
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, padding: '1rem' }}>
       {schema === 'instant_access' && (
         <>
-          <Box sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:2}}>
-            <Icon icon={'material-symbols:rocket'} color='#4CAF50' fontSize={22}/>
-            <Typography sx={{fontSize:14, fontWeight:700, color:'#4CAF50'}}>
-              Instant Access
-            </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+            <Icon icon={'material-symbols:rocket'} color='#4CAF50' fontSize={22} />
+            <Typography sx={{ fontSize: 14, fontWeight: 700, color: '#4CAF50' }}>Instant Access</Typography>
           </Box>
-          <Typography sx={{fontSize:12, fontWeigth:400, color:'#1F1F1F'}}>Participant can start anytime without waiting for a schedule or quota.</Typography>
+          <Typography sx={{ fontSize: 12, fontWeigth: 400, color: '#1F1F1F' }}>
+            Participant can start anytime without waiting for a schedule or quota.
+          </Typography>
         </>
       )}
 
       {schema === 'quota_based' && (
         <>
-          <Box sx={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'space-between', mt:3}}>
-          <Box sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:2}}>
-            <Icon icon={'mdi:users'} color='#FF9800' fontSize={22}/>
-            <Typography sx={{fontSize:14, fontWeight:700, color:'#FF9800'}}>
-              Quota Based
+          <Box
+            sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', mt: 3 }}
+          >
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+              <Icon icon={'mdi:users'} color='#FF9800' fontSize={22} />
+              <Typography sx={{ fontSize: 14, fontWeight: 700, color: '#FF9800' }}>Quota Based</Typography>
+            </Box>
+            <Typography sx={{ fontSize: 12, fontWeight: 700, color: '#404040' }}>
+              {training?.count_participant}/{training?.participants} quotas filled
             </Typography>
           </Box>
-          <Typography sx={{fontSize:12, fontWeight:700, color:'#404040'}}>
-           {training?.count_participant}/{training?.participants} quotas filled
-          </Typography>
-          </Box>
-          <LinearProgress variant="determinate" value={participantPercentage}/>
+          <LinearProgress variant='determinate' value={participantPercentage} />
         </>
       )}
 
       {schema === 'fixed_date' && (
         <>
-          <Box sx={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'space-between', mt:3}}>
-          <Box sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:2}}>
-            <Icon icon={'ph:calendar-dots'} color='#2662EC' fontSize={22}/>
-            <Typography sx={{fontSize:14, fontWeight:700, color:'#2662EC'}}>
-              Fixed Date
-            </Typography>
-            <Typography sx={{fontSize:14, fontWeight:400, color:'#525252'}}>
-              Start at {getDateMonth(startDate, true, false)} - Close at {getDateMonth(endDate, true, false)}
+          <Box
+            sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', mt: 3 }}
+          >
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+              <Icon icon={'ph:calendar-dots'} color='#2662EC' fontSize={22} />
+              <Typography sx={{ fontSize: 14, fontWeight: 700, color: '#2662EC' }}>Fixed Date</Typography>
+              <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#525252' }}>
+                Start at {getDateMonth(startDate, true, false)} - Close at {getDateMonth(endDate, true, false)}
+              </Typography>
+            </Box>
+            <Typography sx={{ fontSize: 12, fontWeight: 700, color: '#404040' }}>
+              {daysLeft} {daysLeft == 'Expired' ? '' : 'to go'}
             </Typography>
           </Box>
-          <Typography sx={{fontSize:12, fontWeight:700, color:'#404040'}}>
-            {daysLeft} {daysLeft == 'Expired' ? '' : 'to go'}
-          </Typography>
-          </Box>
-          <LinearProgress variant="determinate" value={dateProgress(startDate, endDate) as number}/>
+          <LinearProgress variant='determinate' value={dateProgress(startDate, endDate) as number} />
         </>
       )}
-
     </Box>
   )
 }

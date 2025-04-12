@@ -78,7 +78,15 @@ const acceptFile = {
   'image/*': ['.png', '.jpg', '.webp', '.jpeg']
 }
 
-const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?: Training }) => {
+const TrainingForm = ({
+  pageView = 'trainer',
+  type,
+  training
+}: {
+  pageView?: string
+  type?: 'create' | 'edit'
+  training?: Training
+}) => {
   const {
     control,
     setValue,
@@ -95,6 +103,7 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
   //   form items
   const [selectedScheme, setSelectedScheme] = useState<string>('')
   const [categories, setCategories] = useState<TrainingCategory[] | null>(null)
+  const [trainerData, setTrainerData] = useState<IUser[] | null>()
   const [trainingDescription, setTrainingDescription] = useState(EditorState.createEmpty())
   const [trainingRequirement, setTrainingRequirement] = useState(EditorState.createEmpty())
   const [isActive, setIsActive] = useState<boolean | undefined>(true)
@@ -106,11 +115,10 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
   const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
 
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const selectedFile: any = e.target.files
-      onDrop(selectedFile)
-    }
+    const selectedFile: any = e.target.files
+    onDrop(selectedFile)
+  }
 
   const populateData = () => {
     if (type === 'edit' && training) {
@@ -125,6 +133,9 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
       setValue('endDate', training.end_date as string)
       setAttachmentUrl(training.thumbnail)
       setSelectedScheme(training.booking_scheme)
+      if (pageView === 'admin') {
+        setValue('trainerId', training.user_id)
+      }
       if (training.short_description) {
         const contentBlock = convertFromHTML(training.short_description).contentBlocks
         if (contentBlock) {
@@ -145,6 +156,16 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
   }
 
   const firstLoad = () => {
+    HttpClient.get('/training/trainer', { page: 1, take: 1000 }).then(
+      async response => {
+        const trainers = await response.data.training.data
+        setTrainerData(trainers)
+      },
+      error => {
+        toast.error('Failed to get trainer data: ' + error.response.data.message)
+      }
+    )
+
     HttpClient.get('/training-category', {
       take: 10,
       page: 1
@@ -154,13 +175,27 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
     })
   }
 
-  useEffect(() => {
+  const loadAndPopulate = async () => {
+    await firstLoad()
     populateData()
-    firstLoad()
+  }
+
+  useEffect(() => {
+    loadAndPopulate()
   }, [training])
 
   const onSubmit = (data: FormDataTraining) => {
-    const { trainingTitle, trainingCategory, price, currency, discounted, startDate, endDate, participants } = data
+    const {
+      trainingTitle,
+      trainingCategory,
+      price,
+      currency,
+      discounted,
+      startDate,
+      endDate,
+      participants,
+      trainerId
+    } = data
 
     const description = trainingDescription.getCurrentContent()
     const requirement = trainingRequirement.getCurrentContent()
@@ -202,7 +237,7 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
       start_date: selectedScheme === 'fixed_date' ? date_start : null,
       end_date: selectedScheme === 'fixed_date' ? date_end : null,
       is_active: isActive ? '1' : '0',
-      user_id: user.id,
+      user_id: pageView === 'trainer' ? user.id : trainerId,
       schedule: '2025-09-06'
     }
 
@@ -317,6 +352,44 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
         </Box>
         {/* training details */}
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '0px 1.9rem' }}>
+          {pageView === 'admin' && (
+            <Box>
+              <FormControl fullWidth error={!!errors.trainerId}>
+                <Typography sx={{ mb: '8px', color: '#1F1F1F', fontSize: 16, fontWeight: 700 }}>
+                  Company Name
+                </Typography>
+                <Controller
+                  name='trainerId'
+                  control={control}
+                  render={({ field }) => (
+                    <Autocomplete
+                      {...field}
+                      autoHighlight
+                      options={trainerData || []}
+                      getOptionLabel={option => option.name || ''}
+                      value={trainerData?.find(data => data.id == field.value || data.id)}
+                      isOptionEqualToValue={(option, value) => option.id === value.id}
+                      renderInput={field => (
+                        <TextField
+                          {...field}
+                          size='small'
+                          placeholder='Company Name'
+                          error={!!errors.trainerId}
+                          helperText={errors.trainerId?.message}
+                        />
+                      )}
+                      renderOption={(props, option) => (
+                        <MenuItem {...props} key={option.id} value={option.id}>
+                          {option.name}
+                        </MenuItem>
+                      )}
+                      noOptionsText='Hasil pencaian tidak ditemukan. Coba gunakan kata kunci lain atau periksa kembali pencarian Anda'
+                    />
+                  )}
+                />
+              </FormControl>
+            </Box>
+          )}
           <Grid container spacing={4}>
             <Grid item xs={selectedScheme === 'quota_based' ? 10 : 12}>
               <FormControl fullWidth error={!!errors.trainingTitle}>
@@ -584,7 +657,13 @@ const TrainingForm = ({ type, training }: { type?: 'create' | 'edit'; training?:
           {attachment || attachmentUrl ? (
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}>
               <Box component='img' src={attachmentUrl} sx={{ width: '110px', height: '110px', objectFit: 'contain' }} />
-              <input type='file' ref={inputRef} style={{ display: 'none' }} onChange={(e) => handleChange(e)} accept=".jpg, .jpeg, .png"/>
+              <input
+                type='file'
+                ref={inputRef}
+                style={{ display: 'none' }}
+                onChange={e => handleChange(e)}
+                accept='.jpg, .jpeg, .png'
+              />
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <Typography sx={{ fontSize: 16, fontWeight: 700, color: '#1F1F1F' }}>Thumbnail</Typography>
                 <Typography sx={{ fontSize: 14, fontWeight: 700, color: '#525252' }}>Recomended 500 x 500</Typography>

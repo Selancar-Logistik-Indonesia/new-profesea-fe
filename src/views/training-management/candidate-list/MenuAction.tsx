@@ -3,6 +3,7 @@ import { Divider, IconButton, Menu, MenuItem } from '@mui/material'
 import { useState } from 'react'
 import ITrainingParticipant from 'src/contract/models/training_participant'
 import { useAuth } from 'src/hooks/useAuth'
+import EditCandidateDialog from '../admin/EditCandidateDialog'
 import CancelDialog from './CancelDialog'
 import ChangeStatusDialog from './ChangeStatusDialog'
 
@@ -16,6 +17,7 @@ const MenuAction = ({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const [status, setStatus] = useState<string>('')
+  const [openEditModal, setOpenEditModal] = useState(false)
   const [openChangeStatusModal, setOpenChangeStatusModal] = useState(false)
   const [openCancelStatusModal, setOpenCancelStatusModal] = useState(false)
 
@@ -48,7 +50,7 @@ const MenuAction = ({
       >
         {user?.team_id === 1 && (
           <>
-            <MenuItem onClick={() => setOpenCancelStatusModal(true)} sx={{ color: '#404040' }}>
+            <MenuItem onClick={() => setOpenEditModal(true)} sx={{ color: '#404040' }}>
               <Icon icon='lucide:edit' fontSize={20} style={{ marginRight: 8 }} />
               Edit
             </MenuItem>
@@ -76,6 +78,14 @@ const MenuAction = ({
           </>
         )}
       </Menu>
+      {openEditModal && (
+        <EditCandidateDialog
+          candidate={candidate}
+          visible={openEditModal}
+          onCloseClick={() => setOpenEditModal(false)}
+          changeParams={changeParams}
+        />
+      )}
       {openCancelStatusModal && (
         <CancelDialog
           candidate={candidate}
