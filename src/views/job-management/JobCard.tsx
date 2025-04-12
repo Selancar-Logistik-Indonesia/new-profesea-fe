@@ -196,7 +196,14 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
             {boost_expired_at} left
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: boosted ? '8px' : job.is_draft ? '34.5px' :'18px', padding: '16px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: boosted ? '8px' : job.is_draft ? '34.5px' : '18px',
+            padding: '16px'
+          }}
+        >
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
             <Typography
               component={job.is_draft ? Box : Link}
