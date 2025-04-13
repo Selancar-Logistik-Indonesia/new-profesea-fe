@@ -298,7 +298,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
         )
         .finally(() => setOnLoading(false))
     } else {
-      console.log('data yang dikirim: ', json)
+
       HttpClient.post('/job', json)
         .then(
           () => {

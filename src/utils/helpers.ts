@@ -124,6 +124,19 @@ function formatIDR(amount: number, isIdr?: boolean) {
 
   return price
 }
+function formatUSD(amount: number, isUsd?: boolean) {
+  const options: Intl.NumberFormatOptions = {
+    style: 'currency',
+    currency: 'USD'
+  }
+  const price = new Intl.NumberFormat('en-US', options).format(amount)
+
+  if (isUsd) {
+    return price.replace('$', 'USD ')
+  }
+
+  return price
+}
 
 function isDevelopment() {
   return AppConfig.appEnv == 'DEV'
@@ -480,6 +493,7 @@ export {
   getUserRoleName,
   getOnboardingLink,
   formatIDR,
+  formatUSD,
   isStaging,
   isDevelopment,
   isProduction,
