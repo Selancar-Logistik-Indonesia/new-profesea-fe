@@ -252,15 +252,17 @@ const TrainingForm = ({
     if (attachment) formData.append('thumbnail', attachment)
 
     setLoading(true)
+
     if (type === 'edit' && training) {
       HttpClient.post(`/training/${training.id}`, formData)
         .then(
           () => {
             toast.success(`${training.title} edited successfully!`)
-            router.push('/trainer/training-management')
+            if (pageView === 'trainer') router.push('/trainer/training-management')
+            else router.push('/admin/training-management')
           },
           error => {
-            toast.error('Failed to save training: ' + error.response.data.message)
+            toast.error('Failed to save training: ' + error.response?.data?.message)
             console.log(error)
           }
         )
@@ -270,10 +272,11 @@ const TrainingForm = ({
         .then(
           () => {
             toast.success(`${trainingTitle} submited successfully!`)
-            router.push('/trainer/training-management')
+            if (pageView === 'trainer') router.push('/trainer/training-management')
+            else router.push('/admin/training-management')
           },
           error => {
-            toast.error('Failed to save training: ' + error.response.data.message)
+            toast.error('Failed to save training: ' + error?.response?.data?.message)
             console.log(error)
           }
         )
@@ -373,7 +376,7 @@ const TrainingForm = ({
                         <TextField
                           {...field}
                           size='small'
-                          placeholder='Company Name'
+                          placeholder={training && training.trainer ? training.trainer.name : 'Company Name'}
                           error={!!errors.trainerId}
                           helperText={errors.trainerId?.message}
                         />
@@ -457,7 +460,7 @@ const TrainingForm = ({
                       <TextField
                         {...field}
                         size='small'
-                        placeholder='Training Category'
+                        placeholder={training?.category ? training.category.category : 'Training Category'}
                         error={!!errors.trainingCategory}
                         helperText={errors.trainingCategory?.message}
                       />
@@ -753,7 +756,11 @@ const TrainingForm = ({
             container
             sx={{ display: 'flex', gap: '24px', alignItems: 'center', justifyContent: 'right', mt: 5 }}
           >
-            <Typography component={Link} href='/trainer/training-management' sx={{ color: '#868686', fontSize: 14 }}>
+            <Typography
+              component={Link}
+              href={pageView === 'trainer' ? '/trainer/training-management' : '/admin/training-management'}
+              sx={{ color: '#868686', fontSize: 14 }}
+            >
               Cancel
             </Typography>
 
