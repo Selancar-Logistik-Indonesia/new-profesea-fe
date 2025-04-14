@@ -1,4 +1,6 @@
+import { Icon } from '@iconify/react'
 import {
+  Button,
   Paper,
   styled,
   Table,
@@ -16,6 +18,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import ITrainingParticipant from 'src/contract/models/training_participant'
 import MenuAction from '../candidate-list/MenuAction'
+import ChangeScheduleDialog from './ChangeScheduleDialog'
 import StatusDropdown from './StatusDropdown'
 
 interface CandidateProps {
@@ -45,6 +48,7 @@ const AdminCandidate = (props: CandidateProps) => {
 
   const { candidates } = props
   const [showShadow, setShowShadow] = useState(false)
+  const [openSetScheduleModal, setOpenSetScheduleModal] = useState(false)
   const tableContainerRef = useRef<HTMLDivElement>(null)
 
   const changeParams = (params?: string) => {
@@ -76,14 +80,19 @@ const AdminCandidate = (props: CandidateProps) => {
 
   return (
     <TableContainer component={Paper} sx={{ overflowX: 'auto', maxWidth: '100%' }} ref={tableContainerRef}>
-      <Table sx={{ minWidth: 1100 }}>
+      <Table sx={{ minWidth: 1200 }}>
         <TableHead>
           <TableRow>
-            <TableCellStyled width={160}>Full Name</TableCellStyled>
+            <TableCellStyled width={180}>Full Name</TableCellStyled>
             <TableCellStyled width={195}>Email</TableCellStyled>
             <TableCellStyled width={150}>Phone Number</TableCellStyled>
             <TableCellStyled width={205}>Address</TableCellStyled>
-            <TableCellStyled width={155}>Date Registered</TableCellStyled>
+            <TableCellStyled align='center' width={155}>
+              Date Registered
+            </TableCellStyled>
+            <TableCellStyled align='center' width={140}>
+              Schedule
+            </TableCellStyled>
             <TableCellStyled width={140}>Status</TableCellStyled>
             <TableCellStyled
               align='center'
@@ -113,59 +122,89 @@ const AdminCandidate = (props: CandidateProps) => {
         <TableBody>
           {candidates &&
             candidates.map((candidate, i) => (
-              <TableRow
-                key={i}
-                sx={{
-                  backgroundColor: i % 2 !== 0 ? '#f0f0f0' : '#FFF'
-                }}
-              >
-                <TableCell align='left'>
-                  <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>{candidate.fullname}</Typography>
-                </TableCell>
-                <TableCellDataStyled align='left'>
-                  <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>{candidate.email}</Typography>
-                </TableCellDataStyled>
-                <TableCellDataStyled align='left'>
-                  <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>
-                    {candidate.whatsapp_number}
-                  </Typography>
-                </TableCellDataStyled>
-                <TableCellDataStyled align='left'>
-                  <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>{candidate.address}</Typography>
-                </TableCellDataStyled>
-                <TableCellDataStyled align='left' sx={{ whiteSpace: 'nowrap' }}>
-                  {candidate.date_registered ? format(new Date(candidate.date_registered), 'dd/MM/yy') : 'Not set'}
-                </TableCellDataStyled>
-                <TableCellDataStyled align='left'>
-                  <StatusDropdown
-                    candidate={candidate}
-                    applicantStatus={candidate.status}
-                    changeParams={changeParams}
-                  />
-                </TableCellDataStyled>
-                <TableCellDataStyled
-                  align='center'
+              <>
+                <TableRow
+                  key={i}
                   sx={{
-                    paddingRight: '0 !important',
-                    position: 'sticky',
-                    right: 0,
-                    backgroundColor: i % 2 !== 0 ? '#f0f0f0' : '#FFF',
-                    zIndex: 2,
-                    '&::after': {
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '6px',
-                      boxShadow: showShadow ? '-3px 0 5px -1px rgba(0,0,0,0.1)' : 'none',
-                      pointerEvents: 'none'
-                    }
+                    backgroundColor: i % 2 !== 0 ? '#f0f0f0' : '#FFF'
                   }}
                 >
-                  <MenuAction candidate={candidate} changeParams={changeParams} />
-                </TableCellDataStyled>
-              </TableRow>
+                  <TableCell align='left'>
+                    <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>
+                      {candidate.fullname}
+                    </Typography>
+                  </TableCell>
+                  <TableCellDataStyled align='left'>
+                    <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>{candidate.email}</Typography>
+                  </TableCellDataStyled>
+                  <TableCellDataStyled align='left'>
+                    <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>
+                      {candidate.whatsapp_number}
+                    </Typography>
+                  </TableCellDataStyled>
+                  <TableCellDataStyled align='left'>
+                    <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>
+                      {candidate.address}
+                    </Typography>
+                  </TableCellDataStyled>
+                  <TableCellDataStyled align='center' sx={{ whiteSpace: 'nowrap' }}>
+                    {candidate.date_registered ? format(new Date(candidate.date_registered), 'dd/MM/yy') : 'Not set'}
+                  </TableCellDataStyled>
+                  <TableCellDataStyled align='center' sx={{ whiteSpace: 'nowrap' }}>
+                    {candidate.schedule ? (
+                      format(new Date(candidate.schedule), 'dd/MM/yy')
+                    ) : (
+                      <Button
+                        variant='text'
+                        onClick={() => setOpenSetScheduleModal(true)}
+                        sx={{
+                          p: '8px',
+                          gap: '4px',
+                          textTransform: 'none'
+                        }}
+                      >
+                        <Icon icon='mdi:calendar' color='#32497A' fontSize={24} />
+                        <Typography sx={{ color: '#32497A', fontSize: 14, fontWeight: 600 }}>Set Schedule</Typography>
+                      </Button>
+                    )}
+                  </TableCellDataStyled>
+                  <TableCellDataStyled align='left'>
+                    <StatusDropdown
+                      candidate={candidate}
+                      applicantStatus={candidate.status}
+                      changeParams={changeParams}
+                    />
+                  </TableCellDataStyled>
+                  <TableCellDataStyled
+                    align='center'
+                    sx={{
+                      paddingRight: '0 !important',
+                      position: 'sticky',
+                      right: 0,
+                      backgroundColor: i % 2 !== 0 ? '#f0f0f0' : '#FFF',
+                      zIndex: 2,
+                      '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: '6px',
+                        boxShadow: showShadow ? '-3px 0 5px -1px rgba(0,0,0,0.1)' : 'none',
+                        pointerEvents: 'none'
+                      }
+                    }}
+                  >
+                    <MenuAction candidate={candidate} changeParams={changeParams} />
+                  </TableCellDataStyled>
+                </TableRow>
+                <ChangeScheduleDialog
+                  candidate={candidate}
+                  visible={openSetScheduleModal}
+                  onCloseClick={() => setOpenSetScheduleModal(false)}
+                  changeParams={changeParams}
+                />
+              </>
             ))}
         </TableBody>
       </Table>
