@@ -1,7 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'
-import { Avatar, Card, Typography, CircularProgress, IconButton, useMediaQuery, Button } from '@mui/material'
+import {
+  Avatar,
+  Card,
+  Typography,
+  CircularProgress,
+  IconButton,
+  useMediaQuery,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions
+} from '@mui/material'
 import { HttpClient } from 'src/services'
 import Job from 'src/contract/models/job'
 import { toast } from 'react-hot-toast'
@@ -64,6 +76,8 @@ const JobDetail = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [openDialog, setOpenDialog] = useState(false)
   const [openCertificateDialog, setOpenCertificateDialog] = useState(false)
+  const [openDialogDeclined, setOpenDialogDecline] = useState(false)
+  const [openDialogConfirmAccepted, setOpenDialogConfirmAccepted] = useState(false)
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [license, setLicense] = useState<any[] | undefined>()
@@ -241,6 +255,72 @@ const JobDetail = () => {
     return [coc, cop]
   }
 
+  const handleUpdateStatusOffering = async (status: string) => {
+    try {
+      await HttpClient.put(`/job/offer/${jobDetail?.job_offer_detail?.id}/candidate-response`, {
+        status: status
+      })
+
+      setOpenDialogDecline(false)
+      firstload(companyname, jobId, jobtitle)
+
+      toast.success('The offer has been declined. You can still apply anytime.')
+    } catch (error) {
+      console.error(error)
+      toast.error('Something went wrong!')
+    }
+  }
+
+  const renderButtonOffering = (isOffering: boolean | undefined) => {
+    if (isOffering) {
+      return (
+        <Box>
+          <Button
+            onClick={handleOpenDialogDecline}
+            size='small'
+            variant='outlined'
+            sx={{ fontSize: '14px', fontWeight: 400, textTransform: 'capitalize', marginRight: '10px' }}
+          >
+            Decline Offer
+          </Button>
+          <Button
+            onClick={() => handleUpdateStatusOffering('accepted')}
+            size='small'
+            variant='contained'
+            sx={{ fontSize: '14px', fontWeight: 400, textTransform: 'capitalize' }}
+          >
+            Accept Offer
+          </Button>
+        </Box>
+      )
+    }
+
+    return (
+      <Button
+        onClick={handleApply}
+        variant='contained'
+        color='primary'
+        size='small'
+        startIcon={<Icon icon='clarity:cursor-hand-click-line' fontSize={10} />}
+        sx={{
+          fontSize: '14px',
+          fontWeight: 400,
+          textTransform: 'capitalize'
+        }}
+      >
+        Apply Job
+      </Button>
+    )
+  }
+
+  const handleOpenDialogDecline = () => {
+    setOpenDialogDecline(true)
+  }
+
+  const handleOnCloseDialogDecline = () => {
+    setOpenDialogDecline(false)
+  }
+
   if (isLoading) {
     return (
       <Box textAlign={'center'} mt={10}>
@@ -260,6 +340,79 @@ const JobDetail = () => {
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
         <script type='application/ld+json' dangerouslySetInnerHTML={addProductJsonLd()} key='product-jsonld' />
       </Head>
+
+      <Dialog
+        open={openDialogDeclined}
+        onClose={handleOnCloseDialogDecline}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <Box
+          sx={{ display: 'flex', padding: '16px', justifyContent: 'space-between', borderBottom: '1px solid #F0F0F0' }}
+        >
+          <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040' }}>Confirm decline</Typography>
+          <Icon icon={'bitcoin-icons:cross-outline'} fontSize={20} onClick={handleOnCloseDialogDecline} />
+        </Box>
+        <DialogContent>
+          <DialogContentText id='alert-dialog-description' sx={{ fontSize: '14px', fontWeight: 400, color: '#404040' }}>
+            You can still apply later, but you won’t appear in the company’s offered list
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button
+            variant='outlined'
+            size='small'
+            onClick={() => handleUpdateStatusOffering('declined')}
+            sx={{ flex: 1, textTransform: 'capitalize' }}
+          >
+            Decline Offer
+          </Button>
+          <Button
+            variant='contained'
+            size='small'
+            onClick={handleOnCloseDialogDecline}
+            sx={{ flex: 1, textTransform: 'capitalize' }}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={openDialogConfirmAccepted} onClose={() => setOpenDialogConfirmAccepted(false)}>
+        <Box
+          sx={{ display: 'flex', padding: '16px', justifyContent: 'space-between', borderBottom: '1px solid #F0F0F0' }}
+        >
+          <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#404040' }}>Completed Apply for Job</Typography>
+          <Icon
+            icon={'bitcoin-icons:cross-outline'}
+            fontSize={20}
+            onClick={() => setOpenDialogConfirmAccepted(false)}
+          />
+        </Box>
+        <DialogContent>
+          <DialogContentText id='alert-dialog-description' sx={{ fontSize: '14px', fontWeight: 400, color: '#404040' }}>
+            Are you sure you want to apply for this job?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button
+            variant='outlined'
+            size='small'
+            onClick={() => setOpenDialogConfirmAccepted(false)}
+            sx={{ flex: 1, textTransform: 'capitalize' }}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant='contained'
+            size='small'
+            onClick={() => handleUpdateStatusOffering('accepted')}
+            sx={{ flex: 1, textTransform: 'capitalize' }}
+          >
+            Apply Job
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Box sx={{ position: 'relative' }}>
         <Grid container sx={{ position: 'absolute', top: '12px', left: '-72px' }}>
@@ -307,22 +460,7 @@ const JobDetail = () => {
                   </Box>
                   <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                     {onApplied == false ? (
-                      <>
-                        <Button
-                          onClick={handleApply}
-                          variant='contained'
-                          color='primary'
-                          size='small'
-                          startIcon={<Icon icon='clarity:cursor-hand-click-line' fontSize={10} />}
-                          sx={{
-                            fontSize: '14px',
-                            fontWeight: 400,
-                            textTransform: 'capitalize'
-                          }}
-                        >
-                          Apply Job
-                        </Button>
-                      </>
+                      <>{renderButtonOffering(jobDetail?.isOffering)}</>
                     ) : (
                       <>
                         <Box

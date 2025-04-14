@@ -107,7 +107,7 @@ const Candidate = (props: CandidateProps) => {
       await handleViewed(candidate)
     }
 
-    if(candidate.resume_type === 'upload'){
+    if (candidate.resume_type === 'upload') {
       HttpClient.get(`/user/download-cv/${candidate.user_id}`).then(
         response => {
           window.open(`${response.data?.file}`, '_blank', 'noreferrer')
@@ -209,7 +209,7 @@ const Candidate = (props: CandidateProps) => {
                   >
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '6px', mr: '16px' }}>
                       <Avatar alt={candidate.user.name} src={candidate.user.photo} sx={{ width: 46, height: 46 }} />
-                      {candidate.is_saved && (
+                      {candidate.is_offer && (
                         <Box
                           sx={{
                             textAlign: 'center',
@@ -221,7 +221,7 @@ const Candidate = (props: CandidateProps) => {
                             fontWeight: 400
                           }}
                         >
-                          Saved
+                          Offered
                         </Box>
                       )}
                     </Box>
