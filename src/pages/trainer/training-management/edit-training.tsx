@@ -16,7 +16,6 @@ const CreateTraining = () => {
     const onLoad = async () =>{
         try {
            const res = await HttpClient.get(`/training/${trainingId}`)
-           console.log(res.data.training)
 
            setTraining(res.data.training)
         } catch (error) {

@@ -95,7 +95,10 @@ const TrainingForm = ({
     formState: { errors }
   } = useForm<FormDataTraining>({
     mode: 'onBlur',
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    defaultValues: {
+      trainingCategory: training?.category_id
+    }
   })
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -121,6 +124,15 @@ const TrainingForm = ({
   }
 
   const populateData = () => {
+
+    HttpClient.get('/training-category', {
+      take: 10,
+      page: 1
+    }).then(async res => {
+      const data = await res.data.trainingCategories.data
+      setCategories(data)
+    })
+
     if (type === 'edit' && training) {
       setIsActive(training.is_active)
       setValue('trainingTitle', training.title)
@@ -177,6 +189,7 @@ const TrainingForm = ({
 
   const loadAndPopulate = async () => {
     await firstLoad()
+    
     populateData()
   }
 
@@ -370,13 +383,13 @@ const TrainingForm = ({
                       autoHighlight
                       options={trainerData || []}
                       getOptionLabel={option => option.name || ''}
-                      value={trainerData?.find(data => data.id == field.value || data.id)}
+                      value={trainerData?.find(data => data.id == field.value) || null}
                       isOptionEqualToValue={(option, value) => option.id === value.id}
                       renderInput={field => (
                         <TextField
                           {...field}
                           size='small'
-                          placeholder={training && training.trainer ? training.trainer.name : 'Company Name'}
+                          placeholder={'Company Name'}
                           error={!!errors.trainerId}
                           helperText={errors.trainerId?.message}
                         />
@@ -454,13 +467,13 @@ const TrainingForm = ({
                     autoHighlight
                     options={categories || []}
                     getOptionLabel={option => option.category || ''}
-                    value={categories?.find(data => data.id == field.value || data.id)}
+                    value={categories?.find(data => field.value === data.id) || null}
                     isOptionEqualToValue={(option, value) => option.id === value.id}
                     renderInput={field => (
                       <TextField
                         {...field}
                         size='small'
-                        placeholder={training?.category ? training.category.category : 'Training Category'}
+                        placeholder= {'Training Category'}
                         error={!!errors.trainingCategory}
                         helperText={errors.trainingCategory?.message}
                       />
