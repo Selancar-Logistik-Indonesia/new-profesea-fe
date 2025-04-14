@@ -10,7 +10,6 @@ import {
   useMediaQuery,
   Button,
   Dialog,
-  DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions

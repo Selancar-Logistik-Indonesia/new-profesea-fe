@@ -221,7 +221,7 @@ const Candidate = (props: CandidateProps) => {
                             fontWeight: 400
                           }}
                         >
-                          Offerd
+                          Offered
                         </Box>
                       )}
                     </Box>

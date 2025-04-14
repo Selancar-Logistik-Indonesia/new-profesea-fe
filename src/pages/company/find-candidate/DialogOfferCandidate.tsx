@@ -16,7 +16,6 @@ import toast from 'react-hot-toast'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
-import Spinner from 'src/@core/components/spinner'
 
 interface IDialogOfferCandidate {
   open: boolean
@@ -48,6 +47,7 @@ const DialogOfferCandidate: React.FC<IDialogOfferCandidate> = ({ open, onClose, 
     // Enforce max length of 180 characters
     if (value.length > 180) {
       setMaxCharacters(true)
+
       return
     }
 
