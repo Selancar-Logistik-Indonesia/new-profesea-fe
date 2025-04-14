@@ -45,6 +45,7 @@ const AuthProvider = ({ children }: Props) => {
           setAbilities(response.data.abilities)
           secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
           secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
+          secureLocalStorage.setItem(localStorageKeys.jobOffers, response.data.job_offers)
 
           handleRedirection(response.data.user)
         })
