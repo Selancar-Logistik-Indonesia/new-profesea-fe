@@ -383,13 +383,13 @@ const TrainingForm = ({
                       autoHighlight
                       options={trainerData || []}
                       getOptionLabel={option => option.name || ''}
-                      value={trainerData?.find(data => data.id == field.value || data.id)}
+                      value={trainerData?.find(data => data.id == field.value) || null}
                       isOptionEqualToValue={(option, value) => option.id === value.id}
                       renderInput={field => (
                         <TextField
                           {...field}
                           size='small'
-                          placeholder={training && training.trainer ? training.trainer.name : 'Company Name'}
+                          placeholder={'Company Name'}
                           error={!!errors.trainerId}
                           helperText={errors.trainerId?.message}
                         />
