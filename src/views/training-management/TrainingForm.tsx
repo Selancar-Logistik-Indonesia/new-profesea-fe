@@ -124,7 +124,6 @@ const TrainingForm = ({
   }
 
   const populateData = () => {
-
     HttpClient.get('/training-category', {
       take: 10,
       page: 1
@@ -189,7 +188,7 @@ const TrainingForm = ({
 
   const loadAndPopulate = async () => {
     await firstLoad()
-    
+
     populateData()
   }
 
@@ -263,6 +262,12 @@ const TrainingForm = ({
     })
 
     if (attachment) formData.append('thumbnail', attachment)
+
+    if (json.participants && training?.count_participant ? training?.count_participant > json.participants : false) {
+      toast.error('Failed to save training: Participant is less than joined participant')
+
+      return
+    }
 
     setLoading(true)
 
@@ -473,7 +478,7 @@ const TrainingForm = ({
                       <TextField
                         {...field}
                         size='small'
-                        placeholder= {'Training Category'}
+                        placeholder={'Training Category'}
                         error={!!errors.trainingCategory}
                         helperText={errors.trainingCategory?.message}
                       />
