@@ -1337,17 +1337,13 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
                       <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#32497A', mb: '12px' }}>
                         Description
                       </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 400, color: '#303030' }}>
-                        {training?.short_description}
-                      </Typography>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 400, color: '#303030' }} dangerouslySetInnerHTML={{ __html: training?.short_description }}/>
                     </Box>
                     <Box>
                       <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#32497A', mb: '12px' }}>
                         Requirements
                       </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 400, color: '#303030' }}>
-                        {training?.requirements}
-                      </Typography>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 400, color: '#303030' }} dangerouslySetInnerHTML={{ __html: training?.requirements }}/>
                     </Box>
                   </Box>
                 </Box>
