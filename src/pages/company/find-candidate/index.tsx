@@ -33,6 +33,7 @@ import { Icon } from '@iconify/react'
 import { MdNavigateNext } from 'react-icons/md'
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
 import CustomPaginationItem from 'src/@core/components/pagination/item'
+import DialogOfferCandidate from './DialogOfferCandidate'
 
 const FindCandidate = () => {
   return (
@@ -71,6 +72,9 @@ const FindCandidateApp = () => {
   const [sJobCategory, setJobCategory] = useState<any>(null)
   const [sRoleType, setRoleType] = useState<any>(null)
   const [sVesselType, setVesselType] = useState<any>(null)
+
+  const [openDialogOfferJob, setOpenDialogOfferJob] = useState(false)
+  const [candidateId, setCandidateId] = useState<any>(0)
 
   const { page, setPage, fetchCandidates, totalCandidate } = useCandidate()
 
@@ -199,283 +203,299 @@ const FindCandidateApp = () => {
     SetSearchCandidate(value)
   }
 
+  const handleOpenDialogOfferCandidate = (candidateId: any) => {
+    setOpenDialogOfferJob(true)
+    setCandidateId(candidateId)
+  }
+
   return (
-    <Grid container spacing={6} justifyContent={'center'}>
-      <Grid item xs={12}>
-        <Breadcrumbs separator={<MdNavigateNext fontSize={'17px'} color='black' />} aria-label='breadcrumb'>
-          <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
+    <>
+      <DialogOfferCandidate
+        open={openDialogOfferJob}
+        onOpen={() => setOpenDialogOfferJob(true)}
+        onClose={() => setOpenDialogOfferJob(false)}
+        candidateId={candidateId}
+      />
+      <Grid container spacing={6} justifyContent={'center'}>
+        <Grid item xs={12}>
+          <Breadcrumbs separator={<MdNavigateNext fontSize={'17px'} color='black' />} aria-label='breadcrumb'>
+            <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
+              <Typography
+                sx={{
+                  color: '#32497A',
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
+                Homepage
+              </Typography>
+            </Link>
+            <Link key='2' href='/company/find-candidate' sx={{ textDecoration: 'none' }}>
+              <Typography
+                sx={{
+                  color: '#32497A',
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
+                Find Candidate
+              </Typography>
+            </Link>
             <Typography
+              key='3'
               sx={{
-                color: '#32497A',
+                color: '#949EA2',
                 fontSize: '14px',
-                fontWeight: 400
+                fontWeight: 400,
+                cursor: 'pointer'
               }}
             >
-              Homepage
+              Seafarer
             </Typography>
-          </Link>
-          <Link key='2' href='/company/find-candidate' sx={{ textDecoration: 'none' }}>
-            <Typography
-              sx={{
-                color: '#32497A',
-                fontSize: '14px',
-                fontWeight: 400
-              }}
-            >
-              Find Candidate
-            </Typography>
-          </Link>
-          <Typography
-            key='3'
+          </Breadcrumbs>
+        </Grid>
+        <Grid item xs={12} sx={{ display: 'flex', flexDirection: hidden ? 'column' : 'row', gap: '24px' }}>
+          <Card
             sx={{
-              color: '#949EA2',
-              fontSize: '14px',
-              fontWeight: 400,
-              cursor: 'pointer'
+              borderRadius: 12,
+              boxShadow: 3,
+              width: hidden ? '100%' : '276px',
+              height: 'fit-content',
+              backgroundColor: '#FFFFFF'
             }}
           >
-            Seafarer
-          </Typography>
-        </Breadcrumbs>
-      </Grid>
-      <Grid item xs={12} sx={{ display: 'flex', flexDirection: hidden ? 'column' : 'row', gap: '24px' }}>
-        <Card
-          sx={{
-            borderRadius: 12,
-            boxShadow: 3,
-            width: hidden ? '100%' : '276px',
-            height: 'fit-content',
-            backgroundColor: '#FFFFFF'
-          }}
-        >
-          <CardHeader
-            title={<Typography style={{ fontSize: '18px', fontWeight: 'bold', color: 'black' }}>Filter</Typography>}
-            action={
-              hidden && (
-                <IconButton
-                  size='small'
-                  aria-label='collapse'
-                  sx={{ color: '#262525' }}
-                  onClick={() => setCollapsed(!collapsed)}
-                >
-                  <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                </IconButton>
-              )
-            }
-          />
-          <Collapse in={collapsed}>
-            <CardContent sx={{ flexShrink: 0 }}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <Grid container gap='8px'>
-                  <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Keyword</Typography>
-                  <TextField
-                    fullWidth
-                    id='fullName'
-                    value={inputSearch}
-                    placeholder='Search Candidate Name'
-                    variant='outlined'
-                    onChange={e => setSearch(e.target.value)}
-                    onBlur={() => handleSearch(inputSearch)}
-                    onKeyPress={e => {
-                      if (e.key === 'Enter') {
-                        handleSearch(inputSearch)
-                      }
-                    }}
-                  />
-                </Grid>
-                <Grid container gap='8px'>
-                  <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Country</Typography>
-                  <Autocomplete
-                    fullWidth
-                    disablePortal
-                    id='combo-box-demo'
-                    options={comboCountry}
-                    value={sCountry}
-                    getOptionLabel={(option: any) => option.nicename}
-                    renderInput={params => <TextField {...params} placeholder='Choose Country' />}
-                    onChange={(event: any, newValue: Countries | null) => {
-                      setPage(1)
-                      setCountry(newValue)
-                    }}
-                  />
-                </Grid>
-                <Grid container gap='8px'>
-                  <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Job Category</Typography>
-                  <Autocomplete
-                    fullWidth
-                    disablePortal
-                    id='job-category-autocomplete'
-                    options={comboJobCategory}
-                    value={sJobCategory}
-                    getOptionLabel={(option: JobCategory) => option.name}
-                    renderInput={params => <TextField {...params} placeholder='Choose Job Category' />}
-                    onChange={(event: any, newValue: JobCategory | null) => {
-                      setPage(1)
-                      setJobCategory(newValue)
-                    }}
-                  />
-                </Grid>
-                {tabValue == 'onship' && (
-                  <>
-                    {sJobCategory && (
-                      <Grid container gap='8px'>
-                        <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Job Rank</Typography>
-                        <Autocomplete
-                          fullWidth
-                          disablePortal
-                          disabled={!jobCategory}
-                          id='role-type-autocomplete'
-                          options={comboRoleType}
-                          value={sRoleType}
-                          getOptionLabel={(option: RoleType) => option.name}
-                          renderInput={params => <TextField {...params} placeholder='Choose Job Rank' />}
-                          onChange={(event: any, newValue: RoleType | null) => {
-                            setPage(1)
-                            setRoleType(newValue)
-                          }}
-                        />
-                      </Grid>
-                    )}
-                    <Grid container gap='8px'>
-                      <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>
-                        Type of Vessel
-                      </Typography>
-                      <Autocomplete
-                        fullWidth
-                        disablePortal
-                        id='vessel-type-autocomplete'
-                        options={comboVesselType}
-                        value={sVesselType}
-                        getOptionLabel={(option: VesselType) => option.name}
-                        renderInput={params => <TextField {...params} placeholder='Choose Vessel' />}
-                        onChange={(event: any, newValue: VesselType | null) => {
-                          setPage(1)
-                          setVesselType(newValue)
-                        }}
-                      />
-                    </Grid>
-                  </>
-                )}
-                {tabValue == 'offship' && sJobCategory && (
+            <CardHeader
+              title={<Typography style={{ fontSize: '18px', fontWeight: 'bold', color: 'black' }}>Filter</Typography>}
+              action={
+                hidden && (
+                  <IconButton
+                    size='small'
+                    aria-label='collapse'
+                    sx={{ color: '#262525' }}
+                    onClick={() => setCollapsed(!collapsed)}
+                  >
+                    <Icon fontSize={20} icon={!collapsed ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
+                  </IconButton>
+                )
+              }
+            />
+            <Collapse in={collapsed}>
+              <CardContent sx={{ flexShrink: 0 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   <Grid container gap='8px'>
-                    <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Job Title</Typography>
+                    <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Keyword</Typography>
+                    <TextField
+                      fullWidth
+                      id='fullName'
+                      value={inputSearch}
+                      placeholder='Search Candidate Name'
+                      variant='outlined'
+                      onChange={e => setSearch(e.target.value)}
+                      onBlur={() => handleSearch(inputSearch)}
+                      onKeyPress={e => {
+                        if (e.key === 'Enter') {
+                          handleSearch(inputSearch)
+                        }
+                      }}
+                    />
+                  </Grid>
+                  <Grid container gap='8px'>
+                    <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Country</Typography>
                     <Autocomplete
                       fullWidth
                       disablePortal
-                      id='role-type-autocomplete'
-                      options={comboRoleType}
-                      value={sRoleType}
-                      getOptionLabel={(option: RoleType) => option.name}
-                      renderInput={params => <TextField {...params} placeholder='Choose Job Title' />}
-                      onChange={(event: any, newValue: RoleType | null) => {
+                      id='combo-box-demo'
+                      options={comboCountry}
+                      value={sCountry}
+                      getOptionLabel={(option: any) => option.nicename}
+                      renderInput={params => <TextField {...params} placeholder='Choose Country' />}
+                      onChange={(event: any, newValue: Countries | null) => {
                         setPage(1)
-                        setRoleType(newValue)
+                        setCountry(newValue)
                       }}
                     />
                   </Grid>
-                )}
-                <Button
-                  variant='contained'
-                  onClick={() => {
-                    clearFilter()
-                  }}
-                  sx={{ width: '100%', textTransform: 'none', fontSize: 14, fontWeight: 300 }}
-                >
-                  Reset Filters
-                </Button>
-              </Box>
-            </CardContent>
-          </Collapse>
-        </Card>
-        <Grid
-          item
-          xs={true}
-          sx={{
-            flexGrow: 1,
-            height: 'fit-content',
-            p: '24px',
-            background: '#FFFFFF',
-            boxShadow: 3,
-            borderRadius: '8px'
-          }}
-        >
-          <Box sx={{ borderBottom: 4, borderColor: 'divider' }}>
-            <Tabs
-              value={tabValue}
-              onChange={handleChangeTabValue}
-              aria-label='basic tabs example'
-              sx={{ mb: '-3.5px' }}
-            >
-              <Tab
-                label='Seafarer'
-                id='tab-1'
-                value={'onship'}
-                sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold' }}
-              />
-              <Tab
-                label='Professional'
-                id='tab-2'
-                value={'offship'}
-                sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold' }}
-              />
-            </Tabs>
-          </Box>
-          <CandidateContext.Consumer>
-            {({ listCandidates, onLoading }) => {
-              if (onLoading) {
-                return (
-                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <CircularProgress sx={{ mt: 20 }} />
-                  </Box>
-                )
-              }
-
-              return (
-                <Grid container gap='24px'>
-                  <Grid container sx={{ display: 'flex', justifyContent: 'flex-end', mt: '8px', mb: '-36px' }}>
-                    <Pagination
-                      size='small'
-                      count={Math.ceil(totalCandidate / pageItems)}
-                      page={page}
-                      onChange={handlePageChange}
-                      variant='outlined'
-                      shape='rounded'
-                      renderItem={item => <CustomPaginationItem {...item} />}
+                  <Grid container gap='8px'>
+                    <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Job Category</Typography>
+                    <Autocomplete
+                      fullWidth
+                      disablePortal
+                      id='job-category-autocomplete'
+                      options={comboJobCategory}
+                      value={sJobCategory}
+                      getOptionLabel={(option: JobCategory) => option.name}
+                      renderInput={params => <TextField {...params} placeholder='Choose Job Category' />}
+                      onChange={(event: any, newValue: JobCategory | null) => {
+                        setPage(1)
+                        setJobCategory(newValue)
+                      }}
                     />
                   </Grid>
-                  <RecomendedView listCandidate={listCandidates} />
-                  <Grid
-                    container
-                    sx={{
-                      display: 'flex',
-                      flexDirection: hidden ? 'column' : 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '8px'
+                  {tabValue == 'onship' && (
+                    <>
+                      {sJobCategory && (
+                        <Grid container gap='8px'>
+                          <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Job Rank</Typography>
+                          <Autocomplete
+                            fullWidth
+                            disablePortal
+                            disabled={!jobCategory}
+                            id='role-type-autocomplete'
+                            options={comboRoleType}
+                            value={sRoleType}
+                            getOptionLabel={(option: RoleType) => option.name}
+                            renderInput={params => <TextField {...params} placeholder='Choose Job Rank' />}
+                            onChange={(event: any, newValue: RoleType | null) => {
+                              setPage(1)
+                              setRoleType(newValue)
+                            }}
+                          />
+                        </Grid>
+                      )}
+                      <Grid container gap='8px'>
+                        <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>
+                          Type of Vessel
+                        </Typography>
+                        <Autocomplete
+                          fullWidth
+                          disablePortal
+                          id='vessel-type-autocomplete'
+                          options={comboVesselType}
+                          value={sVesselType}
+                          getOptionLabel={(option: VesselType) => option.name}
+                          renderInput={params => <TextField {...params} placeholder='Choose Vessel' />}
+                          onChange={(event: any, newValue: VesselType | null) => {
+                            setPage(1)
+                            setVesselType(newValue)
+                          }}
+                        />
+                      </Grid>
+                    </>
+                  )}
+                  {tabValue == 'offship' && sJobCategory && (
+                    <Grid container gap='8px'>
+                      <Typography sx={{ color: '#636E72', fontSize: 16, fontWeight: 'bold' }}>Job Title</Typography>
+                      <Autocomplete
+                        fullWidth
+                        disablePortal
+                        id='role-type-autocomplete'
+                        options={comboRoleType}
+                        value={sRoleType}
+                        getOptionLabel={(option: RoleType) => option.name}
+                        renderInput={params => <TextField {...params} placeholder='Choose Job Title' />}
+                        onChange={(event: any, newValue: RoleType | null) => {
+                          setPage(1)
+                          setRoleType(newValue)
+                        }}
+                      />
+                    </Grid>
+                  )}
+                  <Button
+                    variant='contained'
+                    onClick={() => {
+                      clearFilter()
                     }}
+                    sx={{ width: '100%', textTransform: 'none', fontSize: 14, fontWeight: 300 }}
                   >
-                    <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`Showing ${
-                      page * pageItems < totalCandidate ? page * pageItems : totalCandidate
-                    } out of ${totalCandidate} results`}</Typography>
-                    <Pagination
-                      sx={{ margin: '0 auto' }}
-                      page={page}
-                      count={Math.ceil(totalCandidate / pageItems)}
-                      onChange={(e: React.ChangeEvent<unknown>, value: number) => {
-                        setPage(value)
-                      }}
-                      variant='outlined'
-                      shape='rounded'
-                      renderItem={item => <CustomPaginationItem {...item} />}
-                    />
-                  </Grid>
-                </Grid>
-              )
+                    Reset Filters
+                  </Button>
+                </Box>
+              </CardContent>
+            </Collapse>
+          </Card>
+          <Grid
+            item
+            xs={true}
+            sx={{
+              flexGrow: 1,
+              height: 'fit-content',
+              p: '24px',
+              background: '#FFFFFF',
+              boxShadow: 3,
+              borderRadius: '8px'
             }}
-          </CandidateContext.Consumer>
+          >
+            <Box sx={{ borderBottom: 4, borderColor: 'divider' }}>
+              <Tabs
+                value={tabValue}
+                onChange={handleChangeTabValue}
+                aria-label='basic tabs example'
+                sx={{ mb: '-3.5px' }}
+              >
+                <Tab
+                  label='Seafarer'
+                  id='tab-1'
+                  value={'onship'}
+                  sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold' }}
+                />
+                <Tab
+                  label='Professional'
+                  id='tab-2'
+                  value={'offship'}
+                  sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold' }}
+                />
+              </Tabs>
+            </Box>
+            <CandidateContext.Consumer>
+              {({ listCandidates, onLoading }) => {
+                if (onLoading) {
+                  return (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <CircularProgress sx={{ mt: 20 }} />
+                    </Box>
+                  )
+                }
+
+                return (
+                  <Grid container gap='24px'>
+                    <Grid container sx={{ display: 'flex', justifyContent: 'flex-end', mt: '8px', mb: '-36px' }}>
+                      <Pagination
+                        size='small'
+                        count={Math.ceil(totalCandidate / pageItems)}
+                        page={page}
+                        onChange={handlePageChange}
+                        variant='outlined'
+                        shape='rounded'
+                        renderItem={item => <CustomPaginationItem {...item} />}
+                      />
+                    </Grid>
+                    <RecomendedView
+                      listCandidate={listCandidates}
+                      setOpenDialogOfferCandidate={handleOpenDialogOfferCandidate}
+                    />
+                    <Grid
+                      container
+                      sx={{
+                        display: 'flex',
+                        flexDirection: hidden ? 'column' : 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px'
+                      }}
+                    >
+                      <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 300 }}>{`Showing ${
+                        page * pageItems < totalCandidate ? page * pageItems : totalCandidate
+                      } out of ${totalCandidate} results`}</Typography>
+                      <Pagination
+                        sx={{ margin: '0 auto' }}
+                        page={page}
+                        count={Math.ceil(totalCandidate / pageItems)}
+                        onChange={(e: React.ChangeEvent<unknown>, value: number) => {
+                          setPage(value)
+                        }}
+                        variant='outlined'
+                        shape='rounded'
+                        renderItem={item => <CustomPaginationItem {...item} />}
+                      />
+                    </Grid>
+                  </Grid>
+                )
+              }}
+            </CandidateContext.Consumer>
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   )
 }
 
