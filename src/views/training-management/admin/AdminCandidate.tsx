@@ -83,7 +83,8 @@ const AdminCandidate = (props: CandidateProps) => {
       <Table sx={{ minWidth: 1200 }}>
         <TableHead>
           <TableRow>
-            <TableCellStyled width={180}>Full Name</TableCellStyled>
+            <TableCellStyled width={180}>Enrollment Type</TableCellStyled>
+            <TableCellStyled width={180}>PIC Name</TableCellStyled>
             <TableCellStyled width={195}>Email</TableCellStyled>
             <TableCellStyled width={150}>Phone Number</TableCellStyled>
             <TableCellStyled width={205}>Address</TableCellStyled>
@@ -131,9 +132,14 @@ const AdminCandidate = (props: CandidateProps) => {
                 >
                   <TableCell align='left'>
                     <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>
-                      {candidate.fullname}
+                      {candidate.enroll_type === 'company' ? candidate.company_name : 'Individu'}
                     </Typography>
                   </TableCell>
+                  <TableCellDataStyled align='left'>
+                    <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>
+                      {candidate.enroll_type === 'company' ? candidate.pic_name : candidate.fullname}
+                    </Typography>
+                  </TableCellDataStyled>
                   <TableCellDataStyled align='left'>
                     <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 400 }}>{candidate.email}</Typography>
                   </TableCellDataStyled>

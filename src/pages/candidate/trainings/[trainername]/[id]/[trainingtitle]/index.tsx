@@ -1343,7 +1343,7 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
                       <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#32497A', mb: '12px' }}>
                         Requirements
                       </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 400, color: '#303030' }} dangerouslySetInnerHTML={{ __html: training?.requirements }}/>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 400, color: '#303030' }} dangerouslySetInnerHTML={{ __html: training?.requirements as any }}/>
                     </Box>
                   </Box>
                 </Box>
