@@ -28,9 +28,7 @@ const CommentCard = (props: { comment: ISocialFeedComment }) => {
         <Box sx={{ mb: [6, 0], display: 'flex', flexDirection: 'column', alignItems: ['center', 'flex-start'] }}>
           <Link
             style={{ textDecoration: 'none' }}
-            href={`/${comment.user?.role === 'Seafarer' ? 'profile' : 'company'}/${comment.user?.id}/${toLinkCase(
-              comment.user?.username
-            )}`}
+            href={`/${comment.user?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(comment.user?.username)}`}
           >
             <Typography variant='body2' sx={{ color: '#0a66c2', fontWeight: 600 }}>
               {toTitleCase(comment.user.name)}

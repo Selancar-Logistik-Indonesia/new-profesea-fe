@@ -88,7 +88,7 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
                       <Box
                         component={Link}
                         style={{ textDecoration: 'none' }}
-                        href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(
+                        href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(
                           item.user?.username
                         )}`}
                         sx={{ display: 'flex', '& svg': { color: 'text.secondary' }, height: 60 }}
@@ -175,7 +175,7 @@ export default function ProfileFeedCard(props: IProfileFeedCard) {
           <Divider />
           <CardContent>
             <Link
-              href={`/${selectedUser?.role === 'Seafarer' ? 'profile' : 'company'}/${selectedUser?.id}/${toLinkCase(
+              href={`/${selectedUser?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(
                 selectedUser?.username
               )}/activities`}
             >

@@ -35,9 +35,7 @@ const FeedCardGroup = (props: Prop) => {
       <Box
         component={Link}
         style={{ textDecoration: 'none' }}
-        href={`/${item.user.role === 'Seafarer' ? 'profile' : 'company'}/${item.user.id}/${toLinkCase(
-          item.user.username
-        )}`}
+        href={`/${item.user.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(item.user.username)}`}
         sx={{ display: 'flex', '& svg': { color: 'text.secondary' }, height: 60 }}
       >
         <Box>

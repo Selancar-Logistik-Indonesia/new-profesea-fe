@@ -38,7 +38,7 @@ const renderList = (listCandidate: any[]) => {
             <Grid xs={10} md={10}>
               <Link
                 style={{ textDecoration: 'none' }}
-                href={`/${item.viewer?.role === 'Seafarer' ? 'profile' : 'company'}/${item.viewer?.id}/${toLinkCase(
+                href={`/${item.viewer?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(
                   item.viewer?.username
                 )}`}
               >
