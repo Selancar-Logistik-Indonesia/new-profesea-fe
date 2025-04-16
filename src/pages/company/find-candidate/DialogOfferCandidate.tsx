@@ -37,18 +37,18 @@ const DialogOfferCandidate: React.FC<IDialogOfferCandidate> = ({ open, onClose, 
   const [selectedJob, setSelectedJob] = useState<null | any>(null)
 
   const handleOnChangeMessage = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const value = e.target.value
+    let value = e.target.value
 
     if (value === '') {
       setMaxCharacters(false)
       setCharacters(180)
     }
 
-    // Enforce max length of 180 characters
     if (value.length > 180) {
+      value = value.slice(0, 180) // Potong ke 180 karakter
       setMaxCharacters(true)
-
-      return
+    } else {
+      setMaxCharacters(false)
     }
 
     setMessage(value)
