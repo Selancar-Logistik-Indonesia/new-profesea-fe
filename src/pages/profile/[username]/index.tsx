@@ -58,11 +58,12 @@ const UserFeedApp = () => {
   const [arrVacany2, setArrVacancy2] = useState<any>([])
   const [openCompleteOnboard, setOpenCompleteOnboard] = useState(false)
   // const [itemData, getItemdata] = useState<any[]>([])
-  const iduser: any = user.id
+  const iduser: any = user?.id
   //let { username } = router.query as { username: string }
 
   const params = useSearchParams()
   let username = linkToTitleCase(params.get('username'))
+  console.log(username)
   const onboarding = params.get('onboarding')
 
   useEffect(() => {
@@ -77,9 +78,9 @@ const UserFeedApp = () => {
     // let filterdoc = ''
     if (!username) {
       url = '/user/' + toLinkCase(iduser)
-      username = user.username
+      username = user?.username
     } else {
-      url = '/user/?username=' + username
+      url = 'public/data/user/?username=' + username
       filter = ''
       // filterdoc = '?username=' + username
     }
@@ -93,6 +94,7 @@ const UserFeedApp = () => {
       }
 
       const user = response.data.user as IUser
+      console.log(user)
       if (user.role === 'Company' || user.role === 'Trainer') {
         router.push(`/company/${toLinkCase(user.username)}`)
       }
@@ -180,5 +182,8 @@ ProfileCompany.acl = {
   action: 'read',
   subject: 'home'
 }
+
+ProfileCompany.guestGuard = false
+ProfileCompany.authGuard = false
 
 export default ProfileCompany
