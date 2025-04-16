@@ -22,9 +22,7 @@ const SubCommentCard = (props: { comment: ISocialFeedComment; feedId: number }) 
     <Box key={comment.id} sx={{ display: 'flex', flexDirection: 'column', gap: '8px', mt: 5 }}>
       <Box
         component={Link}
-        href={`/${comment.user?.role === 'Seafarer' ? 'profile' : 'company'}/${comment.user?.id}/${toLinkCase(
-          comment.user?.username
-        )}`}
+        href={`/${comment.user?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(comment.user?.username)}`}
         sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
       >
         <Avatar sx={{ width: 36, height: 36 }} src={getUserAvatar(comment.user)} alt='profile-picture' />

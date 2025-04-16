@@ -23,7 +23,7 @@ const columns: GridColDef[] = [
         <>
           <Button
             target='blank'
-            href={`/${row?.role === 'Seafarer' ? 'profile' : 'company'}/${row?.id}/${toLinkCase(row?.username)}`}
+            href={`/${row?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(row?.username)}`}
             variant='contained'
             color='secondary'
             size='small'

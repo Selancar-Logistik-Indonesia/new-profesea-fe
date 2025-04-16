@@ -101,7 +101,7 @@ export default function NotificationItem({ item, key, getNotifications }: Iprops
         break
 
       case NotificationType.completeProfileEncouragement:
-        router.push(`/${user?.role === 'Seafarer' ? 'profile' : 'company'}/${user?.id}/${toLinkCase(user?.username)}`)
+        router.push(`/${user?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(user?.username)}`)
         break
 
       case NotificationType.applicantViewed:
