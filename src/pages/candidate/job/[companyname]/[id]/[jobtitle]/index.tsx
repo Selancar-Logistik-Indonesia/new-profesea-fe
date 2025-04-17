@@ -264,7 +264,11 @@ const JobDetail = () => {
       setOpenDialogDecline(false)
       firstload(companyname, jobId, jobtitle)
 
-      toast.success('The offer has been declined. You can still apply anytime.')
+      if (status === 'declined') {
+        toast.success('The offer has been declined. You can still apply anytime.')
+      } else {
+        toast.success('Your job application has been successfully submitted')
+      }
     } catch (error) {
       console.error(error)
       toast.error('Something went wrong!')
