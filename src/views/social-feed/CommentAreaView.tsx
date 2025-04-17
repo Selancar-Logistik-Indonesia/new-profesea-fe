@@ -36,9 +36,7 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
     >
       <Box
         component={Link}
-        href={`/${comment.user?.role === 'Seafarer' ? 'profile' : 'company'}/${comment.user?.id}/${toLinkCase(
-          comment.user?.username
-        )}`}
+        href={`/${comment.user?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(comment.user?.username)}`}
         sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
       >
         <Avatar sx={{ width: 36, height: 36 }} src={getUserAvatar(comment.user)} alt='profile-picture' />

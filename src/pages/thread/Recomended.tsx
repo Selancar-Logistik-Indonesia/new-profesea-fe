@@ -19,9 +19,7 @@ const renderList = (arr: IThread[]) => {
             <CardContent>
               <Link
                 style={{ textDecoration: 'none' }}
-                href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(
-                  item.user?.username
-                )}`}
+                href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(item.user?.username)}`}
               >
                 <Box
                   height={65}

@@ -133,9 +133,9 @@ const DialogView = (props: ViewProps) => {
             <Box flexGrow={1} display={'flex'} flexDirection={'column'} alignItems={'end'} mt={1}>
               <Button
                 target='blank'
-                href={`/${props.selectedItem?.user.role === 'Seafarer' ? 'profile' : 'company'}/${
-                  props.selectedItem?.user.id
-                }/${toLinkCase(props.selectedItem?.user.username)}`}
+                href={`/${props.selectedItem?.user.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(
+                  props.selectedItem?.user.username
+                )}`}
                 size='small'
               >
                 Open Profile

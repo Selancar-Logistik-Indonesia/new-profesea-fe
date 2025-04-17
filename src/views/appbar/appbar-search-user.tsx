@@ -39,9 +39,7 @@ const AppbarSearchUser = () => {
     }
 
     return router.push(
-      `/${option.content.role === 'Seafarer' ? 'profile' : 'company'}/${option.content.id}/${toLinkCase(
-        option.content.username
-      )}`
+      `/${option.content.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(option.content.username)}`
     )
   }
 

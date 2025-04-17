@@ -288,9 +288,7 @@ const UserProfileHeader = (props: userProps) => {
                   <Grid item>
                     <ShareArea
                       subject={`User Shared ${datauser.name}.`}
-                      url={`/${datauser.role === 'Seafarer' ? 'profile' : 'company'}/${datauser.id}/${
-                        datauser.username
-                      }`}
+                      url={`/${datauser.role === 'Seafarer' ? 'profile' : 'company'}/${datauser.username}`}
                     ></ShareArea>
                   </Grid>
                 </Grid>
@@ -299,9 +297,7 @@ const UserProfileHeader = (props: userProps) => {
             {showFriendship && (
               <ShareArea
                 subject={`User Shared ${datauser.name}.`}
-                url={`/${datauser.role === 'Seafarer' ? 'profile' : 'company'}/${datauser.id}/${toLinkCase(
-                  datauser.username
-                )}`}
+                url={`/${datauser.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(datauser.username)}`}
               ></ShareArea>
             )}
           </Grid>

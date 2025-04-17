@@ -24,9 +24,7 @@ const renderList = (arr: IThread[], user?: number) => {
           <Paper sx={{ marginTop: '10px', border: '1px solid #eee' }} elevation={0}>
             <Link
               style={{ textDecoration: 'none' }}
-              href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(
-                item.user?.username
-              )}`}
+              href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(item.user?.username)}`}
             >
               <Box
                 height={65}
