@@ -70,7 +70,7 @@ const navigation = (): VerticalNavItemsType => {
             subject: 'user-job-management'
         },
         {
-            path: '/trainer/training',
+            path: '/trainer/training-management',
             title: 'Manage Training',
             icon: 'solar:notebook-bookmark-bold-duotone',
             action: 'read',
@@ -83,7 +83,13 @@ const navigation = (): VerticalNavItemsType => {
             action: 'read',
             subject: 'user-find-candidate'
         },
-
+        {
+            path: '/company/find-training',
+            title: 'Find Training',
+            icon: 'ic:round-person-search',
+            action: 'read',
+            subject: 'company-training'
+        },
         // {
         //   path: '/trainer/my-participant',
         //   title: 'List of Participant',
@@ -122,14 +128,14 @@ const navigation = (): VerticalNavItemsType => {
             subject: 'admin-training-management',
             children: [
                 {
-                    title: 'Training',
+                    title: 'List Training',
                     path: '/admin/training-management',
                     subject: 'admin-training-management',
                     action: 'read'
                 },
                 {
-                    title: 'Instant',
-                    path: '/admin/training-management-instant',
+                    title: 'Create Training',
+                    path: '/admin/training-management/create-training',
                     subject: 'admin-training-management',
                     action: 'read'
                 }

@@ -1,30 +1,28 @@
-
-
 export const MuiPickersLayout = () => {
 
     return {
         MuiPickersLayout: {
-          styleOverrides: {
-            root: {
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column",
+            styleOverrides: {
+                root: {
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                },
             },
-          },
         },
     }
-  }
-  export const MuiPickersPopper = () => {
-  
+}
+export const MuiPickersPopper = () => {
+
     return {
-      MuiPickersPopper: {
-          styleOverrides: {
-            root: {
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+        MuiPickersPopper: {
+            styleOverrides: {
+                root: {
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                },
             },
-          },
         },
     }
-  }
+}

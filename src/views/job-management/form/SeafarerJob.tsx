@@ -41,7 +41,9 @@ import { toast } from 'react-hot-toast'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import { FormDataSeafarer } from 'src/contract/types/create_job_type'
-import { HotJobBoost, JobDraft } from '../Component'
+import {  JobDraft } from '../Component'
+import BoostJobAlert from '../BoostJobAlert'
+
 
 const sailRegion = [
   { id: 'ncv', label: 'Near Coastal Voyage (NCV)' },
@@ -88,6 +90,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   const [fixPrice, setFixPrice] = useState<boolean>(false)
   const [hidePrice, setHidePrice] = useState<boolean>(false)
   const [isDraft, setIsDraft] = useState<boolean>(false)
+  const [isBoosted, setIsBoosted] = useState<boolean>(job?.is_boosted as boolean)
 
   useEffect(() => {
     if (job && job.is_draft === true) {
@@ -179,6 +182,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       setLicenseCOC(coc)
       setLicenseCOP(cop)
     })
+    setIsBoosted(false)
   }
 
   const selectJobCategory = watch('jobCategory') === 0 ? undefined : watch('jobCategory')
@@ -276,7 +280,8 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       currency: currency,
       salary_start: minimum,
       salary_end: maximum,
-      hide_salary: hidePrice
+      hide_salary: hidePrice,
+      is_boosted : isBoosted
     }
 
     setOnLoading(true)
@@ -293,6 +298,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
         )
         .finally(() => setOnLoading(false))
     } else {
+
       HttpClient.post('/job', json)
         .then(
           () => {
@@ -833,7 +839,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             label='Hide Salary'
           />
         </Grid>
-        {false && <HotJobBoost />}
+        <BoostJobAlert  setIsBoosted={setIsBoosted} currentJob={job} isBoosted={isBoosted}/>
         <Grid item container sx={{ display: 'flex', gap: '24px', alignItems: 'center', justifyContent: 'right' }}>
           <Typography component={Link} href='/company/job-management' sx={{ color: '#868686', fontSize: 14 }}>
             Cancel

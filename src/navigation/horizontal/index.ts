@@ -38,7 +38,7 @@ const navigation = (): HorizontalNavItemsType => [
         subject: 'user-job-management'
     },
     {
-        path: '/trainer/training',
+        path: '/trainer/training-management',
         title: 'Manage Training',
         icon: 'solar:book-bookmark-bold-duotone',
         action: 'read',
@@ -50,6 +50,13 @@ const navigation = (): HorizontalNavItemsType => [
         icon: 'ic:round-person-search',
         action: 'read',
         subject: 'user-find-candidate'
+    },
+    {
+        path: '/company/find-training',
+        title: 'Find Training',
+        icon: 'ic:round-person-search',
+        action: 'read',
+        subject: 'company-training'
     },
     {
         path: '/candidate/find-job',

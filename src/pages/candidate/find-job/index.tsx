@@ -98,6 +98,8 @@ const SeafarerJobApp = () => {
   const company = linkToTitleCase(params.get('company'))
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+  const jobOffers = secureLocalStorage.getItem(localStorageKeys.jobOffers) as any[]
+  console.log(jobOffers)
   const isOnShip = user.employee_type === 'onship'
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -222,6 +224,7 @@ const SeafarerJobApp = () => {
       getComboCity(code)
     })
   }
+
   useEffect(() => {
     firstload()
   }, [JC, employeeType])
@@ -272,6 +275,82 @@ const SeafarerJobApp = () => {
         <meta name='keywords' content={`${t('app_keyword')}`} />
         <meta name='viewport' content='initial-scale=0.8, width=device-width' />
       </Head>
+      {jobOffers && jobOffers.length > 0 && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+            padding: '24px',
+            background: '#FFF',
+            borderRadius: '8px',
+            boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)',
+            marginBottom: '12px'
+          }}
+        >
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#1F1F1F' }}>
+              You have {jobOffers.length} Offers{' '}
+              <span
+                style={{
+                  background: '#F22',
+                  padding: '2px 4px',
+                  borderRadius: '100px',
+                  fontSize: '10px',
+                  color: '#FFF',
+                  marginLeft: '10px'
+                }}
+              >
+                New
+              </span>
+            </Typography>
+            <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#868686', cursor: 'pointer' }}>
+              Show More
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: hidden ? 'column' : 'row',
+              gap: '24px',
+              padding: '16px 24px',
+              borderRadius: '8px',
+              border: '1px solid var(--Primary-Blue-1, #32497A)',
+              background: 'var(--Primary-Blue-7, #F2F8FE)'
+            }}
+          >
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Icon icon={'ph:briefcase-light'} fontSize={'32px'} />
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Typography sx={{ fontSize: '14px', fontWeight: 700, color: '#32497A' }}>
+                {jobOffers[0].company_name} is interested in you! Check out the job details and take the next step in
+                your career.
+              </Typography>
+              <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#1F1F1F' }}>
+                Hi {user?.name}, we’ve matched you with a new opportunity at {jobOffers[0].company_name} for the{' '}
+                {jobOffers[0].job_title} role! Let’s chat about this exciting next step!
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Button
+                variant='contained'
+                sx={{ fontSize: '14px', fontWeight: 400, textTransform: 'capitalize', width: '166px', height: '40px' }}
+                onClick={() =>
+                  router.push(
+                    `/candidate/job/${jobOffers[0].company_name.toLowerCase().split(' ').join('-')}/${
+                      jobOffers[0]?.job_id
+                    }/${jobOffers[0].job_title.toLowerCase().split(' ').join('-')}`
+                  )
+                }
+              >
+                View Job Details
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      )}
+
       <Grid
         container
         sx={
