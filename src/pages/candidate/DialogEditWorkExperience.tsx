@@ -116,7 +116,7 @@ const DialogEditWorkExperience = (props: DialogProps) => {
       still_here: 0,
       logo: selectedFile,
       vessel: idcomboVessel,
-      start_date: moment(dateAwal).format('YYYY-MM-DD'),
+      start_date: dateAwal ? moment(dateAwal).format('YYYY-MM-DD') : null,
       end_date: !isCurrentExperience && dateAkhir ? moment(dateAkhir).format('YYYY-MM-DD') : null,
       is_current: isCurrentExperience,
       description: short_description

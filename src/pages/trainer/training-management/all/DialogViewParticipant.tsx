@@ -149,9 +149,7 @@ const DialogViewParticipant = (props: ViewProps) => {
                   <Link
                     style={{ textDecoration: 'none' }}
                     target='_blank'
-                    href={`/${e.user?.role === 'Seafarer' ? 'profile' : 'company'}/${e.user?.id}/${toLinkCase(
-                      e.user?.username
-                    )}`}
+                    href={`/${e.user?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(e.user?.username)}`}
                   >
                     <Button size='small'>Open Profile</Button>
                   </Link>

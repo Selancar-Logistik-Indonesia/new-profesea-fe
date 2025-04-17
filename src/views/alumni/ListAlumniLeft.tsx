@@ -50,9 +50,7 @@ const renderList = (listAlumni: any[], idalumni: any, props: Props, reload: () =
         <Grid item container xs={12} spacing={2}>
           <Link
             style={{ textDecoration: 'none' }}
-            href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(
-              item.user?.username
-            )}`}
+            href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(item.user?.username)}`}
           >
             <Box sx={{ display: 'flex', justifyContent: 'center', m: 2 }}>
               <Avatar src={userPhoto} alt='profile-picture' sx={{ width: 55, height: 55 }} />
