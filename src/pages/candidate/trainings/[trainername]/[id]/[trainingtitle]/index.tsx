@@ -1237,7 +1237,7 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
                   gap: '24px'
                 }}
               >
-                <div
+                {/* <div
                   style={{
                     position: 'absolute',
                     top: 0,
@@ -1268,7 +1268,7 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
                     {training?.category?.category}
                   </Typography>
                   <Typography sx={{ fontSize: '68px', fontWeight: 800, color: '#fff' }}>{training?.title}</Typography>
-                </Box>
+                </Box> */}
               </Box>
               <Box
                 sx={{
@@ -1347,13 +1347,19 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
                       <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#32497A', mb: '12px' }}>
                         Description
                       </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 400, color: '#303030' }} dangerouslySetInnerHTML={{ __html: training?.short_description }}/>
+                      <Typography
+                        sx={{ fontSize: '16px', fontWeight: 400, color: '#303030' }}
+                        dangerouslySetInnerHTML={{ __html: training?.short_description }}
+                      />
                     </Box>
                     <Box>
                       <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#32497A', mb: '12px' }}>
                         Requirements
                       </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 400, color: '#303030' }} dangerouslySetInnerHTML={{ __html: training?.requirements as any }}/>
+                      <Typography
+                        sx={{ fontSize: '16px', fontWeight: 400, color: '#303030' }}
+                        dangerouslySetInnerHTML={{ __html: training?.requirements as any }}
+                      />
                     </Box>
                   </Box>
                 </Box>
