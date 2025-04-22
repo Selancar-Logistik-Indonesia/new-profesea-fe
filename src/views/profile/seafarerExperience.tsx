@@ -22,7 +22,7 @@ const SeafarerExperience: React.FC<ISeafarerExperienceProps> = ({ userId, userNa
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   const loadExperience = () => {
-    HttpClient.get(AppConfig.baseUrl + '/seafarer-experiences/user-id/' + userId).then(response => {
+    HttpClient.get(AppConfig.baseUrl + `/public/data/user/${userId}/seafarer-experiences`).then(response => {
       const result = response.data.data.map((item: ISeafarerExperienceData) => {
         return {
           ...item,

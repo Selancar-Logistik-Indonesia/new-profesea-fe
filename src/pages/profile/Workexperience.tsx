@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { useState } from 'react'
-import { format } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 
 export type ParamJobVacncy = {
   logo: string | undefined
@@ -57,9 +57,8 @@ const renderList = (arr: ParamJobVacncy[]) => {
                     {`${item.institution?.charAt(0).toUpperCase() + item.institution?.slice(1)}`}
                   </Typography>
                   <Typography sx={{ color: '#868686', fontWeight: 400, fontSize: '14px', lineHeight: '21px' }}>
-
-                    {`${ item?.start_date ?  format(new Date(item.start_date), 'LLL yyyy')  : '-'} - ${
-                      !item.is_current ? format(new Date(item.end_date), 'LLL yyyy') : 'Present'
+                    {`${item.start_date ? format(parseISO(item.start_date), 'LLL yyyy') : ''} - ${
+                      !item.is_current ? format(parseISO(item.end_date), 'LLL yyyy') : 'Present'
                     }`}
                   </Typography>
                 </Box>

@@ -26,7 +26,7 @@ const ConnectButton = (props: ConnectButtonProps) => {
     setIsLoading(true)
     try {
       let connectionType = 'Connected'
-      if (userLogin.team_id == 2 && (user.team_id == 4 || user.team_id == 3)) {
+      if (userLogin?.team_id == 2 && (user.team_id == 4 || user.team_id == 3)) {
         connectionType = 'Followed'
       }
 
@@ -51,7 +51,7 @@ const ConnectButton = (props: ConnectButtonProps) => {
   }
 
   const buildConnectText = () => {
-    if (user.frienship_status == 'AP') {
+    if (user.frienship_status == 'AP' && userLogin) {
       if (userLogin.team_id == 2 && user.team_id == 2) {
         // setConnectionType('Connected')
 
@@ -65,7 +65,7 @@ const ConnectButton = (props: ConnectButtonProps) => {
 
         return 'Followed'
       }
-    } else {
+    } else if(userLogin) {
       if (userLogin.team_id == 2 && user.team_id == 2) {
         // setConnectionType('Connected')
 
@@ -79,6 +79,10 @@ const ConnectButton = (props: ConnectButtonProps) => {
 
         return 'Follow'
       }
+    } else {
+      if(user.team_id == 2) return 'Connect'
+      else if(user.team_id == 3) return 'Follow'
+      else return 'Follow'
     }
 
     if (user.frienship_status == 'WA') {
@@ -87,7 +91,7 @@ const ConnectButton = (props: ConnectButtonProps) => {
       return 'Requested'
     }
 
-    if (userLogin.team_id == 3 || userLogin.team_id == 4) {
+    if (userLogin?.team_id == 3 || userLogin?.team_id == 4) {
       setShowButton(false)
     }
   }
