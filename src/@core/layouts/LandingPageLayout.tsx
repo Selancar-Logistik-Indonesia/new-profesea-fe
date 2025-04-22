@@ -6,6 +6,7 @@ import { Container } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
 import Spinner from '../components/spinner'
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 const LandingPageLayoutWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   height: '100vh',
@@ -28,6 +29,7 @@ const LandingPageLayout = (props: LandingPageLayoutProps) => {
   const { children } = props
   const auth = useAuth()
   const [isNavigating, setIsNavigating] = useState(true)
+  const pathname = usePathname()
 
   useEffect(() => {
     if (!auth.loading) {
@@ -49,7 +51,7 @@ const LandingPageLayout = (props: LandingPageLayoutProps) => {
             overflowX: 'hidden',
             position: 'relative',
             minHeight: theme => `calc(100vh - ${theme.spacing((theme.mixins.toolbar.minHeight as number) / 4)})`,
-            padding: '25px 48px'
+            padding: pathname.startsWith('/profile/') || pathname.startsWith('/company/') ? '24px 120px' : ''
           }}
         >
           {children}
