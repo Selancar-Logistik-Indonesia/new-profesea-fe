@@ -39,9 +39,7 @@ const renderList = (arr: ParamJobVacncy[]) => {
           <Box mr={5} mt={2}>
             <Link
               style={{ textDecoration: 'none' }}
-              href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(
-                item.user?.username
-              )}`}
+              href={`/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(item.user?.username)}`}
             >
               <Avatar src={getUserAvatar(item.user)} alt='profile-picture' sx={{ height: 35, width: 35 }} />
             </Link>

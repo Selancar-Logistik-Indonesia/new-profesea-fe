@@ -41,9 +41,7 @@ const PopUpFeed = (props: Prop) => {
   const isXs = useMediaQuery(theme.breakpoints.down('md'))
 
   const [openComment, setOpenComment] = useState(false)
-  const profileLink = `/${feed.user?.role === 'Seafarer' ? 'profile' : 'company'}/${feed.user?.id}/${toLinkCase(
-    feed.user?.username
-  )}`
+  const profileLink = `/${feed.user?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(feed.user?.username)}`
 
   return (
     <Dialog

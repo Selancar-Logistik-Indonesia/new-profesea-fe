@@ -25,9 +25,7 @@ const FeedCard = (props: Prop) => {
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [openComment, setOpenComment] = useState(false)
 
-  const profileLink = `/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${item.user?.id}/${toLinkCase(
-    item.user?.username
-  )}`
+  const profileLink = `/${item.user?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(item.user?.username)}`
 
   return (
     <Grid item xs={12} sx={{ mt: type ? 0 : '16px' }}>
