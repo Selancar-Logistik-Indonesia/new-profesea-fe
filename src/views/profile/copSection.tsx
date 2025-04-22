@@ -25,18 +25,33 @@ const CopSection: React.FC<ICopSectionProps> = ({ userId, userName }) => {
   const isDataHidden = userId == user?.id || user?.team_id === 3 ? false : true
 
   const loadProficiency = () => {
-    HttpClient.get(AppConfig.baseUrl + '/seafarer-proficiencies/user-id/' + userId).then(response => {
-      const result = response.data.data.map((item: ISeafarerProficiencyData) => {
-        return {
-          ...item,
-          certificate_number: item.certificate_number,
-          proficiency: item.proficiency,
-          country: item.country
-        }
-      })
+    if(user) {
+      HttpClient.get(AppConfig.baseUrl + `/seafarer-proficiencies/user-id/${userId}`).then(response => {
+        const result = response.data.data.map((item: ISeafarerProficiencyData) => {
+          return {
+            ...item,
+            certificate_number: item.certificate_number,
+            proficiency: item.proficiency,
+            country: item.country
+          }
+        })
 
-      setData(result)
-    })
+        setData(result)
+      })
+    } else {
+      HttpClient.get(AppConfig.baseUrl + `/public/data/user/${userId}/seafarer-proficiencies`).then(response => {
+        const result = response.data.data.map((item: ISeafarerProficiencyData) => {
+          return {
+            ...item,
+            certificate_number: item.certificate_number,
+            proficiency: item.proficiency,
+            country: item.country
+          }
+        })
+
+        setData(result)
+      })
+    }
   }
 
   const handleShowMore = () => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import { CircularProgress, Grid } from '@mui/material'
 // import { useTheme } from '@mui/material/styles'
@@ -40,7 +40,10 @@ import UsernameChange from 'src/layouts/components/UsernameChange'
 import SideAdProfile from 'src/views/banner-ad/sideAdProfile'
 import CompleteOnboarding from 'src/views/onboarding/CompleteOnboarding'
 
+
+
 const ProfileCompany = () => {
+  
   return (
     <SocialFeedProvider>
       <UserFeedApp />
@@ -53,6 +56,7 @@ const UserFeedApp = () => {
   const router = useRouter()
   // const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+  
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [arrVacany, setArrVacancy] = useState<any>([])
   const [arrVacany2, setArrVacancy2] = useState<any>([])
@@ -63,7 +67,7 @@ const UserFeedApp = () => {
 
   const params = useSearchParams()
   let username = linkToTitleCase(params.get('username'))
-  console.log(username)
+
   const onboarding = params.get('onboarding')
 
   useEffect(() => {
@@ -94,26 +98,42 @@ const UserFeedApp = () => {
       }
 
       const user = response.data.user as IUser
-      console.log(user)
+
       if (user.role === 'Company' || user.role === 'Trainer') {
         router.push(`/company/${toLinkCase(user.username)}`)
       }
       setSelectedUser(user)
 
-      HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100' + filter).then(response => {
-        const itemData = response.data.experiences
-        setArrVacancy(itemData)
-      })
-      HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100' + filter).then(response => {
-        const itemData = response.data.educations
-        setArrVacancy2(itemData)
-      })
+      if(iduser) {
+        HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100' + filter).then(response => {
+          const itemData = response.data.experiences
+          setArrVacancy(itemData)
+        })
+        HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100' + filter).then(response => {
+          const itemData = response.data.educations
+          setArrVacancy2(itemData)
+        })
+
+      } else {
+        HttpClient.get(AppConfig.baseUrl + `/public/data/user/work-experiences?user_id=${username ? user.id : iduser}&take=10&page=1` + filter).then(response => {
+          const itemData = response.data.experiences
+          setArrVacancy(itemData)
+        })
+        HttpClient.get(AppConfig.baseUrl + `/public/data/user/educations?user_id=${username ? user.id : iduser}&take=10&page=1` + filter).then(response => {
+          const itemData = response.data.educations
+          setArrVacancy2(itemData)
+        })
+      }
       // HttpClient.get(AppConfig.baseUrl + '/user/document' + filterdoc).then(response => {
       //   const itemData = response.data.documents
 
       //   getItemdata(itemData)
       // })
-    } catch (error) {
+    } catch (error : any) {
+      if(error.response.status == 401) {
+
+        return
+      }
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
     }
   }
@@ -186,4 +206,7 @@ ProfileCompany.acl = {
 ProfileCompany.guestGuard = false
 ProfileCompany.authGuard = false
 
+// ProfileCompany.getLayout = (page: ReactNode) => user ? <UserLayout>{page}</UserLayout> : <LandingPageLayout>{page}</LandingPageLayout>
+
 export default ProfileCompany
+

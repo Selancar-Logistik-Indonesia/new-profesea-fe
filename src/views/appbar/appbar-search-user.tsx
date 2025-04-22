@@ -7,6 +7,9 @@ import { HttpClient } from 'src/services'
 import debounce from 'src/utils/debounce'
 import { getUserAvatarByPath, toLinkCase } from 'src/utils/helpers'
 import { Icon } from '@iconify/react'
+import secureLocalStorage from 'react-secure-storage'
+import { IUser } from 'src/contract/models/user'
+import localStorageKeys from 'src/configs/localstorage_keys'
 
 const AppbarSearchUser = () => {
   const router = useRouter()
@@ -15,10 +18,13 @@ const AppbarSearchUser = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [noResults, setNoResults] = useState(false)
   const searchTimeoutRef = useRef<number | undefined>(undefined)
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   const fetchListFriends = async () => {
     setIsLoading(true)
     try {
+      if(!user) return
+      
       const resp = await HttpClient.get('/search/content', {
         search: search
       })

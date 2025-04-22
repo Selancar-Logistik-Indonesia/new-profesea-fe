@@ -31,7 +31,7 @@ const AppBarContent = (props: Props) => {
             component='img'
             sx={{ width: 125 }}
             alt='The Profesea logo'
-            title='Profesea'
+            title='Profeseav'
             src='/images/logoprofesea.png'
           />
         </LinkStyled>

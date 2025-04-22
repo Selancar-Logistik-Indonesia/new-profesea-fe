@@ -48,7 +48,8 @@ const LandingPageLayout = (props: LandingPageLayoutProps) => {
           sx={{
             overflowX: 'hidden',
             position: 'relative',
-            minHeight: theme => `calc(100vh - ${theme.spacing((theme.mixins.toolbar.minHeight as number) / 4)})`
+            minHeight: theme => `calc(100vh - ${theme.spacing((theme.mixins.toolbar.minHeight as number) / 4)})`,
+            padding: '25px 48px'
           }}
         >
           {children}
