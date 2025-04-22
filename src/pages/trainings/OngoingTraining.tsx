@@ -162,11 +162,11 @@ const renderList = (arr: Training[] | null, user: IUser | null) => {
 }
 
 const OngoingTrainingScreen = ({ user }: { user: IUser | null }) => {
-  const { fetchTrainings, hasNextPage, totalTraining } = useTraining()
+  const { fetchTrainings, hasNextPage, totalTraining, page, setPage } = useTraining()
 
   useEffect(() => {
     fetchTrainings({ take: 12, instant: 0, ongoing: 1 }, true)
-  }, [hasNextPage])
+  }, [hasNextPage, page])
 
   return (
     <TrainingContext.Consumer>
@@ -184,7 +184,7 @@ const OngoingTrainingScreen = ({ user }: { user: IUser | null }) => {
             <InfiniteScroll
               style={{ overflow: 'visible' }}
               dataLength={totalTraining}
-              next={() => fetchTrainings({ take: 12, instant: 0, ongoing: 1 })}
+              next={() => setPage(page + 1)}
               hasMore={hasNextPage}
               loader={<CircularProgress sx={{ mt: 20 }} />}
             >
