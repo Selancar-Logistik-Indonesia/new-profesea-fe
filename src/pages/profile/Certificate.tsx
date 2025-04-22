@@ -40,11 +40,19 @@ const Ceritificate = (props: Props) => {
   const isDataHidden = userId == user?.id || user?.team_id === 3 ? false : true
 
   const loadData = () => {
-    HttpClient.get(AppConfig.baseUrl + `/user/candidate-document/?user_id=${userId}`).then(response => {
-      const itemData = response.data.documents
-
-      setData(itemData)
-    })
+    if(user) {
+      HttpClient.get(AppConfig.baseUrl + `/user/candidate-document?user_id=${userId}`).then(response => {
+        const itemData = response.data.documents
+  
+        setData(itemData)
+      })
+    } else {
+      HttpClient.get(AppConfig.baseUrl + `/public/data/user/candidate-document?user_id=${userId}`).then(response => {
+        const itemData = response.data.documents
+  
+        setData(itemData)
+      })
+    }
   }
 
   useEffect(() => {
