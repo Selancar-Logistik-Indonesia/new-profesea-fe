@@ -60,17 +60,17 @@ const Profile = (props: userProps) => {
     })
   }, [props.datauser])
 
-  const resolveEditHref = (role?: string) => {
+  const resolveEditHref = (role?: string, username?: string) => {
     if (role == 'Seafarer') {
-      return '/candidate'
+      return `/profile/${toLinkCase(username)}`
     }
 
     if (role == 'Company') {
-      return '/company'
+      return `/company/${toLinkCase(username)}`
     }
 
     if (role == 'Trainer') {
-      return '/trainer'
+      return `/trainer${toLinkCase(username)}`
     }
 
     return '/'
@@ -225,7 +225,10 @@ const Profile = (props: userProps) => {
 
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '16px' }}>
               <Typography sx={{ fontSize: '14px', fontWeight: 700, color: '#32497A', cursor: 'pointer' }}>
-                <Link href={resolveEditHref(props.datauser?.role)} style={{ color: 'inherit' }}>
+                <Link
+                  href={resolveEditHref(props.datauser?.role, props.datauser?.username)}
+                  style={{ color: 'inherit' }}
+                >
                   View My Profile
                 </Link>
               </Typography>

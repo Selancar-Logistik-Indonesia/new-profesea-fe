@@ -28,7 +28,6 @@ const renderList = (arr: ParamJobVacncy[]) => {
     return arr.map((item, index) => {
       const [expand, setExpand] = useState(false)
 
-
       return (
         <Grid
           container
