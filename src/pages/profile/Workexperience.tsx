@@ -57,7 +57,8 @@ const renderList = (arr: ParamJobVacncy[]) => {
                     {`${item.institution?.charAt(0).toUpperCase() + item.institution?.slice(1)}`}
                   </Typography>
                   <Typography sx={{ color: '#868686', fontWeight: 400, fontSize: '14px', lineHeight: '21px' }}>
-                    {`${format(new Date(item.start_date), 'LLL yyyy')} - ${
+
+                    {`${ item?.start_date ?  format(new Date(item.start_date), 'LLL yyyy')  : '-'} - ${
                       !item.is_current ? format(new Date(item.end_date), 'LLL yyyy') : 'Present'
                     }`}
                   </Typography>
