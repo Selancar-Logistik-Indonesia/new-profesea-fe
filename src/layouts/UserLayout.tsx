@@ -50,7 +50,7 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
    *  to know more about what values can be passed to this hook.
    *  ! Do not change this value unless you know what you are doing. It can break the template.
    */
-  settings.layout = 'horizontal'
+  settings.layout = 'vertical'
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
   const session = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const [isClient, setIsClient] = useState(false)
@@ -59,7 +59,7 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
     setIsClient(true)
   })
 
-  if (session && session.role != 'admin') {
+  if ((session && session.role != 'admin') || !session) {
     settings.layout = 'horizontal'
     if (hidden) {
       settings.layout = 'vertical'
