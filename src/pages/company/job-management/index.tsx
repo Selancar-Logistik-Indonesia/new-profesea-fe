@@ -19,7 +19,6 @@ import { useEffect, useState } from 'react'
 import { MdNavigateNext } from 'react-icons/md'
 import AnimatedTabs from 'src/@core/components/animated-tabs'
 import CustomPaginationItem from 'src/@core/components/pagination/item'
-import ModalUnlockPlus from 'src/@core/components/subscription/ModalUnlockPlus'
 import Job from 'src/contract/models/job'
 import JobCategory from 'src/contract/models/job_category'
 import VesselType from 'src/contract/models/vessel_type'
@@ -186,8 +185,6 @@ const JobManagement = () => {
                   <Typography sx={{fontSize:14, fontWeight:400, color:'#525252'}}>Highlight this job to attract more candidates. You can only boost one job at a time. To highlight this job and attract more candidates, you'll need to deactivate any currently boosted job on job management.</Typography>
               </Box>
           </Alert>
-          {/* nge test doang jangan lupa dihapus */}
-          <ModalUnlockPlus text='ngetes doang, jan lupa dihapus'/>
           <Box sx={{ pb: '24px', display: 'flex', justifyContent: 'space-between' }}>
             <Typography sx={{ color: '#32497A', lineHeight: '38px', fontSize: '32px', fontWeight: 700 }}>
               Job Management
