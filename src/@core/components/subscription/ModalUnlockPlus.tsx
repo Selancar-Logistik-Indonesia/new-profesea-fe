@@ -1,7 +1,9 @@
 import { Icon } from '@iconify/react'
-import { Box, Button, Checkbox, Dialog, DialogContent, FormControlLabel, IconButton, Link, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Checkbox, Dialog, DialogContent, FormControlLabel, IconButton, Link, Slide, Tooltip, Typography } from '@mui/material'
+import { TransitionProps } from '@mui/material/transitions'
 import Lottie from 'lottie-react'
-import { useState } from 'react'
+import React, { useState } from 'react'
+import { HttpClient } from 'src/services'
 
 type ModalProps = {
   text: string
@@ -39,44 +41,53 @@ const quizList: {question: string, detail: string, value:string}[] = [
   {
     question: 'Unlimited Active Job Postings',
     detail: 'Post as many jobs as you need. No limits.',
-    value:'job_post'
+    value:'UJP'
   },
   {
     question: 'Boost Job Visibility',
     detail: 'Make one of your job appear at the top of search results and get more views to reach more candidates faster.',
-    value:'boost_job'
+    value:'BJV'
   },
   {
     question: 'Message Candidates Directly',
     detail: 'Send messages to candidates directly — no middle steps.',
-    value:'message_candidate'
+    value:'MCD'
   },
   {
     question: 'Offer Job Instantly',
     detail: 'Send offers right away to the candidates you want to hire, with no waiting.',
-    value:'offer_job'
+    value:'OJI'
   },
   {
     question: 'Customized URLs',
     detail: 'Customize your profile link for easy sharing.',
-    value:'customize_url'
+    value:'CURL'
   },
   {
     question: 'Access Smart Candidate Recommendations',
     detail: 'View a curated list of candidates matched to your job by skills and experience.',
-    value:'smart_candidate'
+    value:'SR'
   },
   {
     question: 'Manage Your Hiring Pipeline',
     detail: 'Track and manage candidates through every hiring stage — from application to hire.',
-    value:'hiring_pipeline'
+    value:'MHP'
   },
   {
     question: 'Saved Candidates',
     detail: 'Save standout candidates to revisit anytime.',
-    value:'saved_candidates'
+    value:'SC'
   },
 ]
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="down" ref={ref} {...props} />
+})
 
 const ModalUnlockPlus = ({ text }: ModalProps) => {
 
@@ -101,10 +112,29 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
 
   const handleCloseSecond = () => setIsOpenSecond(false)
 
-  const handleSubmit = () => {
-    console.log(answers)
-    setIsOpenSecond(true)
-    handleCloseFirst()
+  const handleSubmit = async () => {
+    
+    try {
+      await HttpClient.post('/subscription/subscribe', {
+        package_code: "PLS-3M-TRIAL"
+      })
+
+
+      await HttpClient.post('/feedback/user-feedback', {
+        section: 'Feedback Company 1',
+        feedback_codes: answers,
+      })
+
+    } catch (error) {
+      console.log(error)
+    }finally{
+      setIsOpenSecond(true)
+      handleCloseFirst()
+
+      setAnswers([])
+    }
+
+    
   }
 
 
@@ -176,7 +206,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                       return (
                         <Box key={i} sx={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
                           <Box>
-                            <FormControlLabel control={<Checkbox onChange={(e) => handleCheck(e)}/>} label={item.question} sx={{fontSize:16, fontWeight:400, color:'##1F1F1F'}}/>
+                            <FormControlLabel control={<Checkbox value={item.value} onChange={(e) => handleCheck(e)}/>} label={item.question} sx={{fontSize:16, fontWeight:400, color:'##1F1F1F'}}/>
                           </Box>
                           <Tooltip title={item.detail}><Icon icon={'ph:info'} fontSize={20}/></Tooltip>
                         </Box>
@@ -196,7 +226,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
       </Dialog>
 
       {/* congrats dialog */}
-      <Dialog scroll='body' open={isOpenSecond} onClose={handleCloseSecond} fullWidth maxWidth={'xs'} sx={{ '& .MuiDialog-paper': {borderRadius:'12px !important'} }}>
+      <Dialog TransitionComponent={Transition} keepMounted scroll='body' open={isOpenSecond} onClose={handleCloseSecond} fullWidth maxWidth={'xs'} sx={{ '& .MuiDialog-paper': {borderRadius:'12px !important'} }}>
         <DialogContent sx={{padding:0}}>
           <Box sx={{display:'flex', flexDirection:'column'}}>
             {/* image */}
