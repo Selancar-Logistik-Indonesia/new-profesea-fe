@@ -74,6 +74,8 @@ const DialogAddEducation = (props: DialogProps) => {
   const [selectedFile, setSelectedFile] = useState()
   const [EduId, setEduId] = useState('')
   const [institutions, setInstitutions] = useState<Institution[]>([])
+  const [startDateMessage, setStartDateMessage] = useState('')
+  const [endDateMessage, setEndDateMessage] = useState('')
 
   const handleSearchInstitutions = useCallback(
     debounce((value: string) => {
@@ -140,6 +142,35 @@ const DialogAddEducation = (props: DialogProps) => {
   })
 
   const onSubmit = async (data: FormData) => {
+    const start_date =
+      moment(dateAwal).format('YYYY-MM-DD') == 'Invalid date' ? null : moment(dateAwal).format('YYYY-MM-DD')
+    const end_date =
+      !isCurrentEducation && dateAkhir && moment(dateAkhir).format('YYYY-MM-DD') != 'Invalid date'
+        ? moment(dateAkhir).format('YYYY-MM-DD')
+        : null
+
+    if (start_date == null) {
+      toast.error('Start date is required!, please select Start date properly, not type the date input')
+      setStartDateMessage(
+        'Start date is required!, please select Start date properly, not type the date input. Click Calendar icon to select date'
+      )
+
+      return
+    } else {
+      setStartDateMessage('')
+    }
+
+    if (end_date == null && !isCurrentEducation) {
+      toast.error('End date is required!, please select End date properly, not type the date input')
+      setEndDateMessage(
+        'End date is required!, please select End date properly, not type the date input. Click Calendar icon to select date'
+      )
+
+      return
+    } else {
+      setEndDateMessage('')
+    }
+
     const { major, title } = data
     const json = {
       title: title,
@@ -147,8 +178,8 @@ const DialogAddEducation = (props: DialogProps) => {
       degree: EduId,
       logo: selectedFile,
       still_here: isCurrentEducation ? 1 : 0,
-      start_date: moment(dateAwal).format('YYYY-MM-DD') || null,
-      end_date: !isCurrentEducation && dateAkhir ? moment(dateAkhir).format('YYYY-MM-DD') : null,
+      start_date: start_date,
+      end_date: end_date,
       is_current: isCurrentEducation
     }
 
@@ -297,13 +328,21 @@ const DialogAddEducation = (props: DialogProps) => {
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
                   views={['month', 'year']}
-                  onChange={(date: any) => setDateAwal(date)}
+                  onChange={(date: any) => {
+                    setDateAwal(date)
+                    setStartDateMessage('')
+                  }}
                   value={dateAwal ? moment(dateAwal) : null}
                   slotProps={{
                     textField: { variant: 'outlined', fullWidth: true, id: 'basic-input', ...register('startdate') }
                   }}
                 />
               </LocalizationProvider>
+              {startDateMessage && (
+                <Typography variant='caption' color='error'>
+                  {startDateMessage}
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12} md={6}>
               <InputLabel
@@ -323,7 +362,10 @@ const DialogAddEducation = (props: DialogProps) => {
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
                   views={['month', 'year']}
-                  onChange={(date: any) => setDateAkhir(date)}
+                  onChange={(date: any) => {
+                    setDateAkhir(date)
+                    setEndDateMessage('')
+                  }}
                   value={!isCurrentEducation && dateAkhir ? moment(dateAkhir) : null}
                   slotProps={{
                     textField: { variant: 'outlined', fullWidth: true, id: 'basic-input', ...register('enddate') }
@@ -331,6 +373,11 @@ const DialogAddEducation = (props: DialogProps) => {
                   disabled={isCurrentEducation}
                 />
               </LocalizationProvider>
+              {endDateMessage && (
+                <Typography variant='caption' color='error'>
+                  {endDateMessage}
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12} md={12}>
               <FormControlLabel

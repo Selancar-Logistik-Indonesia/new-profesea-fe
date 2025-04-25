@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Imports
 import { Theme } from '@mui/material/styles'
@@ -27,6 +27,7 @@ import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import { FriendSuggestionProvider } from 'src/context/FriendSuggestionContext'
+import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 
 interface Props {
   children: ReactNode
@@ -52,12 +53,20 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
   settings.layout = 'vertical'
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
   const session = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  if (session && session.role != 'admin') {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  })
+
+  if ((session && session.role != 'admin') || !session) {
     settings.layout = 'horizontal'
     if (hidden) {
       settings.layout = 'vertical'
     }
   }
+
+  if(!session && isClient) return <FriendSuggestionProvider><LandingPageLayout>{children}</LandingPageLayout></FriendSuggestionProvider>
 
   return (
     <FriendSuggestionProvider>

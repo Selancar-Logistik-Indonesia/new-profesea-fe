@@ -50,7 +50,7 @@ const SocialFeedApp = () => {
   }
 
   const renderAlertDocumentsForCompany = (activitiesUser: activities | undefined) => {
-    if (user?.verified_at && activitiesUser && +activitiesUser?.total_post_job !== 0) {
+    if (user?.verified_at && activitiesUser && +activitiesUser?.total_post_job == 0) {
       return (
         <Box
           sx={{

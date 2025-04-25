@@ -110,7 +110,7 @@ const Activity = ({ dataUser, status }: { dataUser: IUser; status: boolean }) =>
                           whiteSpace: 'pre-line',
                           color: 'rgba(68, 75, 78, 1)',
                           fontSize: 16,
-                          fontWeight : 300
+                          fontWeight: 300
                         }}
                       >
                         {item.content}
@@ -162,9 +162,7 @@ const Activity = ({ dataUser, status }: { dataUser: IUser; status: boolean }) =>
       <Button
         endIcon={<Icon icon='mingcute:right-fill' style={{ fontSize: 18 }} />}
         href={isStatusLink(
-          `/${dataUser?.role === 'Seafarer' ? 'profile' : 'company'}/${dataUser?.id}/${toLinkCase(
-            dataUser?.username
-          )}/activities`
+          `/${dataUser?.role === 'Seafarer' ? 'profile' : 'company'}/${toLinkCase(dataUser?.username)}/activities`
         )}
         sx={{
           py: '18px',

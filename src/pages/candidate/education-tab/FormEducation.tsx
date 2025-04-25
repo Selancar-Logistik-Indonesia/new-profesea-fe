@@ -86,6 +86,14 @@ const FormEducation: React.FC<IFormEducation> = ({ onClose, getUserEducation }) 
   const onSubmit = async (data: FormData) => {
     console.log(data)
     setOnLoading(true)
+
+    const start_date =
+      moment(startDate).format('YYYY-MM-DD') == 'Invalid date' ? null : moment(startDate).format('YYYY-MM-DD')
+    const end_date =
+      !isCurrentEducation && endDate && moment(endDate).format('YYYY-MM-DD') != 'Invalid date'
+        ? moment(endDate).format('YYYY-MM-DD')
+        : null
+
     const { major, title } = data
     const json = {
       title: title,
@@ -93,8 +101,8 @@ const FormEducation: React.FC<IFormEducation> = ({ onClose, getUserEducation }) 
       degree: userEduId,
       logo: selectedFileLogo,
       still_here: isCurrentEducation ? 1 : 0,
-      start_date: moment(startDate).format('YYYY-MM-DD') || null,
-      end_date: !isCurrentEducation && endDate ? moment(endDate).format('YYYY-MM-DD') : null,
+      start_date: start_date,
+      end_date: end_date,
       is_current: isCurrentEducation
     }
 
@@ -268,8 +276,15 @@ const FormEducation: React.FC<IFormEducation> = ({ onClose, getUserEducation }) 
                 views={['month', 'year']}
                 onChange={(date: any) => setStartDate(date)}
                 value={startDate ? moment(startDate) : null}
+                readOnly={true}
                 slotProps={{
-                  textField: { variant: 'outlined', fullWidth: true, id: 'input-startdate', ...register('startdate') }
+                  textField: {
+                    'aria-readonly': true,
+                    variant: 'outlined',
+                    fullWidth: true,
+                    id: 'input-startdate',
+                    ...register('startdate')
+                  }
                 }}
               />
             </LocalizationProvider>
@@ -294,8 +309,15 @@ const FormEducation: React.FC<IFormEducation> = ({ onClose, getUserEducation }) 
                 views={['month', 'year']}
                 onChange={(date: any) => setEndDate(date)}
                 value={!isCurrentEducation && endDate ? moment(endDate) : null}
+                readOnly={true}
                 slotProps={{
-                  textField: { variant: 'outlined', fullWidth: true, id: 'input-enddate', ...register('enddate') }
+                  textField: {
+                    'aria-readonly': true,
+                    variant: 'outlined',
+                    fullWidth: true,
+                    id: 'input-enddate',
+                    ...register('enddate')
+                  }
                 }}
                 disabled={isCurrentEducation}
               />

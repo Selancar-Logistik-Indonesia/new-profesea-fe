@@ -25,15 +25,27 @@ const CocSection: React.FC<ICocSectionProps> = ({ userId, userName }) => {
   const isDataHidden = userId == user?.id || user?.team_id === 3 ? false : true
 
   const loadCompetency = () => {
-    HttpClient.get(AppConfig.baseUrl + '/seafarer-competencies/user-id/' + userId).then(response => {
-      const result = response.data.data.map((item: ISeafarerCompetencyData) => {
-        return {
-          ...item
-        }
-      })
+    if(user) {
+      HttpClient.get(AppConfig.baseUrl + `/seafarer-competencies/user-id/${userId}`).then(response => {
+        const result = response.data.data.map((item: ISeafarerCompetencyData) => {
+          return {
+            ...item
+          }
+        })
 
-      setData(result)
-    })
+        setData(result)
+      })
+    } else {
+      HttpClient.get(AppConfig.baseUrl + `/public/data/user/${userId}/seafarer-competencies`).then(response => {
+        const result = response.data.data.map((item: ISeafarerCompetencyData) => {
+          return {
+            ...item
+          }
+        })
+
+        setData(result)
+      })
+    }
   }
 
   const handleShowMore = () => {
