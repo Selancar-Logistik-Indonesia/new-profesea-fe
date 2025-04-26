@@ -1,10 +1,11 @@
 import { Icon } from '@iconify/react'
 import { Box, Breadcrumbs, Grid, InputAdornment, Link, MenuItem, Select, TextField, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MdNavigateNext } from 'react-icons/md'
 import AnimatedTabs from 'src/@core/components/animated-tabs'
 import { PieChart } from '@mui/x-charts/PieChart'
 import TableUser from 'src/views/admin/feedback-management/TableUser'
+import { HttpClient } from 'src/services'
 
 type QuizType = { question: string; detail: string; value: number; color: string; key: string }
 
@@ -76,12 +77,33 @@ const quizList: QuizType[] = [
 
 
 export const FreeTrialInsight = () => {
+
+  //datas
+  const [feedbacks, setFeedbacks] = useState()
+
+  //page settings
   const [activeTab, setActiveTab] = useState<string>('company')
 
-  // filter
+  // filter settings
   const [search, setSearch] = useState<string>('')
   const [sort, setSort] = useState<string>('desc')
   const [quiz, setQuiz] = useState<string | number>('')
+
+  const onLoad = async () => {
+      try {
+        const res = await HttpClient.get('/feedback/user-feedbacks', {
+          take:10,
+          page:1
+        })
+        console.log('response: ', res.data.userFeedbacks.data)
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
+  useEffect(() => {
+    onLoad()
+  }, [])
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
