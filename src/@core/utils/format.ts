@@ -21,11 +21,12 @@ const isToday = (date: Date | string) => {
 
 export const formatDate = (
   value: Date | string,
-  formatting: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' }
+  formatting: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' },
+  locale = 'en-US'
 ) => {
   if (!value) return value
 
-  return new Intl.DateTimeFormat('en-US', formatting).format(new Date(value))
+  return new Intl.DateTimeFormat(locale, formatting).format(new Date(value))
 }
 
 // ** Returns short month of passed date

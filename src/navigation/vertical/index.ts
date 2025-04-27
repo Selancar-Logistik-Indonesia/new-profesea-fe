@@ -142,6 +142,21 @@ const navigation = (): VerticalNavItemsType => {
             ]
         },
         {
+            path: '#',
+            title: 'Feedback Management',
+            icon: 'solar:leaf-bold-duotone',
+            action: 'read',
+            subject: 'admin-subcription-management',
+            children: [
+                {
+                    title: 'Free Trial Insight',
+                    path: '/admin/feedback-management/free-trial-insight',
+                    subject: 'admin-training-management',
+                    action: 'read'
+                }
+            ]
+        },
+        {
             path: '/admin/subcription-management',
             title: 'Subcription Management',
             icon: 'solar:leaf-bold-duotone',
