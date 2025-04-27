@@ -141,7 +141,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
   return (
     <>
     {/* unlock plus button */}
-      <Button onClick={() => setIsOpenFirst(true)} sx={{ borderRadius: 2, backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)', textTransform:'none', display:'flex', alignItems:'center', gap:2 }}>
+      <Button onClick={() => setIsOpenFirst(true)} sx={{ borderRadius: 2, backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)', textTransform:'none', display:'flex', alignItems:'center', gap:2, whiteSpace:'nowrap' }}>
         <Icon icon={'ph:crown-simple-fill'} fontSize={18} color='#FFFFFF' />
         <Typography sx={{ ml: 1, fontSize: 14, fontWeight: 400, color: '#FFFFFF' }}>{text}</Typography>
       </Button>

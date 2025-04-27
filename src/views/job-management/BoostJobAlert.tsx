@@ -15,6 +15,8 @@ import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 
 import Job from 'src/contract/models/job'
+import { useAuth } from 'src/hooks/useAuth'
+import ModalUnlockPlus from 'src/@core/components/subscription/ModalUnlockPlus'
 
 const BoostJobAlert = ({
   setIsBoosted,
@@ -25,6 +27,9 @@ const BoostJobAlert = ({
   setIsBoosted: (e: boolean) => void
   currentJob?: Job
 }) => {
+  const { user } = useAuth()
+  const [isSubs, setIsSubs] = useState<boolean>(false)
+
   const [boostCount, setBoostCount] = useState(0)
   const [open, setOpen] = useState(false)
   const [availableBoost, setAvailableBoost] = useState(true)
@@ -62,8 +67,11 @@ const BoostJobAlert = ({
 
   useEffect(() => {
     getJobs()
-    
   }, [])
+
+  useEffect(() => {
+    setIsSubs(user?.current_package.is_active && user.current_package.name !== 'basic')
+  }, [user])
 
   useEffect(() => {
     if (boostCount > 0 && !currentJob?.is_boosted) {
@@ -96,7 +104,7 @@ const BoostJobAlert = ({
   return (
     <>
       <Alert
-        action={actionSwitch()}
+        action={!isSubs ? (<ModalUnlockPlus text={'Unlock to Boost job'}/>) : actionSwitch()}
         icon={<Icon icon='ph:lightning' fontSize={32} color='#32497A' />}
         sx={{
           display: 'flex',

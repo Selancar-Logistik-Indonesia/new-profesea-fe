@@ -24,6 +24,7 @@ import { calculateDaysDifference, dateProgress, getDateMonth } from 'src/utils/h
 import DialogDelete from './DialogDelete'
 import { DraftToggle } from './Component'
 import { AppConfig } from 'src/configs/api'
+import ModalUnlockPlus from 'src/@core/components/subscription/ModalUnlockPlus'
 
 interface StatusCardProps {
   id: number
@@ -69,7 +70,7 @@ const StatusCard = (props: StatusCardProps) => {
   )
 }
 
-const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
+const JobCard = ({ job, refetch, isSubs }: { job: Job; refetch: VoidFunction, isSubs:boolean }) => {
   const [status, setStatus] = useState(job.is_active)
   const [boosted, setBoosted] = useState(job.is_boosted)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -444,7 +445,7 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
               draft={job.is_draft}
             />
           </Grid>
-          <Tooltip
+          {isSubs ? (<Tooltip
             title={
               !boosted &&
               !isAvailable &&
@@ -489,7 +490,7 @@ const JobCard = ({ job, refetch }: { job: Job; refetch: VoidFunction }) => {
                 </>
               )}
             </Button>
-          </Tooltip>
+          </Tooltip>) : (<ModalUnlockPlus text={'Unlock to Boost job'}/>)}
           <Grid container sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {!job.is_draft && (
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>

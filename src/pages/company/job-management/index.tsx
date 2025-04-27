@@ -1,6 +1,5 @@
 import { Icon } from '@iconify/react'
 import {
-  Alert,
   Autocomplete,
   Box,
   Breadcrumbs,
@@ -26,6 +25,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import { HttpClient } from 'src/services'
 import DialogCreate from 'src/views/job-management/DialogCreate'
 import DialogUpload from 'src/views/job-management/DialogUpload'
+import JobAlert from 'src/views/job-management/JobAlert'
 import JobCard from 'src/views/job-management/JobCard'
 import JobCardSkeleton from 'src/views/job-management/JobCardSkeleton'
 import { v4 } from 'uuid'
@@ -49,6 +49,7 @@ const checkStatus = (status: string) => {
 
 const JobManagement = () => {
   const { user } = useAuth()
+
   const router = useRouter()
   const [refetch, setRefetch] = useState(v4())
   const [onLoading, setOnLoading] = useState<boolean>(false)
@@ -56,7 +57,9 @@ const JobManagement = () => {
   const [createJob, setCreateJob] = useState(false)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [document, setDocument] = useState<any[]>([])
+  const [isSubs, setIsSubs]  = useState<boolean>(false)
 
+  const [boostCount, setBoostCount] = useState<number>(0)
   const [totalJobs, setTotalJobs] = useState(0)
   const [isCrewing, setIsCrewing] = useState(false)
   const [activeTab, setActiveTab] = useState('onship')
@@ -117,6 +120,17 @@ const JobManagement = () => {
       const data: VesselType[] = await response.data.vesselTypes.data
       getVesselType(data)
     })
+    HttpClient.get('/job', {
+      page: 1,
+        take: 50,
+        is_boosted: 1
+    }).then(res => {
+      const data = res.data.jobs.data
+
+      if (data.length > 0) {
+        setBoostCount(1)
+      }
+    })
 
     if (user?.is_crewing === 1) {
       HttpClient.get(`/user/document?siup=1`).then(async response => {
@@ -144,6 +158,10 @@ const JobManagement = () => {
   useEffect(() => {
     firstLoad()
   }, [activeTab])
+
+  useEffect(() => {
+    setIsSubs(user?.current_package.is_active && user.current_package.name !== 'basic')
+  }, [user])
 
   useEffect(() => {
     getJobs()
@@ -179,12 +197,7 @@ const JobManagement = () => {
           </Breadcrumbs>
         </Grid>
         <Grid item xs={12} flexDirection='column' sx={{ borderRadius: '8px', p: '26px', backgroundColor: '#FFF' }}>
-          <Alert icon={<Icon icon='ph:lightning' fontSize={32} color="#32497A"/>} sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:2, backgroundColor:'#F8F8F7', border:'1px solid #BFBFBF', borderRadius:'8px', mb:8}}>
-              <Box sx={{display:'flex', flexDirection:'column', gap:1}}>
-                  <Typography sx={{fontSize:14, fontWeight:700, color:'#303030'}}>Boost Job Visibility</Typography>
-                  <Typography sx={{fontSize:14, fontWeight:400, color:'#525252'}}>Highlight this job to attract more candidates. You can only boost one job at a time. To highlight this job and attract more candidates, you'll need to deactivate any currently boosted job on job management.</Typography>
-              </Box>
-          </Alert>
+          <JobAlert boostCount={boostCount} jobsCount={totalJobs} isSubs={isSubs}/>
           <Box sx={{ pb: '24px', display: 'flex', justifyContent: 'space-between' }}>
             <Typography sx={{ color: '#32497A', lineHeight: '38px', fontSize: '32px', fontWeight: 700 }}>
               Job Management
@@ -198,7 +211,7 @@ const JobManagement = () => {
               size='small'
               variant='contained'
               endIcon={<Icon icon='ph:plus' />}
-              disabled={user?.verified_at === null || document.length === 0}
+              disabled={user?.verified_at === null || document.length === 0 || (!isSubs && totalJobs >= 3)}
               sx={{ height: '38px', padding: '8px 12px', textTransform: 'none' }}
             >
               Create Job
@@ -366,7 +379,7 @@ const JobManagement = () => {
             ) : jobs && jobs.length > 0 ? (
               jobs.map((job, i) => (
                 <Grid item key={i} xs={6}>
-                  <JobCard job={job} refetch={() => setRefetch(v4())} />
+                  <JobCard job={job} refetch={() => setRefetch(v4())} isSubs={isSubs} />
                 </Grid>
               ))
             ) : (
