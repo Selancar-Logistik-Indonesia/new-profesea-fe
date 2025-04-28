@@ -48,8 +48,8 @@ const checkStatus = (status: string) => {
 }
 
 const JobManagement = () => {
-  const { user } = useAuth()
-
+  const { user, abilities } = useAuth()
+  console.log(abilities)
   const router = useRouter()
   const [refetch, setRefetch] = useState(v4())
   const [onLoading, setOnLoading] = useState<boolean>(false)
@@ -58,6 +58,7 @@ const JobManagement = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [document, setDocument] = useState<any[]>([])
   const [isSubs, setIsSubs]  = useState<boolean>(false)
+  const [totalJobPosted, setTotalJobPosted] = useState(0)
 
   const [boostCount, setBoostCount] = useState<number>(0)
   const [totalJobs, setTotalJobs] = useState(0)
@@ -74,6 +75,29 @@ const JobManagement = () => {
   const [statusFilter, setStatusFilter] = useState<string>('')
   const [vesselTypeFilter, setVesselTypeFilter] = useState<VesselType | null>(null)
   const [employmentTypeFilter, setEmploymentTypeFilter] = useState<string>('')
+
+
+
+  const getTotalJobPosted = async () => {
+    setOnLoading(true)
+
+    try {
+      const response = await HttpClient.get('/job', {
+        page: page,
+        take: pageItems,
+        is_active: true
+      })
+
+      const ujp = abilities?.items.find(f => f.code === 'UJP') 
+      const usedCounter = response.data.jobs.total > (ujp?.used ?? 0) ? response.data.jobs.total : ujp?.used
+      setTotalJobPosted(usedCounter)
+    } catch (error) {
+      console.error('Error fetching  jobs:', error)
+    } finally{
+      setOnLoading(false)
+    }
+  }
+
 
   const getJobs = async () => {
     setOnLoading(true)
@@ -160,12 +184,13 @@ const JobManagement = () => {
   }, [activeTab])
 
   useEffect(() => {
-    setIsSubs(user?.current_package.is_active && user.current_package.name !== 'basic')
-  }, [user])
+    setIsSubs(abilities?.plan_type !== 'basic')
+    getTotalJobPosted()
+  }, [user, abilities, jobs])
 
   useEffect(() => {
     getJobs()
-  }, [refetch, activeTab, search, page, jobCategoryFilter, statusFilter, vesselTypeFilter, employmentTypeFilter, sort])
+  }, [refetch, activeTab, search, page, jobCategoryFilter, statusFilter, vesselTypeFilter, employmentTypeFilter, sort, abilities])
 
   return (
     <>
@@ -197,7 +222,7 @@ const JobManagement = () => {
           </Breadcrumbs>
         </Grid>
         <Grid item xs={12} flexDirection='column' sx={{ borderRadius: '8px', p: '26px', backgroundColor: '#FFF' }}>
-          <JobAlert boostCount={boostCount} jobsCount={totalJobs} isSubs={isSubs}/>
+          <JobAlert boostCount={boostCount} jobsCount={totalJobPosted} isSubs={isSubs}/>
           <Box sx={{ pb: '24px', display: 'flex', justifyContent: 'space-between' }}>
             <Typography sx={{ color: '#32497A', lineHeight: '38px', fontSize: '32px', fontWeight: 700 }}>
               Job Management
@@ -211,7 +236,7 @@ const JobManagement = () => {
               size='small'
               variant='contained'
               endIcon={<Icon icon='ph:plus' />}
-              disabled={user?.verified_at === null || document.length === 0 || (!isSubs && totalJobs >= 3)}
+              disabled={user?.verified_at === null || document.length === 0 || (!isSubs && totalJobPosted >= 3)}
               sx={{ height: '38px', padding: '8px 12px', textTransform: 'none' }}
             >
               Create Job

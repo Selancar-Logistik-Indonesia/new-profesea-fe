@@ -27,7 +27,7 @@ const BoostJobAlert = ({
   setIsBoosted: (e: boolean) => void
   currentJob?: Job
 }) => {
-  const { user } = useAuth()
+  const { user, abilities } = useAuth()
   const [isSubs, setIsSubs] = useState<boolean>(false)
 
   const [boostCount, setBoostCount] = useState(0)
@@ -70,7 +70,7 @@ const BoostJobAlert = ({
   }, [])
 
   useEffect(() => {
-    setIsSubs(user?.current_package.is_active && user.current_package.name !== 'basic')
+    setIsSubs(abilities?.plan_type !== 'basic')
   }, [user])
 
   useEffect(() => {

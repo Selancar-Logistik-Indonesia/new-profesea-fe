@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react'
 import { Box, Button, Checkbox, Dialog, DialogContent, FormControlLabel, IconButton, Link, Slide, Tooltip, Typography } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
 import Lottie from 'lottie-react'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { HttpClient } from 'src/services'
 
@@ -90,6 +91,7 @@ const Transition = React.forwardRef(function Transition(
 })
 
 const ModalUnlockPlus = ({ text }: ModalProps) => {
+  const router = useRouter()
 
   const [isOpenFirst, setIsOpenFirst] = useState(false)
   const [isOpenSecond, setIsOpenSecond] = useState(false)
@@ -110,7 +112,10 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
     )
   }
 
-  const handleCloseSecond = () => setIsOpenSecond(false)
+  const handleCloseSecond = () => {
+    setIsOpenSecond(false)
+    router.reload()
+  }
 
   const handleSubmit = async () => {
     
