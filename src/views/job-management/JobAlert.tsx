@@ -7,6 +7,7 @@ const JobAlert = ({ jobsCount, isSubs, boostCount }: { jobsCount: number; isSubs
   if (jobsCount === 0) {
     return (
       <Alert
+        action={!isSubs && <ModalUnlockPlus text={'Unlock to Post Unlimited Job'} />}
         icon={<Icon icon='ph:note-pencil' fontSize={32} color='#32497A' />}
         sx={{
           display: 'flex',
@@ -38,7 +39,7 @@ const JobAlert = ({ jobsCount, isSubs, boostCount }: { jobsCount: number; isSubs
               )}
             </Typography>
           </Box>
-          {!isSubs && <ModalUnlockPlus text={'Unlock to Post Unlimited Job'} />}
+          
         </Box>
       </Alert>
     )
@@ -48,6 +49,7 @@ const JobAlert = ({ jobsCount, isSubs, boostCount }: { jobsCount: number; isSubs
   if (jobsCount > 0 && !isSubs) {
     return (
       <Alert
+        action={<ModalUnlockPlus text={'Unlock to Post Unlimited Job'} />}
         icon={<Icon icon='ph:note-pencil' fontSize={32} color='#32497A' />}
         sx={{
           display: 'flex',
@@ -57,11 +59,11 @@ const JobAlert = ({ jobsCount, isSubs, boostCount }: { jobsCount: number; isSubs
           backgroundColor: jobsCount >=3 ? '#FCE9C8' : '#F8F8F7',
           border: jobsCount >= 3 ? '1px solid #FDC26E' : '1px solid #BFBFBF',
           borderRadius: '8px',
-          mb: 8
+          mb: 8,
         }}
       >
         <Box
-          sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}
+          sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexGrow:1, width:'100%'}}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             <Typography sx={{ fontSize: 14, fontWeight: 700, color: jobsCount >= 3 ? '#303030' : '#32497A' }}>{jobsCount}/3 Jobs Posted</Typography>
@@ -75,8 +77,7 @@ const JobAlert = ({ jobsCount, isSubs, boostCount }: { jobsCount: number; isSubs
                 </>
               )}
             </Typography>
-          </Box>
-          <ModalUnlockPlus text={'Unlock to Post Unlimited Job'} />
+          </Box>   
         </Box>
       </Alert>
     )
