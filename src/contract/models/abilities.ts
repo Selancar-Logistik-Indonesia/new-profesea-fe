@@ -3,7 +3,7 @@ interface IAbilities {
     start_date: string
     end_date: string
     account_type: string
-    items: AbilitiesItem[]
+    items: AbilitiesItem[]   
 }
 
 interface AbilitiesItem {

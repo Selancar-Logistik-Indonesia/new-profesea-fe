@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react'
 import { Box, Button, Checkbox, Dialog, DialogContent, FormControlLabel, IconButton, Link, Slide, Tooltip, Typography } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
 import Lottie from 'lottie-react'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { HttpClient } from 'src/services'
 
@@ -90,6 +91,7 @@ const Transition = React.forwardRef(function Transition(
 })
 
 const ModalUnlockPlus = ({ text }: ModalProps) => {
+  const router = useRouter()
 
   const [isOpenFirst, setIsOpenFirst] = useState(false)
   const [isOpenSecond, setIsOpenSecond] = useState(false)
@@ -110,7 +112,10 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
     )
   }
 
-  const handleCloseSecond = () => setIsOpenSecond(false)
+  const handleCloseSecond = () => {
+    setIsOpenSecond(false)
+    router.reload()
+  }
 
   const handleSubmit = async () => {
     
@@ -141,7 +146,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
   return (
     <>
     {/* unlock plus button */}
-      <Button onClick={() => setIsOpenFirst(true)} sx={{ borderRadius: 2, backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)', textTransform:'none', display:'flex', alignItems:'center', gap:2 }}>
+      <Button onClick={() => setIsOpenFirst(true)} sx={{ borderRadius: 2, backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)', textTransform:'none', display:'flex', alignItems:'center', gap:2, whiteSpace:'nowrap' }}>
         <Icon icon={'ph:crown-simple-fill'} fontSize={18} color='#FFFFFF' />
         <Typography sx={{ ml: 1, fontSize: 14, fontWeight: 400, color: '#FFFFFF' }}>{text}</Typography>
       </Button>
