@@ -11,6 +11,7 @@ interface AbilitiesItem {
     rule_type: string
     credit?: number
     name: string
+    used:number
 }
 
 export {
