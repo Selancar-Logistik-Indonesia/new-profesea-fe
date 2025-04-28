@@ -99,12 +99,14 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
   const [answers, setAnswers] = useState<string[]>([])
 
 
-  const handleCloseFirst = () => {
+  const handleCloseFirst = (e: React.MouseEvent) => {
+    e.stopPropagation()
     setContent('content1')
     setIsOpenFirst(false)
   }
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation()
     if (e.target.checked) {
       setAnswers([...answers, e.target.value])
     }else(
@@ -112,13 +114,14 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
     )
   }
 
-  const handleCloseSecond = () => {
+  const handleCloseSecond = (e: React.MouseEvent) => {
+    e.stopPropagation()
     setIsOpenSecond(false)
     router.reload()
   }
 
-  const handleSubmit = async () => {
-    
+  const handleSubmit = async (e:React.MouseEvent) => {
+    e.stopPropagation()
     try {
       await HttpClient.post('/subscription/subscribe', {
         package_code: "PLS-3M-TRIAL"
@@ -134,7 +137,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
       console.log(error)
     }finally{
       setIsOpenSecond(true)
-      handleCloseFirst()
+      handleCloseFirst(e)
 
       setAnswers([])
     }
@@ -146,7 +149,10 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
   return (
     <>
     {/* unlock plus button */}
-      <Button onClick={() => setIsOpenFirst(true)} sx={{ borderRadius: 2, backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)', textTransform:'none', display:'flex', alignItems:'center', gap:2, whiteSpace:'nowrap' }}>
+      <Button onClick={(e) => {
+        setIsOpenFirst(true)
+        e.stopPropagation()
+        }} sx={{ borderRadius: 2, backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)', textTransform:'none', display:'flex', alignItems:'center', gap:2, whiteSpace:'nowrap', }}>
         <Icon icon={'ph:crown-simple-fill'} fontSize={18} color='#FFFFFF' />
         <Typography sx={{ ml: 1, fontSize: 14, fontWeight: 400, color: '#FFFFFF' }}>{text}</Typography>
       </Button>
@@ -183,8 +189,10 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                   <Typography sx={{fontSize:16, fontWeigth:400, color:'#666666'}}>Unlock premium hiring tools. No cost, no commitment. <Link href='#' sx={{color:'#2561EB', textDecoration:'underline'}}>Learn more.</Link></Typography>
 
                   <Box sx={{display:'flex', flexDirection:'column', gap:2}}>
-                    <Button onClick={() => setContent('content2')} variant='contained' sx={{backgroundImage:"linear-gradient(270deg, #2561EB 0%, #968BEB 100%)", textTransform:'none', fontSize:14}}>Unlock now</Button>
-                    <Button onClick={handleCloseFirst} variant='text'  sx={{ textTransform:'none', fontSize:14, color:'#0B58A6'}}>Maybe later</Button>
+                    <Button onClick={(e) => {
+                      e.stopPropagation()
+                      setContent('content2')}} variant='contained' sx={{backgroundImage:"linear-gradient(270deg, #2561EB 0%, #968BEB 100%)", textTransform:'none', fontSize:14}}>Unlock now</Button>
+                    <Button onClick={(e) => handleCloseFirst(e)} variant='text'  sx={{ textTransform:'none', fontSize:14, color:'#0B58A6'}}>Maybe later</Button>
                   </Box>
                 </Box>
               </Box>
@@ -211,7 +219,9 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                       return (
                         <Box key={i} sx={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
                           <Box>
-                            <FormControlLabel control={<Checkbox value={item.value} onChange={(e) => handleCheck(e)}/>} label={item.question} sx={{fontSize:16, fontWeight:400, color:'##1F1F1F'}}/>
+                            <FormControlLabel onClick={(e) => e.stopPropagation()} control={<Checkbox value={item.value} onChange={(e) => {
+                              e.stopPropagation()
+                              handleCheck(e)}}/>} label={item.question} sx={{fontSize:16, fontWeight:400, color:'##1F1F1F'}}/>
                           </Box>
                           <Tooltip title={item.detail}><Icon icon={'ph:info'} fontSize={20}/></Tooltip>
                         </Box>
@@ -220,7 +230,9 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                   </Box>
 
                   <Box sx={{display:'flex', flexDirection:'column', gap:2}}>
-                    <Button onClick={() => handleSubmit()} disabled={answers.length < 3} variant='contained' sx={{backgroundImage:"linear-gradient(270deg, #2561EB 0%, #968BEB 100%)", textTransform:'none', fontSize:14}}>Continue</Button>
+                    <Button onClick={(e) =>{
+                      e.stopPropagation()
+                       handleSubmit(e)}} disabled={answers.length < 3} variant='contained' sx={{backgroundImage:"linear-gradient(270deg, #2561EB 0%, #968BEB 100%)", textTransform:'none', fontSize:14}}>Continue</Button>
                   </Box>
                 </Box>
               </Box>

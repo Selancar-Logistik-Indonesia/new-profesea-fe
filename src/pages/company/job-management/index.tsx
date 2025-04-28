@@ -49,7 +49,6 @@ const checkStatus = (status: string) => {
 
 const JobManagement = () => {
   const { user, abilities } = useAuth()
-  console.log(abilities)
   const router = useRouter()
   const [refetch, setRefetch] = useState(v4())
   const [onLoading, setOnLoading] = useState<boolean>(false)
