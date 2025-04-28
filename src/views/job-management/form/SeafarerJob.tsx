@@ -43,6 +43,7 @@ import Link from 'next/link'
 import { FormDataSeafarer } from 'src/contract/types/create_job_type'
 import {  JobDraft } from '../Component'
 import BoostJobAlert from '../BoostJobAlert'
+import { useAuth } from 'src/hooks/useAuth'
 
 
 const sailRegion = [
@@ -77,7 +78,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
-
+  const {abilities, user} = useAuth()
   const router = useRouter()
   const [onLoading, setOnLoading] = useState(false)
   const [jobCategory, setJobCategory] = useState<JobCategory[] | null>(null)
@@ -91,6 +92,8 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   const [hidePrice, setHidePrice] = useState<boolean>(false)
   const [isDraft, setIsDraft] = useState<boolean>(false)
   const [isBoosted, setIsBoosted] = useState<boolean>(job?.is_boosted as boolean)
+  const [isSubs, setIsSubs]  = useState<boolean>(false)
+  const [totalJobPosted, setTotalJobPosted] = useState(0)
 
   useEffect(() => {
     if (job && job.is_draft === true) {
@@ -103,6 +106,22 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   //       localStorage.removeItem(DRAFT_KEY)
   //     }
   //   }
+
+  const getTotalJobPosted = async () => {
+    try {
+      const response = await HttpClient.get('/job', {
+        page: 1,
+        take: 100,
+        is_active: true
+      })
+
+      const ujp = abilities?.items.find(f => f.code === 'UJP') 
+      const usedCounter = response.data.jobs.total > (ujp?.used ?? 0) ? response.data.jobs.total : ujp?.used
+      setTotalJobPosted(usedCounter)
+    } catch (error) {
+      console.error('Error fetching  jobs:', error)
+    } 
+  }
 
   const populateData = () => {
     if (type === 'create') {
@@ -203,6 +222,11 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
     getRoleType()
     populateData()
   }, [job])
+
+  useEffect(() => {
+    setIsSubs(abilities?.plan_type !== 'basic')
+    getTotalJobPosted()
+  }, [user, abilities])
 
   useEffect(() => {
     getRoleType()
@@ -308,6 +332,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
           },
           error => {
             toast.error('Failed to save job: ' + error.response.data.message)
+            console.log(error)
           }
         )
         .finally(() => setOnLoading(false))
@@ -873,7 +898,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             }}
             variant='contained'
             size='small'
-            disabled={onLoading}
+            disabled={onLoading || (!isSubs && totalJobPosted >= 3)}
             sx={{ fontSize: 14, fontWeight: 400, textTransform: 'none' }}
           >
             {onLoading ? <CircularProgress size={22} /> : 'Post Job'}
