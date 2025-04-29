@@ -152,7 +152,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
       <Button onClick={(e) => {
         setIsOpenFirst(true)
         e.stopPropagation()
-        }} sx={{ borderRadius: 2, backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)', textTransform:'none', display:'flex', alignItems:'center', gap:2, whiteSpace:'nowrap', }}>
+        }} sx={{ borderRadius: 2, backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)', textTransform:'none', display:'flex', alignItems:'center', gap:2, whiteSpace:'nowrap' }}>
         <Icon icon={'ph:crown-simple-fill'} fontSize={18} color='#FFFFFF' />
         <Typography sx={{ ml: 1, fontSize: 14, fontWeight: 400, color: '#FFFFFF' }}>{text}</Typography>
       </Button>
@@ -232,7 +232,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                   <Box sx={{display:'flex', flexDirection:'column', gap:2}}>
                     <Button onClick={(e) =>{
                       e.stopPropagation()
-                       handleSubmit(e)}} disabled={answers.length < 3} variant='contained' sx={{backgroundImage:"linear-gradient(270deg, #2561EB 0%, #968BEB 100%)", textTransform:'none', fontSize:14}}>Continue</Button>
+                       handleSubmit(e)}} disabled={answers.length < 3} variant='contained' sx={{backgroundImage:answers.length < 3 ? '' :"linear-gradient(270deg, #2561EB 0%, #968BEB 100%)", textTransform:'none', fontSize:14}}>Continue</Button>
                   </Box>
                 </Box>
               </Box>

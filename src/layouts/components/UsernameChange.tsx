@@ -111,6 +111,7 @@ const UsernameChange = (props: { userId: number; username: string }) => {
             ) : (
                 <>
                   <a
+              style={{ display:'block' }}
               href={'#'}
               onClick={() => {
                 setEditable(!editable)
