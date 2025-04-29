@@ -105,4 +105,5 @@ export interface IUser {
   documents: any[]
   // for account trainer
   training_list?: Training[]
+  current_package?: any
 }

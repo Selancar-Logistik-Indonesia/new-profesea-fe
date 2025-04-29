@@ -7,6 +7,9 @@ import { useRouter } from 'next/navigation'
 
 import { toLinkCase } from 'src/utils/helpers'
 import { calculateAge, getMonthYear } from 'src/utils/helpers'
+import { useAuth } from 'src/hooks/useAuth'
+import { useEffect, useState } from 'react'
+import ModalUnlockPlus from 'src/@core/components/subscription/ModalUnlockPlus'
 
 interface Props {
   listCandidate: IUser[]
@@ -49,6 +52,13 @@ const BoxedText = ({ children }: { children: string }) => {
 
 const RenderList = (listCandidate: IUser[], isXs: boolean, setOpenDialogOfferCandidate: (candidateId: any) => void) => {
   const router = useRouter()
+  const {abilities} = useAuth()
+  const [isSubs, setIsSubs] = useState<boolean>(false)
+
+
+  useEffect(() => {
+    setIsSubs(abilities?.plan_type !== 'basic')
+  }, [abilities])
 
   if (!listCandidate || listCandidate.length == 0) {
     return
@@ -88,7 +98,7 @@ const RenderList = (listCandidate: IUser[], isXs: boolean, setOpenDialogOfferCan
                   )}
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', flexWrap: 'nowrap', gap: '16px' }}>
-                  {!isXs && (
+                  {(!isXs && isSubs) && (
                     <>
                       <Button
                         disabled={!item.phone}
@@ -114,6 +124,7 @@ const RenderList = (listCandidate: IUser[], isXs: boolean, setOpenDialogOfferCan
                       </Button>
                     </>
                   )}
+                  {(!isXs && !isSubs) && <ModalUnlockPlus text='Unlock to Offer and Message Candidate'/>}
                   {/* {isXs ? (
                       <IconButton>
                         <Icon icon='ph:bookmark-simple' />
@@ -280,7 +291,7 @@ const RenderList = (listCandidate: IUser[], isXs: boolean, setOpenDialogOfferCan
                 </Box>
               </Box>
             )}
-            {isXs && (
+            {(isXs && isSubs) && (
               <Button
                 disabled={!item.phone}
                 variant='contained'
@@ -291,6 +302,7 @@ const RenderList = (listCandidate: IUser[], isXs: boolean, setOpenDialogOfferCan
                 Message
               </Button>
             )}
+            {(isXs && !isSubs) && <ModalUnlockPlus text='Unlock to Offer and Message Candidate'/>}
           </Box>
         </Paper>
       </Grid>
