@@ -54,7 +54,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const baseAddress2 = '/#discoverSectionLink'
     // const baseAddress3 = '/faqs'
     const baseAddress4 = '/employer'
-    const baseAddress5 = '/trainings/all'
+    const baseAddress5 = '/trainings'
     const baseAddress6 = '/news'
 
     const baseAddress7 = '/employer'
