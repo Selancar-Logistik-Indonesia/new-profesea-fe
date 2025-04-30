@@ -1,6 +1,5 @@
 import { Icon } from '@iconify/react'
 import { Box, Button, Divider, Grid, InputAdornment, MenuItem, Pagination, Select, TextField, Typography } from '@mui/material'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import secureLocalStorage from 'react-secure-storage'
@@ -12,6 +11,7 @@ import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'
 import TrainingCard from 'src/views/training-management/TrainingCard'
 import TrainingCardSkeleton from 'src/views/training-management/TrainingCardSkeleton'
+import ContactDialog from 'src/views/training/ContactDialog'
 import { v4 } from 'uuid'
 
 const tabsOption = [
@@ -41,6 +41,7 @@ const TrainingPage = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [activeTab, setActiveTab] = useState<string>('activeTraining')
   const [refetch, setRefetch] = useState(v4())
+  const [openModal, setOpenModal] = useState<boolean>(false)
 
   // filters settings
   const [search, setSearch] = useState<string>('')
@@ -54,6 +55,10 @@ const TrainingPage = () => {
   const [totalShowedTraining, setTotalShowedTrainings] = useState<number>(0)
   const [totalActiveTrainings, setTotalActiveTrainings] = useState<number>(0)
   const [totalParticipant, setTotalParticipant] = useState<number>(0)
+
+  const handleClose = () => {
+    setOpenModal(false)
+  }
 
   const getTrainings = async () => {
     setLoading(true)
@@ -316,21 +321,20 @@ const TrainingPage = () => {
                 ))
             ) : user?.verified_at === null ? (
               <>
+                <ContactDialog open={openModal} onClose={handleClose} />
                 <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Box component='img' src='/images/no-image.jpg' sx={{ width: '320px' }} />
                   <Typography sx={{ color: '#949EA2', fontSize: 14, fontWeight: 400, textAlign: 'center' }}>
                     You are currently not eligible to create a training.
                     <br /> Please{' '}
-                    <Link
-                    href="#"
+                    <Typography
                       onClick={() => {
-                        // setOpenModal(!openModal)
-                        console.log('open')
+                        setOpenModal(true)
                       }}
-                    //   sx={{ cursor: 'pointer' }}
+                      sx={{ cursor: 'pointer', display:'inline', color:'#32497A', fontWeight:700 }}
                     >
-                      upload the required document
-                    </Link>{' '}
+                      contact us
+                    </Typography>{' '}
                     for verification or wait for our approval.
                   </Typography>
                 </Grid>
