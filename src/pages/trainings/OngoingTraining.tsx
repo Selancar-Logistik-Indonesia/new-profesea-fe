@@ -102,7 +102,13 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
   )
 }
 
-const renderList = (arr: Training[] | null, user: IUser | null, isMobile: boolean, openDialog: () => void) => {
+const renderList = (
+  arr: Training[] | null,
+  user: IUser | null,
+  isMobile: boolean,
+  isXl: boolean,
+  openDialog: () => void
+) => {
   if (arr && arr.length) {
     return arr.map((item, index) => {
       const trainerNameUrl = item.trainer.name.toLowerCase().split(' ').join('-')
@@ -162,7 +168,7 @@ const renderList = (arr: Training[] | null, user: IUser | null, isMobile: boolea
                   alt='Dekorasi Mobile Yellow'
                   sx={{
                     // width: '100%',
-                    width: isMobile ? '100%' : 575,
+                    width: isMobile ? '100%' : isXl ? '465px' : '575px',
                     height: 'auto',
                     transform: 'rotate(0.138deg)'
                   }}
@@ -270,6 +276,7 @@ const OngoingTrainingScreen = ({
 
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const isXl = useMediaQuery(theme.breakpoints.up('xl'))
   const [trainings, setTrainings] = useState<Training[]>([])
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
@@ -353,15 +360,6 @@ const OngoingTrainingScreen = ({
             ))}
           </Grid>
         ) : trainings.length === 0 && !loading ? (
-          // Show no results message
-          // <Box sx={{ textAlign: 'center', py: 8 }}>
-          //   <Typography variant='h6' color='text.secondary'>
-          //     No training courses found
-          //   </Typography>
-          //   <Typography variant='body2' color='text.secondary' sx={{ mt: 1 }}>
-          //     Try adjusting your search or filter criteria
-          //   </Typography>
-          // </Box>
           <NoTrainingsFound />
         ) : (
           // Show infinite scroll with results
@@ -381,7 +379,7 @@ const OngoingTrainingScreen = ({
             }
           >
             <Grid container spacing={4}>
-              {renderList(trainings, user, isMobile, handleOpenDialog)}
+              {renderList(trainings, user, isMobile, isXl, handleOpenDialog)}
             </Grid>
           </InfiniteScroll>
         )}
