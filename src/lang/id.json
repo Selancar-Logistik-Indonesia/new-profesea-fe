@@ -336,7 +336,7 @@
         "button": "Bergabunglah dengan Profesea"
       }
     },
-    "employer_page":{
+    "employer_page": {
       "our_partner": "Bekerja Sama dengan 500+ Para Pemimpin Industri",
       "hero_1": "Rekrut Talenta Maritim Terbaik. <br/>Mudah, Cepat, Tanpa Ribet!",
       "hero_2": "Di Profesea, Anda mendapatkan akses instan ke <i>talent pool</i> pelaut<br/> dan tenaga profesional berkualitas sesuai kebutuhan Anda.",
@@ -367,7 +367,7 @@
       "find_3_detail": "Sales Executive, Digital Marketer, Akuntan",
       "find_4_detail": "Rigger, Operator Pengeboran, Oil Rig Supervisor",
       "footer_banner_title": "Talenta Terbaik untuk Anda!",
-      "footer_banner_detail":"Profesea menghadirkan jaringan profesional yang siap membantu operasional<br/> dan inovasi di industri maritim dan logistik.",
+      "footer_banner_detail": "Profesea menghadirkan jaringan profesional yang siap membantu operasional<br/> dan inovasi di industri maritim dan logistik.",
       "footer_banner_button": "Pasang Lowongan",
       "landing_company_faq_1": "Apa itu Profesea?",
       "landing_company_faq_1_1": "Profesea merupakan platform all in one untuk menawarkan pekerjaan dari perusahaan Anda dan memperluas networking di industri maritim dan logistik.",
@@ -383,8 +383,8 @@
       "landing_company_faq_6": "Menemukan kendala login/registrasi di platform Profesea?",
       "landing_company_faq_6_1": "Silakan hubungi <span style=\"color:#0a66c2\"><b>hello@profesea.id</b></span>",
       "testimony_1": "Dengan Profesea, kami lebih mudah menemukan kandidat yang berkualitas. Informasi kru kini bisa diakses dengan cepat dan tepat, lebih efisien dibandingkan proses manual sebelumnya.",
-      "testimony_2" : "Dengan adanya Profesea sangat membantu sekali dalam menemukan kandidat-kandidat yang tepat sesuai untuk perusahaan kami.",
-      "testimony_3" : "Profesea memudahkan kami memperluas jangkauan kandidat dan menyediakan <i>tools</i> yang efisien untuk rekrutmen yang lebih cepat dan efektif."
+      "testimony_2": "Dengan adanya Profesea sangat membantu sekali dalam menemukan kandidat-kandidat yang tepat sesuai untuk perusahaan kami.",
+      "testimony_3": "Profesea memudahkan kami memperluas jangkauan kandidat dan menyediakan <i>tools</i> yang efisien untuk rekrutmen yang lebih cepat dan efektif."
     }
   }
 }
