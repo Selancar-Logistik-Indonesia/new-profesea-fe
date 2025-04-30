@@ -111,7 +111,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
     try {
       const response = await HttpClient.get('/job', {
         page: 1,
-        take: 100,
+        take: 1000,
         is_active: true
       })
 
@@ -898,7 +898,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             }}
             variant='contained'
             size='small'
-            disabled={onLoading || (!isSubs && totalJobPosted >= 3)}
+            disabled={onLoading || (type === 'edit' ? !isSubs && totalJobPosted > 5  : !isSubs && totalJobPosted >= 5)}
             sx={{ fontSize: 14, fontWeight: 400, textTransform: 'none' }}
           >
             {onLoading ? <CircularProgress size={22} /> : 'Post Job'}
