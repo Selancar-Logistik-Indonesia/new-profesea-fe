@@ -68,19 +68,20 @@ const HeroBanner: React.FC = () => {
             gutterBottom
             sx={{ fontSize: isMobile ? '24px' : '2.5rem', color: '#fff', textAlign: isMobile ? 'center' : 'left' }}
           >
-            Get Your Seafarer Certificate from Our Premier Training
+            Get Your Seafarer Certificate Easily
           </Typography>
           <Typography
             variant='body1'
             sx={{ mt: 2, color: '#fff', fontSize: isMobile ? '16px' : '', textAlign: isMobile ? 'center' : 'left' }}
           >
-            Find the right course to advance your career at sea.
+            Find the right courses to boost your skills and move forward in your maritime career all in one trusted
+            place.
           </Typography>
           <Typography
             variant='body1'
             sx={{ mt: 2, color: '#fff', fontSize: isMobile ? '16px' : '', textAlign: isMobile ? 'center' : 'left' }}
           >
-            Got questions? Reach out to us anytime! We’re here to help you navigate your journey.
+            Have questions? Just ask. We’re here to navigate your career journey.
           </Typography>
           <Button
             onClick={handleOpenDialog}

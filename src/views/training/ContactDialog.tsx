@@ -15,7 +15,7 @@ const ContactDialog: React.FC<ContactDialogProps> = ({ open, onClose }) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
       <DialogTitle sx={{ m: 0, pt: '24px', px: '24px', pb: 0, fontWeight: 600, fontSize: 24 }}>
-        Get in touch with us directly
+        Have a question? Let’s Chat.
         <IconButton aria-label='close' onClick={onClose} sx={{ position: 'absolute', right: 8, top: 8 }}>
           <CloseIcon />
         </IconButton>
@@ -29,8 +29,7 @@ const ContactDialog: React.FC<ContactDialogProps> = ({ open, onClose }) => {
               <Box>
                 <Typography fontWeight={600}>Talk to us!</Typography>
                 <Typography color='text.secondary' mt={1}>
-                  Our team is dedicated to assisting you in discovering the perfect product and pricing options tailored
-                  specifically for your business needs.
+                  We’re here to help you find the right solution and pricing that truly fits your business.
                 </Typography>
               </Box>
             </Box>
@@ -53,8 +52,8 @@ const ContactDialog: React.FC<ContactDialogProps> = ({ open, onClose }) => {
               <Box>
                 <Typography fontWeight={600}>Product and account support</Typography>
                 <Typography color='text.secondary' mt={1}>
-                  Our help center is vibrant and always ready to assist you. If you're unable to locate the information
-                  you need, don't hesitate to reach out.
+                  Our help center’s full of useful info and ready when you need it. Can’t find what you’re looking for?
+                  Just give us a shout. We’re happy to help!
                 </Typography>
               </Box>
             </Box>
