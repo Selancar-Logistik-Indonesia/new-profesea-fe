@@ -83,11 +83,11 @@ const JobManagement = () => {
     try {
       const response = await HttpClient.get('/job', {
         page: page,
-        take: pageItems,
+        take: 1000,
         is_active: true
       })
 
-      const ujp = abilities?.items.find(f => f.code === 'UJP') 
+      const ujp = abilities?.items.find(f => f.code === 'UJP')
       const usedCounter = response.data.jobs.total > (ujp?.used ?? 0) ? response.data.jobs.total : ujp?.used
       setTotalJobPosted(usedCounter)
     } catch (error) {
@@ -235,7 +235,7 @@ const JobManagement = () => {
               size='small'
               variant='contained'
               endIcon={<Icon icon='ph:plus' />}
-              disabled={user?.verified_at === null || document.length === 0 || (!isSubs && totalJobPosted >= 3)}
+              disabled={user?.verified_at === null || document.length === 0 || (!isSubs && totalJobPosted >= 5)}
               sx={{ height: '38px', padding: '8px 12px', textTransform: 'none' }}
             >
               Create Job

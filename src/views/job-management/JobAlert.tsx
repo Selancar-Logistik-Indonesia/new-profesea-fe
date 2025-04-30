@@ -33,7 +33,7 @@ const JobAlert = ({ jobsCount, isSubs, boostCount }: { jobsCount: number; isSubs
               ) : (
                 <>
                   You haven’t posted any jobs yet. You can post up to{' '}
-                  <span style={{ color: '#32497A', fontWeight: 700 }}>3 active jobs</span> to find the perfect
+                  <span style={{ color: '#32497A', fontWeight: 700 }}>5 active jobs</span> to find the perfect
                   candidates. Let’s get started!
                 </>
               )}
@@ -56,8 +56,8 @@ const JobAlert = ({ jobsCount, isSubs, boostCount }: { jobsCount: number; isSubs
           flexDirection: 'row',
           alignItems: 'center',
           gap: 2,
-          backgroundColor: jobsCount >=3 ? '#FCE9C8' : '#F8F8F7',
-          border: jobsCount >= 3 ? '1px solid #FDC26E' : '1px solid #BFBFBF',
+          backgroundColor: jobsCount >=5 ? '#FCE9C8' : '#F8F8F7',
+          border: jobsCount >= 5 ? '1px solid #FDC26E' : '1px solid #BFBFBF',
           borderRadius: '8px',
           mb: 8,
         }}
@@ -66,13 +66,13 @@ const JobAlert = ({ jobsCount, isSubs, boostCount }: { jobsCount: number; isSubs
           sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexGrow:1, width:'100%'}}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <Typography sx={{ fontSize: 14, fontWeight: 700, color: jobsCount >= 3 ? '#303030' : '#32497A' }}>{jobsCount}/3 Jobs Posted</Typography>
+            <Typography sx={{ fontSize: 14, fontWeight: 700, color: jobsCount >= 5 ? '#303030' : '#32497A' }}>{jobsCount}/5 Jobs Posted</Typography>
             <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#303030' }}>
-              {jobsCount >= 3 ? (
+              {jobsCount >= 5 ? (
                 'You’ve used all your active job post slots. Need to post more? Upgrade your plan to keep attracting top candidates.'
               ) : (
                 <>
-                  You’ve posted your first job! You can post {(3 - jobsCount) < 0 ? 0 : (3 - jobsCount)} more active jobs to increase your chances
+                  You’ve posted your first job! You can post {(5 - jobsCount) < 0 ? 0 : (5 - jobsCount)} more active jobs to increase your chances
                   of finding the right talent.
                 </>
               )}
