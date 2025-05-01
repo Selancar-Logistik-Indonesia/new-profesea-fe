@@ -14,6 +14,7 @@ interface ContactDialogProps {
 
 const ContactDialog: React.FC<ContactDialogProps> = ({ open, onClose }) => {
   const { t } = useTranslation()
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
       <DialogTitle sx={{ m: 0, pt: '24px', px: '24px', pb: 0, fontWeight: 600, fontSize: 24 }}>

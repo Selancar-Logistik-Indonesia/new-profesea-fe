@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next/types'
 import React, { ReactNode } from 'react'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
