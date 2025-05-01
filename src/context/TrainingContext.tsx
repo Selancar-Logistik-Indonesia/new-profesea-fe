@@ -100,7 +100,6 @@ const TrainingProvider = (props: Props) => {
     },
     isPublic?: boolean
   ) => {
-    console.log('ini page', page)
     if (onLoading && !hasNextPage) return // Cegah load kalau lagi loading atau udah habis
 
     setOnLoading(true)
@@ -121,7 +120,7 @@ const TrainingProvider = (props: Props) => {
 
         setTrainings(prevTrainings => {
           const newTrainings = page === 1 ? trainings.data : [...prevTrainings, ...trainings.data]
-          
+
           return newTrainings
         })
         // setTrainings(trainings?.data)
