@@ -9,7 +9,7 @@ import Avatar from 'src/@core/components/mui/avatar'
 import { formatIDR, getUserAvatar } from 'src/utils/helpers'
 import Link from 'next/link'
 import { useAuth } from 'src/hooks/useAuth'
-import InfiniteScroll from 'react-infinite-scroll-component'
+// import InfiniteScroll from 'react-infinite-scroll-component'
 
 import { IUser } from 'src/contract/models/user'
 import { useTheme } from '@mui/material/styles'
@@ -20,6 +20,7 @@ import ContactDialog from 'src/views/training/ContactDialog'
 import NoTrainingsFound from 'src/views/training/NoTrainingFound'
 import { useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
+import { Icon } from '@iconify/react'
 
 interface OngoingTrainingProps {
   searchTraining?: any
@@ -147,10 +148,16 @@ const renderList = (
                   </Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
                     <Typography sx={{ fontSize: '24px', fontWeight: 700, color: '#404040' }}>
-                      45+ <span style={{ fontSize: '16px', fontWeight: 400 }}>{t('training_landing_page.section_join_us_courses')}</span>
+                      45+{' '}
+                      <span style={{ fontSize: '16px', fontWeight: 400 }}>
+                        {t('training_landing_page.section_join_us_courses')}
+                      </span>
                     </Typography>
                     <Typography sx={{ fontSize: '24px', fontWeight: 700, color: '#404040' }}>
-                      112+ <span style={{ fontSize: '16px', fontWeight: 400 }}>{t('training_landing_page.section_join_us_participants')}</span>
+                      112+{' '}
+                      <span style={{ fontSize: '16px', fontWeight: 400 }}>
+                        {t('training_landing_page.section_join_us_participants')}
+                      </span>
                     </Typography>
                   </Box>
                   <Button
@@ -352,7 +359,7 @@ const OngoingTrainingScreen = ({
   return (
     <>
       <ContactDialog open={openDialog} onClose={handleOnCloseDialog} />
-      <Box style={{ height: 'fit-content' }}>
+      {/* <Box style={{ height: 'fit-content' }}>
         {trainings.length === 0 && loading ? (
           // Show loading skeleton when initial loading
           <Grid container spacing={3} mt={2}>
@@ -385,6 +392,49 @@ const OngoingTrainingScreen = ({
               {renderList(trainings, user, isMobile, isXl, handleOpenDialog, t)}
             </Grid>
           </InfiniteScroll>
+        )}
+      </Box> */}
+      <Box style={{ height: 'fit-content' }}>
+        {trainings.length === 0 && loading ? (
+          // Show loading skeleton when initial loading
+          <Grid container spacing={3} mt={2}>
+            {Array.from({ length: 8 }).map((_, idx) => (
+              <Grid item xs={12} sm={6} md={3} key={idx}>
+                <SkeletonCard />
+              </Grid>
+            ))}
+          </Grid>
+        ) : trainings.length === 0 && !loading ? (
+          <NoTrainingsFound />
+        ) : (
+          <>
+            <Grid container spacing={4}>
+              {renderList(trainings, user, isMobile, isXl, handleOpenDialog, t)}
+            </Grid>
+
+            {loading && (
+              <Grid container spacing={3} mt={2}>
+                {Array.from({ length: 8 }).map((_, idx) => (
+                  <Grid item xs={12} sm={6} md={3} key={idx}>
+                    <SkeletonCard />
+                  </Grid>
+                ))}
+              </Grid>
+            )}
+
+            {hasMore && !loading && (
+              <Box display='flex' justifyContent='center' mt={4}>
+                <Button
+                  onClick={fetchTraining}
+                  variant='text'
+                  color='primary'
+                  endIcon={<Icon icon={'proicons:chevron-down'} />}
+                >
+                  See Other Training
+                </Button>
+              </Box>
+            )}
+          </>
         )}
       </Box>
     </>
