@@ -335,7 +335,7 @@
         "button": "Join Profesea"
       }
     },
-    "employer_page":{
+    "employer_page": {
       "our_partner": "Partnering with 500+ Industry Leaders",
       "hero_1": "Hire the Best Maritime Talent.<br/>Fast, Easy, No Hassle!",
       "hero_2": "With Profesea, you get instant access to a talent pool of skilled<br/>seafarers and maritime professionals tailored to your needs.",
@@ -366,7 +366,7 @@
       "find_3_detail": "Sales Executive, Digital Marketer, Accountant",
       "find_4_detail": "Rigger, Driller, Oil Rig Supervisor",
       "footer_banner_title": "Top Talent for You!",
-      "footer_banner_detail":"Profesea connects you with a network of professionals ready to support operations<br/> and drive innovation in the maritime and logistics industry.",
+      "footer_banner_detail": "Profesea connects you with a network of professionals ready to support operations<br/> and drive innovation in the maritime and logistics industry.",
       "footer_banner_button": "Post a Job",
       "landing_company_faq_1": "What is Profesea?",
       "landing_company_faq_1_1": "Profesea is an all-in-one platform for posting jobs from your company and expanding networking in the maritime and logistics industry.<br/>Additionally, you can join various community and alumni forums and connect directly with the best candidates.",
@@ -381,8 +381,22 @@
       "landing_company_faq_6": "Experiencing login/registration issues on the Profesea platform?",
       "landing_company_faq_6_1": "Please contact <span style=\"color:#0a66c2\"><b>hello@profesea.id</b></span>",
       "testimony_1": "With Profesea, we can find quality candidates more easily. Crew information is now accessible quickly and accurately, making the process more efficient compared to the previous manual method.",
-      "testimony_2" : "Profesea has been extremely helpful in finding the right candidates that match our company's needs.",
-      "testimony_3" : "Profesea helps us expand our candidate reach and provides efficient tools for faster and more effective recruitment."
+      "testimony_2": "Profesea has been extremely helpful in finding the right candidates that match our company's needs.",
+      "testimony_3": "Profesea helps us expand our candidate reach and provides efficient tools for faster and more effective recruitment."
+    },
+    "training_landing_page": {
+      "hero_title": "Get Your Seafarer Certificate Easily",
+      "hero_description": "Find the right courses to boost your skills and move forward in your maritime career all in one trusted place.",
+      "hero_description_2": "Have questions? Just ask. We’re here to navigate your career journey.",
+      "section_join_us_title": "Connect with Maritime Professionals Worldwide",
+      "section_join_us_description": "Join our platform to grow your presence in the maritime industry. Promote your training programs and engage with a wider network of professionals.",
+      "section_join_us_courses": "Courses",
+      "section_join_us_participants": "Participants",
+      "contact_dialog_title": "Have a question? Let’s Chat.",
+      "contact_dialog_title_left": "Talk to us!",
+      "contact_dialog_description": "We’re here to help you find the right solution and pricing that truly fits your business.",
+      "contact_dialog_title_right": "Product and Account Support",
+      "contact_dialog_description_right": "Our help center’s full of useful info and ready when you need it. Can’t find what you’re looking for? Just give us a shout. We’re happy to help!"
     }
   }
 }
