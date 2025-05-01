@@ -141,7 +141,7 @@ const Slides = (items: any[], teamId: number, width: number, status: boolean) =>
                   {arr.job_title ?? ''}
                 </Typography>
                 <Box sx={{ p: '8px', border: '1px solid #32497A', borderRadius: '4px', maxWidth: 'fit-content' }}>
-                  <Typography sx={{ color: 'primary.main', fontSize: 12 }}>{arr.vessel_type.name ?? '-'}</Typography>
+                  <Typography sx={{ color: 'primary.main', fontSize: 12 }}>{arr.vessel_type?.name ?? '-'}</Typography>
                 </Box>
                 <Typography sx={{ fontSize: 14, color: '#949EA2' }}>
                   Onboarding on{' '}
@@ -160,7 +160,7 @@ const Slides = (items: any[], teamId: number, width: number, status: boolean) =>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <Typography sx={{ color: 'primary.main', fontSize: 16, fontWeight: 'bold' }}>
                   {`${arr.category.name ?? ''}, `}
-                  {arr.rolelevel.levelName ?? ''}
+                  {arr.rolelevel?.levelName ?? ''}
                 </Typography>
                 <Typography sx={{ fontSize: 14 }}>{arr.city?.city_name ?? '-'}</Typography>
                 <Typography sx={{ color: '#636E72', fontSize: 14 }}>{arr.company.name}</Typography>

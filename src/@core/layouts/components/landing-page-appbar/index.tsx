@@ -63,7 +63,6 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     // const baseAddress8 = '/employer/pricing'
     const baseAddress9 = '/'
 
-
     setNavItems([
       { title: t('button_1'), variant: 'outlined', onClick: '/login', sx: { textTransform: 'capitalize' } },
       {
@@ -74,14 +73,14 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
       }
     ])
 
-    if(path === '/employer/' || path === '/employer/pricing/'){
+    if (path === '/employer/' || path === '/employer/pricing/') {
       setHomeNavItems([
         { title: t('landing_menu_9'), path: baseAddress9 },
-        { title: t('landing_menu_7'), path: baseAddress7 },
+        { title: t('landing_menu_7'), path: baseAddress7 }
         // pricing untuk sementara di hide dulu
         // { title: t('landing_menu_8'), path: baseAddress8 },
       ])
-    }else{
+    } else {
       setHomeNavItems([
         { title: t('landing_menu_1'), path: baseAddress1 },
         { title: t('landing_menu_4'), path: baseAddress4 },
@@ -91,7 +90,6 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
         // { title: t('landing_menu_3'), path: baseAddress3 }
       ])
     }
-
   }, [t, path])
 
   const buildAppbarActions = () => {
@@ -167,15 +165,17 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
           >
             <Box sx={{ display: 'flex', gap: 4 }}>
               <Link href='/'>
-                <Box sx={{ display: 'flex', flexDirection:'column', width: 'fit-content' }}>
-                <Box
-                  component='img'
-                  sx={{ width: 125, marginLeft: 5 }}
-                  alt='The Profesea logo'
-                  title='Profesea'
-                  src='/images/logoprofesea.png'
-                />
-                <Typography sx={{ color: '#32497A', fontSize: '12px', fontWeight: 400, ml: 5 }}>{path === '/employer/' ? 'for Company' : ''}</Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', width: 'fit-content' }}>
+                  <Box
+                    component='img'
+                    sx={{ width: 125, marginLeft: 5 }}
+                    alt='The Profesea logo'
+                    title='Profesea'
+                    src='/images/logoprofesea.png'
+                  />
+                  <Typography sx={{ color: '#32497A', fontSize: '12px', fontWeight: 400, ml: 5 }}>
+                    {path === '/employer/' ? 'for Company' : ''}
+                  </Typography>
                 </Box>
               </Link>
               <Box

@@ -7,12 +7,16 @@ import { AppConfig } from 'src/configs/api'
 import toast from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { useAuth } from 'src/hooks/useAuth'
+import ModalUnlockPlus from 'src/@core/components/subscription/ModalUnlockPlus'
 
 const UsernameChange = (props: { userId: number; username: string }) => {
-  const { user } = useAuth()
+  const { user, abilities } = useAuth()
+  console.log(abilities)
   const { userId, username } = props
   const [editable, setEditable] = useState(false)
   const [myUsername, setMyUsername] = useState(username)
+  const [isSubs, setIsSubs] = useState<boolean>(false)
+  const [changeCounter, setChangeCounter] = useState<number>(0)
 
   const handleChangeUsername = async () => {
     try {
@@ -38,6 +42,16 @@ const UsernameChange = (props: { userId: number; username: string }) => {
       console.log(err)
     }
   }
+
+  const getChangeCounter = () => {
+    const changeAbilities = abilities?.items.find(f => f.code === 'CURL')
+    setChangeCounter(changeAbilities?.used as number)
+  }
+
+  useEffect(() => {
+      setIsSubs(abilities?.plan_type !== 'basic')
+      getChangeCounter()
+  }, [user, abilities])
 
   useEffect(() => {
     if (myUsername != username && editable == false) {
@@ -91,7 +105,13 @@ const UsernameChange = (props: { userId: number; username: string }) => {
             ) : (
               <u style={{ margin: '0 10px 0 0' }}>{username}</u>
             )}
-            <a
+
+            {!isSubs && changeCounter > 0 ? (
+              <ModalUnlockPlus text='Unlock to Edit'/>
+            ) : (
+                <>
+                  <a
+              style={{ display:'block' }}
               href={'#'}
               onClick={() => {
                 setEditable(!editable)
@@ -99,11 +119,13 @@ const UsernameChange = (props: { userId: number; username: string }) => {
             >
               Edit
             </a>
+                </>
+            )}
           </div>
 
-          <Typography sx={{ fontSize: 18, lineHeight: '20px' }}>
+          <Typography sx={{ fontSize: 16, lineHeight: '20px' }}>
             {' '}
-            Your custom URL is set to your username! Edit anytime{' '}
+            {!isSubs && changeCounter > 0 ? 'You’ve already customized your company URL once. Unlock plus to change your profile URL !':'Your custom URL is set to your username! Edit anytime'}{' '}
           </Typography>
         </Box>
       </Box>

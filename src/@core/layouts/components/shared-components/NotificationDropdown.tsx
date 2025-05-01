@@ -19,6 +19,9 @@ import NotificationItem from './NotificationItem'
 import buildNotifies from 'src/pages/notifications/buildNotifies'
 
 import DialogMarkConfirmation from 'src/pages/notifications/DialogMarkConfirmation'
+import { IUser } from 'src/contract/models/user'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
 
 interface Props {
   settings: Settings
@@ -64,6 +67,8 @@ const NotificationDropdown = (props: Props) => {
   const [notifies, setNotifies] = useState<NotificationsType[]>([])
   const [selectedMenu, setSelectedMenu] = useState('All')
   const [showMarkConfirm, setShowMarkConfirm] = useState(false)
+
+  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   const handleSelectedmenu = (menu: string) => {
     if (selectedMenu == menu) {
@@ -115,18 +120,24 @@ const NotificationDropdown = (props: Props) => {
   }
 
   const getNotifications = async () => {
-    const response = await HttpClient.get('/user/notification', {
-      page: 1,
-      take: 35
-    })
-
-    if (response.status != 200) {
-      return alert(response.data?.message ?? 'Unknown error')
+    try {
+      if(user) {
+        const response = await HttpClient.get('/user/notification', {
+          page: 1,
+          take: 35
+        })
+    
+        if (response.status != 200) {
+          return alert(response.data?.message ?? 'Unknown error')
+        }
+    
+        const { notifications } = response.data as { notifications: { data: INotification[] } }
+        const notifies = notifications.data.map(buildNotifies)
+        setNotifies(notifies)
+      }
+    } catch (error) {
+      console.log(error)
     }
-
-    const { notifications } = response.data as { notifications: { data: INotification[] } }
-    const notifies = notifications.data.map(buildNotifies)
-    setNotifies(notifies)
   }
 
   const getUnreadNotifications = async () => {

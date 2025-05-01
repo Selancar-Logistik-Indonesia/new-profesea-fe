@@ -18,7 +18,7 @@ const SeafarerTravelDocument: React.FC<ISeafarerTravelDocumentProps> = ({ userId
   const isDataHidden = userId == user?.id || user?.team_id === 3 ? false : true
 
   const loadTravelDocument = () => {
-    HttpClient.get(AppConfig.baseUrl + '/seafarer-travel-documents/user-id/' + userId).then(response => {
+    HttpClient.get(AppConfig.baseUrl + `/public/data/user/${userId}/seafarer-travel-documents`).then(response => {
       const result = response.data.data.map((item: any) => {
         return {
           ...item,

@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import { CircularProgress, Grid } from '@mui/material'
 import localStorageKeys from 'src/configs/localstorage_keys'
@@ -17,7 +17,6 @@ import Analytics from 'src/views/profile/analytics'
 import Activity from 'src/views/profile/activity'
 import Posting from 'src/views/profile/posting'
 import SideAdProfile from 'src/views/banner-ad/sideAdProfile'
-import OuterPageLayout from 'src/@core/layouts/outer-components/OuterPageLayout'
 import DialogLogin from 'src/@core/components/login-modal'
 import { useAuth } from 'src/hooks/useAuth'
 import FooterView from 'src/views/landing-page/footerView'
@@ -130,6 +129,6 @@ ProfileCompany.acl = {
 
 ProfileCompany.guestGuard = false
 ProfileCompany.authGuard = false
-ProfileCompany.getLayout = (page: ReactNode) => <OuterPageLayout>{page}</OuterPageLayout>
+
 
 export default ProfileCompany

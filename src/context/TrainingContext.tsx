@@ -26,6 +26,69 @@ const TrainingProvider = (props: Props) => {
   const [hasNextPage, setHasNextPage] = useState(true)
   const [totalTraining, setTotalTraining] = useState(0)
 
+  // const fetchTrainings = async (
+  //   payload: {
+  //     take: number
+  //     ongoing?: any
+  //     instant?: any
+  //     category_id?: any
+  //     search?: any
+  //     username?: any
+  //   },
+  //   isPublic?: boolean
+  // ) => {
+  //   if (onLoading) return // Prevent redundant calls
+
+  //   setOnLoading(true)
+
+  //   try {
+  //     const response = await HttpClient.get(AppConfig.baseUrl + isPublic ? 'public/data/training' : '/training', {
+  //       page: page,
+  //       ...payload
+  //     })
+
+  //     if (response.status == 200) {
+  //       const { trainings } = response.data as {
+  //         trainings: { data: Training[]; next_page_url?: string; total: number }
+  //       }
+
+  //       // setTrainings(old => {
+  //       //   const newTrainings = trainings.data.filter(t => !old.some(o => o.id === t.id))
+  //       //   return [...old, ...newTrainings]
+  //       // })
+
+  //       setTrainings(old => {
+  //         const newItems = page === 1 ? trainings.data : [...old, ...trainings.data]
+  //         setTotalTraining(newItems.length)
+
+  //         return newItems
+  //       })
+
+  //       // setTotalTraining(trainings.total)
+
+  //       // if (trainings.data.length && trainings.data.length > 0) {
+  //       //   setTrainings(old => {
+  //       //     const existingTrainingId = new Set(old.map(training => training.id))
+  //       //     const newTrainings = trainings.data.filter(job => !existingTrainingId.has(job.id))
+  //       //     const newItems = [...old, ...newTrainings]
+  //       //     setTotalTraining(newItems.length)
+
+  //       //     return newItems
+  //       //   })
+  //       //   // if(payload.take > 5){
+  //       //   // setPage(page => page + 1)
+  //       //   // }
+  //       // }
+  //       // setTotalTraining(trainings.total)
+  //       setHasNextPage(trainings.next_page_url != null)
+  //     }
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+
+  //   setOnLoading(false)
+  // }
+
   const fetchTrainings = async (
     payload: {
       take: number
@@ -37,27 +100,37 @@ const TrainingProvider = (props: Props) => {
     },
     isPublic?: boolean
   ) => {
-    if (page == 1) setOnLoading(true)
+    if (onLoading && !hasNextPage) return // Cegah load kalau lagi loading atau udah habis
+
+    setOnLoading(true)
 
     try {
-      const response = await HttpClient.get(AppConfig.baseUrl + isPublic ? 'public/data/training' : '/training', {
-        page: page,
-        ...payload
-      })
+      const response = await HttpClient.get(
+        isPublic ? AppConfig.baseUrl + '/public/data/training' : AppConfig.baseUrl + '/training',
+        {
+          page: page,
+          ...payload
+        }
+      )
 
       if (response.status == 200) {
         const { trainings } = response.data as {
           trainings: { data: Training[]; next_page_url?: string; total: number }
         }
 
-        setTrainings(old => {
-          const newItems = page === 1 ? trainings.data : [...old, ...trainings.data]
-          setTotalTraining(newItems.length)
+        setTrainings(prevTrainings => {
+          const newTrainings = page === 1 ? trainings.data : [...prevTrainings, ...trainings.data]
 
-          return newItems
+          return newTrainings
         })
+        // setTrainings(trainings?.data)
 
         setHasNextPage(trainings.next_page_url != null)
+        setTotalTraining(trainings.total || 0)
+
+        if (trainings.next_page_url) {
+          setPage(prev => prev + 1) // Kalau masih ada next, naikin page
+        }
       }
     } catch (error) {
       console.error(error)

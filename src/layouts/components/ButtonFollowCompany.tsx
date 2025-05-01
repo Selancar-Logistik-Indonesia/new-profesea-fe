@@ -3,6 +3,7 @@ import { Button } from '@mui/material'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { useAuth } from 'src/hooks/useAuth'
+import DialogLogin from 'src/@core/components/login-modal'
 
 interface IPropsButtonFollowComapny {
   user_id: number
@@ -13,6 +14,7 @@ interface IPropsButtonFollowComapny {
 export default function ButtonFollowCompany(props: IPropsButtonFollowComapny) {
   const [isLoading, setIsLoading] = useState(false)
   const [checkFollowship, setCheckFollowship] = useState<any>(null)
+  const [openDialog, setOpenDialog] = useState(false)
   const { user } = useAuth()
   const { user_id, friend_id, getConnections } = props
 
@@ -72,11 +74,43 @@ export default function ButtonFollowCompany(props: IPropsButtonFollowComapny) {
     }, 0)
   }
 
+
+
   useEffect(() => {
     if (friend_id & user_id) {
       checkFollowShip()
     }
   }, [])
+
+
+  if(!user) {
+    return (
+      <>
+      <Button
+        // disabled={isLoading}
+        variant='contained'
+        size='small'
+        sx={{ marginRight: 2, fontSize: 14, textTransform: 'none', fontWeight: 300, p: '8px 12px' }}
+        onClick={() => {
+          setOpenDialog(true)
+        }}
+      >
+        {'Follow'}
+      </Button>
+      
+      {!user && openDialog && (
+        <DialogLogin
+          isBanner={false}
+          visible={openDialog}
+          variant='training'
+          onCloseClick={() => {
+            setOpenDialog(!openDialog)
+          }}
+        />
+      )}
+      </>
+    )
+  }
 
   if (checkFollowship && user?.id == friend_id) {
     return (
@@ -109,6 +143,8 @@ export default function ButtonFollowCompany(props: IPropsButtonFollowComapny) {
       </Button>
     )
   }
+
+  
 
   return <></>
 }
