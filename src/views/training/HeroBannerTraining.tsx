@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { Box, Button, Typography, useMediaQuery, useTheme } from '@mui/material'
 import ContactDialog from './ContactDialog'
+import { useTranslation } from 'react-i18next'
 
 const HeroBanner: React.FC = () => {
+  const { t } = useTranslation()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
@@ -68,20 +70,19 @@ const HeroBanner: React.FC = () => {
             gutterBottom
             sx={{ fontSize: isMobile ? '24px' : '2.5rem', color: '#fff', textAlign: isMobile ? 'center' : 'left' }}
           >
-            Get Your Seafarer Certificate Easily
+            {t('training_landing_page.hero_title')}
           </Typography>
           <Typography
             variant='body1'
             sx={{ mt: 2, color: '#fff', fontSize: isMobile ? '16px' : '', textAlign: isMobile ? 'center' : 'left' }}
           >
-            Find the right courses to boost your skills and move forward in your maritime career all in one trusted
-            place.
+            {t('training_landing_page.hero_description')}
           </Typography>
           <Typography
             variant='body1'
             sx={{ mt: 2, color: '#fff', fontSize: isMobile ? '16px' : '', textAlign: isMobile ? 'center' : 'left' }}
           >
-            Have questions? Just ask. We’re here to navigate your career journey.
+            {t('training_landing_page.hero_description_2')}
           </Typography>
           <Button
             onClick={handleOpenDialog}

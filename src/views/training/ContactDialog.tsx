@@ -5,6 +5,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 import MailOutlineIcon from '@mui/icons-material/MailOutline'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 import GroupIcon from '@mui/icons-material/Group'
+import { useTranslation } from 'react-i18next'
 
 interface ContactDialogProps {
   open: boolean
@@ -12,10 +13,11 @@ interface ContactDialogProps {
 }
 
 const ContactDialog: React.FC<ContactDialogProps> = ({ open, onClose }) => {
+  const { t } = useTranslation()
   return (
     <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
       <DialogTitle sx={{ m: 0, pt: '24px', px: '24px', pb: 0, fontWeight: 600, fontSize: 24 }}>
-        Have a question? Let’s Chat.
+        {t('training_landing_page.contact_dialog_title')}
         <IconButton aria-label='close' onClick={onClose} sx={{ position: 'absolute', right: 8, top: 8 }}>
           <CloseIcon />
         </IconButton>
@@ -23,13 +25,13 @@ const ContactDialog: React.FC<ContactDialogProps> = ({ open, onClose }) => {
 
       <DialogContent sx={{ padding: '24px', mt: '24px' }}>
         <Grid container spacing={4}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <Box display='flex' alignItems='flex-start' flexDirection='column' gap={2}>
               <ChatBubbleOutlineIcon sx={{ fontSize: 40 }} />
               <Box>
-                <Typography fontWeight={600}>Talk to us!</Typography>
+                <Typography fontWeight={600}>{t('training_landing_page.contact_dialog_title_left')}</Typography>
                 <Typography color='text.secondary' mt={1}>
-                  We’re here to help you find the right solution and pricing that truly fits your business.
+                  {t('training_landing_page.contact_dialog_description')}
                 </Typography>
               </Box>
             </Box>
@@ -46,14 +48,13 @@ const ContactDialog: React.FC<ContactDialogProps> = ({ open, onClose }) => {
             </Button>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <Box display='flex' alignItems='flex-start' flexDirection='column' gap={2}>
               <GroupIcon sx={{ fontSize: 40 }} />
               <Box>
-                <Typography fontWeight={600}>Product and account support</Typography>
+                <Typography fontWeight={600}>{t('training_landing_page.contact_dialog_title_right')}</Typography>
                 <Typography color='text.secondary' mt={1}>
-                  Our help center’s full of useful info and ready when you need it. Can’t find what you’re looking for?
-                  Just give us a shout. We’re happy to help!
+                  {t('training_landing_page.contact_dialog_description_right')}
                 </Typography>
               </Box>
             </Box>

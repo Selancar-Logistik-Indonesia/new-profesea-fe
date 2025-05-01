@@ -18,6 +18,8 @@ import { AppConfig } from 'src/configs/api'
 import { useRouter } from 'next/router'
 import ContactDialog from 'src/views/training/ContactDialog'
 import NoTrainingsFound from 'src/views/training/NoTrainingFound'
+import { useTranslation } from 'react-i18next'
+import { TFunction } from 'i18next'
 
 interface OngoingTrainingProps {
   searchTraining?: any
@@ -107,7 +109,8 @@ const renderList = (
   user: IUser | null,
   isMobile: boolean,
   isXl: boolean,
-  openDialog: () => void
+  openDialog: () => void,
+  t: TFunction<'translation', undefined, 'translation'>
 ) => {
   if (arr && arr.length) {
     return arr.map((item, index) => {
@@ -136,19 +139,18 @@ const renderList = (
             >
               <Box sx={{ flex: 1, paddingTop: isMobile ? '160px' : '' }}>
                 <Typography sx={{ fontSize: isMobile ? '18px' : '24px', fontWeight: 700, color: '#404040' }}>
-                  Connect with Maritime Professionals Worldwide
+                  {t('training_landing_page.section_join_us_title')}
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   <Typography sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: 400, color: '#5E5E5E' }}>
-                    Join our platform to grow your presence in the maritime industry. Promote your training programs and
-                    engage with a wider network of professionals.
+                    {t('training_landing_page.section_join_us_description')}
                   </Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
                     <Typography sx={{ fontSize: '24px', fontWeight: 700, color: '#404040' }}>
-                      45+ <span style={{ fontSize: '16px', fontWeight: 400 }}>Courses</span>
+                      45+ <span style={{ fontSize: '16px', fontWeight: 400 }}>{t('training_landing_page.section_join_us_courses')}</span>
                     </Typography>
                     <Typography sx={{ fontSize: '24px', fontWeight: 700, color: '#404040' }}>
-                      112+ <span style={{ fontSize: '16px', fontWeight: 400 }}>Participants</span>
+                      112+ <span style={{ fontSize: '16px', fontWeight: 400 }}>{t('training_landing_page.section_join_us_participants')}</span>
                     </Typography>
                   </Box>
                   <Button
@@ -271,6 +273,7 @@ const OngoingTrainingScreen = ({
   trainingCenter?: any
   category?: any
 }) => {
+  const { t } = useTranslation()
   const router = useRouter()
   const trainername = router.query.trainername
 
@@ -379,7 +382,7 @@ const OngoingTrainingScreen = ({
             }
           >
             <Grid container spacing={4}>
-              {renderList(trainings, user, isMobile, isXl, handleOpenDialog)}
+              {renderList(trainings, user, isMobile, isXl, handleOpenDialog, t)}
             </Grid>
           </InfiniteScroll>
         )}
