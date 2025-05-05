@@ -294,7 +294,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
               {/* gambar */}
               <Box
                 component={'img'}
-                src='/images/plus_unlock_2.png'
+                src='/images/unlock_plus_2_new.png'
                 sx={{
                   borderTopRightRadius: 12,
                   borderBottomRightRadius: 12,
