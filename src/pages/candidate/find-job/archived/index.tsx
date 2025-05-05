@@ -111,9 +111,9 @@ const JobArchived = () => {
 
   const renderList = (data: any[]) => {
     return data.map(item => {
-      const companyPhoto = item?.job?.company?.photo ? item?.job?.company?.photo : '/images/avatars/default-user.png'
-      const companyNameUrl = item?.job?.company.name.toLowerCase().split(' ').join('-')
-      const jobTitleUrl = item?.job?.job_title ? item?.job?.job_title?.toLowerCase().split(' ').join('-') : ''
+      const companyPhoto = item?.company?.photo ? item?.company?.photo : '/images/avatars/default-user.png'
+      const companyNameUrl = item?.company.name.toLowerCase().split(' ').join('-')
+      const jobTitleUrl = item?.job_title ? item?.job_title?.toLowerCase().split(' ').join('-') : ''
 
       const renderStatus = (onboard_at: any, is_active: boolean, deleted_at: any) => {
         const today = new Date()
@@ -156,7 +156,7 @@ const JobArchived = () => {
               cursor: 'pointer'
             }}
             elevation={0}
-            onClick={() => router.push(`/candidate/job/${companyNameUrl}/${item?.job_id}/${jobTitleUrl}`)}
+            onClick={() => router.push(`/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`)}
           >
             <Box
               sx={{
@@ -183,42 +183,42 @@ const JobArchived = () => {
                   }}
                 >
                   <TruncatedTypography line={2} fontWeight='bold' mb={0.5} textTransform='capitalize'>
-                    {item?.job?.role_type?.name ?? '-'}
+                    {item?.role_type?.name ?? '-'}
                   </TruncatedTypography>
                   <TruncatedTypography fontSize={14} color={'#404040'}>
-                    {item?.job?.company?.name ?? '-'}
+                    {item?.company?.name ?? '-'}
                   </TruncatedTypography>
                 </Box>
               </Box>
             </Box>
-            {item?.job?.category?.employee_type === 'onship' ? (
+            {item?.category?.employee_type === 'onship' ? (
               <Box sx={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', gap: '20px' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '80px' }}>
                   <Typography fontSize={14} fontWeight={400} color={'#999'}>
-                    {item?.job?.contract_duration ? `${item?.job?.contract_duration} months` : '-'}
+                    {item?.contract_duration ? `${item?.contract_duration} months` : '-'}
                   </Typography>
                   <Typography fontSize={14} fontWeight={400} color={'#999'}>
-                    {item?.job?.vessel_type ? item?.job?.vessel_type?.name : '-'}
+                    {item?.vessel_type ? item?.vessel_type?.name : '-'}
                   </Typography>
                   <Typography fontSize={14} fontWeight={400} color={'#999'}>
                     {item?.created_at ? getAppliedDuration(item?.created_at) : '-'}
                   </Typography>
-                  {renderStatus(item?.job?.onboard_at, item?.job?.is_active, item?.job?.deleted_at)}
+                  {renderStatus(item?.onboard_at, item?.is_active, item?.deleted_at)}
                 </Box>
               </Box>
             ) : (
               <Box sx={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', gap: '20px' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '80px' }}>
                   <Typography fontSize={14} fontWeight={400} color={'#999'}>
-                    {item?.job?.work_arrangement ? item?.job?.work_arrangement : '-'}
+                    {item?.work_arrangement ? item?.work_arrangement : '-'}
                   </Typography>
                   <Typography fontSize={14} fontWeight={400} color={'#999'}>
-                    {item?.job?.employment_type ? item?.job?.employment_type : '-'}
+                    {item?.employment_type ? item?.employment_type : '-'}
                   </Typography>
                   <Typography fontSize={14} fontWeight={400} color={'#999'}>
                     {item?.created_at ? getAppliedDuration(item?.created_at) : '-'}
                   </Typography>
-                  {renderStatus(item?.job?.onboard_at, item?.job?.is_active, item?.job?.deleted_at)}
+                  {renderStatus(item?.onboard_at, item?.is_active, item?.deleted_at)}
                 </Box>
               </Box>
             )}
