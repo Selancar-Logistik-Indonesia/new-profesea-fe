@@ -296,25 +296,29 @@ const TravelDocumentTab = () => {
                   >
                     {handlerTooltip(e)}
                   </Typography>
+
                   <Button
                     variant='outlined'
                     sx={{
                       width: { sm: '100%', md: '160px' },
                       height: '37px',
-                      borderColor: 'rgba(50, 73, 122, 1) !important',
+                      borderColor: e?.filename ? 'rgba(50, 73, 122, 1) !important' : '#E0E0E0',
                       textTransform: 'capitalize',
                       fontWeight: 400,
                       fontSize: { sm: '14px', md: '14px' },
                       lineHeight: '21px',
-                      color: 'rgba(50, 73, 122, 1) !important',
+                      color: e?.filename ? 'rgba(50, 73, 122, 1) !important' : '#E0E0E0',
                       marginTop: '8px'
                     }}
-                    onClick={() =>
-                      window.open(
-                        `${process.env.NEXT_PUBLIC_BASE_API}/public/data/travel-document/preview/${e?.id}`,
-                        '_blank'
-                      )
-                    }
+                    disabled={!e?.filename}
+                    onClick={() => {
+                      if (e?.filename) {
+                        window.open(
+                          `${process.env.NEXT_PUBLIC_BASE_API}/public/data/travel-document/preview/${e?.id}`,
+                          '_blank'
+                        )
+                      }
+                    }}
                   >
                     Show Credential
                   </Button>
