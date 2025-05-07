@@ -176,7 +176,6 @@ const renderList = (
                   src={isMobile ? '/images/asset-join-us-mobile.png' : '/images/asset-join-us.png'}
                   alt='Dekorasi Mobile Yellow'
                   sx={{
-                    // width: '100%',
                     width: isMobile ? '100%' : isXl ? '465px' : '575px',
                     height: 'auto',
                     transform: 'rotate(0.138deg)'
