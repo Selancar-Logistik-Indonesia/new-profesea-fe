@@ -12,18 +12,19 @@ import OtherTraining from './OtherTraining'
 import { useAuth } from 'src/hooks/useAuth'
 import DialogLogin from 'src/@core/components/login-modal'
 import { useTranslation } from 'react-i18next'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 
 const TrainingDetailPage = () => {
   const router = useRouter()
   const pathname = usePathname()
+  const params = useSearchParams()
   const { user } = useAuth()
   const { t } = useTranslation()
   const trainingId = router.query.id
   const [training, setTraining] = useState<Training | null>(null)
   const [openDialog, setOpenDialog] = useState(false)
-  const handleClickBuy = async () => {
+  const handleEnrollForOpenModalLogin = async () => {
     setOpenDialog(!openDialog)
   }
 
@@ -38,7 +39,9 @@ const TrainingDetailPage = () => {
   }
 
   if (user) {
-    router.replace(`/candidate/${pathname}`)
+    const cleanedPathname = pathname.replace('/trainings/detail/', '')
+
+    router.replace(`/candidate/trainings/${cleanedPathname}`)
   }
 
   useEffect(() => {
@@ -48,7 +51,17 @@ const TrainingDetailPage = () => {
   }, [trainingId])
 
   return !training ? (
-    <CircularProgress />
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundColor: '#f5f5f5'
+      }}
+    >
+      <CircularProgress />
+    </div>
   ) : (
     <Box p={4}>
       <Grid container sx={{ position: 'fixed' }}>
@@ -174,7 +187,11 @@ const TrainingDetailPage = () => {
                 </Box>
               )}
 
-              {training.joined_at ? (
+              <Button variant='contained' size='small' onClick={handleEnrollForOpenModalLogin}>
+                {t('login_modal_button_2')}
+              </Button>
+
+              {/* {training.joined_at ? (
                 <Button disabled={true} variant='contained' size='small'>
                   {t('login_modal_button_1')}
                 </Button>
@@ -182,7 +199,7 @@ const TrainingDetailPage = () => {
                 <Button variant='contained' size='small' onClick={handleClickBuy} disabled={!training?.cta}>
                   {t('login_modal_button_2')}
                 </Button>
-              )}
+              )} */}
             </Box>
           </Box>
         </Grid>
