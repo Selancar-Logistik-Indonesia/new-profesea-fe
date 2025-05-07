@@ -13,11 +13,6 @@ jobs:
   pull_update:
     runs-on: ubuntu-latest
     steps:
-    - name: Add server host key
-      run: |
-        ssh-keygen -R ${{ secrets.HOST }} || true
-        ssh-keyscan -t ed25519 ${{ secrets.HOST }} >> ~/.ssh/known_hosts
-        
     - name: Pull changes to server
       uses: appleboy/ssh-action@master
       with:
@@ -35,11 +30,6 @@ jobs:
       - pull_update
     runs-on: ubuntu-latest
     steps:
-    - name: Add server host key
-      run: |
-        ssh-keygen -R ${{ secrets.HOST }} || true
-        ssh-keyscan -t ed25519 ${{ secrets.HOST }} >> ~/.ssh/known_hosts
-        
     - name: Install dependency
       uses: appleboy/ssh-action@master
       with:
@@ -57,11 +47,6 @@ jobs:
       - instal_dependency
     runs-on: ubuntu-latest
     steps:
-    - name: Add server host key
-      run: |
-        ssh-keygen -R ${{ secrets.HOST }} || true
-        ssh-keyscan -t ed25519 ${{ secrets.HOST }} >> ~/.ssh/known_hosts
-        
     - name: Build and deploy
       uses: appleboy/ssh-action@master
       with:
