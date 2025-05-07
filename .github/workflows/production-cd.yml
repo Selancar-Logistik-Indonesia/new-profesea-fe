@@ -13,6 +13,11 @@ jobs:
   pull_update:
     runs-on: ubuntu-latest
     steps:
+    - name: Add server host key
+      run: |
+        ssh-keygen -R ${{ secrets.HOST }} || true
+        ssh-keyscan -t ed25519 ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+        
     - name: Pull changes to server
       uses: appleboy/ssh-action@master
       with:
@@ -20,7 +25,6 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.PRIVATE_KEY }}
         port: 22
-        fingerprint: SHA256:IMafaLB7A9IZz9nSXeLD5tKUrwsnsZeFlwbylcjZmew
         script: |
           source ~/.bashrc
           cd /home/adminprofesea/repository/fe-selancar/
@@ -31,6 +35,11 @@ jobs:
       - pull_update
     runs-on: ubuntu-latest
     steps:
+    - name: Add server host key
+      run: |
+        ssh-keygen -R ${{ secrets.HOST }} || true
+        ssh-keyscan -t ed25519 ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+        
     - name: Install dependency
       uses: appleboy/ssh-action@master
       with:
@@ -39,7 +48,6 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.PRIVATE_KEY }}
         port: 22
-        fingerprint: SHA256:IMafaLB7A9IZz9nSXeLD5tKUrwsnsZeFlwbylcjZmew
         script: |
           source ~/.bashrc
           cd /home/adminprofesea/repository/fe-selancar/
@@ -49,6 +57,11 @@ jobs:
       - instal_dependency
     runs-on: ubuntu-latest
     steps:
+    - name: Add server host key
+      run: |
+        ssh-keygen -R ${{ secrets.HOST }} || true
+        ssh-keyscan -t ed25519 ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+        
     - name: Build and deploy
       uses: appleboy/ssh-action@master
       with:
@@ -56,7 +69,6 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.PRIVATE_KEY }}
         port: 22
-        fingerprint: SHA256:IMafaLB7A9IZz9nSXeLD5tKUrwsnsZeFlwbylcjZmew
         script: |
           source ~/.bashrc
           cd /home/adminprofesea/repository/fe-selancar/
