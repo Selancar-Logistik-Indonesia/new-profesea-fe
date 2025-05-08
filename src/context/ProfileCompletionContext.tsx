@@ -36,9 +36,8 @@ const ProfileCompletionProvider = (props: Props) => {
   const fetchProfileCompletion = async () => {
     try {
       const response = await HttpClient.get(AppConfig.baseUrl + '/public/data/user/calculate-percentage/' + user?.id)
-      console.log('ini response =>', response)
       const { detail_percentage, percentage } = response?.data as IUserProfilePercentage
-      console.log('ini response =>', percentage)
+
       setUserProfileCompletion(percentage)
       setUserDetailPercentage(detail_percentage)
     } catch (error) {
