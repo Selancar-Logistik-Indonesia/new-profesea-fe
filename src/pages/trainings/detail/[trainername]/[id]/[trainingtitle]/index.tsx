@@ -12,13 +12,12 @@ import OtherTraining from './OtherTraining'
 import { useAuth } from 'src/hooks/useAuth'
 import DialogLogin from 'src/@core/components/login-modal'
 import { useTranslation } from 'react-i18next'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 
 const TrainingDetailPage = () => {
   const router = useRouter()
   const pathname = usePathname()
-  const params = useSearchParams()
   const { user } = useAuth()
   const { t } = useTranslation()
   const trainingId = router.query.id
