@@ -358,41 +358,6 @@ const OngoingTrainingScreen = ({
   return (
     <>
       <ContactDialog open={openDialog} onClose={handleOnCloseDialog} />
-      {/* <Box style={{ height: 'fit-content' }}>
-        {trainings.length === 0 && loading ? (
-          // Show loading skeleton when initial loading
-          <Grid container spacing={3} mt={2}>
-            {Array.from({ length: 8 }).map((_, idx) => (
-              <Grid item xs={12} sm={6} md={3} key={idx}>
-                <SkeletonCard />
-              </Grid>
-            ))}
-          </Grid>
-        ) : trainings.length === 0 && !loading ? (
-          <NoTrainingsFound />
-        ) : (
-          // Show infinite scroll with results
-          <InfiniteScroll
-            style={{ overflow: 'visible' }}
-            dataLength={trainings.length}
-            next={fetchTraining}
-            hasMore={hasMore}
-            loader={
-              <Grid container spacing={3} mt={2}>
-                {Array.from({ length: 8 }).map((_, idx) => (
-                  <Grid item xs={12} sm={6} md={3} key={idx}>
-                    <SkeletonCard />
-                  </Grid>
-                ))}
-              </Grid>
-            }
-          >
-            <Grid container spacing={4}>
-              {renderList(trainings, user, isMobile, isXl, handleOpenDialog, t)}
-            </Grid>
-          </InfiniteScroll>
-        )}
-      </Box> */}
       <Box style={{ height: 'fit-content' }}>
         {trainings.length === 0 && loading ? (
           // Show loading skeleton when initial loading
