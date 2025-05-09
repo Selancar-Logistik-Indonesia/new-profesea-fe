@@ -16,11 +16,10 @@ import {
 import { useCallback, useEffect, useState } from 'react'
 import Training from 'src/contract/models/training'
 import Avatar from 'src/@core/components/mui/avatar'
-import { formatIDR, getUserAvatar, linkToTitleCase } from 'src/utils/helpers'
+import { formatIDR, getUserAvatar } from 'src/utils/helpers'
 
 import Link from 'next/link'
 
-import { useSearchParams } from 'next/navigation'
 import { Icon } from '@iconify/react'
 import { useTheme } from '@mui/material/styles'
 import { HttpClient } from 'src/services'
@@ -193,8 +192,6 @@ const OngoingTrainingApp = ({ pageView }: { pageView: string }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   const [trainings, setTrainings] = useState<Training[]>([])
-  const params = useSearchParams()
-  const trainer = linkToTitleCase(params.get('trainer'))
   const [searchJob, setSearchJob] = useState<any>()
   const [filterTrainer, setFilterTrainer] = useState<any>()
   const [filterCategory, setFilterCategory] = useState<any>()
