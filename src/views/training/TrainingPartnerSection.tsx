@@ -88,7 +88,7 @@ const TrainingPartnerSection = () => {
       )}
 
       {/* Teks Kiri */}
-      <Box sx={{ pl: isMobile ? '' : '150px', pt: isMobile ? '15px' : '' }}>
+      <Box sx={{ pl: isMobile ? '' : '100px', pt: isMobile ? '15px' : '', margin: 'auto' }}>
         <Typography sx={{ fontSize: isMobile ? '16px' : '24px', fontWeight: 700, color: '#32497A' }}>
           Collaborating with
         </Typography>
@@ -120,7 +120,8 @@ const TrainingPartnerSection = () => {
           gap: '24px',
           flexWrap: 'wrap',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          margin: 'auto'
         }}
       >
         <img src='/images/partner1.png' alt='Focus Maritime' style={{ height: '48px' }} />

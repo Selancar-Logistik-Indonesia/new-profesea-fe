@@ -1,22 +1,21 @@
-import { ReactNode, createContext, useMemo, useState } from "react";
-import { AppConfig } from "src/configs/api";
-import { IUser } from "src/contract/models/user";
- import GroupContextType from "src/contract/types/group_context_type";
-import { HttpClient } from "src/services";
+import { ReactNode, createContext, useMemo, useState } from 'react'
+import { AppConfig } from 'src/configs/api'
+import { IUser } from 'src/contract/models/user'
+import GroupContextType from 'src/contract/types/group_context_type'
+import { HttpClient } from 'src/services'
 
-type Props = { children: ReactNode };
-const defaultValue: GroupContextType = {    
-    page: 1,
-    totalGroup: 0,
-    setPage: () => { },
-    listGroup: [],
-    onLoading: false,
-    hasNextPage: false,
-    fetchGroups: () => Promise.resolve()
-
+type Props = { children: ReactNode }
+const defaultValue: GroupContextType = {
+  page: 1,
+  totalGroup: 0,
+  setPage: () => {},
+  listGroup: [],
+  onLoading: false,
+  hasNextPage: false,
+  fetchGroups: () => Promise.resolve()
 }
 
-const GroupContext = createContext(defaultValue);
+const GroupContext = createContext(defaultValue)
 
 const GroupProvider = (props: Props) => {
   const [page, setPage] = useState(1)
@@ -41,7 +40,6 @@ const GroupProvider = (props: Props) => {
       if (response.status == 200) {
         const { groups } = response.data as { groups: { data: IUser[]; next_page_url?: string; total: number } }
 
-        console.log(groups.total)
         if (groups.data.length && groups.data.length > 0) {
           setGroup(old => {
             const newItems = old
@@ -67,7 +65,6 @@ const GroupProvider = (props: Props) => {
     setOnLoading(false)
   }
 
-   
   const values = useMemo(
     () => ({
       page,
@@ -80,14 +77,10 @@ const GroupProvider = (props: Props) => {
     }),
     [page, totalGroup, setPage, listGroup, onLoading, hasNextPage, fetchGroups]
   )
-  
-return <GroupContext.Provider value={values}>{props.children}</GroupContext.Provider>
-  
 
+  return <GroupContext.Provider value={values}>{props.children}</GroupContext.Provider>
 }
 
-export {
-    GroupProvider,
-}
+export { GroupProvider }
 
-export default GroupContext;
+export default GroupContext
