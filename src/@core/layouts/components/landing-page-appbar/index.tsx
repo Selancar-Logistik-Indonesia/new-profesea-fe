@@ -15,6 +15,7 @@ import Navigation from '../vertical/landing-navigation'
 import { useAuth } from 'src/hooks/useAuth'
 import { useTranslation } from 'react-i18next'
 import { usePathname } from 'next/navigation'
+import { Icon } from '@iconify/react'
 
 const LandingPageAppBar = (props: { appBarElevation?: number }) => {
   const { user, loading } = useAuth()
@@ -53,7 +54,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const baseAddress1 = '/find-job'
     const baseAddress2 = '/#discoverSectionLink'
     // const baseAddress3 = '/faqs'
-    const baseAddress4 = '/employer'
+    // const baseAddress4 = '/employer'
     const baseAddress5 = '/trainings'
     const baseAddress6 = '/news'
 
@@ -70,6 +71,12 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
         variant: 'contained',
         onClick: path === '/employer/' || path === '/employer/pricing/' ? '/register/employer' : '/register',
         sx: { backgroundColor: '#32497A', textTransform: 'capitalize' }
+      },
+      {
+        title: t('landing_menu_10'),
+        variant: 'outlined',
+        onClick: '/employer',
+        sx: { textTransform: 'capitalize' }
       }
     ])
 
@@ -83,7 +90,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     } else {
       setHomeNavItems([
         { title: t('landing_menu_1'), path: baseAddress1 },
-        { title: t('landing_menu_4'), path: baseAddress4 },
+        // { title: t('landing_menu_4'), path: baseAddress4 },
         { title: t('landing_menu_5'), path: baseAddress5 },
         { title: t('landing_menu_6'), path: baseAddress6 },
         { title: t('landing_menu_2'), path: baseAddress2 }
@@ -96,13 +103,20 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     return (
       <>
         {!user ? (
-          navItems.map(item => (
-            <Link href={item.onClick} key={item.title} locale={locale}>
-              <Button size='small' type='button' variant={item.variant} sx={{ ...item.sx, mr: 2, ml: 2 }}>
-                {item.title}
-              </Button>
-            </Link>
-          ))
+          navItems.map(item => {
+            if (path === '/employer/' && item.title == t('landing_menu_10')) {
+              return null
+            }
+
+            return (
+              <Link href={item.onClick} key={item.title} locale={locale}>
+                <Button size='small' type='button' variant={item.variant} sx={{ ...item.sx, mr: 2, ml: 2 }}>
+                  {item.title}
+                  {item.title == t('landing_menu_10') && <Icon fontSize={12} icon='ep:right' />}
+                </Button>
+              </Link>
+            )
+          })
         ) : (
           <>
             <Link href='/home' locale={locale}>
