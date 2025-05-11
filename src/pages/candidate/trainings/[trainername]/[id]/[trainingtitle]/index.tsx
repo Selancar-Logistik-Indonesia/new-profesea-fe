@@ -103,77 +103,79 @@ const renderList = (pageView: string, arr: Training[] | undefined, trainer: IUse
       }/${trainingTitleUrl}`
 
       return (
-        <Card sx={{ flex: 1 }} key={i}>
-          <CardContent sx={{ padding: '12px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <CardMedia
-              component='div'
-              image={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
-              sx={{
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
-                borderRadius: '4px',
-                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                width: '100%',
-                aspectRatio: '3/2',
-                mb: 3
-              }}
-            />
-            {/* <Link href={`/candidate/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}></Link> */}
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <TruncatedTypography fontSize={16} color={'#1F1F1F'} textTransform>
-                  {item.title}
-                </TruncatedTypography>
-                <Box sx={{ padding: '8px', borderRadius: '8px', border: '1px solid #868686', textAlign: 'center' }}>
-                  <TruncatedTypography fontSize={12} color={'#868686'} fontWeight={400}>
-                    {item.category?.category}
+        <Grid item xs={12} md={6} lg={4}>
+          <Card sx={{ flex: 1 }} key={i}>
+            <CardContent sx={{ padding: '12px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <CardMedia
+                component='div'
+                image={item?.thumbnail ? item?.thumbnail : '/images/icon-trainer.png'}
+                sx={{
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: 'cover',
+                  borderRadius: '4px',
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                  width: '100%',
+                  aspectRatio: '3/2',
+                  mb: 3
+                }}
+              />
+              {/* <Link href={`/candidate/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}></Link> */}
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <TruncatedTypography fontSize={16} color={'#1F1F1F'} textTransform>
+                    {item.title}
                   </TruncatedTypography>
-                </Box>
-                <Box
-                  height={35}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}
-                >
-                  <Box sx={{ display: 'flex', justifyContent: 'center' }} mr={3}>
-                    <Avatar src={getUserAvatar(trainer)} alt='profile-picture' sx={{ width: 25, height: 25 }} />
+                  <Box sx={{ padding: '8px', borderRadius: '8px', border: '1px solid #868686', textAlign: 'center' }}>
+                    <TruncatedTypography fontSize={12} color={'#868686'} fontWeight={400}>
+                      {item.category?.category}
+                    </TruncatedTypography>
                   </Box>
                   <Box
+                    height={35}
                     sx={{
                       display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center'
+                      alignItems: 'center'
                     }}
                   >
-                    <Typography sx={{ fontWeight: '400', color: '#303030' }} fontSize={12}>
-                      {trainer?.name}
-                    </Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }} mr={3}>
+                      <Avatar src={getUserAvatar(trainer)} alt='profile-picture' sx={{ width: 25, height: 25 }} />
+                    </Box>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Typography sx={{ fontWeight: '400', color: '#303030' }} fontSize={12}>
+                        {trainer?.name}
+                      </Typography>
+                    </Box>
                   </Box>
                 </Box>
+                <Box>
+                  <TruncatedTypography fontSize={16} fontWeight={700} color={'#1F1F1F)'}>
+                    {item.discounted_price ? formatIDR(item.discounted_price, true) : formatIDR(item.price, true)}
+                  </TruncatedTypography>
+                </Box>
               </Box>
-              <Box>
-                <TruncatedTypography fontSize={16} fontWeight={700} color={'#1F1F1F)'}>
-                  {item.discounted_price ? formatIDR(item.discounted_price, true) : formatIDR(item.price, true)}
-                </TruncatedTypography>
-              </Box>
-            </Box>
-            <Grid container>
-              <Button
-                fullWidth
-                size='small'
-                LinkComponent={Link}
-                variant='contained'
-                color='primary'
-                href={renderLink}
-                sx={{ textTransform: 'capitalize' }}
-              >
-                Learn More
-              </Button>
-            </Grid>
-          </CardContent>
-        </Card>
+              <Grid container>
+                <Button
+                  fullWidth
+                  size='small'
+                  LinkComponent={Link}
+                  variant='contained'
+                  color='primary'
+                  href={renderLink}
+                  sx={{ textTransform: 'capitalize' }}
+                >
+                  Learn More
+                </Button>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
       )
     })
   } else {
@@ -507,14 +509,6 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
     }
   }, [trainingId])
 
-  // const handleEnrollClick = () => {
-  //   if (training?.cta) {
-  //     window.open(training.cta, '_blank', 'noopener,noreferrer')
-  //   } else {
-  //     alert('No link available for enrollment')
-  //   }
-  // }
-
   const renderBookScheme = (scheme: string) => {
     const progress = training?.participants ? (training.count_participant / training.participants) * 100 : 0
 
@@ -598,7 +592,9 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
   }
 
   return !training ? (
-    <CircularProgress />
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <CircularProgress />
+    </Box>
   ) : (
     <>
       <Head>
@@ -702,15 +698,6 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
         </Box>
         <DialogContent>
           {renderSubDescriptionDialogTwo()}
-          {/* {participants.length == 0 ? (
-            <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#666', mb: '24px' }}>
-              Click the button below to start adding participants.
-            </Typography>
-          ) : (
-            <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#666', mb: '24px' }}>
-              Please fill in all fields correctly to ensure our team can contact you to process your booking.
-            </Typography>
-          )} */}
 
           {training?.booking_scheme === EBookingScheme.QUOTA_BASED && (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', mb: '18px' }}>
@@ -1066,157 +1053,6 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
           }}
         >
           <Grid item xs={12} md={9}>
-            {/* <Box sx={{ p: 10, backgroundColor: '#FFFFFF' }}>
-              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Grid
-                  sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column-reverse', md: 'row' },
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <Box>
-                    {new Date() > new Date(training?.schedule) && (
-                      <Box sx={{ mb: 2 }}>
-                        <Alert severity='warning' sx={{ border: '3px solid orange' }}>
-                          <AlertTitle sx={{ fontSize: 20, color: 'black !important', fontWeight: 'bold' }}>
-                            Enrollment closed for this training
-                          </AlertTitle>
-                          Don't worry, this course will be available in the next session! Stay tuned for updates and be
-                          the first to secure your spot.
-                        </Alert>
-                      </Box>
-                    )}
-                    <Typography
-                      variant='body2'
-                      color='#32487A'
-                      fontWeight='600'
-                      sx={{ fontSize: { xs: '28px', md: '48px' } }}
-                    >
-                      {training.title}
-                    </Typography>
-                    <Box sx={{ display: 'flex', gap: 1, flexDirection: 'row', mb: 2 }}>
-                      <Typography fontSize='16px'>Created by</Typography>
-                      <Typography color={'#32487A'} fontWeight='600' fontSize='16px'>
-                        {training.trainer.name}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 1, gap: 2 }}>
-                      <Icon icon='solar:bookmark-circle-bold-duotone' color='#32487A' fontSize={24} />
-                      <Box sx={{ width: 120 }}>
-                        <Typography>Category:</Typography>
-                      </Box>
-                      <Box>
-                        <Typography>{training?.category?.category}</Typography>
-                      </Box>
-                    </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
-                      <Icon icon='solar:calendar-bold-duotone' color='#32487A' fontSize={24} />
-                      <Box sx={{ width: 120 }}>
-                        <Typography>Training Start:</Typography>
-                      </Box>
-                      <Box>
-                        <Typography>{moment(training.schedule).format('dddd, DD MMM YYYY h:mm')}</Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-                  <Box>
-                    <img
-                      alt='logo'
-                      src={training?.thumbnail ? training?.thumbnail : '/images/icon-trainer.png'}
-                      style={{
-                        width: '150px',
-                        height: '150px',
-                        objectFit: 'cover',
-                        borderRadius: '8px',
-                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                      }}
-                    />
-                  </Box>
-                </Grid>
-              </Box>
-
-              <Divider sx={{ my: 6, borderBottomWidth: 2 }} />
-              <Box sx={{ mb: 4 }}>
-                <Typography color={'#32487A'} fontWeight='600' fontSize='18px' mb={2}>
-                  Description
-                </Typography>
-                <Box
-                  sx={{ w: '100%', whiteSpace: 'pre-line' }}
-                  component='div'
-                  dangerouslySetInnerHTML={{ __html: training.short_description }}
-                />
-              </Box>
-              <Box>
-                <Typography color={'#32487A'} fontWeight='600' fontSize='18px' mb={2}>
-                  Requirement
-                </Typography>
-                <Box
-                  sx={{ w: '100%', whiteSpace: 'pre-line' }}
-                  component='div'
-                  dangerouslySetInnerHTML={{
-                    __html: training.requirements ? training.requirements : 'No requirement'
-                  }}
-                />
-              </Box>
-              <Divider sx={{ my: 6, borderBottomWidth: 2 }} />
-              <Box flexDirection='column'>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-start'
-                  }}
-                >
-                  {training.discounted_price ? (
-                    <Box>
-                      <Typography fontSize={14} mt={1} sx={{ textDecoration: 'line-through', color: 'gray' }}>
-                        {formatIDR(training.price, true)}
-                      </Typography>
-                      <Typography fontSize={20} sx={{ color: 'primary.main' }}>
-                        {formatIDR(training.discounted_price, true)}
-                      </Typography>
-                      <Typography fontSize={8} sx={{ color: 'gray' }}>
-                        *harga belum termasuk PPN
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <Box>
-                      <Typography fontSize={20} sx={{ color: 'primary.main' }}>
-                        {formatIDR(training.price, true)}
-                      </Typography>
-                      <Typography fontSize={10} sx={{ color: 'gray' }}>
-                        *harga belum termasuk PPN
-                      </Typography>
-                    </Box>
-                  )}
-
-                  {training.joined_at ? (
-                    <Button disabled={true} variant='contained' size='small'>
-                      Joined
-                    </Button>
-                  ) : (
-                    <Button
-                      variant='contained'
-                      size='small'
-                      onClick={handleEnrollClick}
-                      disabled={!training?.cta || new Date() > new Date(training?.schedule)}
-                    >
-                      Enroll Now
-                    </Button>
-                  )}
-                </Box>
-                <Box sx={{ maxWidth: '500px' }}>
-                  <Typography sx={{ mt: '24px', fontSize: 12, color: '#868686' }}>
-                    <b>Terms & Conditions</b>: Profesea adalah media promosi dan agregator untuk lembaga kursus atau
-                    training para pelaut. Kami hanya menyediakan platform untuk membantu pelaut menemukan pelatihan yang
-                    sesuai. Segala pelaksanaan, materi, biaya, dan sertifikasi sepenuhnya menjadi tanggung jawab lembaga
-                    penyelenggara, dan Profesea tidak terlibat dalam operasional atau aktivitas pelatihan.
-                  </Typography>
-                </Box>
-              </Box>
-            </Box> */}
             <Box
               sx={{
                 display: 'flex',
@@ -1236,40 +1072,7 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
                   overflow: 'hidden',
                   gap: '24px'
                 }}
-              >
-                {/* <div
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.4))',
-                    borderRadius: '12px',
-                    zIndex: 1
-                  }}
-                ></div>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Image
-                    src={training?.trainer?.photo}
-                    width={isMobile ? 40 : 80}
-                    height={isMobile ? 40 : 80}
-                    alt='logo-1'
-                  />
-                  <Image
-                    src={'/images/white-logo-profesea.png'}
-                    width={isMobile ? 40 : 80}
-                    height={isMobile ? 40 : 80}
-                    alt='logo-2'
-                  />
-                </Box>
-                <Box>
-                  <Typography sx={{ fontSize: '30px', fontWeight: 500, color: '#fff' }}>
-                    {training?.category?.category}
-                  </Typography>
-                  <Typography sx={{ fontSize: '68px', fontWeight: 800, color: '#fff' }}>{training?.title}</Typography>
-                </Box> */}
-              </Box>
+              ></Box>
               <Box
                 sx={{
                   display: 'flex',
@@ -1284,7 +1087,17 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   {/*  */}
                   <Box>
-                    <Typography sx={{ fontSize: '24px', fontWeight: 700, color: '#1F1F1F', mb: '12px' }}>
+                    <Typography
+                      sx={{
+                        fontSize: {
+                          xs: '',
+                          md: '24px'
+                        },
+                        fontWeight: 700,
+                        color: '#1F1F1F',
+                        mb: '12px'
+                      }}
+                    >
                       {training?.title}
                     </Typography>
                     <Box
@@ -1374,9 +1187,9 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
                     <Icon icon={'ep:arrow-right'} fontSize={18} />
                   </Box>
                 </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '24px' }}>
-                  {renderList(pageView, training?.trainer?.training_list?.slice(1, 5), training?.trainer)}
-                </Box>
+                <Grid container spacing={3}>
+                  {renderList(pageView, training?.trainer?.training_list?.slice(0, 3), training?.trainer)}
+                </Grid>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -1388,9 +1201,9 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
                     <Icon icon={'ep:arrow-right'} fontSize={18} />
                   </Box>
                 </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '24px' }}>
-                  {renderList(pageView, training?.trainer?.training_list?.slice(1, 5), training?.trainer)}
-                </Box>
+                <Grid container spacing={3}>
+                  {renderList(pageView, training?.trainer?.training_list?.slice(3, 6), training?.trainer)}
+                </Grid>
               </Box>
             </Box>
           </Grid>
@@ -1461,37 +1274,8 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
                 </Box>
               </CardContent>
             </Card>
-            {/* <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px',
-                width: '100%',
-                bgcolor: '#d5e7f7'
-              }}
-            >
-              <Typography sx={{ fontWeight: '600', color: '#5ea1e2' }} fontSize={18}>
-                Training post by the Trainer
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                p: 4,
-                borderColor: 'divider',
-                boxSizing: 'border-box',
-                backgroundColor: '#FFFFFF',
-                borderRadius: '2px',
-                overflow: 'hidden'
-              }}
-            >
-              <OtherTraining user_id={training.user_id} id={training.id} />
-            </Box> */}
           </Grid>
         </Grid>
-        {/* {openDialog && (
-        <PaymentDialog onClose={() => setOpenDialog(!openDialog)} training={training} openDialog={openDialog} />
-      )} */}
       </Box>
     </>
   )
