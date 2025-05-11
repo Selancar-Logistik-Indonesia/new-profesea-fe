@@ -144,7 +144,7 @@ const renderList = (pageView: string, arr: Training[]) => {
                   href={renderLink}
                   sx={{ textTransform: 'capitalize' }}
                 >
-                  Learn Moressss
+                  Learn More
                 </Button>
               </Grid>
             </CardContent>
@@ -388,7 +388,7 @@ const OngoingTrainingApp = ({ pageView }: { pageView: string }) => {
             )}
 
             {hasMore && !loading && (
-              <Box display='flex' justifyContent='center' mt={4}>
+              <Box display='flex' justifyContent='center' py={4}>
                 <Button
                   onClick={fetchTraining}
                   variant='text'
