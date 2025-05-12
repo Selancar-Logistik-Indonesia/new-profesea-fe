@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-// import TrainingDatagrid from './Trainingtagrid'
+
 import { HttpClient } from 'src/services'
 import { AxiosError } from 'axios'
 import { toast } from 'react-hot-toast'
-// import Training from 'src/contract/models/training'
-// import debounce from 'src/utils/debounce'
-// import { GridPaginationModel } from '@mui/x-data-grid'
+
 import {
   CircularProgress,
-  Grid,
   Pagination,
   Paper,
   Table,
@@ -20,7 +17,6 @@ import {
   TableRow,
   Typography
 } from '@mui/material'
-// import { useRouter } from 'next/router'
 
 import styled from '@emotion/styled'
 import ITrainingParticipant from 'src/contract/models/training_participant'
@@ -56,22 +52,12 @@ interface RowItem {
 const AllTrainingScreen = () => {
   const [onLoading, setOnLoading] = useState(false)
   const [dataSheet, setDataSheet] = useState<RowItem[]>([])
-  // const router = useRouter()
+
   const [page, setPage] = useState(1)
   const [rowCount, setRowCount] = useState(0)
 
   const tableContainerRef = useRef<HTMLDivElement>(null)
-  // const [showShadow, setShowShadow] = useState(false)
-  const perPage = 999
-  // const [perPage, setPerPage] = useState(10)
-
-  // const handleScroll = () => {
-  //   if (tableContainerRef.current) {
-  //     const container = tableContainerRef.current
-  //     const isScrolledToEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 5
-  //     setShowShadow(!isScrolledToEnd)
-  //   }
-  // }
+  const perPage = 100
 
   const getListTraining = async () => {
     try {
@@ -117,35 +103,12 @@ const AllTrainingScreen = () => {
     }
   }
 
-  // const handleSearch = useCallback(
-  //   debounce((value: string) => {
-  //     setSearch(value)
-  //   }, 500),
-  //   []
-  // )
-
-  // const viewHandler = (row: Training) => {
-  //   const trainerNameUrl = row.trainer.name.toLowerCase().split(' ').join('-')
-  //   const trainingTitleUrl = row.title ? row.title?.toLowerCase().split(' ').join('-') : ''
-  //   router.push(`/candidate/trainings/${trainerNameUrl}/${row.id}/${trainingTitleUrl}`)
-  // }
-
   useEffect(() => {
     setOnLoading(true)
     getListTraining().then(() => {
       setOnLoading(false)
     })
   }, [page, perPage])
-
-  // useEffect(() => {
-  //   const container = tableContainerRef.current
-  //   if (container) {
-  //     container.addEventListener('scroll', handleScroll)
-  //     handleScroll()
-
-  //     return () => container.removeEventListener('scroll', handleScroll)
-  //   }
-  // }, [])
 
   const renderStatus = (input: string): { status: string; color: string } => {
     if (input === 'unregistered') {
@@ -186,9 +149,9 @@ const AllTrainingScreen = () => {
   return (
     <>
       {onLoading ? (
-        <Grid sx={{ display: 'flex', justifyContent: 'center', mb: '24px' }}>
-          <CircularProgress size={24} />
-        </Grid>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <CircularProgress />
+        </Box>
       ) : (
         <>
           <TableContainer component={Paper} sx={{ overflowX: 'auto', maxWidth: '100%' }} ref={tableContainerRef}>
@@ -238,7 +201,7 @@ const AllTrainingScreen = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          <Grid container justifyContent='center' sx={{ my: '24px' }}>
+          <Box sx={{ display: 'flex', alignItems: 'flex', justifyContent: 'center', py: '24px' }}>
             <Pagination
               size='small'
               count={Math.ceil(rowCount / perPage)}
@@ -248,37 +211,9 @@ const AllTrainingScreen = () => {
               shape='rounded'
               renderItem={item => <CustomPaginationItem {...item} />}
             />
-          </Grid>
+          </Box>
         </>
       )}
-
-      {/* <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-        <CardContent sx={{ padding: '0px' }}>
-          <Typography variant='h6' color={'#32487A'} fontWeight='600'>
-          List Trainings
-        </Typography>
-        <Grid container justifyContent='flex-end'>
-          <Grid item>
-            <TextField
-              size='small'
-              sx={{ mr: 6, mb: 2 }}
-              placeholder='Search'
-              onChange={e => handleSearch(e.target.value)}
-            />
-          </Grid>
-          <Grid item sx={{ mr: 6, mb: 2 }}></Grid>
-        </Grid>
-
-          <TrainingDatagrid
-            page={page - 1} // di MUI page pertama = 0
-            rowCount={rowCount}
-            pageSize={perPage}
-            loading={onLoading}
-            onPageChange={model => onPageChange(model)}
-            rows={dataSheet}
-          />
-        </CardContent>
-      </Card> */}
     </>
   )
 }

@@ -7,7 +7,9 @@ import { AppConfig } from 'src/configs/api'
 import toast from 'react-hot-toast'
 import { getCleanErrorMessage } from 'src/utils/helpers'
 import { useAuth } from 'src/hooks/useAuth'
-import ModalUnlockPlus from 'src/@core/components/subscription/ModalUnlockPlus'
+import dynamic from 'next/dynamic'
+
+const ModalUnlockPlus = dynamic(() => import('src/@core/components/subscription/ModalUnlockPlus'), { ssr: false })
 
 const UsernameChange = (props: { userId: number; username: string }) => {
   const { user, abilities } = useAuth()
@@ -30,8 +32,7 @@ const UsernameChange = (props: { userId: number; username: string }) => {
         setMyUsername(myUsername)
         setTimeout(() => {
           location.href = (user?.team_id == 2 ? '/profile/' : '/company/') + myUsername
-        },2000)
-       
+        }, 2000)
       } else {
         toast.error(response.data.message)
         setMyUsername(username)
@@ -49,8 +50,8 @@ const UsernameChange = (props: { userId: number; username: string }) => {
   }
 
   useEffect(() => {
-      setIsSubs(abilities?.plan_type !== 'basic')
-      getChangeCounter()
+    setIsSubs(abilities?.plan_type !== 'basic')
+    getChangeCounter()
   }, [user, abilities])
 
   useEffect(() => {
@@ -107,25 +108,27 @@ const UsernameChange = (props: { userId: number; username: string }) => {
             )}
 
             {!isSubs && changeCounter > 0 ? (
-              <ModalUnlockPlus text='Unlock to Edit'/>
+              <ModalUnlockPlus text='Unlock to Edit' />
             ) : (
-                <>
-                  <a
-              style={{ display:'block' }}
-              href={'#'}
-              onClick={() => {
-                setEditable(!editable)
-              }}
-            >
-              Edit
-            </a>
-                </>
+              <>
+                <a
+                  style={{ display: 'block' }}
+                  href={'#'}
+                  onClick={() => {
+                    setEditable(!editable)
+                  }}
+                >
+                  Edit
+                </a>
+              </>
             )}
           </div>
 
           <Typography sx={{ fontSize: 16, lineHeight: '20px' }}>
             {' '}
-            {!isSubs && changeCounter > 0 ? 'You’ve already customized your company URL once. Unlock plus to change your profile URL !':'Your custom URL is set to your username! Edit anytime'}{' '}
+            {!isSubs && changeCounter > 0
+              ? 'You’ve already customized your company URL once. Unlock plus to change your profile URL !'
+              : 'Your custom URL is set to your username! Edit anytime'}{' '}
           </Typography>
         </Box>
       </Box>
