@@ -39,6 +39,8 @@ import ProfileCompletionContext, { ProfileCompletionProvider } from 'src/context
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import DialogResumeBuilder from './DialogResumeBuilder'
+import { useAuth } from 'src/hooks/useAuth'
+import ModalUnlockPlusCandidate from 'src/@core/components/subscription/ModalUnlockPlusCandidate'
 
 type FormData = {
   companyName: string
@@ -145,6 +147,8 @@ function CircularProgressWithLabel(props: CircularProgressProps & { value: numbe
 }
 
 const Candidate = () => {
+  const {abilities} = useAuth()
+
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -172,6 +176,8 @@ const Candidate = () => {
 
   //query for resume builder
   const isUploadResume = params.get('resume')
+
+  const [isSubs, setIsSubs] = useState<boolean>(false)
 
   
 
@@ -585,6 +591,11 @@ const Candidate = () => {
     return null
   }
 
+  //check subs
+  useEffect(() => {
+    if(abilities?.plan_type !== 'basic') setIsSubs(true)
+  }, [abilities])
+
   useEffect(() => {
       if(tabs){
         setTabsValue(tabs)
@@ -690,7 +701,7 @@ const Candidate = () => {
 
                         {/* todo next sprint */}
                         <Box sx={{display: 'flex', gap: isMobile ? '9px' : '12px', flexDirection: isMobile ? 'column' : 'row', mt: {xs: 5, sm: 0, md: 28}, ml: {xs: '6px !important', sm: 0, md: 0}}}>
-                        <Button aria-label='upload' sx={{display: 'flex',
+                        {isSubs ? (<Button aria-label='upload' sx={{display: 'flex',
                             justifyContent: 'space-around',
                             width:isMobile ? '100%' : 'fit-content',
                             flexDirection: 'row',
@@ -710,7 +721,7 @@ const Candidate = () => {
                             >
                           <Icon color={userPlan ? '#FFFFFF' : '#404040'}  icon={userPlan ? 'ph:crown-simple-fill' : 'material-symbols-light:upload-sharp' } fontSize={isMobile ? '14px' : '20px'} />
                           {userPlan ? isMobile ? 'Unlock Upload Resume' : 'Unlock Pro to Upload Resume' : 'Upload Resume'}
-                        </Button>
+                        </Button>) : (<ModalUnlockPlusCandidate text={isMobile ? 'Unlock Upload Resume' : 'Unlock Plus to Upload Resume'}/>)}
                         <Button
                           aria-label='download'
                           sx={{

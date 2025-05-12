@@ -177,17 +177,18 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
 
       {/* main dialog  */}
       <Dialog
+
         scroll='body'
         open={isOpenFirst}
         onClose={handleCloseFirst}
         fullWidth
-        maxWidth={'lg'}
+        maxWidth={'md'}
         sx={{ '& .MuiDialog-paper': { borderRadius: '12px !important' } }}
       >
         {content === 'content1' ? (
           // content 1
-          <DialogContent sx={{ padding: 0, borderRadius: '8px' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <DialogContent sx={{ padding: 0, borderRadius: '8px' }} onClick={(e) => e.stopPropagation()}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'strech' }}>
               {/* gambar */}
               <Box
                 component={'img'}
@@ -196,8 +197,8 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                   borderTopLeftRadius: 12,
                   borderBottomLeftRadius: 12,
                   objectFit: 'cover',
-                  height: '100%',
-                  flex: 1,
+                  width: '50%',
+                  height:'auto',
                   display: { xs: 'none', md: 'block' }
                 }}
               />
@@ -207,19 +208,20 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                   padding: '30px 40px 40px 40px',
                   backgroundColor: '#FFFFFF',
                   display: 'flex',
-                  flexDirection: 'column'
+                  flexDirection: 'column',
+                  
                 }}
               >
                 <Icon
                   onClick={handleCloseFirst}
                   icon={'ph:x'}
-                  fontSize={24}
-                  style={{ alignSelf: 'flex-end', cursor: 'pointer', marginBottom: '20px' }}
+                  fontSize={20}
+                  style={{ alignSelf: 'flex-end', cursor: 'pointer', marginBottom:2 }}
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                     <Box>
-                      <Typography sx={{ fontSize: 32, fontWeigth: 700, color: '#1F1F1F' }}>
+                      <Typography sx={{ fontSize: 28, fontWeigth: 700, color: '#1F1F1F' }}>
                         Try Profesea Plus for{' '}
                         <span
                           style={{
@@ -232,17 +234,17 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                         </span>
                         !
                       </Typography>
-                      <Typography sx={{ fontSize: 16, fontWeigth: 400, color: '#666666' }}>
+                      <Typography sx={{ fontSize: 14, fontWeigth: 400, color: '#666666' }}>
                         Everything you need to hire smarter — zero cost.
                       </Typography>
                     </Box>
 
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                       {benefitsList.map((item, i) => {
                         return (
                           <Box key={i} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
                             <Icon icon={item.icon} color='#32497A' fontSize={24} />
-                            <Typography sx={{ fontSize: 16, fontWeight: 400, color: '#32497A' }}>
+                            <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#32497A' }}>
                               {item.detail}
                             </Typography>
                           </Box>
@@ -250,7 +252,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                       })}
                     </Box>
 
-                    <Typography sx={{ fontSize: 16, fontWeigth: 400, color: '#666666' }}>
+                    <Typography sx={{ fontSize: 14, fontWeigth: 400, color: '#666666' }}>
                       Unlock premium hiring tools. No cost, no commitment.{' '}
                       <Link href='#' sx={{ color: '#2561EB', textDecoration: 'underline' }}>
                         Learn more.
@@ -267,7 +269,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                         sx={{
                           backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
                           textTransform: 'none',
-                          fontSize: 14
+                          fontSize: 12
                         }}
                       >
                         Unlock now
@@ -275,7 +277,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                       <Button
                         onClick={e => handleCloseFirst(e)}
                         variant='text'
-                        sx={{ textTransform: 'none', fontSize: 14, color: '#0B58A6' }}
+                        sx={{ textTransform: 'none', fontSize: 12, color: '#0B58A6' }}
                       >
                         Maybe later
                       </Button>
@@ -287,30 +289,30 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
           </DialogContent>
         ) : (
           // content 2
-          <DialogContent sx={{ padding: 0, borderRadius: '8px' }}>
+          <DialogContent sx={{ padding: 0, borderRadius: '8px' }} onClick={(e) => e.stopPropagation()}>
             <Box sx={{ display: 'flex', flexDirection: 'row-reverse', alignItems: 'stretch', padding: '0px' }}>
               {/* gambar */}
               <Box
                 component={'img'}
-                src='/images/plus_unlock_2.png'
+                src='/images/unlock_plus_2_new.png'
                 sx={{
                   borderTopRightRadius: 12,
                   borderBottomRightRadius: 12,
                   objectFit: 'cover',
-                  width: '690px',
-                  height: '100%',
+                  width: '50%',
+                  height: 'auto',
                   display: { xs: 'none', md: 'block' }
                 }}
               />
               {/* text */}
-              <Box sx={{ padding: '40px', backgroundColor: '#FFFFFF', flex: 1 }}>
+              <Box sx={{ padding: '40px', backgroundColor: '#FFFFFF' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                     <Box
                       sx={{
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: 4,
+                        gap: 2,
                         justifyContent: 'center',
                         alignItems: 'center'
                       }}
@@ -318,10 +320,10 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                       <Typography sx={{ fontSize: 14, fontWeigth: 700, color: '#1F1F1F' }}>
                         One step closer to unlock Profesea Plus!
                       </Typography>
-                      <Typography sx={{ fontSize: 32, fontWeigth: 700, color: '#1F1F1F', textAlign: 'center' }}>
+                      <Typography sx={{ fontSize: 22, fontWeigth: 700, color: '#1F1F1F', textAlign: 'center' }}>
                         Which features do you think will be most useful for you?
                       </Typography>
-                      <Typography sx={{ fontSize: 16, fontWeigth: 400, color: '#1F1F1F' }}>
+                      <Typography sx={{ fontSize: 16, fontWeigth: 400, color: '#1F1F1F', whiteSpace: 'nowrap' }}>
                         Please select 3 or more features from the list:
                       </Typography>
                     </Box>
@@ -343,6 +345,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                                 onClick={e => e.stopPropagation()}
                                 control={
                                   <Checkbox
+                                    size='small'
                                     value={item.value}
                                     onChange={e => {
                                       e.stopPropagation()
@@ -351,7 +354,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                                   />
                                 }
                                 label={item.question}
-                                sx={{ fontSize: 16, fontWeight: 400, color: '##1F1F1F' }}
+                                sx={{ fontSize: 14, fontWeight: 400, color: '##1F1F1F' }}
                               />
                             </Box>
                             <Tooltip title={item.detail}>
@@ -362,8 +365,9 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                       })}
                     </Box>
 
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                       <Button
+                      size='small'
                         onClick={e => {
                           e.stopPropagation()
                           handleSubmit(e)
