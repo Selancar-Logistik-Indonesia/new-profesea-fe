@@ -16,6 +16,7 @@ import toast from 'react-hot-toast'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
+import Image from 'next/image'
 
 interface IDialogOfferCandidate {
   open: boolean
@@ -115,45 +116,77 @@ const DialogOfferCandidate: React.FC<IDialogOfferCandidate> = ({ open, onClose, 
             Select a job from your listings to match this candidate with the right opportunity.
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', mb: '40px' }}>
-          <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 'bold' }}>Job</Typography>
-          <Autocomplete
-            size='small'
-            fullWidth
-            disablePortal
-            id='choose-job'
-            options={optionsJob}
-            value={selectedJob}
-            getOptionLabel={(option: any) => option.job_title}
-            renderInput={params => <TextField {...params} placeholder='Choose Job' />}
-            onChange={(_: any, newValue: any | null) => {
-              setSelectedJob(newValue)
-            }}
-          />
-        </Box>
-        <Box>
-          <TextField
-            id='outlined-multiline-flexible'
-            fullWidth
-            multiline
-            rows={8}
-            placeholder='Compose a message to candidate...'
-            value={message}
-            onChange={handleOnChangeMessage}
-          />
-          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', mt: '8px' }}>
-            {maxCharacters ? (
-              <Typography sx={{ color: 'red', fontSize: 12, fontWeight: 400 }}>180/180 characters</Typography>
-            ) : (
-              <Typography sx={{ color: '#999', fontSize: 12, fontWeight: 400 }}>
-                {characters} characters remaining
-              </Typography>
-            )}
-            {/* <Typography sx={{ color: '#999', fontSize: 12, fontWeight: 400 }}>
-              {characters} characters remaining
-            </Typography> */}
-          </Box>
-        </Box>
+        {optionsJob.length === 0 ? (
+          <>
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '24px',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <Image
+                  src='/images/amico-new.png'
+                  alt='empty-job'
+                  width={isMobile ? 150 : 250}
+                  height={isMobile ? 150 : 250}
+                />
+                <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#868686', textAlign: 'center' }}>
+                  You haven’t posted any jobs. Create job to offer candidate.
+                </Typography>
+              </Box>
+            </Box>
+          </>
+        ) : (
+          <>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', mb: '40px' }}>
+              <Typography sx={{ color: '#404040', fontSize: 14, fontWeight: 'bold' }}>Job</Typography>
+              <Autocomplete
+                size='small'
+                fullWidth
+                disablePortal
+                id='choose-job'
+                options={optionsJob}
+                value={selectedJob}
+                getOptionLabel={(option: any) => option.job_title}
+                renderInput={params => <TextField {...params} placeholder='Choose Job' />}
+                onChange={(_: any, newValue: any | null) => {
+                  setSelectedJob(newValue)
+                }}
+              />
+            </Box>
+            <Box>
+              <TextField
+                id='outlined-multiline-flexible'
+                fullWidth
+                multiline
+                rows={8}
+                placeholder='Compose a message to candidate...'
+                value={message}
+                onChange={handleOnChangeMessage}
+              />
+              <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', mt: '8px' }}>
+                {maxCharacters ? (
+                  <Typography sx={{ color: 'red', fontSize: 12, fontWeight: 400 }}>180/180 characters</Typography>
+                ) : (
+                  <Typography sx={{ color: '#999', fontSize: 12, fontWeight: 400 }}>
+                    {characters} characters remaining
+                  </Typography>
+                )}
+              </Box>
+            </Box>
+          </>
+        )}
       </Box>
       <Box sx={{ display: 'flex', px: '24px', gap: '16px', marginBottom: '40px' }}>
         <Button variant='outlined' sx={{ textTransform: 'capitalize', flex: 1 }}>
