@@ -1,4 +1,4 @@
-import { Ref, forwardRef, ReactElement, useState } from 'react'
+import { Ref, forwardRef, ReactElement, useState, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import IconButton from '@mui/material/IconButton'
@@ -6,7 +6,17 @@ import Typography from '@mui/material/Typography'
 import Fade, { FadeProps } from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
 import Icon from 'src/@core/components/icon'
-import { Button, Card, CardContent, CircularProgress, DialogActions, Drawer, Grid, useMediaQuery, useTheme } from '@mui/material'
+import {
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  DialogActions,
+  Drawer,
+  Grid,
+  useMediaQuery,
+  useTheme
+} from '@mui/material'
 import { HttpClient } from 'src/services'
 import { toast } from 'react-hot-toast'
 import Job from 'src/contract/models/job'
@@ -17,6 +27,8 @@ import { usePathname } from 'next/navigation'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
+import { useAuth } from 'src/hooks/useAuth'
+import ModalUnlockPlusCandidate from 'src/@core/components/subscription/ModalUnlockPlusCandidate'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -33,15 +45,24 @@ type ViewProps = {
 }
 
 type contentProps = {
-  selectedResume: string,
-  setSelectedResume: (value: string) => void,
-  isMobile: boolean,
+  selectedResume: string
+  setSelectedResume: (value: string) => void
+  isMobile: boolean
   onClose: () => void
+  isSubs: boolean
 }
 
 const CompleteDialog = (props: ViewProps) => {
   const [onLoading, setOnLoading] = useState(false)
   const [selectedResume, setSelectedResume] = useState<string>('')
+  const { abilities } = useAuth()
+  const [isSubs, setIsSubs] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (abilities?.plan_type !== 'basic') {
+      setIsSubs(true)
+    }
+  }, [abilities])
 
   const router = useRouter()
   const pathname = usePathname()
@@ -53,7 +74,7 @@ const CompleteDialog = (props: ViewProps) => {
   const handleApprove = async () => {
     setOnLoading(true)
 
-    if(selectedResume === 'upload'){
+    if (selectedResume === 'upload') {
       try {
         const res = await HttpClient.get(AppConfig.baseUrl + `/user/download-cv/${user.id}`)
         if (!res.data.file || res.data.filename === '') {
@@ -61,15 +82,13 @@ const CompleteDialog = (props: ViewProps) => {
 
           return
         }
-        
       } catch (error) {
         console.log(error)
         router.push('/candidate/?tabs=0&resume=true&fallbackUrl=' + pathname)
-        
+
         return
       }
     }
-
 
     try {
       const resp = await HttpClient.get(`/job/${props.selectedItem?.id}/apply?resume_type=${selectedResume}`)
@@ -93,6 +112,7 @@ const CompleteDialog = (props: ViewProps) => {
       if (isAxiosError(error)) {
         if (error?.response?.status === 400) {
           toast.error(`${error?.response?.data?.message}`)
+          console.log(error)
         }
       } else {
         toast.error('An error occurred while applying.')
@@ -103,14 +123,40 @@ const CompleteDialog = (props: ViewProps) => {
     }
   }
 
-
-  if(isMobile){
+  if (isMobile) {
     return (
       <Drawer open={props.openDialog} anchor='bottom' onClose={props.onClose}>
-        <Content selectedResume={selectedResume} setSelectedResume={setSelectedResume} isMobile={isMobile} onClose={props.onClose}/>
-        <Box sx={{display:'flex', flexDirection:'column', padding:'24px', gap:'8px'}}>
-          <Button variant='contained' color='primary' onClick={handleApprove} sx={{ textTransform: 'capitalize', padding:'8px 12px', fontSize:'14px', fontWeight:400 }}>{onLoading ? <CircularProgress /> : 'Apply Job'}</Button>
-          <Button variant='outlined' color='secondary' onClick={props.onClose} sx={{ textTransform: 'capitalize', border:'1px solid #0B58A6' , color:'#0B58A6', padding:'8px 12px', fontSize:'14px', fontWeight:400}}>Cancel</Button>
+        <Content
+          selectedResume={selectedResume}
+          setSelectedResume={setSelectedResume}
+          isMobile={isMobile}
+          onClose={props.onClose}
+          isSubs={isSubs}
+        />
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: '24px', gap: '8px' }}>
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={handleApprove}
+            sx={{ textTransform: 'capitalize', padding: '8px 12px', fontSize: '14px', fontWeight: 400 }}
+          >
+            {onLoading ? <CircularProgress /> : 'Apply Job'}
+          </Button>
+          <Button
+            variant='outlined'
+            color='secondary'
+            onClick={props.onClose}
+            sx={{
+              textTransform: 'capitalize',
+              border: '1px solid #0B58A6',
+              color: '#0B58A6',
+              padding: '8px 12px',
+              fontSize: '14px',
+              fontWeight: 400
+            }}
+          >
+            Cancel
+          </Button>
         </Box>
       </Drawer>
     )
@@ -126,7 +172,13 @@ const CompleteDialog = (props: ViewProps) => {
     >
       <form noValidate>
         <DialogContent sx={{ padding: 0 }}>
-          <Content selectedResume={selectedResume} setSelectedResume={setSelectedResume} isMobile={isMobile} onClose={props.onClose}/>
+          <Content
+            selectedResume={selectedResume}
+            setSelectedResume={setSelectedResume}
+            isMobile={isMobile}
+            onClose={props.onClose}
+            isSubs={isSubs}
+          />
         </DialogContent>
         <DialogActions
           sx={{
@@ -143,7 +195,15 @@ const CompleteDialog = (props: ViewProps) => {
             size='small'
             color='secondary'
             onClick={props.onClose}
-            sx={{ textTransform: 'capitalize', border:'1px solid #0B58A6' , color:'#0B58A6', width:'120px', padding:'8px 12px', fontSize:'14px', fontWeight:400}}
+            sx={{
+              textTransform: 'capitalize',
+              border: '1px solid #0B58A6',
+              color: '#0B58A6',
+              width: '120px',
+              padding: '8px 12px',
+              fontSize: '14px',
+              fontWeight: 400
+            }}
           >
             Cancel
           </Button>
@@ -153,9 +213,9 @@ const CompleteDialog = (props: ViewProps) => {
             type='button'
             size='small'
             disabled={onLoading}
-            sx={{ textTransform: 'capitalize',width:'120px', padding:'8px 12px', fontSize:'14px', fontWeight:400 }}
+            sx={{ textTransform: 'capitalize', width: '120px', padding: '8px 12px', fontSize: '14px', fontWeight: 400 }}
           >
-            {onLoading ? <CircularProgress size={20}/> : 'Apply Job'}
+            {onLoading ? <CircularProgress size={20} /> : 'Apply Job'}
           </Button>
         </DialogActions>
       </form>
@@ -163,105 +223,144 @@ const CompleteDialog = (props: ViewProps) => {
   )
 }
 
+const Content = ({ onClose, selectedResume, setSelectedResume, isMobile, isSubs }: contentProps) => {
+  
 
-const Content = ({onClose, selectedResume, setSelectedResume, isMobile} : contentProps) => {
-
-  return(
+  return (
     <>
-    <Box
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)',
+          padding: isMobile ? '24px' : '16px 32px'
+        }}
+      >
+        <Box>
+          <Typography fontSize={'18px'} fontWeight={700} color={'#303030'}>
+            Select Your Resume
+          </Typography>
+        </Box>
+        <IconButton size='small' onClick={onClose}>
+          <Icon icon='mdi:close' fontSize={24} />
+        </IconButton>
+      </Box>
+      <Box sx={{ display: 'flex', gap: '8px', flexDirection: 'column', padding: isMobile ? '16px 24px' : '16px 32px' }}>
+        <Typography color={'#404040'} fontSize={16} fontWeight='700'>
+          How would you like to proceed
+        </Typography>
+        <Typography color={'#404040'} fontSize={14} fontWeight='400'>
+          Choose the resume you'd like to use for this {isMobile && <br />} application:
+        </Typography>
+      </Box>
+      <Grid spacing={4} container sx={{ padding: isMobile ? '16px 24px' : '16px 32px', gridRow: 1 }}>
+        {isSubs ? (
+          <Grid item xs={12} md={6}>
+            <Card
+              variant='outlined'
+              onClick={() => {
+                setSelectedResume('upload')
+              }}
+              sx={{
+                padding: '12px',
+                textAlign: 'center',
+                cursor: 'pointer',
+                borderRadius: '8px !important',
+                ...(selectedResume === 'upload'
+                  ? { border: '1px solid #0B58A6', backgroundColor: '#F2F8FE' }
+                  : { border: '1px solid #868686' }),
+                '&:hover': {
+                  backgroundColor: selectedResume === 'upload' ? '#F2F8FE' : '#FAFAFA'
+                }
+              }}
+            >
+              <CardContent
+                sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+              >
+                <Typography
+                  fontSize={'16px'}
+                  fontWeight={700}
+                  color={selectedResume === 'upload' ? '#32497A' : '#303030'}
+                >
+                  Uploaded Resume
+                </Typography>
+                <Typography fontSize={'14px'} fontWeight={400} color={'#868686'} whiteSpace={'nowrap'}>
+                  Apply with your uploaded resume!
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ) : (
+          <Grid item xs={12} md={6}>
+            <Card
+              variant='outlined'
+              sx={{
+                padding: '2px 12px',
+                textAlign: 'center',
+                cursor: 'pointer',
+                borderRadius: '8px !important',
+                ...(selectedResume === 'upload'
+                  ? { border: '1px solid #0B58A6', backgroundColor: '#F2F8FE' }
+                  : { border: '1px solid #868686' }),
+                '&:hover': {
+                  backgroundColor: selectedResume === 'upload' ? '#F2F8FE' : '#FAFAFA'
+                }
+              }}
+            >
+              <CardContent
+                sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+              >
+                <Typography
+                  sx={{ whiteSpace: 'nowrap', mb:1 }}
+                  fontSize={'16px'}
+                  fontWeight={700}
+                  color={selectedResume === 'upload' ? '#32497A' : '#303030'}
+                >
+                  Upload your CV with premium access!
+                </Typography>
+                <ModalUnlockPlusCandidate text={'Unlock Plus to Upload Resume'} param={'resume=true'}/>
+              </CardContent>
+            </Card>
+          </Grid>
+        )}
+        <Grid item xs={12} md={6}>
+          <Card
+            variant='outlined'
+            onClick={() => {
+              setSelectedResume('platform')
+            }}
             sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems:'center',
-              boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)',
-              padding: isMobile ? '24px' : '16px 32px'
+              flex:1,
+              padding: '12px',
+              textAlign: 'center',
+              cursor: 'pointer',
+              borderRadius: '8px !important',
+              ...(selectedResume === 'platform'
+                ? { border: '1px solid #0B58A6', backgroundColor: '#F2F8FE' }
+                : { border: '1px solid #868686' }),
+              '&:hover': {
+                backgroundColor: selectedResume === 'platform' ? '#F2F8FE' : '#FAFAFA'
+              }
             }}
           >
-            <Box>
-              <Typography fontSize={'18px'} fontWeight={700} color={'#303030'}>
-                Select Your Resume
+            <CardContent
+              sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+            >
+              <Typography
+                fontSize={'16px'}
+                fontWeight={700}
+                color={selectedResume === 'platform' ? '#32497A' : '#303030'}
+              >
+                Platform Resume
               </Typography>
-            </Box>
-            <IconButton size='small' onClick={onClose}>
-              <Icon icon='mdi:close' fontSize={24} />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: 'flex', gap: '8px', flexDirection: 'column', padding: isMobile ? '16px 24px' : '16px 32px' }}>
-            <Typography color={'#404040'} fontSize={16} fontWeight='700'>
-              How would you like to proceed
-            </Typography>
-            <Typography color={'#404040'} fontSize={14} fontWeight='400'>
-              Choose the resume you'd like to use for this {isMobile && <br/>} application:
-            </Typography>
-          </Box>
-          <Grid spacing={4} container sx={{ padding: isMobile ? '16px 24px' : '16px 32px', gridRow:1 }}>
-            <Grid item xs={12} md={6}>
-              <Card
-              variant='outlined'
-                onClick={() => {
-                  setSelectedResume('upload')
-                }}
-                sx={{
-                  padding: '12px',
-                  textAlign: 'center',
-                  cursor: 'pointer',
-                  borderRadius:'8px !important',
-                  ...(selectedResume === 'upload'
-                    ? { border: '1px solid #0B58A6', backgroundColor: '#F2F8FE' }
-                    : { border: '1px solid #868686' }),
-                    '&:hover': {
-                      backgroundColor: selectedResume === 'upload' ? '#F2F8FE' : '#FAFAFA'
-                    }
-                }}
-              >
-                <CardContent sx={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-                  <Typography
-                    fontSize={'16px'}
-                    fontWeight={700}
-                    color={selectedResume === 'upload' ? '#32497A' : '#303030'}
-                  >
-                    Uploaded Resume
-                  </Typography>
-                  <Typography fontSize={'14px'} fontWeight={400} color={'#868686'} whiteSpace={'nowrap'}>
-                    Apply with your uploaded resume!
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Card
-              variant='outlined'
-                onClick={() => {
-                  setSelectedResume('platform')
-                }}
-                sx={{
-                  padding: '12px',
-                  textAlign: 'center',
-                  cursor: 'pointer',
-                  borderRadius:'8px !important',
-                  ...(selectedResume === 'platform'
-                    ? { border: '1px solid #0B58A6', backgroundColor: '#F2F8FE' }
-                    : { border: '1px solid #868686' }),
-                    '&:hover': {
-                      backgroundColor: selectedResume === 'platform' ? '#F2F8FE' : '#FAFAFA'
-                    }
-                }}
-              >
-                <CardContent sx={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-                  <Typography
-                    fontSize={'16px'}
-                    fontWeight={700}
-                    color={selectedResume === 'platform' ? '#32497A' : '#303030'}
-                  >
-                    Platform Resume
-                  </Typography>
-                  <Typography fontSize={'14px'} fontWeight={400} color={'#868686'}>
-                    Apply instantly—no uploads!
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
+              <Typography fontSize={'14px'} fontWeight={400} color={'#868686'}>
+                Apply instantly—no uploads!
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
     </>
   )
 }
