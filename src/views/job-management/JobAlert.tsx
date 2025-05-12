@@ -1,6 +1,8 @@
 import { Icon } from '@iconify/react'
 import { Alert, Box, Typography } from '@mui/material'
-import ModalUnlockPlus from 'src/@core/components/subscription/ModalUnlockPlus'
+import dynamic from 'next/dynamic'
+
+const ModalUnlockPlus = dynamic(() => import('src/@core/components/subscription/ModalUnlockPlus'), { ssr: false })
 
 const JobAlert = ({ jobsCount, isSubs, boostCount }: { jobsCount: number; isSubs: boolean; boostCount: number }) => {
   //kalo misal user belom nge post jobs sama seklai
@@ -39,7 +41,6 @@ const JobAlert = ({ jobsCount, isSubs, boostCount }: { jobsCount: number; isSubs
               )}
             </Typography>
           </Box>
-          
         </Box>
       </Alert>
     )
@@ -56,28 +57,37 @@ const JobAlert = ({ jobsCount, isSubs, boostCount }: { jobsCount: number; isSubs
           flexDirection: 'row',
           alignItems: 'center',
           gap: 2,
-          backgroundColor: jobsCount >=5 ? '#FCE9C8' : '#F8F8F7',
+          backgroundColor: jobsCount >= 5 ? '#FCE9C8' : '#F8F8F7',
           border: jobsCount >= 5 ? '1px solid #FDC26E' : '1px solid #BFBFBF',
           borderRadius: '8px',
-          mb: 8,
+          mb: 8
         }}
       >
         <Box
-          sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexGrow:1, width:'100%'}}
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexGrow: 1,
+            width: '100%'
+          }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <Typography sx={{ fontSize: 14, fontWeight: 700, color: jobsCount >= 5 ? '#303030' : '#32497A' }}>{jobsCount}/5 Jobs Posted</Typography>
+            <Typography sx={{ fontSize: 14, fontWeight: 700, color: jobsCount >= 5 ? '#303030' : '#32497A' }}>
+              {jobsCount}/5 Jobs Posted
+            </Typography>
             <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#303030' }}>
               {jobsCount >= 5 ? (
                 'You’ve used all your active job post slots. Need to post more? Upgrade your plan to keep attracting top candidates.'
               ) : (
                 <>
-                  You’ve posted your first job! You can post {(5 - jobsCount) < 0 ? 0 : (5 - jobsCount)} more active jobs to increase your chances
-                  of finding the right talent.
+                  You’ve posted your first job! You can post {5 - jobsCount < 0 ? 0 : 5 - jobsCount} more active jobs to
+                  increase your chances of finding the right talent.
                 </>
               )}
             </Typography>
-          </Box>   
+          </Box>
         </Box>
       </Alert>
     )

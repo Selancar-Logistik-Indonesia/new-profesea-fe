@@ -103,7 +103,7 @@ const renderList = (pageView: string, arr: Training[] | undefined, trainer: IUse
       }/${trainingTitleUrl}`
 
       return (
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={6} lg={4} key={i}>
           <Card sx={{ flex: 1 }} key={i}>
             <CardContent sx={{ padding: '12px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <CardMedia
