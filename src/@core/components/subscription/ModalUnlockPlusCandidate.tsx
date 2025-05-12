@@ -17,12 +17,14 @@ import {
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
 import Lottie from 'lottie-react'
+import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { HttpClient } from 'src/services'
 
 type ModalProps = {
-  text: string
+  text: string, 
+  param?: string
 }
 
 type BenefitListType = {
@@ -81,9 +83,11 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction='down' ref={ref} {...props} />
 })
 
-const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
+const ModalUnlockPlusCandidate = ({ text, param }: ModalProps) => {
   const router = useRouter()
-  const isMobile = useMediaQuery(useTheme().breakpoints.down('md'))
+  const path = usePathname()
+  const isMobileMd = useMediaQuery(useTheme().breakpoints.down('md'))
+  const isMobileSm = useMediaQuery(useTheme().breakpoints.down('sm'))
   const [isOpenFirst, setIsOpenFirst] = useState(false)
   const [isOpenSecond, setIsOpenSecond] = useState(false)
   const [content, setContent] = useState<string>('content1')
@@ -105,6 +109,9 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
   const handleCloseSecond = (e: React.MouseEvent) => {
     e.stopPropagation()
     setIsOpenSecond(false)
+    if(param) {
+      router.push(`${path}?${param}`)
+    }
     router.reload()
   }
 
@@ -155,7 +162,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
       {/* main dialog  */}
       <Dialog
         scroll='body'
-        open={isOpenFirst && !isMobile}
+        open={isOpenFirst && !isMobileMd}
         onClose={handleCloseFirst}
         fullWidth
         maxWidth={'md'}
@@ -377,7 +384,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
       </Dialog>
 
       {/* mobile sheet */}
-      <Drawer anchor={'bottom'} open={isOpenFirst && isMobile} onClose={handleCloseFirst}>
+      <Drawer anchor={'bottom'} open={isOpenFirst && isMobileMd} onClose={handleCloseFirst}>
         {content === 'content1' ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             <Box sx={{ padding: '24px' }}>
@@ -417,7 +424,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
             </Box>
             <Box
               component={'img'}
-              src='/images/plus_unlock_candidate_mobile_1.png'
+              src= {isMobileSm ? '/images/plus_unlock_candidate_mobile_1.png' : '/images/plus_unlock_candidate_1.png'}
               sx={{
                 objectFit: 'contain',
                 width: '100%',
@@ -495,7 +502,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
             </Box>
             <Box
               component={'img'}
-              src='/images/unlock_plus_candidate_mobile_2.png'
+              src= {isMobileSm ?  '/images/unlock_plus_candidate_mobile_2.png' : '/images/unlock_plus_candidate_2.png'}
               sx={{
                 objectFit: 'contain',
                 width: '100%',
@@ -574,7 +581,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
         TransitionComponent={Transition}
         keepMounted
         scroll='body'
-        open={isOpenSecond && !isMobile}
+        open={isOpenSecond && !isMobileMd}
         onClose={handleCloseSecond}
         fullWidth
         maxWidth={'xs'}
@@ -626,7 +633,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
       </Dialog>
 
       {/* congrats drawer */}
-      <Drawer anchor={'bottom'} open={isOpenSecond && isMobile} onClose={handleCloseFirst}>
+      <Drawer anchor={'bottom'} open={isOpenSecond && isMobileMd} onClose={handleCloseFirst}>
         <Box sx={{ padding: '24px', display: 'flex', flexDirection: 'row', gap: 2 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#1F1F1F' }}>Congratulations!</Typography>
@@ -642,7 +649,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
             style={{ cursor: 'pointer', marginBottom: 2 }}
           />
         </Box>
-        <Box sx={{ position: 'relative', backgroundImage:'linear-gradient(180deg, #2661E9 0%, #153783 100%)', overflow: 'hidden' }}>
+        <Box sx={{ position: 'relative', backgroundImage:'linear-gradient(180deg, #2661E9 0%, #153783 100%)', overflow: 'hidden', display:'flex', justifyContent:'center', alignItems:'center' }}>
           <Lottie
             animationData={require('/public/animated-images/spark.json')}
             style={{ position: 'absolute', zIndex: 1 }}
@@ -651,7 +658,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
             animationData={require('/public/animated-images/confetti.json')}
             style={{ position: 'absolute', zIndex: 1 }}
           />
-          <Box component={'img'} src='/images/hooray_mobile.png' sx={{ zIndex: 2, position: 'relative', left:62, top:6 }} />
+          <Box component={'img'} src='/images/hooray_mobile.png' sx={{ zIndex: 2, position: 'relative', left:'auto', right:'auto', top:6 }} />
         </Box>
         <Box sx={{ padding: '16px 16px 32px 16px' }}>
           <Button
