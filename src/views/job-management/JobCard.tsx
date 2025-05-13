@@ -24,7 +24,9 @@ import { calculateDaysDifference, dateProgress, getDateMonth } from 'src/utils/h
 import DialogDelete from './DialogDelete'
 import { DraftToggle } from './Component'
 import { AppConfig } from 'src/configs/api'
-import ModalUnlockPlus from 'src/@core/components/subscription/ModalUnlockPlus'
+import dynamic from 'next/dynamic'
+
+const ModalUnlockPlus = dynamic(() => import('src/@core/components/subscription/ModalUnlockPlus'), { ssr: false })
 
 interface StatusCardProps {
   id: number
@@ -70,7 +72,7 @@ const StatusCard = (props: StatusCardProps) => {
   )
 }
 
-const JobCard = ({ job, refetch, isSubs }: { job: Job; refetch: VoidFunction, isSubs:boolean }) => {
+const JobCard = ({ job, refetch, isSubs }: { job: Job; refetch: VoidFunction; isSubs: boolean }) => {
   const [status, setStatus] = useState(job.is_active)
   const [boosted, setBoosted] = useState(job.is_boosted)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -445,52 +447,56 @@ const JobCard = ({ job, refetch, isSubs }: { job: Job; refetch: VoidFunction, is
               draft={job.is_draft}
             />
           </Grid>
-          {isSubs ? (<Tooltip
-            title={
-              !boosted &&
-              !isAvailable &&
-              'You can only boost one job at a time. Deactivate the current boost to switch.'
-            }
-            sx={{ pointerEvents: 'all !important' }}
-          >
-            <Button
-              onClick={() => {
-                if (isAvailable) setIsOpen(true)
-              }}
-              size='small'
-              disabled={!job.is_active || loading}
-              // variant={isAvailable && job.is_active ? 'outlined' : 'contained'}
-              sx={{
-                display: job.is_draft ? 'none' : 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 1,
-                textTransform: 'none',
-                cursor: isAvailable && job.is_active ? 'pointer' : 'unset',
-                backgroundImage:
-                  isAvailable && job.is_active ? 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)' : 'none',
-                backgroundColor: isAvailable && job.is_active ? 'none' : '#F0F0F0 !important',
-                backgroundClip: isAvailable && job.is_active ? 'text' : '',
-                color: isAvailable && job.is_active ? 'transparent' : '#999999',
-                border: isAvailable && job.is_active ? '1px solid #968BEB' : '1px solid #F0F0F0',
-                borderRadius: '4px',
-                fontSize: 14
-              }}
+          {isSubs ? (
+            <Tooltip
+              title={
+                !boosted &&
+                !isAvailable &&
+                'You can only boost one job at a time. Deactivate the current boost to switch.'
+              }
+              sx={{ pointerEvents: 'all !important' }}
             >
-              {loading ? (
-                <CircularProgress size={20} />
-              ) : (
-                <>
-                  <Icon
-                    icon='ph:lightning'
-                    fontSize={16}
-                    color={isAvailable && job.is_active ? '#968BEB' : '#999999'}
-                  />
-                  {boosted ? 'Deactivate boost job' : 'Boost job'}
-                </>
-              )}
-            </Button>
-          </Tooltip>) : (<ModalUnlockPlus text={'Unlock to Boost job'}/>)}
+              <Button
+                onClick={() => {
+                  if (isAvailable) setIsOpen(true)
+                }}
+                size='small'
+                disabled={!job.is_active || loading}
+                // variant={isAvailable && job.is_active ? 'outlined' : 'contained'}
+                sx={{
+                  display: job.is_draft ? 'none' : 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 1,
+                  textTransform: 'none',
+                  cursor: isAvailable && job.is_active ? 'pointer' : 'unset',
+                  backgroundImage:
+                    isAvailable && job.is_active ? 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)' : 'none',
+                  backgroundColor: isAvailable && job.is_active ? 'none' : '#F0F0F0 !important',
+                  backgroundClip: isAvailable && job.is_active ? 'text' : '',
+                  color: isAvailable && job.is_active ? 'transparent' : '#999999',
+                  border: isAvailable && job.is_active ? '1px solid #968BEB' : '1px solid #F0F0F0',
+                  borderRadius: '4px',
+                  fontSize: 14
+                }}
+              >
+                {loading ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <>
+                    <Icon
+                      icon='ph:lightning'
+                      fontSize={16}
+                      color={isAvailable && job.is_active ? '#968BEB' : '#999999'}
+                    />
+                    {boosted ? 'Deactivate boost job' : 'Boost job'}
+                  </>
+                )}
+              </Button>
+            </Tooltip>
+          ) : (
+            <ModalUnlockPlus text={'Unlock to Boost job'} />
+          )}
           <Grid container sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {!job.is_draft && (
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>

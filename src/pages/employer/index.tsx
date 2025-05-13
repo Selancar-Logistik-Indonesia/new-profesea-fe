@@ -1,4 +1,5 @@
 import { useMediaQuery, useTheme } from '@mui/material'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,18 +11,20 @@ import FindSection from 'src/views/employer/FindSection'
 import FooterBanner from 'src/views/employer/FooterBanner'
 
 //component
-import HeroSection from 'src/views/employer/HeroSection'
 import JoinSection from 'src/views/employer/JoinSection'
 import OurPartner from 'src/views/employer/OurPartner'
 import TestimonySection from 'src/views/employer/TestimonySection'
 import FooterView from 'src/views/landing-page/footerView'
 
+// dynamic import
+const HeroSection = dynamic(() => import('src/views/employer/HeroSection'), {
+  ssr: false
+})
 
 const Main = () => {
   const { t } = useTranslation()
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
-
 
   return (
     <>
@@ -34,15 +37,15 @@ const Main = () => {
         <meta name='og:description' content={`${themeConfig.templateName} - ${t('landing_employer_description')}`} />
         <meta property='og:image' content='images/logoprofesea.png' />
       </Head>
-      <HeroSection/>
-      <OurPartner/>
-      <BenefitSection isMobile={isMobile}/>
-      <JoinSection isMobile={isMobile}/>
-      <FindSection isMobile={isMobile}/>
-      <TestimonySection isMobile={isMobile}/>
-      <FaqSection isMobile={isMobile}/>
-      <FooterBanner isMobile={isMobile}/>
-      <FooterView/>
+      <HeroSection />
+      <OurPartner />
+      <BenefitSection isMobile={isMobile} />
+      <JoinSection isMobile={isMobile} />
+      <FindSection isMobile={isMobile} />
+      <TestimonySection isMobile={isMobile} />
+      <FaqSection isMobile={isMobile} />
+      <FooterBanner isMobile={isMobile} />
+      <FooterView />
     </>
   )
 }
