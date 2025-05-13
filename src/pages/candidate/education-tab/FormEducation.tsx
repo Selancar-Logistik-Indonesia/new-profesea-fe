@@ -276,7 +276,7 @@ const FormEducation: React.FC<IFormEducation> = ({ onClose, getUserEducation }) 
                 views={['month', 'year']}
                 onChange={(date: any) => setStartDate(date)}
                 value={startDate ? moment(startDate) : null}
-                readOnly={true}
+                readOnly={!isMobile}
                 slotProps={{
                   textField: {
                     'aria-readonly': true,
@@ -309,7 +309,7 @@ const FormEducation: React.FC<IFormEducation> = ({ onClose, getUserEducation }) 
                 views={['month', 'year']}
                 onChange={(date: any) => setEndDate(date)}
                 value={!isCurrentEducation && endDate ? moment(endDate) : null}
-                readOnly={true}
+                readOnly={!isMobile}
                 slotProps={{
                   textField: {
                     'aria-readonly': true,
