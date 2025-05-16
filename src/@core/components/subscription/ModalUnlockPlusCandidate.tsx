@@ -10,6 +10,7 @@ import {
   IconButton,
   Link,
   Slide,
+  SxProps,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -24,15 +25,21 @@ import { HttpClient } from 'src/services'
 
 type ModalProps = {
   text: string, 
-  param?: string
+  param?: string,
+  sx?: SxProps
 }
 
 type BenefitListType = {
   icon: string
   detail: string
+  
 }
 
 const benefitsList: BenefitListType[] = [
+  {
+    icon: 'ph:rocket-launch',
+    detail: 'Boosted Recommendation'
+  },
   {
     icon: 'ph:bookmarks',
     detail: 'Saved Jobs'
@@ -52,6 +59,11 @@ const benefitsList: BenefitListType[] = [
 ]
 
 const quizList: { question: string; detail: string; value: string }[] = [
+  {
+    question: 'Boosted Recommendation',
+    detail: 'Appear at the top of recruiter searches and stand out.',
+    value: 'BR'
+  },
   {
     question: 'CV Upload',
     detail: 'Upload your existing CV for quick profile building and storage.',
@@ -83,7 +95,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction='down' ref={ref} {...props} />
 })
 
-const ModalUnlockPlusCandidate = ({ text, param }: ModalProps) => {
+const ModalUnlockPlusCandidate = ({ text, param,sx }: ModalProps) => {
   const router = useRouter()
   const path = usePathname()
   const isMobileMd = useMediaQuery(useTheme().breakpoints.down('md'))
@@ -121,11 +133,13 @@ const ModalUnlockPlusCandidate = ({ text, param }: ModalProps) => {
         await HttpClient.post('/transaction/v2/create', {
           payment_type: 'FREE',
           purchase_item: 'PLS-3M-TRIAL',
-          purchase_type: 'subscription'
+          purchase_type: 'subscription',
+          user_type: 'candidate'
         })
         await HttpClient.post('/feedback/user-feedback', {
           section: 'Feedback Candidate 1',
-          feedback_codes: answers
+          feedback_codes: answers,
+          user_type: 'candidate'
         })
     } catch (error) {
       console.log(error)
@@ -152,7 +166,8 @@ const ModalUnlockPlusCandidate = ({ text, param }: ModalProps) => {
           display: 'flex',
           alignItems: 'center',
           gap: 2,
-          whiteSpace: 'nowrap'
+          whiteSpace: 'nowrap',
+          ...sx
         }}
       >
         <Icon icon={'ph:crown-simple-fill'} fontSize={18} color='#FFFFFF' />

@@ -41,6 +41,7 @@ import { useRouter } from 'next/router'
 import DialogResumeBuilder from './DialogResumeBuilder'
 import { useAuth } from 'src/hooks/useAuth'
 import ModalUnlockPlusCandidate from 'src/@core/components/subscription/ModalUnlockPlusCandidate'
+import BoostCandidateAlert from 'src/views/candidate/BoostCandidateAlert'
 
 type FormData = {
   companyName: string
@@ -629,6 +630,7 @@ const Candidate = () => {
           onCloseClick={() => setOpenUpdateProfilePic(!openUpateProfilePic)}
           previewProfile={profilePic}
         />
+        
         <Grid
           container
           sx={
@@ -643,10 +645,12 @@ const Candidate = () => {
                   display: 'flex',
                   alignItems: 'center',
                   paddingLeft: '96px',
-                  paddingRight: '96px'
+                  paddingRight: '96px',
+                  gap: '12px'
                 }
           }
         >
+          <Grid item xs={12}><BoostCandidateAlert isSubs={isSubs} user={user}/></Grid>
           <ProfileCompletionContext.Consumer>
             {({ percentage, detail_percentage }) => {
               return (
