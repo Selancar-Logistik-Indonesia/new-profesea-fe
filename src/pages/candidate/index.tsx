@@ -149,7 +149,7 @@ function CircularProgressWithLabel(props: CircularProgressProps & { value: numbe
 
 const Candidate = () => {
   const {abilities} = useAuth()
-
+  console.log(abilities)
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -594,7 +594,7 @@ const Candidate = () => {
 
   //check subs
   useEffect(() => {
-    if(abilities?.plan_type !== 'basic') setIsSubs(true)
+    if(abilities?.plan_type !== 'BSC-ALL') setIsSubs(true)
   }, [abilities])
 
   useEffect(() => {

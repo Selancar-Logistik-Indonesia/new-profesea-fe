@@ -58,7 +58,7 @@ const RenderList = (listCandidate: IUser[], isXs: boolean, setOpenDialogOfferCan
   const [isSubs, setIsSubs] = useState<boolean>(false)
 
   useEffect(() => {
-    setIsSubs(abilities?.plan_type !== 'basic')
+    setIsSubs(abilities?.plan_type !== 'BSC-ALL')
   }, [abilities])
 
   if (!listCandidate || listCandidate.length == 0) {

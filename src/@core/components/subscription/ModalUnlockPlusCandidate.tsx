@@ -24,15 +24,15 @@ import React, { useState } from 'react'
 import { HttpClient } from 'src/services'
 
 type ModalProps = {
-  text: string, 
-  param?: string,
+  text: string
+  param?: string
   sx?: SxProps
+  condition?: boolean
 }
 
 type BenefitListType = {
   icon: string
   detail: string
-  
 }
 
 const benefitsList: BenefitListType[] = [
@@ -62,7 +62,7 @@ const quizList: { question: string; detail: string; value: string }[] = [
   {
     question: 'Boosted Recommendation',
     detail: 'Appear at the top of recruiter searches and stand out.',
-    value: 'BR'
+    value: 'BRC'
   },
   {
     question: 'CV Upload',
@@ -72,17 +72,17 @@ const quizList: { question: string; detail: string; value: string }[] = [
   {
     question: 'Apply with Uploaded CV',
     detail: 'Instantly apply for jobs using your uploaded resume.',
-    value: 'AUCV'
+    value: 'ACV'
   },
   {
     question: 'Saved Jobs',
     detail: 'Keep track of interesting job listings in one place.',
-    value: 'SJ'
+    value: 'SVJ'
   },
   {
     question: 'Application History',
     detail: "View where you've applied and manage next steps.",
-    value: 'AH'
+    value: 'APH'
   }
 ]
 
@@ -95,7 +95,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction='down' ref={ref} {...props} />
 })
 
-const ModalUnlockPlusCandidate = ({ text, param,sx }: ModalProps) => {
+const ModalUnlockPlusCandidate = ({ text, param, sx, condition = false }: ModalProps) => {
   const router = useRouter()
   const path = usePathname()
   const isMobileMd = useMediaQuery(useTheme().breakpoints.down('md'))
@@ -121,7 +121,7 @@ const ModalUnlockPlusCandidate = ({ text, param,sx }: ModalProps) => {
   const handleCloseSecond = (e: React.MouseEvent) => {
     e.stopPropagation()
     setIsOpenSecond(false)
-    if(param) {
+    if (param) {
       router.push(`${path}?${param}`)
     }
     router.reload()
@@ -130,17 +130,17 @@ const ModalUnlockPlusCandidate = ({ text, param,sx }: ModalProps) => {
   const handleSubmit = async (e: React.MouseEvent) => {
     e.stopPropagation()
     try {
-        await HttpClient.post('/transaction/v2/create', {
-          payment_type: 'FREE',
-          purchase_item: 'PLS-3M-TRIAL',
-          purchase_type: 'subscription',
-          user_type: 'candidate'
-        })
-        await HttpClient.post('/feedback/user-feedback', {
-          section: 'Feedback Candidate 1',
-          feedback_codes: answers,
-          user_type: 'candidate'
-        })
+      await HttpClient.post('/transaction/v2/create', {
+        payment_type: 'FREE',
+        purchase_item: 'PLS-3M-TRIAL',
+        purchase_type: 'subscription',
+        user_type: 'candidate'
+      })
+      await HttpClient.post('/feedback/user-feedback', {
+        section: 'Feedback Candidate 1',
+        feedback_codes: answers,
+        user_type: 'candidate'
+      })
     } catch (error) {
       console.log(error)
     } finally {
@@ -155,13 +155,15 @@ const ModalUnlockPlusCandidate = ({ text, param,sx }: ModalProps) => {
     <>
       {/* unlock plus button */}
       <Button
+        disabled={condition}
+        variant='contained'
         onClick={e => {
           setIsOpenFirst(true)
           e.stopPropagation()
         }}
         sx={{
           borderRadius: 2,
-          backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
+          backgroundImage: condition ? '' : 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
           textTransform: 'none',
           display: 'flex',
           alignItems: 'center',
@@ -232,7 +234,7 @@ const ModalUnlockPlusCandidate = ({ text, param,sx }: ModalProps) => {
                         !
                       </Typography>
                       <Typography sx={{ fontSize: 14, fontWeigth: 400, color: '#666666' }}>
-                        Everything you need to hire smarter —{' '}
+                        Everything you need to get a job easier—{' '}
                         <span
                           style={{
                             backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
@@ -439,7 +441,7 @@ const ModalUnlockPlusCandidate = ({ text, param,sx }: ModalProps) => {
             </Box>
             <Box
               component={'img'}
-              src= {isMobileSm ? '/images/plus_unlock_candidate_mobile_1.png' : '/images/plus_unlock_candidate_1.png'}
+              src={isMobileSm ? '/images/plus_unlock_candidate_mobile_1.png' : '/images/plus_unlock_candidate_1.png'}
               sx={{
                 objectFit: 'contain',
                 width: '100%',
@@ -517,7 +519,7 @@ const ModalUnlockPlusCandidate = ({ text, param,sx }: ModalProps) => {
             </Box>
             <Box
               component={'img'}
-              src= {isMobileSm ?  '/images/unlock_plus_candidate_mobile_2.png' : '/images/unlock_plus_candidate_2.png'}
+              src={isMobileSm ? '/images/unlock_plus_candidate_mobile_2.png' : '/images/unlock_plus_candidate_2.png'}
               sx={{
                 objectFit: 'contain',
                 width: '100%',
@@ -664,7 +666,16 @@ const ModalUnlockPlusCandidate = ({ text, param,sx }: ModalProps) => {
             style={{ cursor: 'pointer', marginBottom: 2 }}
           />
         </Box>
-        <Box sx={{ position: 'relative', backgroundImage:'linear-gradient(180deg, #2661E9 0%, #153783 100%)', overflow: 'hidden', display:'flex', justifyContent:'center', alignItems:'center' }}>
+        <Box
+          sx={{
+            position: 'relative',
+            backgroundImage: 'linear-gradient(180deg, #2661E9 0%, #153783 100%)',
+            overflow: 'hidden',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
           <Lottie
             animationData={require('/public/animated-images/spark.json')}
             style={{ position: 'absolute', zIndex: 1 }}
@@ -673,7 +684,11 @@ const ModalUnlockPlusCandidate = ({ text, param,sx }: ModalProps) => {
             animationData={require('/public/animated-images/confetti.json')}
             style={{ position: 'absolute', zIndex: 1 }}
           />
-          <Box component={'img'} src='/images/hooray_mobile.png' sx={{ zIndex: 2, position: 'relative', left:'auto', right:'auto', top:6 }} />
+          <Box
+            component={'img'}
+            src='/images/hooray_mobile.png'
+            sx={{ zIndex: 2, position: 'relative', left: 'auto', right: 'auto', top: 6 }}
+          />
         </Box>
         <Box sx={{ padding: '16px 16px 32px 16px' }}>
           <Button

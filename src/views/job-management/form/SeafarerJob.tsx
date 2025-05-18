@@ -224,7 +224,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   }, [job])
 
   useEffect(() => {
-    setIsSubs(abilities?.plan_type !== 'basic')
+    setIsSubs(abilities?.plan_type !== 'BSC-ALL')
     getTotalJobPosted()
   }, [user, abilities])
 
