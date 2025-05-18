@@ -3,7 +3,7 @@ import { Box, Breadcrumbs, Grid, InputAdornment, Link, MenuItem, Select, TextFie
 import { useEffect, useState } from 'react'
 import { MdNavigateNext } from 'react-icons/md'
 import AnimatedTabs from 'src/@core/components/animated-tabs'
-import { PieChart } from '@mui/x-charts/PieChart'
+import {PieChart}  from '@mui/x-charts/PieChart'
 import TableUser from 'src/views/admin/feedback-management/TableUser'
 import { HttpClient } from 'src/services'
 import { IFeedbackAnalytic, IFeedbackRowData, IUserFeedback } from 'src/contract/models/feedback'
@@ -13,7 +13,7 @@ import { GridPaginationModel } from '@mui/x-data-grid'
 type QuizType = { question: string; detail: string; value: number; color: string; key: string }
 
 const tabsOption = [
-  { value: 'comapny', label: 'Company' },
+  { value: 'company', label: 'Company' },
   { value: 'candidate', label: 'User' }
 ]
 
@@ -122,7 +122,8 @@ export const FreeTrialInsight = () => {
           page:page,
           search: search,
           sort: sort,
-          section:quiz
+          section:quiz,
+          user_type: activeTab
         })
           console.log(res.data.userFeedbacks.data)
         const rows:IFeedbackRowData[] = res.data.userFeedbacks.data.map((item:IUserFeedback, index: number) => {

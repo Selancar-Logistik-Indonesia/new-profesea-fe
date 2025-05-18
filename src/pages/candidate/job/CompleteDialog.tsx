@@ -59,7 +59,7 @@ const CompleteDialog = (props: ViewProps) => {
   const [isSubs, setIsSubs] = useState<boolean>(false)
 
   useEffect(() => {
-    if (abilities?.plan_type !== 'basic') {
+    if (abilities?.plan_type !== 'BSC-ALL') {
       setIsSubs(true)
     }
   }, [abilities])

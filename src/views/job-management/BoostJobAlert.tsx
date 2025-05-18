@@ -71,7 +71,7 @@ const BoostJobAlert = ({
   }, [])
 
   useEffect(() => {
-    setIsSubs(abilities?.plan_type !== 'basic')
+    setIsSubs(abilities?.plan_type !== 'BSC-ALL')
   }, [user])
 
   useEffect(() => {

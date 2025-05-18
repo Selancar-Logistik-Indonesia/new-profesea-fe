@@ -136,12 +136,14 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
       await HttpClient.post('/transaction/v2/create', {
         payment_type: 'FREE',
         purchase_item: 'PLS-3M-TRIAL',
-        purchase_type: 'subscription'
+        purchase_type: 'subscription',
+        user_type: 'company'
       })
 
       await HttpClient.post('/feedback/user-feedback', {
         section: 'Feedback Company 1',
-        feedback_codes: answers
+        feedback_codes: answers,
+        user_type: 'company'
       })
     } catch (error) {
       console.log(error)
