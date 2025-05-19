@@ -40,8 +40,11 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import DialogResumeBuilder from './DialogResumeBuilder'
 import { useAuth } from 'src/hooks/useAuth'
-import ModalUnlockPlusCandidate from 'src/@core/components/subscription/ModalUnlockPlusCandidate'
+// import ModalUnlockPlusCandidate from 'src/@core/components/subscription/ModalUnlockPlusCandidate'
 import BoostCandidateAlert from 'src/views/candidate/BoostCandidateAlert'
+import dynamic from 'next/dynamic'
+
+const ModalUnlockPlusCandidate = dynamic(() => import('src/@core/components/subscription/ModalUnlockPlusCandidate'), { ssr: false })
 
 type FormData = {
   companyName: string

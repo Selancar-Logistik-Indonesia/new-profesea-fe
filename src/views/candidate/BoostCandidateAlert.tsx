@@ -1,8 +1,12 @@
 import { Icon } from '@iconify/react'
 import { Alert, Box, Typography, useMediaQuery, useTheme } from '@mui/material'
+import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
-import ModalUnlockPlusCandidate from 'src/@core/components/subscription/ModalUnlockPlusCandidate'
+// import ModalUnlockPlusCandidate from 'src/@core/components/subscription/ModalUnlockPlusCandidate'
 import { IUser } from 'src/contract/models/user'
+
+
+const ModalUnlockPlusCandidate = dynamic(() => import('src/@core/components/subscription/ModalUnlockPlusCandidate'), { ssr: false })
 
 type alertProps = {
   isSubs: boolean
