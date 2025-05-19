@@ -7,7 +7,7 @@ import { IFeedbackRowData } from "src/contract/models/feedback";
 
 
 
-const TableUser = ({feedbacks, loading, onChangePage, page, perPage} : {feedbacks:IFeedbackRowData[], loading:boolean, onChangePage: any, page:number, perPage:number }) => {
+const TableUser = ({feedbacks, loading, onChangePage, page, perPage, activeTab, rowCount} : {feedbacks:IFeedbackRowData[], loading:boolean, onChangePage: any, page:number, perPage:number, activeTab:string, rowCount:number }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [selectedRow, setSelectedRow] = useState<IFeedbackRowData | null>(null)
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -34,7 +34,7 @@ const TableUser = ({feedbacks, loading, onChangePage, page, perPage} : {feedback
             )
           }
          },
-        { field: 'name', headerName: 'Company Name', sortable: true, minWidth: 200, align:'center', headerAlign:'center' },
+        { field: 'name', headerName: activeTab === 'company' ? 'Company Name' : 'User Name', sortable: true, minWidth: 200, align:'center', headerAlign:'center' },
         { field: 'email', headerName: 'Email', sortable: true, minWidth: 250, align:'center', headerAlign:'center' },
         { field: 'date', headerName: 'Date Submitted', sortable: true, minWidth: 150, align:'center', headerAlign:'center' },
         { field: 'selectedFeatures', headerName: 'Selected Features', sortable: true, minWidth: 170, align:'center', headerAlign:'center' },
@@ -58,6 +58,8 @@ const TableUser = ({feedbacks, loading, onChangePage, page, perPage} : {feedback
     return(
         <Box sx={{ height: 500, width: '100%' }}>
             <DataGrid
+            pageSizeOptions={[10,25,50,100]}
+            rowCount={rowCount}
             paginationMode="server"
             disableColumnMenu
             onPaginationModelChange={onChangePage}
