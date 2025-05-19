@@ -16,7 +16,9 @@ import { HttpClient } from 'src/services'
 
 import Job from 'src/contract/models/job'
 import { useAuth } from 'src/hooks/useAuth'
-import ModalUnlockPlus from 'src/@core/components/subscription/ModalUnlockPlus'
+import dynamic from 'next/dynamic'
+
+const ModalUnlockPlus = dynamic(() => import('src/@core/components/subscription/ModalUnlockPlus'), { ssr: false })
 
 const BoostJobAlert = ({
   setIsBoosted,
@@ -49,13 +51,12 @@ const BoostJobAlert = ({
       const res = await HttpClient.get('/job', {
         page: 1,
         take: 100,
-        is_boosted:1
+        is_boosted: 1
       })
       const data = res.data.jobs.data
 
       if (data[0]?.is_boosted) {
         setBoostCount(boostCount + 1)
-
       }
       setIsBoosted(currentJob?.is_boosted as boolean)
       setLoading(false)
@@ -70,7 +71,7 @@ const BoostJobAlert = ({
   }, [])
 
   useEffect(() => {
-    setIsSubs(abilities?.plan_type !== 'basic')
+    setIsSubs(abilities?.plan_type !== 'BSC-ALL')
   }, [user])
 
   useEffect(() => {
@@ -104,7 +105,7 @@ const BoostJobAlert = ({
   return (
     <>
       <Alert
-        action={!isSubs ? (<ModalUnlockPlus text={'Unlock to Boost job'}/>) : actionSwitch()}
+        action={!isSubs ? <ModalUnlockPlus text={'Unlock to Boost job'} /> : actionSwitch()}
         icon={<Icon icon='ph:lightning' fontSize={32} color='#32497A' />}
         sx={{
           display: 'flex',
@@ -182,7 +183,7 @@ const ConfirmationModal = ({
             <Grid item xs={6}>
               <Button
                 onClick={() => {
-                  if(isBoosted) handleConfirm(!isBoosted)
+                  if (isBoosted) handleConfirm(!isBoosted)
                   handleCloseModal()
                 }}
                 variant='outlined'
@@ -194,9 +195,8 @@ const ConfirmationModal = ({
             <Grid item xs={6}>
               <Button
                 onClick={() => {
-                  if(!isBoosted) handleConfirm(!isBoosted)
+                  if (!isBoosted) handleConfirm(!isBoosted)
                   handleCloseModal()
-                  
                 }}
                 variant='contained'
                 sx={{ color: '#FFFFFF', fontSize: '14px', textTransform: 'none', width: '100%' }}

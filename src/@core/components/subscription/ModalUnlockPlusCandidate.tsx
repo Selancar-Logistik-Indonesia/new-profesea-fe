@@ -10,6 +10,7 @@ import {
   IconButton,
   Link,
   Slide,
+  SxProps,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -17,12 +18,16 @@ import {
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
 import Lottie from 'lottie-react'
+import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { HttpClient } from 'src/services'
 
 type ModalProps = {
   text: string
+  param?: string
+  sx?: SxProps
+  condition?: boolean
 }
 
 type BenefitListType = {
@@ -31,6 +36,10 @@ type BenefitListType = {
 }
 
 const benefitsList: BenefitListType[] = [
+  {
+    icon: 'ph:rocket-launch',
+    detail: 'Boosted Recommendation'
+  },
   {
     icon: 'ph:bookmarks',
     detail: 'Saved Jobs'
@@ -51,6 +60,11 @@ const benefitsList: BenefitListType[] = [
 
 const quizList: { question: string; detail: string; value: string }[] = [
   {
+    question: 'Boosted Recommendation',
+    detail: 'Appear at the top of recruiter searches and stand out.',
+    value: 'BRC'
+  },
+  {
     question: 'CV Upload',
     detail: 'Upload your existing CV for quick profile building and storage.',
     value: 'CVU'
@@ -58,17 +72,17 @@ const quizList: { question: string; detail: string; value: string }[] = [
   {
     question: 'Apply with Uploaded CV',
     detail: 'Instantly apply for jobs using your uploaded resume.',
-    value: 'AUCV'
+    value: 'ACV'
   },
   {
     question: 'Saved Jobs',
     detail: 'Keep track of interesting job listings in one place.',
-    value: 'SJ'
+    value: 'SVJ'
   },
   {
     question: 'Application History',
     detail: "View where you've applied and manage next steps.",
-    value: 'AH'
+    value: 'APH'
   }
 ]
 
@@ -81,9 +95,11 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction='down' ref={ref} {...props} />
 })
 
-const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
+const ModalUnlockPlusCandidate = ({ text, param, sx, condition = false }: ModalProps) => {
   const router = useRouter()
-  const isMobile = useMediaQuery(useTheme().breakpoints.down('md'))
+  const path = usePathname()
+  const isMobileMd = useMediaQuery(useTheme().breakpoints.down('md'))
+  const isMobileSm = useMediaQuery(useTheme().breakpoints.down('sm'))
   const [isOpenFirst, setIsOpenFirst] = useState(false)
   const [isOpenSecond, setIsOpenSecond] = useState(false)
   const [content, setContent] = useState<string>('content1')
@@ -105,21 +121,26 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
   const handleCloseSecond = (e: React.MouseEvent) => {
     e.stopPropagation()
     setIsOpenSecond(false)
+    if (param) {
+      router.push(`${path}?${param}`)
+    }
     router.reload()
   }
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.stopPropagation()
     try {
-        await HttpClient.post('/transaction/v2/create', {
-          payment_type: 'FREE',
-          purchase_item: 'PLS-3M-TRIAL',
-          purchase_type: 'subscription'
-        })
-        await HttpClient.post('/feedback/user-feedback', {
-          section: 'Feedback Candidate 1',
-          feedback_codes: answers
-        })
+      await HttpClient.post('/transaction/v2/create', {
+        payment_type: 'FREE',
+        purchase_item: 'PLS-3M-TRIAL',
+        purchase_type: 'subscription',
+        user_type: 'candidate'
+      })
+      await HttpClient.post('/feedback/user-feedback', {
+        section: 'Feedback Candidate 1',
+        feedback_codes: answers,
+        user_type: 'candidate'
+      })
     } catch (error) {
       console.log(error)
     } finally {
@@ -134,18 +155,21 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
     <>
       {/* unlock plus button */}
       <Button
+        disabled={condition}
+        variant='contained'
         onClick={e => {
           setIsOpenFirst(true)
           e.stopPropagation()
         }}
         sx={{
           borderRadius: 2,
-          backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
+          backgroundImage: condition ? '' : 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
           textTransform: 'none',
           display: 'flex',
           alignItems: 'center',
           gap: 2,
-          whiteSpace: 'nowrap'
+          whiteSpace: 'nowrap',
+          ...sx
         }}
       >
         <Icon icon={'ph:crown-simple-fill'} fontSize={18} color='#FFFFFF' />
@@ -155,7 +179,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
       {/* main dialog  */}
       <Dialog
         scroll='body'
-        open={isOpenFirst && !isMobile}
+        open={isOpenFirst && !isMobileMd}
         onClose={handleCloseFirst}
         fullWidth
         maxWidth={'md'}
@@ -210,7 +234,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
                         !
                       </Typography>
                       <Typography sx={{ fontSize: 14, fontWeigth: 400, color: '#666666' }}>
-                        Everything you need to hire smarter —{' '}
+                        Everything you need to get a job easier—{' '}
                         <span
                           style={{
                             backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
@@ -377,7 +401,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
       </Dialog>
 
       {/* mobile sheet */}
-      <Drawer anchor={'bottom'} open={isOpenFirst && isMobile} onClose={handleCloseFirst}>
+      <Drawer anchor={'bottom'} open={isOpenFirst && isMobileMd} onClose={handleCloseFirst}>
         {content === 'content1' ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             <Box sx={{ padding: '24px' }}>
@@ -417,7 +441,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
             </Box>
             <Box
               component={'img'}
-              src='/images/plus_unlock_candidate_mobile_1.png'
+              src={isMobileSm ? '/images/plus_unlock_candidate_mobile_1.png' : '/images/plus_unlock_candidate_1.png'}
               sx={{
                 objectFit: 'contain',
                 width: '100%',
@@ -495,7 +519,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
             </Box>
             <Box
               component={'img'}
-              src='/images/unlock_plus_candidate_mobile_2.png'
+              src={isMobileSm ? '/images/unlock_plus_candidate_mobile_2.png' : '/images/unlock_plus_candidate_2.png'}
               sx={{
                 objectFit: 'contain',
                 width: '100%',
@@ -574,7 +598,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
         TransitionComponent={Transition}
         keepMounted
         scroll='body'
-        open={isOpenSecond && !isMobile}
+        open={isOpenSecond && !isMobileMd}
         onClose={handleCloseSecond}
         fullWidth
         maxWidth={'xs'}
@@ -626,7 +650,7 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
       </Dialog>
 
       {/* congrats drawer */}
-      <Drawer anchor={'bottom'} open={isOpenSecond && isMobile} onClose={handleCloseFirst}>
+      <Drawer anchor={'bottom'} open={isOpenSecond && isMobileMd} onClose={handleCloseFirst}>
         <Box sx={{ padding: '24px', display: 'flex', flexDirection: 'row', gap: 2 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#1F1F1F' }}>Congratulations!</Typography>
@@ -642,7 +666,16 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
             style={{ cursor: 'pointer', marginBottom: 2 }}
           />
         </Box>
-        <Box sx={{ position: 'relative', backgroundImage:'linear-gradient(180deg, #2661E9 0%, #153783 100%)', overflow: 'hidden' }}>
+        <Box
+          sx={{
+            position: 'relative',
+            backgroundImage: 'linear-gradient(180deg, #2661E9 0%, #153783 100%)',
+            overflow: 'hidden',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
           <Lottie
             animationData={require('/public/animated-images/spark.json')}
             style={{ position: 'absolute', zIndex: 1 }}
@@ -651,7 +684,11 @@ const ModalUnlockPlusCandidate = ({ text }: ModalProps) => {
             animationData={require('/public/animated-images/confetti.json')}
             style={{ position: 'absolute', zIndex: 1 }}
           />
-          <Box component={'img'} src='/images/hooray_mobile.png' sx={{ zIndex: 2, position: 'relative', left:62, top:6 }} />
+          <Box
+            component={'img'}
+            src='/images/hooray_mobile.png'
+            sx={{ zIndex: 2, position: 'relative', left: 'auto', right: 'auto', top: 6 }}
+          />
         </Box>
         <Box sx={{ padding: '16px 16px 32px 16px' }}>
           <Button

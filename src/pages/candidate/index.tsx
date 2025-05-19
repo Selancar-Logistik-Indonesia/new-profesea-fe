@@ -41,6 +41,7 @@ import { useRouter } from 'next/router'
 import DialogResumeBuilder from './DialogResumeBuilder'
 import { useAuth } from 'src/hooks/useAuth'
 import ModalUnlockPlusCandidate from 'src/@core/components/subscription/ModalUnlockPlusCandidate'
+import BoostCandidateAlert from 'src/views/candidate/BoostCandidateAlert'
 
 type FormData = {
   companyName: string
@@ -148,7 +149,7 @@ function CircularProgressWithLabel(props: CircularProgressProps & { value: numbe
 
 const Candidate = () => {
   const {abilities} = useAuth()
-
+  console.log(abilities)
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -593,7 +594,7 @@ const Candidate = () => {
 
   //check subs
   useEffect(() => {
-    if(abilities?.plan_type !== 'basic') setIsSubs(true)
+    if(abilities?.plan_type !== 'BSC-ALL') setIsSubs(true)
   }, [abilities])
 
   useEffect(() => {
@@ -629,6 +630,7 @@ const Candidate = () => {
           onCloseClick={() => setOpenUpdateProfilePic(!openUpateProfilePic)}
           previewProfile={profilePic}
         />
+        
         <Grid
           container
           sx={
@@ -643,10 +645,12 @@ const Candidate = () => {
                   display: 'flex',
                   alignItems: 'center',
                   paddingLeft: '96px',
-                  paddingRight: '96px'
+                  paddingRight: '96px',
+                  gap: '12px'
                 }
           }
         >
+          <Grid item xs={12}><BoostCandidateAlert isSubs={isSubs} user={user}/></Grid>
           <ProfileCompletionContext.Consumer>
             {({ percentage, detail_percentage }) => {
               return (
