@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Typography, Button, Collapse } from '@mui/material'
+import { Box, Typography, Button } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { useRouter } from 'next/router'
 
