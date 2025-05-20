@@ -7,7 +7,7 @@ import { AppConfig } from 'src/configs/api'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import { HttpClient } from 'src/services'
-import { formatIDR, timeCreated, toLinkCase } from 'src/utils/helpers'
+import { formatIDR, formatUSD, timeCreated, toLinkCase } from 'src/utils/helpers'
 import PostingSlider from './postingSlider'
 
 const Posting = ({ dataUser, status }: { dataUser: IUser; status: boolean }) => {
@@ -176,7 +176,9 @@ const Posting = ({ dataUser, status }: { dataUser: IUser; status: boolean }) => 
                       </Typography>
                       <Typography sx={{ color: 'primary.main', fontSize: 14 }}>{arr.category.category}</Typography>
                       <Typography sx={{ fontSize: 14, color: '#949EA2' }}>
-                        {arr.discounted_price ? formatIDR(arr.discounted_price, true) : formatIDR(arr.price, true)}
+                        {arr?.currency === 'IDR'
+                          ? formatIDR(arr?.discounted_price ?? (arr?.price as number), true)
+                          : formatUSD(arr?.discounted_price ?? (arr?.price as number), true)}
                       </Typography>
                     </Box>
                   </Box>
