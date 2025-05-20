@@ -220,7 +220,7 @@ const ModalUnlockPlusCandidate = ({ text, param, sx, condition = false }: ModalP
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                     <Box>
-                      <Typography sx={{ fontSize: 28, fontWeigth: 700, color: '#1F1F1F' }}>
+                      <Typography sx={{ fontSize: 28, fontWeight: 700, color: '#1F1F1F' }}>
                         Try Profesea Plus for{' '}
                         <span
                           style={{
@@ -233,7 +233,7 @@ const ModalUnlockPlusCandidate = ({ text, param, sx, condition = false }: ModalP
                         </span>
                         !
                       </Typography>
-                      <Typography sx={{ fontSize: 14, fontWeigth: 400, color: '#666666' }}>
+                      <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#666666' }}>
                         Everything you need to get a job easier—{' '}
                         <span
                           style={{
@@ -260,7 +260,7 @@ const ModalUnlockPlusCandidate = ({ text, param, sx, condition = false }: ModalP
                       })}
                     </Box>
 
-                    <Typography sx={{ fontSize: 14, fontWeigth: 400, color: '#666666' }}>
+                    <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#666666' }}>
                       Unlock premium features. No cost, no commitment.{' '}
                       <Link href='#' sx={{ color: '#2561EB', textDecoration: 'underline' }}>
                         Learn more.
@@ -325,13 +325,13 @@ const ModalUnlockPlusCandidate = ({ text, param, sx, condition = false }: ModalP
                         alignItems: 'center'
                       }}
                     >
-                      <Typography sx={{ fontSize: 14, fontWeigth: 700, color: '#1F1F1F' }}>
+                      <Typography sx={{ fontSize: 14, fontWeight: 700, color: '#1F1F1F' }}>
                         One step closer to unlock Profesea Plus!
                       </Typography>
-                      <Typography sx={{ fontSize: 22, fontWeigth: 700, color: '#1F1F1F', textAlign: 'center' }}>
+                      <Typography sx={{ fontSize: 22, fontWeight: 700, color: '#1F1F1F', textAlign: 'center' }}>
                         Which features do you think will be most useful for you?
                       </Typography>
-                      <Typography sx={{ fontSize: 16, fontWeigth: 400, color: '#1F1F1F', whiteSpace: 'nowrap' }}>
+                      <Typography sx={{ fontSize: 16, fontWeight: 400, color: '#1F1F1F', whiteSpace: 'nowrap' }}>
                         Please select 1 or more features from the list:
                       </Typography>
                     </Box>
@@ -406,7 +406,7 @@ const ModalUnlockPlusCandidate = ({ text, param, sx, condition = false }: ModalP
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             <Box sx={{ padding: '24px' }}>
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Typography sx={{ fontSize: 18, fontWeigth: 700, color: '#1F1F1F' }}>
+                <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#1F1F1F' }}>
                   Try Profesea Plus for{' '}
                   <span
                     style={{
@@ -426,7 +426,7 @@ const ModalUnlockPlusCandidate = ({ text, param, sx, condition = false }: ModalP
                   style={{ alignSelf: 'flex-end', cursor: 'pointer', marginBottom: 2 }}
                 />
               </Box>
-              <Typography sx={{ fontSize: 14, fontWeigth: 400, color: '#666666' }}>
+              <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#666666' }}>
                 Everything you need to hire smarter —{' '}
                 <span
                   style={{
@@ -460,7 +460,7 @@ const ModalUnlockPlusCandidate = ({ text, param, sx, condition = false }: ModalP
               })}
             </Box>
 
-            <Typography sx={{ fontSize: 14, fontWeigth: 400, color: '#666666', padding: '0px 24px' }}>
+            <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#666666', padding: '0px 24px' }}>
               Unlock premium features. No cost, no commitment.{' '}
               <Link href='#' sx={{ color: '#2561EB', textDecoration: 'underline' }}>
                 Learn more.
@@ -509,11 +509,11 @@ const ModalUnlockPlusCandidate = ({ text, param, sx, condition = false }: ModalP
                   fontSize={20}
                   style={{ cursor: 'pointer', marginBottom: 2 }}
                 />
-                <Typography sx={{ fontSize: 18, fontWeigth: 700, color: '#1F1F1F' }}>
+                <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#1F1F1F' }}>
                   Which features do you think will be most useful for you?
                 </Typography>
               </Box>
-              <Typography sx={{ fontSize: 14, fontWeigth: 400, color: '#666666' }}>
+              <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#666666' }}>
                 Please select 1 or more features from the list:
               </Typography>
             </Box>
