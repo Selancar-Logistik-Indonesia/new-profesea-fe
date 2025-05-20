@@ -124,10 +124,10 @@ const TrainingPartnerSection = () => {
           margin: 'auto'
         }}
       >
-        <img src='/images/partner1.png' alt='Focus Maritime' style={{ height: '48px' }} />
-        <img src='/images/partner2.png' alt='HUGOS' style={{ height: '48px' }} />
-        <img src='/images/partner3.png' alt='SEA-GIAT' style={{ height: '48px' }} />
-        <img src='/images/partner4.png' alt='Logo 4' style={{ height: '48px' }} />
+        <img src='/images/partner1.png' alt='Focus Maritime' style={{ height: '70px' }} />
+        <img src='/images/partner2.png' alt='HUGOS' style={{ height: '70px' }} />
+        <img src='/images/partner3.png' alt='SEA-GIAT' style={{ height: '60px' }} />
+        <img src='/images/partner4.png' alt='Logo 4' style={{ height: '70px' }} />
       </Box>
     </Card>
   )

@@ -58,10 +58,11 @@ const SeafarerTraining = ({ pageView = 'candidate' }: { pageView?: string }) => 
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '40px'
+        gap: '24px',
+        margin: '0 auto'
       }}
     >
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={{ padding: '0px !important' }}>
         <Box
           sx={{
             position: 'relative',
@@ -112,10 +113,10 @@ const SeafarerTraining = ({ pageView = 'candidate' }: { pageView?: string }) => 
           </Box>
         </Box>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={{ padding: '0px !important' }}>
         <TrainingPartnerSection />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={{ padding: '0px !important' }}>
         <Box
           sx={{
             backgroundColor: '#FFFFFF',
