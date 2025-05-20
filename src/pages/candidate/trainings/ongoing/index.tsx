@@ -34,15 +34,11 @@ const SeafarerOngoingTraining = ({ pageView }: { pageView: string }) => {
   )
 }
 
-const TruncatedTypography = (props: { children: any; line?: number; textTransform?: boolean; [key: string]: any }) => {
-  const { children, line, textTransform, ...rest } = props
+const TruncatedTypography = (props: { children: any; line?: number; [key: string]: any }) => {
+  const { children, line, ...rest } = props
   const maxLine = line ? line : 1
 
   let value = children
-
-  if (textTransform) {
-    value = children.toLowerCase()
-  }
 
   return (
     <Typography
@@ -58,7 +54,6 @@ const TruncatedTypography = (props: { children: any; line?: number; textTransfor
         lineHeight: '1.2em',
         fontWeight: 'bold',
         fontSize: '16px',
-        textTransform: 'capitalize',
         ...rest
       }}
     >
@@ -96,7 +91,7 @@ const renderList = (pageView: string, arr: Training[]) => {
               {/* <Link href={`/candidate/trainings/${trainerNameUrl}/${item.id}/${trainingTitleUrl}`}></Link> */}
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <TruncatedTypography fontSize={16} color={'#1F1F1F'} textTransform>
+                  <TruncatedTypography fontSize={16} color={'#1F1F1F'}>
                     {item.title}
                   </TruncatedTypography>
                   <Box sx={{ padding: '8px', borderRadius: '8px', border: '1px solid #868686', textAlign: 'center' }}>
