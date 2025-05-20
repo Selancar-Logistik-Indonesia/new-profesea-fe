@@ -197,6 +197,30 @@ const buildNotifies = (e: INotification) => {
     }
   }
 
+  if (e.type === NotificationType.jobOffer) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data?.user?.name,
+      title: `You have a new job offer!`,
+      avatarIcon: <Icon icon='ph:briefcase' />,
+      subtitle: (
+        <span>
+          {e?.data?.company?.name} has offered you the{' '}
+          <span style={{ fontSize: '14px', fontWeight: 700, color: '#1F1F1F' }}>
+            {e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName}
+          </span>{' '}
+          position
+          <br />
+          <span>View the job details and respond to the offer.</span>
+        </span>
+      ),
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
   return {
     id: '0',
     meta: hDiff,

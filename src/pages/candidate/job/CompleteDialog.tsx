@@ -28,8 +28,12 @@ import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import { useAuth } from 'src/hooks/useAuth'
-import ModalUnlockPlusCandidate from 'src/@core/components/subscription/ModalUnlockPlusCandidate'
+import dynamic from 'next/dynamic'
+// import ModalUnlockPlusCandidate from 'src/@core/components/subscription/ModalUnlockPlusCandidate'
 
+const ModalUnlockPlusCandidate = dynamic(() => import('src/@core/components/subscription/ModalUnlockPlusCandidate'), {
+  ssr: false
+})
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
@@ -224,8 +228,6 @@ const CompleteDialog = (props: ViewProps) => {
 }
 
 const Content = ({ onClose, selectedResume, setSelectedResume, isMobile, isSubs }: contentProps) => {
-  
-
   return (
     <>
       <Box
@@ -312,14 +314,14 @@ const Content = ({ onClose, selectedResume, setSelectedResume, isMobile, isSubs 
                 sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
               >
                 <Typography
-                  sx={{ whiteSpace: 'nowrap', mb:1 }}
+                  sx={{ whiteSpace: 'nowrap', mb: 1 }}
                   fontSize={'16px'}
                   fontWeight={700}
                   color={selectedResume === 'upload' ? '#32497A' : '#303030'}
                 >
                   Upload your CV with premium access!
                 </Typography>
-                <ModalUnlockPlusCandidate text={'Unlock Plus to Upload Resume'} param={'resume=true'}/>
+                <ModalUnlockPlusCandidate text={'Unlock Plus to Upload Resume'} param={'resume=true'} />
               </CardContent>
             </Card>
           </Grid>
@@ -331,7 +333,7 @@ const Content = ({ onClose, selectedResume, setSelectedResume, isMobile, isSubs 
               setSelectedResume('platform')
             }}
             sx={{
-              flex:1,
+              flex: 1,
               padding: '12px',
               textAlign: 'center',
               cursor: 'pointer',

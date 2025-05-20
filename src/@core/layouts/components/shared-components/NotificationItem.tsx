@@ -99,6 +99,10 @@ const NotificationItem = (props: { item: NotificationsType }) => {
         router.push(`/candidate/find-job?tabs=2`)
         break
 
+      case NotificationType.jobOffer:
+        router.push(`candidate/find-job/?tabs=1`)
+        break
+
       default:
         console.log('No action required..')
         break
