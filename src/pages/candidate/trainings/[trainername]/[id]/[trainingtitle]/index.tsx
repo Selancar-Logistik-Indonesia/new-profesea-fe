@@ -28,7 +28,7 @@ import { HttpClient } from 'src/services'
 import Training, { EBookingScheme } from 'src/contract/models/training'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import { formatIDR, getUserAvatar } from 'src/utils/helpers'
+import { formatIDR, formatUSD, getUserAvatar } from 'src/utils/helpers'
 // import PaymentDialog from 'src/views/payment/PaymentDialog'
 // import OtherTraining from './OtherTraining'
 import Head from 'next/head'
@@ -1224,7 +1224,9 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
                   {training.discounted_price ? (
                     <Box>
                       <Typography fontSize={14} sx={{ textDecoration: 'line-through', color: 'gray' }}>
-                        {formatIDR(training.price, true)}
+                        {training?.currency === 'IDR'
+                          ? formatIDR(training?.price as number, true)
+                          : formatUSD(training?.price as number, true)}
                       </Typography>
                       <Typography
                         sx={{
@@ -1234,7 +1236,9 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
                           mb: '9px'
                         }}
                       >
-                        {formatIDR(training.discounted_price, true)}
+                        {training?.currency === 'IDR'
+                          ? formatIDR(training?.discounted_price as number, true)
+                          : formatUSD(training?.discounted_price as number, true)}
                       </Typography>
                       <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#868686' }}>
                         *harga belum termasuk PPN
@@ -1250,7 +1254,9 @@ const TrainingDetailPage = ({ pageView = 'candidate' }: { pageView?: string }) =
                           mb: '9px'
                         }}
                       >
-                        {formatIDR(training.price, true)}
+                        {training?.currency === 'IDR'
+                          ? formatIDR(training?.price as number, true)
+                          : formatUSD(training?.price as number, true)}
                       </Typography>
                       <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#868686' }}>
                         *harga belum termasuk PPN

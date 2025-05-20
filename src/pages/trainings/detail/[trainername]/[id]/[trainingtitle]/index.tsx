@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 import Training from 'src/contract/models/training'
-import { formatIDR } from 'src/utils/helpers'
+import { formatIDR, formatUSD } from 'src/utils/helpers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import OtherTraining from './OtherTraining'
@@ -166,10 +166,14 @@ const TrainingDetailPage = () => {
               {training.discounted_price ? (
                 <Box>
                   <Typography fontSize={14} mt={1} sx={{ textDecoration: 'line-through', color: 'gray' }}>
-                    {formatIDR(training.price, true)}
+                    {training?.currency === 'IDR'
+                      ? formatIDR(training?.price as number, true)
+                      : formatUSD(training?.price as number, true)}
                   </Typography>
                   <Typography fontSize={20} sx={{ color: 'primary.main' }}>
-                    {formatIDR(training.discounted_price, true)}
+                    {training?.currency === 'IDR'
+                      ? formatIDR(training?.discounted_price as number, true)
+                      : formatUSD(training?.discounted_price as number, true)}
                   </Typography>
                   <Typography fontSize={8} sx={{ color: 'gray' }}>
                     {t('tax_not_included')}
@@ -178,7 +182,9 @@ const TrainingDetailPage = () => {
               ) : (
                 <Box>
                   <Typography fontSize={20} sx={{ color: 'primary.main' }}>
-                    {formatIDR(training.price, true)}
+                    {training?.currency === 'IDR'
+                      ? formatIDR(training?.price as number, true)
+                      : formatUSD(training?.price as number, true)}
                   </Typography>
                   <Typography fontSize={10} sx={{ color: 'gray' }}>
                     {t('tax_not_included')}

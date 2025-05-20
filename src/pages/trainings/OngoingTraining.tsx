@@ -6,7 +6,7 @@ import { Box, Button, CardActions, CardMedia, Skeleton, useMediaQuery } from '@m
 import React, { useCallback, useEffect, useState } from 'react'
 import Training from 'src/contract/models/training'
 import Avatar from 'src/@core/components/mui/avatar'
-import { formatIDR, getUserAvatar } from 'src/utils/helpers'
+import { formatIDR, formatUSD, getUserAvatar } from 'src/utils/helpers'
 import Link from 'next/link'
 import { useAuth } from 'src/hooks/useAuth'
 // import InfiniteScroll from 'react-infinite-scroll-component'
@@ -241,7 +241,9 @@ const renderList = (
                 </Box>
                 <Box>
                   <TruncatedTypography fontSize={16} fontWeight={700} color={'#1F1F1F)'}>
-                    {item.discounted_price ? formatIDR(item.discounted_price, true) : formatIDR(item.price, true)}
+                    {item?.currency === 'IDR'
+                      ? formatIDR(item?.discounted_price ?? (item?.price as number), true)
+                      : formatUSD(item?.discounted_price ?? (item?.price as number), true)}
                   </TruncatedTypography>
                 </Box>
               </Box>
