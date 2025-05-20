@@ -187,7 +187,7 @@ const TruncatedTypography = (props: { children: any; line?: number; [key: string
   const { children, line, ...rest } = props
   const maxLine = line ? line : 1
 
-  let value = children
+  const value = children
 
   return (
     <Typography
