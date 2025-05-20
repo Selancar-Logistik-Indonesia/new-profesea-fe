@@ -55,6 +55,7 @@ const RenderAvatar = ({ notification }: { notification: NotificationsType }) => 
 
 const NotificationItem = (props: { item: NotificationsType }) => {
   const { item } = props
+
   const [dialogOpen, setDialogOpen] = useState(false)
   const { user } = useAuth()
   const router = useRouter()
@@ -100,7 +101,12 @@ const NotificationItem = (props: { item: NotificationsType }) => {
         break
 
       case NotificationType.jobOffer:
-        router.push(`candidate/find-job/?tabs=1`)
+        const companyNameUrl = item?.data?.company?.name.toLowerCase().split(' ').join('-')
+        const jobTitleUrl = item?.data?.job?.job_title
+          ? item?.data?.job?.job_title.toLowerCase().split(' ').join('-')
+          : ''
+
+        router.push(`/candidate/job/${companyNameUrl}/${item?.data?.job?.id}/${jobTitleUrl}`)
         break
 
       default:

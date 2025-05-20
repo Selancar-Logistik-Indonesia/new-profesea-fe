@@ -95,11 +95,12 @@ const JobDetail = () => {
   const firstload = async (companyname: any, jobId: any, jobTitle: any) => {
     try {
       const resp = await HttpClient.get(`/job/${companyname}/${jobId}/${jobTitle}`)
-      const job = resp.data.job
-      await setTitle(
+
+      const job = resp.data?.job
+      setTitle(
         `Lowongan ${
-          job.category.employee_type == 'onship' ? job.role_type.name ?? '' : job.job_title ?? job.role_type.name
-        } ${job.category.name} di Profesea`
+          job.category.employee_type == 'onship' ? job.role_type?.name ?? '' : job.job_title ?? job.role_type?.name
+        } ${job.category?.name} di Profesea`
       )
 
       const resp2 = await HttpClient.get(`/user/${user.id}`)
@@ -150,8 +151,8 @@ const JobDetail = () => {
       "@type" : "JobPosting",
       "title" : "Lowongan ${
         jobDetail?.category.employee_type == 'onship'
-          ? jobDetail?.role_type.name ?? ''
-          : jobDetail?.job_title ?? jobDetail?.role_type.name
+          ? jobDetail?.role_type?.name ?? ''
+          : jobDetail?.job_title ?? jobDetail?.role_type?.name
       } ${jobDetail?.category?.name} di Profesea",
       "description" : "${jobDetail?.description}",
       "identifier": {
@@ -529,7 +530,7 @@ const JobDetail = () => {
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.category.name || '-'}
+                        : {jobDetail?.category?.name || '-'}
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='material-symbols-light:globe' color='#32487A' fontSize={'16px'} />
@@ -624,7 +625,7 @@ const JobDetail = () => {
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        : {jobDetail?.vessel_type.name || '-'}
+                        : {jobDetail?.vessel_type?.name || '-'}
                       </Grid>
                       <Grid item xs={6} sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Icon icon='ant-design:dollar-outlined' color='#32487A' fontSize={'16px'} />
