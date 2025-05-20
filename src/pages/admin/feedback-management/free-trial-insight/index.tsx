@@ -24,7 +24,7 @@ const section = [
   {label: 'Quiz 4', value:'Feedback Company 4'},
 ]
 
-const quizList: QuizType[] = [
+const quizListCompany: QuizType[] = [
   {
     question: 'Unlimited Active Job Postings',
     detail: 'Post as many jobs as you need. No limits.',
@@ -84,6 +84,44 @@ const quizList: QuizType[] = [
   }
 ]
 
+const quizListCandidate: QuizType[] = [
+  {
+    question: 'Boosted Recommendation',
+    detail: 'Appear at the top of recruiter searches and stand out.',
+    value: 0,
+    color:'#005F73',
+    key:'boosted_recommendation'
+  },
+  {
+    question: 'CV Upload',
+    detail: 'Upload your existing CV for quick profile building and storage.',
+    value: 0,
+    color:'#0A9396',
+    key:'cv_upload'
+  },
+  {
+    question: 'Apply with Uploaded CV',
+    detail: 'Instantly apply for jobs using your uploaded resume.',
+    value: 0,
+    color:'#94D2BD',
+    key:'apply_with_uploaded_cv'
+  },
+  {
+    question: 'Saved Jobs',
+    detail: 'Keep track of interesting job listings in one place.',
+    value: 0,
+    color:'#E9D8A6',
+    key:'saved_jobs'
+  },
+  {
+    question: 'Application History',
+    detail: "View where you've applied and manage next steps.",
+    value: 0,
+    color:'#EE9B00',
+    key:'application_history'
+  }
+]
+
 const getPercent = (arr: any, num: number) => {
   let total = 0
 
@@ -101,13 +139,14 @@ export const FreeTrialInsight = () => {
   //datas
   const [feedbacks, setFeedbacks] = useState<any>([])
   const [analytics, setAnalytics] = useState<IFeedbackAnalytic>()
-  const [quizzes, setQuizzes] = useState<QuizType[]>(quizList)
+  const [quizzes, setQuizzes] = useState<QuizType[]>(quizListCompany)
 
   //page settings
   const [activeTab, setActiveTab] = useState<string>('company')
   const [loading, setLoading] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
   const [perPage, setPerPage] = useState(10)
+  const [rowCount, setRowCount] = useState(0)
 
   // filter settings
   const [search, setSearch] = useState<string>('')
@@ -125,7 +164,8 @@ export const FreeTrialInsight = () => {
           section:quiz,
           user_type: activeTab
         })
-          console.log(res.data.userFeedbacks.data)
+          console.log(res.data.userFeedbacks)
+          
         const rows:IFeedbackRowData[] = res.data.userFeedbacks.data.map((item:IUserFeedback, index: number) => {
           return {
             id: item.id,
@@ -142,6 +182,7 @@ export const FreeTrialInsight = () => {
           }
         })
         setFeedbacks(rows)
+        setRowCount(res.data.userFeedbacks.total)
       } catch (error) {
         console.log(error)
       } finally{
@@ -163,8 +204,8 @@ export const FreeTrialInsight = () => {
     }
   }
 
-  const updateQuizChart = () => {
-    const update = quizzes?.map((item) => {
+  const updateQuizChart = (quiz: QuizType[]) => {
+    const update = quiz?.map((item) => {
       const newQuiz = analytics?.most_selected_features.find(f => f.message === item.question)
       if(newQuiz) {
         return {...item, value: newQuiz.total}
@@ -182,12 +223,17 @@ export const FreeTrialInsight = () => {
     }
 
   useEffect(() => {
-    updateQuizChart()
-  },[analytics])
+    if(activeTab === 'company') {
+      updateQuizChart(quizListCompany)
+    } else if(activeTab === 'candidate'){
+      updateQuizChart(quizListCandidate)
+    }
+    
+  },[analytics, activeTab])
 
   useEffect(() => {
     getAnalytics()
-  },[])
+  },[activeTab])
 
   useEffect(() => {
     getList()
@@ -444,7 +490,7 @@ export const FreeTrialInsight = () => {
           </Box>
         </Box>
         {/* table */}
-        <TableUser feedbacks={feedbacks} loading={loading} onChangePage={(model:any) => onPageChange(model)} page={page - 1} perPage={perPage}/>
+        <TableUser activeTab={activeTab} feedbacks={feedbacks} loading={loading} onChangePage={(model:any) => onPageChange(model)} page={page - 1} perPage={perPage} rowCount={rowCount}/>
       </Box>
     </Box>
   )
