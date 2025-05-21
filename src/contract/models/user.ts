@@ -106,4 +106,7 @@ export interface IUser {
   // for account trainer
   training_list?: Training[]
   current_package?: any
+  // for candidate
+  completion_percentage: number
+  is_boosted?:boolean
 }

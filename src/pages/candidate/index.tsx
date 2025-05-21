@@ -13,7 +13,7 @@ import {
   CircularProgressProps,
   CircularProgress,
   Box,
-  Popper,
+  Popper
 } from '@mui/material'
 import { Grid } from '@mui/material'
 import { useForm } from 'react-hook-form'
@@ -39,6 +39,14 @@ import ProfileCompletionContext, { ProfileCompletionProvider } from 'src/context
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import DialogResumeBuilder from './DialogResumeBuilder'
+import { useAuth } from 'src/hooks/useAuth'
+// import ModalUnlockPlusCandidate from 'src/@core/components/subscription/ModalUnlockPlusCandidate'
+import BoostCandidateAlert from 'src/views/candidate/BoostCandidateAlert'
+import dynamic from 'next/dynamic'
+
+const ModalUnlockPlusCandidate = dynamic(() => import('src/@core/components/subscription/ModalUnlockPlusCandidate'), {
+  ssr: false
+})
 
 type FormData = {
   companyName: string
@@ -62,10 +70,17 @@ interface TabPanelProps {
   value: number
 }
 
-
-
 const getCpText = (percentage: number) => {
-  return percentage === 100 ? <>Your profile looks great! You can add <br/> more details to increase visibility.</> : <> Complete your profile to unlock more <br /> opportunities and highlight your skills.</>
+  return percentage === 100 ? (
+    <>
+      Your profile looks great! You can add <br /> more details to increase visibility.
+    </>
+  ) : (
+    <>
+      {' '}
+      Complete your profile to unlock more <br /> opportunities and highlight your skills.
+    </>
+  )
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -145,6 +160,8 @@ function CircularProgressWithLabel(props: CircularProgressProps & { value: numbe
 }
 
 const Candidate = () => {
+  const { abilities } = useAuth()
+  console.log(abilities)
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -173,12 +190,11 @@ const Candidate = () => {
   //query for resume builder
   const isUploadResume = params.get('resume')
 
-  
+  const [isSubs, setIsSubs] = useState<boolean>(false)
 
-  function handleCloseDialog(){
+  function handleCloseDialog() {
     setIsOpen(false)
   }
-
 
   function Firstload() {
     HttpClient.get(AppConfig.baseUrl + '/user/' + user.id).then(response => {
@@ -196,9 +212,9 @@ const Candidate = () => {
           sx={{
             width: '100%',
             height: isMobile ? '81px' : '191px',
-            backgroundImage: `url(${selectedUser?.banner})`, // Replace `yourImageSrc` with the actual image source
-            backgroundSize: 'cover', // Ensure the image covers the entire box
-            backgroundPosition: 'center', // Center the image
+            backgroundImage: `url(${selectedUser?.banner})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
             borderRadius: '0 !important',
             display: 'flex',
             justifyContent: 'end'
@@ -291,14 +307,14 @@ const Candidate = () => {
   }
 
   const createQueryString = useCallback(
-      (name: string, value: string) => {
-        const searchParams = new URLSearchParams(params.toString())
-        searchParams.set(name, value)
-  
-        return searchParams.toString()
-      },
-      [params]
-    )
+    (name: string, value: string) => {
+      const searchParams = new URLSearchParams(params.toString())
+      searchParams.set(name, value)
+
+      return searchParams.toString()
+    },
+    [params]
+  )
 
   const handleDownloadResume = () => {
     HttpClient.get(`/user/${selectedUser?.id}/profile/resume`).then(response => {
@@ -585,17 +601,22 @@ const Candidate = () => {
     return null
   }
 
+  //check subs
   useEffect(() => {
-      if(tabs){
-        setTabsValue(tabs)
-      }
-    }, [tabs])
+    if (abilities?.plan_type !== 'BSC-ALL') setIsSubs(true)
+  }, [abilities])
+
+  useEffect(() => {
+    if (tabs) {
+      setTabsValue(tabs)
+    }
+  }, [tabs])
 
   useEffect(() => {
     // setOpenPreview(false)
     Firstload()
 
-    if(isUploadResume){
+    if (isUploadResume) {
       setIsOpen(true)
     }
     //create tabs query string if there is none
@@ -631,11 +652,13 @@ const Candidate = () => {
                   width: '100%',
                   display: 'flex',
                   alignItems: 'center',
-                  paddingLeft: '96px',
-                  paddingRight: '96px'
+                  gap: '12px'
                 }
           }
         >
+          <Grid item xs={12}>
+            <BoostCandidateAlert isSubs={isSubs} user={user} />
+          </Grid>
           <ProfileCompletionContext.Consumer>
             {({ percentage, detail_percentage }) => {
               return (
@@ -668,7 +691,15 @@ const Candidate = () => {
                           bottom: isMobile ? '120px' : '125px'
                         }}
                       >
-                        <Box sx={{ position: 'relative', display: 'inline-block' , ...(percentage === 100 ? {mb: {xs: 10, sm: 15, md: 0}} : {mb: {xs: 15, sm: 20, md: 0}})}}>
+                        <Box
+                          sx={{
+                            position: 'relative',
+                            display: 'inline-block',
+                            ...(percentage === 100
+                              ? { mb: { xs: 10, sm: 15, md: 0 } }
+                              : { mb: { xs: 15, sm: 20, md: 0 } })
+                          }}
+                        >
                           <Avatar
                             src={profilePic ? profilePic : '/images/default-user-new.png'}
                             sx={{ width: isMobile ? 64 : 160, height: isMobile ? 64 : 160 }}
@@ -689,55 +720,86 @@ const Candidate = () => {
                         </Box>
 
                         {/* todo next sprint */}
-                        <Box sx={{display: 'flex', gap: isMobile ? '9px' : '12px', flexDirection: isMobile ? 'column' : 'row', mt: {xs: 5, sm: 0, md: 28}, ml: {xs: '6px !important', sm: 0, md: 0}}}>
-                        <Button aria-label='upload' sx={{display: 'flex',
-                            justifyContent: 'space-around',
-                            width:isMobile ? '100%' : 'fit-content',
-                            flexDirection: 'row',
-                            gap: isMobile ? '8px' : '12px',
-                            padding: isMobile ? '6px 8px !important' : '8px 12px !important',
-                            alignItems: 'center',
-                            fontFamily: 'Figtree',
-                            fontSize: isMobile ? '12px' : '14px',
-                            fontWeight: 400,
-                            whiteSpace: 'nowrap',
-                            color: userPlan ? '#FFFFFF' : '#404040',
-                            backgroundImage: userPlan ? 'linear-gradient(to left,#2561EB, #968BEB)' : '',
-                            textTransform: 'capitalize',
-                            alignSelf: 'flex-end',
-                            border: isMobile ? '0.387px solid #F0F0F0' : '1px solid #F0F0F0'}}
-                            onClick={() => setIsOpen(true)}
-                            >
-                          <Icon color={userPlan ? '#FFFFFF' : '#404040'}  icon={userPlan ? 'ph:crown-simple-fill' : 'material-symbols-light:upload-sharp' } fontSize={isMobile ? '14px' : '20px'} />
-                          {userPlan ? isMobile ? 'Unlock Upload Resume' : 'Unlock Pro to Upload Resume' : 'Upload Resume'}
-                        </Button>
-                        <Button
-                          aria-label='download'
+                        <Box
                           sx={{
-                            width: isMobile ? '100%':'fit-content',
                             display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-around',
-                            gap: isMobile ? '8px' : '12px',
-                            padding: isMobile ? '6px 8px !important' : '8px 12px !important',
-                            alignItems: 'center',
-                            fontFamily: 'Figtree',
-                            fontSize: isMobile ? '12px' : '14px',
-                            fontWeight: 400,
-                            whiteSpace: 'nowrap',
-                            color: '#404040',
-                            textTransform: 'capitalize',
-                            alignSelf: 'flex-end',
-                            border: isMobile ? '0.387px solid #F0F0F0' : '1px solid #F0F0F0'
+                            gap: isMobile ? '9px' : '12px',
+                            flexDirection: isMobile ? 'column' : 'row',
+                            mt: { xs: 5, sm: 0, md: 28 },
+                            ml: { xs: '6px !important', sm: 0, md: 0 }
                           }}
-                          onClick={handleDownloadResume}
                         >
-                          <Icon icon='material-symbols-light:download-sharp' fontSize={isMobile ? '14px' : '20px'} />
-                          Download Resume
-                        </Button>
+                          {isSubs ? (
+                            <Button
+                              aria-label='upload'
+                              sx={{
+                                display: 'flex',
+                                justifyContent: 'space-around',
+                                width: isMobile ? '100%' : 'fit-content',
+                                flexDirection: 'row',
+                                gap: isMobile ? '8px' : '12px',
+                                padding: isMobile ? '6px 8px !important' : '8px 12px !important',
+                                alignItems: 'center',
+                                fontFamily: 'Figtree',
+                                fontSize: isMobile ? '12px' : '14px',
+                                fontWeight: 400,
+                                whiteSpace: 'nowrap',
+                                color: userPlan ? '#FFFFFF' : '#404040',
+                                backgroundImage: userPlan ? 'linear-gradient(to left,#2561EB, #968BEB)' : '',
+                                textTransform: 'capitalize',
+                                alignSelf: 'flex-end',
+                                border: isMobile ? '0.387px solid #F0F0F0' : '1px solid #F0F0F0'
+                              }}
+                              onClick={() => setIsOpen(true)}
+                            >
+                              <Icon
+                                color={userPlan ? '#FFFFFF' : '#404040'}
+                                icon={userPlan ? 'ph:crown-simple-fill' : 'material-symbols-light:upload-sharp'}
+                                fontSize={isMobile ? '14px' : '20px'}
+                              />
+                              {userPlan
+                                ? isMobile
+                                  ? 'Unlock Upload Resume'
+                                  : 'Unlock Pro to Upload Resume'
+                                : 'Upload Resume'}
+                            </Button>
+                          ) : (
+                            <ModalUnlockPlusCandidate
+                              text={isMobile ? 'Unlock Upload Resume' : 'Unlock Plus to Upload Resume'}
+                            />
+                          )}
+                          <Button
+                            aria-label='download'
+                            sx={{
+                              width: isMobile ? '100%' : 'fit-content',
+                              display: 'flex',
+                              flexDirection: 'row',
+                              justifyContent: 'space-around',
+                              gap: isMobile ? '8px' : '12px',
+                              padding: isMobile ? '6px 8px !important' : '8px 12px !important',
+                              alignItems: 'center',
+                              fontFamily: 'Figtree',
+                              fontSize: isMobile ? '12px' : '14px',
+                              fontWeight: 400,
+                              whiteSpace: 'nowrap',
+                              color: '#404040',
+                              textTransform: 'capitalize',
+                              alignSelf: 'flex-end',
+                              border: isMobile ? '0.387px solid #F0F0F0' : '1px solid #F0F0F0'
+                            }}
+                            onClick={handleDownloadResume}
+                          >
+                            <Icon icon='material-symbols-light:download-sharp' fontSize={isMobile ? '14px' : '20px'} />
+                            Download Resume
+                          </Button>
                         </Box>
                       </Box>
-                      <DialogResumeBuilder isSubs={!userPlan} isMobile={isMobile} isOpen={isOpen} handleClose={handleCloseDialog}/>
+                      <DialogResumeBuilder
+                        isSubs={!userPlan}
+                        isMobile={isMobile}
+                        isOpen={isOpen}
+                        handleClose={handleCloseDialog}
+                      />
                       <Box
                         sx={{
                           marginTop: '40px',
@@ -784,30 +846,40 @@ const Candidate = () => {
                               flexDirection: 'row',
                               background: percentage === 100 ? '#F4FEF2' : '#F8F8F7',
                               borderRadius: '6px',
-                              border:percentage === 100 ? '1px solid #4CAF50': '' ,
+                              border: percentage === 100 ? '1px solid #4CAF50' : '',
                               padding: isMobile ? '12px' : '16px 24px',
                               justifyContent: 'space-between',
                               alignItems: 'center',
                               gap: '20px'
                             }}
                           >
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px'}}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                               <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                <Typography sx={{ fontSize:{xs: '12px', sm: '16px'}, fontWeight: 700, color: '#404040' }}>
+                                <Typography
+                                  sx={{ fontSize: { xs: '12px', sm: '16px' }, fontWeight: 700, color: '#404040' }}
+                                >
                                   Profile Completion
                                 </Typography>
-                                {percentage !== 100 && (<IconButton onClick={handleClickPopper}>
-                                  <Icon icon='quill:info' fontSize={isMobile ? '20px' : '16px'} color='orange' />
-                                </IconButton>)}
+                                {percentage !== 100 && (
+                                  <IconButton onClick={handleClickPopper}>
+                                    <Icon icon='quill:info' fontSize={isMobile ? '20px' : '16px'} color='orange' />
+                                  </IconButton>
+                                )}
                                 {renderPopper(detail_percentage)}
                               </Box>
-                              
-                                <Box>
-                                  <Typography sx={{ fontSize: {xs: '12px', sm: '14px'}, fontWeight: 400, color: '#404040', whiteSpace: 'nowrap' }}>
-                                    {getCpText(percentage)}
-                                  </Typography>
-                                </Box>
-                              
+
+                              <Box>
+                                <Typography
+                                  sx={{
+                                    fontSize: { xs: '12px', sm: '14px' },
+                                    fontWeight: 400,
+                                    color: '#404040',
+                                    whiteSpace: 'nowrap'
+                                  }}
+                                >
+                                  {getCpText(percentage)}
+                                </Typography>
+                              </Box>
                             </Box>
                             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                               <CircularProgressWithLabel value={percentage} />

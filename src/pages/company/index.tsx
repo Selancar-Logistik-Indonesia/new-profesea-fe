@@ -208,13 +208,11 @@ const Company = () => {
         onCloseClick={() => setOpenEditModalBanner(!openEditModalBanner)}
         previewBanner={selectedItem?.banner}
       />
-
       <DialogEditProfile
         visible={openUpateProfilePic}
         onCloseClick={() => setOpenUpdateProfilePic(!openUpateProfilePic)}
         previewProfile={profilePic}
       />
-
       <Grid
         container
         sx={
@@ -227,9 +225,7 @@ const Company = () => {
             : {
                 width: '100%',
                 display: 'flex',
-                alignItems: 'center',
-                paddingLeft: '96px',
-                paddingRight: '96px'
+                alignItems: 'center'
               }
         }
       >

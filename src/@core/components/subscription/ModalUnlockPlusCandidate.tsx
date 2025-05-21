@@ -10,6 +10,7 @@ import {
   IconButton,
   Link,
   Slide,
+  SxProps,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -17,12 +18,16 @@ import {
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
 import Lottie from 'lottie-react'
+import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { HttpClient } from 'src/services'
 
 type ModalProps = {
   text: string
+  param?: string
+  sx?: SxProps
+  condition?: boolean
 }
 
 type BenefitListType = {
@@ -32,68 +37,52 @@ type BenefitListType = {
 
 const benefitsList: BenefitListType[] = [
   {
-    icon: 'ph:note-pencil',
-    detail: 'Unlimited Job Postings'
-  },
-  {
     icon: 'ph:rocket-launch',
-    detail: 'Get your jobs seen by more candidate'
+    detail: 'Boosted Recommendation'
   },
   {
-    icon: 'ph:target',
-    detail: 'Get smart candidate & pool recommendations'
+    icon: 'ph:bookmarks',
+    detail: 'Saved Jobs'
   },
   {
-    icon: 'ph:chart-bar',
-    detail: 'End-to-end control of your hiring process  '
+    icon: 'ph:suitcase',
+    detail: 'Recommended Jobs'
   },
   {
-    icon: 'ph:chat-circle-dots',
-    detail: 'Direct Messaging & Instant Offers'
+    icon: 'ph:clock-counter-clockwise',
+    detail: 'Application History'
+  },
+  {
+    icon: 'ph:upload-simple',
+    detail: 'Upload Your Resume'
   }
 ]
 
 const quizList: { question: string; detail: string; value: string }[] = [
   {
-    question: 'Unlimited Active Job Postings',
-    detail: 'Post as many jobs as you need. No limits.',
-    value: 'UJP'
+    question: 'Boosted Recommendation',
+    detail: 'Appear at the top of recruiter searches and stand out.',
+    value: 'BRC'
   },
   {
-    question: 'Boost Job Visibility',
-    detail:
-      'Make one of your job appear at the top of search results and get more views to reach more candidates faster.',
-    value: 'BJV'
+    question: 'CV Upload',
+    detail: 'Upload your existing CV for quick profile building and storage.',
+    value: 'CVU'
   },
   {
-    question: 'Message Candidates Directly',
-    detail: 'Send messages to candidates directly — no middle steps.',
-    value: 'MCD'
+    question: 'Apply with Uploaded CV',
+    detail: 'Instantly apply for jobs using your uploaded resume.',
+    value: 'ACV'
   },
   {
-    question: 'Offer Job Instantly',
-    detail: 'Send offers right away to the candidates you want to hire, with no waiting.',
-    value: 'OJI'
+    question: 'Saved Jobs',
+    detail: 'Keep track of interesting job listings in one place.',
+    value: 'SVJ'
   },
   {
-    question: 'Customized URLs',
-    detail: 'Customize your profile link for easy sharing.',
-    value: 'CURL'
-  },
-  {
-    question: 'Access Smart Candidate Recommendations',
-    detail: 'View a curated list of candidates matched to your job by skills and experience.',
-    value: 'SR'
-  },
-  {
-    question: 'Manage Your Hiring Pipeline',
-    detail: 'Track and manage candidates through every hiring stage — from application to hire.',
-    value: 'MHP'
-  },
-  {
-    question: 'Saved Candidates',
-    detail: 'Save standout candidates to revisit anytime.',
-    value: 'SC'
+    question: 'Application History',
+    detail: "View where you've applied and manage next steps.",
+    value: 'APH'
   }
 ]
 
@@ -106,11 +95,11 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction='down' ref={ref} {...props} />
 })
 
-const ModalUnlockPlus = ({ text }: ModalProps) => {
+const ModalUnlockPlusCandidate = ({ text, param, sx, condition = false }: ModalProps) => {
   const router = useRouter()
+  const path = usePathname()
   const isMobileMd = useMediaQuery(useTheme().breakpoints.down('md'))
   const isMobileSm = useMediaQuery(useTheme().breakpoints.down('sm'))
-
   const [isOpenFirst, setIsOpenFirst] = useState(false)
   const [isOpenSecond, setIsOpenSecond] = useState(false)
   const [content, setContent] = useState<string>('content1')
@@ -132,6 +121,9 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
   const handleCloseSecond = (e: React.MouseEvent) => {
     e.stopPropagation()
     setIsOpenSecond(false)
+    if (param) {
+      router.push(`${path}?${param}`)
+    }
     router.reload()
   }
 
@@ -142,13 +134,12 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
         payment_type: 'FREE',
         purchase_item: 'PLS-3M-TRIAL',
         purchase_type: 'subscription',
-        user_type: 'company'
+        user_type: 'candidate'
       })
-
       await HttpClient.post('/feedback/user-feedback', {
-        section: 'Feedback Company 1',
+        section: 'Feedback Candidate 1',
         feedback_codes: answers,
-        user_type: 'company'
+        user_type: 'candidate'
       })
     } catch (error) {
       console.log(error)
@@ -164,18 +155,21 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
     <>
       {/* unlock plus button */}
       <Button
+        disabled={condition}
+        variant='contained'
         onClick={e => {
           setIsOpenFirst(true)
           e.stopPropagation()
         }}
         sx={{
           borderRadius: 2,
-          backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
+          backgroundImage: condition ? '' : 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
           textTransform: 'none',
           display: 'flex',
           alignItems: 'center',
           gap: 2,
-          whiteSpace: 'nowrap'
+          whiteSpace: 'nowrap',
+          ...sx
         }}
       >
         <Icon icon={'ph:crown-simple-fill'} fontSize={18} color='#FFFFFF' />
@@ -189,7 +183,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
         onClose={handleCloseFirst}
         fullWidth
         maxWidth={'md'}
-        sx={{ '& .MuiDialog-paper': { borderRadius: '12px !important' } }}
+        sx={{ '& .MuiDialog-paper': { borderRadius: '12px !important' }, display: { xs: 'none', md: 'block' } }}
       >
         {content === 'content1' ? (
           // content 1
@@ -198,7 +192,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
               {/* gambar */}
               <Box
                 component={'img'}
-                src='/images/plus_unlock.png'
+                src='/images/plus_unlock_candidate_1.png'
                 sx={{
                   borderTopLeftRadius: 12,
                   borderBottomLeftRadius: 12,
@@ -227,10 +221,29 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                     <Box>
                       <Typography sx={{ fontSize: 28, fontWeight: 700, color: '#1F1F1F' }}>
-                        Thousands of Recruiters Are Already Using These Tools
+                        Try Profesea Plus for{' '}
+                        <span
+                          style={{
+                            backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
+                            backgroundClip: 'text',
+                            color: 'transparent'
+                          }}
+                        >
+                          Free
+                        </span>
+                        !
                       </Typography>
-                      <Typography sx={{ fontSize: 14, fontWeighy: 400, color: '#666666' }}>
-                        All the tools to help you hire smarter—just one click away.
+                      <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#666666' }}>
+                        Everything you need to get a job easier—{' '}
+                        <span
+                          style={{
+                            backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
+                            color: 'transparent',
+                            backgroundClip: 'text'
+                          }}
+                        >
+                          zero cost.
+                        </span>
                       </Typography>
                     </Box>
 
@@ -248,7 +261,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                     </Box>
 
                     <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#666666' }}>
-                      Let’s get you that perfect hire.{' '}
+                      Unlock premium features. No cost, no commitment.{' '}
                       <Link href='#' sx={{ color: '#2561EB', textDecoration: 'underline' }}>
                         Learn more.
                       </Link>
@@ -289,7 +302,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
               {/* gambar */}
               <Box
                 component={'img'}
-                src='/images/unlock_plus_2_new.png'
+                src='/images/unlock_plus_candidate_2.png'
                 sx={{
                   borderTopRightRadius: 12,
                   borderBottomRightRadius: 12,
@@ -319,7 +332,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                         Which features do you think will be most useful for you?
                       </Typography>
                       <Typography sx={{ fontSize: 16, fontWeight: 400, color: '#1F1F1F', whiteSpace: 'nowrap' }}>
-                        Please select 3 or more features from the list:
+                        Please select 1 or more features from the list:
                       </Typography>
                     </Box>
 
@@ -367,11 +380,11 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                           e.stopPropagation()
                           handleSubmit(e)
                         }}
-                        disabled={answers.length < 3}
+                        disabled={answers.length < 1}
                         variant='contained'
                         sx={{
                           backgroundImage:
-                            answers.length < 3 ? '' : 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
+                            answers.length < 1 ? '' : 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
                           textTransform: 'none',
                           fontSize: 14
                         }}
@@ -394,7 +407,17 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
             <Box sx={{ padding: '24px' }}>
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#1F1F1F' }}>
-                Thousands of Recruiters Are Already Using These Tools
+                  Try Profesea Plus for{' '}
+                  <span
+                    style={{
+                      backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
+                      backgroundClip: 'text',
+                      color: 'transparent'
+                    }}
+                  >
+                    Free
+                  </span>
+                  !
                 </Typography>
                 <Icon
                   onClick={handleCloseFirst}
@@ -404,12 +427,21 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                 />
               </Box>
               <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#666666' }}>
-              All the tools to help you hire smarter—just one click away.
+                Everything you need to hire smarter —{' '}
+                <span
+                  style={{
+                    backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
+                    color: 'transparent',
+                    backgroundClip: 'text'
+                  }}
+                >
+                  zero cost.
+                </span>
               </Typography>
             </Box>
             <Box
               component={'img'}
-              src={isMobileSm ? '/images/plus_unlock_company_mobile.png' : '/images/plus_unlock.png'}
+              src={isMobileSm ? '/images/plus_unlock_candidate_mobile_1.png' : '/images/plus_unlock_candidate_1.png'}
               sx={{
                 objectFit: 'contain',
                 width: '100%',
@@ -429,7 +461,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
             </Box>
 
             <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#666666', padding: '0px 24px' }}>
-            Let’s get you that perfect hire.{' '}
+              Unlock premium features. No cost, no commitment.{' '}
               <Link href='#' sx={{ color: '#2561EB', textDecoration: 'underline' }}>
                 Learn more.
               </Link>
@@ -482,12 +514,12 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                 </Typography>
               </Box>
               <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#666666' }}>
-                Please select 3 or more features from the list:
+                Please select 1 or more features from the list:
               </Typography>
             </Box>
             <Box
               component={'img'}
-              src={isMobileSm ? '/images/plus_unlock_company_mobile_2.png' : '/images/unlock_plus_2_new.png'}
+              src={isMobileSm ? '/images/unlock_plus_candidate_mobile_2.png' : '/images/unlock_plus_candidate_2.png'}
               sx={{
                 objectFit: 'contain',
                 width: '100%',
@@ -546,10 +578,10 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                   e.stopPropagation()
                   handleSubmit(e)
                 }}
-                disabled={answers.length < 3}
+                disabled={answers.length < 1}
                 variant='contained'
                 sx={{
-                  backgroundImage: answers.length < 3 ? '' : 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
+                  backgroundImage: answers.length < 1 ? '' : 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
                   textTransform: 'none',
                   fontSize: 14
                 }}
@@ -673,4 +705,4 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
   )
 }
 
-export default ModalUnlockPlus
+export default ModalUnlockPlusCandidate

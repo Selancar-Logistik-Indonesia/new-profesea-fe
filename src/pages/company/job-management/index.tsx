@@ -183,7 +183,7 @@ const JobManagement = () => {
   }, [activeTab])
 
   useEffect(() => {
-    setIsSubs(abilities?.plan_type !== 'basic')
+    setIsSubs(abilities?.plan_type !== 'BSC-ALL')
     getTotalJobPosted()
   }, [user, abilities, jobs])
 

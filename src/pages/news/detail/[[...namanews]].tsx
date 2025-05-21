@@ -279,7 +279,7 @@ const ThreadApp = () => {
               style={{ color: '#FFFFFF', fontSize: '32px', fontWeight: '700' }}
               sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4, whiteSpace: 'null' }, zIndex: 2 }}
             >
-              {i18n?.language == 'en' ? threadDetail?.title_eng : threadDetail?.title}
+              {i18n?.language == 'en' && threadDetail?.title_eng != '' ? threadDetail?.title_eng : threadDetail?.title}
             </Typography>
             <Typography
               variant='h2'
@@ -293,7 +293,7 @@ const ThreadApp = () => {
           <Grid item xs={12} sx={{ my: 4, ...detailContentWrapper, gap: 8 }}>
             <Box sx={{ ...detailContentLeft, background: '#FFF', padding: '24px', borderRadius: '16px' }}>
               <Box fontSize={14} style={{ color: '#424242' }}>
-                {i18n?.language == 'en'
+                {i18n?.language == 'en' && threadDetail?.content_eng != ''
                   ? ReactHtmlParser(`${threadDetail?.content_eng}`)
                   : ReactHtmlParser(`${threadDetail?.content}`)}
               </Box>

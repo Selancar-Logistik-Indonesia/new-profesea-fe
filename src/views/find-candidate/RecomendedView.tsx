@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Avatar, Box, Button, Paper, useMediaQuery, useTheme } from '@mui/material'
+import { Avatar, Box, Button, Chip, Paper, useMediaQuery, useTheme } from '@mui/material'
 import { IUser } from 'src/contract/models/user'
 import { Icon } from '@iconify/react'
 import { useRouter } from 'next/navigation'
@@ -58,7 +58,7 @@ const RenderList = (listCandidate: IUser[], isXs: boolean, setOpenDialogOfferCan
   const [isSubs, setIsSubs] = useState<boolean>(false)
 
   useEffect(() => {
-    setIsSubs(abilities?.plan_type !== 'basic')
+    setIsSubs(abilities?.plan_type !== 'BSC-ALL')
   }, [abilities])
 
   if (!listCandidate || listCandidate.length == 0) {
@@ -74,23 +74,23 @@ const RenderList = (listCandidate: IUser[], isXs: boolean, setOpenDialogOfferCan
         <Paper
           sx={{
             marginTop: '24px',
-            border: '1px solid #DDDDDD',
+            border: item.is_boosted ? '1px solid #F9D976' :'1px solid #DDDDDD',
             borderRadius: '8px',
             padding: isXs ? '12px' : '24px',
             '&:hover': {
-              border: '1px solid #32497A'
+              border: item.is_boosted ? '1px solid #F39C12' : '1px solid #32497A'
             }
           }}
           elevation={0}
           onClick={() => router.push(`/profile/${toLinkCase(item.username)}`)}
         >
           <Box sx={{ display: 'flex', alignContent: 'flex-start', gap: '12px' }}>
-            <Avatar src={userPhoto} alt='profile-picture' sx={{ width: isXs ? 64 : 76, height: isXs ? 64 : 76 }} />
+            <Avatar src={userPhoto} alt='profile-picture' sx={{ width: isXs ? 64 : 76, height: isXs ? 64 : 76, border: item.is_boosted ? '1px solid #F39C12' : '' }} />
             <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: 'column', gap: '4px' }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                  <Typography sx={{ color: 'primary.main', fontSize: 16, fontWeight: 'bold' }}>
-                    {item.name ?? ''}
+                  <Typography sx={{ color: 'primary.main', fontSize: 16, fontWeight: 'bold', display:'flex', flexDirection:isXs ? 'column' : 'row', gap:isXs ? 1 : 2, alignItems:isXs ? '': 'center' }}>
+                    {item.name ?? ''} <Chip label={'recommendation'} size='small' color='secondary' sx={{color:'#FFFFFF',backgroundImage:'linear-gradient(180deg, #F9D976 0%, #F39C12 100%)', fontWeight:400, fontSize:10, display: item.is_boosted ? 'flex' : 'none', width:'fit-content'}}/>
                   </Typography>
                   {item.date_of_birth !== null && (
                     <Typography sx={{ fontSize: 14, fontWeight: 300 }}>
