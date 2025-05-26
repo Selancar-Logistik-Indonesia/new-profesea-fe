@@ -54,8 +54,8 @@ const UserFeedApp = () => {
   }, [onboarding])
 
   const firstload = async (usernameURL: string) => {
-    let url = 'public/data/user/?username=' + usernameURL
-    let filter = ''
+    const url = 'public/data/user/?username=' + usernameURL
+    const filter = ''
 
     try {
       const response = await HttpClient.get(url)
@@ -109,8 +109,8 @@ const UserFeedApp = () => {
 
   useEffect(() => {
     if (router.isReady) {
-      let usernameURL = linkToTitleCase(router.query.username as string) as string
-      console.log('usernameURL', usernameURL)
+      const usernameURL = linkToTitleCase(router.query.username as string) as string
+
       firstload(usernameURL)
     }
   }, [router.isReady, router.query.username])
