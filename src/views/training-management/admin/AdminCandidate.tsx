@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react'
 import {
+  Box,
   Button,
   Paper,
   styled,
@@ -16,12 +17,16 @@ import { format } from 'date-fns'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
+import Training from 'src/contract/models/training'
 import ITrainingParticipant from 'src/contract/models/training_participant'
+import { getDateMonth } from 'src/utils/helpers'
 import MenuAction from '../candidate-list/MenuAction'
 import ChangeScheduleDialog from './ChangeScheduleDialog'
+import SetQuotaScheduleDialog from './SetQuotaScheduleDialog'
 import StatusDropdown from './StatusDropdown'
 
 interface CandidateProps {
+  training: Training
   candidates: ITrainingParticipant[]
 }
 
@@ -46,9 +51,10 @@ const AdminCandidate = (props: CandidateProps) => {
   const params = useSearchParams()
   const trainingId = params.get('id')
 
-  const { candidates } = props
+  const { candidates, training } = props
   const [showShadow, setShowShadow] = useState(false)
   const [openSetScheduleModal, setOpenSetScheduleModal] = useState(false)
+  const [openSetQuotaScheduleModal, setOpenSetQuotaScheduleModal] = useState(false)
   const tableContainerRef = useRef<HTMLDivElement>(null)
 
   const changeParams = (params?: string) => {
@@ -78,6 +84,9 @@ const AdminCandidate = (props: CandidateProps) => {
     }
   }, [])
 
+  const posted_at = new Date(training.start_date ?? '')
+  const expired_at = new Date(training.end_date ?? '')
+
   return (
     <TableContainer component={Paper} sx={{ overflowX: 'auto', maxWidth: '100%' }} ref={tableContainerRef}>
       <Table sx={{ minWidth: 1200 }}>
@@ -91,9 +100,7 @@ const AdminCandidate = (props: CandidateProps) => {
             <TableCellStyled align='center' width={155}>
               Date Registered
             </TableCellStyled>
-            <TableCellStyled align='center' width={140}>
-              Schedule
-            </TableCellStyled>
+            <TableCellStyled width={140}>Schedule</TableCellStyled>
             <TableCellStyled width={140}>Status</TableCellStyled>
             <TableCellStyled
               align='center'
@@ -157,22 +164,57 @@ const AdminCandidate = (props: CandidateProps) => {
                     {candidate.date_registered ? format(new Date(candidate.date_registered), 'dd/MM/yy') : 'Not set'}
                   </TableCellDataStyled>
                   <TableCellDataStyled align='center' sx={{ whiteSpace: 'nowrap' }}>
-                    {candidate.schedule ? (
-                      format(new Date(candidate.schedule), 'dd/MM/yy')
-                    ) : (
-                      <Button
-                        variant='text'
-                        onClick={() => setOpenSetScheduleModal(true)}
+                    {training.booking_scheme === 'instant_access' ? (
+                      candidate.schedule ? (
+                        format(new Date(candidate.schedule), 'dd/MM/yy')
+                      ) : (
+                        <Button
+                          variant='text'
+                          onClick={() => setOpenSetScheduleModal(true)}
+                          sx={{ p: '8px', gap: '4px', textTransform: 'none' }}
+                        >
+                          <Icon icon='mdi:calendar' color='#32497A' fontSize={24} />
+                          <Typography sx={{ color: '#32497A', fontSize: 14, fontWeight: 600 }}>Set Schedule</Typography>
+                        </Button>
+                      )
+                    ) : training.booking_scheme === 'quota_based' ? (
+                      training.start_date && training.end_date ? (
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            fontSize: 14,
+                            fontWeight: 400,
+                            textAlign: 'left'
+                          }}
+                        >
+                          <Typography>Start at {getDateMonth(posted_at, true, true)}</Typography>
+                          <Typography>Close at {getDateMonth(expired_at, true, true)}</Typography>
+                        </Box>
+                      ) : (
+                        <Button
+                          variant='text'
+                          onClick={() => setOpenSetQuotaScheduleModal(true)}
+                          sx={{ p: '8px', gap: '4px', textTransform: 'none' }}
+                        >
+                          <Icon icon='mdi:calendar' color='#32497A' fontSize={24} />
+                          <Typography sx={{ color: '#32497A', fontSize: 14, fontWeight: 600 }}>Set Schedule</Typography>
+                        </Button>
+                      )
+                    ) : training.booking_scheme === 'fixed_date' ? (
+                      <Box
                         sx={{
-                          p: '8px',
-                          gap: '4px',
-                          textTransform: 'none'
+                          display: 'flex',
+                          flexDirection: 'column',
+                          fontSize: 14,
+                          fontWeight: 400,
+                          textAlign: 'left'
                         }}
                       >
-                        <Icon icon='mdi:calendar' color='#32497A' fontSize={24} />
-                        <Typography sx={{ color: '#32497A', fontSize: 14, fontWeight: 600 }}>Set Schedule</Typography>
-                      </Button>
-                    )}
+                        <Typography>Start at {getDateMonth(posted_at, true, true)}</Typography>
+                        <Typography>Close at {getDateMonth(expired_at, true, true)}</Typography>
+                      </Box>
+                    ) : null}
                   </TableCellDataStyled>
                   <TableCellDataStyled align='left'>
                     <StatusDropdown
@@ -208,6 +250,13 @@ const AdminCandidate = (props: CandidateProps) => {
                   candidate={candidate}
                   visible={openSetScheduleModal}
                   onCloseClick={() => setOpenSetScheduleModal(false)}
+                  changeParams={changeParams}
+                />
+                <SetQuotaScheduleDialog
+                  training={training}
+                  candidate={candidate}
+                  visible={openSetQuotaScheduleModal}
+                  onCloseClick={() => setOpenSetQuotaScheduleModal(false)}
                   changeParams={changeParams}
                 />
               </>

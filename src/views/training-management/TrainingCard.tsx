@@ -19,6 +19,7 @@ import { HttpClient } from 'src/services'
 import { calculateDaysDifference, dateProgress, getDateMonth } from 'src/utils/helpers'
 
 type StatusProps = {
+  show: string
   icon: string
   iconColor: string
   bgColor: string
@@ -42,8 +43,18 @@ const TrainingCard = ({
   trainingData: Training
   refetch: VoidFunction
 }) => {
-  const [statusItems, setStatusItems] = useState<StatusProps[]>([
+  const statusItems = [
     {
+      show: 'admin',
+      icon: 'ph:hourglass-high',
+      iconColor: '#FE9602',
+      bgColor: '#FFEBCF',
+      total: trainingData.count_participant_status.unregistered,
+      status: 'Unregistered',
+      link: 'unregistered'
+    },
+    {
+      show: 'all',
       icon: 'ph:user-check',
       iconColor: '#32497A',
       bgColor: '#CBE2F9',
@@ -52,6 +63,7 @@ const TrainingCard = ({
       link: 'registered'
     },
     {
+      show: 'trainer',
       icon: 'material-symbols:pause-outline-rounded',
       iconColor: '#FE9602',
       bgColor: '#FCE9C8',
@@ -60,6 +72,7 @@ const TrainingCard = ({
       link: 'onhold'
     },
     {
+      show: 'trainer',
       icon: 'material-symbols:start',
       iconColor: '#7B61FF',
       bgColor: '#D7CBF9',
@@ -68,6 +81,7 @@ const TrainingCard = ({
       link: 'ongoing'
     },
     {
+      show: 'all',
       icon: 'mingcute:check-fill',
       iconColor: '#4CAF50',
       bgColor: '#F4FEF2',
@@ -75,48 +89,7 @@ const TrainingCard = ({
       status: pageView === 'admin' ? 'Completed Training' : 'Completed',
       link: 'complete'
     }
-  ])
-
-  const onLoad = () => {
-    setStatusItems([
-      {
-        icon: 'ph:user-check',
-        iconColor: '#32497A',
-        bgColor: '#CBE2F9',
-        total: trainingData.count_participant_status.registered,
-        status: pageView === 'admin' ? 'Registered Participant' : 'Registered',
-        link: 'registered'
-      },
-      {
-        icon: 'material-symbols:pause-outline-rounded',
-        iconColor: '#FE9602',
-        bgColor: '#FCE9C8',
-        total: trainingData.count_participant_status.on_hold,
-        status: 'Onhold',
-        link: 'onhold'
-      },
-      {
-        icon: 'material-symbols:start',
-        iconColor: '#7B61FF',
-        bgColor: '#D7CBF9',
-        total: trainingData.count_participant_status.on_going,
-        status: 'Ongoing',
-        link: 'ongoing'
-      },
-      {
-        icon: 'mingcute:check-fill',
-        iconColor: '#4CAF50',
-        bgColor: '#F4FEF2',
-        total: trainingData.count_participant_status.completed,
-        status: pageView === 'admin' ? 'Completed Training' : 'Completed',
-        link: 'complete'
-      }
-    ])
-  }
-
-  useEffect(() => {
-    onLoad()
-  }, [])
+  ]
 
   return (
     <Box
@@ -210,11 +183,11 @@ const TrainingCard = ({
         }}
       >
         {statusItems.map((item, i) => {
-          if (pageView === 'admin' && (i === 1 || i === 2)) {
+          if (item.show !== 'all' && pageView !== item.show) {
             return <></>
           }
 
-          if (i === 3) {
+          if (i === statusItems.length - 1) {
             return <StatusCard key={i} item={item} training={trainingData} />
           }
 

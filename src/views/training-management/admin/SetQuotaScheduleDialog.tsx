@@ -19,6 +19,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import moment from 'moment'
+import Training from 'src/contract/models/training'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -28,30 +29,35 @@ const Transition = forwardRef(function Transition(
 })
 
 type DialogProps = {
+  training: Training
   candidate: ITrainingParticipant
   visible: boolean
   onCloseClick: VoidFunction
   changeParams: (value?: string) => void
 }
 
-const ChangeScheduleDialog = (props: DialogProps) => {
-  const { candidate, visible, onCloseClick, changeParams } = props
-  const [schedule, setSchedule] = useState<moment.Moment | null>()
+const SetQuotaScheduleDialog = (props: DialogProps) => {
+  const { training, candidate, visible, onCloseClick, changeParams } = props
+  const [startSchedule, setStartSchedule] = useState<moment.Moment | null>()
+  const [endSchedule, setEndSchedule] = useState<moment.Moment | null>()
+
   const [onLoading, setOnLoading] = useState(false)
   const today = moment()
 
   const handleSetSchedule = () => {
-    if (!schedule) return toast.error('Date is required!')
+    if (!startSchedule || !endSchedule) return toast.error('Date is required!')
 
-    const formattedDate = schedule.format('YYYY-MM-DD')
+    const formattedStartDate = startSchedule.format('YYYY-MM-DD')
+    const formattedEndDate = endSchedule.format('YYYY-MM-DD')
     setOnLoading(true)
 
-    HttpClient.patch(`/training/participants/${candidate.id}/schedule`, {
-      schedule: formattedDate
+    HttpClient.put(`/training/${training.id}/schedule`, {
+      start_date: formattedStartDate,
+      end_date: formattedEndDate
     })
       .then(
         async () => {
-          toast.success(`Successfully updated schedule for ${candidate.fullname}`)
+          toast.success(`Successfully updated schedule for training` + training.title)
         },
         error => {
           toast.error(`Failed to change ${candidate.fullname} schedule: ` + error.response.data.message)
@@ -67,7 +73,7 @@ const ChangeScheduleDialog = (props: DialogProps) => {
   return (
     <Dialog fullWidth open={visible} maxWidth='sm' TransitionComponent={Transition}>
       <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography sx={{ fontSize: 18, fontWeight: 700 }}>Edit Participant Details</Typography>
+        <Typography sx={{ fontSize: 18, fontWeight: 700 }}>Set Training Schedule</Typography>
         <IconButton size='small' onClick={onCloseClick}>
           <Icon icon='mdi:close' />
         </IconButton>
@@ -75,23 +81,41 @@ const ChangeScheduleDialog = (props: DialogProps) => {
       <DialogContent sx={{ p: '16px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <Typography sx={{ fontSize: 16, color: '#666', fontWeight: 400 }}>
-            Select the official schedule date for this participant. Make sure the date reflects the actual enrollment
-            time.
+            Select the official schedule date for this training. Make sure the date reflects the actual enrollment time.
           </Typography>
           <LocalizationProvider dateAdapter={AdapterMoment}>
-            <DatePicker
-              format='DD/MM/YYYY'
-              openTo='year'
-              views={['year', 'month', 'day']}
-              minDate={today}
-              value={schedule}
-              onChange={newValue => setSchedule(newValue)}
-              slotProps={{
-                textField: {
-                  fullWidth: true
-                }
-              }}
-            />
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <Typography sx={{ fontSize: 14, fontWeight: 600 }}>Start Date</Typography>
+              <DatePicker
+                format='DD/MM/YYYY'
+                openTo='year'
+                views={['year', 'month', 'day']}
+                minDate={today}
+                value={startSchedule}
+                onChange={newValue => setStartSchedule(newValue)}
+                slotProps={{
+                  textField: {
+                    fullWidth: true
+                  }
+                }}
+              />
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <Typography sx={{ fontSize: 14, fontWeight: 600 }}>End Date</Typography>
+              <DatePicker
+                format='DD/MM/YYYY'
+                openTo='year'
+                views={['year', 'month', 'day']}
+                minDate={today}
+                value={endSchedule}
+                onChange={newValue => setEndSchedule(newValue)}
+                slotProps={{
+                  textField: {
+                    fullWidth: true
+                  }
+                }}
+              />
+            </Box>
           </LocalizationProvider>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <Button
@@ -123,4 +147,4 @@ const ChangeScheduleDialog = (props: DialogProps) => {
   )
 }
 
-export default ChangeScheduleDialog
+export default SetQuotaScheduleDialog
