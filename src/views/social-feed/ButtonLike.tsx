@@ -7,7 +7,10 @@ import moment from 'moment'
 type ButtonLikeParam = {
   id: number
   liked_at?: string
+  isLiked?: boolean
   count_likes: number
+  set_count_likes: (value: number) => void
+  setIsLiked: (value: boolean) => void
 }
 
 const ButtonLike = (props: { item: ButtonLikeParam; likeableType: string; variant?: 'no-icon'; isXs?: boolean }) => {
@@ -15,14 +18,16 @@ const ButtonLike = (props: { item: ButtonLikeParam; likeableType: string; varian
   const { likeUnlikeFeed } = useSocialFeed()
   const [onLoading, setOnLoading] = useState(false)
   const [likedAt, setLikedAt] = useState(item.liked_at)
-  const [countLikes, setCountLikes] = useState(item.count_likes)
 
   const handleClick = () => {
     setOnLoading(true)
     likeUnlikeFeed(item.id, likeableType)
       .then(() => {
-        setCountLikes(!likedAt ? countLikes + 1 : countLikes - 1)
+        item.set_count_likes(!likedAt ? item.count_likes + 1 : item.count_likes - 1)
         setLikedAt(!likedAt ? moment().toISOString() : undefined)
+        if (item.setIsLiked) {
+          item.setIsLiked(!item.isLiked)
+        }
       })
       .finally(() => setOnLoading(false))
   }
