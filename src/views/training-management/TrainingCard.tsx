@@ -12,7 +12,7 @@ import {
   Typography
 } from '@mui/material'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
 import Training from 'src/contract/models/training'
 import { HttpClient } from 'src/services'

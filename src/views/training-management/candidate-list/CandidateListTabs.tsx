@@ -49,7 +49,7 @@ const CandidateListTabs = ({
   pageView = 'trainer',
   count
 }: {
-  training: Training
+  training?: Training
   pageView?: string
   count: VoidFunction
 }) => {
@@ -124,7 +124,7 @@ const CandidateListTabs = ({
       }}
     >
       {pageView === 'admin' ? (
-        <AdminStatusFilter tabs={tabs} setTabs={setTabs} tabItems={tabItemsAdmin(training)} />
+        <AdminStatusFilter tabs={tabs} setTabs={setTabs} tabItems={tabItemsAdmin(training!)} />
       ) : (
         <CustomTabs tabs={tabs} setTabs={setTabs} tabItems={tabItemsTrainer} />
       )}
@@ -202,7 +202,7 @@ const CandidateListTabs = ({
       ) : (
         <>
           {pageView === 'admin' ? (
-            <AdminCandidate training={training} candidates={candidateList} />
+            <AdminCandidate training={training!} candidates={candidateList} />
           ) : (
             <Candidate candidates={candidateList} />
           )}
