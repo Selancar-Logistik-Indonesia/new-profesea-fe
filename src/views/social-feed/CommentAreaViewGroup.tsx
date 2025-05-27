@@ -13,6 +13,7 @@ import SubCommentAreaViewGroup from './SubCommentAreaViewGroup'
 
 const CommentCard = (props: { comment: ISocialFeedComment }) => {
   const { comment } = props
+  const [isLike, setIsLiked] = useState(Boolean(comment.liked_at))
   const [openReply, setOpenReply] = useState(false)
 
   return (
@@ -45,7 +46,14 @@ const CommentCard = (props: { comment: ISocialFeedComment }) => {
       <Box>
         <ButtonLike
           variant='no-icon'
-          item={{ id: comment.id, liked_at: comment.liked_at, count_likes: comment.count_likes }}
+          item={{
+            id: comment.id,
+            liked_at: comment.liked_at,
+            count_likes: comment.count_likes,
+            isLiked: isLike,
+            set_count_likes: () => {},
+            setIsLiked
+          }}
           likeableType='comment'
         />
         <Button
