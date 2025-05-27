@@ -208,7 +208,7 @@ const buildNotifies = (e: INotification) => {
         <span>
           {e?.data?.company?.name} has offered you the{' '}
           <span style={{ fontSize: '14px', fontWeight: 700, color: '#1F1F1F' }}>
-            {e?.data?.job?.vesseltype_id ? e?.data?.job?.job_title : e?.data?.job?.rolelevel?.levelName}
+            {e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name}
           </span>{' '}
           position
           <br />
