@@ -1,32 +1,19 @@
-import React, {  useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import { CircularProgress, Grid } from '@mui/material'
-// import { useTheme } from '@mui/material/styles'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import secureLocalStorage from 'react-secure-storage'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
-// import UserProfileHeader from 'src/layouts/components/UserProfileHeader'
 import { IUser } from 'src/contract/models/user'
 import { toast } from 'react-hot-toast'
 import WorkeExperience from '../Workexperience'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSearchParams } from 'next/navigation'
 import { getCleanErrorMessage, linkToTitleCase, toLinkCase } from 'src/utils/helpers'
-// import EducationalInfo from '../../Educational'
 import Ceritificate from '../Certificate'
-// import ProfileViewerCard from 'src/layouts/components/ProfileViewerCard'
 import AboutMe from 'src/views/profile/aboutMe'
-// import ProfileFeedCard from '../../ProfileFeedCard'
-// import SeafarerTravelDocumentTable from 'src/layouts/components/SeafarerTravelDocumentTable'
-// import SeafarerExperienceTable from 'src/layouts/components/SeafarerExperienceTable'
-// import SeafarerCompetencyTable from 'src/layouts/components/SeafarerCompetencyTable'
-// import SeafarerProficiencyTable from 'src/layouts/components/SeafarerProficiencyTable'
-// import SeafarerRecommendationTable from 'src/layouts/components/SeafarerRecommendationTable'
-// import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
-
 import { useRouter } from 'next/router'
-
 import ProfileHeader from 'src/views/profile/profileHeader'
 import Analytics from 'src/views/profile/analytics'
 import Activity from 'src/views/profile/activity'
@@ -40,10 +27,7 @@ import UsernameChange from 'src/layouts/components/UsernameChange'
 import SideAdProfile from 'src/views/banner-ad/sideAdProfile'
 import CompleteOnboarding from 'src/views/onboarding/CompleteOnboarding'
 
-
-
 const ProfileCompany = () => {
-  
   return (
     <SocialFeedProvider>
       <UserFeedApp />
@@ -52,23 +36,16 @@ const ProfileCompany = () => {
 }
 
 const UserFeedApp = () => {
-  // const theme = useTheme()
+  const params = useSearchParams()
   const router = useRouter()
-  // const hidden = useMediaQuery(theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  
+  const iduser: any = user?.id
+  const onboarding = params.get('onboarding')
+
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [arrVacany, setArrVacancy] = useState<any>([])
   const [arrVacany2, setArrVacancy2] = useState<any>([])
   const [openCompleteOnboard, setOpenCompleteOnboard] = useState(false)
-  // const [itemData, getItemdata] = useState<any[]>([])
-  const iduser: any = user?.id
-  //let { username } = router.query as { username: string }
-
-  const params = useSearchParams()
-  let username = linkToTitleCase(params.get('username'))
-
-  const onboarding = params.get('onboarding')
 
   useEffect(() => {
     if (onboarding == 'completed') {
@@ -76,18 +53,9 @@ const UserFeedApp = () => {
     }
   }, [onboarding])
 
-  const firstload = async () => {
-    let url = ''
-    let filter = ''
-    // let filterdoc = ''
-    if (!username) {
-      url = '/user/' + toLinkCase(iduser)
-      username = user?.username
-    } else {
-      url = 'public/data/user/?username=' + username
-      filter = ''
-      // filterdoc = '?username=' + username
-    }
+  const firstload = async (usernameURL: string) => {
+    const url = 'public/data/user/?username=' + usernameURL
+    const filter = ''
 
     try {
       const response = await HttpClient.get(url)
@@ -104,7 +72,7 @@ const UserFeedApp = () => {
       }
       setSelectedUser(user)
 
-      if(iduser) {
+      if (iduser === user?.id) {
         HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100' + filter).then(response => {
           const itemData = response.data.experiences
           setArrVacancy(itemData)
@@ -113,25 +81,26 @@ const UserFeedApp = () => {
           const itemData = response.data.educations
           setArrVacancy2(itemData)
         })
-
       } else {
-        HttpClient.get(AppConfig.baseUrl + `/public/data/user/work-experiences?user_id=${username ? user.id : iduser}&take=10&page=1` + filter).then(response => {
+        HttpClient.get(
+          AppConfig.baseUrl +
+            `/public/data/user/work-experiences?user_id=${usernameURL ? user.id : iduser}&take=10&page=1` +
+            filter
+        ).then(response => {
           const itemData = response.data.experiences
           setArrVacancy(itemData)
         })
-        HttpClient.get(AppConfig.baseUrl + `/public/data/user/educations?user_id=${username ? user.id : iduser}&take=10&page=1` + filter).then(response => {
+        HttpClient.get(
+          AppConfig.baseUrl +
+            `/public/data/user/educations?user_id=${usernameURL ? user.id : iduser}&take=10&page=1` +
+            filter
+        ).then(response => {
           const itemData = response.data.educations
           setArrVacancy2(itemData)
         })
       }
-      // HttpClient.get(AppConfig.baseUrl + '/user/document' + filterdoc).then(response => {
-      //   const itemData = response.data.documents
-
-      //   getItemdata(itemData)
-      // })
-    } catch (error : any) {
-      if(error.response.status == 401) {
-
+    } catch (error: any) {
+      if (error.response.status == 401) {
         return
       }
       toast.error(`Opps ${getCleanErrorMessage(error)}`)
@@ -139,8 +108,12 @@ const UserFeedApp = () => {
   }
 
   useEffect(() => {
-    firstload()
-  }, [username])
+    if (router.isReady) {
+      const usernameURL = linkToTitleCase(router.query.username as string) as string
+
+      firstload(usernameURL)
+    }
+  }, [router.isReady, router.query.username])
 
   if (!selectedUser) {
     return (
@@ -206,7 +179,4 @@ ProfileCompany.acl = {
 ProfileCompany.guestGuard = false
 ProfileCompany.authGuard = false
 
-// ProfileCompany.getLayout = (page: ReactNode) => user ? <UserLayout>{page}</UserLayout> : <LandingPageLayout>{page}</LandingPageLayout>
-
 export default ProfileCompany
-
