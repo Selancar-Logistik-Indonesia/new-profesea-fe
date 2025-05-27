@@ -83,9 +83,8 @@ const OurFeatureView = () => {
                   fontWeight: 400,
                   lineHeight: { xs: '27px', md: '21px' }
                 }}
-              >
-                {t('landing_page.our_feature.feature_2')}
-              </Typography>
+                dangerouslySetInnerHTML={{ __html: t('landing_page.our_feature.feature_2') }}
+              />
             </Box>
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', alignItems: 'flex-start', gap: '24px' }}>

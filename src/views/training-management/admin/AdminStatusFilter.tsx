@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Badge, Box, Grid, Typography } from '@mui/material'
 
 type TabItem = {
   label: string
@@ -18,36 +18,50 @@ type TabProps = {
   label: string
   value: string
   count: number
+  notify?: boolean
 }
 
 const Tab = (props: TabProps) => {
-  const { tabs, setTabs, label, value, count } = props
+  const { tabs, setTabs, label, value, count, notify } = props
   const isActive = tabs === value
 
   return (
-    <Box
-      onClick={() => setTabs(value)}
+    <Badge
+      color='error'
+      variant='dot'
+      invisible={!notify || count === 0}
       sx={{
-        cursor: 'pointer',
-        p: '8px 12px',
-        borderRadius: '12px',
-        border: `1px solid ${isActive ? '#32497A' : '#E7E7E7'}`,
-        backgroundColor: isActive ? '#F2F8FE' : 'inherit',
-        '&:hover': { borderColor: '#32497A' }
+        '& .MuiBadge-badge': {
+          top: '4px',
+          right: '4px',
+          boxShadow: '0 0 0 2px #FFFFFF'
+        }
       }}
     >
-      <Typography
+      <Box
+        onClick={() => setTabs(value)}
         sx={{
-          color: isActive ? '#32497A' : '#404040',
-          fontSize: 14,
-          fontWeight: '400',
-          userSelect: 'none',
-          '&:hover': { color: '#32497A' }
+          cursor: 'pointer',
+          p: '8px 12px',
+          borderRadius: '12px',
+          border: `1px solid ${isActive ? '#32497A' : '#E7E7E7'}`,
+          backgroundColor: isActive ? '#F2F8FE' : 'inherit',
+          '&:hover': { borderColor: '#32497A' }
         }}
       >
-        {label} ({count})
-      </Typography>
-    </Box>
+        <Typography
+          sx={{
+            color: isActive ? '#32497A' : '#404040',
+            fontSize: 14,
+            fontWeight: '400',
+            userSelect: 'none',
+            '&:hover': { color: '#32497A' }
+          }}
+        >
+          {label} ({count})
+        </Typography>
+      </Box>
+    </Badge>
   )
 }
 
@@ -74,6 +88,7 @@ const AdminStatusFilter = (props: Props) => {
           label={tabItem.label}
           value={tabItem.value}
           count={tabItem.count ?? 0}
+          notify={tabItem.value === 'unregistered' || tabItem.value === 'paid'}
         />
       ))}
     </Grid>
