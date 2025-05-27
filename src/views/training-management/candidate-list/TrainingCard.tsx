@@ -130,6 +130,18 @@ const TrainingCard = ({ pageView = 'trainer', training }: { pageView?: string; t
             backgroundColor: '#F8F8F7'
           }}
         >
+          {pageView === 'admin' && (
+            <>
+              <StatusCard
+                label='Unregistered'
+                total={training.count_participant_status.unregistered}
+                backgroundColor='#FFEBCF'
+                icon='ph:hourglass-high'
+                iconColor='#FE9602'
+              />
+              <Divider sx={{ borderWidth: '1px', bgcolor: '#E7E7E7' }} />
+            </>
+          )}
           <StatusCard
             label='Registered'
             total={training.count_participant_status.registered}

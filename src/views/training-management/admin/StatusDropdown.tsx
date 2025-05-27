@@ -55,11 +55,13 @@ const StatusDropdown = ({ candidate, applicantStatus, changeParams, disabled = f
     })
       .then(
         async () => {
-          const today = new Date()
-          const formattedDate = today.toISOString().split('T')[0]
-          await HttpClient.patch(`/training/participants/${candidate.id}/registration-date`, {
-            date_registered: formattedDate
-          })
+          if (status === 'registered') {
+            const today = new Date()
+            const formattedDate = today.toISOString().split('T')[0]
+            await HttpClient.patch(`/training/participants/${candidate.id}/registration-date`, {
+              date_registered: formattedDate
+            })
+          }
 
           toast.success(`Successfully proceed ${candidate.fullname}`)
         },

@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react'
 import {
+  Badge,
   Box,
   Button,
   Divider,
@@ -254,7 +255,26 @@ const TrainingPage = () => {
         ) : trainings && trainings.length > 0 ? (
           trainings.map((training, i) => (
             <Grid item key={i} xs={6}>
-              <TrainingCard pageView='admin' trainingData={training} refetch={() => setRefetch(v4())} />
+              <Badge
+                color='error'
+                variant='dot'
+                invisible={
+                  training.count_participant_status.unregistered === 0 && training.count_participant_status.paid === 0
+                }
+                sx={{
+                  width: '100%',
+                  '& .MuiBadge-badge': {
+                    height: '12px',
+                    minWidth: '12px',
+                    borderRadius: '6px',
+                    top: '3px',
+                    right: '3px',
+                    boxShadow: '0 0 0 2px #FFFFFF'
+                  }
+                }}
+              >
+                <TrainingCard pageView='admin' trainingData={training} refetch={() => setRefetch(v4())} />
+              </Badge>
             </Grid>
           ))
         ) : (
