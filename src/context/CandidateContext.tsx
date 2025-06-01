@@ -42,6 +42,7 @@ const CandidateProvider = (props: Props) => {
     country?: any
     visaUsa?: any
     visaSchengen?: any
+    saved?: any
   }) => {
     setOnLoading(true)
     setCandidates([])

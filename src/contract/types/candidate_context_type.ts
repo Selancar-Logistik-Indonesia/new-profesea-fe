@@ -26,6 +26,7 @@ type CandidateContextType = {
     country?: any
     visaUsa?: any
     visaSchengen?: any
+    saved?: any
   }) => Promise<void>
 }
 

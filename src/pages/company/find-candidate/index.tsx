@@ -34,6 +34,12 @@ import { MdNavigateNext } from 'react-icons/md'
 import RecomendedView from 'src/views/find-candidate/RecomendedView'
 import CustomPaginationItem from 'src/@core/components/pagination/item'
 import DialogOfferCandidate from './DialogOfferCandidate'
+import AnimatedTabs from 'src/@core/components/animated-tabs'
+
+const tabsOption = [
+  { value: 'onship', label: 'Seafarer' },
+  { value: 'offship', label: 'Professional' }
+]
 
 const FindCandidate = () => {
   return (
@@ -75,21 +81,23 @@ const FindCandidateApp = () => {
 
   const [openDialogOfferJob, setOpenDialogOfferJob] = useState(false)
   const [candidateId, setCandidateId] = useState<any>(0)
+  const [activeTab, setActiveTab] = useState<any>('onship')
 
   const { page, setPage, fetchCandidates, totalCandidate } = useCandidate()
 
   useEffect(() => {
     fetchCandidates({
       take: pageItems,
-      employee_type: tabValue,
+      employee_type: tabValue === 'saved' ? activeTab : tabValue,
       search: sSearchCandidate,
       vesseltype_id: sVesselType?.id,
       roletype_id: sRoleType?.id,
       category_id: sJobCategory?.id,
-      country: sCountry?.id
+      country: sCountry?.id,
+      saved: tabValue === 'saved'
     })
     updateParamsFilter()
-  }, [page, sSearchCandidate, sVesselType, sRoleType, sJobCategory, tabValue, sCountry])
+  }, [page, sSearchCandidate, sVesselType, sRoleType, sJobCategory, tabValue, sCountry, activeTab])
 
   const handlePageChange = (e: React.ChangeEvent<unknown>, value: number) => {
     setPage(value)
@@ -421,21 +429,33 @@ const FindCandidateApp = () => {
                 onChange={handleChangeTabValue}
                 aria-label='basic tabs example'
                 sx={{ mb: '-3.5px' }}
+                variant='fullWidth'
               >
                 <Tab
                   label='Seafarer'
                   id='tab-1'
                   value={'onship'}
-                  sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold' }}
+                  sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold', width: '100%' }}
                 />
                 <Tab
                   label='Professional'
                   id='tab-2'
                   value={'offship'}
-                  sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold' }}
+                  sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold', width: '100%' }}
+                />
+                <Tab
+                  label='Saved Candidate'
+                  id='tab-3'
+                  value={'saved'}
+                  sx={{ textTransform: 'none', fontSize: '16px', fontWeight: 'bold', width: '100%' }}
                 />
               </Tabs>
             </Box>
+            {tabValue === 'saved' && (
+              <Box sx={{ marginTop: '24px', width: '100%' }}>
+                <AnimatedTabs tabs={tabsOption} activeTab={activeTab} setActiveTab={setActiveTab} />
+              </Box>
+            )}
             <CandidateContext.Consumer>
               {({ listCandidates, onLoading }) => {
                 if (onLoading) {
@@ -459,6 +479,7 @@ const FindCandidateApp = () => {
                         renderItem={item => <CustomPaginationItem {...item} />}
                       />
                     </Grid>
+
                     <RecomendedView
                       listCandidate={listCandidates}
                       setOpenDialogOfferCandidate={handleOpenDialogOfferCandidate}
