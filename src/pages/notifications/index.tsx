@@ -47,7 +47,7 @@ function Notification() {
     }
 
     const { notifications } = response.data as { notifications: { data: INotification[] } }
-    const notifies = notifications.data.map(buildNotifies)
+    const notifies: NotificationsTypeProps[] = notifications.data.map(buildNotifies)
     setOnLoading(false)
     setNotifies(notifies)
   }
