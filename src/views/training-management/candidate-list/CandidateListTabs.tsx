@@ -202,7 +202,7 @@ const CandidateListTabs = ({
       ) : (
         <>
           {pageView === 'admin' ? (
-            <AdminCandidate candidates={candidateList} />
+            <AdminCandidate training={training!} candidates={candidateList} />
           ) : (
             <Candidate candidates={candidateList} />
           )}

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import { Grid, Typography, Box, IconButton, Avatar } from '@mui/material'
 import { format } from 'date-fns'
 import { Icon } from '@iconify/react'
-import { formatIDR, getUserAvatar, timeCreated } from 'src/utils/helpers'
+import { formatIDR, formatUSD, getUserAvatar, timeCreated } from 'src/utils/helpers'
 import Link from 'next/link'
 import { useAuth } from 'src/hooks/useAuth'
 
@@ -65,7 +65,9 @@ const Slides = (items: any[], teamId: number, width: number, status: boolean) =>
               <Typography sx={{ color: 'primary.main', fontSize: 16, fontWeight: 'bold' }}>{arr.title}</Typography>
               <Typography sx={{ color: 'primary.main', fontSize: 14 }}>{arr.category?.category}</Typography>
               <Typography sx={{ fontSize: 14, color: '#949EA2' }}>
-                {arr.discounted_price ? formatIDR(arr.discounted_price, true) : formatIDR(arr.price, true)}
+                {arr?.currency === 'IDR'
+                  ? formatIDR(arr?.discounted_price ?? (arr?.price as number), true)
+                  : formatUSD(arr?.discounted_price ?? (arr?.price as number), true)}
               </Typography>
             </Box>
             <Box
