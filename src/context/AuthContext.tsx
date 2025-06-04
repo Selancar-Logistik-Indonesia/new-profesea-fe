@@ -8,11 +8,13 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import IAbilities from 'src/contract/models/abilities'
 import { getOnboardingLink } from 'src/utils/helpers'
+import IFlaggings from 'src/contract/models/flaggings'
 
 const defaultProvider: AuthValuesType = {
   user: null,
   abilities: null,
   loading: true,
+  flaggings: null,
   setUser: () => null,
   setLoading: () => Boolean,
   socialLogin: () => Promise.resolve(),
@@ -31,6 +33,7 @@ type Props = {
 const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<IUser | null>(defaultProvider.user)
   const [abilities, setAbilities] = useState<IAbilities | null>(defaultProvider.abilities)
+  const [flaggings, setFlaggings] = useState<IFlaggings | null>(defaultProvider.flaggings)
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
   const router = useRouter()
 
@@ -43,9 +46,11 @@ const AuthProvider = ({ children }: Props) => {
           setLoading(false)
           setUser({ ...response.data.user })
           setAbilities(response.data.abilities)
+          setFlaggings(response.data.flaggings)
           secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
           secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
           secureLocalStorage.setItem(localStorageKeys.jobOffers, response.data.job_offers)
+          secureLocalStorage.setItem(localStorageKeys.jobOffers, response.data.flaggings)
 
           handleRedirection(response.data.user)
         })
@@ -188,6 +193,7 @@ const AuthProvider = ({ children }: Props) => {
   const values = {
     user,
     abilities,
+    flaggings,
     loading,
     setUser,
     setLoading,
