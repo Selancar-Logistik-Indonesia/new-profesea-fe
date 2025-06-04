@@ -1,21 +1,13 @@
-import React from 'react'
-import { Grid } from '@mui/material'
-import Subscription from 'src/layouts/components/Subscription'
+import { useRouter } from 'next/router'
 
-const Candidate = () => {
-
-    return (
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-                <Subscription />
-            </Grid>
-        </Grid>
-    )
+const Account = () => {
+  const router = useRouter()
+  router.push('/account/my-account')
 }
 
-
-Candidate.acl = {
-    action: 'read',
-    subject: 'home'
+Account.acl = {
+  action: 'read',
+  subject: 'home'
 }
-export default Candidate
+
+export default Account
