@@ -72,6 +72,9 @@ const RenderList = (listJob: Job[]) => {
   }
 
   return listJob.map(item => {
+    const today = new Date().toISOString().slice(0, 10)
+    const statusBoost = item.is_boosted && item.end_booster_date >= today
+
     const userPhoto = item?.company?.photo ? item?.company?.photo : '/images/avatars/default-user.png'
     const companyNameUrl = item.company.name.toLowerCase().split(' ').join('-')
     const jobTitleUrl = item.job_title ? item.job_title?.toLowerCase().split(' ').join('-') : ''
@@ -81,7 +84,7 @@ const RenderList = (listJob: Job[]) => {
       <Grid item xs={12} md={6} lg={4} key={item?.id}>
         <Paper
           sx={{
-            p: item.is_boosted ? '0px' : '38px 20px',
+            p: statusBoost ? '0px' : '38px 20px',
             border: '2px solid #eee',
             transition: 'border-color 0.2s ease-in-out, color 0.2s ease-in-out',
             '&:hover': { borderColor: 'primary.main' },
@@ -90,10 +93,20 @@ const RenderList = (listJob: Job[]) => {
           elevation={0}
           onClick={() => router.push(`/candidate/job/${companyNameUrl}/${item?.id}/${jobTitleUrl}`)}
         >
-          <Box sx={{backgroundImage:'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)', display: item.is_boosted ? 'flex' : 'none' , flexDirection:'row', alignItems:'center', gap:1, padding:'.45rem 1.4rem', borderRadius:'3px 3px 0px 0px'}}>
-            <Icon icon="ph:lightning-fill" color='#FFFFFF' fontSize={20}/>
-            <Typography sx={{color: '#fff', fontWeight: 700, fontSize:14}}>Hot Opportunity</Typography>
-        </Box>
+          <Box
+            sx={{
+              backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
+              display: statusBoost ? 'flex' : 'none',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 1,
+              padding: '.45rem 1.4rem',
+              borderRadius: '3px 3px 0px 0px'
+            }}
+          >
+            <Icon icon='ph:lightning-fill' color='#FFFFFF' fontSize={20} />
+            <Typography sx={{ color: '#fff', fontWeight: 700, fontSize: 14 }}>Hot Opportunity</Typography>
+          </Box>
           <Box
             sx={{
               display: 'flex',
@@ -101,7 +114,7 @@ const RenderList = (listJob: Job[]) => {
               alignItems: 'flex-start',
               height: '4em',
               mb: 3,
-              p: item.is_boosted ?  '24px' : '0px',
+              p: statusBoost ? '24px' : '0px'
             }}
           >
             <Box
@@ -154,7 +167,7 @@ const RenderList = (listJob: Job[]) => {
               />
             </Box>
           </Box>
-          <Grid item sx={{ p: item.is_boosted ? '24px' : '0px', mb:item.is_boosted ? '0px' : 2 }}>
+          <Grid item sx={{ p: statusBoost ? '24px' : '0px', mb: statusBoost ? '0px' : 2 }}>
             {item?.category?.employee_type == 'onship' ? (
               <>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
