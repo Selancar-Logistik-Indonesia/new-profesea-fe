@@ -226,15 +226,6 @@ const Postfeed = () => {
             >
               Start a Post, Share Your Thoughts...
             </Button>
-            {/* <TextField
-              value={content}
-              multiline
-              fullWidth
-              rows={3}
-              placeholder='Start a post'
-              variant='standard'
-              onChange={e => setContent(e.target.value)}
-            /> */}
           </Box>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', mt: 3, alignItems: 'end' }}>
