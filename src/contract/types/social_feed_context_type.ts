@@ -16,7 +16,7 @@ type SocialFeedContextType = {
     updateStatus: (payload: UpdateStatusPayload) => Promise<void>
     EditupdateStatus: (payload: UpdateStatusPayload) => Promise<void>
     likeUnlikeFeed: (likeableId: number, likeableType: string) => Promise<void>
-    postComment: (feedId: number, replyable_type: 'feed' | 'comment', content: string) => Promise<void>
+    postComment: (feedId: number, replyable_type: 'feed' | 'comment', content: string, main_feed_id: number) => Promise<void>
     deleteFeed: (feedId: number) => Promise<void>
     deleteComment?: (commentId: number, feedId?: number) => Promise<void>
     getComments: (
