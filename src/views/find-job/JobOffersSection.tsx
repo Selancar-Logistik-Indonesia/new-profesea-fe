@@ -12,14 +12,13 @@ const JobOffersSection = ({ jobOffers, user }: IJobOfferSectionProps) => {
   const [showAll, setShowAll] = useState(false)
   const router = useRouter()
 
-  const handleToggle = () => {
-    setShowAll(prev => !prev)
+  if (!jobOffers || jobOffers.length === 0) {
+    return null
   }
 
   const displayedOffers = showAll ? jobOffers : jobOffers.slice(0, 1)
-
-  if (!jobOffers || jobOffers.length === 0) {
-    return null
+  const handleToggle = () => {
+    setShowAll(prev => !prev)
   }
 
   return (
