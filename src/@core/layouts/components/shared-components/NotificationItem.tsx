@@ -33,10 +33,15 @@ const MenuItem = styled(MuiMenuItem)<MenuItemProps>(({ theme }) => ({
 
 const RenderAvatar = ({ notification }: { notification: NotificationsType }) => {
   const { avatarAlt, avatarIcon, avatarText, avatarColor, payload, type } = notification
+  const notificationTypes = [
+    'App\\Notifications\\ApplicantApplied',
+    'App\\Notifications\\NewApplicantNotification',
+    'App\\Notifications\\FeedCommentNotification'
+  ]
 
   if (payload?.photo) {
     return <Avatar alt={avatarAlt} src={payload?.photo} sx={{ width: 54, height: 54 }} />
-  } else if (type == 'App\\Notifications\\ApplicantApplied' || type == 'App\\Notifications\\NewApplicantNotification') {
+  } else if (notificationTypes.includes(type)) {
     return <Avatar sx={{ width: 54, height: 54 }} alt={avatarAlt} src={avatarIcon as any} />
   } else if (avatarIcon) {
     return (
@@ -99,7 +104,9 @@ const NotificationItem = (props: { item: NotificationsType }) => {
       case NotificationType.applicantApproved:
         router.push(`/candidate/find-job?tabs=2`)
         break
-
+      case NotificationType.feedComment:
+        router.push(`/feed/${item?.data?.feed?.id}`)
+        break
       case NotificationType.jobOffer:
         const companyNameUrl = item?.data?.company?.name.toLowerCase().split(' ').join('-')
         const jobTitleUrl = item?.data?.job?.job_title

@@ -44,7 +44,7 @@ const buildNotifies = (e: INotification) => {
       avatarAlt: e.data.candidate.name,
       title: 'Application Submitted:',
       avatarIcon: e?.data?.company?.photo,
-      subtitle: `You've Applied for ${e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name}!`,
+      subtitle: `You've Applied for ${e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type?.name}!`,
       type: e.type,
       read_at: e.read_at,
       data: e.data
@@ -208,11 +208,30 @@ const buildNotifies = (e: INotification) => {
         <span>
           {e?.data?.company?.name} has offered you the{' '}
           <span style={{ fontSize: '14px', fontWeight: 700, color: '#1F1F1F' }}>
-            {e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type.name}
+            {e.data.job.job_title ? e.data.job.job_title : e.data.job.role_type?.name}
           </span>{' '}
           position
           <br />
           <span>View the job details and respond to the offer.</span>
+        </span>
+      ),
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
+  if (e.type === NotificationType.feedComment) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data?.commenter?.name,
+      title: `${e.data?.commenter?.name} has commented on your feed!`,
+      avatarIcon: e?.data?.commenter?.photo,
+      subtitle: (
+        <span>
+          {`${e.data?.commenter?.name} has commented on your feed!`}
+          <br />
         </span>
       ),
       type: e.type,
