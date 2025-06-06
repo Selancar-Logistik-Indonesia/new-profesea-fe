@@ -122,7 +122,7 @@ const SeafarerJobApp = () => {
   const [idvessel, setVesel] = useState<any>()
   const [employmentType, setEmplymentType] = useState<any>()
   const [workArrangement, setWorkArrangement] = useState<string | null>(null)
-  const [sortBy, setSortBy] = useState('dsc')
+  const [sortBy, setSortBy] = useState('desc')
 
   const link = `${user?.role === 'Seafarer' ? '/profile' : '/company'}/${toLinkCase(user?.username)}`
 
@@ -169,7 +169,7 @@ const SeafarerJobApp = () => {
     setWorkArrangement(null)
     setRL(undefined)
     setEmplymentType(undefined)
-    setSortBy('dsc')
+    setSortBy('desc')
   }
 
   useEffect(() => {
@@ -244,7 +244,7 @@ const SeafarerJobApp = () => {
       employee_type: employeeType,
       username: company,
       work_arrangement: workArrangement,
-      sortBy: sortBy
+      sort: sortBy
     })
   }
   useEffect(() => {
@@ -612,7 +612,7 @@ const SeafarerJobApp = () => {
                                 onChange={handleChangeSelect}
                                 size='small'
                               >
-                                <MenuItem value={'dsc'}>Newest to Oldest </MenuItem>
+                                <MenuItem value={'desc'}>Newest to Oldest </MenuItem>
                                 <MenuItem value={'asc'}>Oldest to Newest</MenuItem>
                               </Select>
                             </FormControl>

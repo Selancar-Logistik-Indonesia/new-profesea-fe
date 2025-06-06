@@ -41,10 +41,9 @@ import { toast } from 'react-hot-toast'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import { FormDataSeafarer } from 'src/contract/types/create_job_type'
-import {  JobDraft } from '../Component'
+import { JobDraft } from '../Component'
 import BoostJobAlert from '../BoostJobAlert'
 import { useAuth } from 'src/hooks/useAuth'
-
 
 const sailRegion = [
   { id: 'ncv', label: 'Near Coastal Voyage (NCV)' },
@@ -78,8 +77,9 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
-  const {abilities, user} = useAuth()
+  const { abilities, user } = useAuth()
   const router = useRouter()
+
   const [onLoading, setOnLoading] = useState(false)
   const [jobCategory, setJobCategory] = useState<JobCategory[] | null>(null)
   const [roleType, setRoleType] = useState<RoleType[] | null>(null)
@@ -88,11 +88,14 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
   const [jobDescription, setJobDescription] = useState(EditorState.createEmpty())
   const [licenseCOC, setLicenseCOC] = useState<Licensi[] | null>()
   const [licenseCOP, setLicenseCOP] = useState<Licensi[] | null>()
+
+  const today = new Date().toISOString().slice(0, 10)
+  const statusBoost = job?.is_boosted && job?.end_booster_date >= today
   const [fixPrice, setFixPrice] = useState<boolean>(false)
   const [hidePrice, setHidePrice] = useState<boolean>(false)
   const [isDraft, setIsDraft] = useState<boolean>(false)
-  const [isBoosted, setIsBoosted] = useState<boolean>(job?.is_boosted as boolean)
-  const [isSubs, setIsSubs]  = useState<boolean>(false)
+  const [isBoosted, setIsBoosted] = useState<boolean>(statusBoost as boolean)
+  const [isSubs, setIsSubs] = useState<boolean>(false)
   const [totalJobPosted, setTotalJobPosted] = useState(0)
 
   useEffect(() => {
@@ -115,12 +118,12 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
         is_active: true
       })
 
-      const ujp = abilities?.items.find(f => f.code === 'UJP') 
+      const ujp = abilities?.items.find(f => f.code === 'UJP')
       const usedCounter = response.data.jobs.total > (ujp?.used ?? 0) ? response.data.jobs.total : ujp?.used
       setTotalJobPosted(usedCounter)
     } catch (error) {
       console.error('Error fetching  jobs:', error)
-    } 
+    }
   }
 
   const populateData = () => {
@@ -305,7 +308,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
       salary_start: minimum,
       salary_end: maximum,
       hide_salary: hidePrice,
-      is_boosted : isBoosted
+      is_boosted: isBoosted
     }
 
     setOnLoading(true)
@@ -322,7 +325,6 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
         )
         .finally(() => setOnLoading(false))
     } else {
-
       HttpClient.post('/job', json)
         .then(
           () => {
@@ -864,7 +866,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             label='Hide Salary'
           />
         </Grid>
-        <BoostJobAlert  setIsBoosted={setIsBoosted} currentJob={job} isBoosted={isBoosted}/>
+        <BoostJobAlert setIsBoosted={setIsBoosted} currentJob={job} isBoosted={isBoosted} />
         <Grid item container sx={{ display: 'flex', gap: '24px', alignItems: 'center', justifyContent: 'right' }}>
           <Typography component={Link} href='/company/job-management' sx={{ color: '#868686', fontSize: 14 }}>
             Cancel
@@ -898,7 +900,7 @@ const SeafarerJob = ({ job, type }: { job?: Job; type: 'create' | 'edit' }) => {
             }}
             variant='contained'
             size='small'
-            disabled={onLoading || (type === 'edit' ? !isSubs && totalJobPosted > 5  : !isSubs && totalJobPosted >= 5)}
+            disabled={onLoading || (type === 'edit' ? !isSubs && totalJobPosted > 5 : !isSubs && totalJobPosted >= 5)}
             sx={{ fontSize: 14, fontWeight: 400, textTransform: 'none' }}
           >
             {onLoading ? <CircularProgress size={22} /> : 'Post Job'}
