@@ -28,6 +28,7 @@ type CandidateContextType = {
     visaSchengen?: any
     saved?: any
   }) => Promise<void>
+  handleCandidateSave: (id: any) => Promise<void>
 }
 
 export default CandidateContextType

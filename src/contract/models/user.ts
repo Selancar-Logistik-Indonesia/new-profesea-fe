@@ -108,5 +108,6 @@ export interface IUser {
   current_package?: any
   // for candidate
   completion_percentage: number
-  is_boosted?:boolean
+  is_boosted?: boolean
+  is_saved?: boolean
 }
