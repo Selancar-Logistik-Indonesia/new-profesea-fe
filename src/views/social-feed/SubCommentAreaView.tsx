@@ -72,6 +72,7 @@ const SubCommentCard = (props: { comment: ISocialFeedComment; feedId: number }) 
 
 const SubCommentAreaView = (props: { item: ISocialFeedComment; feedId: number }) => {
   const { item, feedId } = props
+  console.log('subcommentarea: ',item)
   const [onLoading, setOnLoading] = useState(true)
   const { getComments, subCommentSignature } = useSocialFeed()
   const [commentObj, setCommentObj] = useState<CommentResponseType>()
@@ -96,7 +97,7 @@ const SubCommentAreaView = (props: { item: ISocialFeedComment; feedId: number })
           ))}
         </Box>
       )}
-      <CommentForm feedId={item.id} replyable_type='comment' />
+      <CommentForm feedId={item.id} replyable_type='comment' main_feed_id={item.replyable_id}/>
       {onLoading && (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 10 }}>
           <CircularProgress />

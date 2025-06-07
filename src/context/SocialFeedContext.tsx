@@ -233,13 +233,14 @@ const SocialFeedProvider = (props: Props) => {
     }
   }
 
-  const postComment = async (feedId: number, replyable_type: 'feed' | 'comment', content: string) => {
+  const postComment = async (feedId: number, replyable_type: 'feed' | 'comment', content: string, main_feed_id:number) => {
     const response = await HttpClient.post('/social-feed/comment', {
+      feed_id: main_feed_id,
       content: content,
       replyable_id: feedId,
       replyable_type: replyable_type
     })
-
+    
     if (response.status != 200) {
       alert(response.data?.message ?? 'Something went wrong')
     }
