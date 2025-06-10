@@ -121,16 +121,16 @@ const NotificationDropdown = (props: Props) => {
 
   const getNotifications = async () => {
     try {
-      if(user) {
+      if (user) {
         const response = await HttpClient.get('/user/notification', {
           page: 1,
           take: 35
         })
-    
+
         if (response.status != 200) {
           return alert(response.data?.message ?? 'Unknown error')
         }
-    
+
         const { notifications } = response.data as { notifications: { data: INotification[] } }
         const notifies = notifications.data.map(buildNotifies)
         setNotifies(notifies)

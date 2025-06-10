@@ -54,7 +54,9 @@ const UserProfileHeader = (props: userProps) => {
           component='img'
           alt='profile-header'
           image={
-            datagroup.groupbanner ? base_url + '/storage/' + datagroup.groupbanner : '/images/avatars/headerprofile3.png'
+            datagroup.groupbanner
+              ? base_url + '/storage/' + datagroup.groupbanner
+              : '/images/avatars/headerprofile3.png'
           }
           sx={{
             height: { xs: 150, md: 250 },
@@ -118,7 +120,7 @@ const UserProfileHeader = (props: userProps) => {
             width: 100,
             height: 100,
             position: 'absolute',
-            border: theme => `5px solid ${theme.palette.common.white}`
+            border: (theme: { palette: { common: { white: any } } }) => `5px solid ${theme.palette.common.white}`
           }}
         />
         {datagroup.user_id == user.id && (

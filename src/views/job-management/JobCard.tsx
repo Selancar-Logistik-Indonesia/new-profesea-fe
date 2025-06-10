@@ -73,8 +73,11 @@ const StatusCard = (props: StatusCardProps) => {
 }
 
 const JobCard = ({ job, refetch, isSubs }: { job: Job; refetch: VoidFunction; isSubs: boolean }) => {
+  const today = new Date().toISOString().slice(0, 10)
+  const statusBoost = job.is_boosted && job.end_booster_date >= today
+
   const [status, setStatus] = useState(job.is_active)
-  const [boosted, setBoosted] = useState(job.is_boosted)
+  const [boosted, setBoosted] = useState(statusBoost)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const [deleteJob, setDeleteJob] = useState(false)
@@ -183,7 +186,7 @@ const JobCard = ({ job, refetch, isSubs }: { job: Job; refetch: VoidFunction; is
         <Box
           sx={{
             backgroundImage: 'linear-gradient(270deg, #2561EB 0%, #968BEB 100%)',
-            display: job.is_boosted ? 'flex' : 'none',
+            display: boosted ? 'flex' : 'none',
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',

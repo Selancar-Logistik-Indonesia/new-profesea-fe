@@ -156,7 +156,7 @@ const CommentAreaView = (props: { item: ISocialFeed; placement?: 'popup' }) => {
             ))}
           </Stack>
         )}
-        {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' />}
+        {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' main_feed_id={item.id}/>}
       </Box>
     )
 
@@ -167,7 +167,7 @@ const CommentAreaView = (props: { item: ISocialFeed; placement?: 'popup' }) => {
           <CircularProgress />
         </Box>
       )}
-      {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' />}
+      {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' main_feed_id={item.id} />}
       {!onLoading && commentObj?.data && commentObj?.data.length > 0 && (
         <Stack spacing='16px' sx={{ pt: '16px' }}>
           {commentObj?.data.slice(0, visibleComments).map(comment => (

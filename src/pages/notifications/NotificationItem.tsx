@@ -50,10 +50,14 @@ export type NotificationsTypeProps = {
 
 const RenderAvatar = ({ notification }: { notification: NotificationsTypeProps }) => {
   const { avatarAlt, avatarIcon, avatarText, avatarColor, payload, type } = notification
-
+  const notificationTypes = [
+    'App\\Notifications\\ApplicantApplied',
+    'App\\Notifications\\NewApplicantNotification',
+    'App\\Notifications\\FeedCommentNotification'
+  ]
   if (payload?.photo) {
     return <Avatar sx={{ width: 54, height: 54 }} alt={avatarAlt} src={payload?.photo} />
-  } else if (type == 'App\\Notifications\\ApplicantApplied' || type == 'App\\Notifications\\NewApplicantNotification') {
+  } else if (notificationTypes.includes(type)) {
     return <Avatar sx={{ width: 54, height: 54 }} alt={avatarAlt} src={avatarIcon as any} />
   } else if (avatarIcon) {
     return (
@@ -113,6 +117,9 @@ export default function NotificationItem({ item, key, getNotifications }: Iprops
         break
       case NotificationType.applicantApproved:
         router.push(`/candidate/find-job?tabs=2`)
+        break
+      case NotificationType.feedComment:
+        router.push(`/feed/${item?.data?.feed?.id}`)
         break
       case NotificationType.connectRequest:
       case NotificationType.connectRequestApproved:

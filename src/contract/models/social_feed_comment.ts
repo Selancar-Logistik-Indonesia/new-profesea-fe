@@ -11,6 +11,7 @@ interface ISocialFeedComment {
     count_replies: number
     count_likes: number
     liked_at: string
+    replyable_id:number
     user: IUser
 }
 

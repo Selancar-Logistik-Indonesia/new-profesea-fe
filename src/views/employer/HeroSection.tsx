@@ -59,7 +59,7 @@ const HeroSection = () => {
       </Box>
 
       <Box sx={{width:isMobile ? '100%':'50%'}}>
-        <Lottie animationData={isMobile ? require('/public/animated-images/hero_mobile.json') : require('/public/animated-images/smooth2.json')} />
+        <Lottie animationData={isMobile ? require('/public/animated-images/company_jumbotron_mobile.json') : require('/public/animated-images/company_jumbotron.json')} />
       </Box>
     </Box>
   )

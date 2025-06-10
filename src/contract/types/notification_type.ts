@@ -1,5 +1,6 @@
 enum NotificationType {
   feedLike = 'App\\Notifications\\FeedLikedNotification',
+  feedComment = 'App\\Notifications\\FeedCommentNotification',
   connectRequest = 'App\\Notifications\\ConnectRequestNotification',
   applicantApplied = 'App\\Notifications\\ApplicantApplied',
   newApplicant = 'App\\Notifications\\NewApplicantNotification',

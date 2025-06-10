@@ -47,7 +47,7 @@ const Tab = (props: TabProps) => {
       <Typography
         sx={{
           color: isActive ? '#32497A' : '#BFBFBF',
-          fontSize: 16,
+          fontSize: { xs: 12, md: 16 },
           fontWeight: '700',
           userSelect: 'none',
           '&:hover': { color: '#32497A' }

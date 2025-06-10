@@ -12,7 +12,8 @@ const defaultValue: CandidateContextType = {
   listCandidates: [],
   onLoading: false,
   hasNextPage: false,
-  fetchCandidates: () => Promise.resolve()
+  fetchCandidates: () => Promise.resolve(),
+  handleCandidateSave: () => Promise.resolve()
 }
 
 const CandidateContext = createContext(defaultValue)
@@ -42,6 +43,7 @@ const CandidateProvider = (props: Props) => {
     country?: any
     visaUsa?: any
     visaSchengen?: any
+    saved?: any
   }) => {
     setOnLoading(true)
     setCandidates([])
@@ -75,6 +77,25 @@ const CandidateProvider = (props: Props) => {
     setOnLoading(false)
   }
 
+  const handleCandidateSave = async (id: any) => {
+    try {
+      const response = await HttpClient.post('/directory/save', {
+        dirable_id: id,
+        dirable_type: 'user'
+      })
+
+      if (response.status === 200) {
+        setCandidates(old => old.map(candidate => (candidate.id === id ? { ...candidate, is_saved: true } : candidate)))
+        // Handle successful save
+        console.log('Candidate saved successfully')
+      } else {
+        console.error('Failed to save candidate')
+      }
+    } catch (error) {
+      console.error('Error saving candidate:', error)
+    }
+  }
+
   const values = useMemo(
     () => ({
       page,
@@ -83,9 +104,10 @@ const CandidateProvider = (props: Props) => {
       totalCandidate,
       onLoading,
       hasNextPage,
-      fetchCandidates
+      fetchCandidates,
+      handleCandidateSave
     }),
-    [page, setPage, listCandidates, totalCandidate, onLoading, hasNextPage, fetchCandidates]
+    [page, setPage, listCandidates, totalCandidate, onLoading, hasNextPage, fetchCandidates, handleCandidateSave]
   )
 
   return <CandidateContext.Provider value={values}>{props.children}</CandidateContext.Provider>
