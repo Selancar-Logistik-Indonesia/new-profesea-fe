@@ -7,7 +7,7 @@ import { Icon } from '@iconify/react';
 import UseBgColor from 'src/@core/hooks/useBgColor'; 
 import { useGroupFeed } from 'src/hooks/useGroupFeed';
 
-const CommentFormGroup = (props: { feedId: number, replyable_type: 'feed' | 'comment' }) => {
+const CommentFormGroup = (props: { feedId: number, replyable_type: 'feed' | 'comment', main_feed_id: number }) => {
     const maxLineHeight = 3;
     const [textFieldHeight, setTextFieldHeight] = useState(1);
     const [content, setContent] = useState('');
@@ -23,6 +23,7 @@ const CommentFormGroup = (props: { feedId: number, replyable_type: 'feed' | 'com
                 props.feedId,
                 props.replyable_type,
                 content,
+                props.main_feed_id
             );
 
             setContent('');
