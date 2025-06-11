@@ -385,7 +385,40 @@
       "landing_company_faq_6_1": "Silakan hubungi <span style=\"color:#0a66c2\"><b>hello@profesea.id</b></span>",
       "testimony_1": "Dengan Profesea, kami lebih mudah menemukan kandidat yang berkualitas. Informasi kru kini bisa diakses dengan cepat dan tepat, lebih efisien dibandingkan proses manual sebelumnya.",
       "testimony_2": "Dengan adanya Profesea sangat membantu sekali dalam menemukan kandidat-kandidat yang tepat sesuai untuk perusahaan kami.",
-      "testimony_3": "Profesea memudahkan kami memperluas jangkauan kandidat dan menyediakan <i>tools</i> yang efisien untuk rekrutmen yang lebih cepat dan efektif."
+      "testimony_3": "Profesea memudahkan kami memperluas jangkauan kandidat dan menyediakan <i>tools</i> yang efisien untuk rekrutmen yang lebih cepat dan efektif.",
+      "pricing": {
+        "pricing_header_1": "Akses Semua Fitur Rekrutmen Tanpa Batasan <br/> <span style=\"background-image:linear-gradient(283.95deg, #0049C6 -12.57%, #CDF4FF 126.88%); color: transparent; background-clip: text;\">Gratis Selama Masa Trial!</span>",
+        "pricing_header_2": "Mulai dari paket Basic, upgrade ke Plus Plan secara gratis tanpa batas waktu selama masa trial terbuka! Semua fitur premium tersedia untuk bantu kamu menemukan talenta terbaik di industri maritim dan logistik.",
+        "basic": {
+          "description": "Mulailah dengan sederhana dengan opsi untuk berkembang kapan saja.",
+          "button": "Current Plan"
+        },
+        "plus": {
+          "description": "Akses Tak Terbatas ke Fitur Lanjutan.",
+          "button": "Upgrade to Plus – Free Access"
+        },
+        "benefit_1": "Rekomendasi kandidat cerdas & talent pool",
+        "benefit_2": "Kontrol penuh proses rekrutmen dari awal hingga akhir",
+        "benefit_3": "Chat langsung & penawaran instan",
+        "benefit_4": "Posting lowongan tanpa batas",
+        "benefit_5": "Visibilitas lowongan di pencarian kandidat",
+        "enterprise": "For custom needs, dedicated support, SSO, and to opt out of data training",
+        "pricing_small_note": "<span style=\"color:red\">*</span>Masa trial gratis ini <b>tidak memiliki batas waktu</b> untuk saat ini. Kami akan memberi informasi sebelum paket berbayar diberlakukan.",
+        "pricing_alert_title": "Mulai Gratis, Naik Kelas Tanpa Biaya",
+        "pricing_alert_description": "Tanpa kartu kredit. Tanpa komitmen. Cukup daftar dan nikmati semua fitur Plus secara instan.",
+        "pricing_alert_button": "Daftar Gratis & Coba Fitur Plus",
+        "faq": {
+          "faq_title": "Pertanyaan Umum",
+          "question_1": "Apa itu masa trial terbuka?",
+          "answer_1": "Ini adalah masa di mana semua perusahaan bisa mencoba paket Plus secara gratis dan tanpa batas waktu yang ditentukan.",
+          "question_2" : "Apakah saya harus memasukkan data pembayaran untuk upgrade?",
+          "answer_2": "Tidak perlu! Upgrade cukup dengan satu klik – tanpa kartu kredit, tanpa biaya.",
+          "question_3": "Sampai kapan masa trial ini berlaku?",
+          "answer_3" : "Belum ada batas waktu resmi. Namun kami akan memberitahu kamu jauh hari sebelum paket berbayar diberlakukan.",
+          "question_4": "Apa yang akan terjadi setelah masa trial selesai?",
+          "answer_4": "Kami akan memperkenalkan skema berbayar. Kamu bebas memilih tetap di Basic atau lanjut di Plus."
+        }
+      }
     },
     "training_landing_page": {
       "hero_title": "Dapatkan Sertifikat Pelaut dengan Mudah",
