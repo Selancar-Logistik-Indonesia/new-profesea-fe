@@ -1,3 +1,4 @@
+import { Icon } from '@iconify/react'
 import { Box, Button, Typography, useMediaQuery, useTheme } from '@mui/material'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -160,10 +161,11 @@ const Main = () => {
                   <Box
                     sx={{ display: 'flex', flexDirection: 'row', gap: 4, padding: '1rem 1.2rem', alignItems: 'center' }}
                   >
-                    <Box component='img' src={'/images/icons/green check icon.png'} width={'20px'} height={'20px'} />
+                    {/* <Box component='img' src={'/images/icons/green check icon.png'} width={'20px'} height={'20px'} /> */}
+                    <Icon icon={'fluent-emoji-flat:warning'} fontSize='22px'/>
                     <Typography
                       sx={{ fontSize: '.9rem', fontWeight: 400, color: '#1F1F1F' }}
-                      dangerouslySetInnerHTML={{ __html: t('employer_page.pricing.benefit_4') }}
+                      dangerouslySetInnerHTML={{ __html: t('employer_page.pricing.basic.benefit_4') }}
                     />
                   </Box>
                   <Box
