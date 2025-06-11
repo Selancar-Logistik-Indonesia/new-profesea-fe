@@ -1,4 +1,3 @@
-import { Icon } from '@iconify/react'
 import { Box, Typography } from '@mui/material'
 import { ReactNode, createContext, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
