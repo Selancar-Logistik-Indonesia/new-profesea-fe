@@ -389,7 +389,8 @@
         "pricing_header_2": "Start with the Basic plan, then upgrade to Plus – completely FREE during our open trial period! All premium features unlocked to help you recruit top talent in maritime and logistics",
         "basic": {
           "description": "Start simple with the option to grow anytime.",
-          "button": "Current Plan"
+          "button": "Current Plan",
+          "benefit_4" : "Limited to 5 job postings"
         },
         "plus": {
           "description": "Unlimited Access to Advanced Features.",

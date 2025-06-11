@@ -391,7 +391,8 @@
         "pricing_header_2": "Mulai dari paket Basic, upgrade ke Plus Plan secara gratis tanpa batas waktu selama masa trial terbuka! Semua fitur premium tersedia untuk bantu kamu menemukan talenta terbaik di industri maritim dan logistik.",
         "basic": {
           "description": "Mulailah dengan sederhana dengan opsi untuk berkembang kapan saja.",
-          "button": "Current Plan"
+          "button": "Current Plan",
+          "benefit_4" : "Posting maksimal 5 lowongan kerja"
         },
         "plus": {
           "description": "Akses Tak Terbatas ke Fitur Lanjutan.",
