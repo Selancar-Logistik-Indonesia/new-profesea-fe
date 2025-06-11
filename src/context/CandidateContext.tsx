@@ -1,4 +1,6 @@
+import { Box, Typography } from '@mui/material'
 import { ReactNode, createContext, useMemo, useState } from 'react'
+import toast from 'react-hot-toast'
 import { AppConfig } from 'src/configs/api'
 import { IUser } from 'src/contract/models/user'
 import CandidateContextType from 'src/contract/types/candidate_context_type'
@@ -12,7 +14,8 @@ const defaultValue: CandidateContextType = {
   listCandidates: [],
   onLoading: false,
   hasNextPage: false,
-  fetchCandidates: () => Promise.resolve()
+  fetchCandidates: () => Promise.resolve(),
+  handleCandidateSave: () => Promise.resolve()
 }
 
 const CandidateContext = createContext(defaultValue)
@@ -42,6 +45,7 @@ const CandidateProvider = (props: Props) => {
     country?: any
     visaUsa?: any
     visaSchengen?: any
+    saved?: any
   }) => {
     setOnLoading(true)
     setCandidates([])
@@ -75,6 +79,37 @@ const CandidateProvider = (props: Props) => {
     setOnLoading(false)
   }
 
+  const handleCandidateSave = async (id: any, isSaved?: boolean) => {
+    try {
+      const response = await HttpClient.post('/directory/save', {
+        dirable_id: id,
+        dirable_type: 'user'
+      })
+
+      if (response.status === 200) {
+        setCandidates(old =>
+          old.map(candidate => (candidate.id === id ? { ...candidate, is_saved: !isSaved ? true : false } : candidate))
+        )
+
+        // Handle successful save
+        toast(
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px' }}>
+            <Typography sx={{ fontSize: '16px', fontWeight: 700 }}>
+              {!isSaved ? 'You’ve saved this candidate' : 'You’ve remove this candidate from saved list'}
+            </Typography>
+          </Box>,
+          {
+            position: 'top-right'
+          }
+        )
+      } else {
+        console.error('Failed to save candidate')
+      }
+    } catch (error) {
+      console.error('Error saving candidate:', error)
+    }
+  }
+
   const values = useMemo(
     () => ({
       page,
@@ -83,9 +118,10 @@ const CandidateProvider = (props: Props) => {
       totalCandidate,
       onLoading,
       hasNextPage,
-      fetchCandidates
+      fetchCandidates,
+      handleCandidateSave
     }),
-    [page, setPage, listCandidates, totalCandidate, onLoading, hasNextPage, fetchCandidates]
+    [page, setPage, listCandidates, totalCandidate, onLoading, hasNextPage, fetchCandidates, handleCandidateSave]
   )
 
   return <CandidateContext.Provider value={values}>{props.children}</CandidateContext.Provider>

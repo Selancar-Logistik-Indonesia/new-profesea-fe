@@ -1,5 +1,4 @@
 import { useState, SyntheticEvent, Fragment, useEffect } from 'react'
-import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'
 import Menu from '@mui/material/Menu'
 import Badge from '@mui/material/Badge'
@@ -8,59 +7,39 @@ import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
-import Icon from 'src/@core/components/icon'
 import { useAuth } from 'src/hooks/useAuth'
 import { Settings } from 'src/@core/context/settingsContext'
 import { IUser } from 'src/contract/models/user'
-import Link from 'next/link'
 import { getEmployeetypev2, toLinkCase } from 'src/utils/helpers'
+import { useRouter } from 'next/router'
 
 interface Props {
   settings: Settings
 }
 
 const BadgeContentSpan = styled('span')(({ theme }) => ({
-  width: 8,
-  height: 8,
+  width: 10,
+  height: 10,
   borderRadius: '50%',
   backgroundColor: theme.palette.success.main,
   boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
 }))
 
-const LinkStyled = styled(Link)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  textDecoration: 'none',
-  marginRight: theme.spacing(8)
-}))
-
 const UserDropdown = (props: Props) => {
   const { settings } = props
-  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
-  const router = useRouter()
-  const { logout, user } = useAuth()
   const { direction } = settings
+  const router = useRouter()
+
+  const { user, logout } = useAuth()
   const [userData, setUserData] = useState<IUser | null>(null)
   const userPhoto = userData?.photo ? userData.photo : '/images/avatars/default-user.png'
-  const styles = {
-    py: 2,
-    px: 4,
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    color: 'text.primary',
-    textDecoration: 'none',
-    '& svg': { mr: 2, fontSize: '1.375rem', color: 'text.primary' }
-  }
 
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
   const handleDropdownOpen = (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleDropdownClose = (url?: string) => {
-    if (url) {
-      router.push(url)
-    }
+  const handleDropdownClose = () => {
     setAnchorEl(null)
   }
 
@@ -78,106 +57,96 @@ const UserDropdown = (props: Props) => {
       <Badge
         overlap='circular'
         onClick={handleDropdownOpen}
-        sx={{ cursor: 'pointer' }}
+        sx={{
+          cursor: 'pointer'
+        }}
         badgeContent={<BadgeContentSpan />}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'right'
         }}
       >
-        <Avatar alt='John Doe' onClick={handleDropdownOpen} sx={{ width: 40, height: 40 }} src={userPhoto} />
+        <Avatar alt='Profile Picture' onClick={handleDropdownOpen} sx={{ width: 44, height: 44 }} src={userPhoto} />
       </Badge>
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={() => handleDropdownClose()}
-        sx={{ '& .MuiMenu-paper': { width: 230, mt: 4 } }}
+        PaperProps={{
+          sx: {
+            width: 276,
+            mt: 2,
+            borderRadius: '12px !important'
+          }
+        }}
+        MenuListProps={{
+          sx: {
+            py: 0
+          }
+        }}
         anchorOrigin={{ vertical: 'bottom', horizontal: direction === 'ltr' ? 'right' : 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: direction === 'ltr' ? 'right' : 'left' }}
       >
-        <Box sx={{ pt: 2, pb: 3, px: 4 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Badge
-              overlap='circular'
-              badgeContent={<BadgeContentSpan />}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right'
-              }}
-            >
-              <Avatar alt='John Doe' src={userPhoto} sx={{ width: '2.5rem', height: '2.5rem' }} />
-            </Badge>
-            <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>{userData?.name}</Typography>
-              {userData?.employee_type != null ? (
-                <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                  {getEmployeetypev2(userData.employee_type)}
-                </Typography>
-              ) : (
-                <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                  {userData?.role != 'Company' ? userData?.role : 'Recruiter'}
-                </Typography>
-              )}
-            </Box>
+        <Box sx={{ p: '16px', display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <Avatar alt='Profile Picture' src={userPhoto} sx={{ width: 54, height: 54 }} />
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '4px' }}>
+            <Typography fontSize={16} fontWeight={700}>
+              {user?.name}
+            </Typography>
+            <Typography fontSize={14}>
+              {user?.team_id === 2
+                ? getEmployeetypev2(user.employee_type)
+                : user?.role !== 'Company'
+                ? user?.role
+                : 'Recruiter'}
+            </Typography>
           </Box>
         </Box>
-        <Divider sx={{ mt: '0 !important' }} />
-
-        {userData && userData.role != 'admin' && (
-          <div>
-            <Link
-              href={`/${
-                userData.role === 'Seafarer'
-                  ? 'profile/' + toLinkCase(userData.username)
-                  : 'company' + '/' + toLinkCase(userData.username)
-              }`}
-            >
-              <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-                <Box sx={styles}>
-                  <Icon icon='solar:user-circle-bold-duotone' />
-
-                  <Typography>Profile</Typography>
-                </Box>
-              </MenuItem>
-            </Link>
-            <Link href='/chat'>
-              <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-                <Box sx={styles}>
-                  <Icon icon='solar:chat-round-dots-bold-duotone' />
-
-                  <Typography>Chat</Typography>
-                </Box>
-              </MenuItem>
-            </Link>
-            <Divider />
-            {userData?.role == 'Trainerhide' && (
-              <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-                <Box sx={styles}>
-                  <Icon icon='solar:leaf-bold-duotone' />
-                  <LinkStyled href='/account'>
-                    <Typography>Subscriptions</Typography>
-                  </LinkStyled>
-                </Box>
-              </MenuItem>
-            )}
-          </div>
-        )}
-        <Link href='/manage'>
-          <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-            <Box sx={styles}>
-              <Icon icon='solar:password-bold-duotone' />
-              <Typography>Change Password</Typography>
-            </Box>
+        <Divider sx={{ mt: 0 }} />
+        <Box sx={{ p: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <MenuItem
+            onClick={() => {
+              handleDropdownClose()
+              router.push(
+                user?.role === 'Seafarer'
+                  ? `/profile/${toLinkCase(user.username)}`
+                  : `/company/${toLinkCase(user?.username)}`
+              )
+            }}
+            sx={{
+              p: '8px 16px',
+              fontSize: 14,
+              borderRadius: 1
+            }}
+          >
+            Profile
           </MenuItem>
-        </Link>
-        <Divider />
-        <MenuItem
-          onClick={handleLogout}
-          sx={{ py: 2, '& svg': { mr: 2, fontSize: '1.375rem', color: 'text.primary' } }}
-        >
-          <Icon icon='solar:logout-2-bold-duotone' />
-          Logout
-        </MenuItem>
+          {user?.team_id == 2 && (
+            <MenuItem
+              onClick={() => {
+                handleDropdownClose()
+                router.push('/account/my-account')
+              }}
+              sx={{
+                p: '8px 16px',
+                fontSize: 14,
+                borderRadius: 1
+              }}
+            >
+              Account Center
+            </MenuItem>
+          )}
+          <MenuItem
+            onClick={handleLogout}
+            sx={{
+              p: '8px 16px',
+              fontSize: 14,
+              borderRadius: 1
+            }}
+          >
+            Log Out
+          </MenuItem>
+        </Box>
       </Menu>
     </Fragment>
   )

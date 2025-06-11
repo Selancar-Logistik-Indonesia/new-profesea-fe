@@ -44,7 +44,7 @@ const JobProvider = (props: Props) => {
     employment_type?: any
     username?: any
     work_arrangement?: any
-    sortBy?: any
+    sort?: any
   }) => {
     // only trigger in page 1
 

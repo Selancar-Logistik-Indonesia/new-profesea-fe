@@ -10,6 +10,7 @@ import { calculateAge, getMonthYear } from 'src/utils/helpers'
 import { useAuth } from 'src/hooks/useAuth'
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
+import { useCandidate } from 'src/hooks/useCandidate'
 
 const ModalUnlockPlus = dynamic(() => import('src/@core/components/subscription/ModalUnlockPlus'), { ssr: false })
 
@@ -57,6 +58,8 @@ const RenderList = (listCandidate: IUser[], isXs: boolean, setOpenDialogOfferCan
   const { abilities } = useAuth()
   const [isSubs, setIsSubs] = useState<boolean>(false)
 
+  const { handleCandidateSave } = useCandidate()
+
   useEffect(() => {
     setIsSubs(abilities?.plan_type !== 'BSC-ALL')
   }, [abilities])
@@ -68,13 +71,14 @@ const RenderList = (listCandidate: IUser[], isXs: boolean, setOpenDialogOfferCan
   return listCandidate?.map(item => {
     const type = item.employee_type
     const userPhoto = item.photo ?? '/images/avatars/default-user-new.png'
+    const isSaved = item?.is_saved ? true : false
 
     return (
       <Grid item xs={12} key={item.id}>
         <Paper
           sx={{
             marginTop: '24px',
-            border: item.is_boosted ? '1px solid #F9D976' :'1px solid #DDDDDD',
+            border: item.is_boosted ? '1px solid #F9D976' : '1px solid #DDDDDD',
             borderRadius: '8px',
             padding: isXs ? '12px' : '24px',
             '&:hover': {
@@ -85,12 +89,39 @@ const RenderList = (listCandidate: IUser[], isXs: boolean, setOpenDialogOfferCan
           onClick={() => router.push(`/profile/${toLinkCase(item.username)}`)}
         >
           <Box sx={{ display: 'flex', alignContent: 'flex-start', gap: '12px' }}>
-            <Avatar src={userPhoto} alt='profile-picture' sx={{ width: isXs ? 64 : 76, height: isXs ? 64 : 76, border: item.is_boosted ? '1px solid #F39C12' : '' }} />
+            <Avatar
+              src={userPhoto}
+              alt='profile-picture'
+              sx={{ width: isXs ? 64 : 76, height: isXs ? 64 : 76, border: item.is_boosted ? '1px solid #F39C12' : '' }}
+            />
             <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: 'column', gap: '4px' }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                  <Typography sx={{ color: 'primary.main', fontSize: 16, fontWeight: 'bold', display:'flex', flexDirection:isXs ? 'column' : 'row', gap:isXs ? 1 : 2, alignItems:isXs ? '': 'center' }}>
-                    {item.name ?? ''} <Chip label={'recommendation'} size='small' color='secondary' sx={{color:'#FFFFFF',backgroundImage:'linear-gradient(180deg, #F9D976 0%, #F39C12 100%)', fontWeight:400, fontSize:10, display: item.is_boosted ? 'flex' : 'none', width:'fit-content'}}/>
+                  <Typography
+                    sx={{
+                      color: 'primary.main',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      flexDirection: isXs ? 'column' : 'row',
+                      gap: isXs ? 1 : 2,
+                      alignItems: isXs ? '' : 'center'
+                    }}
+                  >
+                    {item.name ?? ''}{' '}
+                    <Chip
+                      label={'recommendation'}
+                      size='small'
+                      color='secondary'
+                      sx={{
+                        color: '#FFFFFF',
+                        backgroundImage: 'linear-gradient(180deg, #F9D976 0%, #F39C12 100%)',
+                        fontWeight: 400,
+                        fontSize: 10,
+                        display: item.is_boosted ? 'flex' : 'none',
+                        width: 'fit-content'
+                      }}
+                    />
                   </Typography>
                   {item.date_of_birth !== null && (
                     <Typography sx={{ fontSize: 14, fontWeight: 300 }}>
@@ -123,6 +154,25 @@ const RenderList = (listCandidate: IUser[], isXs: boolean, setOpenDialogOfferCan
                       >
                         Offer Job
                       </Button>
+                      <Box
+                        ml={1}
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          justifyContent: 'right'
+                        }}
+                      >
+                        <Icon
+                          icon={isSaved ? 'iconoir:bookmark-solid' : 'iconoir:bookmark'}
+                          color='rgba(50, 73, 122, 1)'
+                          fontSize={'24px'}
+                          style={{ cursor: 'pointer' }}
+                          onClick={e => {
+                            e.stopPropagation()
+                            handleCandidateSave(item?.id, isSaved)
+                          }}
+                        />
+                      </Box>
                     </>
                   )}
                   {!isXs && !isSubs && <ModalUnlockPlus text='Unlock to Offer and Message Candidate' />}

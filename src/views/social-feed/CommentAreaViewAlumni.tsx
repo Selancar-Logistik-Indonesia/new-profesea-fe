@@ -14,6 +14,7 @@ import SubCommentAreaViewAlumni from './SubCommentAreaViewAlumni'
 const CommentCard = (props: { comment: ISocialFeedComment }) => {
   const { comment } = props
   const [openReply, setOpenReply] = useState(false)
+  const [isLike, setIsLiked] = useState(Boolean(comment.liked_at))
 
   return (
     <Box key={comment.id} sx={{ display: 'flex', flexDirection: 'column', mt: 5 }}>
@@ -45,7 +46,14 @@ const CommentCard = (props: { comment: ISocialFeedComment }) => {
       <Box>
         <ButtonLike
           variant='no-icon'
-          item={{ id: comment.id, liked_at: comment.liked_at, count_likes: comment.count_likes }}
+          item={{
+            id: comment.id,
+            liked_at: comment.liked_at,
+            count_likes: comment.count_likes,
+            isLiked: isLike,
+            set_count_likes: () => {},
+            setIsLiked
+          }}
           likeableType='comment'
         />
         <Button
@@ -82,7 +90,7 @@ const CommentAreaViewAlumni = (props: { item: ISocialFeed }) => {
 
   return (
     <>
-      <CommentFormAlumni feedId={item.id} replyable_type='feed' />
+      <CommentFormAlumni feedId={item.id} replyable_type='feed' main_feed_id={item.id} />
       {onLoading && (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 10 }}>
           <CircularProgress />

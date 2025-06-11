@@ -16,6 +16,8 @@ import CommentForm from './CommentForm'
 
 const SubCommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => {
   const { comment, feedId } = props
+  const [isLiked, setIsLiked] = useState(Boolean(comment.liked_at))
+  const [countLikes, setCountLikes] = useState(comment.count_likes)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   return (
@@ -41,20 +43,27 @@ const SubCommentCard = (props: { comment: ISocialFeedComment; feedId: number }) 
           {user.team_id !== 1 && (
             <ButtonLike
               variant='no-icon'
-              item={{ id: comment.id, liked_at: comment.liked_at, count_likes: comment.count_likes }}
+              item={{
+                id: comment.id,
+                liked_at: comment.liked_at,
+                count_likes: countLikes,
+                isLiked: isLiked,
+                setIsLiked: setIsLiked,
+                set_count_likes: setCountLikes
+              }}
               likeableType='comment'
             />
           )}
           {(user.team_id == 1 || user.id == comment.user_id) && (
             <ButtonDelete
-              item={{ id: comment.id, feedId, count_likes: comment.count_likes, deleteComment: true }}
+              item={{ id: comment.id, feedId, count_likes: countLikes, deleteComment: true }}
               variant='no-icon'
             />
           )}
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'default' }}>
-          <Icon color='#32497A' icon={comment.liked_at ? 'ph:thumbs-up-fill' : 'ph:thumbs-up'} fontSize={16} />
-          <Typography sx={{ color: '#32497A', fontSize: 14 }}>{comment.count_likes}</Typography>
+          <Icon color='#32497A' icon={isLiked ? 'ph:thumbs-up-fill' : 'ph:thumbs-up'} fontSize={16} />
+          <Typography sx={{ color: '#32497A', fontSize: 14 }}>{comment.count_likes + (isLiked ? 1 : 0)}</Typography>
         </Box>
       </Box>
     </Box>
@@ -63,6 +72,7 @@ const SubCommentCard = (props: { comment: ISocialFeedComment; feedId: number }) 
 
 const SubCommentAreaView = (props: { item: ISocialFeedComment; feedId: number }) => {
   const { item, feedId } = props
+  console.log('subcommentarea: ',item)
   const [onLoading, setOnLoading] = useState(true)
   const { getComments, subCommentSignature } = useSocialFeed()
   const [commentObj, setCommentObj] = useState<CommentResponseType>()
@@ -87,7 +97,7 @@ const SubCommentAreaView = (props: { item: ISocialFeedComment; feedId: number })
           ))}
         </Box>
       )}
-      <CommentForm feedId={item.id} replyable_type='comment' />
+      <CommentForm feedId={item.id} replyable_type='comment' main_feed_id={item.replyable_id}/>
       {onLoading && (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 10 }}>
           <CircularProgress />

@@ -90,7 +90,7 @@ const UserProfileHeader = (props: userProps) => {
             sx={{
               width: 100,
               height: 100,
-              border: theme => `5px solid ${theme.palette.common.white}`
+              border: (theme: { palette: { common: { white: any } } }) => `5px solid ${theme.palette.common.white}`
             }}
           />
           <>

@@ -19,6 +19,8 @@ import { Icon } from '@iconify/react'
 const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => {
   const { comment, feedId } = props
   const [openReply, setOpenReply] = useState(false)
+  const [isLiked, setIsLiked] = useState(Boolean(comment.liked_at))
+  const [countLikes, setCountLikes] = useState(comment.count_likes)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   return (
@@ -57,7 +59,14 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
           {user.team_id !== 1 && (
             <ButtonLike
               variant='no-icon'
-              item={{ id: comment.id, liked_at: comment.liked_at, count_likes: comment.count_likes }}
+              item={{
+                id: comment.id,
+                liked_at: comment.liked_at,
+                count_likes: countLikes,
+                set_count_likes: setCountLikes,
+                isLiked: isLiked,
+                setIsLiked: setIsLiked
+              }}
               likeableType='comment'
             />
           )}
@@ -77,15 +86,15 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
           {(user.team_id === 1 || user.id === comment.user_id) && (
             <Box className='delete-button' sx={{ display: 'none' }}>
               <ButtonDelete
-                item={{ id: comment.id, feedId, count_likes: comment.count_likes, deleteComment: true }}
+                item={{ id: comment.id, feedId, count_likes: countLikes, deleteComment: true }}
                 variant='no-icon'
               />
             </Box>
           )}
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'default' }}>
-          <Icon color='#32497A' icon={comment.liked_at ? 'ph:thumbs-up-fill' : 'ph:thumbs-up'} fontSize={16} />
-          <Typography sx={{ color: '#32497A', fontSize: 14 }}>{comment.count_likes}</Typography>
+          <Icon color='#32497A' icon={isLiked ? 'ph:thumbs-up-fill' : 'ph:thumbs-up'} fontSize={16} />
+          <Typography sx={{ color: '#32497A', fontSize: 14 }}>{countLikes}</Typography>
         </Box>
       </Box>
       {comment.count_replies !== 0 && (
@@ -147,7 +156,7 @@ const CommentAreaView = (props: { item: ISocialFeed; placement?: 'popup' }) => {
             ))}
           </Stack>
         )}
-        {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' />}
+        {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' main_feed_id={item.id}/>}
       </Box>
     )
 
@@ -158,7 +167,7 @@ const CommentAreaView = (props: { item: ISocialFeed; placement?: 'popup' }) => {
           <CircularProgress />
         </Box>
       )}
-      {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' />}
+      {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' main_feed_id={item.id} />}
       {!onLoading && commentObj?.data && commentObj?.data.length > 0 && (
         <Stack spacing='16px' sx={{ pt: '16px' }}>
           {commentObj?.data.slice(0, visibleComments).map(comment => (

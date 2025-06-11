@@ -7,14 +7,17 @@ import Icon from 'src/@core/components/icon'
 import { format } from 'date-fns'
 import { useAuth } from 'src/hooks/useAuth'
 import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress'
+import { HttpClient } from 'src/services'
 
 type RoleGridProps = {
   rows: RowItem[]
   loading: boolean
+  setOnLoading: (arg0: boolean) => void
   pageSize: number
   page: number
   rowCount: number
   onPageChange: (model: GridPaginationModel, details: GridCallbackDetails) => void
+  getListAccount : () => void
 }
 
 interface RowItem {
@@ -52,6 +55,14 @@ function LinearProgressWithLabel(props: LinearProgressProps & { value: number })
   )
 }
 
+async function calculateUserPoint(userId: number, getListAccount: () => void, setOnLoading: (arg0: boolean) => void){
+  setOnLoading(true)
+  await HttpClient.get(`/public/data/user/calculate-point/${userId}`);
+  getListAccount()
+  setOnLoading(false)
+
+}
+
 const BorderLinearProgress = styled(LinearProgressWithLabel)(() => ({
   height: 10,
   borderRadius: 5
@@ -70,7 +81,28 @@ export default function AccountDatagrid(props: RoleGridProps) {
     { field: 'role', headerName: 'Role', sortable: true, minWidth: 100 },
     { field: 'type', headerName: 'Type', sortable: true, minWidth: 100 },
     { field: 'plan', headerName: 'Plan', sortable: true, minWidth: 100 },
-    { field: 'point', headerName: 'Point', sortable: true, minWidth: 100 },
+    { field: 'point', 
+      headerName: 'Point', 
+      sortable: true, 
+      minWidth: 100,
+      renderCell: cell => {
+        const { row } = cell
+  
+        
+        return (<span >  
+          <Button 
+           
+            variant='contained' 
+            color='primary' 
+            size='small' 
+            title='Recalculate this user' 
+            onClick={() => calculateUserPoint(row.id, props.getListAccount, props.setOnLoading)}
+          >
+         {row?.point}
+        </Button>
+        </span>)
+      }
+    },
     {
       field: 'cp',
       headerName: 'CP',

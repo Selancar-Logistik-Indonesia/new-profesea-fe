@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import { Box, useMediaQuery, useTheme } from '@mui/material'
 import ButtonComment from './ButtonComment'
 import ButtonLike from './ButtonLike'
@@ -21,6 +22,7 @@ type Props = {
 const FeedBottomActions = (props: Props) => {
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.down('md'))
+  const [isLike, setIsLike] = useState(Boolean(props.item.liked_at))
   const { item, openComment, setOpenComment } = props
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
@@ -36,7 +38,16 @@ const FeedBottomActions = (props: Props) => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
       <ButtonLike
-        item={{ id: item.id, count_likes: item.count_likes, liked_at: item.liked_at }}
+        item={{
+          id: item.id,
+          count_likes: item.count_likes,
+          liked_at: item.liked_at,
+          isLiked: isLike,
+          setIsLiked: setIsLike,
+          set_count_likes: (count: number) => {
+            item.count_likes = count
+          }
+        }}
         likeableType='feed'
         isXs={isXs}
       />
