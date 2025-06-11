@@ -383,7 +383,40 @@
       "landing_company_faq_6_1": "Please contact <span style=\"color:#0a66c2\"><b>hello@profesea.id</b></span>",
       "testimony_1": "With Profesea, we can find quality candidates more easily. Crew information is now accessible quickly and accurately, making the process more efficient compared to the previous manual method.",
       "testimony_2": "Profesea has been extremely helpful in finding the right candidates that match our company's needs.",
-      "testimony_3": "Profesea helps us expand our candidate reach and provides efficient tools for faster and more effective recruitment."
+      "testimony_3": "Profesea helps us expand our candidate reach and provides efficient tools for faster and more effective recruitment.",
+      "pricing": {
+        "pricing_header_1": "Access All Recruitment Features <br/> <span style=\"background-image:linear-gradient(283.95deg, #0049C6 -12.57%, #CDF4FF 126.88%); color: transparent; background-clip: text;\">Free During Trial Period!</span>",
+        "pricing_header_2": "Start with the Basic plan, then upgrade to Plus – completely FREE during our open trial period! All premium features unlocked to help you recruit top talent in maritime and logistics",
+        "basic": {
+          "description": "Start simple with the option to grow anytime.",
+          "button": "Current Plan"
+        },
+        "plus": {
+          "description": "Unlimited Access to Advanced Features.",
+          "button": "Upgrade to Plus – Free Access"
+        },
+        "benefit_1": "Smart candidate & talent pool recommendations",
+        "benefit_2": "Full hiring process control",
+        "benefit_3": "Direct messaging & instant job offers",
+        "benefit_4": "Unlimited job postings",
+        "benefit_5": "Get your jobs seen by more candidates",
+        "enterprise": "For custom needs, dedicated support, SSO, and to opt out of data training",
+        "pricing_small_note": "<span style=\"color:red\">*</span> This open trial has <b> no end date yet.</b> We'll inform you well in advance before any paid plans begin.",
+        "pricing_alert_title": "Start Free. Unlock Everything with No Commitment",
+        "pricing_alert_description": "No credit card. No strings attached. Just sign up and access all Plus features instantly.",
+        "pricing_alert_button": "Sign Up & Try Plus Features Free",
+        "faq": {
+          "faq_title": "Frequently Asked Questions",
+          "question_1": "What is the open trial period?",
+          "answer_1": " It's a phase where all companies can try the Plus plan for free and without a deadline.",
+          "question_2" : "Do I need to provide payment details to upgrade?",
+          "answer_2": "Nope! Just click the upgrade button – no credit card needed.",
+          "question_3": "How long will the trial last?",
+          "answer_3" : "There’s no end date for now. We’ll notify you in advance when changes happen.",
+          "question_4": "What happens when the trial ends?",
+          "answer_4": "We'll introduce paid options. You can choose to stay on Basic or move to a paid Plus plan."
+        }
+      }
     },
     "training_landing_page": {
       "hero_title": "Get Your Seafarer Certificate Easily",
