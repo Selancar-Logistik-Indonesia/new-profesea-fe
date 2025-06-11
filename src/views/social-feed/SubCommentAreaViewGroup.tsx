@@ -87,7 +87,7 @@ const SubCommentAreaViewGroup = (props: { item: ISocialFeedComment }) => {
         </Box>
       )}
 
-      <CommentFormGroup feedId={item.id} replyable_type='comment' />
+      <CommentFormGroup feedId={item.id} replyable_type='comment' main_feed_id={item.replyable_id}/>
     </Box>
   )
 }

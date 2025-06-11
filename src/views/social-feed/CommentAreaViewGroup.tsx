@@ -90,7 +90,7 @@ const CommentAreaViewGroup = (props: { item: ISocialFeed }) => {
 
   return (
     <>
-      <CommentFormGroup feedId={item.id} replyable_type='feed' />
+      <CommentFormGroup feedId={item.id} replyable_type='feed' main_feed_id={item.id}/>
       {onLoading && (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 10 }}>
           <CircularProgress />

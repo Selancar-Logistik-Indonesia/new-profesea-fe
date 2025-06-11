@@ -169,7 +169,7 @@ const RenderList = (listCandidate: IUser[], isXs: boolean, setOpenDialogOfferCan
                           style={{ cursor: 'pointer' }}
                           onClick={e => {
                             e.stopPropagation()
-                            handleCandidateSave(item?.id)
+                            handleCandidateSave(item?.id, isSaved)
                           }}
                         />
                       </Box>

@@ -7,7 +7,7 @@ import { Icon } from '@iconify/react';
 import UseBgColor from 'src/@core/hooks/useBgColor'; 
 import { useAlumniFeed } from 'src/hooks/useAlumniFeed';
 
-const CommentFormAlumni = (props: { feedId: number, replyable_type: 'feed' | 'comment' }) => {
+const CommentFormAlumni = (props: { feedId: number, replyable_type: 'feed' | 'comment', main_feed_id: number }) => {
     const maxLineHeight = 3;
     const [textFieldHeight, setTextFieldHeight] = useState(1);
     const [content, setContent] = useState('');
@@ -23,6 +23,7 @@ const CommentFormAlumni = (props: { feedId: number, replyable_type: 'feed' | 'co
                 props.feedId,
                 props.replyable_type,
                 content,
+                props.main_feed_id
             );
 
             setContent('');

@@ -1,4 +1,7 @@
+import { Icon } from '@iconify/react'
+import { Box, Typography } from '@mui/material'
 import { ReactNode, createContext, useMemo, useState } from 'react'
+import toast from 'react-hot-toast'
 import { AppConfig } from 'src/configs/api'
 import { IUser } from 'src/contract/models/user'
 import CandidateContextType from 'src/contract/types/candidate_context_type'
@@ -77,7 +80,7 @@ const CandidateProvider = (props: Props) => {
     setOnLoading(false)
   }
 
-  const handleCandidateSave = async (id: any) => {
+  const handleCandidateSave = async (id: any, isSaved?: boolean) => {
     try {
       const response = await HttpClient.post('/directory/save', {
         dirable_id: id,
@@ -85,9 +88,21 @@ const CandidateProvider = (props: Props) => {
       })
 
       if (response.status === 200) {
-        setCandidates(old => old.map(candidate => (candidate.id === id ? { ...candidate, is_saved: true } : candidate)))
+        setCandidates(old =>
+          old.map(candidate => (candidate.id === id ? { ...candidate, is_saved: !isSaved ? true : false } : candidate))
+        )
+
         // Handle successful save
-        console.log('Candidate saved successfully')
+        toast(
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px' }}>
+            <Typography sx={{ fontSize: '16px', fontWeight: 700 }}>
+              {!isSaved ? 'You’ve saved this candidate' : 'You’ve remove this candidate from saved list'}
+            </Typography>
+          </Box>,
+          {
+            position: 'top-right'
+          }
+        )
       } else {
         console.error('Failed to save candidate')
       }
