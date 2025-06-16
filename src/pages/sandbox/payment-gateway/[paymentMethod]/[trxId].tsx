@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
-import { Box, Typography, Paper, Divider, List, ListItem, ListItemText, CircularProgress, Stack } from '@mui/material'
+import { Box, Typography, Paper, List, ListItem, ListItemText, CircularProgress, Stack } from '@mui/material'
 import moment from 'moment'
 
 interface VATransaction {
