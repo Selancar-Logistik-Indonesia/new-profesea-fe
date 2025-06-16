@@ -3,9 +3,10 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import { Box, Button, InputAdornment, MenuItem, Select, TextField, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AnimatedTabs from 'src/@core/components/animated-tabs'
 import { Icon } from '@iconify/react'
+import ReportedTab from 'src/views/admin/community-management/ReportedTab'
 
 const tabsOption = [
   { value: 'community', label: 'Community Management' },
@@ -17,13 +18,11 @@ const visibilityOption = [
   { value: 'private', label: 'Private' }
 ]
 
-const temp_reasons = [
-  { value: 'spam', label: 'Spam' },
-  { value: 'offensive', label: 'Offensive' },
-  { value: 'duplicate', label: 'Duplicate' },
-  { value: 'other', label: 'Other' }]
+const CommunityManagement = () => {
 
-const CommunityScreen = () => {
+  
+
+
   //filter settings
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState('desc')
@@ -34,6 +33,21 @@ const CommunityScreen = () => {
   const [page, setPage] = useState(1)
   const [rowCount, setRowCount] = useState(0)
   const [perPage, setPerPage] = useState(10)
+
+
+
+
+  const clearFilters = () => {
+    setSearch('')
+    setSort('desc')
+    setVisibility('')
+    setPage(1)
+  }
+
+  useEffect(() => {
+    clearFilters()
+  }, [activeTab])
+
 
   return (
     <>
@@ -129,7 +143,7 @@ const CommunityScreen = () => {
                   </Grid>
                   <Box sx={{ flexShrink: 0, display: 'flex', width: '240px', justifyContent: 'right' }}>
                     <Button
-                      // onClick={() => clearFilters()}
+                      onClick={() => clearFilters()}
                       variant='outlined'
                       size='small'
                       sx={{
@@ -147,6 +161,9 @@ const CommunityScreen = () => {
                   </Box>
                 </Box>
               </Box>
+
+              <ReportedTab tab={activeTab} search={search} sort={sort}/>
+
             </CardContent>
           </Card>
         </Grid>
@@ -155,9 +172,9 @@ const CommunityScreen = () => {
   )
 }
 
-CommunityScreen.acl = {
+CommunityManagement.acl = {
   action: 'read',
   subject: 'admin-community-management'
 }
 
-export default CommunityScreen
+export default CommunityManagement
