@@ -182,7 +182,7 @@ const JobDetailSection = ({ jobDetail, isMobile }: { jobDetail: Job | null; isMo
                 <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>Salary</Typography>
               </Grid>
               <Grid item xs={6}>
-                : {renderSalary(jobDetail?.salary_start, jobDetail?.salary_end, jobDetail?.currency as string)}
+                : {jobDetail?.hide_salary ? 'Undisclosed' :renderSalary(jobDetail?.salary_start, jobDetail?.salary_end, jobDetail?.currency as string)}
               </Grid>
             </>
           ) : (
@@ -192,7 +192,7 @@ const JobDetailSection = ({ jobDetail, isMobile }: { jobDetail: Job | null; isMo
                 <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>Salary</Typography>
               </Grid>
               <Grid item xs={6}>
-                : {renderSalary(jobDetail?.salary_start, jobDetail?.salary_end, jobDetail?.currency as string)}
+                : {jobDetail?.hide_salary ? 'Undisclosed' : renderSalary(jobDetail?.salary_start, jobDetail?.salary_end, jobDetail?.currency as string)}
               </Grid>
               <Grid
                 item
