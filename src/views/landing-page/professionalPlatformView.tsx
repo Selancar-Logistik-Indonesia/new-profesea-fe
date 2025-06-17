@@ -52,7 +52,7 @@ const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
               textOverflow: 'ellipsis'
             }}
           >
-            {job.rolelevel.levelName ?? 'N/A'}
+            {job.job_title ? job.job_title : job.role_type.name ?? 'N/A'}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Avatar
@@ -81,7 +81,7 @@ const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
               <Typography
                 sx={{ color: '#32497A', fontSize: { xs: 12, md: 10 }, fontWeight: 400, whiteSpace: 'nowrap' }}
               >
-                {job?.role_type?.name ?? 'N/A'}
+                {job?.category?.name ?? 'N/A'}
               </Typography>
             </Box>
             <Box
@@ -95,7 +95,7 @@ const JobCard = ({ job, t }: { job: Job; t: TFunction }) => {
               <Typography
                 sx={{ color: '#32497A', fontSize: { xs: 12, md: 10 }, fontWeight: 400, whiteSpace: 'nowrap' }}
               >
-                {job?.category?.name ?? 'N/A'}
+                {job.rolelevel.levelName ?? 'N/A'}
               </Typography>
             </Box>
           </Box>
