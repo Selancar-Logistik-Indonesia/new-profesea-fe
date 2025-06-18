@@ -10,7 +10,7 @@ import ReportedTab from 'src/views/admin/community-management/ReportedTab'
 
 const tabsOption = [
   { value: 'community', label: 'Community Management' },
-  { value: 'content', label: 'Reported Content Management' }
+  { value: 'reported', label: 'Reported Content Management' }
 ]
 
 const visibilityOption = [
@@ -141,28 +141,13 @@ const CommunityManagement = () => {
                       </Select>
                     </Grid>
                   </Grid>
-                  <Box sx={{ flexShrink: 0, display: 'flex', width: '240px', justifyContent: 'right' }}>
-                    <Button
-                      onClick={() => clearFilters()}
-                      variant='outlined'
-                      size='small'
-                      sx={{
-                        padding: '6px 12px',
-                        fontSize: 14,
-                        fontWeight: 400,
-                        textTransform: 'none'
-                      }}
-                    >
-                      Clear Filter
-                    </Button>
-                  </Box>
                   <Box>
                     {}
                   </Box>
                 </Box>
               </Box>
 
-              <ReportedTab tab={activeTab} search={search} sort={sort}/>
+              {activeTab === 'community' ? '' : <ReportedTab tab={activeTab} search={search} sort={sort}/>}
 
             </CardContent>
           </Card>
