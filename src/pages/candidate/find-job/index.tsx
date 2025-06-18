@@ -25,6 +25,7 @@ import TextField from '@mui/material/TextField'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { HttpClient } from 'src/services'
+import mydebounce from 'src/utils/mydebounce'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
@@ -247,6 +248,7 @@ const SeafarerJobApp = () => {
       sort: sortBy
     })
   }
+
   useEffect(() => {
     getdatapencarian()
   }, [
@@ -264,6 +266,10 @@ const SeafarerJobApp = () => {
     sortBy,
     tabs
   ])
+
+  const handleSearchDebounce =  mydebounce((value:string) => {
+    setSearchJob(value)
+  }, 1000);
 
   return (
     <>
@@ -458,7 +464,7 @@ const SeafarerJobApp = () => {
                             value={searchJob}
                             onChange={e => {
                               setPage(1)
-                              setSearchJob(e.target.value)
+                              handleSearchDebounce(e.target.value)
                             }}
                             InputProps={{
                               startAdornment: (
