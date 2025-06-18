@@ -1,4 +1,3 @@
-// PostCard.tsx
 import {
   Avatar,
   Box,
@@ -15,10 +14,14 @@ import { Icon } from '@iconify/react'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined'
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined'
 import LockIcon from '@mui/icons-material/Lock'
+import ISocialFeed from 'src/contract/models/social_feed'
 
-const PostCardCommunity = () => {
+interface IPostCardCommunityProps {
+  feed: ISocialFeed
+}
+
+const PostCardCommunity: React.FC<IPostCardCommunityProps> = () => {
   return (
     <Card
       sx={{
@@ -42,33 +45,68 @@ const PostCardCommunity = () => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={<Typography fontWeight='bold'>Komunitas Anak Kapal</Typography>}
+        title={
+          <Typography
+            sx={{
+              fontSize: '16px',
+              fontWeight: 'bold',
+              color: '#2D3436'
+            }}
+            fontWeight='bold'
+          >
+            Komunitas Anak Kapal
+          </Typography>
+        }
         subheader={
           <Stack direction='row' spacing={1} alignItems='center'>
-            <Typography variant='body2' color='text.secondary'>
+            <Typography
+              sx={{
+                fontSize: '12px',
+                fontWeight: '400',
+                color: '#5E5E5E'
+              }}
+            >
               Ryza Muhammad • 3 hours ago
             </Typography>
-            <LockIcon fontSize='small' sx={{ color: 'gray' }} />
-            <Typography variant='body2' color='text.secondary'>
+            <span>•</span>
+            <LockIcon sx={{ color: 'gray', width: '13px', height: '13px' }} />
+            <Typography
+              sx={{
+                fontSize: '12px',
+                fontWeight: '400',
+                color: '#5E5E5E'
+              }}
+            >
               Private group
             </Typography>
           </Stack>
         }
       />
       <CardContent>
-        <Typography variant='body1'>
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            color: '#1F1F1F',
+            lineHeight: '1.5'
+          }}
+        >
           Banyak yang betah kerja di kapal karena gaji besar, tapi ada juga yang lebih nyaman kerja di darat untuk dekat
           keluarga. Kalau kalian, lebih suka yang mana? Dan kenapa? Diskusi yuk! 🧑‍✈️🚢
         </Typography>
       </CardContent>
 
-      <Box px={2} pb={1}>
-        <Stack direction='row' spacing={3} alignItems='center'>
-          <Typography variant='body2' sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box my={'16px'}>
+        <Stack direction='row' spacing={3} alignItems='center' justifyContent={'space-between'} px={'24px'}>
+          <Typography
+            sx={{ display: 'flex', alignItems: 'center', fontSize: '14px', fontWeight: 400, color: '#32497A' }}
+          >
             <ThumbUpAltOutlinedIcon fontSize='small' sx={{ mr: 0.5 }} />
             100
           </Typography>
-          <Typography variant='body2' sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography
+            sx={{ display: 'flex', alignItems: 'center', fontSize: '14px', fontWeight: 400, color: '#32497A' }}
+          >
             <ChatBubbleOutlineOutlinedIcon fontSize='small' sx={{ mr: 0.5 }} />
             20
           </Typography>
