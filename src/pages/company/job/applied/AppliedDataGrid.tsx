@@ -8,25 +8,9 @@ import { toLinkCase } from 'src/utils/helpers'
 
 const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true, width: 50 },
-  {
-    field: 'name',
-    headerName: 'Name',
-    sortable: true,
-    minWidth: 200,
-    renderCell: cell => {
-      const { row } = cell
-
-      return (
-        <>
-          <Link href={`/profile/${toLinkCase(row.username)}`} target='_blank'>
-            {row.name}
-          </Link>
-        </>
-      )
-    }
-  },
+  { field: 'name', headerName: 'Name', sortable: true, minWidth: 200 },
   { field: 'email', headerName: 'Email', sortable: false, minWidth: 200 },
-  // { field: 'phone', headerName: 'Phone', sortable: false, minWidth: 150 },
+  { field: 'phone', headerName: 'Phone', sortable: false, minWidth: 150 },
   { field: 'category', headerName: 'Category', sortable: true, minWidth: 120 },
   {
     field: 'status',
@@ -47,56 +31,38 @@ const columns: GridColDef[] = [
     field: 'action',
     headerName: 'Action',
     sortable: false,
-    minWidth: 450,
+    minWidth: 300,
     renderCell: cell => {
       const { row } = cell
 
       return (
         <>
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <Button onClick={() => row.actions.onDownload()} variant='contained' color='info' size='small'>
-              <Icon icon='mdi:download' style={{ fontSize: '20px' }} />
-              <Typography ml={1} fontSize={'12px'} color='common.white'>
-                View CV
-              </Typography>
-            </Button>
-            <Button onClick={() => row.actions.onApprove()} variant='contained' color='success' size='small'>
-              {/* <Icon icon='mdi:download' style={{ fontSize: '20px' }} /> */}
-              <Typography ml={1} fontSize={'12px'} color='common.white'>
-                Proceed
-              </Typography>
-            </Button>
-            <Button onClick={() => row.actions.onReject()} variant='contained' color='error' size='small'>
-              {/* <Icon icon='mdi:download' style={{ fontSize: '20px' }} /> */}
-              <Typography ml={1} fontSize={'12px'} color='common.white'>
-                Reject
-              </Typography>
-            </Button>
-            <Button onClick={() => row.actions.onSave()} variant='contained' color='warning' size='small'>
-              <Typography ml={1} fontSize={'12px'} color='common.white'>
-                Save
-              </Typography>
-            </Button>
-            <Button onClick={() => row.actions.onChat()} variant='outlined' color='success' size='small'>
-              <Icon icon='ic:baseline-whatsapp' style={{ fontSize: '20px' }} color='green' />
-              {/* <Typography ml={1} fontSize={'12px'}>
-                Chat
-              </Typography> */}
-            </Button>
-
-            {/* <Button
-              disabled={!row.subsribed}
-              onClick={() => row.actions.onView()}
-              variant='contained'
-              color='secondary'
-              size='small'
-              sx={{ mr: 2 }}
-            >
-              <Typography ml={1} fontSize={'12px'} color='common.white'>
-                View
-              </Typography>
-            </Button> */}
-          </Box>
+          <Button variant='contained' color='info' size='small' sx={{ mr: 2 }}>
+            <Icon icon='mdi:eye' style={{ fontSize: '20px' }} />
+            <Typography ml={1} fontSize={'12px'} color='common.white'>
+              VIEW CV
+            </Typography>
+          </Button>
+          <Button
+            // disabled={!row.subsribed}
+            onClick={() => row.actions.onView()}
+            variant='contained'
+            color='secondary'
+            size='small'
+            sx={{ mr: 2 }}
+          >
+            <Icon icon='mdi:eye' style={{ fontSize: '20px' }} />
+            <Typography ml={1} fontSize={'12px'} color='common.white'>
+              {' '}
+              View
+            </Typography>
+          </Button>
+          <Button onClick={() => row.actions.onDownload()} variant='contained' color='info' size='small'>
+            <Icon icon='mdi:download' style={{ fontSize: '20px' }} />
+            <Typography ml={1} fontSize={'12px'} color='common.white'>
+              Resume
+            </Typography>
+          </Button>
         </>
       )
     }
