@@ -111,6 +111,8 @@ const Company = () => {
             justifyContent: 'end'
           }}
         >
+          <h1 style={{ display:'none'}}> Platform Kerja Untuk Pelaut </h1>
+          <h2 style={{ display:'none'}}> Platform rekrutmen perusahaan</h2>
           <Box
             sx={{
               margin: isMobile ? '20px' : '32px',
