@@ -83,7 +83,7 @@ const CompleteOnboarding = (props: Prop) => {
             left: 0,
             width: '100%',
             height: '100%',
-            backgroundImage: "url('/images/complete-onboard.jpg')",
+            backgroundImage: "url('/images/complete-onboard.webp')",
             backgroundSize: isXs ? 'cover' : '100%',
             backgroundPosition: 'center',
             zIndex: 0,

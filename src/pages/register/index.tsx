@@ -199,7 +199,7 @@ const LoginPage = () => {
           item
           md={6}
           sx={{
-            backgroundImage: `url(/images/bg-login.jpg)`,
+            backgroundImage: `url(/images/bg-login.webp)`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: '100% auto',
             backgroundPosition: '20% 45%'
