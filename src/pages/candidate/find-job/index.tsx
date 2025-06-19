@@ -25,7 +25,6 @@ import TextField from '@mui/material/TextField'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { HttpClient } from 'src/services'
-import mydebounce from 'src/utils/mydebounce'
 import secureLocalStorage from 'react-secure-storage'
 import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
@@ -267,10 +266,6 @@ const SeafarerJobApp = () => {
     tabs
   ])
 
-  const handleSearchDebounce =  mydebounce((value:string) => {
-    setSearchJob(value)
-  }, 1000);
-
   return (
     <>
       <Head>
@@ -464,7 +459,7 @@ const SeafarerJobApp = () => {
                             value={searchJob}
                             onChange={e => {
                               setPage(1)
-                              handleSearchDebounce(e.target.value)
+                              setSearchJob(e.target.value)
                             }}
                             InputProps={{
                               startAdornment: (
