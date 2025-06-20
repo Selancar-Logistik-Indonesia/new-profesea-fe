@@ -111,8 +111,6 @@ const Company = () => {
             justifyContent: 'end'
           }}
         >
-          <h1 style={{ display:'none'}}> Platform Kerja Untuk Pelaut </h1>
-          <h2 style={{ display:'none'}}> Platform rekrutmen perusahaan</h2>
           <Box
             sx={{
               margin: isMobile ? '20px' : '32px',
@@ -215,6 +213,8 @@ const Company = () => {
         onCloseClick={() => setOpenUpdateProfilePic(!openUpateProfilePic)}
         previewProfile={profilePic}
       />
+      <h1 style={{ display: 'none' }}> Rekrut Talenta Maritim Terbaik </h1>
+      <h2 style={{ display: 'none' }}> Satu Platform, Solusi untuk Industri Maritim.</h2>
       <Grid
         container
         sx={
