@@ -63,7 +63,6 @@ const Main = () => {
           flexDirection: 'column',
           justifyContent: 'center',
           gap: '24px',
-          // background: 'red',
           px: isMobile ? '24px' : '120px',
           mt: '24px',
           mb: '24px'

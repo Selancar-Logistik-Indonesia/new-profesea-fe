@@ -74,7 +74,7 @@ const ButtonUpdate = (props: { item: ISocialFeed; variant?: 'no-icon' | 'setting
           Edit
         </Button>
       )}
-      <Dialog open={dialogOpen} onClose={() => setOpenDialog(!dialogOpen)}>
+      <Dialog fullWidth open={dialogOpen} maxWidth='md' onClose={() => setOpenDialog(!dialogOpen)}>
         <DialogTitle>
           <Typography color='primary' fontWeight='700' fontSize={16}>
             You're about to edit this post

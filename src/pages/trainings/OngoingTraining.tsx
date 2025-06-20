@@ -52,26 +52,20 @@ const SeafarerOngoingTraining: SeafarerOngoingTrainingType = ({ category, search
 const SkeletonCard = () => {
   return (
     <Card sx={{ borderRadius: 2, boxShadow: 2 }}>
-      {/* Skeleton untuk gambar */}
       <Skeleton variant='rectangular' width='100%' height={140} />
 
       <CardContent>
-        {/* Skeleton untuk title */}
         <Skeleton variant='text' width='80%' height={24} />
-        {/* Skeleton untuk sub-title */}
         <Skeleton variant='text' width='60%' height={20} sx={{ mt: 1 }} />
 
-        {/* Skeleton untuk user/trainer */}
         <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
           <Skeleton variant='circular' width={32} height={32} />
           <Skeleton variant='text' width='40%' height={20} sx={{ ml: 2 }} />
         </Box>
 
-        {/* Skeleton untuk price */}
         <Skeleton variant='text' width='50%' height={24} sx={{ mt: 2 }} />
       </CardContent>
 
-      {/* Skeleton untuk tombol */}
       <CardActions>
         <Skeleton variant='rectangular' width='100%' height={36} sx={{ borderRadius: 1 }} />
       </CardActions>
@@ -126,8 +120,6 @@ const renderList = (
           <Grid item xs={12} key={index}>
             <Box
               sx={{
-                position: 'relative',
-                padding: '24px !important',
                 display: 'flex',
                 flexDirection: isMobile ? 'column-reverse' : 'row',
                 alignItems: 'center',
@@ -135,10 +127,10 @@ const renderList = (
                 border: '1px solid #F0F0F0',
                 background: 'linear-gradient(284deg, #0049C6 -12.57%, rgba(255, 255, 255, 0.50) 126.88%)',
                 boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)',
-                gap: '64px'
+                overflow: 'hidden'
               }}
             >
-              <Box sx={{ flex: 1, paddingTop: isMobile ? '160px' : '' }}>
+              <Box sx={{ flex: 1, p: '24px' }}>
                 <Typography sx={{ fontSize: isMobile ? '18px' : '24px', fontWeight: 700, color: '#404040' }}>
                   {t('training_landing_page.section_join_us_title')}
                 </Typography>
@@ -169,19 +161,16 @@ const renderList = (
                   </Button>
                 </Box>
               </Box>
-              <Box sx={{ flex: 1, width: '100%' }}></Box>
-              <Box sx={{ position: 'absolute', top: 0, right: 0 }}>
-                <Box
-                  component='img'
-                  src={isMobile ? '/images/asset-join-us-mobile.png' : '/images/asset-join-us.png'}
-                  alt='Dekorasi Mobile Yellow'
-                  sx={{
-                    width: isMobile ? '100%' : isXl ? '465px' : '575px',
-                    height: 'auto',
-                    transform: 'rotate(0.138deg)'
-                  }}
-                />
-              </Box>
+              <Box
+                component='img'
+                src={isMobile ? '/images/asset-join-us-mobile.png' : '/images/asset-join-us.png'}
+                alt='Dekorasi Mobile Yellow'
+                sx={{
+                  width: isMobile ? '100%' : isXl ? '465px' : '575px',
+                  height: { xs: 'auto', md: '100%' },
+                  transform: 'rotate(0.138deg)'
+                }}
+              />
             </Box>
           </Grid>
         )
