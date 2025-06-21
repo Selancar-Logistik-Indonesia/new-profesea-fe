@@ -49,6 +49,7 @@ const JoinGroupCard = () => {
   if (loading) {
     return <JoinGroupCardSkeleton />
   }
+
   return (
     <Box
       sx={{

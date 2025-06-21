@@ -25,7 +25,7 @@ interface IPostCardCommunityProps {
 }
 
 const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
-  console.log('ini feed', feed)
+  
   return (
     <Card
       sx={{

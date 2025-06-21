@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Typography, IconButton, Menu, MenuItem, CircularProgress } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import axios from 'axios'
+
 import { HttpClient } from 'src/services'
 import { useAuth } from 'src/hooks/useAuth'
 

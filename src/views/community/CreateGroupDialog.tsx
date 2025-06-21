@@ -61,11 +61,13 @@ export default function CreateGroupDialog(props: CreateGroupDialogProps) {
       setImagePreviewUrl(previewUrl)
       if (!validTypes.includes(selectedFile.type)) {
         setFileError('Invalid file type. Only JPEG, PNG, and PDG are allowed.')
+
         return
       }
 
       if (selectedFile.size > maxSize) {
         setFileError('File size exceeds 3MB. Please upload a smaller image.')
+
         return
       }
 

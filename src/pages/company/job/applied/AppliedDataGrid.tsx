@@ -3,8 +3,6 @@ import Box from '@mui/material/Box'
 import { DataGrid, GridCallbackDetails, GridColDef, GridPaginationModel } from '@mui/x-data-grid'
 import { Button, Chip, Typography } from '@mui/material'
 import Icon from 'src/@core/components/icon'
-import Link from 'next/link'
-import { toLinkCase } from 'src/utils/helpers'
 
 const columns: GridColDef[] = [
   { field: 'no', headerName: '#', sortable: true, width: 50 },

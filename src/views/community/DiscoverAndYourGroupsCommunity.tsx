@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import React, { useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import CommunitiesContext from 'src/context/CommunitiesContext'
@@ -17,21 +17,6 @@ const DiscoverAndYourGroupsCommunity: React.FC<IDiscoverAndYourGroupsCommunity> 
   const take = 6
 
   const { fetchCommunities, hasNextPage, totalCommunities, setPage, setHasNextPage } = useCommunities()
-
-  const handleFetchCommunities = () => {
-    const params: any = {
-      take: take
-    }
-
-    if (isJoined) {
-      params['isJoined'] = true
-      params['userId'] = user?.id
-    }
-
-    console.log('ini params', params)
-
-    fetchCommunities(params)
-  }
 
   useEffect(() => {
     const resetAndFetch = async () => {
