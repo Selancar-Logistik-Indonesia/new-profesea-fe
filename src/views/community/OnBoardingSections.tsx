@@ -190,6 +190,7 @@ const OnBoardingSections = () => {
                 banner_url={group.banner_url}
                 discussions_count={group.discussions_count}
                 members_count={group.members_count}
+                is_joined={group.is_joined}
               />
             ))
           ) : (

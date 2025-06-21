@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Stack, Typography } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import React, { useEffect } from 'react'
 import SocialFeedContext from 'src/context/SocialFeedContext'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'

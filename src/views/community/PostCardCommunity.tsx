@@ -16,15 +16,20 @@ import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined'
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import LockIcon from '@mui/icons-material/Lock'
 import ISocialFeed from 'src/contract/models/social_feed'
+import ImageListFeed from '../social-feed/ImageListFeed'
+import { getUserAvatar, toTitleCase } from 'src/utils/helpers'
+import moment from 'moment'
 
 interface IPostCardCommunityProps {
   feed: ISocialFeed
 }
 
-const PostCardCommunity: React.FC<IPostCardCommunityProps> = () => {
+const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
+  console.log('ini feed', feed)
   return (
     <Card
       sx={{
+        width: '100%',
         maxWidth: 600,
         margin: 'auto',
         borderRadius: '12px',
@@ -34,12 +39,7 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = () => {
       }}
     >
       <CardHeader
-        avatar={
-          <Avatar
-            alt='Komunitas Anak Kapal'
-            src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e' // Ganti dengan URL kapal
-          />
-        }
+        avatar={<Avatar alt='profile-picture' src={getUserAvatar(feed.user)} sx={{ width: 36, height: 36 }} />}
         action={
           <IconButton>
             <MoreVertIcon />
@@ -54,7 +54,7 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = () => {
             }}
             fontWeight='bold'
           >
-            Komunitas Anak Kapal
+            {feed?.community?.name}
           </Typography>
         }
         subheader={
@@ -66,10 +66,9 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = () => {
                 color: '#5E5E5E'
               }}
             >
-              Ryza Muhammad • 3 hours ago
+              {toTitleCase(feed.user.name)}
             </Typography>
             <span>•</span>
-            <LockIcon sx={{ color: 'gray', width: '13px', height: '13px' }} />
             <Typography
               sx={{
                 fontSize: '12px',
@@ -77,7 +76,21 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = () => {
                 color: '#5E5E5E'
               }}
             >
-              Private group
+              {moment(feed.created_at).fromNow()}
+            </Typography>
+            <span>•</span>
+            <Typography
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '12px',
+                fontWeight: '400',
+                color: '#5E5E5E',
+                gap: '2px'
+              }}
+            >
+              <LockIcon sx={{ color: 'gray', width: '13px', height: '13px' }} />
+              {feed?.community?.is_private ? 'Private Group' : 'Public Group'}
             </Typography>
           </Stack>
         }
@@ -88,12 +101,17 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = () => {
             fontSize: '14px',
             fontWeight: '400',
             color: '#1F1F1F',
-            lineHeight: '1.5'
+            lineHeight: '1.5',
+            textAlign: 'justify',
+            whiteSpace: 'pre-line',
+            mb: '24px'
           }}
         >
-          Banyak yang betah kerja di kapal karena gaji besar, tapi ada juga yang lebih nyaman kerja di darat untuk dekat
-          keluarga. Kalau kalian, lebih suka yang mana? Dan kenapa? Diskusi yuk! 🧑‍✈️🚢
+          {feed?.content}
         </Typography>
+        <Box sx={{ mx: '-24px', display: 'flex', flexDirection: 'column' }}>
+          {feed.content_type !== 'text' && <ImageListFeed item={feed} />}
+        </Box>
       </CardContent>
 
       <Box my={'16px'}>
@@ -102,13 +120,13 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = () => {
             sx={{ display: 'flex', alignItems: 'center', fontSize: '14px', fontWeight: 400, color: '#32497A' }}
           >
             <ThumbUpAltOutlinedIcon fontSize='small' sx={{ mr: 0.5 }} />
-            100
+            {feed?.count_likes}
           </Typography>
           <Typography
             sx={{ display: 'flex', alignItems: 'center', fontSize: '14px', fontWeight: 400, color: '#32497A' }}
           >
             <ChatBubbleOutlineOutlinedIcon fontSize='small' sx={{ mr: 0.5 }} />
-            20
+            {feed?.count_comments}
           </Typography>
         </Stack>
       </Box>
