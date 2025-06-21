@@ -36,4 +36,3 @@ yarn-error.log*
 /package-lock.json
 ecosystem.config.js
 docker-compose.yml
-Dockerfile
