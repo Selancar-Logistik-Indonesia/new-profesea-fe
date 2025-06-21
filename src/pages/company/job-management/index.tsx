@@ -56,7 +56,7 @@ const JobManagement = () => {
   const [createJob, setCreateJob] = useState(false)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [document, setDocument] = useState<any[]>([])
-  const [isSubs, setIsSubs]  = useState<boolean>(false)
+  const [isSubs, setIsSubs] = useState<boolean>(false)
   const [totalJobPosted, setTotalJobPosted] = useState(0)
 
   const [boostCount, setBoostCount] = useState<number>(0)
@@ -75,8 +75,6 @@ const JobManagement = () => {
   const [vesselTypeFilter, setVesselTypeFilter] = useState<VesselType | null>(null)
   const [employmentTypeFilter, setEmploymentTypeFilter] = useState<string>('')
 
-
-
   const getTotalJobPosted = async () => {
     setOnLoading(true)
 
@@ -92,11 +90,10 @@ const JobManagement = () => {
       setTotalJobPosted(usedCounter)
     } catch (error) {
       console.error('Error fetching  jobs:', error)
-    } finally{
+    } finally {
       setOnLoading(false)
     }
   }
-
 
   const getJobs = async () => {
     setOnLoading(true)
@@ -114,7 +111,7 @@ const JobManagement = () => {
       })
       const data = response.data.jobs.data
       setJobs(data)
-      
+
       setTotalJobs(response.data.jobs.total)
     } catch (error) {
       console.error('Error fetching jobs:', error)
@@ -145,8 +142,8 @@ const JobManagement = () => {
     })
     HttpClient.get('/job', {
       page: 1,
-        take: 50,
-        is_boosted: 1
+      take: 50,
+      is_boosted: 1
     }).then(res => {
       const data = res.data.jobs.data
 
@@ -189,7 +186,18 @@ const JobManagement = () => {
 
   useEffect(() => {
     getJobs()
-  }, [refetch, activeTab, search, page, jobCategoryFilter, statusFilter, vesselTypeFilter, employmentTypeFilter, sort, abilities])
+  }, [
+    refetch,
+    activeTab,
+    search,
+    page,
+    jobCategoryFilter,
+    statusFilter,
+    vesselTypeFilter,
+    employmentTypeFilter,
+    sort,
+    abilities
+  ])
 
   return (
     <>
@@ -221,7 +229,7 @@ const JobManagement = () => {
           </Breadcrumbs>
         </Grid>
         <Grid item xs={12} flexDirection='column' sx={{ borderRadius: '8px', p: '26px', backgroundColor: '#FFF' }}>
-          <JobAlert boostCount={boostCount} jobsCount={totalJobPosted} isSubs={isSubs}/>
+          <JobAlert boostCount={boostCount} jobsCount={totalJobPosted} isSubs={isSubs} />
           <Box sx={{ pb: '24px', display: 'flex', justifyContent: 'space-between' }}>
             <Typography sx={{ color: '#32497A', lineHeight: '38px', fontSize: '32px', fontWeight: 700 }}>
               Job Management
@@ -243,7 +251,13 @@ const JobManagement = () => {
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             {isCrewing && <AnimatedTabs tabs={tabsOption} activeTab={activeTab} setActiveTab={setActiveTab} />}
-            <Box sx={{ display: 'flex', gap: '70px' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column-reverse', md: 'row' },
+                gap: { xs: '24px', md: '70px' }
+              }}
+            >
               <TextField
                 sx={{ flexGrow: 1 }}
                 value={search}
@@ -279,7 +293,7 @@ const JobManagement = () => {
                 </Select>
               </Box>
             </Box>
-            <Box sx={{ display: 'flex', gap: '70px' }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '24px', md: '70px' } }}>
               <Grid container spacing={6}>
                 <Grid item xs={4}>
                   <Autocomplete
@@ -354,7 +368,7 @@ const JobManagement = () => {
                   )}
                 </Grid>
               </Grid>
-              <Box sx={{ flexShrink: 0, display: 'flex', width: '240px', justifyContent: 'right' }}>
+              <Box sx={{ flexShrink: 0, display: 'flex', width: { xs: '100%', md: '240px' }, justifyContent: 'right' }}>
                 <Button
                   onClick={() => clearFilters()}
                   variant='outlined'

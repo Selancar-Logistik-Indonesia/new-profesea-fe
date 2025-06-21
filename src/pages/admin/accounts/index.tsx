@@ -341,8 +341,11 @@ const UserScreen = () => {
                 rowCount={rowCount}
                 pageSize={perPage}
                 loading={onLoading}
+                setOnLoading={setOnLoading}
+                getListAccount={getListAccount}
                 onPageChange={model => onPageChange(model)}
                 rows={dataSheet}
+
               />
             </CardContent>
           </Card>
