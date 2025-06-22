@@ -5,7 +5,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { HttpClient } from 'src/services'
 import { useAuth } from 'src/hooks/useAuth'
 import { Community } from 'src/contract/models/community'
-import { getUserAvatar } from 'src/utils/helpers'
 
 interface ICommunitySelect {
   handleSetCommunityId: (communityId: any) => void

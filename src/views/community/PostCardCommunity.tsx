@@ -35,6 +35,7 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
   const isXs = useMediaQuery(theme.breakpoints.down('md'))
   const [isLike, setIsLike] = useState(Boolean(feed.liked_at))
   const [openComment, setOpenComment] = useState(false)
+
   return (
     <Card
       sx={{
