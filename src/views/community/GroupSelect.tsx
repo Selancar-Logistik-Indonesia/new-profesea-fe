@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Typography, IconButton, Menu, MenuItem, CircularProgress } from '@mui/material'
+import { Box, Typography, IconButton, Menu, MenuItem, CircularProgress, Avatar } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 import { HttpClient } from 'src/services'
 import { useAuth } from 'src/hooks/useAuth'
-
-interface Community {
-  id: string
-  name: string
-}
+import { Community } from 'src/contract/models/community'
 
 interface ICommunitySelect {
   handleSetCommunityId: (communityId: any) => void
@@ -86,7 +82,14 @@ const CommunitySelect: React.FC<ICommunitySelect> = ({ handleSetCommunityId }) =
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        PaperProps={{ style: { borderRadius: 8, marginTop: 8 } }}
+        PaperProps={{
+          style: {
+            borderRadius: 8,
+            marginTop: 8,
+            maxHeight: 200, // set max height here
+            overflowY: 'auto' // enable scroll
+          }
+        }}
       >
         {loading ? (
           <MenuItem disabled>
@@ -102,7 +105,13 @@ const CommunitySelect: React.FC<ICommunitySelect> = ({ handleSetCommunityId }) =
               selected={community.id === selectedCommunity?.id}
               onClick={() => handleSelect(community)}
             >
-              {community.name}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+                <Box>
+                  <Avatar src={community?.banner_url} alt='profile-picture' sx={{ height: 50, width: 50 }} />
+                </Box>
+
+                {community.name}
+              </Box>
             </MenuItem>
           ))
         )}

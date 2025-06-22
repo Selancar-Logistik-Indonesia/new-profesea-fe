@@ -211,7 +211,7 @@ const CommunityApp = () => {
                   </Button>
                 </Paper>
 
-                {!isOnBoardingCommunity && (
+                {!isOnBoardingCommunity && selectedIndex !== 2 && (
                   <Paper
                     sx={{
                       padding: '16px',
@@ -223,6 +223,7 @@ const CommunityApp = () => {
                     <Typography variant='h6' sx={{ mb: 2, fontWeight: 'bold' }}>
                       Your Groups
                     </Typography>
+
                     {loadingYourGroups ? (
                       <List dense>
                         {Array.from({ length: 3 }).map((_, index) => (
@@ -236,10 +237,7 @@ const CommunityApp = () => {
                               marginBottom: 1
                             }}
                           >
-                            {/* Skeleton Avatar */}
                             <Skeleton variant='circular' width={40} height={40} />
-
-                            {/* Skeleton Text */}
                             <Box sx={{ flex: 1 }}>
                               <Skeleton variant='text' width='50%' height={20} />
                             </Box>
@@ -282,6 +280,7 @@ const CommunityApp = () => {
                       variant='outlined'
                       size='small'
                       fullWidth
+                      onClick={() => handleListItemClick(2)}
                       sx={{
                         textTransform: 'capitalize',
                         border: '1px solid #0B58A6',
@@ -323,22 +322,6 @@ const CommunityApp = () => {
                         <DiscoverAndYourGroupsCommunity key={isJoined ? 'joined' : 'discover'} isJoined={isJoined} />
                       </>
                     )}
-                    {/* {selectedIndex === 0 ? (
-                      <>
-                        <Box sx={{ width: '100%', mb: '16px' }}>
-                          <PostFeedCommunity />
-                        </Box>
-                        <ListSocialFeedCommunity />
-                      </>
-                    ) : selectedIndex === 1 ? (
-                      <>
-                        <DiscoverAndYourGroupsCommunity key={isJoined ? 'joined' : 'discover'} isJoined={isJoined} />
-                      </>
-                    ) : (
-                      <>
-                        <DiscoverAndYourGroupsCommunity key={isJoined ? 'joined' : 'discover'} isJoined={isJoined} />
-                      </>
-                    )} */}
                   </Grid>
                   {/* Right */}
                   {selectedIndex === 0 && (
