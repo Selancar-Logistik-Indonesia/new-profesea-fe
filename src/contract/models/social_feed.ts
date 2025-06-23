@@ -1,3 +1,4 @@
+import ISocialFeedComment from "./social_feed_comment"
 import { IUser } from "./user"
 
 interface ISocialFeed {
@@ -12,9 +13,10 @@ interface ISocialFeed {
     liked_at?: string
     created_at: string
     updated_at: string
-
+    community?: any
     feed_repost?: ISocialFeed
     user: IUser
+    comments: ISocialFeedComment[]
 }
 
 export default ISocialFeed;

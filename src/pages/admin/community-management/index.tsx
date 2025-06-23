@@ -7,6 +7,11 @@ import { useEffect, useState } from 'react'
 import AnimatedTabs from 'src/@core/components/animated-tabs'
 import { Icon } from '@iconify/react'
 import ReportedTab from 'src/views/admin/community-management/ReportedTab'
+import { HttpClient } from 'src/services'
+import CommunityTab from 'src/views/admin/community-management/CommunityTab'
+import CreateGroupDialog from 'src/views/community/CreateGroupDialog'
+import toast from 'react-hot-toast'
+import { v4 } from 'uuid'
 
 const tabsOption = [
   { value: 'community', label: 'Community Management' },
@@ -14,14 +19,14 @@ const tabsOption = [
 ]
 
 const visibilityOption = [
-  { value: 'public', label: 'Public' },
-  { value: 'private', label: 'Private' }
+  { value: '0', label: 'Public' },
+  { value: '1', label: 'Private' }
 ]
 
 const CommunityManagement = () => {
-
-  
-
+  // data
+  const [communities, setCommunities] = useState([])
+  const [totalCommunities, setTotalCommunities] = useState(0)
 
   //filter settings
   const [search, setSearch] = useState('')
@@ -31,11 +36,55 @@ const CommunityManagement = () => {
   //page settings
   const [activeTab, setActiveTab] = useState('community')
   const [page, setPage] = useState(1)
-  const [rowCount, setRowCount] = useState(0)
-  const [perPage, setPerPage] = useState(10)
+  const pageItems = 9
+  const [loading, setLoading] = useState<boolean>(false)
+  const [openCreate, setOpenCreate] = useState<boolean>(false)
+  const [refetch, setRefetch] = useState(v4())
 
+  const closeCreateDialog = () => {
+    setOpenCreate(false)
+  }
 
+  const fetchCommunities = async () => {
+    setLoading(true)
+    try {
+      const response = await HttpClient.get('/community', {
+        page: page,
+        take: pageItems,
+        search: search,
+        sort: sort,
+        visibility: visibility
+      })
+      if (response.status == 200) {
+        setCommunities(response.data.data)
+        setTotalCommunities(response.data.total)
+      }
+    } catch (error) {
+      console.error('Error fetching groups:', error)
+    } finally {
+      setLoading(false)
+    }
 
+  }
+
+  const handleDelete = (id: number) => {
+    setLoading(true)
+    HttpClient.del(`/community/${id}`).then(res => {
+      if (res.status == 200) {
+        toast.success('Community deleted successfully!')
+      }
+
+      setTimeout(() => {
+        setRefetch(v4())
+      }, 500)
+
+    }).catch(err => {
+      console.log(err)
+    }).finally(() => {
+      setLoading(false)  
+    })
+
+  }
 
   const clearFilters = () => {
     setSearch('')
@@ -46,11 +95,16 @@ const CommunityManagement = () => {
 
   useEffect(() => {
     clearFilters()
+    setPage(1)
   }, [activeTab])
 
+  useEffect(() => {
+    fetchCommunities()
+  }, [page, search, sort, visibility, refetch, activeTab])
 
   return (
     <>
+      <CreateGroupDialog open={openCreate} onClose={closeCreateDialog} />
       <Grid container spacing={6} className='match-height'>
         <Grid item xs={12} sm={6} md={12}>
           <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
@@ -72,12 +126,17 @@ const CommunityManagement = () => {
                 </Typography>
               }
               action={
-                <Button variant='contained' size='small' sx={{ textTransform: 'none' }}>
+                <Button
+                  onClick={() => setOpenCreate(true)}
+                  variant='contained'
+                  size='small'
+                  sx={{ textTransform: 'none' }}
+                >
                   Create New Community
                 </Button>
               }
             />
-            <CardContent sx={{ display:'flex', flexDirection:'column', gap:5}}>
+            <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
               <AnimatedTabs tabs={tabsOption} activeTab={activeTab} setActiveTab={setActiveTab} />
 
               {/* filter section */}
@@ -122,7 +181,7 @@ const CommunityManagement = () => {
                 </Box>
                 <Box sx={{ display: 'flex', gap: '70px' }}>
                   <Grid container spacing={6}>
-                    <Grid item xs={4} sx={{display: activeTab === 'community' ? 'flex' : 'none'}}>
+                    <Grid item xs={4} sx={{ display: activeTab === 'community' ? 'flex' : 'none' }}>
                       <Select
                         fullWidth
                         size='small'
@@ -141,14 +200,15 @@ const CommunityManagement = () => {
                       </Select>
                     </Grid>
                   </Grid>
-                  <Box>
-                    {}
-                  </Box>
+                  <Box>{}</Box>
                 </Box>
               </Box>
 
-              {activeTab === 'community' ? '' : <ReportedTab tab={activeTab} search={search} sort={sort}/>}
-
+              {activeTab === 'community' ? (
+                <CommunityTab communities={communities} handleDelete={handleDelete} loading={loading} setPage={setPage} page={page} pageItems={pageItems} totalCommunities={totalCommunities} />
+              ) : (
+                <ReportedTab search={search} sort={sort} />
+              )}
             </CardContent>
           </Card>
         </Grid>

@@ -12,13 +12,20 @@ import {
   Box,
   IconButton,
   Stack,
-  CircularProgress
+  CircularProgress,
+  Autocomplete,
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { useEffect, useState } from 'react'
 import { HttpClient } from 'src/services'
 import toast from 'react-hot-toast'
+import { useAuth } from 'src/hooks/useAuth'
+import { IUser } from 'src/contract/models/user'
 
 interface CreateGroupDialogProps {
   open: boolean
@@ -26,7 +33,9 @@ interface CreateGroupDialogProps {
 }
 
 export default function CreateGroupDialog(props: CreateGroupDialogProps) {
+  const { user } = useAuth()
   const { open, onClose } = props
+  const [admin, setAdmin] = useState<IUser | null>(null)
   const [groupName, setGroupName] = useState('')
   const [visibility, setVisibility] = useState('')
   const [description, setDescription] = useState('')
@@ -34,6 +43,37 @@ export default function CreateGroupDialog(props: CreateGroupDialogProps) {
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [fileError, setFileError] = useState<string | null>(null)
+
+  const [users, setUsers] = useState<IUser[]>([])
+  const [search, setSearch] = useState('')
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const fetchUsers = () => {
+    setLoading(true)
+    HttpClient.get('/user-management', {
+      page: 1,
+      take: 10,
+      search: search,
+      active: true
+    })
+      .then(res => {
+        if (res.status == 200) {
+          setUsers(res.data.users.data)
+        }
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
+  const handleInputChange = (_: any, value: string) => {
+    setSearch(value)
+    if (value.trim().length > 0) {
+      fetchUsers()
+    } else {
+      setUsers([])
+    }
+  }
 
   //   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //     const selectedFile = e.target.files?.[0]
@@ -61,11 +101,13 @@ export default function CreateGroupDialog(props: CreateGroupDialogProps) {
       setImagePreviewUrl(previewUrl)
       if (!validTypes.includes(selectedFile.type)) {
         setFileError('Invalid file type. Only JPEG, PNG, and PDG are allowed.')
+
         return
       }
 
       if (selectedFile.size > maxSize) {
         setFileError('File size exceeds 3MB. Please upload a smaller image.')
+
         return
       }
 
@@ -76,6 +118,7 @@ export default function CreateGroupDialog(props: CreateGroupDialogProps) {
   const handleClose = () => {
     onClose(false)
     // Reset form
+    setAdmin(null)
     setGroupName('')
     setVisibility('')
     setDescription('')
@@ -94,6 +137,7 @@ export default function CreateGroupDialog(props: CreateGroupDialogProps) {
     if (file) {
       formData.append('banner', file)
     }
+    formData.append('admin_id', admin?.id.toString() || '0')
 
     setIsSubmitting(true)
     try {
@@ -235,10 +279,53 @@ export default function CreateGroupDialog(props: CreateGroupDialogProps) {
             </Typography>
           )}
 
+          {/* Admin Name - input khusus super admin */}
+          {user?.role === 'admin' && (
+            <Autocomplete
+              options={users}
+              getOptionLabel={option => `${option.name}`}
+              onInputChange={handleInputChange}
+              onChange={(_, value) => {
+              setAdmin(value)
+              console.log(admin)
+              }}
+              renderOption={(props, option) => (
+                <ListItem {...props} key={option.id}>
+                  <ListItemAvatar>
+                    <Avatar src={option.photo}>{option.name[0]}</Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={option.name} />
+                </ListItem>
+              )}
+              renderInput={params => (
+                <Stack gap={'12px'} mb={'24px'}>
+                  <Typography fontSize={'14px'} fontWeight={700} color={'#525252'}>
+                    Community Admin <span style={{ color: 'red' }}>*</span>
+                  </Typography>
+                  <TextField
+                    {...params}
+                    // label='Search User'
+                    placeholder='Select the admin of this community'
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <>
+                          {loading ? <CircularProgress color='inherit' size={20} /> : null}
+                          {params.InputProps.endAdornment}
+                        </>
+                      )
+                    }}
+                  />
+                </Stack>
+              )}
+              noOptionsText={search ? 'No users found' : 'Start typing to search...'}
+            />
+          )}
+
           {/* Group Name */}
           <Stack gap={'12px'} mb={'24px'}>
             <Typography fontSize={'14px'} fontWeight={700} color={'#525252'}>
-              Group Name <span style={{ color: 'red' }}>*</span>
+              Community Name <span style={{ color: 'red' }}>*</span>
             </Typography>
             <TextField
               fullWidth
@@ -264,7 +351,7 @@ export default function CreateGroupDialog(props: CreateGroupDialogProps) {
           {/* Group Description */}
           <Stack gap={'12px'} mb={'24px'}>
             <Typography fontSize={'14px'} fontWeight={700} color={'#525252'}>
-              Group Description
+              Community Description
             </Typography>
             <TextField
               multiline

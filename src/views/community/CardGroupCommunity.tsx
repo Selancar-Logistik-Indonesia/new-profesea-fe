@@ -6,18 +6,23 @@ import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { Box } from '@mui/system'
-import { Stack } from '@mui/material'
+import { Avatar, IconButton, Menu, MenuItem, Stack } from '@mui/material'
 import Icon from 'src/@core/components/icon'
+import { useAuth } from 'src/hooks/useAuth'
+import EditGroupDialog from './EditGroupDialog'
 
 export interface ICardGroupProps {
   id: number
   name: string
   description: string
+  is_private?: boolean
   banner_url?: string
   members_count?: number
   discussions_count?: number
   onViewGroup?: (id: number) => void
-  onJoinGroup?: (id: number) => void
+  onJoinGroup?: (id: number) => void,
+  owner?: any
+  handleDelete?: (id:number) => void
 }
 
 const CardGroupCommunity: React.FC<ICardGroupProps> = ({
@@ -28,18 +33,76 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
   discussions_count = 0,
   members_count = 0,
   onJoinGroup = () => {},
-  onViewGroup = () => {}
+  onViewGroup = () => {},
+  owner,
+  is_private = false, 
+  handleDelete = (id) => {console.log(id)}
 }) => {
+  const {user} = useAuth()
+
+  const [openEdit, setOpenEdit] = React.useState<boolean>(false)
+
+  //menu
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  }
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  }
+
+  const handleCloseEditDialog = () => {
+    setOpenEdit(false)
+  }
+
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <>
+    <EditGroupDialog onClose={handleCloseEditDialog} open={openEdit} community={{id, name, description, is_private, banner_url, owner}}/>
+      <Card sx={{ maxWidth: 345, position:'relative' }}>
       <CardMedia
         sx={{ height: 120 }}
         image={banner_url ? banner_url : '/images/banner-community.png'}
         title='green iguana'
       />
       <CardContent sx={{ padding: '12px !important' }}>
+        
+        {user?.role === 'admin' && (
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection:'row', alignItems:'center', position:'absolute', top:10, width:'90%'}}>
+            <Box sx={{ display: 'flex', gap: '8px', flexDirection:'row' }}>
+              <Avatar alt={owner?.name} src={owner?.photo} sx={{ width: '24px', height: '24px', objectFit: 'contain' }} />
+              <Typography sx={{ fontSize: '12px', fontWeight: 600, color: '#FFFFFF', mb: '16px' }}>{owner?.name}</Typography>
+            </Box>
+            <Box>
+              <IconButton
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleOpenMenu}
+                sx={{backgroundColor:'rgba(0, 0, 0, 0.39)', '&:hover':{
+                  backgroundColor:'rgba(0, 0, 0, 0.54)'
+                }}}
+              >
+                <Icon icon='bi:three-dots' fontSize={20} color={'#FFFFFF'} />
+              </IconButton>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleCloseMenu}
+              >
+                <MenuItem onClick={() => setOpenEdit(true)} sx={{ display: 'flex', alignItems: 'center', gap: '8px'}}><Icon icon='lucide:edit' fontSize={20}/>Edit</MenuItem>
+                <MenuItem onClick={() => handleDelete(id)} sx={{ display: 'flex', alignItems: 'center', gap: '8px', color:'#FF2222'}}><Icon icon='tabler:trash' fontSize={20} />Delete</MenuItem>
+              </Menu>
+            </Box>
+          </Box>
+        )}
         <Typography sx={{ fontSize: '13px', fontWeight: 700, color: '#2D3436', mb: '16px' }}>{name}</Typography>
-        <Stack direction='row' spacing={3} sx={{ mb: 2, justifyContent: 'space-between' }}>
+        <Stack direction='row' spacing={3} sx={{ mb: 1, justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             <Icon icon={'ph:user-thin'} fontSize={'12px'} />
             <Typography sx={{ fontSize: '11px', fontWeight: 400 }} color='text.secondary'>
@@ -53,6 +116,18 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
             </Typography>
           </Box>
         </Stack>
+
+        {user?.role === 'admin' && (
+          <Stack direction='row' spacing={3} sx={{ mb: 2, justifyContent: 'space-between'}}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <Icon icon={ is_private ? 'ph:lock-key' : 'ph:globe-hemisphere-west'} fontSize={'12px'} />
+            <Typography sx={{ fontSize: '11px', fontWeight: 400 }} color='text.secondary'>
+              {is_private ? 'Private' : 'Public'}
+            </Typography>
+          </Box>
+        </Stack>
+        )}
+
         <Typography variant='body2' sx={{ color: '#525252' }}>
           {description}
         </Typography>
@@ -60,8 +135,8 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
       <CardActions sx={{ padding: '12px !important' }}>
         <Button
           size='small'
-          variant='outlined'
-          sx={{ fontSize: '14px', textTransform: 'capitalize' }}
+          variant= {user?.role === 'admin' ? 'contained' : 'outlined'}
+          sx={{ fontSize: '14px', textTransform: 'capitalize', width:user?.role === 'admin' ?'100%' : ''}}
           onClick={() => onViewGroup(id)}
         >
           View group
@@ -69,13 +144,14 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
         <Button
           size='small'
           variant='contained'
-          sx={{ fontSize: '14px', textTransform: 'capitalize' }}
+          sx={{ fontSize: '14px', textTransform: 'capitalize', display:user?.role === 'admin' ? 'none' : '' }}
           onClick={() => onJoinGroup(id)}
         >
           Join group
         </Button>
       </CardActions>
     </Card>
+    </>
   )
 }
 
