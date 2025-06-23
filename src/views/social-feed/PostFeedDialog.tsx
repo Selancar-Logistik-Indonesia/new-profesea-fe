@@ -11,6 +11,7 @@ import {
   IconButton,
   ImageList,
   ImageListItem,
+  Switch,
   Typography
 } from '@mui/material'
 import React, { forwardRef, ReactElement, Ref, useCallback, useEffect, useState } from 'react'
@@ -19,14 +20,22 @@ import { IUser } from 'src/contract/models/user'
 import { getUserAvatar, validateAutomatedContentModeration } from 'src/utils/helpers'
 import { useDropzone, Accept } from 'react-dropzone'
 import styles from '../../../styles/scss/Dropzone.module.scss'
+import CommunitySelect from '../community/GroupSelect'
 
 export interface IPostFeedDialog {
   isOpen: boolean
   isLoading: boolean
   onClose: () => void
   user: IUser | null
-  handleUpdateStatus: (content_type: string, content: string, attachments?: any) => Promise<void>
+  handleUpdateStatus: (
+    content_type: string,
+    content: string,
+    attachments?: any,
+    community_id?: any,
+    is_anon?: boolean
+  ) => Promise<void>
   contentTypeFromParent: string
+  isCommunity?: boolean
 }
 
 const Transition = forwardRef(function Transition(
@@ -49,7 +58,8 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
   onClose,
   user,
   handleUpdateStatus,
-  contentTypeFromParent
+  contentTypeFromParent,
+  isCommunity = false
 }) => {
   const [content, setContent] = useState('')
   const [contentType, setContentType] = useState('text')
@@ -58,6 +68,8 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
   const [attachments, setAttachments] = useState<any[]>([])
   const [errMaxFileImage, setErrMaxFileImage] = useState(false)
   const [errMaxFileVideo, setErrMaxFileVideo] = useState(false)
+  const [isAnonymous, setIsAnonymous] = useState(false)
+  const [communityId, setCommunityId] = useState<any>('')
 
   useEffect(() => {
     if (contentTypeFromParent != 'text') {
@@ -135,10 +147,14 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
 
   const handleOnClickPost = () => {
     const { errorMessage, censoredContent } = validateAutomatedContentModeration(content)
-    if (errorMessage !== null) {
-      handleUpdateStatus(contentType, censoredContent, attachments)
+
+    const finalContent = errorMessage !== null ? censoredContent : content
+    const params = [contentType, finalContent, attachments] as const
+
+    if (isCommunity) {
+      handleUpdateStatus(...params, communityId, isAnonymous)
     } else {
-      handleUpdateStatus(contentType, content, attachments)
+      handleUpdateStatus(...params)
     }
 
     setTimeout(() => {
@@ -174,6 +190,10 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
     setAttachments([])
   }
 
+  const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsAnonymous(event.target.checked)
+  }
+
   const handleDisabledButton = (): boolean => {
     if (contentType == 'text') {
       if (content.length == 0) {
@@ -201,6 +221,10 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
   const itemRows = (i: number) => {
     if (i === 0) return 3
     else return total === 2 ? 3 : total === 3 ? 1.5 : 1
+  }
+
+  const handleSetCommunityId = (communityId: any) => {
+    setCommunityId(communityId)
   }
 
   return (
@@ -232,10 +256,40 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
               Create Post
             </Typography>
           </Box>
+
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px', mt: '20px' }}>
+            {isCommunity && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '12px 24px',
+                  borderRadius: '8px',
+                  backgroundColor: '#F8F8F7'
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#1F1F1F',
+                    textAlign: 'left'
+                  }}
+                >
+                  Post anonymously
+                </Typography>
+                <Switch checked={isAnonymous} onChange={handleSwitchChange} color='primary' />
+              </Box>
+            )}
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3 }}>
               <Box>
-                <Avatar src={getUserAvatar(user!)} alt='profile-picture' sx={{ height: 50, width: 50 }} />
+                <Avatar
+                  src={getUserAvatar(user!)}
+                  alt={user?.name || 'Profile Picture'}
+                  sx={{ height: 50, width: 50 }}
+                />
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px', justifyContent: 'center' }}>
                 <Typography
@@ -253,7 +307,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
                 value={content}
                 onChange={e => setContent(e.target.value)}
                 id='outlined-multiline-static'
-                placeholder='Start a post, share your thoughts...'
+                placeholder={isCommunity ? 'Write something...' : 'Start a post, share your thoughts...'}
                 rows={6}
                 style={{
                   border: 0,
@@ -412,6 +466,8 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
                 )}
               </Box>
             )}
+
+            {isCommunity && <CommunitySelect handleSetCommunityId={handleSetCommunityId} />}
 
             <Box sx={{ display: 'flex', gap: '20px', marginBottom: '16px', alignItems: 'center' }}>
               <Typography
