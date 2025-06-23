@@ -2,11 +2,13 @@ import { Icon } from '@iconify/react'
 import { Avatar, Box, Button, Card } from '@mui/material'
 import React, { useState } from 'react'
 import { useAuth } from 'src/hooks/useAuth'
-import { getUserAvatar } from 'src/utils/helpers'
+import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers'
 import PostFeedDialog from '../social-feed/PostFeedDialog'
+import { useSocialFeed } from 'src/hooks/useSocialFeed'
 
 const PostFeedCommunity = () => {
   const { user } = useAuth()
+  const { updateStatus } = useSocialFeed()
   const [contentType, setContentType] = useState('text')
   const [isLoading, setIsLoading] = useState(false)
   const [isOpenDialogPostFeed, setIsOpenDialogPostFeed] = useState(false)
@@ -28,6 +30,20 @@ const PostFeedCommunity = () => {
     is_anon?: boolean
   ) => {
     console.log(content_type, content, attachments, community_id, is_anon)
+    setIsLoading(true)
+    try {
+      await updateStatus({
+        content_type: content_type,
+        content: content,
+        attachments: attachments,
+        community_id: community_id,
+        is_anon: is_anon
+      })
+    } catch (error) {
+      alert(getCleanErrorMessage(error))
+    }
+
+    setIsLoading(false)
   }
 
   return (

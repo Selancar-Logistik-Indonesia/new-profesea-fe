@@ -20,7 +20,7 @@ const OnBoardingSections = () => {
         title: ' Welcome to the Profesea Community',
         content:
           "You haven't joined any groups yet — but that's about to change! Join groups to stay updated, share insights, and connect with fellow maritime professionals.",
-        placement: 'bottom' as 'bottom',
+        placement: 'bottom',
         disableBeacon: true,
         spotlightClicks: false
       },
@@ -29,7 +29,7 @@ const OnBoardingSections = () => {
         title: 'Discover and Join Groups',
         content:
           'Scroll through recommended groups and topics. Click “Join group” to become a member and dive into discussions right away.',
-        placement: 'top' as 'top'
+        placement: 'top'
       },
       {
         target: '.join-group-btn',
@@ -190,6 +190,7 @@ const OnBoardingSections = () => {
                 banner_url={group.banner_url}
                 discussions_count={group.discussions_count}
                 members_count={group.members_count}
+                is_joined={group.is_joined}
               />
             ))
           ) : (

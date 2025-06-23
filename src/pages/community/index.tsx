@@ -12,9 +12,8 @@ import {
   styled,
   Skeleton
 } from '@mui/material'
-import ListThreadView from '../../views/community/ListThreadView'
+
 import { ThreadProvider } from 'src/context/ThreadContext'
-import { useThread } from 'src/hooks/useThread'
 
 import { MdAdd } from 'react-icons/md'
 import OnBoardingSections from 'src/views/community/OnBoardingSections'
@@ -26,6 +25,10 @@ import JoinGroupCard from 'src/views/community/JoinGroupCard'
 import CreateGroupDialog from 'src/views/community/CreateGroupDialog'
 import { HttpClient } from 'src/services'
 import { useAuth } from 'src/hooks/useAuth'
+import DiscoverAndYourGroupsCommunity from 'src/views/community/DiscoverAndYourGroupsCommunity'
+import { CommunitiesProvider } from 'src/context/CommunitiesContext'
+import { useRouter, useSearchParams } from 'next/navigation'
+import CommunityDetail from 'src/views/community/CommunityDetail'
 
 const Community = () => {
   return (
@@ -53,24 +56,40 @@ const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
 }))
 
 const CommunityApp = () => {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const { user, flaggings } = useAuth()
-  console.log(flaggings)
-  // const searchParams = useSearchParams()
-  // const communityId = searchParams.get('tab') || 'group_feed'
-  // console.log('Community ID:', communityId)
-  // const { fetchThreads } = useThread()
+
   const [communities, setCommunities] = React.useState<any[]>([])
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [openDialogCreateGroup, setOpenDialogCreateGroup] = useState(false)
   const [loadingYourGroups, setLoadingYourGroups] = useState(false)
-  const isOnBoardingCommunity = false // This can be replaced with actual logic to determine if onboarding is needed
+  const [isJoined, setIsJoined] = useState(false)
+  const [selectedCommunityId, setSelectedCommunityId] = useState(
+    searchParams.get('communityId') ? searchParams.get('communityId') : null
+  )
+  const isOnBoardingCommunity = flaggings !== null ? flaggings?.community_onboarding : false // This can be replaced with actual logic to determine if onboarding is needed
 
   const handleListItemClick = (index: number) => {
+    if (index === 2) {
+      setIsJoined(true)
+    } else {
+      setIsJoined(false)
+    }
+
     setSelectedIndex(index)
+    setSelectedCommunityId(null)
+    router.replace('/community/')
   }
 
   const handleOpenCreateGroupDialog = (show: boolean) => {
     setOpenDialogCreateGroup(show)
+  }
+
+  const handleOpenDetailGroup = (id: any) => {
+    setSelectedIndex(0)
+    router.push(`/community/?communityId=${id}`)
+    setSelectedCommunityId(id)
   }
 
   const fetchCommunities = async () => {
@@ -103,108 +122,13 @@ const CommunityApp = () => {
 
   return (
     <SocialFeedProvider>
-      <CreateGroupDialog open={openDialogCreateGroup} onClose={handleOpenCreateGroupDialog} />
-      <Box sx={{ minHeight: '100vh' }}>
-        <Container maxWidth='xl' sx={{ py: 2 }}>
-          <Grid container spacing={4}>
-            {/* Left */}
-            <Grid item xs={12} md={3} sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <Paper
-                sx={{
-                  padding: '16px',
-                  borderRadius: '12px !important',
-                  background: '#FFF',
-                  boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)'
-                }}
-              >
-                <Typography variant='h6' sx={{ mb: 2, fontWeight: 'bold' }}>
-                  Groups
-                </Typography>
-
-                <List dense sx={{ my: '24px' }}>
-                  <CustomListItemButton selected={selectedIndex === 0} onClick={() => handleListItemClick(0)}>
-                    <ListItemText
-                      primary='Group feed'
-                      primaryTypographyProps={
-                        selectedIndex === 0
-                          ? {
-                              fontWeight: 700,
-                              color: '#2654A2 !important' // primary color for selected item
-                            }
-                          : {}
-                      }
-                    />
-                  </CustomListItemButton>
-                  <CustomListItemButton
-                    selected={selectedIndex === 1}
-                    onClick={() => handleListItemClick(1)}
-                    sx={{
-                      mb: 1,
-                      borderRadius: '8px',
-                      '&:hover': {
-                        backgroundColor: 'rgba(215, 234, 246, 0.50)', // light blue
-                        color: 'primary.main', // text color on hover
-                        borderRadius: '8px'
-                      }
-                    }}
-                  >
-                    <ListItemText
-                      primary='Discover'
-                      primaryTypographyProps={
-                        selectedIndex === 1
-                          ? {
-                              fontWeight: 700,
-                              color: '#2654A2 !important' // primary color for selected item
-                            }
-                          : {}
-                      }
-                    />
-                  </CustomListItemButton>
-                  <CustomListItemButton
-                    selected={selectedIndex === 2}
-                    onClick={() => handleListItemClick(2)}
-                    sx={{
-                      mb: 1,
-                      borderRadius: '8px',
-                      '&:hover': {
-                        backgroundColor: 'rgba(215, 234, 246, 0.50)', // light blue
-                        color: 'primary.main', // text color on hover
-                        borderRadius: '8px'
-                      }
-                    }}
-                  >
-                    <ListItemText
-                      primary='Your groups'
-                      primaryTypographyProps={
-                        selectedIndex === 2
-                          ? {
-                              fontWeight: 700,
-                              color: '#2654A2 !important' // primary color for selected item
-                            }
-                          : {}
-                      }
-                    />
-                  </CustomListItemButton>
-                </List>
-
-                <Button
-                  variant='outlined'
-                  size='small'
-                  startIcon={<MdAdd />}
-                  fullWidth
-                  sx={{
-                    textTransform: 'capitalize',
-                    border: '1px solid #0B58A6',
-                    borderRadius: '4px',
-                    color: '#0B58A6'
-                  }}
-                  onClick={() => handleOpenCreateGroupDialog(true)}
-                >
-                  Create new group
-                </Button>
-              </Paper>
-
-              {!isOnBoardingCommunity && (
+      <CommunitiesProvider>
+        <CreateGroupDialog open={openDialogCreateGroup} onClose={handleOpenCreateGroupDialog} />
+        <Box sx={{ minHeight: '100vh' }}>
+          <Container maxWidth='xl' sx={{ py: 2 }}>
+            <Grid container spacing={4}>
+              {/* Left */}
+              <Grid item xs={12} md={3} sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <Paper
                   sx={{
                     padding: '16px',
@@ -214,66 +138,79 @@ const CommunityApp = () => {
                   }}
                 >
                   <Typography variant='h6' sx={{ mb: 2, fontWeight: 'bold' }}>
-                    Your Groups
+                    Groups
                   </Typography>
-                  {loadingYourGroups ? (
-                    <List dense>
-                      {Array.from({ length: 3 }).map((_, index) => (
-                        <Box
-                          key={index}
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '12px',
-                            padding: '8px 16px',
-                            marginBottom: 1
-                          }}
-                        >
-                          {/* Skeleton Avatar */}
-                          <Skeleton variant='circular' width={40} height={40} />
 
-                          {/* Skeleton Text */}
-                          <Box sx={{ flex: 1 }}>
-                            <Skeleton variant='text' width='50%' height={20} />
-                          </Box>
-                        </Box>
-                      ))}
-                    </List>
-                  ) : (
-                    <List dense>
-                      {communities.map((group, index) => (
-                        <CustomListItemButton key={index}>
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <Box
-                              sx={{
-                                width: '40px',
-                                height: '40px',
-                                borderRadius: '50%',
-                                backgroundColor: '#E0E0E0',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                overflow: 'hidden'
-                              }}
-                            >
-                              <img
-                                src={group?.image}
-                                alt={`Group ${index + 1}`}
-                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                              />
-                            </Box>
-                            <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
-                              {group?.name}
-                            </Typography>
-                          </Box>
-                        </CustomListItemButton>
-                      ))}
-                    </List>
-                  )}
+                  <List dense sx={{ my: '24px' }}>
+                    <CustomListItemButton selected={selectedIndex === 0} onClick={() => handleListItemClick(0)}>
+                      <ListItemText
+                        primary='Group feed'
+                        primaryTypographyProps={
+                          selectedIndex === 0
+                            ? {
+                                fontWeight: 700,
+                                color: '#2654A2 !important' // primary color for selected item
+                              }
+                            : {}
+                        }
+                      />
+                    </CustomListItemButton>
+                    <CustomListItemButton
+                      selected={selectedIndex === 1}
+                      onClick={() => handleListItemClick(1)}
+                      sx={{
+                        mb: 1,
+                        borderRadius: '8px',
+                        '&:hover': {
+                          backgroundColor: 'rgba(215, 234, 246, 0.50)', // light blue
+                          color: 'primary.main', // text color on hover
+                          borderRadius: '8px'
+                        }
+                      }}
+                    >
+                      <ListItemText
+                        primary='Discover'
+                        primaryTypographyProps={
+                          selectedIndex === 1
+                            ? {
+                                fontWeight: 700,
+                                color: '#2654A2 !important' // primary color for selected item
+                              }
+                            : {}
+                        }
+                      />
+                    </CustomListItemButton>
+                    <CustomListItemButton
+                      selected={selectedIndex === 2}
+                      onClick={() => handleListItemClick(2)}
+                      sx={{
+                        mb: 1,
+                        borderRadius: '8px',
+                        '&:hover': {
+                          backgroundColor: 'rgba(215, 234, 246, 0.50)', // light blue
+                          color: 'primary.main', // text color on hover
+                          borderRadius: '8px'
+                        }
+                      }}
+                    >
+                      <ListItemText
+                        primary='Your groups'
+                        primaryTypographyProps={
+                          selectedIndex === 2
+                            ? {
+                                fontWeight: 700,
+                                color: '#2654A2 !important' // primary color for selected item
+                              }
+                            : {}
+                        }
+                      />
+                    </CustomListItemButton>
+                  </List>
 
                   <Button
                     variant='outlined'
                     size='small'
+                    startIcon={<MdAdd />}
                     fullWidth
                     sx={{
                       textTransform: 'capitalize',
@@ -281,46 +218,155 @@ const CommunityApp = () => {
                       borderRadius: '4px',
                       color: '#0B58A6'
                     }}
+                    onClick={() => handleOpenCreateGroupDialog(true)}
                   >
-                    Show more
+                    Create new group
                   </Button>
                 </Paper>
+
+                {!isOnBoardingCommunity && selectedIndex !== 2 && (
+                  <Paper
+                    sx={{
+                      padding: '16px',
+                      borderRadius: '12px !important',
+                      background: '#FFF',
+                      boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)'
+                    }}
+                  >
+                    <Typography variant='h6' sx={{ mb: 2, fontWeight: 'bold' }}>
+                      Your Groups
+                    </Typography>
+
+                    {loadingYourGroups ? (
+                      <List dense>
+                        {Array.from({ length: 3 }).map((_, index) => (
+                          <Box
+                            key={index}
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '12px',
+                              padding: '8px 16px',
+                              marginBottom: 1
+                            }}
+                          >
+                            <Skeleton variant='circular' width={40} height={40} />
+                            <Box sx={{ flex: 1 }}>
+                              <Skeleton variant='text' width='50%' height={20} />
+                            </Box>
+                          </Box>
+                        ))}
+                      </List>
+                    ) : (
+                      <List dense>
+                        {communities.map((group, index) => (
+                          <CustomListItemButton key={index} onClick={() => handleOpenDetailGroup(group?.id)}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                              <Box
+                                sx={{
+                                  width: '40px',
+                                  height: '40px',
+                                  borderRadius: '50%',
+                                  backgroundColor: '#E0E0E0',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  overflow: 'hidden'
+                                }}
+                              >
+                                <img
+                                  src={group?.image}
+                                  alt={`Group ${index + 1}`}
+                                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                />
+                              </Box>
+                              <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
+                                {group?.name}
+                              </Typography>
+                            </Box>
+                          </CustomListItemButton>
+                        ))}
+                      </List>
+                    )}
+
+                    <Button
+                      variant='outlined'
+                      size='small'
+                      fullWidth
+                      onClick={() => handleListItemClick(2)}
+                      sx={{
+                        textTransform: 'capitalize',
+                        border: '1px solid #0B58A6',
+                        borderRadius: '4px',
+                        color: '#0B58A6'
+                      }}
+                    >
+                      Show more
+                    </Button>
+                  </Paper>
+                )}
+              </Grid>
+              {isOnBoardingCommunity ? (
+                <>
+                  <Grid item xs={12} md={9}>
+                    <OnBoardingSections />
+                  </Grid>
+                </>
+              ) : (
+                <>
+                  {/* Center */}
+                  <Grid item xs={12} md={selectedIndex !== 0 ? 9 : 6}>
+                    {selectedIndex === 0 && (
+                      <>
+                        {selectedIndex === 0 && selectedCommunityId === null && (
+                          <>
+                            <Box sx={{ width: '100%', mb: '16px' }}>
+                              <PostFeedCommunity />
+                            </Box>
+                            <ListSocialFeedCommunity />
+                          </>
+                        )}
+                        {selectedCommunityId !== null && <CommunityDetail communityId={selectedCommunityId} />}
+                      </>
+                    )}
+                    {selectedIndex === 1 && (
+                      <>
+                        <DiscoverAndYourGroupsCommunity
+                          key={isJoined ? 'joined' : 'discover'}
+                          isJoined={isJoined}
+                          setSelectedIndex={(id: any) => {
+                            setSelectedIndex(0)
+                            setSelectedCommunityId(id)
+                          }}
+                        />
+                      </>
+                    )}
+
+                    {selectedIndex === 2 && (
+                      <>
+                        <DiscoverAndYourGroupsCommunity
+                          key={isJoined ? 'joined' : 'discover'}
+                          isJoined={isJoined}
+                          setSelectedIndex={(id: any) => {
+                            setSelectedIndex(0)
+                            setSelectedCommunityId(id)
+                          }}
+                        />
+                      </>
+                    )}
+                  </Grid>
+                  {/* Right */}
+                  {selectedIndex === 0 && (
+                    <Grid item xs={12} md={3}>
+                      <JoinGroupCard />
+                    </Grid>
+                  )}
+                </>
               )}
             </Grid>
-            {isOnBoardingCommunity ? (
-              <>
-                <Grid item xs={12} md={9}>
-                  <OnBoardingSections />
-                </Grid>
-              </>
-            ) : (
-              <>
-                {/* Center */}
-                <Grid item xs={12} md={selectedIndex !== 0 ? 9 : 6}>
-                  {selectedIndex === 0 ? (
-                    <>
-                      <Box sx={{ width: '100%', mb: '16px' }}>
-                        <PostFeedCommunity />
-                      </Box>
-                      <ListSocialFeedCommunity />
-                    </>
-                  ) : (
-                    <>
-                      <Box>test</Box>
-                    </>
-                  )}
-                </Grid>
-                {/* Right */}
-                {selectedIndex === 0 && (
-                  <Grid item xs={12} md={3}>
-                    <JoinGroupCard />
-                  </Grid>
-                )}
-              </>
-            )}
-          </Grid>
-        </Container>
-      </Box>
+          </Container>
+        </Box>
+      </CommunitiesProvider>
     </SocialFeedProvider>
   )
 }

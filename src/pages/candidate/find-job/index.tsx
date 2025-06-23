@@ -247,23 +247,10 @@ const SeafarerJobApp = () => {
       sort: sortBy
     })
   }
+
   useEffect(() => {
     getdatapencarian()
-  }, [
-    JC,
-    searchJob,
-    RL,
-    RT,
-    idcity,
-    idvessel,
-    employmentType,
-    employeeType,
-    company,
-    workArrangement,
-    page,
-    sortBy,
-    tabs
-  ])
+  }, [JC, RL, RT, idcity, idvessel, employmentType, employeeType, company, workArrangement, page, sortBy, tabs])
 
   return (
     <>
@@ -456,19 +443,37 @@ const SeafarerJobApp = () => {
                             fullWidth
                             size='small'
                             value={searchJob}
+                            title="Search Job - please click SEARCH button or press 'Enter' to search"
                             onChange={e => {
-                              setPage(1)
                               setSearchJob(e.target.value)
+                            }}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter') {
+                                getdatapencarian()
+                              }
                             }}
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position='start'>
                                   <Icon icon={'iconamoon:search-thin'} fontSize={16} style={{ marginRight: '10px' }} />
                                 </InputAdornment>
+                              ),
+                              endAdornment: (
+                                <Button
+                                  sx={{ marginRight: '-13px' }}
+                                  variant='contained'
+                                  onClick={() => {
+                                    getdatapencarian()
+                                  }}
+                                >
+                                  {' '}
+                                  Search{' '}
+                                </Button>
                               )
                             }}
                           />
                         </Box>
+
                         <Box>
                           <Grid container spacing={4}>
                             <Grid item xs={12} md={3}>
