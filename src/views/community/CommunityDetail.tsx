@@ -1,18 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Box,
-  Typography,
-  Tabs,
-  Tab,
-  Avatar,
-  Card,
-  CardContent,
-  CardMedia,
-  Button,
-  Divider,
-  Stack,
-  useMediaQuery
-} from '@mui/material'
+import { Box, Typography, Tabs, Tab, Card, CardContent, CardMedia, Button, Stack, useMediaQuery } from '@mui/material'
 import ShareIcon from '@mui/icons-material/Share'
 import PublicIcon from '@mui/icons-material/Public'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
@@ -84,6 +71,7 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId }) => 
 
       setCommunity(prev => {
         if (!prev) return prev
+
         return {
           ...prev,
           is_joined: true,

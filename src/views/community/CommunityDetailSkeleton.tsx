@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Skeleton, Stack, Card, CardContent, CardMedia, Tabs, Tab, Button } from '@mui/material'
+import { Box, Skeleton, Stack, Card, CardContent, Tabs, Tab } from '@mui/material'
 
 const CommunityDetailSkeleton = () => {
   return (
