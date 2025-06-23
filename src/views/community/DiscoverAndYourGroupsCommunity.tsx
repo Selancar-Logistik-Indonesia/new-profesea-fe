@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import CommunitiesContext from 'src/context/CommunitiesContext'
 
+import { useRouter } from 'next/navigation'
 import { useCommunities } from 'src/hooks/useCommunities'
 import CardGroupCommunity from './CardGroupCommunity'
 import CardGroupCommunitySkeleton from './CardGroupCommunitySkeleton'
@@ -10,13 +11,20 @@ import { useAuth } from 'src/hooks/useAuth'
 
 interface IDiscoverAndYourGroupsCommunity {
   isJoined?: boolean
+  setSelectedIndex: (id: any) => void
 }
 
-const DiscoverAndYourGroupsCommunity: React.FC<IDiscoverAndYourGroupsCommunity> = ({ isJoined }) => {
+const DiscoverAndYourGroupsCommunity: React.FC<IDiscoverAndYourGroupsCommunity> = ({ isJoined, setSelectedIndex }) => {
+  const router = useRouter()
   const { user } = useAuth()
   const take = 6
 
   const { fetchCommunities, hasNextPage, totalCommunities, setPage, setHasNextPage } = useCommunities()
+
+  const handleViewGroup = (id: any) => {
+    router.push(`/community/?communityId=${id}`)
+    setSelectedIndex(id)
+  }
 
   useEffect(() => {
     const resetAndFetch = async () => {
@@ -75,8 +83,8 @@ const DiscoverAndYourGroupsCommunity: React.FC<IDiscoverAndYourGroupsCommunity> 
                       members_count={community.total_members}
                       discussions_count={community.total_feeds}
                       is_joined={community?.is_joined}
-                      onJoinGroup={() => console.log('Join', community.id)}
-                      onViewGroup={() => console.log('View', community.id)}
+                      onJoinGroup={() => {}}
+                      onViewGroup={() => handleViewGroup(community?.id)}
                     />
                   </Grid>
                 ))}
