@@ -21,7 +21,6 @@ import ISocialFeed from 'src/contract/models/social_feed'
 import { HttpClient } from 'src/services'
 import ReportDialog from './ReportDialog'
 import { IActionAbilities } from './PostCardCommunity'
-import { handleClientScriptLoad } from 'next/script'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import { useAuth } from 'src/hooks/useAuth'
 import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers'
@@ -29,7 +28,6 @@ import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers'
 const CommunityFeedAction = ({ row, abilities }: { row: ISocialFeed; abilities: IActionAbilities }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const isOpen = Boolean(anchorEl)
-  const [open, setOpen] = useState<boolean>(false)
   const [openReport, setOpenReport] = useState<boolean>(false)
   const [openPin, setOpenPin] = useState<boolean>(false)
   const [openDelete, setOpenDelete] = useState<boolean>(false)

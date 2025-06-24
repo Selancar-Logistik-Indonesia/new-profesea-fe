@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  IconButton,
   Typography,
   Divider,
   Stack,
@@ -13,7 +12,6 @@ import {
   useTheme
 } from '@mui/material'
 import { Icon } from '@iconify/react'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined'
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import LockIcon from '@mui/icons-material/Lock'

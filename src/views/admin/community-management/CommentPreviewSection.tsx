@@ -1,13 +1,12 @@
 import { Icon } from '@iconify/react'
-import { Avatar, Box, Button, CircularProgress, Grid, Typography } from '@mui/material'
-import { set } from 'nprogress'
-import { use, useEffect, useState } from 'react'
+import { Avatar, Box, CircularProgress, Grid, Typography } from '@mui/material'
+import {useEffect, useState } from 'react'
 import ISocialFeedComment from 'src/contract/models/social_feed_comment'
 import { IUser } from 'src/contract/models/user'
 import CommentResponseType from 'src/contract/types/comment_response_type'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 import { HttpClient } from 'src/services'
-import { getUserAvatar, timeCreated, toLinkCase, toTitleCase } from 'src/utils/helpers'
+import { getUserAvatar, timeCreated, toTitleCase } from 'src/utils/helpers'
 
 const CommentPreviewSection = ({
   comment,
@@ -89,7 +88,7 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number; user:
 const SubCommentAreaView = (props: { item: ISocialFeedComment; feedId: number }) => {
   const { item, feedId } = props
   const [onLoading, setOnLoading] = useState(true)
-  const { getComments, subCommentSignature } = useSocialFeed()
+  const {  subCommentSignature } = useSocialFeed()
   const [commentObj, setCommentObj] = useState<CommentResponseType>()
 
   const loadComments = async () => {

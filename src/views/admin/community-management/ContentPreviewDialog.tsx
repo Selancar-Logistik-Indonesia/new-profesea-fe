@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react'
-import { Avatar, Box, Dialog, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material'
+import { Avatar, Box, Dialog, DialogContent, IconButton, Typography } from '@mui/material'
 import moment from 'moment'
 import { IReportedRowData } from 'src/contract/models/report'
 import { getUserAvatar, toTitleCase } from 'src/utils/helpers'

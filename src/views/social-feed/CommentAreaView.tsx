@@ -120,7 +120,7 @@ const CommentAreaView = (props: { item: ISocialFeed; placement?: 'popup' }) => {
   const [onLoading, setOnLoading] = useState(true)
   const [commentObj, setCommentObj] = useState<CommentResponseType>()
   const { getComments, commentSignature } = useSocialFeed()
-  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+  // const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   const loadComments = async () => {
     setOnLoading(true)
