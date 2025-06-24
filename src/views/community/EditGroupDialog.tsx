@@ -143,8 +143,8 @@ import {
           window.location.reload()
         }, 2000)
       } catch (error) {
-        console.error('Error creating group:', error)
-        toast.error('Failed to create group. Please try again.')
+        console.error('Error editing group:', error)
+        toast.error('Failed to edit group. Please try again.')
       } finally {
         setIsSubmitting(false)
       }
@@ -369,7 +369,7 @@ import {
               onClick={handleSubmit}
               disabled={!groupName || !visibility || isSubmitting}
             >
-              {isSubmitting ? <CircularProgress size={18} color='inherit' /> : 'Create Group'}
+              {isSubmitting ? <CircularProgress size={18} color='inherit' /> : 'Edit Group'}
             </Button>
           </DialogActions>
         </Dialog>

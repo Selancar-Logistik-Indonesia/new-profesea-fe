@@ -8,7 +8,6 @@ import AlumniContext, { AlumniProvider } from 'src/context/AlumniContext'
 import { useAlumni } from 'src/hooks/useAlumni'
 import ListAlumnis from 'src/views/alumni/ListAlumni'
 import { Icon } from '@iconify/react'
-import { HttpClient } from 'src/services'
 
 const FindCandidate = () => {
   return (
@@ -27,11 +26,6 @@ const ListAlumni = () => {
   const getdatapencarian = async () => {
     fetchAlumnis({ take: 12, search: textCandidate, status: null })
 
-    HttpClient.get('/community/19').then(res => console.log(res)).catch(err => console.log(err))
-  }
-
-  const handleJoin = () => {
-    HttpClient.post('/community/join-request?community_id=19').then(res => console.log(res)).catch(err => console.log(err))
   }
 
   useEffect(() => {
@@ -73,9 +67,6 @@ const ListAlumni = () => {
                                     {' '}
                                     Alumni
                                   </Typography>
-                                  <Button onClick={handleJoin}>
-                                    Join
-                                  </Button>
                                 </Grid>
                                 <Grid item lg={2} xs={12}>
                                   <TextField

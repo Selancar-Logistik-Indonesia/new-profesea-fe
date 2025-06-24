@@ -93,6 +93,7 @@ import { Avatar, IconButton, Menu, MenuItem, Stack } from '@mui/material'
 import Icon from 'src/@core/components/icon'
 import { useAuth } from 'src/hooks/useAuth'
 import EditGroupDialog from './EditGroupDialog'
+import { useRouter } from 'next/router'
 
 export interface ICardGroupProps {
   id: number
@@ -124,6 +125,7 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
   handleDelete = (id) => {console.log(id)}
 }) => {
   const {user} = useAuth()
+  const router = useRouter()
 
   const [openEdit, setOpenEdit] = React.useState<boolean>(false)
 
@@ -146,15 +148,23 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
 
   return (
     <>
-    <EditGroupDialog onClose={handleCloseEditDialog} open={openEdit} community={{id, name, description, is_private, banner_url, owner}}/>
-      <Card sx={{ maxWidth: 345, position:'relative' }}>
-      <CardMedia
-        sx={{ height: 120 }}
-        image={banner_url ? banner_url : '/images/banner-community.png'}
-        title='green iguana'
-      />
-      <CardContent sx={{ padding: '12px !important' }}>
+      <EditGroupDialog onClose={handleCloseEditDialog} open={openEdit} community={{id, name, description, is_private, banner_url, owner}}/>
+    <Card
+      sx={{
+        maxWidth: 345,
+        height: 350,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        boxShadow: 'none',
+        position:'relative'
         
+      }}
+    >
+      <CardMedia sx={{ height: 120 }} image={banner_url || '/images/banner-community.png'} title={name} />
+
+      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <CardContent sx={{ padding: '12px !important', flexGrow: 1 }}>
         {user?.role === 'admin' && (
           <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection:'row', alignItems:'center', position:'absolute', top:10, width:'90%'}}>
             <Box sx={{ display: 'flex', gap: '8px', flexDirection:'row' }}>
@@ -186,69 +196,6 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
             </Box>
           </Box>
         )}
-        <Typography sx={{ fontSize: '13px', fontWeight: 700, color: '#2D3436', mb: '16px' }}>{name}</Typography>
-        <Stack direction='row' spacing={3} sx={{ mb: 1, justifyContent: 'space-between' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Icon icon={'ph:user-thin'} fontSize={'12px'} />
-            <Typography sx={{ fontSize: '11px', fontWeight: 400 }} color='text.secondary'>
-              {members_count} members
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Icon icon={'heroicons-solid:chat'} fontSize={'12px'} />
-            <Typography sx={{ fontSize: '11px', fontWeight: 400 }} color='text.secondary'>
-              {discussions_count} discussions
-            </Typography>
-          </Box>
-        </Stack>
-
-        {user?.role === 'admin' && (
-          <Stack direction='row' spacing={3} sx={{ mb: 2, justifyContent: 'space-between'}}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Icon icon={ is_private ? 'ph:lock-key' : 'ph:globe-hemisphere-west'} fontSize={'12px'} />
-            <Typography sx={{ fontSize: '11px', fontWeight: 400 }} color='text.secondary'>
-              {is_private ? 'Private' : 'Public'}
-            </Typography>
-          </Box>
-        </Stack>
-        )}
-
-        <Typography variant='body2' sx={{ color: '#525252' }}>
-          {description}
-        </Typography>
-      </CardContent>
-      <CardActions sx={{ padding: '12px !important' }}>
-        <Button
-          size='small'
-          variant= {user?.role === 'admin' ? 'contained' : 'outlined'}
-          sx={{ fontSize: '14px', textTransform: 'capitalize', width:user?.role === 'admin' ?'100%' : ''}}
-          onClick={() => onViewGroup(id)}
-        >
-          View group
-        </Button>
-        <Button
-          size='small'
-          variant='contained'
-          sx={{ fontSize: '14px', textTransform: 'capitalize', display:user?.role === 'admin' ? 'none' : '' }}
-          onClick={() => onJoinGroup(id)}
-        >
-          Join group
-        </Button>
-      </CardActions>
-    <Card
-      sx={{
-        maxWidth: 345,
-        height: 350,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        boxShadow: 'none'
-      }}
-    >
-      <CardMedia sx={{ height: 120 }} image={banner_url || '/images/banner-community.png'} title={name} />
-
-      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-        <CardContent sx={{ padding: '12px !important', flexGrow: 1 }}>
           <Typography sx={{ fontSize: '13px', fontWeight: 700, color: '#2D3436', mb: '16px' }}>{name}</Typography>
 
           <Stack direction='row' spacing={3} sx={{ mb: 2, justifyContent: 'space-between' }}>
@@ -265,6 +212,17 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
               </Typography>
             </Box>
           </Stack>
+
+          {user?.role === 'admin' && (
+          <Stack direction='row' spacing={3} sx={{ mb: 2, justifyContent: 'space-between'}}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <Icon icon={ is_private ? 'ph:lock-key' : 'ph:globe-hemisphere-west'} fontSize={'12px'} />
+            <Typography sx={{ fontSize: '11px', fontWeight: 400 }} color='text.secondary'>
+              {is_private ? 'Private' : 'Public'}
+            </Typography>
+          </Box>
+        </Stack>
+        )}
 
           <Typography
             variant='body2'
@@ -285,9 +243,17 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
         <CardActions sx={{ padding: '12px !important', display: 'flex' }}>
           <Button
             size='small'
-            variant='outlined'
-            sx={{ fontSize: '14px', textTransform: 'capitalize', flex: 1 }}
-            onClick={() => onViewGroup(id)}
+            variant={user?.role === 'admin' ?'contained' : 'outlined'}
+            sx={{ fontSize: '14px', textTransform: 'capitalize', flex: 1, width:user?.role === 'admin' ?'100%' : '' }}
+            onClick={() => {
+              if(user?.role === 'admin') {
+                router.push(`community-management/${id}`)
+
+                return
+              }
+
+              onViewGroup(id)
+            }}
           >
             View Group
           </Button>
@@ -296,7 +262,7 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
             <Button
               size='small'
               variant='contained'
-              sx={{ fontSize: '14px', textTransform: 'capitalize', flex: 1 }}
+              sx={{ fontSize: '14px', textTransform: 'capitalize', flex: 1, display:user?.role === 'admin' ? 'none' : '' }}
               onClick={() => onJoinGroup(id)}
             >
               Join Group
@@ -305,6 +271,7 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
         </CardActions>
       </Box>
     </Card>
+      
     </>
   )
 }

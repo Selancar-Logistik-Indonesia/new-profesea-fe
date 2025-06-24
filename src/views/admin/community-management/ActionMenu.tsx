@@ -6,7 +6,7 @@ import ContentPreviewDialog from "./ContentPreviewDialog";
 
 
 
-const ActionMenu = ({ row }: { row: IReportedRowData }) => {
+const ActionMenu = ({ row, level2=false }: { row: IReportedRowData, level2?:boolean }) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const isOpen = Boolean(anchorEl);
     const [open, setOpen] = useState<boolean>(false);
@@ -64,7 +64,7 @@ const ActionMenu = ({ row }: { row: IReportedRowData }) => {
               setOpen(true);
               handleClose();
             }}
-            sx={{ display: open ? 'none' :  'flex', alignItems: 'center', gap: '8px' }}
+            sx={{ display: level2 ? 'none' :  'flex', alignItems: 'center', gap: '8px' }}
           >
             <Icon icon='lets-icons:view' fontSize={20} />
             View Full Post

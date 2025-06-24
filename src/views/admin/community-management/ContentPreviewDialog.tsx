@@ -62,7 +62,7 @@ const ContentPreviewDialog = ({
                 </Box>
               </Box>
             </Box>
-            <ActionMenu row={row} />
+            <ActionMenu row={row} level2={true}/>
           </Box>
           <Typography sx={{ fontSize: 14, fontWeight: 400, textAlign: 'justify', whiteSpace: 'pre-line' }}>
             {row.content}

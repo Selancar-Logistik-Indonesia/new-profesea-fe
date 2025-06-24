@@ -102,6 +102,8 @@ const CommunityManagement = () => {
     fetchCommunities()
   }, [page, search, sort, visibility, refetch, activeTab])
 
+  
+
   return (
     <>
       <CreateGroupDialog open={openCreate} onClose={closeCreateDialog} />
