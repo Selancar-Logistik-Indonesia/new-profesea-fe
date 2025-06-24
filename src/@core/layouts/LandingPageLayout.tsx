@@ -52,8 +52,8 @@ const LandingPageLayout = (props: LandingPageLayoutProps) => {
             position: 'relative',
             minHeight: theme => `calc(100vh - ${theme.spacing((theme.mixins.toolbar.minHeight as number) / 4)})`,
             padding:
-              pathname.startsWith('/profile/') || pathname.startsWith('/company/') || pathname.startsWith('/job/')
-                ? '24px 120px'
+              pathname?.startsWith('/profile/') || pathname?.startsWith('/company/') || pathname?.startsWith('/job/')
+                ? {sm:'24px 120px', xs:''}
                 : ''
           }}
         >
