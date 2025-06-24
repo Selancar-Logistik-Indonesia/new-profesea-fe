@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  IconButton,
   Typography,
   Divider,
   Stack,
@@ -13,7 +12,6 @@ import {
   useTheme
 } from '@mui/material'
 import { Icon } from '@iconify/react'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined'
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import LockIcon from '@mui/icons-material/Lock'
@@ -22,25 +20,51 @@ import ImageListFeed from '../social-feed/ImageListFeed'
 import { getUserAvatar, toTitleCase } from 'src/utils/helpers'
 import moment from 'moment'
 import ButtonLike from '../social-feed/ButtonLike'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CommentAreaView from '../social-feed/CommentAreaView'
+import { useAuth } from 'src/hooks/useAuth'
+import CommunityFeedAction from './CommunityFeedAction'
 // import ButtonShare from '../social-feed/ButtonShare'
 
 interface IPostCardCommunityProps {
   feed: ISocialFeed
 }
 
+export interface IActionAbilities {
+  canDelete: boolean
+  canReport: boolean
+  canPin: boolean
+  canEdit: boolean
+}
+
 const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
+  const { user } = useAuth()
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.down('md'))
   const [isLike, setIsLike] = useState(Boolean(feed.liked_at))
   const [openComment, setOpenComment] = useState(false)
 
+  const [abilities, setAbilities] = useState<IActionAbilities>({
+    canDelete: feed?.user?.id === user?.id || user?.role === 'admin' || user?.id === feed?.community?.user_id,
+    canReport: feed?.user?.id !== user?.id || user?.role !== 'admin',
+    canPin: user?.role === 'admin' || user?.id === feed?.community?.user_id,
+    canEdit: feed?.user?.id === user?.id
+  })
+
+  useEffect(() => {
+    setAbilities({
+      canDelete: feed?.user?.id === user?.id || user?.role === 'admin' || user?.id === feed?.community?.user_id,
+      canReport: feed?.user?.id !== user?.id && user?.role !== 'admin',
+      canPin: user?.role === 'admin' || user?.id === feed?.community?.user_id,
+      canEdit: feed?.user?.id === user?.id
+    })
+  }, [])
+
   return (
     <Card
       sx={{
         width: '100%',
-        maxWidth: 600,
+        maxWidth: user?.role === 'admin' ? '100%' : 600,
         margin: 'auto',
         borderRadius: '12px',
         background: '#FFF',
@@ -48,13 +72,13 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
         padding: '24px 0px 16px 0px'
       }}
     >
+      <Box sx={{ display: feed?.settings?.is_pinned ? 'flex' : 'none', alignItems: 'center', gap: '4px', ml: 5 }}>
+        <Icon icon='ph:push-pin-simple-fill' fontSize={18} />
+        <Typography>Pinned Post</Typography>
+      </Box>
       <CardHeader
         avatar={<Avatar alt='profile-picture' src={getUserAvatar(feed.user)} sx={{ width: 36, height: 36 }} />}
-        action={
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        }
+        action={<CommunityFeedAction row={feed} abilities={abilities} />}
         title={
           <Typography
             sx={{
@@ -161,16 +185,14 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
           />
         </Box>
         <Box flex={1} textAlign='center'>
-          {feed?.content_type == 'text' && (
-            <Button
-              startIcon={<Icon icon={'majesticons:chat-line'} fontSize={16} />}
-              size='small'
-              sx={{ fontSize: '14px', fontWeight: 400, textTransform: 'capitalize', color: '#32497A' }}
-              onClick={() => setOpenComment(!openComment)}
-            >
-              Comment
-            </Button>
-          )}
+          <Button
+            startIcon={<Icon icon={'majesticons:chat-line'} fontSize={16} />}
+            size='small'
+            sx={{ fontSize: '14px', fontWeight: 400, textTransform: 'capitalize', color: '#32497A' }}
+            onClick={() => setOpenComment(!openComment)}
+          >
+            Comment
+          </Button>
         </Box>
         <Box flex={1} textAlign='right'>
           <Button

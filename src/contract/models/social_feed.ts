@@ -1,4 +1,5 @@
 import { Community } from './community'
+import ISocialFeedComment from './social_feed_comment'
 import { IUser } from './user'
 
 interface ISocialFeed {
@@ -17,6 +18,8 @@ interface ISocialFeed {
   feed_repost?: ISocialFeed
   user: IUser
   community: Community
+  comments: ISocialFeedComment[]
+  settings?: any
 }
 
 export default ISocialFeed
