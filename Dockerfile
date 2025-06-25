@@ -12,7 +12,7 @@ RUN npm install
 COPY . .
 
 ARG buildArg
-COPY env.${buildArg} .env
+# COPY env.${buildArg} .env
 
 RUN npm run build
 
