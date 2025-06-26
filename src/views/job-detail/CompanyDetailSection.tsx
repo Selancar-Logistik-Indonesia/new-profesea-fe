@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, Typography } from '@mui/material'
+import { Avatar, Box, Card, Link, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import Job from 'src/contract/models/job'
 import { IUser } from 'src/contract/models/user'
@@ -9,7 +9,8 @@ const CompanyDetailSection = ({ jobDetail, user, isMobile }: { jobDetail: Job | 
   const router = useRouter()
 
   return (
-    <Card sx={{ border: 0, boxShadow: 0, backgroundColor: '#FFFFFF', padding: isMobile ? '24px' : '32px' }}>
+    <Card
+     sx={{ border: 0, boxShadow: 0, backgroundColor: '#FFFFFF', padding: isMobile ? '24px' : '32px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <Box>
           <Typography
@@ -30,7 +31,10 @@ const CompanyDetailSection = ({ jobDetail, user, isMobile }: { jobDetail: Job | 
             alignItems: 'center'
           }}
         >
-          <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <Box
+          component={Link}
+          href={`/company/${company?.username}`}
+          sx={{ display: 'flex', gap: '8px', alignItems: 'center', textDecoration: 'none' }}>
             <Avatar src={company?.photo} sx={{ width: 51, height: 51 }} />
             <Box sx={{ cursor: 'pointer' }} onClick={() => router.push(`/company/${company?.username}`)}>
               <TruncatedTypography fontSize={14} fontWeight={700} color={'#303030'}>
