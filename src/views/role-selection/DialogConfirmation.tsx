@@ -78,6 +78,11 @@ const DialogConfirmation = (props: DialogProps) => {
         team_id: 2,
         employee_type: 'offship'
       }
+    } else if (employeeType === 'hospitality') {
+      data = {
+        team_id: 2,
+        employee_type: 'onship'
+      }
     } else {
       toast.error('Employee type not found')
 

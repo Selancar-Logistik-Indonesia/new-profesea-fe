@@ -436,6 +436,11 @@
       "contact_dialog_description": "Kami siap bantu cari solusi dan harga yang paling pas untuk kebutuhan bisnismu.",
       "contact_dialog_title_right": "Dukungan Produk dan Akun",
       "contact_dialog_description_right": "Pusat bantuan kami penuh dengan info bermanfaat dan selalu siap bantu. Nggak nemu yang kamu cari? Tenang aja, langsung hubungi, kami siap bantu!"
+    },
+    "hospitality_landing_page" : {
+      "title" : "Kerja Sambil Keliling Dunia? <br> <span style=\"background: linear-gradient(90deg, #6494FA 32%, #FF9600 90.84%); color: transparent; background-clip: text;\">Bisa Banget!</span>",
+      "description": "Pindah haluan gabung di dunia hospitality kapal pesiar.<br> Gaji tinggi, pengalaman seru, dan jalan-jalan ke berbagai negara.",
+      "button" : "Mulai Daftar Sekarang"
     }
   }
 }
