@@ -42,10 +42,7 @@ const ButtonSettings = (props: { item: ISocialFeed }) => {
             <ButtonUpdate item={item} variant='settings' />
           </ListItem>
           <ListItem disablePadding>
-            <ButtonDelete
-              item={{ id: item.id, feedId: item.id, count_likes: item.count_likes, deleteComment: true }}
-              variant='settings'
-            />
+            <ButtonDelete item={{ id: item.id, feedId: item.id, count_likes: item.count_likes }} variant='settings' />
           </ListItem>
         </List>
       </Popover>
