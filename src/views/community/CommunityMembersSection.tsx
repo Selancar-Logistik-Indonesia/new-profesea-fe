@@ -21,7 +21,8 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
   const { user } = useAuth()
 
   const pageItems = 10
-  const pageItemsRequests = 10
+  const pageItemsRequests = 999
+  const pageRequests = 1
   const [tab, setTab] = useState(0)
   const [requests, setRequests] = useState<any[]>([])
   const [members, setMembers] = useState<any[]>([])
@@ -29,7 +30,6 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
   const [adminMember, setAdminMember] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
-  const [pageRequests, _] = useState(1)
 
   const handleFetchMembers = async () => {
     setLoading(true)
@@ -64,9 +64,9 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
     }
   }
 
-  const handleAcceptAndDecline = (requestId: number, type: 'accept' | 'reject') => {
+  const handleAcceptAndDecline = async (requestId: number, type: 'accept' | 'reject') => {
     try {
-      const response = HttpClient.put(`/community/requests/${requestId}/${type}`)
+      await HttpClient.put(`/community/requests/${requestId}/${type}`)
       setRequests(prev => prev.filter(u => u.id !== requestId))
       toast.success(`Request ${type}ed successfully!`)
     } catch (error) {
@@ -74,11 +74,6 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
       // Optionally show an error message to the user
       toast.error(`Error ${type}ing request!`)
     }
-  }
-
-  const handleDecline = (userId: number) => {
-    setRequests(prev => prev.filter(u => u.id !== userId))
-    // Call your backend to decline user
   }
 
   // connect functionality is commented out as it requires backend implementation, because from payload response backend team_id is not available
@@ -218,6 +213,7 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
 
           {requests.map((r, idx) => (
             <Box
+              key={r.user_id || idx}
               sx={{
                 borderBottom: '1px solid #e0e0e0',
                 py: '24px',
@@ -226,7 +222,7 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
                 flexDirection: 'column'
               }}
             >
-              <Stack key={r.user_id || idx} direction='row' alignItems='flex-start' spacing={2}>
+              <Stack direction='row' alignItems='flex-start' spacing={2}>
                 <Avatar src={r.user?.photo} alt={r.user?.name} sx={{ width: 70, height: 70 }} />
                 <Box flex={1} sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, justifyContent: 'center' }}>
                   <Typography fontWeight={600} fontSize={14} color={'rgba(50, 73, 122, 1)'}>

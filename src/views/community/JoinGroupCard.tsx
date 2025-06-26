@@ -6,7 +6,6 @@ import Icon from 'src/@core/components/icon'
 import { HttpClient } from 'src/services'
 import JoinGroupCardSkeleton from './JoinGroupCardSkeleton'
 import toast from 'react-hot-toast'
-import { request } from 'http'
 
 interface Group {
   id: string
