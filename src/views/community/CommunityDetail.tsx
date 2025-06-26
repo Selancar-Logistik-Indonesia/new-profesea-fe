@@ -21,7 +21,7 @@ interface ICreateBy {
   country: string
 }
 
-interface IDetailCommunityData {
+export interface IDetailCommunityData {
   id: number
   banner_url: string
   created_at: string
@@ -45,12 +45,21 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId }) => 
   const [tabValue, setTabValue] = React.useState(0)
   const [loading, setLoading] = useState(true)
   const [community, setCommunity] = useState<null | IDetailCommunityData>(null)
+  const [disabledTabs, setDisabledTabs] = useState(false)
 
   const handleGetDetailCommunity = async () => {
+    setTabValue(0)
+    setDisabledTabs(false)
     setLoading(true)
     try {
       const response = await HttpClient.get(`/community/${communityId}`)
       setCommunity(response?.data?.data)
+
+      const disabled = response?.data?.data.is_private && !response?.data?.data.is_joined
+
+      if (disabled) {
+        setDisabledTabs(true)
+      }
     } catch (error) {
       console.error(error)
       toast.error('Error get detail community!')
@@ -182,8 +191,8 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId }) => 
           sx={{ borderBottom: 1, borderColor: 'divider', mt: 1 }}
         >
           <Tab label='About' sx={{ textTransform: 'capitalize', fontWeight: 'bold' }} />
-          <Tab label='Discussions' sx={{ textTransform: 'capitalize', fontWeight: 'bold' }} />
-          <Tab label='Members' sx={{ textTransform: 'capitalize', fontWeight: 'bold' }} />
+          <Tab label='Discussions' sx={{ textTransform: 'capitalize', fontWeight: 'bold' }} disabled={disabledTabs} />
+          <Tab label='Members' sx={{ textTransform: 'capitalize', fontWeight: 'bold' }} disabled={disabledTabs} />
         </Tabs>
 
         {tabValue === 0 && (
@@ -193,10 +202,7 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId }) => 
                 About
               </Typography>
               <Typography variant='body2' color='text.secondary'>
-                I'm a dedicated 3rd Officer with extensive tanker experience in navigation, safety drills, and cargo
-                operations. I ensure compliance with maritime regulations and work closely with the bridge team to
-                maintain vessel performance and security. Passionate about maritime operations, I’m committed to
-                continuous learning and contributing to the ship's smooth operation.
+                {community?.description || 'No description available.'}
               </Typography>
             </Box>
           </Box>
@@ -204,7 +210,7 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId }) => 
 
         {/* Placeholder for future tabs */}
         {tabValue === 1 && <Typography mt={2}>Discussions content</Typography>}
-        {tabValue === 2 && <CommunityMembersSection />}
+        {tabValue === 2 && <CommunityMembersSection community={community} />}
       </CardContent>
     </Card>
   )
