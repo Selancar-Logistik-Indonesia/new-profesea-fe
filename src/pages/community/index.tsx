@@ -31,7 +31,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import DiscoverAndYourGroupsCommunity from 'src/views/community/DiscoverAndYourGroupsCommunity'
 import { CommunitiesProvider } from 'src/context/CommunitiesContext'
 import { useRouter, useSearchParams } from 'next/navigation'
-import CommunityDetail, { IDetailCommunityData } from 'src/views/community/CommunityDetail'
+import CommunityDetail from 'src/views/community/CommunityDetail'
 import { Icon } from '@iconify/react'
 import CommunityEdit from 'src/views/community/CommunityEdit'
 

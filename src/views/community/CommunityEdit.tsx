@@ -14,7 +14,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
@@ -28,8 +27,6 @@ const CommunityEdit = ({ community }: { community: IDetailCommunityData }) => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(community?.banner_url)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [fileError, setFileError] = useState<string | null>(null)
-
-  const router = useRouter()
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0]
