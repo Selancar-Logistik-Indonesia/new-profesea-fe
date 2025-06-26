@@ -435,7 +435,7 @@ const SeafarerJobApp = () => {
                       <Box
                         sx={{ width: hidden ? '100%' : '70%', display: 'flex', flexDirection: 'column', gap: '24px' }}
                       >
-                        <Box sx={{ width: '100%' }}>
+                        <Box sx={{ width: '49%' }}>
                           <TextField
                             id='searchJob'
                             variant='outlined'
@@ -455,19 +455,22 @@ const SeafarerJobApp = () => {
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position='start'>
-                                  <Icon icon={'iconamoon:search-thin'} fontSize={16} style={{ marginRight: '10px' }} />
+                                  <Icon icon={'iconamoon:search-thin'} fontSize={16} style={{}} />
                                 </InputAdornment>
                               ),
                               endAdornment: (
                                 <Button
-                                  sx={{ marginRight: '-13px' }}
                                   variant='contained'
+                                  size='small'
+                                  sx={{ margin: '5px', marginRight: '-10px', padding: '5px 25px' }}
                                   onClick={() => {
                                     getdatapencarian()
                                   }}
+                                  startIcon={
+                                    <Icon icon={'iconamoon:search-thin'} fontSize={16} style={{ color: 'white' }} />
+                                  }
                                 >
-                                  {' '}
-                                  Search{' '}
+                                  Search
                                 </Button>
                               )
                             }}
