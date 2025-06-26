@@ -120,7 +120,7 @@ const CommentAreaView = (props: { item: ISocialFeed; placement?: 'popup' }) => {
   const [onLoading, setOnLoading] = useState(true)
   const [commentObj, setCommentObj] = useState<CommentResponseType>()
   const { getComments, commentSignature } = useSocialFeed()
-  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+  // const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
 
   const loadComments = async () => {
     setOnLoading(true)
@@ -156,7 +156,7 @@ const CommentAreaView = (props: { item: ISocialFeed; placement?: 'popup' }) => {
             ))}
           </Stack>
         )}
-        {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' main_feed_id={item.id} />}
+        <CommentForm feedId={item.id} replyable_type='feed' main_feed_id={item.id} />
       </Box>
     )
 
@@ -167,7 +167,7 @@ const CommentAreaView = (props: { item: ISocialFeed; placement?: 'popup' }) => {
           <CircularProgress />
         </Box>
       )}
-      {user.team_id !== 1 && <CommentForm feedId={item.id} replyable_type='feed' main_feed_id={item.id} />}
+       <CommentForm feedId={item.id} replyable_type='feed' main_feed_id={item.id} />
       {!onLoading && commentObj?.data && commentObj?.data.length > 0 && (
         <Stack spacing='16px' sx={{ pt: '16px' }}>
           {commentObj?.data.slice(0, visibleComments).map(comment => (
