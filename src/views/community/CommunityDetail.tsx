@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import { Box, Typography, Tabs, Tab, Card, CardContent, CardMedia, Button, Stack, useMediaQuery } from '@mui/material'
 import ShareIcon from '@mui/icons-material/Share'
 // import PublicIcon from '@mui/icons-material/Public'
@@ -42,10 +42,12 @@ export interface IDetailCommunityData {
 }
 
 interface ICommunityDetail {
-  communityId: any
+  communityId: any,
+  setIsAdmin: any,
+  setSelectedCommunity: any
 }
 
-export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId }) => {
+export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIsAdmin, setSelectedCommunity }) => {
   const { user } = useAuth()
   const router = useRouter()
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
@@ -66,8 +68,11 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId }) => 
     try {
       const response = await HttpClient.get(`/community/${communityId}`)
       setCommunity(response?.data?.data)
+      setSelectedCommunity(response?.data?.data)
 
-      const disabled = response?.data?.data.is_private && !response?.data?.data.is_joined
+      if(response?.data?.data.created_by.id === user?.id) setIsAdmin(true)
+
+      const disabled = response?.data?.data.is_private && !response?.data?.data.is_joined && user?.role !== 'admin'
 
       if (disabled) {
         setDisabledTabs(true)

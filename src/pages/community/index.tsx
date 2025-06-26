@@ -10,12 +10,15 @@ import {
   ListItemText,
   ListItemButton,
   styled,
-  Skeleton
+  Skeleton,
+  Link,
+  Breadcrumbs,
+  IconButton
 } from '@mui/material'
 
 import { ThreadProvider } from 'src/context/ThreadContext'
 
-import { MdAdd } from 'react-icons/md'
+import { MdAdd, MdNavigateNext } from 'react-icons/md'
 import OnBoardingSections from 'src/views/community/OnBoardingSections'
 import PostFeedCommunity from 'src/views/community/PostFeedCommunity'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
@@ -29,6 +32,8 @@ import DiscoverAndYourGroupsCommunity from 'src/views/community/DiscoverAndYourG
 import { CommunitiesProvider } from 'src/context/CommunitiesContext'
 import { useRouter, useSearchParams } from 'next/navigation'
 import CommunityDetail from 'src/views/community/CommunityDetail'
+import { Icon } from '@iconify/react'
+import CommunityEdit from 'src/views/community/CommunityEdit'
 
 const Community = () => {
   return (
@@ -61,10 +66,12 @@ const CommunityApp = () => {
   const { user, flaggings } = useAuth()
 
   const [communities, setCommunities] = React.useState<any[]>([])
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [selectedCommunity, setSelectedCommunity] = useState<any>()
+  const [selectedIndex, setSelectedIndex] = useState<number>(0)
   const [openDialogCreateGroup, setOpenDialogCreateGroup] = useState(false)
   const [loadingYourGroups, setLoadingYourGroups] = useState(false)
   const [isJoined, setIsJoined] = useState(false)
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const [selectedCommunityId, setSelectedCommunityId] = useState(
     searchParams.get('communityId') ? searchParams.get('communityId') : null
   )
@@ -125,10 +132,75 @@ const CommunityApp = () => {
       <CommunitiesProvider>
         <CreateGroupDialog open={openDialogCreateGroup} onClose={handleOpenCreateGroupDialog} />
         <Box sx={{ minHeight: '100vh' }}>
+          <Breadcrumbs
+            separator={<MdNavigateNext fontSize={'17px'} color='black' />}
+            aria-label='breadcrumb'
+            sx={{ ml: 4, mb: 2 }}
+          >
+            <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
+              <Typography
+                sx={{
+                  color: '#32497A',
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
+                Home
+              </Typography>
+            </Link>
+            <Link key='2' href={'/community/'} sx={{ textDecoration: 'none' }}>
+              {/* nanti ganti pake logic trainer/admin */}
+              <Typography
+                sx={{
+                  color: '#32497A',
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
+                Community
+              </Typography>
+            </Link>
+            <Typography
+              key='3'
+              sx={{
+                color: '#949EA2',
+                fontSize: '14px',
+                fontWeight: 400,
+                cursor: 'pointer'
+              }}
+            >
+              {selectedCommunityId && selectedCommunity
+                ? selectedCommunity?.name
+                : selectedIndex === 1
+                ? 'Discover'
+                : selectedIndex === 2
+                ? 'Your Groups'
+                : 'Group Feed'}
+            </Typography>
+            {selectedIndex === 3 && (
+              <Typography
+              key='4'
+              sx={{
+                color: '#949EA2',
+                fontSize: '14px',
+                fontWeight: 400,
+                cursor: 'pointer'
+              }}
+            >
+              Edit Community Settings
+            </Typography>
+            )}
+          </Breadcrumbs>
+
           <Container maxWidth='xl' sx={{ py: 2 }}>
             <Grid container spacing={4}>
-              {/* Left */}
-              <Grid item xs={12} md={3} sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {/* Left not admin */}
+              <Grid
+                item
+                xs={12}
+                md={3}
+                sx={{ display: isAdmin ? 'none' : 'flex', flexDirection: 'column', gap: '16px' }}
+              >
                 <Paper
                   sx={{
                     padding: '16px',
@@ -137,6 +209,29 @@ const CommunityApp = () => {
                     boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)'
                   }}
                 >
+                  <Typography
+                    onClick={() => {
+                      setSelectedCommunityId(null)
+                      setIsAdmin(false)
+                    }}
+                    sx={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: '#32497A',
+                      mb: 2,
+                      display: selectedCommunityId ? 'flex' : 'none',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 2,
+                      cursor: 'pointer',
+                      '&:hover': { textDecoration: 'underline' }
+                    }}
+                  >
+                    <IconButton>
+                      <Icon icon={'ph:arrow-left'} fontSize={18} />
+                    </IconButton>
+                    Back to group feed
+                  </Typography>
                   <Typography variant='h6' sx={{ mb: 2, fontWeight: 'bold' }}>
                     Groups
                   </Typography>
@@ -306,6 +401,93 @@ const CommunityApp = () => {
                   </Paper>
                 )}
               </Grid>
+
+              {/* left admin */}
+              <Grid
+                item
+                xs={12}
+                md={3}
+                sx={{ display: isAdmin ? 'flex' : 'none', flexDirection: 'column', gap: '16px' }}
+              >
+                <Paper
+                  sx={{
+                    padding: '16px',
+                    borderRadius: '12px !important',
+                    background: '#FFF',
+                    boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)'
+                  }}
+                >
+                  {/* header */}
+                  <Typography
+                    onClick={() => {
+                      setIsAdmin(false)
+                      setSelectedCommunityId(null)}}
+                    sx={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: '#32497A',
+                      mb: 2,
+                      display: selectedCommunityId ? 'flex' : 'none',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 2,
+                      cursor: 'pointer',
+                      '&:hover': { textDecoration: 'underline' }
+                    }}
+                  >
+                    <IconButton>
+                      <Icon icon={'ph:arrow-left'} fontSize={18} />
+                    </IconButton>
+                    Back to group feed
+                  </Typography>
+                  <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+                    Group Management
+                  </Typography>
+
+                  <List dense sx={{ my: '16px' }}>
+                    <CustomListItemButton selected={selectedIndex === 0} onClick={() => setSelectedIndex(0)}>
+                      <ListItemText
+                        primary='Community Home'
+                        primaryTypographyProps={
+                          selectedIndex === 0
+                            ? {
+                                fontWeight: 700,
+                                color: '#2654A2 !important' // primary color for selected item
+                              }
+                            : {}
+                        }
+                      />
+                    </CustomListItemButton>
+
+                    <CustomListItemButton
+                      selected={selectedIndex === 3}
+                      onClick={() => setSelectedIndex(3)}
+                      sx={{
+                        mb: 1,
+                        borderRadius: '8px',
+                        '&:hover': {
+                          backgroundColor: 'rgba(215, 234, 246, 0.50)', // light blue
+                          color: 'primary.main', // text color on hover
+                          borderRadius: '8px'
+                        }
+                      }}
+                    >
+                      <ListItemText
+                        primary='Edit Community Settings'
+                        primaryTypographyProps={
+                          selectedIndex === 3
+                            ? {
+                                fontWeight: 700,
+                                color: '#2654A2 !important' // primary color for selected item
+                              }
+                            : {}
+                        }
+                      />
+                    </CustomListItemButton>
+                  </List>
+                </Paper>
+              </Grid>
+
               {isOnBoardingCommunity ? (
                 <>
                   <Grid item xs={12} md={9}>
@@ -326,7 +508,9 @@ const CommunityApp = () => {
                             <ListSocialFeedCommunity />
                           </>
                         )}
-                        {selectedCommunityId !== null && <CommunityDetail communityId={selectedCommunityId} />}
+                        {selectedCommunityId !== null && (selectedIndex as number !== 4) &&(
+                          <CommunityDetail communityId={selectedCommunityId} setIsAdmin={setIsAdmin} setSelectedCommunity={setSelectedCommunity}/>
+                        )}
                       </>
                     )}
                     {selectedIndex === 1 && (
@@ -352,6 +536,11 @@ const CommunityApp = () => {
                             setSelectedCommunityId(id)
                           }}
                         />
+                      </>
+                    )}
+                    {selectedIndex === 3 && (
+                      <>
+                        <CommunityEdit community={selectedCommunity}/>
                       </>
                     )}
                   </Grid>
