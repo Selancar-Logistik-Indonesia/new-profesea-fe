@@ -12,7 +12,8 @@ import {
   Dialog,
   DialogContent,
   DialogContentText,
-  DialogActions
+  DialogActions,
+  Link
 } from '@mui/material'
 import { HttpClient } from 'src/services'
 import Job from 'src/contract/models/job'
@@ -234,7 +235,7 @@ const JobDetail = () => {
       toast.error('Error save job')
     }
   }
-  
+
   const handleDeleteJobSave = async (jobId: any, jobSaveId: any) => {
     try {
       const response = await HttpClient.del(`/job/save/${jobSaveId}`)
@@ -451,12 +452,26 @@ const JobDetail = () => {
                 <Box
                   sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', alignItems: 'center' }}
                 >
-                  <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <Avatar src={jobDetail?.company?.photo} sx={{ width: 24, height: 24 }} />
-                    <TruncatedTypography fontSize={14} fontWeight={400} color={'#404040'}>
-                      {jobDetail?.company?.name ?? '-'}
-                    </TruncatedTypography>
+                  
+                  <Box sx={{ position: 'relative', display: 'flex', gap: '8px', alignItems: 'center', }}>
+                    <Link
+                      href={`/company/${jobDetail?.company?.username}`}
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                        zIndex: 1,
+                        textDecoration: 'none'
+                      }}
+                    />
+                      <Avatar src={jobDetail?.company?.photo} sx={{ width: 24, height: 24 }} />
+                      <TruncatedTypography fontSize={14} fontWeight={400} color={'#404040'}>
+                        {jobDetail?.company?.name ?? '-'}
+                      </TruncatedTypography>
                   </Box>
+
                   <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                     {onApplied == false ? (
                       <>{renderButtonOffering(jobDetail?.isOffering)}</>
@@ -505,11 +520,10 @@ const JobDetail = () => {
               </Box>
 
               <JobDetailSection jobDetail={jobDetail} isMobile={isMobile} />
-              
+
               {jobDetail?.category?.employee_type == 'onship' && (
                 <SectionThreeJobDetail jobDetail={jobDetail} license={license} />
               )}
-
             </Card>
             <CompanyDetailSection isMobile={isMobile} user={user} jobDetail={jobDetail} />
           </Grid>

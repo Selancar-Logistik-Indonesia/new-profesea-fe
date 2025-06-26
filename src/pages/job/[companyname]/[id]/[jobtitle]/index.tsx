@@ -1,7 +1,17 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'
-import { Card, CircularProgress, IconButton, useTheme, useMediaQuery, Avatar, Typography, Button } from '@mui/material'
+import {
+  Card,
+  CircularProgress,
+  IconButton,
+  useTheme,
+  useMediaQuery,
+  Avatar,
+  Typography,
+  Button,
+  Link
+} from '@mui/material'
 import { HttpClient } from 'src/services'
 import Job from 'src/contract/models/job'
 import Grid from '@mui/material/Grid'
@@ -159,7 +169,8 @@ const JobDetail = () => {
       </Head>
 
       <Box sx={{ position: 'relative' }}>
-        <h1>{jobDetail?.job_title ? jobDetail?.job_title : jobDetail?.role_type?.name}</h1>
+        {/* bawah di komen karena ga tau buat apa, after login gapake ini. */}
+        {/* <h1>{jobDetail?.job_title ? jobDetail?.job_title : jobDetail?.role_type?.name}</h1> */}
         <Grid container sx={{ position: 'absolute', top: '12px', left: '-72px' }}>
           <IconButton onClick={() => router.push('/find-job')}>
             <FontAwesomeIcon icon={faArrowLeft} color='text.primary' />
@@ -203,12 +214,25 @@ const JobDetail = () => {
                     alignItems: 'center'
                   }}
                 >
-                  <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <Box sx={{ position: 'relative', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <Link
+                      href={`/company/${jobDetail?.company?.username}`}
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        zIndex: 1,
+                        textDecoration: 'none'
+                      }}
+                    />
                     <Avatar src={jobDetail?.company?.photo} sx={{ width: 24, height: 24 }} />
                     <TruncatedTypography fontSize={14} fontWeight={400} color={'#404040'}>
                       {jobDetail?.company?.name ?? '-'}
                     </TruncatedTypography>
                   </Box>
+                  
                   <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                     <Button
                       onClick={handleApply}

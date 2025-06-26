@@ -76,7 +76,6 @@ const SubCommentCard = (props: { comment: ISocialFeedComment; feedId: number }) 
 
 const SubCommentAreaView = (props: { item: ISocialFeedComment; feedId: number }) => {
   const { item, feedId } = props
-  console.log('subcommentarea: ', item)
   const [onLoading, setOnLoading] = useState(true)
   const { getComments, subCommentSignature } = useSocialFeed()
   const [commentObj, setCommentObj] = useState<CommentResponseType>()

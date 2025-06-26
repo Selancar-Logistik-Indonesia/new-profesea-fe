@@ -25,6 +25,7 @@ const ListAlumni = () => {
 
   const getdatapencarian = async () => {
     fetchAlumnis({ take: 12, search: textCandidate, status: null })
+
   }
 
   useEffect(() => {

@@ -27,6 +27,8 @@ import { HttpClient } from 'src/services'
 import { useAuth } from 'src/hooks/useAuth'
 import DiscoverAndYourGroupsCommunity from 'src/views/community/DiscoverAndYourGroupsCommunity'
 import { CommunitiesProvider } from 'src/context/CommunitiesContext'
+import { useRouter, useSearchParams } from 'next/navigation'
+import CommunityDetail from 'src/views/community/CommunityDetail'
 
 const Community = () => {
   return (
@@ -54,18 +56,21 @@ const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
 }))
 
 const CommunityApp = () => {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const { user, flaggings } = useAuth()
-  console.log('ini flaggings', flaggings)
 
   const [communities, setCommunities] = React.useState<any[]>([])
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [openDialogCreateGroup, setOpenDialogCreateGroup] = useState(false)
   const [loadingYourGroups, setLoadingYourGroups] = useState(false)
   const [isJoined, setIsJoined] = useState(false)
+  const [selectedCommunityId, setSelectedCommunityId] = useState(
+    searchParams.get('communityId') ? searchParams.get('communityId') : null
+  )
   const isOnBoardingCommunity = flaggings !== null ? flaggings?.community_onboarding : false // This can be replaced with actual logic to determine if onboarding is needed
 
   const handleListItemClick = (index: number) => {
-    console.log(index)
     if (index === 2) {
       setIsJoined(true)
     } else {
@@ -73,10 +78,18 @@ const CommunityApp = () => {
     }
 
     setSelectedIndex(index)
+    setSelectedCommunityId(null)
+    router.replace('/community/')
   }
 
   const handleOpenCreateGroupDialog = (show: boolean) => {
     setOpenDialogCreateGroup(show)
+  }
+
+  const handleOpenDetailGroup = (id: any) => {
+    setSelectedIndex(0)
+    router.push(`/community/?communityId=${id}`)
+    setSelectedCommunityId(id)
   }
 
   const fetchCommunities = async () => {
@@ -211,7 +224,7 @@ const CommunityApp = () => {
                   </Button>
                 </Paper>
 
-                {!isOnBoardingCommunity && selectedIndex !== 2 && (
+                {!isOnBoardingCommunity && selectedIndex !== 2 && communities.length > 0 && (
                   <Paper
                     sx={{
                       padding: '16px',
@@ -247,7 +260,7 @@ const CommunityApp = () => {
                     ) : (
                       <List dense>
                         {communities.map((group, index) => (
-                          <CustomListItemButton key={index}>
+                          <CustomListItemButton key={index} onClick={() => handleOpenDetailGroup(group?.id)}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                               <Box
                                 sx={{
@@ -305,28 +318,57 @@ const CommunityApp = () => {
                   <Grid item xs={12} md={selectedIndex !== 0 ? 9 : 6}>
                     {selectedIndex === 0 && (
                       <>
-                        <Box sx={{ width: '100%', mb: '16px' }}>
-                          <PostFeedCommunity />
-                        </Box>
-                        <ListSocialFeedCommunity />
+                        {selectedIndex === 0 && selectedCommunityId === null && (
+                          <>
+                            <Box sx={{ width: '100%', mb: '16px' }}>
+                              <PostFeedCommunity />
+                            </Box>
+                            <ListSocialFeedCommunity />
+                          </>
+                        )}
+                        {selectedCommunityId !== null && <CommunityDetail communityId={selectedCommunityId} />}
                       </>
                     )}
                     {selectedIndex === 1 && (
                       <>
-                        <DiscoverAndYourGroupsCommunity key={isJoined ? 'joined' : 'discover'} isJoined={isJoined} />
+                        <DiscoverAndYourGroupsCommunity
+                          key={isJoined ? 'joined' : 'discover'}
+                          isJoined={isJoined}
+                          setSelectedIndex={(id: any) => {
+                            setSelectedIndex(0)
+                            setSelectedCommunityId(id)
+                          }}
+                        />
                       </>
                     )}
 
                     {selectedIndex === 2 && (
                       <>
-                        <DiscoverAndYourGroupsCommunity key={isJoined ? 'joined' : 'discover'} isJoined={isJoined} />
+                        <DiscoverAndYourGroupsCommunity
+                          key={isJoined ? 'joined' : 'discover'}
+                          isJoined={isJoined}
+                          setSelectedIndex={(id: any) => {
+                            setSelectedIndex(0)
+                            setSelectedCommunityId(id)
+                          }}
+                        />
                       </>
                     )}
                   </Grid>
                   {/* Right */}
                   {selectedIndex === 0 && (
                     <Grid item xs={12} md={3}>
-                      <JoinGroupCard />
+                      <JoinGroupCard
+                        setSelectedIndex={(id: any) => {
+                          setSelectedIndex(0)
+                          setSelectedCommunityId(id)
+                        }}
+                        showMore={() => {
+                          setSelectedIndex(2)
+                          setSelectedCommunityId(null)
+                          router.replace('/community/')
+                        }}
+                      />
                     </Grid>
                   )}
                 </>
