@@ -13,6 +13,7 @@ const PostFeedCommunity = ({communityId} : {communityId?: number}) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isOpenDialogPostFeed, setIsOpenDialogPostFeed] = useState(false)
 
+
   const handleOnCloseDialogPostFeed = () => {
     setIsOpenDialogPostFeed(!isOpenDialogPostFeed)
   }
@@ -54,7 +55,7 @@ const PostFeedCommunity = ({communityId} : {communityId?: number}) => {
         onClose={handleOnCloseDialogPostFeed}
         user={user}
         handleUpdateStatus={handlePostFeed}
-        isCommunity={!communityId}
+        isCommunity={communityId ? true : false}
       />
       <Card
         sx={{

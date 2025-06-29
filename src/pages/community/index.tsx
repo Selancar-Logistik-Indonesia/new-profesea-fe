@@ -13,7 +13,9 @@ import {
   Skeleton,
   Link,
   Breadcrumbs,
-  IconButton
+  IconButton,
+  TextField,
+  InputAdornment
 } from '@mui/material'
 
 import { ThreadProvider } from 'src/context/ThreadContext'
@@ -75,6 +77,7 @@ const CommunityApp = () => {
   const [selectedCommunityId, setSelectedCommunityId] = useState(
     searchParams.get('communityId') ? searchParams.get('communityId') : null
   )
+  const [search, setSearch] = useState<string>('')
   const isOnBoardingCommunity = flaggings !== null ? flaggings?.community_onboarding : false // This can be replaced with actual logic to determine if onboarding is needed
 
   const handleListItemClick = (index: number) => {
@@ -102,7 +105,7 @@ const CommunityApp = () => {
   const fetchCommunities = async () => {
     setLoadingYourGroups(true)
     try {
-      const response = await HttpClient.get(`/community?take=3&page=1&user_id=${user?.id}`)
+      const response = await HttpClient.get(`/community?take=3&page=1&user_id=${user?.id}&search=${search}`)
 
       setCommunities(
         response.data?.data.map((d: any) => {
@@ -236,7 +239,23 @@ const CommunityApp = () => {
                     Groups
                   </Typography>
 
-                  <List dense sx={{ my: '24px' }}>
+                  <TextField
+                    sx={{ flexGrow: 1, display: (selectedIndex === 1 || selectedIndex === 2) ? '' : 'none' }}
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    variant='outlined'
+                    placeholder='Search'
+                    size='small'
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start' sx={{ marginRight: '8px' }}>
+                          <Icon icon='ph:magnifying-glass' fontSize={16} />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+
+                  <List dense sx={{ my: '4px' }}>
                     <CustomListItemButton selected={selectedIndex === 0} onClick={() => handleListItemClick(0)}>
                       <ListItemText
                         primary='Group feed'
@@ -522,6 +541,7 @@ const CommunityApp = () => {
                             setSelectedIndex(0)
                             setSelectedCommunityId(id)
                           }}
+                          search={search}
                         />
                       </>
                     )}
@@ -535,6 +555,7 @@ const CommunityApp = () => {
                             setSelectedIndex(0)
                             setSelectedCommunityId(id)
                           }}
+                          search={search}
                         />
                       </>
                     )}
@@ -553,7 +574,7 @@ const CommunityApp = () => {
                           setSelectedCommunityId(id)
                         }}
                         showMore={() => {
-                          setSelectedIndex(2)
+                          setSelectedIndex(1)
                           setSelectedCommunityId(null)
                           router.replace('/community/')
                         }}

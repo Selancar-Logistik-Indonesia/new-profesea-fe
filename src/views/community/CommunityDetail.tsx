@@ -1,9 +1,6 @@
-import React, {  useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Typography, Tabs, Tab, Card, CardContent, CardMedia, Button, Stack, useMediaQuery } from '@mui/material'
 import ShareIcon from '@mui/icons-material/Share'
-// import PublicIcon from '@mui/icons-material/Public'
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
-import PersonIcon from '@mui/icons-material/Person'
 import { HttpClient } from 'src/services'
 import toast from 'react-hot-toast'
 import CommunityDetailSkeleton from './CommunityDetailSkeleton'
@@ -42,8 +39,8 @@ export interface IDetailCommunityData {
 }
 
 interface ICommunityDetail {
-  communityId: any,
-  setIsAdmin: any,
+  communityId: any
+  setIsAdmin: any
   setSelectedCommunity: any
 }
 
@@ -51,7 +48,7 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
   const { user } = useAuth()
   const router = useRouter()
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
-  const [tabValue, setTabValue] = React.useState(1)
+  const [tabValue, setTabValue] = useState(1)
   const [loading, setLoading] = useState(true)
   const [community, setCommunity] = useState<null | IDetailCommunityData>(null)
   const [disabledTabs, setDisabledTabs] = useState(false)
@@ -62,7 +59,7 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
   }
 
   const handleGetDetailCommunity = async () => {
-    setTabValue(0)
+    setTabValue(1)
     setDisabledTabs(false)
     setLoading(true)
     try {
@@ -70,7 +67,7 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
       setCommunity(response?.data?.data)
       setSelectedCommunity(response?.data?.data)
 
-      if(response?.data?.data.created_by.id === user?.id) setIsAdmin(true)
+      if (response?.data?.data.created_by.id === user?.id) setIsAdmin(true)
 
       const disabled = response?.data?.data.is_private && !response?.data?.data.is_joined && user?.role !== 'admin'
 
@@ -145,6 +142,20 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
       })
   }
 
+  const handleLeave = () => {
+    setLoading(true)
+    HttpClient.del(`/community/members?community_id=${community?.id}&user_id=${user?.id}`).then(() => {
+      toast.success('Successfully left the group!')
+      setTimeout(() => {
+        router.reload()
+      }, 500)
+    }).catch(err => {
+      console.log(err)
+    }).finally(() => {
+      setLoading(false)
+    })
+  }
+
   useEffect(() => {
     handleGetDetailCommunity()
   }, [communityId])
@@ -173,50 +184,84 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
             gap={'20px'}
           >
             <Box sx={{ width: '100%' }}>
-              <Typography variant='h6' fontWeight={700} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-                {community?.name}
-              </Typography>
               <Stack
                 direction='row'
                 spacing={3}
                 alignItems='center'
                 justifyContent={'space-between'}
-                mt={0.5}
                 sx={{ width: '100%' }}
               >
-                <Stack direction={'row'} spacing={2} alignItems='center' sx={{ width: '100%' }}>
-                  <Typography
-                    variant='body2'
-                    color='text.secondary'
-                    sx={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: { xs: '10px', md: '16px' } }}
-                  >
-                    <PersonIcon sx={{ fontSize: 16 }} />
-                    {community?.total_members} members
+                <Stack direction='column' spacing={0.5}>
+                  <Typography variant='h6' fontWeight={700} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+                    {community?.name}
                   </Typography>
 
-                  <Typography
-                    variant='body2'
-                    color='text.secondary'
-                    sx={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: { xs: '10px', md: '16px' } }}
-                  >
-                    <ChatBubbleOutlineIcon sx={{ fontSize: 16 }} />
-                    {community?.total_feeds} discussions
-                  </Typography>
+                  <Stack direction={'row'} spacing={0} alignItems='center' sx={{ width: '100%' }}>
+                    <Typography
+                      variant='body2'
+                      color='text.secondary'
+                      sx={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: { xs: '10px', md: '16px' } }}
+                    >
+                      <Icon icon={'ph:user'} fontSize={'17px'} />
+                      {community?.total_members} members
+                    </Typography>
+
+                    <Icon icon='ph:dot-outline-fill' fontSize={'17px'} color='text.secondary' />
+
+                    <Typography
+                      variant='body2'
+                      color='text.secondary'
+                      sx={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: { xs: '10px', md: '16px' } }}
+                    >
+                      <Icon icon={'ph:chat-circle-dots'} fontSize={'17px'} />
+                      {community?.total_feeds} discussions
+                    </Typography>
+
+                    <Icon icon='ph:dot-outline-fill' fontSize={'17px'} color='text.secondary' />
+
+                    <Typography
+                      variant='body2'
+                      color='text.secondary'
+                      sx={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: { xs: '10px', md: '16px' } }}
+                    >
+                      <Icon
+                        icon={community?.is_private ? 'ph:lock-key' : 'ph:globe-hemisphere-west'}
+                        fontSize={'17px'}
+                      />
+                      {community?.is_private ? 'Private' : 'Public'}
+                    </Typography>
+                  </Stack>
                 </Stack>
 
                 <Stack direction={'column'} spacing={2} sx={{ display: user?.role === 'admin' ? 'none' : '' }}>
-                  {!community?.is_joined && (
+                  {!community?.is_joined ? (
                     <Button
                       variant='contained'
-                      sx={{ borderRadius: 2, textTransform: 'capitalize' }}
+                      sx={{ borderRadius: 2, textTransform: 'capitalize', whiteSpace: 'nowrap' }}
                       onClick={handleJoinGroup}
                       disabled={community?.requested}
                     >
                       {community?.requested ? 'Requested' : 'Join group'}
                     </Button>
+                  ) : (
+                    <Button
+                      variant='contained'
+                      color='error'
+                      size='small'
+                      sx={{
+                        borderRadius: 2,
+                        textTransform: 'capitalize',
+                        whiteSpace: 'nowrap',
+                        display: community?.created_by?.id === user?.id ? 'none' : ''
+                      }}
+                      onClick={handleLeave}
+                    >
+                      Leave Group
+                    </Button>
                   )}
                   <Button
                     variant='outlined'
+                    size='small'
                     startIcon={<ShareIcon />}
                     sx={{ borderRadius: 2, textTransform: 'capitalize' }}
                     onClick={handleCopyLink}
@@ -232,7 +277,7 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
               <Button
                 variant='outlined'
                 startIcon={<Icon icon='lucide:edit' fontSize={20} />}
-                sx={{ borderRadius: 2, textTransform: 'capitalize' }}
+                sx={{ borderRadius: 2, textTransform: 'capitalize', whiteSpace: 'nowrap' }}
                 onClick={() => setOpenEdit(true)}
               >
                 Edit Group
@@ -240,7 +285,7 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
               <Button
                 variant='text'
                 startIcon={<Icon icon='tabler:trash' fontSize={20} />}
-                sx={{ borderRadius: 2, textTransform: 'capitalize', color: '#FF2222' }}
+                sx={{ borderRadius: 2, textTransform: 'capitalize', color: '#FF2222', whiteSpace: 'nowrap' }}
                 onClick={handleDelete}
               >
                 Delete Group

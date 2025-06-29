@@ -7,6 +7,8 @@ import { HttpClient } from 'src/services'
 import CustomPaginationItem from 'src/@core/components/pagination/item'
 import AnimatedTabs from 'src/@core/components/animated-tabs'
 import toast from 'react-hot-toast'
+import { Icon } from '@iconify/react'
+import { v4 } from 'uuid'
 
 interface ICommunityMembersSectionProps {
   community: IDetailCommunityData | null
@@ -30,6 +32,7 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
   const [adminMember, setAdminMember] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
+  const [fetch, refetch]=useState(v4())
 
   const handleFetchMembers = async () => {
     setLoading(true)
@@ -105,13 +108,27 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
   //       setIsLoading(false)
   // }
 
+  const handleRemove = (id: number) => {
+    setLoading(true)
+    HttpClient.del(`/community/members?community_id=${community?.id}&user_id=${id}`).then(() => {
+      toast.success('Successfully remove the member.')
+      setTimeout(() => {
+        refetch(v4())
+      }, 500)
+    }).catch(err => {
+      console.log(err)
+    }).finally(() => {
+      setLoading(false)
+    })
+  }
+
   useEffect(() => {
     handleFetchRequests()
   }, [community])
 
   useEffect(() => {
     handleFetchMembers()
-  }, [community, tab, page])
+  }, [community, tab, page, fetch])
 
   if (loading) {
     return (
@@ -121,7 +138,7 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
     )
   }
 
-  if (user?.id !== community?.created_by.id) {
+  if (user?.id !== community?.created_by.id && user?.role !== 'admin') {
     return (
       <Stack direction={'column'}>
         <Box sx={{ padding: '24px', mb: '24px', borderBottom: '1px solid #e0e0e0' }}>
@@ -315,6 +332,22 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
                     {member.user?.address}, {member.user?.country}
                   </Typography>
                 </Box>
+                <Button
+                  startIcon={<Icon icon='tabler:trash' fontSize={20} />}
+                  variant='text'
+                  color='error'
+                  size='small'
+                  sx={{
+                    borderRadius: 2,
+                    textTransform: 'capitalize',
+                    whiteSpace: 'nowrap',
+                    display: adminMember?.id === user?.id || user?.role === 'admin' ? '' : 'none',
+                    alignSelf: 'center'
+                  }}
+                  onClick={() => handleRemove(member?.user?.id)}
+                >
+                  Remove Member
+                </Button>
               </Stack>
             ))}
             <Pagination
