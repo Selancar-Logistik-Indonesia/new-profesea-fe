@@ -240,6 +240,63 @@ const buildNotifies = (e: INotification) => {
     }
   }
 
+  if (e.type === NotificationType.communityJoinRequest) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data?.user?.name,
+      title: `${e.data?.community?.name} join request.`,
+      avatarIcon: e?.data?.user?.photo,
+      subtitle: (
+        <span>
+          {`${e.data?.user?.name} has asked to join your community-${e.data?.community?.name}!`}
+          <br />
+        </span>
+      ),
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
+  if (e.type === NotificationType.communityApproveRequest) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data?.community?.name,
+      title: `Your request to join ${e.data?.community?.name} has been approved.`,
+      avatarIcon: e?.data?.community?.banner,
+      subtitle: (
+        <span>
+          {`Welcome aboard!`}
+          <br />
+        </span>
+      ),
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
+  if (e.type === NotificationType.communityRejectRequest) {
+    return {
+      id: e.id,
+      meta: hDiff,
+      avatarAlt: e.data?.community?.name,
+      title: `Your request to join ${e.data?.community?.name} has been rejected.`,
+      avatarIcon: e?.data?.community?.banner,
+      subtitle: (
+        <span>
+          {`Thanks for your interest in the community.`}
+          <br />
+        </span>
+      ),
+      type: e.type,
+      read_at: e.read_at,
+      data: e.data
+    }
+  }
+
   return {
     id: '0',
     meta: hDiff,

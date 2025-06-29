@@ -9,25 +9,24 @@ import {
   Stack,
   Button,
   useMediaQuery,
-  useTheme
+  useTheme,
+  Link
 } from '@mui/material'
 import { Icon } from '@iconify/react'
-import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined'
-import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
-import LockIcon from '@mui/icons-material/Lock'
 import ISocialFeed from 'src/contract/models/social_feed'
 import ImageListFeed from '../social-feed/ImageListFeed'
-import { getUserAvatar, toTitleCase } from 'src/utils/helpers'
+import { getUrl, getUserAvatar, toTitleCase } from 'src/utils/helpers'
 import moment from 'moment'
 import ButtonLike from '../social-feed/ButtonLike'
 import { useEffect, useState } from 'react'
 import CommentAreaView from '../social-feed/CommentAreaView'
 import { useAuth } from 'src/hooks/useAuth'
 import CommunityFeedAction from './CommunityFeedAction'
-// import ButtonShare from '../social-feed/ButtonShare'
+import ButtonShare from '../social-feed/ButtonShare'
 
 interface IPostCardCommunityProps {
   feed: ISocialFeed
+  isPage?: boolean
 }
 
 export interface IActionAbilities {
@@ -37,7 +36,7 @@ export interface IActionAbilities {
   canEdit: boolean
 }
 
-const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
+const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) => {
   const { user } = useAuth()
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.down('md'))
@@ -64,27 +63,32 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
     <Card
       sx={{
         width: '100%',
-        maxWidth: user?.role === 'admin' ? '100%' : 600,
+        maxWidth: user?.role === 'admin' || isPage ? '100%' : 600,
         margin: 'auto',
         borderRadius: '12px',
         background: '#FFF',
         boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)',
-        padding: '24px 0px 16px 0px'
+        padding: '0px 0px 8px 0px'
       }}
     >
-      <Box sx={{ display: feed?.settings?.is_pinned ? 'flex' : 'none', alignItems: 'center', gap: '4px', ml: 5 }}>
+      <Box sx={{ display: feed?.settings?.is_pinned ? 'flex' : 'none', alignItems: 'center', gap: '4px', ml: 3, padding:'8px' }}>
         <Icon icon='ph:push-pin-simple-fill' fontSize={18} />
         <Typography>Pinned Post</Typography>
       </Box>
       <CardHeader
+        sx={{ padding: feed?.settings?.is_pinned ?  '0px 16px 0px 16px !important' : '' }}
         avatar={<Avatar alt='profile-picture' src={getUserAvatar(feed.user)} sx={{ width: 36, height: 36 }} />}
         action={<CommunityFeedAction row={feed} abilities={abilities} />}
         title={
           <Typography
+          component={Link}
+          href={`/community?communityId=${feed?.community?.id}`}
             sx={{
               fontSize: '16px',
               fontWeight: 'bold',
-              color: '#2D3436'
+              color: '#2D3436',
+              cursor: 'pointer',
+              textDecoration: 'none'
             }}
             fontWeight='bold'
           >
@@ -94,10 +98,14 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
         subheader={
           <Stack direction='row' spacing={1} alignItems='center'>
             <Typography
+              component={Link}
+              href={feed?.user?.team_id != 2  ? `/company/${feed?.user?.username}` : `/profile/${feed?.user?.username}`}
               sx={{
                 fontSize: '12px',
                 fontWeight: '400',
-                color: '#5E5E5E'
+                color: '#5E5E5E',
+                cursor: 'pointer',
+                textDecoration: 'none'
               }}
             >
               {toTitleCase(feed.user.name)}
@@ -120,10 +128,10 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
                 fontSize: '12px',
                 fontWeight: '400',
                 color: '#5E5E5E',
-                gap: '2px'
+                gap: '4px'
               }}
             >
-              <LockIcon sx={{ color: 'gray', width: '13px', height: '13px' }} />
+              <Icon icon={feed?.community?.is_private ? 'ph:lock-key' : 'ph:globe-hemisphere-west'} fontSize={'14px'} />
               {feed?.community?.is_private ? 'Private Group' : 'Public Group'}
             </Typography>
           </Stack>
@@ -138,7 +146,7 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
             lineHeight: '1.5',
             textAlign: 'justify',
             whiteSpace: 'pre-line',
-            mb: '24px'
+            mb: feed?.content_type !== 'text' ? '8px' : '0px'
           }}
         >
           {feed?.content}
@@ -151,15 +159,15 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
       <Box my={'16px'}>
         <Stack direction='row' spacing={3} alignItems='center' justifyContent={'space-between'} px={'24px'}>
           <Typography
-            sx={{ display: 'flex', alignItems: 'center', fontSize: '14px', fontWeight: 400, color: '#32497A' }}
+            sx={{ display: 'flex', alignItems: 'center', fontSize: '14px', fontWeight: 400, color: '#32497A', gap: 1 }}
           >
-            <ThumbUpAltOutlinedIcon fontSize='small' sx={{ mr: 0.5 }} />
+            <Icon icon='ph:thumbs-up' fontSize={16} />
             {feed?.count_likes}
           </Typography>
           <Typography
-            sx={{ display: 'flex', alignItems: 'center', fontSize: '14px', fontWeight: 400, color: '#32497A' }}
+            sx={{ display: 'flex', alignItems: 'center', fontSize: '14px', fontWeight: 400, color: '#32497A', gap: 1 }}
           >
-            <ChatBubbleOutlineOutlinedIcon fontSize='small' sx={{ mr: 0.5 }} />
+            <Icon icon='ci:chat-circle' fontSize={16} />
             {feed?.count_comments}
           </Typography>
         </Stack>
@@ -167,7 +175,7 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
 
       <Divider />
 
-      <Box display='flex' justifyContent='space-between' mt={'16px'} px={'24px'}>
+      <Box display='flex' justifyContent='space-between' mt={'8px'} px={'24px'} sx={{ alignItems: 'center' }}>
         <Box flex={1} textAlign='left'>
           <ButtonLike
             item={{
@@ -195,14 +203,7 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed }) => {
           </Button>
         </Box>
         <Box flex={1} textAlign='right'>
-          <Button
-            startIcon={<Icon icon={'famicons:paper-plane-outline'} fontSize={16} />}
-            size='small'
-            sx={{ fontSize: '14px', fontWeight: 400, textTransform: 'capitalize', color: '#32497A' }}
-          >
-            Share
-          </Button>
-          {/* <ButtonShare feedPage={getUrl(`/feed/${feed.id}`)} isXs={isXs} /> */}
+          <ButtonShare feedPage={getUrl(`/community/feed/${feed.id}`)} isXs={isXs} />
         </Box>
       </Box>
 

@@ -38,6 +38,7 @@ function Notification() {
       page: 1,
       take: 35
     })
+    console.log(response.data)
 
     if (response.status != 200) {
       alert(response.data?.message ?? 'Unknow error')

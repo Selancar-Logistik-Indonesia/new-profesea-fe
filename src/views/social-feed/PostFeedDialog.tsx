@@ -35,7 +35,7 @@ export interface IPostFeedDialog {
     is_anon?: boolean
   ) => Promise<void>
   contentTypeFromParent: string
-  isCommunity?: boolean
+  isCommunity?: boolean | null
 }
 
 const Transition = forwardRef(function Transition(
@@ -59,7 +59,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
   user,
   handleUpdateStatus,
   contentTypeFromParent,
-  isCommunity = false
+  isCommunity = null
 }) => {
   const [content, setContent] = useState('')
   const [contentType, setContentType] = useState('text')
@@ -258,7 +258,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px', mt: '20px' }}>
-            {isCommunity && (
+            {isCommunity !== undefined && (
               <Box
                 sx={{
                   display: 'flex',
@@ -467,7 +467,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
               </Box>
             )}
 
-            {isCommunity && <CommunitySelect handleSetCommunityId={handleSetCommunityId} />}
+            {isCommunity === false && <CommunitySelect handleSetCommunityId={handleSetCommunityId} />}
 
             <Box sx={{ display: 'flex', gap: '20px', marginBottom: '16px', alignItems: 'center' }}>
               <Typography
