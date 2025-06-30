@@ -88,6 +88,7 @@ const DiscoverAndYourGroupsCommunity: React.FC<IDiscoverAndYourGroupsCommunity> 
                       is_joined={community?.is_joined}
                       onJoinGroup={() => {}}
                       onViewGroup={() => handleViewGroup(community?.id)}
+                      requested={community?.requested}
                     />
                   </Grid>
                 ))}

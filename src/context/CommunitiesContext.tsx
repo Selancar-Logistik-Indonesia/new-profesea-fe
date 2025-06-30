@@ -13,6 +13,7 @@ type Community = {
   is_joined: boolean
   total_members: number
   total_feeds: number
+  requested:boolean
   created_by: {
     id: number
     name: string

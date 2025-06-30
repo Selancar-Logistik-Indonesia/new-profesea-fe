@@ -131,7 +131,7 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
   const router = useRouter()
 
   const [openEdit, setOpenEdit] = React.useState<boolean>(false)
-  const [joinText, setJoinText] = React.useState<string>(is_private && requested ? 'Requested' : 'Join Group')
+  const [joinText, setJoinText] = React.useState<string>(requested ? 'Requested' : 'Join Group')
 
   //menu
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -148,6 +148,11 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
   const handleCloseEditDialog = () => {
     setOpenEdit(false)
   }
+
+  React.useEffect(() => {
+  setJoinText(requested ? 'Requested' : 'Join Group')
+
+  },[requested])
 
   const handleJoinGroup = async () => {
     try {
@@ -282,7 +287,7 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
           {!is_joined && (
             <Button
               size='small'
-              disabled={joinText === 'Joined' || joinText === 'Requested'}
+              disabled={joinText === 'Joined' || joinText === 'Requested' || requested}
               variant='contained'
               sx={{ fontSize: '14px', textTransform: 'capitalize', flex: 1, display:user?.role === 'admin' ? 'none' : '' }}
               onClick={handleJoinGroup}
