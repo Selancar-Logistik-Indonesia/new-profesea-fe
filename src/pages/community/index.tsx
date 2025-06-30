@@ -78,7 +78,9 @@ const CommunityApp = () => {
     searchParams.get('communityId') ? searchParams.get('communityId') : null
   )
   const [search, setSearch] = useState<string>('')
-  const isOnBoardingCommunity = flaggings !== null ? flaggings?.community_onboarding : false // This can be replaced with actual logic to determine if onboarding is needed
+  const [isOnBoardingCommunity, setIsOnBoardingCommunity] = useState<boolean>(
+    flaggings !== null ? flaggings?.community_onboarding : false
+  )
 
   const handleListItemClick = (index: number) => {
     if (index === 2) {
@@ -89,6 +91,7 @@ const CommunityApp = () => {
 
     setSelectedIndex(index)
     setSelectedCommunityId(null)
+    setIsOnBoardingCommunity(true)
     router.replace('/community/')
   }
 
@@ -182,16 +185,16 @@ const CommunityApp = () => {
             </Typography>
             {selectedIndex === 3 && (
               <Typography
-              key='4'
-              sx={{
-                color: '#949EA2',
-                fontSize: '14px',
-                fontWeight: 400,
-                cursor: 'pointer'
-              }}
-            >
-              Edit Community Settings
-            </Typography>
+                key='4'
+                sx={{
+                  color: '#949EA2',
+                  fontSize: '14px',
+                  fontWeight: 400,
+                  cursor: 'pointer'
+                }}
+              >
+                Edit Community Settings
+              </Typography>
             )}
           </Breadcrumbs>
 
@@ -240,7 +243,7 @@ const CommunityApp = () => {
                   </Typography>
 
                   <TextField
-                    sx={{ flexGrow: 1, display: (selectedIndex === 1 || selectedIndex === 2) ? '' : 'none' }}
+                    sx={{ flexGrow: 1, display: selectedIndex === 1 || selectedIndex === 2 ? '' : 'none' }}
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     variant='outlined'
@@ -440,7 +443,8 @@ const CommunityApp = () => {
                   <Typography
                     onClick={() => {
                       setIsAdmin(false)
-                      setSelectedCommunityId(null)}}
+                      setSelectedCommunityId(null)
+                    }}
                     sx={{
                       fontSize: 14,
                       fontWeight: 600,
@@ -507,7 +511,7 @@ const CommunityApp = () => {
                 </Paper>
               </Grid>
 
-              {isOnBoardingCommunity ? (
+              {!isOnBoardingCommunity ? (
                 <>
                   <Grid item xs={12} md={9}>
                     <OnBoardingSections />
@@ -527,8 +531,12 @@ const CommunityApp = () => {
                             <ListSocialFeedCommunity />
                           </>
                         )}
-                        {selectedCommunityId !== null && (selectedIndex as number !== 4) &&(
-                          <CommunityDetail communityId={selectedCommunityId} setIsAdmin={setIsAdmin} setSelectedCommunity={setSelectedCommunity}/>
+                        {selectedCommunityId !== null && (selectedIndex as number) !== 4 && (
+                          <CommunityDetail
+                            communityId={selectedCommunityId}
+                            setIsAdmin={setIsAdmin}
+                            setSelectedCommunity={setSelectedCommunity}
+                          />
                         )}
                       </>
                     )}
@@ -561,7 +569,7 @@ const CommunityApp = () => {
                     )}
                     {selectedIndex === 3 && (
                       <>
-                        <CommunityEdit community={selectedCommunity}/>
+                        <CommunityEdit community={selectedCommunity} />
                       </>
                     )}
                   </Grid>
