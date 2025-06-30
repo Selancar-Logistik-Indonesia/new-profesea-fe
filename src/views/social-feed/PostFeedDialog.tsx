@@ -70,6 +70,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
   const [errMaxFileVideo, setErrMaxFileVideo] = useState(false)
   const [isAnonymous, setIsAnonymous] = useState(false)
   const [communityId, setCommunityId] = useState<any>('')
+  const [communityWarning, setCommunityWarning] = useState<boolean>(false)
 
   useEffect(() => {
     if (contentTypeFromParent != 'text') {
@@ -151,6 +152,12 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
     const finalContent = errorMessage !== null ? censoredContent : content
     const params = [contentType, finalContent, attachments] as const
 
+    if(isCommunity !== null && !communityId){
+      setCommunityWarning(true)
+
+      return
+    }
+
     if (isCommunity) {
       handleUpdateStatus(...params, communityId, isAnonymous)
     } else {
@@ -188,6 +195,8 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
     setIsUploadFile(false)
     setPreviewUrls([])
     setAttachments([])
+    setCommunityId('')
+    setCommunityWarning(false)
   }
 
   const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -196,13 +205,13 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
 
   const handleDisabledButton = (): boolean => {
     if (contentType == 'text') {
-      if (content.length == 0) {
+      if (content.length == 0 ) {
         return true
       }
     }
 
     if (contentType == 'images' || contentType == 'videos') {
-      if (imagePreviewUrls.length == 0 || content.length == 0) {
+      if ((imagePreviewUrls.length == 0 && content.length == 0)) {
         return true
       }
     }
@@ -225,6 +234,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
 
   const handleSetCommunityId = (communityId: any) => {
     setCommunityId(communityId)
+    setCommunityWarning(false)
   }
 
   return (
@@ -258,7 +268,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px', mt: '20px' }}>
-            {isCommunity !== undefined && (
+            {isCommunity !== null && (
               <Box
                 sx={{
                   display: 'flex',
@@ -467,8 +477,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
               </Box>
             )}
 
-            {isCommunity === false && <CommunitySelect handleSetCommunityId={handleSetCommunityId} />}
-
+            {isCommunity === false && <CommunitySelect communityWarning={communityWarning} handleSetCommunityId={handleSetCommunityId} />}
             <Box sx={{ display: 'flex', gap: '20px', marginBottom: '16px', alignItems: 'center' }}>
               <Typography
                 variant='h3'

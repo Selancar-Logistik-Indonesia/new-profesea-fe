@@ -41,14 +41,14 @@ export interface IDetailCommunityData {
 interface ICommunityDetail {
   communityId: any
   setIsAdmin: any
-  setSelectedCommunity: any
+  setSelectedCommunity?: any
 }
 
 export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIsAdmin, setSelectedCommunity }) => {
   const { user } = useAuth()
   const router = useRouter()
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
-  const [tabValue, setTabValue] = useState(1)
+  const [tabValue, setTabValue] = useState(0)
   const [loading, setLoading] = useState(true)
   const [community, setCommunity] = useState<null | IDetailCommunityData>(null)
   const [disabledTabs, setDisabledTabs] = useState(false)
@@ -59,7 +59,7 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
   }
 
   const handleGetDetailCommunity = async () => {
-    setTabValue(1)
+    setTabValue(0)
     setDisabledTabs(false)
     setLoading(true)
     try {
@@ -318,7 +318,7 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
           )}
 
           {/* Placeholder for future tabs */}
-          {tabValue === 1 && <CommunityDiscussionSection communityId={community?.id as number} />}
+          {tabValue === 1 && <CommunityDiscussionSection is_joined={community?.is_joined} communityId={community?.id as number} />}
           {tabValue === 2 && <CommunityMembersSection community={community} />}
         </CardContent>
       </Card>

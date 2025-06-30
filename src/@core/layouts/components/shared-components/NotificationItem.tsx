@@ -108,13 +108,13 @@ const NotificationItem = (props: { item: NotificationsType }) => {
         router.push(`/feed/${item?.data?.feed?.id}`)
         break
       case NotificationType.communityJoinRequest:
-        router.push(`/community?communityId=${item?.data?.community?.id}`)
+        router.push(`/community/${item?.data?.community?.id}`)
         break
       case NotificationType.communityRejectRequest:
         router.push(`/community/`)
         break
       case NotificationType.communityApproveRequest:
-        router.push(`/community?communityId=${item?.data?.community?.id}`)
+        router.push(`/community/${item?.data?.community?.id}`)
         break
       case NotificationType.jobOffer:
         const companyNameUrl = item?.data?.company?.name.toLowerCase().split(' ').join('-')
