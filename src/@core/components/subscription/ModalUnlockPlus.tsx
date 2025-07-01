@@ -289,7 +289,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
               {/* gambar */}
               <Box
                 component={'img'}
-                src='/images/unlock_plus_2_new.png'
+                src='/images/unlock_plus_2_new.webp'
                 sx={{
                   borderTopRightRadius: 12,
                   borderBottomRightRadius: 12,
@@ -394,7 +394,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
             <Box sx={{ padding: '24px' }}>
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#1F1F1F' }}>
-                Thousands of Recruiters Are Already Using These Tools
+                  Thousands of Recruiters Are Already Using These Tools
                 </Typography>
                 <Icon
                   onClick={handleCloseFirst}
@@ -404,7 +404,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
                 />
               </Box>
               <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#666666' }}>
-              All the tools to help you hire smarter—just one click away.
+                All the tools to help you hire smarter—just one click away.
               </Typography>
             </Box>
             <Box
@@ -429,7 +429,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
             </Box>
 
             <Typography sx={{ fontSize: 14, fontWeight: 400, color: '#666666', padding: '0px 24px' }}>
-            Let’s get you that perfect hire.{' '}
+              Let’s get you that perfect hire.{' '}
               <Link href='#' sx={{ color: '#2561EB', textDecoration: 'underline' }}>
                 Learn more.
               </Link>
@@ -487,7 +487,7 @@ const ModalUnlockPlus = ({ text }: ModalProps) => {
             </Box>
             <Box
               component={'img'}
-              src={isMobileSm ? '/images/plus_unlock_company_mobile_2.png' : '/images/unlock_plus_2_new.png'}
+              src={isMobileSm ? '/images/plus_unlock_company_mobile_2.png' : '/images/unlock_plus_2_new.webp'}
               sx={{
                 objectFit: 'contain',
                 width: '100%',
