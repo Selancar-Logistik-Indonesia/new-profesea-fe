@@ -152,13 +152,13 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
     const finalContent = errorMessage !== null ? censoredContent : content
     const params = [contentType, finalContent, attachments] as const
 
-    if(isCommunity !== null && !communityId){
+    if(isCommunity !== null && !isCommunity && !communityId){
       setCommunityWarning(true)
 
       return
     }
 
-    if (isCommunity) {
+    if (!isCommunity) {
       handleUpdateStatus(...params, communityId, isAnonymous)
     } else {
       handleUpdateStatus(...params)
