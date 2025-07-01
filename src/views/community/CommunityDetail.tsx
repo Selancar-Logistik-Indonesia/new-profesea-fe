@@ -307,9 +307,6 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
           {tabValue === 0 && (
             <Box p={'24px'}>
               <Box sx={{ padding: '24px', border: '1px solid', borderColor: 'divider', borderRadius: '6px' }}>
-                <Typography fontSize={16} fontWeight={600} gutterBottom>
-                  About
-                </Typography>
                 <Typography variant='body2' color='text.secondary'>
                   {community?.description || 'No description available.'}
                 </Typography>

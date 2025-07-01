@@ -281,7 +281,7 @@ const CommunityApp = () => {
                   </Button>
                 </Paper>
 
-                {!isOnBoardingCommunity && selectedIndex !== 2 && communities.length > 0 && (
+                {isOnBoardingCommunity && selectedIndex !== 2 && communities.length > 0 && (
                   <Paper
                     sx={{
                       padding: '16px',
