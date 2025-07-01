@@ -62,7 +62,7 @@ const RenderAvatar = ({ notification }: { notification: NotificationsTypeProps }
   } else if (avatarIcon) {
     return (
       <Avatar sx={{ width: 54, height: 54 }} color={avatarColor}>
-        {avatarIcon}
+        {avatarIcon}aaaa
       </Avatar>
     )
   } else {
