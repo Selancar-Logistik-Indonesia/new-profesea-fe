@@ -11,10 +11,11 @@ import { useAuth } from 'src/hooks/useAuth'
 
 interface IDiscoverAndYourGroupsCommunity {
   isJoined?: boolean
-  setSelectedIndex: (id: any) => void
+  setSelectedIndex: (id: any) => void,
+  search?: string
 }
 
-const DiscoverAndYourGroupsCommunity: React.FC<IDiscoverAndYourGroupsCommunity> = ({ isJoined, setSelectedIndex }) => {
+const DiscoverAndYourGroupsCommunity: React.FC<IDiscoverAndYourGroupsCommunity> = ({ isJoined, setSelectedIndex, search }) => {
   const router = useRouter()
   const { user } = useAuth()
   const take = 6
@@ -34,12 +35,13 @@ const DiscoverAndYourGroupsCommunity: React.FC<IDiscoverAndYourGroupsCommunity> 
         take,
         mPage: 1,
         isJoined: isJoined === true ? true : false,
-        userId: user?.id
+        userId: user?.id,
+        search: search ?? ''
       })
     }
 
     resetAndFetch()
-  }, [isJoined, user?.id])
+  }, [isJoined, user?.id, search])
 
   return (
     <>
@@ -78,6 +80,7 @@ const DiscoverAndYourGroupsCommunity: React.FC<IDiscoverAndYourGroupsCommunity> 
                     <CardGroupCommunity
                       id={community.id}
                       name={community.name}
+                      is_private={community.is_private}
                       description={community.description}
                       banner_url={community.banner_url}
                       members_count={community.total_members}
@@ -85,6 +88,7 @@ const DiscoverAndYourGroupsCommunity: React.FC<IDiscoverAndYourGroupsCommunity> 
                       is_joined={community?.is_joined}
                       onJoinGroup={() => {}}
                       onViewGroup={() => handleViewGroup(community?.id)}
+                      requested={community?.requested}
                     />
                   </Grid>
                 ))}

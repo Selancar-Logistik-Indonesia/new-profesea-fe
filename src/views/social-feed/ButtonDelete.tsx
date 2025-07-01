@@ -28,17 +28,18 @@ const ButtonDelete = (props: { item: ButtonLikeParam; variant?: 'no-icon' | 'set
   const [onLoading, setOnLoading] = useState(false)
 
   const handleClick = async () => {
-    if (item.deleteComment) {
-      setOnLoading(true)
+    setOnLoading(true)
+    if (item.deleteComment && item.deleteComment === true) {
       if (deleteComment !== undefined) {
         await deleteComment(item.id, item.feedId)
+        setOnLoading(false)
       }
 
       return
     }
 
-    setOnLoading(true)
     await deleteFeed(item.id)
+    setOnLoading(false)
   }
 
   return (
