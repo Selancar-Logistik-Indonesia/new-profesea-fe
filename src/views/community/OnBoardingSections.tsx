@@ -79,11 +79,16 @@ const OnBoardingSections = () => {
     fetchGroups()
   }, [])
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
+  const handleJoyrideCallback = async (data: CallBackProps) => {
     const { status } = data
 
     if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
       setRunTour(false)
+      try {
+        await HttpClient.post('/user/flag/community-onboarding')
+      } catch (error) {
+        console.error('Failed to flag community onboarding:', error)
+      }
     }
   }
 
