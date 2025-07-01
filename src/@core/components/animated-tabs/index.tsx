@@ -1,7 +1,7 @@
 import { Box, Tab, Tabs } from '@mui/material'
 
 interface TabOption {
-  value: string
+  value: string | number
   label: string
 }
 

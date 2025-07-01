@@ -199,7 +199,7 @@ const Postfeed = () => {
           sx={{ display: 'flex', flexDirection: 'row', borderBottom: '1px solid rgba(219, 219, 219, 1)', pb: '10px' }}
         >
           <Box mr={3} mt={1}>
-            <Avatar src={getUserAvatar(user!)} alt='profile-picture' sx={{ height: 50, width: 50 }} />
+            <Avatar src={getUserAvatar(user!)} alt={user?.name || 'User Avatar'} sx={{ height: 50, width: 50 }} />
           </Box>
           <Box
             sx={{
@@ -226,15 +226,6 @@ const Postfeed = () => {
             >
               Start a Post, Share Your Thoughts...
             </Button>
-            {/* <TextField
-              value={content}
-              multiline
-              fullWidth
-              rows={3}
-              placeholder='Start a post'
-              variant='standard'
-              onChange={e => setContent(e.target.value)}
-            /> */}
           </Box>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', mt: 3, alignItems: 'end' }}>
@@ -261,29 +252,6 @@ const Postfeed = () => {
                 Video
               </div>
             </Button>
-
-            {/* <Icon style={{ cursor: 'pointer' }} icon='icon-park-outline:picture-album' fontSize={24} color='#4CAF50' />
-            <Icon style={{ cursor: 'pointer' }} icon='icon-park-outline:video' fontSize={24} color='#FF5722' /> */}
-            {/* <ButtonUploadPhoto
-              triggerDialogPolicy={() => setIsOpenDialog(true)}
-              isAgree={isAgree as unknown as boolean}
-            />
-            <ButtonUploadVideo
-              triggerDialogPolicy={() => setIsOpenDialog(true)}
-              isAgree={isAgree as unknown as boolean}
-            /> */}
-          </Box>
-          <Box flexGrow={1} textAlign='right'>
-            {/* <Button
-              sx={{ width: 45 }}
-              disabled={isLoading}
-              onClick={handleUpdateStatus}
-              size='small'
-              color='primary'
-              variant='contained'
-            >
-              {isLoading ? <CircularProgress /> : 'Post'}
-            </Button> */}
           </Box>
         </Box>
       </Card>

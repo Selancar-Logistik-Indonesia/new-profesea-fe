@@ -2,210 +2,264 @@ import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
-import TextField from '@mui/material/TextField';
-import { Autocomplete, Box, Button, Typography } from '@mui/material'
-import { useCallback, useEffect, useState } from 'react'
-import JobDatagrid, { RowItem } from './CommunityDatagrid';
-import { HttpClient } from 'src/services';
-import { AxiosError } from 'axios';
-import { toast } from 'react-hot-toast';
-import Thread from 'src/contract/models/thread';
-import debounce from 'src/utils/debounce';
-import { GridPaginationModel } from '@mui/x-data-grid';
-import DialogDelete from './DialogDelete';
-import { v4 } from "uuid";
-import { Icon } from '@iconify/react';
-import Forum from 'src/contract/models/forum';
-import { IUser } from 'src/contract/models/user';
+import { Box, Breadcrumbs, Button, InputAdornment, Link, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
+import AnimatedTabs from 'src/@core/components/animated-tabs'
+import { Icon } from '@iconify/react'
+import ReportedTab from 'src/views/admin/community-management/ReportedTab'
+import { HttpClient } from 'src/services'
+import CommunityTab from 'src/views/admin/community-management/CommunityTab'
+import CreateGroupDialog from 'src/views/community/CreateGroupDialog'
+import toast from 'react-hot-toast'
+import { v4 } from 'uuid'
+import { MdNavigateNext } from 'react-icons/md'
 
-const CommunityScreen = () => {
-    const [hookSignature, setHookSignature] = useState(v4())
-    const [onLoading, setOnLoading] = useState(false);
-    const [openDelModal, setOpenDelModal] = useState(false);
-    const [dataSheet, setDataSheet] = useState<RowItem[]>([]);
-    const [selectedItem, setSelectedItem] = useState<Thread | null>(null);
+const tabsOption = [
+  { value: 'community', label: 'Community Management' },
+  { value: 'reported', label: 'Reported Content Management' }
+]
 
-    const [forumCode, setForumCode] = useState(0)
-    const [UserId, setUserId] = useState(0)
-    const [Forum, getForum] = useState<any[]>([]);
-    const [User, getUser] = useState<any[]>([]);
+const visibilityOption = [
+  { value: '0', label: 'Public' },
+  { value: '1', label: 'Private' }
+]
 
-    const [page, setPage] = useState(1);
-    const [rowCount, setRowCount] = useState(0);
-    const [search, setSearch] = useState("");
+const CommunityManagement = () => {
+  // data
+  const [communities, setCommunities] = useState([])
+  const [totalCommunities, setTotalCommunities] = useState(0)
 
-    const [perPage, setPerPage] = useState(10);
-    const getListThread = async () => {
-        try {
-            const resp = await HttpClient.get(`/thread?search=${search}&page=${page}&take=${perPage}&forum_id=${forumCode}&user_id=${UserId}`);
-            if (resp.status != 200) {
-                throw resp.data?.message ?? "Something went wrong!";
-            }
+  //filter settings
+  const [search, setSearch] = useState('')
+  const [sort, setSort] = useState('desc')
+  const [visibility, setVisibility] = useState('')
 
-            const rows = resp.data?.threads?.data as Thread[];
-            const items = rows.map((row, index) => {
-                return {
-                    no: index + 1,
-                    id: row.id,
-                    title: row.title,
-                    content: row?.snap_content,
-                    username: row.user?.name,
-                    forum_name: row.forum?.name,
-                    actions: {
-                        onDelete: () => deleteHandler(row),
-                    }
-                } as RowItem;
-            });
+  //page settings
+  const [activeTab, setActiveTab] = useState('community')
+  const [page, setPage] = useState(1)
+  const pageItems = 9
+  const [loading, setLoading] = useState<boolean>(false)
+  const [openCreate, setOpenCreate] = useState<boolean>(false)
+  const [refetch, setRefetch] = useState(v4())
 
-            setRowCount(resp?.data?.threads?.total ?? 0);
-            setDataSheet(items);
-        } catch (error) {
-            let errorMessage = "Something went wrong!!";
+  const closeCreateDialog = () => {
+    setOpenCreate(false)
+  }
 
-            if (error instanceof AxiosError) {
-                errorMessage = error?.response?.data?.message ?? errorMessage;
-            }
-
-            if (typeof error == 'string') {
-                errorMessage = error;
-            }
-
-            toast.error(`Opps ${errorMessage}`);
-        }
+  const fetchCommunities = async () => {
+    setLoading(true)
+    try {
+      const response = await HttpClient.get('/community', {
+        page: page,
+        take: pageItems,
+        search: search,
+        sort: sort,
+        visibility: visibility
+      })
+      if (response.status == 200) {
+        setCommunities(response.data.data)
+        setTotalCommunities(response.data.total)
+      }
+    } catch (error) {
+      console.error('Error fetching groups:', error)
+    } finally {
+      setLoading(false)
     }
 
-    const combobox = async () => {
+  }
 
-        HttpClient.get(`/user-management?page=1&take=250&team_id=3`).then(response => {
-            if (response.status != 200) {
-                throw response.data.message ?? "Something went wrong!!!";
-            }
-            getUser(response.data.users.data);
-        })
-        HttpClient.get('/forum?page=1&take=250&search=').then(response => {
-            const code = response.data.forums.data
-            getForum(code)
-        })
-    }
+/*************  ✨ Windsurf Command ⭐  *************/
+  /**
+   * Handle delete a community
+   * @param {number} id - The community id to be deleted
+   * @returns {void}
+   */
 
-    const handleSearch = useCallback(
-        debounce((value: string) => {
-            setSearch(value);
-        }, 500), []
-    );
+/*******  048bef00-8024-4a22-a94b-1b0d1de8e2b2  *******/
+  const handleDelete = (id: number) => {
+    setLoading(true)
+    HttpClient.del(`/community/${id}`).then(res => {
+      if (res.status == 200) {
+        toast.success('Community deleted successfully!')
+      }
 
-    const onPageChange = (model: GridPaginationModel) => {
-        const mPage = model.page + 1;
-        setPage(mPage);
-        setPerPage(model.pageSize);
-    }
+      setTimeout(() => {
+        setRefetch(v4())
+      }, 500)
 
-    const deleteHandler = (row: Thread) => {
-        setSelectedItem(row);
-        setOpenDelModal(true);
-    }
+    }).catch(err => {
+      console.log(err)
+    }).finally(() => {
+      setLoading(false)  
+    })
 
+  }
 
-    useEffect(() => {
-        setOnLoading(true);
-        getListThread().then(() => {
-            setOnLoading(false);
-        });
-        combobox()
-    }, [page, search, hookSignature, perPage, UserId, forumCode]);
+  const clearFilters = () => {
+    setSearch('')
+    setSort('desc')
+    setVisibility('')
+    setPage(1)
+  }
 
-    return (
-        <>
-            <Grid container spacing={6} className='match-height'>
-                <Grid item xs={12} sm={6} md={12}>
-                    <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
-                    <CardHeader
-                        title={
-                            <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600' ,color: '#32487A' }}>
-                              List Threads
-                            </Typography>
-                          }
-                        />
-                        <CardContent>
-                            <Grid container justifyContent="flex-start">
-                                <Grid item>
-                                    <Autocomplete
-                                        disablePortal
-                                        size='small'
-                                        sx={{ mb: 2, width: '150px', mr:2 }}
-                                        id='User'
-                                        options={User}
-                                        getOptionLabel={(option: IUser) => option.name} 
-                                        renderInput={params => <TextField {...params} label='User' />}
-                                        onChange={(event: any, newValue: IUser | null) =>
-                                            newValue?.id ? setUserId(newValue.id) : setUserId(0)
-                                        }
-                                        />
-                                </Grid>
-                                <Grid item>
-                                    <Autocomplete
-                                        disablePortal
-                                        size='small'
-                                        sx={{ mb: 2, width: '150px', mr:2 }} 
-                                        id='combo-box-level'
-                                        options={Forum}
-                                        renderInput={params => <TextField {...params} label='Forum' />}
-                                        getOptionLabel={(option: Forum) => option.name}
-                                        onChange={(event: any, newValue: Forum | null) =>
-                                          newValue?.id ? setForumCode(newValue.id) : setForumCode(0)
-                                        }
-                                        />
-                                </Grid>
-                            </Grid>
-                            <Grid container justifyContent="flex-end">
-                                <Grid item>
-                                    <TextField
-                                        size='small'
-                                        sx={{ mr: 3, mb: 1 }}
-                                        placeholder='Search'
-                                        onChange={(e) => handleSearch(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item sx={{ mb: 3 }}>
-                                    <Box>
-                                        <Button variant='contained' href='create' size='small' startIcon={<Icon icon='zondicons:add-outline' fontSize={16} />}>
-                                            Add
-                                        </Button>
-                                    </Box>
-                                </Grid>
-                            </Grid>
+  useEffect(() => {
+    clearFilters()
+    setPage(1)
+  }, [activeTab])
 
-                            <JobDatagrid
-                                page={page - 1} // di MUI page pertama = 0
-                                rowCount={rowCount}
-                                pageSize={perPage}
-                                loading={onLoading}
-                                onPageChange={(model) => onPageChange(model)}
-                                rows={dataSheet} />
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </Grid>
+  useEffect(() => {
+    fetchCommunities()
+  }, [page, search, sort, visibility, refetch, activeTab])
 
-            {selectedItem && (
-                <>
-                    <DialogDelete selectedItem={selectedItem}
-                        visible={openDelModal}
-                        onStateChange={() => setHookSignature(v4())}
-                        onCloseClick={() => setOpenDelModal(!openDelModal)} />
-                    {/* <DialogEdit key={selectedItem.id} selectedItem={selectedItem}
-                        visible={openEditModal}
-                        onCloseClick={() => setOpenEditModal(!openEditModal)}
-                        onStateChange={() => setHookSignature(v4())} /> */}
-                </>
-            )}
-        </>
-    )
+  
+
+  return (
+    <>
+      <CreateGroupDialog open={openCreate} onClose={closeCreateDialog} />
+      <Grid container spacing={6} className='match-height'>
+        <Grid item xs={12}>
+        <Breadcrumbs
+            separator={<MdNavigateNext fontSize={'17px'} color='black' />}
+            aria-label='breadcrumb'
+            sx={{ ml: 4, mb: 2 }}
+          >
+            <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
+              <Typography
+                sx={{
+                  color: '#32497A',
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
+                Home
+              </Typography>
+            </Link>
+              {/* nanti ganti pake logic trainer/admin */}n
+              <Typography
+                sx={{
+                  color: '#949EA2',
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
+               { activeTab == 'reported' ? 'Reported Content Management' : 'Community Management'}
+              </Typography>
+          </Breadcrumbs>
+        </Grid>
+        <Grid item xs={12} sm={6} md={12}>
+          <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
+            <CardHeader
+              sx={{
+                '.MuiCardHeader-action': {
+                  alignSelf: 'center'
+                }
+              }}
+              title={
+                <Typography variant='body2' style={{ fontSize: '18px', fontWeight: '600', color: '#404040' }}>
+                  Community Management
+                </Typography>
+              }
+              subheader={
+                <Typography variant='body2' style={{ fontSize: '16px', fontWeight: '400', color: '#868686' }}>
+                  Oversee, moderate, and manage community groups across the platform to ensure a safe, respectful, and
+                  high-quality environment for users.
+                </Typography>
+              }
+              action={
+                <Button
+                  onClick={() => setOpenCreate(true)}
+                  variant='contained'
+                  size='small'
+                  sx={{ textTransform: 'none' }}
+                >
+                  Create New Community
+                </Button>
+              }
+            />
+            <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+              <AnimatedTabs tabs={tabsOption} activeTab={activeTab} setActiveTab={setActiveTab} />
+
+              {/* filter section */}
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <Box sx={{ display: 'flex', gap: '70px' }}>
+                  <TextField
+                    sx={{ flexGrow: 1 }}
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    variant='outlined'
+                    placeholder='Search'
+                    size='small'
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start' sx={{ marginRight: '8px' }}>
+                          <Icon icon='ph:magnifying-glass' fontSize={16} />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                  <Box
+                    sx={{ width: '240px', display: 'flex', gap: '4px', alignItems: 'center', justifyContent: 'right' }}
+                  >
+                    <Icon icon='ph:funnel' fontSize={16} fontWeight={700} />
+                    <Typography sx={{ fontSize: 14, fontWeight: 700 }}>Sort by :</Typography>
+                    <Select
+                      size='small'
+                      defaultValue='newest'
+                      value={sort}
+                      onChange={e => setSort(e.target.value)}
+                      sx={{
+                        border: 'none',
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          border: 'none'
+                        }
+                      }}
+                    >
+                      <MenuItem value='desc'>Newest to Oldest</MenuItem>
+                      <MenuItem value='asc'>Oldest to Newest</MenuItem>
+                    </Select>
+                  </Box>
+                </Box>
+                <Box sx={{ display: 'flex', gap: '70px' }}>
+                  <Grid container spacing={6}>
+                    <Grid item xs={4} sx={{ display: activeTab === 'community' ? 'flex' : 'none' }}>
+                      <Select
+                        fullWidth
+                        size='small'
+                        value={visibility}
+                        onChange={e => setVisibility(e.target.value)}
+                        displayEmpty
+                      >
+                        <MenuItem value=''>
+                          <Typography sx={{ color: '#949EA2', fontWeight: 400 }}>Visibility Type</Typography>
+                        </MenuItem>
+                        {visibilityOption.map((type, i) => (
+                          <MenuItem key={i} value={type.value}>
+                            {type.label}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </Grid>
+                  </Grid>
+                  <Box>{}</Box>
+                </Box>
+              </Box>
+
+              {activeTab === 'community' ? (
+                <CommunityTab communities={communities} handleDelete={handleDelete} loading={loading} setPage={setPage} page={page} pageItems={pageItems} totalCommunities={totalCommunities} />
+              ) : (
+                <ReportedTab search={search} sort={sort} />
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </>
+  )
 }
 
-CommunityScreen.acl = {
-    action: 'read',
-    subject: 'admin-community-management'
-};
+CommunityManagement.acl = {
+  action: 'read',
+  subject: 'admin-community-management'
+}
 
-export default CommunityScreen
+export default CommunityManagement

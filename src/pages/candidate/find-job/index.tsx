@@ -247,23 +247,10 @@ const SeafarerJobApp = () => {
       sort: sortBy
     })
   }
+
   useEffect(() => {
     getdatapencarian()
-  }, [
-    JC,
-    searchJob,
-    RL,
-    RT,
-    idcity,
-    idvessel,
-    employmentType,
-    employeeType,
-    company,
-    workArrangement,
-    page,
-    sortBy,
-    tabs
-  ])
+  }, [JC, RL, RT, idcity, idvessel, employmentType, employeeType, company, workArrangement, page, sortBy, tabs])
 
   return (
     <>
@@ -448,7 +435,7 @@ const SeafarerJobApp = () => {
                       <Box
                         sx={{ width: hidden ? '100%' : '70%', display: 'flex', flexDirection: 'column', gap: '24px' }}
                       >
-                        <Box sx={{ width: '100%' }}>
+                        <Box sx={{ width: '49%' }}>
                           <TextField
                             id='searchJob'
                             variant='outlined'
@@ -456,19 +443,40 @@ const SeafarerJobApp = () => {
                             fullWidth
                             size='small'
                             value={searchJob}
+                            title="Search Job - please click SEARCH button or press 'Enter' to search"
                             onChange={e => {
-                              setPage(1)
                               setSearchJob(e.target.value)
+                            }}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter') {
+                                getdatapencarian()
+                              }
                             }}
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position='start'>
-                                  <Icon icon={'iconamoon:search-thin'} fontSize={16} style={{ marginRight: '10px' }} />
+                                  <Icon icon={'iconamoon:search-thin'} fontSize={16} style={{}} />
                                 </InputAdornment>
+                              ),
+                              endAdornment: (
+                                <Button
+                                  variant='contained'
+                                  size='small'
+                                  sx={{ margin: '5px', marginRight: '-10px', padding: '5px 25px' }}
+                                  onClick={() => {
+                                    getdatapencarian()
+                                  }}
+                                  startIcon={
+                                    <Icon icon={'iconamoon:search-thin'} fontSize={16} style={{ color: 'white' }} />
+                                  }
+                                >
+                                  Search
+                                </Button>
                               )
                             }}
                           />
                         </Box>
+
                         <Box>
                           <Grid container spacing={4}>
                             <Grid item xs={12} md={3}>
