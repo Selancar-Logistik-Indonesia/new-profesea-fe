@@ -111,6 +111,7 @@ export interface ICardGroupProps {
   owner?: any
   handleDelete?: (id:number) => void
   requested?:boolean
+  isOnBoarding?:boolean
 }
 
 const CardGroupCommunity: React.FC<ICardGroupProps> = ({
@@ -125,7 +126,8 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
   owner,
   is_private = false, 
   handleDelete = (id) => {console.log(id)},
-  requested = false
+  requested = false,
+  isOnBoarding = false
 }) => {
   const {user} = useAuth()
   const router = useRouter()
@@ -177,17 +179,17 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
       <EditGroupDialog onClose={handleCloseEditDialog} open={openEdit} community={{id, name, description, is_private, banner_url, owner}}/>
     <Card
       sx={{
-        maxWidth: 345,
-        height: 350,
+        maxWidth: isOnBoarding ? 350 : 345,
+        height: isOnBoarding ? 400 : 350,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
         boxShadow: 'none',
-        position:'relative'
-        
+        position:'relative',
+        flex:1
       }}
     >
-      <CardMedia onClick={() => onViewGroup(id)} sx={{ height: 120, cursor:'pointer' }} image={banner_url || '/images/banner-community.png'} title={name} />
+      <CardMedia onClick={() => onViewGroup(id)} sx={{ height:  120, cursor:'pointer' }} image={banner_url || '/images/banner-community.png'} title={name} />
 
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <CardContent sx={{ padding: '12px !important', flexGrow: 1 }}>
@@ -224,14 +226,14 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
         )}
           <Typography onClick={() => onViewGroup(id)} sx={{ fontSize: '13px', fontWeight: 700, color: '#2D3436', mb: 2, cursor:'pointer' }}>{name}</Typography>
 
-          <Stack direction='row' spacing={1} sx={{ mb: 2, alignItems:'center' }}>
+          <Stack direction={isOnBoarding ? 'column' : 'row'} spacing={1} sx={{ mb: 2, alignItems:isOnBoarding ? '' : 'center' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Icon icon={'ph:user'} fontSize={'16px'} />
               <Typography sx={{ fontSize: '14px', fontWeight: 400 }} color='text.secondary'>
                 {members_count} members
               </Typography>
             </Box>
-            <Icon icon='ph:dot-outline-fill' fontSize={'16px'} color='text.secondary'/>
+            <Icon icon='ph:dot-outline-fill' fontSize={'16px'} color='text.secondary' style={{display:isOnBoarding ? 'none' : ''}}/>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Icon icon={'ph:chat-circle-dots'} fontSize={'16px'} />
               <Typography sx={{ fontSize: '14px', fontWeight: 400 }} color='text.secondary'>
@@ -266,11 +268,11 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
           </Typography>
         </CardContent>
 
-        <CardActions sx={{ padding: '12px !important', display: 'flex' }}>
+        <CardActions sx={{ padding: '12px !important', display: 'flex', flexDirection:isOnBoarding ? 'column' : 'row', gap:1 }}>
           <Button
             size='small'
             variant={user?.role === 'admin' ?'contained' : 'outlined'}
-            sx={{ fontSize: '14px', textTransform: 'capitalize', flex: 1, width:user?.role === 'admin' ?'100%' : '' }}
+            sx={{ fontSize: '14px', textTransform: 'capitalize', flex: 1, width:user?.role === 'admin' || isOnBoarding ? '100%' : '' }}
             onClick={() => {
               if(user?.role === 'admin') {
                 router.push(`community-management/${id}`)
@@ -289,7 +291,7 @@ const CardGroupCommunity: React.FC<ICardGroupProps> = ({
               size='small'
               disabled={joinText === 'Joined' || joinText === 'Requested' || requested}
               variant='contained'
-              sx={{ fontSize: '14px', textTransform: 'capitalize', flex: 1, display:user?.role === 'admin' ? 'none' : '' }}
+              sx={{ fontSize: '14px', textTransform: 'capitalize', flex: 1, display:user?.role === 'admin' ? 'none' : '', width: isOnBoarding ? '100%' : '', mr:isOnBoarding ? 1 : 0 }}
               onClick={handleJoinGroup}
             >
               {joinText}
