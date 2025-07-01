@@ -367,7 +367,7 @@ const CommunityApp = () => {
               {!isOnBoardingCommunity ? (
                 <>
                   <Grid item xs={12} md={9}>
-                    <OnBoardingSections />
+                    <OnBoardingSections setSelectedIndex={setSelectedIndex}/>
                   </Grid>
                 </>
               ) : (
@@ -404,6 +404,7 @@ const CommunityApp = () => {
                         <DiscoverAndYourGroupsCommunity
                           key={'joined'}
                           isJoined={true}
+                          setIndex={setSelectedIndex}
                           setSelectedIndex={(id: any) => {
                             router.replace('/community/' + id)
                           }}
