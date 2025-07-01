@@ -41,7 +41,6 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.down('md'))
   const [isLike, setIsLike] = useState(Boolean(feed.liked_at))
-  const [openComment, setOpenComment] = useState(false)
 
   const [abilities, setAbilities] = useState<IActionAbilities>({
     canDelete: feed?.user?.id === user?.id || user?.role === 'admin' || user?.id === feed?.community?.user_id,
@@ -82,7 +81,7 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
         title={
           <Typography
           component={Link}
-          href={`/community?communityId=${feed?.community?.id}`}
+          href={`/community/${feed?.community?.id}`}
             sx={{
               fontSize: '16px',
               fontWeight: 'bold',
@@ -197,7 +196,6 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
             startIcon={<Icon icon={'majesticons:chat-line'} fontSize={16} />}
             size='small'
             sx={{ fontSize: '14px', fontWeight: 400, textTransform: 'capitalize', color: '#32497A' }}
-            onClick={() => setOpenComment(!openComment)}
           >
             Comment
           </Button>
@@ -208,11 +206,9 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
       </Box>
 
       {/* comment area */}
-      {openComment && (
         <Box px={'24px'} py={'16px'}>
           <CommentAreaView item={feed} />
         </Box>
-      )}
     </Card>
   )
 }

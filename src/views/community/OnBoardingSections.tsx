@@ -5,8 +5,10 @@ import { Box, Skeleton, Typography } from '@mui/material'
 import CardGroupCommunity, { ICardGroupProps } from './CardGroupCommunity'
 import Icon from 'src/@core/components/icon'
 import { HttpClient } from 'src/services'
+import { useRouter } from 'next/router'
 
 const OnBoardingSections = () => {
+  const router = useRouter()
   const [runTour, setRunTour] = useState(false)
   const [steps, setSteps] = useState<Step[]>([])
   const [groups, setGroups] = useState<ICardGroupProps[]>([])
@@ -196,6 +198,7 @@ const OnBoardingSections = () => {
                 discussions_count={group.discussions_count}
                 members_count={group.members_count}
                 is_joined={group.is_joined}
+                onViewGroup={() => router.push('/community/' + group.id)}
               />
             ))
           ) : (
