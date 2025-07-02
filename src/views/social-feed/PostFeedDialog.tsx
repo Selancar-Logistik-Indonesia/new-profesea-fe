@@ -33,7 +33,7 @@ export interface IPostFeedDialog {
     attachments?: any,
     community_id?: any,
     is_anon?: boolean
-  ) => Promise<void>
+  ) => Promise<boolean>
   contentTypeFromParent: string
   isCommunity?: boolean | null
 }
@@ -146,34 +146,26 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
     }
   })
 
-  const handleOnClickPost = () => {
+  const handleOnClickPost = async () => {
     const { errorMessage, censoredContent } = validateAutomatedContentModeration(content)
-
-    const finalContent = errorMessage !== null ? censoredContent : content
+    const finalContent = errorMessage ? censoredContent : content
     const params = [contentType, finalContent, attachments] as const
 
-    if(isCommunity !== null && !isCommunity && !communityId){
+    if (isCommunity === false && !communityId) {
       setCommunityWarning(true)
-
       return
     }
 
-    if (!isCommunity) {
-      handleUpdateStatus(...params, communityId, isAnonymous)
-    } else {
-      handleUpdateStatus(...params)
-    }
+    const extraParams = isCommunity === false ? [communityId, isAnonymous] : []
+    const response = await handleUpdateStatus(...params, ...extraParams)
 
-    setTimeout(() => {
-      onClose()
-      setContent('')
-      setContentType('text')
-      setIsUploadFile(false)
-      setPreviewUrls([])
-      setAttachments([])
-      setErrMaxFileImage(false)
-      setErrMaxFileVideo(false)
-    }, 1000)
+    if (response) {
+      setTimeout(() => {
+        handleOnClose()
+        setErrMaxFileImage(false)
+        setErrMaxFileVideo(false)
+      }, 1000)
+    }
   }
 
   const handleOpenDropZoneFile = (contentType: string) => {
@@ -205,13 +197,13 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
 
   const handleDisabledButton = (): boolean => {
     if (contentType == 'text') {
-      if (content.length == 0 ) {
+      if (content.length == 0) {
         return true
       }
     }
 
     if (contentType == 'images' || contentType == 'videos') {
-      if ((imagePreviewUrls.length == 0 && content.length == 0)) {
+      if (imagePreviewUrls.length == 0 && content.length == 0) {
         return true
       }
     }
@@ -477,7 +469,9 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
               </Box>
             )}
 
-            {isCommunity === false && <CommunitySelect communityWarning={communityWarning} handleSetCommunityId={handleSetCommunityId} />}
+            {isCommunity === false && (
+              <CommunitySelect communityWarning={communityWarning} handleSetCommunityId={handleSetCommunityId} />
+            )}
             <Box sx={{ display: 'flex', gap: '20px', marginBottom: '16px', alignItems: 'center' }}>
               <Typography
                 variant='h3'

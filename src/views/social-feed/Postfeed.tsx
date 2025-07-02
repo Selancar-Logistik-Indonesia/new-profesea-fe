@@ -48,22 +48,19 @@ const Postfeed = () => {
   const handleUpdateStatus = async (content_type: string, content: string, attachments?: any) => {
     if (!isAgree) {
       setIsOpenDialog(true)
-
-      return
+      return false
     }
 
     setIsLoading(true)
     try {
-      await updateStatus({
-        content_type: content_type,
-        content: content,
-        attachments: attachments
-      })
+      await updateStatus({ content_type, content, attachments })
+      return true
     } catch (error) {
       alert(getCleanErrorMessage(error))
+      return false
+    } finally {
+      setIsLoading(false)
     }
-
-    setIsLoading(false)
   }
 
   const handleOnCloseDialog = () => {
@@ -80,11 +77,11 @@ const Postfeed = () => {
   }
 
   const handleUpdatePolicyPostStatus = async () => {
-    const response = await HttpClient.post('/social-feed/post-policy', { agree: true })
+    // const response = await HttpClient.post('/social-feed/post-policy', { agree: true })
 
-    if (response.status != 200) {
-      throw response.data.message ?? 'Something went wrong!'
-    }
+    // if (response.status != 200) {
+    //   throw response.data.message ?? 'Something went wrong!'
+    // }
 
     setIsOpenDialog(false)
     isChecked(false)
