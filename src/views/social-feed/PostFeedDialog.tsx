@@ -153,6 +153,7 @@ const PostFeedDialog: React.FC<IPostFeedDialog> = ({
 
     if (isCommunity === false && !communityId) {
       setCommunityWarning(true)
+
       return
     }
 

@@ -24,7 +24,6 @@ import Icon from 'src/@core/components/icon'
 
 // Dialog
 import Dialog from '@mui/material/Dialog'
-import { HttpClient } from 'src/services'
 import PostFeedDialog from './PostFeedDialog'
 
 const Transition = forwardRef(function Transition(
@@ -48,15 +47,18 @@ const Postfeed = () => {
   const handleUpdateStatus = async (content_type: string, content: string, attachments?: any) => {
     if (!isAgree) {
       setIsOpenDialog(true)
+
       return false
     }
 
     setIsLoading(true)
     try {
       await updateStatus({ content_type, content, attachments })
+
       return true
     } catch (error) {
       alert(getCleanErrorMessage(error))
+
       return false
     } finally {
       setIsLoading(false)
