@@ -35,7 +35,7 @@ const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<IUser | null>(defaultProvider.user)
   const [abilities, setAbilities] = useState<IAbilities | null>(defaultProvider.abilities)
   const [flaggings, setFlaggings] = useState<IFlaggings | null>(defaultProvider.flaggings)
-  const [jobOffers, setJobOffers] = useState<any | null>(defaultProvider.jobOffers)
+  const [jobOffers, setJobOffers] = useState<any[] | null>(defaultProvider.jobOffers)
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
   const router = useRouter()
 
