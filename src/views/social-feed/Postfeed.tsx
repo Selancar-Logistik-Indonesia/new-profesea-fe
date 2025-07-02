@@ -25,6 +25,7 @@ import Icon from 'src/@core/components/icon'
 // Dialog
 import Dialog from '@mui/material/Dialog'
 import PostFeedDialog from './PostFeedDialog'
+import { HttpClient } from 'src/services'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -79,11 +80,11 @@ const Postfeed = () => {
   }
 
   const handleUpdatePolicyPostStatus = async () => {
-    // const response = await HttpClient.post('/social-feed/post-policy', { agree: true })
+    const response = await HttpClient.post('/social-feed/post-policy', { agree: true })
 
-    // if (response.status != 200) {
-    //   throw response.data.message ?? 'Something went wrong!'
-    // }
+    if (response.status != 200) {
+      throw response.data.message ?? 'Something went wrong!'
+    }
 
     setIsOpenDialog(false)
     isChecked(false)
