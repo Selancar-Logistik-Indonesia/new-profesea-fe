@@ -3,8 +3,9 @@ import React, { ReactNode, useEffect, useState } from 'react'
 import ReactHtmlParser from 'react-html-parser'
 
 import Box from '@mui/material/Box'
-import { Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
+import { Icon } from '@iconify/react'
 
 // import Recomended from '../Recomended'
 import { HttpClient } from 'src/services'
@@ -30,7 +31,7 @@ import SideAd from 'src/views/banner-ad/sidead'
 import Link from 'next/link'
 
 import Spinner from 'src/@core/components/spinner'
-
+import ShareModal from 'src/pages/news/ShareModal'
 // import './detail.css'
 
 const detailContentWrapper: SxProps<Theme> = {
@@ -114,6 +115,7 @@ const ThreadApp = () => {
   const [otherNews, setOtherNews] = useState<INews[]>([])
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [showShareModal, setShowShareModal] = useState(false)
   // const x = newsca
   const { namanews } = router.query as { namanews: string }
   const firstload = async () => {
@@ -221,6 +223,18 @@ const ThreadApp = () => {
         <meta name='title' content={`${newscache?.title}`} />
         <meta name='description' content={`${newscache?.content}`} />
         <meta name='keywords' content='profesea' />
+        <meta name='author' content='Profesea.id' />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+        <meta name='robots' content='index, follow' />
+        <link rel='canonical' href={`https://profesea.id/news/detail/${newscache?.slug}`} />
+        <meta property='og:type' content='news' />
+        <meta property='og:url' content={`https://profesea.id/news/detail/${threadDetail?.slug}`} />
+        <meta property='og:site_name' content='Profesea.id' />
+        <meta property='og:locale' content='en_US' />
+        <meta property='og:locale:alternate' content='id_ID' />
+        <meta property='og:title' content={`${threadDetail?.title}`} />
+        <meta property='og:description' content={`${threadDetail?.content}`} />
+        <meta property='og:image' content={`${imgUrl}`} />
       </Head>
       <Box
         sx={{
@@ -272,7 +286,7 @@ const ThreadApp = () => {
               sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 }, zIndex: 2 }}
               textTransform={'capitalize'}
             >
-              {threadDetail?.category?.name}
+              {threadDetail?.category?.name} - DIMAS HERE
             </Typography>
             <Typography
               variant='h1'
@@ -288,6 +302,27 @@ const ThreadApp = () => {
             >
               {moment(threadDetail?.posting_at).format('LL')}
             </Typography>
+            <Button
+              variant='contained'
+              color='secondary'
+              sx={{
+                position: 'absolute',
+                right: 24,
+                bottom: 24,
+                width: 'fit-content',
+                px: 4,
+                py: 2,
+                zIndex: 2,
+                fontSize: '14px',
+                fontWeight: '700',
+                textTransform: 'capitalize',
+                borderRadius: '8px',
+                backgroundColor: 'grey.500'
+              }}
+              onClick={() => setShowShareModal(true)}
+            >
+              <Icon icon='mdi:share-variant' style={{ marginRight: '5px' }} /> Share
+            </Button>
           </Grid>
           {/* Content */}
           <Grid item xs={12} sx={{ my: 4, ...detailContentWrapper, gap: 8 }}>
@@ -384,7 +419,13 @@ const ThreadApp = () => {
             </Box>
           </Box>
         </Grid>
+        <ShareModal
+          open={showShareModal}
+          onClose={() => setShowShareModal(false)}
+          shareUrl={`https://profesea.id/news/detail/${threadDetail?.slug}`}
+        />
       </Box>
+
       <FooterView />
     </>
   )
