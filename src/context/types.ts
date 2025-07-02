@@ -32,6 +32,7 @@ export type AuthValuesType = {
     user: IUser | null
     abilities: IAbilities | null
     flaggings: IFlaggings | null
+    jobOffers: any[] | null
     setLoading: (value: boolean) => void
     setUser: (value: IUser | null) => void
     socialLogin: (params: { accessToken: string, namaevent: any }, errorCallback?: ErrCallbackType) => void
