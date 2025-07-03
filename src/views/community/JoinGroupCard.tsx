@@ -96,7 +96,7 @@ const JoinGroupCard: React.FC<JoinGroupCardProps> = ({ setSelectedIndex, showMor
     <Box
       sx={{
         backgroundColor: '#fff',
-        borderRadius: '16px',
+        borderRadius: '12px',
         padding: '16px',
         boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)',
         width: '100%',

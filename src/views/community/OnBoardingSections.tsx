@@ -7,7 +7,7 @@ import Icon from 'src/@core/components/icon'
 import { HttpClient } from 'src/services'
 import { useRouter } from 'next/router'
 
-const OnBoardingSections = () => {
+const OnBoardingSections = ({setSelectedIndex} : {setSelectedIndex:any}) => {
   const router = useRouter()
   const [runTour, setRunTour] = useState(false)
   const [steps, setSteps] = useState<Step[]>([])
@@ -79,11 +79,16 @@ const OnBoardingSections = () => {
     fetchGroups()
   }, [])
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
+  const handleJoyrideCallback = async (data: CallBackProps) => {
     const { status } = data
 
     if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
       setRunTour(false)
+      try {
+        await HttpClient.post('/user/flag/community-onboarding')
+      } catch (error) {
+        console.error('Failed to flag community onboarding:', error)
+      }
     }
   }
 
@@ -164,7 +169,7 @@ const OnBoardingSections = () => {
         <Typography sx={{ fontSize: '18px', fontWeight: 700, color: '#1F1F1F' }}>
           Groups you might be intersted in...
         </Typography>
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', gap: '15px' }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', gap: '12px' }}>
           {loading ? (
             Array.from({ length: 3 }).map((_, i) => (
               <Box
@@ -194,6 +199,7 @@ const OnBoardingSections = () => {
                 members_count={group.members_count}
                 is_joined={group.is_joined}
                 onViewGroup={() => router.push('/community/' + group.id)}
+                isOnBoarding={true}
               />
             ))
           ) : (
@@ -202,6 +208,7 @@ const OnBoardingSections = () => {
 
           {groups.length > 0 && (
             <Box
+              onClick={() => setSelectedIndex(1)}
               sx={{
                 display: 'flex',
                 flexDirection: 'column',

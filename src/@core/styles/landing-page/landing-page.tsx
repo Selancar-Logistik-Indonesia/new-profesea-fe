@@ -27,7 +27,7 @@ const bannerAsset: SxProps<Theme> = {
 }
 
 const SeafarerView: SxProps<Theme> = {
-  backgroundImage: `url(/images/seafarer-platform-banner.png), linear-gradient(90deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 5) 100%)`,
+  backgroundImage: `url(/images/seafarer-platform-banner.webp), linear-gradient(90deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 5) 100%)`,
   backgroundSize: { xs: '350%', md: '120%' },
   backgroundPosition: { xs: 'center 60%', md: '100% center' },
   backgroundBlendMode: 'overlay',
@@ -36,7 +36,7 @@ const SeafarerView: SxProps<Theme> = {
 }
 
 const ProfessionalView: SxProps<Theme> = {
-  backgroundImage: `url(/images/professional-platform-banner.png), linear-gradient(-90deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 5) 100%)`,
+  backgroundImage: `url(/images/professional-platform-banner.webp), linear-gradient(-90deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 5) 100%)`,
   backgroundSize: { xs: '350%', md: '120%' },
   backgroundPosition: { xs: '60% 40%', md: '0% 40%' },
   backgroundBlendMode: 'overlay',
@@ -45,7 +45,7 @@ const ProfessionalView: SxProps<Theme> = {
 }
 
 const RecruiterView: SxProps<Theme> = {
-  backgroundImage: 'url(/images/recruiter-platform-banner.png)',
+  backgroundImage: 'url(/images/recruiter-platform-banner.webp)',
   backgroundSize: 'cover',
   backgroundPosition: { xs: '0% 0%', md: '80% center' },
   width: '100%',
@@ -53,7 +53,7 @@ const RecruiterView: SxProps<Theme> = {
 }
 
 const SailOpportunity: SxProps<Theme> = {
-  backgroundImage: `url(/images/sail-opportunity.jpg), linear-gradient(-180deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 1) 100%)`,
+  backgroundImage: `url(/images/sail-opportunity.webp), linear-gradient(-180deg, rgba(74, 73, 73, 0.00) 0%, rgba(0, 0, 0, 1) 100%)`,
   backgroundSize: { xs: '205%', md: 'cover' },
   backgroundColor: 'gray',
   backgroundBlendMode: 'overlay',

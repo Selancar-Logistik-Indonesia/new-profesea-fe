@@ -247,6 +247,9 @@ const buildNotifies = (e: INotification) => {
       avatarAlt: e.data?.user?.name,
       title: `${e.data?.community?.name} join request.`,
       avatarIcon: e?.data?.user?.photo,
+      payload:{
+        photo: e?.data?.user?.photo
+      },
       subtitle: (
         <span>
           {`${e.data?.user?.name} has asked to join your community-${e.data?.community?.name}!`}
@@ -266,6 +269,9 @@ const buildNotifies = (e: INotification) => {
       avatarAlt: e.data?.community?.name,
       title: `Your request to join ${e.data?.community?.name} has been approved.`,
       avatarIcon: e?.data?.community?.banner,
+      payload:{
+        photo: e?.data?.community?.banner
+      },
       subtitle: (
         <span>
           {`Welcome aboard!`}
@@ -285,6 +291,9 @@ const buildNotifies = (e: INotification) => {
       avatarAlt: e.data?.community?.name,
       title: `Your request to join ${e.data?.community?.name} has been rejected.`,
       avatarIcon: e?.data?.community?.banner,
+      payload:{
+        photo: e?.data?.community?.banner
+      },
       subtitle: (
         <span>
           {`Thanks for your interest in the community.`}

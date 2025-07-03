@@ -68,9 +68,9 @@ const SeafarerTraining = ({ pageView = 'candidate' }: { pageView?: string }) => 
             position: 'relative',
             width: '100%',
             minHeight: isMobile ? '60vh' : '50vh',
-            backgroundImage: `url('/images/hero-banner-2.jpg')`,
+            backgroundImage: `url('/images/hero-banner-2.webp')`,
             backgroundSize: 'cover',
-            backgroundPosition: isMobile ? 'center 30%' : 'center 10%', // 👈 Fokus ke bagian atas wajah
+            backgroundPosition: isMobile ? 'center 30%' : 'center 10%',
             color: '#fff',
             display: 'flex',
             alignItems: 'center',

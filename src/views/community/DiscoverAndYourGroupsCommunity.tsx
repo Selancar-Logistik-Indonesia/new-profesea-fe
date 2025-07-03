@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material'
+import { Box, Button, Grid, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import CommunitiesContext from 'src/context/CommunitiesContext'
@@ -13,9 +13,10 @@ interface IDiscoverAndYourGroupsCommunity {
   isJoined?: boolean
   setSelectedIndex: (id: any) => void,
   search?: string
+  setIndex?:any
 }
 
-const DiscoverAndYourGroupsCommunity: React.FC<IDiscoverAndYourGroupsCommunity> = ({ isJoined, setSelectedIndex, search }) => {
+const DiscoverAndYourGroupsCommunity: React.FC<IDiscoverAndYourGroupsCommunity> = ({ isJoined, setSelectedIndex, search, setIndex }) => {
   const router = useRouter()
   const { user } = useAuth()
   const take = 6
@@ -56,6 +57,21 @@ const DiscoverAndYourGroupsCommunity: React.FC<IDiscoverAndYourGroupsCommunity> 
                   </Grid>
                 ))}
               </Grid>
+            )
+          }
+
+          if(communities.length === 0){
+            return(
+              <Box sx={{display:'flex', flexDirection:'column', backgroundColor:'#FFFFFF', padding:'24px', borderRadius:'12px', gap:8}}>
+                <Box component={'img'} src='/images/amico-new.png' alt='Empty Community' sx={{objectFit:'contain', height:241}}/>
+                <Box sx={{display:'flex', flexDirection:'column', alignItems:'center', gap:1}}>
+                  <Typography sx={{fontSize:16, fontWeight:700, color:'#1F1F1F'}}>You Haven’t Joined Any Groups Yet</Typography>
+                  <Typography sx={{fontSize:14, fontWeight:400, color:'#999999', mb:2, width:{xs:'100%', sm:'80%'}}}>Start exploring communities that match your interests and connect with like-minded people.</Typography>
+                  <Button variant='contained' onClick={() => setIndex(1)} sx={{textTransform:'none'}} >
+                    Discover group to join
+                  </Button>
+                </Box>
+              </Box>
             )
           }
 
