@@ -39,8 +39,8 @@ const LanguageDropdownMobile = ({ settings, saveSettings }: Props) => {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={handleClick}>
-        <Icon icon='ph:globe-simple' color='black' fontSize={24} />
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Icon icon='ph:globe-simple' color='black' fontSize={24} onClick={() => handleClick} />
       </Box>
       <Menu id='basic-menu' anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem

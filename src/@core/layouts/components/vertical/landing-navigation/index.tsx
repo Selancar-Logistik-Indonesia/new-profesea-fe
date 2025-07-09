@@ -12,7 +12,6 @@ import themeOptions from 'src/@core/theme/ThemeOptions'
 import NavItemType from 'src/contract/types/navItemType'
 import { IUser } from 'src/contract/models/user'
 import { Button, Divider } from '@mui/material'
-import { display } from '@mui/system'
 import { usePathname, useRouter } from 'next/navigation'
 import LanguageDropdown from '../../shared-components/LanguageDropdown'
 
