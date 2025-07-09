@@ -16,6 +16,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import { useTranslation } from 'react-i18next'
 import { usePathname } from 'next/navigation'
 import { Icon } from '@iconify/react'
+import LanguageDropdownMobile from '../shared-components/LanguageDropdownMobile'
 
 const LandingPageAppBar = (props: { appBarElevation?: number }) => {
   const { user, loading } = useAuth()
@@ -65,13 +66,13 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const baseAddress9 = '/'
 
     setNavItems([
-      { title: t('button_1'), variant: 'outlined', onClick: '/login', sx: { textTransform: 'capitalize' } },
-      {
-        title: t('button_4'),
-        variant: 'contained',
-        onClick: path === '/employer/' || path === '/employer/pricing/' ? '/register/employer' : '/register',
-        sx: { backgroundColor: '#32497A', textTransform: 'capitalize' }
-      },
+      // { title: t('button_1'), variant: 'outlined', onClick: '/login', sx: { textTransform: 'capitalize' } },
+      // {
+      //   title: t('button_4'),
+      //   variant: 'contained',
+      //   onClick: path === '/employer/' || path === '/employer/pricing/' ? '/register/employer' : '/register',
+      //   sx: { backgroundColor: '#32497A', textTransform: 'capitalize' }
+      // },
       {
         title: t('landing_menu_10'),
         variant: 'outlined',
@@ -262,6 +263,7 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
             md: 'none'
           },
           backgroundColor: 'background.paper',
+          py: '4px',
           ...(skin === 'bordered' && { borderBottom: `1px solid ${theme.palette.divider}` })
         }}
       >
@@ -273,14 +275,8 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
               minHeight: `${(theme.mixins.toolbar.minHeight as number) - (skin === 'bordered' ? 1 : 0)}px !important`
             }}
           >
-            <Box display={{ xs: 'flex', md: 'none' }}>
-              <IconButton onClick={toggleNavVisibility}>
-                <IconifyIcon icon='mdi:menu' fontSize={32} />
-              </IconButton>
-            </Box>
-
             {!navVisible && (
-              <Box sx={{ alignContent: 'center', alignSelf: 'center', textAlign: 'center', flexGrow: 1 }}>
+              <Box sx={{ flexGrow: 1 }}>
                 <Link href='/'>
                   <Box
                     component='img'
@@ -292,6 +288,27 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
                 </Link>
               </Box>
             )}
+            <Box display={{ xs: 'flex', md: 'none' }} sx={{ alignItems: 'center', gap: '12px' }}>
+              <Button
+                onClick={() => router.push('/login')}
+                variant='outlined'
+                sx={{
+                  width: '100px',
+                  height: '40px',
+                  py: '4px !important',
+                  px: '6px !important',
+                  textTransform: 'capitalize',
+                  fontSize: '14px',
+                  fontWeight: 700
+                }}
+              >
+                Sign In
+              </Button>
+              <LanguageDropdownMobile settings={settings} saveSettings={saveSettings} />
+              <IconButton onClick={toggleNavVisibility} sx={{ padding: '0px !important' }}>
+                <IconifyIcon icon='mdi:menu' fontSize={32} />
+              </IconButton>
+            </Box>
           </Toolbar>
         </Container>
       </AppBar>
