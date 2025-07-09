@@ -42,7 +42,7 @@ const CompleteOnboarding = (props: Prop) => {
     const { onboarding, ...rest } = router.query
     router.replace(
       {
-        pathname: router.pathname,
+        pathname: 'home',
         query: rest
       },
       undefined,
