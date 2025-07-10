@@ -18,7 +18,6 @@ import { MenuItem, styled, TextField } from '@mui/material'
 interface Props {
   settings: Settings
   saveSettings: (values: Settings) => void
-  navVisible?: boolean
 }
 
 const CustomSelectLanguage = styled(TextField)({
@@ -34,7 +33,7 @@ const CustomSelectLanguage = styled(TextField)({
   }
 })
 
-const LanguageDropdown = ({ settings, saveSettings, navVisible = false }: Props) => {
+const LanguageDropdown = ({ settings, saveSettings }: Props) => {
   // ** Hook
   const { i18n } = useTranslation()
 
@@ -53,7 +52,7 @@ const LanguageDropdown = ({ settings, saveSettings, navVisible = false }: Props)
 
   return (
     <>
-      <Box sx={{ display: 'flex', alignItems: 'center', width: navVisible ? '100%' : null }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', mr: '2px', width: { xs: '100%', lg: '120px' } }}>
         <Icon icon='ph:globe-simple' color='black' fontSize={18} />
         {/* <TextField id='select-language' select variant='standard' /> */}
         <CustomSelectLanguage

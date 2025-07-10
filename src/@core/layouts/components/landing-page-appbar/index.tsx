@@ -30,8 +30,9 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
   const [navItems, setNavItems] = useState<NavItemType[]>([])
 
   const [homeNavItems, setHomeNavItems] = useState<{ title: string; path: string }[]>([])
-  const { navigationSize, collapsedNavigationSize } = themeConfig
-  const navWidth = navigationSize
+  const { collapsedNavigationSize } = themeConfig
+  // const navWidth = navigationSize
+  const navWidth = '100%'
   const navigationBorderWidth = skin === 'bordered' ? 1 : 0
   const collapsedNavWidth = collapsedNavigationSize
   const [navVisible, setNavVisible] = useState<boolean>(false)
@@ -66,13 +67,13 @@ const LandingPageAppBar = (props: { appBarElevation?: number }) => {
     const baseAddress9 = '/'
 
     setNavItems([
-      // { title: t('button_1'), variant: 'outlined', onClick: '/login', sx: { textTransform: 'capitalize' } },
-      // {
-      //   title: t('button_4'),
-      //   variant: 'contained',
-      //   onClick: path === '/employer/' || path === '/employer/pricing/' ? '/register/employer' : '/register',
-      //   sx: { backgroundColor: '#32497A', textTransform: 'capitalize' }
-      // },
+      { title: t('button_1'), variant: 'outlined', onClick: '/login', sx: { textTransform: 'capitalize' } },
+      {
+        title: t('button_4'),
+        variant: 'contained',
+        onClick: path === '/employer/' || path === '/employer/pricing/' ? '/register/employer' : '/register',
+        sx: { backgroundColor: '#32497A', textTransform: 'capitalize' }
+      },
       {
         title: t('landing_menu_10'),
         variant: 'outlined',
