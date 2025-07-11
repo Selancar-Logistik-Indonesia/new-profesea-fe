@@ -436,6 +436,11 @@
       "contact_dialog_description": "Kami siap bantu cari solusi dan harga yang paling pas untuk kebutuhan bisnismu.",
       "contact_dialog_title_right": "Dukungan Produk dan Akun",
       "contact_dialog_description_right": "Pusat bantuan kami penuh dengan info bermanfaat dan selalu siap bantu. Nggak nemu yang kamu cari? Tenang aja, langsung hubungi, kami siap bantu!"
+    },
+    "default_error_page": {
+      "title": "Kami Sedang Berlabuh Sementara",
+      "description_1": "Kru kami sedang bekerja keras agar Profesea tetap berlayar dengan lancar. Kami akan segera kembali!",
+      "description_2": "Butuh bantuan? Hubungi support crew kami di"
     }
   }
 }
