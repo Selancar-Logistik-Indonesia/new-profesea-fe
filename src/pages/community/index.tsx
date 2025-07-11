@@ -171,6 +171,7 @@ const CommunityApp = () => {
               {/* Left not admin */}
               <Grid item xs={12} md={3} sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <Paper
+                  className='groups-navigation'
                   sx={{
                     padding: '16px',
                     borderRadius: '12px !important',
@@ -251,6 +252,7 @@ const CommunityApp = () => {
                       }}
                     >
                       <ListItemText
+                        className='groups-joined-list'
                         primary='Your groups'
                         primaryTypographyProps={
                           selectedIndex === 2
@@ -367,7 +369,7 @@ const CommunityApp = () => {
               {!isOnBoardingCommunity ? (
                 <>
                   <Grid item xs={12} md={9}>
-                    <OnBoardingSections setSelectedIndex={setSelectedIndex}/>
+                    <OnBoardingSections setSelectedIndex={setSelectedIndex} />
                   </Grid>
                 </>
               ) : (
