@@ -453,6 +453,20 @@
       "title": "We're Docking for a Quick Fix",
       "description_1": "Our crew is working hard to keep Profesea sailing smoothly. We'll be back shortly!",
       "description_2": "Need urgent help? Contact our support crew at"
+    },
+    "community_page": {
+      "onboarding": {
+        "next_button": "Next",
+        "lets_go_button": "Let's Go!",
+        "welcome_title": "Welcome to the Profesea Community",
+        "welcome_content": "You haven't joined any groups yet — but that's about to change! Join groups to stay updated, share insights, and connect with fellow maritime professionals.",
+        "join_groups_title": "Discover and Join Groups",
+        "join_groups_content": "Scroll through recommended groups and topics. Click “Join group” to become a member and dive into discussions right away.",
+        "create_group_title": "Create Your Own Group",
+        "create_group_content": "Start a group for your team, training cohort, or niche interest. Just click + Create new group and set your own topic and rules.",
+        "access_joined_group_title": "Access All Your Groups Easily",
+        "access_joined_group_content": "Everything you join or manage shows up right here. Use this sidebar to quickly switch between groups and stay organized."
+      }
     }
   }
 }
