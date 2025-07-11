@@ -434,6 +434,11 @@
       "contact_dialog_description": "We’re here to help you find the right solution and pricing that truly fits your business.",
       "contact_dialog_title_right": "Product and Account Support",
       "contact_dialog_description_right": "Our help center’s full of useful info and ready when you need it. Can’t find what you’re looking for? Just give us a shout. We’re happy to help!"
+    },
+    "default_error_page": {
+      "title": "We're Docking for a Quick Fix",
+      "description_1": "Our crew is working hard to keep Profesea sailing smoothly. We'll be back shortly!",
+      "description_2": "Need urgent help? Contact our support crew at"
     }
   }
 }
